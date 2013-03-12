@@ -15,8 +15,8 @@ define( function( require ) {
   var BucketFront = function( bucket ) {
     Node.call( this );
     
-    var width = bucket.width;
-    var height = bucket.height;
+    var width = bucket.size.width;
+    var height = bucket.size.height;
     
     // .beginLinearGradientFill( ["white", bucket.color, "gray" ], [.05, .9, 1], 0, 0, width, 0 )
     var frontGradient = new LinearGradient( -width / 2, 0, width / 2, 0 );
