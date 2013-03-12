@@ -15,10 +15,6 @@ define( function( require ) {
   var BucketFront = function( bucket ) {
     Node.call( this );
     
-    this.initialize( bucket );
-  };
-  
-  BucketFront.initialize = function( bucket ) {
     this.bucket = bucket;
     
     var width = this.bucket.width;
