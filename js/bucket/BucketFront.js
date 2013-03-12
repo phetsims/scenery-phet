@@ -11,6 +11,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   
   var BucketFront = function( bucket ) {
     Node.call( this );
@@ -29,19 +30,19 @@ define( function( require ) {
     
     // the main container shape
     this.addChild( new Path( {
-      shape: bucket.containerShape,
+      shape: bucket.containerShape.transformed( Matrix3.Y_REFLECTION ),
       stroke: 'black',
       lineWidth: 2,
       fill: frontGradient
     } ) );
     
     // Create and add the label, centered on the front.
-    this.addChild( new Text( bucket.labelText, {
-      font: "bold 24px Helvetica",
-      fill: "white",
-      centerX: width / 2,
-      centerY: height / 2
-    } ) );
+    // this.addChild( new Text( bucket.labelText, {
+    //   font: "bold 24px Helvetica",
+    //   fill: "white",
+    //   centerX: width / 2,
+    //   centerY: height / 2
+    // } ) );
     
     this.x = bucket.position.x;
     this.y = bucket.position.y;
