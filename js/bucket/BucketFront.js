@@ -11,6 +11,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
   
   var BucketFront = function( bucket ) {
     Node.call( this );
