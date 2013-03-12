@@ -35,12 +35,12 @@ define( function( require ) {
     } ) );
     
     // Create and add the label, centered on the front.
-    // this.addChild( new Text( bucket.labelText, {
-    //   font: "bold 24px Helvetica",
-    //   fill: "white",
-    //   centerX: width / 2,
-    //   centerY: height / 2
-    // } ) );
+    this.addChild( new Text( bucket.captionText, {
+      font: "bold 18px Arial",
+      fill: 'black',
+      centerX: 0,
+      centerY: height / 2
+    } ) );
     
     this.x = bucket.position.x;
     this.y = bucket.position.y;
