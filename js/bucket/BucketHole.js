@@ -10,22 +10,19 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   
   var BucketHole = function( bucket ) {
     Node.call( this );
-    this.bucket = bucket;
-    
-    var width = this.bucket.width;
-    var height = width * 0.2;
-    var center = new Vector2( this.bucket.x, this.bucket.y );
     
     this.addChild( new Path( {
-      shape: Shape.ellipse( this.bucket.x + width / 2, this.bucket.y, width / 2, height / 2 ),
+      shape: bucket.holeShape,
       fill: 'black',
       stroke: 'black',
       lineWidth: 2
     } ) );
+    
+    this.x = bucket.position.x;
+    this.y = bucket.position.y;
   };
   
   Inheritance.inheritPrototype( BucketHole, Node );

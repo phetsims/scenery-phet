@@ -11,18 +11,15 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   
   var BucketFront = function( bucket ) {
     Node.call( this );
     
-    this.bucket = bucket;
-    
-    var width = this.bucket.width;
-    var height = width * 0.5; // Determined empirically for best look.
+    var width = bucket.width;
+    var height = bucket.height;
     
     // .beginLinearGradientFill( ["white", bucket.color, "gray" ], [.05, .9, 1], 0, 0, width, 0 )
-    var frontGradient = new LinearGradient( 0, 0, width, 0 );
+    var frontGradient = new LinearGradient( -width / 2, 0, width / 2, 0 );
     frontGradient.addColorStop( 0.05, 'white' );
     frontGradient.addColorStop( 0.9, bucket.color );
     frontGradient.addColorStop( 1, 'gray' );
@@ -30,31 +27,24 @@ define( function( require ) {
     // Create the basic shape of the front of the bucket.
     var shape = new Shape();
     
-    // TODO: elliptical curve for best view? or use cubic from Java
+    // the main container shape
     this.addChild( new Path( {
+      shape: bucket.containerShape,
       stroke: 'black',
       lineWidth: 2,
-      fill: frontGradient,
-      shape: new Shape().moveTo( 0, 0 )
-                        .lineTo( width * 0.1, height * 0.8 )
-                        .quadraticCurveTo( width / 2, height * 1.0, width * 0.9, height * 0.8 )
-                        .lineTo( width, 0 )
-                        .quadraticCurveTo( width / 2, height * 0.2, 0, 0 )
-                        .close()
+      fill: frontGradient
     } ) );
     
     // Create and add the label, centered on the front.
-    this.addChild( new Text( this.bucket.labelText, {
+    this.addChild( new Text( bucket.labelText, {
       font: "bold 24px Helvetica",
       fill: "white",
       centerX: width / 2,
       centerY: height / 2
     } ) );
     
-    // Set the position.
-    var topCenter = new Vector2( this.bucket.x, this.bucket.y );
-    this.x = topCenter.x;
-    this.y = topCenter.y;
+    this.x = bucket.position.x;
+    this.y = bucket.position.y;
   };
   
   Inheritance.inheritPrototype( BucketFront, Node );
