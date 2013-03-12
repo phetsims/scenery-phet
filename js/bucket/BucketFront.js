@@ -9,6 +9,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Color = require( 'SCENERY/util/Color' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
   var Matrix3 = require( 'DOT/Matrix3' );
@@ -18,12 +19,11 @@ define( function( require ) {
     
     var width = bucket.size.width;
     var height = bucket.size.height;
-    
-    // .beginLinearGradientFill( ["white", bucket.color, "gray" ], [.05, .9, 1], 0, 0, width, 0 )
+
     var frontGradient = new LinearGradient( -width / 2, 0, width / 2, 0 );
-    frontGradient.addColorStop( 0.05, 'white' );
-    frontGradient.addColorStop( 0.9, bucket.baseColor );
-    frontGradient.addColorStop( 1, 'gray' );
+    var baseColor = new Color( bucket.baseColor );
+    frontGradient.addColorStop( 0, baseColor.brighterColor( 0.5 ).getCSS() );
+    frontGradient.addColorStop( 1, baseColor.darkerColor( 0.5 ).getCSS() );
     
     // Create the basic shape of the front of the bucket.
     var shape = new Shape();
@@ -31,8 +31,6 @@ define( function( require ) {
     // the main container shape
     this.addChild( new Path( {
       shape: bucket.containerShape.transformed( Matrix3.Y_REFLECTION ),
-      stroke: 'black',
-      lineWidth: 2,
       fill: frontGradient
     } ) );
     
