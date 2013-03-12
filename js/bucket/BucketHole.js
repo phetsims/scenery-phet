@@ -21,16 +21,11 @@ define( function( require ) {
     var center = new Vector2( this.bucket.x, this.bucket.y );
     
     this.addChild( new Path( {
-      shape: Shape.ellipse( 0, 0, width / 2, height / 2 ),
+      shape: Shape.ellipse( this.bucket.x + width / 2, this.bucket.y, width / 2, height / 2 ),
       fill: 'black',
       stroke: 'black',
       lineWidth: 2
     } ) );
-    
-    this.centerX = this.bucket.x + width / 2;
-    this.centerY = this.bucket.y;
-    // this.x = center.x - width / 2;
-    // this.y = center.y;
   };
   
   Inheritance.inheritPrototype( BucketHole, Node );
