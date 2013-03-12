@@ -21,7 +21,7 @@ define( function( require ) {
     // .beginLinearGradientFill( ["white", bucket.color, "gray" ], [.05, .9, 1], 0, 0, width, 0 )
     var frontGradient = new LinearGradient( -width / 2, 0, width / 2, 0 );
     frontGradient.addColorStop( 0.05, 'white' );
-    frontGradient.addColorStop( 0.9, bucket.color );
+    frontGradient.addColorStop( 0.9, bucket.baseColor );
     frontGradient.addColorStop( 1, 'gray' );
     
     // Create the basic shape of the front of the bucket.
