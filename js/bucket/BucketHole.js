@@ -33,7 +33,7 @@ define( function( require ) {
     // this.y = center.y;
   };
   
-  Inheritance.inheritPrototype( BucketFront, Node );
+  Inheritance.inheritPrototype( BucketHole, Node );
   
   return BucketHole;
 } );
