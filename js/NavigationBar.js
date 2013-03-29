@@ -33,7 +33,6 @@ define( function( require ) {
       tab.index = index++;
       tab.icon.scale( HEIGHT / tab.icon.height );
       tab.icon.paintCanvas = function( state ) {
-        console.log( selectedTabProperty.get() );
         state.layer.context.globalAlpha = selectedTabProperty.get() === tab.index ? 1.0 : 0.5;
         Image.prototype.paintCanvas.call( tab.icon, state );
         state.layer.context.globalAlpha = 1.0;
