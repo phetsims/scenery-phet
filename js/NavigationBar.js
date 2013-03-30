@@ -49,14 +49,20 @@ define( function( require ) {
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
     this.addChild( this.tabsNode );
 
+    //Add the home icon, uses font awesome to render it.  The unicode character was looked up in the CSS
+    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2} );
+    this.addChild( this.homeIcon );
+
     this.handleResize = function() {
       var width = $( window ).width();
       navigationBar.tabsNode.centerX = width / 2;
       navigationBar.textLabel.right = navigationBar.tabsNode.left - 5;
       navigationBar.phetLabel.right = width - 5;
+      navigationBar.homeIcon.left = navigationBar.tabsNode.right + 5;
       navigationBar.resize( width, HEIGHT );
       navigationBar.updateScene();
     };
+
 
     //Fit to the window and render the initial scene
     $( window ).resize( this.handleResize.bind( this ) );
