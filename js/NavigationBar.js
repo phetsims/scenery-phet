@@ -16,8 +16,17 @@ define( function( require ) {
 
   var HEIGHT = 40;
 
-  function NavigationBar( $element, tabs, selectedTabProperty ) {
+  function NavigationBar( $element, tabs, selectedTabProperty, homePressed ) {
     var navigationBar = this;
+    this.handleResize = function() {
+      var width = $( window ).width();
+      this.tabsNode.centerX = width / 2;
+      this.textLabel.right = this.tabsNode.left - 5;
+      this.phetLabel.right = width - 5;
+      this.homeIcon.left = this.tabsNode.right + 5;
+      this.resize( width, HEIGHT );
+      this.updateScene();
+    };
     Scene.call( this, $element, {width: 1, height: 1, allowDevicePixelRatioScaling: true} );
 
     this.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
@@ -50,19 +59,18 @@ define( function( require ) {
     this.addChild( this.tabsNode );
 
     //Add the home icon, uses font awesome to render it.  The unicode character was looked up in the CSS
-    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2} );
+    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2, cursor: 'pointer'} );
+    this.homeIcon.addInputListener( {down: homePressed} );
     this.addChild( this.homeIcon );
 
-    this.handleResize = function() {
-      var width = $( window ).width();
-      navigationBar.tabsNode.centerX = width / 2;
-      navigationBar.textLabel.right = navigationBar.tabsNode.left - 5;
-      navigationBar.phetLabel.right = width - 5;
-      navigationBar.homeIcon.left = navigationBar.tabsNode.right + 5;
-      navigationBar.resize( width, HEIGHT );
-      navigationBar.updateScene();
-    };
+    _.each( tabs, function( tab ) {
+      selectedTabProperty.link( function( m, value ) {
+        navigationBar.textLabel.text = tabs[value].name;
 
+        //TODO: could speed it up by just moving the text
+        navigationBar.handleResize();
+      } );
+    } );
 
     //Fit to the window and render the initial scene
     $( window ).resize( this.handleResize.bind( this ) );
