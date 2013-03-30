@@ -41,15 +41,10 @@ define( function( require ) {
     _.each( tabs, function( tab ) {
       tab.index = index++;
       tab.icon.scale( HEIGHT / tab.icon.height );
-      tab.icon.paintCanvas = function( state ) {
-        state.layer.context.globalAlpha = selectedTabProperty.get() === tab.index ? 1.0 : 0.5;
-        Image.prototype.paintCanvas.call( tab.icon, state );
-        state.layer.context.globalAlpha = 1.0;
-      };
       tab.icon.cursor = 'pointer';
       selectedTabProperty.link( function() {
         tab.icon.invalidateBounds();
-        tab.icon.invalidatePaint();
+        tab.icon.opacity = selectedTabProperty.get() === tab.index ? 1 : 0.5;
       } );
       tab.icon.addInputListener( { down: function() { selectedTabProperty.set( tab.index ); }} );
       tabChildren.push( tab.icon );
