@@ -16,22 +16,22 @@ define( function( require ) {
 
   var HEIGHT = 40;
 
-  function NavigationBar( $element, tabs, selectedTabProperty, homePressed ) {
+  function NavigationBar( tabs, model ) {
     var navigationBar = this;
     this.handleResize = function() {
       var width = $( window ).width();
       this.tabsNode.centerX = width / 2;
-      this.textLabel.right = this.tabsNode.left - 5;
       this.phetLabel.right = width - 5;
       this.homeIcon.left = this.tabsNode.right + 5;
-      this.resize( width, HEIGHT );
-      this.updateScene();
+      this.textLabel.right = this.tabsNode.left - 5;
     };
-    Scene.call( this, $element, {width: 1, height: 1, allowDevicePixelRatioScaling: true} );
+    Node.call( this );
 
-    this.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-
-    this.textLabel = new Text( "Tug of War", {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} );
+    var textLabels = [];
+    _.each( tabs, function( tab ) {
+      textLabels.push( new Text( tab.name, {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} ) );
+    } );
+    this.textLabel = new Node();
     this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {centerY: HEIGHT / 2} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
@@ -42,11 +42,14 @@ define( function( require ) {
       tab.index = index++;
       tab.icon.scale( HEIGHT / tab.icon.height );
       tab.icon.cursor = 'pointer';
-      selectedTabProperty.link( function() {
+      model.link( 'tab', function( m, t ) {
         tab.icon.invalidateBounds();
-        tab.icon.opacity = selectedTabProperty.get() === tab.index ? 1 : 0.5;
+        tab.icon.opacity = t === tab.index ? 1 : 0.5;
       } );
-      tab.icon.addInputListener( { down: function() { selectedTabProperty.set( tab.index ); }} );
+      tab.icon.addInputListener( { down: function() {
+        model.tab = tab.index;
+        model.home = false;
+      }} );
       tabChildren.push( tab.icon );
     } );
 
@@ -54,22 +57,17 @@ define( function( require ) {
     this.addChild( this.tabsNode );
 
     //Add the home icon, uses font awesome to render it.  The unicode character was looked up in the CSS
-    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2, cursor: 'pointer'} );
-    this.homeIcon.addInputListener( {down: homePressed} );
+    //Use 'svg' here so that the font will update when font awesome loads.  TODO: also update the bounds when the font loads
+    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2, cursor: 'pointer', renderer: 'svg'} );
+    this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
     _.each( tabs, function( tab ) {
-      selectedTabProperty.link( function( m, value ) {
-        navigationBar.textLabel.text = tabs[value].name;
-
-        //TODO: could speed it up by just moving the text
+      model.link( 'tab', function( m, value ) {
+        navigationBar.textLabel.children = [ textLabels[value] ];
         navigationBar.handleResize();
       } );
     } );
-
-    //Fit to the window and render the initial scene
-    $( window ).resize( this.handleResize.bind( this ) );
-    this.handleResize();
   }
 
   Inheritance.inheritPrototype( NavigationBar, Scene );

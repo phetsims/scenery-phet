@@ -18,9 +18,7 @@ define( function( require ) {
 
   function HomeScreen( imageLoader, $element, tabs, selectedTabProperty ) {
     var homeScreen = this;
-    Scene.call( this, $element, {width: 1, height: 1, allowDevicePixelRatioScaling: true} );
-
-    this.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    Node.call( this );
 
     this.textLabel = new Text( "Tug of War", {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} );
     this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {centerY: HEIGHT / 2} );
@@ -34,8 +32,6 @@ define( function( require ) {
       var height = $( window ).height();
       homeScreen.textLabel.right = 0;
       homeScreen.phetLabel.left = 5;
-      homeScreen.resize( width, height );
-      homeScreen.updateScene();
     };
 
     //Fit to the window and render the initial scene
@@ -43,7 +39,7 @@ define( function( require ) {
     this.handleResize();
   }
 
-  Inheritance.inheritPrototype( HomeScreen, Scene );
+  Inheritance.inheritPrototype( HomeScreen, Node );
   HomeScreen.prototype.step = function() {};
 
   return HomeScreen;
