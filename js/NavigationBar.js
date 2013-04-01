@@ -56,9 +56,7 @@ define( function( require ) {
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
     this.addChild( this.tabsNode );
 
-    //Add the home icon, uses font awesome to render it.  The unicode character was looked up in the CSS
-    //Use 'svg' here so that the font will update when font awesome loads.  TODO: also update the bounds when the font loads
-    this.homeIcon = new Text( '\uf015', {fontFamily: 'FontAwesome', fontSize: '40px', fill: 'white', centerY: HEIGHT / 2, cursor: 'pointer', renderer: 'svg'} );
+    this.homeIcon = new DOM( $( '<i class="icon-home" style="color:#ffffff; font-size:2.5em"></i>' ), {cursor: 'pointer'} );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
