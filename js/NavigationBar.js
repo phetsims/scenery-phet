@@ -24,6 +24,7 @@ define( function( require ) {
       this.phetLabel.right = width - 5;
       this.homeIcon.left = this.tabsNode.right + 5;
       this.textLabel.right = this.tabsNode.left - 5;
+      this.textLabel.centerY = HEIGHT / 2;
     };
     Node.call( this );
 
@@ -56,7 +57,8 @@ define( function( require ) {
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
     this.addChild( this.tabsNode );
 
-    this.homeIcon = new DOM( $( '<i class="icon-home" style="color:#ffffff; font-size:2.5em"></i>' ), {cursor: 'pointer'} );
+    this.homeIcon = new Image( $( '.phet-icon-home' )[0], {scale: 0.025, cursor: 'pointer'} );
+    this.homeIcon.centerY = HEIGHT / 2;
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
