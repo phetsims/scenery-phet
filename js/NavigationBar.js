@@ -41,17 +41,18 @@ define( function( require ) {
     var tabChildren = [];
     _.each( tabs, function( tab ) {
       tab.index = index++;
-      tab.icon.scale( HEIGHT / tab.icon.height );
-      tab.icon.cursor = 'pointer';
+      var child = new Node( {children: [tab.icon]} );
+      child.scale( HEIGHT / tab.icon.height );
+      child.cursor = 'pointer';
       model.link( 'tab', function( m, t ) {
-        tab.icon.invalidateBounds();
-        tab.icon.opacity = t === tab.index ? 1 : 0.5;
+        child.invalidateBounds();
+        child.opacity = t === tab.index ? 1 : 0.5;
       } );
-      tab.icon.addInputListener( { down: function() {
+      child.addInputListener( { down: function() {
         model.tab = tab.index;
         model.home = false;
       }} );
-      tabChildren.push( tab.icon );
+      tabChildren.push( child );
     } );
 
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
