@@ -14,23 +14,19 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  var HEIGHT = 40;
-
   function HomeScreen( imageLoader, $element, tabs, selectedTabProperty ) {
     var homeScreen = this;
     Node.call( this );
 
-    this.textLabel = new Text( "Tug of War", {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} );
-    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {centerY: HEIGHT / 2} );
+    this.textLabel = new Text( "Forces and Motion: Basics", {fontSize: 42, fontFamily: 'Century Gothic', fill: 'white', y: 100} );
+    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {top: 5} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
-    var index = 0;
-    var tabChildren = [];
     this.handleResize = function() {
       var width = $( window ).width();
       var height = $( window ).height();
-      homeScreen.textLabel.right = 0;
+      homeScreen.textLabel.centerX = width / 2;
       homeScreen.phetLabel.left = 5;
     };
 
@@ -40,7 +36,6 @@ define( function( require ) {
   }
 
   inherit( HomeScreen, Node );
-  HomeScreen.prototype.step = function() {};
 
   return HomeScreen;
 } );
