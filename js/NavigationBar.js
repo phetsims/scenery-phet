@@ -12,7 +12,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   var HEIGHT = 40;
 
@@ -70,7 +70,7 @@ define( function( require ) {
     } );
   }
 
-  Inheritance.inheritPrototype( NavigationBar, Scene );
+  inherit( NavigationBar, Scene );
 
   return NavigationBar;
 } );
