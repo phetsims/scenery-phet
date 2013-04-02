@@ -14,12 +14,13 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  function HomeScreen( imageLoader, $element, tabs, selectedTabProperty ) {
+  function HomeScreen( title ) {
     var homeScreen = this;
     Node.call( this );
 
-    this.textLabel = new Text( "Forces and Motion: Basics", {fontSize: 42, fontFamily: 'Century Gothic', fill: 'white', y: 100} );
-    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {top: 5} );
+    //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
+    this.textLabel = new Text( title, {fontSize: 42, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 100} );
+    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow', top: 5} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
