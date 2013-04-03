@@ -37,7 +37,7 @@ define( function( require ) {
     // Create and add the label, centered on the front.
     this.addChild( new Text( bucket.captionText, {
       font: "bold 18px Arial",
-      fill: 'black',
+      fill: bucket.captionColor,
       centerX: 0,
       centerY: height / 2
     } ) );
