@@ -9,6 +9,7 @@ define( function( require ) {
   var Scene = require( 'SCENERY/Scene' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -58,7 +59,7 @@ define( function( require ) {
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
     this.addChild( this.tabsNode );
 
-    this.homeIcon = new Image( $( '.phet-icon-home' )[0], {scale: 0.025, cursor: 'pointer'} );
+    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff'} );
     this.homeIcon.centerY = HEIGHT / 2;
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
