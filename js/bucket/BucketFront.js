@@ -12,25 +12,26 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  
-  var BucketFront = function( bucket ) {
-    Node.call( this );
-    
-    var width = bucket.size.width;
-    var height = bucket.size.height;
 
-    var frontGradient = new LinearGradient( -width / 2, 0, width / 2, 0 );
+  /**
+   * Constructor.
+   *
+   * @param bucket Model of a bucket.
+   * @param mvt Model-View transform.
+   * @constructor
+   */
+  var BucketFront = function( bucket, mvt ) {
+
+    // Invoke super constructor.
+    Node.call( this );
+
+    var transformedShape = mvt.modelToViewShape( bucket.containerShape );
     var baseColor = new Color( bucket.baseColor );
+    var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
     frontGradient.addColorStop( 0, baseColor.brighterColor( 0.5 ).getCSS() );
     frontGradient.addColorStop( 1, baseColor.darkerColor( 0.5 ).getCSS() );
-    
-    // Create the basic shape of the front of the bucket.
-    var shape = new Shape();
-    
-    // the main container shape
     this.addChild( new Path( {
-      shape: bucket.containerShape.transformed( Matrix3.Y_REFLECTION ),
+      shape: transformedShape,
       fill: frontGradient
     } ) );
     
@@ -38,14 +39,16 @@ define( function( require ) {
     this.addChild( new Text( bucket.captionText, {
       font: "bold 18px Arial",
       fill: bucket.captionColor,
-      centerX: 0,
-      centerY: height / 2
+      centerX: transformedShape.bounds.getCenterX(),
+      centerY: transformedShape.bounds.getCenterY()
     } ) );
-    
-    this.x = bucket.position.x;
-    this.y = bucket.position.y;
+
+    var transformedPosition = mvt.modelToViewPosition( bucket.position );
+    this.x = transformedPosition.x;
+    this.y = transformedPosition.y;
   };
-  
+
+  // Inherit from base type.
   Inheritance.inheritPrototype( BucketFront, Node );
   
   return BucketFront;
