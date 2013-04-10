@@ -38,7 +38,7 @@ define( function( require ) {
       var child = new Node( {children: [tab.icon]} );
       child.scale( HEIGHT / tab.icon.height );
       child.cursor = 'pointer';
-      model.link( 'tab', function( m, t ) {
+      model.link( 'tab', function( t ) {
         child.invalidateBounds();
         child.opacity = t === tab.index ? 1 : 0.5;
       } );
