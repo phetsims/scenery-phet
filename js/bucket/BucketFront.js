@@ -43,9 +43,9 @@ define( function( require ) {
       centerY: transformedShape.bounds.getCenterY()
     } ) );
 
-    var transformedPosition = mvt.modelToViewPosition( bucket.position );
-    this.x = transformedPosition.x;
-    this.y = transformedPosition.y;
+    // Set initial position.
+    this.x = mvt.modelToViewPosition( bucket.position ).x;
+    this.y = mvt.modelToViewPosition( bucket.position ).y;
   };
 
   // Inherit from base type.
