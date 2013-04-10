@@ -12,6 +12,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
 
   /**
    * Constructor.
@@ -25,7 +26,9 @@ define( function( require ) {
     // Invoke super constructor.
     Node.call( this );
 
-    var transformedShape = mvt.modelToViewShape( bucket.containerShape );
+    // TODO: scaleOnlyTransform is kind of weird, discuss with rest of team.
+    var scaleOnlyTransform = ModelViewTransform2.createOffsetXYScaleMapping( { x: 0, y: 0 }, mvt.getMatrix().m00(), mvt.getMatrix().m11() );
+    var transformedShape = scaleOnlyTransform.modelToViewShape( bucket.containerShape );
     var baseColor = new Color( bucket.baseColor );
     var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
     frontGradient.addColorStop( 0, baseColor.brighterColor( 0.5 ).getCSS() );
