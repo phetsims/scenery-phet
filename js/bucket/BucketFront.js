@@ -44,8 +44,7 @@ define( function( require ) {
     } ) );
 
     // Set initial position.
-    this.x = mvt.modelToViewPosition( bucket.position ).x;
-    this.y = mvt.modelToViewPosition( bucket.position ).y;
+    this.translation = mvt.modelToViewPosition( bucket.position );
   };
 
   // Inherit from base type.
