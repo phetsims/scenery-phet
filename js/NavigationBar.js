@@ -31,10 +31,10 @@ define( function( require ) {
 
     var textLabels = [];
     _.each( tabs, function( tab ) {
-      textLabels.push( new Text( tab.name, {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} ) );
+      textLabels.push( new Text( tab.name, {fontSize: 24, fill: 'white', centerY: HEIGHT / 2} ) );
     } );
     this.textLabel = new Node();
-    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow'} ).mutate( {centerY: HEIGHT / 2} );
+    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow', centerY: HEIGHT / 2} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
