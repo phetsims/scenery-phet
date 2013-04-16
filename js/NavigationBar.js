@@ -20,7 +20,7 @@ define( function( require ) {
   function NavigationBar( tabs, model ) {
     var navigationBar = this;
     this.handleResize = function() {
-      var width = $( window ).width();
+      var width = 981;
       this.tabsNode.centerX = width / 2;
       this.phetLabel.right = width - 5;
       this.homeIcon.left = this.tabsNode.right + 5;
