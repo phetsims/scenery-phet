@@ -18,7 +18,6 @@ define( function( require ) {
   function Sim( name, tabs ) {
     var sim = this;
     this.tabs = tabs;
-    new FastClick( document.body );
 
     Util.polyfillRequestAnimationFrame();
 
