@@ -12,8 +12,8 @@ define( function( require ) {
   var Layout = require( 'SCENERY_PHET/Layout' );
 
   //Default size to use, which will be scaled up and down isometrically
-  var HEIGHT = Layout.SIM_HEIGHT;
-  var WIDTH = Layout.SIM_WIDTH;
+  var HEIGHT = Layout.simHeight;
+  var WIDTH = Layout.simWidth;
 
   function Sim( name, tabs ) {
     var sim = this;

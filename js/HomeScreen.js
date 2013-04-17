@@ -39,7 +39,7 @@ define( function( require ) {
       return child;
     } );
 
-    this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: Layout.WIDTH / 2, centerY: Layout.HEIGHT / 2} );
+    this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: Layout.width / 2, centerY: Layout.height / 2} );
     this.addChild( this.tabsNode );
   }
 

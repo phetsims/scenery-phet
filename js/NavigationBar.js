@@ -8,8 +8,8 @@ define( function( require ) {
   var Layout = require( 'SCENERY_PHET/Layout' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  var HEIGHT = Layout.NAV_BAR_HEIGHT;
-  var WIDTH = Layout.WIDTH;
+  var HEIGHT = Layout.navBarHeight;
+  var WIDTH = Layout.width;
   var PADDING = 2;
 
   function NavigationBar( tabs, model ) {
