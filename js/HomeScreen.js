@@ -5,7 +5,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LayoutConstants = require( 'SCENERY_PHET/LayoutConstants' );
+  var Layout = require( 'SCENERY_PHET/Layout' );
 
   var HEIGHT = 120;
 
@@ -39,7 +39,7 @@ define( function( require ) {
       return child;
     } );
 
-    this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: LayoutConstants.WIDTH / 2, centerY: LayoutConstants.HEIGHT / 2} );
+    this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: Layout.WIDTH / 2, centerY: Layout.HEIGHT / 2} );
     this.addChild( this.tabsNode );
   }
 

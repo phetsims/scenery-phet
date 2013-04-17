@@ -7,17 +7,17 @@ define( function() {
   var navBarHeight = 40;
 
   return {
-    //The width of the stage
+    //The width of the sim, stage and tab (all the same)
     WIDTH: simWidth,
 
-    //The height of the entire stage including the space for the tab navigation bar
-    HEIGHT: simHeight,
+    //The height of a tab (does not include the vertical space for the navigation bar)
+    HEIGHT: simHeight - navBarHeight,
 
     //Width of one tab
-    TAB_WIDTH: simWidth,
+    SIM_WIDTH: simWidth,
 
     //The height of the stage available for the simulation tab content, does not include the tab navigation bar
-    TAB_HEIGHT: simHeight - navBarHeight,
+    SIM_HEIGHT: simHeight,
 
     //Height of the nav bar
     NAV_BAR_HEIGHT: navBarHeight
