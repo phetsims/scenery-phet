@@ -45,13 +45,12 @@ define( function( require ) {
     this.tabsNode = new HBox( {children: tabChildren, spacing: 7, top: PADDING} ).mutate( {centerX: WIDTH / 2} );
     this.addChild( this.tabsNode );
 
-    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: HEIGHT / 2} );
+    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: HEIGHT / 2, left: this.tabsNode.right + 15} );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
     model.link( 'tab', function( value ) {
       navigationBar.textLabel.children = [ textLabels[value] ];
-      navigationBar.homeIcon.left = navigationBar.tabsNode.right + 15;
       navigationBar.textLabel.right = navigationBar.tabsNode.left - 15;
     } );
   }
