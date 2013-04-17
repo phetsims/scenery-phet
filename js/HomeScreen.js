@@ -17,14 +17,12 @@ define( function( require ) {
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
-    var textLabels = [];
-    _.each( tabs, function( tab ) {
-      textLabels.push( new Text( tab.name, {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} ) );
+    var textLabels = _.map( tabs, function( tab ) {
+      return new Text( tab.name, {fontSize: 24, fill: 'white'} ).mutate( {centerY: HEIGHT / 2} );
     } );
 
     var index = 0;
-    var tabChildren = [];
-    _.each( tabs, function( tab ) {
+    var tabChildren = _.map( tabs, function( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon]} );
       child.scale( HEIGHT / tab.icon.height );
@@ -37,7 +35,7 @@ define( function( require ) {
         model.tab = tab.index;
         model.home = false;
       }} );
-      tabChildren.push( child );
+      return child;
     } );
 
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: 981 / 2, centerY: 400} );
