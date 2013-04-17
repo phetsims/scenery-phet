@@ -16,10 +16,9 @@ define( function( require ) {
     var navigationBar = this;
 
     var fontSize = 36;
-    var textLabels = [];
 
-    _.each( tabs, function( tab ) {
-      textLabels.push( new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: HEIGHT / 2} ) );
+    var textLabels = _.map( tabs, function( tab ) {
+      return new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: HEIGHT / 2} );
     } );
     this.textLabel = new Node();
     this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: HEIGHT / 2, right: WIDTH - 5} );
@@ -27,8 +26,7 @@ define( function( require ) {
     this.addChild( this.phetLabel );
 
     var index = 0;
-    var tabChildren = [];
-    _.each( tabs, function( tab ) {
+    var tabChildren = _.map( tabs, function( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
       child.scale( (HEIGHT - PADDING * 2) / tab.icon.height );
@@ -40,7 +38,7 @@ define( function( require ) {
         model.tab = tab.index;
         model.home = false;
       }} );
-      tabChildren.push( child );
+      return child;
     } );
 
     //Add the tabs node.  I'm not sure why it must be mutated afterwards, but putting centerX in the constructor options doesn't cause it to end up in the right spot
