@@ -5,10 +5,11 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var LayoutConstants = require( 'SCENERY_PHET/LayoutConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  var HEIGHT = 40;
-  var WIDTH = 981;
+  var HEIGHT = LayoutConstants.NAV_BAR_HEIGHT;
+  var WIDTH = LayoutConstants.WIDTH;
   var PADDING = 2;
 
   function NavigationBar( tabs, model ) {
