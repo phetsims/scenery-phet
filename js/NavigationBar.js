@@ -8,17 +8,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   var HEIGHT = 40;
+  var WIDTH = 981;
 
   function NavigationBar( tabs, model ) {
     var navigationBar = this;
-    this.handleResize = function() {
-      var width = 981;
-      this.tabsNode.centerX = width / 2;
-      this.phetLabel.right = width - 5;
-      this.homeIcon.left = this.tabsNode.right + 5;
-      this.textLabel.right = this.tabsNode.left - 5;
-      this.textLabel.centerY = HEIGHT / 2;
-    };
     Node.call( this );
 
     var textLabels = [];
@@ -59,7 +52,11 @@ define( function( require ) {
     _.each( tabs, function( tab ) {
       model.link( 'tab', function( value ) {
         navigationBar.textLabel.children = [ textLabels[value] ];
-        navigationBar.handleResize();
+        navigationBar.tabsNode.centerX = WIDTH / 2;
+        navigationBar.phetLabel.right = WIDTH - 5;
+        navigationBar.homeIcon.left = navigationBar.tabsNode.right + 5;
+        navigationBar.textLabel.right = navigationBar.tabsNode.left - 5;
+        navigationBar.textLabel.centerY = HEIGHT / 2;
       } );
     } );
   }
