@@ -17,7 +17,6 @@ define( function( require ) {
   var HEIGHT = 120;
 
   function HomeScreen( title, tabs, model ) {
-    var homeScreen = this;
     Node.call( this );
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
@@ -51,29 +50,6 @@ define( function( require ) {
 
     this.tabsNode = new HBox( {children: tabChildren, spacing: 3} ).mutate( {centerX: 981 / 2, centerY: 400} );
     this.addChild( this.tabsNode );
-
-    this.handleResize = function() {
-      var width = $( window ).width();
-      var height = $( window ).height();//leave room for the tab bar
-
-      var scale = Math.min( width / 981, height / 644 );
-
-      homeScreen.resetTransform();
-      homeScreen.scale( scale );
-      //make sure it is centered
-      if ( scale === width / 981 ) {
-        //Limited by width, so move it down
-        homeScreen.translate( 0, (height - 644 * scale) / 2 / scale );
-      }
-      else {
-        //Limited by height, so move to the right
-        homeScreen.translate( (width - 981 * scale) / 2 / scale, 0 );
-      }
-    };
-
-    //Fit to the window and render the initial scene
-    $( window ).resize( this.handleResize.bind( this ) );
-    this.handleResize();
   }
 
   inherit( HomeScreen, Node );
