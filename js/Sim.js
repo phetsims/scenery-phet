@@ -15,14 +15,27 @@ define( function( require ) {
   var HEIGHT = Layout.simHeight;
   var WIDTH = Layout.simWidth;
 
-  function Sim( name, tabs ) {
+  /**
+   *
+   * @param name
+   * @param tabs
+   * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
+   * @constructor
+   */
+  function Sim( name, tabs, options ) {
     var sim = this;
+
+    //Default values are to show the home screen with the 1st tab selected
+    options = options || {};
+    var home = options.home || false;
+    var tab = options.tab || 0;
+
     this.tabs = tabs;
 
     Util.polyfillRequestAnimationFrame();
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    this.appModel = new Fort.Model( {home: false, tab: 0} );
+    this.appModel = new Fort.Model( {home: home, tab: tab} );
 
     this.scene = new Scene( $( '.scene' ), {width: WIDTH, height: HEIGHT, allowDevicePixelRatioScaling: true} );
     this.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
