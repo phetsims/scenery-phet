@@ -12,14 +12,15 @@ define( function( require ) {
 
   function NavigationBar( tabs, model ) {
     var navigationBar = this;
+    var fontSize = 36;
     Node.call( this );
 
     var textLabels = [];
     _.each( tabs, function( tab ) {
-      textLabels.push( new Text( tab.name, {fontSize: 24, fill: 'white', centerY: HEIGHT / 2} ) );
+      textLabels.push( new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: HEIGHT / 2} ) );
     } );
     this.textLabel = new Node();
-    this.phetLabel = new Text( "PhET", {fontSize: 24, fill: 'yellow', centerY: HEIGHT / 2} );
+    this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: HEIGHT / 2} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
@@ -41,7 +42,7 @@ define( function( require ) {
       tabChildren.push( child );
     } );
 
-    this.tabsNode = new HBox( {children: tabChildren, spacing: 3} );
+    this.tabsNode = new HBox( {children: tabChildren, spacing: 7} );
     this.addChild( this.tabsNode );
 
     this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff'} );
@@ -54,8 +55,8 @@ define( function( require ) {
         navigationBar.textLabel.children = [ textLabels[value] ];
         navigationBar.tabsNode.centerX = WIDTH / 2;
         navigationBar.phetLabel.right = WIDTH - 5;
-        navigationBar.homeIcon.left = navigationBar.tabsNode.right + 5;
-        navigationBar.textLabel.right = navigationBar.tabsNode.left - 5;
+        navigationBar.homeIcon.left = navigationBar.tabsNode.right + 15;
+        navigationBar.textLabel.right = navigationBar.tabsNode.left - 15;
         navigationBar.textLabel.centerY = HEIGHT / 2;
       } );
     } );
