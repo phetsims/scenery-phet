@@ -21,6 +21,7 @@ define( function( require ) {
 
     Util.polyfillRequestAnimationFrame();
 
+    //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
     this.appModel = new Fort.Model( {home: false, tab: 0} );
 
     this.scene = new Scene( $( '.scene' ), {width: WIDTH, height: HEIGHT, allowDevicePixelRatioScaling: true} );
@@ -30,13 +31,17 @@ define( function( require ) {
     var homeScreen = new HomeScreen( name, tabs, this.appModel );
     var navigationBar = new NavigationBar( tabs, this.appModel ).mutate( {bottom: HEIGHT - 2} );//TODO: this padding amount is copied in NavigationBar 
 
+    //The root contains the home screen or the tabNode
     var root = new Node(); //root: homeScreen | tabNode
-    var tabNode = new Node(); //tabNode: navigationBar tabContainer
-    var tabContainer = new Node();//tabContainer: sceneForTab 
-    tabNode.addChild( navigationBar );
-    tabNode.addChild( tabContainer );
+
+    //The tab container contains the tab itself, which will be swapped out based on which tab icon the user selected
+    var tabContainer = new Node();//tabContainer: sceneForTab
+
+    //The tabNode contains the tabContainer and the navigation bar
+    var tabNode = new Node( {children: [navigationBar, tabContainer]} );
     this.scene.addChild( root );
 
+    //When the user presses the home icon, then show the home screen, otherwise show the tabNode 
     this.appModel.link( 'home', function( home ) { root.children = [home ? homeScreen : tabNode];} );
 
     function resize() {
@@ -63,17 +68,17 @@ define( function( require ) {
       sim.scene.updateScene();
     }
 
-    //Fit to the window and render the initial scene
-    $( window ).resize( resize );
-    resize();
-
     //Instantiate the tabs
     for ( var i = 0; i < tabs.length; i++ ) {
       tabs[i].instance = tabs[i].create();
     }
 
+    //When the user presses a different tab, show it on the screen
     this.appModel.link( 'tab', function( tabIndex ) { tabContainer.children = [tabs[tabIndex].instance]; } );
-    this.scene.updateScene();
+
+    //Fit to the window and render the initial scene
+    $( window ).resize( resize );
+    resize();
   }
 
   Sim.prototype.start = function() {
