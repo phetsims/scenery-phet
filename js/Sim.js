@@ -1,5 +1,6 @@
 //Main class that represents one simulation, including the tabs, home screen, play area, etc.
 //Provides default initialization, such as polyfills as well.
+//TODO: Handle simulations that have only one tab.  Perhaps just show the name at the left and the logo at the right, and omit home screen
 define( function( require ) {
   'use strict';
 
