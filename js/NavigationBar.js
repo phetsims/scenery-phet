@@ -9,18 +9,20 @@ define( function( require ) {
 
   var HEIGHT = 40;
   var WIDTH = 981;
+  var PADDING = 2;
 
   function NavigationBar( tabs, model ) {
-    var navigationBar = this;
-    var fontSize = 36;
     Node.call( this );
+    var navigationBar = this;
 
+    var fontSize = 36;
     var textLabels = [];
+
     _.each( tabs, function( tab ) {
       textLabels.push( new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: HEIGHT / 2} ) );
     } );
     this.textLabel = new Node();
-    this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: HEIGHT / 2} );
+    this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: HEIGHT / 2, right: WIDTH - 5} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
@@ -28,9 +30,8 @@ define( function( require ) {
     var tabChildren = [];
     _.each( tabs, function( tab ) {
       tab.index = index++;
-      var child = new Node( {children: [tab.icon]} );
-      child.scale( HEIGHT / tab.icon.height );
-      child.cursor = 'pointer';
+      var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
+      child.scale( (HEIGHT - PADDING * 2) / tab.icon.height );
       model.link( 'tab', function( t ) {
         child.invalidateBounds();
         child.opacity = t === tab.index ? 1 : 0.5;
@@ -42,23 +43,18 @@ define( function( require ) {
       tabChildren.push( child );
     } );
 
-    this.tabsNode = new HBox( {children: tabChildren, spacing: 7} );
+    //Add the tabs node.  I'm not sure why it must be mutated afterwards, but putting centerX in the constructor options doesn't cause it to end up in the right spot
+    this.tabsNode = new HBox( {children: tabChildren, spacing: 7, top: PADDING} ).mutate( {centerX: WIDTH / 2} );
     this.addChild( this.tabsNode );
 
-    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff'} );
-    this.homeIcon.centerY = HEIGHT / 2;
+    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: HEIGHT / 2} );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
-    _.each( tabs, function( tab ) {
-      model.link( 'tab', function( value ) {
-        navigationBar.textLabel.children = [ textLabels[value] ];
-        navigationBar.tabsNode.centerX = WIDTH / 2;
-        navigationBar.phetLabel.right = WIDTH - 5;
-        navigationBar.homeIcon.left = navigationBar.tabsNode.right + 15;
-        navigationBar.textLabel.right = navigationBar.tabsNode.left - 15;
-        navigationBar.textLabel.centerY = HEIGHT / 2;
-      } );
+    model.link( 'tab', function( value ) {
+      navigationBar.textLabel.children = [ textLabels[value] ];
+      navigationBar.homeIcon.left = navigationBar.tabsNode.right + 15;
+      navigationBar.textLabel.right = navigationBar.tabsNode.left - 15;
     } );
   }
 
