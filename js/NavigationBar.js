@@ -11,6 +11,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Layout = require( 'SCENERY_PHET/Layout' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   function NavigationBar( tabs, model ) {
@@ -38,7 +39,14 @@ define( function( require ) {
       var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
       child.tab = tab;
       child.scale( (height - verticalPadding * 2) / child.tab.icon.height );
-      child.largeTextLabel = new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: height / 2} );
+
+      var textLabel = new Text( tab.name, {fontSize: 32, fill: 'black'} );
+      var outline = new Rectangle( 0, 0, textLabel.width + 10, textLabel.height + 10, 10, 10, {fill: 'white'} );
+      textLabel.centerX = outline.width / 2;
+      textLabel.centerY = outline.height / 2;
+      outline.addChild( textLabel );
+
+      child.largeTextLabel = outline;
       child.addInputListener( { down: function() {
         model.tab = tab.index;
         model.home = false;
@@ -88,6 +96,7 @@ define( function( require ) {
       //Lay out the components from left to right
       var x = Layout.width / 2 - width / 2;
       selectedChild.largeTextLabel.right = x - 25;
+      selectedChild.largeTextLabel.centerY = height / 2;
       for ( var i = 0; i < tabChildren.length; i++ ) {
         var child = tabChildren[i];
         child.x = x;
