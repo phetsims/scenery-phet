@@ -26,23 +26,19 @@ define( function( require ) {
     var fontSize = 36;
 
     //Create the text labels once because in this version of Scenery (4/18/2013) they are expensive to create because they must be accurately sized.
-    var textLabels = _.map( tabs, function( tab ) {
-      return new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: height / 2} );
-    } );
     this.textLabel = new Node();
     this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: height / 2, right: Layout.width - 5} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
 
+    //Create the nodes to be used for the tab icons
     var index = 0;
     var tabChildren = _.map( tabs, function( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
-      child.scale( (height - verticalPadding * 2) / tab.icon.height );
-      model.link( 'tab', function( t ) {
-        child.invalidateBounds();
-        child.opacity = t === tab.index ? 1 : 0.5;
-      } );
+      child.tab = tab;
+      child.scale( (height - verticalPadding * 2) / child.tab.icon.height );
+      child.largeTextLabel = new Text( tab.name, {fontSize: fontSize, fill: 'white', centerY: height / 2} );
       child.addInputListener( { down: function() {
         model.tab = tab.index;
         model.home = false;
@@ -50,17 +46,55 @@ define( function( require ) {
       return child;
     } );
 
-    //Add the tabs node.  I'm not sure why it must be mutated afterwards, but putting centerX in the constructor options doesn't cause it to end up in the right spot
-    this.tabsNode = new HBox( {children: tabChildren, spacing: 7, top: verticalPadding} ).mutate( {centerX: Layout.width / 2} );
-    this.addChild( this.tabsNode );
+    //Add everything to the scene
+    for ( var i = 0; i < tabChildren.length; i++ ) {
+      this.addChild( tabChildren[i] );
+      this.addChild( tabChildren[i].largeTextLabel );
+    }
 
-    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: height / 2, left: this.tabsNode.right + 15} );
+    //add the home icon
+    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: height / 2} );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     this.addChild( this.homeIcon );
 
-    model.link( 'tab', function( value ) {
-      navigationBar.textLabel.children = [ textLabels[value] ];
-      navigationBar.textLabel.right = navigationBar.tabsNode.left - 15;
+    //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
+    model.link( 'tab', function( tab ) {
+
+      //Update size and opacity of each icon
+      var selectedChild = null;
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
+        child.invalidateBounds();
+        var selected = tab === child.tab.index;
+        child.selected = selected;
+        child.opacity = selected ? 1 : 0.5;
+        child.resetTransform();
+        child.scale( selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75 );
+        child.largeTextLabel.visible = selected;
+        if ( selected ) {
+          selectedChild = child;
+        }
+      }
+
+      //Compute layout bounds
+      var width = 0;
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
+        width = width + child.width;
+      }
+      var spacing = 10;
+      width = width + spacing * (tabChildren.length - 1);
+
+      //Lay out the components from left to right
+      var x = Layout.width / 2 - width / 2;
+      selectedChild.largeTextLabel.right = x - 25;
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
+        child.x = x;
+        child.y = verticalPadding;
+        x += child.width + spacing;
+      }
+      navigationBar.homeIcon.left = x + 15;
     } );
   }
 
