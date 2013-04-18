@@ -96,7 +96,7 @@ define( function( require ) {
       //Lay out the components from left to right
       var x = Layout.width / 2 - width / 2;
       selectedChild.largeTextLabel.right = x - 25;
-      selectedChild.largeTextLabel.centerY = height / 2;
+      selectedChild.largeTextLabel.top = 0;
       for ( var i = 0; i < tabChildren.length; i++ ) {
         var child = tabChildren[i];
         child.x = x;

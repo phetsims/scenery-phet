@@ -43,7 +43,7 @@ define( function( require ) {
     this.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
 
     var homeScreen = new HomeScreen( name, tabs, this.appModel );
-    var navigationBar = new NavigationBar( tabs, this.appModel ).mutate( {bottom: HEIGHT - 2} );//TODO: this padding amount is copied in NavigationBar 
+    var navigationBar = new NavigationBar( tabs, this.appModel ).mutate( {top: Layout.height + 2} );//TODO: this padding amount is copied in NavigationBar 
 
     //The root contains the home screen or the tabNode
     var root = new Node(); //root: homeScreen | tabNode
