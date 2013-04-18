@@ -26,6 +26,10 @@ define( function( require ) {
   function Sim( name, tabs, options ) {
     var sim = this;
 
+    //Set the HTML page title to the i18nized title
+    //TODO: When a sim is embedded on a page, we shouldn't retitle the page
+    $( 'title' ).html( name );
+
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
     var home = options.home || false;
