@@ -1,5 +1,5 @@
-//Module that gives the default layout dimensions for a simulation, including the tabs, play area, tab navigation bar, etc.
-//These values should be treated as constants, or it will cause buggy behavior.s
+//Module that gives the default layout dimensions for a simulation, including the tabs (which include the play area for each tab), tab navigation bar, etc.
+//These values should be treated as constants, or it will cause buggy behavior.
 define( function() {
   "use strict";
 
@@ -17,7 +17,7 @@ define( function() {
     //Width of one tab
     simWidth: simWidth,
 
-    //The height of the stage available for the simulation tab content, does not include the tab navigation bar
+    //The height of the entire sim, including the navigation bar
     simHeight: simHeight,
 
     //Height of the nav bar
