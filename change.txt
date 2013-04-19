@@ -1,0 +1,2 @@
+4/19/13 put navigation bar behind play area, so that DOM elements get events
+4/19/13 for multi-tab sims, show home screen as default behavior

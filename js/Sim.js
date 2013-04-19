@@ -32,7 +32,7 @@ define( function( require ) {
 
     //Default values are to show the home screen with the 1st module selected
     options = options || {};
-    var home = options.home || false;
+    var home = options.home || true;
 
     //If there is only one module, do not show the home screen
     if ( modules.length == 1 ) {
@@ -60,8 +60,9 @@ define( function( require ) {
     //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
     var playAreaContainer = new Node( {layerSplit: true} );
 
+    //TODO navigationBar must currently be behind play area or DOM elements will get no events
     //The modulesNode contains the playAreaContainer and the navigation bar
-    var modulesNode = new Node( {children: [playAreaContainer, navigationBar]} );
+    var modulesNode = new Node( {children: [navigationBar, playAreaContainer]} );
     this.scene.addChild( simNode );
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode 
