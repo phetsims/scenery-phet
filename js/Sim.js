@@ -12,18 +12,14 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Layout = require( 'SCENERY_PHET/Layout' );
 
-  //Default size to use, which will be scaled up and down isometrically
-  var HEIGHT = Layout.simHeight;
-  var WIDTH = Layout.simWidth;
-
   /**
    *
    * @param name
-   * @param tabs
+   * @param modules
    * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
    * @constructor
    */
-  function Sim( name, tabs, options ) {
+  function Sim( name, modules, options ) {
     var sim = this;
 
     //Set the HTML page title to the i18nized title
@@ -35,28 +31,27 @@ define( function( require ) {
     var home = options.home || false;
     var tab = options.tab || 0;
 
-    this.tabs = tabs;
-
-    Util.polyfillRequestAnimationFrame();
+    this.modules = modules;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
     this.appModel = new Fort.Model( {home: home, tab: tab} );
 
-    this.scene = new Scene( $( '.scene' ), {width: WIDTH, height: HEIGHT, allowDevicePixelRatioScaling: true} );
+    this.scene = new Scene( $( '.scene' ), {allowDevicePixelRatioScaling: true} );
     this.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     this.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
 
-    var homeScreen = new HomeScreen( name, tabs, this.appModel );
-    var navigationBar = new NavigationBar( tabs, this.appModel ).mutate( {top: Layout.height + 2} );//TODO: this padding amount is copied in NavigationBar 
+    var homeScreen = new HomeScreen( name, modules, this.appModel );
+    var navigationBar = new NavigationBar( modules, this.appModel );
 
     //The root contains the home screen or the tabNode
-    var root = new Node(); //root: homeScreen | tabNode
+    var root = new Node();
 
     //The tab container contains the tab itself, which will be swapped out based on which tab icon the user selected
-    var tabContainer = new Node();//tabContainer: sceneForTab
+    //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
+    var tabContainer = new Node( {layerSplit: true} );
 
     //The tabNode contains the tabContainer and the navigation bar
-    var tabNode = new Node( {children: [navigationBar, tabContainer]} );
+    var tabNode = new Node( {children: [tabContainer, navigationBar]} );
     this.scene.addChild( root );
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode 
@@ -68,31 +63,28 @@ define( function( require ) {
       var width = $( window ).width();
       var height = $( window ).height();
 
-      var scale = Math.min( width / WIDTH, height / HEIGHT );
-      sim.scene.resetTransform();
-      sim.scene.setScaleMagnitude( scale );
+      //scale up the tab bar according to the aspect ratio of the current tab (hopefully same throughout the sim!)
+      navigationBar.resetTransform();
+      var scale = sim.modules[sim.appModel.tab].view.getLayoutScale( width, height );
+      navigationBar.setScaleMagnitude( scale );
+      navigationBar.bottom = height;
+      navigationBar.centerX = width / 2;
 
-      //center vertically
-      if ( scale === width / WIDTH ) {
-        sim.scene.translate( 0, (height - HEIGHT * scale) / 2 / scale );
-      }
+      //Layout each of the tabs
+      _.each( modules, function( m ) { m.view.layout( width, height - navigationBar.height ); } );
 
-      //center horizontally
-      else if ( scale === height / HEIGHT ) {
-        sim.scene.translate( (width - WIDTH * scale) / 2 / scale, 0 );
-      }
-
-      //Redraw if necessary, in case the animation loop hasn't started yet
-      sim.scene.updateScene();
+      //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     }
 
-    //Instantiate the tabs
-    for ( var i = 0; i < tabs.length; i++ ) {
-      tabs[i].instance = tabs[i].create();
-    }
+    //Instantiate the modules
+    //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
+    _.each( modules, function( m ) {
+      m.model = m.createModel();
+      m.view = m.createView( m.model );
+    } );
 
     //When the user presses a different tab, show it on the screen
-    this.appModel.link( 'tab', function( tabIndex ) { tabContainer.children = [tabs[tabIndex].instance]; } );
+    this.appModel.link( 'tab', function( tabIndex ) { tabContainer.children = [modules[tabIndex].view]; } );
 
     //Fit to the window and render the initial scene
     $( window ).resize( resize );
@@ -102,6 +94,9 @@ define( function( require ) {
   Sim.prototype.start = function() {
     var sim = this;
 
+    //Make sure requestAnimationFrame is defined
+    Util.polyfillRequestAnimationFrame();
+
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
@@ -109,7 +104,8 @@ define( function( require ) {
 
       //Update the tab, but not if the user is on the home screen
       if ( !sim.appModel.home ) {
-        sim.tabs[sim.appModel.tab].instance.model.step();
+        var dt = 0.04;//TODO: put real time elapsed in seconds
+        sim.modules[sim.appModel.tab].model.step( dt );
       }
       sim.scene.updateScene();
     })();

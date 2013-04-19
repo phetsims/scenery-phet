@@ -26,6 +26,9 @@ define( function( require ) {
 
     var fontSize = 36;
 
+    var background = new Rectangle( -Layout.width, 0, Layout.width * 3, height, {fill: 'black'} );
+    this.addChild( background );
+
     //Create the text labels once because in this version of Scenery (4/18/2013) they are expensive to create because they must be accurately sized.
     this.textLabel = new Node();
     this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: height / 2, right: Layout.width - 5} );
