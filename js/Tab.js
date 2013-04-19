@@ -23,7 +23,9 @@ define( function( require ) {
       return Math.min( width / this.layoutWidth, height / this.layoutHeight );
     },
 
-    //Default layout function resizes the 
+    //Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
+    //and centers the content in the screen vertically and horizontally
+    //This function can be replaced by subclasses that wish to perform their own custom layout.
     layout: function( width, height ) {
       this.resetTransform();
 
