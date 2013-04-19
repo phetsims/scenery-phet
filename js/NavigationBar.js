@@ -12,6 +12,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var BoundsNode = require( 'SUN/BoundsNode' );
   var Layout = require( 'SCENERY_PHET/Layout' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -33,9 +34,9 @@ define( function( require ) {
 
     //Create the text labels once because in this version of Scenery (4/18/2013) they are expensive to create because they must be accurately sized.
     this.textLabel = new Node();
-    this.phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow', centerY: height / 2, right: Layout.width - 5} );
+    var phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow'} );
     this.addChild( this.textLabel );
-    this.addChild( this.phetLabel );
+    this.addChild( new HBox( {spacing: 10, children: [phetLabel, new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ), {cursor: 'pointer'} )]} ).mutate( {right: Layout.width - 5, centerY: height / 2} ) );
 
     //Create the nodes to be used for the tab icons
     var index = 0;
@@ -72,7 +73,7 @@ define( function( require ) {
     }
 
     //add the home icon
-    this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: height / 2} );
+    this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} ).mutate( {centerY: height / 2 } );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
