@@ -16,6 +16,7 @@ define( function( require ) {
   var Layout = require( 'SCENERY_PHET/Layout' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var SimPopupMenu = require( 'SCENERY_PHET/SimPopupMenu' );
 
   function NavigationBar( tabs, model ) {
     var navigationBar = this;
@@ -36,7 +37,16 @@ define( function( require ) {
     this.textLabel = new Node();
     var phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow'} );
     this.addChild( this.textLabel );
-    this.addChild( new HBox( {spacing: 10, children: [phetLabel, new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ), {cursor: 'pointer'} )]} ).mutate( {right: Layout.width - 5, centerY: height / 2} ) );
+    var optionsButton = new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ), {cursor: 'pointer'} );
+
+    optionsButton.addInputListener( {
+                                      // mousedown or touchstart (pointer pressed down over the node)
+                                      down: function( event ) {
+                                        navigationBar.parents[0].addChild( new SimPopupMenu( {top: 20, left: 20} ) );
+                                      }
+                                    } );
+
+    this.addChild( new HBox( {spacing: 10, children: [phetLabel, optionsButton]} ).mutate( {right: Layout.width - 5, centerY: height / 2} ) );
 
     //Create the nodes to be used for the tab icons
     var index = 0;
