@@ -64,11 +64,25 @@ define( function( require ) {
       var height = $( window ).height();
 
       //scale up the tab bar according to the aspect ratio of the current tab (hopefully same throughout the sim!)
+      //TODO: how to enforce consistent size for navigation bar and home screen?
       navigationBar.resetTransform();
       var scale = sim.modules[sim.appModel.tab].view.getLayoutScale( width, height );
       navigationBar.setScaleMagnitude( scale );
       navigationBar.bottom = height;
       navigationBar.centerX = width / 2;
+
+      homeScreen.resetTransform();
+      homeScreen.setScaleMagnitude( scale );
+
+      //center vertically
+      if ( scale >= width / Layout.width ) {
+        homeScreen.translate( 0, (height - Layout.simHeight * scale) / 2 / scale );
+      }
+
+      //center horizontally
+      else {
+        homeScreen.translate( (width - Layout.width * scale) / 2 / scale, 0 );
+      }
 
       //Layout each of the tabs
       _.each( modules, function( m ) { m.view.layout( width, height - navigationBar.height ); } );
