@@ -1,3 +1,8 @@
+/**
+ * Shows the home screen for a multi-tabbed simulation, which lets the user see all of the tabs and select one.
+ *
+ * @author Sam Reid
+ */
 define( function( require ) {
   "use strict";
 

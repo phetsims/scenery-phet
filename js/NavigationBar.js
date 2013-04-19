@@ -2,6 +2,8 @@
  * The tab navigation bar at the bottom of the screen.
  * For a single-tabbed sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
  * For a multi-tabbed sim, it shows icons for all of the other tabs, with the tab name at the left and the PhET Logo and options menu at the right.
+ *
+ * @author Sam Reid
  */
 define( function( require ) {
   "use strict";
@@ -58,15 +60,23 @@ define( function( require ) {
     } );
 
     //Add everything to the scene
-    for ( var i = 0; i < tabChildren.length; i++ ) {
-      this.addChild( tabChildren[i] );
-      this.addChild( tabChildren[i].largeTextLabel );
+
+    if ( tabs.length > 1 ) {
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        this.addChild( tabChildren[i] );
+        this.addChild( tabChildren[i].largeTextLabel );
+      }
+    }
+    else if ( tabs.length == 1 ) {
+      this.addChild( tabChildren[0].largeTextLabel );
     }
 
     //add the home icon
     this.homeIcon = new FontAwesomeNode( 'home', {cursor: 'pointer', fill: '#fff', centerY: height / 2} );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
-    this.addChild( this.homeIcon );
+    if ( tabs.length > 1 ) {
+      this.addChild( this.homeIcon );
+    }
 
     //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
     model.link( 'tab', function( tab ) {
@@ -97,16 +107,21 @@ define( function( require ) {
       width = width + spacing * (tabChildren.length - 1);
 
       //Lay out the components from left to right
-      var x = Layout.width / 2 - width / 2;
-      selectedChild.largeTextLabel.right = x - 25;
-      selectedChild.largeTextLabel.top = 0;
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
-        child.x = x;
-        child.y = verticalPadding;
-        x += child.width + spacing;
+      if ( tabs.length == 1 ) {
+        selectedChild.largeTextLabel.left = 15;
       }
-      navigationBar.homeIcon.left = x + 15;
+      else {
+        var x = Layout.width / 2 - width / 2;
+        selectedChild.largeTextLabel.right = x - 25;
+        selectedChild.largeTextLabel.top = 0;
+        for ( var i = 0; i < tabChildren.length; i++ ) {
+          var child = tabChildren[i];
+          child.x = x;
+          child.y = verticalPadding;
+          x += child.width + spacing;
+        }
+        navigationBar.homeIcon.left = x + 15;
+      }
     } );
   }
 

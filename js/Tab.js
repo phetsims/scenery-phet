@@ -1,6 +1,10 @@
-//The content for a tab of a simulation.
-//Specifies the layout strategy.
-//Simulations tab contents should extend this to be compatible with the Sim.js framework.
+/**
+ * The content for a tab of a simulation.
+ * Specifies the layout strategy.
+ * Simulations tab contents should extend this to be compatible with the Sim.js framework.
+ *
+ * @author Sam Reid
+ */
 define( function( require ) {
   'use strict';
 

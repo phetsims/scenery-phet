@@ -1,6 +1,10 @@
-//Main class that represents one simulation, including the tabs, home screen, play area, etc.
-//Provides default initialization, such as polyfills as well.
-//TODO: Handle simulations that have only one tab.  Perhaps just show the name at the left and the logo at the right, and omit home screen
+/**
+ * Main class that represents one simulation, including the tabs, home screen, play area, etc.
+ * Provides default initialization, such as polyfills as well.
+ * If the simulation has only one module, then there is no home screen, home icon or tab icon in the nav bar.
+ *
+ * @author Sam Reid
+ */
 define( function( require ) {
   'use strict';
 
@@ -29,6 +33,12 @@ define( function( require ) {
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
     var home = options.home || false;
+
+    //If there is only one module, do not show the home screen
+    if ( modules.length == 1 ) {
+      home = false;
+    }
+
     var tab = options.tab || 0;
 
     this.modules = modules;
