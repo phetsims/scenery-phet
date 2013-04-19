@@ -26,7 +26,7 @@ define( function( require ) {
   function Sim( name, modules, options ) {
     var sim = this;
 
-    //Set the HTML page title to the i18nized title
+    //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name );
 
