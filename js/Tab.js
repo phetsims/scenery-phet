@@ -17,7 +17,7 @@ define( function( require ) {
 
   inherit( Tab, Node, {
 
-    //Default to width and height for iPad3 running Safari with default tabs and decorations
+    //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
     //Simulations can change this to provide their own sizes or aspect ratios
     layoutWidth: 768,
     layoutHeight: 504,
