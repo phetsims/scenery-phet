@@ -40,11 +40,11 @@ define( function( require ) {
 
       //Tap once to select, a second time to start that tab
       child.addInputListener( { down: function() {
-        if ( model.tab === tab.index ) {
+        if ( model.moduleIndex === tab.index ) {
           model.home = false;
         }
         else {
-          model.tab = tab.index;
+          model.moduleIndex = tab.index;
         }
       }} );
       return child;
@@ -54,11 +54,11 @@ define( function( require ) {
       this.addChild( tabChildren[i] );
     }
 
-    model.link( 'tab', function( tab ) {
+    model.link( 'moduleIndex', function( moduleIndex ) {
       for ( var i = 0; i < tabChildren.length; i++ ) {
         var child = tabChildren[i];
         child.invalidateBounds();
-        var selected = tab === child.tab.index;
+        var selected = moduleIndex === child.tab.index;
         child.selected = selected;
         child.opacity = selected ? 1 : 0.5;
         child.resetTransform();

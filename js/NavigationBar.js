@@ -53,7 +53,7 @@ define( function( require ) {
 
       child.largeTextLabel = outline;
       child.addInputListener( { down: function() {
-        model.tab = tab.index;
+        model.moduleIndex = tab.index;
         model.home = false;
       }} );
       return child;
@@ -79,14 +79,14 @@ define( function( require ) {
     }
 
     //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
-    model.link( 'tab', function( tab ) {
+    model.link( 'moduleIndex', function( moduleIndex ) {
 
       //Update size and opacity of each icon
       var selectedChild = null;
       for ( var i = 0; i < tabChildren.length; i++ ) {
         var child = tabChildren[i];
         child.invalidateBounds();
-        var selected = tab === child.tab.index;
+        var selected = moduleIndex === child.tab.index;
         child.selected = selected;
         child.opacity = selected ? 1 : 0.5;
         child.resetTransform();

@@ -1,7 +1,7 @@
 /**
- * Main class that represents one simulation, including the tabs, home screen, play area, etc.
+ * Main class that represents one simulation, including the modules, home screen, play area, etc.
  * Provides default initialization, such as polyfills as well.
- * If the simulation has only one module, then there is no home screen, home icon or tab icon in the nav bar.
+ * If the simulation has only one module, then there is no home screen, home icon or module icon in the nav bar.
  *
  * @author Sam Reid
  */
@@ -20,7 +20,7 @@ define( function( require ) {
    *
    * @param name
    * @param modules
-   * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
+   * @param options optional parameters for starting module and home values, so that developers can easily specify the startup scenario for quick development
    * @constructor
    */
   function Sim( name, modules, options ) {
@@ -30,7 +30,7 @@ define( function( require ) {
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name );
 
-    //Default values are to show the home screen with the 1st tab selected
+    //Default values are to show the home screen with the 1st module selected
     options = options || {};
     var home = options.home || false;
 
@@ -39,33 +39,33 @@ define( function( require ) {
       home = false;
     }
 
-    var tab = options.tab || 0;
+    var moduleIndex = options.moduleIndex || 0;
 
     this.modules = modules;
 
-    //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    this.appModel = new Fort.Model( {home: home, tab: tab} );
+    //This model represents where the simulation is, whether it is on the home screen or a module, and which module it is on or is highlighted in the home screen
+    this.simModel = new Fort.Model( {home: home, moduleIndex: moduleIndex} );
 
     this.scene = new Scene( $( '.scene' ), {allowDevicePixelRatioScaling: true} );
     this.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     this.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
 
-    var homeScreen = new HomeScreen( name, modules, this.appModel );
-    var navigationBar = new NavigationBar( modules, this.appModel );
+    var homeScreen = new HomeScreen( name, modules, this.simModel );
+    var navigationBar = new NavigationBar( modules, this.simModel );
 
-    //The root contains the home screen or the tabNode
-    var root = new Node();
+    //The simNode contains the home screen or the play area
+    var simNode = new Node();
 
-    //The tab container contains the tab itself, which will be swapped out based on which tab icon the user selected
+    //The playAreaContainer contains the PlayArea itself, which will be swapped out based on which tab icon the user selected
     //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
-    var tabContainer = new Node( {layerSplit: true} );
+    var playAreaContainer = new Node( {layerSplit: true} );
 
-    //The tabNode contains the tabContainer and the navigation bar
-    var tabNode = new Node( {children: [tabContainer, navigationBar]} );
-    this.scene.addChild( root );
+    //The modulesNode contains the playAreaContainer and the navigation bar
+    var modulesNode = new Node( {children: [playAreaContainer, navigationBar]} );
+    this.scene.addChild( simNode );
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode 
-    this.appModel.link( 'home', function( home ) { root.children = [home ? homeScreen : tabNode];} );
+    this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : modulesNode];} );
 
     function resize() {
 
@@ -76,7 +76,7 @@ define( function( require ) {
       //scale up the tab bar according to the aspect ratio of the current tab (hopefully same throughout the sim!)
       //TODO: how to enforce consistent size for navigation bar and home screen?
       navigationBar.resetTransform();
-      var scale = sim.modules[sim.appModel.tab].view.getLayoutScale( width, height );
+      var scale = sim.modules[sim.simModel.moduleIndex].view.getLayoutScale( width, height );
       navigationBar.setScaleMagnitude( scale );
       navigationBar.bottom = height;
       navigationBar.centerX = width / 2;
@@ -94,7 +94,7 @@ define( function( require ) {
         homeScreen.translate( (width - Layout.width * scale) / 2 / scale, 0 );
       }
 
-      //Layout each of the tabs
+      //Layout each of the modules
       _.each( modules, function( m ) { m.view.layout( width, height - navigationBar.height ); } );
 
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
@@ -107,8 +107,8 @@ define( function( require ) {
       m.view = m.createView( m.model );
     } );
 
-    //When the user presses a different tab, show it on the screen
-    this.appModel.link( 'tab', function( tabIndex ) { tabContainer.children = [modules[tabIndex].view]; } );
+    //When the user selects a different module, show it on the screen
+    this.simModel.link( 'moduleIndex', function( moduleIndex ) { playAreaContainer.children = [modules[moduleIndex].view]; } );
 
     //Fit to the window and render the initial scene
     $( window ).resize( resize );
@@ -126,10 +126,10 @@ define( function( require ) {
     (function animationLoop() {
       requestAnimationFrame( animationLoop );
 
-      //Update the tab, but not if the user is on the home screen
-      if ( !sim.appModel.home ) {
+      //Update the active module, but not if the user is on the home screen
+      if ( !sim.simModel.home ) {
         var dt = 0.04;//TODO: put real time elapsed in seconds
-        sim.modules[sim.appModel.tab].model.step( dt );
+        sim.modules[sim.simModel.moduleIndex].model.step( dt );
       }
       sim.scene.updateScene();
     })();
