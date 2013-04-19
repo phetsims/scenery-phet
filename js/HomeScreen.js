@@ -6,6 +6,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Layout = require( 'SCENERY_PHET/Layout' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   var HEIGHT = 110;
 
@@ -13,6 +14,7 @@ define( function( require ) {
     var homeScreen = this;
     Node.call( this );
 
+    this.addChild( new Rectangle( -1000, -1000, 2000, 2000, {fill: 'black'} ) );
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     this.textLabel = new Text( title, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 140, centerX: 981 / 2} );
     this.phetLabel = new Text( "PhET", {fontSize: 36, fill: 'yellow', top: 5, left: 5} );
