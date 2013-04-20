@@ -39,10 +39,17 @@ define( function( require ) {
     this.addChild( this.textLabel );
     var optionsButton = new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ), {cursor: 'pointer'} );
 
+    //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
+    var simPopupMenu = new SimPopupMenu();
     optionsButton.addInputListener( {
                                       // mousedown or touchstart (pointer pressed down over the node)
                                       down: function( event ) {
-                                        navigationBar.parents[0].addChild( new SimPopupMenu( {top: 20, left: 20} ) );
+                                        var optionsButtonBounds = navigationBar.parents[0].globalToLocalBounds( optionsButton.globalBounds );
+
+                                        simPopupMenu.right = optionsButtonBounds.maxX;
+                                        simPopupMenu.bottom = optionsButtonBounds.minY;
+                                        console.log( "rb", simPopupMenu.right, simPopupMenu.bottom );
+                                        navigationBar.parents[0].addChild( simPopupMenu );
                                       }
                                     } );
 

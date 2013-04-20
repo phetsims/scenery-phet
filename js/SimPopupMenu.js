@@ -19,15 +19,14 @@ define( function( require ) {
   var Button = require( 'SUN/Button' );
   var PanelNode = require( 'SUN/PanelNode' );
 
-  var HEIGHT = 110;
-
   function SimPopupMenu( options ) {
     var simPopupMenu = this;
     Node.call( this );
 
-    var items = [new Text( 'PhET Homepage', {fontSize: '18px'} ),
-      new Text( 'Related Sims', {fontSize: '18px'} ),
-      new Text( 'About...', {fontSize: '18px'} )];
+    var fontSize = '36px';
+    var items = [new Text( 'PhET Homepage', {fontSize: fontSize} ),
+      new Text( 'Related Sims', {fontSize: fontSize} ),
+      new Text( 'About...', {fontSize: fontSize} )];
 
     //left align the items
 
@@ -38,14 +37,14 @@ define( function( require ) {
 
     var itemHeight = tallestItem.height;
 
-    var verticalSpacing = 5;
-    var padding = 5;
+    var verticalSpacing = 10;
+    var padding = 10;
     var bubbleWidth = widestItem.width + padding * 2;
     var bubbleHeight = itemHeight * items.length + padding * 2 + verticalSpacing * (items.length - 1);
 
     console.log( "th", bubbleHeight );
 
-    var bubble = new Rectangle( 0, 0, bubbleWidth, bubbleHeight, 6, 6, {fill: 'white', lineWidth: 1, stroke: 'black'} );
+    var bubble = new Rectangle( 0, 0, bubbleWidth, bubbleHeight, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
 
     var tail = new Shape();
     tail.moveTo( bubbleWidth - 20, bubbleHeight - 2 );
@@ -78,7 +77,9 @@ define( function( require ) {
     this.addInputListener( { down: function() {
       simPopupMenu.detach();
     } } );
-    this.mutate( options );
+    if ( options ) {
+      this.mutate( options );
+    }
   }
 
   inherit( SimPopupMenu, Node );
