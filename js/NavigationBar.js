@@ -45,10 +45,18 @@ define( function( require ) {
                                       // mousedown or touchstart (pointer pressed down over the node)
                                       down: function( event ) {
                                         var optionsButtonBounds = navigationBar.parents[0].boundsOf( optionsButton );
+                                        var overlay = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'gray', opacity: 0.5} );
+                                        var listener = { down: function() {
+                                          overlay.detach();
+                                          simPopupMenu.detach();
+                                        } };
+                                        overlay.addInputListener( listener );
+                                        simPopupMenu.addInputListener( listener );
 
                                         simPopupMenu.right = optionsButtonBounds.maxX;
                                         simPopupMenu.bottom = optionsButtonBounds.minY;
                                         console.log( "rb", simPopupMenu.right, simPopupMenu.bottom );
+                                        navigationBar.parents[0].addChild( overlay );
                                         navigationBar.parents[0].addChild( simPopupMenu );
                                       }
                                     } );
