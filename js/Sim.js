@@ -32,7 +32,7 @@ define( function( require ) {
 
     //Default values are to show the home screen with the 1st module selected
     options = options || {};
-    var home = options.home || true;  //home is a lousy name, maybe showHomeScreen?
+    var home = options.home || true;  //TODO home is a lousy name, maybe showHomeScreen?
 
     //If there is only one module, do not show the home screen
     if ( modules.length == 1 ) {
