@@ -116,6 +116,7 @@ define( function( require ) {
       m.view = m.createView( m.model );
     } );
 
+    //TODO this will fail if we start on the home screen, because moduleIndex should be undefined, add 'if (moduleIndex != undefined)' test
     //When the user selects a different module, show it on the screen
     this.simModel.link( 'moduleIndex', function( moduleIndex ) { playAreaContainer.children = [modules[moduleIndex].view]; } );
 
