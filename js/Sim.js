@@ -46,7 +46,14 @@ define( function( require ) {
     //This model represents where the simulation is, whether it is on the home screen or a module, and which module it is on or is highlighted in the home screen
     this.simModel = new Fort.Model( {home: home, moduleIndex: moduleIndex} );
 
-    this.scene = new Scene( $( '.scene' ), {allowDevicePixelRatioScaling: true} );
+    //Add a div for the scene to the DOM
+    var $sceneDiv = $( "<div>" );
+    $sceneDiv.attr( 'id', 'sim' );
+    $sceneDiv.css( "position: absolute;" );
+    $( 'body' ).append( $sceneDiv );
+
+    //Create the scene
+    this.scene = new Scene( $sceneDiv, {allowDevicePixelRatioScaling: true} );
     this.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     this.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
 

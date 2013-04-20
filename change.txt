@@ -1,2 +1,3 @@
+4/19/13 make Sim.js automatically create and style the div that it needs (appended to body, id="sim")
 4/19/13 put navigation bar behind play area, so that DOM elements get events
 4/19/13 for multi-tab sims, show home screen as default behavior
