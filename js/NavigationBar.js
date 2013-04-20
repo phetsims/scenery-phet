@@ -45,7 +45,7 @@ define( function( require ) {
                                       // mousedown or touchstart (pointer pressed down over the node)
                                       down: function( event ) {
                                         var optionsButtonBounds = navigationBar.parents[0].boundsOf( optionsButton );
-                                        var overlay = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'gray', opacity: 0.5} );
+                                        var overlay = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.5} );
                                         var listener = { down: function() {
                                           overlay.detach();
                                           simPopupMenu.detach();
