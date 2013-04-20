@@ -39,6 +39,7 @@ define( function( require ) {
       home = false;
     }
 
+    //TODO if home is truthy, then moduleIndex should be undefined, because no module has been selected yet.
     var moduleIndex = options.moduleIndex || 0;
 
     this.modules = modules;
