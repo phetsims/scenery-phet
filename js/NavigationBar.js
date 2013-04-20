@@ -44,7 +44,7 @@ define( function( require ) {
     optionsButton.addInputListener( {
                                       // mousedown or touchstart (pointer pressed down over the node)
                                       down: function( event ) {
-                                        var optionsButtonBounds = navigationBar.parents[0].globalToLocalBounds( optionsButton.globalBounds );
+                                        var optionsButtonBounds = navigationBar.parents[0].boundsOf( optionsButton );
 
                                         simPopupMenu.right = optionsButtonBounds.maxX;
                                         simPopupMenu.bottom = optionsButtonBounds.minY;
