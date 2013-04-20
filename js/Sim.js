@@ -73,7 +73,8 @@ define( function( require ) {
     var modulesNode = new Node( {children: [navigationBar, playAreaContainer]} );
     this.scene.addChild( simNode );
 
-    //When the user presses the home icon, then show the home screen, otherwise show the tabNode 
+    //When the user presses the home icon, then show the home screen, otherwise show the tabNode
+    //TODO if home is truthy, then set document.bgColor=homeScreen.backgroundColor
     this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : modulesNode];} );
 
     function resize() {
@@ -117,6 +118,7 @@ define( function( require ) {
     } );
 
     //TODO this will fail if we start on the home screen, because moduleIndex should be undefined, add 'if (moduleIndex != undefined)' test
+    //TODO set document.bgColor=modules[moduleIndex].backgroundColor (if undefined, default to 'white'?)
     //When the user selects a different module, show it on the screen
     this.simModel.link( 'moduleIndex', function( moduleIndex ) { playAreaContainer.children = [modules[moduleIndex].view]; } );
 
