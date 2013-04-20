@@ -62,17 +62,25 @@ define( function( require ) {
     this.addChild( new Path( {shape: tailOutline, stroke: 'black', lineWidth: 1} ) );
 
     var y = padding;
-    for ( var i = 0; i < items.length; i++ ) {
-      var item = items[i];
+    _.each( items, function( item ) {
       item.top = y;
       item.left = padding;
-      this.addChild( item );
+      var highlight = new Rectangle( 3, y - 5, bubbleWidth - 3, itemHeight + 10, 3, 3, {fill: '#a6d2f4', visible: false} );
+      simPopupMenu.addChild( highlight );
+      simPopupMenu.addChild( item );
 
-      if ( i === items.length - 2 ) {
-        this.addChild( new Path( {shape: Shape.lineSegment( 8, y + itemHeight + verticalSpacing / 2, bubbleWidth - 8, y + itemHeight + verticalSpacing / 2 ), stroke: 'gray', lineWidth: 1} ) );
+      item.cursor = 'pointer';
+      item.addInputListener( {enter: function() {
+        highlight.visible = true;
+      }, exit: function() {
+        highlight.visible = false;
+      }} );
+
+      if ( item === items[items.length - 2] ) {
+        simPopupMenu.addChild( new Path( {shape: Shape.lineSegment( 8, y + itemHeight + verticalSpacing / 2, bubbleWidth - 8, y + itemHeight + verticalSpacing / 2 ), stroke: 'gray', lineWidth: 1} ) );
       }
       y += itemHeight + verticalSpacing;
-    }
+    } );
 
     this.addInputListener( { down: function() {
       simPopupMenu.detach();
