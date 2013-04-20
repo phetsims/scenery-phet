@@ -50,7 +50,7 @@ define( function( require ) {
     //Add a div for the scene to the DOM
     var $sceneDiv = $( "<div>" );
     $sceneDiv.attr( 'id', 'sim' );
-    $sceneDiv.css( "position: absolute;" );
+    $sceneDiv.css( 'position', 'absolute' );
     $( 'body' ).append( $sceneDiv );
 
     //Create the scene
@@ -70,7 +70,8 @@ define( function( require ) {
 
     //TODO navigationBar must currently be behind play area or DOM elements will get no events
     //The modulesNode contains the playAreaContainer and the navigation bar
-    var modulesNode = new Node( {children: [navigationBar, playAreaContainer]} );
+    //Permit sims to put the navigation bar in the front with an option.  TODO: work on sims or framework to make this option unnecessary.
+    var modulesNode = new Node( {children: options.navigationBarInFront ? [playAreaContainer, navigationBar] : [navigationBar, playAreaContainer]} );
     this.scene.addChild( simNode );
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode
