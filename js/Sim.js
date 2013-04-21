@@ -118,7 +118,8 @@ define( function( require ) {
       m.view = m.createView( m.model );
     } );
 
-    //TODO this will fail if we start on the home screen, because moduleIndex should be undefined, add 'if (moduleIndex != undefined)' test
+    //CM: TODO this will fail if we start on the home screen, because moduleIndex should be undefined, add 'if (moduleIndex != undefined)' test
+    //SR: ModuleIndex should always be defined.  On startup moduleIndex=0 to highlight the 1st tab.  When moving from a module to the homescreen, the previous module should be highlighted
     //TODO set document.bgColor=modules[moduleIndex].backgroundColor (if undefined, default to 'white'?)
     //When the user selects a different module, show it on the screen
     this.simModel.link( 'moduleIndex', function( moduleIndex ) { playAreaContainer.children = [modules[moduleIndex].view]; } );
