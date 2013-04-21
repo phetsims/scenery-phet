@@ -15,6 +15,8 @@ define( function( require ) {
 
   function AboutDialog() {
     var aboutDialog = this;
+
+    //Use PlayArea to help center and scale content
     PlayArea.call( this );
 
     function text( string ) { return new Text( string, {fontSize: 24} ) }
@@ -31,6 +33,10 @@ define( function( require ) {
     function resize() {
       aboutDialog.layout( $( window ).width(), $( window ).height() );
     }
+
+    this.addInputListener( {down: function() {
+      aboutDialog.detach();
+    }} );
 
     //Fit to the window and render the initial scene
     $( window ).resize( resize );
