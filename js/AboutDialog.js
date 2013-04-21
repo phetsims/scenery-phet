@@ -7,20 +7,37 @@ define( function( require ) {
   "use strict";
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Layout = require( 'SCENERY_PHET/Layout' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var PlayArea = require( 'SCENERY_PHET/PlayArea' );
+  var PanelNode = require( 'SUN/PanelNode' );
 
   function AboutDialog() {
     var aboutDialog = this;
-    Node.call( this );
+    PlayArea.call( this );
 
-    this.addChild( new Rectangle( 0, 0, 400, 400, 10, 10, {fill: 'white', stroke: 'gray', lineWidth: 2, centerX: 400, centerY: 400} ) );
+    function text( string ) { return new Text( string, {fontSize: 24} ) }
+
+    var content = new VBox( {spacing: 10, children: [
+      text( 'About Forces and Motion: Basics' ),
+      text( 'PhET Interactive Simulations' ),
+      text( 'Copyright © 2004-2013 University of Colorado Boulder' ),
+      text( 'Version 0.0.0' )
+    ]} );
+
+    this.addChild( new PanelNode( content ).mutate( {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY} ) );
+
+    function resize() {
+      aboutDialog.layout( $( window ).width(), $( window ).height() );
+    }
+
+    //Fit to the window and render the initial scene
+    $( window ).resize( resize );
+    resize();
   }
 
-  inherit( AboutDialog, Node );
+  inherit( AboutDialog, PlayArea );
 
   return AboutDialog;
 } );

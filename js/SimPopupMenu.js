@@ -36,7 +36,7 @@ define( function( require ) {
     aboutText.addInputListener( {down: function() {
       var parent = simPopupMenu.parents[0];
       simPopupMenu.detach();
-      parent.addChild( aboutDialog );
+      parent.parents[0].parents[0].addChild( aboutDialog );
     }} );
     var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),
