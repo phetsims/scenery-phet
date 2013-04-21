@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Layout = require( 'SCENERY_PHET/Layout' );
+  var AboutDialog = require( 'SCENERY_PHET/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Button = require( 'SUN/Button' );
   var PanelNode = require( 'SUN/PanelNode' );
@@ -23,10 +24,23 @@ define( function( require ) {
     var simPopupMenu = this;
     Node.call( this );
 
+    //Create it statically (even though it may not be used) because creating it dynamically can cause flickering on iPad//TODO: Fix this
+    var aboutDialog = new AboutDialog();
+
     var fontSize = '36px';
-    var items = [new Text( 'PhET Homepage', {fontSize: fontSize} ),
+    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} );
+    homePageText.addInputListener( {down: function() {
+      window.location = "http://phet.colorado.edu";
+    }} );
+    var aboutText = new Text( 'About...', {fontSize: fontSize} );
+    aboutText.addInputListener( {down: function() {
+      var parent = simPopupMenu.parents[0];
+      simPopupMenu.detach();
+      parent.addChild( aboutDialog );
+    }} );
+    var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),
-      new Text( 'About...', {fontSize: fontSize} )];
+      aboutText];
 
     //left align the items
 
