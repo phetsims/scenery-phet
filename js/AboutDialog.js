@@ -8,6 +8,7 @@ define( function( require ) {
 
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayArea = require( 'SCENERY_PHET/PlayArea' );
@@ -28,6 +29,9 @@ define( function( require ) {
       text( 'Version 0.0.0' )
     ]} );
 
+    //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
+    var overlay = new Rectangle( this.layoutBounds.minX - this.layoutBounds.width * 3, this.layoutBounds.minY - this.layoutBounds.height * 3, this.layoutBounds.width * 7, this.layoutBounds.height * 7, {fill: 'black', opacity: 0.5} );
+    this.addChild( overlay );
     this.addChild( new PanelNode( content ).mutate( {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY} ) );
 
     function resize() {
