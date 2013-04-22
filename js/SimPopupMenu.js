@@ -47,7 +47,7 @@ define( function( require ) {
     //Compute bounds
     var widestItem = _.max( items, function( item ) {return item.width;} );
     var tallestItem = _.max( items, function( item ) {return item.height;} );
-    console.log( widestItem.width );
+    console.log( "SimPopMenu widestItem.width=" + widestItem.width );//TODO delete me
 
     var itemHeight = tallestItem.height;
 
@@ -56,7 +56,7 @@ define( function( require ) {
     var bubbleWidth = widestItem.width + padding * 2;
     var bubbleHeight = itemHeight * items.length + padding * 2 + verticalSpacing * (items.length - 1);
 
-    console.log( "th", bubbleHeight );
+    console.log( "SimPopMenu bubbleHeight=", bubbleHeight );//TODO delete me
 
     var bubble = new Rectangle( 0, 0, bubbleWidth, bubbleHeight, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
 
