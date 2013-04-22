@@ -1,7 +1,7 @@
 /**
- * The content for a tab of a simulation.
+ * The content for a module of a simulation.
  * Specifies the layout strategy.
- * Simulations tab contents should extend this to be compatible with the Sim.js framework.
+ * Simulation module contents should extend this to be compatible with the Sim.js framework.
  *
  * @author Sam Reid
  */
@@ -23,7 +23,7 @@ define( function( require ) {
     //TODO: the code that uses these bounds needs to account for the minX and minY values if they are overriden in subclasses
     layoutBounds: new Bounds2( 0, 0, 768, 504 ),
 
-    //Get the scale to use for laying out the sim components and the tab navigation bar, so its size will track with the sim size
+    //Get the scale to use for laying out the sim components and the navigation bar, so its size will track with the sim size
     getLayoutScale: function( width, height ) {
       return Math.min( width / this.layoutBounds.width, height / this.layoutBounds.height );
     },

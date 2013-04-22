@@ -64,7 +64,7 @@ define( function( require ) {
     //The simNode contains the home screen or the play area
     var simNode = new Node();
 
-    //The playAreaContainer contains the PlayArea itself, which will be swapped out based on which tab icon the user selected
+    //The playAreaContainer contains the PlayArea itself, which will be swapped out based on which icon the user selected in the navigation bar.
     //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
     var playAreaContainer = new Node( {layerSplit: true} );
 
@@ -74,7 +74,7 @@ define( function( require ) {
     var modulesNode = new Node( {children: options.navigationBarInFront ? [playAreaContainer, navigationBar] : [navigationBar, playAreaContainer]} );
     this.scene.addChild( simNode );
 
-    //When the user presses the home icon, then show the home screen, otherwise show the tabNode
+    //When the user presses the home icon, then show the home screen, otherwise show the moduleNode.
     //TODO if home is truthy, then set document.bgColor=homeScreen.backgroundColor
     this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : modulesNode];} );
 
@@ -84,7 +84,7 @@ define( function( require ) {
       var width = $( window ).width();
       var height = $( window ).height();
 
-      //scale up the tab bar according to the aspect ratio of the current tab (hopefully same throughout the sim!)
+      //scale up the navigation bar according to the aspect ratio of the current module (hopefully same throughout the sim!)
       //TODO: how to enforce consistent size for navigation bar and home screen?
       navigationBar.resetTransform();
       var scale = sim.modules[sim.simModel.moduleIndex].view.getLayoutScale( width, height );
@@ -119,7 +119,8 @@ define( function( require ) {
     } );
 
     //CM: TODO this will fail if we start on the home screen, because moduleIndex should be undefined, add 'if (moduleIndex != undefined)' test
-    //SR: ModuleIndex should always be defined.  On startup moduleIndex=0 to highlight the 1st tab.  When moving from a module to the homescreen, the previous module should be highlighted
+    //SR: ModuleIndex should always be defined.  On startup moduleIndex=0 to highlight the 1st module.
+    //    When moving from a module to the homescreen, the previous module should be highlighted
     //TODO set document.bgColor=modules[moduleIndex].backgroundColor (if undefined, default to 'white'?)
     //When the user selects a different module, show it on the screen
     this.simModel.link( 'moduleIndex', function( moduleIndex ) { playAreaContainer.children = [modules[moduleIndex].view]; } );
