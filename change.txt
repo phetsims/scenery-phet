@@ -1,3 +1,4 @@
+4/22/13 terminology change: module -> tab
 4/22/13 standardized terminology on "module" and "play area"
 4/19/13 make Sim.js automatically create and style the div that it needs (appended to body, id="sim")
 4/19/13 put navigation bar behind play area, so that DOM elements get events

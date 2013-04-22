@@ -131,7 +131,7 @@ define( function( require ) {
   }
 
   Sim.prototype.start = function() {
-    var thisSim = this;
+    var sim = this;
 
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
@@ -142,11 +142,11 @@ define( function( require ) {
       requestAnimationFrame( animationLoop );
 
       //Update the active tab, but not if the user is on the home screen
-      if ( !thisSim.simModel.home ) {
+      if ( !sim.simModel.home ) {
         var dt = 0.04;//TODO: put real time elapsed in seconds
-        thisSim.tabs[thisSim.simModel.tabIndex].model.step( dt );
+        sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
-      thisSim.scene.updateScene();
+      sim.scene.updateScene();
     })();
   };
 

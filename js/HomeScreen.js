@@ -1,5 +1,5 @@
 /**
- * Shows the home screen for a multi-module simulation, which lets the user see all of the modules and select one.
+ * Shows the home screen for a multi-tab simulation, which lets the user see all of the tabs and select one.
  *
  * @author Sam Reid
  */
@@ -15,7 +15,7 @@ define( function( require ) {
 
   var HEIGHT = 110;
 
-  function HomeScreen( title, modules, model ) {
+  function HomeScreen( title, tabs, model ) {
     var homeScreen = this;
     Node.call( this );
 
@@ -28,56 +28,56 @@ define( function( require ) {
     this.addChild( this.phetLabel );
 
     var index = 0;
-    var moduleChildren = _.map( modules, function( theModule ) {
-      theModule.index = index++;
-      var child = new Node( {children: [theModule.icon]} );
-      child.smallTextLabel = new Text( theModule.name, {fontSize: 36, fill: 'gray'} );
-      child.largeTextLabel = new Text( theModule.name, {fontSize: 52, fill: 'yellow'} );
+    var tabChildren = _.map( tabs, function( tab ) {
+      tab.index = index++;
+      var child = new Node( {children: [tab.icon]} );
+      child.smallTextLabel = new Text( tab.name, {fontSize: 36, fill: 'gray'} );
+      child.largeTextLabel = new Text( tab.name, {fontSize: 52, fill: 'yellow'} );
       homeScreen.addChild( child.smallTextLabel );
       homeScreen.addChild( child.largeTextLabel );
-      child.scale( HEIGHT / theModule.icon.height );
+      child.scale( HEIGHT / tab.icon.height );
       child.cursor = 'pointer';
-      child.theModule = theModule;
+      child.tab = tab;
 
-      //Tap once to select, a second time to start that module
+      //Tap once to select, a second time to start that tab
       child.addInputListener( { down: function() {
-        if ( model.tabIndex === theModule.index ) {
+        if ( model.tabIndex === tab.index ) {
           model.home = false;
         }
         else {
-          model.tabIndex = theModule.index;
+          model.tabIndex = tab.index;
         }
       }} );
       return child;
     } );
 
-    for ( var i = 0; i < moduleChildren.length; i++ ) {
-      this.addChild( moduleChildren[i] );
+    for ( var i = 0; i < tabChildren.length; i++ ) {
+      this.addChild( tabChildren[i] );
     }
 
-    model.link( 'tabIndex', function( moduleIndex ) {
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        var child = moduleChildren[i];
+    model.link( 'tabIndex', function( tabIndex ) {
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
         child.invalidateBounds();
-        var selected = moduleIndex === child.theModule.index;
+        var selected = tabIndex === child.tab.index;
         child.selected = selected;
         child.opacity = selected ? 1 : 0.5;
         child.resetTransform();
-        child.scale( selected ? HEIGHT / child.theModule.icon.height * 2 : HEIGHT / child.theModule.icon.height );
+        child.scale( selected ? HEIGHT / child.tab.icon.height * 2 : HEIGHT / child.tab.icon.height );
       }
 
       var width = 0;
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        var child = moduleChildren[i];
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
         width = width + child.width;
       }
       var spacing = 41 / 1.25;
-      width = width + spacing * (moduleChildren.length - 1);
+      width = width + spacing * (tabChildren.length - 1);
 
       var x = Layout.width / 2 - width / 2;
 
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        var child = moduleChildren[i];
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
         child.x = x;
         child.y = Layout.height / 2 - 111 / 1.25;
         x += child.width + spacing;

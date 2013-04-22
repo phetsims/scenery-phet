@@ -1,7 +1,7 @@
 /**
- * The content for a module of a simulation.
+ * The view portion of a tab.
  * Specifies the layout strategy.
- * Simulation module contents should extend this to be compatible with the Sim.js framework.
+ * TODO: should extend this to be compatible with the Sim.js framework.
  *
  * @author Sam Reid
  */

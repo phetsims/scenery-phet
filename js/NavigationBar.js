@@ -1,7 +1,7 @@
 /**
  * The navigation bar at the bottom of the screen.
- * For a single-module sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
- * For a multi-module sim, it shows icons for all of the other modules, with the module name at the left and the PhET Logo and options menu at the right.
+ * For a single-tab sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
+ * For a multi-tab sim, it shows icons for all of the other tabs, with the tab name at the left and the PhET Logo and options menu at the right.
  *
  * @author Sam Reid
  */
@@ -18,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var SimPopupMenu = require( 'SCENERY_PHET/SimPopupMenu' );
 
-  function NavigationBar( modules, model ) {
+  function NavigationBar( tabs, model ) {
     var navigationBar = this;
     Node.call( this );
 
@@ -63,15 +63,15 @@ define( function( require ) {
 
     this.addChild( new HBox( {spacing: 10, children: [phetLabel, optionsButton]} ).mutate( {right: Layout.width - 5, centerY: height / 2} ) );
 
-    //Create the nodes to be used for the module icons
+    //Create the nodes to be used for the tab icons
     var index = 0;
-    var moduleChildren = _.map( modules, function( theModule ) {
-      theModule.index = index++;
-      var child = new Node( {children: [theModule.icon], cursor: 'pointer'} );
-      child.theModule = theModule;
-      child.scale( (height - verticalPadding * 2) / child.theModule.icon.height );
+    var tabChildren = _.map( tabs, function( tab ) {
+      tab.index = index++;
+      var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
+      child.tab = tab;
+      child.scale( (height - verticalPadding * 2) / child.tab.icon.height );
 
-      var textLabel = new Text( theModule.name, {fontSize: 32, fill: 'black'} );
+      var textLabel = new Text( tab.name, {fontSize: 32, fill: 'black'} );
       var outline = new Rectangle( 0, 0, textLabel.width + 10, textLabel.height + 10, 10, 10, {fill: 'white'} );
       textLabel.centerX = outline.width / 2;
       textLabel.centerY = outline.height / 2;
@@ -79,7 +79,7 @@ define( function( require ) {
 
       child.largeTextLabel = outline;
       child.addInputListener( { down: function() {
-        model.tabIndex = theModule.index;
+        model.tabIndex = tab.index;
         model.home = false;
       }} );
       return child;
@@ -87,36 +87,36 @@ define( function( require ) {
 
     //Add everything to the scene
 
-    if ( modules.length > 1 ) {
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        this.addChild( moduleChildren[i] );
-        this.addChild( moduleChildren[i].largeTextLabel );
+    if ( tabs.length > 1 ) {
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        this.addChild( tabChildren[i] );
+        this.addChild( tabChildren[i].largeTextLabel );
       }
     }
-    else if ( modules.length == 1 ) {
-      this.addChild( moduleChildren[0].largeTextLabel );
+    else if ( tabs.length == 1 ) {
+      this.addChild( tabChildren[0].largeTextLabel );
     }
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} ).mutate( {centerY: height / 2 } );
     this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
-    if ( modules.length > 1 ) {
+    if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
 
-    //On initialization and when the module changes, update the size of the icons and the layout of the icons and text
-    model.link( 'tabIndex', function( moduleIndex ) {
+    //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
+    model.link( 'tabIndex', function( tabIndex ) {
 
       //Update size and opacity of each icon
       var selectedChild = null;
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        var child = moduleChildren[i];
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
         child.invalidateBounds();
-        var selected = moduleIndex === child.theModule.index;
+        var selected = tabIndex === child.tab.index;
         child.selected = selected;
         child.opacity = selected ? 1 : 0.5;
         child.resetTransform();
-        child.scale( selected ? (height - verticalPadding * 2) / child.theModule.icon.height : (height - verticalPadding * 2) / child.theModule.icon.height * 0.75 );
+        child.scale( selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75 );
         child.largeTextLabel.visible = selected;
         if ( selected ) {
           selectedChild = child;
@@ -125,23 +125,23 @@ define( function( require ) {
 
       //Compute layout bounds
       var width = 0;
-      for ( var i = 0; i < moduleChildren.length; i++ ) {
-        var child = moduleChildren[i];
+      for ( var i = 0; i < tabChildren.length; i++ ) {
+        var child = tabChildren[i];
         width = width + child.width;
       }
       var spacing = 10;
-      width = width + spacing * (moduleChildren.length - 1);
+      width = width + spacing * (tabChildren.length - 1);
 
       //Lay out the components from left to right
-      if ( modules.length == 1 ) {
+      if ( tabs.length == 1 ) {
         selectedChild.largeTextLabel.left = 15;
       }
       else {
         var x = Layout.width / 2 - width / 2;
         selectedChild.largeTextLabel.right = x - 25;
         selectedChild.largeTextLabel.top = 0;
-        for ( var i = 0; i < moduleChildren.length; i++ ) {
-          var child = moduleChildren[i];
+        for ( var i = 0; i < tabChildren.length; i++ ) {
+          var child = tabChildren[i];
           child.x = x;
           child.y = verticalPadding;
           x += child.width + spacing;
