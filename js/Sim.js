@@ -39,13 +39,10 @@ define( function( require ) {
       home = false;
     }
 
-    //TODO if home is truthy, then tabIndex should be undefined, because no tab has been selected yet.
-    var tabIndex = options.tabIndex || 0;
-
     this.tabs = tabs;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    this.simModel = new Fort.Model( {home: home, tabIndex: tabIndex} );
+    this.simModel = new Fort.Model( {home: home, tabIndex: options.tabIndex || 0 } );
 
     //Add a div for the scene to the DOM
     var $sceneDiv = $( "<div>" );
@@ -75,7 +72,6 @@ define( function( require ) {
     this.scene.addChild( simNode );
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
-    //TODO if home is truthy, then set document.bgColor=homeScreen.backgroundColor
     this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : tabNode];} );
 
     function resize() {
