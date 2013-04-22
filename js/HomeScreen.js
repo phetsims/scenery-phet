@@ -41,11 +41,11 @@ define( function( require ) {
 
       //Tap once to select, a second time to start that module
       child.addInputListener( { down: function() {
-        if ( model.moduleIndex === theModule.index ) {
+        if ( model.tabIndex === theModule.index ) {
           model.home = false;
         }
         else {
-          model.moduleIndex = theModule.index;
+          model.tabIndex = theModule.index;
         }
       }} );
       return child;
@@ -55,7 +55,7 @@ define( function( require ) {
       this.addChild( moduleChildren[i] );
     }
 
-    model.link( 'moduleIndex', function( moduleIndex ) {
+    model.link( 'tabIndex', function( moduleIndex ) {
       for ( var i = 0; i < moduleChildren.length; i++ ) {
         var child = moduleChildren[i];
         child.invalidateBounds();

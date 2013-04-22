@@ -79,7 +79,7 @@ define( function( require ) {
 
       child.largeTextLabel = outline;
       child.addInputListener( { down: function() {
-        model.moduleIndex = theModule.index;
+        model.tabIndex = theModule.index;
         model.home = false;
       }} );
       return child;
@@ -105,7 +105,7 @@ define( function( require ) {
     }
 
     //On initialization and when the module changes, update the size of the icons and the layout of the icons and text
-    model.link( 'moduleIndex', function( moduleIndex ) {
+    model.link( 'tabIndex', function( moduleIndex ) {
 
       //Update size and opacity of each icon
       var selectedChild = null;
