@@ -11,9 +11,9 @@ define( function ( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  function ResetAllButton( callback ) {
+  function ResetAllButton( callback, options ) {
     Button.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
-                 { fill: '#f99d1c', xMargin: 8, yMargin: 8 } );
+      _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8 }, options || {} ) );
   }
 
   inherit( ResetAllButton, Button );

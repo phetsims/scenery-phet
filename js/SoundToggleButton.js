@@ -12,12 +12,12 @@ define( function ( require ) {
   var ToggleButton = require( 'SUN/ToggleButton' );
   var ToggleNode = require( 'SUN/ToggleNode' );
 
-  function SoundToggleButton( property ) {
+  function SoundToggleButton( property, options ) {
     ToggleButton.call( this,
                        new ToggleNode( new FontAwesomeNode( 'volume_off' ),
                                        new FontAwesomeNode( 'volume_up' ),
                                        property ),
-                       property );
+                       property, options );
   }
 
   inherit( SoundToggleButton, ToggleButton );
