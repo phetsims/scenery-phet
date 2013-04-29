@@ -5,6 +5,7 @@
  * @author Sam Reid
  */
 define( function ( require ) {
+  'use strict';
 
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
