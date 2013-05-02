@@ -19,7 +19,7 @@ define( function ( require ) {
   var Text = require( "SCENERY/nodes/Text" );
 
   /**
-   * @param {number} width
+   * @param {number} width  distance between left-most and right-most tick, insets will be added to this
    * @param {number} height
    * @param {Array<String>} majorTickLabels
    * @param {String} units
@@ -62,14 +62,13 @@ define( function ( require ) {
     Node.call( thisNode, options );
 
     // background
-    var backgroundNode = new Rectangle( 0, 0, width, height,
+    var backgroundNode = new Rectangle( 0, 0, width + ( 2 * options.insetsWidth ), height,
                                         { fill: options.backgroundFill,
                                           stroke: options.backgroundStroke,
                                           lineWidth: options.backgroundLineWidth } )
     thisNode.addChild( backgroundNode );
 
-    var distanceBetweenFirstAndLastTick = width - ( 2 * options.insetsWidth );
-    var distBetweenMajorReadings = distanceBetweenFirstAndLastTick / ( majorTickLabels.length - 1 );
+    var distBetweenMajorReadings = width / ( majorTickLabels.length - 1 );
     var distBetweenMinor = distBetweenMajorReadings / ( options.minorTicksPerMajorTick + 1 );
 
     // Lay out tick marks from left to right
