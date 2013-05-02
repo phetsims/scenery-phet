@@ -2,7 +2,7 @@
 
 /**
  * Visual representation of a ruler.
- * Lots of options, see default option in constructor.
+ * Lots of options, see default options in constructor.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
