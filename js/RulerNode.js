@@ -65,7 +65,7 @@ define( function ( require ) {
     var backgroundNode = new Rectangle( 0, 0, width + ( 2 * options.insetsWidth ), height,
                                         { fill: options.backgroundFill,
                                           stroke: options.backgroundStroke,
-                                          lineWidth: options.backgroundLineWidth } )
+                                          lineWidth: options.backgroundLineWidth } );
     thisNode.addChild( backgroundNode );
 
     var distBetweenMajorReadings = width / ( majorTickLabels.length - 1 );
@@ -84,7 +84,7 @@ define( function ( require ) {
       majorTickLabelNode.centerY = backgroundNode.centerY;
 
       // Only add the major tick label if the insetsWidth is nonzero, or if it is not an end label
-      if ( options.insetsWidth != 0 || ( i != 0 && i != majorTickLabels.length - 1 ) ) {
+      if ( options.insetsWidth !== 0 || ( i !== 0 && i !== majorTickLabels.length - 1 ) ) {
         thisNode.addChild( majorTickLabelNode );
       }
 
