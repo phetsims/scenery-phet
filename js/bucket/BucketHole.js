@@ -4,6 +4,7 @@
  * The hole of a bucket
  */
 define( function ( require ) {
+  'use strict';
 
   var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
   var Node = require( 'SCENERY/nodes/Node' );

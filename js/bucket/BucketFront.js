@@ -4,6 +4,7 @@
  * The front of a bucket (does not include the hole)
  */
 define( function( require ) {
+  'use strict';
   
   var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
   var Node = require( 'SCENERY/nodes/Node' );
