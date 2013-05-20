@@ -4,7 +4,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
 
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );

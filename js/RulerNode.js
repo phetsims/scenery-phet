@@ -6,7 +6,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
 
   // imports
@@ -30,28 +30,28 @@ define( function ( require ) {
 
     // default options
     options = _.extend(
-      {
-        // body of the ruler
-        backgroundFill: "rgb(236, 225, 113)",
-        backgroundStroke: "black",
-        backgroundLineWidth: 1,
-        insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
-        // major tick options
-        majorTickFont: "18px Arial",
-        majorTickHeight: ( 0.4 * height ) / 2,
-        majorTickStroke: "black",
-        majorTickLineWidth: 1,
-        // minor tick options
-        minorTickFont: "18px Arial",
-        minorTickHeight: ( 0.2 * height ) / 2,
-        minorTickStroke: "black",
-        minorTickLineWidth: 1,
-        minorTicksPerMajorTick: 0,
-        // units options
-        unitsFont: "18px Arial",
-        unitsMajorTickIndex: 0, // units will be place to the right of this major tick
-        unitsSpacing: 3 // horizontal space between the tick label and the units
-      }, options );
+        {
+          // body of the ruler
+          backgroundFill: "rgb(236, 225, 113)",
+          backgroundStroke: "black",
+          backgroundLineWidth: 1,
+          insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
+          // major tick options
+          majorTickFont: "18px Arial",
+          majorTickHeight: ( 0.4 * height ) / 2,
+          majorTickStroke: "black",
+          majorTickLineWidth: 1,
+          // minor tick options
+          minorTickFont: "18px Arial",
+          minorTickHeight: ( 0.2 * height ) / 2,
+          minorTickStroke: "black",
+          minorTickLineWidth: 1,
+          minorTicksPerMajorTick: 0,
+          // units options
+          unitsFont: "18px Arial",
+          unitsMajorTickIndex: 0, // units will be place to the right of this major tick
+          unitsSpacing: 3 // horizontal space between the tick label and the units
+        }, options );
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.unitsMajorTickIndex < majorTickLabels.length );
@@ -124,7 +124,7 @@ define( function ( require ) {
    * @param {number} lineWidth
    * @return {Node}
    */
-  RulerNode.prototype.createTickMarkNode = function ( x, rulerHeight, tickHeight, stroke, lineWidth ) {
+  RulerNode.prototype.createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
     var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
     return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape } );
   };
