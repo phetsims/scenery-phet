@@ -16,7 +16,7 @@ define( function( require ) {
                  _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8 }, options || {} ) );
   }
 
-  inherit( ResetAllButton, Button );
+  inherit( Button, ResetAllButton );
 
   return ResetAllButton;
 } );

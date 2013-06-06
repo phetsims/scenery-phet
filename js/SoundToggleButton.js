@@ -20,7 +20,7 @@ define( function( require ) {
                        property, options );
   }
 
-  inherit( SoundToggleButton, ToggleButton );
+  inherit( ToggleButton, SoundToggleButton );
 
   return SoundToggleButton;
 } );

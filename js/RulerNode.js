@@ -110,7 +110,7 @@ define( function( require ) {
     }
   }
 
-  inherit( RulerNode, Node );
+  inherit( Node, RulerNode );
 
   /**
    * Creates a tick mark at a specific x location.
