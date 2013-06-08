@@ -11,12 +11,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   // imports
-  var ButtonListener = require( "SCENERY/input/ButtonListener" );
-  var inherit = require( "PHET_CORE/inherit" );
-  var Property = require( "AXON/Property" );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * @param {Color|String} normalFill
