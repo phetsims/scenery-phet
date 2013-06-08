@@ -24,7 +24,7 @@ define( function( require ) {
    * @param {Property<Boolean>} enabled
    * @constructor
    */
-  function FillHighlighter( normalFill, highlightFill, enabled ) {
+  function FillHighlightListener( normalFill, highlightFill, enabled ) {
 
     enabled = _.isUndefined( enabled ) ? new Property( true ) : enabled;
 
@@ -44,7 +44,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( ButtonListener, FillHighlighter );
+  inherit( ButtonListener, FillHighlightListener );
 
-  return FillHighlighter;
+  return FillHighlightListener;
 } );
