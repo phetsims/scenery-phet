@@ -25,7 +25,7 @@ define( function( require ) {
 
     HighlightListener.call( this, function( node, highlighted ) {
       if ( enabled.value ) {
-        node.fill = highlighted ? highlightFill : normalFill
+        node.fill = highlighted ? highlightFill : normalFill;
       }
     } );
   }
