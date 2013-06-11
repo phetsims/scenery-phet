@@ -6,14 +6,14 @@
 define( function ( require ) {
   'use strict';
 
-  var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
 
-  var BucketHole = function ( bucket, mvt ) {
+  var BucketHole = function BucketHole( bucket, mvt ) {
     Node.call( this );
 
     // TODO: scaleOnlyTransform is kind of weird, discuss with rest of team.
@@ -34,7 +34,7 @@ define( function ( require ) {
     this.translation = mvt.modelToViewPosition( bucket.position );
   };
 
-  Inheritance.inheritPrototype( BucketHole, Node );
+  inherit( Node, BucketHole );
 
   return BucketHole;
 } );
