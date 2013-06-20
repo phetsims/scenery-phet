@@ -22,15 +22,15 @@ define( function( require ) {
 
   function MultiLineText( text, options ) {
 
-    this._options = options = _.extend( {
+    var thisNode = this;
+
+    thisNode._options = options = _.extend( {
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
 
-    Node.call( this );
-
-    this.text = text;
-
-    this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
+    Node.call( thisNode );
+    thisNode.text = text;
+    thisNode.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
   inherit( Node, MultiLineText, {
@@ -39,8 +39,8 @@ define( function( require ) {
       },
       set text( text ) {
         var thisNode = this;
-        this._text = text;
-        this.children = [ new VBox( {
+        thisNode._text = text;
+        thisNode.children = [ new VBox( {
           children: text.split( '\n' ).map( function( line ) {
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
