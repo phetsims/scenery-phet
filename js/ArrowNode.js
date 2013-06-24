@@ -16,20 +16,16 @@ define( function( require ) {
   var Rectangle = require( "SCENERY/nodes/Rectangle" );
 
   /**
-   * @param {Vector2} tailLocation
-   * @param {Vector2} tipLocation
+   * @param {number} tailX
+   * @param {number} tailY
+   * @param {number} tipX
+   * @param {number} tipY
    * @param {number} headHeight
    * @param {number} headWidth
    * @param {number} tailWidth
    * @constructor
    */
-  function ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth, options ) {
-
-    this.tailLocation = tailLocation;
-    this.tipLocation = tipLocation;
-    this.headHeight = headHeight;
-    this.headWidth = headWidth;
-    this.tailWidth = tailWidth;
+  function ArrowNode( tailX, tailY, tipX, tipY, headHeight, headWidth, tailWidth, options ) {
 
     // default options
     options = _.extend(
@@ -45,17 +41,8 @@ define( function( require ) {
     // Call super constructor.
     Node.call( this, options );
 
-    this.path = new Path( options );
-    this.addChild( this.path );
-    this.updateShape();
-  }
-
-  inherit( Node, ArrowNode, {
-    updateShape: function(){
-      this.path.shape = this._createArrowShape( this.tailLocation.x, this.tailLocation.y, this.tipLocation.x, this.tipLocation.y, this.tailWidth, this.headWidth, this.headHeight );
-      this.addChild( this.path );
-    },
-    _createArrowShape: function ( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight ) {   //All parameters are Number
+    // Function for creating arrow shape.  All parameters are of type number.
+    var createArrowShape = function( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight ) {
       var arrowShape = new Shape();
       if ( tipX === tailX && tipY === tailY ) {
         return arrowShape;
@@ -94,7 +81,13 @@ define( function( require ) {
 
       return arrowShape;
     }
-  } );
+
+    this.path = new Path( options );
+    this.path.shape = createArrowShape( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight );
+    this.addChild( this.path );
+  }
+
+  inherit( Node, ArrowNode );
 
   return ArrowNode;
 } );
