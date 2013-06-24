@@ -1,5 +1,6 @@
 // Copyright 2013, University of Colorado
 
+//TODO does not support consecutive line breaks, eg "Hello\n\nWorld"
 /**
  * MultiLine plain text, with alignment.
  * The line break character is '\n'.
