@@ -6,7 +6,7 @@
 define( function( require ) {
   'use strict';
 
-  // imports
+  // Imports
   var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var inherit = require( "PHET_CORE/inherit" );
   var Node = require( "SCENERY/nodes/Node" );
