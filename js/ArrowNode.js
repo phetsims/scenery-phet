@@ -80,7 +80,7 @@ define( function( require ) {
       arrowShape.close();
 
       return arrowShape;
-    }
+    };
 
     this.path = new Path( options );
     this.path.shape = createArrowShape( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight );
