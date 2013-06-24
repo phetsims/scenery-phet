@@ -19,16 +19,16 @@ define( function( require ) {
   /**
    * @param {Vector2} tailLocation
    * @param {Vector2} tipLocation
-   * @param {number} headWeight
+   * @param {number} headHeight
    * @param {number} headWidth
    * @param {number} tailWidth
    * @constructor
    */
-  function ArrowNode( tailLocation, tipLocation, headWeight, headWidth, tailWidth, options ) {
+  function ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth, options ) {
 
     this.tailLocation = tailLocation;
     this.tipLocation = tipLocation;
-    this.headWeight = headWeight;
+    this.headHeight = headHeight;
     this.headWidth = headWidth;
     this.tailWidth = tailWidth;
 
@@ -60,8 +60,47 @@ define( function( require ) {
 
   inherit( Node, ArrowNode, {
     updateShape: function(){
-      this.path.shape = new Shape().moveTo( this.tailLocation.x, this.tailLocation.y ).lineTo( this.tipLocation.x, this.tipLocation.y );
+      this.path.shape = this._createArrowShape( this.tailLocation.x, this.tailLocation.y, this.tipLocation.x, this.tipLocation.y, this.tailWidth, this.headWidth, this.headHeight );
       this.addChild( this.path );
+    },
+    _createArrowShape: function ( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight ) {   //All parameters are Number
+      var arrowShape = new Shape();
+      if ( tipX === tailX && tipY === tailY ) {
+        return arrowShape;
+      }
+      var vector = new Vector2( tipX - tailX, tipY - tailY );
+      var xHatUnit = vector.normalized();
+      var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
+      var length = vector.magnitude();
+
+      //Set up a coordinate frame that goes from the tail of the arrow to the tip.
+      function getPoint( xHat, yHat ) {
+        var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
+        var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
+        return new Vector2( x, y );
+      }
+
+      if ( headHeight > length / 2 ) {
+        headHeight = length / 2;
+      }
+
+      var tailLength = length - headHeight;
+      var points = [
+        getPoint( 0, tailWidth / 2 ),
+        getPoint( tailLength, tailWidth / 2 ),
+        getPoint( tailLength, headWidth / 2 ),
+        getPoint( length, 0 ),
+        getPoint( tailLength, -headWidth / 2 ),
+        getPoint( tailLength, -tailWidth / 2 ),
+        getPoint( 0, -tailWidth / 2 )
+      ];
+
+      arrowShape.moveTo( points[0].x, points[0].y );
+      var tail = _.tail( points );
+      _.each( tail, function( element ) { arrowShape.lineTo( element.x, element.y ); } );
+      arrowShape.close();
+
+      return arrowShape;
     }
   } );
 
