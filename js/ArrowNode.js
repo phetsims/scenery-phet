@@ -1,8 +1,7 @@
 // Copyright 2013, University of Colorado
 
 /**
- * Scenery node that looks like a single-ended arrow.
- *
+ * Scenery node that represents a single-ended arrow.
  */
 define( function( require ) {
   'use strict';
@@ -41,19 +40,12 @@ define( function( require ) {
         }, options );
 
     // things you're likely to mess up, add more as needed
-//    assert && assert( headWidth > tailWidth );
+    assert && assert( headWidth >= tailWidth );
 
+    // Call super constructor.
     Node.call( this, options );
 
     this.path = new Path( options );
-    this.addChild( this.path );
-//    var shape = new Shape();
-//    shape.moveTo( 0, 0 );
-//    shape.lineTo( 0, 50 );
-//    shape.lineTo( 50, 50 );
-//    shape.close();
-//    this.path = new Path( options );
-//    this.path.shape = shape;
     this.addChild( this.path );
     this.updateShape();
   }
