@@ -89,13 +89,13 @@ define( function( require ) {
       }
 
       // Major tick mark
-      var majorTickNode = thisNode.createTickMarkNode( xVal, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
+      var majorTickNode = createTickMarkNode( xVal, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
       thisNode.addChild( majorTickNode );
 
       // Minor tick marks
       if ( i < majorTickLabels.length - 1 ) {
         for ( var k = 1; k <= options.minorTicksPerMajorTick; k++ ) {
-          var minorTickNode = thisNode.createTickMarkNode( xVal + k * distBetweenMinor, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
+          var minorTickNode = createTickMarkNode( xVal + k * distBetweenMinor, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
           thisNode.addChild( minorTickNode );
         }
       }
@@ -124,7 +124,7 @@ define( function( require ) {
    * @param {number} lineWidth
    * @return {Node}
    */
-  RulerNode.prototype.createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
+  var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
     var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
     return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape } );
   };
