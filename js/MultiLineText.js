@@ -1,4 +1,4 @@
-// Copyright 2013, University of Colorado
+// Copyright 2002-2013, University of Colorado Boulder
 
 //TODO does not support consecutive line breaks, eg "Hello\n\nWorld"
 /**
