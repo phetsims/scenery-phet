@@ -13,7 +13,7 @@ define( function( require ) {
 
   function ResetAllButton( callback, options ) {
     Button.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
-                 _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8 }, options || {} ) );
+      _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8, label: 'Reset All' }, options || {} ) );//TODO: i18n a11y
   }
 
   inherit( Button, ResetAllButton );
