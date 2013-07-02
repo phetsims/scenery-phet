@@ -21,12 +21,13 @@ define( function( require ) {
   /**
    * @param {number} width  distance between left-most and right-most tick, insets will be added to this
    * @param {number} height
+   * @param {number} majorTickWidth
    * @param {Array<String>} majorTickLabels
    * @param {String} units
    * @param {object} options
    * @constructor
    */
-  function RulerNode( width, height, majorTickLabels, units, options ) {
+  function RulerNode( width, height, majorTickWidth, majorTickLabels, units, options ) {
 
     // default options
     options = _.extend(
@@ -54,6 +55,7 @@ define( function( require ) {
         }, options );
 
     // things you're likely to mess up, add more as needed
+    assert && assert( Math.floor( width / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
     assert && assert( options.unitsMajorTickIndex < majorTickLabels.length );
     assert && assert( options.majorTickHeight < height / 2 );
     assert && assert( options.minorTickHeight < height / 2 );
@@ -68,44 +70,48 @@ define( function( require ) {
                                           lineWidth: options.backgroundLineWidth } );
     thisNode.addChild( backgroundNode );
 
-    var distBetweenMajorReadings = width / ( majorTickLabels.length - 1 );
-    var distBetweenMinor = distBetweenMajorReadings / ( options.minorTicksPerMajorTick + 1 );
-
     // Lay out tick marks from left to right
-    for ( var i = 0; i < majorTickLabels.length; i++ ) {
+    var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
+    var x = options.insetsWidth
+    var majorTickIndex = 0;
+    while ( x < ( width + options.insetsWidth + options.insetsWidth ) ) {
 
-      // Major tick label
-      var majorTickLabel = majorTickLabels[i];
-      var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
-      var xVal = ( distBetweenMajorReadings * i ) + options.insetsWidth;
-      var yVal = ( height / 2 ) - ( majorTickLabelNode.height / 2 );
-      //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
-      majorTickLabelNode.x = xVal - ( majorTickLabelNode.width / 2 );
-      majorTickLabelNode.centerY = backgroundNode.centerY;
+      if ( ( x - options.insetsWidth ) % majorTickWidth === 0 ) {
 
-      // Only add the major tick label if the insetsWidth is nonzero, or if it is not an end label
-      if ( options.insetsWidth !== 0 || ( i !== 0 && i !== majorTickLabels.length - 1 ) ) {
-        thisNode.addChild( majorTickLabelNode );
-      }
+        // Major tick label
+        var majorTickLabel = majorTickLabels[majorTickIndex];
+        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
+        //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
+        majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
+        majorTickLabelNode.centerY = backgroundNode.centerY;
 
-      // Major tick mark
-      var majorTickNode = createTickMarkNode( xVal, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
-      thisNode.addChild( majorTickNode );
-
-      // Minor tick marks
-      if ( i < majorTickLabels.length - 1 ) {
-        for ( var k = 1; k <= options.minorTicksPerMajorTick; k++ ) {
-          var minorTickNode = createTickMarkNode( xVal + k * distBetweenMinor, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
-          thisNode.addChild( minorTickNode );
+        // Only add the major tick label if the insetsWidth is nonzero, or if it is not an end label
+        if ( options.insetsWidth !== 0 || ( majorTickIndex !== 0 ) ) {
+          thisNode.addChild( majorTickLabelNode );
         }
-      }
 
-      // units label
-      if ( i === options.unitsMajorTickIndex ) {
-        var unitsNode = new Text( units, { font: options.unitsFont } );
-        thisNode.addChild( unitsNode );
-        unitsNode.x = majorTickLabelNode.x + majorTickLabelNode.width + options.unitsSpacing;
-        unitsNode.y = majorTickLabelNode.y + majorTickLabelNode.height - unitsNode.height;
+        // Major tick mark
+        var majorTickNode = createTickMarkNode( x, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
+        thisNode.addChild( majorTickNode );
+
+        // units label
+        if ( majorTickIndex === options.unitsMajorTickIndex ) {
+          var unitsNode = new Text( units, { font: options.unitsFont } );
+          thisNode.addChild( unitsNode );
+          unitsNode.x = majorTickLabelNode.x + majorTickLabelNode.width + options.unitsSpacing;
+          unitsNode.y = majorTickLabelNode.y + majorTickLabelNode.height - unitsNode.height;
+        }
+
+        majorTickIndex++;
+        x += minorTickWidth;
+      }
+      else {
+        // Minor tick marks
+        for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < ( width + options.insetsWidth + options.insetsWidth ) ); k++ ) {
+          var minorTickNode = createTickMarkNode( x, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
+          thisNode.addChild( minorTickNode );
+          x += minorTickWidth;
+        }
       }
     }
   }
