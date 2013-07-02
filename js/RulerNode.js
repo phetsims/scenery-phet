@@ -72,7 +72,7 @@ define( function( require ) {
 
     // Lay out tick marks from left to right
     var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
-    var x = options.insetsWidth
+    var x = options.insetsWidth;
     var majorTickIndex = 0;
     while ( x < ( width + options.insetsWidth + options.insetsWidth ) ) {
 
