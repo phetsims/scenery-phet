@@ -19,14 +19,10 @@ define( function( require ) {
   var Node = require( "SCENERY/nodes/Node" );
   var Path = require( "SCENERY/nodes/Path" );
   var Shape = require( "KITE/Shape" );
-  var Text = require( "SCENERY/nodes/Text" ); // TODO - Remove when testing complete.
+  var Vector2 = require( "DOT/Vector2" );
 
   /**
-   * @param {number} width  distance between left-most and right-most tick, insets will be added to this
-   * @param {number} height
-   * @param {number} majorTickWidth
-   * @param {Array<String>} majorTickLabels
-   * @param {String} units
+   * @param {number} headDiameter
    * @param {object} options
    * @constructor
    */
@@ -45,14 +41,50 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode, options );
 
+    // Add head.
     this.addChild( new Circle( headDiameter / 2,
                                { fill: options.headPaint,
                                  stroke: options.headStroke,
                                  lineWidth: options.headLineWidth
                                } ) );
+
+    // Add the eyes.
+    var eyeDiameter = headDiameter * 0.075;
+    this.addChild( new Circle( eyeDiameter,
+                               { fill: options.eyePaint,
+                                 centerX: -headDiameter * 0.2,
+                                 centerY: -headDiameter * 0.1
+                               } ) );
+    this.addChild( new Circle( eyeDiameter,
+                               { fill: options.eyePaint,
+                                 centerX: headDiameter * 0.2,
+                                 centerY: -headDiameter * 0.1
+                               } ) );
+
+    // Add the two mouths.
+    var mouthLineWidth = headDiameter * 0.05
+    this.smileMouth = new Path( { shape: new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ),
+                                  stroke: options.mouthPaint,
+                                  lineWidth: mouthLineWidth,
+                                  lineCap: 'round' } );
+    this.addChild( this.smileMouth );
+    this.frownMouth = new Path( { shape: new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.25, -Math.PI * 0.8, -Math.PI * 0.2  ),
+                                  stroke: options.mouthPaint,
+                                  lineWidth: mouthLineWidth,
+                                  lineCap: 'round' } );
+    this.addChild( this.frownMouth );
+    this.smile();
   }
 
-  inherit( Node, FaceNode );
+  inherit( Node, FaceNode, {
+    smile: function() {
+      this.smileMouth.visible = true;
+      this.frownMouth.visible = false;
+    },
+    frown: function() {
+      this.smileMouth.visible = false;
+      this.frownMouth.visible = true;
+    } } );
 
   return FaceNode;
 } );
