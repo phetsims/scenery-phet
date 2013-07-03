@@ -43,35 +43,35 @@ define( function( require ) {
 
     // Add head.
     this.addChild( new Circle( headDiameter / 2,
-                               { fill: options.headPaint,
-                                 stroke: options.headStroke,
-                                 lineWidth: options.headLineWidth
-                               } ) );
+      { fill: options.headPaint,
+        stroke: options.headStroke,
+        lineWidth: options.headLineWidth
+      } ) );
 
     // Add the eyes.
     var eyeDiameter = headDiameter * 0.075;
     this.addChild( new Circle( eyeDiameter,
-                               { fill: options.eyePaint,
-                                 centerX: -headDiameter * 0.2,
-                                 centerY: -headDiameter * 0.1
-                               } ) );
+      { fill: options.eyePaint,
+        centerX: -headDiameter * 0.2,
+        centerY: -headDiameter * 0.1
+      } ) );
     this.addChild( new Circle( eyeDiameter,
-                               { fill: options.eyePaint,
-                                 centerX: headDiameter * 0.2,
-                                 centerY: -headDiameter * 0.1
-                               } ) );
+      { fill: options.eyePaint,
+        centerX: headDiameter * 0.2,
+        centerY: -headDiameter * 0.1
+      } ) );
 
     // Add the two mouths.
-    var mouthLineWidth = headDiameter * 0.05
+    var mouthLineWidth = headDiameter * 0.05;
     this.smileMouth = new Path( { shape: new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ),
-                                  stroke: options.mouthPaint,
-                                  lineWidth: mouthLineWidth,
-                                  lineCap: 'round' } );
+      stroke: options.mouthPaint,
+      lineWidth: mouthLineWidth,
+      lineCap: 'round' } );
     this.addChild( this.smileMouth );
-    this.frownMouth = new Path( { shape: new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.25, -Math.PI * 0.8, -Math.PI * 0.2  ),
-                                  stroke: options.mouthPaint,
-                                  lineWidth: mouthLineWidth,
-                                  lineCap: 'round' } );
+    this.frownMouth = new Path( { shape: new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.25, -Math.PI * 0.8, -Math.PI * 0.2 ),
+      stroke: options.mouthPaint,
+      lineWidth: mouthLineWidth,
+      lineCap: 'round' } );
     this.addChild( this.frownMouth );
     this.smile();
   }
