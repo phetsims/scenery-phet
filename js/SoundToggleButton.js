@@ -17,7 +17,7 @@ define( function( require ) {
       new FontAwesomeNode( 'volume_up' ),
       new FontAwesomeNode( 'volume_off' ),
       property,
-      _.extend( { label: 'Sound' }, options ) );
+      _.extend( { addRectangle: true, label: 'Sound' }, options ) );
   }
 
   inherit( ToggleButton, SoundToggleButton );
