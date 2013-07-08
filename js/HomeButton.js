@@ -12,7 +12,7 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
 
   function HomeButton( options ) {
 
@@ -21,7 +21,7 @@ define( function( require ) {
     Node.call( this, options );
 
     var icon = new FontAwesomeNode( 'home', { fill: '#fff' } );
-    this.addChild( new Rectangle( icon.bounds.minX, icon.bounds.minY, icon.bounds.width, icon.bounds.height ) );
+    this.mouseArea = this.touchArea = Shape.rectangle( icon.bounds.minX, icon.bounds.minY, icon.bounds.width, icon.bounds.height );
     this.addChild( icon );
   }
 
