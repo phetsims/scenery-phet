@@ -14,11 +14,10 @@ define( function( require ) {
 
   function SoundToggleButton( property, options ) {
     ToggleButton.call( this,
-      new ToggleNode(
-        new FontAwesomeNode( 'volume_up' ),
-        new FontAwesomeNode( 'volume_off' ),
-        property ),
-      property, _.extend( { label: 'Sound' }, options || {} ) );
+      new FontAwesomeNode( 'volume_up' ),
+      new FontAwesomeNode( 'volume_off' ),
+      property,
+      _.extend( { label: 'Sound' }, options ) );
   }
 
   inherit( ToggleButton, SoundToggleButton );
