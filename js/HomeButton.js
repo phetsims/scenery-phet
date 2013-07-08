@@ -1,5 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
+//TODO this should extend sun.Button
+//TODO this should handle wiring up the callback that goes to the home screen, currently done in NavigationBar
 /**
  * The Home button that appears in the navigation bar.
  */
