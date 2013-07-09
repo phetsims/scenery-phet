@@ -7,16 +7,17 @@
 define( function( require ) {
   'use strict';
 
-  var Button = require( 'SUN/Button' );
+  // imports
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var RectangleButton = require( 'SUN/RectangleButton' );
 
   function ResetAllButton( callback, options ) {
-    Button.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
+    RectangleButton.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
       _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8, label: 'Reset All' }, options || {} ) );//TODO: i18n a11y
   }
 
-  inherit( Button, ResetAllButton );
+  inherit( RectangleButton, ResetAllButton );
 
   return ResetAllButton;
 } );
