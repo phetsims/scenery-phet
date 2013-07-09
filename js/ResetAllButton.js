@@ -14,7 +14,7 @@ define( function( require ) {
 
   function ResetAllButton( callback, options ) {
     RectangleButton.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
-      _.extend( { fill: '#f99d1c', xMargin: 8, yMargin: 8, label: 'Reset All' }, options || {} ) );//TODO: i18n a11y
+      _.extend( { rectangleFill: '#f99d1c', rectangleXMargin: 8, rectangleYMargin: 8, label: 'Reset All' }, options || {} ) );//TODO: i18n a11y
   }
 
   inherit( RectangleButton, ResetAllButton );
