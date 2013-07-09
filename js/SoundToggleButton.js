@@ -1,6 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
+ * Button for toggling sound on and off.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid
  */
