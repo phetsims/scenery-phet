@@ -38,11 +38,11 @@ define( function( require ) {
       get text() {
         return this._text;
       },
-      set text( text ) {
+      set text( string ) {
         var thisNode = this;
-        thisNode._text = text;
+        thisNode._text = string;
         thisNode.children = [ new VBox( {
-          children: text.split( '\n' ).map( function( line ) {
+          children: string.split( '\n' ).map( function( line ) {
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
           align: thisNode._options.align
