@@ -11,12 +11,12 @@ define( function( require ) {
 
   // imports
   var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
-  var inherit = require( "PHET_CORE/inherit" );
-  var Node = require( "SCENERY/nodes/Node" );
-  var Path = require( "SCENERY/nodes/Path" );
-  var Rectangle = require( "SCENERY/nodes/Rectangle" );
-  var Shape = require( "KITE/Shape" );
-  var Text = require( "SCENERY/nodes/Text" );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * @param {number} width  distance between left-most and right-most tick, insets will be added to this
@@ -33,23 +33,23 @@ define( function( require ) {
     options = _.extend(
         {
           // body of the ruler
-          backgroundFill: "rgb(236, 225, 113)",
-          backgroundStroke: "black",
+          backgroundFill: 'rgb(236, 225, 113)',
+          backgroundStroke: 'black',
           backgroundLineWidth: 1,
           insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
           // major tick options
-          majorTickFont: "18px Arial",
+          majorTickFont: '18px Arial',
           majorTickHeight: ( 0.4 * height ) / 2,
-          majorTickStroke: "black",
+          majorTickStroke: 'black',
           majorTickLineWidth: 1,
           // minor tick options
-          minorTickFont: "18px Arial",
+          minorTickFont: '18px Arial',
           minorTickHeight: ( 0.2 * height ) / 2,
-          minorTickStroke: "black",
+          minorTickStroke: 'black',
           minorTickLineWidth: 1,
           minorTicksPerMajorTick: 0,
           // units options
-          unitsFont: "18px Arial",
+          unitsFont: '18px Arial',
           unitsMajorTickIndex: 0, // units will be place to the right of this major tick
           unitsSpacing: 3 // horizontal space between the tick label and the units
         }, options );

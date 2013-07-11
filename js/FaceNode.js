@@ -14,12 +14,12 @@ define( function( require ) {
 
   // imports
   var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
-  var inherit = require( "PHET_CORE/inherit" );
-  var Circle = require( "SCENERY/nodes/Circle" );
-  var Node = require( "SCENERY/nodes/Node" );
-  var Path = require( "SCENERY/nodes/Path" );
-  var Shape = require( "KITE/Shape" );
-  var Vector2 = require( "DOT/Vector2" );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {number} headDiameter
