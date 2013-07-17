@@ -20,7 +20,7 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    var icon = new FontAwesomeNode( 'home', { fill: '#fff' } );
+    var icon = new FontAwesomeNode( 'home', { fill: '#fff', scale: 0.75 } );
     this.mouseArea = this.touchArea = Shape.rectangle( icon.bounds.minX, icon.bounds.minY, icon.bounds.width, icon.bounds.height );
     this.addChild( icon );
   }
