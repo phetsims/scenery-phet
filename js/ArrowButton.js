@@ -53,7 +53,7 @@ define( function( require ) {
     Node.call( thisButton );
 
     // nodes
-    var arrowShape
+    var arrowShape;
     if ( direction === 'up' ) {
       arrowShape = new Shape().moveTo( options.arrowWidth / 2, 0 ).lineTo( options.arrowWidth, options.arrowHeight ).lineTo( 0, options.arrowHeight ).close();
     }
