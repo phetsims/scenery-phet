@@ -13,8 +13,8 @@ define( function( require ) {
   var RectangleButton = require( 'SUN/RectangleButton' );
 
   function ResetAllButton( callback, options ) {
-    RectangleButton.call( this, new FontAwesomeNode( 'refresh', {fill: '#fff'} ), callback,
-      _.extend( { rectangleFill: '#f99d1c', rectangleXMargin: 8, rectangleYMargin: 8, label: 'Reset All' }, options || {} ) );//TODO: i18n a11y
+    options = _.extend( { rectangleXMargin: 8, rectangleYMargin: 8, label: 'Reset All' }, options ); //TODO i18n
+    RectangleButton.call( this, new FontAwesomeNode( 'refresh', {fill: 'white'} ), callback, options );
   }
 
   inherit( RectangleButton, ResetAllButton );
