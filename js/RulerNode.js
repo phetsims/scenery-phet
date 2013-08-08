@@ -80,7 +80,7 @@ define( function( require ) {
 
         // Major tick label
         var majorTickLabel = majorTickLabels[majorTickIndex];
-        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
+        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont, pickable: false } );
         //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
         majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
         majorTickLabelNode.centerY = backgroundNode.centerY;
@@ -132,7 +132,7 @@ define( function( require ) {
    */
   var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
     var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
-    return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape } );
+    return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape, pickable: false } );
   };
 
   return RulerNode;
