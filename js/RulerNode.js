@@ -74,30 +74,34 @@ define( function( require ) {
     var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
     var x = options.insetsWidth;
     var majorTickIndex = 0;
+
+    var ticksContainerNode = new Node( { pickable: false } );
+    this.addChild( ticksContainerNode );
+
     while ( x < ( width + options.insetsWidth + options.insetsWidth ) ) {
 
       if ( ( x - options.insetsWidth ) % majorTickWidth === 0 ) {
 
         // Major tick label
         var majorTickLabel = majorTickLabels[majorTickIndex];
-        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont, pickable: false } );
+        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
         //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
         majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
         majorTickLabelNode.centerY = backgroundNode.centerY;
 
         // Only add the major tick label if the insetsWidth is nonzero, or if it is not an end label
         if ( options.insetsWidth !== 0 || ( majorTickIndex !== 0 ) ) {
-          thisNode.addChild( majorTickLabelNode );
+          ticksContainerNode.addChild( majorTickLabelNode );
         }
 
         // Major tick mark
         var majorTickNode = createTickMarkNode( x, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
-        thisNode.addChild( majorTickNode );
+        ticksContainerNode.addChild( majorTickNode );
 
         // units label
         if ( majorTickIndex === options.unitsMajorTickIndex ) {
           var unitsNode = new Text( units, { font: options.unitsFont } );
-          thisNode.addChild( unitsNode );
+          ticksContainerNode.addChild( unitsNode );
           unitsNode.x = majorTickLabelNode.x + majorTickLabelNode.width + options.unitsSpacing;
           unitsNode.y = majorTickLabelNode.y + majorTickLabelNode.height - unitsNode.height;
         }
@@ -109,7 +113,7 @@ define( function( require ) {
         // Minor tick marks
         for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < ( width + options.insetsWidth + options.insetsWidth ) ); k++ ) {
           var minorTickNode = createTickMarkNode( x, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
-          thisNode.addChild( minorTickNode );
+          ticksContainerNode.addChild( minorTickNode );
           x += minorTickWidth;
         }
       }
@@ -132,7 +136,7 @@ define( function( require ) {
    */
   var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
     var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
-    return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape, pickable: false } );
+    return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape } );
   };
 
   return RulerNode;
