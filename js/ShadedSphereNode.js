@@ -26,12 +26,11 @@ define( function( require ) {
     // highlight must be inside the sphere
     assert && assert( Math.abs( options.highlightXOffset ) <= 1 && Math.abs( options.highlightYOffset ) <= 1 );
 
-    var gradient = new RadialGradient(
+    options.fill = new RadialGradient(
       radius * options.highlightXOffset, radius * options.highlightYOffset, 0,
       radius * options.highlightXOffset, radius * options.highlightYOffset, 2 * radius )
       .addColorStop( 0, options.highlightColor )
       .addColorStop( 1, options.baseColor );
-    options.fill = gradient;
 
     Circle.call( this, radius, options ); //TODO remove subtype-specific options before passing to supertype
   }
