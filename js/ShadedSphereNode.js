@@ -17,7 +17,7 @@ define( function( require ) {
   function ShadedSphereNode( radius, options ) {
 
     options = _.extend( {
-      baseColor: 'gray',
+      outerColor: 'gray',
       highlightColor: 'white',
       highlightXOffset: -0.4, // x-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
       highlightYOffset: -0.4  // y-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
@@ -30,7 +30,7 @@ define( function( require ) {
       radius * options.highlightXOffset, radius * options.highlightYOffset, 0,
       radius * options.highlightXOffset, radius * options.highlightYOffset, 2 * radius )
       .addColorStop( 0, options.highlightColor )
-      .addColorStop( 1, options.baseColor );
+      .addColorStop( 1, options.outerColor );
 
     Circle.call( this, radius, options ); //TODO remove subtype-specific options before passing to supertype
   }
