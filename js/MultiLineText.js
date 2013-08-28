@@ -1,6 +1,6 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
-//TODO does not support consecutive line breaks, eg 'Hello\n\nWorld'
+//TODO #4: add support for consecutive line breaks, eg 'Hello\n\nWorld'
 /**
  * MultiLine plain text, with alignment.
  * The line break character is '\n'.
