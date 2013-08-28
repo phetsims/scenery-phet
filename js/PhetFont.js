@@ -2,7 +2,11 @@
 
 /**
  * Encapsulation of the font used for PhET simulations.
- * Enforces a specific font family (with fallback) and limited options.
+ * Enforces a specific font family (with fallback).
+ * <p>
+ * Sample use:
+ * new PhetFont( { size: 24, weight: 'bold' } )
+ * new PhetFont( 24 )
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -14,19 +18,19 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   * @param {Number} size in pixels
-   * @param {String} weight normal | bold | bolder | lighter
+   * @param {Number|*} options if number this is the font size, otherwise same options as scenery.Font
    * @constructor
    */
-  function PhetFont( size, weight ) {
-    Font.call( this, {
-      family: '"Arial", sans-serif',
-      size: ( size + 'px' ),
-      weight: weight || 'normal'
-    } );
+  function PhetFont( options ) {
+    var defaultOptions = {
+      family: '"Arial", sans-serif'
+    };
+    if ( typeof options === 'number' ) {
+      defaultOptions.size = options;
+      options = {};
+    }
+    Font.call( this, _.extend( defaultOptions, options ) );
   }
 
-  inherit( Font, PhetFont );
-
-  return PhetFont;
+  return inherit( Font, PhetFont );
 } );
