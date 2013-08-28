@@ -2,6 +2,7 @@
 
 /**
  * Scenery node that represents a single-ended arrow.
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
