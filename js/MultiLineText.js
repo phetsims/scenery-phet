@@ -7,7 +7,7 @@
  * Specify alignment via the 'align' option.
  * Text node options can be specified to style the text.
  * <p>
- * Example: new MultiLineText( 'Hello\nWorld', { align: 'left', font: 'sans-serif', fill: 'red' } );
+ * Example: new MultiLineText( 'Hello\nWorld', { align: 'left', font: new PhetFont(20), fill: 'red' } );
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
