@@ -1,8 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A single- or double-headed arrow.
- * This is a convenience class, most of the work is done in ArrowShape.
+ * A single- or double-headed arrow. This is a convenience class, most of the
+ * work is done in ArrowShape.
  *
  * @author John Blanco
  * @author Chris Malley
