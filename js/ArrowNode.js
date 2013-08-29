@@ -1,8 +1,11 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Scenery node that represents a single-ended arrow.
+ * A single- or double-headed arrow.
+ * This is a convenience class, most of the work is done in ArrowShape.
+ *
  * @author John Blanco
+ * @author Chris Malley
  */
 define( function( require ) {
   'use strict';
@@ -29,6 +32,7 @@ define( function( require ) {
       headHeight: 10,
       headWidth: 10,
       tailWidth: 5,
+      doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
       fill: 'black',
       stroke: 'black',
       lineWidth: 1
@@ -38,7 +42,7 @@ define( function( require ) {
     assert && assert( options.headWidth > options.tailWidth );
 
     // shape is not an option that the client should be able to set
-    options.shape = new ArrowShape( tailX, tailY, tipX, tipY, options.tailWidth, options.headWidth, options.headHeight );
+    options.shape = new ArrowShape( tailX, tailY, tipX, tipY, options );
     var arrowNode = new Path( options );
 
     // wrap in a Node so that clients can't set Path.shape (yes, someone did this)
