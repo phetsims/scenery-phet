@@ -10,7 +10,6 @@ define( function( require ) {
   // Imports
   var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -21,34 +20,32 @@ define( function( require ) {
    * @param {number} tailY
    * @param {number} tipX
    * @param {number} tipY
-   * @param {number} headHeight
-   * @param {number} headWidth
-   * @param {number} tailWidth
    * @param {Object} options
    * @constructor
    */
-  function ArrowNode( tailX, tailY, tipX, tipY, headHeight, headWidth, tailWidth, options ) {
+  function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
     // default options
     options = _.extend(
       {
+        headHeight: 10,
+        headWidth: 10,
+        tailWidth: 5,
         fill: 'black',
         stroke: 'black',
-        lineWidth: 1,
-        shape: ArrowNode.createArrowShape( tailX, tailY, tipX, tipY, tailWidth, headWidth, headHeight )
+        lineWidth: 1
       }, options );
 
     // things you're likely to mess up, add more as needed
-    assert && assert( headWidth >= tailWidth );
+    assert && assert( options.headWidth > options.tailWidth );
 
-    // Call super constructor.
-    Node.call( this, options );
+    // shape is not an option that the client should be able to set
+    options.shape = ArrowNode.createArrowShape( tailX, tailY, tipX, tipY, options.tailWidth, options.headWidth, options.headHeight );
 
-    this.path = new Path( options );
-    this.addChild( this.path );
+    Path.call( this, options );
   }
 
-  return inherit( Node, ArrowNode,
+  return inherit( Path, ArrowNode,
 
     //Instance methods & fields
     {},
