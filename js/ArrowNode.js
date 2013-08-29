@@ -11,6 +11,7 @@ define( function( require ) {
   var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -41,11 +42,14 @@ define( function( require ) {
 
     // shape is not an option that the client should be able to set
     options.shape = ArrowNode.createArrowShape( tailX, tailY, tipX, tipY, options.tailWidth, options.headWidth, options.headHeight );
+    var arrowNode = new Path( options );
 
-    Path.call( this, options );
+    // wrap in a Node so that clients can't set Path.shape (yes, someone did this)
+    Node.call( this, options );
+    this.addChild( arrowNode );
   }
 
-  return inherit( Path, ArrowNode,
+  return inherit( Node, ArrowNode,
 
     //Instance methods & fields
     {},
