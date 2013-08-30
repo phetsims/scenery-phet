@@ -24,7 +24,7 @@ define( function( require ) {
    */
   function PhetFont( options ) {
 
-    // convenience constructor: new PhetFont( size )
+    // convenience constructor: new PhetFont( {number|string} size )
     if ( typeof options === 'number' || typeof options === 'string' ) {
       options = { size: options };
     }
