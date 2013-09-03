@@ -3,7 +3,7 @@
 /*
  * The hole of a bucket
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
 
   var inherit = require( 'PHET_CORE/inherit' );
@@ -23,12 +23,11 @@ define( function ( require ) {
     gradientPaint.addColorStop( 0, 'black' );
     gradientPaint.addColorStop( 1, '#c0c0c0' );
 
-    this.addChild( new Path( {
-                               shape: transformedShape,
-                               fill: gradientPaint,
-                               stroke: '#777',
-                               lineWidth: 1
-                             } ) );
+    this.addChild( new Path( transformedShape, {
+      fill: gradientPaint,
+      stroke: '#777',
+      lineWidth: 1
+    } ) );
 
     // Set initial position.
     this.translation = mvt.modelToViewPosition( bucket.position );

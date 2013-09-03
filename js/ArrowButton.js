@@ -61,15 +61,15 @@ define( function( require ) {
       arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, 0 ).lineTo( options.arrowWidth / 2, options.arrowHeight ).close();
     }
     else if ( direction === 'left' ) {
-       arrowShape = new Shape().moveTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, 0 ).lineTo( options.arrowWidth, options.arrowHeight ).close();
+      arrowShape = new Shape().moveTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, 0 ).lineTo( options.arrowWidth, options.arrowHeight ).close();
     }
     else if ( direction === 'right' ) {
-       arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ).close();
+      arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ).close();
     }
     else {
       throw new Error( "unsupported direction: " + direction );
     }
-    var arrowNode = new Path( { fill: options.enabledFill, shape: arrowShape, pickable: false } );
+    var arrowNode = new Path( arrowShape, { fill: options.enabledFill, pickable: false } );
     var background = new Rectangle( 0, 0, arrowNode.width + ( 2 * options.xMargin ), arrowNode.height + ( 2 * options.yMargin ), options.cornerRadius, options.cornerRadius,
       {stroke: options.stroke, lineWidth: options.lineWidth, fill: options.fill, pickable: false } );
 
@@ -85,7 +85,7 @@ define( function( require ) {
     var dx = 0.25 * thisButton.width;
     var dy = 0.25 * thisButton.height;
     thisButton.touchArea = Shape.rectangle( -dx, -dy, thisButton.width + dx + dx, thisButton.height + dy + dy );
-    
+
     // mouse area is constrained to the tight rectangle, so that we can make the children unpickable
     thisButton.mouseArea = Shape.rectangle( 0, 0, thisButton.width, thisButton.height );
 

@@ -42,8 +42,7 @@ define( function( require ) {
     assert && assert( options.headWidth > options.tailWidth );
 
     // shape is not an option that the client should be able to set
-    options.shape = new ArrowShape( tailX, tailY, tipX, tipY, options );
-    var arrowNode = new Path( options );
+    var arrowNode = new Path( new ArrowShape( tailX, tailY, tipX, tipY, options ), options );
 
     // wrap in a Node so that clients can't set Path.shape (yes, someone did this)
     Node.call( this, options );

@@ -31,28 +31,28 @@ define( function( require ) {
 
     // default options
     options = _.extend(
-        {
-          // body of the ruler
-          backgroundFill: 'rgb(236, 225, 113)',
-          backgroundStroke: 'black',
-          backgroundLineWidth: 1,
-          insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
-          // major tick options
-          majorTickFont: '18px Arial',
-          majorTickHeight: ( 0.4 * height ) / 2,
-          majorTickStroke: 'black',
-          majorTickLineWidth: 1,
-          // minor tick options
-          minorTickFont: '18px Arial',
-          minorTickHeight: ( 0.2 * height ) / 2,
-          minorTickStroke: 'black',
-          minorTickLineWidth: 1,
-          minorTicksPerMajorTick: 0,
-          // units options
-          unitsFont: '18px Arial',
-          unitsMajorTickIndex: 0, // units will be place to the right of this major tick
-          unitsSpacing: 3 // horizontal space between the tick label and the units
-        }, options );
+      {
+        // body of the ruler
+        backgroundFill: 'rgb(236, 225, 113)',
+        backgroundStroke: 'black',
+        backgroundLineWidth: 1,
+        insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
+        // major tick options
+        majorTickFont: '18px Arial',
+        majorTickHeight: ( 0.4 * height ) / 2,
+        majorTickStroke: 'black',
+        majorTickLineWidth: 1,
+        // minor tick options
+        minorTickFont: '18px Arial',
+        minorTickHeight: ( 0.2 * height ) / 2,
+        minorTickStroke: 'black',
+        minorTickLineWidth: 1,
+        minorTicksPerMajorTick: 0,
+        // units options
+        unitsFont: '18px Arial',
+        unitsMajorTickIndex: 0, // units will be place to the right of this major tick
+        unitsSpacing: 3 // horizontal space between the tick label and the units
+      }, options );
 
     // things you're likely to mess up, add more as needed
     assert && assert( Math.floor( width / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
@@ -65,9 +65,9 @@ define( function( require ) {
 
     // background
     var backgroundNode = new Rectangle( 0, 0, width + ( 2 * options.insetsWidth ), height,
-                                        { fill: options.backgroundFill,
-                                          stroke: options.backgroundStroke,
-                                          lineWidth: options.backgroundLineWidth } );
+      { fill: options.backgroundFill,
+        stroke: options.backgroundStroke,
+        lineWidth: options.backgroundLineWidth } );
     thisNode.addChild( backgroundNode );
 
     // Lay out tick marks from left to right
@@ -136,7 +136,7 @@ define( function( require ) {
    */
   var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
     var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
-    return new Path( { stroke: stroke, lineWidth: lineWidth, shape: shape } );
+    return new Path( shape, { stroke: stroke, lineWidth: lineWidth } );
   };
 
   return RulerNode;
