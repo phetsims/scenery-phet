@@ -18,13 +18,15 @@ define( function( require ) {
     options = _.extend( {
       mainColor: 'gray',
       highlightColor: 'white',
-      shadowColor: 'black'
+      shadowColor: 'black',
+      highlightXOffset: -0.4, // x-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
+      highlightYOffset: -0.4  // y-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
     }, options );
 
     var radius = diameter / 2;
-    options.fill = new RadialGradient(
-          radius * -0.4, radius * -0.4, 0,
-          radius * -0.4, radius * -0.4, diameter )
+    var highlightX = radius * options.highlightXOffset;
+    var highlightY = radius * options.highlightYOffset;
+    options.fill = new RadialGradient( highlightX, highlightY, 0, highlightX, highlightY, diameter )
           .addColorStop( 0, options.highlightColor )
           .addColorStop( 0.5, options.mainColor )
           .addColorStop( 1, options.shadowColor );
