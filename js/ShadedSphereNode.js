@@ -14,7 +14,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
 
-  function ShadedSphereNode( radius, options ) {
+  function ShadedSphereNode( diameter, options ) {
 
     options = _.extend( {
       outerColor: 'gray',
@@ -26,6 +26,7 @@ define( function( require ) {
     // highlight must be inside the sphere
     assert && assert( Math.abs( options.highlightXOffset ) <= 1 && Math.abs( options.highlightYOffset ) <= 1 );
 
+    var radius = diameter / 2;
     options.fill = new RadialGradient(
       radius * options.highlightXOffset, radius * options.highlightYOffset, 0,
       radius * options.highlightXOffset, radius * options.highlightYOffset, 2 * radius )
