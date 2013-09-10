@@ -32,8 +32,8 @@ define( function( require ) {
     var transformedShape = scaleOnlyTransform.modelToViewShape( bucket.containerShape );
     var baseColor = new Color( bucket.baseColor );
     var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
-    frontGradient.addColorStop( 0, baseColor.brighterColor( 0.5 ).toCSS() );
-    frontGradient.addColorStop( 1, baseColor.darkerColor( 0.5 ).toCSS() );
+    frontGradient.addColorStop( 0, baseColor.colorUtilsBrighter( 0.5 ).toCSS() );
+    frontGradient.addColorStop( 1, baseColor.colorUtilsDarker( 0.5 ).toCSS() );
     this.addChild( new Path( transformedShape, {
       fill: frontGradient
     } ) );
