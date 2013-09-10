@@ -122,9 +122,13 @@ define( function( require ) {
 
     var maxHeight = Math.max( arrowHeight, centerNode.height );
     
-    previousKitNode.setTranslation( 0, ( maxHeight - arrowHeight ) / 2 );
-    centerNode.setTranslation( arrowWidth + arrowPadding, ( maxHeight - centerNode.height ) / 2 );
-    nextKitNode.setTranslation( centerNode.right + arrowPadding, ( maxHeight - arrowHeight ) / 2 );
+    previousKitNode.centerY = maxHeight / 2;
+    centerNode.centerY = maxHeight / 2;
+    nextKitNode.centerY = maxHeight / 2;
+    
+    // previousKitNode.x = 0;
+    centerNode.x = arrowWidth + arrowPadding;
+    nextKitNode.x = centerNode.right + arrowPadding;
     
     Node.prototype.mutate.call( this, nodeOptions );
   }
