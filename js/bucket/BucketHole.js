@@ -11,14 +11,13 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var Matrix3 = require( 'DOT/Matrix3' );
 
   var BucketHole = function BucketHole( bucket, mvt ) {
     Node.call( this );
 
-    // TODO: scaleOnlyTransform is kind of weird, discuss with rest of team.
-    var scaleOnlyTransform = ModelViewTransform2.createOffsetXYScaleMapping( { x: 0, y: 0 }, mvt.getMatrix().m00(), mvt.getMatrix().m11() );
-    var transformedShape = scaleOnlyTransform.modelToViewShape( bucket.holeShape );
+    var scaleMatrix = Matrix3.scaling( mvt.getMatrix().m00(), mvt.getMatrix().m11() );
+    var transformedShape = bucket.holeShape.transformed( scaleMatrix );
     var gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
     gradientPaint.addColorStop( 0, 'black' );
     gradientPaint.addColorStop( 1, '#c0c0c0' );
