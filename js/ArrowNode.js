@@ -41,13 +41,8 @@ define( function( require ) {
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
 
-    // shape is not an option that the client should be able to set
-    var arrowNode = new Path( new ArrowShape( tailX, tailY, tipX, tipY, options ), options );
-
-    // wrap in a Node so that clients can't set Path.shape (yes, someone did this)
-    Node.call( this, options );
-    this.addChild( arrowNode );
+    Path.call( this, new ArrowShape( tailX, tailY, tipX, tipY, options ), options );
   }
 
-  return inherit( Node, ArrowNode );
+  return inherit( Path, ArrowNode );
 } );
