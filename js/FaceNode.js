@@ -1,9 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A face that can smile or frown, for universally indicating success or
- * failure.
- *
+ * A face that can smile or frown, for universally indicating success or failure.
+ * <p>
  * This was ported from a version that was originally written in Java.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -23,43 +22,42 @@ define( function( require ) {
 
   /**
    * @param {number} headDiameter
-   * @param {object} options
+   * @param {*} options
    * @constructor
    */
   function FaceNode( headDiameter, options ) {
 
     // default options
-    options = _.extend(
-      {
-        headFill: 'yellow',
-        eyeFill: 'black',
-        mouthStroke: 'black',
-        headStroke: null,
-        headLineWidth: '1px'
-      }, options );
+    options = _.extend( {
+      headFill: 'yellow',
+      eyeFill: 'black',
+      mouthStroke: 'black',
+      headStroke: null,
+      headLineWidth: '1px'
+    }, options );
 
     var thisNode = this;
     Node.call( thisNode, options );
 
     // Add head.
-    this.addChild( new Circle( headDiameter / 2,
-      { fill: options.headFill,
-        stroke: options.headStroke,
-        lineWidth: options.headLineWidth
-      } ) );
+    this.addChild( new Circle( headDiameter / 2, {
+      fill: options.headFill,
+      stroke: options.headStroke,
+      lineWidth: options.headLineWidth
+    } ) );
 
     // Add the eyes.
     var eyeDiameter = headDiameter * 0.075;
-    this.addChild( new Circle( eyeDiameter,
-      { fill: options.eyeFill,
-        centerX: -headDiameter * 0.2,
-        centerY: -headDiameter * 0.1
-      } ) );
-    this.addChild( new Circle( eyeDiameter,
-      { fill: options.eyeFill,
-        centerX: headDiameter * 0.2,
-        centerY: -headDiameter * 0.1
-      } ) );
+    this.addChild( new Circle( eyeDiameter, {
+      fill: options.eyeFill,
+      centerX: -headDiameter * 0.2,
+      centerY: -headDiameter * 0.1
+    } ) );
+    this.addChild( new Circle( eyeDiameter, {
+      fill: options.eyeFill,
+      centerX: headDiameter * 0.2,
+      centerY: -headDiameter * 0.1
+    } ) );
 
     // Add the two mouths.
     var mouthLineWidth = headDiameter * 0.05;
