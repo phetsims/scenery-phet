@@ -80,10 +80,12 @@ define( function( require ) {
     smile: function() {
       this.smileMouth.visible = true;
       this.frownMouth.visible = false;
+      return this; // allow chaining
     },
     frown: function() {
       this.smileMouth.visible = false;
       this.frownMouth.visible = true;
+      return this; // allow chaining
     } } );
 
   return FaceNode;
