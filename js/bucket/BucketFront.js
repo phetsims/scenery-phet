@@ -6,14 +6,16 @@
 define( function( require ) {
   'use strict';
 
+  // Includes
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Color = require( 'SCENERY/util/Color' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
-  var Matrix3 = require( 'DOT/Matrix3' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * Constructor.
@@ -22,10 +24,12 @@ define( function( require ) {
    * @param mvt Model-View transform.
    * @constructor
    */
-  var BucketFront = function BucketFront( bucket, mvt ) {
+  var BucketFront = function BucketFront( bucket, mvt, options ) {
 
     // Invoke super constructor.
     Node.call( this );
+
+    options = _.extend( { labelFont: new PhetFont( { size: 20 } ) } );
 
     var scaleMatrix = Matrix3.scaling( mvt.getMatrix().m00(), mvt.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
@@ -38,13 +42,18 @@ define( function( require ) {
     } ) );
 
     // Create and add the label, centered on the front.
-    this.addChild( new Text( bucket.captionText, {
-      font: 'bold 18px Arial',
+    var label = new Text( bucket.captionText, {
+      font: options.labelFont,
       fill: bucket.captionColor,
-      centerX: transformedShape.bounds.getCenterX(),
-      centerY: transformedShape.bounds.getCenterY(),
       renderer: 'svg'
-    } ) );
+    } );
+
+    // Scale the label to fit if too large.
+    label.scale( Math.min( 1, Math.min( ( ( transformedShape.bounds.width * 0.75 ) / label.width ), ( transformedShape.bounds.height * 0.8 ) / label.height ) ) );
+    label.centerX = transformedShape.bounds.getCenterX();
+    label.centerY = transformedShape.bounds.getCenterY();
+
+    this.addChild( label );
 
     // Set initial position.
     this.translation = mvt.modelToViewPosition( bucket.position );
