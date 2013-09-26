@@ -29,7 +29,7 @@ define( function( require ) {
     // Invoke super constructor.
     Node.call( this );
 
-    options = _.extend( { labelFont: new PhetFont( { size: 20 } ) } );
+    options = _.extend( { labelFont: new PhetFont( { size: 20 } ) }, options );
 
     var scaleMatrix = Matrix3.scaling( mvt.getMatrix().m00(), mvt.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
