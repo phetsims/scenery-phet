@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * WavelengthControl is a slider-like control used for setting visible wavelength.
+ * WavelengthSlider is a slider-like control used for setting visible wavelength.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
