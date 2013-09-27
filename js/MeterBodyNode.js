@@ -19,8 +19,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Pattern = require( 'SCENERY/util/Pattern' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @param {Number} totalWidth
