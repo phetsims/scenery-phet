@@ -39,7 +39,6 @@ define( function( require ) {
   var stopImage = require( 'image!SCENERY_PHET/../images/faucet_stop.png' );
   var pipeImage = require( 'image!SCENERY_PHET/../images/faucet_pipe.png' );
   var spoutImage = require( 'image!SCENERY_PHET/../images/faucet_spout.png' );
-  var spoutImage = require( 'image!SCENERY_PHET/../images/faucet_spout.png' );
 
   // constants
   var DEBUG_ORIGIN = false;
