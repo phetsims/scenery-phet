@@ -1,3 +1,4 @@
+6/7/13 rename HorizontalTiledNode to MeterBodyNode, see scenery#132
 6/7/13 migrate FillHighlighter to scenery-phet from molarity and beers-law-lab
 4/22/13 terminology change: module -> tab
 4/22/13 standardized terminology on "module" and "play area"

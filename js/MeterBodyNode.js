@@ -1,9 +1,13 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A node that is created for a specific width by horizontally tiling a set of nodes.
- * The left and right nodes can be thought of as 'book ends', with the center node tiled to fill the space in the middle.
- * This allows us to create (for example) control panels that have 3D-looking backgrounds, but can adjust to fit i18n.
+ * Used to create meter bodies (eg, the Concentration meter in Beer's Law Lab).
+ * The body has 3 parts: left, right, center.
+ * The left and right nodes can be thought of as 'book ends', with the center node stretched to fill the space in the middle.
+ * <p>
+ * NOTE: The center image should be something that can be stretched, versus tiled. A more general solution would
+ * (and in fact, did) use tiling via scenery.Pattern.  But that solution has vertical alignment problems. For more
+ * details on the problem, and whether it's been fixed, see scenery#132.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -26,13 +30,13 @@ define( function( require ) {
    * @param options
    * @constructor
    */
-  function HorizontalTiledNode( totalWidth, leftImage, centerImage, rightImage, options ) {
+  function MeterBody( totalWidth, leftImage, centerImage, rightImage, options ) {
 
     assert && assert( leftImage.height === centerImage.height && centerImage.height === rightImage.height ); // all images are the same height
     assert && assert( ( leftImage.width + rightImage.width ) <= totalWidth );  // center may be unused
 
     options = _.extend( {
-      xOverlap: 1  // how much the center overlaps with the left and right
+      overlap: 1  // how much the center overlaps with the left and right
     }, options );
 
     Node.call( this );
@@ -46,16 +50,17 @@ define( function( require ) {
     rightNode.right = totalWidth;
     this.addChild( rightNode );
 
-    // tile the center, with overlap between tiles to hide seams
-    var tiledWidth = totalWidth - leftNode.width - rightNode.width + ( 2 * options.xOverlap );
-    var centerNode = new Rectangle( 0, 0, tiledWidth, centerImage.height, { fill: new Pattern( centerImage ) } );
-    centerNode.left = leftNode.right - options.xOverlap;
+    // center, stretched to fit
+    var centerNode = new Image( centerImage );
+    var centerWidth = totalWidth - leftNode.width - rightNode.width + ( 2 * options.overlap );
+    centerNode.setScaleMagnitude( centerWidth / centerImage.width, 1 );
+    centerNode.left = leftNode.right - options.overlap;
     this.addChild( centerNode );
 
     this.mutate( options );
   }
 
-  inherit( Node, HorizontalTiledNode );
+  inherit( Node, MeterBody );
 
-  return HorizontalTiledNode;
+  return MeterBody;
 } );
