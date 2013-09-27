@@ -23,7 +23,6 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Pattern = require( 'SCENERY/util/Pattern' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -105,9 +104,10 @@ define( function( require ) {
     knobDisabledNode.y = knobNode.y;
 
     // pipe, tiled horizontally
+    var pipeNode = new Image( pipeImage, { pickable: false } );
     var pipeWidth = ( mvt.modelToViewDeltaX( faucet.location.x - faucet.pipeMinX ) / options.scale ) - SPOUT_OUTPUT_CENTER_X + PIPE_X_OVERLAP;
     assert && assert( pipeWidth > 0 );
-    var pipeNode = new Rectangle( 0, 0, pipeWidth, pipeImage.height, { fill: new Pattern( pipeImage )} );
+    pipeNode.setScaleMagnitude( pipeWidth / pipeImage.width, 1 );
 
     // other nodes
     var spoutNode = new Image( spoutImage, { pickable: false } );
