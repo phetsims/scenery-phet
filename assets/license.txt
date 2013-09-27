@@ -1,3 +1,4 @@
+faucet_components.ai source=PhET author=Sharon
 reset_button.ai source=PhET author=Sharon
 Clock.ai source=PhET author=Sharon
 SimpleClock.ai source=PhET author=John B

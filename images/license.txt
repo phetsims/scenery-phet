@@ -1,3 +1,11 @@
+faucet_flange.png author=PhET notes=created by Sharon Siman-Tov
+faucet_flange_disabled.png author=PhET notes=created by Sharon Siman-Tov
+faucet_knob.png author=PhET notes=created by Sharon Siman-Tov
+faucet_knob_disabled.png author=PhET notes=created by Sharon Siman-Tov
+faucet_pipe.png author=PhET notes=created by Sharon Siman-Tov
+faucet_shaft.png author=PhET notes=created by Sharon Siman-Tov
+faucet_spout.png author=PhET notes=created by Sharon Siman-Tov
+faucet_stop.png author=PhET notes=created by Sharon Siman-Tov
 reset_button_disabled.png source=PhET author=Sharon Siman-Tov
 reset_button_down.png source=PhET author=Sharon Siman-Tov
 reset_button_over.png source=PhET author=Sharon Siman-Tov
