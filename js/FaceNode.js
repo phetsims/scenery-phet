@@ -12,7 +12,6 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Node = require( 'SCENERY/nodes/Node' );

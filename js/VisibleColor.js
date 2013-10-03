@@ -8,7 +8,6 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var assert = require( 'ASSERT/assert' )( 'beers-law-lab' );
   var Color = require( 'SCENERY/util/Color' );
 
   function VisibleColor() {}

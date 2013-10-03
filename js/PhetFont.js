@@ -14,7 +14,6 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
 

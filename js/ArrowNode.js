@@ -12,7 +12,6 @@ define( function( require ) {
 
   // Imports
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
-  var assert = require( 'ASSERT/assert' )( 'scenery-phet' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );

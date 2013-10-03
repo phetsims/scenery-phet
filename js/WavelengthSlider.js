@@ -10,7 +10,6 @@ define( function( require ) {
 
   // imports
   var ArrowButton = require( 'SCENERY_PHET/ArrowButton' );
-  var assert = require( 'ASSERT/assert' )( 'beers-law-lab' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
