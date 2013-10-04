@@ -19,7 +19,8 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var strings = require( 'SCENERY_PHET/scenery-phet-strings' );
+  var pattern_0value_1unitsString = require( 'string!SCENERY_PHET/pattern_0value_1units' );
+  var units_nmString = require( 'string!SCENERY_PHET/units_nm' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -89,7 +90,7 @@ define( function( require ) {
     var thisNode = this;
     Text.call( this, '?', { font: font, fill: fill } );
     property.link( function( value ) {
-      thisNode.text = StringUtils.format( strings.pattern_0value_1units, value.toFixed( 0 ), strings.units_nm );
+      thisNode.text = StringUtils.format( pattern_0value_1unitsString, value.toFixed( 0 ), units_nmString );
     } );
   }
 
