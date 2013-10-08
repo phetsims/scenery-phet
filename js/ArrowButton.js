@@ -20,6 +20,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
+  var Timer = require( 'JOIST/Timer' );
 
   /**
    * @param {String} direction 'up'|'down'|'left'|'right'
@@ -97,11 +98,11 @@ define( function( require ) {
     var intervalID = null;
     var cleanupTimer = function() {
       if ( timeoutID ) {
-        window.clearTimeout( timeoutID );
+        Timer.clearTimeout( timeoutID );
         timeoutID = null;
       }
       if ( intervalID ) {
-        window.clearInterval( intervalID );
+        Timer.clearInterval( intervalID );
         intervalID = null;
       }
     };
@@ -113,10 +114,10 @@ define( function( require ) {
 
       down: function() {
         fired = false;
-        timeoutID = window.setTimeout( function() {
+        timeoutID = Timer.setTimeout( function() {
           timeoutID = null;
           fired = true;
-          intervalID = window.setInterval( function() {
+          intervalID = Timer.setInterval( function() {
             if ( enabled ) {
               callback();
             }
