@@ -29,14 +29,14 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // images
-  var knobImage = require( 'image!SCENERY_PHET/../images/faucet_knob.png' );
-  var knobDisabledImage = require( 'image!SCENERY_PHET/../images/faucet_knob_disabled.png' );
-  var shaftImage = require( 'image!SCENERY_PHET/../images/faucet_shaft.png' );
-  var flangeImage = require( 'image!SCENERY_PHET/../images/faucet_flange.png' );
-  var flangeDisabledImage = require( 'image!SCENERY_PHET/../images/faucet_flange_disabled.png' );
-  var stopImage = require( 'image!SCENERY_PHET/../images/faucet_stop.png' );
-  var pipeImage = require( 'image!SCENERY_PHET/../images/faucet_pipe.png' );
-  var spoutImage = require( 'image!SCENERY_PHET/../images/faucet_spout.png' );
+  var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
+  var knobDisabledImage = require( 'image!SCENERY_PHET/faucet_knob_disabled.png' );
+  var shaftImage = require( 'image!SCENERY_PHET/faucet_shaft.png' );
+  var flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
+  var flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
+  var stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
+  var pipeImage = require( 'image!SCENERY_PHET/faucet_pipe.png' );
+  var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
 
   // constants
   var DEBUG_ORIGIN = false;
