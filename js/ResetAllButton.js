@@ -15,9 +15,9 @@ define( function( require ) {
   var resetButtonDown = require( 'image!SCENERY_PHET/reset_button_down.png' );
   var resetButtonDisabled = require( 'image!SCENERY_PHET/reset_button_disabled.png' );
 
-  var radius = 33; // hardcoded width/height for the circle of the reset all button
-  var radiusSquared = radius * radius;
-  var center = new Vector2( radius, radius );
+  var RADIUS = resetButtonUp.width / 2; // assumes that all button images are circles and have the same dimensions.
+  var RADIUS_SQUARED = RADIUS * RADIUS;
+  var CENTER = new Vector2( RADIUS, RADIUS );
 
   function ResetAllButton( callback, options ) {
     PushButton.call( this,
@@ -34,7 +34,7 @@ define( function( require ) {
 
   inherit( Image, ResetAllImage, {
     containsPointSelf: function( point ) {
-      return point.distanceSquared( center ) <= radiusSquared;
+      return point.distanceSquared( CENTER ) <= RADIUS_SQUARED;
     }
   } );
 
