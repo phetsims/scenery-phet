@@ -50,12 +50,14 @@ define( function( require ) {
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in the spout image, through which you see the shooter handle
 
   /**
-   * @param {Faucet} faucet
-   * @param {ModelViewTransform2} mvt
+   * @param {Number} maxFlowRate
+   * @param {Property<Number>} flowRateProperty
+   * @param {Property<Boolean>} enabledProperty
+   * @param {Number} pipeLength distance between left edge of pipe and spout's center
    * @param {*} options
    * @constructor
    */
-  function FaucetNode( faucet, mvt, options ) {
+  function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, pipeLength, options ) {
 
     options = _.extend( {
       scale: 1,
@@ -105,9 +107,9 @@ define( function( require ) {
 
     // pipe, tiled horizontally
     var pipeNode = new Image( pipeImage, { pickable: false } );
-    var pipeWidth = ( mvt.modelToViewDeltaX( faucet.location.x - faucet.pipeMinX ) / options.scale ) - SPOUT_OUTPUT_CENTER_X + PIPE_X_OVERLAP;
-    assert && assert( pipeWidth > 0 );
-    pipeNode.setScaleMagnitude( pipeWidth / pipeImage.width, 1 );
+    var pipeNodeWidth = pipeLength - SPOUT_OUTPUT_CENTER_X + PIPE_X_OVERLAP;
+    assert && assert( pipeNodeWidth > 0 );
+    pipeNode.setScaleMagnitude( pipeNodeWidth / pipeImage.width, 1 );
 
     // other nodes
     var spoutNode = new Image( spoutImage, { pickable: false } );
@@ -142,12 +144,7 @@ define( function( require ) {
       shooterNode.centerY = spoutNode.top + SHOOTER_Y_OFFSET;
     }
 
-    // move to model location
-    var location = mvt.modelToViewPosition( faucet.location );
-    thisNode.x = location.x;
-    thisNode.y = location.y;
-
-    var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, faucet.maxFlowRate, true /* clamp */ );
+    var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
     // encourage dragging by the blue parts, but make the entire shooter draggable
     knobNode.cursor = 'pointer';
@@ -166,17 +163,17 @@ define( function( require ) {
 
         // adjust the flow
         drag: function( event ) {
-          if ( faucet.enabled.get() ) {
+          if ( enabledProperty.get() ) {
             var xParent = this.target.globalToParentPoint( event.pointer.point ).x;
             var xOffset = xParent - this.startXOffset;
             var flowRate = offsetToFlowRate( xOffset );
-            faucet.flowRate.set( flowRate );
+            flowRateProperty.set( flowRate );
           }
         },
 
         // turn off the faucet when the handle is released
         end: function() {
-          faucet.flowRate.set( 0 );
+          flowRateProperty.set( 0 );
           this.target = null;
         },
 
@@ -185,12 +182,12 @@ define( function( require ) {
         }
       } ) );
 
-    faucet.flowRate.link( function( flowRate ) {
+    flowRateProperty.link( function( flowRate ) {
       var xOffset = offsetToFlowRate.inverse( flowRate );
       shooterNode.x = spoutNode.left + xOffset;
     } );
 
-    faucet.enabled.link( function( enabled ) {
+    enabledProperty.link( function( enabled ) {
       knobNode.visible = enabled;
       knobDisabledNode.visible = !enabled;
       flangeNode.visible = enabled;
