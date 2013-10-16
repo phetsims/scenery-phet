@@ -175,10 +175,6 @@ define( function( require ) {
         end: function() {
           flowRateProperty.set( 0 );
           this.target = null;
-        },
-
-        // prevent default behavior that translates the node
-        translate: function() {
         }
       } ) );
 

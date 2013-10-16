@@ -210,10 +210,6 @@ define( function( require ) {
         drag: function( event ) {
           var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
           wavelength.set( positionToWavelength( x ) );
-        },
-
-        translate: function() {
-          // do nothing, override default behavior
         }
       } ) );
 
