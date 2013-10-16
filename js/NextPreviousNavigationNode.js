@@ -47,7 +47,10 @@ define( function( require ) {
       arrowWidth: 14,
       arrowHeight: 18,
       next: null, // function() { ... }
-      previous: null // function() { ... }
+      previous: null, // function() { ... }
+      touchAreaExtension: function( shape ) {
+        return null; // pass in function that returns a shape given the shape of the arrow
+      }
     }, selfOptions );
     
     var arrowWidth = selfOptions.arrowWidth;
@@ -66,7 +69,8 @@ define( function( require ) {
     var previousKitNode = new Path( previousShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
-      cursor: 'pointer' // TODO: buttonListener adds this maybe?
+      cursor: 'pointer', // TODO: buttonListener adds this maybe?
+      touchArea: selfOptions.touchAreaExtension( previousShape )
     } );
     previousKitNode.addInputListener( new ButtonListener( {
       fire: function( evt ) {
@@ -100,7 +104,8 @@ define( function( require ) {
     var nextKitNode = new Path( nextShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
-      cursor: 'pointer' // TODO: buttonListener adds this maybe?
+      cursor: 'pointer', // TODO: buttonListener adds this maybe?
+      touchArea: selfOptions.touchAreaExtension( nextShape )
     } );
     nextKitNode.addInputListener( new ButtonListener( {
       fire: function( evt ) {
