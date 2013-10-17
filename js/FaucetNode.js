@@ -149,34 +149,34 @@ define( function( require ) {
     // encourage dragging by the blue parts, but make the entire shooter draggable
     knobNode.cursor = 'pointer';
     flangeNode.cursor = 'pointer';
-    shooterNode.addInputListener( new SimpleDragHandler(
-      {
-        target: null, // save target, because event.currentTarget is null for drag.
-        startXOffset: 0, // where the drag started, relative to the target's origin, in parent view coordinates
+    var shooterHandler = new SimpleDragHandler( {
+      target: null, // save target, because event.currentTarget is null for drag.
+      startXOffset: 0, // where the drag started, relative to the target's origin, in parent view coordinates
 
-        allowTouchSnag: true,
+      allowTouchSnag: true,
 
-        start: function( event ) {
-          this.target = event.currentTarget;
-          this.startXOffset = this.target.globalToParentPoint( event.pointer.point ).x;
-        },
+      start: function( event ) {
+        this.target = event.currentTarget;
+        this.startXOffset = this.target.globalToParentPoint( event.pointer.point ).x;
+      },
 
-        // adjust the flow
-        drag: function( event ) {
-          if ( enabledProperty.get() ) {
-            var xParent = this.target.globalToParentPoint( event.pointer.point ).x;
-            var xOffset = xParent - this.startXOffset;
-            var flowRate = offsetToFlowRate( xOffset );
-            flowRateProperty.set( flowRate );
-          }
-        },
-
-        // turn off the faucet when the handle is released
-        end: function() {
-          flowRateProperty.set( 0 );
-          this.target = null;
+      // adjust the flow
+      drag: function( event ) {
+        if ( enabledProperty.get() ) {
+          var xParent = this.target.globalToParentPoint( event.pointer.point ).x;
+          var xOffset = xParent - this.startXOffset;
+          var flowRate = offsetToFlowRate( xOffset );
+          flowRateProperty.set( flowRate );
         }
-      } ) );
+      },
+
+      // turn off the faucet when the handle is released
+      end: function() {
+        flowRateProperty.set( 0 );
+        this.target = null;
+      }
+    } );
+    shooterNode.addInputListener( shooterHandler );
 
     flowRateProperty.link( function( flowRate ) {
       var xOffset = offsetToFlowRate.inverse( flowRate );
@@ -188,6 +188,9 @@ define( function( require ) {
       knobDisabledNode.visible = !enabled;
       flangeNode.visible = enabled;
       flangeDisabledNode.visible = !enabled;
+      if ( !enabled && shooterHandler.dragging ) {
+        shooterHandler.endDrag();
+      }
     } );
 
     thisNode.mutate( options );
