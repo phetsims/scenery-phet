@@ -1,6 +1,5 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
-//TODO requires further generalization, see scenery-phet#15
 /**
  * Faucet with a pinball machine 'shooter'.
  * Pulling out the shooter changes the flow rate.
