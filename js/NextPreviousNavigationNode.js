@@ -24,12 +24,13 @@ define( function( require ) {
   /*
    * @param {Node} centerNode
    * @param {Object} selfOptions  Valid options are:
-   *                                arrowColor      - color for the arrow's fill
-   *                                arrowStrokColor - color for the arrow's stroke
-   *                                arroWidth       - the width of the arrow, from its point to its side
-   *                                arrowHeight     - the height of the arrow, from tip to tip
-   *                                next            - a function to be called when the "next" arrow is pressed
-   *                                previous        - a function to be called when the "previous" arrow is pressed
+   *                                arrowColor         - color for the arrow's fill
+   *                                arrowStrokColor    - color for the arrow's stroke
+   *                                arroWidth          - the width of the arrow, from its point to its side
+   *                                arrowHeight        - the height of the arrow, from tip to tip
+   *                                next               - a function to be called when the "next" arrow is pressed
+   *                                previous           - a function to be called when the "previous" arrow is pressed
+   *                                touchAreaExtension - function( shape, isPrevious ) that returns the touch area for the specified arrow
    * @param {Object} nodeOptions  Passed to the Node constructor
    */
   function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
@@ -48,7 +49,7 @@ define( function( require ) {
       arrowHeight: 18,
       next: null, // function() { ... }
       previous: null, // function() { ... }
-      touchAreaExtension: function( shape ) {
+      touchAreaExtension: function( shape, isPrevious ) {
         return null; // pass in function that returns a shape given the shape of the arrow
       }
     }, selfOptions );
@@ -70,7 +71,7 @@ define( function( require ) {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
       cursor: 'pointer', // TODO: buttonListener adds this maybe?
-      touchArea: selfOptions.touchAreaExtension( previousShape )
+      touchArea: selfOptions.touchAreaExtension( previousShape, true )
     } );
     previousKitNode.addInputListener( new ButtonListener( {
       fire: function( evt ) {
@@ -105,7 +106,7 @@ define( function( require ) {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
       cursor: 'pointer', // TODO: buttonListener adds this maybe?
-      touchArea: selfOptions.touchAreaExtension( nextShape )
+      touchArea: selfOptions.touchAreaExtension( nextShape, false )
     } );
     nextKitNode.addInputListener( new ButtonListener( {
       fire: function( evt ) {
