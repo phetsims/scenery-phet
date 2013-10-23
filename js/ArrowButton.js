@@ -113,16 +113,18 @@ define( function( require ) {
       },
 
       down: function() {
-        fired = false;
-        timeoutID = Timer.setTimeout( function() {
-          timeoutID = null;
-          fired = true;
-          intervalID = Timer.setInterval( function() {
-            if ( enabled ) {
-              callback();
-            }
-          }, options.intervalDelay );
-        }, options.timerDelay );
+        if ( intervalID === null ) {
+          fired = false;
+          timeoutID = Timer.setTimeout( function() {
+            timeoutID = null;
+            fired = true;
+            intervalID = Timer.setInterval( function() {
+              if ( enabled ) {
+                callback();
+              }
+            }, options.intervalDelay );
+          }, options.timerDelay );
+        }
       },
 
       up: function() {
