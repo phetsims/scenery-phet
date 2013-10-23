@@ -113,7 +113,7 @@ define( function( require ) {
       },
 
       down: function() {
-        if ( intervalID === null ) {
+        if ( timeoutID === null && intervalID === null ) {
           fired = false;
           timeoutID = Timer.setTimeout( function() {
             timeoutID = null;
