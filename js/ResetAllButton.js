@@ -18,7 +18,15 @@ define( function( require ) {
   var resetButtonDown = require( 'image!SCENERY_PHET/reset_button_down.png' );
   var resetButtonDisabled = require( 'image!SCENERY_PHET/reset_button_disabled.png' );
 
-  var RADIUS = resetButtonUp.width / 2; // assumes that all button images are circles and have the same dimensions.
+  // TODO - WARNING - CAUTION
+  // The radius has been set to a fixed value due to an issue where, in some
+  // cases and on some browsers, the image would not be loaded at the time
+  // the radius was calculated, resulting in unresponsive reset buttons.
+  // This fix is short term, since a code-only version of the reset button is
+  // in the works, but if the image changes in the mean time, there may be
+  // some odd behavior.
+//  var RADIUS = resetButtonUp.width / 2; // assumes that all button images are circles and have the same dimensions.
+  var RADIUS = 33;  // assumes that all button images are circles and have the same dimensions.
   var RADIUS_SQUARED = RADIUS * RADIUS;
   var CENTER = new Vector2( RADIUS, RADIUS );
 
