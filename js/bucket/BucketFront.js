@@ -27,7 +27,7 @@ define( function( require ) {
   var BucketFront = function BucketFront( bucket, mvt, options ) {
 
     // Invoke super constructor.
-    Node.call( this );
+    Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( { labelFont: new PhetFont( { size: 20 } ) }, options );
 
