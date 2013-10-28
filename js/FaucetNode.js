@@ -40,14 +40,14 @@ define( function( require ) {
 
   // constants
   var DEBUG_ORIGIN = false;
-  var SPOUT_OUTPUT_CENTER_X = 112; // center of spout, determined by inspecting 'body' image file
-  var HORIZONTAL_PIPE_Y_OFFSET = 30; // y-offset of horizontal pipe in spout image
+  var SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
+  var HORIZONTAL_PIPE_Y_OFFSET = 30; // y-offset of horizontal pipe in bodyImage
   var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
   var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
-  var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in spout image
-  var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in spout image
-  var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in spout image
-  var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in the spout image, through which you see the shooter handle
+  var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in bodyImage
+  var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in bodyImage
+  var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in bodyImage
+  var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
 
   /**
    * @param {Number} maxFlowRate
