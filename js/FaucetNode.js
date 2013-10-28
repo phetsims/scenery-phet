@@ -35,28 +35,28 @@ define( function( require ) {
   var flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
   var flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
   var stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
-  var pipeImage = require( 'image!SCENERY_PHET/faucet_pipe.png' );
-  var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
+  var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
+  var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
 
   // constants
   var DEBUG_ORIGIN = false;
-  var SPOUT_OUTPUT_CENTER_X = 112; // center of spout, determined by inspecting image file
-  var PIPE_Y_OFFSET = 30; // y-offset of pipe in spout image
+  var SPOUT_OUTPUT_CENTER_X = 112; // center of spout, determined by inspecting 'body' image file
+  var HORIZONTAL_PIPE_Y_OFFSET = 30; // y-offset of horizontal pipe in spout image
+  var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
   var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in spout image
   var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in spout image
   var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in spout image
-  var PIPE_X_OVERLAP = 1; // overlap between pipe and spout, so vertical seam is not visible
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in the spout image, through which you see the shooter handle
 
   /**
    * @param {Number} maxFlowRate
    * @param {Property<Number>} flowRateProperty
    * @param {Property<Boolean>} enabledProperty
-   * @param {Number} pipeLength distance between left edge of pipe and spout's center
+   * @param {Number} horizontalPipeLength distance between left edge of horizontal pipe and spout's center
    * @param {*} options
    * @constructor
    */
-  function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, pipeLength, options ) {
+  function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, horizontalPipeLength, options ) {
 
     options = _.extend( {
       scale: 1,
@@ -104,23 +104,23 @@ define( function( require ) {
     knobDisabledNode.x = knobNode.x;
     knobDisabledNode.y = knobNode.y;
 
-    // pipe, tiled horizontally
-    var pipeNode = new Image( pipeImage, { pickable: false } );
-    var pipeNodeWidth = pipeLength - SPOUT_OUTPUT_CENTER_X + PIPE_X_OVERLAP;
-    assert && assert( pipeNodeWidth > 0 );
-    pipeNode.setScaleMagnitude( pipeNodeWidth / pipeImage.width, 1 );
+    // horizontal pipe, tiled horizontally
+    var horizontalPipeNode = new Image( horizontalPipeImage, { pickable: false } );
+    var horizontalPipeWidth = horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
+    assert && assert( horizontalPipeWidth > 0 );
+    horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / horizontalPipeImage.width, 1 );
 
     // other nodes
-    var spoutNode = new Image( spoutImage, { pickable: false } );
-    var windowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
+    var bodyNode = new Image( bodyImage, { pickable: false } );
+    var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
 
     // rendering order
-    thisNode.addChild( windowNode );
+    thisNode.addChild( shooterWindowNode );
     thisNode.addChild( shooterNode );
-    thisNode.addChild( pipeNode );
-    thisNode.addChild( spoutNode );
+    thisNode.addChild( horizontalPipeNode );
+    thisNode.addChild( bodyNode );
 
     // origin
     if ( DEBUG_ORIGIN ) {
@@ -130,17 +130,17 @@ define( function( require ) {
     // layout
     {
       // move spout's origin to the center of it's output
-      spoutNode.x = -SPOUT_OUTPUT_CENTER_X;
-      spoutNode.y = -spoutNode.height;
-      // window is in the spout's coordinate frame
-      windowNode.x = spoutNode.x;
-      windowNode.y = spoutNode.y;
-      // pipe connects to left edge of spout
-      pipeNode.right = spoutNode.left + PIPE_X_OVERLAP;
-      pipeNode.top = spoutNode.top + PIPE_Y_OFFSET;
-      // shooter at top of spout
-      shooterNode.left = spoutNode.left + SHOOTER_MIN_X_OFFSET;
-      shooterNode.centerY = spoutNode.top + SHOOTER_Y_OFFSET;
+      bodyNode.x = -SPOUT_OUTPUT_CENTER_X;
+      bodyNode.y = -bodyNode.height;
+      // shooter window is in the spout's coordinate frame
+      shooterWindowNode.x = bodyNode.x;
+      shooterWindowNode.y = bodyNode.y;
+      // horizontal pipe connects to left edge of body
+      horizontalPipeNode.right = bodyNode.left + HORIZONTAL_PIPE_X_OVERLAP;
+      horizontalPipeNode.top = bodyNode.top + HORIZONTAL_PIPE_Y_OFFSET;
+      // shooter at top of body
+      shooterNode.left = bodyNode.left + SHOOTER_MIN_X_OFFSET;
+      shooterNode.centerY = bodyNode.top + SHOOTER_Y_OFFSET;
     }
 
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
@@ -179,7 +179,7 @@ define( function( require ) {
 
     flowRateProperty.link( function( flowRate ) {
       var xOffset = offsetToFlowRate.inverse( flowRate );
-      shooterNode.x = spoutNode.left + xOffset;
+      shooterNode.x = bodyNode.left + xOffset;
     } );
 
     enabledProperty.link( function( enabled ) {
