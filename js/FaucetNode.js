@@ -5,11 +5,7 @@
  * Pulling out the shooter changes the flow rate.
  * Releasing the shooter sets the flow rate to zero.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
- * <p>
  * Origin is at the bottom-center of the spout.
- * <p>
- * Assumes that this node's parent is in the same coordinate frame as the model-view transform.
- * Scaling must be done via options parameter, eg: {scale: 0.75 }
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
