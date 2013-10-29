@@ -8,14 +8,16 @@ define( function( require ) {
 
   // Includes
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PushButton = require( 'SUN/PushButton' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // Constants
-  var DEFAULT_RADIUS = 33; // Derived from images initially used for reset button.
+  var DEFAULT_RADIUS = 32; // Derived from images initially used for reset button.
 
   /**
    * @param {function} callback
@@ -38,7 +40,7 @@ define( function( require ) {
     var endToNeckAngularSpan = -2 * Math.PI * 0.85;
     var arrowHeadAngularSpan = -Math.PI * 0.18;
     var curvedArrowShape = new Shape();
-    curvedArrowShape.moveTo( innerRadius * Math.cos( startAngle ), innerRadius * Math.sin( startAngle ) );
+    curvedArrowShape.moveTo( innerRadius * Math.cos( startAngle ), innerRadius * Math.sin( startAngle ) ); // Inner edge of end.
     curvedArrowShape.lineTo( outerRadius * Math.cos( startAngle ), outerRadius * Math.sin( startAngle ) );
     var neckAngle = startAngle + endToNeckAngularSpan;
     curvedArrowShape.arc( 0, 0, outerRadius, startAngle, neckAngle, true ); // Outer curve.
@@ -47,22 +49,36 @@ define( function( require ) {
       ( outerRadius + headWidthExtrusion ) * Math.cos( neckAngle ),
       ( outerRadius + headWidthExtrusion ) * Math.sin( neckAngle ) );
     var pointRadius = ( outerRadius + innerRadius ) * 0.55; // Tweaked a little from center for better look.
-    // Point of the arrow.
-    curvedArrowShape.lineTo( pointRadius * Math.cos( neckAngle + arrowHeadAngularSpan ), pointRadius * Math.sin( neckAngle + arrowHeadAngularSpan ) );
+    curvedArrowShape.lineTo( // Tip of arrowhead.
+      pointRadius * Math.cos( neckAngle + arrowHeadAngularSpan ),
+      pointRadius * Math.sin( neckAngle + arrowHeadAngularSpan ) );
     curvedArrowShape.lineTo( ( innerRadius - headWidthExtrusion ) * Math.cos( neckAngle ), ( innerRadius - headWidthExtrusion ) * Math.sin( neckAngle ) );
     curvedArrowShape.lineTo( innerRadius * Math.cos( neckAngle ), innerRadius * Math.sin( neckAngle ) );
-    curvedArrowShape.arc( 0, 0, innerRadius, neckAngle, startAngle );
+    curvedArrowShape.arc( 0, 0, innerRadius, neckAngle, startAngle ); // Inner curve.
     curvedArrowShape.close();
 
-    var node = new Circle( options.radius, { fill: 'orange' } );
-    node.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    // Local convenience function for creating gradients to use on buttons.
+    var createButtonFillGradient = function( baseColor ) {
+      var buttonGradient = new RadialGradient( -options.radius * 0.4, -options.radius * 0.4, 0, -options.radius * 0.4, -options.radius * 0.4, options.radius * 1.6 );
+      buttonGradient.addColorStop( 0, baseColor.colorUtilsBrighter( 0.4 ) );
+      buttonGradient.addColorStop( 1, baseColor );
+      return buttonGradient;
+    }
 
-    PushButton.call( this,
-      node,
-      new Circle( options.radius, { fill: 'yellow' } ),
-      new Circle( options.radius, { fill: 'pink' } ),
-      new Circle( options.radius, { fill: 'gray' } ),
-      callback, options );
+    var outlineGradient = new RadialGradient( -options.radius * 0.4, -options.radius * 0.4, 0, -options.radius * 0.4, -options.radius * 0.4, options.radius * 1.6 );
+    outlineGradient.addColorStop( 0, 'rgb( 230, 230, 230 )' );
+    outlineGradient.addColorStop( 1, 'black' );
+
+    var upNode = new Circle( options.radius, { fill: createButtonFillGradient( new Color( 247, 151, 34 ) ), stroke: outlineGradient, lineWidth: 2 } );
+    upNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    var overNode = new Circle( options.radius, { fill: createButtonFillGradient( new Color( 251, 171, 39 ) ), stroke: outlineGradient, lineWidth: 2 } );
+    overNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    var downNode = new Circle( options.radius, { fill: 'rgb( 235, 141, 24 )', stroke: outlineGradient, lineWidth: 2 } );
+    downNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    var disabledNode = new Circle( options.radius, { fill: createButtonFillGradient( new Color( 220, 220, 220 ) ), stroke: outlineGradient, lineWidth: 2 } );
+    disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )' } ) );
+
+    PushButton.call( this, upNode, overNode, downNode, disabledNode, callback, options );
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
   }
 
