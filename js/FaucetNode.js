@@ -107,7 +107,7 @@ define( function( require ) {
     knobDisabledNode.y = knobNode.y;
 
     // horizontal pipe, tiled horizontally
-    var horizontalPipeNode = new Image( horizontalPipeImage, { pickable: false } );
+    var horizontalPipeNode = new Image( horizontalPipeImage );
     var horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / horizontalPipeImage.width, 1 );
@@ -120,7 +120,7 @@ define( function( require ) {
 
     // other nodes
     var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( bodyImage, { pickable: false } );
+    var bodyNode = new Image( bodyImage );
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
