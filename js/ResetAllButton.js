@@ -18,38 +18,36 @@ define( function( require ) {
   var resetButtonDown = require( 'image!SCENERY_PHET/reset_button_down.png' );
   var resetButtonDisabled = require( 'image!SCENERY_PHET/reset_button_disabled.png' );
 
-  // TODO - WARNING - CAUTION
-  // The radius has been set to a fixed value due to an issue where, in some
-  // cases and on some browsers, the image would not be loaded at the time
-  // the radius was calculated, resulting in unresponsive reset buttons.
-  // This fix is short term, since a code-only version of the reset button is
-  // in the works, but if the image changes in the mean time, there may be
-  // some odd behavior.
-//  var RADIUS = resetButtonUp.width / 2; // assumes that all button images are circles and have the same dimensions.
-  var RADIUS = 33;  // assumes that all button images are circles and have the same dimensions.
-  var RADIUS_SQUARED = RADIUS * RADIUS;
-  var CENTER = new Vector2( RADIUS, RADIUS );
-
   function ResetAllButton( callback, options ) {
+    var resetAllButton = this;
+
+    //Compute the image metrics in the constructor to make sure SimLauncher.doneLoadingImages has completed
+    this.RADIUS = resetButtonUp.width / 2; // assumes that all button images are circles and have the same dimensions.
+    this.RADIUS_SQUARED = this.RADIUS * this.RADIUS;
+    this.CENTER = new Vector2( this.RADIUS, this.RADIUS );
+
     options = _.extend( {
-      touchAreaRadius: RADIUS + 5 // convenience for expanding the touchArea, which is a circle
+      touchAreaRadius: resetAllButton.RADIUS + 5, // convenience for expanding the touchArea, which is a circle
+      pickable: true
     }, options );
     PushButton.call( this,
-      new ResetAllImage( resetButtonUp ),
-      new ResetAllImage( resetButtonOver ),
-      new ResetAllImage( resetButtonDown ),
-      new ResetAllImage( resetButtonDisabled ),
+      new ResetAllImage( resetButtonUp, this.CENTER ),
+      new ResetAllImage( resetButtonOver, this.CENTER ),
+      new ResetAllImage( resetButtonDown, this.CENTER ),
+      new ResetAllImage( resetButtonDisabled, this.CENTER ),
       callback, options );
-    this.touchArea = Shape.circle( CENTER.x, CENTER.y, options.touchAreaRadius );
+    this.touchArea = Shape.circle( this.CENTER.x, this.CENTER.y, options.touchAreaRadius );
+    this.mouseArea = Shape.circle( this.CENTER.x, this.CENTER.y, this.RADIUS );
   }
 
-  function ResetAllImage( image ) {
+  function ResetAllImage( image, CENTER ) {
     Image.call( this, image );
+    this.CENTER = CENTER;
   }
 
   inherit( Image, ResetAllImage, {
     containsPointSelf: function( point ) {
-      return point.distanceSquared( CENTER ) <= RADIUS_SQUARED;
+      return point.distanceSquared( this.CENTER ) <= this.RADIUS_SQUARED;
     }
   } );
 
