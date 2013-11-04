@@ -31,7 +31,7 @@ define( function( require ) {
       radius: DEFAULT_RADIUS,
       touchAreaRadius: DEFAULT_RADIUS * 1.3 // convenience for expanding the touchArea, which is a circle
     }, options );
-    options.callback = callback;
+    options.listener = callback;
 
     // Create the curved arrow shape, starting at the inside of the non-
     // pointed end.  The parameters immediately below can be adjusted in order
