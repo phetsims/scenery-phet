@@ -30,12 +30,13 @@ define( function( require ) {
       touchAreaRadius: resetAllButton.RADIUS + 5, // convenience for expanding the touchArea, which is a circle
       pickable: true
     }, options );
+    options.callback = callback;
     PushButton.call( this,
       new ResetAllImage( resetButtonUp, this.CENTER ),
       new ResetAllImage( resetButtonOver, this.CENTER ),
       new ResetAllImage( resetButtonDown, this.CENTER ),
       new ResetAllImage( resetButtonDisabled, this.CENTER ),
-      callback, options );
+      options );
     this.touchArea = Shape.circle( this.CENTER.x, this.CENTER.y, options.touchAreaRadius );
     this.mouseArea = Shape.circle( this.CENTER.x, this.CENTER.y, this.RADIUS );
   }

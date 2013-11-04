@@ -31,6 +31,7 @@ define( function( require ) {
       radius: DEFAULT_RADIUS,
       touchAreaRadius: DEFAULT_RADIUS * 1.3 // convenience for expanding the touchArea, which is a circle
     }, options );
+    options.callback = callback;
 
     // Create the curved arrow shape, starting at the inside of the non-
     // pointed end.  The parameters immediately below can be adjusted in order
@@ -92,7 +93,7 @@ define( function( require ) {
     disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )' } ) );
 
     // Create the actual button by invoking the parent type.
-    PushButton.call( this, upNode, overNode, downNode, disabledNode, callback, options );
+    PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
 
     // Expend the touch area so that the button works better on touch devices.
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
