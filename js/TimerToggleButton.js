@@ -30,6 +30,7 @@ define( function( require ) {
    */
   function TimerToggleButton( enabledProperty, options ) {
 
+    //TODO scenery-phet#19 this has lots of problems
     // This node's size needs to match the size of SoundToggleButton, so the
     // largest icon used in that node is created as a reference.
     var tempSoundToggleButton = new FontAwesomeNode( 'volume_up' );
