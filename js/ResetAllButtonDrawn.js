@@ -42,6 +42,7 @@ define( function( require ) {
     var startAngle = -Math.PI * 0.35;
     var endToNeckAngularSpan = -2 * Math.PI * 0.85;
     var arrowHeadAngularSpan = -Math.PI * 0.18;
+    //---- End of tweak params ----
     var curvedArrowShape = new Shape();
     curvedArrowShape.moveTo( innerRadius * Math.cos( startAngle ), innerRadius * Math.sin( startAngle ) ); // Inner edge of end.
     curvedArrowShape.lineTo( outerRadius * Math.cos( startAngle ), outerRadius * Math.sin( startAngle ) );
@@ -87,7 +88,7 @@ define( function( require ) {
     overNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
     var downNode = new Circle( options.radius, { fill: createPushedButtonGradient( new Color( 235, 141, 24 ) ), stroke: outlineGradient, lineWidth: 2 } );
     var downNodeArrow = new Path( curvedArrowShape, { fill: 'white' } );
-    downNodeArrow.translate( -options.radius * 0.03, -options.radius * 0.03 );
+    downNodeArrow.translate( -options.radius * 0.015, -options.radius * 0.015 );
     downNode.addChild( downNodeArrow );
     var disabledNode = new Circle( options.radius, { fill: createButtonFillGradient( new Color( 220, 220, 220 ) ), stroke: outlineGradient, lineWidth: 2 } );
     disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )' } ) );
