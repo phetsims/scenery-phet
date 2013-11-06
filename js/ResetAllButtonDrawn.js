@@ -26,14 +26,14 @@ define( function( require ) {
 
   // Inner type for creating button nodes used for various button states.
   function ButtonStateNode( radius, fill, iconShape ) {
-    Node.call( this );
+    Node.call( this, { pickable: false } );
     var backgroundGradient = new RadialGradient( radius * 0.05, radius * 0.05, radius * 0.85, 0, 0, radius * 1.2 );
     backgroundGradient.addColorStop( 0, 'black' );
     backgroundGradient.addColorStop( 1, 'rgb( 230, 230, 230 )' );
     this.addChild( new Circle( radius, { fill: backgroundGradient } ) );
     var innerButtonRadius = radius * 0.92; // Multiplier determined by eyeballing it.
     this.addChild( new Circle( innerButtonRadius, { fill: fill } ) );
-    this.addChild( new Path( iconShape, { fill: 'white', pickable: false } ) );
+    this.addChild( new Path( iconShape, { fill: 'white' } ) );
   }
 
   inherit( Node, ButtonStateNode );
@@ -54,7 +54,7 @@ define( function( require ) {
     // pointed end.  The parameters immediately below can be adjusted in order
     // to tweak the appearance of the arrow.
     var innerRadius = options.radius * 0.4;
-    var outerRadius = options.radius * 0.65;
+    var outerRadius = options.radius * 0.625;
     var headWidth = 2.25 * ( outerRadius - innerRadius );
     var startAngle = -Math.PI * 0.35;
     var endToNeckAngularSpan = -2 * Math.PI * 0.85;
@@ -104,6 +104,9 @@ define( function( require ) {
 
     // Create the actual button by invoking the parent type.
     PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
+
+    // Add an explicit mouse area so that the child nodes can all be non-pickable.
+    this.mouseArea = Shape.circle( 0, 0, options.radius );
 
     // Expand the touch area so that the button works better on touch devices.
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
