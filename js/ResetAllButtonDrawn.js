@@ -90,19 +90,19 @@ define( function( require ) {
     // Create the nodes for each of the button states.
     var innerButtonRadius = options.radius * 0.92; // Multiplier determined by eyeballing it.
     var upNode = createBackgroundNode();
-    upNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 247, 151, 34 ) ) } ) );
-    upNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    upNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 247, 151, 34 ) ), pickable: false } ) );
+    upNode.addChild( new Path( curvedArrowShape, { fill: 'white', pickable: false } ) );
     var overNode = createBackgroundNode();
-    overNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 251, 171, 39 ) )} ) );
-    overNode.addChild( new Path( curvedArrowShape, { fill: 'white' } ) );
+    overNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 251, 171, 39 ) ), pickable: false} ) );
+    overNode.addChild( new Path( curvedArrowShape, { fill: 'white', pickable: false } ) );
     var downNode = createBackgroundNode();
-    downNode.addChild( new Circle( innerButtonRadius, { fill: createPushedButtonGradient( new Color( 235, 141, 24 ) ) } ) );
-    var downNodeArrow = new Path( curvedArrowShape, { fill: 'white' } );
+    downNode.addChild( new Circle( innerButtonRadius, { fill: createPushedButtonGradient( new Color( 235, 141, 24 ) ), pickable: false } ) );
+    var downNodeArrow = new Path( curvedArrowShape, { fill: 'white', pickable: false } );
     downNodeArrow.translate( -innerButtonRadius * 0.015, -innerButtonRadius * 0.015 );
     downNode.addChild( downNodeArrow );
     var disabledNode = createBackgroundNode();
-    disabledNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 220, 220, 220 ) ) } ) );
-    disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )' } ) );
+    disabledNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 220, 220, 220 ) ), pickable: false } ) );
+    disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )', pickable: false } ) );
 
     // Create the actual button by invoking the parent type.
     PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
