@@ -1,7 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Reset All button.
+ * Reset All button.  This version is drawn in code, and does not use any
+ * image files.
  *
  * @author John Blanco
  */
@@ -12,6 +13,8 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Matrix3 = require( 'DOT/Matrix3' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PushButton = require( 'SUN/PushButton' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -20,6 +23,20 @@ define( function( require ) {
 
   // Constants
   var DEFAULT_RADIUS = 32; // Derived from images initially used for reset button.
+
+  // Inner type for creating button nodes used for various button states.
+  function ButtonStateNode( radius, fill, iconShape ) {
+    Node.call( this );
+    var backgroundGradient = new RadialGradient( radius * 0.05, radius * 0.05, radius * 0.85, 0, 0, radius * 1.2 );
+    backgroundGradient.addColorStop( 0, 'black' );
+    backgroundGradient.addColorStop( 1, 'rgb( 230, 230, 230 )' );
+    this.addChild( new Circle( radius, { fill: backgroundGradient } ) );
+    var innerButtonRadius = radius * 0.92; // Multiplier determined by eyeballing it.
+    this.addChild( new Circle( innerButtonRadius, { fill: fill } ) );
+    this.addChild( new Path( iconShape, { fill: 'white', pickable: false } ) );
+  }
+
+  inherit( Node, ButtonStateNode );
 
   /**
    * @param {function} callback
@@ -61,15 +78,6 @@ define( function( require ) {
     curvedArrowShape.arc( 0, 0, innerRadius, neckAngle, startAngle ); // Inner curve.
     curvedArrowShape.close();
 
-    var outlineGradient = new RadialGradient( options.radius * 0.05, options.radius * 0.05, options.radius * 0.85, 0, 0, options.radius * 1.2 );
-    outlineGradient.addColorStop( 0, 'black' );
-    outlineGradient.addColorStop( 1, 'rgb( 230, 230, 230 )' );
-
-    // Local function for creating the background.
-    var createBackgroundNode = function() {
-      return new Circle( options.radius, { fill: outlineGradient } );
-    };
-
     // Local functions for creating gradients to use on buttons.
     var createButtonFillGradient = function( baseColor ) {
       var buttonGradient = new RadialGradient( options.radius * 0.05, options.radius * 0.05, options.radius * 0.87, 0, 0, options.radius );
@@ -88,26 +96,16 @@ define( function( require ) {
     };
 
     // Create the nodes for each of the button states.
-    var innerButtonRadius = options.radius * 0.92; // Multiplier determined by eyeballing it.
-    var upNode = createBackgroundNode();
-    upNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 247, 151, 34 ) ), pickable: false } ) );
-    upNode.addChild( new Path( curvedArrowShape, { fill: 'white', pickable: false } ) );
-    var overNode = createBackgroundNode();
-    overNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 251, 171, 39 ) ), pickable: false} ) );
-    overNode.addChild( new Path( curvedArrowShape, { fill: 'white', pickable: false } ) );
-    var downNode = createBackgroundNode();
-    downNode.addChild( new Circle( innerButtonRadius, { fill: createPushedButtonGradient( new Color( 235, 141, 24 ) ), pickable: false } ) );
-    var downNodeArrow = new Path( curvedArrowShape, { fill: 'white', pickable: false } );
-    downNodeArrow.translate( -innerButtonRadius * 0.015, -innerButtonRadius * 0.015 );
-    downNode.addChild( downNodeArrow );
-    var disabledNode = createBackgroundNode();
-    disabledNode.addChild( new Circle( innerButtonRadius, { fill: createButtonFillGradient( new Color( 220, 220, 220 ) ), pickable: false } ) );
-    disabledNode.addChild( new Path( curvedArrowShape, { fill: 'rgb( 240, 240, 240 )', pickable: false } ) );
+    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 247, 151, 34 ) ), curvedArrowShape );
+    var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 251, 171, 39 ) ), curvedArrowShape );
+    var translatedArrowShape = curvedArrowShape.transformed( Matrix3.translation( -options.radius * 0.015, -options.radius * 0.015 ) );
+    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( new Color( 235, 141, 24 ) ), translatedArrowShape );
+    var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 180, 180, 180 ) ), curvedArrowShape );
 
     // Create the actual button by invoking the parent type.
     PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
 
-    // Expend the touch area so that the button works better on touch devices.
+    // Expand the touch area so that the button works better on touch devices.
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
   }
 
