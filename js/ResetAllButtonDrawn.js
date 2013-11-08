@@ -98,7 +98,7 @@ define( function( require ) {
     // Create the nodes for each of the button states.
     var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 247, 151, 34 ) ), curvedArrowShape );
     var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 251, 171, 39 ) ), curvedArrowShape );
-    var translatedArrowShape = curvedArrowShape.transformed( Matrix3.translation( -options.radius * 0.015, -options.radius * 0.015 ) );
+    var translatedArrowShape = curvedArrowShape.transformed( Matrix3.translation( options.radius * 0.01, options.radius * 0.01 ) );
     var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( new Color( 235, 141, 24 ) ), translatedArrowShape );
     var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 180, 180, 180 ) ), curvedArrowShape );
 
