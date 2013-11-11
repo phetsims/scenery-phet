@@ -12,32 +12,20 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var PushButton = require( 'SUN/PushButton' );
-  var Highlight = require( 'JOIST/Highlight' );
 
-  function HomeButton( fill, pressedFill, options ) {
+  function HomeButton( fill, options ) {
 
-    var icon = function( fill, highlighted ) {
-      var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
-      if ( highlighted ) {
-        var highlight = Highlight.createHighlightVisible( node.width + 4, node.height );
-        highlight.centerX = node.centerX;
-        highlight.centerY = node.centerY;
-        return new Node( {children: [node, highlight]} );
-      }
-      else {
-        return node;
-      }
-    };
-    PushButton.call( this, icon( fill, false ), icon( fill, true ), icon( pressedFill, true ), icon( fill, false ) );
+    options = _.extend( { cursor: 'pointer' }, options );
 
-    if ( options ) {
-      this.mutate( options );
-    }
-    this.mouseArea = this.touchArea = Shape.rectangle( this.bounds.minX, this.bounds.minY, this.bounds.width, this.bounds.height );
+    Node.call( this, options );
+
+    var icon = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
+    this.mouseArea = this.touchArea = Shape.rectangle( icon.bounds.minX, icon.bounds.minY, icon.bounds.width, icon.bounds.height );
+    this.addChild( icon );
   }
 
-  return inherit( PushButton, HomeButton );
+  inherit( Node, HomeButton );
+
+  return HomeButton;
 } );
