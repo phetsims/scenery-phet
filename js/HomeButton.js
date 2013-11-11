@@ -22,10 +22,7 @@ define( function( require ) {
     var icon = function( fill, highlighted ) {
       var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
       if ( highlighted ) {
-        var highlight = new HighlightNode( node.width + 4, node.height );
-        highlight.centerX = node.centerX;
-        highlight.centerY = node.centerY;
-        return new Node( {children: [node, highlight]} );
+        return new Node( {children: [node, new HighlightNode( node.width + 4, node.height, {center: node.center} )]} );
       }
       else {
         return node;
