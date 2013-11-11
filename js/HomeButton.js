@@ -15,14 +15,14 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var PushButton = require( 'SUN/PushButton' );
-  var Highlight = require( 'JOIST/Highlight' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
 
   function HomeButton( fill, pressedFill, options ) {
 
     var icon = function( fill, highlighted ) {
       var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
       if ( highlighted ) {
-        var highlight = Highlight.createHighlightVisible( node.width + 4, node.height );
+        var highlight = new HighlightNode( node.width + 4, node.height );
         highlight.centerX = node.centerX;
         highlight.centerY = node.centerY;
         return new Node( {children: [node, highlight]} );
