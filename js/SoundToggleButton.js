@@ -12,7 +12,6 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ToggleButton = require( 'SUN/ToggleButton' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
 
   function SoundToggleButton( property, options ) {
     ToggleButton.call( this,
