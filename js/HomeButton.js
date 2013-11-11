@@ -17,12 +17,12 @@ define( function( require ) {
   var PushButton = require( 'SUN/PushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
-  function HomeButton( fill, pressedFill, options ) {
+  function HomeButton( fill, pressedFill, whiteColorScheme, options ) {
 
     var icon = function( fill, highlighted ) {
       var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
       if ( highlighted ) {
-        return new Node( {children: [node, new HighlightNode( node.width + 4, node.height, {center: node.center} )]} );
+        return new Node( {children: [node, new HighlightNode( node.width + 4, node.height, {center: node.center, whiteHighlight: !whiteColorScheme} )]} );
       }
       else {
         return node;
