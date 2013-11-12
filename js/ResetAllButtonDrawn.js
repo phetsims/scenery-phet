@@ -1,8 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Reset All button.  This version is drawn in code, and does not use any
- * image files.
+ * Reset All button.  This version is drawn in code using shapes, gradients,
+ * and such, and does not use any image files.
  *
  * @author John Blanco
  */
