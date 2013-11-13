@@ -14,6 +14,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -26,10 +27,11 @@ define( function( require ) {
 
   /**
    * @param {function} callback
+   * @param {Node} label - Node to put on surface of button, could be icon or text
    * @param {Object} options
    * @constructor
    */
-  function PushButton( callback, options ) {
+  function PushButton( callback, content, options ) {
 
     options = _.extend( {
       // Default values.
@@ -40,9 +42,8 @@ define( function( require ) {
       disabledBaseColor: new Color( 220, 220, 220 ),
       stroke: 'black',
       lineWidth: 1,
-      listener: null
+      listener: callback
     }, options );
-    options.listener = callback;
 
     var thisButton = this;
     Node.call( thisButton );
@@ -57,6 +58,24 @@ define( function( require ) {
     // Convenience vars
     var length = options.length;
     var cornerRounding = options.length * CORNER_ROUNDING_PROPORTION;
+
+    // Gradient fills used for various button states
+    thisButton.upFill = new LinearGradient( 0, 0, 0, options.length )
+      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.5 ) )
+      .addColorStop( 0.2, thisButton.baseColor )
+      .addColorStop( 0.9, thisButton.baseColor )
+      .addColorStop( 1, thisButton.baseColor.colorUtilsDarker( 0.5 ) );
+
+    thisButton.overFill = new LinearGradient( 0, 0, 0, options.length )
+      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.7 ) )
+      .addColorStop( 0.2, thisButton.baseColor.colorUtilsBrighter( 0.2 ) )
+      .addColorStop( 0.9, thisButton.baseColor.colorUtilsBrighter( 0.2 ) )
+      .addColorStop( 1, thisButton.baseColor.colorUtilsDarker( 0.5 ) );
+
+    thisButton.downFill = new LinearGradient( 0, 0, 0, options.length )
+      .addColorStop( 0, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
+      .addColorStop( 0.8, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
+      .addColorStop( 1, thisButton.baseColor );
 
     thisButton.background = new Rectangle( 0, 0, length, length, cornerRounding, cornerRounding,
       {
@@ -153,15 +172,15 @@ define( function( require ) {
         switch( this._state ) {
 
           case 'up':
-            this.background.fill = this.baseColor;
+            this.background.fill = this.upFill;
             break;
 
           case 'down':
-            this.background.fill = this.baseColor.colorUtilsDarker( 0.5 );
+            this.background.fill = this.downFill;
             break;
 
           case 'over':
-            this.background.fill = this.baseColor.colorUtilsBrighter( 0.5 );
+            this.background.fill = this.overFill;
             break;
         }
       }
