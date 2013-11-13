@@ -22,22 +22,21 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  // Constants
-  var CORNER_ROUNDING_PROPORTION = 0.2; // Arrived at through rigorous optical scrutiny (basically a guess).
-
   /**
    * @param {function} callback
-   * @param {Node} label - Node to put on surface of button, could be icon or text
+   * @param {Node} label - Node to put on surface of button, could be text, icon, or whatever
    * @param {Object} options
    * @constructor
    */
-  function PushButton( callback, content, options ) {
+  function PushButton( callback, label, options ) {
 
     options = _.extend( {
       // Default values.
       cursor: 'pointer',
-      length: 32, // Fairly arbitrary
-      touchAreaLengthProportion: 1.3,
+      cornerRounding: 4,
+      widthProportion: 1.3,
+      heightProportion: 1.3,
+      touchAreaExpansionFactor: 1.3,
       baseColor: new Color( 179, 218, 255 ),
       disabledBaseColor: new Color( 220, 220, 220 ),
       stroke: 'black',
@@ -48,42 +47,46 @@ define( function( require ) {
     var thisButton = this;
     Node.call( thisButton );
 
+    thisButton.buttonWidth = label.width * options.widthProportion;
+    this.buttonHeight = label.height * options.heightProportion;
     thisButton._state = 'up';
     thisButton._enabled = new Property( options.enabled );
     thisButton._listeners = [];
     if ( options.listener ) { thisButton._listeners.push( options.listener ); }
     thisButton.baseColor = options.baseColor;
     thisButton.disabledBaseColor = options.disabledBaseColor;
-
-    // Convenience vars
-    var length = options.length;
-    var cornerRounding = options.length * CORNER_ROUNDING_PROPORTION;
+    thisButton.label = label;
+    thisButton.upCenter = new Vector2( thisButton.buttonWidth / 2, thisButton.buttonHeight / 2 );
+    thisButton.downCenter = new Vector2( thisButton.buttonWidth * 0.51, thisButton.buttonHeight * 0.51 );
 
     // Gradient fills used for various button states
-    thisButton.upFill = new LinearGradient( 0, 0, 0, options.length )
-      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.5 ) )
+    thisButton.upFill = new LinearGradient( 0, 0, 0, thisButton.buttonHeight )
+      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.7 ) )
       .addColorStop( 0.2, thisButton.baseColor )
       .addColorStop( 0.9, thisButton.baseColor )
       .addColorStop( 1, thisButton.baseColor.colorUtilsDarker( 0.5 ) );
 
-    thisButton.overFill = new LinearGradient( 0, 0, 0, options.length )
-      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.7 ) )
+    thisButton.overFill = new LinearGradient( 0, 0, 0, thisButton.buttonHeight )
+      .addColorStop( 0, thisButton.baseColor.colorUtilsBrighter( 0.9 ) )
       .addColorStop( 0.2, thisButton.baseColor.colorUtilsBrighter( 0.2 ) )
       .addColorStop( 0.9, thisButton.baseColor.colorUtilsBrighter( 0.2 ) )
       .addColorStop( 1, thisButton.baseColor.colorUtilsDarker( 0.5 ) );
 
-    thisButton.downFill = new LinearGradient( 0, 0, 0, options.length )
+    thisButton.downFill = new LinearGradient( 0, 0, 0, thisButton.buttonHeight )
       .addColorStop( 0, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
       .addColorStop( 0.8, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
       .addColorStop( 1, thisButton.baseColor );
 
-    thisButton.background = new Rectangle( 0, 0, length, length, cornerRounding, cornerRounding,
+    thisButton.background = new Rectangle( 0, 0, thisButton.buttonWidth, thisButton.buttonHeight, options.cornerRounding, options.cornerRounding,
       {
         fill: options.baseColor,
         stroke: options.stroke,
         lineWidth: options.lineWidth
       } );
     this.addChild( thisButton.background );
+
+    thisButton.label.center = thisButton.upCenter;
+    thisButton.background.addChild( thisButton.label );
 
     // Hook up the button listener to modify the appearance as the state
     // changes and to hook up the callback function.
@@ -117,11 +120,12 @@ define( function( require ) {
     } ) );
 
     // Add an explicit mouse area so that the child nodes can all be non-pickable.
-    this.mouseArea = Shape.rectangle( 0, 0, options.length, options.length );
+    this.mouseArea = Shape.rectangle( 0, 0, thisButton.buttonWidth, thisButton.buttonHeight );
 
     // Expand the touch area so that the button works better on touch devices.
-    var touchAreaLength = options.length * options.touchAreaLengthProportion;
-    this.touchArea = Shape.rectangle( length - ( touchAreaLength / 2 ), length - ( touchAreaLength / 2 ), touchAreaLength, touchAreaLength );
+    var touchAreaWidth = thisButton.buttonWidth * options.touchAreaExpansionFactor;
+    var touchAreaHeight = thisButton.buttonHeight * options.touchAreaExpansionFactor;
+    this.touchArea = Shape.rectangle( -touchAreaWidth / 2, -touchAreaHeight / 2, touchAreaWidth, touchAreaHeight );
 
     // accessibility
     thisButton.addPeer( '<input type="button" aria-label="' + _.escape( options.label ) + '">',
@@ -173,13 +177,16 @@ define( function( require ) {
 
           case 'up':
             this.background.fill = this.upFill;
+            this.label.center = this.upCenter;
             break;
 
           case 'down':
             this.background.fill = this.downFill;
+            this.label.center = this.downCenter;
             break;
 
           case 'over':
+            this.label.center = this.upCenter;
             this.background.fill = this.overFill;
             break;
         }
