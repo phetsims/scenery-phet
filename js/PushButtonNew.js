@@ -57,7 +57,8 @@ define( function( require ) {
     thisButton.disabledBaseColor = options.disabledBaseColor;
     thisButton.label = label;
     thisButton.upCenter = new Vector2( thisButton.buttonWidth / 2, thisButton.buttonHeight / 2 );
-    thisButton.downCenter = new Vector2( thisButton.buttonWidth * 0.51, thisButton.buttonHeight * 0.51 );
+//    thisButton.downCenter = new Vector2( thisButton.buttonWidth * 0.51, thisButton.buttonHeight * 0.51 );
+    thisButton.downCenter = thisButton.upCenter;
 
     // Gradient fills used for various button states
     thisButton.upFill = new LinearGradient( 0, 0, 0, thisButton.buttonHeight )
@@ -74,8 +75,8 @@ define( function( require ) {
 
     thisButton.downFill = new LinearGradient( 0, 0, 0, thisButton.buttonHeight )
       .addColorStop( 0, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
-      .addColorStop( 0.8, thisButton.baseColor.colorUtilsDarker( 0.2 ) )
-      .addColorStop( 1, thisButton.baseColor );
+      .addColorStop( 0.8, thisButton.baseColor.colorUtilsDarker( 0.2 ) );
+//      .addColorStop( 1, thisButton.baseColor );
 
     thisButton.background = new Rectangle( 0, 0, thisButton.buttonWidth, thisButton.buttonHeight, options.cornerRounding, options.cornerRounding,
       {
