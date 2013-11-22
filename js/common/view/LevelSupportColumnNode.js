@@ -66,7 +66,7 @@ define( function( require ) {
 
     columnState.link( function( state ) {
       thisNode.visible = state === 'doubleColumns';
-    } )
+    } );
   }
 
   return inherit( Node, LevelSupportColumnNode );
