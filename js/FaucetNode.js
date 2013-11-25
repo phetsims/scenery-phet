@@ -59,7 +59,6 @@ define( function( require ) {
   function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
 
     options = _.extend( {
-      decoration: null, // optional node that will be placed on the horizontal pipe
       scale: 1,
       knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
       horizontalPipeLength: 50, // distance between left edge of horizontal pipe and spout's center
@@ -133,9 +132,6 @@ define( function( require ) {
     thisNode.addChild( verticalPipeNode );
     thisNode.addChild( spoutNode );
     thisNode.addChild( bodyNode );
-    if ( options.decoration ) {
-      thisNode.addChild( options.decoration );
-    }
 
     // origin
     if ( DEBUG_ORIGIN ) {
@@ -162,11 +158,6 @@ define( function( require ) {
       // shooter at top of body
       shooterNode.left = bodyNode.left + SHOOTER_MIN_X_OFFSET;
       shooterNode.centerY = bodyNode.top + SHOOTER_Y_OFFSET;
-      // decoration on the horizontal pipe
-      if ( options.decoration ) {
-        options.decoration.right = -( SHOOTER_MAX_X_OFFSET - SHOOTER_MIN_X_OFFSET ); // right edge in centered below shooter window
-        options.decoration.centerY = horizontalPipeNode.centerY;
-      }
     }
 
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
