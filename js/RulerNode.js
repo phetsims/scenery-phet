@@ -50,7 +50,10 @@ define( function( require ) {
         // units options
         unitsFont: '18px Arial',
         unitsMajorTickIndex: 0, // units will be place to the right of this major tick
-        unitsSpacing: 3 // horizontal space between the tick label and the units
+        unitsSpacing: 3, // horizontal space between the tick label and the units
+        // appearance options
+        tickMarksOnTop: true,
+        tickMarksOnBottom: true
       }, options );
 
     // things you're likely to mess up, add more as needed
@@ -94,7 +97,7 @@ define( function( require ) {
         }
 
         // Major tick mark
-        var majorTickNode = createTickMarkNode( x, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth );
+        var majorTickNode = createTickMarkNode( x, height, options.majorTickHeight, options.majorTickStroke, options.majorTickLineWidth, options.tickMarksOnTop, options.tickMarksOnBottom );
         ticksContainerNode.addChild( majorTickNode );
 
         // units label
@@ -111,7 +114,7 @@ define( function( require ) {
       else {
         // Minor tick marks
         for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < ( width + options.insetsWidth + options.insetsWidth ) ); k++ ) {
-          var minorTickNode = createTickMarkNode( x, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth );
+          var minorTickNode = createTickMarkNode( x, height, options.minorTickHeight, options.minorTickStroke, options.minorTickLineWidth, options.tickMarksOnTop, options.tickMarksOnBottom );
           ticksContainerNode.addChild( minorTickNode );
           x += minorTickWidth;
         }
@@ -131,10 +134,18 @@ define( function( require ) {
    * @param {number} tickHeight
    * @param {String} stroke stroke color as a CSS string
    * @param {number} lineWidth
+   * @param {boolean} drawUpper
+   * @param {boolean} drawLower
    * @return {Node}
    */
-  var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth ) {
-    var shape = new Shape().moveTo( x, 0 ).lineTo( x, tickHeight ).moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
+  var createTickMarkNode = function( x, rulerHeight, tickHeight, stroke, lineWidth, drawUpper, drawLower ) {
+    var shape = new Shape();
+    if ( drawUpper ) {
+      shape.moveTo( x, 0 ).lineTo( x, tickHeight );
+    }
+    if ( drawLower ) {
+      shape.moveTo( x, rulerHeight - tickHeight ).lineTo( x, rulerHeight );
+    }
     return new Path( shape, { stroke: stroke, lineWidth: lineWidth } );
   };
 
