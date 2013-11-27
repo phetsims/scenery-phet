@@ -30,6 +30,8 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
+    Node.call( this );
+
     options = _.extend( {
       // Defaults
       radius: 67,
@@ -42,7 +44,6 @@ define( function( require ) {
       //The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1
     }, options );
-    Node.call( this, options );
     this.addChild( new Circle( options.radius, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
@@ -83,6 +84,8 @@ define( function( require ) {
         { stroke: 'gray', lineWidth: lineWidth } );
       foregroundNode.addChild( tick );
     }
+
+    this.mutate( options );
   }
 
   return inherit( Node, GaugeNode );
