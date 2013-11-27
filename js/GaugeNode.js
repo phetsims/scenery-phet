@@ -29,7 +29,7 @@ define( function( require ) {
    * @param range {Object} contains min and max values that define the range
    * @constructor
    */
-  function SpeedometerNode( valueProperty, label, range, options ) {
+  function GaugeNode( valueProperty, label, range, options ) {
     options = _.extend( {
       // Defaults
       radius: 67,
@@ -37,15 +37,17 @@ define( function( require ) {
       backgroundStroke: 'rgb( 85, 85, 85 )',
       backgroundLineWidth: 2,
       anglePerTick: Math.PI * 2 / 4 / 8,
+
+      //8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
+      //The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1
     }, options );
     Node.call( this, options );
-    this.addChild( new Circle( options.radius,
-      {
-        fill: options.backgroundFill,
-        stroke: options.backgroundStroke,
-        lineWidth: options.backgroundLineWidth
-      } ) );
+    this.addChild( new Circle( options.radius, {
+      fill: options.backgroundFill,
+      stroke: options.backgroundStroke,
+      lineWidth: options.backgroundLineWidth
+    } ) );
 
     var foregroundNode = new Node( { pickable: false } );
     this.addChild( foregroundNode );
@@ -83,6 +85,5 @@ define( function( require ) {
     }
   }
 
-  return inherit( Node, SpeedometerNode );
-} )
-;
+  return inherit( Node, GaugeNode );
+} );
