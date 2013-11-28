@@ -13,9 +13,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
+
+  // constants
+  var DEFAULT_FONT = new PhetFont( 18 );
 
   /**
    * @param {number} width  distance between left-most and right-most tick, insets will be added to this
@@ -37,18 +41,18 @@ define( function( require ) {
         backgroundLineWidth: 1,
         insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
         // major tick options
-        majorTickFont: '18px Arial',
+        majorTickFont: DEFAULT_FONT,
         majorTickHeight: ( 0.4 * height ) / 2,
         majorTickStroke: 'black',
         majorTickLineWidth: 1,
         // minor tick options
-        minorTickFont: '18px Arial',
+        minorTickFont: DEFAULT_FONT,
         minorTickHeight: ( 0.2 * height ) / 2,
         minorTickStroke: 'black',
         minorTickLineWidth: 1,
         minorTicksPerMajorTick: 0,
         // units options
-        unitsFont: '18px Arial',
+        unitsFont: DEFAULT_FONT,
         unitsMajorTickIndex: 0, // units will be place to the right of this major tick
         unitsSpacing: 3, // horizontal space between the tick label and the units
         // appearance options
