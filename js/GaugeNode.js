@@ -20,6 +20,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var linear = require( 'DOT/Util' ).linear;
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * Constructor
@@ -30,6 +31,8 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
+    var gaugeNode = this;
+
     Node.call( this );
 
     options = _.extend( {
@@ -42,7 +45,12 @@ define( function( require ) {
 
       //8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
       //The ticks are duplicated for the right side, and one tick appears in the middle at the top
-      numTicks: ( 8 + 2 ) * 2 + 1
+      numTicks: ( 8 + 2 ) * 2 + 1,
+
+      //Optional property to pass in--if the client provides a gaugeVisibleProperty then the needle will only be updated when changed and visible (or made visible)
+      //Given a long name so it won't collide with visibleProperty if it is ever supported in scenery
+      //Does not wire up the gauge to be shown/hidden since we need this attribute to be respected even if the gauge's visible flag is set, but it is invisible (say if its parent is invisible)
+      gaugeVisibleProperty: new Property( true )
     }, options );
     this.addChild( new Circle( options.radius, {
       fill: options.backgroundFill,
@@ -66,10 +74,20 @@ define( function( require ) {
     var startAngle = -1 / 2 * Math.PI - totalAngle / 2;
     var endAngle = startAngle + totalAngle;
 
-    //Update when the velocity changes
-    valueProperty.link( function( speed ) {
-      var needleAngle = linear( range.min, range.max, startAngle, endAngle, Math.abs( speed ) );
-      needle.setMatrix( Matrix3.rotation2( needleAngle ) );
+    //Update when the velocity changes, but only if the gauge is visible
+    var updateNeedle = function() {
+      if ( options.gaugeVisibleProperty.get() ) {
+        var needleAngle = linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
+        needle.setMatrix( Matrix3.rotation2( needleAngle ) );
+      }
+    };
+    valueProperty.link( updateNeedle );
+
+    //When the gauge is made visible, update the needle
+    options.gaugeVisibleProperty.link( function( visible ) {
+      if ( visible ) {
+        updateNeedle();
+      }
     } );
 
     //Add the tick marks
