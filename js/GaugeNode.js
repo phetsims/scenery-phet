@@ -47,10 +47,10 @@ define( function( require ) {
       //The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1,
 
-      //Optional property to pass in--if the client provides a gaugeVisibleProperty then the needle will only be updated when changed and visible (or made visible)
+      //Optional property to pass in--if the client provides a updateEnabledProperty then the needle will only be updated when changed and visible (or made visible)
       //Given a long name so it won't collide with visibleProperty if it is ever supported in scenery
       //Does not wire up the gauge to be shown/hidden since we need this attribute to be respected even if the gauge's visible flag is set, but it is invisible (say if its parent is invisible)
-      gaugeVisibleProperty: new Property( true )
+      updateEnabledProperty: new Property( true )
     }, options );
     this.addChild( new Circle( options.radius, {
       fill: options.backgroundFill,
@@ -76,7 +76,7 @@ define( function( require ) {
 
     //Update when the velocity changes, but only if the gauge is visible
     var updateNeedle = function() {
-      if ( options.gaugeVisibleProperty.get() ) {
+      if ( options.updateEnabledProperty.get() ) {
         var needleAngle = linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
         needle.setMatrix( Matrix3.rotation2( needleAngle ) );
       }
@@ -84,7 +84,7 @@ define( function( require ) {
     valueProperty.link( updateNeedle );
 
     //When the gauge is made visible, update the needle
-    options.gaugeVisibleProperty.link( function( visible ) {
+    options.updateEnabledProperty.link( function( visible ) {
       if ( visible ) {
         updateNeedle();
       }
