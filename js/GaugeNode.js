@@ -48,8 +48,6 @@ define( function( require ) {
       numTicks: ( 8 + 2 ) * 2 + 1,
 
       //Optional property to pass in--if the client provides a updateEnabledProperty then the needle will only be updated when changed and visible (or made visible)
-      //Given a long name so it won't collide with visibleProperty if it is ever supported in scenery
-      //Does not wire up the gauge to be shown/hidden since we need this attribute to be respected even if the gauge's visible flag is set, but it is invisible (say if its parent is invisible)
       updateEnabledProperty: new Property( true )
     }, options );
     this.addChild( new Circle( options.radius, {
