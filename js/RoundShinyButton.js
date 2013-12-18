@@ -53,7 +53,13 @@ define( function( require ) {
       //By default, icons are centered in the button, but icons with odd shapes (that should not be wrapped in a normalizing parent node),
       // may need to specify offsets to line things up properly
       iconOffsetX: 0,
-      iconOffsetY: 0
+      iconOffsetY: 0,
+
+      //Default orange color scheme for the reset all button
+      upFill: new Color( 247, 151, 34 ),
+      overFill: new Color( 251, 171, 39 ),
+      disabledFill: new Color( 180, 180, 180 ),
+      downFill: new Color( 235, 141, 24 )
     }, options );
     options.listener = callback;
 
@@ -106,10 +112,10 @@ define( function( require ) {
     // Create the nodes for each of the button states.
     // Note: the same icon is used in each of the children (except for the down node, which must be translated), this is to save on memory and CPU but means they all will have
     // the same appearance and offset
-    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 247, 151, 34 ) ), icon, options.iconOffsetX, options.iconOffsetY );
-    var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 251, 171, 39 ) ), icon, options.iconOffsetX, options.iconOffsetY );
-    var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( new Color( 180, 180, 180 ) ), icon, options.iconOffsetX, options.iconOffsetY );
-    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( new Color( 235, 141, 24 ) ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01 );
+    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.upFill ), icon, options.iconOffsetX, options.iconOffsetY );
+    var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.overFill ), icon, options.iconOffsetX, options.iconOffsetY );
+    var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.disabledFill ), icon, options.iconOffsetX, options.iconOffsetY );
+    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( options.downFill ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01 );
 
     // Create the actual button by invoking the parent type.
     PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
