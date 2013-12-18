@@ -35,10 +35,10 @@ define( function( require ) {
       radius: DEFAULT_RADIUS,
 
       // Default orange color scheme, standard for PhET reset buttons
-//      upFill: new Color( 247, 151, 34 ),
-//      overFill: new Color( 251, 171, 39 ),
-//      disabledFill: new Color( 180, 180, 180 ),
-//      downFill: new Color( 235, 141, 24 ),
+      upFill: new Color( 247, 151, 34 ),
+      overFill: new Color( 251, 171, 39 ),
+      disabledFill: new Color( 180, 180, 180 ),
+      downFill: new Color( 235, 141, 24 ),
 
       // The arrow shape is not perfectly centered, account for that here, and see docs in RoundShinyButton
       iconOffsetX: 1,
