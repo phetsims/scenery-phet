@@ -33,10 +33,15 @@ define( function( require ) {
   function ResetAllButton( callback, options ) {
     options = _.extend( {
       radius: DEFAULT_RADIUS,
-      touchAreaRadius: DEFAULT_RADIUS * 1.3, // convenience for expanding the touchArea, which is a circle
 
-      //The arrow shape is not perfectly centered, account for that here, and see docs in RoundShinyButton
-      iconOffsetX: 2,
+      // Default orange color scheme, standard for PhET reset buttons
+//      upFill: new Color( 247, 151, 34 ),
+//      overFill: new Color( 251, 171, 39 ),
+//      disabledFill: new Color( 180, 180, 180 ),
+//      downFill: new Color( 235, 141, 24 ),
+
+      // The arrow shape is not perfectly centered, account for that here, and see docs in RoundShinyButton
+      iconOffsetX: 1,
       iconOffsetY: 0
     }, options );
     options.listener = callback;
