@@ -57,7 +57,7 @@ define( function( require ) {
       iconOffsetX: 0,
       iconOffsetY: 0,
 
-      // Default orange color scheme (from the reset all button)
+      // Default color scheme
       upFill: new Color( 153, 206, 220 ),
       overFill: new Color( 160, 216, 255 ),
       disabledFill: new Color( 180, 180, 180 ),
