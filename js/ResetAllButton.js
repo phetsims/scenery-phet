@@ -10,16 +10,10 @@ define( function( require ) {
   'use strict';
 
   // Includes
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PushButton = require( 'SUN/PushButton' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' );
 
   // Constants

@@ -74,7 +74,7 @@ define( function( require ) {
       touchArea: selfOptions.touchAreaExtension( previousShape, true )
     } );
     previousKitNode.addInputListener( new ButtonListener( {
-      fire: function( evt ) {
+      fire: function() {
         if ( self.hasPrevious ) {
           selfOptions.previous && selfOptions.previous();
         }
@@ -109,7 +109,7 @@ define( function( require ) {
       touchArea: selfOptions.touchAreaExtension( nextShape, false )
     } );
     nextKitNode.addInputListener( new ButtonListener( {
-      fire: function( evt ) {
+      fire: function() {
         if ( self.hasNext ) {
           selfOptions.next && selfOptions.next();
         }

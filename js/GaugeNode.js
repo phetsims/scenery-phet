@@ -31,7 +31,6 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
-    var gaugeNode = this;
 
     Node.call( this );
 

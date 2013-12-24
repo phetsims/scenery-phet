@@ -10,14 +10,11 @@ define( function( require ) {
 
   // Imports
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var SoundToggleButton = require( 'SCENERY_PHET/SoundToggleButton' );
   var ToggleButton = require( 'SUN/ToggleButton' );
 
   // Constants

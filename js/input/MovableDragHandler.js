@@ -46,7 +46,7 @@ define( function( require ) {
         movable.locationProperty.set( constrainedLocation );
       },
 
-      end: function( event ) {
+      end: function() {
         options.endDrag();
       }
     } );
