@@ -28,20 +28,43 @@ define( function( require ) {
 
     var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
-    var pausePath = new HBox( {children: [bar(), bar()], spacing: 2} );
+    var bar1 = bar();
+    var bar2 = bar();
+    var pausePath = new HBox( {children: [ bar1, bar2], spacing: 2} );
+
+    var pauseButton = new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0,
+      backgroundGradientColorStop0: 'rgb(255,255,255)',
+      backgroundGradientColorStop1: 'rgb(255,255,255 )',
+      //Drawing a line around the inner circle
+      innerButtonStroke: 'black',
+      innerButtonLineWidth: 0.5} );
+
+    var playButton = new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4,
+      backgroundGradientColorStop0: 'rgb(220,220,230)',
+      backgroundGradientColorStop1: 'rgb(245,245,255 )',
+      //Drawing a line around the inner circle
+      innerButtonStroke: 'black',
+      innerButtonLineWidth: 0.5 } );
+
+    //Highlight the icons
+    var stateListener = function( state ) {
+      var highlightColor = '#222233';
+      var defaultColor = 'black';
+      var iconColor = state === 'over' || state === 'down' ? highlightColor : defaultColor;
+      playPath.fill = iconColor;
+      bar1.fill = iconColor;
+      bar2.fill = iconColor;
+
+      playPath.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
+      bar1.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
+      bar2.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
+    };
+    pauseButton.addStateListener( stateListener );
+    playButton.addStateListener( stateListener );
+
     ToggleButton.call( this,
-      new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0,
-        backgroundGradientColorStop0: 'rgb(255,255,255)',
-        backgroundGradientColorStop1: 'rgb(255,255,255 )',
-        //Drawing a line around the inner circle
-        innerButtonStroke: 'black',
-        innerButtonLineWidth: 0.5} ),
-      new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4,
-        backgroundGradientColorStop0: 'rgb(220,220,230)',
-        backgroundGradientColorStop1: 'rgb(245,245,255 )',
-        //Drawing a line around the inner circle
-        innerButtonStroke: 'black',
-        innerButtonLineWidth: 0.5 } ),
+      pauseButton,
+      playButton,
       playProperty );
   }
 
