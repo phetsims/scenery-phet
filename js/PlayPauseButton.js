@@ -30,8 +30,12 @@ define( function( require ) {
     var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
     var pausePath = new HBox( {children: [bar(), bar()], spacing: 2} );
     ToggleButton.call( this,
-      new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0} ),
-      new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4} ),
+      new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0,
+        backgroundGradientColorStop0: 'rgb(255,255,255)',
+        backgroundGradientColorStop1: 'rgb(255,255,255 )'} ),
+      new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4,
+        backgroundGradientColorStop0: 'rgb(220,220,230)',
+        backgroundGradientColorStop1: 'rgb(245,245,255 )'} ),
       playProperty );
   }
 
