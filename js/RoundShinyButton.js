@@ -22,11 +22,11 @@ define( function( require ) {
   var DEFAULT_RADIUS = 32; // Derived from images initially used for reset button.
 
   // Inner type for creating button nodes used for various button states.
-  function ButtonStateNode( radius, fill, icon, iconOffsetX, iconOffsetY ) {
+  function ButtonStateNode( radius, fill, icon, iconOffsetX, iconOffsetY, backgroundGradientColorStop0, backgroundGradientColorStop1 ) {
     Node.call( this, { pickable: false } );
     var backgroundGradient = new RadialGradient( radius * 0.05, radius * 0.05, radius * 0.85, 0, 0, radius * 1.2 );
-    backgroundGradient.addColorStop( 0, 'black' );
-    backgroundGradient.addColorStop( 1, 'rgb( 230, 230, 230 )' );
+    backgroundGradient.addColorStop( 0, backgroundGradientColorStop0 );
+    backgroundGradient.addColorStop( 1, backgroundGradientColorStop1 );
     this.addChild( new Circle( radius, { fill: backgroundGradient } ) );
     var innerButtonRadius = radius * 0.92; // Multiplier determined by eyeballing it.
     this.addChild( new Circle( innerButtonRadius, { fill: fill } ) );
@@ -45,6 +45,11 @@ define( function( require ) {
    */
   function RoundShinyButton( callback, icon, options ) {
     options = _.extend( {
+
+      //Colors for the border gradient
+      backgroundGradientColorStop0: 'black',
+      backgroundGradientColorStop1: 'rgb( 230, 230, 230 )',
+
       radius: DEFAULT_RADIUS,
       touchAreaRadius: DEFAULT_RADIUS * 1.3, // convenience for expanding the touchArea, which is a circle
 
@@ -84,10 +89,10 @@ define( function( require ) {
     // used in each of the children (except for the down node, which must be
     // translated), this is to save on memory and CPU but means they all will
     // have the same appearance and offset
-    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.upFill ), icon, options.iconOffsetX, options.iconOffsetY );
-    var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.overFill ), icon, options.iconOffsetX, options.iconOffsetY );
-    var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.disabledFill ), icon, options.iconOffsetX, options.iconOffsetY );
-    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( options.downFill ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01 );
+    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.upFill ), icon, options.iconOffsetX, options.iconOffsetY, options.backgroundGradientColorStop0, options.backgroundGradientColorStop1 );
+    var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.overFill ), icon, options.iconOffsetX, options.iconOffsetY, options.backgroundGradientColorStop0, options.backgroundGradientColorStop1 );
+    var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.disabledFill ), icon, options.iconOffsetX, options.iconOffsetY, options.backgroundGradientColorStop0, options.backgroundGradientColorStop1 );
+    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( options.downFill ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01, options.backgroundGradientColorStop0, options.backgroundGradientColorStop1 );
 
     // Create the actual button by invoking the parent type.
     PushButton.call( this, upNode, overNode, downNode, disabledNode, options );
