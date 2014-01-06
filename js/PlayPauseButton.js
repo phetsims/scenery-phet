@@ -15,17 +15,23 @@ define( function( require ) {
     ToggleButton = require( 'SUN/ToggleButton' ),
     RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' ),
     Shape = require( 'KITE/Shape' ),
-    Path = require( 'SCENERY/nodes/Path' );
+    Path = require( 'SCENERY/nodes/Path' ),
+    HBox = require( 'SCENERY/nodes/HBox' ),
+    Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   function PlayPauseButton( playProperty ) {
 
     var triangleHeight = 32;
     var triangleWidth = triangleHeight * 0.9;
-    var playPath = function() {return new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );};
-    var pausePath = function() {return new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );};
+    var barWidth = 10;
+    var barHeight = triangleHeight;
+
+    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
+    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
+    var pausePath = new HBox( {children: [bar(), bar()], spacing: 2} );
     ToggleButton.call( this,
-      new RoundShinyButton( function() {}, pausePath(), {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4} ),
-      new RoundShinyButton( function() {}, playPath(), {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4} ),
+      new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0} ),
+      new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4} ),
       playProperty );
   }
 
