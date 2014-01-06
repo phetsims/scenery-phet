@@ -99,5 +99,10 @@ define( function( require ) {
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
   }
 
-  return inherit( PushButton, RoundShinyButton );
+  return inherit( PushButton, RoundShinyButton, {},
+
+    //Statics
+    {
+      DEFAULT_RADIUS: DEFAULT_RADIUS
+    } );
 } );
