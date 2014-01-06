@@ -38,6 +38,13 @@ define( function( require ) {
     this.enabled = false;
 
     playProperty.link( function( value ) { stepButton.enabled = !value; } );
+
+    this.getEnabledProperty().link( function( enabled ) {
+      var fill = enabled ? 'black' : 'gray';
+      barPath.fill = fill;
+      trianglePath.fill = fill;
+      trianglePath2.fill = fill;
+    } );
   }
 
   return inherit( RoundShinyButton, RewindButton );
