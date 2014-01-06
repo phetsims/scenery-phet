@@ -32,10 +32,16 @@ define( function( require ) {
     ToggleButton.call( this,
       new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 0,
         backgroundGradientColorStop0: 'rgb(255,255,255)',
-        backgroundGradientColorStop1: 'rgb(255,255,255 )'} ),
+        backgroundGradientColorStop1: 'rgb(255,255,255 )',
+        //Drawing a line around the inner circle
+        innerButtonStroke: 'black',
+        innerButtonLineWidth: 0.5} ),
       new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15, iconOffsetX: 4,
         backgroundGradientColorStop0: 'rgb(220,220,230)',
-        backgroundGradientColorStop1: 'rgb(245,245,255 )'} ),
+        backgroundGradientColorStop1: 'rgb(245,245,255 )',
+        //Drawing a line around the inner circle
+        innerButtonStroke: 'black',
+        innerButtonLineWidth: 0.5 } ),
       playProperty );
   }
 
