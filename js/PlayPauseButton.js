@@ -21,30 +21,31 @@ define( function( require ) {
 
   function PlayPauseButton( playProperty, options ) {
 
-    //TODO: Change other values so the default scale is 1.  Should be done soon since this will impact client usages
-    options = _.extend( {scale: 0.9}, options );
-    //Overall scaling factor for individual elements (without scaling the entire node)
-    var scale = options.scale;
+    //TODO: Change other values so the default elementScale is 1.  Should be done soon since this will impact client usages
+    options = _.extend( {elementScale: 0.9}, options );
 
-    var triangleHeight = 32 * scale;
-    var triangleWidth = triangleHeight * 0.9 * scale;
-    var barWidth = 10 * scale;
+    //Overall scaling factor for individual elements (without scaling the entire node)
+    var elementScale = options.elementScale;
+
+    var triangleHeight = 32 * elementScale;
+    var triangleWidth = triangleHeight * 0.9 * elementScale;
+    var barWidth = 10 * elementScale;
     var barHeight = triangleHeight;
 
     var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
     var bar1 = bar();
     var bar2 = bar();
-    var pausePath = new HBox( {children: [ bar1, bar2], spacing: 2 * scale} );
+    var pausePath = new HBox( {children: [ bar1, bar2], spacing: 2 * elementScale} );
 
-    var pauseButton = new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15 * scale, iconOffsetX: 0,
+    var pauseButton = new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15 * elementScale, iconOffsetX: 0,
       backgroundGradientColorStop0: 'rgb(255,255,255)',
       backgroundGradientColorStop1: 'rgb(255,255,255 )',
       //Drawing a line around the inner circle
       innerButtonStroke: 'black',
       innerButtonLineWidth: 0.5} );
 
-    var playButton = new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15 * scale, iconOffsetX: 4 * scale,
+    var playButton = new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.15 * elementScale, iconOffsetX: 4 * elementScale,
       backgroundGradientColorStop0: 'rgb(220,220,230)',
       backgroundGradientColorStop1: 'rgb(245,245,255 )',
       //Drawing a line around the inner circle
@@ -70,7 +71,7 @@ define( function( require ) {
     ToggleButton.call( this,
       pauseButton,
       playButton,
-      playProperty );
+      playProperty, options );
   }
 
   return inherit( ToggleButton, PlayPauseButton );
