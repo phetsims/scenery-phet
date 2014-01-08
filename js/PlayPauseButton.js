@@ -19,7 +19,7 @@ define( function( require ) {
     HBox = require( 'SCENERY/nodes/HBox' ),
     Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
-  function PlayPauseButton( playProperty, options ) {
+  function PlayPauseButton( runningProperty, options ) {
 
     //TODO: Change other values so the default elementScale is 1.  Should be done soon since this will impact client usages
     options = _.extend( {elementScale: 0.9}, options );
@@ -71,7 +71,7 @@ define( function( require ) {
     ToggleButton.call( this,
       pauseButton,
       playButton,
-      playProperty, options );
+      runningProperty, options );
   }
 
   return inherit( ToggleButton, PlayPauseButton );
