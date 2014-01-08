@@ -19,6 +19,13 @@ define( function( require ) {
     HBox = require( 'SCENERY/nodes/HBox' ),
     Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
+  /*
+   * PlayPauseButton constructor
+   *
+   * @param {Property<Boolean>} runningProperty property that represents whether the sim is paused or not
+   * @param {object} options node options
+   * @constructor
+   */
   function PlayPauseButton( runningProperty, options ) {
 
     //TODO: Change other values so the default elementScale is 1.  Should be done soon since this will impact client usages
