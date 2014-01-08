@@ -19,9 +19,12 @@ define( function( require ) {
     HBox = require( 'SCENERY/nodes/HBox' ),
     Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
-  function PlayPauseButton( playProperty ) {
+  function PlayPauseButton( playProperty, options ) {
+
+    //TODO: Change other values so the default scale is 1.  Should be done soon since this will impact client usages
+    options = _.extend( {scale: 0.9}, options );
     //Overall scaling factor for individual elements (without scaling the entire node)
-    var scale = 0.9;
+    var scale = options.scale;
 
     var triangleHeight = 32 * scale;
     var triangleWidth = triangleHeight * 0.9 * scale;
