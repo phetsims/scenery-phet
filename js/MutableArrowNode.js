@@ -78,8 +78,8 @@ define( function( require ) {
     this.arrowNode.visible = false;
     this.addChild( this.arrowNode );
 
-    this.setTailAndTip( tailX, tailY, tipX, tipY );
     this.optimized = true;
+    this.setTailAndTip( tailX, tailY, tipX, tipY );
   }
 
   return inherit( Node, MutableArrowNode, {
