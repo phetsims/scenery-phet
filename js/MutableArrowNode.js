@@ -18,7 +18,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
 
