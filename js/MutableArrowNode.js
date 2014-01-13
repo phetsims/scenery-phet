@@ -4,7 +4,7 @@
  * This class aims to have the same interface as ArrowNode and support the same API but to do it by transforming shapes where
  * possible instead of creating new shapes, in order to improve performance, see https://github.com/phetsims/scenery-phet/issues/28
  *
- * TODO: Add support for strokes and shrunken arrowheads.
+ * TODO: Add support for "collar" stroke and shrunken arrowheads.
  *
  * @author Sam Reid
  */
