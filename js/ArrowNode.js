@@ -40,7 +40,14 @@ define( function( require ) {
     assert && assert( options.headWidth > options.tailWidth );
 
     Path.call( this, new ArrowShape( tailX, tailY, tipX, tipY, options ), options );
+    this.options = options;
   }
 
-  return inherit( Path, ArrowNode );
+  return inherit( Path, ArrowNode, {
+
+    //Set the tail and tip locations to update the arrow shape.  Matches API in MutableArrowNode so they can easily be swapped
+    setTailAndTip: function( tailX, tailY, tipX, tipY ) {
+      this.shape = new ArrowShape( tailX, tailY, tipX, tipY, this.options );
+    }
+  } );
 } );
