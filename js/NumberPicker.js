@@ -12,6 +12,7 @@ define( function( require ) {
 
   // imports
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -111,7 +112,7 @@ define( function( require ) {
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
     options = _.extend( {
-      color: 'blue',
+      color: new Color( 0, 0, 255 ), // must be a Color, not a CSS string
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
@@ -120,7 +121,8 @@ define( function( require ) {
       upFunction: function() { return valueProperty.get() + 1; },
       downFunction: function() { return valueProperty.get() - 1; },
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      intervalDelay: 100 // fire continuously at this frequency (milliseconds)
+      intervalDelay: 100, // fire continuously at this frequency (milliseconds),
+      noValueString: '-' // string to display if valueProperty.get is null or undefined
     }, options );
 
     var thisNode = this;
@@ -129,13 +131,13 @@ define( function( require ) {
     // properties for the "up" (increment) control
     var upStateProperty = new Property( 'up' );
     var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
-      return value < range.max;
+      return ( value !== null && value !== undefined && value < range.max );
     } );
 
     // properties for the "down" (decrement) control
     var downStateProperty = new Property( 'up' );
     var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
-      return value > range.min;
+      return ( value !== null && value !== undefined && value > range.min );
     } );
 
     // callbacks for changing the value
@@ -238,10 +240,14 @@ define( function( require ) {
 
     // Update text to match the value
     valueProperty.link( function( value ) {
-      // displayed value
-      valueNode.text = Util.toFixed( value, options.decimalPlaces );
-      // horizontally centered
-      valueNode.x = ( backgroundWidth - valueNode.width ) / 2;
+      if ( value === null || value === undefined ) {
+        valueNode.text = options.noValueString;
+        valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
+      }
+      else {
+        valueNode.text = Util.toFixed( value, options.decimalPlaces );
+        valueNode.right = backgroundWidth - options.xMargin; // right aligned
+      }
     } );
 
     // Update button colors
