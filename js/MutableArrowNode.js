@@ -18,6 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /*
    * @param {number} tailX
@@ -62,17 +63,19 @@ define( function( require ) {
   }
 
   return inherit( Node, MutableArrowNode, {
-    getMatrix: function( tailX, tailY, angle, scaleX, scaleY, offsetX, offsetY ) {
+    getMatrix: function( x, y, angle, sx, sy, originX, originY ) {
 
       //Translate to the desired location
-      var matrix = Matrix3.translation( tailX, tailY );
+      var matrix = Matrix3.translation( x, y );
 
       //Rotation and translation can happen in any order
       matrix = matrix.multiplyMatrix( Matrix3.rotation2( angle ) );
-      matrix = matrix.multiplyMatrix( Matrix3.scaling( scaleX, scaleY ) );
+      matrix = matrix.multiplyMatrix( Matrix3.scaling( sx, sy ) );
 
       //Think of it as a multiplying the Vector2 to the right, so this step happens first actually.  Use it to center the registration point
-      matrix = matrix.multiplyMatrix( Matrix3.translation( -offsetX, -offsetY ) );
+      if ( originX !== 0 || originY !== 0 ) {
+        matrix = matrix.multiplyMatrix( Matrix3.translation( -originX, -originY ) );
+      }
 
       return matrix;
     },
@@ -81,11 +84,15 @@ define( function( require ) {
         var dx = tipX - tailX;
         var dy = tipY - tailY;
 
-        var distance = Math.sqrt( dx * dx + dy * dy );
-        var angle = Math.atan2( dy, dx ) - Math.PI / 2;
+        var bodyDistance = Math.sqrt( dx * dx + dy * dy ) - this.options.headHeight;
+        var angle = Math.atan2( dy, dx );
 
-        this.body.setMatrix( this.getMatrix( tailX, tailY, angle, 1, distance, this.options.tailWidth / 2, 0 ) );
-        this.head.setMatrix( this.getMatrix( tipX, tipY, angle, 1, 1, 0, 0 ) );
+        var bodyTipX = bodyDistance * Math.cos( angle ) + tailX;
+        var bodyTipY = bodyDistance * Math.sin( angle ) + tailY;
+
+        this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance, this.options.tailWidth / 2, 0 ) );
+        this.head.setMatrix( this.getMatrix( bodyTipX, bodyTipY, angle - Math.PI / 2, 1, 1, 0, 0 ) );
+
         this.tailX = tailX;
         this.tailY = tailY;
         this.tipX = tipX;
