@@ -19,6 +19,8 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
 
   /*
    * @param {number} tailX
@@ -71,7 +73,13 @@ define( function( require ) {
     this.addChild( this.parent );
     this.options = options;
 
+    //Fall back to ArrowNode when arrowhead is small
+    this.arrowNode = new ArrowNode( 0, 0, 0, 0, options );
+    this.arrowNode.visible = false;
+    this.addChild( this.arrowNode );
+
     this.setTailAndTip( tailX, tailY, tipX, tipY );
+    this.optimized = true;
   }
 
   return inherit( Node, MutableArrowNode, {
@@ -103,18 +111,41 @@ define( function( require ) {
         var dy = tipY - tailY;
 
         var bodyDistance = Math.sqrt( dx * dx + dy * dy ) - this.options.headHeight;
-        var angle = Math.atan2( dy, dx );
 
-        var bodyTipX = bodyDistance * Math.cos( angle ) + tailX;
-        var bodyTipY = bodyDistance * Math.sin( angle ) + tailY;
+        var willBeOptimized = bodyDistance > this.options.headHeight;
 
-        //Overlap a bit so it looks like a solid piece
-        var overlap = 2E-1;
+        if ( willBeOptimized ) {
 
-        this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance + overlap, this.options.tailWidth / 2, 0 ) );
-        this.head.setMatrix( this.getMatrix( bodyTipX, bodyTipY, angle - Math.PI / 2, 1, 1, 0, 0 ) );
-        this.tailEdgeStroke.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, 1, this.options.tailWidth / 2, 0 ) );
+          if ( !this.optimized ) {
+            this.body.visible = true;
+            this.head.visible = true;
+            this.tailEdgeStroke.visible = true;
+            this.arrowNode.visible = false;
+          }
 
+          var angle = Math.atan2( dy, dx );
+
+          var bodyTipX = bodyDistance * Math.cos( angle ) + tailX;
+          var bodyTipY = bodyDistance * Math.sin( angle ) + tailY;
+
+          //Overlap a bit so it looks like a solid piece
+          var overlap = 2E-1;
+
+          this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance + overlap, this.options.tailWidth / 2, 0 ) );
+          this.head.setMatrix( this.getMatrix( bodyTipX, bodyTipY, angle - Math.PI / 2, 1, 1, 0, 0 ) );
+          this.tailEdgeStroke.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, 1, this.options.tailWidth / 2, 0 ) );
+        }
+        else {
+          if ( this.optimized ) {
+            this.body.visible = false;
+            this.head.visible = false;
+            this.tailEdgeStroke.visible = false;
+            this.arrowNode.visible = true;
+          }
+          this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, this.options ) );
+        }
+
+        this.optimized = willBeOptimized;
         this.tailX = tailX;
         this.tailY = tailY;
         this.tipX = tipX;
