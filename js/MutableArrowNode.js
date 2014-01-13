@@ -74,6 +74,7 @@ define( function( require ) {
     this.options = options;
 
     //Fall back to ArrowNode when arrowhead is small
+    //TODO: We could replace this with optimized shrunken arrowhead and arrow tip too
     this.arrowNode = new ArrowNode( 0, 0, 0, 0, options );
     this.arrowNode.visible = false;
     this.addChild( this.arrowNode );
