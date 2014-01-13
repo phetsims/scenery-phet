@@ -70,10 +70,16 @@ define( function( require ) {
 
       //Rotation and translation can happen in any order
       matrix = matrix.multiplyMatrix( Matrix3.rotation2( angle ) );
-      matrix = matrix.multiplyMatrix( Matrix3.scaling( sx, sy ) );
 
-      //Think of it as a multiplying the Vector2 to the right, so this step happens first actually.  Use it to center the registration point
+      //Update scale if not 1
+      if ( originX !== 1 || originY !== 1 ) {
+        matrix = matrix.multiplyMatrix( Matrix3.scaling( sx, sy ) );
+      }
+
+      //Update origin if non-zero
       if ( originX !== 0 || originY !== 0 ) {
+
+        //Think of it as a multiplying the Vector2 to the right, so this step happens first actually.  Use it to center the registration point
         matrix = matrix.multiplyMatrix( Matrix3.translation( -originX, -originY ) );
       }
 
