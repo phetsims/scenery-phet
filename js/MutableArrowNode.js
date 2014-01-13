@@ -50,12 +50,20 @@ define( function( require ) {
     //Intermediate parent for setting the rotation of the node
     this.parent = new Node();
 
-    this.body = new Rectangle( 0, 0, options.tailWidth, 1, {fill: options.fill} );
-    var headShape = new Shape().moveTo( -options.headWidth / 2, 0 ).lineTo( 0, options.headHeight ).lineTo( options.headWidth / 2, 0 ).close();
-    this.head = new Path( headShape, {fill: options.fill} );
+    //Rectangle for body and stripes along the sides for stroke
+    this.body = new Node( {
+      children: [
+        new Rectangle( 0, 0, options.tailWidth, 1, {fill: options.fill} ),
+        new Rectangle( -options.lineWidth / 2, 0, options.lineWidth, 1, {fill: options.stroke} ),
+        new Rectangle( options.tailWidth - options.lineWidth / 2, 0, options.lineWidth, 1, {fill: options.stroke} )
+      ]} );
 
-    this.parent.addChild( this.body );
+    //Head shape.  Don't close so the stroke can be used for the angled parts, but not the flat part (the "collar").
+    var headShape = new Shape().moveTo( -options.headWidth / 2, 0 ).lineTo( 0, options.headHeight ).lineTo( options.headWidth / 2, 0 );
+    this.head = new Path( headShape, {fill: options.fill, stroke: options.stroke, lineWidth: options.lineWidth} );
+
     this.parent.addChild( this.head );
+    this.parent.addChild( this.body );
     this.addChild( this.parent );
     this.options = options;
 
@@ -96,7 +104,10 @@ define( function( require ) {
         var bodyTipX = bodyDistance * Math.cos( angle ) + tailX;
         var bodyTipY = bodyDistance * Math.sin( angle ) + tailY;
 
-        this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance, this.options.tailWidth / 2, 0 ) );
+        //Overlap a bit so it looks like a solid piece
+        var overlap = 1E-1;
+
+        this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance + overlap, this.options.tailWidth / 2, 0 ) );
         this.head.setMatrix( this.getMatrix( bodyTipX, bodyTipY, angle - Math.PI / 2, 1, 1, 0, 0 ) );
 
         this.tailX = tailX;
