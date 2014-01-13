@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * 'Picker' for a number value, with up and down arrows.
+ * User-interface component for picking a number value from a range.
  * This is essentially a value with integrated up/down spinners.
  * But PhET has been calling it a 'picker', so that's what this type is named.
  *
