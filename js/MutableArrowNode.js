@@ -62,8 +62,12 @@ define( function( require ) {
     var headShape = new Shape().moveTo( -options.headWidth / 2, 0 ).lineTo( 0, options.headHeight ).lineTo( options.headWidth / 2, 0 );
     this.head = new Path( headShape, {fill: options.fill, stroke: options.stroke, lineWidth: options.lineWidth} );
 
+    this.tailEdgeStroke = new Rectangle( 0, -options.lineWidth / 2, options.tailWidth, options.lineWidth, {fill: 'black'} );
+
     this.parent.addChild( this.head );
     this.parent.addChild( this.body );
+    this.parent.addChild( this.tailEdgeStroke );
+
     this.addChild( this.parent );
     this.options = options;
 
@@ -105,10 +109,11 @@ define( function( require ) {
         var bodyTipY = bodyDistance * Math.sin( angle ) + tailY;
 
         //Overlap a bit so it looks like a solid piece
-        var overlap = 1E-1;
+        var overlap = 2E-1;
 
         this.body.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, bodyDistance + overlap, this.options.tailWidth / 2, 0 ) );
         this.head.setMatrix( this.getMatrix( bodyTipX, bodyTipY, angle - Math.PI / 2, 1, 1, 0, 0 ) );
+        this.tailEdgeStroke.setMatrix( this.getMatrix( tailX, tailY, angle - Math.PI / 2, 1, 1, this.options.tailWidth / 2, 0 ) );
 
         this.tailX = tailX;
         this.tailY = tailY;
