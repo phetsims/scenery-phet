@@ -122,7 +122,9 @@ define( function( require ) {
       downFunction: function() { return valueProperty.get() - 1; },
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       intervalDelay: 100, // fire continuously at this frequency (milliseconds),
-      noValueString: '-' // string to display if valueProperty.get is null or undefined
+      noValueString: '-', // string to display if valueProperty.get is null or undefined
+      touchAreaExpandX: 10,
+      touchAreaExpandY: 12
     }, options );
 
     var thisNode = this;
@@ -180,6 +182,14 @@ define( function( require ) {
       .lineTo( backgroundWidth, backgroundHeight / 2 )
       .close() );
     downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
+
+    // expand touch area for buttons
+    upBackground.touchArea = Shape.rectangle(
+      upBackground.left - ( options.touchAreaExpandX / 2 ), upBackground.top - options.touchAreaExpandY,
+      upBackground.width + options.touchAreaExpandX, upBackground.height + options.touchAreaExpandY );
+    downBackground.touchArea = Shape.rectangle(
+      downBackground.left - ( options.touchAreaExpandX / 2 ), downBackground.top,
+      downBackground.width + options.touchAreaExpandX, downBackground.height + options.touchAreaExpandY );
 
     // compute colors
     var arrowColors = {
