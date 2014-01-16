@@ -35,7 +35,7 @@ define( function( require ) {
     }, options );
 
     var thisNode = this;
-    Node.call( thisNode, options );
+    Node.call( thisNode );
 
     // Add head.
     this.addChild( new Circle( headDiameter / 2, {
@@ -70,6 +70,9 @@ define( function( require ) {
       lineCap: 'round' } );
     this.addChild( this.frownMouth );
     this.smile();
+
+    // Pass through any options for positioning and such.
+    this.mutate( options );
   }
 
   inherit( Node, FaceNode, {
