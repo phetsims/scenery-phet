@@ -18,7 +18,7 @@ define( function( require ) {
     Rectangle = require( 'SCENERY/nodes/Rectangle' ),
     HBox = require( 'SCENERY/nodes/HBox' );
 
-  function StepButton( stepFunction, playProperty ) {
+  function StepButton( stepFunction, playProperty, options ) {
     var stepButton = this;
     var barWidth = 6;
     var barHeight = 18;
@@ -29,9 +29,9 @@ define( function( require ) {
     var barPath = new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
 
-    RoundShinyButton.call( this, stepFunction, new HBox( {children: [barPath, trianglePath], spacing: 1} ), {radius: RoundShinyButton.DEFAULT_RADIUS * 0.6, iconOffsetX: 4,
+    RoundShinyButton.call( this, stepFunction, new HBox( {children: [barPath, trianglePath], spacing: 1} ), _.extend( {radius: RoundShinyButton.DEFAULT_RADIUS * 0.6, iconOffsetX: 4,
       backgroundGradientColorStop0: 'rgb(220,220,230)',
-      backgroundGradientColorStop1: 'rgb(245,245,255 )'} );
+      backgroundGradientColorStop1: 'rgb(245,245,255 )'}, options ) );
     this.enabled = false;
 
     playProperty.link( function( value ) { stepButton.enabled = !value; } );
