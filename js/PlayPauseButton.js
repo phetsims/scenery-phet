@@ -28,8 +28,13 @@ define( function( require ) {
    */
   function PlayPauseButton( runningProperty, options ) {
 
-    //TODO: Change other values so the default elementScale is 1.  Should be done soon since this will impact client usages
-    options = _.extend( {elementScale: 1.0}, options );
+    options = _.extend( {
+
+      //Instead of scaling the entire node, each component of this node can be scaled.  In some situations, this
+      //may lead to better overall look & style (say, to increase the size of the button without increasing the size of the strokes)
+      elementScale: 1.0
+
+    }, options );
 
     //Overall scaling factor for individual elements (without scaling the entire node)
     var elementScale = options.elementScale;
