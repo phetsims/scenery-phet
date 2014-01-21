@@ -11,6 +11,7 @@ define( function( require ){
   'use strict';
 
   // imports
+  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
@@ -19,10 +20,16 @@ define( function( require ){
    * @param options
    * @constructor
    */
-  function MinusNode( size, options ) {
-    assert && assert( size.width >= size.height );
-    options = _.extend( { fill: 'black' }, options );
-    Rectangle.call( this, 0, 0, size.width, size.height, options );
+  function MinusNode( options ) {
+
+    options = _.extend( {
+      size: new Dimension2( 20, 5 ),
+      fill: 'black'
+    }, options );
+
+    assert && assert( options.size.width >= options.size.height );
+
+    Rectangle.call( this, 0, 0, options.size.width, options.size.height, options );
   }
 
   return inherit( Rectangle, MinusNode );
