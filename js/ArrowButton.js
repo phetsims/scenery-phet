@@ -32,10 +32,10 @@ define( function( require ) {
 
     var thisButton = this;
 
-    var DEFAULT_ARROW_WIDTH = 20;
+    var DEFAULT_ARROW_HEIGHT = 20;
     options = _.extend( {
-        arrowHeight: DEFAULT_ARROW_WIDTH,
-        arrowWidth: DEFAULT_ARROW_WIDTH * Math.sqrt( 3 ) / 2,
+        arrowHeight: DEFAULT_ARROW_HEIGHT,
+        arrowWidth: DEFAULT_ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
         fill: 'white',
         stroke: 'black',
         lineWidth: 1,
