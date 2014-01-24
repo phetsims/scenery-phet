@@ -144,10 +144,10 @@ define( function( require ) {
 
     // callbacks for changing the value
     var fireUp = function() {
-      valueProperty.set( options.upFunction() );
+      valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
     };
     var fireDown = function() {
-      valueProperty.set( options.downFunction() );
+      valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
     };
 
     // displays the value
