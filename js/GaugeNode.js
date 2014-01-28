@@ -74,8 +74,15 @@ define( function( require ) {
     //Update when the velocity changes, but only if the gauge is visible
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
-        var needleAngle = linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
-        needle.setMatrix( Matrix3.rotation2( needleAngle ) );
+        if ( typeof( valueProperty.get() ) === 'number' ) {
+          needle.visible = true;
+          var needleAngle = linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
+          needle.setMatrix( Matrix3.rotation2( needleAngle ) );
+        }
+        else {
+          // Hide the needle if there is no value number value to portray.
+          needle.visible = false;
+        }
       }
     };
     valueProperty.link( updateNeedle );
