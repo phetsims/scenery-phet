@@ -1,7 +1,6 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 //TODO generalize this so that any node can be put on the button
-//TODO Handle press-and-hold feature in Sim.animationLoop instead of using timers.
 //TODO This implementation should eventually use sun.Button
 /**
  * Button with an arrow that points up, down, left or right.
