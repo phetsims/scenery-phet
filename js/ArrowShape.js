@@ -34,7 +34,7 @@ define( function( require ) {
       var length = vector.magnitude();
 
       // limit head height
-      options.headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.5 * length );
+      options.headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
 
       // Set up a coordinate frame that goes from the tail of the arrow to the tip.
       var getPoint = function( xHat, yHat ) {
