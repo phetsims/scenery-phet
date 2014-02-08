@@ -1,7 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A face that can smile or frown, for universally indicating success or failure.
+ * A face that can smile, frown, or grimace.  This is generally used for
+ * indicating success or failure.
  * <p>
  * This was ported from a version that was originally written in Java.
  *
@@ -57,7 +58,7 @@ define( function( require ) {
       centerY: -headDiameter * 0.1
     } ) );
 
-    // Add the two mouths.
+    // Add the mouths.
     var mouthLineWidth = headDiameter * 0.05;
     this.smileMouth = new Path( new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ), {
       stroke: options.mouthStroke,
@@ -69,6 +70,11 @@ define( function( require ) {
       lineWidth: mouthLineWidth,
       lineCap: 'round' } );
     this.addChild( this.frownMouth );
+    this.grimaceMouth = new Path( new Shape().moveTo( -headDiameter * 0.2, headDiameter * 0.3 ).lineTo( headDiameter * 0.2, headDiameter * 0.2 ), {
+      stroke: options.mouthStroke,
+      lineWidth: mouthLineWidth,
+      lineCap: 'round' } );
+    this.addChild( this.grimaceMouth );
     this.smile();
 
     // Pass through any options for positioning and such.
@@ -79,11 +85,19 @@ define( function( require ) {
     smile: function() {
       this.smileMouth.visible = true;
       this.frownMouth.visible = false;
+      this.grimaceMouth.visible = false;
       return this; // allow chaining
     },
     frown: function() {
       this.smileMouth.visible = false;
       this.frownMouth.visible = true;
+      this.grimaceMouth.visible = false;
+      return this; // allow chaining
+    },
+    grimace: function() {
+      this.smileMouth.visible = false;
+      this.frownMouth.visible = false;
+      this.grimaceMouth.visible = true;
       return this; // allow chaining
     } } );
 
