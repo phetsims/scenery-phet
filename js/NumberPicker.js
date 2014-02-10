@@ -73,17 +73,19 @@ define( function( require ) {
       },
 
       down: function() {
-        stateProperty.set( 'down' );
-        fired = false;
-        timeoutID = Timer.setTimeout( function() {
-          timeoutID = null;
-          fired = true;
-          intervalID = Timer.setInterval( function() {
-            if ( enabledProperty.get() ) {
-              fireFunction();
-            }
-          }, intervalDelay );
-        }, timerDelay );
+        if ( intervalID === null ) {
+          stateProperty.set( 'down' );
+          fired = false;
+          timeoutID = Timer.setTimeout( function() {
+            timeoutID = null;
+            fired = true;
+            intervalID = Timer.setInterval( function() {
+              if ( enabledProperty.get() ) {
+                fireFunction();
+              }
+            }, intervalDelay );
+          }, timerDelay );
+        }
       },
 
       out: function() {
