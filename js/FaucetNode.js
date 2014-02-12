@@ -22,6 +22,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Timer = require( 'JOIST/Timer' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -59,7 +60,10 @@ define( function( require ) {
       scale: 1,
       knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
       horizontalPipeLength: 50, // distance between left edge of horizontal pipe and spout's center
-      verticalPipeLength: 43 // length of the vertical pipe that connects the faucet body to the spout
+      verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
+      tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
+      tapToDispenseFlowRate: maxFlowRate / 2, // tap-to-dispense feature: flow rate, in L/sec
+      tapToDispenseInterval: 500 // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
     }, options );
 
     var thisNode = this;
@@ -159,22 +163,46 @@ define( function( require ) {
 
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
+    // tap-to-dispense feature
+    var timeoutID = null;
+    var intervalID = null;
+    var startTapToDispense = function() {
+      flowRateProperty.set( options.tapToDispenseFlowRate );
+      timeoutID = Timer.setTimeout( function() {
+        intervalID = Timer.setInterval( function() {
+          endTapToDispense();
+        }, options.tapToDispenseInterval );
+      }, 0 )
+    };
+    var endTapToDispense = function() {
+      flowRateProperty.set( 0 );
+      if ( timeoutID !== null ) {
+        Timer.clearTimeout( timeoutID );
+        timeoutID = null;
+      }
+      if ( intervalID !== null ) {
+        Timer.clearInterval( intervalID );
+        intervalID = null;
+      }
+    };
+
     // encourage dragging by the blue parts, but make the entire shooter draggable
-    knobNode.cursor = 'pointer';
-    flangeNode.cursor = 'pointer';
     var shooterHandler = new SimpleDragHandler( {
 
       startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
+      dragged: false, // true if shooter was actually dragged during the drag sequence
 
       allowTouchSnag: true,
 
       start: function( event ) {
+        this.dragged = false;
         this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
       },
 
       // adjust the flow
       drag: function( event ) {
         if ( enabledProperty.get() ) {
+          this.dragged = true;
           var xParent = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
           var xOffset = xParent - this.startXOffset;
           var flowRate = offsetToFlowRate( xOffset );
@@ -182,9 +210,14 @@ define( function( require ) {
         }
       },
 
-      // turn off the faucet when the handle is released
       end: function() {
-        flowRateProperty.set( 0 );
+        if ( this.dragged || !options.tapToDispenseEnabled ) {
+          // turn off the faucet when the handle is released
+          flowRateProperty.set( 0 );
+        }
+        else if ( enabledProperty.get() ) {
+          startTapToDispense();
+        }
       }
     } );
     shooterNode.addInputListener( shooterHandler );
@@ -195,12 +228,16 @@ define( function( require ) {
     } );
 
     enabledProperty.link( function( enabled ) {
+      knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
       knobNode.visible = enabled;
       knobDisabledNode.visible = !enabled;
       flangeNode.visible = enabled;
       flangeDisabledNode.visible = !enabled;
       if ( !enabled && shooterHandler.dragging ) {
         shooterHandler.endDrag();
+      }
+      if ( !enabled && options.tapToDispenseEnabled ) {
+        endTapToDispense();
       }
     } );
 
