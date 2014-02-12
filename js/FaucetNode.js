@@ -172,7 +172,7 @@ define( function( require ) {
         intervalID = Timer.setInterval( function() {
           endTapToDispense();
         }, options.tapToDispenseInterval );
-      }, 0 )
+      }, 0 );
     };
     var endTapToDispense = function() {
       flowRateProperty.set( 0 );
