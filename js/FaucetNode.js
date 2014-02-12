@@ -163,20 +163,19 @@ define( function( require ) {
     knobNode.cursor = 'pointer';
     flangeNode.cursor = 'pointer';
     var shooterHandler = new SimpleDragHandler( {
-      target: null, // save target, because event.currentTarget is null for drag.
-      startXOffset: 0, // where the drag started, relative to the target's origin, in parent view coordinates
+
+      startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
 
       allowTouchSnag: true,
 
       start: function( event ) {
-        this.target = event.currentTarget;
-        this.startXOffset = this.target.globalToParentPoint( event.pointer.point ).x;
+        this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
       },
 
       // adjust the flow
       drag: function( event ) {
         if ( enabledProperty.get() ) {
-          var xParent = this.target.globalToParentPoint( event.pointer.point ).x;
+          var xParent = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
           var xOffset = xParent - this.startXOffset;
           var flowRate = offsetToFlowRate( xOffset );
           flowRateProperty.set( flowRate );
@@ -186,7 +185,6 @@ define( function( require ) {
       // turn off the faucet when the handle is released
       end: function() {
         flowRateProperty.set( 0 );
-        this.target = null;
       }
     } );
     shooterNode.addInputListener( shooterHandler );
