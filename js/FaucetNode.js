@@ -62,9 +62,10 @@ define( function( require ) {
       horizontalPipeLength: 50, // distance between left edge of horizontal pipe and spout's center
       verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
-      tapToDispenseFlowRate: maxFlowRate / 2, // tap-to-dispense feature: flow rate, in L/sec
+      tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
       tapToDispenseInterval: 500 // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
     }, options );
+    assert && assert( options.tapToDispenseAmount * ( options.tapToDispenseInterval * 1000 ) <= maxFlowRate );
 
     var thisNode = this;
     Node.call( thisNode );
@@ -167,7 +168,7 @@ define( function( require ) {
     var timeoutID = null;
     var intervalID = null;
     var startTapToDispense = function() {
-      flowRateProperty.set( options.tapToDispenseFlowRate );
+      flowRateProperty.set( ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000 ); // L/ms -> L/sec
       timeoutID = Timer.setTimeout( function() {
         intervalID = Timer.setInterval( function() {
           endTapToDispense();
