@@ -168,12 +168,14 @@ define( function( require ) {
     var timeoutID = null;
     var intervalID = null;
     var startTapToDispense = function() {
-      flowRateProperty.set( ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000 ); // L/ms -> L/sec
-      timeoutID = Timer.setTimeout( function() {
-        intervalID = Timer.setInterval( function() {
-          endTapToDispense();
-        }, options.tapToDispenseInterval );
-      }, 0 );
+      if ( timeoutID === null && intervalID === null ) {
+        flowRateProperty.set( ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000 ); // L/ms -> L/sec
+        timeoutID = Timer.setTimeout( function() {
+          intervalID = Timer.setInterval( function() {
+            endTapToDispense();
+          }, options.tapToDispenseInterval );
+        }, 0 );
+      }
     };
     var endTapToDispense = function() {
       flowRateProperty.set( 0 );
