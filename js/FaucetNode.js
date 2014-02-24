@@ -165,10 +165,14 @@ define( function( require ) {
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
     // tap-to-dispense feature
+    var tapToDispenseIsArmed = false; // should we do tap-to-dispense when the pointer is released?
+    var tapToDispenseIsRunning = false; // is tap-to-dispense in progress?
     var timeoutID = null;
     var intervalID = null;
     var startTapToDispense = function() {
-      if ( timeoutID === null && intervalID === null ) {
+      if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
+        tapToDispenseIsArmed = false;
+        tapToDispenseIsRunning = true;
         flowRateProperty.set( ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000 ); // L/ms -> L/sec
         timeoutID = Timer.setTimeout( function() {
           intervalID = Timer.setInterval( function() {
@@ -187,25 +191,32 @@ define( function( require ) {
         Timer.clearInterval( intervalID );
         intervalID = null;
       }
+      tapToDispenseIsRunning = false;
     };
 
     // encourage dragging by the blue parts, but make the entire shooter draggable
     var shooterHandler = new SimpleDragHandler( {
 
       startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
-      dragged: false, // true if shooter was actually dragged during the drag sequence
 
       allowTouchSnag: true,
 
       start: function( event ) {
-        this.dragged = false;
+        if ( tapToDispenseIsRunning ) {
+          // pressing the shooter cancels any tap-to-dispense that may be in progress
+          endTapToDispense();
+        }
+        else {
+          // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
+          tapToDispenseIsArmed = options.tapToDispenseEnabled;
+        }
         this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
       },
 
       // adjust the flow
       drag: function( event ) {
+        tapToDispenseIsArmed = false; // dragging is the cue that we're not doing tap-to-dispense
         if ( enabledProperty.get() ) {
-          this.dragged = true;
           var xParent = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
           var xOffset = xParent - this.startXOffset;
           var flowRate = offsetToFlowRate( xOffset );
@@ -214,12 +225,15 @@ define( function( require ) {
       },
 
       end: function() {
-        if ( this.dragged || !options.tapToDispenseEnabled ) {
-          // turn off the faucet when the handle is released
-          flowRateProperty.set( 0 );
-        }
-        else if ( enabledProperty.get() ) {
-          startTapToDispense();
+        if ( enabledProperty.get() ) {
+          if ( tapToDispenseIsArmed ) {
+            // the pointer was pressed and released without dragging, do tap-to-dispense
+            startTapToDispense();
+          }
+          else {
+            // the shooter was dragged, turn off the faucet
+            flowRateProperty.set( 0 );
+          }
         }
       }
     } );
@@ -239,7 +253,7 @@ define( function( require ) {
       if ( !enabled && shooterHandler.dragging ) {
         shooterHandler.endDrag();
       }
-      if ( !enabled && options.tapToDispenseEnabled ) {
+      if ( !enabled && tapToDispenseIsRunning ) {
         endTapToDispense();
       }
     } );
