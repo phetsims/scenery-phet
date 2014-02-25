@@ -5,6 +5,7 @@
  * possible instead of creating new shapes, in order to improve performance, see https://github.com/phetsims/scenery-phet/issues/28
  *
  * TODO: Add support for "collar" stroke and shrunken arrowheads.
+ * TODO: Consolidate with ArrowNode, see #34
  *
  * @author Sam Reid
  */

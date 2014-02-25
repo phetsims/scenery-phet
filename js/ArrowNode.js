@@ -1,5 +1,6 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
+//TODO: Consolidate with MutableArrowNode, see #34
 /**
  * A single- or double-headed arrow. This is a convenience class, most of the
  * work is done in ArrowShape.
