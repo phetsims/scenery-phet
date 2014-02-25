@@ -39,7 +39,10 @@ define( function( require ) {
       doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
       fill: 'black',
       stroke: 'black',
-      lineWidth: 1
+      lineWidth: 1,
+
+      //Flag to set the head height to be (at most) half the length of the arrow.  See https://github.com/phetsims/scenery-phet/issues/30
+      headHeightMaximumHalf: false
     }, options );
 
     // things you're likely to mess up, add more as needed
@@ -144,9 +147,12 @@ define( function( require ) {
           }
 
           //For short arrows, the head height should be half of the arrow length.  See https://github.com/phetsims/scenery-phet/issues/30
-          var arrowLength = Math.sqrt( (tipX - tailX) * (tipX - tailX) + (tipY - tailY) * (tipY - tailY) );
-          var headHeight = Math.min( Math.abs( arrowLength ) / 2, this.options.headHeight );
-          var newOptions = _.extend( _.clone( this.options ), {headHeight: headHeight} );
+          var newOptions = this.options;
+          if ( this.options.headHeightMaximumHalf ) {
+            var arrowLength = Math.sqrt( (tipX - tailX) * (tipX - tailX) + (tipY - tailY) * (tipY - tailY) );
+            var headHeight = Math.min( Math.abs( arrowLength ) / 2, this.options.headHeight );
+            newOptions = _.extend( _.clone( this.options ), {headHeight: headHeight} );
+          }
           this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, newOptions ) );
         }
 
