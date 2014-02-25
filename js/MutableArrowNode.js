@@ -142,7 +142,12 @@ define( function( require ) {
             this.tailEdgeStroke.visible = false;
             this.arrowNode.visible = true;
           }
-          this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, this.options ) );
+
+          //For short arrows, the head height should be half of the arrow length.  See https://github.com/phetsims/scenery-phet/issues/30
+          var arrowLength = Math.sqrt( (tipX - tailX) * (tipX - tailX) + (tipY - tailY) * (tipY - tailY) );
+          var headHeight = Math.min( Math.abs( arrowLength ) / 2, this.options.headHeight );
+          var newOptions = _.extend( _.clone( this.options ), {headHeight: headHeight} );
+          this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, newOptions ) );
         }
 
         this.optimized = willBeOptimized;
