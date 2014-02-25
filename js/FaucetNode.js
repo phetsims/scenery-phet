@@ -202,20 +202,19 @@ define( function( require ) {
       allowTouchSnag: true,
 
       start: function( event ) {
-        if ( tapToDispenseIsRunning ) {
-          // pressing the shooter cancels any tap-to-dispense that may be in progress
-          endTapToDispense();
-        }
-        else {
-          // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
-          tapToDispenseIsArmed = options.tapToDispenseEnabled;
-        }
+        // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
+        tapToDispenseIsArmed = options.tapToDispenseEnabled;
         this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
       },
 
       // adjust the flow
       drag: function( event ) {
-        tapToDispenseIsArmed = false; // dragging is the cue that we're not doing tap-to-dispense
+
+        // dragging is the cue that we're not doing tap-to-dispense
+        tapToDispenseIsArmed = false;
+        if ( tapToDispenseIsRunning ) { endTapToDispense(); }
+
+        // compute the new flow rate
         if ( enabledProperty.get() ) {
           var xParent = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
           var xOffset = xParent - this.startXOffset;
@@ -227,11 +226,11 @@ define( function( require ) {
       end: function() {
         if ( enabledProperty.get() ) {
           if ( tapToDispenseIsArmed ) {
-            // the pointer was pressed and released without dragging, do tap-to-dispense
-            startTapToDispense();
+            // tapping a second time cancels a tap-to-dispense that is in progress
+            ( tapToDispenseIsRunning ) ? endTapToDispense() : startTapToDispense();
           }
           else {
-            // the shooter was dragged, turn off the faucet
+            // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
           }
         }
@@ -254,7 +253,7 @@ define( function( require ) {
         shooterHandler.endDrag();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
-        endTapToDispense();
+        endTapToDispense( 0 );
       }
     } );
 
