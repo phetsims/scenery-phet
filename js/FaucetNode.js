@@ -253,7 +253,7 @@ define( function( require ) {
         shooterHandler.endDrag();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
-        endTapToDispense( 0 );
+        endTapToDispense();
       }
     } );
 
