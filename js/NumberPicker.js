@@ -125,8 +125,8 @@ define( function( require ) {
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       intervalDelay: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
-      touchAreaExpandX: 10,
-      touchAreaExpandY: 12
+      pointerAreaExpandX: 10,
+      pointerAreaExpandY: 14
     }, options );
 
     var thisNode = this;
@@ -185,13 +185,13 @@ define( function( require ) {
       .close() );
     downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
 
-    // expand touch area for buttons
-    upBackground.touchArea = Shape.rectangle(
-      upBackground.left - ( options.touchAreaExpandX / 2 ), upBackground.top - options.touchAreaExpandY,
-      upBackground.width + options.touchAreaExpandX, upBackground.height + options.touchAreaExpandY );
-    downBackground.touchArea = Shape.rectangle(
-      downBackground.left - ( options.touchAreaExpandX / 2 ), downBackground.top,
-      downBackground.width + options.touchAreaExpandX, downBackground.height + options.touchAreaExpandY );
+    // expand pointer area for buttons
+    upBackground.mouseArea = upBackground.touchArea = Shape.rectangle(
+      upBackground.left - ( options.pointerAreaExpandX / 2 ), upBackground.top - options.pointerAreaExpandY,
+      upBackground.width + options.pointerAreaExpandX, upBackground.height + options.pointerAreaExpandY );
+    downBackground.mouseArea = downBackground.touchArea = Shape.rectangle(
+      downBackground.left - ( options.pointerAreaExpandX / 2 ), downBackground.top,
+      downBackground.width + options.pointerAreaExpandX, downBackground.height + options.pointerAreaExpandY );
 
     // compute colors
     var arrowColors = {
