@@ -32,20 +32,24 @@ define( function( require ) {
       showZeroAsInteger: true, // if true, show '0 x 10^E' as '0'
       showZeroExponent: false, // if false, show 'M x 10^0' as 'M'
       exponentXSpacing: 2, // space to left of exponent
-      exponentYOffset: 5, // offset of exponent's center from top of 'x 10'
+      exponentYOffset: 0, // offset of exponent's center from cap line
+      capHeightScale: 0.75, // fudge factor for computing cap height, compensates for inaccuracy of Text.height
       nullValueString: '-' // if the value is null, display this string
     }, options );
     this.options = options; // @private
 
-    // scenery.Text nodes
     var textOptions = { font: options.font, fill: options.fill };
+
+    // must be recomputed if font changes!
+    var tmpText = new Text( ' ', textOptions );
+    this.mantissaXSpacing = tmpText.width; // @private width of space between mantissa and 'x 10'
+    this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private cap line offset from baseline
+
+    // scenery.Text nodes
     this.mantissaNode = new Text( '?', textOptions );
     this.timesTenNode = new Text( '?', textOptions );
     this.exponentNode = new Text( '?', _.extend( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
-    this.exponentNode.centerY = this.timesTenNode.top + options.exponentYOffset;
-
-    // compute width of space between mantissa and 'x 10'
-    this.mantissaXSpacing = new Text( ' ', textOptions ).width;
+    this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
 
     Node.call( this, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } );
 
