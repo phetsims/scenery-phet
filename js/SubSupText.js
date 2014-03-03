@@ -38,7 +38,8 @@ define( function( require ) {
       // superscripts
       supScale: 0.75, // scale of superscript relative to plain text
       supXSpacing: 2, // space between superscript and whatever precedes it
-      supYOffset: 5 // offset of superscript's center from cap line, default is non-zero because of Text height inaccuracies
+      supYOffset: 0, // offset of superscript's center from cap line
+      capHeightScale: 0.75 // fudge factor for computing cap height, compensates for inaccuracy of Text.height
     }, options );
 
     // scenery.Text properties with setters and getters
@@ -47,7 +48,7 @@ define( function( require ) {
 
     // compute cap line offset from baseline, must be recomputed if font changes!
     var tmpText = new Text( 'X', { font: options.font } );
-    this._capLineYOffset = ( tmpText.top - tmpText.y ); // @private
+    this._capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private
 
     Node.call( this );
 
