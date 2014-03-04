@@ -17,11 +17,11 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param value
+   * @param {Property<Number>} valueProperty
    * @param {*} options
    * @constructor
    */
-  function ScientificNotationNode( value, options ) {
+  function ScientificNotationNode( valueProperty, options ) {
 
     options = _.extend( {
       fill: 'black',
@@ -29,6 +29,7 @@ define( function( require ) {
       exponent: null,
       mantissaDecimalPlaces: 1,
       exponentScale: 0.75, // scale of the exponent, relative to the size of the '10'
+      showIntegersAsMantissaOnly: false, // if true, show 8000 as '8000', otherwise '8 x 10^3'
       showZeroAsInteger: true, // if true, show '0 x 10^E' as '0'
       showZeroExponent: false, // if false, show 'M x 10^0' as 'M'
       exponentXSpacing: 2, // space to left of exponent
@@ -39,6 +40,7 @@ define( function( require ) {
     this.options = options; // @private
 
     var textOptions = { font: options.font, fill: options.fill };
+    this.valueProperty = valueProperty; // @public (in case there's any question :)
 
     // must be recomputed if font changes!
     var tmpText = new Text( ' ', textOptions );
@@ -51,26 +53,17 @@ define( function( require ) {
     this.exponentNode = new Text( '?', _.extend( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
     this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
 
-    Node.call( this, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } );
+    Node.call( this, _.extend( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
 
-    this.setValue( value );
-
-    this.mutate( _.omit( options, 'children' ) );
+    valueProperty.link( this.update.bind( this ) );
   }
 
   return inherit( Node, ScientificNotationNode, {
 
-    /**
-     * Sets the value displayed by the node.
-     * @param {Number} value
-     * @param {*} options override options that were provided in the constructor
-     */
-    setValue: function( value, options ) {
+    // @param {Number} value
+    update: function( value ) {
 
-      options = _.extend( this.options, options );
-
-      // update text
-      var scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
+      var options = this.options;
 
       //TODO adding and removing nodes is more expensive than changing visibility, but results in correct bounds
       // start will all nodes included
@@ -84,23 +77,32 @@ define( function( require ) {
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );
       }
-      else if ( scientificNotation.mantissa === 0 && options.showZeroAsInteger ) {
-        // show '0 x 10^E' as '0'
-        this.mantissaNode.text = '0';
-        this.removeChild( this.timesTenNode );
-        this.removeChild( this.exponentNode );
-      }
-      else if (scientificNotation.exponent === 0 && !options.showZeroExponent ) {
-        // show 'M x 10^0' as 'M'
-        this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+      else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
+        // show integers as mantissa only
+        this.mantissaNode.text = value;
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );
       }
       else {
-        // show 'M x 10^E'
-        this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
-        this.timesTenNode.text = 'x 10';
-        this.exponentNode.text = scientificNotation.exponent;
+        var scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
+        if ( scientificNotation.mantissa === 0 && options.showZeroAsInteger ) {
+          // show '0 x 10^E' as '0'
+          this.mantissaNode.text = '0';
+          this.removeChild( this.timesTenNode );
+          this.removeChild( this.exponentNode );
+        }
+        else if ( scientificNotation.exponent === 0 && !options.showZeroExponent ) {
+          // show 'M x 10^0' as 'M'
+          this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+          this.removeChild( this.timesTenNode );
+          this.removeChild( this.exponentNode );
+        }
+        else {
+          // show 'M x 10^E'
+          this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+          this.timesTenNode.text = 'x 10';
+          this.exponentNode.text = scientificNotation.exponent;
+        }
       }
 
       // update layout
