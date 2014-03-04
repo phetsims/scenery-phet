@@ -30,14 +30,14 @@ define( function( require ) {
       fill: 'black',
       font: new PhetFont( 20 ),
       // plain text
-      textXSpacing: 2, // space between plain text and whatever precedes it
+      textXSpacing: 0, // space between plain text and whatever precedes it
       // subscripts
       subScale: 0.75, // scale of subscript relative to plain text
-      subXSpacing: 2, // space between subscript and whatever precedes it
+      subXSpacing: 0, // space between subscript and whatever precedes it
       subYOffset: 0, // offset of subscript's center from baseline
       // superscripts
       supScale: 0.75, // scale of superscript relative to plain text
-      supXSpacing: 2, // space between superscript and whatever precedes it
+      supXSpacing: 0, // space between superscript and whatever precedes it
       supYOffset: 0, // offset of superscript's center from cap line
       capHeightScale: 0.75 // fudge factor for computing cap height, compensates for inaccuracy of Text.height
     }, options );
