@@ -125,8 +125,10 @@ define( function( require ) {
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       intervalDelay: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
-      pointerAreaExpandX: 10,
-      pointerAreaExpandY: 14
+      touchAreaExpandX: 10,
+      touchAreaExpandY: 20,
+      mouseAreaExpandX: 0,
+      mouseAreaExpandY: 14
     }, options );
 
     var thisNode = this;
@@ -185,13 +187,21 @@ define( function( require ) {
       .close() );
     downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
 
-    // expand pointer area for buttons
-    upBackground.mouseArea = upBackground.touchArea = Shape.rectangle(
-      upBackground.left - ( options.pointerAreaExpandX / 2 ), upBackground.top - options.pointerAreaExpandY,
-      upBackground.width + options.pointerAreaExpandX, upBackground.height + options.pointerAreaExpandY );
-    downBackground.mouseArea = downBackground.touchArea = Shape.rectangle(
-      downBackground.left - ( options.pointerAreaExpandX / 2 ), downBackground.top,
-      downBackground.width + options.pointerAreaExpandX, downBackground.height + options.pointerAreaExpandY );
+    // touch area for buttons
+    upBackground.touchArea = Shape.rectangle(
+      upBackground.left - ( options.touchAreaExpandX / 2 ), upBackground.top - options.touchAreaExpandY,
+      upBackground.width + options.touchAreaExpandX, upBackground.height + options.touchAreaExpandY );
+    downBackground.touchArea = Shape.rectangle(
+      downBackground.left - ( options.touchAreaExpandX / 2 ), downBackground.top,
+      downBackground.width + options.touchAreaExpandX, downBackground.height + options.touchAreaExpandY );
+
+    // mouse area for buttons
+    upBackground.mouseArea = Shape.rectangle(
+      upBackground.left - ( options.mouseAreaExpandX / 2 ), upBackground.top - options.mouseAreaExpandY,
+      upBackground.width + options.mouseAreaExpandX, upBackground.height + options.mouseAreaExpandY );
+    downBackground.mouseArea = Shape.rectangle(
+      downBackground.left - ( options.mouseAreaExpandX / 2 ), downBackground.top,
+      downBackground.width + options.mouseAreaExpandX, downBackground.height + options.mouseAreaExpandY );
 
     // compute colors
     var arrowColors = {
