@@ -55,10 +55,10 @@ define( function( require ) {
     // nodes
     var arrowShape;
     if ( direction === 'up' ) {
-      arrowShape = new Shape().moveTo( options.arrowWidth / 2, 0 ).lineTo( options.arrowWidth, options.arrowHeight ).lineTo( 0, options.arrowHeight ).close();
+      arrowShape = new Shape().moveTo( options.arrowHeight / 2, 0 ).lineTo( options.arrowHeight, options.arrowWidth ).lineTo( 0, options.arrowWidth ).close();
     }
     else if ( direction === 'down' ) {
-      arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, 0 ).lineTo( options.arrowWidth / 2, options.arrowHeight ).close();
+      arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowHeight, 0 ).lineTo( options.arrowHeight / 2, options.arrowWidth ).close();
     }
     else if ( direction === 'left' ) {
       arrowShape = new Shape().moveTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, 0 ).lineTo( options.arrowWidth, options.arrowHeight ).close();
