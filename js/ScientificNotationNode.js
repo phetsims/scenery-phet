@@ -65,7 +65,7 @@ define( function( require ) {
 
       var options = this.options;
 
-      //TODO adding and removing nodes is more expensive than changing visibility, but results in correct bounds
+      //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
       // start will all nodes included
       if ( !this.isChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
       if ( !this.isChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
