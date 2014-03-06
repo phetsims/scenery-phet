@@ -49,20 +49,29 @@ define( function( require ) {
     var bar1 = bar();
     var bar2 = bar();
     var pausePath = new HBox( {children: [ bar1, bar2], spacing: 1.8 * elementScale } );
-
-    var pauseButton = new RoundShinyButton( function() {}, pausePath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 0,
-      backgroundGradientColorStop0: 'rgb(255,255,255)',
-      backgroundGradientColorStop1: 'rgb(255,255,255 )',
-      //Drawing a line around the inner circle
-      innerButtonStroke: 'black',
-      innerButtonLineWidth: 0.5} );
-
-    var playButton = new RoundShinyButton( function() {}, playPath, {radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 3.6 * elementScale,
+    
+    // options specific to the play button
+    options.playOptions = _.extend( {
+      radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 3.6 * elementScale,
       backgroundGradientColorStop0: 'rgb(220,220,230)',
       backgroundGradientColorStop1: 'rgb(245,245,255 )',
       //Drawing a line around the inner circle
       innerButtonStroke: 'black',
-      innerButtonLineWidth: 0.5 } );
+      innerButtonLineWidth: 0.5
+    }, options.playOptions );
+    
+    // options specific to the play button
+    options.pauseOptions = _.extend( {
+      radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 0,
+      backgroundGradientColorStop0: 'rgb(255,255,255)',
+      backgroundGradientColorStop1: 'rgb(255,255,255 )',
+      //Drawing a line around the inner circle
+      innerButtonStroke: 'black',
+      innerButtonLineWidth: 0.5
+    }, options.pauseOptions );
+
+    var pauseButton = new RoundShinyButton( function() {}, pausePath, options.pauseOptions );
+    var playButton = new RoundShinyButton( function() {}, playPath, options.playOptions );
 
     //Highlight the icons
     var stateListener = function( state ) {
