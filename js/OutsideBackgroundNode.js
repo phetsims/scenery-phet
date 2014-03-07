@@ -33,7 +33,7 @@ define( function( require ) {
     options = _.extend(
       {
         // Defaults.
-        modelRect: new Rectangle( -1000, -2000, 2000, 4000 )
+        modelRect: new Rectangle( -2000, -2000, 4000, 4000 )
       }, options );
 
     if ( options.modelRect.getMinY() < 0 ) {
