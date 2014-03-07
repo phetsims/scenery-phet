@@ -14,8 +14,8 @@ define( function( require ) {
 
   // Imports
   var Rectangle = require( 'DOT/Rectangle' );
-  var SkyNode = require( 'BALANCING_ACT/common/view/SkyNode' );
-  var GroundNode = require( 'BALANCING_ACT/common/view/GroundNode' );
+  var SkyNode = require( 'SCENERY_PHET/SkyNode' );
+  var GroundNode = require( 'SCENERY_PHET/GroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
 
