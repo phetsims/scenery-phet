@@ -29,10 +29,12 @@ define( function( require ) {
     }, options );
 
     // the magnifying glass
-    var glassNode = new Circle( options.radius, { fill: options.magnifyingGlassFill, stroke: options.magnifyingGlassStroke, lineWidth: options.radius / 4 } );
+    var glassLineWidth = 0.25 * options.radius;
+    var glassNode = new Circle( options.radius, { fill: options.magnifyingGlassFill, stroke: options.magnifyingGlassStroke, lineWidth: glassLineWidth } );
 
     // handle at lower-left of glass, at a 45-degree angle
-    var handleNode = new Line( options.radius * Math.cos( Math.PI / 4 ), options.radius * Math.sin( Math.PI / 4 ),
+    var outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
+    var handleNode = new Line( outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
       options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ),
       { stroke: options.magnifyingGlassStroke, lineWidth: 0.4 * options.radius, lineCap: 'round' } );
 
