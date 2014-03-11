@@ -16,19 +16,21 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
 
   /**
-   * @param {ModelViewTransform2} mvt Model/View transform
-   * @param {Bounds2} modelRect
-   * @param {number} modelGradientHeight
-   * @param {Object} options
+   * @param x
+   * @param y
+   * @param width
+   * @param height
+   * @param gradientEndDepth
+   * @param options
    * @constructor
    */
-  function GroundNode( mvt, modelRect, modelGradientHeight, options ) {
+  function GroundNode( x, y, width, height, gradientEndDepth, options ) {
     options = _.extend(
       {
         topColor: new Color( 144, 199, 86 ),
         bottomColor: new Color( 103, 162, 87 )
       }, options );
-    GradientBackgroundNode.call( this, mvt, modelRect, options.bottomColor, options.topColor, 0, modelGradientHeight );
+    GradientBackgroundNode.call( this, x, y, width, height, options.bottomColor, options.topColor, y, gradientEndDepth );
   }
 
   return inherit( GradientBackgroundNode, GroundNode );

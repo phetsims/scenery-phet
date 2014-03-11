@@ -4,7 +4,8 @@
  * This node is intended for use as a background on a screen, and shows the
  * ground on the bottom and the sky on the top.
  * <p/>
- * This assumes that the horizon is at Y=0.
+ * The default size is chosen such that it works well with the default layout
+ * size for a PhET HTML5 simulation.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -20,32 +21,33 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param {ModelViewTransform2} mvt Model view transform
-   * @param {number} skyGradientTopY Top of the gradient in model coordinates
-   * @param {number} groundGradientBottomY Bottom of the gradient in model coordinates
-   * @param {Object} options
+   * @param x
+   * @param y
+   * @param width
+   * @param height
+   * @param options
    * @constructor
    */
-  function OutsideBackgroundNode( mvt, skyGradientTopY, groundGradientBottomY, options ) {
+  function OutsideBackgroundNode( x, y, width, height, options ) {
 
     Node.call( this );
 
     options = _.extend(
       {
         // Defaults.
-        modelRect: new Rectangle( -2000, -2000, 4000, 4000 )
+        skyHeight: height / 2, // Height of the sky, which defines where the ground/sky interface is.
+        skyGradientHeight: height / 4,
+        groundGradientDepth: height / 4
       }, options );
 
-    if ( options.modelRect.getMinY() < 0 ) {
-      // Add the ground first, because we're earthy people.
-      var groundRect = new Rectangle( options.modelRect.minX, options.modelRect.minY, options.modelRect.width, -options.modelRect.minY );
-      this.addChild( new GroundNode( mvt, groundRect, groundGradientBottomY ) );
-    }
-    if ( options.modelRect.getMaxY() > 0 ) {
-      // Add the sky.
-      var skyRect = new Rectangle( options.modelRect.x, 0, options.modelRect.width, options.modelRect.maxY );
-      this.addChild( new SkyNode( mvt, skyRect, skyGradientTopY ) );
-    }
+    // parameter checking
+    assert && assert( options.skyHeight < height );
+
+    // sky
+    this.addChild( new SkyNode( x, y, width, options.skyHeight, options.skyGradientHeight ) );
+
+    // ground
+    this.addChild( new GroundNode( x, y + options.skyHeight, width, height - options.skyHeight, options.groundGradientDepth ) );
   }
 
   return inherit( Node, OutsideBackgroundNode );
