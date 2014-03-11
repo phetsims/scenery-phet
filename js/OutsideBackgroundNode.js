@@ -21,33 +21,33 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param x
-   * @param y
+   * @param centerX
+   * @param centerY
    * @param width
-   * @param height
+   * @param skyHeight
+   * @param groundDepth
    * @param options
    * @constructor
    */
-  function OutsideBackgroundNode( x, y, width, height, options ) {
+  function OutsideBackgroundNode( centerX, centerY, width, skyHeight, groundDepth, options ) {
 
     Node.call( this );
 
     options = _.extend(
       {
         // Defaults.
-        skyHeight: height / 2, // Height of the sky, which defines where the ground/sky interface is.
-        skyGradientHeight: height / 4,
-        groundGradientDepth: height / 4
+        skyGradientHeight: skyHeight / 2,
+        groundGradientDepth: groundDepth / 2
       }, options );
 
     // parameter checking
     assert && assert( options.skyHeight < height );
 
     // sky
-    this.addChild( new SkyNode( x, y, width, options.skyHeight, options.skyGradientHeight ) );
+    this.addChild( new SkyNode( centerX - width / 2, centerY - skyHeight, width, skyHeight, options.skyGradientHeight ) );
 
     // ground
-    this.addChild( new GroundNode( x, y + options.skyHeight, width, height - options.skyHeight, options.groundGradientDepth ) );
+    this.addChild( new GroundNode( centerX - width / 2, centerY, width, groundDepth, centerY + options.groundGradientDepth ) );
   }
 
   return inherit( Node, OutsideBackgroundNode );

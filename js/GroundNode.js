@@ -30,7 +30,7 @@ define( function( require ) {
         topColor: new Color( 144, 199, 86 ),
         bottomColor: new Color( 103, 162, 87 )
       }, options );
-    GradientBackgroundNode.call( this, x, y, width, height, options.bottomColor, options.topColor, y, gradientEndDepth );
+    GradientBackgroundNode.call( this, x, y, width, height, options.topColor, options.bottomColor, y, gradientEndDepth );
   }
 
   return inherit( GradientBackgroundNode, GroundNode );
