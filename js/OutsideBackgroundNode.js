@@ -14,7 +14,6 @@ define( function( require ) {
   'use strict';
 
   // Imports
-  var Rectangle = require( 'DOT/Rectangle' );
   var SkyNode = require( 'SCENERY_PHET/SkyNode' );
   var GroundNode = require( 'SCENERY_PHET/GroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -41,7 +40,8 @@ define( function( require ) {
       }, options );
 
     // parameter checking
-    assert && assert( options.skyHeight < height );
+    //TODO commenting out this assert, there is no options.skyHeight and height is not declared
+//    assert && assert( options.skyHeight < height );
 
     // sky
     this.addChild( new SkyNode( centerX - width / 2, centerY - skyHeight, width, skyHeight, options.skyGradientHeight ) );
