@@ -15,7 +15,6 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var KitControlNode = require( 'SCENERY_PHET/KitControlNode' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
 
@@ -56,7 +55,7 @@ define( function( require ) {
 
     // Construct and add the background.  Make it big enough to hold the largest kit.
     thisNode.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
-      controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
+        controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
 
     // Create the layer that contains all the kits, and add the kits side by
     // side spaced by the distance of the background so only 1 kit will be
