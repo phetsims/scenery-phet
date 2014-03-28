@@ -40,6 +40,7 @@ define( function( require ) {
     var baseColor = new Color( 255, 204, 0 );
     var buttonOptions = {
       radius: 12,
+      touchAreaRadius: 20,
       upFill: baseColor,
       overFill: baseColor.colorUtilsBrighter( 0.2 ),
       disabledFill: new Color( 180, 180, 180 ),
