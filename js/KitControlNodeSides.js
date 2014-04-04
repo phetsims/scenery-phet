@@ -34,14 +34,14 @@ define( function( require ) {
       {
         // Default values
         inset: 5,
-        buttonIdleFill: 'rgba( 255, 255, 255, 0 )',
+        buttonIdleFill: 'rgba( 175, 240, 255, 0.5 )',
         buttonOverFill: 'rgba( 128, 223, 255, 0.5 )',
         buttonDownFill: 'rgba( 77, 210, 255, 0.5 )',
         buttonStroke: null,
         buttonOutlineWidth: 0.5,
         arrowStroke: 'rgb( 150, 150, 150 )',
         arrowLineWidth: 4,
-        arrowWidth: 17,
+        arrowWidth: 12,
         arrowHeight: 40,
         xPadding: 5,
         yPadding: 5
