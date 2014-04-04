@@ -3,8 +3,8 @@
 /**
  * Node for showing and scrolling between kits.
  *
- * @author Sam Reid
  * @author John Blanco
+ * @author Sam Reid
  */
 
 define( function( require ) {
@@ -13,7 +13,8 @@ define( function( require ) {
   // Imports
   var inherit = require( 'PHET_CORE/inherit' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var KitControlNode = require( 'SCENERY_PHET/KitControlNode' );
+  var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
+  var KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
@@ -34,7 +35,8 @@ define( function( require ) {
     options = _.extend(
       {
         // Defaults
-        titleNode: null
+        titleNode: null,
+        selectorPosition: 'sides' // Valid values are 'sides' and 'top'
       }, options
     );
 
@@ -51,7 +53,16 @@ define( function( require ) {
       maxKitTitleSize.height = Math.max( maxKitTitleSize.height, kit.title.height );
     } );
 
-    var controlNode = new KitControlNode( kits.length, selectedKit, { titleNode: options.titleNode, minButtonXSpace: 70 } );
+    var controlNode;
+    if ( options.selectorPosition === 'top' ) {
+      controlNode = new KitControlNodeTop( kits.length, selectedKit, { titleNode: options.titleNode, minButtonXSpace: 70 } );
+    }
+    else if ( options.selectorPosition === 'sides' ) {
+      controlNode = new KitControlNodeSides( kits.length, selectedKit, maxKitContentSize.width * 1.05 );
+    }
+    else {
+      throw new Error( 'Unknown selector position option: ' + options.selectorPosition );
+    }
 
     // Construct and add the background.  Make it big enough to hold the largest kit.
     thisNode.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
@@ -85,9 +96,23 @@ define( function( require ) {
     thisNode.clipArea = new Shape.rect( 0, 0, thisNode.selectorSize.width, thisNode.selectorSize.height );
 
     // Add the remaining nodes.
-    thisNode.kitLayer.top = controlNode.height;
     thisNode.addChild( thisNode.kitLayer );
-    thisNode.addChild( controlNode.mutate( { top: 0, centerX: thisNode.selectorSize.width / 2 } ) );
+    thisNode.addChild( controlNode );
+
+    // Layout
+    if ( options.selectorPosition === 'top ' ) {
+      controlNode.top = 0;
+      controlNode.centerX = thisNode.selectorSize.width / 2;
+      thisNode.kitLayer.top = controlNode.height;
+    }
+    else { // control node at sides
+//      debugger;
+      controlNode.centerX = thisNode.selectorSize.width / 2;
+//      controlNode.centerY = thisNode.selectorSize.height / 2;
+      controlNode.centerY = thisNode.bounds.height / 2;
+//      controlNode.top = t;
+      thisNode.kitLayer.top = 0;
+    }
 
     // Set up an observer to set visibility of the selected kit.
     selectedKit.link( function( kit ) {

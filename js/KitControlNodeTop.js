@@ -1,9 +1,9 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A scenery node that is used to control which kit is selected within a kit
- * selection carousel node.  It contains the back and forward buttons and,
- * optionally, a title node.
+ * A scenery node that is generally placed at the top of a kit selection node
+ * and is used to control which kit is selected.  It contains the back and
+ * forward buttons and, optionally, a title node.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Object} options
    * @constructor
    */
-  function KitControlNode( numKits, selectedKit, options ) {
+  function KitControlNodeTop( numKits, selectedKit, options ) {
     Node.call( this );
     options = _.extend(
       {
@@ -84,5 +84,5 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, KitControlNode );
+  return inherit( Node, KitControlNodeTop );
 } );
