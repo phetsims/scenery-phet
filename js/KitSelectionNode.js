@@ -58,7 +58,7 @@ define( function( require ) {
       controlNode = new KitControlNodeTop( kits.length, selectedKit, { titleNode: options.titleNode, minButtonXSpace: 70 } );
     }
     else if ( options.selectorPosition === 'sides' ) {
-      controlNode = new KitControlNodeSides( kits.length, selectedKit, maxKitContentSize.width * 1.05 );
+      controlNode = new KitControlNodeSides( kits.length, selectedKit, maxKitContentSize.width * 1.2 );
     }
     else {
       throw new Error( 'Unknown selector position option: ' + options.selectorPosition );
