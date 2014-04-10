@@ -66,7 +66,7 @@ define( function( require ) {
 
     // Construct and add the background.  Make it big enough to hold the largest kit.
     thisNode.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
-        controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
+      controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
 
     // Create the layer that contains all the kits, and add the kits side by
     // side spaced by the distance of the background so only 1 kit will be
@@ -106,11 +106,8 @@ define( function( require ) {
       thisNode.kitLayer.top = controlNode.height;
     }
     else { // control node at sides
-//      debugger;
       controlNode.centerX = thisNode.selectorSize.width / 2;
-//      controlNode.centerY = thisNode.selectorSize.height / 2;
       controlNode.centerY = thisNode.bounds.height / 2;
-//      controlNode.top = t;
       thisNode.kitLayer.top = 0;
     }
 
