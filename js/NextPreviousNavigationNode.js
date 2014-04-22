@@ -4,7 +4,7 @@
  * Shows a central node surrounded with next/previous arrows. Need to implement next(),previous(),
  * and when availability changes modify hasNext and hasPrevious
  *
- * @author Jonathan Olson <olsonsjc@gmail.com>
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
