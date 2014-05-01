@@ -50,8 +50,8 @@ define( function( require ) {
       addColorStop( 0.65, 'rgb( 150, 150, 150 )' ).
       addColorStop( 1, 'rgb( 170, 170, 170 )' );
     var columnSupportNode = new Rectangle(
-      transformedColumnShape.bounds.centerX - supportWidth / 2,
-      transformedColumnShape.bounds.maxY - supportHeight,
+        transformedColumnShape.bounds.centerX - supportWidth / 2,
+        transformedColumnShape.bounds.maxY - supportHeight,
       supportWidth,
       supportHeight,
       3,
@@ -62,7 +62,6 @@ define( function( require ) {
         lineWidth: 1
       } );
     thisNode.addChild( columnSupportNode );
-
 
     columnState.link( function( state ) {
       thisNode.visible = state === 'doubleColumns';
