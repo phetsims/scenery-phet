@@ -24,7 +24,7 @@ define( function( require ) {
    * @param {Object} options
    * @constructor
    */
-  function ResetAllButton( callback, options ) {
+  function ResetAllButtonDeprecated( callback, options ) {
     options = _.extend( {
       radius: DEFAULT_RADIUS,
 
@@ -73,5 +73,5 @@ define( function( require ) {
     RoundShinyButton.call( this, callback, icon, options );
   }
 
-  return inherit( RoundShinyButton, ResetAllButton );
+  return inherit( RoundShinyButton, ResetAllButtonDeprecated );
 } );
