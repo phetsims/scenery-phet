@@ -16,7 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var Line = require( 'SCENERY/nodes/Line' );
-  var RectanglePushButton = require( 'SUN/RectanglePushButton' );
+  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
 
   function ZoomButton( options ) {
 
@@ -42,7 +42,7 @@ define( function( require ) {
     var signOptions = { size: new Dimension2( 1.3 * options.radius, options.radius / 3 ), centerX: glassNode.centerX, centerY: glassNode.centerY };
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-    RectanglePushButton.call( this, new Node( { children: [ handleNode, glassNode, signNode ] } ) );
+    RectanglePushButtonDeprecated.call( this, new Node( { children: [ handleNode, glassNode, signNode ] } ) );
 
     this.getEnabledProperty().link( function( enabled ) {
       glassNode.stroke = handleNode.stroke = signNode.fill = enabled ? options.magnifyingGlassStroke : options.magnifyingGlassStrokeDisabled;
@@ -52,5 +52,5 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( RectanglePushButton, ZoomButton );
+  return inherit( RectanglePushButtonDeprecated, ZoomButton );
 } );

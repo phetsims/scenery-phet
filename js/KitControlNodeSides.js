@@ -16,7 +16,7 @@ define( function( require ) {
   // Imports
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RectanglePushButton = require( 'SUN/RectanglePushButton' );
+  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -66,13 +66,13 @@ define( function( require ) {
     var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
     var previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
 
-    var nextKitButton = new RectanglePushButton( nextIcon, _.extend( {
+    var nextKitButton = new RectanglePushButtonDeprecated( nextIcon, _.extend( {
       listener: function() {
         selectedKit.value = selectedKit.value + 1;
       } }, buttonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RectanglePushButton( previousIcon, _.extend( {
+    var previousKitButton = new RectanglePushButtonDeprecated( previousIcon, _.extend( {
       listener: function() {
         selectedKit.value = selectedKit.value - 1;
       } }, buttonOptions ) );
