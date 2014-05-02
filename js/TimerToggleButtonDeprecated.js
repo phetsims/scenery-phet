@@ -25,7 +25,7 @@ define( function( require ) {
    * @param {*} options
    * @constructor
    */
-  function TimerToggleButton( enabledProperty, options ) {
+  function TimerToggleButtonDeprecated( enabledProperty, options ) {
 
     //TODO scenery-phet#19 this has lots of problems
     // This node's size needs to match the size of SoundToggleButton, so the
@@ -63,5 +63,5 @@ define( function( require ) {
       _.extend( { addRectangle: true, label: 'Timer' }, options ) ); // TODO: i18n
   }
 
-  return inherit( ToggleButton, TimerToggleButton );
+  return inherit( ToggleButton, TimerToggleButtonDeprecated );
 } );

@@ -19,7 +19,7 @@ define( function( require ) {
 
   var X_WIDTH = 12; // Empirically determined.
 
-  function SoundToggleButton( property, options ) {
+  function SoundToggleButtonDeprecated( property, options ) {
     var soundOffNode = new Node();
     soundOffNode.addChild( new FontAwesomeNode( 'volume_off' ) );
     var soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ),
@@ -38,7 +38,7 @@ define( function( require ) {
       _.extend( { addRectangle: true, label: 'Sound' }, options ) );
   }
 
-  inherit( ToggleButton, SoundToggleButton );
+  inherit( ToggleButton, SoundToggleButtonDeprecated );
 
-  return SoundToggleButton;
+  return SoundToggleButtonDeprecated;
 } );
