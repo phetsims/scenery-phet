@@ -2,7 +2,7 @@
 
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundShinyButton (as opposed to using raster images).
+ * Generated programmatically using RoundShinyButtonDeprecated (as opposed to using raster images).
  *
  * @author Sam Reid
  */
@@ -12,7 +12,7 @@ define( function( require ) {
 
   // imports
   var inherit = require( 'PHET_CORE/inherit' ),
-    RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' ),
+    RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' ),
     Shape = require( 'KITE/Shape' ),
     Path = require( 'SCENERY/nodes/Path' ),
     Rectangle = require( 'SCENERY/nodes/Rectangle' ),
@@ -32,7 +32,7 @@ define( function( require ) {
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
 
-    RoundShinyButton.call( this, stepFunction, new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ), {radius: RoundShinyButton.DEFAULT_RADIUS * 0.6, iconOffsetX: 0,
+    RoundShinyButtonDeprecated.call( this, stepFunction, new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ), {radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 0.6, iconOffsetX: 0,
       backgroundGradientColorStop0: 'rgb(220,220,230)',
       backgroundGradientColorStop1: 'rgb(245,245,255 )'} );
     this.enabled = false;
@@ -47,5 +47,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( RoundShinyButton, RewindButton );
+  return inherit( RoundShinyButtonDeprecated, RewindButton );
 } );

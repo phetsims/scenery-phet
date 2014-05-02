@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' );
+  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' );
 
   // Constants
   var DEFAULT_RADIUS = 32; // Derived from images initially used for reset button.
@@ -34,7 +34,7 @@ define( function( require ) {
       disabledFill: new Color( 180, 180, 180 ),
       downFill: new Color( 235, 141, 24 ),
 
-      // The arrow shape is not perfectly centered, account for that here, and see docs in RoundShinyButton
+      // The arrow shape is not perfectly centered, account for that here, and see docs in RoundShinyButtonDeprecated
       iconOffsetX: 1,
       iconOffsetY: 0
     }, options );
@@ -70,8 +70,8 @@ define( function( require ) {
 
     var icon = new Path( curvedArrowShape, { fill: 'white' } );
 
-    RoundShinyButton.call( this, callback, icon, options );
+    RoundShinyButtonDeprecated.call( this, callback, icon, options );
   }
 
-  return inherit( RoundShinyButton, ResetAllButtonDeprecated );
+  return inherit( RoundShinyButtonDeprecated, ResetAllButtonDeprecated );
 } );

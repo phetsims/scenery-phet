@@ -13,7 +13,7 @@ define( function( require ) {
   // imports
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' );
+  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -28,7 +28,7 @@ define( function( require ) {
     var downIcon = new Path( downShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
 
     var radius = 20;
-    var upButton = new RoundShinyButton( function() {
+    var upButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() + 1 );
     }, upIcon, {
       radius: radius,
@@ -40,7 +40,7 @@ define( function( require ) {
     } );
     upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
-    var downButton = new RoundShinyButton( function() {
+    var downButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() - 1 );
     }, downIcon, {
       radius: radius,

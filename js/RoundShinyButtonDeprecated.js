@@ -43,7 +43,7 @@ define( function( require ) {
    * @param {Object} options
    * @constructor
    */
-  function RoundShinyButton( callback, icon, options ) {
+  function RoundShinyButtonDeprecated( callback, icon, options ) {
     options = _.extend( {
 
       //Colors for the border gradient
@@ -112,7 +112,7 @@ define( function( require ) {
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
   }
 
-  return inherit( PushButton, RoundShinyButton, {},
+  return inherit( PushButton, RoundShinyButtonDeprecated, {},
 
     //Statics
     {

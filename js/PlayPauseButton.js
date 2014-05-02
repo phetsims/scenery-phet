@@ -2,7 +2,7 @@
 
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundShinyButton (as opposed to using raster images).
+ * Generated programmatically using RoundShinyButtonDeprecated (as opposed to using raster images).
  *
  * @author Sam Reid
  */
@@ -13,7 +13,7 @@ define( function( require ) {
   // imports
   var inherit = require( 'PHET_CORE/inherit' ),
     ToggleButton = require( 'SUN/ToggleButton' ),
-    RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' ),
+    RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' ),
     Shape = require( 'KITE/Shape' ),
     Path = require( 'SCENERY/nodes/Path' ),
     HBox = require( 'SCENERY/nodes/HBox' ),
@@ -52,7 +52,7 @@ define( function( require ) {
     
     // options specific to the play button
     options.playOptions = _.extend( {
-      radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 3.6 * elementScale,
+      radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 3.6 * elementScale,
       backgroundGradientColorStop0: 'rgb(220,220,230)',
       backgroundGradientColorStop1: 'rgb(245,245,255 )',
       //Drawing a line around the inner circle
@@ -62,7 +62,7 @@ define( function( require ) {
     
     // options specific to the play button
     options.pauseOptions = _.extend( {
-      radius: RoundShinyButton.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 0,
+      radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 0,
       backgroundGradientColorStop0: 'rgb(255,255,255)',
       backgroundGradientColorStop1: 'rgb(255,255,255 )',
       //Drawing a line around the inner circle
@@ -70,8 +70,8 @@ define( function( require ) {
       innerButtonLineWidth: 0.5
     }, options.pauseOptions );
 
-    var pauseButton = new RoundShinyButton( function() {}, pausePath, options.pauseOptions );
-    var playButton = new RoundShinyButton( function() {}, playPath, options.playOptions );
+    var pauseButton = new RoundShinyButtonDeprecated( function() {}, pausePath, options.pauseOptions );
+    var playButton = new RoundShinyButtonDeprecated( function() {}, playPath, options.playOptions );
 
     //Highlight the icons
     var stateListener = function( state ) {

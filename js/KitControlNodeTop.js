@@ -15,7 +15,7 @@ define( function( require ) {
   // Imports
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButton = require( 'SCENERY_PHET/RoundShinyButton' );
+  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -53,12 +53,12 @@ define( function( require ) {
     var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( 5, 5 ).lineTo( 0, 10 ), iconOptions );
     var previousIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( -5, 5 ).lineTo( 0, 10 ), iconOptions );
 
-    var nextKitButton = new RoundShinyButton( function() {
+    var nextKitButton = new RoundShinyButtonDeprecated( function() {
       selectedKit.value = selectedKit.value + 1;
     }, nextIcon, _.extend( { iconOffsetX: 1 }, buttonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RoundShinyButton( function() {
+    var previousKitButton = new RoundShinyButtonDeprecated( function() {
       selectedKit.value = selectedKit.value - 1;
     }, previousIcon, _.extend( { iconOffsetX: -1 }, buttonOptions ) );
     this.addChild( previousKitButton );
