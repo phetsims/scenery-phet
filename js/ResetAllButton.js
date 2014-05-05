@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var RoundPushButton = require( 'SUN/experimental/buttons/RoundPushButton' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
 
   // Constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
