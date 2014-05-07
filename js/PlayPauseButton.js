@@ -2,7 +2,7 @@
 
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundShinyButtonDeprecated (as opposed to using raster images).
+ * Generated programmatically using RoundPushButton (as opposed to using raster images).
  *
  * @author Sam Reid
  */
@@ -11,13 +11,15 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var inherit = require( 'PHET_CORE/inherit' ),
-    ToggleButton = require( 'SUN/ToggleButton' ),
-    RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' ),
-    Shape = require( 'KITE/Shape' ),
-    Path = require( 'SCENERY/nodes/Path' ),
-    HBox = require( 'SCENERY/nodes/HBox' ),
-    Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+
+  var DEFAULT_RADIUS = 28;
 
   /*
    * PlayPauseButton constructor
@@ -29,71 +31,28 @@ define( function( require ) {
   function PlayPauseButton( runningProperty, options ) {
 
     options = _.extend( {
-
-      //Instead of scaling the entire node, each component of this node can be scaled.  In some situations, this
-      //may lead to better overall look & style (say, to increase the size of the button without increasing the size of the strokes)
-      elementScale: 1.0
-
+      radius: DEFAULT_RADIUS
     }, options );
 
     //Overall scaling factor for individual elements (without scaling the entire node)
-    var elementScale = options.elementScale;
+    var elementScale = options.radius / DEFAULT_RADIUS;
 
-    var triangleHeight = 28.8 * elementScale;
-    var triangleWidth = triangleHeight * elementScale * 0.81;
-    var barWidth = 9 * elementScale;
+    var triangleHeight = 24.48 * elementScale;
+    var triangleWidth = triangleHeight * elementScale * 0.6885;
+    var barWidth = 7.65 * elementScale;
     var barHeight = triangleHeight;
 
     var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
     var bar1 = bar();
     var bar2 = bar();
-    var pausePath = new HBox( {children: [ bar1, bar2], spacing: 1.8 * elementScale } );
-    
-    // options specific to the play button
-    options.playOptions = _.extend( {
-      radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 3.6 * elementScale,
-      backgroundGradientColorStop0: 'rgb(220,220,230)',
-      backgroundGradientColorStop1: 'rgb(245,245,255 )',
-      //Drawing a line around the inner circle
-      innerButtonStroke: 'black',
-      innerButtonLineWidth: 0.5
-    }, options.playOptions );
-    
-    // options specific to the play button
-    options.pauseOptions = _.extend( {
-      radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 1.035 * elementScale, iconOffsetX: 0,
-      backgroundGradientColorStop0: 'rgb(255,255,255)',
-      backgroundGradientColorStop1: 'rgb(255,255,255 )',
-      //Drawing a line around the inner circle
-      innerButtonStroke: 'black',
-      innerButtonLineWidth: 0.5
-    }, options.pauseOptions );
+    var pausePath = new HBox( {children: [ bar1, bar2], spacing: elementScale * 1.53} );
 
-    var pauseButton = new RoundShinyButtonDeprecated( function() {}, pausePath, options.pauseOptions );
-    var playButton = new RoundShinyButtonDeprecated( function() {}, playPath, options.playOptions );
+    //Shift the triangle to the right a bit
+    playPath.center = pausePath.center.plusXY( 1.5, 0 );
 
-    //Highlight the icons
-    var stateListener = function( state ) {
-      var highlightColor = '#222233';
-      var defaultColor = 'black';
-      var iconColor = state === 'over' || state === 'down' ? highlightColor : defaultColor;
-      playPath.fill = iconColor;
-      bar1.fill = iconColor;
-      bar2.fill = iconColor;
-
-      playPath.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
-      bar1.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
-      bar2.stroke = state === 'over' || state === 'down' ? '#cccccc' : '#bbbbbb';
-    };
-    pauseButton.addStateListener( stateListener );
-    playButton.addStateListener( stateListener );
-
-    ToggleButton.call( this,
-      pauseButton,
-      playButton,
-      runningProperty, options );
+    BooleanRoundToggleButton.call( this, pausePath, playPath, runningProperty, options );
   }
 
-  return inherit( ToggleButton, PlayPauseButton );
+  return inherit( BooleanRoundToggleButton, PlayPauseButton );
 } );
