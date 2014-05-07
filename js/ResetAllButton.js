@@ -24,9 +24,11 @@ define( function( require ) {
    * @constructor
    */
   function ResetAllButton( options ) {
+    var buttonRadius = options && options.radius ? options.radius : DEFAULT_RADIUS;
     options = _.extend( {
+      // Default values
       radius: DEFAULT_RADIUS,
-      minXMargin: ( options.radius || DEFAULT_RADIUS ) * 0.2,
+      minXMargin: buttonRadius * 0.2,
 
       // Default orange color scheme, standard for PhET reset buttons
       baseColor: new Color( 247, 151, 34 ),
@@ -34,8 +36,8 @@ define( function( require ) {
       // The arrow shape doesn't look right when perfectly centered, account
       // for that here, and see docs in RoundButtonView.  The multiplier
       // values were empirically determined.
-      xContentOffset: ( options.radius || DEFAULT_RADIUS ) * 0.03,
-      yContentOffset: ( options.radius || DEFAULT_RADIUS ) * ( -0.0125 )
+      xContentOffset: buttonRadius * 0.03,
+      yContentOffset: buttonRadius * ( -0.0125 )
     }, options );
 
     // Create the curved arrow shape, starting at the inside of the non-
