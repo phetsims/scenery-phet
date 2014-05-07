@@ -13,7 +13,6 @@ define( function( require ) {
   // imports
   var inherit = require( 'PHET_CORE/inherit' );
   var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
