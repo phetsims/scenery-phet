@@ -18,8 +18,8 @@ define( function( require ) {
   var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
   // Constants
-  var WIDTH = 50;
-  var HEIGHT = 50;
+  var WIDTH = 45;
+  var HEIGHT = 45;
   var MARGIN = 4;
   var X_STROKE_WIDTH = 6;
 

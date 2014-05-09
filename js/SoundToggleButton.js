@@ -20,17 +20,17 @@ define( function( require ) {
   var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
   // Constants
-  var WIDTH = 50;
-  var HEIGHT = 50;
+  var WIDTH = 45;
+  var HEIGHT = 45;
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
   function SoundToggleButton( property, options ) {
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );
-    var scale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
-    soundOnNode.scale( scale );
-    soundOffNode.addChild( new FontAwesomeNode( 'volume_off', { scale: scale } ) );
+    var contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
+    soundOnNode.scale( contentScale );
+    soundOffNode.addChild( new FontAwesomeNode( 'volume_off', { scale: contentScale } ) );
     var soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ),
       {
         stroke: 'black',
