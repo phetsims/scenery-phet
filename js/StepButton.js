@@ -6,17 +6,16 @@
  *
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
-  // imports
-  var inherit = require( 'PHET_CORE/inherit' ),
-    RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' ),
-    Shape = require( 'KITE/Shape' ),
-    Path = require( 'SCENERY/nodes/Path' ),
-    Rectangle = require( 'SCENERY/nodes/Rectangle' ),
-    HBox = require( 'SCENERY/nodes/HBox' );
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
 
   function StepButton( stepFunction, playProperty, options ) {
     var stepButton = this;
@@ -29,19 +28,20 @@ define( function( require ) {
     var barPath = new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
 
-    RoundShinyButtonDeprecated.call( this, stepFunction, new HBox( {children: [barPath, trianglePath], spacing: 1} ), _.extend( {radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 0.6, iconOffsetX: 4,
-      backgroundGradientColorStop0: 'rgb(220,220,230)',
-      backgroundGradientColorStop1: 'rgb(245,245,255 )'}, options ) );
+    RoundPushButton.call( this, _.extend( {
+      content: new HBox( {children: [barPath, trianglePath], spacing: 1} ),
+      listener: stepFunction,
+
+      //Make it a bit bigger than the icon
+      radius: 20,
+
+      //The icon is asymmetrical, and the layout looks off unless you shift it a little bit
+      xContentOffset: 1.5
+    }, options ) );
     this.enabled = false;
 
     playProperty.link( function( value ) { stepButton.enabled = !value; } );
-
-    this.getEnabledProperty().link( function( enabled ) {
-      var fill = enabled ? 'black' : 'gray';
-      barPath.fill = fill;
-      trianglePath.fill = fill;
-    } );
   }
 
-  return inherit( RoundShinyButtonDeprecated, StepButton );
+  return inherit( RoundPushButton, StepButton );
 } );
