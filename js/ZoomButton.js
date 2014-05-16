@@ -16,13 +16,14 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var Line = require( 'SCENERY/nodes/Line' );
-  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
 
   function ZoomButton( options ) {
 
     options = _.extend( {
       in: true, // true: zoom-in button, false: zoom-out button
       radius: 15,
+      baseColor: 'rgb(255,200,0)',
       magnifyingGlassFill: 'white', // center of the glass
       magnifyingGlassStroke: 'black', // rim and handle
       magnifyingGlassStrokeDisabled: 'rgb(128,128,128)' // rim and handle when disabled
@@ -42,15 +43,14 @@ define( function( require ) {
     var signOptions = { size: new Dimension2( 1.3 * options.radius, options.radius / 3 ), centerX: glassNode.centerX, centerY: glassNode.centerY };
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-    RectanglePushButtonDeprecated.call( this, new Node( { children: [ handleNode, glassNode, signNode ] } ) );
-
-    this.getEnabledProperty().link( function( enabled ) {
+    options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
+    options.setContentEnabledLook = function( enabled ) {
       glassNode.stroke = handleNode.stroke = signNode.fill = enabled ? options.magnifyingGlassStroke : options.magnifyingGlassStrokeDisabled;
       glassNode.fill = enabled ? options.magnifyingGlassFill : null;
-    } );
+    };
 
-    this.mutate( options );
+    RectangularPushButton.call( this, options );
   }
 
-  return inherit( RectanglePushButtonDeprecated, ZoomButton );
+  return inherit( RectangularPushButton, ZoomButton );
 } );
