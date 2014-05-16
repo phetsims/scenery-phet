@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 //TODO generalize this so that any node can be put on the button
-//TODO This implementation should eventually use sun.Button
+//TODO This implementation should eventually use sun.buttons.RectangularButton
 /**
  * Button with an arrow that points up, down, left or right.
  * Press and release immediately and the button fires on 'up'.
