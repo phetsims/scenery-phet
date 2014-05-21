@@ -21,7 +21,8 @@ define( function( require ) {
     // background
     this.addChild( new OutsideBackgroundNode( this.layoutBounds.centerX, this.layoutBounds.centerY + 20, this.layoutBounds.width * 3, this.layoutBounds.height, this.layoutBounds.height ) );
 
-    this.addChild( new ThermometerNode( 0, 100, new Property( 50 ), {} ) );
+    this.addChild( new ThermometerNode( 0, 100, new Property( 50 ), { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
+
   }
 
   return inherit( ScreenView, SceneryPhetView, {
