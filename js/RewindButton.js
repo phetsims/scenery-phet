@@ -34,9 +34,9 @@ define( function( require ) {
 
     RoundPushButton.call( this, {
       content: new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ),
-      listener: stepFunction
+      listener: stepFunction,
+      enabled: false
     } );
-    this.enabled = false;
 
     playProperty.link( function( value ) { stepButton.enabled = !value; } );
   }
