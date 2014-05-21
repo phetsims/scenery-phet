@@ -2,7 +2,7 @@
 
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundShinyButtonDeprecated (as opposed to using raster images).
+ * Generated programmatically using RoundPushButton (as opposed to using raster images).
  *
  * @author Sam Reid
  */
