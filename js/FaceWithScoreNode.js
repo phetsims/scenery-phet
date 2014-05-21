@@ -22,9 +22,9 @@ define( function( require ) {
     Node.call( this );
 
     this.options = _.extend( {
-      faceDiameter: 100, //faceDiameter In screen coords, which are fairly close to pixels
+      faceDiameter: 100, // in screen coords, which are fairly close to pixels
       faceOpacity: 0.6,
-      scoreAlignment: 'rightBottom', //or bottom
+      scoreAlignment: 'rightBottom', // valid values are 'rightBottom' and 'bottom'
       scoreTextSize: 44,
       scoreFill: 'yellow',
       scoreStroke: 'black',
@@ -64,8 +64,8 @@ define( function( require ) {
     setScore: function( score ) {
       assert && assert( score >= 0 );
 
-      //If the score is zero, then don't show any text.  It could be odd to show "+0"
-      this.pointDisplay.text = score === 0 ? '???' : '+' + score;
+      // If the score is zero, then don't show any text, since "+0" is just weird.
+      this.pointDisplay.text = score === 0 ? '' : '+' + score;
       this.updateScoreLocation();
     },
 
@@ -75,7 +75,7 @@ define( function( require ) {
         this.pointDisplay.centerX = this.faceNode.centerX;
         this.pointDisplay.top = this.faceNode.bottom + 2;
       }
-      else if ( this.options.scoreAlignment === 'bottomRight' ) {
+      else if ( this.options.scoreAlignment === 'rightBottom' ) {
         this.pointDisplay.centerX = this.options.faceDiameter * 0.4;
         this.pointDisplay.centerY = this.options.faceDiameter / 2;
       }
