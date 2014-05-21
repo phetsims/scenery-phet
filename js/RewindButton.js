@@ -10,13 +10,13 @@
 define( function( require ) {
   'use strict';
 
-  // imports
-  var inherit = require( 'PHET_CORE/inherit' ),
-    RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' ),
-    Shape = require( 'KITE/Shape' ),
-    Path = require( 'SCENERY/nodes/Path' ),
-    Rectangle = require( 'SCENERY/nodes/Rectangle' ),
-    HBox = require( 'SCENERY/nodes/HBox' );
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
 
   function RewindButton( stepFunction, playProperty ) {
     var stepButton = this;
@@ -32,20 +32,14 @@ define( function( require ) {
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
     var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
 
-    RoundShinyButtonDeprecated.call( this, stepFunction, new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ), {radius: RoundShinyButtonDeprecated.DEFAULT_RADIUS * 0.6, iconOffsetX: 0,
-      backgroundGradientColorStop0: 'rgb(220,220,230)',
-      backgroundGradientColorStop1: 'rgb(245,245,255 )'} );
+    RoundPushButton.call( this, {
+      content: new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ),
+      listener: stepFunction
+    } );
     this.enabled = false;
 
     playProperty.link( function( value ) { stepButton.enabled = !value; } );
-
-    this.getEnabledProperty().link( function( enabled ) {
-      var fill = enabled ? 'black' : 'gray';
-      barPath.fill = fill;
-      trianglePath.fill = fill;
-      trianglePath2.fill = fill;
-    } );
   }
 
-  return inherit( RoundShinyButtonDeprecated, RewindButton );
+  return inherit( RoundPushButton, RewindButton );
 } );
