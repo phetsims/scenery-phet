@@ -15,29 +15,38 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**
-   * @param {Number} faceDiameter In screen coords, which are fairly close to pixels
    * @param {Object} options
    * @constructor
    */
-  function FaceWithScoreNode( faceDiameter, options ) {
+  function FaceWithScoreNode( options ) {
     Node.call( this );
 
-    this.faceNode = new FaceNode( faceDiameter, { opacity: 0.6 } );
+    this.options = _.extend( {
+      faceDiameter: 100, //faceDiameter In screen coords, which are fairly close to pixels
+      faceOpacity: 0.6,
+      scoreAlignment: 'rightBottom', //or bottom
+      scoreTextSize: 44,
+      scoreFill: 'yellow',
+      scoreStroke: 'black',
+      score: 0
+    }, options );
+
+    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } );
     this.addChild( this.faceNode );
 
     this.pointDisplay = new Text( '',
       {
-        font: new PhetFont( { size: 44, weight: 'bold', lineWidth: 1.5, fill: 'yellow' } ),
-        fill: 'yellow',
-        stroke: 'black',
-        lineWidth: 1,
-        centerX: faceDiameter * 0.4,
-        bottom: faceDiameter / 2
+        font: new PhetFont( { size: this.options.scoreTextSize, weight: 'bold', lineWidth: 1.5, fill: 'yellow' } ),
+        fill: this.options.scoreFill,
+        stroke: this.options.scoreStroke,
+        lineWidth: 1
       } );
     this.addChild( this.pointDisplay );
 
+    this.setScore( this.options.score );
+
     // Pass options through to the parent class.
-    this.mutate( options );
+    this.mutate( this.options );
   }
 
   return inherit( Node, FaceWithScoreNode, {
@@ -54,7 +63,22 @@ define( function( require ) {
 
     setScore: function( score ) {
       assert && assert( score >= 0 );
-      this.pointDisplay.text = '+' + score;
+
+      //If the score is zero, then don't show any text.  It could be odd to show "+0"
+      this.pointDisplay.text = score === 0 ? '???' : '+' + score;
+      this.updateScoreLocation();
+    },
+
+    updateScoreLocation: function() {
+
+      if ( this.options.scoreAlignment === 'bottom' ) {
+        this.pointDisplay.centerX = this.faceNode.centerX;
+        this.pointDisplay.top = this.faceNode.bottom + 2;
+      }
+      else if ( this.options.scoreAlignment === 'bottomRight' ) {
+        this.pointDisplay.centerX = this.options.faceDiameter * 0.4;
+        this.pointDisplay.centerY = this.options.faceDiameter / 2;
+      }
     }
   } );
 } );
