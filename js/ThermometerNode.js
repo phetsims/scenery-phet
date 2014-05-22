@@ -39,14 +39,14 @@ define( function( require ) {
     shape.arc( lastPoint.x + options.tubeWidth / 2, lastPoint.y, options.tubeWidth / 2, Math.PI, 0 )
       .verticalLineToRelative( options.tubeHeight );
 
-    var bottomCurve = new Path( shape,
+    var outline = new Path( shape,
       {
         stroke: options.stroke,
         lineWidth: options.lineWidth,
         lineCap: 'round'
       } );
 
-    this.addChild( bottomCurve );
+    this.addChild( outline );
   }
 
   return inherit( Node, ThermometerNode );
