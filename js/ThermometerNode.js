@@ -22,8 +22,9 @@ define( function( require ) {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 100,
-      lineWidth: 5,
-      stroke: 'black'
+      lineWidth: 4,
+      stroke: 'black',
+      tickSpacing: 15
     }, options );
 
     Node.call( this, options );
@@ -37,13 +38,23 @@ define( function( require ) {
 
     var lastPoint = shape.getLastPoint();
     shape.arc( lastPoint.x + options.tubeWidth / 2, lastPoint.y, options.tubeWidth / 2, Math.PI, 0 )
-      .verticalLineToRelative( options.tubeHeight );
+      .verticalLineToRelative( options.tubeHeight + 1 );
+
+    var tickMarkLength = options.tubeWidth * 0.5;
+    shape.moveToPoint( lastPoint ).moveToRelative( tickMarkLength ).horizontalLineToRelative( -tickMarkLength );
+    for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
+      if ( i % 2 == 0) {
+        tickMarkLength /= 2;
+      } else {
+        tickMarkLength *= 2;
+      }
+      shape.moveToRelative( tickMarkLength, options.tickSpacing ).horizontalLineToRelative( -tickMarkLength );
+    }
 
     var outline = new Path( shape,
       {
         stroke: options.stroke,
-        lineWidth: options.lineWidth,
-        lineCap: 'round'
+        lineWidth: options.lineWidth
       } );
 
     this.addChild( outline );
