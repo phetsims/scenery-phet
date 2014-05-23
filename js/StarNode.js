@@ -94,12 +94,31 @@ define( function( require ) {
 
     //trace path from top left clockwise
 
-    var topIntersectionSegment = getIntersection( topSegments[0] ) || getIntersection( topSegments[1] ) || getIntersection( topSegments[2] ) || getIntersection( topSegments[3] );
-    var bottomIntersectionSegment = getIntersection( bottomSegments[0] ) || getIntersection( bottomSegments[1] ) || getIntersection( bottomSegments[2] ) || getIntersection( bottomSegments[3] ) || getIntersection( bottomSegments[4] ) || getIntersection( bottomSegments[5] );
-
     var lightedPoints = [new Vector2( points[8].x, points[8].y )];
-    lightedPoints.push( topIntersectionSegment );
-    lightedPoints.push( bottomIntersectionSegment );
+    for ( i = 0; i < topSegments.length; i++ ) {
+      var topSegment = topSegments[i];
+      var intersection = getIntersection( topSegment );
+      if ( intersection ) {
+        lightedPoints.push( intersection );
+        break;
+      }
+      else {
+        lightedPoints.push( topSegment.end );
+      }
+    }
+    var intersectedBottom = false;
+    for ( i = bottomSegments.length - 1; i >= 0; i-- ) {
+      var bottomSegment = bottomSegments[i];
+      intersection = getIntersection( bottomSegment );
+      if ( intersection ) {
+        lightedPoints.push( intersection );
+        intersectedBottom = true;
+      }
+      if ( intersectedBottom ) {
+        lightedPoints.push( bottomSegment.start );
+      }
+    }
+    lightedPoints.pop();
 
     var pointsToShape = function( points ) {
       var shape = new Shape().moveTo( points[0].x, points[0].y );
