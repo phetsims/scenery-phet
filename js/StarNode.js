@@ -42,9 +42,9 @@ define( function( require ) {
       filledLineWidth: 3,
       filledLineJoin: 'round',
 
-      emptyFill: 'white',
-      emptyStroke: 'gray',
-      emptyLineWidth: 3,
+      emptyFill: '#e1e1e1', //pretty gray
+      emptyStroke: '#d3d1d1 ',//darker gray than the fill, but still pretty faint
+      emptyLineWidth: 2,
       emptyLineJoin: 'round'
     }, options );
 
