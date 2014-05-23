@@ -30,7 +30,7 @@ define( function( require ) {
     options = _.extend( {
       iconWidth: DEFAULT_ICON_WIDTH,
       xMargin: DEFAULT_ICON_WIDTH / 3,
-      baseColor: new Color( 255, 242, 2 )
+      baseColor: new Color( 242, 233, 22 )//Color match with the yellow in the PhET logo
     }, options );
 
     // Create the top arrow shape, starting at the rightmost edge.  The

@@ -42,7 +42,7 @@ define( function( require ) {
 
     BooleanRectangularToggleButtonWithContent.call( this, soundOnNode, soundOffNode, property, _.extend(
       {
-        baseColor: new Color( 255, 242, 2 ),
+        baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
         minWidth: WIDTH,
         minHeight: HEIGHT,
         xMargin: MARGIN,
