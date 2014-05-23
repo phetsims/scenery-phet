@@ -15,6 +15,8 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Property = require( 'AXON/Property' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
+  var HSlider = require( 'SUN/HSlider' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
@@ -24,8 +26,16 @@ define( function( require ) {
 
     this.addChild( new ThermometerNode( 0, 100, new Property( 50 ), { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
 
+    //Test for showing the star filling up.  Note this just creates new stars dynamically.  Shouldn't be a problem for sims since stars are relatively static.
+    //Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths)
+    var starNodeContainer = new Node( {children: [new StarNode()], top: 20, left: 20} );
+    this.addChild( starNodeContainer );
 
-    this.addChild( new StarNode( {top: 20, left: 20} ) );
+    var starValueProperty = new Property( 1 );
+    this.addChild( new HSlider( starValueProperty, {min: 0, max: 1} ).mutate( {left: 20, top: 80} ) );
+    starValueProperty.link( function( value ) {
+      starNodeContainer.children = [new StarNode( {value: value} )];
+    } );
   }
 
   return inherit( ScreenView, SceneryPhetScreenView, {
