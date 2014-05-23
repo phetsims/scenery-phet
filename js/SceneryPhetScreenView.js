@@ -15,7 +15,7 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Property = require( 'AXON/Property' );
 
-  function SceneryPhetView() {
+  function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
 
     // background
@@ -25,7 +25,7 @@ define( function( require ) {
 
   }
 
-  return inherit( ScreenView, SceneryPhetView, {
+  return inherit( ScreenView, SceneryPhetScreenView, {
     step: function( timeElapsed ) {
       // Does nothing for now.
     }
