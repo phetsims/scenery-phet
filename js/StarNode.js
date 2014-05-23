@@ -30,13 +30,13 @@ define( function( require ) {
       // Fill parameters for the part of the star that is filled in.  Should be bold and gold.
       filledFill: '#fcff03',
       filledStroke: 'black',
-      filledLineWidth: 3,
+      filledLineWidth: 1.5,
       filledLineJoin: 'round',
 
       // Fill parameters for the part of the star that is unfilled.  Should be bland.
       emptyFill: '#e1e1e1', //pretty gray
       emptyStroke: '#d3d1d1 ',//darker gray than the fill, but still pretty faint
-      emptyLineWidth: 3,
+      emptyLineWidth: 1.5,
       emptyLineJoin: 'round'
     }, options );
 
