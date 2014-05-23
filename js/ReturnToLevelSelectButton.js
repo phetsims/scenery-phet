@@ -21,7 +21,7 @@ define( function( require ) {
   function ReturnToLevelSelectButton( options ) {
 
     options = _.extend( {
-      xMargin: 7,
+      xMargin: 8.134152255572697, //Match the size of the star button to the refresh buttons, since they often appear together.  see https://github.com/phetsims/scenery-phet/issues/44
       baseColor: new Color( 255, 242, 2 )
     }, options );
 
