@@ -14,6 +14,7 @@ define( function( require ) {
   var OutsideBackgroundNode = require( 'SCENERY_PHET/OutsideBackgroundNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Property = require( 'AXON/Property' );
+  var StarNode = require( 'SCENERY_PHET/StarNode' );
 
   function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
@@ -23,6 +24,8 @@ define( function( require ) {
 
     this.addChild( new ThermometerNode( 0, 100, new Property( 50 ), { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
 
+
+    this.addChild( new StarNode( {top: 20, left: 20} ) );
   }
 
   return inherit( ScreenView, SceneryPhetScreenView, {

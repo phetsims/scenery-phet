@@ -12,7 +12,7 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var SceneryPhetView = require( 'SCENERY_PHET/SceneryPhetView' );
+  var SceneryPhetScreenView = require( 'SCENERY_PHET/SceneryPhetScreenView' );
 
   // Strings
   var simTitle = 'scenery-phet';
@@ -29,7 +29,7 @@ define( function( require ) {
     new Sim( simTitle, [
       new Screen( simTitle, null,
         function() {return {};},
-        function( model ) {return new SceneryPhetView();},
+        function( model ) {return new SceneryPhetScreenView();},
         { backgroundColor: '#fff' }
       )
     ], simOptions ).start();
