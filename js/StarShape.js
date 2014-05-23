@@ -112,19 +112,41 @@ define( function( require ) {
     }
 
     //Now track back toward the starting point, still clockwise, along the bottom of the star
-    //NOTE: this can leave a hole in the geometry for the bottom left limb of the star, since the bottom left limb extends to the left of the left "hip"
-    var intersectedBottom = false;
-    for ( i = bottomSegments.length - 1; i >= 0; i-- ) {
-      var bottomSegment = bottomSegments[i];
-      intersection = getIntersection( bottomSegment );
-      if ( intersection ) {
-        highlightedPoints.push( intersection );
-        intersectedBottom = true;
+    //The bottom of the star is tricky since it is not a convex shape.
+    //For the bottom left limb of the star, intersect the left limb first
+    //It is kind of difficult to explain why this branch is necessary, but you can see the problem in SceneryPhetScreenView if you change this threshold from 0.5 to 1 or 0
+    if ( options.value < 0.5 ) {
+      var bottomVertices = [];
+      for ( i = 0; i < bottomSegments.length; i++ ) {
+        var bottomSegment = bottomSegments[i];
+        bottomVertices.push( bottomSegment.start );
+        intersection = getIntersection( bottomSegment );
+        if ( intersection ) {
+          bottomVertices.push( intersection );
+          break;
+        }
       }
-      if ( intersectedBottom ) {
-        highlightedPoints.push( bottomSegment.start );
+      for ( var i = bottomVertices.length - 1; i >= 0; i-- ) {
+        var bottomVertex = bottomVertices[i];
+        highlightedPoints.push( bottomVertex );
       }
     }
+    else {
+      //For the bottom right limb of the star, intersect the bottom limb first
+      var intersectedBottom = false;
+      for ( i = bottomSegments.length - 1; i >= 0; i-- ) {
+        var bottomSegment = bottomSegments[i];
+        intersection = getIntersection( bottomSegment );
+        if ( intersection ) {
+          highlightedPoints.push( intersection );
+          intersectedBottom = true;
+        }
+        if ( intersectedBottom ) {
+          highlightedPoints.push( bottomSegment.start );
+        }
+      }
+    }
+
     //Remove last point and use Shape.close instead
     highlightedPoints.pop();
 
