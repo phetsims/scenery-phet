@@ -29,10 +29,10 @@ define( function( require ) {
       value: 1,
 
       //Distance from the center to the tip of a star limb
-      outerRadius: 20,
+      outerRadius: 15,
 
       //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-      innerRadius: 10
+      innerRadius: 7.5
     }, options );
 
     Shape.call( this );
