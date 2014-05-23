@@ -12,7 +12,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var Star = require( 'VEGAS/Star' );
+  var StarShape = require( 'SCENERY_PHET/StarShape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   /**
    * @param {Object} options
@@ -25,7 +26,7 @@ define( function( require ) {
       baseColor: new Color( 255, 242, 2 )
     }, options );
 
-    RectangularPushButton.call( this, _.extend( { content: new Star( 30, { fill: 'black' } ) }, options ) );
+    RectangularPushButton.call( this, _.extend( { content: new Path( new StarShape(), { fill: 'black' } ) }, options ) );
   }
 
   return inherit( RectangularPushButton, ReturnToLevelSelectButton );
