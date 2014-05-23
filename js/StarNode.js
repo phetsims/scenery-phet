@@ -20,28 +20,25 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param options
+   * @param options see comments in the constructor for options parameter values
    * @constructor
    */
   function StarNode( options ) {
 
     options = _.extend( {
 
-      //The amount the star is filled.  0=empty, 1=full
-      value: 1,
+      //See StarShape for the other options, including:
+      // value
+      // outerRadius
+      // innerRadius
 
-      //Distance from the center to the tip of a star limb
-      outerRadius: 20,
-
-      //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-      innerRadius: 10,
-
-      // a bold yellow indeed
+      // Fill parameters for the part of the star that is filled in.  Should be bold and gold.
       filledFill: '#fcff03',
       filledStroke: 'black',
       filledLineWidth: 3,
       filledLineJoin: 'round',
 
+      // Fill parameters for the part of the star that is unfilled.  Should be bland.
       emptyFill: '#e1e1e1', //pretty gray
       emptyStroke: '#d3d1d1 ',//darker gray than the fill, but still pretty faint
       emptyLineWidth: 2,
