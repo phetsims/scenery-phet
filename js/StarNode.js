@@ -8,14 +8,9 @@
 define( function( require ) {
   'use strict';
 
-  // imports
-  var Dimension2 = require( 'DOT/Dimension2' );
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Util = require( 'DOT/Util' );
-  var Line = require( 'KITE/segments/Line' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
   var Node = require( 'SCENERY/nodes/Node' );
 

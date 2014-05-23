@@ -8,10 +8,8 @@
 define( function( require ) {
   'use strict';
 
-  // imports
-  var Dimension2 = require( 'DOT/Dimension2' );
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var Util = require( 'DOT/Util' );
@@ -44,7 +42,8 @@ define( function( require ) {
 
     //Create the points for a filled-in star, which will be used to compute the geometry of a partial star.
     var points = [];
-    for ( var i = 0; i < 10; i++ ) {
+    var i = 0;
+    for ( i = 0; i < 10; i++ ) {
 
       //Start at the top and proceed clockwise
       var angle = i / 10 * Math.PI * 2 - Math.PI / 2;
@@ -98,10 +97,11 @@ define( function( require ) {
 
     //trace path from top left clockwise
     //First compute the top path
+    var intersection = null;
     var highlightedPoints = [new Vector2( points[8].x, points[8].y )];
     for ( i = 0; i < topSegments.length; i++ ) {
       var topSegment = topSegments[i];
-      var intersection = getIntersection( topSegment );
+      intersection = getIntersection( topSegment );
       if ( intersection ) {
         highlightedPoints.push( intersection );
         break;
@@ -115,10 +115,11 @@ define( function( require ) {
     //The bottom of the star is tricky since it is not a convex shape.
     //For the bottom left limb of the star, intersect the left limb first
     //It is kind of difficult to explain why this branch is necessary, but you can see the problem in SceneryPhetScreenView if you change this threshold from 0.5 to 1 or 0
+    var bottomSegment = null;
     if ( options.value < 0.5 ) {
       var bottomVertices = [];
       for ( i = 0; i < bottomSegments.length; i++ ) {
-        var bottomSegment = bottomSegments[i];
+        bottomSegment = bottomSegments[i];
         bottomVertices.push( bottomSegment.start );
         intersection = getIntersection( bottomSegment );
         if ( intersection ) {
@@ -126,7 +127,7 @@ define( function( require ) {
           break;
         }
       }
-      for ( var i = bottomVertices.length - 1; i >= 0; i-- ) {
+      for ( i = bottomVertices.length - 1; i >= 0; i-- ) {
         var bottomVertex = bottomVertices[i];
         highlightedPoints.push( bottomVertex );
       }
@@ -135,7 +136,7 @@ define( function( require ) {
       //For the bottom right limb of the star, intersect the bottom limb first
       var intersectedBottom = false;
       for ( i = bottomSegments.length - 1; i >= 0; i-- ) {
-        var bottomSegment = bottomSegments[i];
+        bottomSegment = bottomSegments[i];
         intersection = getIntersection( bottomSegment );
         if ( intersection ) {
           highlightedPoints.push( intersection );

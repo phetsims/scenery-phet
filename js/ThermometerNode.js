@@ -43,7 +43,7 @@ define( function( require ) {
     var tickMarkLength = options.tubeWidth * 0.5;
     shape.moveToPoint( lastPoint ).moveToRelative( tickMarkLength ).horizontalLineToRelative( -tickMarkLength );
     for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
-      if ( i % 2 == 0) {
+      if ( i % 2 === 0 ) {
         tickMarkLength /= 2;
       } else {
         tickMarkLength *= 2;
