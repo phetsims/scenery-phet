@@ -44,9 +44,12 @@ define( function( require ) {
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
     options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
-    options.setContentEnabledLook = function( enabled ) {
-      glassNode.stroke = handleNode.stroke = signNode.fill = enabled ? options.magnifyingGlassStroke : options.magnifyingGlassStrokeDisabled;
-      glassNode.fill = enabled ? options.magnifyingGlassFill : null;
+    options.ContentAppearanceStrategy = function( content, interactionStateProperty ) {
+      interactionStateProperty.link( function( state ) {
+        var enabled = state !== 'disabled' && state !== 'disabled-pressed';
+        glassNode.stroke = handleNode.stroke = signNode.fill = enabled ? options.magnifyingGlassStroke : options.magnifyingGlassStrokeDisabled;
+        glassNode.fill = enabled ? options.magnifyingGlassFill : null;
+      } );
     };
 
     RectangularPushButton.call( this, options );
