@@ -41,7 +41,7 @@ define( function( require ) {
       // Fill parameters for the part of the star that is unfilled.  Should be bland.
       emptyFill: '#e1e1e1', //pretty gray
       emptyStroke: '#d3d1d1 ',//darker gray than the fill, but still pretty faint
-      emptyLineWidth: 2,
+      emptyLineWidth: 3,
       emptyLineJoin: 'round'
     }, options );
 
