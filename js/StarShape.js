@@ -95,68 +95,42 @@ define( function( require ) {
     var topSegments = [segment( 8, 9 ), segment( 9, 0 ), segment( 0, 1 ), segment( 1, 2 )];
     var bottomSegments = [segment( 8, 7 ), segment( 7, 6 ), segment( 6, 5 ), segment( 5, 4 ), segment( 4, 3 ), segment( 3, 2 )];
 
-    //trace path from top left clockwise
+    //trace path from top right counter-clockwise
     //First compute the top path
     var intersection = null;
-    var highlightedPoints = [new Vector2( points[8].x, points[8].y )];
-    for ( i = 0; i < topSegments.length; i++ ) {
+    var highlightedPoints = [];
+    var intersectedTop = false;
+    for ( i = topSegments.length - 1; i >= 0; i-- ) {
       var topSegment = topSegments[i];
       intersection = getIntersection( topSegment );
+      if ( intersection ) {
+        highlightedPoints.push( intersection );
+        intersectedTop = true;
+      }
+      if ( intersectedTop ) {
+        highlightedPoints.push( topSegment.start );
+      }
+    }
+
+    //trace path from top left clockwise
+    //First compute the top path
+    for ( i = 0; i < bottomSegments.length; i++ ) {
+      var bottomSegment = bottomSegments[i];
+      intersection = getIntersection( bottomSegment );
       if ( intersection ) {
         highlightedPoints.push( intersection );
         break;
       }
       else {
-        highlightedPoints.push( topSegment.end );
+        highlightedPoints.push( bottomSegment.end );
       }
     }
-
-    //Now track back toward the starting point, still clockwise, along the bottom of the star
-    //The bottom of the star is tricky since it is not a convex shape.
-    //For the bottom left limb of the star, intersect the left limb first
-    //It is kind of difficult to explain why this branch is necessary, but you can see the problem in SceneryPhetScreenView if you change this threshold from 0.5 to 1 or 0
-    var bottomSegment = null;
-    if ( options.value < 0.5 ) {
-      var bottomVertices = [];
-      for ( i = 0; i < bottomSegments.length; i++ ) {
-        bottomSegment = bottomSegments[i];
-        bottomVertices.push( bottomSegment.start );
-        intersection = getIntersection( bottomSegment );
-        if ( intersection ) {
-          bottomVertices.push( intersection );
-          break;
-        }
-      }
-      for ( i = bottomVertices.length - 1; i >= 0; i-- ) {
-        var bottomVertex = bottomVertices[i];
-        highlightedPoints.push( bottomVertex );
-      }
-    }
-    else {
-      //For the bottom right limb of the star, intersect the bottom limb first
-      var intersectedBottom = false;
-      for ( i = bottomSegments.length - 1; i >= 0; i-- ) {
-        bottomSegment = bottomSegments[i];
-        intersection = getIntersection( bottomSegment );
-        if ( intersection ) {
-          highlightedPoints.push( intersection );
-          intersectedBottom = true;
-        }
-        if ( intersectedBottom ) {
-          highlightedPoints.push( bottomSegment.start );
-        }
-      }
-    }
-
-    //Remove last point and use Shape.close instead
-    highlightedPoints.pop();
 
     //Fill in the selected points
     this.moveTo( highlightedPoints[0].x, highlightedPoints[0].y );
     for ( i = 1; i < highlightedPoints.length; i++ ) {
       this.lineTo( highlightedPoints[i].x, highlightedPoints[i].y );
     }
-    this.close();
   }
 
   return inherit( Shape, StarShape );
