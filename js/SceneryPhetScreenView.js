@@ -34,7 +34,9 @@ define( function( require ) {
     var starValueProperty = new Property( 1 );
     this.addChild( new HSlider( starValueProperty, {min: 0, max: 1} ).mutate( {left: 20, top: 80} ) );
     starValueProperty.link( function( value ) {
-      starNodeContainer.children = [new StarNode( {value: value} )];
+      starNodeContainer.children = [new StarNode( {
+        value: value
+      } )];
     } );
   }
 

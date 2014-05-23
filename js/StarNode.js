@@ -66,6 +66,8 @@ define( function( require ) {
       lineWidth: options.filledLineWidth,
       lineJoin: options.filledLineJoin
     } ) );
+
+    this.mutate( options );
   }
 
   return inherit( Node, StarNode );
