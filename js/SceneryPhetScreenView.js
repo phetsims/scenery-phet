@@ -18,7 +18,6 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var Shape = require( 'KITE/Shape' );
 
   function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
