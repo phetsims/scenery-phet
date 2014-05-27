@@ -17,6 +17,8 @@ define( function( require ) {
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var HSlider = require( 'SUN/HSlider' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var Shape = require( 'KITE/Shape' );
 
   function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
@@ -38,6 +40,11 @@ define( function( require ) {
         value: value
       } )];
     } );
+
+    var wavelengthProperty = new Property( 500 );
+    var wavelengthSlider = new WavelengthSlider( wavelengthProperty, { centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false } );
+
+    this.addChild( wavelengthSlider );
   }
 
   return inherit( ScreenView, SceneryPhetScreenView, {
