@@ -114,7 +114,7 @@ define( function( require ) {
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
     options = _.extend( {
-      color: new Color( 0, 0, 255 ), // must be a Color, not a CSS string
+      color: new Color( 0, 0, 255 ), // {Color|String}
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
@@ -204,16 +204,17 @@ define( function( require ) {
       downBackground.width + options.mouseAreaExpandX, downBackground.height + options.mouseAreaExpandY );
 
     // compute colors
+    var baseColor = Color.toColor( options.color );
     var arrowColors = {
-      up: options.color,
-      over: options.color,
-      down: options.color.darkerColor(),
-      out: options.color,
+      up: baseColor,
+      over: baseColor,
+      down: baseColor.darkerColor(),
+      out: baseColor,
       disabled: 'rgb(176,176,176)'
     };
     var centerColor = 'white';
-    var highlightGradient = createBackgroundGradient( options.color, centerColor, backgroundHeight );
-    var pressedGradient = createBackgroundGradient( options.color.darkerColor(), centerColor, backgroundHeight );
+    var highlightGradient = createBackgroundGradient( baseColor, centerColor, backgroundHeight );
+    var pressedGradient = createBackgroundGradient( baseColor.darkerColor(), centerColor, backgroundHeight );
     var backgroundColors = {
       up: 'white',
       over: highlightGradient,
