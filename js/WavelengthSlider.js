@@ -249,6 +249,8 @@ define( function( require ) {
       thisNode.addChild( strut );
       strut.moveToBack();
     }
+
+    thisNode.mutate( options );
   }
 
   return inherit( Node, WavelengthSlider );
