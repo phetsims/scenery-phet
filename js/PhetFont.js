@@ -13,7 +13,7 @@
 define( function( require ) {
   'use strict';
 
-  // imports
+  // modules
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
 

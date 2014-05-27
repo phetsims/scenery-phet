@@ -10,7 +10,7 @@
 define( function( require ) {
   'use strict';
 
-  // imports
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
   var Shape = require( 'KITE/Shape' );
