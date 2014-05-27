@@ -124,7 +124,8 @@ define( function( require ) {
       thumbHeight: 45,
       valueFont: new PhetFont( 20 ),
       valueFill: 'black',
-      valueVisible: false
+      valueVisible: true,
+      tweakersVisible: true
     }, options );
 
     // validate wavelengths
@@ -140,13 +141,16 @@ define( function( require ) {
     var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength );
     var cursor = new Cursor( 3, track.height );
 
-    // buttons for single-unit increments
-    var plusButton = new ArrowButton( 'right', function() {
-      wavelength.set( wavelength.get() + 1 );
-    } );
-    var minusButton = new ArrowButton( 'left', function() {
-      wavelength.set( wavelength.get() - 1 );
-    } );
+    // tweaker buttons for single-unit increments
+    var plusButton, minusButton;
+    if ( options.tweakersVisible ) {
+      plusButton = new ArrowButton( 'right', function() {
+        wavelength.set( wavelength.get() + 1 );
+      } );
+      minusButton = new ArrowButton( 'left', function() {
+        wavelength.set( wavelength.get() - 1 );
+      } );
+    }
 
     /*
      * Put a border around the track.
@@ -165,17 +169,21 @@ define( function( require ) {
       thisNode.addChild( valueDisplay );
     }
     thisNode.addChild( cursor );
-    thisNode.addChild( plusButton );
-    thisNode.addChild( minusButton );
+    if ( options.tweakersVisible ) {
+      thisNode.addChild( plusButton );
+      thisNode.addChild( minusButton );
+    }
 
     // layout
     cursor.top = track.top;
     thumb.top = track.bottom;
     valueDisplay.bottom = track.top - 2;
-    plusButton.left = track.right + 8;
-    plusButton.centerY = track.centerY;
-    minusButton.right = track.left - 8;
-    minusButton.centerY = track.centerY;
+    if ( options.tweakersVisible ) {
+      plusButton.left = track.right + 8;
+      plusButton.centerY = track.centerY;
+      minusButton.right = track.left - 8;
+      minusButton.centerY = track.centerY;
+    }
 
     // transforms between position and wavelength
     var positionToWavelength = function( x ) {
@@ -221,9 +229,11 @@ define( function( require ) {
       valueDisplay.centerX = x;
       // thumb color
       thumb.fill = VisibleColor.wavelengthToColor( wavelength );
-      // plus and minus buttons
-      plusButton.setEnabled( wavelength < options.maxWavelength );
-      minusButton.setEnabled( wavelength > options.minWavelength );
+      // tweaker buttons
+      if ( options.tweakersVisible ) {
+        plusButton.setEnabled( wavelength < options.maxWavelength );
+        minusButton.setEnabled( wavelength > options.minWavelength );
+      }
     };
     wavelength.link( function( wavelength ) {
       updateUI( wavelength );
