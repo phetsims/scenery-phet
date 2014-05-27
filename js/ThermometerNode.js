@@ -25,11 +25,18 @@ define( function( require ) {
       lineWidth: 4,
       stroke: 'black',
       tickSpacing: 15
+      // add major/minor tick spacing
     }, options );
 
     Node.call( this, options );
 
-    var startAngle = -Math.acos( options.tubeWidth / options.bulbDiameter);
+ // var f = new LinearFunction(minTemperature,maxTemperature,0,options.maxFluidHeight)
+ //    temperatureProperty.link( function( temp ) {
+ //      var fluidHeight = f(temp);
+ //      fluidRectangle.setRect(0,fluidBase-fluidHeight,width,fluidHeight);
+ //    } );
+
+    var startAngle = -Math.acos( options.tubeWidth / options.bulbDiameter );
     var endAngle = Math.PI - startAngle;
 
     var shape = new Shape()
