@@ -125,6 +125,7 @@ define( function( require ) {
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       intervalDelay: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
+      align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
       touchAreaExpandX: 10,
       touchAreaExpandY: 20,
       mouseAreaExpandX: 0,
@@ -269,7 +270,18 @@ define( function( require ) {
       }
       else {
         valueNode.text = Util.toFixed( value, options.decimalPlaces );
-        valueNode.right = backgroundWidth - options.xMargin; // right aligned
+        if ( options.align === 'center' ) {
+          valueNode.centerX = upBackground.centerX;
+        }
+        else if ( options.align === 'right' ) {
+          valueNode.right = upBackground.right - options.xMargin;
+        }
+        else if ( options.align === 'left' ) {
+          valueNode.left = upBackground.left + options.xMargin;
+        }
+        else {
+          throw new Error( 'unsupported value for option.align: ' + options.align );
+        }
       }
     } );
 
