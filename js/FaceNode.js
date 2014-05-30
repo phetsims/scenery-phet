@@ -32,7 +32,7 @@ define( function( require ) {
       eyeFill: 'black',
       mouthStroke: 'black',
       headStroke: null,
-      headLineWidth: '1px'
+      headLineWidth: 1
     }, options );
 
     var thisNode = this;
