@@ -31,9 +31,10 @@ define( function( require ) {
    * @param height
    * @param minWavelength
    * @param maxWavelength
+   * @param opacity 0-1
    * @constructor
    */
-  function Track( width, height, minWavelength, maxWavelength ) {
+  function Track( width, height, minWavelength, maxWavelength, opacity ) {
 
     Node.call( this );
 
@@ -48,7 +49,7 @@ define( function( require ) {
       context.fillRect( i, 0, 1, 50 );
     }
 
-    this.addChild( new Image( canvas ) );
+    this.addChild( new Image( canvas, { opacity: opacity } ) );
   }
 
   inherit( Node, Track );
@@ -120,6 +121,7 @@ define( function( require ) {
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
       trackWidth: 150,
       trackHeight: 30,
+      trackOpacity: 1,
       thumbWidth: 35,
       thumbHeight: 45,
       valueFont: new PhetFont( 20 ),
@@ -138,7 +140,7 @@ define( function( require ) {
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
     var valueDisplay = new ValueDisplay( wavelength, options.valueFont, options.valueFill );
-    var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength );
+    var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = new Cursor( 3, track.height );
 
     // tweaker buttons for single-unit increments
