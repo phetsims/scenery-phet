@@ -140,15 +140,9 @@ define( function( require ) {
     Node.call( thisNode, options );
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
-    var valueDisplay = null;
-    if ( options.valueVisible ) {
-      valueDisplay = new ValueDisplay( wavelength, options.valueFont, options.valueFill );
-    }
+    var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
-    var cursor = null;
-    if ( options.cursorVisible ) {
-      cursor = new Cursor( 3, track.height );
-    }
+    var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height ) : null;
 
     // tweaker buttons for single-unit increments
     var plusButton, minusButton;
