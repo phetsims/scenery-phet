@@ -127,7 +127,8 @@ define( function( require ) {
       valueFont: new PhetFont( 20 ),
       valueFill: 'black',
       valueVisible: true,
-      tweakersVisible: true
+      tweakersVisible: true,
+      cursorVisible: true
     }, options );
 
     // validate wavelengths
@@ -139,9 +140,15 @@ define( function( require ) {
     Node.call( thisNode, options );
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
-    var valueDisplay = new ValueDisplay( wavelength, options.valueFont, options.valueFill );
+    var valueDisplay = null;
+    if ( options.valueVisible ) {
+      valueDisplay = new ValueDisplay( wavelength, options.valueFont, options.valueFill );
+    }
     var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
-    var cursor = new Cursor( 3, track.height );
+    var cursor = null;
+    if ( options.cursorVisible ) {
+      cursor = new Cursor( 3, track.height );
+    }
 
     // tweaker buttons for single-unit increments
     var plusButton, minusButton;
@@ -167,19 +174,17 @@ define( function( require ) {
     thisNode.addChild( track );
     thisNode.addChild( trackBorder );
     thisNode.addChild( thumb );
-    if ( options.valueVisible ) {
-      thisNode.addChild( valueDisplay );
-    }
-    thisNode.addChild( cursor );
+    if ( valueDisplay ) { thisNode.addChild( valueDisplay ); }
+    if ( cursor ) { thisNode.addChild( cursor ); }
     if ( options.tweakersVisible ) {
       thisNode.addChild( plusButton );
       thisNode.addChild( minusButton );
     }
 
     // layout
-    cursor.top = track.top;
+    if ( cursor ) { cursor.top = track.top; }
     thumb.top = track.bottom;
-    valueDisplay.bottom = track.top - 2;
+    if ( valueDisplay ) { valueDisplay.bottom = track.top - 2; }
     if ( options.tweakersVisible ) {
       plusButton.left = track.right + 8;
       plusButton.centerY = track.centerY;
@@ -227,8 +232,8 @@ define( function( require ) {
       // positions
       var x = wavelengthToPosition( wavelength );
       thumb.centerX = x;
-      cursor.centerX = x;
-      valueDisplay.centerX = x;
+      if ( cursor ) { cursor.centerX = x; }
+      if ( valueDisplay ) { valueDisplay.centerX = x; }
       // thumb color
       thumb.fill = VisibleColor.wavelengthToColor( wavelength );
       // tweaker buttons
