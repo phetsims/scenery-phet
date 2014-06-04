@@ -32,7 +32,7 @@ define( function( require ) {
       // add major/minor tick spacing
     }, options );
 
-    Node.call( this, options );
+    Node.call( this );
 
     // still need a way to calculate these correctly instead of based on options
     var bulbCenterX = options.centerX;
@@ -88,8 +88,9 @@ define( function( require ) {
     var maxFluidHeight = options.tubeHeight;
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
-      addColorStop( 0, 'red' ).
-      addColorStop( 1, 'black' );
+      addColorStop( 0, '#850e0e' ).
+      addColorStop( 0.5, '#ff7575' ).
+      addColorStop( 1, '#c41515' );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
 
@@ -102,6 +103,8 @@ define( function( require ) {
     this.addChild( fluidRectangle );
     this.addChild( fluidSphere );
     this.addChild( outline );
+
+    console.log(this.bounds);
   }
 
   return inherit( Node, ThermometerNode );
