@@ -25,7 +25,15 @@ define( function( require ) {
     // background
     this.addChild( new OutsideBackgroundNode( this.layoutBounds.centerX, this.layoutBounds.centerY + 20, this.layoutBounds.width * 3, this.layoutBounds.height, this.layoutBounds.height ) );
 
-    this.addChild( new ThermometerNode( 0, 100, new Property( 50 ), { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
+    //Test for thermometer node
+    var tempProperty = new Property( 50 );
+    var tempSlider = new HSlider( tempProperty, { min: 0, max: 100 } );
+    tempSlider.rotation = -Math.PI / 2;
+    tempSlider.centerX = this.layoutBounds.centerX + 75;
+    tempSlider.centerY = this.layoutBounds.centerY;
+    this.addChild( tempSlider );
+
+    this.addChild( new ThermometerNode( 0, 100, tempProperty, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
 
     //Test for showing the star filling up.  Note this just creates new stars dynamically.  Shouldn't be a problem for sims since stars are relatively static.
     //Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths)
@@ -40,6 +48,7 @@ define( function( require ) {
       } )];
     } );
 
+    //Test for wavelength slider
     var wavelengthProperty = new Property( 500 );
     var wavelengthSlider = new WavelengthSlider( wavelengthProperty, { centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false } );
 
