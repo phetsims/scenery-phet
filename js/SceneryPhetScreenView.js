@@ -33,7 +33,10 @@ define( function( require ) {
     tempSlider.centerY = this.layoutBounds.centerY;
     this.addChild( tempSlider );
 
-    this.addChild( new ThermometerNode( 0, 100, tempProperty, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } ) );
+    var thermometer = new ThermometerNode( 0, 100, tempProperty, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } );
+    thermometer.centerX = this.layoutBounds.centerX;
+    thermometer.centerY = this.layoutBounds.centerY;
+    this.addChild( thermometer );
 
     //Test for showing the star filling up.  Note this just creates new stars dynamically.  Shouldn't be a problem for sims since stars are relatively static.
     //Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths)

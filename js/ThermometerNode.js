@@ -19,6 +19,10 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
+  // constants
+  var FLUID_MAIN_COLOR = '#850e0e';
+  var FLUID_HIGHLIGHT_COLOR = '#ff7575';
+
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
@@ -28,22 +32,24 @@ define( function( require ) {
       tubeHeight: 100,
       lineWidth: 4,
       stroke: 'black',
-      tickSpacing: 15,
-      // add major/minor tick spacing
+      tickSpacing: 15
+      // majorTickSpacing:
+      // minorTickSpacing:
     }, options );
 
     Node.call( this );
 
-    // still need a way to calculate these correctly instead of based on options
-    var bulbCenterX = options.centerX;
-    var bulbCenterY = options.centerY;
+    // assume the center of the bulb is at (0, 0) and let the client code move to the correct place
+    var bulbCenterX = 0;
+    var bulbCenterY = 0;
 
     // Create a shaded sphere to act as the bulb fill
     var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth / 2 - 6,
       {
         centerX: bulbCenterX,
         centerY: bulbCenterY,
-        mainColor: 'red',
+        mainColor: FLUID_MAIN_COLOR,
+        highlightColor: FLUID_HIGHLIGHT_COLOR,
         highlightXOffset: -0.2,
         highlightYOffset: -0.2,
         rotation: Math.PI / 2
@@ -83,13 +89,14 @@ define( function( require ) {
     var fluidWidth = options.tubeWidth - options.lineWidth * 2;
     var rectangleX = upperLeftCorner.x + options.lineWidth;
     var tubeBase = upperLeftCorner.y + options.tubeHeight;
-    var fluidBase = bulbCenterY;
-    var fluidOffset = fluidBase - tubeBase;
+    var fluidBase = bulbCenterY; // put the base of the rectangle in at the center of the bulb to make sure there is no break between them
+    var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
     var maxFluidHeight = options.tubeHeight;
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
-      addColorStop( 0, '#850e0e' ).
-      addColorStop( 0.5, '#ff7575' ).
+      addColorStop( 0, FLUID_MAIN_COLOR ).
+      addColorStop( 0.5, FLUID_HIGHLIGHT_COLOR ).
+      addColorStop( 0.7, FLUID_HIGHLIGHT_COLOR ).
       addColorStop( 1, '#c41515' );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
@@ -104,7 +111,8 @@ define( function( require ) {
     this.addChild( fluidSphere );
     this.addChild( outline );
 
-    console.log(this.bounds);
+    // when this line is uncommented the node dissapears. not sure why
+    // this.mutate( options );
   }
 
   return inherit( Node, ThermometerNode );
