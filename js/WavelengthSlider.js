@@ -102,8 +102,8 @@ define( function( require ) {
    * @param {Number} height
    * @constructor
    */
-  function Cursor( width, height ) {
-    Rectangle.call( this, -width / 2, 0, width, height, { stroke: 'black', lineWidth: 1 } );
+  function Cursor( width, height, stroke ) {
+    Rectangle.call( this, -width / 2, 0, width, height, { stroke: stroke, lineWidth: 1 } );
   }
 
   inherit( Rectangle, Cursor );
@@ -128,7 +128,8 @@ define( function( require ) {
       valueFill: 'black',
       valueVisible: true,
       tweakersVisible: true,
-      cursorVisible: true
+      cursorVisible: true,
+      cursorStroke: 'black'
     }, options );
 
     // validate wavelengths
@@ -142,7 +143,7 @@ define( function( require ) {
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
-    var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height ) : null;
+    var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
 
     // tweaker buttons for single-unit increments
     var plusButton, minusButton;
