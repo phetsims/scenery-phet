@@ -4,6 +4,7 @@ define( function( require ) {
 
   var Node = require( 'SCENERY/nodes/Node' );
   var Util = require( 'DOT/Util' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -33,6 +34,9 @@ define( function( require ) {
     }
 
     this.addChild( new Image( canvas.toDataURL() ) );
+    
+    // since the Image's bounds aren't immediately computed, we override it here
+    this.setLocalBounds( new Bounds2( 0, 0, width, height ) );
   }
 
   inherit( Node, WavelengthTrack );
