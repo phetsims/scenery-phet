@@ -1,4 +1,10 @@
+// Copyright 2002-2013, University of Colorado Boulder
 
+/**
+ * SpectrumNode displays a rectangle of the visible spectrum.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
+ */
 define( function( require ) {
   'use strict';
 
@@ -18,7 +24,7 @@ define( function( require ) {
    * @param opacity 0-1
    * @constructor
    */
-  function WavelengthTrack( width, height, minWavelength, maxWavelength, opacity ) {
+  function SpectrumNode( width, height, minWavelength, maxWavelength, opacity ) {
 
     Node.call( this );
 
@@ -34,12 +40,12 @@ define( function( require ) {
     }
 
     this.addChild( new Image( canvas.toDataURL() ) );
-    
+
     // since the Image's bounds aren't immediately computed, we override it here
     this.setLocalBounds( new Bounds2( 0, 0, width, height ) );
   }
 
-  inherit( Node, WavelengthTrack );
+  inherit( Node, SpectrumNode );
 
-  return WavelengthTrack;
+  return SpectrumNode;
 } );
