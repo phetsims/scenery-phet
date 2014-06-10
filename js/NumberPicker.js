@@ -129,7 +129,10 @@ define( function( require ) {
       touchAreaExpandX: 10,
       touchAreaExpandY: 20,
       mouseAreaExpandX: 0,
-      mouseAreaExpandY: 14
+      mouseAreaExpandY: 14,
+      backgroundStroke: 'gray',
+      backgroundLineWidth: 0.5,
+      arrowHeight: 6
     }, options );
 
     var thisNode = this;
@@ -188,6 +191,14 @@ define( function( require ) {
       .close() );
     downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
 
+    // separate rectangle for stroke around value background
+    var strokedBackground = new Path( new Shape()
+      .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
+      .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
+      .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
+      .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
+      .close(), { pickable: false, stroke: options.backgroundStroke, lineWidth: options.backgroundLineWidth } );
+
     // touch area for buttons
     upBackground.touchArea = Shape.rectangle(
       upBackground.left - ( options.touchAreaExpandX / 2 ), upBackground.top - options.touchAreaExpandY,
@@ -225,7 +236,7 @@ define( function( require ) {
     };
 
     // compute size of arrows
-    var arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, 0.1 * backgroundWidth );
+    var arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, options.arrowHeight );
 
     // 'up' arrow
     var arrowOptions = { fill: 'white', stroke: 'black', lineWidth: 0.25 };
@@ -249,6 +260,7 @@ define( function( require ) {
     // rendering order
     thisNode.addChild( upBackground );
     thisNode.addChild( downBackground );
+    thisNode.addChild( strokedBackground );
     thisNode.addChild( upArrow );
     thisNode.addChild( downArrow );
     thisNode.addChild( valueNode );
