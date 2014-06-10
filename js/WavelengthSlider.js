@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -24,35 +25,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-
-  /**
-   * Slider track that displays the visible spectrum.
-   * @param width
-   * @param height
-   * @param minWavelength
-   * @param maxWavelength
-   * @param opacity 0-1
-   * @constructor
-   */
-  function Track( width, height, minWavelength, maxWavelength, opacity ) {
-
-    Node.call( this );
-
-    // Draw the spectrum directly to a canvas, to improve performance.
-    var canvas = document.createElement( 'canvas' );
-    var context = canvas.getContext( '2d' );
-    canvas.width = width;
-    canvas.height = height;
-    for ( var i = 0; i < width; i++ ) {
-      var wavelength = Util.clamp( Util.linear( 0, width, minWavelength, maxWavelength, i ), minWavelength, maxWavelength );  // position -> wavelength
-      context.fillStyle = VisibleColor.wavelengthToColor( wavelength ).toCSS();
-      context.fillRect( i, 0, 1, 50 );
-    }
-
-    this.addChild( new Image( canvas, { opacity: opacity } ) );
-  }
-
-  inherit( Node, Track );
 
   /**
    * The slider thumb (aka knob)
@@ -169,7 +141,7 @@ define( function( require ) {
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
-    var track = new Track( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
+    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
 
     // tweaker buttons for single-unit increments
