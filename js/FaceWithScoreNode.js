@@ -3,6 +3,9 @@
 /**
  * A node that represents a smiling face with the additional points gained for
  * getting the answer correct shown immediately below.
+ *
+ * @author John Blanco
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
