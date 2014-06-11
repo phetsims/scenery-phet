@@ -28,7 +28,9 @@ define( function( require ) {
    */
   function FaceWithScoreNode( options ) {
 
+    // @private
     this.options = _.extend( {
+      spacing: 2, // space between face and points
       // face options
       faceDiameter: 100,
       faceOpacity: 1,
@@ -41,7 +43,8 @@ define( function( require ) {
       points: 0
     }, options );
 
-    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } ); // @private
+    // @private
+    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } );
 
     // @private
     this.pointsNode = new Text( '',
@@ -86,20 +89,27 @@ define( function( require ) {
 
     // @private
     updatePointsLocation: function() {
-      if ( this.options.pointsAlignment === 'centerBottom' ) {
-        this.pointsNode.centerX = this.faceNode.centerX;
-        this.pointsNode.top = this.faceNode.bottom + 2;
-      }
-      else if ( this.options.pointsAlignment === 'rightBottom' ) {
-        this.pointsNode.centerX = this.options.faceDiameter * 0.4;
-        this.pointsNode.centerY = this.options.faceDiameter / 2;
-      }
-      else if ( this.options.pointsAlignment === 'rightCenter' ) {
-        this.pointsNode.left = this.faceNode.right + 2;
-        this.pointsNode.centerY = this.faceNode.centerY;
-      }
-      else {
-        throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
+      switch( this.options.pointsAlignment ) {
+
+        case 'centerBottom':
+          this.pointsNode.centerX = this.faceNode.centerX;
+          this.pointsNode.top = this.faceNode.bottom + this.options.spacing;
+          break;
+
+        case 'rightBottom':
+          //TODO this should use this.options.spacing
+          this.pointsNode.centerX = this.options.faceDiameter * 0.4;
+          this.pointsNode.centerY = this.options.faceDiameter / 2;
+          break;
+
+        case 'rightCenter':
+          this.pointsNode.left = this.faceNode.right + this.options.spacing;
+          this.pointsNode.centerY = this.faceNode.centerY;
+          break;
+
+        default:
+          throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
+          break;
       }
     }
   } );
