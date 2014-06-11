@@ -106,7 +106,7 @@ define( function( require ) {
           this.pointsNode.centerY = this.faceNode.centerY;
           break;
 
-        // Other alignments can be added here as needed, please document in options.
+        // Add other alignments here as needed, please document in options.
 
         default:
           throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
