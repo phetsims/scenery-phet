@@ -38,9 +38,10 @@ define( function( require ) {
       score: 0
     }, options );
 
-    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } );
+    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } ); // @private
     this.addChild( this.faceNode );
 
+    // @private
     this.pointDisplay = new Text( '',
       {
         font: new PhetFont( { size: this.options.scoreTextSize, weight: 'bold', lineWidth: 1.5, fill: 'yellow' } ),
@@ -85,6 +86,7 @@ define( function( require ) {
       this.updateScoreLocation();
     },
 
+    // @private
     updateScoreLocation: function() {
 
       if ( this.options.scoreAlignment === 'centerBottom' ) {
