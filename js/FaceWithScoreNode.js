@@ -71,8 +71,6 @@ define( function( require ) {
     },
 
     setPoints: function( points ) {
-      assert && assert( points >= 0 );
-
       if ( points === 0 && !this.options.showZeroPoints ) {
         this.pointsNode.text = '';
       }
