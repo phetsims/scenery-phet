@@ -27,7 +27,7 @@ define( function( require ) {
     this.options = _.extend( {
       faceDiameter: 100, // in screen coords, which are fairly close to pixels
       faceOpacity: 0.6,
-      scoreAlignment: 'rightBottom', // valid values are 'rightBottom' and 'bottom'
+      scoreAlignment: 'rightBottom', // valid values are 'rightBottom' and 'centerBottom'
       scoreTextSize: 44,
       scoreFill: 'yellow',
       scoreStroke: 'black',
@@ -74,7 +74,7 @@ define( function( require ) {
 
     updateScoreLocation: function() {
 
-      if ( this.options.scoreAlignment === 'bottom' ) {
+      if ( this.options.scoreAlignment === 'centerBottom' ) {
         this.pointDisplay.centerX = this.faceNode.centerX;
         this.pointDisplay.top = this.faceNode.bottom + 2;
       }
