@@ -1,8 +1,8 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * A node that represents a smiling face with the additional points gained for
- * getting the answer correct shown immediately below.
+ * A face that either smiles or frowns.
+ * When the face is smiling, it displays points awarded next to it.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -29,12 +29,15 @@ define( function( require ) {
   function FaceWithScoreNode( options ) {
 
     this.options = _.extend( {
-      faceDiameter: 100, // in screen coords, which are fairly close to pixels
+      // face options
+      faceDiameter: 100,
       faceOpacity: 0.6,
-      pointsAlignment: 'rightBottom', // valid values are 'rightBottom' and 'centerBottom'
+      // points options
+      pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom'
       pointsTextSize: 44,
       pointsFill: 'yellow',
       pointsStroke: 'black',
+      showZeroPoints: false, // whether to show '0' points
       points: 0
     }, options );
 
@@ -70,11 +73,10 @@ define( function( require ) {
     setPoints: function( points ) {
       assert && assert( points >= 0 );
 
-      if ( points === 0 ) {
-        // If zero, then don't show any text, since "0" is just weird.
+      if ( points === 0 && !this.options.showZeroPoints ) {
         this.pointsNode.text = '';
       }
-      else if ( points < 0 ) {
+      else if ( points <= 0 ) {
         this.pointsNode.text = points + '';
       }
       else {
