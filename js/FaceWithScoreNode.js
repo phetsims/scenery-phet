@@ -86,7 +86,7 @@ define( function( require ) {
       this.updatePointsLocation();
     },
 
-    // @private
+    // @private Adjusts location of the points to match the specified value of options.pointsAlignment.
     updatePointsLocation: function() {
       switch( this.options.pointsAlignment ) {
 
