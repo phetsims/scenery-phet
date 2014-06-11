@@ -34,8 +34,8 @@ define( function( require ) {
       faceOpacity: 1,
       // points options
       pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
-      pointsTextSize: 44,
-      pointsFill: 'yellow',
+      pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
+      pointsFill: 'black',
       pointsStroke: null,
       showZeroPoints: false, // whether to show '0' points
       points: 0
@@ -46,7 +46,7 @@ define( function( require ) {
     // @private
     this.pointsNode = new Text( '',
       {
-        font: new PhetFont( { size: this.options.pointsTextSize, weight: 'bold' } ),
+        font: this.options.pointsFont,
         fill: this.options.pointsFill,
         stroke: this.options.pointsStroke,
         lineWidth: 1
