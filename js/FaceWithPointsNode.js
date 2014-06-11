@@ -33,12 +33,12 @@ define( function( require ) {
       spacing: 2, // space between face and points
       // face options
       faceDiameter: 100,
-      faceOpacity: 1,
+      faceOpacity: 1, // 0-1, see scenery.Node.opacity
       // points options
       pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
-      pointsFill: 'black',
-      pointsStroke: null,
+      pointsFill: 'black', // {Color|String}
+      pointsStroke: null, // {Color|String}
       showZeroPoints: false, // whether to show '0' points
       points: 0
     }, options );
