@@ -33,7 +33,7 @@ define( function( require ) {
       faceDiameter: 100,
       faceOpacity: 0.6,
       // points options
-      pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom'
+      pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsTextSize: 44,
       pointsFill: 'yellow',
       pointsStroke: 'black',
@@ -95,6 +95,13 @@ define( function( require ) {
       else if ( this.options.pointsAlignment === 'rightBottom' ) {
         this.pointsNode.centerX = this.options.faceDiameter * 0.4;
         this.pointsNode.centerY = this.options.faceDiameter / 2;
+      }
+      else if ( this.options.pointsAlignment === 'rightCenter' ) {
+        this.pointsNode.left = this.faceNode.right + 2;
+        this.pointsNode.centerY = this.faceNode.centerY;
+      }
+      else {
+        throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
       }
     }
   } );
