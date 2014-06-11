@@ -35,7 +35,7 @@ define( function( require ) {
       faceDiameter: 100,
       faceOpacity: 1,
       // points options
-      pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
+      pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
       pointsFill: 'black',
       pointsStroke: null,
@@ -106,6 +106,8 @@ define( function( require ) {
           this.pointsNode.left = this.faceNode.right + this.options.spacing;
           this.pointsNode.centerY = this.faceNode.centerY;
           break;
+
+        //TODO add other alignments as needed, these are the ones currently used in sims, document in options
 
         default:
           throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
