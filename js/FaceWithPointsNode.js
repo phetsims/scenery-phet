@@ -106,7 +106,7 @@ define( function( require ) {
           this.pointsNode.centerY = this.faceNode.centerY;
           break;
 
-        //TODO add other alignments as needed, these are the ones currently used in sims, document in options
+        // Other alignments can be added here as needed, please document in options.
 
         default:
           throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
