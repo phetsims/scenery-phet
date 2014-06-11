@@ -15,7 +15,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
+
+  // strings
+  var pattern_0sign_1number = require( 'string!SCENERY_PHET/pattern_0sign_1number' );
 
   /**
    * @param {Object} options
@@ -67,8 +71,17 @@ define( function( require ) {
     setScore: function( score ) {
       assert && assert( score >= 0 );
 
-      // If the score is zero, then don't show any text, since "+0" is just weird.
-      this.pointDisplay.text = score === 0 ? '' : '+' + score;
+      if ( score === 0 ) {
+        // If the score is zero, then don't show any text, since "0" is just weird.
+        this.pointDisplay.text = '';
+      }
+      else if ( score < 0 ) {
+        this.pointDisplay.text = score + '';
+      }
+      else {
+        // + sign for positive numbers, order localized
+        this.pointDisplay.text = StringUtils.format( pattern_0sign_1number, '+', score );
+      }
       this.updateScoreLocation();
     },
 
