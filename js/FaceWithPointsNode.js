@@ -110,7 +110,6 @@ define( function( require ) {
 
         default:
           throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
-          break;
       }
     }
   } );
