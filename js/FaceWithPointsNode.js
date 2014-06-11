@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Object} options
    * @constructor
    */
-  function FaceWithScoreNode( options ) {
+  function FaceWithPointsNode( options ) {
 
     // @private
     this.options = _.extend( {
@@ -60,7 +60,7 @@ define( function( require ) {
     this.setPoints( this.options.points );
   }
 
-  return inherit( Node, FaceWithScoreNode, {
+  return inherit( Node, FaceWithPointsNode, {
 
     smile: function() {
       this.faceNode.smile();
