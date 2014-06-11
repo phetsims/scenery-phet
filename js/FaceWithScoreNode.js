@@ -46,7 +46,7 @@ define( function( require ) {
     // @private
     this.pointsNode = new Text( '',
       {
-        font: new PhetFont( { size: this.options.pointsTextSize, weight: 'bold', lineWidth: 1.5, fill: 'yellow' } ),
+        font: new PhetFont( { size: this.options.pointsTextSize, weight: 'bold' } ),
         fill: this.options.pointsFill,
         stroke: this.options.pointsStroke,
         lineWidth: 1
