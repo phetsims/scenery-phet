@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var ArrowButton = require( 'SCENERY_PHET/ArrowButton' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -47,19 +46,19 @@ define( function( require ) {
     // this way we can get the arc coordinates for the arc in this corner from the other side, which
     // will be easier to calculate arcing from bottom to top
     var shape = new Shape()
-      .moveTo( 0.5 * width, 0.3 * height + heightOffset)
+      .moveTo( 0.5 * width, 0.3 * height + heightOffset )
       .lineTo( 0.5 * width, 1 * height - radius )
       .arc( 0.5 * width - radius, 1 * height - radius, radius, 0, Math.PI / 2 )
       .lineTo( -0.5 * width + radius, 1 * height )
       .arc( -0.5 * width + radius, 1 * height - radius, radius, Math.PI / 2, Math.PI )
-      .lineTo( -0.5 * width, 0.3 * height + heightOffset)
+      .lineTo( -0.5 * width, 0.3 * height + heightOffset )
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
     // save the coordinates for the point above the left side arc, for use on the other side
     var sideArcPoint = shape.getLastPoint();
 
     // get the coordinates for where to start and end the top arc
-    var centerCurveOffset = new Shape().moveTo(0, 0).arc( 0, radius, radius, -Math.PI / 2, -topAngle ).getLastPoint();
+    var centerCurveOffset = new Shape().moveTo( 0, 0 ).arc( 0, radius, radius, -Math.PI / 2, -topAngle ).getLastPoint();
 
     shape.lineTo( -centerCurveOffset.x, centerCurveOffset.y )
       .arc( 0, radius, radius, -2 * topAngle, -topAngle )
