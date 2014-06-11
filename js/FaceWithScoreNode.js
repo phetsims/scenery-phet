@@ -31,12 +31,12 @@ define( function( require ) {
     this.options = _.extend( {
       // face options
       faceDiameter: 100,
-      faceOpacity: 0.6,
+      faceOpacity: 1,
       // points options
       pointsAlignment: 'rightBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsTextSize: 44,
       pointsFill: 'yellow',
-      pointsStroke: 'black',
+      pointsStroke: null,
       showZeroPoints: false, // whether to show '0' points
       points: 0
     }, options );
