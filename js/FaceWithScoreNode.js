@@ -47,13 +47,12 @@ define( function( require ) {
     this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } );
 
     // @private
-    this.pointsNode = new Text( '',
-      {
-        font: this.options.pointsFont,
-        fill: this.options.pointsFill,
-        stroke: this.options.pointsStroke,
-        lineWidth: 1
-      } );
+    this.pointsNode = new Text( '', {
+      font: this.options.pointsFont,
+      fill: this.options.pointsFill,
+      stroke: this.options.pointsStroke,
+      lineWidth: 1
+    } );
 
     this.options.children = [ this.faceNode, this.pointsNode ];
     Node.call( this, this.options );
