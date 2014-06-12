@@ -23,6 +23,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Timer = require( 'JOIST/Timer' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -121,9 +122,15 @@ define( function( require ) {
       verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
-      tapToDispenseInterval: 500 // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
+      tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
+      closeOnRelease: false // when the shooter is released, close the faucet
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
+
+    // If !closeOnRelease, then the shooter behaves like a slider, and disabled the tap-to-dispense feature
+    if ( !options.closeOnRelease ) {
+      options.tapToDispenseEnabled = false;
+    }
 
     var thisNode = this;
     Node.call( thisNode );
@@ -251,7 +258,7 @@ define( function( require ) {
             // tapping a second time cancels a tap-to-dispense that is in progress
             ( tapToDispenseIsRunning ) ? endTapToDispense() : startTapToDispense();
           }
-          else {
+          else if ( options.closeOnRelease ) {
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
           }
@@ -261,8 +268,7 @@ define( function( require ) {
     shooterNode.addInputListener( shooterHandler );
 
     flowRateProperty.link( function( flowRate ) {
-      var xOffset = offsetToFlowRate.inverse( flowRate );
-      shooterNode.x = bodyNode.left + xOffset;
+      shooterNode.x = bodyNode.left + offsetToFlowRate.inverse( flowRate );
     } );
 
     enabledProperty.link( function( enabled ) {
@@ -277,7 +283,5 @@ define( function( require ) {
     thisNode.mutate( options );
   }
 
-  inherit( Node, FaucetNode );
-
-  return FaucetNode;
+  return inherit( Node, FaucetNode );
 } );
