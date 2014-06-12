@@ -192,6 +192,7 @@ define( function( require ) {
       shooterNode.centerY = bodyNode.top + SHOOTER_Y_OFFSET;
     }
 
+    // x-offset relative to left edge of bodyNode
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
     // tap-to-dispense feature
@@ -233,7 +234,7 @@ define( function( require ) {
       start: function( event ) {
         // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
         tapToDispenseIsArmed = options.tapToDispenseEnabled;
-        this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
+        this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
       },
 
       // adjust the flow
@@ -245,8 +246,8 @@ define( function( require ) {
 
         // compute the new flow rate
         if ( enabledProperty.get() ) {
-          var xParent = event.currentTarget.globalToParentPoint( event.pointer.point ).x;
-          var xOffset = xParent - this.startXOffset;
+          // offsetToFlowRate is relative to bodyNode.left, so account for it
+          var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - this.startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
           flowRateProperty.set( flowRate );
         }
