@@ -23,7 +23,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Timer = require( 'JOIST/Timer' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
