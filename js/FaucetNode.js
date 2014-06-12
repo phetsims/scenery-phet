@@ -123,7 +123,7 @@ define( function( require ) {
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
-      closeOnRelease: false // when the shooter is released, close the faucet
+      closeOnRelease: true // when the shooter is released, close the faucet
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -268,7 +268,7 @@ define( function( require ) {
     shooterNode.addInputListener( shooterHandler );
 
     flowRateProperty.link( function( flowRate ) {
-      shooterNode.x = bodyNode.left + offsetToFlowRate.inverse( flowRate );
+      shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
     } );
 
     enabledProperty.link( function( enabled ) {
