@@ -2,10 +2,20 @@
 
 /**
  * Faucet with a pinball machine 'shooter'.
- * Pulling out the shooter changes the flow rate.
- * Releasing the shooter sets the flow rate to zero.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
  * Origin is at the bottom-center of the spout.
+ *
+ * The shooter is interactive, with the following features:
+ *
+ * (1) Close-on-release mode: When the user drags the slider, releasing it sets the flow to zero.
+ * See options.closeToRelease: true.
+ *
+ * (2) Slider mode: When the user drags the slider, releasing it will leave the shooter wherever it is
+ * released, and (if in the on position) the flow will continue. See options.closeToRelease: false.
+ *
+ * (3) Tap-to-dispense: When the user taps on the shooter without dragging, it's on/off state toggles.
+ * If the shooter was in the off state when tapped, it opens and dispenses a configurable amount of fluid.
+ * This feature can be enabled simultaneously with (1) and (2) above. See the various tapToDispense* options.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -148,7 +158,7 @@ define( function( require ) {
     var spoutNode = new Image( spoutImage );
     var bodyNode = new Image( bodyImage );
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
-      SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
+        SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
 
     // rendering order
