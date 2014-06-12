@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2002-2014, University of Colorado Boulder
 
 /**
  * Faucet with a pinball machine 'shooter'.
@@ -48,6 +48,64 @@ define( function( require ) {
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
 
   /**
+   * The 'shooter' is the interactive part of the faucet.
+   * It's a relatively complicated node, so it's encapsulated in this nested type.
+   *
+   * @param {Property<boolean>} enabledProperty
+   * @constructor
+   */
+  function ShooterNode( enabledProperty, options ) {
+
+    options = _.extend( {
+      knobScale: 1
+    }, options );
+
+    // knob
+    var knobNode = new Image( knobImage );
+    var dx = 0.5 * knobNode.width;
+    var dy = 0.5 * knobNode.height;
+    knobNode.touchArea = Shape.rectangle( -dx, -dy, knobNode.width + dx + dx, knobNode.height + dy + dy ); // before scaling!
+    knobNode.scale( options.knobScale );
+    var knobDisabledNode = new Image( knobDisabledImage );
+    knobDisabledNode.scale( knobNode.getScaleVector() );
+
+    // shaft
+    var shaftNode = new Image( shaftImage );
+
+    // flange
+    var flangeNode = new Image( flangeImage );
+    var flangeDisabledNode = new Image( flangeDisabledImage );
+
+    // stop
+    var stopNode = new Image( stopImage );
+
+    Node.call( this, { children: [ shaftNode, stopNode, flangeNode, flangeDisabledNode, knobNode, knobDisabledNode ] } );
+
+    // layout, relative to shaft
+    stopNode.x = shaftNode.x + 12;
+    stopNode.centerY = shaftNode.centerY;
+    flangeNode.left = shaftNode.right;
+    flangeNode.centerY = shaftNode.centerY;
+    flangeDisabledNode.x = flangeNode.x;
+    flangeDisabledNode.y = flangeNode.y;
+    knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
+    knobNode.centerY = flangeNode.centerY;
+    knobDisabledNode.x = knobNode.x;
+    knobDisabledNode.y = knobNode.y;
+
+    enabledProperty.link( function( enabled ) {
+      // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
+      knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
+      knobNode.visible = enabled;
+      knobDisabledNode.visible = !enabled;
+      flangeNode.visible = enabled;
+      flangeDisabledNode.visible = !enabled;
+    } );
+  }
+
+  inherit( Node, ShooterNode );
+
+  /**
    * @param {Number} maxFlowRate
    * @param {Property<Number>} flowRateProperty
    * @param {Property<Boolean>} enabledProperty
@@ -70,43 +128,8 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    // knob
-    var knobNode = new Image( knobImage );
-    var dx = 0.5 * knobNode.width;
-    var dy = 0.5 * knobNode.height;
-    knobNode.touchArea = Shape.rectangle( -dx, -dy, knobNode.width + dx + dx, knobNode.height + dy + dy ); // before scaling!
-    knobNode.scale( options.knobScale );
-    var knobDisabledNode = new Image( knobDisabledImage );
-    knobDisabledNode.scale( knobNode.getScaleVector() );
-
-    // shaft
-    var shaftNode = new Image( shaftImage );
-
-    // flange
-    var flangeNode = new Image( flangeImage );
-    var flangeDisabledNode = new Image( flangeDisabledImage );
-
-    // stop
-    var stopNode = new Image( stopImage );
-
-    // assemble the shooter
-    var shooterNode = new Node();
-    shooterNode.addChild( shaftNode );
-    shooterNode.addChild( stopNode );
-    shooterNode.addChild( flangeNode );
-    shooterNode.addChild( flangeDisabledNode );
-    shooterNode.addChild( knobNode );
-    shooterNode.addChild( knobDisabledNode );
-    stopNode.x = shaftNode.x + 12;
-    stopNode.centerY = shaftNode.centerY;
-    flangeNode.left = shaftNode.right;
-    flangeNode.centerY = shaftNode.centerY;
-    flangeDisabledNode.x = flangeNode.x;
-    flangeDisabledNode.y = flangeNode.y;
-    knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
-    knobNode.centerY = flangeNode.centerY;
-    knobDisabledNode.x = knobNode.x;
-    knobDisabledNode.y = knobNode.y;
+    // shooter
+    var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
 
     // horizontal pipe, tiled horizontally
     var horizontalPipeNode = new Image( horizontalPipeImage );
@@ -194,7 +217,6 @@ define( function( require ) {
       tapToDispenseIsRunning = false;
     };
 
-    // encourage dragging by the blue parts, but make the entire shooter draggable
     var shooterHandler = new SimpleDragHandler( {
 
       startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
@@ -244,11 +266,6 @@ define( function( require ) {
     } );
 
     enabledProperty.link( function( enabled ) {
-      knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
-      knobNode.visible = enabled;
-      knobDisabledNode.visible = !enabled;
-      flangeNode.visible = enabled;
-      flangeDisabledNode.visible = !enabled;
       if ( !enabled && shooterHandler.dragging ) {
         shooterHandler.endDrag();
       }
