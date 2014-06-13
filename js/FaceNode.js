@@ -15,6 +15,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Color = require( 'SCENERY/util/Color' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -31,9 +32,9 @@ define( function( require ) {
       headFill: 'yellow',
       eyeFill: 'black',
       mouthStroke: 'black',
-      headStroke: null,
       headLineWidth: 1
     }, options );
+    options.headStroke = options.headStroke || Color.toColor( options.headFill ).darkerColor();
 
     var thisNode = this;
     Node.call( thisNode );
