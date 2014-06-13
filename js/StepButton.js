@@ -17,26 +17,32 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
 
+  var DEFAULT_RADIUS = 20;
+
   function StepButton( stepFunction, playProperty, options ) {
+
+    options = _.extend( {
+      radius: DEFAULT_RADIUS
+    }, options );
+
     var stepButton = this;
-    var barWidth = 6;
-    var barHeight = 18;
 
-    var triangleWidth = 14;
-    var triangleHeight = 18;
+    // step symbol is sized relative to the radius
+    var barWidth = options.radius * 0.2;
+    var barHeight = options.radius;
+    var triangleWidth = options.radius * 0.7;
+    var triangleHeight = barHeight;
 
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
-    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
+    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
+    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
 
     RoundPushButton.call( this, _.extend( {
-      content: new HBox( {children: [barPath, trianglePath], spacing: 1} ),
+      content: new HBox( { children: [barPath, trianglePath], spacing: barWidth * 0.8 } ),
       listener: stepFunction,
-
-      //Make it a bit bigger than the icon
-      radius: 20,
+      radius: options.radius,
 
       //The icon is asymmetrical, and the layout looks off unless you shift it a little bit
-      xContentOffset: 1.5
+      xContentOffset: options.radius * 0.075
     }, options ) );
     this.enabled = false;
 
