@@ -15,6 +15,7 @@ define( function( require ) {
   var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
@@ -33,24 +34,31 @@ define( function( require ) {
       radius: DEFAULT_RADIUS
     }, options );
 
-    //Overall scaling factor for individual elements (without scaling the entire node)
-    var elementScale = options.radius / DEFAULT_RADIUS;
-
-    var triangleHeight = 24.48 * elementScale;
-    var triangleWidth = triangleHeight * elementScale * 0.6885;
-    var barWidth = 7.65 * elementScale;
+    // play and pause symbols are sized relative to the radius
+    var triangleHeight = options.radius;
+    var triangleWidth = options.radius * 0.8;
+    var barWidth = options.radius * 0.2;
     var barHeight = triangleHeight;
 
-    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
-    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} ); };
+    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
+    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } ); };
     var bar1 = bar();
     var bar2 = bar();
-    var pausePath = new HBox( {children: [ bar1, bar2], spacing: elementScale * 1.53} );
+    var pausePath = new HBox( {children: [ bar1, bar2], spacing: barWidth } );
 
-    //Shift the triangle to the right a bit
-    playPath.center = pausePath.center.plusXY( 1.5, 0 );
+    // put the play and pause symbols inside circles so they have the same bounds,
+    // otherwise ToggleNode will re-adjust their positions relative to each other
+    var playCircle = new Circle( options.radius );
+    playPath.centerX = options.radius * 0.05; // move to right slightly since we don't want it exactly centered
+    playPath.centerY = 0;
+    playCircle.addChild( playPath );
 
-    BooleanRoundToggleButton.call( this, pausePath, playPath, runningProperty, options );
+    var pausedCircle = new Circle( options.radius );
+    pausePath.centerX = 0;
+    pausePath.centerY = 0;
+    pausedCircle.addChild( pausePath );
+
+    BooleanRoundToggleButton.call( this, pausedCircle, playCircle, runningProperty, options );
   }
 
   return inherit( BooleanRoundToggleButton, PlayPauseButton );
