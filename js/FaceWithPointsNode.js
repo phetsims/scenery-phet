@@ -76,11 +76,11 @@ define( function( require ) {
       if ( points === 0 && !this.options.showZeroPoints ) {
         this.pointsNode.text = '';
       }
-      else if ( points <= 0 ) {
+      else if ( points < 0 ) {
         this.pointsNode.text = points + '';
       }
       else {
-        // + sign for positive numbers, order localized
+        // + sign for zero and positive numbers, order localized
         this.pointsNode.text = StringUtils.format( pattern_0sign_1number, '+', points );
       }
       this.updatePointsLocation();
