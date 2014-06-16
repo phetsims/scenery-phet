@@ -1,8 +1,7 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * A face that either smiles or frowns.
- * When the face is smiling, it displays points awarded next to it.
+ * A face that either smiles or frowns.  When the face is smiling, it displays points awarded next to it.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -18,6 +17,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var pattern_0sign_1number = require( 'string!SCENERY_PHET/pattern_0sign_1number' );
@@ -96,9 +96,10 @@ define( function( require ) {
           break;
 
         case 'rightBottom':
-          //TODO this should use this.options.spacing
-          this.pointsNode.centerX = this.options.faceDiameter * 0.4;
-          this.pointsNode.centerY = this.options.faceDiameter / 2;
+          var position = new Vector2( this.faceNode.right + this.options.spacing, this.faceNode.centerY );
+          position.rotate( Math.PI / 4 );
+          this.pointsNode.left = position.x;
+          this.pointsNode.centerY = position.y;
           break;
 
         case 'rightCenter':
