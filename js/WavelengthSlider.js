@@ -136,7 +136,7 @@ define( function( require ) {
     assert && assert( options.maxWavelength >= VisibleColor.MIN_WAVELENGTH && options.maxWavelength <= VisibleColor.MAX_WAVELENGTH );
 
     var thisNode = this;
-    Node.call( thisNode, options );
+    Node.call( thisNode );
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
