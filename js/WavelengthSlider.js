@@ -39,7 +39,6 @@ define( function( require ) {
     // calculate some parameters of the upper triangles of the thumb for getting arc offsets
     var hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
     var angle = Math.acos( width * 0.5 / hypotenuse );
-    var topAngle = Math.PI / 2 - angle;
     var heightOffset = radius * Math.sin( angle );
 
     // draw the thumb shape starting at the right upper corner of the pentagon below the arc,
