@@ -28,16 +28,16 @@ define( function( require ) {
     var stepButton = this;
 
     // step symbol is sized relative to the radius
-    var barWidth = options.radius * 0.2;
-    var barHeight = options.radius;
-    var triangleWidth = options.radius * 0.7;
+    var barWidth = options.radius * 0.15;
+    var barHeight = options.radius * 0.9;
+    var triangleWidth = options.radius * 0.65;
     var triangleHeight = barHeight;
 
     var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
 
     RoundPushButton.call( this, _.extend( {
-      content: new HBox( { children: [barPath, trianglePath], spacing: barWidth * 0.8 } ),
+      content: new HBox( { children: [barPath, trianglePath], spacing: barWidth } ),
       listener: stepFunction,
       radius: options.radius,
 
