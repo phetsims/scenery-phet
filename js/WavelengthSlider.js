@@ -57,11 +57,7 @@ define( function( require ) {
     // save the coordinates for the point above the left side arc, for use on the other side
     var sideArcPoint = shape.getLastPoint();
 
-    // get the coordinates for where to start and end the top arc
-    var centerCurveOffset = new Shape().moveTo( 0, 0 ).arc( 0, radius, radius, -Math.PI / 2, -topAngle ).getLastPoint();
-
-    shape.lineTo( -centerCurveOffset.x, centerCurveOffset.y )
-      .arc( 0, radius, radius, -2 * topAngle, -topAngle )
+    shape.lineTo( 0, 0 )
       .lineTo( -sideArcPoint.x, sideArcPoint.y )
       .arc( 0.5 * width - radius, 0.3 * height + heightOffset, radius, -angle, 0 )
       .close();
