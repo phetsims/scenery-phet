@@ -72,6 +72,11 @@ define( function( require ) {
       this.pointsNode.visible = false;
     },
 
+    grimace: function() {
+      this.faceNode.grimace();
+      this.pointsNode.visible = false;
+    },
+
     setPoints: function( points ) {
       if ( points === 0 && !this.options.showZeroPoints ) {
         this.pointsNode.text = '';
