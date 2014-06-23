@@ -30,7 +30,7 @@ define( function( require ) {
       tubeWidth: 30,
       tubeHeight: 100,
       lineWidth: 4,
-      stroke: 'black',
+      outlineStroke: 'black',
       tickSpacing: 15
       // majorTickSpacing:
       // minorTickSpacing:
@@ -80,7 +80,7 @@ define( function( require ) {
 
     var outline = new Path( shape,
       {
-        stroke: options.stroke,
+        stroke: options.outlineStroke,
         lineWidth: options.lineWidth
       } );
 
