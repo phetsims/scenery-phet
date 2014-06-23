@@ -26,7 +26,6 @@ define( function( require ) {
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
-      children: [],
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 100,
@@ -111,8 +110,7 @@ define( function( require ) {
     this.addChild( fluidSphere );
     this.addChild( outline );
 
-    // when this line is uncommented the node dissapears. not sure why
-    // this.mutate( options );
+    this.mutate( options );
   }
 
   return inherit( Node, ThermometerNode );
