@@ -139,13 +139,13 @@ define( function( require ) {
     Node.call( thisNode, { cursor: 'pointer' } );
 
     // properties for the "up" (increment) control
-    var upStateProperty = new Property( 'up' );
+    var upStateProperty = new Property( 'up' ); // up|down|over|out
     var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value < range.max );
     } );
 
     // properties for the "down" (decrement) control
-    var downStateProperty = new Property( 'up' );
+    var downStateProperty = new Property( 'up' ); // up|down|over|out
     var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value > range.min );
     } );
