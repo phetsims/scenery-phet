@@ -29,9 +29,11 @@ define( function( require ) {
    * The slider thumb (aka knob)
    * @param {Number} width
    * @param {Number} height
+   * @param {Number} touchAreaExpandX
+   * @param {Number} touchAreaExpandY
    * @constructor
    */
-  function Thumb( width, height ) {
+  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY ) {
     // set the radius of the arcs based on the height or width, whichever is smaller
     var radiusScale = 0.15;
     var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
@@ -65,9 +67,7 @@ define( function( require ) {
 
     // touch area, don't extend above so that we don't encroach on slider track
     var bounds = shape.computeBounds().copy();
-    var dx = 0.5 * bounds.width;
-    var dy = 0.5 * bounds.height;
-    this.touchArea = Shape.rectangle( bounds.minX - dx, bounds.minY, bounds.width + dx + dx, bounds.height + dy + dy );
+    this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
   }
 
   inherit( Path, Thumb );
@@ -108,6 +108,14 @@ define( function( require ) {
    */
   function WavelengthSlider( wavelength, options ) {
 
+    // calculate default touchAreaExpand parameters as half of the width
+    var defaultThumbWidth = 35;
+    var defaultThumbHeight = 45;
+    var thumbWidth = options.thumbWidth || defaultThumbWidth;
+    var thumbHeight = options.thumbHeight || defaultThumbHeight;
+    var thumbTouchAreaExpandX = options.thumbTouchAreaExpandX || 0.5 * thumbWidth;
+    var thumbTouchAreaExpandY = options.thumbTouchAreaExpandY || 0.5 * thumbHeight;
+
     // options that are specific to this type
     options = _.extend( {
       minWavelength: VisibleColor.MIN_WAVELENGTH,
@@ -115,8 +123,8 @@ define( function( require ) {
       trackWidth: 150,
       trackHeight: 30,
       trackOpacity: 1,
-      thumbWidth: 35,
-      thumbHeight: 45,
+      thumbWidth: defaultThumbWidth,
+      thumbHeight: defaultThumbHeight,
       valueFont: new PhetFont( 20 ),
       valueFill: 'black',
       valueVisible: true,
@@ -133,7 +141,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaExpandX, thumbTouchAreaExpandY );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
