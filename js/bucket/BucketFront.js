@@ -20,18 +20,18 @@ define( function( require ) {
    * Constructor.
    *
    * @param bucket Model of a bucket.
-   * @param mvt Model-View transform.
-   * @param options
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {*} options
    * @constructor
    */
-  var BucketFront = function BucketFront( bucket, mvt, options ) {
+  var BucketFront = function BucketFront( bucket, modelViewTransform, options ) {
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( { labelFont: new PhetFont( { size: 20 } ) }, options );
 
-    var scaleMatrix = Matrix3.scaling( mvt.getMatrix().m00(), mvt.getMatrix().m11() );
+    var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
     var baseColor = new Color( bucket.baseColor );
     var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
@@ -56,7 +56,7 @@ define( function( require ) {
     this.addChild( label );
 
     // Set initial position.
-    this.translation = mvt.modelToViewPosition( bucket.position );
+    this.translation = modelViewTransform.modelToViewPosition( bucket.position );
   };
 
   // Inherit from base type.

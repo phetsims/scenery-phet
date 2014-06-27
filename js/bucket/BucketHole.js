@@ -12,10 +12,15 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Matrix3 = require( 'DOT/Matrix3' );
 
-  var BucketHole = function BucketHole( bucket, mvt ) {
+  /**
+   * @param bucket
+   * @param {ModelViewTransform2} modelViewTransform
+   * @constructor
+   */
+  var BucketHole = function BucketHole( bucket, modelViewTransform ) {
     Node.call( this );
 
-    var scaleMatrix = Matrix3.scaling( mvt.getMatrix().m00(), mvt.getMatrix().m11() );
+    var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.holeShape.transformed( scaleMatrix );
     var gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
     gradientPaint.addColorStop( 0, 'black' );
@@ -28,7 +33,7 @@ define( function( require ) {
     } ) );
 
     // Set initial position.
-    this.translation = mvt.modelToViewPosition( bucket.position );
+    this.translation = modelViewTransform.modelToViewPosition( bucket.position );
   };
 
   inherit( Node, BucketHole );
