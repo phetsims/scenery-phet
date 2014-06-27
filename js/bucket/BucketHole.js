@@ -13,7 +13,7 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
 
   /**
-   * @param bucket
+   * @param bucket Model of a bucket.
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
