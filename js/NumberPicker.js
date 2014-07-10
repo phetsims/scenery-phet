@@ -73,7 +73,7 @@ define( function( require ) {
       },
 
       down: function() {
-        if ( intervalID === null ) {
+        if ( timeoutID === null && intervalID === null ) {
           stateProperty.set( 'down' );
           fired = false;
           timeoutID = Timer.setTimeout( function() {
