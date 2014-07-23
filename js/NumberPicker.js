@@ -74,6 +74,9 @@ define( function( require ) {
 
       down: function() {
         if ( timeoutID === null && intervalID === null ) {
+          if ( enabledProperty.get() ) {
+            fireFunction(); // fire once immediately
+          }
           stateProperty.set( 'down' );
           fired = false;
           timeoutID = Timer.setTimeout( function() {
@@ -94,9 +97,6 @@ define( function( require ) {
 
       fire: function() {
         cleanupTimer();
-        if ( !fired && enabledProperty.get() ) {
-          fireFunction();
-        }
       }
     } );
   }
