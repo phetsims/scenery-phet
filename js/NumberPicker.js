@@ -47,7 +47,6 @@ define( function( require ) {
   function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, intervalDelay ) {
 
     // stuff related to press-&-hold feature
-    var fired = false;
     var timeoutID = null;
     var intervalID = null;
     var cleanupTimer = function() {
@@ -78,10 +77,8 @@ define( function( require ) {
             fireFunction(); // fire once immediately
           }
           stateProperty.set( 'down' );
-          fired = false;
           timeoutID = Timer.setTimeout( function() {
             timeoutID = null;
-            fired = true;
             intervalID = Timer.setInterval( function() {
               if ( enabledProperty.get() ) {
                 fireFunction();
