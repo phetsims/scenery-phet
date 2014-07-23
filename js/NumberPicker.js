@@ -134,6 +134,7 @@ define( function( require ) {
       backgroundLineWidth: 0.5,
       arrowHeight: 6
     }, options );
+    options.activatedColor = options.activatedColor || Color.toColor( options.color ).darkerColor();
 
     var thisNode = this;
     Node.call( thisNode, { cursor: 'pointer' } );
@@ -216,23 +217,22 @@ define( function( require ) {
       downBackground.width + options.mouseAreaExpandX, downBackground.height + options.mouseAreaExpandY );
 
     // compute colors
-    var baseColor = Color.toColor( options.color );
     var arrowColors = {
-      up: baseColor,
-      over: baseColor,
-      down: baseColor.darkerColor(),
-      out: baseColor,
+      up: options.color,
+      over: options.color,
+      down: options.activatedColor,
+      out: options.color,
       disabled: 'rgb(176,176,176)'
     };
     var centerColor = 'white';
-    var highlightGradient = createBackgroundGradient( baseColor, centerColor, backgroundHeight );
-    var pressedGradient = createBackgroundGradient( baseColor.darkerColor(), centerColor, backgroundHeight );
+    var highlightGradient = createBackgroundGradient( options.color, centerColor, backgroundHeight );
+    var pressedGradient = createBackgroundGradient( options.activatedColor, centerColor, backgroundHeight );
     var backgroundColors = {
-      up: 'white',
+      up: centerColor,
       over: highlightGradient,
       down: pressedGradient,
       out: pressedGradient,
-      disabled: 'white'
+      disabled: centerColor
     };
 
     // compute size of arrows
