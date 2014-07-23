@@ -328,16 +328,8 @@ define( function( require ) {
         arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
       }
     };
-    var updateUpColors = function() {
-      updateColors( upStateProperty, upEnabledProperty, upBackground, upArrow );
-    };
-    var updateDownColors = function() {
-      updateColors( downStateProperty, downEnabledProperty, downBackground, downArrow );
-    };
-    upStateProperty.link( updateUpColors.bind( thisNode ) );
-    upEnabledProperty.link( updateUpColors.bind( thisNode ) );
-    downStateProperty.link( updateDownColors.bind( thisNode ) );
-    downEnabledProperty.link( updateDownColors.bind( thisNode ) );
+    Property.multilink( [ upStateProperty, upEnabledProperty ], updateColors.bind( thisNode, upStateProperty, upEnabledProperty, upBackground, upArrow ) );
+    Property.multilink( [ downStateProperty, downEnabledProperty ], updateColors.bind( thisNode, downStateProperty, downEnabledProperty, downBackground, downArrow ) );
 
     thisNode.mutate( options );
   }
