@@ -60,9 +60,8 @@ define( function( require ) {
       yMargin: 3
     };
 
-    var iconOptions = { stroke: options.arrowStroke, lineWidth: options.arrowLineWidth, lineCap: 'round' };
-
     // Create the icons that signify previous and next.
+    var iconOptions = { stroke: options.arrowStroke, lineWidth: options.arrowLineWidth, lineCap: 'round' };
     var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
     var previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
 
