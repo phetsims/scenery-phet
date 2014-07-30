@@ -23,7 +23,8 @@ define( function( require ) {
   function MovableDragHandler( movable, mvt, options ) {
 
     options = _.extend( {
-      endDrag: function() { /* do nothing */ }  // use this to do things at the end of dragging, like 'snapping'
+      startDrag: function() {},  // use this to do something at the start of dragging, like moving a node to the foreground
+      endDrag: function() {}  // use this to do something at the end of dragging, like 'snapping'
     }, options );
 
     var startOffset; // where the drag started, relative to the Movable's origin, in parent view coordinates
@@ -34,6 +35,7 @@ define( function( require ) {
 
       // note where the drag started
       start: function( event ) {
+        options.startDrag( event );
         var location = mvt.modelToViewPosition( movable.locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
@@ -46,8 +48,8 @@ define( function( require ) {
         movable.locationProperty.set( constrainedLocation );
       },
 
-      end: function() {
-        options.endDrag();
+      end: function( event ) {
+        options.endDrag( event );
       }
     } );
   }
