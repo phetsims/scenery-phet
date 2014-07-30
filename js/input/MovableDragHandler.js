@@ -23,8 +23,8 @@ define( function( require ) {
   function MovableDragHandler( movable, mvt, options ) {
 
     options = _.extend( {
-      startDrag: function() {},  // use this to do something at the start of dragging, like moving a node to the foreground
-      endDrag: function() {}  // use this to do something at the end of dragging, like 'snapping'
+      startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
+      endDrag: function( event ) {}  // use this to do something at the end of dragging, like 'snapping'
     }, options );
 
     var startOffset; // where the drag started, relative to the Movable's origin, in parent view coordinates
