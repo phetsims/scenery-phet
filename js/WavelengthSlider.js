@@ -31,9 +31,11 @@ define( function( require ) {
    * @param {Number} height
    * @param {Number} touchAreaExpandX
    * @param {Number} touchAreaExpandY
+   * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
+   * @param {Number} trackHeight only used if pointerAreasOverTrack is true
    * @constructor
    */
-  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY ) {
+  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY, pointerAreasOverTrack, trackHeight ) {
     // set the radius of the arcs based on the height or width, whichever is smaller
     var radiusScale = 0.15;
     var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
@@ -65,9 +67,17 @@ define( function( require ) {
 
     Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
 
-    // touch area, don't extend above so that we don't encroach on slider track
+    // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
     var bounds = shape.computeBounds().copy();
-    this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
+    if ( pointerAreasOverTrack ) {
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY - trackHeight, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY + trackHeight );
+      this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
+    }
+
+    // don't extend above the thumb so that we don't encroach on slider track if pointerAreasOverTrack is false
+    else {
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
+    }
   }
 
   inherit( Path, Thumb );
@@ -130,7 +140,8 @@ define( function( require ) {
       valueVisible: true,
       tweakersVisible: true,
       cursorVisible: true,
-      cursorStroke: 'black'
+      cursorStroke: 'black',
+      pointerAreasOverTrack: false
     }, options );
 
     // validate wavelengths
@@ -141,7 +152,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaExpandX, thumbTouchAreaExpandY );
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaExpandX, thumbTouchAreaExpandY, options.pointerAreasOverTrack, options.trackHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
