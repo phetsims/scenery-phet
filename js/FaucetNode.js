@@ -33,6 +33,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Timer = require( 'JOIST/Timer' );
+  var Property = require( 'AXON/Property' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -44,6 +45,7 @@ define( function( require ) {
   var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
   var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
   var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
+  var closedBodyImage = require( 'image!SCENERY_PHET/faucet_body_closed.png' );
   var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
 
   // constants
@@ -132,7 +134,8 @@ define( function( require ) {
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
-      closeOnRelease: true // when the shooter is released, close the faucet
+      closeOnRelease: true, // when the shooter is released, close the faucet
+      autoProperty: new Property( false ) // Optional property that allows the faucet to be put into "auto" mode where the knob disappears and water can still flow out.  See https://github.com/phetsims/scenery-phet/issues/67
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -156,7 +159,11 @@ define( function( require ) {
 
     // other nodes
     var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( bodyImage );
+    var bodyNode = new Image( options.autoProperty.value ? closedBodyImage : bodyImage );
+
+    // In "auto" mode, show the different body graphic that has no cylinder for the knob
+    options.autoProperty.link( function( auto ) {bodyNode.image = options.autoProperty.value ? closedBodyImage : bodyImage;} );
+
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
         SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
@@ -284,6 +291,9 @@ define( function( require ) {
         endTapToDispense();
       }
     } );
+
+    // Do not show the shooter when the faucet is in auto mode
+    options.autoProperty.derivedNot().linkAttribute( shooterNode, 'visible' );
 
     thisNode.mutate( options );
   }

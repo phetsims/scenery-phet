@@ -1,4 +1,5 @@
 faucet_body.png author=PhET notes=created by Sharon Siman-Tov
+faucet_body_closed.png author=PhET notes=edited by Ariel
 faucet_flange.png author=PhET notes=created by Sharon Siman-Tov
 faucet_flange_disabled.png author=PhET notes=created by Sharon Siman-Tov
 faucet_horizontal_pipe.png author=PhET notes=created by Sharon Siman-Tov
