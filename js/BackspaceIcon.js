@@ -15,7 +15,7 @@ define( function( require ) {
   function BackspaceIcon( options ) {
     options = _.extend( {
       stroke: 'black',
-      lineWidth: 1.5,
+      lineWidth: 1,
       lineJoin: 'round',
       lineCap: 'square'
 
