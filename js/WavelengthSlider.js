@@ -133,6 +133,7 @@ define( function( require ) {
       trackWidth: 150,
       trackHeight: 30,
       trackOpacity: 1,
+      trackBorderStroke: 'black',
       thumbWidth: defaultThumbWidth,
       thumbHeight: defaultThumbHeight,
       valueFont: new PhetFont( 20 ),
@@ -175,7 +176,7 @@ define( function( require ) {
      * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
      * without affecting the track's bounds.
      */
-    var trackBorder = new Rectangle( 0, 0, track.width, track.height, { stroke: 'black', lineWidth: 1, pickable: false } );
+    var trackBorder = new Rectangle( 0, 0, track.width, track.height, { stroke: options.trackBorderStroke, lineWidth: 1, pickable: false } );
 
     // rendering order
     thisNode.addChild( track );
