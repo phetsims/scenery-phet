@@ -45,7 +45,7 @@ define( function( require ) {
   var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
   var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
   var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
-  var closedBodyImage = require( 'image!SCENERY_PHET/faucet_body_closed.png' );
+  var bodyClosedImage = require( 'image!SCENERY_PHET/faucet_body_closed.png' );
   var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
 
   // constants
@@ -159,10 +159,10 @@ define( function( require ) {
 
     // other nodes
     var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( options.autoProperty.value ? closedBodyImage : bodyImage );
+    var bodyNode = new Image( options.autoProperty.value ? bodyClosedImage : bodyImage );
 
     // In "auto" mode, show the different body graphic that has no cylinder for the knob
-    options.autoProperty.link( function( auto ) {bodyNode.image = options.autoProperty.value ? closedBodyImage : bodyImage;} );
+    options.autoProperty.link( function( auto ) {bodyNode.image = options.autoProperty.value ? bodyClosedImage : bodyImage;} );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
         SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
