@@ -16,8 +16,10 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var HSlider = require( 'SUN/HSlider' );
+  var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
 
   function SceneryPhetScreenView() {
     ScreenView.call( this, { renderer: 'svg' } );
@@ -37,6 +39,15 @@ define( function( require ) {
     thermometer.centerX = this.layoutBounds.centerX;
     thermometer.centerY = this.layoutBounds.centerY;
     this.addChild( thermometer );
+
+    //test for measuring tape
+    var mtScaleProperty = new Property( 1 );
+    var mtUnitsProperty = new Property( 'metric' );
+    var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty,
+      {
+        initialMeasuringTapePosition: new Vector2( 500, 400 )
+      } );
+    this.addChild( measuringTape );
 
     //Test for showing the star filling up.  Note this just creates new stars dynamically.  Shouldn't be a problem for sims since stars are relatively static.
     //Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths)
