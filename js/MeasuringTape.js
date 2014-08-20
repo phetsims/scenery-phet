@@ -138,7 +138,7 @@ define( function( require ) {
     this.addChild( this.notBase );
     unitsProperty.link( function( data ) {
       if ( data === 'metric' ) {
-        measuringTape.text.setText( measuringTape.getText().toFixed( 2 ) + ' ' + metersString )
+        measuringTape.text.setText( measuringTape.getText().toFixed( 2 ) + ' ' + metersString );
       }
       else {
         measuringTape.text.setText( ( measuringTape.getText() * 3.28 ).toFixed( 2 ) + ' ' + feetString );
@@ -188,7 +188,7 @@ define( function( require ) {
         this.text.setText( this.getText().toFixed( this.options.precision ) + ' ' + metersString );
       }
       else {
-        this.text.setText( ( this.getText() * 3.28 ).toFixed( this.options.precision ) + ' ' + feetString )
+        this.text.setText( ( this.getText() * 3.28 ).toFixed( this.options.precision ) + ' ' + feetString );
       }
       this.tip.setTranslation( x, y );
       this.options.tipX = x;
