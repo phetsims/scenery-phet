@@ -13,8 +13,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
 
   // Constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
@@ -40,35 +40,7 @@ define( function( require ) {
       yContentOffset: buttonRadius * ( -0.0125 )
     }, options );
 
-    // Create the curved arrow shape, starting at the inside of the non-
-    // pointed end.  The parameters immediately below can be adjusted in order
-    // to tweak the appearance of the arrow.
-    var innerRadius = options.radius * 0.4;
-    var outerRadius = options.radius * 0.625;
-    var headWidth = 2.25 * ( outerRadius - innerRadius );
-    var startAngle = -Math.PI * 0.35;
-    var endToNeckAngularSpan = -2 * Math.PI * 0.85;
-    var arrowHeadAngularSpan = -Math.PI * 0.18;
-    //---- End of tweak params ----
-    var curvedArrowShape = new Shape();
-    curvedArrowShape.moveTo( innerRadius * Math.cos( startAngle ), innerRadius * Math.sin( startAngle ) ); // Inner edge of end.
-    curvedArrowShape.lineTo( outerRadius * Math.cos( startAngle ), outerRadius * Math.sin( startAngle ) );
-    var neckAngle = startAngle + endToNeckAngularSpan;
-    curvedArrowShape.arc( 0, 0, outerRadius, startAngle, neckAngle, true ); // Outer curve.
-    var headWidthExtrusion = ( headWidth - ( outerRadius - innerRadius ) ) / 2;
-    curvedArrowShape.lineTo(
-        ( outerRadius + headWidthExtrusion ) * Math.cos( neckAngle ),
-        ( outerRadius + headWidthExtrusion ) * Math.sin( neckAngle ) );
-    var pointRadius = ( outerRadius + innerRadius ) * 0.55; // Tweaked a little from center for better look.
-    curvedArrowShape.lineTo( // Tip of arrowhead.
-        pointRadius * Math.cos( neckAngle + arrowHeadAngularSpan ),
-        pointRadius * Math.sin( neckAngle + arrowHeadAngularSpan ) );
-    curvedArrowShape.lineTo( ( innerRadius - headWidthExtrusion ) * Math.cos( neckAngle ), ( innerRadius - headWidthExtrusion ) * Math.sin( neckAngle ) );
-    curvedArrowShape.lineTo( innerRadius * Math.cos( neckAngle ), innerRadius * Math.sin( neckAngle ) );
-    curvedArrowShape.arc( 0, 0, innerRadius, neckAngle, startAngle ); // Inner curve.
-    curvedArrowShape.close();
-
-    var icon = new Path( curvedArrowShape, { fill: 'white' } );
+    var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
 
     RoundPushButton.call( this, _.extend( { content: icon }, options ) );
   }
