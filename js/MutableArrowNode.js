@@ -41,6 +41,7 @@ define( function( require ) {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
+      minArrowLength: 0,
 
       //Flag to set the head height to be (at most) half the length of the arrow.  See https://github.com/phetsims/scenery-phet/issues/30
       headHeightMaximumHalf: false
@@ -147,14 +148,32 @@ define( function( require ) {
             this.arrowNode.visible = true;
           }
 
+          var arrowLength = Math.sqrt( (tipX - tailX) * (tipX - tailX) + (tipY - tailY) * (tipY - tailY) );
+
           //For short arrows, the head height should be half of the arrow length.  See https://github.com/phetsims/scenery-phet/issues/30
           var newOptions = this.options;
           if ( this.options.headHeightMaximumHalf ) {
-            var arrowLength = Math.sqrt( (tipX - tailX) * (tipX - tailX) + (tipY - tailY) * (tipY - tailY) );
             var headHeight = Math.min( Math.abs( arrowLength ) / 2, this.options.headHeight );
             newOptions = _.extend( _.clone( this.options ), {headHeight: headHeight} );
           }
-          this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, newOptions ) );
+
+          //If the arrow shorter than the min length, make the magnitude equal to the min length and keep the same direction
+          if ( arrowLength < this.options.minArrowLength ) {
+            var scaleFactor = this.options.minArrowLength / arrowLength;
+            tipX = ( dx * scaleFactor ) + tailX;
+            tipY = ( dy * scaleFactor ) + tailY;
+            newOptions = _.extend( _.clone( this.options ), { headHeight: this.options.minArrowLength / 2, headWidth: this.options.minArrowLength / 2, tailWidth: this.options.minArrowLength / 4 } );
+          }
+          //Adjust size of arrow unless it is at the min or max size
+          else {
+            newOptions.headHeight = Math.min( this.options.headHeight, arrowLength / 2 );
+            newOptions.headWidth = Math.min( this.options.headWidth, arrowLength / 2 );
+            newOptions.tailWidth = Math.min( this.options.tailWidth, arrowLength / 4 );
+          }
+          //Avoid divide by 0 errors if arrowLenghth is 0
+          if ( arrowLength ) {
+            this.arrowNode.setShape( new ArrowShape( tailX, tailY, tipX, tipY, newOptions ) );
+          }
         }
 
         this.optimized = willBeOptimized;
