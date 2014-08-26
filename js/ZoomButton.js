@@ -25,8 +25,7 @@ define( function( require ) {
       radius: 15,
       baseColor: 'rgb(255,200,0)',
       magnifyingGlassFill: 'white', // center of the glass
-      magnifyingGlassStroke: 'black', // rim and handle
-      magnifyingGlassStrokeDisabled: 'rgb(128,128,128)' // rim and handle when disabled
+      magnifyingGlassStroke: 'black' // rim and handle
     }, options );
 
     // the magnifying glass
@@ -44,13 +43,6 @@ define( function( require ) {
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
     options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
-    options.ContentAppearanceStrategy = function( content, interactionStateProperty ) {
-      interactionStateProperty.link( function( state ) {
-        var enabled = state !== 'disabled' && state !== 'disabled-pressed';
-        glassNode.stroke = handleNode.stroke = signNode.fill = enabled ? options.magnifyingGlassStroke : options.magnifyingGlassStrokeDisabled;
-        glassNode.fill = enabled ? options.magnifyingGlassFill : null;
-      } );
-    };
 
     RectangularPushButton.call( this, options );
   }
