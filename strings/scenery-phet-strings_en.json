@@ -1,7 +1,5 @@
 {
   "pattern_0value_1units": "{0} {1}",
   "units_nm": "nm",
-  "pattern_0sign_1number": "{0}{1}",
-  "feet": "feet",
-  "meters": "meters"
+  "pattern_0sign_1number": "{0}{1}"
 }

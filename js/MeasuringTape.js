@@ -26,10 +26,6 @@ define( function( require ) {
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
-  // strings
-  var feetString = require( 'string!SCENERY_PHET/feet' );
-  var metersString = require( 'string!SCENERY_PHET/meters' );
-
   // constants
   var FONT = new PhetFont( 16 );
 
@@ -45,13 +41,20 @@ define( function( require ) {
     Node.call( this );
     this.prevScale = 1;
     this.options = _.extend( {
-      initialMeasuringTapePosition: new Vector2(),
+      x: 0,
+      y: 0,
       tipX: 73.5,
       tipY: 0,
       scale: 1,
       length: 73.5,
       lengthDefault: 73.5,
-      precision: 2
+      initialValue: 50000,
+      precision: 2,
+      lineColor: 'gray',
+      tipColor: 'rgba(0,0,0,0)',
+      tipRadius: 15,
+      plusColor: '#E05F20',
+      initialAngle: 0
     }, options );
 
     this.unitsProperty = unitsProperty;
@@ -61,20 +64,20 @@ define( function( require ) {
     this.addChild( this.base );
     this.centerRotation = new Vector2( measuringTape.base.getWidth(), measuringTape.base.getHeight() );
     this.notBase = new Node();
+
+    // initialize angle
+    this.angle = this.options.initialAngle;
+
     // init drag and drop for measuring tape
-    var clickYOffset;
-    var clickXOffset;
-    this.angle = 0;
-    var v;
+    var clickYOffset, clickXOffset, v;
     var currentlyDragging = '';
     this.base.cursor = 'pointer';
     this.base.addInputListener( new SimpleDragHandler( {
       start: function( e ) {
         currentlyDragging = 'base';
-        var h;
         var y0 = measuringTape.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
         var x0 = measuringTape.globalToParentPoint( e.pointer.point ).x - e.currentTarget.x;
-        h = measuringTape.centerRotation.timesScalar( Math.cos( measuringTape.angle / 2 ) ).rotated( measuringTape.angle / 2 );
+        var h = measuringTape.centerRotation.timesScalar( Math.cos( measuringTape.angle / 2 ) ).rotated( measuringTape.angle / 2 );
         v = measuringTape.centerRotation.plus( h.minus( measuringTape.centerRotation ).multiply( 2 ) );
         clickYOffset = y0 - v.y;
         clickXOffset = x0 - v.x;
@@ -94,16 +97,20 @@ define( function( require ) {
     } ) );
 
     // add line
-    this.line = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, 0 ), {stroke: 'black', lineWidth: 2} );
+    this.line = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, 0 ), {stroke: this.options.lineColor, lineWidth: 2} );
     this.notBase.addChild( this.line );
 
     // add center point
     var size = 5;
-    this.mediator = new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: '#E05F20', lineWidth: 2} );
+    this.mediator = new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: this.options.plusColor, lineWidth: 2} );
     this.notBase.addChild( this.mediator );
 
     // add tip
-    this.tip = new Node( {children: [new Circle( 8, {fill: 'black'} ), new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: '#E05F20', lineWidth: 2} )]} );
+    this.tip = new Node( { children:
+      [
+        new Circle( this.options.tipRadius, {fill: this.options.tipColor} ),
+        new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: this.options.plusColor, lineWidth: 2} )
+      ] } );
     this.tip.cursor = 'pointer';
     this.tip.touchArea = this.tip.localBounds.dilatedXY( 10, 10 );
     this.notBase.addChild( this.tip );
@@ -127,7 +134,6 @@ define( function( require ) {
         measuringTape.angle = Math.atan2( y, x );
         measuringTape.rotate( measuringTape.angle );
         measuringTape.setTip( x, y );
-
       }
     } ) );
 
@@ -136,36 +142,34 @@ define( function( require ) {
     this.notBase.addChild( this.text );
 
     this.addChild( this.notBase );
-    unitsProperty.link( function( data ) {
-      if ( data === 'metric' ) {
-        measuringTape.text.setText( measuringTape.getText().toFixed( 2 ) + ' ' + metersString );
-      }
-      else {
-        measuringTape.text.setText( ( measuringTape.getText() * 3.28 ).toFixed( 2 ) + ' ' + feetString );
-      }
-    } );
 
-    // Inital position for tape
-    measuringTape.initTape( measuringTape.options, this.angle );
+    unitsProperty.link( function( data ) {
+      measuringTape.text.setText( measuringTape.getText( data ) );
+    } );
 
     scaleProperty.link( function( newScale ) {
       measuringTape.scale( newScale );
     } );
+
+    // draw the tape at the correct position
+    measuringTape.resetTape();
   }
 
   return inherit( Node, MeasuringTape, {
 
-    // init tape
-    initTape: function( option, angle ) {
-      this.rotate( -angle );
-      this.translate( option.initialMeasuringTapePosition.x, option.initialMeasuringTapePosition.y );
-      this.setTip( option.lengthDefault, 0 );
-      this.base.setTranslation( -this.centerRotation.x + option.initialMeasuringTapePosition.x, -this.centerRotation.y + option.initialMeasuringTapePosition.y );
+    /**
+     * Resets the tape rotation, translation, and tip. Call this after adjusting tape options to redraw correctly.
+     */
+    resetTape: function() {
+      this.rotate( -this.angle );
+      this.translate( this.options.x, this.options.y );
+      this.setTip( this.options.lengthDefault, 0 );
+      this.base.setTranslation( -this.centerRotation.x + this.options.x, -this.centerRotation.y + this.options.y );
     },
 
-    // return text(length)
-    getText: function() {
-      return this.options.length.toFixed( 2 ) / 10;
+    getText: function( unitData ) {
+      var multiplier = this.options.initialValue / this.options.lengthDefault;
+      return ( this.options.length * multiplier * unitData.multiplier ).toFixed( this.options.precision ) + ' ' + unitData.name;
     },
 
     rotate: function( angle ) {
@@ -181,15 +185,9 @@ define( function( require ) {
     },
 
     setTip: function( x, y ) {
-
       this.options.length = Math.sqrt( Math.pow( x, 2 ) + Math.pow( y, 2 ) );
       this.line.setShape( new Shape().moveTo( 0, 0 ).lineTo( x, y ) );
-      if ( this.unitsProperty.get() === 'metric' ) {
-        this.text.setText( this.getText().toFixed( this.options.precision ) + ' ' + metersString );
-      }
-      else {
-        this.text.setText( ( this.getText() * 3.28 ).toFixed( this.options.precision ) + ' ' + feetString );
-      }
+      this.text.setText( this.getText( this.unitsProperty.get() ) );
       this.tip.setTranslation( x, y );
       this.options.tipX = x;
       this.options.tipY = y;
@@ -203,8 +201,8 @@ define( function( require ) {
 
     reset: function() {
       this.angle = 0;
-      this.initTape( this.options, this.angle );
       this.base.setRotation( this.angle );
+      this.resetTape();
     }
   } );
 } );

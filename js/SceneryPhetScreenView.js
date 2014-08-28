@@ -42,10 +42,14 @@ define( function( require ) {
 
     //test for measuring tape
     var mtScaleProperty = new Property( 1 );
-    var mtUnitsProperty = new Property( 'metric' );
+    var mtUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
     var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty,
       {
-        initialMeasuringTapePosition: new Vector2( 500, 400 )
+        x: 500,
+        y: 400,
+        tipColor: 'black',
+        tipRadius: 8,
+        initialValue: 10
       } );
     this.addChild( measuringTape );
 
