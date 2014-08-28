@@ -161,8 +161,11 @@ define( function( require ) {
     var spoutNode = new Image( spoutImage );
     var bodyNode = new Image( options.autoProperty.value ? bodyClosedImage : bodyImage );
 
-    // In "auto" mode, show the different body graphic that has no cylinder for the knob
-    options.autoProperty.link( function( auto ) {bodyNode.image = options.autoProperty.value ? bodyClosedImage : bodyImage;} );
+    // In "auto" mode, hide the flow rate control.
+    options.autoProperty.link( function( auto ) {
+      bodyNode.image = options.autoProperty.value ? bodyClosedImage : bodyImage;
+      shooterNode.visible = !auto;
+    } );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
         SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
@@ -291,9 +294,6 @@ define( function( require ) {
         endTapToDispense();
       }
     } );
-
-    // Do not show the shooter when the faucet is in auto mode
-    options.autoProperty.derivedNot().linkAttribute( shooterNode, 'visible' );
 
     thisNode.mutate( options );
   }
