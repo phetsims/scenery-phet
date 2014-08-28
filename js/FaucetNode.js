@@ -135,7 +135,7 @@ define( function( require ) {
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
       closeOnRelease: true, // when the shooter is released, close the faucet
-      autoProperty: new Property( false ) // Optional property that allows the faucet to be put into "auto" mode where the knob disappears and water can still flow out.  See https://github.com/phetsims/scenery-phet/issues/67
+      interactiveProperty: new Property( true ) // when the faucet is interactive, the flow rate control is visible, see issue #67
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -159,12 +159,12 @@ define( function( require ) {
 
     // other nodes
     var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( options.autoProperty.value ? bodyClosedImage : bodyImage );
+    var bodyNode = new Image( options.interactiveProperty.value ? bodyImage : bodyClosedImage );
 
-    // In "auto" mode, hide the flow rate control.
-    options.autoProperty.link( function( auto ) {
-      bodyNode.image = options.autoProperty.value ? bodyClosedImage : bodyImage;
-      shooterNode.visible = !auto;
+    // flow rate control is visible only when the faucet is interactive
+    options.interactiveProperty.link( function( interactive ) {
+      bodyNode.image = interactive ? bodyImage : bodyClosedImage;
+      shooterNode.visible = interactive;
     } );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
