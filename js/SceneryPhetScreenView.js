@@ -16,7 +16,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var HSlider = require( 'SUN/HSlider' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
