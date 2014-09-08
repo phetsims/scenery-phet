@@ -21,7 +21,7 @@ define( function( require ) {
    *
    * @param bucket Model of a bucket.
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   var BucketFront = function BucketFront( bucket, modelViewTransform, options ) {

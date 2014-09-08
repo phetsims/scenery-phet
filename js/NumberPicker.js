@@ -105,7 +105,7 @@ define( function( require ) {
   /**
    * @param {Property<Number>} valueProperty
    * @param {Property<Range>} rangeProperty
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {

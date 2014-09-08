@@ -25,7 +25,7 @@ define( function( require ) {
 
   /**
    * @param {Property} timerRunningProperty
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function TimerToggleButton( timerRunningProperty, options ) {

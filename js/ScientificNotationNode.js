@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    * @param {Property<Number>} valueProperty
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function ScientificNotationNode( valueProperty, options ) {
@@ -111,13 +111,13 @@ define( function( require ) {
     }
   }, {
 
-    /*
+    /**
      * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
      * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
      *
      * @static
      * @param {Number} value the number to be formatted
-     * @param {*} options
+     * @param {Object} options
      * @return {mantissa:{Number}, exponent:{Number}}
      */
     toScientificNotation: function( value, options ) {

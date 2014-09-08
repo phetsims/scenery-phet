@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function ShadowText( text, options ) {

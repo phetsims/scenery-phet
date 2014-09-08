@@ -121,7 +121,7 @@ define( function( require ) {
    * @param {Number} maxFlowRate
    * @param {Property<Number>} flowRateProperty
    * @param {Property<Boolean>} enabledProperty
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {

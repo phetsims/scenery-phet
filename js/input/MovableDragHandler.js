@@ -17,7 +17,7 @@ define( function( require ) {
   /**
    * @param {locationProperty:Property<Vector2>, [dragBounds]:Bounds2} movable
    * @param {ModelViewTransform2} mvt
-   * @param {*} options
+   * @param {Object} options
    * @constructor
    */
   function MovableDragHandler( movable, mvt, options ) {
