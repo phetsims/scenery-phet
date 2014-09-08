@@ -9,3 +9,4 @@ faucet_shaft.png author=PhET notes=created by Sharon Siman-Tov
 faucet_spout.png author=PhET notes=created by Sharon Siman-Tov
 faucet_stop.png author=PhET notes=created by Sharon Siman-Tov
 faucet_vertical_pipe.png author=PhET notes=created by Sharon Siman-Tov
+measuring-tape.png source=PhET author=Bryce Gruneich
