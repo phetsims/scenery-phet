@@ -2,3 +2,4 @@ eraser.ai source=PhET author=Amanda McGarry notes=based on original raster artwo
 Clock.ai source=PhET author=Sharon
 faucet_components.ai source=PhET author=Sharon
 SimpleClock.ai source=PhET author=John B
+MeasuringTape.ai source=PhET author=Bryce Gruneich notes=taken from Fluid Pressure and Flow Artwork.ai
