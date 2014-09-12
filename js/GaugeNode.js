@@ -94,19 +94,32 @@ define( function( require ) {
       }
     } );
 
+    // Render all of the ticks into two layers (since they have different strokes)
+    // see https://github.com/phetsims/energy-skate-park-basics/issues/208
+    var bigTicksShape = new Shape();
+    var smallTicksShape = new Shape();
+
     //Add the tick marks
     for ( var i = 0; i < options.numTicks; i++ ) {
       var tickAngle = i * options.anglePerTick + startAngle;
+
       var tickLength = i % 2 === 0 ? 10 : 5;
-      var lineWidth = i % 2 === 0 ? 2 : 1;
-      var tick = new Path( Shape.lineSegment( (options.radius - tickLength) * Math.cos( tickAngle ),
-        (options.radius - tickLength) * Math.sin( tickAngle ),
-        options.radius * Math.cos( tickAngle ),
-        options.radius * Math.sin( tickAngle ) ),
-        { stroke: 'gray', lineWidth: lineWidth } );
-      foregroundNode.addChild( tick );
+      var x1 = (options.radius - tickLength) * Math.cos( tickAngle );
+      var y1 = (options.radius - tickLength) * Math.sin( tickAngle );
+      var x2 = options.radius * Math.cos( tickAngle );
+      var y2 = options.radius * Math.sin( tickAngle );
+      if ( i % 2 === 0 ) {
+        bigTicksShape.moveTo( x1, y1 );
+        bigTicksShape.lineTo( x2, y2 );
+      }
+      else {
+        smallTicksShape.moveTo( x1, y1 );
+        smallTicksShape.lineTo( x2, y2 );
+      }
     }
 
+    foregroundNode.addChild( new Path( bigTicksShape, { stroke: 'gray', lineWidth: 2 } ) );
+    foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: 1 } ) );
     this.mutate( options );
   }
 
