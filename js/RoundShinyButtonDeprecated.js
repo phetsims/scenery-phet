@@ -40,7 +40,7 @@ define( function( require ) {
   /**
    * @param {function} callback
    * @param {Node} icon
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function RoundShinyButtonDeprecated( callback, icon, options ) {

@@ -23,7 +23,7 @@ define( function( require ) {
   /**
    * @param {number} numKits
    * @param {Property} selectedKit - A property that tracks the selected kit as an integer
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function KitControlNodeTop( numKits, selectedKit, options ) {

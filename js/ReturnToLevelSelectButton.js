@@ -16,7 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ReturnToLevelSelectButton( options ) {

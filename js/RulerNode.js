@@ -27,7 +27,7 @@ define( function( require ) {
    * @param {number} majorTickWidth
    * @param {Array<String>} majorTickLabels
    * @param {String} units
-   * @param {object} options
+   * @param {Object} [options]
    * @constructor
    */
   function RulerNode( width, height, majorTickWidth, majorTickLabels, units, options ) {

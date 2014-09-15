@@ -21,7 +21,7 @@ define( function( require ) {
    * @param {number} tailY
    * @param {number} tipX
    * @param {number} tipY
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ArrowNode( tailX, tailY, tipX, tipY, options ) {

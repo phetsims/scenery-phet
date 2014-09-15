@@ -23,7 +23,7 @@ define( function( require ) {
   var pattern_0sign_1number = require( 'string!SCENERY_PHET/pattern_0sign_1number' );
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function FaceWithPointsNode( options ) {

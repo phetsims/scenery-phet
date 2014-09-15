@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    * @param {number} headDiameter
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function FaceNode( headDiameter, options ) {

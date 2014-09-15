@@ -23,7 +23,7 @@ define( function( require ) {
   var DEFAULT_ICON_WIDTH = 24;
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function RefreshButton( options ) {

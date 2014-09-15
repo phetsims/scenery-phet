@@ -20,7 +20,7 @@ define( function( require ) {
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ResetAllButton( options ) {

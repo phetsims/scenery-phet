@@ -25,7 +25,7 @@ define( function( require ) {
    * PlayPauseButton constructor
    *
    * @param {Property<Boolean>} runningProperty property that represents whether the sim is paused or not
-   * @param {object} options node options
+   * @param {Object} [options] node options
    * @constructor
    */
   function PlayPauseButton( runningProperty, options ) {

@@ -113,7 +113,7 @@ define( function( require ) {
 
   /**
    * @param {Property<Number>} wavelength
-   * @param {object} options
+   * @param {Object} [options]
    * @constructor
    */
   function WavelengthSlider( wavelength, options ) {

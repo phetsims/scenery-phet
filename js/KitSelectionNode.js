@@ -25,7 +25,7 @@ define( function( require ) {
   /**
    * @param {Property} selectedKit
    * @param {Array} kits
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function KitSelectionNode( selectedKit, kits, options ) {
