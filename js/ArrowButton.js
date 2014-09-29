@@ -18,6 +18,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
 
+  // constants
+  var DEFAULT_ARROW_HEIGHT = 20;
+
   /**
    * @param {String} direction 'up'|'down'|'left'|'right'
    * @param callback
@@ -28,7 +31,6 @@ define( function( require ) {
 
     var thisButton = this;
 
-    var DEFAULT_ARROW_HEIGHT = 20;
     options = _.extend( {
 
         // options for the button
