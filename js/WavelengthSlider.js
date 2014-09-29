@@ -246,8 +246,8 @@ define( function( require ) {
       thumb.fill = VisibleColor.wavelengthToColor( wavelength );
       // tweaker buttons
       if ( options.tweakersVisible ) {
-        plusButton.setEnabled( wavelength < options.maxWavelength );
-        minusButton.setEnabled( wavelength > options.minWavelength );
+        plusButton.enabled = ( wavelength < options.maxWavelength );
+        minusButton.enabled = ( wavelength > options.minWavelength );
       }
     };
     wavelength.link( function( wavelength ) {

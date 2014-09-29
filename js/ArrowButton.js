@@ -1,7 +1,5 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
-//TODO generalize this so that any node can be put on the button
-//TODO This implementation should eventually use sun.buttons.RectangularButton
 /**
  * Button with an arrow that points up, down, left or right.
  * Press and release immediately and the button fires on 'up'.
@@ -15,9 +13,8 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
 
@@ -33,26 +30,29 @@ define( function( require ) {
 
     var DEFAULT_ARROW_HEIGHT = 20;
     options = _.extend( {
-        arrowHeight: DEFAULT_ARROW_HEIGHT, // from tip to base
-        arrowWidth: DEFAULT_ARROW_HEIGHT * Math.sqrt( 3 ) / 2, // width of base
-        fill: 'white',
+
+        // options for the button
+        baseColor: 'white',
         stroke: 'black',
         lineWidth: 1,
+        cornerRadius: 4,
         xMargin: 7,
         yMargin: 5,
-        cornerRadius: 4,
-        enabledFill: 'black',
-        disabledFill: 'rgb(175,175,175)',
-        enabledStroke: 'black',
-        disabledStroke: 'rgb(175,175,175)',
+
+        // options for the arrow
+        arrowHeight: DEFAULT_ARROW_HEIGHT, // from tip to base
+        arrowWidth: DEFAULT_ARROW_HEIGHT * Math.sqrt( 3 ) / 2, // width of base
+        arrowFill: 'black',
+        arrowStroke: null,
+        arrowLineWidth: 1,
+
+        // options related to press-&-hold feature
         timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
         intervalDelay: 100 // fire continuously at this frequency (milliseconds)
       },
       options );
 
-    Node.call( thisButton );
-
-    // nodes
+    // arrow node
     var arrowShape;
     if ( direction === 'up' ) {
       arrowShape = new Shape().moveTo( options.arrowHeight / 2, 0 ).lineTo( options.arrowHeight, options.arrowWidth ).lineTo( 0, options.arrowWidth ).close();
@@ -69,17 +69,14 @@ define( function( require ) {
     else {
       throw new Error( "unsupported direction: " + direction );
     }
-    var arrowNode = new Path( arrowShape, { fill: options.enabledFill, pickable: false } );
-    var background = new Rectangle( 0, 0, arrowNode.width + ( 2 * options.xMargin ), arrowNode.height + ( 2 * options.yMargin ), options.cornerRadius, options.cornerRadius,
-      {stroke: options.stroke, lineWidth: options.lineWidth, fill: options.fill, pickable: false } );
+    options.content = new Path( arrowShape, {
+      fill: options.arrowFill,
+      stroke: options.arrowStroke,
+      lineWidth: options.arrowLineWidth,
+      pickable: false
+    } );
 
-    // rendering order
-    thisButton.addChild( background );
-    thisButton.addChild( arrowNode );
-
-    // layout
-    arrowNode.centerX = background.centerX;
-    arrowNode.centerY = background.centerY;
+    RectangularPushButton.call( thisButton, options );
 
     // touch area
     var dx = 0.25 * thisButton.width;
@@ -107,10 +104,6 @@ define( function( require ) {
     };
     thisButton.addInputListener( new ButtonListener( {
 
-      over: function() {
-        //TODO highlight
-      },
-
       down: function() {
         if ( timeoutID === null && intervalID === null ) {
           fired = false;
@@ -137,23 +130,7 @@ define( function( require ) {
         }
       }
     } ) );
-
-    //TODO consider adding this to the prototype. Would need to convert several local vars to fields, and cleanupTimer gets a little complicated.
-    thisButton.setEnabled = function( value ) {
-      enabled = value;
-      if ( !enabled ) {
-        cleanupTimer();
-      }
-      arrowNode.fill = enabled ? options.enabledFill : options.disabledFill;
-      background.stroke = enabled ? options.enabledStroke : options.disabledStroke;
-      thisButton.pickable = enabled;
-    };
-    thisButton.setEnabled( true );
-
-    thisButton.mutate( options );
   }
 
-  inherit( Node, ArrowButton );
-
-  return ArrowButton;
+  return inherit( RectangularPushButton, ArrowButton );
 } );
