@@ -48,7 +48,7 @@ define( function( require ) {
         arrowStroke: null,
         arrowLineWidth: 1,
 
-        // options related to press-&-hold feature
+        // options related to press-and-hold feature
         timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
         intervalDelay: 100 // fire continuously at this frequency (milliseconds)
       },
@@ -80,7 +80,7 @@ define( function( require ) {
 
     RectangularPushButton.call( thisButton, options );
 
-    // interactivity
+    // press-and-hold feature
     thisButton.cursor = 'pointer';
     var enabled = true;
     var fired = false;
