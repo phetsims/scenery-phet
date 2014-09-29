@@ -84,8 +84,12 @@ define( function( require ) {
     RectangularPushButton.call( thisButton, options );
 
     /**
-     * To implement the press-and-hold feature, we add our own listener, and don't use
-     * RectangularPushButton's listener feature.
+     * TODO:
+     * In order to implement the press-and-hold feature, the implementation is currently adding its own listener,
+     * and ignoring the listener support of its supertype (RectangularPushButton). And the listener that it's
+     * adding is a scenery.ButtonListener, not a sun.ButtonListener. It would be preferable to handle this
+     * via RectangularPushButton, or at least use sun.ButtonListener. But I couldn't see how to do that - which
+     * makes me think this is a deficiency of sun.
      */
     var enabled = true;
     var fired = false;
