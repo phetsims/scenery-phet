@@ -10,6 +10,7 @@
  * details on the problem, and whether it's been fixed, see scenery#132.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @deprecated use scenery-phet.ShadedRectangle
  */
 define( function( require ) {
   'use strict';
