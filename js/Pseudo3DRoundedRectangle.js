@@ -27,20 +27,38 @@ define( function( require ) {
     Node.call( this );
 
     options = _.extend( {
-      // {Color|String} default base color
+      // {Color|string} default base color
       baseColor: new Color( 80, 130, 230 ),
 
-      // {Number} how much lighter the "light" parts (top and left) are
+      // {number} how much lighter the "light" parts (top and left) are
       lightFactor: 0.5,
-      // {Number} how much lighter is the top than the left
+      // {number} how much lighter is the top than the left
       lighterFactor: 0.1,
-      // {Number} how much darker the "dark" parts (bottom and right) are
+      // {number} how much darker the "dark" parts (bottom and right) are
       darkFactor: 0.5,
-      // {Number} how much darker the bottom is than the right
+      // {number} how much darker the bottom is than the right
       darkerFactor: 0.1,
       // the radius of curvature at the corners (also determines the size of the faux-3D shading)
-      cornerRadius: 10
+      cornerRadius: 10,
+
+      lightSource: 'leftTop', // {string}, one of 'leftTop', 'rightTop', 'leftBottom', 'rightBottom',
+
+      // {number} What fraction of the cornerRadius should the light and dark gradients extend into the rectangle?
+      // Should always be less than 1.
+      lightOffset: 0.525,
+      darkOffset: 0.375
     }, options );
+
+    assert && assert( options.lightSource === 'leftTop' ||
+                      options.lightSource === 'rightTop' ||
+                      options.lightSource === 'leftBottom' ||
+                      options.lightSource === 'rightBottom',
+                      'The lightSource ' + options.lightSource + ' is not supported' );
+    assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
+    assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
+
+    var lightFromLeft = options.lightSource.indexOf( 'left' ) >= 0;
+    var lightFromTop = options.lightSource.indexOf( 'Top' ) >= 0;
 
     var cornerRadius = options.cornerRadius;
 
@@ -51,32 +69,57 @@ define( function( require ) {
     var darkColor = baseColor.colorUtilsDarker( options.darkFactor );
     var darkerColor = baseColor.colorUtilsDarker( options.darkFactor + options.darkerFactor );
 
+    // change colors based on orientation
+    var topColor = lightFromTop ? lighterColor : darkerColor;
+    var leftColor = lightFromLeft ? lightColor : darkColor;
+    var rightColor = lightFromLeft ? darkColor : lightColor;
+    var bottomColor = lightFromTop ? darkerColor : lighterColor;
+
     // how far our light and dark gradients will extend into the rectangle
-    var lightOffset = 0.07 * 7.5 * cornerRadius;
-    var darkOffset = 0.05 * 7.5 * cornerRadius;
+    var lightOffset = options.lightOffset * cornerRadius;
+    var darkOffset = options.darkOffset * cornerRadius;
+
+    // change offsets based on orientation
+    var topOffset = lightFromTop ? lightOffset : darkOffset;
+    var leftOffset = lightFromLeft ? lightOffset : darkOffset;
+    var rightOffset = lightFromLeft ? darkOffset : lightOffset;
+    var bottomOffset = lightFromTop ? darkOffset : lightOffset;
 
     // we layer two gradients on top of each other as the base (using the same rounded rectangle shape)
     var horizontalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {} );
     var verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {} );
 
     horizontalNode.fill = new LinearGradient( horizontalNode.left, 0, horizontalNode.right, 0 )
-      .addColorStop( 0, lightColor )
-      .addColorStop( lightOffset / verticalNode.width, baseColor )
-      .addColorStop( 1 - darkOffset / verticalNode.width, baseColor )
-      .addColorStop( 1, darkColor );
+      .addColorStop( 0, leftColor )
+      .addColorStop( leftOffset / verticalNode.width, baseColor )
+      .addColorStop( 1 - rightOffset / verticalNode.width, baseColor )
+      .addColorStop( 1, rightColor );
 
     verticalNode.fill = new LinearGradient( 0, verticalNode.top, 0, verticalNode.bottom )
-      .addColorStop( 0, lighterColor )
-      .addColorStop( lightOffset / verticalNode.height, lighterColor.withAlpha( 0 ) )
-      .addColorStop( 1 - darkOffset / verticalNode.height, darkerColor.withAlpha( 0 ) )
-      .addColorStop( 1, darkerColor );
+      .addColorStop( 0, topColor )
+      .addColorStop( topOffset / verticalNode.height, topColor.withAlpha( 0 ) )
+      .addColorStop( 1 - bottomOffset / verticalNode.height, bottomColor.withAlpha( 0 ) )
+      .addColorStop( 1, bottomColor );
+
+    // shape of our corner (in this case, top-right)
+    var cornerShape = new Shape().moveTo( 0, 0 )
+                                 .arc( 0, 0, cornerRadius, -Math.PI / 2, 0, false )
+                                 .close();
+    // rotation needed to move the cornerShape into the proper orientation as the light corner (Math.PI more for dark corner)
+    var lightCornerRotation = {
+      leftTop: -Math.PI / 2,
+      rightTop: 0,
+      rightBottom: Math.PI / 2,
+      leftBottom: Math.PI
+    }[ options.lightSource ];
+
+    var innerBounds = rectBounds.eroded( cornerRadius );
 
     // since both the top and left are "lighter", we have a rounded gradient along that corner
-    var lightCorner = new Path( new Shape().moveTo( 0, 0 )
-                                           .arc( 0, 0, cornerRadius, -Math.PI, -Math.PI / 2, false )
-                                           .close(), {
-      x: verticalNode.left + cornerRadius,
-      y: verticalNode.top + cornerRadius,
+    var lightCorner = new Path( cornerShape, {
+      x: lightFromLeft ? innerBounds.minX : innerBounds.maxX,
+      y: lightFromTop ? innerBounds.minY : innerBounds.maxY,
+      rotation: lightCornerRotation,
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, baseColor )
         .addColorStop( 1 - lightOffset / cornerRadius, baseColor )
@@ -84,11 +127,10 @@ define( function( require ) {
     } );
 
     // since both the bottom and right are "darker", we have a rounded gradient along that corner
-    var darkCorner = new Path( new Shape().moveTo( 0, 0 )
-                                          .arc( 0, 0, cornerRadius, 0, Math.PI / 2, false )
-                                          .close(), {
-      x: verticalNode.right - cornerRadius,
-      y: verticalNode.bottom - cornerRadius,
+    var darkCorner = new Path( cornerShape, {
+      x: lightFromLeft ? innerBounds.maxX : innerBounds.minX,
+      y: lightFromTop ? innerBounds.maxY : innerBounds.minY,
+      rotation: lightCornerRotation + Math.PI, // opposite direction from our light corner
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, baseColor )
         .addColorStop( 1 - darkOffset / cornerRadius, baseColor )
@@ -97,7 +139,7 @@ define( function( require ) {
 
     // the stroke around the outside
     var panelStroke = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {
-      stroke: darkColor.withAlpha( 0.4 )
+      stroke: rightColor.withAlpha( 0.4 )
     } );
 
     // layout
