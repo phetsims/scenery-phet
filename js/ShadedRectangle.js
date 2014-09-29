@@ -23,7 +23,7 @@ define( function( require ) {
    * Creates a pseudo-3D shaded rounded rectangle that takes up rectBounds {Bounds2} in size. See below documentation
    * for options (it is passed through to the Node also).
    */
-  function Pseudo3DRoundedRectangle( rectBounds, options ) {
+  function ShadedRectangle( rectBounds, options ) {
     Node.call( this );
 
     options = _.extend( {
@@ -152,8 +152,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  inherit( Node, Pseudo3DRoundedRectangle );
+  inherit( Node, ShadedRectangle );
 
-  return Pseudo3DRoundedRectangle;
+  return ShadedRectangle;
 } );
 

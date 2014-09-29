@@ -20,7 +20,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
-  var Pseudo3DRoundedRectangle = require( 'SCENERY_PHET/Pseudo3DRoundedRectangle' );
+  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
@@ -119,7 +119,7 @@ define( function( require ) {
     /*---------------------------------------------------------------------------*
     * Panel background
     *----------------------------------------------------------------------------*/
-    var roundedRectangle = new Pseudo3DRoundedRectangle( container.bounds.dilated( panelPad ), {
+    var roundedRectangle = new ShadedRectangle( container.bounds.dilated( panelPad ), {
       baseColor: new Color( 80, 130, 230 ),
       cornerRadius: 10
     } );
