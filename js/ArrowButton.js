@@ -79,12 +79,7 @@ define( function( require ) {
     RectangularPushButton.call( thisButton, options );
 
     // touch area
-    var dx = 0.25 * thisButton.width;
-    var dy = 0.25 * thisButton.height;
-    thisButton.touchArea = Shape.rectangle( -dx, -dy, thisButton.width + dx + dx, thisButton.height + dy + dy );
-
-    // mouse area is constrained to the tight rectangle, so that we can make the children unpickable
-    thisButton.mouseArea = Shape.rectangle( 0, 0, thisButton.width, thisButton.height );
+    thisButton.touchArea = this.localBounds.dilatedXY( 0.25 * thisButton.width, 0.25 * thisButton.height );
 
     // interactivity
     thisButton.cursor = 'pointer';
