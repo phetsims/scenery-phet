@@ -32,6 +32,7 @@ define( function( require ) {
     options = _.extend( {
 
         // options for the button
+        cursor: 'pointer',
         baseColor: 'white',
         stroke: 'black',
         lineWidth: 1,
@@ -81,7 +82,6 @@ define( function( require ) {
     RectangularPushButton.call( thisButton, options );
 
     // press-and-hold feature
-    thisButton.cursor = 'pointer';
     var enabled = true;
     var fired = false;
     var timeoutID = null;
