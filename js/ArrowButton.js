@@ -83,7 +83,10 @@ define( function( require ) {
 
     RectangularPushButton.call( thisButton, options );
 
-    // press-and-hold feature
+    /**
+     * To implement the press-and-hold feature, we add our own listener, and don't use
+     * RectangularPushButton's listener feature.
+     */
     var enabled = true;
     var fired = false;
     var timeoutID = null;
