@@ -1,7 +1,7 @@
 /**
  * Copyright 2002-2013, University of Colorado
  *
- * A pseudo-3D rectangle abstraction
+ * A rectangle with pseudo-3D shading.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
