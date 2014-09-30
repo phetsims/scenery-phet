@@ -10,3 +10,6 @@ faucet_spout.png author=PhET notes=created by Sharon Siman-Tov
 faucet_stop.png author=PhET notes=created by Sharon Siman-Tov
 faucet_vertical_pipe.png author=PhET notes=created by Sharon Siman-Tov
 measuring-tape.png source=PhET author=Bryce Gruneich
+round_red_button_disabled.png author=PhET
+round_red_button_pressed.png author=PhET
+round_red_button_unpressed.png author=PhET
