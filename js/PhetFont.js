@@ -18,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   * @param {Number|*} options if number this is the font size, otherwise same options as scenery.Font
+   * @param {number|*} options if number this is the font size, otherwise same options as scenery.Font
    * @constructor
    */
   function PhetFont( options ) {

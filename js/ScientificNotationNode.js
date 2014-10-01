@@ -17,7 +17,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param {Property<Number>} valueProperty
+   * @param {Property.<number>} valueProperty
    * @param {Object} [options]
    * @constructor
    */
@@ -60,7 +60,7 @@ define( function( require ) {
 
   return inherit( Node, ScientificNotationNode, {
 
-    // @param {Number} value
+    // @param {number} value
     update: function( value ) {
 
       var options = this.options;
@@ -116,9 +116,9 @@ define( function( require ) {
      * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
      *
      * @static
-     * @param {Number} value the number to be formatted
+     * @param {number} value the number to be formatted
      * @param {Object} [options]
-     * @return {mantissa:{Number}, exponent:{Number}}
+     * @return {mantissa:{number}, exponent:{number}}
      */
     toScientificNotation: function( value, options ) {
 

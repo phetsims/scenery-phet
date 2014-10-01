@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    * Creates a table that is used to map wavelength to Color.
-   * @return {Array<Color>}
+   * @return {Color[]}
    */
   var createColorTable = function() {
 
@@ -95,8 +95,8 @@ define( function( require ) {
 
   /**
    * Converts a wavelength to a visible color.
-   * @param {Number} wavelength will be rounded to the closest integer value
-   * @return {Number|null} null if wavelength is not in the visible spectrum
+   * @param {number} wavelength will be rounded to the closest integer value
+   * @return {number|null} null if wavelength is not in the visible spectrum
    */
   VisibleColor.wavelengthToColor = function( wavelength ) {
     if ( wavelength < VisibleColor.MIN_WAVELENGTH || wavelength > VisibleColor.MAX_WAVELENGTH ) {

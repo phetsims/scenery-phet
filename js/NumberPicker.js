@@ -37,11 +37,11 @@ define( function( require ) {
   //-------------------------------------------------------------------------------------------
 
   /**
-   * @param {Property<String>} stateProperty 'up'|'over'|'down'|'out'
-   * @param {Property<Boolean>} enabledProperty
-   * @param {Function} fireFunction
-   * @param {Number} timerDelay start to fire continuously after pressing for this long (milliseconds)
-   * @param {Number} intervalDelay // fire continuously at this frequency (milliseconds)
+   * @param {Property.<string>} stateProperty 'up'|'over'|'down'|'out'
+   * @param {Property.<boolean>} enabledProperty
+   * @param {function} fireFunction
+   * @param {number} timerDelay start to fire continuously after pressing for this long (milliseconds)
+   * @param {number} intervalDelay // fire continuously at this frequency (milliseconds)
    * @constructor
    */
   function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, intervalDelay ) {
@@ -103,15 +103,15 @@ define( function( require ) {
   //-------------------------------------------------------------------------------------------
 
   /**
-   * @param {Property<Number>} valueProperty
-   * @param {Property<Range>} rangeProperty
+   * @param {Property.<number>} valueProperty
+   * @param {Property.<Range>} rangeProperty
    * @param {Object} [options]
    * @constructor
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
     options = _.extend( {
-      color: new Color( 0, 0, 255 ), // {Color|String}
+      color: new Color( 0, 0, 255 ), // {Color|string}
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,

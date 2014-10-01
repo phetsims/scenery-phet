@@ -37,8 +37,8 @@ define( function( require ) {
       // points options
       pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
-      pointsFill: 'black', // {Color|String}
-      pointsStroke: null, // {Color|String}
+      pointsFill: 'black', // {Color|string}
+      pointsStroke: null, // {Color|string}
       showZeroPoints: false, // whether to show '0' points
       points: 0
     }, options );

@@ -21,7 +21,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param {Number} totalWidth
+   * @param {number} totalWidth
    * @param leftImage
    * @param centerImage
    * @param rightImage

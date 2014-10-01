@@ -27,12 +27,12 @@ define( function( require ) {
 
   /**
    * The slider thumb (aka knob)
-   * @param {Number} width
-   * @param {Number} height
-   * @param {Number} touchAreaExpandX
-   * @param {Number} touchAreaExpandY
+   * @param {number} width
+   * @param {number} height
+   * @param {number} touchAreaExpandX
+   * @param {number} touchAreaExpandY
    * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
-   * @param {Number} trackHeight only used if pointerAreasOverTrack is true
+   * @param {number} trackHeight only used if pointerAreasOverTrack is true
    * @constructor
    */
   function Thumb( width, height, touchAreaExpandX, touchAreaExpandY, pointerAreasOverTrack, trackHeight ) {
@@ -85,8 +85,8 @@ define( function( require ) {
   /**
    * Displays the value and units.
    * @param property
-   * @param {String} font
-   * @param {String} fill
+   * @param {string} font
+   * @param {string} fill
    * @constructor
    */
   function ValueDisplay( property, font, fill ) {
@@ -101,8 +101,8 @@ define( function( require ) {
 
   /**
    * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
-   * @param {Number} width
-   * @param {Number} height
+   * @param {number} width
+   * @param {number} height
    * @constructor
    */
   function Cursor( width, height, stroke ) {
@@ -112,7 +112,7 @@ define( function( require ) {
   inherit( Rectangle, Cursor );
 
   /**
-   * @param {Property<Number>} wavelength
+   * @param {Property.<number>} wavelength
    * @param {Object} [options]
    * @constructor
    */

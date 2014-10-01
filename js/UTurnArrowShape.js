@@ -13,7 +13,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   /**
-   * @param {Number} size A size factor (it'll be a bit bigger)
+   * @param {number} size A size factor (it'll be a bit bigger)
    * @constructor
    */
   function UTurnArrowShape( size ) {

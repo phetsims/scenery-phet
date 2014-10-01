@@ -24,7 +24,7 @@ define( function( require ) {
   /**
    * @param {number} numKits
    * @param {Property} selectedKit - A property that tracks the selected kit as an integer
-   * @param {Number} spaceBetweenControls - Amount of horizontal space between the left and right control buttons
+   * @param {number} spaceBetweenControls - Amount of horizontal space between the left and right control buttons
    * @param {Object} [options]
    * @constructor
    */

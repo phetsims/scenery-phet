@@ -14,9 +14,9 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   * @param {Color|String} normalFill
-   * @param {Color|String} highlightFill
-   * @param {Property<Boolean>} enabled
+   * @param {Color|string} normalFill
+   * @param {Color|string} highlightFill
+   * @param {Property.<boolean>} enabled
    * @constructor
    */
   function FillHighlightListener( normalFill, highlightFill, enabled ) {

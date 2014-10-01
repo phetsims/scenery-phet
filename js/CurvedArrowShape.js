@@ -38,9 +38,9 @@ define( function( require ) {
   };
 
   /**
-   * @param {Number} radius radius at the center of the arrow's tail
-   * @param {Number} startAngle starting angle, in radians (at tail, or optional 2nd head)
-   * @param {Number} endAngle end angle, in radians (at head of arrow)
+   * @param {number} radius radius at the center of the arrow's tail
+   * @param {number} startAngle starting angle, in radians (at tail, or optional 2nd head)
+   * @param {number} endAngle end angle, in radians (at head of arrow)
    * @param {Object} [options]
    * @constructor
    */

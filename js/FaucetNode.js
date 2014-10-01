@@ -63,7 +63,7 @@ define( function( require ) {
    * The 'shooter' is the interactive part of the faucet.
    * It's a relatively complicated node, so it's encapsulated in this nested type.
    *
-   * @param {Property<boolean>} enabledProperty
+   * @param {Property.<boolean>} enabledProperty
    * @constructor
    */
   function ShooterNode( enabledProperty, options ) {
@@ -118,9 +118,9 @@ define( function( require ) {
   inherit( Node, ShooterNode );
 
   /**
-   * @param {Number} maxFlowRate
-   * @param {Property<Number>} flowRateProperty
-   * @param {Property<Boolean>} enabledProperty
+   * @param {number} maxFlowRate
+   * @param {Property.<number>} flowRateProperty
+   * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
    */

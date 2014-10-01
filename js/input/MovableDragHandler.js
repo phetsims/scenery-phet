@@ -15,7 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
-   * @param {locationProperty:Property<Vector2>, [dragBounds]:Bounds2} movable
+   * @param {locationProperty:Property.<Vector2>, [dragBounds]:Bounds2} movable
    * @param {ModelViewTransform2} mvt
    * @param {Object} [options]
    * @constructor

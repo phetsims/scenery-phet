@@ -22,7 +22,7 @@ define( function( require ) {
   var DEFAULT_ARROW_HEIGHT = 20;
 
   /**
-   * @param {String} direction 'up'|'down'|'left'|'right'
+   * @param {string} direction 'up'|'down'|'left'|'right'
    * @param callback
    * @param {Object} [options]
    * @constructor
