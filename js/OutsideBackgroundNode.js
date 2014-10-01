@@ -25,7 +25,7 @@ define( function( require ) {
    * @param width
    * @param skyHeight
    * @param groundDepth
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function OutsideBackgroundNode( centerX, centerY, width, skyHeight, groundDepth, options ) {

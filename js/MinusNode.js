@@ -7,7 +7,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ){
+define( function( require ) {
   'use strict';
 
   // modules
@@ -17,7 +17,7 @@ define( function( require ){
 
   /**
    * @param {Dimension2} size
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function MinusNode( options ) {
@@ -33,4 +33,4 @@ define( function( require ){
   }
 
   return inherit( Rectangle, MinusNode );
-});
+} );

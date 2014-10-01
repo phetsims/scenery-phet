@@ -16,7 +16,7 @@ define( function( require ) {
   var Line = require( 'KITE/segments/Line' );
 
   /**
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function StarShape( options ) {

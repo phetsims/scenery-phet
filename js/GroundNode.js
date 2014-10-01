@@ -21,7 +21,7 @@ define( function( require ) {
    * @param width
    * @param height
    * @param gradientEndDepth
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function GroundNode( x, y, width, height, gradientEndDepth, options ) {

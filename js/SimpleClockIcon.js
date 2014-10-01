@@ -17,7 +17,7 @@ define( function( require ) {
 
   /**
    * @param radius
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function SimpleClockIcon( radius, options ) {

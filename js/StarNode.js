@@ -15,7 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param options see comments in the constructor for options parameter values
+   * @param {Object} [options] see comments in the constructor for options parameter values
    * @constructor
    */
   function StarNode( options ) {

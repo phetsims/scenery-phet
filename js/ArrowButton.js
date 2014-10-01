@@ -24,7 +24,7 @@ define( function( require ) {
   /**
    * @param {String} direction 'up'|'down'|'left'|'right'
    * @param callback
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function ArrowButton( direction, callback, options ) {

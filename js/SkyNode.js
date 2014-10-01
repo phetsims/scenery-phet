@@ -20,7 +20,7 @@ define( function( require ) {
    * @param width
    * @param height
    * @param gradientEndHeight
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function SkyNode( x, y, width, height, gradientEndHeight, options ) {

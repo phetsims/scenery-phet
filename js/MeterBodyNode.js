@@ -25,7 +25,7 @@ define( function( require ) {
    * @param leftImage
    * @param centerImage
    * @param rightImage
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function MeterBody( totalWidth, leftImage, centerImage, rightImage, options ) {
