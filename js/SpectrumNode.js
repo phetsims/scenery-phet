@@ -36,7 +36,7 @@ define( function( require ) {
     for ( var i = 0; i < width; i++ ) {
       var wavelength = Util.clamp( Util.linear( 0, width, minWavelength, maxWavelength, i ), minWavelength, maxWavelength );  // position -> wavelength
       context.fillStyle = VisibleColor.wavelengthToColor( wavelength ).withAlpha( opacity ).toCSS();
-      context.fillRect( i, 0, 1, 50 );
+      context.fillRect( i, 0, 1, height );
     }
 
     this.addChild( new Image( canvas.toDataURL() ) );
