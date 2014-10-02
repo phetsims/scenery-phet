@@ -15,7 +15,6 @@ define( function( require ) {
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
 
   // images
   var pressedImage = require( 'image!SCENERY_PHET/round_red_button_pressed.png' );
