@@ -26,20 +26,21 @@ define( function( require ) {
     // background
     this.addChild( new OutsideBackgroundNode( this.layoutBounds.centerX, this.layoutBounds.centerY + 20, this.layoutBounds.width * 3, this.layoutBounds.height, this.layoutBounds.height ) );
 
-    //Test for thermometer node
+    // thermometer
     var tempProperty = new Property( 50 );
-    var tempSlider = new HSlider( tempProperty, { min: 0, max: 100 } );
-    tempSlider.rotation = -Math.PI / 2;
-    tempSlider.centerX = this.layoutBounds.centerX + 75;
-    tempSlider.centerY = this.layoutBounds.centerY;
-    this.addChild( tempSlider );
-
     var thermometer = new ThermometerNode( 0, 100, tempProperty, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } );
     thermometer.centerX = this.layoutBounds.centerX;
     thermometer.centerY = this.layoutBounds.centerY;
     this.addChild( thermometer );
 
-    //test for measuring tape
+    // slider for controlling thermometer
+    var tempSlider = new HSlider( tempProperty, { min: 0, max: 100 } );
+    tempSlider.rotation = -Math.PI / 2;
+    tempSlider.left = thermometer.right + 10;
+    tempSlider.centerY = thermometer.centerY;
+    this.addChild( tempSlider );
+
+    // measuring tape
     var mtScaleProperty = new Property( 1 );
     var mtUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
     var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty,
@@ -58,7 +59,7 @@ define( function( require ) {
     this.addChild( starNodeContainer );
 
     var starValueProperty = new Property( 1 );
-    this.addChild( new HSlider( starValueProperty, {min: 0, max: 1} ).mutate( {left: 20, top: 80} ) );
+    this.addChild( new HSlider( starValueProperty, {min: 0, max: 1} ).mutate( {left: starNodeContainer.left, top: starNodeContainer.bottom + 5 } ) );
     starValueProperty.link( function( value ) {
       starNodeContainer.children = [new StarNode( {
         value: value
@@ -67,7 +68,8 @@ define( function( require ) {
 
     //Test for wavelength slider
     var wavelengthProperty = new Property( 500 );
-    var wavelengthSlider = new WavelengthSlider( wavelengthProperty, { centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false } );
+    var wavelengthSlider = new WavelengthSlider( wavelengthProperty,
+      { left: 10, centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false } );
 
     this.addChild( wavelengthSlider );
   }
