@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' );
+  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/buttons/RoundShinyButtonDeprecated' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var VBox = require( 'SCENERY/nodes/VBox' );

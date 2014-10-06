@@ -15,7 +15,7 @@ define( function( require ) {
   // Imports
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/RoundShinyButtonDeprecated' );
+  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/buttons/RoundShinyButtonDeprecated' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
