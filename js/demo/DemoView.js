@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var OutsideBackgroundNode = require( 'SCENERY_PHET/OutsideBackgroundNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Property = require( 'AXON/Property' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
@@ -33,9 +32,6 @@ define( function( require ) {
 
   function DemoView() {
     ScreenView.call( this, { renderer: 'svg' } );
-
-    // background
-    this.addChild( new OutsideBackgroundNode( this.layoutBounds.centerX, this.layoutBounds.centerY + 20, this.layoutBounds.width * 3, this.layoutBounds.height, this.layoutBounds.height ) );
 
     // Text area for outputting test information
     var outputText = new Text( '(output text)', { font: new PhetFont( 16 ), bottom: this.layoutBounds.height - 5, left: this.layoutBounds.minX + 10  } );

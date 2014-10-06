@@ -23,6 +23,8 @@ define( function( require ) {
     }
   };
 
+  var backgroundColor = window.phetcommon.getQueryParameter( 'backgroundColor' ) || 'white';
+
   SimLauncher.launch( function() {
     // Create and start the sim
     //Create and start the sim
@@ -30,7 +32,7 @@ define( function( require ) {
       new Screen( simTitle, null,
         function() {return {};},
         function( model ) {return new DemoView();},
-        { backgroundColor: '#fff' }
+        { backgroundColor: backgroundColor }
       )
     ], simOptions ).start();
   } );
