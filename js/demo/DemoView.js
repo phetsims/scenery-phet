@@ -19,12 +19,27 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
+  var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
+  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var ReturnToLevelSelectButton = require( 'SCENERY_PHET/buttons/ReturnToLevelSelectButton' );
+  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+
+  // constants
+  var BUTTON_CAPTION_FONT = new PhetFont( 12 );
+  var BUTTON_CAPTION_SPACING = 10; // space between buttons and their captions
 
   function DemoView() {
     ScreenView.call( this, { renderer: 'svg' } );
 
     // background
     this.addChild( new OutsideBackgroundNode( this.layoutBounds.centerX, this.layoutBounds.centerY + 20, this.layoutBounds.width * 3, this.layoutBounds.height, this.layoutBounds.height ) );
+
+    // Text area for outputting test information
+    var outputText = new Text( '(output text)', { font: new PhetFont( 16 ), bottom: this.layoutBounds.height - 5, left: this.layoutBounds.minX + 10  } );
+    this.addChild( outputText );
 
     // thermometer
     var tempProperty = new Property( 50 );
@@ -66,12 +81,60 @@ define( function( require ) {
       } )];
     } );
 
-    //Test for wavelength slider
+    // wavelength slider
     var wavelengthProperty = new Property( 500 );
     var wavelengthSlider = new WavelengthSlider( wavelengthProperty,
       { left: 10, centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false } );
-
     this.addChild( wavelengthSlider );
+
+    // Refresh button and caption
+    var refreshButton = new RefreshButton(
+      {
+        listener: function() { outputText.text = 'Refresh pressed'; },
+        right: this.layoutBounds.width - 20,
+        top: 10
+      } );
+    this.addChild( refreshButton );
+    var refreshButtonLabel = new Text( 'Refresh Button: ', { font: BUTTON_CAPTION_FONT, right: refreshButton.left - 5, centerY: refreshButton.centerY } );
+    this.addChild( refreshButtonLabel );
+
+    // Return-to-level-select button and caption
+    var returnToLevelSelectButton = new ReturnToLevelSelectButton(
+      {
+        listener: function() { outputText.text = 'Return to level select pressed'; },
+        centerX: refreshButton.centerX,
+        top: refreshButton.bottom + BUTTON_CAPTION_SPACING
+      } );
+    this.addChild( returnToLevelSelectButton );
+    var returnToLevelSelectButtonLabel = new Text( 'Return to Level Selection Button: ', { font: BUTTON_CAPTION_FONT, right: returnToLevelSelectButton.left - 5, centerY: returnToLevelSelectButton.centerY } );
+    this.addChild( returnToLevelSelectButtonLabel );
+
+    // sound toggle button
+    var soundEnabled = new Property( true );
+    var soundToggleButton = new SoundToggleButton( soundEnabled, { centerX: refreshButton.centerX, top: returnToLevelSelectButton.bottom + BUTTON_CAPTION_SPACING * 5 } );
+    this.addChild( soundToggleButton );
+    var soundToggleButtonLabel = new Text( 'Sound Toggle Button: ', { font: BUTTON_CAPTION_FONT, right: soundToggleButton.left - 5, centerY: soundToggleButton.centerY } );
+    this.addChild( soundToggleButtonLabel );
+
+    // timer toggle button
+    var timerEnabled = new Property( true );
+    var timerToggleButton = new TimerToggleButton( timerEnabled, { centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5 } );
+    this.addChild( timerToggleButton );
+    var timerToggleButtonLabel = new Text( 'Timer Toggle Button: ', { font: BUTTON_CAPTION_FONT, right: timerToggleButton.left - 5, centerY: timerToggleButton.centerY } );
+    this.addChild( timerToggleButtonLabel );
+
+    // Reset function
+    function resetAll() {
+      outputText.text = 'Reset All pressed';
+      starValueProperty.reset();
+      mtScaleProperty.reset();
+      mtUnitsProperty.reset();
+      wavelengthProperty.reset();
+      soundEnabled.reset();
+      timerEnabled.reset();
+    }
+    var resetAllButton = new ResetAllButton( { listener: resetAll, radius: 22, right: this.layoutBounds.right - 10, bottom: this.layoutBounds.bottom - 10 } );
+    this.addChild( resetAllButton );
   }
 
   return inherit( ScreenView, DemoView, {
