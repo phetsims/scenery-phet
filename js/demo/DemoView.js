@@ -20,7 +20,7 @@ define( function( require ) {
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
 
-  function SceneryPhetScreenView() {
+  function DemoView() {
     ScreenView.call( this, { renderer: 'svg' } );
 
     // background
@@ -72,7 +72,7 @@ define( function( require ) {
     this.addChild( wavelengthSlider );
   }
 
-  return inherit( ScreenView, SceneryPhetScreenView, {
+  return inherit( ScreenView, DemoView, {
     step: function( timeElapsed ) {
       // Does nothing for now.
     }
