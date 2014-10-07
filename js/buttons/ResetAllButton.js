@@ -43,6 +43,9 @@ define( function( require ) {
     var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
 
     RoundPushButton.call( this, _.extend( { content: icon }, options ) );
+
+    // set a better id value for data collection
+    this.buttonModel.property( 'down' ).setID( 'resetAllButton.down' );
   }
 
   return inherit( RoundPushButton, ResetAllButton );
