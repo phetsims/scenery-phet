@@ -63,7 +63,7 @@ define( function( require ) {
         yMargin: MARGIN
       }, options ) );
 
-    this.buttonModel.property( 'down' ).setID( 'TimerToggleButton.down' );
+    this.buttonModel.property( 'down' );
   }
 
   return inherit( BooleanRectangularToggleButtonWithContent, TimerToggleButton );

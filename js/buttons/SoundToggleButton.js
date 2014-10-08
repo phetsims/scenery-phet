@@ -48,7 +48,7 @@ define( function( require ) {
         xMargin: MARGIN,
         yMargin: MARGIN
       }, options ) );
-    this.buttonModel.property( 'down' ).setID( 'SoundToggleButton.down' );
+    this.buttonModel.property( 'down' );
   }
 
   return inherit( BooleanRectangularToggleButtonWithContent, SoundToggleButton );
