@@ -91,7 +91,6 @@ define( function( require ) {
      * via RectangularPushButton, or at least use sun.ButtonListener. But I couldn't see how to do that - which
      * makes me think this is a deficiency of sun.
      */
-    var enabled = true;
     var fired = false;
     var timeoutID = null;
     var intervalID = null;
@@ -114,7 +113,7 @@ define( function( require ) {
             timeoutID = null;
             fired = true;
             intervalID = Timer.setInterval( function() {
-              if ( enabled ) {
+              if ( thisButton.enabled ) {
                 callback();
               }
             }, options.intervalDelay );
@@ -128,7 +127,7 @@ define( function( require ) {
 
       fire: function() {
         cleanupTimer();
-        if ( !fired && enabled ) {
+        if ( !fired && thisButton.enabled ) {
           callback();
         }
       }
