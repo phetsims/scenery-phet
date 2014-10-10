@@ -13,32 +13,33 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
+  var RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
+  // constants
+  var DEFAULT_BASE_COLOR = new Color( 'rgba( 148, 235, 255, 0.5 )' );
+
   /**
    * @param {number} numKits
-   * @param {Property} selectedKit - A property that tracks the selected kit as an integer
+   * @param {Property} selectedKitProperty - A property that tracks the selected kit as an integer
    * @param {number} spaceBetweenControls - Amount of horizontal space between the left and right control buttons
    * @param {Object} [options]
    * @constructor
    */
-  function KitControlNodeSides( numKits, selectedKit, spaceBetweenControls, options ) {
+  function KitControlNodeSides( numKits, selectedKitProperty, spaceBetweenControls, options ) {
     Node.call( this );
     options = _.extend(
       {
         // Default values
-        inset: 5,
-        buttonIdleFill: 'rgba( 148, 235, 255, 0.5 )',
-        buttonOverFill: 'rgba( 97, 227, 255, 0.5 )',
-        buttonDownFill: 'rgba( 46, 217, 255, 0.5 )',
-        buttonStroke: null,
-        buttonOutlineWidth: 0.5,
+        buttonBaseColor: DEFAULT_BASE_COLOR,
+        buttonStroke: DEFAULT_BASE_COLOR.colorUtilsDarker( 0.4 ),
+        buttonLineWidth: 1,
         arrowStroke: 'white',
         arrowLineWidth: 4,
         arrowWidth: 12,
@@ -47,17 +48,15 @@ define( function( require ) {
         yPadding: 5
       }, options );
 
-    var buttonOptions = {
-      rectangleStroke: options.buttonStroke,
-      rectangleLineWidth: options.buttonOutlineWidth,
-      rectangleFillUp: options.buttonIdleFill instanceof Color ? options.buttonIdleFill : new Color( options.buttonIdleFill ),
-      rectangleFillOver: options.buttonOverFill,
-      rectangleFillDown: options.buttonDownFill,
-      disabledFill: new Color( 180, 180, 180 ),
-      downFill: options.buttonOverFill,
-      rectangleCornerRadius: 4,
+    var commonButtonOptions = {
+      stroke: options.buttonStroke,
+      lineWidth: options.buttonLineWidth,
+      baseColor: options.buttonBaseColor,
+      disabledBaseColor: new Color( 180, 180, 180 ),
+      cornerRadius: 4,
       xMargin: 5,
-      yMargin: 3
+      yMargin: 3,
+      buttonAppearanceStrategy: RectangularButtonView.flatAppearanceStrategy
     };
 
     // Create the icons that signify previous and next.
@@ -65,20 +64,22 @@ define( function( require ) {
     var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
     var previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
 
-    var nextKitButton = new RectanglePushButtonDeprecated( nextIcon, _.extend( {
+    var nextKitButton = new RectangularPushButton( _.extend( {
+      content: nextIcon,
       listener: function() {
-        selectedKit.value = selectedKit.value + 1;
-      } }, buttonOptions ) );
+        selectedKitProperty.value = selectedKitProperty.value + 1;
+      } }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RectanglePushButtonDeprecated( previousIcon, _.extend( {
+    var previousKitButton = new RectangularPushButton( _.extend( {
+      content: previousIcon,
       listener: function() {
-        selectedKit.value = selectedKit.value - 1;
-      } }, buttonOptions ) );
+        selectedKitProperty.value = selectedKitProperty.value - 1;
+      } }, commonButtonOptions ) );
     this.addChild( previousKitButton );
 
     // Control button enabled state
-    selectedKit.link( function( kitNum ) {
+    selectedKitProperty.link( function( kitNum ) {
       nextKitButton.visible = ( kitNum < numKits - 1 );
       previousKitButton.visible = ( kitNum !== 0 );
     } );
