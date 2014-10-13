@@ -94,8 +94,12 @@ define( function( require ) {
       .lineTo( baseInnerX, baseInnerY );
 
     // inner arc from endAngle to startAngle
-    this.arc( 0, 0, radius - options.tailWidth / 2, endAngle, startAngle, !options.anticlockwise )
-      .close();
+    this.arc( 0, 0, radius - options.tailWidth / 2, endAngle, startAngle, !options.anticlockwise );
+
+    // Workaround for https://github.com/phetsims/scenery/issues/214 (Firefox-specific path rendering issue)
+    this.lineTo( Math.cos( startAngle ) * radius, Math.sin( startAngle ) * radius + 0.00001 );
+
+    this.close();
   }
 
   return inherit( Shape, CurvedArrowShape );
