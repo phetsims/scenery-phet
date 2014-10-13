@@ -15,7 +15,7 @@ define( function( require ) {
   // Imports
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/buttons/RoundShinyButtonDeprecated' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -38,13 +38,10 @@ define( function( require ) {
       }, options );
 
     var baseColor = new Color( 255, 204, 0 );
-    var buttonOptions = {
+    var commonButtonOptions = {
       radius: 12,
       touchAreaRadius: 20,
-      upFill: baseColor,
-      overFill: baseColor.colorUtilsBrighter( 0.2 ),
-      disabledFill: new Color( 180, 180, 180 ),
-      downFill: baseColor.colorUtilsDarker( 0.2 ),
+      baseColor: baseColor,
       xMargin: 5,
       yMargin: 3
     };
@@ -53,14 +50,16 @@ define( function( require ) {
     var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( 5, 5 ).lineTo( 0, 10 ), iconOptions );
     var previousIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( -5, 5 ).lineTo( 0, 10 ), iconOptions );
 
-    var nextKitButton = new RoundShinyButtonDeprecated( function() {
-      selectedKit.value = selectedKit.value + 1;
-    }, nextIcon, _.extend( { iconOffsetX: 1 }, buttonOptions ) );
+    var nextKitButton = new RoundPushButton( _.extend( {
+      listener: function() { selectedKit.value = selectedKit.value + 1; },
+      content: nextIcon
+    }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RoundShinyButtonDeprecated( function() {
-      selectedKit.value = selectedKit.value - 1;
-    }, previousIcon, _.extend( { iconOffsetX: -1 }, buttonOptions ) );
+    var previousKitButton = new RoundPushButton( _.extend( {
+      listener: function() { selectedKit.value = selectedKit.value - 1; },
+      content: previousIcon
+    }, commonButtonOptions ) );
     this.addChild( previousKitButton );
 
     // Control button enabled state
