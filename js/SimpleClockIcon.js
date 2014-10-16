@@ -23,9 +23,8 @@ define( function( require ) {
   function SimpleClockIcon( radius, options ) {
     Node.call( this );
     options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
-    var rootNode = new Node();
-    rootNode.addChild( new Circle( radius, options ) );
-    rootNode.addChild( new Circle( radius * 0.15, { fill: options.stroke } ) );
+    this.addChild( new Circle( radius, options ) );
+    this.addChild( new Circle( radius * 0.15, { fill: options.stroke } ) );
     var lineOptionsForClockHands = {
       stroke: options.stroke,
       lineWidth: options.lineWidth,
@@ -33,11 +32,10 @@ define( function( require ) {
       lineJoin: 'round'
     };
     // Hands at 4 o'clock
-    rootNode.addChild( new Line( 0, 0, 0, -radius * 0.75, lineOptionsForClockHands ) );
-    rootNode.addChild( new Line( 0, 0, radius * 0.45, radius * 0.3, lineOptionsForClockHands ) );
-    rootNode.centerX = radius;
-    rootNode.centerY = radius;
-    this.addChild( rootNode );
+    this.addChild( new Line( 0, 0, 0, -radius * 0.75, lineOptionsForClockHands ) );
+    this.addChild( new Line( 0, 0, radius * 0.45, radius * 0.3, lineOptionsForClockHands ) );
+    this.centerX = radius;
+    this.centerY = radius;
     this.mutate( options );
   }
 
