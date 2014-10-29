@@ -20,7 +20,7 @@ define( function( require ) {
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ReturnToLevelSelectionButton = require( 'SCENERY_PHET/buttons/ReturnToLevelSelectionButton' );
+  var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
   var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -95,7 +95,7 @@ define( function( require ) {
     this.addChild( refreshButtonLabel );
 
     // Return-to-level-select button and caption
-    var returnToLevelSelectButton = new ReturnToLevelSelectionButton(
+    var returnToLevelSelectButton = new StarButton(
       {
         listener: function() { outputText.text = 'Return to level select pressed'; },
         centerX: refreshButton.centerX,
