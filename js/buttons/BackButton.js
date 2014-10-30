@@ -1,10 +1,11 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Button for returning to the level selection screen.  This is an alternate version to the original version, which
- * contained a star.  This one contains a back arrow, i.e. and arrow pointing to the left.
+ * Button for returning to the level selection screen, which shows a "back" arrow, i.e., an arrow pointing to the left.
+ * (Note the original version had a star icon.)
  *
  * @author John Blanco
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -34,11 +35,15 @@ define( function( require ) {
 
     }, options );
 
-    RectangularPushButton.call( this, _.extend( { content: new Path( new ArrowShape( 0, 0, -28.5, 0, {
+    var arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
       tailWidth: 8,
       headWidth: 18,
       headHeight: 15
-    } ), { fill: 'black' } ) }, options ) );
+    } );
+
+    RectangularPushButton.call( this, _.extend( {
+      content: new Path( arrowShape, { fill: 'black' } )
+    }, options ) );
   }
 
   return inherit( RectangularPushButton, BackButton );
