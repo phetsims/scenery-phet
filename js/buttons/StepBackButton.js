@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * StepBack Button button is generally used along side play/pause and forward buttons.
+ * StepBackButton button is generally used along side play/pause and forward buttons.
  * Though the listener is generic, the button is typically used to step back in time frame
  *
  * This class uses the same drawing code as StepButton but differs in the following ways
@@ -9,10 +9,10 @@
  * The order of adding bar and triangle is reversed
  * The content is center aligned by shifting it leftwards
  *
- * This class could be useful across many sims so it should ideally be moved to SCENERY_PHET package
  * @author Sharfudeen Ashraf
+ *
+ *  @see StepButton.js
  */
-
 define( function( require ) {
   'use strict';
 
