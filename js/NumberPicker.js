@@ -272,7 +272,7 @@ define( function( require ) {
     downArrow.top = downBackground.bottom + ySpacing;
 
     // Update text to match the value
-    valueProperty.link( function( value ) {
+    this.valuePropertyListener = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -292,7 +292,9 @@ define( function( require ) {
           throw new Error( 'unsupported value for option.align: ' + options.align );
         }
       }
-    } );
+    };
+    valueProperty.link( this.valuePropertyListener );
+    this.valueProperty = valueProperty; // save this so we can unlink in dispose
 
     // Update button colors
     var updateColors = function( stateProperty, enabledProperty, background, arrow ) {
@@ -333,5 +335,10 @@ define( function( require ) {
     thisNode.mutate( options );
   }
 
-  return inherit( Node, NumberPicker );
+  return inherit( Node, NumberPicker, {
+
+    dispose: function() {
+      this.valueProperty.unlink( this.valuePropertyListener );
+    }
+  } );
 } );
