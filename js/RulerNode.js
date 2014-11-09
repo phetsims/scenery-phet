@@ -40,21 +40,25 @@ define( function( require ) {
         backgroundStroke: 'black',
         backgroundLineWidth: 1,
         insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
+
         // major tick options
         majorTickFont: DEFAULT_FONT,
         majorTickHeight: ( 0.4 * rulerHeight ) / 2,
         majorTickStroke: 'black',
         majorTickLineWidth: 1,
+
         // minor tick options
         minorTickFont: DEFAULT_FONT,
         minorTickHeight: ( 0.2 * rulerHeight ) / 2,
         minorTickStroke: 'black',
         minorTickLineWidth: 1,
         minorTicksPerMajorTick: 0,
+
         // units options
         unitsFont: DEFAULT_FONT,
         unitsMajorTickIndex: 0, // units will be place to the right of this major tick
         unitsSpacing: 3, // horizontal space between the tick label and the units
+
         // appearance options
         tickMarksOnTop: true,
         tickMarksOnBottom: true
@@ -69,10 +73,10 @@ define( function( require ) {
     Node.call( this );
 
     // background
-    var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight,
-      { fill: options.backgroundFill,
-        stroke: options.backgroundStroke,
-        lineWidth: options.backgroundLineWidth } );
+    var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
+      fill: options.backgroundFill,
+      stroke: options.backgroundStroke,
+      lineWidth: options.backgroundLineWidth } );
     this.addChild( backgroundNode );
 
     // Lay out tick marks from left to right
@@ -121,7 +125,7 @@ define( function( require ) {
       }
       else {
         // Minor tick lines, up to the next major tick
-        for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < ( rulerWidth + options.insetsWidth + options.insetsWidth ) ); k++ ) {
+        for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < rulerWidth + 2 * options.insetsWidth ); k++ ) {
           if ( options.tickMarksOnTop ) {
             minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
           }
