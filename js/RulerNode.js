@@ -80,9 +80,9 @@ define( function( require ) {
     var x = options.insetsWidth;
     var majorTickIndex = 0;
 
-    // Minimize number of nodes by using one Path for each type of tick
-    var majorTicksShape = new Shape();
-    var minorTicksShape = new Shape();
+    // Minimize number of nodes by using one Path for each type of tick line
+    var majorTickLinesShape = new Shape();
+    var minorTickLinesShape = new Shape();
 
     while ( x < ( rulerWidth + options.insetsWidth + options.insetsWidth ) ) {
 
@@ -100,12 +100,12 @@ define( function( require ) {
           this.addChild( majorTickLabelNode );
         }
 
-        // Major tick mark
+        // Major tick line
         if ( options.tickMarksOnTop ) {
-          majorTicksShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
+          majorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
         }
         if ( options.tickMarksOnBottom ) {
-          majorTicksShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
+          majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
         }
 
         // units label
@@ -120,27 +120,27 @@ define( function( require ) {
         x += minorTickWidth;
       }
       else {
-        // Minor tick marks, up to the next major tick
+        // Minor tick lines, up to the next major tick
         for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < ( rulerWidth + options.insetsWidth + options.insetsWidth ) ); k++ ) {
           if ( options.tickMarksOnTop ) {
-            minorTicksShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
+            minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
           }
           if ( options.tickMarksOnBottom ) {
-            minorTicksShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
+            minorTickLinesShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
           }
           x += minorTickWidth;
         }
       }
     }
 
-    // major ticks
-    this.addChild( new Path( majorTicksShape, {
+    // major tick lines
+    this.addChild( new Path( majorTickLinesShape, {
       stroke: options.majorTickStroke,
       lineWidth: options.majorTickLineWidth
     } ) );
 
-    // minor ticks
-    this.addChild( new Path( minorTicksShape, {
+    // minor tick lines
+    this.addChild( new Path( minorTickLinesShape, {
       stroke: options.minorTickStroke,
       lineWidth: options.minorTickLineWidth
     } ) );
