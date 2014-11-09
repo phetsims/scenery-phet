@@ -108,7 +108,7 @@ define( function( require ) {
           majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
         }
 
-        // units label
+        // Units label
         if ( majorTickIndex === options.unitsMajorTickIndex ) {
           var unitsNode = new Text( units, { font: options.unitsFont } );
           this.addChild( unitsNode );
@@ -133,13 +133,13 @@ define( function( require ) {
       }
     }
 
-    // major tick lines
+    // Major tick lines
     this.addChild( new Path( majorTickLinesShape, {
       stroke: options.majorTickStroke,
       lineWidth: options.majorTickLineWidth
     } ) );
 
-    // minor tick lines
+    // Minor tick lines
     this.addChild( new Path( minorTickLinesShape, {
       stroke: options.minorTickStroke,
       lineWidth: options.minorTickLineWidth
