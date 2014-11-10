@@ -45,13 +45,12 @@ define( function( require ) {
   var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
   var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
   var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
-  var bodyClosedImage = require( 'image!SCENERY_PHET/faucet_body_closed.png' );
   var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
+  var trackImage = require( 'image!SCENERY_PHET/faucet_track.png' );
 
   // constants
   var DEBUG_ORIGIN = false;
   var SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
-  var HORIZONTAL_PIPE_Y_OFFSET = 30; // y-offset of horizontal pipe in bodyImage
   var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
   var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
   var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in bodyImage
@@ -145,6 +144,9 @@ define( function( require ) {
     // shooter
     var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
 
+    // track that the shooter moves in
+    var trackNode = new Image( trackImage );
+
     // horizontal pipe, tiled horizontally
     var horizontalPipeNode = new Image( horizontalPipeImage );
     var horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
@@ -159,12 +161,11 @@ define( function( require ) {
 
     // other nodes
     var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( options.interactiveProperty.value ? bodyImage : bodyClosedImage );
+    var bodyNode = new Image( bodyImage );
 
     // flow rate control is visible only when the faucet is interactive
     options.interactiveProperty.link( function( interactive ) {
-      bodyNode.image = interactive ? bodyImage : bodyClosedImage;
-      shooterNode.visible = interactive;
+      shooterNode.visible = trackNode.visible = interactive;
     } );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
@@ -178,6 +179,7 @@ define( function( require ) {
     thisNode.addChild( verticalPipeNode );
     thisNode.addChild( spoutNode );
     thisNode.addChild( bodyNode );
+    thisNode.addChild( trackNode );
 
     // origin
     if ( DEBUG_ORIGIN ) {
@@ -200,10 +202,13 @@ define( function( require ) {
       shooterWindowNode.y = bodyNode.y;
       // horizontal pipe connects to left edge of body
       horizontalPipeNode.right = bodyNode.left + HORIZONTAL_PIPE_X_OVERLAP;
-      horizontalPipeNode.top = bodyNode.top + HORIZONTAL_PIPE_Y_OFFSET;
+      horizontalPipeNode.top = bodyNode.top;
+      // track at top of body
+      trackNode.left = bodyNode.left;
+      trackNode.bottom = bodyNode.top + 20;
       // shooter at top of body
-      shooterNode.left = bodyNode.left + SHOOTER_MIN_X_OFFSET;
-      shooterNode.centerY = bodyNode.top + SHOOTER_Y_OFFSET;
+      shooterNode.left = trackNode.left + SHOOTER_MIN_X_OFFSET;
+      shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
     }
 
     // x-offset relative to left edge of bodyNode
