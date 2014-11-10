@@ -14,7 +14,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
+  var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Shape = require( 'KITE/Shape' );
 
@@ -103,7 +103,7 @@ define( function( require ) {
       options.backgroundGradientColorStop0, options.backgroundGradientColorStop1, options.innerButtonStroke, options.innerButtonLineWidth );
 
     // Create the actual button by invoking the parent type.
-    PushButtonDeprecated.call( this, upNode, overNode, downNode, disabledNode, options );
+    NodesPushButton.call( this, upNode, overNode, downNode, disabledNode, options );
 
     // Add an explicit mouse area so that the child nodes can all be non-pickable.
     this.mouseArea = Shape.circle( 0, 0, options.radius );
@@ -112,7 +112,7 @@ define( function( require ) {
     this.touchArea = Shape.circle( 0, 0, options.touchAreaRadius );
   }
 
-  return inherit( PushButtonDeprecated, RoundShinyButtonDeprecated, {},
+  return inherit( NodesPushButton, RoundShinyButtonDeprecated, {},
 
     //Statics
     {
