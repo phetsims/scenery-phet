@@ -28,6 +28,7 @@ define( function( require ) {
     var rightIcon = new Path( rightShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
 
     var radius = 20;
+    //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
     var leftButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() - 1 );
     }, leftIcon, {
@@ -40,6 +41,7 @@ define( function( require ) {
     } );
     leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
 
+    //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
     var rightButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() + 1 );
     }, rightIcon, {

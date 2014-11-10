@@ -28,6 +28,7 @@ define( function( require ) {
     var downIcon = new Path( downShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
 
     var radius = 20;
+     //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
     var upButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() + 1 );
     }, upIcon, {
@@ -40,6 +41,7 @@ define( function( require ) {
     } );
     upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
+     //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
     var downButton = new RoundShinyButtonDeprecated( function() {
       valueProperty.set( valueProperty.get() - 1 );
     }, downIcon, {
