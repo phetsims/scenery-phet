@@ -50,7 +50,7 @@ define( function( require ) {
   var trackImage = require( 'image!SCENERY_PHET/faucet_track.png' );
 
   // constants
-  var DEBUG_ORIGIN = false;
+  var DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
   var SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
   var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
   var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
