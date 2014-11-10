@@ -64,10 +64,10 @@ define( function( require ) {
       iconOffsetY: 0,
 
       // Default color scheme
-      upFill: new Color( 153, 206, 220 ),
+      idleFill: new Color( 153, 206, 220 ),
       overFill: new Color( 160, 216, 255 ),
       disabledFill: new Color( 180, 180, 180 ),
-      downFill: new Color( 145, 190, 250 )
+      pressedFill: new Color( 145, 190, 250 )
     }, options );
     options.listener = callback;
 
@@ -79,7 +79,7 @@ define( function( require ) {
       buttonGradient.addColorStop( 1, baseColor.colorUtilsBrighter( 0.8 ) );
       return buttonGradient;
     };
-    var createPushedButtonGradient = function( baseColor ) {
+    var createPressedButtonGradient = function( baseColor ) {
       var buttonGradient = new RadialGradient( 0, 0, options.radius * 0.5, 0, 0, options.radius );
       buttonGradient.addColorStop( 0, baseColor );
       buttonGradient.addColorStop( 0.3, baseColor );
@@ -93,17 +93,17 @@ define( function( require ) {
     // used in each of the children (except for the down node, which must be
     // translated), this is to save on memory and CPU but means they all will
     // have the same appearance and offset
-    var upNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.upFill ), icon, options.iconOffsetX, options.iconOffsetY,
+    var idleNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.idleFill ), icon, options.iconOffsetX, options.iconOffsetY,
       options.backgroundGradientColorStop0, options.backgroundGradientColorStop1, options.innerButtonStroke, options.innerButtonLineWidth );
     var overNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.overFill ), icon, options.iconOffsetX, options.iconOffsetY,
       options.backgroundGradientColorStop0, options.backgroundGradientColorStop1, options.innerButtonStroke, options.innerButtonLineWidth );
     var disabledNode = new ButtonStateNode( options.radius, createButtonFillGradient( options.disabledFill ), icon, options.iconOffsetX, options.iconOffsetY,
       options.backgroundGradientColorStop0, options.backgroundGradientColorStop1, options.innerButtonStroke, options.innerButtonLineWidth );
-    var downNode = new ButtonStateNode( options.radius, createPushedButtonGradient( options.downFill ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01,
+    var pressedNode = new ButtonStateNode( options.radius, createPressedButtonGradient( options.pressedFill ), translatedIcon, options.iconOffsetX + options.radius * 0.01, options.iconOffsetY + options.radius * 0.01,
       options.backgroundGradientColorStop0, options.backgroundGradientColorStop1, options.innerButtonStroke, options.innerButtonLineWidth );
 
     // Create the actual button by invoking the parent type.
-    NodesPushButton.call( this, upNode, overNode, downNode, disabledNode, options );
+    NodesPushButton.call( this, idleNode, overNode, pressedNode, disabledNode, options );
 
     // Add an explicit mouse area so that the child nodes can all be non-pickable.
     this.mouseArea = Shape.circle( 0, 0, options.radius );

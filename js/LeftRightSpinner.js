@@ -33,9 +33,9 @@ define( function( require ) {
     }, leftIcon, {
       radius: radius,
       touchAreaRadius: 24 * 1.3,
-      upFill: new Color( '#7fb539' ),
+      idleFill: new Color( '#7fb539' ),
       overFill: new Color( '#afd46d' ),
-      downFill: new Color( '#517c23' ),
+      pressedFill: new Color( '#517c23' ),
       iconOffsetX: -3
     } );
     leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
@@ -45,9 +45,9 @@ define( function( require ) {
     }, rightIcon, {
       radius: radius,
       touchAreaRadius: 24 * 1.3,
-      upFill: new Color( '#7fb539' ),
+      idleFill: new Color( '#7fb539' ),
       overFill: new Color( '#afd46d' ),
-      downFill: new Color( '#517c23' ),
+      pressedFill: new Color( '#517c23' ),
       iconOffsetX: +3
     } );
     rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
