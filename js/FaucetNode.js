@@ -5,7 +5,8 @@
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
  * Origin is at the bottom-center of the spout.
  *
- * The shooter is interactive, with the following features:
+ * The shooter is optionally interactive. When it's not interactive, the shooter and track are hidden.
+ * When the shooter is interactive, it has the following features:
  *
  * (1) Close-on-release mode: When the user drags the slider, releasing it sets the flow to zero.
  * See options.closeToRelease: true.
