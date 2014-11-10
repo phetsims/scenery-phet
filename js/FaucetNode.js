@@ -53,10 +53,11 @@ define( function( require ) {
   var SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
   var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
   var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
-  var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in bodyImage
-  var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in bodyImage
-  var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in bodyImage
+  var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in trackImage
+  var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
+  var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in trackImage
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
+  var TRACK_Y_OFFSET = 20; // offset of the track's bottom from the top of bodyImage
 
   /**
    * The 'shooter' is the interactive part of the faucet.
@@ -205,7 +206,7 @@ define( function( require ) {
       horizontalPipeNode.top = bodyNode.top;
       // track at top of body
       trackNode.left = bodyNode.left;
-      trackNode.bottom = bodyNode.top + 20;
+      trackNode.bottom = bodyNode.top + TRACK_Y_OFFSET;
       // shooter at top of body
       shooterNode.left = trackNode.left + SHOOTER_MIN_X_OFFSET;
       shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
