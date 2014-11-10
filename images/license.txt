@@ -1,3 +1,4 @@
+eraser.png author=PhET notes=created by Amanda McGarry
 faucet_body.png author=PhET notes=created by Sharon Siman-Tov
 faucet_flange.png author=PhET notes=created by Sharon Siman-Tov
 faucet_flange_disabled.png author=PhET notes=created by Sharon Siman-Tov
