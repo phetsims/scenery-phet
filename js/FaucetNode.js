@@ -65,6 +65,7 @@ define( function( require ) {
    * It's a relatively complicated node, so it's encapsulated in this nested type.
    *
    * @param {Property.<boolean>} enabledProperty
+   * @param {Object} [options] - optional configuration, see constructor
    * @constructor
    */
   function ShooterNode( enabledProperty, options ) {
@@ -107,6 +108,7 @@ define( function( require ) {
     knobDisabledNode.y = knobNode.y;
 
     enabledProperty.link( function( enabled ) {
+
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
       knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
       knobNode.visible = enabled;
@@ -193,21 +195,27 @@ define( function( require ) {
       // spout's origin is at bottom-center
       spoutNode.centerX = 0;
       spoutNode.bottom = 0;
+
       // vertical pipe above spout
       verticalPipeNode.centerX = spoutNode.centerX;
       verticalPipeNode.bottom = spoutNode.top + VERTICAL_PIPE_Y_OVERLAP;
+
       // body above vertical pipe
       bodyNode.right = verticalPipeNode.right;
       bodyNode.bottom = verticalPipeNode.top + VERTICAL_PIPE_Y_OVERLAP;
+
       // shooter window is in the body's coordinate frame
       shooterWindowNode.x = bodyNode.x;
       shooterWindowNode.y = bodyNode.y;
+
       // horizontal pipe connects to left edge of body
       horizontalPipeNode.right = bodyNode.left + HORIZONTAL_PIPE_X_OVERLAP;
       horizontalPipeNode.top = bodyNode.top;
+
       // track at top of body
       trackNode.left = bodyNode.left;
       trackNode.bottom = bodyNode.top + TRACK_Y_OFFSET;
+
       // shooter at top of body
       shooterNode.left = trackNode.left + SHOOTER_MIN_X_OFFSET;
       shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
