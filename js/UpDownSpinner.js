@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/buttons/RoundShinyButtonDeprecated' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -28,29 +28,27 @@ define( function( require ) {
     var downIcon = new Path( downShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
 
     var radius = 20;
-     //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
-    var upButton = new RoundShinyButtonDeprecated( function() {
-      valueProperty.set( valueProperty.get() + 1 );
-    }, upIcon, {
+    var upButton = new RoundPushButton( {
+      content: upIcon,
+      listener: function() {
+        valueProperty.set( valueProperty.get() + 1 );
+      },
       radius: radius,
-      touchAreaRadius: 24 * 1.3,
-      idleFill: new Color( '#fefd53' ),
-      overFill: new Color( '#fffe08' ),
-      pressedFill: new Color( '#e9e824' ),
-      iconOffsetY: -3
+      touchAreaExpansion: 5,
+      baseColor: '#fefd53',
+      yContentOffset: -3
     } );
     upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
-     //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
-    var downButton = new RoundShinyButtonDeprecated( function() {
-      valueProperty.set( valueProperty.get() - 1 );
-    }, downIcon, {
+    var downButton = new RoundPushButton( {
+      content: downIcon,
+      listener: function() {
+        valueProperty.set( valueProperty.get() - 1 );
+      },
       radius: radius,
-      touchAreaRadius: 24 * 1.3,
-      idleFill: new Color( '#fefd53' ),
-      overFill: new Color( '#fffe08' ),
-      pressedFill: new Color( '#e9e824' ),
-      iconOffsetY: +3
+      touchAreaExpansion: 5,
+      baseColor: '#fefd53',
+      yContentOffset: +3
     } );
     downEnabledProperty.linkAttribute( downButton, 'enabled' );
 

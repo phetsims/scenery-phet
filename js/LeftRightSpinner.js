@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundShinyButtonDeprecated = require( 'SCENERY_PHET/buttons/RoundShinyButtonDeprecated' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -28,29 +28,27 @@ define( function( require ) {
     var rightIcon = new Path( rightShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
 
     var radius = 20;
-    //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
-    var leftButton = new RoundShinyButtonDeprecated( function() {
-      valueProperty.set( valueProperty.get() - 1 );
-    }, leftIcon, {
+    var leftButton = new RoundPushButton( {
+      content: leftIcon,
+      listener: function() {
+        valueProperty.set( valueProperty.get() - 1 );
+      },
+      baseColor: '#7fb539',
       radius: radius,
-      touchAreaRadius: 24 * 1.3,
-      idleFill: new Color( '#7fb539' ),
-      overFill: new Color( '#afd46d' ),
-      pressedFill: new Color( '#517c23' ),
-      iconOffsetX: -3
+      touchExpansion: 10,
+      xContentOffset: -3
     } );
     leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
 
-    //TODO scenery-phet#85 replace RoundShinyButtonDeprecated with sun.RoundPushButton (flat appearance)
-    var rightButton = new RoundShinyButtonDeprecated( function() {
-      valueProperty.set( valueProperty.get() + 1 );
-    }, rightIcon, {
+    var rightButton = new RoundPushButton( {
       radius: radius,
+      listener: function() {
+        valueProperty.set( valueProperty.get() + 1 );
+      },
+      content: rightIcon,
       touchAreaRadius: 24 * 1.3,
-      idleFill: new Color( '#7fb539' ),
-      overFill: new Color( '#afd46d' ),
-      pressedFill: new Color( '#517c23' ),
-      iconOffsetX: +3
+      baseColor: '#7fb539',
+      xContentOffset: +3
     } );
     rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
 
