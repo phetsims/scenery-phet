@@ -1,16 +1,16 @@
-eraser.png author=PhET notes=created by Amanda McGarry
-faucet_body.png author=PhET notes=created by Sharon Siman-Tov
-faucet_flange.png author=PhET notes=created by Sharon Siman-Tov
-faucet_flange_disabled.png author=PhET notes=created by Sharon Siman-Tov
-faucet_horizontal_pipe.png author=PhET notes=created by Sharon Siman-Tov
-faucet_knob.png author=PhET notes=created by Sharon Siman-Tov
-faucet_knob_disabled.png author=PhET notes=created by Sharon Siman-Tov
-faucet_shaft.png author=PhET notes=created by Sharon Siman-Tov
-faucet_spout.png author=PhET notes=created by Sharon Siman-Tov
-faucet_stop.png author=PhET notes=created by Sharon Siman-Tov
-faucet_track.png author=PhET notes=created by Sharon Siman-Tov
-faucet_vertical_pipe.png author=PhET notes=created by Sharon Siman-Tov
+eraser.png source=PhET author=Amanda McGarry
+faucet_body.png source=PhET author=Sharon Siman-Tov
+faucet_flange.png source=PhET author=Sharon Siman-Tov
+faucet_flange_disabled.png source=PhET author=Sharon Siman-Tov
+faucet_horizontal_pipe.png source=PhET author=Sharon Siman-Tov
+faucet_knob.png source=PhET author=Sharon Siman-Tov
+faucet_knob_disabled.png source=PhET author=Sharon Siman-Tov
+faucet_shaft.png source=PhET author=Sharon Siman-Tov
+faucet_spout.png source=PhET author=Sharon Siman-Tov
+faucet_stop.png source=PhET author=Sharon Siman-Tov
+faucet_track.png source=PhET author=Sharon Siman-Tov
+faucet_vertical_pipe.png source=PhET author=Sharon Siman-Tov
 measuringTape.png source=PhET author=Bryce Gruneich
-round_red_button_disabled.png author=PhET
-round_red_button_pressed.png author=PhET
-round_red_button_unpressed.png author=PhET
+round_red_button_disabled.png source=PhET
+round_red_button_pressed.png source=PhET
+round_red_button_unpressed.png source=PhET
