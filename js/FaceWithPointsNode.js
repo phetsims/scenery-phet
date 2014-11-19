@@ -39,6 +39,7 @@ define( function( require ) {
       pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
       pointsFill: 'black', // {Color|string}
       pointsStroke: null, // {Color|string}
+      pointsOpacity: 1, // {number} 0 (transparent) to 1 (opaque)
       showZeroPoints: false, // whether to show '0' points
       points: 0
     }, options );
@@ -50,6 +51,7 @@ define( function( require ) {
     this.pointsNode = new Text( '', {
       font: this.options.pointsFont,
       fill: this.options.pointsFill,
+      opacity: this.options.pointsOpacity,
       stroke: this.options.pointsStroke,
       lineWidth: 1
     } );
