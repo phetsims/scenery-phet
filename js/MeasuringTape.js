@@ -33,7 +33,7 @@ define( function( require ) {
    * Constructor for the measuring tape
    * @param {Bounds2} layoutBounds of the simulation
    * @param {Property.<number>} scaleProperty
-   * @param {Property.<string>} unitsProperty should take values 'english' or 'metric'
+   * @param {Property.<object>} unitsProperty has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @constructor
    */
   function MeasuringTape( layoutBounds, scaleProperty, unitsProperty, options ) {
