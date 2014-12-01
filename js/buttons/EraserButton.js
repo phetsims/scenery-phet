@@ -3,7 +3,7 @@
 /**
  * Button with an eraser icon.
  *
- * @author various
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
