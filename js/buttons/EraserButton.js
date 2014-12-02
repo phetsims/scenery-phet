@@ -23,16 +23,13 @@ define( function( require ) {
   function EraserButton( options ) {
 
     options = _.extend( {
+      baseColor: '#F2E916',
       iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
     }, options );
 
-    var eraserImageNode = new Image( eraserImage );
-    eraserImageNode.scale( options.iconWidth / eraserImageNode.width );
-
-    options = _.extend( {
-      content: eraserImageNode,
-      baseColor: '#F2E916'
-    }, options );
+    // eraser icon
+    options.content = new Image( eraserImage );
+    options.content.scale( options.iconWidth / options.content.width );
 
     RectangularPushButton.call( this, options );
   }
