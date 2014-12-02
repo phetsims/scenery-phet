@@ -17,7 +17,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
+  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTapeDeprecated' );
   var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
