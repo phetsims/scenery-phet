@@ -17,7 +17,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTapeDeprecated' );
+  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
@@ -52,15 +52,11 @@ define( function( require ) {
     this.addChild( tempSlider );
 
     // measuring tape
-    var mtScaleProperty = new Property( 1 );
+    var mtScaleProperty = new Property( 100 );
     var mtUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
-    var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty,
+    var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty, new Property( true ),
       {
-        x: 500,
-        y: 400,
-        tipColor: 'black',
-        tipRadius: 8,
-        initialValue: 10
+        textColor: 'black'
       } );
     this.addChild( measuringTape );
 
