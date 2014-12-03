@@ -60,7 +60,7 @@ define( function( require ) {
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
 
-    var erodedDragBounds = dragBounds.eroded( 5 );
+    var erodedDragBounds = dragBounds.eroded( 4 );
 
     this.unitsProperty = unitsProperty;
     this.scaleProperty = scaleProperty;
@@ -93,7 +93,8 @@ define( function( require ) {
     var baseImage = new Node( {
       children: [new Image( measuringTapeImage )],
       scale: this.options.imageScale,
-      rightBottom: this.basePosition
+      rightBottom: this.basePosition,
+      cursor: 'pointer'
     } );
 
     // create tapeline (running from one crosshair to the other)
@@ -103,7 +104,7 @@ define( function( require ) {
     } );
 
     // add tipCrosshair and  tipCircle to the tip
-    var tip = new Node( {children: [tipCircle, tipCrosshair], center: this.tipPosition} );
+    var tip = new Node( {children: [tipCircle, tipCrosshair], center: this.tipPosition, cursor: 'pointer'} );
 
     // rotate crosshairs (if requested) and the baseImage
     baseImage.rotateAround( baseCrosshair.center, this.angle );
@@ -122,10 +123,13 @@ define( function( require ) {
       centerTop: baseImage.centerBottom.plus( measuringTape.options.textPosition )
     } );
 
-    tip.cursor = 'pointer';
+
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
-    baseImage.cursor = 'pointer';
+    tip.mouseArea = tip.localBounds.dilatedXY( 0, 0 );
+
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
+    baseImage.mouseArea = baseImage.localBounds.dilatedXY( 0, 0 );
+
 
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
