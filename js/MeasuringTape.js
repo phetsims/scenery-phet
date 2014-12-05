@@ -62,13 +62,13 @@ define( function( require ) {
 
     var erodedDragBounds = dragBounds.eroded( 4 );
 
-    this.unitsProperty = unitsProperty;
-    this.scaleProperty = scaleProperty;
+    this.unitsProperty = unitsProperty; // @private
+    this.scaleProperty = scaleProperty;  // @private
 
-    this.tipToBaseDistance = this.options.unrolledTapeDistance;
-    this.basePosition = this.options.basePosition;
-    this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) );
-    this.angle = this.options.angle;
+    this.tipToBaseDistance = this.options.unrolledTapeDistance; // @private
+    this.basePosition = this.options.basePosition; // @private
+    this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) ); // @private
+    this.angle = this.options.angle; // @private
 
 
     var crosshairShape = new Shape().
@@ -207,9 +207,10 @@ define( function( require ) {
     } ) );
 
     /**
+     * @public
      *
-     * @param basePosition
-     * @param tipPosition
+     * @param {Vector2} basePosition
+     * @param {Vector2} tipPosition
      */
     this.update = function( basePosition, tipPosition ) {
       measuringTape.oldAngle = measuringTape.angle;
@@ -258,7 +259,7 @@ define( function( require ) {
      * @param {Bounds2} bounds
      */
     var constrainBounds = function( point, bounds ) {
-      if ( _.isUndefined( bounds ) || bounds.containsCoordinates( point.x, point.y ) ) {
+      if ( _.isUndefined( bounds ) || bounds.containsPoint( point ) ) {
         return point;
       }
       else {
@@ -271,16 +272,17 @@ define( function( require ) {
   }
 
   return inherit( Node, MeasuringTape, {
-
-    getText: function() {
-      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value, this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
-    },
-
+    // @ public
     reset: function() {
       this.basePosition = this.options.basePosition;
       this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) );
       this.update( this.basePosition, this.tipPosition );
+    },
+    // @ public
+    getText: function() {
+      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value, this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
     }
+
 
   } );
 } );
