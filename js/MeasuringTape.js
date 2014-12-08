@@ -203,7 +203,7 @@ define( function( require ) {
         // update positions of the crosshairs, text, tapeline and rotation
         measuringTape.update( measuringTape.basePosition, measuringTape.tipPosition );
       },
-      
+
       end: function( event, trail ) {
         isDraggingTip = false;
       }
@@ -228,14 +228,12 @@ define( function( require ) {
       baseImage.rightBottom = basePosition;
       baseImage.rotateAround( basePosition, measuringTape.angle );
 
-
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
       labelText.centerTop = baseImage.centerBottom.plus( measuringTape.options.textPosition );
       labelText.setText( measuringTape.getText() );
 
       // reposition the tapeline
-      tapeLine.setPoint1( basePosition );
-      tapeLine.setPoint2( tipPosition );
+      tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
 
       if ( measuringTape.options.isTipCrosshairRotating ) {
         tip.rotateAround( tip.center, deltaAngle );
