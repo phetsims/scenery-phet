@@ -103,7 +103,7 @@ define( function( require ) {
       lineWidth: this.options.lineWidth
     } );
 
-    // add tipCrosshair and  tipCircle to the tip
+    // add tipCrosshair and tipCircle to the tip
     var tip = new Node( {children: [tipCircle, tipCrosshair], center: this.tipPosition, cursor: 'pointer'} );
 
     // rotate crosshairs (if requested) and the baseImage
@@ -123,13 +123,11 @@ define( function( require ) {
       centerTop: baseImage.centerBottom.plus( measuringTape.options.textPosition )
     } );
 
-
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
     tip.mouseArea = tip.localBounds.dilatedXY( 0, 0 );
 
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
     baseImage.mouseArea = baseImage.localBounds.dilatedXY( 0, 0 );
-
 
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
@@ -188,19 +186,24 @@ define( function( require ) {
       } )
     );
 
+    // when the user is not holding onto the tip, dragging the body will also drag the tip
     var isDraggingTip = false;
+
     // init drag and drop for tip
     tip.addInputListener( new SimpleDragHandler( {
       allowTouchSnag: true,
+
       start: function( event, trail ) {
         isDraggingTip = true;
       },
+
       translate: function( translationParams ) {
         measuringTape.tipPosition = measuringTape.tipPosition.plus( translationParams.delta );
+
         // update positions of the crosshairs, text, tapeline and rotation
         measuringTape.update( measuringTape.basePosition, measuringTape.tipPosition );
-
       },
+      
       end: function( event, trail ) {
         isDraggingTip = false;
       }
