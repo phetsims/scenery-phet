@@ -44,7 +44,7 @@ define( function( require ) {
       basePosition: new Vector2( 300, 300 ), // base Position in View units (rightBottom position of the measuring tape image)
       unrolledTapeDistance: 100, // in pixel units
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
-      textPosition: new Vector2( 0, 10 ), // position of the text relative to center Bottom of the image in view units
+      textPosition: new Vector2( 0, 10 ), // position of the text relative to center bottom of the image in view units
       significantFigures: 1,  // number of significant figures in the length measurement
       textColor: 'white',  // color of the length measurement and unit
       textFont: new PhetFont( 16 ), // font for the measurement text
@@ -280,7 +280,8 @@ define( function( require ) {
     },
     // @ public
     getText: function() {
-      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value, this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
+      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value,
+        this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
     }
 
 
