@@ -35,7 +35,7 @@ define( function( require ) {
   /**
    * Constructor for the measuring tape
    * @param {Bounds2} dragBounds for the measuring tape (in the ScreenView Coordinates reference frame)
-   * @param {Property.<number>} scaleProperty  , number of pixels (view) in the base unit (model)
+   * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
    * @param {Property.<object>} unitsProperty has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @constructor
    */
@@ -45,7 +45,7 @@ define( function( require ) {
     Node.call( this );
     this.options = _.extend( {
       basePosition: new Vector2( 300, 300 ), // base Position in View units (rightBottom position of the measuring tape image)
-      unrolledTapeDistance: 100, // in pixel units
+      unrolledTapeDistance: 100, // in scenery coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 10 ), // position of the text relative to center bottom of the image in view units
       significantFigures: 1,  // number of significant figures in the length measurement
@@ -58,7 +58,7 @@ define( function( require ) {
       tipCircleColor: 'rgba(0,0,0,0.1)', // transparent by default
       tipCircleRadius: 10, // radius of the circle on the tip
       crosshairColor: 'rgb(224, 95, 32)', // orange, color of the two crosshairs
-      crosshairSize: 5,  // size of the crosshairs in pixels ( measured from center)
+      crosshairSize: 5,  // size of the crosshairs in scenery coordinates ( measured from center)
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
