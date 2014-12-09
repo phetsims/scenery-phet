@@ -46,7 +46,7 @@ define( function( require ) {
 
     Node.call( this );
     this.options = _.extend( {
-      basePosition: new Vector2( 300, 300 ), // base Position in View units (rightBottom position of the measuring tape image)
+      basePosition: new Vector2( 40, 40 ), // base Position in View units (rightBottom position of the measuring tape image)
       unrolledTapeDistance: 100, // in scenery coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 24 ), // position of the text relative to center of the base image in view units
