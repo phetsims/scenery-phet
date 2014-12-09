@@ -255,11 +255,11 @@ define( function( require ) {
     isVisibleProperty.linkAttribute( this, 'visible' );
 
 
-    unitsProperty.link( function( units ) {
+    unitsProperty.link( function() {
       labelText.setText( measuringTape.getText() );
     } );
 
-    scaleProperty.link( function( scale ) {
+    scaleProperty.link( function() {
       labelText.setText( measuringTape.getText() );
     } );
 
