@@ -271,7 +271,7 @@ define( function( require ) {
     downArrow.centerX = downBackground.centerX;
     downArrow.top = downBackground.bottom + ySpacing;
 
-    // Update text to match the value
+    // @private Update text to match the value
     this.valuePropertyListener = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
@@ -293,8 +293,8 @@ define( function( require ) {
         }
       }
     };
-    valueProperty.link( this.valuePropertyListener );
-    this.valueProperty = valueProperty; // save this so we can unlink in dispose
+    this.valueProperty = valueProperty; // @private
+    this.valueProperty.link( this.valuePropertyListener ); // must be unlinked in dispose
 
     // Update button colors
     var updateColors = function( stateProperty, enabledProperty, background, arrow ) {
