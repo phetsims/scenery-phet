@@ -56,11 +56,12 @@ define( function( require ) {
       textFontWeight: 'bold',
       baseScale: 0.8, // control the size of the measuringTape Image (the base)
       lineColor: 'gray',  // color of the tapeline itself
-      lineWidth: 2, // linewidth of the tape line and the crosshairs
-      tipCircleColor: 'rgba(0,0,0,0.1)', // transparent by default
+      tapeLineWidth: 2, // linewidth of the tape line
+      tipCircleColor: 'rgba(0,0,0,0.1)', // color of the circle at the tip
       tipCircleRadius: 10, // radius of the circle on the tip
-      crosshairColor: 'rgb(224, 95, 32)', // orange, color of the two crosshairs
+      crosshairColor: 'rgba(224, 95, 32, 1)', // orange, color of the two crosshairs
       crosshairSize: 5,  // size of the crosshairs in scenery coordinates ( measured from center)
+      crosshairlineWidth: 2, // linewidth of the crosshairs
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
@@ -84,13 +85,13 @@ define( function( require ) {
 
     var baseCrosshair = new Path( crosshairShape, {
       stroke: this.options.crosshairColor,
-      lineWidth: this.options.lineWidth,
+      lineWidth: this.options.crosshairLineWidth,
       center: this.basePosition
     } );
 
     var tipCrosshair = new Path( crosshairShape, {
       stroke: this.options.crosshairColor,
-      lineWidth: this.options.lineWidth
+      lineWidth: this.options.crosshairLineWidth
     } );
 
     var tipCircle = new Circle( this.options.tipCircleRadius, {fill: this.options.tipCircleColor} );
@@ -104,7 +105,7 @@ define( function( require ) {
     // create tapeline (running from one crosshair to the other)
     var tapeLine = new Line( this.basePosition, this.tipPosition, {
       stroke: this.options.lineColor,
-      lineWidth: this.options.lineWidth
+      lineWidth: this.options.tapeLineWidth
     } );
 
     // add tipCrosshair and tipCircle to the tip
