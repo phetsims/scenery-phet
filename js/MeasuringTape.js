@@ -127,10 +127,8 @@ define( function( require ) {
     } );
 
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
-    tip.mouseArea = tip.localBounds.dilatedXY( 0, 0 );
-
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
-    baseImage.mouseArea = baseImage.localBounds.dilatedXY( 0, 0 );
+
 
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
