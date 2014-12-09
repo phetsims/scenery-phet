@@ -34,9 +34,11 @@ define( function( require ) {
 
   /**
    * Constructor for the measuring tape
-   * @param {Bounds2} dragBounds for the measuring tape (in the ScreenView Coordinates reference frame)
+   * @param {Bounds2} dragBounds - for the measuring tape (in the ScreenView Coordinates reference frame)
    * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
-   * @param {Property.<object>} unitsProperty has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
+   * @param {Property.<object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
+   * @param {Property.<boolean>} isVisibleProperty
+   * @param {Object} [options]
    * @constructor
    */
   function MeasuringTape( dragBounds, scaleProperty, unitsProperty, isVisibleProperty, options ) {
