@@ -67,15 +67,18 @@ define( function( require ) {
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
 
+
     var erodedDragBounds = dragBounds.eroded( 4 );
 
     this.significantFigures = options.significantFigures;
-
     this.unitsProperty = unitsProperty; // @private
     this.scaleProperty = scaleProperty;  // @private
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
+
     this.basePositionProperty = new Property( options.basePosition ); // @private
     this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ) ); // @private
+
+    this.angle = options.angle;
 
     var crosshairShape = new Shape().
       moveTo( -options.crosshairSize, 0 ).
@@ -115,9 +118,48 @@ define( function( require ) {
       fill: options.textColor
     } );
 
-    // update the tip and base positions, orientation of base, the crosshairs and tapeline
-    update( this.basePositionProperty.value, this.tipPositionProperty.value );
+    /**
+     * Update the measuring tape
+     *
+     * @param {Vector2} basePosition
+     * @param {Vector2} tipPosition
+     */
+    this.update = function( basePosition, tipPosition ) {
+      measuringTape.oldAngle = measuringTape.angle;
+      measuringTape.angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
+      var deltaAngle = measuringTape.angle - measuringTape.oldAngle;
 
+      // set position of the tip and the base crosshair
+      baseCrosshair.center = basePosition;
+      tip.center = tipPosition;
+
+      // in order to avoid all kind of geometrical issues with position, let's reset the baseImage upright and then set its position and rotation
+      baseImage.setRotation( 0 );
+      baseImage.rightBottom = basePosition;
+      baseImage.rotateAround( basePosition, measuringTape.angle );
+
+      // reset the text
+      measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
+      labelText.centerTop = baseImage.center.plus( options.textPosition );
+      labelText.setText( measuringTape.getText() );
+
+      // reposition the tapeline
+      tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
+
+      // rotate the crosshairs
+      if ( options.isTipCrosshairRotating ) {
+        tip.rotateAround( tip.center, deltaAngle );
+      }
+      if ( options.isBaseCrosshairRotating ) {
+        baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
+      }
+
+    };
+
+    // update the tip and base positions, orientation of base, the crosshairs and tapeline
+    this.update( this.basePositionProperty.value, this.tipPositionProperty.value );
+
+    // expand the area for touch
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
 
@@ -174,7 +216,7 @@ define( function( require ) {
           }
 
           // update positions of the crosshairs, text, tapeline and rotation
-          update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
+          measuringTape.update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
         }
       } )
     );
@@ -194,7 +236,7 @@ define( function( require ) {
         measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( translationParams.delta );
 
         // update positions of the crosshairs, text, tapeline and rotation
-        update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
+        measuringTape.update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
       },
 
       end: function( event, trail ) {
@@ -202,40 +244,7 @@ define( function( require ) {
       }
     } ) );
 
-    /**
-     * @public Update the measuring tape
-     *
-     * @param {Vector2} basePosition
-     * @param {Vector2} tipPosition
-     */
-    function update( basePosition, tipPosition ) {
-      measuringTape.oldAngle = measuringTape.angle;
-      measuringTape.angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
-      var deltaAngle = measuringTape.angle - measuringTape.oldAngle;
 
-      baseCrosshair.center = basePosition;
-      tip.center = tipPosition;
-
-      // in order to avoid all kind of geometrical issues with position, let's reset the baseImage upright and then set the position
-      baseImage.setRotation( 0 );
-      baseImage.rightBottom = basePosition;
-      baseImage.rotateAround( basePosition, measuringTape.angle );
-
-      measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      labelText.centerTop = baseImage.center.plus( options.textPosition );
-      labelText.setText( measuringTape.getText() );
-
-      // reposition the tapeline
-      tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
-
-      if ( options.isTipCrosshairRotating ) {
-        tip.rotateAround( tip.center, deltaAngle );
-      }
-      if ( options.isBaseCrosshairRotating ) {
-        baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
-      }
-
-    }
 
     // link visibility of this node
     isVisibleProperty.linkAttribute( this, 'visible' );
@@ -274,6 +283,7 @@ define( function( require ) {
     reset: function() {
       this.basePositionProperty.reset();
       this.tipPositionProperty.reset();
+      this.update( this.basePositionProperty.value, this.tipPositionProperty.value );
     },
 
     /**
