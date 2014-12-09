@@ -61,7 +61,7 @@ define( function( require ) {
       tipCircleRadius: 10, // radius of the circle on the tip
       crosshairColor: 'rgba(224, 95, 32, 1)', // orange, color of the two crosshairs
       crosshairSize: 5,  // size of the crosshairs in scenery coordinates ( measured from center)
-      crosshairlineWidth: 2, // linewidth of the crosshairs
+      crosshairLineWidth: 2, // linewidth of the crosshairs
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
@@ -78,7 +78,7 @@ define( function( require ) {
 
     this.basePosition = options.basePosition; // @private
     this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ); // @private
-    this.angle = options.angle; // @private
+
 
 
     var crosshairShape = new Shape().
@@ -115,14 +115,6 @@ define( function( require ) {
     // add tipCrosshair and tipCircle to the tip
     var tip = new Node( {children: [tipCircle, tipCrosshair], center: this.tipPosition, cursor: 'pointer'} );
 
-    // rotate crosshairs (if requested) and the baseImage
-    baseImage.rotateAround( baseCrosshair.center, this.angle );
-    if ( options.isBaseCrosshairRotating ) {
-      baseCrosshair.rotateAround( baseCrosshair.center, this.angle );
-    }
-    if ( options.isTipCrosshairRotating ) {
-      tipCrosshair.rotateAround( tipCrosshair.center, this.angle );
-    }
 
 
     // create and add text
@@ -133,6 +125,7 @@ define( function( require ) {
       centerTop: baseImage.center.plus( options.textPosition )
     } );
 
+    update( this.basePosition, this.tipPosition );
 
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
@@ -190,7 +183,7 @@ define( function( require ) {
           }
 
           // update positions of the crosshairs, text, tapeline and rotation
-          measuringTape.update( measuringTape.basePosition, measuringTape.tipPosition );
+          update( measuringTape.basePosition, measuringTape.tipPosition );
         }
       } )
     );
@@ -210,7 +203,7 @@ define( function( require ) {
         measuringTape.tipPosition = measuringTape.tipPosition.plus( translationParams.delta );
 
         // update positions of the crosshairs, text, tapeline and rotation
-        measuringTape.update( measuringTape.basePosition, measuringTape.tipPosition );
+        update( measuringTape.basePosition, measuringTape.tipPosition );
       },
 
       end: function( event, trail ) {
@@ -219,12 +212,12 @@ define( function( require ) {
     } ) );
 
     /**
-     * @public
+     * @public Update the measuring tape
      *
      * @param {Vector2} basePosition
      * @param {Vector2} tipPosition
      */
-    this.update = function( basePosition, tipPosition ) {
+    function update( basePosition, tipPosition ) {
       measuringTape.oldAngle = measuringTape.angle;
       measuringTape.angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
       var deltaAngle = measuringTape.angle - measuringTape.oldAngle;
@@ -249,10 +242,10 @@ define( function( require ) {
       }
       if ( options.isBaseCrosshairRotating ) {
         +
-        baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
+          baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
       }
 
-    };
+    }
 
     // link visibility of this node
     isVisibleProperty.linkAttribute( this, 'visible' );
@@ -271,7 +264,7 @@ define( function( require ) {
      * @param {Vector2} point
      * @param {Bounds2} bounds
      */
-    var constrainBounds = function( point, bounds ) {
+    function constrainBounds( point, bounds ) {
       if ( _.isUndefined( bounds ) || bounds.containsPoint( point ) ) {
         return point;
       }
@@ -290,9 +283,10 @@ define( function( require ) {
      *  @public
      */
     reset: function() {
+      PropertySet.prototype.reset.call( this );
       //this.basePosition = options.basePosition;
       //this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) );
-      this.update( this.basePosition, this.tipPosition );
+      //   this.update( this.basePosition, this.tipPosition );
     },
 
     /**
