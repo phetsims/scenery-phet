@@ -54,8 +54,7 @@ define( function( require ) {
       textPosition: new Vector2( 0, 24 ), // position of the text relative to center of the base image in view units
       significantFigures: 1,  // number of significant figures in the length measurement
       textColor: 'white',  // color of the length measurement and unit
-      textFont: new PhetFont( 16 ), // font for the measurement text
-      textFontWeight: 'bold',
+      textFont: new PhetFont( {size: 16, weight: 'bold'} ), // font for the measurement text
       baseScale: 0.8, // control the size of the measuringTape Image (the base)
       lineColor: 'gray',  // color of the tapeline itself
       tapeLineWidth: 2, // linewidth of the tape line
@@ -113,7 +112,6 @@ define( function( require ) {
     // create text
     var labelText = new Text( measuringTape.getText(), {
       font: options.textFont,
-      fontWeight: options.textFontWeight,
       fill: options.textColor
     } );
 
@@ -266,7 +264,6 @@ define( function( require ) {
         return new Vector2( xConstrained, yConstrained );
       }
     }
-
   }
 
   return inherit( Node, MeasuringTape, {
@@ -275,10 +272,8 @@ define( function( require ) {
      *  @public
      */
     reset: function() {
-      Property.prototype.reset.call( this );
-      //this.basePosition = options.basePosition;
-      //this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) );
-      //   this.update( this.basePosition, this.tipPosition );
+      this.basePositionProperty.reset();
+      this.tipPositionProperty.reset();
     },
 
     /**
