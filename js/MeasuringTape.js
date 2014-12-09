@@ -5,6 +5,7 @@
  * It contains a tip and a base that can be dragged separately,
  * with a text indicating the measurement.
  * The motion of the measuring tape can be confined by drag bounds.
+ * It assumes that the position of this node is set to (0,0) in the parent Node.
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Siddhartha Chinthapally (ActualConcepts)
@@ -23,7 +24,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -36,7 +36,7 @@ define( function( require ) {
 
   /**
    * Constructor for the measuring tape
-   * @param {Bounds2} dragBounds - for the measuring tape (in the ScreenView Coordinates reference frame)
+   * @param {Bounds2} dragBounds - for the measuring tape (in the parent Node Coordinates reference frame)
    * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
@@ -179,50 +179,26 @@ define( function( require ) {
     baseImage.addInputListener( new SimpleDragHandler( {
         allowTouchSnag: true,
         start: function( event, trail ) {
-
-          // we want to find the ScreenView Node in order to enforce Bound constraints. Let's not make the assumption that it is the parent Node
-
-          // Find the parent screen by moving up the scene graph.
-          var testNode = measuringTape;
-          while ( testNode !== null ) {
-            if ( testNode instanceof ScreenView ) {
-              this.parentScreen = testNode;
-              break;
-            }
-            testNode = testNode.parents[0]; // Move up the scene graph by one level
-          }
-
-          // Determine the initial position of the new element as a function of the event position and this node's bounds.
-          var upperLeftCornerGlobal = measuringTape.parentToGlobalPoint( measuringTape.basePositionProperty.value );
-          var initialPositionOffset = upperLeftCornerGlobal.minus( event.pointer.point );
-          // initial position in screenView coordinates
-          var initialPosition = this.parentScreen.globalToLocalPoint( event.pointer.point.plus( initialPositionOffset ) );
-
-          startOffset = initialPosition.minus( measuringTape.basePositionProperty.value );
+          startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( measuringTape.basePositionProperty.value );
         },
 
-        translate: function( translationParams ) {
-          // keep a reference to the old position
-          var oldPosition = measuringTape.basePositionProperty.value;
+        drag: function( event ) {
+          var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
+          var constrainedLocation = constrainBounds( parentPoint, erodedDragBounds );
 
-          // position of the base crosshair (in screen View coordinates) if we didn't enforce bounds
-          var screenViewBasePosition = oldPosition.plus( translationParams.delta ).plus( startOffset );
+          // translation of the basePosition (subject to the constraining bounds)
+          var translationDelta = constrainedLocation.minus( measuringTape.basePositionProperty.value );
 
-          // constrained  basePosition (aka. the base crosshair location) to be within bounds
-          var constrainedLocation = constrainBounds( screenViewBasePosition, erodedDragBounds );
+          measuringTape.basePositionProperty.value = constrainedLocation;
 
-          // recast the position in the local coordinate frame
-          measuringTape.basePositionProperty.value = constrainedLocation.minus( startOffset );
-
-          // if the tip is not being dragged then let's move the position of the tip as well
+          // translate the position of the tip if it is not being dragged
           if ( !isDraggingTip ) {
-            var deltaPosition = measuringTape.basePositionProperty.value.minus( oldPosition );
-            measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( deltaPosition );
+            measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( translationDelta );
           }
-
           // update positions of the crosshairs, text, tapeline and rotation
           measuringTape.update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
         }
+
       } )
     );
 
@@ -248,7 +224,6 @@ define( function( require ) {
         isDraggingTip = false;
       }
     } ) );
-
 
 
     // link visibility of this node
