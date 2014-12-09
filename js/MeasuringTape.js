@@ -75,10 +75,9 @@ define( function( require ) {
     this.scaleProperty = scaleProperty;  // @private
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
 
-    this.basePositionProperty = new Property( options.basePosition ); // @private
-    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ) ); // @private
+    this.basePositionProperty = new Property( options.basePosition );
+    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ) );
 
-    this.angle = options.angle;
 
     var crosshairShape = new Shape().
       moveTo( -options.crosshairSize, 0 ).
@@ -118,6 +117,12 @@ define( function( require ) {
       fill: options.textColor
     } );
 
+
+    // declare new variable for rotation purposes, used in update function
+    var angle = options.angle;
+    var oldAngle;
+    var deltaAngle;
+
     /**
      * Update the measuring tape
      *
@@ -125,9 +130,9 @@ define( function( require ) {
      * @param {Vector2} tipPosition
      */
     this.update = function( basePosition, tipPosition ) {
-      measuringTape.oldAngle = measuringTape.angle;
-      measuringTape.angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
-      var deltaAngle = measuringTape.angle - measuringTape.oldAngle;
+      oldAngle = angle;
+      angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
+      deltaAngle = angle - oldAngle;
 
       // set position of the tip and the base crosshair
       baseCrosshair.center = basePosition;
@@ -136,7 +141,7 @@ define( function( require ) {
       // in order to avoid all kind of geometrical issues with position, let's reset the baseImage upright and then set its position and rotation
       baseImage.setRotation( 0 );
       baseImage.rightBottom = basePosition;
-      baseImage.rotateAround( basePosition, measuringTape.angle );
+      baseImage.rotateAround( basePosition, angle );
 
       // reset the text
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
