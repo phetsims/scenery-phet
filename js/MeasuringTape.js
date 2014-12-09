@@ -93,8 +93,7 @@ define( function( require ) {
 
     var tipCircle = new Circle( this.options.tipCircleRadius, {fill: this.options.tipCircleColor} );
 
-    var baseImage = new Node( {
-      children: [new Image( measuringTapeImage )],
+    var baseImage = new Image( measuringTapeImage, {
       scale: this.options.imageScale,
       rightBottom: this.basePosition,
       cursor: 'pointer'
@@ -283,7 +282,7 @@ define( function( require ) {
     // @ public
     getText: function() {
       return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value,
-        this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
+          this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
     }
 
 
