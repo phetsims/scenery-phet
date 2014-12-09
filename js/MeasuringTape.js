@@ -54,7 +54,7 @@ define( function( require ) {
       textColor: 'white',  // color of the length measurement and unit
       textFont: new PhetFont( 16 ), // font for the measurement text
       textFontWeight: 'bold',
-      imageScale: 0.8, // control the size of the measuringTape Image (the base)
+      baseScale: 0.8, // control the size of the measuringTape Image (the base)
       lineColor: 'gray',  // color of the tapeline itself
       lineWidth: 2, // linewidth of the tape line and the crosshairs
       tipCircleColor: 'rgba(0,0,0,0.1)', // transparent by default
@@ -96,7 +96,7 @@ define( function( require ) {
     var tipCircle = new Circle( this.options.tipCircleRadius, {fill: this.options.tipCircleColor} );
 
     var baseImage = new Image( measuringTapeImage, {
-      scale: this.options.imageScale,
+      scale: this.options.baseScale,
       rightBottom: this.basePosition,
       cursor: 'pointer'
     } );
