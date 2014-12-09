@@ -45,7 +45,7 @@ define( function( require ) {
     var measuringTape = this;
 
     Node.call( this );
-    this.options = _.extend( {
+    var options = _.extend( {
       basePosition: new Vector2( 40, 40 ), // base Position in View units (rightBottom position of the measuring tape image)
       unrolledTapeDistance: 100, // in scenery coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
@@ -68,44 +68,48 @@ define( function( require ) {
 
     var erodedDragBounds = dragBounds.eroded( 4 );
 
+    this.significantFigures = options.significantFigures;
+
     this.unitsProperty = unitsProperty; // @private
     this.scaleProperty = scaleProperty;  // @private
 
-    this.tipToBaseDistance = this.options.unrolledTapeDistance; // @private
-    this.basePosition = this.options.basePosition; // @private
-    this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) ); // @private
-    this.angle = this.options.angle; // @private
+
+    this.tipToBaseDistance = options.unrolledTapeDistance; // @private
+
+    this.basePosition = options.basePosition; // @private
+    this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ); // @private
+    this.angle = options.angle; // @private
 
 
     var crosshairShape = new Shape().
-      moveTo( -this.options.crosshairSize, 0 ).
-      lineTo( this.options.crosshairSize, 0 ).
-      moveTo( 0, -this.options.crosshairSize ).
-      lineTo( 0, this.options.crosshairSize );
+      moveTo( -options.crosshairSize, 0 ).
+      lineTo( options.crosshairSize, 0 ).
+      moveTo( 0, -options.crosshairSize ).
+      lineTo( 0, options.crosshairSize );
 
     var baseCrosshair = new Path( crosshairShape, {
-      stroke: this.options.crosshairColor,
-      lineWidth: this.options.crosshairLineWidth,
+      stroke: options.crosshairColor,
+      lineWidth: options.crosshairLineWidth,
       center: this.basePosition
     } );
 
     var tipCrosshair = new Path( crosshairShape, {
-      stroke: this.options.crosshairColor,
-      lineWidth: this.options.crosshairLineWidth
+      stroke: options.crosshairColor,
+      lineWidth: options.crosshairLineWidth
     } );
 
-    var tipCircle = new Circle( this.options.tipCircleRadius, {fill: this.options.tipCircleColor} );
+    var tipCircle = new Circle( options.tipCircleRadius, {fill: options.tipCircleColor} );
 
     var baseImage = new Image( measuringTapeImage, {
-      scale: this.options.baseScale,
+      scale: options.baseScale,
       rightBottom: this.basePosition,
       cursor: 'pointer'
     } );
 
     // create tapeline (running from one crosshair to the other)
     var tapeLine = new Line( this.basePosition, this.tipPosition, {
-      stroke: this.options.lineColor,
-      lineWidth: this.options.tapeLineWidth
+      stroke: options.lineColor,
+      lineWidth: options.tapeLineWidth
     } );
 
     // add tipCrosshair and tipCircle to the tip
@@ -113,20 +117,20 @@ define( function( require ) {
 
     // rotate crosshairs (if requested) and the baseImage
     baseImage.rotateAround( baseCrosshair.center, this.angle );
-    if ( measuringTape.options.isBaseCrosshairRotating ) {
+    if ( options.isBaseCrosshairRotating ) {
       baseCrosshair.rotateAround( baseCrosshair.center, this.angle );
     }
-    if ( measuringTape.options.isTipCrosshairRotating ) {
+    if ( options.isTipCrosshairRotating ) {
       tipCrosshair.rotateAround( tipCrosshair.center, this.angle );
     }
 
 
     // create and add text
     var labelText = new Text( measuringTape.getText(), {
-      font: this.options.textFont,
-      fontWeight: this.options.textFontWeight,
-      fill: this.options.textColor,
-      centerTop: baseImage.center.plus( measuringTape.options.textPosition )
+      font: options.textFont,
+      fontWeight: options.textFontWeight,
+      fill: options.textColor,
+      centerTop: baseImage.center.plus( options.textPosition )
     } );
 
 
@@ -234,16 +238,17 @@ define( function( require ) {
       baseImage.rotateAround( basePosition, measuringTape.angle );
 
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      labelText.centerTop = baseImage.center.plus( measuringTape.options.textPosition );
+      labelText.centerTop = baseImage.center.plus( options.textPosition );
       labelText.setText( measuringTape.getText() );
 
       // reposition the tapeline
       tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
 
-      if ( measuringTape.options.isTipCrosshairRotating ) {
+      if ( options.isTipCrosshairRotating ) {
         tip.rotateAround( tip.center, deltaAngle );
       }
-      if ( measuringTape.options.isBaseCrosshairRotating ) {
+      if ( options.isBaseCrosshairRotating ) {
+        +
         baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
       }
 
@@ -285,8 +290,8 @@ define( function( require ) {
      *  @public
      */
     reset: function() {
-      this.basePosition = this.options.basePosition;
-      this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) );
+      //this.basePosition = options.basePosition;
+      //this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) );
       this.update( this.basePosition, this.tipPosition );
     },
 
@@ -297,7 +302,7 @@ define( function( require ) {
      */
     getText: function() {
       return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value,
-          this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
+          this.significantFigures ) + ' ' + this.unitsProperty.value.name;
     }
 
 
