@@ -36,7 +36,7 @@ define( function( require ) {
    * Constructor for the measuring tape
    * @param {Bounds2} dragBounds - for the measuring tape (in the ScreenView Coordinates reference frame)
    * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
-   * @param {Property.<object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
+   * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
    * @param {Object} [options]
    * @constructor
@@ -118,6 +118,7 @@ define( function( require ) {
     if ( measuringTape.options.isTipCrosshairRotating ) {
       tipCrosshair.rotateAround( tipCrosshair.center, this.angle );
     }
+
 
     // create and add text
     var labelText = new Text( measuringTape.getText(), {
@@ -244,10 +245,12 @@ define( function( require ) {
       if ( measuringTape.options.isBaseCrosshairRotating ) {
         baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
       }
+
     };
 
-    // add
+    // link visibility of this node
     isVisibleProperty.linkAttribute( this, 'visible' );
+
 
     unitsProperty.link( function( units ) {
       labelText.setText( measuringTape.getText() );
