@@ -279,13 +279,21 @@ define( function( require ) {
   }
 
   return inherit( Node, MeasuringTape, {
-    // @ public
+    /**
+     *  reset the MeasuringTape to its initial configuration
+     *  @public
+     */
     reset: function() {
       this.basePosition = this.options.basePosition;
       this.tipPosition = this.basePosition.plus( Vector2.createPolar( this.options.unrolledTapeDistance, this.options.angle ) );
       this.update( this.basePosition, this.tipPosition );
     },
-    // @ public
+
+    /**
+     * returns a readout of the current measurement
+     * @public
+     * @returns {string}
+     */
     getText: function() {
       return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value,
           this.options.significantFigures ) + ' ' + this.unitsProperty.value.name;
