@@ -22,12 +22,14 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
@@ -72,14 +74,9 @@ define( function( require ) {
 
     this.unitsProperty = unitsProperty; // @private
     this.scaleProperty = scaleProperty;  // @private
-
-
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
-
-    this.basePosition = options.basePosition; // @private
-    this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ); // @private
-
-
+    this.basePositionProperty = new Property( options.basePosition ); // @private
+    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ) ); // @private
 
     var crosshairShape = new Shape().
       moveTo( -options.crosshairSize, 0 ).
@@ -89,8 +86,7 @@ define( function( require ) {
 
     var baseCrosshair = new Path( crosshairShape, {
       stroke: options.crosshairColor,
-      lineWidth: options.crosshairLineWidth,
-      center: this.basePosition
+      lineWidth: options.crosshairLineWidth
     } );
 
     var tipCrosshair = new Path( crosshairShape, {
@@ -102,30 +98,27 @@ define( function( require ) {
 
     var baseImage = new Image( measuringTapeImage, {
       scale: options.baseScale,
-      rightBottom: this.basePosition,
       cursor: 'pointer'
     } );
 
     // create tapeline (running from one crosshair to the other)
-    var tapeLine = new Line( this.basePosition, this.tipPosition, {
+    var tapeLine = new Line( this.basePositionProperty.value, this.tipPositionProperty.value, {
       stroke: options.lineColor,
       lineWidth: options.tapeLineWidth
     } );
 
     // add tipCrosshair and tipCircle to the tip
-    var tip = new Node( {children: [tipCircle, tipCrosshair], center: this.tipPosition, cursor: 'pointer'} );
+    var tip = new Node( {children: [tipCircle, tipCrosshair], cursor: 'pointer'} );
 
-
-
-    // create and add text
+    // create text
     var labelText = new Text( measuringTape.getText(), {
       font: options.textFont,
       fontWeight: options.textFontWeight,
-      fill: options.textColor,
-      centerTop: baseImage.center.plus( options.textPosition )
+      fill: options.textColor
     } );
 
-    update( this.basePosition, this.tipPosition );
+    // update the tip and base positions, orientation of base, the crosshairs and tapeline
+    update( this.basePositionProperty.value, this.tipPositionProperty.value );
 
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
@@ -155,17 +148,17 @@ define( function( require ) {
           }
 
           // Determine the initial position of the new element as a function of the event position and this node's bounds.
-          var upperLeftCornerGlobal = measuringTape.parentToGlobalPoint( measuringTape.basePosition );
+          var upperLeftCornerGlobal = measuringTape.parentToGlobalPoint( measuringTape.basePositionProperty.value );
           var initialPositionOffset = upperLeftCornerGlobal.minus( event.pointer.point );
           // initial position in screenView coordinates
           var initialPosition = this.parentScreen.globalToLocalPoint( event.pointer.point.plus( initialPositionOffset ) );
 
-          startOffset = initialPosition.minus( measuringTape.basePosition );
+          startOffset = initialPosition.minus( measuringTape.basePositionProperty.value );
         },
 
         translate: function( translationParams ) {
           // keep a reference to the old position
-          var oldPosition = measuringTape.basePosition;
+          var oldPosition = measuringTape.basePositionProperty.value;
 
           // position of the base crosshair (in screen View coordinates) if we didn't enforce bounds
           var screenViewBasePosition = oldPosition.plus( translationParams.delta ).plus( startOffset );
@@ -174,16 +167,16 @@ define( function( require ) {
           var constrainedLocation = constrainBounds( screenViewBasePosition, erodedDragBounds );
 
           // recast the position in the local coordinate frame
-          measuringTape.basePosition = constrainedLocation.minus( startOffset );
+          measuringTape.basePositionProperty.value = constrainedLocation.minus( startOffset );
 
           // if the tip is not being dragged then let's move the position of the tip as well
           if ( !isDraggingTip ) {
-            var deltaPosition = measuringTape.basePosition.minus( oldPosition );
-            measuringTape.tipPosition = measuringTape.tipPosition.plus( deltaPosition );
+            var deltaPosition = measuringTape.basePositionProperty.value.minus( oldPosition );
+            measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( deltaPosition );
           }
 
           // update positions of the crosshairs, text, tapeline and rotation
-          update( measuringTape.basePosition, measuringTape.tipPosition );
+          update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
         }
       } )
     );
@@ -200,10 +193,10 @@ define( function( require ) {
       },
 
       translate: function( translationParams ) {
-        measuringTape.tipPosition = measuringTape.tipPosition.plus( translationParams.delta );
+        measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( translationParams.delta );
 
         // update positions of the crosshairs, text, tapeline and rotation
-        update( measuringTape.basePosition, measuringTape.tipPosition );
+        update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
       },
 
       end: function( event, trail ) {
@@ -241,8 +234,7 @@ define( function( require ) {
         tip.rotateAround( tip.center, deltaAngle );
       }
       if ( options.isBaseCrosshairRotating ) {
-        +
-          baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
+        baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
       }
 
     }
@@ -273,7 +265,7 @@ define( function( require ) {
         var yConstrained = Math.max( Math.min( point.y, bounds.maxY ), bounds.minY );
         return new Vector2( xConstrained, yConstrained );
       }
-    };
+    }
 
   }
 
@@ -283,7 +275,7 @@ define( function( require ) {
      *  @public
      */
     reset: function() {
-      PropertySet.prototype.reset.call( this );
+      Property.prototype.reset.call( this );
       //this.basePosition = options.basePosition;
       //this.tipPosition = this.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) );
       //   this.update( this.basePosition, this.tipPosition );
