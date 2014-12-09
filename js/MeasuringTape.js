@@ -47,7 +47,7 @@ define( function( require ) {
       basePosition: new Vector2( 300, 300 ), // base Position in View units (rightBottom position of the measuring tape image)
       unrolledTapeDistance: 100, // in scenery coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
-      textPosition: new Vector2( 0, 10 ), // position of the text relative to center bottom of the image in view units
+      textPosition: new Vector2( 0, 24 ), // position of the text relative to center of the base image in view units
       significantFigures: 1,  // number of significant figures in the length measurement
       textColor: 'white',  // color of the length measurement and unit
       textFont: new PhetFont( 16 ), // font for the measurement text
@@ -122,8 +122,9 @@ define( function( require ) {
       font: this.options.textFont,
       fontWeight: this.options.textFontWeight,
       fill: this.options.textColor,
-      centerTop: baseImage.centerBottom.plus( measuringTape.options.textPosition )
+      centerTop: baseImage.center.plus( measuringTape.options.textPosition )
     } );
+
 
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
     baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
@@ -229,7 +230,7 @@ define( function( require ) {
       baseImage.rotateAround( basePosition, measuringTape.angle );
 
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      labelText.centerTop = baseImage.centerBottom.plus( measuringTape.options.textPosition );
+      labelText.centerTop = baseImage.center.plus( measuringTape.options.textPosition );
       labelText.setText( measuringTape.getText() );
 
       // reposition the tapeline
