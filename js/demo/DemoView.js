@@ -54,9 +54,10 @@ define( function( require ) {
     // measuring tape
     var mtScaleProperty = new Property( 100 );
     var mtUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
-    var measuringTape = new MeasuringTape( this.layoutBounds, mtScaleProperty, mtUnitsProperty, new Property( true ),
+    var measuringTape = new MeasuringTape( mtScaleProperty, mtUnitsProperty, new Property( true ),
       {
-        textColor: 'black'
+        textColor: 'black',
+        dragBounds: this.layoutBounds
       } );
     this.addChild( measuringTape );
 

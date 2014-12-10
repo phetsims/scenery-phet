@@ -16,6 +16,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -36,14 +37,13 @@ define( function( require ) {
 
   /**
    * Constructor for the measuring tape
-   * @param {Bounds2} dragBounds - for the measuring tape (in the parent Node Coordinates reference frame)
    * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
    * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( dragBounds, scaleProperty, unitsProperty, isVisibleProperty, options ) {
+  function MeasuringTape( scaleProperty, unitsProperty, isVisibleProperty, options ) {
     var measuringTape = this;
 
     Node.call( this );
@@ -52,6 +52,7 @@ define( function( require ) {
       unrolledTapeDistance: 100, // in scenery coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
+      dragBounds: Bounds2.EVERYTHING,// bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
       significantFigures: 1,  // number of significant figures in the length measurement
       textColor: 'white',  // color of the length measurement and unit
       textFont: new PhetFont( {size: 16, weight: 'bold'} ), // font for the measurement text
@@ -67,9 +68,6 @@ define( function( require ) {
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
 
-
-    var erodedDragBounds = dragBounds.eroded( 4 );
-
     this.significantFigures = options.significantFigures;
     this.unitsProperty = unitsProperty; // @private
     this.scaleProperty = scaleProperty;  // @private
@@ -80,6 +78,7 @@ define( function( require ) {
 
 
     var crosshairShape = new Shape().
+      moveTo( -options.crosshairSize, 0 ).
       moveTo( -options.crosshairSize, 0 ).
       lineTo( options.crosshairSize, 0 ).
       moveTo( 0, -options.crosshairSize ).
@@ -184,7 +183,7 @@ define( function( require ) {
 
         drag: function( event ) {
           var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
-          var constrainedLocation = constrainBounds( parentPoint, erodedDragBounds );
+          var constrainedLocation = constrainBounds( parentPoint, options.dragBounds );
 
           // translation of the basePosition (subject to the constraining bounds)
           var translationDelta = constrainedLocation.minus( measuringTape.basePositionProperty.value );
