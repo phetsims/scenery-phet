@@ -61,7 +61,7 @@ define( function( require ) {
       tapeLineWidth: 2, // linewidth of the tape line
       tipCircleColor: 'rgba(0,0,0,0.1)', // color of the circle at the tip
       tipCircleRadius: 10, // radius of the circle on the tip
-      crosshairColor: 'rgba(224, 95, 32, 1)', // orange, color of the two crosshairs
+      crosshairColor: 'rgb(224, 95, 32)', // orange, color of the two crosshairs
       crosshairSize: 5,  // size of the crosshairs in scenery coordinates ( measured from center)
       crosshairLineWidth: 2, // linewidth of the crosshairs
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
