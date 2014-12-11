@@ -23,6 +23,14 @@ define( function( require ) {
   var FLUID_MAIN_COLOR = '#850e0e';
   var FLUID_HIGHLIGHT_COLOR = '#ff7575';
 
+  /**
+   *
+   * @param {number} minTemperature
+   * @param {number} maxTemperature
+   * @param {Property.<number>} temperatureProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
