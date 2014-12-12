@@ -32,6 +32,7 @@ define( function( require ) {
       minorTickLength: 7.5,
       fluidSphereSpacing: 2, // the empty space between the fluid sphere and the thermometer outline
       fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
+      backgroundColor: null,
 
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
@@ -108,6 +109,14 @@ define( function( require ) {
       fluidRectangle.setRect( rectangleX, fluidBase - fluidHeight, fluidWidth, fluidHeight );
     } );
 
+    if ( options.backgroundColor ) {
+      var backgroundY = upperLeftCorner.y - options.tubeWidth / 2;
+      var backgroundHeight = options.tubeHeight + options.tubeWidth / 2;
+      var backgroundRectangle = new Rectangle( upperLeftCorner.x, backgroundY, options.tubeWidth, backgroundHeight,
+        { fill: options.backgroundColor } );
+      backgroundRectangle.setClipArea( shape );
+      this.addChild( backgroundRectangle );
+    }
     this.addChild( fluidRectangle );
     this.addChild( fluidSphere );
     this.addChild( outline );
