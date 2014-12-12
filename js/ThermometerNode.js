@@ -19,6 +19,14 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
+  /**
+   *
+   * @param {number} minTemperature
+   * @param {number} maxTemperature
+   * @param {Property.<number>} temperatureProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
