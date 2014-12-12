@@ -28,6 +28,7 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'black',
       tickSpacing: 15,
+      fluidSpacing: 2, // the empty space between the fluid and the thermometer outline
 
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
@@ -42,7 +43,7 @@ define( function( require ) {
     var bulbCenterY = 0;
 
     // Create a shaded sphere to act as the bulb fill
-    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth / 2 - 6,
+    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth - options.fluidSpacing * 2,
       {
         centerX: bulbCenterX,
         centerY: bulbCenterY,
@@ -84,8 +85,8 @@ define( function( require ) {
       } );
 
     // parameters for the fluid rectangle
-    var fluidWidth = options.tubeWidth - options.lineWidth * 2;
-    var rectangleX = upperLeftCorner.x + options.lineWidth;
+    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidSpacing * 2;
+    var rectangleX = upperLeftCorner.x + options.lineWidth / 2 + options.fluidSpacing;
     var tubeBase = upperLeftCorner.y + options.tubeHeight;
     var fluidBase = bulbCenterY; // put the base of the rectangle in at the center of the bulb to make sure there is no break between them
     var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
