@@ -39,9 +39,11 @@ define( function( require ) {
 
     // thermometer
     var tempProperty = new Property( 50 );
-    var thermometer = new ThermometerNode( 0, 100, tempProperty, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY } );
-    thermometer.centerX = this.layoutBounds.centerX;
-    thermometer.centerY = this.layoutBounds.centerY;
+    var thermometer = new ThermometerNode( 0, 100, tempProperty,
+      {
+        centerX: this.layoutBounds.centerX,
+        centerY: this.layoutBounds.centerY
+      } );
     this.addChild( thermometer );
 
     // slider for controlling thermometer

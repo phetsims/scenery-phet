@@ -19,18 +19,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
-  // constants
-  var FLUID_MAIN_COLOR = '#850e0e';
-  var FLUID_HIGHLIGHT_COLOR = '#ff7575';
-
-  /**
-   *
-   * @param {number} minTemperature
-   * @param {number} maxTemperature
-   * @param {Property.<number>} temperatureProperty
-   * @param {Object} [options]
-   * @constructor
-   */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
@@ -39,9 +27,13 @@ define( function( require ) {
       tubeHeight: 100,
       lineWidth: 4,
       outlineStroke: 'black',
-      tickSpacing: 15
-      // majorTickSpacing:
-      // minorTickSpacing:
+      tickSpacing: 15,
+      fluidSpacing: 2, // the empty space between the fluid and the thermometer outline
+
+      // all the default colors are shades of red
+      fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
+      fluidHighlightColor: '#ff7575', // the highlight color of the shaded sphere and the middle of the tube gradient
+      fluidRightSideColor: '#c41515' // the right side of the tube gradient
     }, options );
 
     Node.call( this );
@@ -51,12 +43,12 @@ define( function( require ) {
     var bulbCenterY = 0;
 
     // Create a shaded sphere to act as the bulb fill
-    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth / 2 - 6,
+    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth - options.fluidSpacing * 2,
       {
         centerX: bulbCenterX,
         centerY: bulbCenterY,
-        mainColor: FLUID_MAIN_COLOR,
-        highlightColor: FLUID_HIGHLIGHT_COLOR,
+        mainColor: options.fluidMainColor,
+        highlightColor: options.fluidHighlightColor,
         highlightXOffset: -0.2,
         highlightYOffset: -0.2,
         rotation: Math.PI / 2
@@ -93,18 +85,18 @@ define( function( require ) {
       } );
 
     // parameters for the fluid rectangle
-    var fluidWidth = options.tubeWidth - options.lineWidth * 2;
-    var rectangleX = upperLeftCorner.x + options.lineWidth;
+    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidSpacing * 2;
+    var rectangleX = upperLeftCorner.x + options.lineWidth / 2 + options.fluidSpacing;
     var tubeBase = upperLeftCorner.y + options.tubeHeight;
     var fluidBase = bulbCenterY; // put the base of the rectangle in at the center of the bulb to make sure there is no break between them
     var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
     var maxFluidHeight = options.tubeHeight;
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
-      addColorStop( 0, FLUID_MAIN_COLOR ).
-      addColorStop( 0.5, FLUID_HIGHLIGHT_COLOR ).
-      addColorStop( 0.7, FLUID_HIGHLIGHT_COLOR ).
-      addColorStop( 1, '#c41515' );
+      addColorStop( 0, options.fluidMainColor ).
+      addColorStop( 0.5, options.fluidHighlightColor ).
+      addColorStop( 0.7, options.fluidHighlightColor ).
+      addColorStop( 1, options.fluidRightSideColor );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
 
