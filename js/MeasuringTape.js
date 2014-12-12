@@ -36,23 +36,24 @@ define( function( require ) {
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
   /**
-   * Constructor for the measuring tape
-   * @param {Property.<number>} scaleProperty - ratio of scenery coordinates (view) over the model coordinates.
+   * Constructor for the measuring Tape
+   * @param {ModelViewTransform2} modelViewTransform
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
    * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( scaleProperty, unitsProperty, isVisibleProperty, options ) {
+  function MeasuringTape( modelViewTransform, unitsProperty, isVisibleProperty, options ) {
     var measuringTape = this;
 
     Node.call( this );
     options = _.extend( {
-      basePosition: new Vector2( 40, 40 ), // base Position in View units (rightBottom position of the measuring tape image)
-      unrolledTapeDistance: 100, // in scenery coordinates
+      basePosition: new Vector2( 40, 40 ), // base Position in view coordinates (rightBottom position of the measuring tape image)
+      unrolledTapeDistance: 1, // in model coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
       dragBounds: Bounds2.EVERYTHING,// bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
+      scaleProperty: new Property( 1 ), // scale the apparent length of the unrolled Tape, without changing the measurement, analogous to a zoom factor
       significantFigures: 1,  // number of significant figures in the length measurement
       textColor: 'white',  // color of the length measurement and unit
       textFont: new PhetFont( {size: 16, weight: 'bold'} ), // font for the measurement text
@@ -68,13 +69,17 @@ define( function( require ) {
       isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
 
+
+    assert && assert( modelViewTransform.modelToViewDeltaX( 1 ) === modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
+
     this.significantFigures = options.significantFigures;
     this.unitsProperty = unitsProperty; // @private
-    this.scaleProperty = scaleProperty;  // @private
+    this.scaleProperty = options.scaleProperty;  // @private
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
 
     this.basePositionProperty = new Property( options.basePosition );
-    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( options.unrolledTapeDistance, options.angle ) ) );
+    var tapeDistance = modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
+    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
 
 
     var crosshairShape = new Shape().
@@ -224,13 +229,23 @@ define( function( require ) {
     // link visibility of this node
     isVisibleProperty.linkAttribute( this, 'visible' );
 
-
+    // link change of units to the text
     unitsProperty.link( function() {
       labelText.setText( measuringTape.getText() );
     } );
 
-    scaleProperty.link( function() {
-      labelText.setText( measuringTape.getText() );
+    // scaleProperty is analogous to a zoom function
+    // the length of the unrolled tape scales with the scaleProperty but the text measurement stays the same.
+    options.scaleProperty.link( function( scale, oldScale ) {
+      // make sure that the oldScale exists, if not set to 1.
+      if ( oldScale == null ) {
+        oldScale = 1;
+      }
+      // update the position of the tip
+      var displacementVector = measuringTape.tipPositionProperty.value.minus( measuringTape.basePositionProperty.value );
+      var scaledDisplacementVector = displacementVector.timesScalar( scale / oldScale );
+      measuringTape.tipPositionProperty.value = measuringTape.basePositionProperty.value.plus( scaledDisplacementVector );
+      measuringTape.update( measuringTape.basePositionProperty.value, measuringTape.tipPositionProperty.value );
     } );
 
     /**
