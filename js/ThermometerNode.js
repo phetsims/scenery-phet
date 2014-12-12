@@ -30,8 +30,11 @@ define( function( require ) {
       tickSpacing: 15,
       majorTickLength: 15,
       minorTickLength: 7.5,
+      clipFluidRectangle: true,
       fluidSphereSpacing: 2, // the empty space between the fluid sphere and the thermometer outline
       fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
+
+      // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
       backgroundColor: null,
 
       // all the default colors are shades of red
@@ -76,7 +79,8 @@ define( function( require ) {
     for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
         shape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
-      } else {
+      }
+      else {
         shape.moveToRelative( options.majorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.majorTickLength );
       }
     }
@@ -102,6 +106,7 @@ define( function( require ) {
       addColorStop( 1, options.fluidRightSideColor );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
+    if ( options.clipFluidRectangle ) { fluidRectangle.setClipArea( shape ); }
 
     var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, fluidOffset, maxFluidHeight + fluidOffset );
     temperatureProperty.link( function( temp ) {
