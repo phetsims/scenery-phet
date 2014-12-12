@@ -65,7 +65,7 @@ define( function( require ) {
 
     var upperLeftCorner = shape.getLastPoint();
     shape.arc( upperLeftCorner.x + options.tubeWidth / 2, upperLeftCorner.y, options.tubeWidth / 2, Math.PI, 0 )
-      .verticalLineToRelative( options.tubeHeight + 1 );
+      .verticalLineToRelative( options.tubeHeight ).close();
 
     var tickMarkLength = options.tubeWidth * 0.5;
     shape.moveToPoint( upperLeftCorner ).moveToRelative( tickMarkLength ).horizontalLineToRelative( -tickMarkLength );
