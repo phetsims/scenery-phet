@@ -19,10 +19,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
-  // constants
-  var FLUID_MAIN_COLOR = '#850e0e';
-  var FLUID_HIGHLIGHT_COLOR = '#ff7575';
-
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
 
     options = _.extend( {
@@ -31,9 +27,12 @@ define( function( require ) {
       tubeHeight: 100,
       lineWidth: 4,
       outlineStroke: 'black',
-      tickSpacing: 15
-      // majorTickSpacing:
-      // minorTickSpacing:
+      tickSpacing: 15,
+
+      // all the default colors are shades of red
+      fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
+      fluidHighlightColor: '#ff7575', // the highlight color of the shaded sphere and the middle of the tube gradient
+      fluidRightSideColor: '#c41515' // the right side of the tube gradient
     }, options );
 
     Node.call( this );
@@ -47,8 +46,8 @@ define( function( require ) {
       {
         centerX: bulbCenterX,
         centerY: bulbCenterY,
-        mainColor: FLUID_MAIN_COLOR,
-        highlightColor: FLUID_HIGHLIGHT_COLOR,
+        mainColor: options.fluidMainColor,
+        highlightColor: options.fluidHighlightColor,
         highlightXOffset: -0.2,
         highlightYOffset: -0.2,
         rotation: Math.PI / 2
@@ -93,10 +92,10 @@ define( function( require ) {
     var maxFluidHeight = options.tubeHeight;
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
-      addColorStop( 0, FLUID_MAIN_COLOR ).
-      addColorStop( 0.5, FLUID_HIGHLIGHT_COLOR ).
-      addColorStop( 0.7, FLUID_HIGHLIGHT_COLOR ).
-      addColorStop( 1, '#c41515' );
+      addColorStop( 0, options.fluidMainColor ).
+      addColorStop( 0.5, options.fluidHighlightColor ).
+      addColorStop( 0.7, options.fluidHighlightColor ).
+      addColorStop( 1, options.fluidRightSideColor );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
 
