@@ -117,9 +117,6 @@ define( function( require ) {
     } );
 
 
-    // declare new variable for rotation purposes, used in update function
-    var angle = options.angle;
-
     /**
      * Update the measuring tape
      *
@@ -127,8 +124,9 @@ define( function( require ) {
      * @param {Vector2} tipPosition
      */
     this.update = function( basePosition, tipPosition ) {
-      var oldAngle = angle;
-      angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
+      // calculate the orientation and change of orientation of the Measuring tape
+      var oldAngle = baseImage.getRotation();
+      var angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
       var deltaAngle = angle - oldAngle;
 
       // set position of the tip and the base crosshair
