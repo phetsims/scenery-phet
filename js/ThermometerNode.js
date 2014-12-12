@@ -28,7 +28,10 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'black',
       tickSpacing: 15,
-      fluidSpacing: 2, // the empty space between the fluid and the thermometer outline
+      majorTickLength: 15,
+      minorTickLength: 7.5,
+      fluidSphereSpacing: 2, // the empty space between the fluid sphere and the thermometer outline
+      fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
 
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
@@ -43,7 +46,7 @@ define( function( require ) {
     var bulbCenterY = 0;
 
     // Create a shaded sphere to act as the bulb fill
-    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth - options.fluidSpacing * 2,
+    var fluidSphere = new ShadedSphereNode( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing * 2,
       {
         centerX: bulbCenterX,
         centerY: bulbCenterY,
@@ -71,11 +74,10 @@ define( function( require ) {
     shape.moveToPoint( upperLeftCorner ).moveToRelative( tickMarkLength ).horizontalLineToRelative( -tickMarkLength );
     for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
-        tickMarkLength /= 2;
+        shape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
       } else {
-        tickMarkLength *= 2;
+        shape.moveToRelative( options.majorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.majorTickLength );
       }
-      shape.moveToRelative( tickMarkLength, options.tickSpacing ).horizontalLineToRelative( -tickMarkLength );
     }
 
     var outline = new Path( shape,
@@ -85,8 +87,8 @@ define( function( require ) {
       } );
 
     // parameters for the fluid rectangle
-    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidSpacing * 2;
-    var rectangleX = upperLeftCorner.x + options.lineWidth / 2 + options.fluidSpacing;
+    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidRectSpacing * 2;
+    var rectangleX = upperLeftCorner.x + options.lineWidth / 2 + options.fluidRectSpacing;
     var tubeBase = upperLeftCorner.y + options.tubeHeight;
     var fluidBase = bulbCenterY; // put the base of the rectangle in at the center of the bulb to make sure there is no break between them
     var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
