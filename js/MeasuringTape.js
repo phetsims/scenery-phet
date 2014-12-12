@@ -238,7 +238,7 @@ define( function( require ) {
     // the length of the unrolled tape scales with the scaleProperty but the text measurement stays the same.
     options.scaleProperty.link( function( scale, oldScale ) {
       // make sure that the oldScale exists, if not set to 1.
-      if ( oldScale == null ) {
+      if ( oldScale === null ) {
         oldScale = 1;
       }
       // update the position of the tip

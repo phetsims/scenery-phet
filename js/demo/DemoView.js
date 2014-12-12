@@ -60,7 +60,7 @@ define( function( require ) {
     mtScaleSlider.centerX = 400;
     mtScaleSlider.centerY = 100;
     var mtUnitsProperty = new Property( {name: 'meters', multiplier: 1} );
-    var modelViewTransform = new ModelViewTransform2.createIdentity;
+    var modelViewTransform = new ModelViewTransform2.createIdentity();
     var measuringTape = new MeasuringTape( modelViewTransform, mtUnitsProperty, new Property( true ),
       {
         textColor: 'black',
