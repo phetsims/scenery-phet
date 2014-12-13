@@ -71,14 +71,17 @@ define( function( require ) {
 
 
     assert && assert( modelViewTransform.modelToViewDeltaX( 1 ) === modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
+    this.modelToViewScale = modelViewTransform.modelToViewDeltaX( 1 ); // private
 
     this.significantFigures = options.significantFigures;
     this.unitsProperty = unitsProperty; // @private
     this.scaleProperty = options.scaleProperty;  // @private
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
 
+
     this.basePositionProperty = new Property( options.basePosition );
     var tapeDistance = modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
+
     this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
 
 
@@ -283,7 +286,7 @@ define( function( require ) {
      * @returns {string}
      */
     getText: function() {
-      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.scaleProperty.value,
+      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.modelToViewScale / this.scaleProperty.value,
           this.significantFigures ) + ' ' + this.unitsProperty.value.name;
     }
 
