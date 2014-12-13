@@ -145,8 +145,9 @@ define( function( require ) {
 
       // reset the text
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      labelText.centerTop = baseImage.center.plus( options.textPosition.times( options.baseScale ) );
       labelText.setText( measuringTape.getText() );
+      labelText.centerTop = baseImage.center.plus( options.textPosition.times( options.baseScale ) );
+
 
       // reposition the tapeline
       tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
