@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
@@ -87,7 +88,7 @@ define( function( require ) {
     // wavelength slider
     var wavelengthProperty = new Property( 500 );
     var wavelengthSlider = new WavelengthSlider( wavelengthProperty,
-      {left: 10, centerY: this.layoutBounds.centerY, tweakersVisible: false, valueVisible: false} );
+      {left: 10, centerY: this.layoutBounds.centerY - 50, tweakersVisible: false, valueVisible: false} );
     this.addChild( wavelengthSlider );
 
     // Refresh button and caption
@@ -144,6 +145,13 @@ define( function( require ) {
       centerY: timerToggleButton.centerY
     } );
     this.addChild( timerToggleButtonLabel );
+
+    // faucet
+    var faucetNode = new FaucetNode( 10, new Property( 5 ), new Property( true ), {
+      left: 10,
+      top: wavelengthSlider.bottom + 10
+    } );
+    this.addChild( faucetNode );
 
     // Reset function
     function resetAll() {
