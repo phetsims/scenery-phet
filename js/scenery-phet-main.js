@@ -12,7 +12,10 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var DemoView = require( 'SCENERY_PHET/demo/DemoView' );
+  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
+  var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
+  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // Strings
   var simTitle = 'scenery-phet';
@@ -24,15 +27,31 @@ define( function( require ) {
   };
 
   var backgroundColor = window.phetcommon.getQueryParameter( 'backgroundColor' ) || 'white';
+  var screenOptions = { backgroundColor: backgroundColor };
+
+  var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 100, 100, { fill: color } ); };
 
   SimLauncher.launch( function() {
     // Create and start the sim
     //Create and start the sim
     new Sim( simTitle, [
-      new Screen( simTitle, null,
+      new Screen( 'Buttons',
+        createScreenIcon( 'red' ),
         function() {return {};},
-        function( model ) {return new DemoView();},
-        { backgroundColor: backgroundColor }
+        function( model ) {return new ButtonsView();},
+        screenOptions
+      ),
+      new Screen( 'Sliders',
+        createScreenIcon( 'yellow' ),
+        function() {return {};},
+        function( model ) {return new SlidersView();},
+        screenOptions
+      ),
+      new Screen( 'Components',
+        createScreenIcon( 'orange' ),
+        function() {return {};},
+        function( model ) {return new ComponentsView();},
+        screenOptions
       )
     ], simOptions ).start();
   } );
