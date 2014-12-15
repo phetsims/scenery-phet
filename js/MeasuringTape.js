@@ -72,7 +72,7 @@ define( function( require ) {
 
 
     assert && assert( options.modelViewTransform.modelToViewDeltaX( 1 ) === options.modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
-    this.modelToViewScale = options.modelViewTransform.modelToViewDeltaX( 1 ); // private
+    this.modelToViewScale = options.modelViewTransform.modelToViewDeltaX( 1 ); // @private
 
     this.significantFigures = options.significantFigures;
     this.unitsProperty = unitsProperty; // @private
@@ -270,6 +270,8 @@ define( function( require ) {
         return new Vector2( xConstrained, yConstrained );
       }
     }
+
+    this.mutate( options );
   }
 
   return inherit( Node, MeasuringTape, {
