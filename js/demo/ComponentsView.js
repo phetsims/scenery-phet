@@ -47,7 +47,7 @@ define( function( require ) {
     // measuring tape
     var measuringTapeScaleProperty = new Property( 0.5 );
     var measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
-    var measuringTape = new MeasuringTape( new ModelViewTransform2.createIdentity(), measuringTapeUnitsProperty, new Property( true ), {
+    var measuringTape = new MeasuringTape( ModelViewTransform2.createIdentity(), measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
