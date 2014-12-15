@@ -105,7 +105,7 @@ define( function( require ) {
     var tubeBase = upperLeftCorner.y + options.tubeHeight;
     var fluidBase = bulbCenterY; // put the base of the rectangle in at the center of the bulb to make sure there is no break between them
     var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
-    var maxFluidHeight = options.tubeHeight;
+    var maxFluidHeight = options.tubeHeight + options.tubeWidth / 2; // max fluid height includes the rounded tip of the tube
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
       addColorStop( 0, options.fluidMainColor ).
@@ -120,6 +120,7 @@ define( function( require ) {
     temperatureProperty.link( function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
       fluidRectangle.setRect( rectangleX, fluidBase - fluidHeight, fluidWidth, fluidHeight );
+      fluidRectangle.visible = ( fluidHeight !== fluidOffset );
     } );
 
     if ( options.backgroundColor ) {
