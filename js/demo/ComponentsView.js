@@ -1,38 +1,30 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Demonstration of scenery-phet UI components
+ * Demonstration of misc scenery-phet UI components
  *
  * @author Sam Reid
+ * @author Chris Malley
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var Dimension2 = require( 'DOT/Dimension2' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
-  var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
-  // constants
-  var BUTTON_CAPTION_FONT = new PhetFont( 12 );
-  var BUTTON_CAPTION_SPACING = 10; // space between buttons and their captions
+  function ComponentsView() {
 
-  function ButtonsView() {
     ScreenView.call( this, {renderer: 'svg'} );
 
     // thermometer
@@ -42,13 +34,15 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 20
     } );
     this.addChild( thermometer );
-
-    // slider for controlling thermometer
-    var tempSlider = new HSlider( temperatureProperty, {min: 0, max: 100} );
-    tempSlider.rotation = -Math.PI / 2;
-    tempSlider.right = thermometer.left - 10;
-    tempSlider.centerY = thermometer.centerY;
-    this.addChild( tempSlider );
+    var temperatureSlider = new HSlider( temperatureProperty, { min: 0, max: 100 }, {
+      thumbSize: new Dimension2( 15, 30 ),
+      thumbFillHighlighted: 'red',
+      thumbFillEnabled: 'rgb(158,35,32)'
+    } );
+    temperatureSlider.rotation = -Math.PI / 2;
+    temperatureSlider.right = thermometer.left - 10;
+    temperatureSlider.centerY = thermometer.centerY;
+    this.addChild( temperatureSlider );
 
     // measuring tape
     var measuringTapeScaleProperty = new Property( 0.5 );
@@ -60,7 +54,7 @@ define( function( require ) {
       scaleProperty: measuringTapeScaleProperty
     } );
     this.addChild( measuringTape );
-    var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, {min: 0.5, max: 2} ).mutate( {
+    var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
       left: 50,
       top: measuringTape.bottom + 20
     } );
@@ -78,14 +72,16 @@ define( function( require ) {
     } );
     this.addChild( starNodeContainer );
     var starValueProperty = new Property( 1 );
-    this.addChild( new HSlider( starValueProperty, { min: 0, max: 1 } ).mutate( {
+    var starSlider = new HSlider( starValueProperty, { min: 0, max: 1 }, {
+      thumbFillHighlighted: 'yellow',
+      thumbFillEnabled: 'rgb(220,220,0)',
+      thumbCenterLineStroke: 'black',
       right: starNodeContainer.right,
       top: starNodeContainer.bottom + 5
-    } ) );
+    } );
+    this.addChild( starSlider );
     starValueProperty.link( function( value ) {
-      starNodeContainer.children = [new StarNode( {
-        value: value
-      } )];
+      starNodeContainer.children = [ new StarNode( { value: value } ) ];
     } );
 
     // faucet
@@ -111,9 +107,5 @@ define( function( require ) {
     this.addChild( resetAllButton );
   }
 
-  return inherit( ScreenView, ButtonsView, {
-    step: function( timeElapsed ) {
-      // Does nothing for now.
-    }
-  } );
+  return inherit( ScreenView, ComponentsView );
 } );

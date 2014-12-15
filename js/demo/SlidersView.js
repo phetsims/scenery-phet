@@ -1,8 +1,9 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Demonstration of scenery-phet slider
+ * Demonstration of scenery-phet sliders
  *
+ * @author Sam Reid
  * @author Chris Malley
  */
 define( function( require ) {
@@ -22,7 +23,7 @@ define( function( require ) {
 
     // horizontal slider
     var hSliderProperty = new Property( 0 );
-    var hSlider = new HSlider( hSliderProperty, { min: 0, max: 100 } ).mutate( {
+    var hSlider = new HSlider( hSliderProperty, { min: 0, max: 100 }, {
       left: 10,
       top: 10
     } );

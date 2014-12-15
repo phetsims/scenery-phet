@@ -94,9 +94,5 @@ define( function( require ) {
     this.addChild( resetAllButton );
   }
 
-  return inherit( ScreenView, ButtonsView, {
-    step: function( timeElapsed ) {
-      // Does nothing for now.
-    }
-  } );
+  return inherit( ScreenView, ButtonsView );
 } );
