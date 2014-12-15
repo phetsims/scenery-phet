@@ -270,6 +270,8 @@ define( function( require ) {
         return new Vector2( xConstrained, yConstrained );
       }
     }
+
+    this.mutate( options );
   }
 
   return inherit( Node, MeasuringTape, {
