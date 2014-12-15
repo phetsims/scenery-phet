@@ -21,6 +21,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -37,13 +38,12 @@ define( function( require ) {
 
   /**
    * Constructor for the measuring Tape
-   * @param {ModelViewTransform2} modelViewTransform
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
    * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( modelViewTransform, unitsProperty, isVisibleProperty, options ) {
+  function MeasuringTape( unitsProperty, isVisibleProperty, options ) {
     var measuringTape = this;
 
     Node.call( this );
@@ -52,6 +52,7 @@ define( function( require ) {
       unrolledTapeDistance: 1, // in model coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
+      modelViewTransform: ModelViewTransform2.createIdentity(),
       dragBounds: Bounds2.EVERYTHING,// bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
       scaleProperty: new Property( 1 ), // scale the apparent length of the unrolled Tape, without changing the measurement, analogous to a zoom factor
       significantFigures: 1,  // number of significant figures in the length measurement
@@ -70,8 +71,8 @@ define( function( require ) {
     }, options );
 
 
-    assert && assert( modelViewTransform.modelToViewDeltaX( 1 ) === modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
-    this.modelToViewScale = modelViewTransform.modelToViewDeltaX( 1 ); // private
+    assert && assert( options.modelViewTransform.modelToViewDeltaX( 1 ) === options.modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
+    this.modelToViewScale = options.modelViewTransform.modelToViewDeltaX( 1 ); // private
 
     this.significantFigures = options.significantFigures;
     this.unitsProperty = unitsProperty; // @private
@@ -80,7 +81,7 @@ define( function( require ) {
 
 
     this.basePositionProperty = new Property( options.basePosition );
-    var tapeDistance = modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
+    var tapeDistance = options.modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
 
     this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
 
@@ -254,8 +255,10 @@ define( function( require ) {
 
     /**
      * Constrains a point to some bounds.
+     *
      * @param {Vector2} point
      * @param {Bounds2} bounds
+     * @returns {Vector2}
      */
     function constrainBounds( point, bounds ) {
       if ( _.isUndefined( bounds ) || bounds.containsPoint( point ) ) {

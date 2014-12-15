@@ -15,7 +15,6 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -47,7 +46,7 @@ define( function( require ) {
     // measuring tape
     var measuringTapeScaleProperty = new Property( 0.5 );
     var measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
-    var measuringTape = new MeasuringTape( ModelViewTransform2.createIdentity(), measuringTapeUnitsProperty, new Property( true ), {
+    var measuringTape = new MeasuringTape( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
