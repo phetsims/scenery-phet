@@ -98,6 +98,7 @@ define( function( require ) {
       listener: function() {
         temperatureProperty.reset();
         measuringTapeScaleProperty.reset();
+        measuringTape.reset();
         starValueProperty.reset();
         fluidRateProperty.reset();
       },
