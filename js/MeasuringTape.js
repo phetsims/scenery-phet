@@ -71,7 +71,7 @@ define( function( require ) {
     }, options );
 
 
-    assert && assert( options.modelViewTransform.modelToViewDeltaX( 1 ) === options.modelViewTransform.modelToViewDeltaY( 1 ), 'The y and x scale factor are not identical' );
+    assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) === Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
     this.modelToViewScale = options.modelViewTransform.modelToViewDeltaX( 1 ); // private
 
     this.significantFigures = options.significantFigures;
