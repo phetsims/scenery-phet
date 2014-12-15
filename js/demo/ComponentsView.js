@@ -55,6 +55,7 @@ define( function( require ) {
     } );
     this.addChild( measuringTape );
     var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
+      thumbSize: new Dimension2( 15, 30 ),
       left: 50,
       top: measuringTape.bottom + 20
     } );
@@ -73,6 +74,7 @@ define( function( require ) {
     this.addChild( starNodeContainer );
     var starValueProperty = new Property( 1 );
     var starSlider = new HSlider( starValueProperty, { min: 0, max: 1 }, {
+      thumbSize: new Dimension2( 15, 30 ),
       thumbFillHighlighted: 'yellow',
       thumbFillEnabled: 'rgb(220,220,0)',
       thumbCenterLineStroke: 'black',
