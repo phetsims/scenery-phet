@@ -85,10 +85,10 @@ define( function( require ) {
     // Create clip area for the fluid
     var fluidClipShape = new Shape()
       .arc( bulbCenterX, bulbCenterY, clipBulbRadius, clipStartAngle, clipEndAngle )
-      .verticalLineToRelative( -options.tubeHeight );
+      .verticalLineTo( upperLeftCorner.y );
 
     var clipUpperLeftCorner = fluidClipShape.getLastPoint();
-    fluidClipShape.arc( bulbCenterX, clipUpperLeftCorner.y + options.fluidRectSpacing - options.lineWidth, clipTubeRadius, Math.PI, 0 ).close();
+    fluidClipShape.arc( bulbCenterX, clipUpperLeftCorner.y, clipTubeRadius, Math.PI, 0 ).close();
 
     var outline = new Path( shape,
       {
