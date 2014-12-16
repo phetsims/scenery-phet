@@ -21,6 +21,7 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   function ComponentsView() {
 
@@ -50,7 +51,8 @@ define( function( require ) {
       textColor: 'black',
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
-      scaleProperty: measuringTapeScaleProperty
+      scaleProperty: measuringTapeScaleProperty,
+      basePosition: new Vector2( 100, 100 )
     } );
     this.addChild( measuringTape );
     var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
@@ -98,6 +100,7 @@ define( function( require ) {
       listener: function() {
         temperatureProperty.reset();
         measuringTapeScaleProperty.reset();
+        measuringTape.reset();
         starValueProperty.reset();
         fluidRateProperty.reset();
       },
