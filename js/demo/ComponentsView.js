@@ -50,7 +50,9 @@ define( function( require ) {
       textColor: 'black',
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
-      scaleProperty: measuringTapeScaleProperty
+      scaleProperty: measuringTapeScaleProperty,
+      left: this.layoutBounds.left + 50,
+      top: this.layoutBounds.top + 50
     } );
     this.addChild( measuringTape );
     var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
