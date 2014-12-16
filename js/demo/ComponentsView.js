@@ -21,6 +21,7 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   function ComponentsView() {
 
@@ -51,8 +52,7 @@ define( function( require ) {
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
       scaleProperty: measuringTapeScaleProperty,
-      left: this.layoutBounds.left + 50,
-      top: this.layoutBounds.top + 50
+      basePosition: new Vector2( 100, 100 )
     } );
     this.addChild( measuringTape );
     var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
