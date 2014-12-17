@@ -43,7 +43,7 @@ define( function( require ) {
         thisNode._text = string;
         thisNode.children = [ new VBox( {
           children: string.split( '\n' ).map( function( line ) {
-            if ( line.length === 0 ) { line = '|'; }  // creates a blank line between consecutive line breaks
+            if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
           align: thisNode._options.align
