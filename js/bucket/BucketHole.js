@@ -13,7 +13,7 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
 
   /**
-   * @param bucket Model of a bucket.
+   * @param {Bucket} bucket - Model of a bucket, found in scenery-phet as of this writing.
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */

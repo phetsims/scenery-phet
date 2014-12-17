@@ -19,7 +19,7 @@ define( function( require ) {
   /**
    * Constructor.
    *
-   * @param bucket Model of a bucket.
+   * @param {Bucket} bucket - Model of a bucket, found in scenery-phet as of this writing.
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
    * @constructor
