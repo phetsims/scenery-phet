@@ -5,6 +5,7 @@
  * A round red button that changes it's on/off state when pressed.
  * Can optionally be configured as a 'momentary' button, which is on while pressed, off when released.
  *
+ * @deprecated see issue #80
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
