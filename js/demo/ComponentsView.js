@@ -30,6 +30,8 @@ define( function( require ) {
     // thermometer
     var temperatureProperty = new Property( 50 );
     var thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
+      fluidSphereSpacing: 6,
+      fluidRectSpacing: 6,
       right: this.layoutBounds.right - 100,
       bottom: this.layoutBounds.bottom - 20
     } );
