@@ -1,7 +1,6 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 //TODO #4: add support for consecutive line breaks, eg 'Hello\n\nWorld'
-//TODO #4: add support for leading (vertical space) between lines
 /**
  * MultiLine plain text, with alignment.
  * The line break character is '\n'.
@@ -44,6 +43,7 @@ define( function( require ) {
         thisNode._text = string;
         thisNode.children = [ new VBox( {
           children: string.split( '\n' ).map( function( line ) {
+            if ( line.length === 0 ) { line = '|'; }  // creates a blank line between consecutive line breaks
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
           align: thisNode._options.align
