@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function ResetAllButton( options ) {
-    var buttonRadius = options && options.radius ? options.radius : DEFAULT_RADIUS;
+    var buttonRadius = ( options && options.radius ) ? options.radius : DEFAULT_RADIUS;
     options = _.extend( {
       // Default values
       radius: DEFAULT_RADIUS,
