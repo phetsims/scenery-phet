@@ -47,7 +47,7 @@ define( function( require ) {
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
       fluidHighlightColor: '#ff7575', // the highlight color of the shaded sphere and the middle of the tube gradient
-      fluidRightSideColor: '#c41515' // the right side of the tube gradient
+      fluidRightSideColor: '#c41515' // the right side of the tube gradient, not used currently
     }, options );
 
     Node.call( this );
@@ -65,7 +65,7 @@ define( function( require ) {
         mainColor: options.fluidMainColor,
         highlightColor: options.fluidHighlightColor,
         highlightXOffset: -0.2,
-        highlightYOffset: -0.2,
+        highlightYOffset: 0.2,
         rotation: Math.PI / 2
       } );
 
@@ -119,9 +119,9 @@ define( function( require ) {
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
       addColorStop( 0, options.fluidMainColor ).
+      addColorStop( 0.4, options.fluidHighlightColor ).
       addColorStop( 0.5, options.fluidHighlightColor ).
-      addColorStop( 0.7, options.fluidHighlightColor ).
-      addColorStop( 1, options.fluidRightSideColor );
+      addColorStop( 1, options.fluidMainColor );
 
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
     fluidRectangle.setClipArea( fluidClipShape );
@@ -145,8 +145,6 @@ define( function( require ) {
     this.addChild( fluidRectangle );
     this.addChild( fluidSphere );
     this.addChild( outline );
-
-//    this.addChild( new Path( fluidClipShape, { stroke: 'green'}))
 
     this.mutate( options );
   }
