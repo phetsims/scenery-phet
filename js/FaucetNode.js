@@ -58,7 +58,7 @@ define( function( require ) {
   var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
   var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in trackImage
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
-  var TRACK_Y_OFFSET = 20; // offset of the track's bottom from the top of bodyImage
+  var TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
 
   /**
    * The 'shooter' is the interactive part of the faucet.
