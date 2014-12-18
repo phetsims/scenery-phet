@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
@@ -55,6 +56,19 @@ define( function( require ) {
     var bulbCenterX = 0;
     var bulbCenterY = 0;
 
+    // Create a shaded sphere to act as the bulb fill
+    var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing;
+    var fluidSphere = new ShadedSphereNode( fluidSphereDiameter,
+      {
+        centerX: bulbCenterX,
+        centerY: bulbCenterY,
+        mainColor: options.fluidMainColor,
+        highlightColor: options.fluidHighlightColor,
+        highlightXOffset: -0.2,
+        highlightYOffset: -0.2,
+        rotation: Math.PI / 2
+      } );
+
     // Angles for the outline of the bulb
     var startAngle = -Math.acos( options.tubeWidth / options.bulbDiameter );
     var endAngle = Math.PI - startAngle;
@@ -65,7 +79,8 @@ define( function( require ) {
       .verticalLineToRelative( -options.tubeHeight );
 
     var upperLeftCorner = shape.getLastPoint();
-    shape.arc( bulbCenterX, upperLeftCorner.y, options.tubeWidth / 2, Math.PI, 0 ).close();
+    shape.arc( upperLeftCorner.x + options.tubeWidth / 2, upperLeftCorner.y, options.tubeWidth / 2, Math.PI, 0 )
+      .verticalLineToRelative( options.tubeHeight ).close();
 
     shape.moveToPoint( upperLeftCorner ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
     for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
@@ -77,32 +92,30 @@ define( function( require ) {
       }
     }
 
-    var clipTubeRadius = ( options.tubeWidth - options.lineWidth - options.fluidRectSpacing ) / 2;
+    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidRectSpacing;
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing ) / 2;
-    var clipStartAngle = -Math.acos( clipTubeRadius / clipBulbRadius );
+    var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
+    var fluidBottomCutoff = fluidSphereDiameter / 2  *  Math.sin( clipEndAngle );
+    var rectangleX = -fluidWidth / 2;
 
     // Create clip area for the fluid
-    var fluidClipShape = new Shape()
-      .arc( bulbCenterX, bulbCenterY, clipBulbRadius, clipStartAngle, clipEndAngle )
+    var fluidClipShape = new Shape().moveTo( rectangleX, fluidBottomCutoff )
       .verticalLineTo( upperLeftCorner.y );
 
     var clipUpperLeftCorner = fluidClipShape.getLastPoint();
-    fluidClipShape.arc( bulbCenterX, clipUpperLeftCorner.y, clipTubeRadius, Math.PI, 0 ).close();
+    fluidClipShape.arc( bulbCenterX, clipUpperLeftCorner.y, fluidWidth / 2, Math.PI, 0 )
+      .lineTo( -rectangleX, fluidBottomCutoff ).close();
+
+    // clip the top of the sphere so it's flat where it connects to the tube
+    var sphereClipShape = Shape.rectangle( fluidBottomCutoff, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
+    fluidSphere.setClipArea( sphereClipShape );
 
     var outline = new Path( shape,
       {
         stroke: options.outlineStroke,
         lineWidth: options.lineWidth
       } );
-
-    // parameters for the fluid rectangle
-    var fluidWidth = options.bulbDiameter;
-    var rectangleX = bulbCenterX - options.bulbDiameter / 2;
-    var tubeBase = upperLeftCorner.y + options.tubeHeight + options.fluidSphereSpacing;
-    var fluidBase = bulbCenterY + options.bulbDiameter / 2;
-    var fluidOffset = fluidBase - tubeBase; // the 0 temperature point of the rectangle
-    var maxFluidHeight = options.tubeHeight + options.tubeWidth / 2; // max fluid height includes the rounded tip of the tube
 
     var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
       addColorStop( 0, options.fluidMainColor ).
@@ -113,10 +126,12 @@ define( function( require ) {
     var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, { fill: fluidRectangleGradient } );
     fluidRectangle.setClipArea( fluidClipShape );
 
-    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, fluidOffset, maxFluidHeight + fluidOffset );
+    var height = new Path( fluidClipShape ).height;
+    var maxFluidHeight = height - fluidBottomCutoff;
+    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, -fluidBottomCutoff, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
-      fluidRectangle.setRect( rectangleX, fluidBase - fluidHeight, fluidWidth, fluidHeight );
+      fluidRectangle.setRect( rectangleX, -fluidHeight, fluidWidth, fluidHeight );
     } );
 
     if ( options.backgroundColor ) {
@@ -128,7 +143,10 @@ define( function( require ) {
       this.addChild( backgroundRectangle );
     }
     this.addChild( fluidRectangle );
+    this.addChild( fluidSphere );
     this.addChild( outline );
+
+//    this.addChild( new Path( fluidClipShape, { stroke: 'green'}))
 
     this.mutate( options );
   }
