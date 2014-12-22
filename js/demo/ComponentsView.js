@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
@@ -25,7 +26,7 @@ define( function( require ) {
 
   function ComponentsView() {
 
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     // thermometer
     var temperatureProperty = new Property( 50 );
