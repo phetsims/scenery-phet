@@ -54,7 +54,7 @@ define( function( require ) {
       unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
       scaleProperty: measuringTapeScaleProperty,
-      basePosition: new Vector2( 100, 100 )
+      basePositionProperty: new Property( new Vector2( 100, 100 ) )
     } );
     this.addChild( measuringTape );
     var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {

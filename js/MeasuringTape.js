@@ -48,7 +48,7 @@ define( function( require ) {
 
     Node.call( this );
     options = _.extend( {
-      basePosition: new Vector2( 40, 40 ), // base Position in view coordinates (rightBottom position of the measuring tape image)
+      basePositionProperty: new Property( new Vector2( 40, 40 ) ), // base Position in view coordinates (rightBottom position of the measuring tape image)
       unrolledTapeDistance: 1, // in model coordinates
       angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
@@ -81,10 +81,10 @@ define( function( require ) {
     this.tipToBaseDistance = options.unrolledTapeDistance; // @private
 
 
-    this.basePositionProperty = new Property( options.basePosition );
+    this.basePositionProperty = options.basePositionProperty;
     var tapeDistance = options.modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
 
-    this.tipPositionProperty = new Property( options.basePosition.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
+    this.tipPositionProperty = new Property( options.basePositionProperty.value.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
 
 
     var crosshairShape = new Shape().
@@ -282,7 +282,7 @@ define( function( require ) {
      */
     getText: function() {
       return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.modelToViewScale / this.scaleProperty.value,
-        this.significantFigures ) + ' ' + this.unitsProperty.value.name;
+          this.significantFigures ) + ' ' + this.unitsProperty.value.name;
     },
 
     // Ensures that this node is eligible for GC.
