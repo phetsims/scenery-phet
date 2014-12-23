@@ -11,12 +11,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PressAndHoldInputListener = require( 'SCENERY_PHET/buttons/PressAndHoldInputListener' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
-  var Timer = require( 'JOIST/Timer' );
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 20;
@@ -53,7 +52,7 @@ define( function( require ) {
 
         // options related to press-and-hold feature
         timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-        intervalDelay: 100 // fire continuously at this frequency (milliseconds)
+        timerInterval: 100 // fire continuously at this frequency (milliseconds)
       },
       options );
 
@@ -91,47 +90,15 @@ define( function( require ) {
      * via RectangularPushButton, or at least use sun.ButtonListener. But I couldn't see how to do that - which
      * makes me think this is a deficiency of sun.
      */
-    var fired = false;
-    var timeoutID = null;
-    var intervalID = null;
-    var cleanupTimer = function() {
-      if ( timeoutID ) {
-        Timer.clearTimeout( timeoutID );
-        timeoutID = null;
-      }
-      if ( intervalID ) {
-        Timer.clearInterval( intervalID );
-        intervalID = null;
-      }
-    };
-    thisButton.addInputListener( new ButtonListener( {
-
-      down: function() {
-        if ( timeoutID === null && intervalID === null ) {
-          fired = false;
-          timeoutID = Timer.setTimeout( function() {
-            timeoutID = null;
-            fired = true;
-            intervalID = Timer.setInterval( function() {
-              if ( thisButton.enabled ) {
-                callback();
-              }
-            }, options.intervalDelay );
-          }, options.timerDelay );
-        }
-      },
-
-      up: function() {
-        cleanupTimer();
-      },
-
-      fire: function() {
-        cleanupTimer();
-        if ( !fired && thisButton.enabled ) {
-          callback();
-        }
-      }
-    } ) );
+    var pressAndHoldInputListener = new PressAndHoldInputListener( {
+      listener: callback,
+      timerDelay: options.timerDelay,
+      timerInterval: options.timerInterval
+    } );
+    thisButton.addInputListener( pressAndHoldInputListener );
+    thisButton.buttonModel.enabledProperty.link( function( enabled ) {
+      pressAndHoldInputListener.enabled = enabled;
+    } );
   }
 
   return inherit( RectangularPushButton, ArrowButton );
