@@ -52,7 +52,7 @@ define( function( require ) {
 
         // options related to press-and-hold feature
         timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-        timerInterval: 100 // fire continuously at this frequency (milliseconds)
+        timerInterval: 100 // fire continuously at this interval (milliseconds)
       },
       options );
 

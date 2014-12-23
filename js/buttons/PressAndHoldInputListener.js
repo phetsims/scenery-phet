@@ -25,7 +25,7 @@ define( function( require ) {
       listener: null, // optional {function} listener to be notified when fired
       enabled: true, // is this input listener enabled?
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      timerInterval: 100 // fire continuously at this frequency (milliseconds)
+      timerInterval: 100 // fire continuously at this interval (milliseconds)
     }, options );
 
     var thisListener = this;
