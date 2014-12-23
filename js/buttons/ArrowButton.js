@@ -84,7 +84,7 @@ define( function( require ) {
     RectangularPushButton.call( thisButton, options );
 
     /**
-     * TODO:
+     * TODO: scenery-phet#71
      * In order to implement the press-and-hold feature, the implementation is currently adding its own listener,
      * and ignoring the listener support of its supertype (RectangularPushButton). And the listener that it's
      * adding is a scenery.ButtonListener, not a sun.ButtonListener. It would be preferable to handle this
