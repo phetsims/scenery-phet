@@ -107,6 +107,9 @@ define( function( require ) {
       top: 10
     });
     this.addChild( dropperNode );
+    dropperNode.onProperty.lazyLink( function( on ) {
+        console.log( 'dropper ' + ( on ? 'on' : 'off' ) );
+    } );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
