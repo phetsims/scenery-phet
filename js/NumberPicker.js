@@ -41,18 +41,18 @@ define( function( require ) {
    * @param {Property.<boolean>} enabledProperty
    * @param {function} fireFunction
    * @param {number} timerDelay start to fire continuously after pressing for this long (milliseconds)
-   * @param {number} intervalDelay fire continuously at this frequency (milliseconds)
+   * @param {number} timerInterval fire continuously at this frequency (milliseconds)
    * @constructor
    */
-  function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, intervalDelay ) {
+  function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, timerInterval ) {
 
     // stuff related to press-&-hold feature
-    var timeoutID = null;
+    var delayID = null;
     var intervalID = null;
     var cleanupTimer = function() {
-      if ( timeoutID ) {
-        Timer.clearTimeout( timeoutID );
-        timeoutID = null;
+      if ( delayID ) {
+        Timer.clearTimeout( delayID );
+        delayID = null;
       }
       if ( intervalID ) {
         Timer.clearInterval( intervalID );
@@ -72,18 +72,18 @@ define( function( require ) {
       },
 
       down: function() {
-        if ( timeoutID === null && intervalID === null ) {
+        if ( delayID === null && intervalID === null ) {
           if ( enabledProperty.get() ) {
             fireFunction(); // fire once immediately
           }
           stateProperty.set( 'down' );
-          timeoutID = Timer.setTimeout( function() {
-            timeoutID = null;
+          delayID = Timer.setTimeout( function() {
+            delayID = null;
             intervalID = Timer.setInterval( function() {
               if ( enabledProperty.get() ) {
                 fireFunction();
               }
-            }, intervalDelay );
+            }, timerInterval );
           }, timerDelay );
         }
       },
@@ -120,7 +120,7 @@ define( function( require ) {
       upFunction: function() { return valueProperty.get() + 1; },
       downFunction: function() { return valueProperty.get() - 1; },
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      intervalDelay: 100, // fire continuously at this frequency (milliseconds),
+      timerInterval: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
       align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
       touchAreaExpandX: 10,
@@ -178,7 +178,7 @@ define( function( require ) {
       .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close() );
-    upBackground.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.intervalDelay ) );
+    upBackground.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.timerInterval ) );
 
     // bottom half of the background, for "down". Shape computed starting at bottom-right, going clockwise.
     var downBackground = new Path( new Shape()
@@ -187,7 +187,7 @@ define( function( require ) {
       .lineTo( 0, backgroundHeight / 2 )
       .lineTo( backgroundWidth, backgroundHeight / 2 )
       .close() );
-    downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
+    downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.timerInterval ) );
 
     // separate rectangle for stroke around value background
     var strokedBackground = new Path( new Shape()
@@ -243,7 +243,7 @@ define( function( require ) {
       .lineTo( 0, arrowButtonSize.height )
       .close();
     var upArrow = new Path( upArrowShape, arrowOptions );
-    upArrow.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.intervalDelay ) );
+    upArrow.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.timerInterval ) );
 
     // 'down' arrow
     var downArrowShape = new Shape()
@@ -252,7 +252,7 @@ define( function( require ) {
       .lineTo( arrowButtonSize.width, 0 )
       .close();
     var downArrow = new Path( downArrowShape, arrowOptions );
-    downArrow.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.intervalDelay ) );
+    downArrow.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.timerInterval ) );
 
     // rendering order
     thisNode.addChild( upBackground );
