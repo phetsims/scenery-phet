@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -97,6 +98,15 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( faucetNode );
+
+    // eye dropper
+    var dropperNode = new EyeDropperNode( {
+      fluidColor: 'purple',
+      scale: 0.75,
+      centerX: this.layoutBounds.centerX,
+      top: 10
+    });
+    this.addChild( dropperNode );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
