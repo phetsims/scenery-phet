@@ -41,7 +41,7 @@ define( function( require ) {
    * @param {Property.<boolean>} enabledProperty
    * @param {function} fireFunction
    * @param {number} timerDelay start to fire continuously after pressing for this long (milliseconds)
-   * @param {number} intervalDelay // fire continuously at this frequency (milliseconds)
+   * @param {number} intervalDelay fire continuously at this frequency (milliseconds)
    * @constructor
    */
   function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, intervalDelay ) {
