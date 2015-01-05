@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
+  var CheckBox = require( 'SUN/CheckBox' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
@@ -22,6 +23,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -93,11 +95,17 @@ define( function( require ) {
 
     // faucet
     var fluidRateProperty = new Property( 0 );
-    var faucetNode = new FaucetNode( 10, fluidRateProperty, new Property( true ), {
+    var faucetEnabledProperty = new Property( true );
+    var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
       left: 10,
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( faucetNode );
+    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled' ), faucetEnabledProperty, {
+      left: faucetNode.left,
+      bottom: faucetNode.top + 15
+    } );
+    this.addChild( faucetEnabledCheckBox );
 
     // eye dropper
     var dropperNode = new EyeDropperNode( {
