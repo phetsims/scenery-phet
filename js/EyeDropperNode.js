@@ -15,7 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
-  var RoundRedButton = require( 'SCENERY_PHET/buttons/RoundRedButton' );
+  var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var Shape = require( 'KITE/Shape' );
 
   // images
@@ -50,6 +50,7 @@ define( function( require ) {
 
     var thisNode = this;
 
+    // @public
     this.onProperty = options.onProperty;
     this.enabledProperty = options.enabledProperty;
     this.emptyProperty = options.emptyProperty;
@@ -77,9 +78,9 @@ define( function( require ) {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    var button = new RoundRedButton( this.onProperty, this.enabledProperty, { onWhilePressed: true } );
+    var button = new RoundMomentaryButton( this.onProperty, { baseColor: 'red', radius: 18 } );
+    this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
     button.touchArea = Shape.circle( button.width / 2, button.height / 2, ( button.width / 2 ) + options.buttonTouchAreaDilation );
-    button.setScaleMagnitude( 0.3 );
     button.centerX = foreground.centerX;
     button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
