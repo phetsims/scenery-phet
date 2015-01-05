@@ -92,7 +92,7 @@ define( function( require ) {
     } );
 
     // faucet
-    var fluidRateProperty = new Property( 5 );
+    var fluidRateProperty = new Property( 0 );
     var faucetNode = new FaucetNode( 10, fluidRateProperty, new Property( true ), {
       left: 10,
       bottom: this.layoutBounds.bottom - 10

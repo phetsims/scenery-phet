@@ -56,7 +56,7 @@ define( function( require ) {
   var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
   var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in trackImage
   var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
-  var SHOOTER_Y_OFFSET = 15; // y-offset of shooter's centerY in trackImage
+  var SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in trackImage
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
   var TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
 
