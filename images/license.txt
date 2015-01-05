@@ -13,6 +13,3 @@ faucet_stop.png source=PhET author=Mike Fowler, Amanda McGarry
 faucet_track.png source=PhET author=Mike Fowler, Amanda McGarry
 faucet_vertical_pipe.png source=PhET author=Mike Fowler, Amanda McGarry
 measuringTape.png source=PhET author=Bryce Gruneich
-round_red_button_disabled.png source=PhET
-round_red_button_pressed.png source=PhET
-round_red_button_unpressed.png source=PhET
