@@ -33,6 +33,10 @@ define( function( require ) {
   var GLASS_MIN_Y = -124; // relative to bottom center
   var BUTTON_CENTER_Y_OFFSET = 32; // y-offset of button's center in dropper image file
 
+  /**
+   * @param {Object} [options]
+   * @constructor
+   */
   function EyeDropperNode( options ) {
 
     options = _.extend( {
