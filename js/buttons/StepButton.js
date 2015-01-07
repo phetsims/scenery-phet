@@ -1,8 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundPushButton (as opposed to using raster images).
+ * Button used for stepping the simulation forward when paused.  Generated programmatically, as opposed to using a
+ * raster image.
  *
  * @author Sam Reid
  */
@@ -17,9 +17,16 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
 
+  // constants
   var DEFAULT_RADIUS = 20;
 
-  function StepButton( stepFunction, playProperty, options ) {
+  /**
+   * @param stepFunction
+   * @param enabledProperty
+   * @param options
+   * @constructor
+   */
+  function StepButton( stepFunction, enabledProperty, options ) {
 
     options = _.extend( {
       radius: DEFAULT_RADIUS
@@ -46,7 +53,7 @@ define( function( require ) {
     }, options ) );
     this.enabled = false;
 
-    playProperty.link( function( value ) { stepButton.enabled = !value; } );
+    enabledProperty.link( function( value ) { stepButton.enabled = !value; } );
   }
 
   return inherit( RoundPushButton, StepButton );
