@@ -32,15 +32,15 @@ define( function( require ) {
   function LightBulbNode( brightnessProperty, options ) {
 
     var defaultOptions = {
-        rayStroke: 'yellow',
-        minRays: 8,
-        maxRays: 60,
-        minRayLength: 0,
-        maxRayLength: 200,
-        longRayLineWidth: 1.5, // for long rays
-        mediumRayLineWidth: 1, // for medium-length rays
-        shortRayLineWidth: 0.5 // for short rays
-      };
+      rayStroke: 'yellow',
+      minRays: 8,
+      maxRays: 60,
+      minRayLength: 0,
+      maxRayLength: 200,
+      longRayLineWidth: 1.5, // for long rays
+      mediumRayLineWidth: 1, // for medium-length rays
+      shortRayLineWidth: 0.5 // for short rays
+    };
 
     options = _.extend( defaultOptions, options );
 
@@ -118,8 +118,8 @@ define( function( require ) {
     // @private pre-calculate reusable rays {Line}
     this.cachedLines = [];
     for ( var i = options.maxRays; i--; ) {
-      this.cachedLines[i] = new Line( 0, 0, 0, 0, { stroke: options.rayStroke } );
-      this.addChild( this.cachedLines[i] );
+      this.cachedLines[ i ] = new Line( 0, 0, 0, 0, { stroke: options.rayStroke } );
+      this.addChild( this.cachedLines[ i ] );
     }
   }
 
@@ -164,16 +164,16 @@ define( function( require ) {
           y2 = Math.sin( angle ) * ( this.bulbRadius + rayLength );
 
           // set properties of line from the cache
-          this.cachedLines[i].visible = true;
-          this.cachedLines[i].lineWidth = lineWidth;
-          this.cachedLines[i].setLine( x1, y1, x2, y2 );
+          this.cachedLines[ i ].visible = true;
+          this.cachedLines[ i ].lineWidth = lineWidth;
+          this.cachedLines[ i ].setLine( x1, y1, x2, y2 );
 
           // increment the angle
           angle += deltaAngle;
         }
         else {
           // hide unusable lined
-          this.cachedLines[i].visible = false;
+          this.cachedLines[ i ].visible = false;
         }
       }
     }
