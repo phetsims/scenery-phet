@@ -47,7 +47,7 @@ define( function( require ) {
 
     var thisNode = this;
 
-    thisNode.onNode = new Image( onImage, { scale: BULB_IMAGE_SCALE } );
+    thisNode.onNode = new Image( onImage, { scale: BULB_IMAGE_SCALE } ); // @private
 
     var offNode = new Image( offImage, {
       scale: BULB_IMAGE_SCALE,
@@ -65,7 +65,7 @@ define( function( require ) {
     options.children = [ thisNode.raysNode, offNode, thisNode.onNode ];
     Node.call( thisNode, options );
 
-    thisNode.brightnessObserver = function( brightness ) { thisNode.update(); };
+    thisNode.brightnessObserver = function( brightness ) { thisNode.update(); }; // @private
     thisNode.brightnessProperty = brightnessProperty; // @private
     thisNode.brightnessProperty.link( this.brightnessObserver );
   }
@@ -116,8 +116,8 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    // @private pre-calculate reusable rays (lines)
-    this.cachedLines = []; // {Line}
+    // @private pre-calculate reusable rays {Line}
+    this.cachedLines = [];
     for ( var i = options.maxRays; i--; ) {
       this.cachedLines[i] = new Line( 0, 0, 0, 0, { stroke: options.rayStroke } );
       this.addChild( this.cachedLines[i] );
