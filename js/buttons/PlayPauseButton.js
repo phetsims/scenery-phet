@@ -44,7 +44,7 @@ define( function( require ) {
     var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } ); };
     var bar1 = bar();
     var bar2 = bar();
-    var pausePath = new HBox( {children: [ bar1, bar2], spacing: barWidth } );
+    var pausePath = new HBox( { children: [ bar1, bar2 ], spacing: barWidth } );
 
     // put the play and pause symbols inside circles so they have the same bounds,
     // otherwise ToggleNode will re-adjust their positions relative to each other

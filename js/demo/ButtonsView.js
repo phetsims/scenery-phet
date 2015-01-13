@@ -73,7 +73,7 @@ define( function( require ) {
 
     // Timer toggle button
     var timerEnabled = new Property( true );
-    var timerToggleButton = new TimerToggleButton( timerEnabled, {centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5} );
+    var timerToggleButton = new TimerToggleButton( timerEnabled, { centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5 } );
     this.addChild( timerToggleButton );
     var timerToggleButtonLabel = new Text( 'Timer: ', {
       font: BUTTON_CAPTION_FONT,

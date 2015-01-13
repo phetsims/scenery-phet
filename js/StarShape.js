@@ -55,9 +55,9 @@ define( function( require ) {
 
     //If the value is 1, the star should be completely filled.  So return early as a shortcut to computing all the rest of the geometry.
     if ( options.value === 1 ) {
-      this.moveTo( points[0].x, points[0].y );
+      this.moveTo( points[ 0 ].x, points[ 0 ].y );
       for ( i = 1; i < points.length; i++ ) {
-        this.lineTo( points[i].x, points[i].y );
+        this.lineTo( points[ i ].x, points[ i ].y );
       }
       this.close();
       return;
@@ -65,14 +65,14 @@ define( function( require ) {
 
     //Compute max width for filling algorithm.  Do this a fast/ugly way in case we ever animate these values
     //The star fills from left to right, so compute the distance across the star in the x-direction.
-    var minX = points[0].x;
-    var maxX = points[0].x;
+    var minX = points[ 0 ].x;
+    var maxX = points[ 0 ].x;
     for ( i = 1; i < points.length; i++ ) {
-      if ( points[i].x < minX ) {
-        minX = points[i].x;
+      if ( points[ i ].x < minX ) {
+        minX = points[ i ].x;
       }
-      if ( points[i].x > maxX ) {
-        maxX = points[i].x;
+      if ( points[ i ].x > maxX ) {
+        maxX = points[ i ].x;
       }
     }
 
@@ -89,11 +89,11 @@ define( function( require ) {
 
     //Return a line segment from the ath point to the bth point.
     var segment = function( a, b ) {
-      return new Line( new Vector2( points[a].x, points[a].y ), new Vector2( points[b].x, points[b].y ) );
+      return new Line( new Vector2( points[ a ].x, points[ a ].y ), new Vector2( points[ b ].x, points[ b ].y ) );
     };
 
-    var topSegments = [segment( 8, 9 ), segment( 9, 0 ), segment( 0, 1 ), segment( 1, 2 )];
-    var bottomSegments = [segment( 8, 7 ), segment( 7, 6 ), segment( 6, 5 ), segment( 5, 4 ), segment( 4, 3 ), segment( 3, 2 )];
+    var topSegments = [ segment( 8, 9 ), segment( 9, 0 ), segment( 0, 1 ), segment( 1, 2 ) ];
+    var bottomSegments = [ segment( 8, 7 ), segment( 7, 6 ), segment( 6, 5 ), segment( 5, 4 ), segment( 4, 3 ), segment( 3, 2 ) ];
 
     //trace path from top right counter-clockwise
     //First compute the top path
@@ -101,7 +101,7 @@ define( function( require ) {
     var highlightedPoints = [];
     var intersectedTop = false;
     for ( i = topSegments.length - 1; i >= 0; i-- ) {
-      var topSegment = topSegments[i];
+      var topSegment = topSegments[ i ];
       intersection = getIntersection( topSegment );
       if ( intersection ) {
         highlightedPoints.push( intersection );
@@ -115,7 +115,7 @@ define( function( require ) {
     //trace path from top left clockwise
     //First compute the top path
     for ( i = 0; i < bottomSegments.length; i++ ) {
-      var bottomSegment = bottomSegments[i];
+      var bottomSegment = bottomSegments[ i ];
       intersection = getIntersection( bottomSegment );
       if ( intersection ) {
         highlightedPoints.push( intersection );
@@ -127,9 +127,9 @@ define( function( require ) {
     }
 
     //Fill in the selected points
-    this.moveTo( highlightedPoints[0].x, highlightedPoints[0].y );
+    this.moveTo( highlightedPoints[ 0 ].x, highlightedPoints[ 0 ].y );
     for ( i = 1; i < highlightedPoints.length; i++ ) {
-      this.lineTo( highlightedPoints[i].x, highlightedPoints[i].y );
+      this.lineTo( highlightedPoints[ i ].x, highlightedPoints[ i ].y );
     }
   }
 

@@ -46,7 +46,7 @@ define( function( require ) {
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
           align: thisNode._options.align
-        } )];
+        } ) ];
       }
     }
   );

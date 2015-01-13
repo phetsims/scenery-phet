@@ -96,7 +96,7 @@ define( function( require ) {
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing ) / 2;
     var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
-    var fluidBottomCutoff = fluidSphereDiameter / 2  *  Math.sin( clipEndAngle );
+    var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
     var rectangleX = -fluidWidth / 2;
 
     // Create clip area for the fluid

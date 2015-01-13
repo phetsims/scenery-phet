@@ -59,16 +59,17 @@ define( function( require ) {
     //Rectangle for body and stripes along the sides for stroke
     this.body = new Node( {
       children: [
-        new Rectangle( 0, 0, options.tailWidth, 1, {fill: options.fill} ),
-        new Rectangle( -options.lineWidth / 2, 0, options.lineWidth, 1, {fill: options.stroke} ),
-        new Rectangle( options.tailWidth - options.lineWidth / 2, 0, options.lineWidth, 1, {fill: options.stroke} )
-      ]} );
+        new Rectangle( 0, 0, options.tailWidth, 1, { fill: options.fill } ),
+        new Rectangle( -options.lineWidth / 2, 0, options.lineWidth, 1, { fill: options.stroke } ),
+        new Rectangle( options.tailWidth - options.lineWidth / 2, 0, options.lineWidth, 1, { fill: options.stroke } )
+      ]
+    } );
 
     //Head shape.  Don't close so the stroke can be used for the angled parts, but not the flat part (the "collar").
     var headShape = new Shape().moveTo( -options.headWidth / 2, 0 ).lineTo( 0, options.headHeight ).lineTo( options.headWidth / 2, 0 );
-    this.head = new Path( headShape, {fill: options.fill, stroke: options.stroke, lineWidth: options.lineWidth} );
+    this.head = new Path( headShape, { fill: options.fill, stroke: options.stroke, lineWidth: options.lineWidth } );
 
-    this.tailEdgeStroke = new Rectangle( 0, -options.lineWidth / 2, options.tailWidth, options.lineWidth, {fill: 'black'} );
+    this.tailEdgeStroke = new Rectangle( 0, -options.lineWidth / 2, options.tailWidth, options.lineWidth, { fill: 'black' } );
 
     this.parent.addChild( this.head );
     this.parent.addChild( this.body );
@@ -154,7 +155,7 @@ define( function( require ) {
           var newOptions = this.options;
           if ( this.options.headHeightMaximumHalf ) {
             var headHeight = Math.min( Math.abs( arrowLength ) / 2, this.options.headHeight );
-            newOptions = _.extend( _.clone( this.options ), {headHeight: headHeight} );
+            newOptions = _.extend( _.clone( this.options ), { headHeight: headHeight } );
           }
 
           //If the arrow shorter than the min length, make the magnitude equal to the min length and keep the same direction
@@ -162,7 +163,11 @@ define( function( require ) {
             var scaleFactor = this.options.minArrowLength / arrowLength;
             tipX = ( dx * scaleFactor ) + tailX;
             tipY = ( dy * scaleFactor ) + tailY;
-            newOptions = _.extend( _.clone( this.options ), { headHeight: this.options.minArrowLength / 2, headWidth: this.options.minArrowLength / 2, tailWidth: this.options.minArrowLength / 4 } );
+            newOptions = _.extend( _.clone( this.options ), {
+              headHeight: this.options.minArrowLength / 2,
+              headWidth:  this.options.minArrowLength / 2,
+              tailWidth:  this.options.minArrowLength / 4
+            } );
           }
           //Adjust size of arrow unless it is at the min or max size
           else {

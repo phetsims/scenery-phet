@@ -76,7 +76,8 @@ define( function( require ) {
     var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
-      lineWidth: options.backgroundLineWidth } );
+      lineWidth: options.backgroundLineWidth
+    } );
     this.addChild( backgroundNode );
 
     // Lay out tick marks from left to right
@@ -93,7 +94,7 @@ define( function( require ) {
       if ( ( x - options.insetsWidth ) % majorTickWidth === 0 ) {
 
         // Major tick label
-        var majorTickLabel = majorTickLabels[majorTickIndex];
+        var majorTickLabel = majorTickLabels[ majorTickIndex ];
         var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
         //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
         majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );

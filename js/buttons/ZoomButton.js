@@ -30,7 +30,11 @@ define( function( require ) {
 
     // the magnifying glass
     var glassLineWidth = 0.25 * options.radius;
-    var glassNode = new Circle( options.radius, { fill: options.magnifyingGlassFill, stroke: options.magnifyingGlassStroke, lineWidth: glassLineWidth } );
+    var glassNode = new Circle( options.radius, {
+      fill: options.magnifyingGlassFill,
+      stroke: options.magnifyingGlassStroke,
+      lineWidth: glassLineWidth
+    } );
 
     // handle at lower-left of glass, at a 45-degree angle
     var outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode

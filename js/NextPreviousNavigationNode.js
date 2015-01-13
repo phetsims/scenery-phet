@@ -18,9 +18,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  
+
   var arrowPadding = 8;
-  
+
   /*
    * @param {Node} centerNode
    * @param {Object} selfOptions  Valid options are:
@@ -35,13 +35,13 @@ define( function( require ) {
    */
   function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
     var self = this;
-    
+
     PropertySet.call( this, {
       hasNext: false,
       hasPrevious: false
     } );
     Node.call( this, {} );
-    
+
     selfOptions = _.extend( {
       arrowColor: Color.YELLOW,
       arrowStrokeColor: Color.BLACK,
@@ -53,20 +53,20 @@ define( function( require ) {
         return null; // pass in function that returns a shape given the shape of the arrow
       }
     }, selfOptions );
-    
+
     var arrowWidth = selfOptions.arrowWidth;
     var arrowHeight = selfOptions.arrowHeight;
 
     /*---------------------------------------------------------------------------*
-    * previous
-    *----------------------------------------------------------------------------*/
-    
+     * previous
+     *----------------------------------------------------------------------------*/
+
     // triangle pointing to the left
     var previousShape = new Shape().moveTo( 0, arrowHeight / 2 )
-                                   .lineTo( arrowWidth, 0 )
-                                   .lineTo( arrowWidth, arrowHeight )
-                                   .close();
-    
+      .lineTo( arrowWidth, 0 )
+      .lineTo( arrowWidth, arrowHeight )
+      .close();
+
     var previousKitNode = new Path( previousShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
@@ -83,25 +83,25 @@ define( function( require ) {
     this.hasPreviousProperty.link( function( available ) {
       previousKitNode.visible = available;
     } );
-    
+
     this.addChild( previousKitNode );
 
     /*---------------------------------------------------------------------------*
-    * center
-    *----------------------------------------------------------------------------*/
+     * center
+     *----------------------------------------------------------------------------*/
 
     this.addChild( centerNode );
 
     /*---------------------------------------------------------------------------*
-    * next
-    *----------------------------------------------------------------------------*/
-    
+     * next
+     *----------------------------------------------------------------------------*/
+
     // triangle pointing to the right
     var nextShape = new Shape().moveTo( arrowWidth, arrowHeight / 2 )
-                               .lineTo( 0, 0 )
-                               .lineTo( 0, arrowHeight )
-                               .close();
-                               
+      .lineTo( 0, 0 )
+      .lineTo( 0, arrowHeight )
+      .close();
+
     var nextKitNode = new Path( nextShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
@@ -118,23 +118,23 @@ define( function( require ) {
     this.hasNextProperty.link( function( available ) {
       nextKitNode.visible = available;
     } );
-    
+
     this.addChild( nextKitNode );
 
     /*---------------------------------------------------------------------------*
-    * positioning
-    *----------------------------------------------------------------------------*/
+     * positioning
+     *----------------------------------------------------------------------------*/
 
     var maxHeight = Math.max( arrowHeight, centerNode.height );
-    
+
     previousKitNode.centerY = maxHeight / 2;
     centerNode.centerY = maxHeight / 2;
     nextKitNode.centerY = maxHeight / 2;
-    
+
     // previousKitNode.x = 0;
     centerNode.x = arrowWidth + arrowPadding;
     nextKitNode.x = centerNode.right + arrowPadding;
-    
+
     Node.prototype.mutate.call( this, nodeOptions );
   }
 

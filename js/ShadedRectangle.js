@@ -52,7 +52,7 @@ define( function( require ) {
                       options.lightSource === 'rightTop' ||
                       options.lightSource === 'leftBottom' ||
                       options.lightSource === 'rightBottom',
-                      'The lightSource ' + options.lightSource + ' is not supported' );
+      'The lightSource ' + options.lightSource + ' is not supported' );
     assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
     assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
 
@@ -102,11 +102,11 @@ define( function( require ) {
 
     // shape of our corner (in this case, top-right)
     var cornerShape = new Shape().moveTo( 0, 0 )
-                                 .arc( 0, 0, cornerRadius, -Math.PI / 2, 0, false )
-                                 .close();
+      .arc( 0, 0, cornerRadius, -Math.PI / 2, 0, false )
+      .close();
     // rotation needed to move the cornerShape into the proper orientation as the light corner (Math.PI more for dark corner)
     var lightCornerRotation = {
-      leftTop: -Math.PI / 2,
+      leftTop:     -Math.PI / 2,
       rightTop: 0,
       rightBottom: Math.PI / 2,
       leftBottom: Math.PI

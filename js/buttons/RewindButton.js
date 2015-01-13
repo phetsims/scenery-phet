@@ -28,12 +28,20 @@ define( function( require ) {
     var triangleWidth = 14 * scale;
     var triangleHeight = 18 * scale * vscale;
 
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
-    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
-    var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {fill: 'black', stroke: '#bbbbbb', lineWidth: 1} );
+    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
+    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+      fill: 'black',
+      stroke: '#bbbbbb',
+      lineWidth: 1
+    } );
+    var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+      fill: 'black',
+      stroke: '#bbbbbb',
+      lineWidth: 1
+    } );
 
     RoundPushButton.call( this, {
-      content: new HBox( {children: [barPath, trianglePath, trianglePath2], spacing: -1} ),
+      content: new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } ),
       listener: stepFunction,
       enabled: false
     } );

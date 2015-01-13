@@ -44,7 +44,7 @@ define( function( require ) {
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
 
     RoundPushButton.call( this, _.extend( {
-      content: new HBox( { children: [barPath, trianglePath], spacing: barWidth } ),
+      content: new HBox( { children: [ barPath, trianglePath ], spacing: barWidth } ),
       listener: stepFunction,
       radius: options.radius,
 

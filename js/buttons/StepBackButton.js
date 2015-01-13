@@ -40,10 +40,10 @@ define( function( require ) {
 
     var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
-    trianglePath.mutate( {rotation: Math.PI} );
+    trianglePath.mutate( { rotation: Math.PI } );
 
     RoundPushButton.call( this, _.extend( {
-      content: new HBox( { children: [trianglePath, barPath], spacing: barWidth } ),
+      content: new HBox( { children: [ trianglePath, barPath ], spacing: barWidth } ),
       listener: stepFunction,
       radius: options.radius,
       //left shift the content to center align

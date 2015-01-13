@@ -97,20 +97,27 @@ define( function( require ) {
     } ) );
 
     // add line
-    this.line = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, 0 ), {stroke: this.options.lineColor, lineWidth: 2} );
+    this.line = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, 0 ), { stroke: this.options.lineColor, lineWidth: 2 } );
     this.notBase.addChild( this.line );
 
     // add center point
     var size = 5;
-    this.mediator = new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: this.options.plusColor, lineWidth: 2} );
+    this.mediator = new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {
+      stroke: this.options.plusColor,
+      lineWidth: 2
+    } );
     this.notBase.addChild( this.mediator );
 
     // add tip
-    this.tip = new Node( { children:
-      [
-        new Circle( this.options.tipRadius, {fill: this.options.tipColor} ),
-        new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {stroke: this.options.plusColor, lineWidth: 2} )
-      ] } );
+    this.tip = new Node( {
+      children: [
+        new Circle( this.options.tipRadius, { fill: this.options.tipColor } ),
+        new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {
+          stroke: this.options.plusColor,
+          lineWidth: 2
+        } )
+      ]
+    } );
     this.tip.cursor = 'pointer';
     this.tip.touchArea = this.tip.localBounds.dilatedXY( 10, 10 );
     this.notBase.addChild( this.tip );

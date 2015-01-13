@@ -30,7 +30,7 @@ define( function( require ) {
 
       // Default values
       radius: DEFAULT_RADIUS,
-      minXMargin: buttonRadius * 0.2,
+      minXMargin:     buttonRadius * 0.2,
 
       // Default orange color scheme, standard for PhET reset buttons
       baseColor: new Color( 247, 151, 34 ),

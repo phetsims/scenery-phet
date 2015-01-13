@@ -85,7 +85,7 @@ define( function( require ) {
       if ( this.enabled ) {
         var listenersCopy = this.listeners.slice( 0 );
         for ( var i = 0; i < listenersCopy.length; i++ ) {
-          listenersCopy[i]();
+          listenersCopy[ i ]();
         }
       }
     },
@@ -97,7 +97,7 @@ define( function( require ) {
       }
     },
 
-     // {function} listener
+    // {function} listener
     removeListener: function( listener ) {
       var index = this.listeners.indexOf( listener );
       if ( index !== -1 ) {

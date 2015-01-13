@@ -35,12 +35,12 @@ define( function( require ) {
     this.arc( 0, 0, outerRadius, startAngle, neckAngle, true ); // Outer curve.
     var headWidthExtrusion = ( headWidth - ( outerRadius - innerRadius ) ) / 2;
     this.lineTo(
-        ( outerRadius + headWidthExtrusion ) * Math.cos( neckAngle ),
-        ( outerRadius + headWidthExtrusion ) * Math.sin( neckAngle ) );
+      ( outerRadius + headWidthExtrusion ) * Math.cos( neckAngle ),
+      ( outerRadius + headWidthExtrusion ) * Math.sin( neckAngle ) );
     var pointRadius = ( outerRadius + innerRadius ) * 0.55; // Tweaked a little from center for better look.
     this.lineTo( // Tip of arrowhead.
-        pointRadius * Math.cos( neckAngle + arrowHeadAngularSpan ),
-        pointRadius * Math.sin( neckAngle + arrowHeadAngularSpan ) );
+      pointRadius * Math.cos( neckAngle + arrowHeadAngularSpan ),
+      pointRadius * Math.sin( neckAngle + arrowHeadAngularSpan ) );
     this.lineTo( ( innerRadius - headWidthExtrusion ) * Math.cos( neckAngle ), ( innerRadius - headWidthExtrusion ) * Math.sin( neckAngle ) );
     this.lineTo( innerRadius * Math.cos( neckAngle ), innerRadius * Math.sin( neckAngle ) );
     this.arc( 0, 0, innerRadius, neckAngle, startAngle ); // Inner curve.

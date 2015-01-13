@@ -64,17 +64,20 @@ define( function( require ) {
     this.smileMouth = new Path( new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
-      lineCap: 'round' } );
+      lineCap: 'round'
+    } );
     this.addChild( this.smileMouth );
     this.frownMouth = new Path( new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.20, -Math.PI * 0.75, -Math.PI * 0.25 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
-      lineCap: 'round' } );
+      lineCap: 'round'
+    } );
     this.addChild( this.frownMouth );
     this.grimaceMouth = new Path( new Shape().moveTo( -headDiameter * 0.2, headDiameter * 0.3 ).lineTo( headDiameter * 0.2, headDiameter * 0.2 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
-      lineCap: 'round' } );
+      lineCap: 'round'
+    } );
     this.addChild( this.grimaceMouth );
     this.smile();
 
@@ -100,7 +103,8 @@ define( function( require ) {
       this.frownMouth.visible = false;
       this.grimaceMouth.visible = true;
       return this; // allow chaining
-    } } );
+    }
+  } );
 
   return FaceNode;
 } );

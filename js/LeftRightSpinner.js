@@ -23,8 +23,8 @@ define( function( require ) {
     var leftShape = new Shape().moveTo( 0, 0 ).lineTo( -10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
     var rightShape = new Shape().moveTo( 0, 0 ).lineTo( 10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
 
-    var leftIcon = new Path( leftShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
-    var rightIcon = new Path( rightShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
+    var leftIcon = new Path( leftShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    var rightIcon = new Path( rightShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
 
     var radius = 20;
     var leftButton = new RoundPushButton( {
@@ -51,7 +51,7 @@ define( function( require ) {
     } );
     rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
 
-    HBox.call( this, {spacing: 6, children: [leftButton, rightButton]} );
+    HBox.call( this, { spacing: 6, children: [ leftButton, rightButton ] } );
 
     this.mutate( options );
   }

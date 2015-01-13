@@ -68,14 +68,16 @@ define( function( require ) {
       content: nextIcon,
       listener: function() {
         selectedKitProperty.value = selectedKitProperty.value + 1;
-      } }, commonButtonOptions ) );
+      }
+    }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
     var previousKitButton = new RectangularPushButton( _.extend( {
       content: previousIcon,
       listener: function() {
         selectedKitProperty.value = selectedKitProperty.value - 1;
-      } }, commonButtonOptions ) );
+      }
+    }, commonButtonOptions ) );
     this.addChild( previousKitButton );
 
     // Control button enabled state

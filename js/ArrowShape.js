@@ -67,7 +67,7 @@ define( function( require ) {
       }
 
       // Describe the shape
-      thisShape.moveTo( points[0].x, points[0].y );
+      thisShape.moveTo( points[ 0 ].x, points[ 0 ].y );
       var tail = _.tail( points );
       _.each( tail, function( element ) {
         thisShape.lineTo( element.x, element.y );

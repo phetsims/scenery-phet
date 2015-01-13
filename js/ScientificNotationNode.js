@@ -145,8 +145,8 @@ define( function( require ) {
         var tokens = exponentialString.toLowerCase().split( 'e' );
 
         // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
-        mantissa = Util.toFixedNumber( parseFloat( tokens[0] ), options.mantissaDecimalPlaces );
-        exponent = parseInt( tokens[1], 10 );
+        mantissa = Util.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
+        exponent = parseInt( tokens[ 1 ], 10 );
 
         // Convert if a specific exponent was requested.
         if ( options.exponent !== null ) {

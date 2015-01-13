@@ -23,8 +23,8 @@ define( function( require ) {
     var upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );
     var downShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, 10 ).lineTo( shapeWidth, 0 );
 
-    var upIcon = new Path( upShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
-    var downIcon = new Path( downShape, {lineWidth: 5, stroke: 'black', lineCap: 'round'} );
+    var upIcon = new Path( upShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    var downIcon = new Path( downShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
 
     var radius = 20;
     var upButton = new RoundPushButton( {
@@ -51,7 +51,7 @@ define( function( require ) {
     } );
     downEnabledProperty.linkAttribute( downButton, 'enabled' );
 
-    VBox.call( this, {spacing: 6, children: [upButton, downButton]} );
+    VBox.call( this, { spacing: 6, children: [ upButton, downButton ] } );
 
     this.mutate( options );
   }

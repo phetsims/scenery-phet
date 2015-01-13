@@ -36,7 +36,7 @@ define( function( require ) {
     var thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
       fluidSphereSpacing: 6,
       fluidRectSpacing: 6,
-      right: this.layoutBounds.right - 100,
+      right:  this.layoutBounds.right - 100,
       bottom: this.layoutBounds.bottom - 20
     } );
     this.addChild( thermometer );
@@ -74,7 +74,7 @@ define( function( require ) {
      * Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths).
      */
     var starNodeContainer = new Node( {
-      children: [new StarNode()],
+      children: [ new StarNode() ],
       top: 20,
       right: this.layoutBounds.right - 20
     } );
@@ -113,10 +113,10 @@ define( function( require ) {
       scale: 0.75,
       centerX: this.layoutBounds.centerX,
       top: 10
-    });
+    } );
     this.addChild( dropperNode );
     dropperNode.onProperty.lazyLink( function( on ) {
-        console.log( 'dropper ' + ( on ? 'on' : 'off' ) );
+      console.log( 'dropper ' + ( on ? 'on' : 'off' ) );
     } );
 
     // Reset All button
@@ -129,7 +129,7 @@ define( function( require ) {
         fluidRateProperty.reset();
       },
       radius: 22,
-      right: this.layoutBounds.right - 10,
+      right:  this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( resetAllButton );

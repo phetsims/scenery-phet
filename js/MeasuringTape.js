@@ -57,7 +57,7 @@ define( function( require ) {
       scaleProperty: new Property( 1 ), // scale the apparent length of the unrolled Tape, without changing the measurement, analogous to a zoom factor
       significantFigures: 1, // number of significant figures in the length measurement
       textColor: 'white', // color of the length measurement and unit
-      textFont: new PhetFont( {size: 16, weight: 'bold'} ), // font for the measurement text
+      textFont: new PhetFont( { size: 16, weight: 'bold' } ), // font for the measurement text
       baseScale: 0.8, // control the size of the measuringTape Image (the base)
       lineColor: 'gray', // color of the tapeline itself
       tapeLineWidth: 2, // linewidth of the tape line
@@ -104,7 +104,7 @@ define( function( require ) {
       lineWidth: options.crosshairLineWidth
     } );
 
-    var tipCircle = new Circle( options.tipCircleRadius, {fill: options.tipCircleColor} );
+    var tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
     var baseImage = new Image( measuringTapeImage, {
       scale: options.baseScale,
@@ -118,7 +118,7 @@ define( function( require ) {
     } );
 
     // add tipCrosshair and tipCircle to the tip
-    var tip = new Node( {children: [tipCircle, tipCrosshair], cursor: 'pointer'} );
+    var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     // create text
     var labelText = new Text( measuringTape.getText(), {
@@ -183,7 +183,7 @@ define( function( require ) {
     } ) );
 
     // link the positions of base and tip to the scenery nodes such as crosshair, tip, labelText, tapeLine, baseImage
-    Property.multilink( [this.basePositionProperty, this.tipPositionProperty], function( basePosition, tipPosition ) {
+    Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ], function( basePosition, tipPosition ) {
       // calculate the orientation and change of orientation of the Measuring tape
       var oldAngle = baseImage.getRotation();
       var angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );

@@ -33,8 +33,8 @@ define( function( require ) {
     Node.call( this, _.extend( { cursor: 'pointer' }, options ) );
 
     /*---------------------------------------------------------------------------*
-    * Readout text
-    *----------------------------------------------------------------------------*/
+     * Readout text
+     *----------------------------------------------------------------------------*/
     var bigReadoutText = new Text( timeToBigString( 0 ), {
       font: new PhetFont( 20 )
     } );
@@ -54,8 +54,8 @@ define( function( require ) {
     readoutText.centerX = 0;
 
     /*---------------------------------------------------------------------------*
-    * Readout background
-    *----------------------------------------------------------------------------*/
+     * Readout background
+     *----------------------------------------------------------------------------*/
     var textBackground = Rectangle.roundedBounds( readoutText.bounds.dilatedXY( 5, 2 ), 5, 5, {
       fill: '#fff',
       stroke: 'rgba(0,0,0,0.5)'
@@ -65,17 +65,17 @@ define( function( require ) {
     var minimumButtonWidth = ( textBackground.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
     /*---------------------------------------------------------------------------*
-    * Buttons
-    *----------------------------------------------------------------------------*/
+     * Buttons
+     *----------------------------------------------------------------------------*/
     var resetAllShape = new UTurnArrowShape( 10 );
     var playPauseHeight = resetAllShape.computeBounds().height;
     var playPauseWidth = playPauseHeight;
     var halfPlayStroke = 0.05 * playPauseWidth;
     var playOffset = 0.15 * playPauseWidth;
     var playShape = new Shape().moveTo( playPauseWidth - halfPlayStroke * 0.5 - playOffset, 0 )
-                               .lineTo( halfPlayStroke * 1.5 + playOffset, playPauseHeight / 2 - halfPlayStroke - playOffset )
-                               .lineTo( halfPlayStroke * 1.5 + playOffset, -playPauseHeight / 2 + halfPlayStroke + playOffset )
-                               .close().getOffsetShape( -playOffset );
+      .lineTo( halfPlayStroke * 1.5 + playOffset, playPauseHeight / 2 - halfPlayStroke - playOffset )
+      .lineTo( halfPlayStroke * 1.5 + playOffset, -playPauseHeight / 2 + halfPlayStroke + playOffset )
+      .close().getOffsetShape( -playOffset );
     // a stop symbol (square)
     var pauseShape = Shape.bounds( new Bounds2( 0, -playPauseHeight / 2, playPauseWidth, playPauseHeight / 2 ).eroded( playPauseWidth * 0.1 ) );
 
@@ -96,11 +96,11 @@ define( function( require ) {
       new Path( playShape, { stroke: options.iconColor, fill: '#eef', lineWidth: halfPlayStroke * 2 } ), runningProperty, {
         baseColor: options.buttonBaseColor,
         minWidth: minimumButtonWidth
-    } );
+      } );
 
     /*---------------------------------------------------------------------------*
-    * Layout
-    *----------------------------------------------------------------------------*/
+     * Layout
+     *----------------------------------------------------------------------------*/
     var container = new Node();
     container.addChild( resetButton );
     container.addChild( playPauseButton );
@@ -117,8 +117,8 @@ define( function( require ) {
     container.top = panelPad;
 
     /*---------------------------------------------------------------------------*
-    * Panel background
-    *----------------------------------------------------------------------------*/
+     * Panel background
+     *----------------------------------------------------------------------------*/
     var roundedRectangle = new ShadedRectangle( container.bounds.dilated( panelPad ), {
       baseColor: new Color( 80, 130, 230 ),
       cornerRadius: 10
@@ -128,8 +128,8 @@ define( function( require ) {
     this.addChild( container );
 
     /*---------------------------------------------------------------------------*
-    * Control logic
-    *----------------------------------------------------------------------------*/
+     * Control logic
+     *----------------------------------------------------------------------------*/
     secondsProperty.link( function updateTime( value ) {
       bigReadoutText.text = timeToBigString( value );
       smallReadoutText.text = timeToSmallString( value );
@@ -137,8 +137,8 @@ define( function( require ) {
     } );
 
     /*---------------------------------------------------------------------------*
-    * Target for drag listeners
-    *----------------------------------------------------------------------------*/
+     * Target for drag listeners
+     *----------------------------------------------------------------------------*/
     this.dragTarget = roundedRectangle;
   }
 

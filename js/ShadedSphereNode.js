@@ -27,9 +27,9 @@ define( function( require ) {
     var highlightX = radius * options.highlightXOffset;
     var highlightY = radius * options.highlightYOffset;
     options.fill = new RadialGradient( highlightX, highlightY, 0, highlightX, highlightY, diameter )
-          .addColorStop( 0, options.highlightColor )
-          .addColorStop( 0.5, options.mainColor )
-          .addColorStop( 1, options.shadowColor );
+      .addColorStop( 0, options.highlightColor )
+      .addColorStop( 0.5, options.mainColor )
+      .addColorStop( 1, options.shadowColor );
 
     Circle.call( this, radius, options );
   }

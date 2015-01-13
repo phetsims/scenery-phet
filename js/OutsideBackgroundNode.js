@@ -35,7 +35,7 @@ define( function( require ) {
     options = _.extend(
       {
         // Defaults.
-        skyGradientHeight: skyHeight / 2,
+        skyGradientHeight:   skyHeight / 2,
         groundGradientDepth: groundDepth / 2
       }, options );
 

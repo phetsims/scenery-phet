@@ -45,7 +45,7 @@ define( function( require ) {
         wavelengthProperty.reset();
       },
       radius: 22,
-      right: this.layoutBounds.right - 10,
+      right:  this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( resetAllButton );

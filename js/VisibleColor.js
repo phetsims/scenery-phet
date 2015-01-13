@@ -84,7 +84,7 @@ define( function( require ) {
       var alpha = 1;
 
       // Add the color to the lookup array.
-      colorTable[i] = new Color( red, green, blue, alpha );
+      colorTable[ i ] = new Color( red, green, blue, alpha );
     }
 
     return colorTable;
