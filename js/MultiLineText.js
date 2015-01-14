@@ -47,6 +47,25 @@ define( function( require ) {
           } ),
           align: thisNode._options.align
         } ) ];
+      },
+      /**
+       * Returns an Array of the text nodes that comprise this multi line text, in case they need to be modified.
+       * @private
+       * @returns {Array[Text]}
+       */
+      getTextNodes: function() {
+        var vbox = this.children[ 0 ];
+        return vbox.getChildren();
+      },
+
+      /**
+       * Sets the fill for all Text nodes.
+       */
+      setFill: function( fill ) {
+        var children = this.getTextNodes();
+        for ( var i = 0; i < children.length; i++ ) {
+          children[ i ].setFill( fill );
+        }
       }
     }
   );
