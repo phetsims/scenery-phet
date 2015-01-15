@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -20,10 +19,10 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PressAndHoldInputListener = require( 'SCENERY_PHET/buttons/PressAndHoldInputListener' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Timer = require( 'JOIST/Timer' );
   var Util = require( 'DOT/Util' );
 
   // creates a vertical gradient where with color1 at the top and bottom, color2 in the center
@@ -34,73 +33,24 @@ define( function( require ) {
       .addColorStop( 1, color1 );
   };
 
-  //-------------------------------------------------------------------------------------------
-
   /**
-   * @param {Property.<string>} stateProperty 'up'|'over'|'down'|'out'
-   * @param {Property.<boolean>} enabledProperty
-   * @param {function} fireFunction
-   * @param {number} timerDelay start to fire continuously after pressing for this long (milliseconds)
-   * @param {number} timerInterval fire continuously at this frequency (milliseconds)
+   * @param {Property.<string>} stateProperty up|down|over|out
+   * @param {Object} [options]
    * @constructor
    */
-  function PickerListener( stateProperty, enabledProperty, fireFunction, timerDelay, timerInterval ) {
-
-    // stuff related to press-&-hold feature
-    var delayID = null;
-    var intervalID = null;
-    var cleanupTimer = function() {
-      if ( delayID ) {
-        Timer.clearTimeout( delayID );
-        delayID = null;
-      }
-      if ( intervalID ) {
-        Timer.clearInterval( intervalID );
-        intervalID = null;
-      }
-    };
-
-    ButtonListener.call( this, {
-
-      up: function() {
-        stateProperty.set( 'up' );
-        cleanupTimer();
-      },
-
-      over: function() {
-        stateProperty.set( 'over' );
-      },
-
-      down: function() {
-        if ( delayID === null && intervalID === null ) {
-          if ( enabledProperty.get() ) {
-            fireFunction(); // fire once immediately
-          }
-          stateProperty.set( 'down' );
-          delayID = Timer.setTimeout( function() {
-            delayID = null;
-            intervalID = Timer.setInterval( function() {
-              if ( enabledProperty.get() ) {
-                fireFunction();
-              }
-            }, timerInterval );
-          }, timerDelay );
-        }
-      },
-
-      out: function() {
-        stateProperty.set( 'out' );
-      },
-
-      fire: function() {
-        cleanupTimer();
-      }
-    } );
+  function NumberPickerListener( stateProperty, options ) {
+    PressAndHoldInputListener.call( this, options );
+    this.stateProperty = stateProperty; // @private
   }
 
-  inherit( ButtonListener, PickerListener );
+  inherit( PressAndHoldInputListener, NumberPickerListener, {
 
-  //-------------------------------------------------------------------------------------------
+    // @override
+    setButtonState: function( event, state ) {
+      PressAndHoldInputListener.prototype.setButtonState.call( this, event, state );
+      this.stateProperty.set( state );
+    }
+  } );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -136,28 +86,42 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode, { cursor: 'pointer' } );
 
-    // properties for the "up" (increment) control
-    var upStateProperty = new Property( 'up' ); // up|down|over|out
-    var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
+    // @private must be detached in dispose
+    thisNode.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value < range.max );
     } );
 
-    // properties for the "down" (decrement) control
-    var downStateProperty = new Property( 'up' ); // up|down|over|out
-    var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
+    // @private must be detached in dispose
+    thisNode.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value > range.min );
     } );
 
-    // callbacks for changing the value
-    var fireUp = function() {
-      valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
-    };
-    var fireDown = function() {
-      valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
-    };
+    // up listener
+    var upStateProperty = new Property( 'up' ); // up|down|over|out
+    var upListener = new NumberPickerListener( upStateProperty, {
+      listener: function() {
+        valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
+      },
+      timerDelay: options.timerDelay,
+      timerInterval: options.timerInterval
+    } );
+
+    // down listener
+    var downStateProperty = new Property( 'up' ); // up|down|over|out
+    var downListener = new NumberPickerListener( downStateProperty, {
+      listener: function() {
+        valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
+      },
+      timerDelay: options.timerDelay,
+      timerInterval: options.timerInterval
+    } );
+
+    // enable/disable listeners: unlink unnecessary, properties are owned by this instance
+    thisNode.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
+    thisNode.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
 
     // displays the value
-    var valueNode = new Text( "", { font: options.font, pickable: false } );
+    var valueNode = new Text( '', { font: options.font, pickable: false } );
 
     // compute max width of text based on value range
     valueNode.text = Util.toFixed( rangeProperty.get().min, options.decimalPlaces );
@@ -171,23 +135,23 @@ define( function( require ) {
     var backgroundOverlap = 1;
     var backgroundCornerRadius = options.cornerRadius;
 
-    // top half of the background, for "up". Shape computed starting at upper-left, going clockwise.
+    // top half of the background, for 'up'. Shape computed starting at upper-left, going clockwise.
     var upBackground = new Path( new Shape()
       .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
       .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close() );
-    upBackground.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.timerInterval ) );
+    upBackground.addInputListener( upListener );
 
-    // bottom half of the background, for "down". Shape computed starting at bottom-right, going clockwise.
+    // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
     var downBackground = new Path( new Shape()
       .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
       .lineTo( 0, backgroundHeight / 2 )
       .lineTo( backgroundWidth, backgroundHeight / 2 )
       .close() );
-    downBackground.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.timerInterval ) );
+    downBackground.addInputListener( downListener );
 
     // separate rectangle for stroke around value background
     var strokedBackground = new Path( new Shape()
@@ -243,7 +207,7 @@ define( function( require ) {
       .lineTo( 0, arrowButtonSize.height )
       .close();
     var upArrow = new Path( upArrowShape, arrowOptions );
-    upArrow.addInputListener( new PickerListener( upStateProperty, upEnabledProperty, fireUp, options.timerDelay, options.timerInterval ) );
+    upArrow.addInputListener( upListener );
 
     // 'down' arrow
     var downArrowShape = new Shape()
@@ -252,7 +216,7 @@ define( function( require ) {
       .lineTo( arrowButtonSize.width, 0 )
       .close();
     var downArrow = new Path( downArrowShape, arrowOptions );
-    downArrow.addInputListener( new PickerListener( downStateProperty, downEnabledProperty, fireDown, options.timerDelay, options.timerInterval ) );
+    downArrow.addInputListener( downListener );
 
     // rendering order
     thisNode.addChild( upBackground );
@@ -272,7 +236,7 @@ define( function( require ) {
     downArrow.top = downBackground.bottom + ySpacing;
 
     // @private Update text to match the value
-    this.valuePropertyListener = function( value ) {
+    thisNode.valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -293,14 +257,13 @@ define( function( require ) {
         }
       }
     };
-    this.valueProperty = valueProperty; // @private
-    this.valueProperty.link( this.valuePropertyListener ); // must be unlinked in dispose
+    thisNode.valueProperty = valueProperty; // @private
+    thisNode.valueProperty.link( thisNode.valueObserver ); // must be unlinked in dispose
 
-    // Update button colors
-    var updateColors = function( stateProperty, enabledProperty, background, arrow ) {
-      if ( enabledProperty.get() ) {
+    // Update arrow and background colors
+    var updateColors = function( state, enabled, background, arrow ) {
+      if ( enabled ) {
         arrow.stroke = 'black';
-        var state = stateProperty.get();
         if ( state === 'up' ) {
           background.fill = backgroundColors.up;
           arrow.fill = arrowColors.up;
@@ -327,18 +290,27 @@ define( function( require ) {
         arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
       }
     };
-    Property.multilink( [ upStateProperty, upEnabledProperty ],
-      updateColors.bind( thisNode, upStateProperty, upEnabledProperty, upBackground, upArrow ) );
-    Property.multilink( [ downStateProperty, downEnabledProperty ],
-      updateColors.bind( thisNode, downStateProperty, downEnabledProperty, downBackground, downArrow ) );
+
+    // update colors for 'up' components
+    thisNode.upColorsUpdater = function() { updateColors( upStateProperty.value, thisNode.upEnabledProperty.value, upBackground, upArrow ); }; // @private
+    upStateProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
+    thisNode.upEnabledProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
+
+    // update colors for 'down' components
+    thisNode.downColorsUpdater = function() { updateColors( downStateProperty.value, thisNode.downEnabledProperty.value, downBackground, downArrow ); }; // @private
+    downStateProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
+    thisNode.downEnabledProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
 
     thisNode.mutate( options );
   }
 
   return inherit( Node, NumberPicker, {
 
+    // Ensures that this node is eligible for GC.
     dispose: function() {
-      this.valueProperty.unlink( this.valuePropertyListener );
+      this.upEnabledProperty.detach();
+      this.downEnabledProperty.detach();
+      this.valueProperty.unlink( this.valueObserver );
     }
   } );
 } );
