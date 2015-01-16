@@ -2,7 +2,7 @@
 
 /**
  * Shows a central node surrounded with next/previous arrows. Need to implement next(),previous(),
- * and when availability changes modify hasNext and hasPrevious
+ * and when availability changes modify hasNextProperty and hasPreviousProperty
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -18,6 +18,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Property = require( 'AXON/Property' );
 
   var arrowPadding = 8;
 
@@ -36,11 +37,11 @@ define( function( require ) {
   function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
     var self = this;
 
-    PropertySet.call( this, {
-      hasNext: false,
-      hasPrevious: false
-    } );
-    Node.call( this, {} );
+    // @public
+    this.hasNextProperty = new Property( false );
+    this.hasPreviousProperty = new Property( false );
+
+    Node.call( this );
 
     selfOptions = _.extend( {
       arrowColor: Color.YELLOW,
@@ -75,7 +76,7 @@ define( function( require ) {
     } );
     previousKitNode.addInputListener( new ButtonListener( {
       fire: function() {
-        if ( self.hasPrevious ) {
+        if ( self.hasPreviousProperty.value ) {
           selfOptions.previous && selfOptions.previous();
         }
       }
@@ -110,7 +111,7 @@ define( function( require ) {
     } );
     nextKitNode.addInputListener( new ButtonListener( {
       fire: function() {
-        if ( self.hasNext ) {
+        if ( self.hasNextProperty.value ) {
           selfOptions.next && selfOptions.next();
         }
       }
@@ -135,10 +136,8 @@ define( function( require ) {
     centerNode.x = arrowWidth + arrowPadding;
     nextKitNode.x = centerNode.right + arrowPadding;
 
-    Node.prototype.mutate.call( this, nodeOptions );
+    this.mutate( nodeOptions );
   }
 
-  inherit( PropertySet, NextPreviousNavigationNode, extend( {}, Node.prototype ) );
-
-  return NextPreviousNavigationNode;
+  return inherit( Node, NextPreviousNavigationNode );
 } );
