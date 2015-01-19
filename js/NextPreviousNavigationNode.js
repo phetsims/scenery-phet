@@ -11,12 +11,10 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var extend = require( 'PHET_CORE/extend' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
-  var PropertySet = require( 'AXON/PropertySet' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
 
