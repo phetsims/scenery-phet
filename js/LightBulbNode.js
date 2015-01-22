@@ -42,7 +42,7 @@ define( function( require ) {
       shortRayLineWidth: 0.5 // for short rays
     };
 
-    options = _.extend( defaultOptions, options );
+    options = _.defaults( options || {}, defaultOptions );
 
     var thisNode = this;
 
