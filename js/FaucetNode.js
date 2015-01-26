@@ -100,12 +100,10 @@ define( function( require ) {
     stopNode.centerY = shaftNode.centerY;
     flangeNode.left = shaftNode.right - 1; // a bit of overlap
     flangeNode.centerY = shaftNode.centerY;
-    flangeDisabledNode.x = flangeNode.x;
-    flangeDisabledNode.y = flangeNode.y;
+    flangeDisabledNode.translation = flangeNode.translation;
     knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
     knobNode.centerY = flangeNode.centerY;
-    knobDisabledNode.x = knobNode.x;
-    knobDisabledNode.y = knobNode.y;
+    knobDisabledNode.translation = knobNode.translation;
 
     enabledProperty.link( function( enabled ) {
 
@@ -205,8 +203,7 @@ define( function( require ) {
       bodyNode.bottom = verticalPipeNode.top + VERTICAL_PIPE_Y_OVERLAP;
 
       // shooter window is in the body's coordinate frame
-      shooterWindowNode.x = bodyNode.x;
-      shooterWindowNode.y = bodyNode.y;
+      shooterWindowNode.translation = bodyNode.translation;
 
       // horizontal pipe connects to left edge of body
       horizontalPipeNode.right = bodyNode.left + HORIZONTAL_PIPE_X_OVERLAP;
