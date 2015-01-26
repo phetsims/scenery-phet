@@ -96,7 +96,7 @@ define( function( require ) {
     Node.call( this, { children: [ shaftNode, stopNode, flangeNode, flangeDisabledNode, knobNode, knobDisabledNode ] } );
 
     // layout, relative to shaft
-    stopNode.x = shaftNode.x + 12;
+    stopNode.x = shaftNode.x + 13;
     stopNode.centerY = shaftNode.centerY;
     flangeNode.left = shaftNode.right - 1; // a bit of overlap
     flangeNode.centerY = shaftNode.centerY;
@@ -119,6 +119,7 @@ define( function( require ) {
   inherit( Node, ShooterNode );
 
   /**
+   *
    * @param {number} maxFlowRate
    * @param {Property.<number>} flowRateProperty
    * @param {Property.<boolean>} enabledProperty
