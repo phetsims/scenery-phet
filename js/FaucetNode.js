@@ -98,7 +98,7 @@ define( function( require ) {
     // layout, relative to shaft
     stopNode.x = shaftNode.x + 12;
     stopNode.centerY = shaftNode.centerY;
-    flangeNode.left = shaftNode.right;
+    flangeNode.left = shaftNode.right - 1; // a bit of overlap
     flangeNode.centerY = shaftNode.centerY;
     flangeDisabledNode.x = flangeNode.x;
     flangeDisabledNode.y = flangeNode.y;
