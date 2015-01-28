@@ -39,7 +39,8 @@ define( function( require ) {
       // for that here, and see docs in RoundButtonView.  The multiplier
       // values were empirically determined.
       xContentOffset: buttonRadius * 0.03,
-      yContentOffset: buttonRadius * ( -0.0125 )
+      yContentOffset: buttonRadius * ( -0.0125 ),
+      textDescription: 'Reset All Button'
     }, options );
 
     var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
