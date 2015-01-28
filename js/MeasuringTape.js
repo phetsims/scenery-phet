@@ -121,7 +121,7 @@ define( function( require ) {
     var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     // create text
-    var labelText = new Text( measuringTape.getText(), {
+    this.labelText = new Text( measuringTape.getText(), {
       font: options.textFont,
       fill: options.textColor
     } );
@@ -134,7 +134,7 @@ define( function( require ) {
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
     this.addChild( baseImage ); // base of the measuring tape
-    this.addChild( labelText ); // text
+    this.addChild( this.labelText ); // text
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
     var startOffset;
@@ -200,8 +200,8 @@ define( function( require ) {
 
       // reset the text
       measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      labelText.setText( measuringTape.getText() );
-      labelText.centerTop = baseImage.center.plus( options.textPosition.times( options.baseScale ) );
+      measuringTape.labelText.setText( measuringTape.getText() );
+      measuringTape.labelText.centerTop = baseImage.center.plus( options.textPosition.times( options.baseScale ) );
 
 
       // reposition the tapeline
@@ -225,7 +225,7 @@ define( function( require ) {
 
     // @private set Text on on labelText
     this.unitsPropertyObserver = function() {
-      labelText.setText( measuringTape.getText() );
+      measuringTape.labelText.setText( measuringTape.getText() );
     };
     // link change of units to the text
     this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
@@ -290,7 +290,16 @@ define( function( require ) {
       this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.unitsProperty.unlink( this.unitsPropertyObserver );
       this.scaleProperty.unlink( this.scalePropertyObserver );
+    },
+
+    /**
+     * Set the color of the text label
+     * @param {Color} color
+     */
+    setTextColor: function( color ) {
+      this.labelText.fill = color;
     }
+
   } );
 } );
 
