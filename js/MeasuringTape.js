@@ -121,11 +121,11 @@ define( function( require ) {
     var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     // create text
+    // @public
     this.labelText = new Text( measuringTape.getText(), {
       font: options.textFont,
       fill: options.textColor
     } );
-
 
     // expand the area for touch
     tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
@@ -275,6 +275,7 @@ define( function( require ) {
       this.tipPositionProperty.reset();
     },
 
+    //TODO: is is necesseray to have this method now that labelText is not longer a var
     /**
      * returns a readout of the current measurement
      * @public
@@ -294,11 +295,15 @@ define( function( require ) {
 
     /**
      * Set the color of the text label
-     * @param {Color} color
+     * @param {string||Color} color
      */
     setTextColor: function( color ) {
       this.labelText.fill = color;
-    }
+    },
+
+    // ES5 getter and setter for the textColor
+    set textColor( value ) { this.setTextColor( value ); },
+    get textColor() { return this.labelText.fill; }
 
   } );
 } );
