@@ -20,15 +20,21 @@ define( function( require ) {
   var MinusNode = require( 'SCENERY_PHET/MinusNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var batteryImage = require( 'image!ACID_BASE_SOLUTIONS/battery.png' );
+
+  // strings
+  var shortCircuitString = require( 'string!SCENERY_PHET/shortCircuit' );
 
   // constants
   var SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
@@ -61,13 +67,25 @@ define( function( require ) {
       negativeLabelFill: 'white',
       // wires
       wireStroke: 'black',
-      wireLineWidth: 1.5
+      wireLineWidth: 1.5,
+      // miscellaneous
+      shortCircuitFont: new PhetFont( 14 ),
+      shortCircuitFill: 'black'
     }, options );
 
     // @private bulb, origin at bottom center of base
     this.lightBulbNode = new LightBulbNode( brightnessProperty, {
       centerX: 0,
       bottom: 0
+    } );
+
+    // @private short-circuit indicator, centered above the light bulb
+    this.shortCircuitNode = new Text( shortCircuitString, {
+      font: options.shortCircuitFont,
+      fill: options.shortCircuitFill,
+      centerX: this.lightBulbNode.centerX,
+      bottom: this.lightBulbNode.top,
+      visible: false // initial state is no short circuit
     } );
 
     // battery
@@ -89,7 +107,8 @@ define( function( require ) {
       children: [
         bulbBatteryWire,
         battery,
-        this.lightBulbNode
+        this.lightBulbNode,
+        this.shortCircuitNode
       ]
     } );
     if ( SHOW_TESTER_ORIGIN ) {
@@ -189,7 +208,20 @@ define( function( require ) {
     setVisible: function( visible ) {
       Node.prototype.setVisible.call( this, visible );
       this.lightBulbNode.visible = visible; // to prevent light from updating when invisible
-    }
+    },
+
+    /**
+     * Determines whether 'Short circuit' is shown above the light bulb. Note that it is the client's responsibility
+     * to ensure that the bulb's brightness (as set by brightnessProperty) is appropriate for a short circuit.
+     * @param {boolean} value
+     */
+    set shortCircuit( value ) { this.shortCircuitNode.visible = value; },
+
+    /**
+     * Is 'Short circuit' shown above the light bulb?
+     * @returns {boolean}
+     */
+    get shortCircuit() { return this.shortCircuitNode.visible; }
   } );
 
   /**
