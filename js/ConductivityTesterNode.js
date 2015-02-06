@@ -67,10 +67,11 @@ define( function( require ) {
       // wires
       wireStroke: 'black',
       wireLineWidth: 1.5,
-      // miscellaneous
-      bulbToBatteryWireLength: 40, // length of the wire between bulb and battery
+      // short-circuit indicator
       shortCircuitFont: new PhetFont( 14 ),
-      shortCircuitFill: 'black'
+      shortCircuitFill: 'black',
+      // miscellaneous
+      bulbToBatteryWireLength: 40 // length of the wire between bulb and battery
     }, options );
 
     // @private bulb, origin at bottom center of base
