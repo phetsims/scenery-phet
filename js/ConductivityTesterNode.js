@@ -39,7 +39,6 @@ define( function( require ) {
   // constants
   var SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
   var SHOW_PROBE_ORIGIN = false; // draws a red circle at the origin of probes, for debugging
-  var BULB_TO_BATTERY_WIRE_LENGTH = 40;
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
@@ -69,6 +68,7 @@ define( function( require ) {
       wireStroke: 'black',
       wireLineWidth: 1.5,
       // miscellaneous
+      bulbToBatteryWireLength: 40, // length of the wire between bulb and battery
       shortCircuitFont: new PhetFont( 14 ),
       shortCircuitFill: 'black'
     }, options );
@@ -91,12 +91,12 @@ define( function( require ) {
     // battery
     var battery = new Image( batteryImage, {
       scale: 0.6,
-      x: BULB_TO_BATTERY_WIRE_LENGTH,
+      x: options.bulbToBatteryWireLength,
       centerY: 0
     } );
 
     // wire from bulb base to battery
-    var bulbBatteryWire = new Path( new Shape().moveTo( 0, 0 ).lineTo( BULB_TO_BATTERY_WIRE_LENGTH, 0 ), {
+    var bulbBatteryWire = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.bulbToBatteryWireLength, 0 ), {
       stroke: options.wireStroke,
       lineWidth: options.wireLineWidth
     } );
