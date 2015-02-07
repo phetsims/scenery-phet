@@ -108,10 +108,12 @@ define( function( require ) {
     var tubeFluidLeft = -tubeFluidRadius;
 
     // Clip area for the fluid in the tube, round at the top
-    var fluidClipShape = new Shape().moveTo( tubeFluidLeft, tubeFluidBottom )
-      .verticalLineTo( straightTubeTop );
-    fluidClipShape.arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
-      .lineTo( -tubeFluidLeft, tubeFluidBottom ).close();
+    var fluidClipShape = new Shape()
+      .moveTo( tubeFluidLeft, tubeFluidBottom )
+      .verticalLineTo( straightTubeTop )
+      .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
+      .lineTo( -tubeFluidLeft, tubeFluidBottom )
+      .close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
     var bulbFluidClipArea = Shape.rectangle( tubeFluidBottom, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
