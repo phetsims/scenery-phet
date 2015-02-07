@@ -74,6 +74,7 @@ define( function( require ) {
     var bulbStartAngle = -Math.acos( options.tubeWidth / options.bulbDiameter );
     var bulbEndAngle = Math.PI - bulbStartAngle;
 
+    //TODO this is buggy. The height of the tube is not options.tubeHeight, the rounded top is being added to options.tubeHeight
     // Create the outline for the thermometer, starting with the bulb
     var outlineShape = new Shape()
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
@@ -91,7 +92,7 @@ define( function( require ) {
         outlineShape.moveToRelative( options.majorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.majorTickLength );
       }
     }
-    var outline = new Path( outlineShape, {
+    var outlineNode = new Path( outlineShape, {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
     } );
@@ -127,22 +128,16 @@ define( function( require ) {
       clipArea: fluidClipShape
     } );
 
-    //TODO this is buggy, does not set the background in the sphere
-    // Background inside the tube, a rectangle clipped to the tube's shape
+    // Background inside the tube
     if ( options.backgroundFill ) {
-      var backgroundY = bulbUpperLeftCorner.y - options.tubeWidth / 2; //TODO this looks wrong, why is options.tubeWidth used?
-      var backgroundHeight = options.tubeHeight + options.tubeWidth / 2; //TODO this looks wrong, why is options.tubeWidth used?
-      var backgroundRectangle = new Rectangle( bulbUpperLeftCorner.x, backgroundY, options.tubeWidth, backgroundHeight, {
-        fill: options.backgroundFill,
-        clipArea: outlineShape
-      } );
+      var backgroundRectangle = new Path( outlineShape, { fill: options.backgroundFill } );
       this.addChild( backgroundRectangle );
     }
 
     // Add other nodes after optional background
     this.addChild( fluidRectangle );
     this.addChild( fluidSphere );
-    this.addChild( outline );
+    this.addChild( outlineNode );
 
     // Temperature determines the height of the fluid in the tube
     var height = new Path( fluidClipShape ).height;
