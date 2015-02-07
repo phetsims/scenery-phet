@@ -81,9 +81,10 @@ define( function( require ) {
       .verticalLineToRelative( -options.tubeHeight );
     var bulbUpperLeftCorner = outlineShape.getLastPoint();
     outlineShape.arc( bulbUpperLeftCorner.x + options.tubeWidth / 2, bulbUpperLeftCorner.y, options.tubeWidth / 2, Math.PI, 0 )
-      .verticalLineToRelative( options.tubeHeight ).close();
-    outlineShape.moveToPoint( bulbUpperLeftCorner ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
+      .verticalLineToRelative( options.tubeHeight )
+      .close();
     // tick marks
+    outlineShape.moveToPoint( bulbUpperLeftCorner ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
     for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
         outlineShape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
@@ -96,6 +97,8 @@ define( function( require ) {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
     } );
+
+    assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth );
 
     var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
