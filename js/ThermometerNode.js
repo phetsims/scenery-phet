@@ -43,24 +43,24 @@ define( function( require ) {
       tickSpacing: 15,
       majorTickLength: 15,
       minorTickLength: 7.5,
-      //TODO why do we need separate options for the sphere and tube? this looks strange, eg in Friction
-      fluidSphereSpacing: 2, // the empty space between the fluid sphere and the thermometer outline
-      fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
+      //TODO why do we need separate options for the bulb and tube? this looks strange, eg in Friction
+      fluidBulbSpacing: 2, // space between the tube wall and the fluid inside it
+      fluidTubeSpacing: 2, // space between the bulb wall and the fluid inside it
 
       // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
       backgroundFill: null,
 
       // all the default colors are shades of red
-      fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
-      fluidHighlightColor: '#ff7575', // the highlight color of the shaded sphere and the middle of the tube gradient
+      fluidMainColor: '#850e0e', // the main color of the bulb fluid, and the left side of the tube gradient
+      fluidHighlightColor: '#ff7575', // the highlight color of the bulb fluid and the middle of the tube gradient
       fluidRightSideColor: '#c41515' // the right side of the tube gradient, not used currently
     }, options );
 
     Node.call( this );
 
-    // Create a shaded sphere to act as the bulb fill
-    var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing; //TODO should this be options.lineWidth/2 ?
-    var fluidSphere = new ShadedSphereNode( fluidSphereDiameter, {
+    // Create a shaded sphere to act as the bulb fluid
+    var bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing; //TODO should this be options.lineWidth/2 ?
+    var bulbFluidNode = new ShadedSphereNode( bulbFluidDiameter, {
       centerX: BULB_CENTER_X,
       centerY: BULB_CENTER_Y,
       mainColor: options.fluidMainColor,
@@ -97,11 +97,11 @@ define( function( require ) {
       lineWidth: options.lineWidth
     } );
 
-    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidRectSpacing; //TODO should this be options.lineWidth/2 ?
-    var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
+    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
+    var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
     var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
-    var fluidBottomCutoff = ( fluidSphereDiameter / 2 ) * Math.sin( clipEndAngle );
+    var fluidBottomCutoff = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
     var rectangleX = -fluidWidth / 2;  //TODO give this a more descriptive name, it tells me nothing
 
     // Clip area for the fluid in the tube, round at the top
@@ -111,32 +111,31 @@ define( function( require ) {
     fluidClipShape.arc( BULB_CENTER_X, clipUpperLeftCorner.y, fluidWidth / 2, Math.PI, 0 )
       .lineTo( -rectangleX, fluidBottomCutoff ).close();
 
-    // Clip the top of the sphere so it's flat where it connects to the tube
-    var sphereClipShape = Shape.rectangle( fluidBottomCutoff, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
-    fluidSphere.setClipArea( sphereClipShape );
+    // Clip the top of the bulb so it's flat where it connects to the tube
+    var bulbFluidClipArea = Shape.rectangle( fluidBottomCutoff, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
+    bulbFluidNode.setClipArea( bulbFluidClipArea );
 
     // Gradient for fluid in tube
-    var fluidRectangleGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
+    var tubeFluidGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
       addColorStop( 0, options.fluidMainColor ).
       addColorStop( 0.4, options.fluidHighlightColor ).
       addColorStop( 0.5, options.fluidHighlightColor ).
       addColorStop( 1, options.fluidMainColor );
 
     // Fluid in the tube
-    var fluidRectangle = new Rectangle( 0, 0, fluidWidth, 0, {
-      fill: fluidRectangleGradient,
+    var tubeFluidNode = new Rectangle( 0, 0, fluidWidth, 0, {
+      fill: tubeFluidGradient,
       clipArea: fluidClipShape
     } );
 
     // Background inside the tube
     if ( options.backgroundFill ) {
-      var backgroundRectangle = new Path( outlineShape, { fill: options.backgroundFill } );
-      this.addChild( backgroundRectangle );
+      this.addChild( new Path( outlineShape, { fill: options.backgroundFill } ) );
     }
 
     // Add other nodes after optional background
-    this.addChild( fluidRectangle );
-    this.addChild( fluidSphere );
+    this.addChild( tubeFluidNode );
+    this.addChild( bulbFluidNode );
     this.addChild( outlineNode );
 
     // Temperature determines the height of the fluid in the tube
@@ -145,7 +144,7 @@ define( function( require ) {
     var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, -fluidBottomCutoff, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
-      fluidRectangle.setRect( rectangleX, -fluidHeight, fluidWidth, fluidHeight );
+      tubeFluidNode.setRect( rectangleX, -fluidHeight, fluidWidth, fluidHeight );
     } );
 
     this.mutate( options );
