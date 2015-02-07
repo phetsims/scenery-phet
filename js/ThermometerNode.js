@@ -43,7 +43,7 @@ define( function( require ) {
       tickSpacing: 15,
       majorTickLength: 15,
       minorTickLength: 7.5,
-      //TODO why do we need separate options for the bulb and tube? this looks strange, eg in Friction
+      //TODO issue #135 why do we need separate options for the bulb and tube? this looks strange, eg in Friction
       fluidBulbSpacing: 2, // space between the tube wall and the fluid inside it
       fluidTubeSpacing: 2, // space between the bulb wall and the fluid inside it
 
@@ -74,7 +74,7 @@ define( function( require ) {
     var bulbStartAngle = -Math.acos( options.tubeWidth / options.bulbDiameter );
     var bulbEndAngle = Math.PI - bulbStartAngle;
 
-    //TODO this is buggy. The height of the tube is not options.tubeHeight, the rounded top is being added to options.tubeHeight
+    //TODO issue #136 This is buggy. The height of the tube is not options.tubeHeight, the rounded top is being added to options.tubeHeight
     // Create the outline for the thermometer, starting with the bulb
     var outlineShape = new Shape()
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
@@ -97,8 +97,7 @@ define( function( require ) {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
     } );
-
-    assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth );
+    assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + ( 2 * options.lineWidth ) ); //TODO this fails
 
     var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
