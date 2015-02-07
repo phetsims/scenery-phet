@@ -36,6 +36,7 @@ define( function( require ) {
     var thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
       fluidSphereSpacing: 6,
       fluidRectSpacing: 6,
+      backgroundFill: 'yellow',
       right:  this.layoutBounds.right - 100,
       bottom: this.layoutBounds.bottom - 20
     } );

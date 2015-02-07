@@ -48,7 +48,7 @@ define( function( require ) {
       fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
 
       // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
-      backgroundColor: null,
+      backgroundFill: null,
 
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the shaded sphere and the left side of the tube gradient
@@ -127,12 +127,13 @@ define( function( require ) {
       clipArea: fluidClipShape
     } );
 
+    //TODO this is buggy, does not set the background in the sphere
     // Background inside the tube, a rectangle clipped to the tube's shape
-    if ( options.backgroundColor ) {
+    if ( options.backgroundFill ) {
       var backgroundY = bulbUpperLeftCorner.y - options.tubeWidth / 2; //TODO this looks wrong, why is options.tubeWidth used?
       var backgroundHeight = options.tubeHeight + options.tubeWidth / 2; //TODO this looks wrong, why is options.tubeWidth used?
       var backgroundRectangle = new Rectangle( bulbUpperLeftCorner.x, backgroundY, options.tubeWidth, backgroundHeight, {
-        fill: options.backgroundColor,
+        fill: options.backgroundFill,
         clipArea: outlineShape
       } );
       this.addChild( backgroundRectangle );
