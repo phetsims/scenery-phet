@@ -86,7 +86,7 @@ define( function( require ) {
       .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
       .close();
     // tick marks, from top down
-    outlineShape.moveTo( straightTubeLeft, straightTubeTop ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
+    outlineShape.moveTo( straightTubeLeft, straightTubeTop ).moveToRelative( options.majorTickLength, 0 ).horizontalLineToRelative( -options.majorTickLength );
     for ( var i = 0; i < Math.floor( straightTubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
         outlineShape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
