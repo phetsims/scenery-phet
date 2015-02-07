@@ -79,22 +79,20 @@ define( function( require ) {
     var straightTubeHeight = options.tubeHeight - tubeTopRadius;
     var straightTubeTop = BULB_CENTER_Y - ( options.bulbDiameter / 2 ) - straightTubeHeight;
     var straightTubeLeft = BULB_CENTER_X - ( options.tubeWidth / 2 );
+
     var outlineShape = new Shape()
       // bulb at bottom
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
       // rounded top of tube
       .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
       .close();
-    // tick marks, from top down
-    outlineShape.moveTo( straightTubeLeft, straightTubeTop ).moveToRelative( options.majorTickLength, 0 ).horizontalLineToRelative( -options.majorTickLength );
-    for ( var i = 0; i < Math.floor( straightTubeHeight / options.tickSpacing ); i++ ) {
-      if ( i % 2 === 0 ) {
-        outlineShape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
-      }
-      else {
-        outlineShape.moveToRelative( options.majorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.majorTickLength );
-      }
+    // tick marks, from top down, alternating major and minor ticks
+    var numberOfTicks = Math.floor( straightTubeHeight / options.tickSpacing ) + 1;
+    for ( var i = 0; i < numberOfTicks; i++ ) {
+      outlineShape.moveTo( straightTubeLeft, straightTubeTop + ( i * options.tickSpacing ) );
+      outlineShape.horizontalLineTo( straightTubeLeft + ( ( i % 2 === 0 ) ? options.majorTickLength : options.minorTickLength ) );
     }
+
     var outlineNode = new Path( outlineShape, {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
