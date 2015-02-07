@@ -78,11 +78,11 @@ define( function( require ) {
     // Create the outline for the thermometer, starting with the bulb
     var tubeTopRadius = options.tubeWidth / 2;
     var straightTubeHeight = options.tubeHeight - tubeTopRadius;
+    var straightTubeTop = BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 );
     var outlineShape = new Shape()
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
       .verticalLineToRelative( -straightTubeHeight );
     var bulbUpperLeftCorner = outlineShape.getLastPoint();
-    var straightTubeTop = BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 );
     outlineShape.arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
       .verticalLineToRelative( straightTubeHeight )
       .close();
@@ -111,7 +111,7 @@ define( function( require ) {
 
     // Clip area for the fluid in the tube, round at the top
     var fluidClipShape = new Shape().moveTo( tubeFluidLeft, tubeFluidBottom )
-      .verticalLineTo( BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 ) );
+      .verticalLineTo( straightTubeTop );
     fluidClipShape.arc( BULB_CENTER_X, straightTubeTop, tubeFluidWidth / 2, Math.PI, 0 )
       .lineTo( -tubeFluidLeft, tubeFluidBottom ).close();
 
