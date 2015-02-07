@@ -43,7 +43,7 @@ define( function( require ) {
       tickSpacing: 15,
       majorTickLength: 15,
       minorTickLength: 7.5,
-      //TODO why do we need separate options for the sphere and tube?
+      //TODO why do we need separate options for the sphere and tube? this looks strange, eg in Friction
       fluidSphereSpacing: 2, // the empty space between the fluid sphere and the thermometer outline
       fluidRectSpacing: 2, // the empty space between the fluid in the tube and the thermometer outline
 
