@@ -74,20 +74,19 @@ define( function( require ) {
     var bulbStartAngle = -Math.acos( options.tubeWidth / options.bulbDiameter );
     var bulbEndAngle = Math.PI - bulbStartAngle;
 
-    //TODO issue #136 This is buggy. The height of the tube is not options.tubeHeight, the rounded top is being added to options.tubeHeight
     // Create the outline for the thermometer, starting with the bulb
     var tubeTopRadius = options.tubeWidth / 2;
     var straightTubeHeight = options.tubeHeight - tubeTopRadius;
-    var straightTubeTop = BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 );
+    var straightTubeTop = BULB_CENTER_Y - ( options.bulbDiameter / 2 ) - straightTubeHeight;
+    var straightTubeLeft = BULB_CENTER_X - ( options.tubeWidth / 2 );
     var outlineShape = new Shape()
+      // bulb at bottom
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
-      .verticalLineToRelative( -straightTubeHeight );
-    var bulbUpperLeftCorner = outlineShape.getLastPoint();
-    outlineShape.arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
-      .verticalLineToRelative( straightTubeHeight )
+      // rounded top of tube
+      .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
       .close();
-    // tick marks
-    outlineShape.moveToPoint( bulbUpperLeftCorner ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
+    // tick marks, from top down
+    outlineShape.moveTo( straightTubeLeft, straightTubeTop ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
     for ( var i = 0; i < Math.floor( straightTubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
         outlineShape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
