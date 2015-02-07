@@ -100,16 +100,17 @@ define( function( require ) {
     assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth ); // see scenery-phet#136
 
     var tubeFluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
+    var tubeFluidRadius = tubeFluidWidth / 2;
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
-    var clipStartAngle = -Math.acos( ( tubeFluidWidth / 2 ) / clipBulbRadius );
+    var clipStartAngle = -Math.acos( tubeFluidRadius / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
     var tubeFluidBottom = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
-    var tubeFluidLeft = -tubeFluidWidth / 2;
+    var tubeFluidLeft = -tubeFluidRadius;
 
     // Clip area for the fluid in the tube, round at the top
     var fluidClipShape = new Shape().moveTo( tubeFluidLeft, tubeFluidBottom )
       .verticalLineTo( straightTubeTop );
-    fluidClipShape.arc( BULB_CENTER_X, straightTubeTop, tubeFluidWidth / 2, Math.PI, 0 )
+    fluidClipShape.arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
       .lineTo( -tubeFluidLeft, tubeFluidBottom ).close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
