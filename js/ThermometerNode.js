@@ -5,6 +5,7 @@
  *
  * @author Aaron Davis
  * @author Sam Reid
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
@@ -25,7 +26,6 @@ define( function( require ) {
   var BULB_CENTER_Y = 0;
 
   /**
-   *
    * @param {number} minTemperature
    * @param {number} maxTemperature
    * @param {Property.<number>} temperatureProperty
@@ -76,16 +76,19 @@ define( function( require ) {
 
     //TODO issue #136 This is buggy. The height of the tube is not options.tubeHeight, the rounded top is being added to options.tubeHeight
     // Create the outline for the thermometer, starting with the bulb
+    var tubeTopRadius = options.tubeWidth / 2;
+    var straightTubeHeight = options.tubeHeight - tubeTopRadius;
     var outlineShape = new Shape()
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
-      .verticalLineToRelative( -options.tubeHeight );
+      .verticalLineToRelative( -straightTubeHeight );
     var bulbUpperLeftCorner = outlineShape.getLastPoint();
-    outlineShape.arc( bulbUpperLeftCorner.x + options.tubeWidth / 2, bulbUpperLeftCorner.y, options.tubeWidth / 2, Math.PI, 0 )
-      .verticalLineToRelative( options.tubeHeight )
+    var straightTubeTop = BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 );
+    outlineShape.arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
+      .verticalLineToRelative( straightTubeHeight )
       .close();
     // tick marks
     outlineShape.moveToPoint( bulbUpperLeftCorner ).moveToRelative( options.majorTickLength ).horizontalLineToRelative( -options.majorTickLength );
-    for ( var i = 0; i < Math.floor( options.tubeHeight / options.tickSpacing ); i++ ) {
+    for ( var i = 0; i < Math.floor( straightTubeHeight / options.tickSpacing ); i++ ) {
       if ( i % 2 === 0 ) {
         outlineShape.moveToRelative( options.minorTickLength, options.tickSpacing ).horizontalLineToRelative( -options.minorTickLength );
       }
@@ -97,35 +100,34 @@ define( function( require ) {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
     } );
-    assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + ( 2 * options.lineWidth ) ); //TODO this fails
+    assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth ); // see scenery-phet#136
 
-    var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
+    var tubeFluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
     var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
-    var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
+    var clipStartAngle = -Math.acos( ( tubeFluidWidth / 2 ) / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
-    var fluidBottomCutoff = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
-    var rectangleX = -fluidWidth / 2;  //TODO give this a more descriptive name, it tells me nothing
+    var tubeFluidBottom = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
+    var tubeFluidLeft = -tubeFluidWidth / 2;
 
     // Clip area for the fluid in the tube, round at the top
-    var fluidClipShape = new Shape().moveTo( rectangleX, fluidBottomCutoff )
-      .verticalLineTo( bulbUpperLeftCorner.y );
-    var clipUpperLeftCorner = fluidClipShape.getLastPoint();
-    fluidClipShape.arc( BULB_CENTER_X, clipUpperLeftCorner.y, fluidWidth / 2, Math.PI, 0 )
-      .lineTo( -rectangleX, fluidBottomCutoff ).close();
+    var fluidClipShape = new Shape().moveTo( tubeFluidLeft, tubeFluidBottom )
+      .verticalLineTo( BULB_CENTER_Y - ( straightTubeHeight + options.bulbDiameter / 2 ) );
+    fluidClipShape.arc( BULB_CENTER_X, straightTubeTop, tubeFluidWidth / 2, Math.PI, 0 )
+      .lineTo( -tubeFluidLeft, tubeFluidBottom ).close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
-    var bulbFluidClipArea = Shape.rectangle( fluidBottomCutoff, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
+    var bulbFluidClipArea = Shape.rectangle( tubeFluidBottom, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
     bulbFluidNode.setClipArea( bulbFluidClipArea );
 
     // Gradient for fluid in tube
-    var tubeFluidGradient = new LinearGradient( rectangleX, 0, rectangleX + fluidWidth, 0 ).
+    var tubeFluidGradient = new LinearGradient( tubeFluidLeft, 0, tubeFluidLeft + tubeFluidWidth, 0 ).
       addColorStop( 0, options.fluidMainColor ).
       addColorStop( 0.4, options.fluidHighlightColor ).
       addColorStop( 0.5, options.fluidHighlightColor ).
       addColorStop( 1, options.fluidMainColor );
 
     // Fluid in the tube
-    var tubeFluidNode = new Rectangle( 0, 0, fluidWidth, 0, {
+    var tubeFluidNode = new Rectangle( 0, 0, tubeFluidWidth, 0, {
       fill: tubeFluidGradient,
       clipArea: fluidClipShape
     } );
@@ -142,11 +144,12 @@ define( function( require ) {
 
     // Temperature determines the height of the fluid in the tube
     var height = new Path( fluidClipShape ).height;
-    var maxFluidHeight = height - fluidBottomCutoff;
-    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, -fluidBottomCutoff, maxFluidHeight );
+    var maxFluidHeight = height - tubeFluidBottom;
+    //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
+    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, -tubeFluidBottom, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
-      var fluidHeight = temperatureLinearFunction( temp );
-      tubeFluidNode.setRect( rectangleX, -fluidHeight, fluidWidth, fluidHeight );
+      var tubeFluidHeight = temperatureLinearFunction( temp );
+      tubeFluidNode.setRect( tubeFluidLeft, -tubeFluidHeight, tubeFluidWidth, tubeFluidHeight );
     } );
 
     this.mutate( options );
