@@ -143,13 +143,12 @@ define( function( require ) {
     this.addChild( outlineNode );
 
     // Temperature determines the height of the fluid in the tube
-    var height = new Path( fluidClipShape ).height;
-    var maxFluidHeight = height - tubeFluidBottom;
+    var maxFluidHeight = new Path( fluidClipShape ).height;
     //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
-    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, -tubeFluidBottom, maxFluidHeight );
+    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
-      var tubeFluidHeight = temperatureLinearFunction( temp );
-      tubeFluidNode.setRect( tubeFluidLeft, -tubeFluidHeight, tubeFluidWidth, tubeFluidHeight );
+      var fluidHeight = temperatureLinearFunction( temp );
+      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight );
     } );
 
     this.mutate( options );
