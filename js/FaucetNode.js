@@ -131,7 +131,7 @@ define( function( require ) {
     options = _.extend( {
       scale: 1,
       knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
-      horizontalPipeLength: 50, // distance between left edge of horizontal pipe and spout's center
+      horizontalPipeLength: SPOUT_OUTPUT_CENTER_X, // distance between left edge of horizontal pipe and spout's center
       verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
