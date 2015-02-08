@@ -108,7 +108,7 @@ define( function( require ) {
     var tubeFluidLeft = -tubeFluidRadius;
 
     // Clip area for the fluid in the tube, round at the top
-    var fluidClipShape = new Shape()
+    var fluidClipArea = new Shape()
       .moveTo( tubeFluidLeft, tubeFluidBottom )
       .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
       .lineTo( -tubeFluidLeft, tubeFluidBottom )
@@ -128,7 +128,7 @@ define( function( require ) {
     // Fluid in the tube
     var tubeFluidNode = new Rectangle( 0, 0, tubeFluidWidth, 0, {
       fill: tubeFluidGradient,
-      clipArea: fluidClipShape
+      clipArea: fluidClipArea
     } );
 
     // Background inside the tube
@@ -142,7 +142,7 @@ define( function( require ) {
     this.addChild( outlineNode );
 
     // Temperature determines the height of the fluid in the tube
-    var maxFluidHeight = new Path( fluidClipShape ).height;
+    var maxFluidHeight = new Path( fluidClipArea ).height;
     //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
     var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
