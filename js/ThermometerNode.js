@@ -21,6 +21,7 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
 
   // constants
+  var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
   // center of the bulb is at (0,0), let the client code move to the correct position
   var BULB_CENTER_X = 0;
   var BULB_CENTER_Y = 0;
@@ -107,9 +108,9 @@ define( function( require ) {
 
     // Clip area for the fluid in the tube, round at the top
     var fluidClipArea = new Shape()
-      .moveTo( tubeFluidLeft, tubeFluidBottom )
+      .moveTo( tubeFluidLeft, tubeFluidBottom + FLUID_OVERLAP )
       .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 ) // round top
-      .lineTo( -tubeFluidLeft, tubeFluidBottom )
+      .lineTo( -tubeFluidLeft, tubeFluidBottom + FLUID_OVERLAP)
       .close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
@@ -146,7 +147,7 @@ define( function( require ) {
     temperatureProperty.link( function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
       tubeFluidNode.visible = ( fluidHeight > 0 );
-      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight );
+      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight + FLUID_OVERLAP );
     } );
 
     this.mutate( options );
