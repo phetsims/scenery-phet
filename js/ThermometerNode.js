@@ -119,11 +119,11 @@ define( function( require ) {
     bulbFluidNode.setClipArea( bulbFluidClipArea );
 
     // Gradient for fluid in tube
-    var tubeFluidGradient = new LinearGradient( tubeFluidLeft, 0, tubeFluidLeft + tubeFluidWidth, 0 ).
-      addColorStop( 0, options.fluidMainColor ).
-      addColorStop( 0.4, options.fluidHighlightColor ).
-      addColorStop( 0.5, options.fluidHighlightColor ).
-      addColorStop( 1, options.fluidMainColor );
+    var tubeFluidGradient = new LinearGradient( tubeFluidLeft, 0, tubeFluidLeft + tubeFluidWidth, 0 )
+      .addColorStop( 0, options.fluidMainColor )
+      .addColorStop( 0.4, options.fluidHighlightColor )
+      .addColorStop( 0.5, options.fluidHighlightColor )
+      .addColorStop( 1, options.fluidMainColor );
 
     // Fluid in the tube
     var tubeFluidNode = new Rectangle( 0, 0, tubeFluidWidth, 0, {
