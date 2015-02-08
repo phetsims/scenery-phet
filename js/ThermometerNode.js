@@ -110,7 +110,6 @@ define( function( require ) {
     // Clip area for the fluid in the tube, round at the top
     var fluidClipShape = new Shape()
       .moveTo( tubeFluidLeft, tubeFluidBottom )
-      .verticalLineTo( straightTubeTop )
       .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
       .lineTo( -tubeFluidLeft, tubeFluidBottom )
       .close();
@@ -148,6 +147,7 @@ define( function( require ) {
     var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
     temperatureProperty.link( function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
+      tubeFluidNode.visible = ( fluidHeight > 0 );
       tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight );
     } );
 
