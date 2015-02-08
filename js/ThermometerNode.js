@@ -81,10 +81,8 @@ define( function( require ) {
     var straightTubeLeft = BULB_CENTER_X - ( options.tubeWidth / 2 );
 
     var outlineShape = new Shape()
-      // bulb at bottom
-      .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle )
-      // rounded top of tube
-      .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 )
+      .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle ) // bulb at bottom
+      .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 ) // rounded top of tube
       .close();
     // tick marks, from top down, alternating major and minor ticks
     var numberOfTicks = Math.floor( straightTubeHeight / options.tickSpacing ) + 1;
@@ -110,12 +108,12 @@ define( function( require ) {
     // Clip area for the fluid in the tube, round at the top
     var fluidClipArea = new Shape()
       .moveTo( tubeFluidLeft, tubeFluidBottom )
-      .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 )
+      .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 ) // round top
       .lineTo( -tubeFluidLeft, tubeFluidBottom )
       .close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
-    var bulbFluidClipArea = Shape.rectangle( tubeFluidBottom, -options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
+    var bulbFluidClipArea = Shape.rectangle( tubeFluidBottom, BULB_CENTER_Y - options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
     bulbFluidNode.setClipArea( bulbFluidClipArea );
 
     // Gradient for fluid in tube
@@ -125,7 +123,7 @@ define( function( require ) {
       .addColorStop( 0.5, options.fluidHighlightColor )
       .addColorStop( 1, options.fluidMainColor );
 
-    // Fluid in the tube
+    // Fluid in the tube (correct size set later)
     var tubeFluidNode = new Rectangle( 0, 0, tubeFluidWidth, 0, {
       fill: tubeFluidGradient,
       clipArea: fluidClipArea
