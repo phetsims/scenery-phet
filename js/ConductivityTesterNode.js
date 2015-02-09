@@ -170,8 +170,16 @@ define( function( require ) {
 
     Node.call( this, { children: [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ] } );
 
-    // move the entire node
-    this.locationObserver = function( location ) { thisNode.translation = location; };
+    // when the location changes ...
+    this.locationObserver = function( location, oldLocation ) {
+      // move the entire tester
+      thisNode.translation = location;
+      // probes move with the tester
+      var dx =  oldLocation ? ( location.x - oldLocation.x ) : 0;
+      var dy =  oldLocation ? ( location.y - oldLocation.y ) : 0;
+      positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x + dx, positiveProbeLocationProperty.get().y + dy ) );
+      negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x + dx, negativeProbeLocationProperty.get().y + dy ) );
+    };
     this.locationProperty = locationProperty;
     this.locationProperty.link( this.locationObserver );
 
@@ -181,8 +189,8 @@ define( function( require ) {
       positiveProbe.bottom = positiveProbeLocation.y - thisNode.locationProperty.get().y;
       positiveWire.setEndPoint( positiveProbe.x, positiveProbe.y - options.probeSize.height );
     };
-    this.positivePropertyLocationProperty = positiveProbeLocationProperty; // @private
-    this.positivePropertyLocationProperty.link( this.positiveProbeObserver );
+    this.positiveProbeLocationProperty = positiveProbeLocationProperty; // @private
+    this.positiveProbeLocationProperty.link( this.positiveProbeObserver );
 
     // @private update negative wire if end point was changed
     this.negativeProbeObserver = function( negativeProbeLocation ) {
@@ -190,8 +198,8 @@ define( function( require ) {
       negativeProbe.bottom = negativeProbeLocation.y - thisNode.locationProperty.get().y;
       negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
-    this.negativePropertyLocationProperty = negativeProbeLocationProperty; // @private
-    this.negativePropertyLocationProperty.link( this.negativeProbeObserver );
+    this.negativeProbeLocationProperty = negativeProbeLocationProperty; // @private
+    this.negativeProbeLocationProperty.link( this.negativeProbeObserver );
   }
 
   inherit( Node, ConductivityTesterNode, {
@@ -201,8 +209,8 @@ define( function( require ) {
 
       // unlink from axon properties
       this.locationProperty.unlink( this.locationObserver );
-      this.positivePropertyLocationProperty.unlink( this.positiveProbeObserver );
-      this.negativePropertyLocationProperty.unlink( this.negativeProbeObserver );
+      this.positiveProbeLocationProperty.unlink( this.positiveProbeObserver );
+      this.negativeProbeLocationProperty.unlink( this.negativeProbeObserver );
 
       // dispose of sub-components
       this.lightBulbNode.dispose();
