@@ -1,4 +1,4 @@
-battery.png source=PhET
+battery-D-cell.png source=PhET
 eraser.png source=PhET author=Amanda McGarry
 eye_dropper_background.png source=PhET author=Noah P.
 eye_dropper_foreground.png source=PhET author=Noah P.

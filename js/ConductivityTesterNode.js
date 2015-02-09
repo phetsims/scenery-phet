@@ -30,7 +30,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // images
-  var batteryImage = require( 'image!SCENERY_PHET/battery.png' );
+  var batteryImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
 
   // strings
   var shortCircuitString = require( 'string!SCENERY_PHET/shortCircuit' );
