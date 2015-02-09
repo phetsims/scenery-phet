@@ -336,7 +336,7 @@ define( function( require ) {
    * @param {number} brightness 0-1 (off to full on)
    * @param {number} positiveProbeXOffset x-offset of the positive probe, relative to the bulb's tip
    * @param {number} negativeProbeXOffset x-offset of the negative probe, relative to the bulb's tip
-   * @param {number} bothProbesYOffset y-offset of the negative probe, relative to the bulb's tip
+   * @param {number} bothProbesYOffset y-offset of both probes, relative to the bulb's tip
    * @param {Object} [options] same options as ConductivityTesterNode constructor
    * @returns {ConductivityTesterNode}
    */
