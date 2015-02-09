@@ -54,7 +54,7 @@ define( function( require ) {
       // common to both probes
       probeSize: new Dimension2( 20, 68 ),
       probeLineWidth: 0.5,
-      probeDragYRange: null, // {DOT.Range} no constraint on vertical dragging
+      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty
       probeCursor: 'pointer',
       // positive probe
       positiveProbeFill: 'red',
@@ -145,7 +145,7 @@ define( function( require ) {
       drag: function( e ) {
         var y = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationProperty.get().y - this.clickYOffset;
         if ( options.probeDragYRange ) {
-          y = Util.clamp( y, options.probeDragYRange.min, options.probeDragYRange.max );
+          y = Util.clamp( y, locationProperty.get().y + options.probeDragYRange.min, locationProperty.get().y + options.probeDragYRange.max );
         }
         positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x, y ) );
         negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x, y ) );
