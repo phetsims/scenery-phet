@@ -45,8 +45,7 @@ define( function( require ) {
       majorTickLength: 15,
       minorTickLength: 7.5,
       //TODO issue #135 why do we need separate options for the bulb and tube? this looks strange, eg in Friction
-      fluidBulbSpacing: 2, // space between the tube wall and the fluid inside it
-      fluidTubeSpacing: 2, // space between the bulb wall and the fluid inside it
+      glassThickness: 2, // space between the thermometer outline and the fluid inside it
 
       // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
       backgroundFill: null,
@@ -60,7 +59,7 @@ define( function( require ) {
     Node.call( this );
 
     // Create a shaded sphere to act as the bulb fluid
-    var bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing; //TODO should this be options.lineWidth/2 ?
+    var bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness; //TODO should this be options.lineWidth/2 ?
     var bulbFluidNode = new ShadedSphereNode( bulbFluidDiameter, {
       centerX: BULB_CENTER_X,
       centerY: BULB_CENTER_Y,
@@ -98,9 +97,9 @@ define( function( require ) {
     } );
     assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth ); // see scenery-phet#136
 
-    var tubeFluidWidth = options.tubeWidth - options.lineWidth - options.fluidTubeSpacing; //TODO should this be options.lineWidth/2 ?
+    var tubeFluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness; //TODO should this be options.lineWidth/2 ?
     var tubeFluidRadius = tubeFluidWidth / 2;
-    var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidBulbSpacing ) / 2; //TODO should this be options.lineWidth/2 ?
+    var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2; //TODO should this be options.lineWidth/2 ?
     var clipStartAngle = -Math.acos( tubeFluidRadius / clipBulbRadius );
     var clipEndAngle = Math.PI - clipStartAngle;
     var tubeFluidBottom = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
