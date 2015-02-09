@@ -53,6 +53,8 @@ define( function( require ) {
 
     options = _.extend( {
       interactive: true, // set to false if you're creating an icon
+      bulbImageScale: 0.33,
+      batteryImageScale: 0.6,
       // common to both probes
       probeSize: new Dimension2( 20, 68 ),
       probeLineWidth: 0.5,
@@ -76,7 +78,9 @@ define( function( require ) {
     }, options );
 
     // @private bulb, origin at bottom center of base
-    this.lightBulbNode = new LightBulbNode( brightnessProperty );
+    this.lightBulbNode = new LightBulbNode( brightnessProperty, {
+      bulbImageScale: options.bulbImageScale
+    } );
 
     // @private short-circuit indicator, centered above the light bulb
     this.shortCircuitNode = new Text( shortCircuitString, {
@@ -89,7 +93,7 @@ define( function( require ) {
 
     // battery
     var battery = new Image( batteryImage, {
-      scale: 0.6,
+      scale: options.batteryImageScale,
       left: options.bulbToBatteryWireLength,
       centerY: 0
     } );
