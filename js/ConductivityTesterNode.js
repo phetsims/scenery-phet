@@ -346,7 +346,7 @@ define( function( require ) {
     options.interactive = false;
 
     return new ConductivityTesterNode(
-      new Property( 1 ),
+      new Property( brightness ),
       new Property( new Vector2( 0, 0 ) ),
       new Property( new Vector2( positiveProbeXOffset, bothProbesYOffset ) ),
       new Property( new Vector2( negativeProbeXOffset, bothProbesYOffset ) ),
