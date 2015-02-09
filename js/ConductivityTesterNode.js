@@ -54,7 +54,7 @@ define( function( require ) {
       // common to both probes
       probeSize: new Dimension2( 20, 68 ),
       probeLineWidth: 0.5,
-      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty
+      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty. null means no constraint.
       probeCursor: 'pointer',
       // positive probe
       positiveProbeFill: 'red',
@@ -200,6 +200,9 @@ define( function( require ) {
     };
     this.negativeProbeLocationProperty = negativeProbeLocationProperty; // @private
     this.negativeProbeLocationProperty.link( this.negativeProbeObserver );
+
+    // Since locationProperty determines translation, avoid options related to translation!
+    this.mutate( options );
   }
 
   inherit( Node, ConductivityTesterNode, {
