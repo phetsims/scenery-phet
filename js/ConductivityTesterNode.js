@@ -1,9 +1,8 @@
-// Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Conductivity tester. Light bulb connected to a battery, with draggable probes.
  * When the probes are both immersed in solution, the circuit is completed, and the bulb glows.
- * This node assumes that it is located at (0,0), and its components are positioned in the world coordinate frame.
  *
  * @author Andrey Zelenkov (Mlearner)
  * @author Chris Malley (PixelZoom, Inc.)
@@ -41,13 +40,15 @@ define( function( require ) {
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
-   * @param {Property.<Vector2>} bulbLocationProperty location of the bulb's tip
+   * @param {Property.<Vector2>} locationProperty location of the tester, at bottom-center of the bulb
    * @param {Property.<Vector2>} positiveProbeLocationProperty location of bottom-center of the positive probe
    * @param {Property.<Vector2>} negativeProbeLocationProperty location of bottom-center of the negative probe
    * @param {Object} [options]
    * @constructor
    */
-  function ConductivityTesterNode( brightnessProperty, bulbLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
+  function ConductivityTesterNode( brightnessProperty, locationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
+
+    var thisNode = this;
 
     options = _.extend( {
       // common to both probes
@@ -90,8 +91,8 @@ define( function( require ) {
     // battery
     var battery = new Image( batteryImage, {
       scale: 0.6,
-      x: options.bulbToBatteryWireLength,
-      centerY: 0
+      left: this.lightBulbNode.centerX + options.bulbToBatteryWireLength,
+      centerY: this.lightBulbNode.bottom
     } );
 
     // wire from bulb base to battery
@@ -100,9 +101,8 @@ define( function( require ) {
       lineWidth: options.wireLineWidth
     } );
 
-    // apparatus (bulb + battery), origin at tip of bulb's base
+    // apparatus (bulb + battery), origin at bottom center of bulb's base
     var apparatusNode = new Node( {
-      translation: bulbLocationProperty.get(),
       children: [
         bulbBatteryWire,
         battery,
@@ -118,17 +118,17 @@ define( function( require ) {
     var positiveWire = new WireNode(
       battery.getGlobalBounds().right,
       battery.getGlobalBounds().centerY,
-      positiveProbeLocationProperty.get().x,
-      positiveProbeLocationProperty.get().y - options.probeSize.height,
+      positiveProbeLocationProperty.get().x - locationProperty.get().x,
+      positiveProbeLocationProperty.get().y - locationProperty.get().y - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
     // wire from base of bulb (origin) to negative probe
     var negativeWire = new WireNode(
-      bulbLocationProperty.get().x - 5,
-      bulbLocationProperty.get().y - 10,
-      negativeProbeLocationProperty.get().x,
-      negativeProbeLocationProperty.get().y - options.probeSize.height,
+      -( 0.11 * this.lightBulbNode.width ), // specific to bulb image file
+      -( 0.09 * this.lightBulbNode.height ), // specific to bulb image file
+      negativeProbeLocationProperty.get().x - locationProperty.get().x,
+      negativeProbeLocationProperty.get().y - locationProperty.get().y - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
@@ -143,7 +143,7 @@ define( function( require ) {
 
       // probes move together
       drag: function( e ) {
-        var y = e.currentTarget.globalToParentPoint( e.pointer.point ).y - this.clickYOffset;
+        var y = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationProperty.get().y - this.clickYOffset;
         if ( options.probeDragYRange ) {
           y = Util.clamp( y, options.probeDragYRange.min, options.probeDragYRange.max );
         }
@@ -170,20 +170,25 @@ define( function( require ) {
 
     Node.call( this, { children: [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ] } );
 
+    // move the entire node
+    this.locationObserver = function( location ) { thisNode.translation = location; };
+    this.locationProperty = locationProperty;
+    this.locationProperty.link( this.locationObserver );
+
     // @private update positive wire if end point was changed
     this.positiveProbeObserver = function( positiveProbeLocation ) {
-      positiveProbe.x = positiveProbeLocation.x;
-      positiveProbe.y = positiveProbeLocation.y;
-      positiveWire.setEndPoint( positiveProbeLocation.x, positiveProbeLocation.y - options.probeSize.height );
+      positiveProbe.centerX = positiveProbeLocation.x - thisNode.locationProperty.get().x;
+      positiveProbe.bottom = positiveProbeLocation.y - thisNode.locationProperty.get().y;
+      positiveWire.setEndPoint( positiveProbe.x, positiveProbe.y - options.probeSize.height );
     };
     this.positivePropertyLocationProperty = positiveProbeLocationProperty; // @private
     this.positivePropertyLocationProperty.link( this.positiveProbeObserver );
 
     // @private update negative wire if end point was changed
     this.negativeProbeObserver = function( negativeProbeLocation ) {
-      negativeProbe.x = negativeProbeLocation.x;
-      negativeProbe.y = negativeProbeLocation.y;
-      negativeWire.setEndPoint( negativeProbeLocation.x, negativeProbeLocation.y - options.probeSize.height );
+      negativeProbe.centerX = negativeProbeLocation.x - thisNode.locationProperty.get().x;
+      negativeProbe.bottom = negativeProbeLocation.y - thisNode.locationProperty.get().y;
+      negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
     this.negativePropertyLocationProperty = negativeProbeLocationProperty; // @private
     this.negativePropertyLocationProperty.link( this.negativeProbeObserver );
@@ -195,6 +200,7 @@ define( function( require ) {
     dispose: function() {
 
       // unlink from axon properties
+      this.locationProperty.unlink( this.locationObserver );
       this.positivePropertyLocationProperty.unlink( this.positiveProbeObserver );
       this.negativePropertyLocationProperty.unlink( this.negativeProbeObserver );
 
@@ -224,7 +230,7 @@ define( function( require ) {
   } );
 
   /**
-   * Conductivity probe.
+   * Conductivity probe, origin at bottom center.
    *
    * @param {SimpleDragHandler} probeDragHandler
    * @param {Node} labelNode
