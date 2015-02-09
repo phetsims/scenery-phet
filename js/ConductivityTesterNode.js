@@ -21,6 +21,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -51,6 +52,7 @@ define( function( require ) {
     var thisNode = this;
 
     options = _.extend( {
+      interactive: true, // set to false if you're creating an icon
       // common to both probes
       probeSize: new Dimension2( 20, 68 ),
       probeLineWidth: 0.5,
@@ -74,10 +76,7 @@ define( function( require ) {
     }, options );
 
     // @private bulb, origin at bottom center of base
-    this.lightBulbNode = new LightBulbNode( brightnessProperty, {
-      centerX: 0,
-      bottom: 0
-    } );
+    this.lightBulbNode = new LightBulbNode( brightnessProperty );
 
     // @private short-circuit indicator, centered above the light bulb
     this.shortCircuitNode = new Text( shortCircuitString, {
@@ -91,8 +90,8 @@ define( function( require ) {
     // battery
     var battery = new Image( batteryImage, {
       scale: 0.6,
-      left: this.lightBulbNode.centerX + options.bulbToBatteryWireLength,
-      centerY: this.lightBulbNode.bottom
+      left: options.bulbToBatteryWireLength,
+      centerY: 0
     } );
 
     // wire from bulb base to battery
@@ -125,8 +124,7 @@ define( function( require ) {
 
     // wire from base of bulb (origin) to negative probe
     var negativeWire = new WireNode(
-      -( 0.11 * this.lightBulbNode.width ), // specific to bulb image file
-      -( 0.09 * this.lightBulbNode.height ), // specific to bulb image file
+      -5, -5, // specific to bulb image file
       negativeProbeLocationProperty.get().x - locationProperty.get().x,
       negativeProbeLocationProperty.get().y - locationProperty.get().y - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
@@ -153,20 +151,24 @@ define( function( require ) {
     } );
 
     // probes
-    var positiveProbe = new ProbeNode( probeDragHandler, new PlusNode( { fill: options.positiveLabelFill } ), {
+    var positiveProbe = new ProbeNode( new PlusNode( { fill: options.positiveLabelFill } ), {
       size: options.probeSize,
       fill: options.positiveProbeFill,
       stroke: options.positiveProbeStroke,
-      lineWidth: options.probeLineWidth,
-      cursor: options.probeCursor
+      lineWidth: options.probeLineWidth
     } );
-    var negativeProbe = new ProbeNode( probeDragHandler, new MinusNode( { fill: options.negativeLabelFill } ), {
+    var negativeProbe = new ProbeNode( new MinusNode( { fill: options.negativeLabelFill } ), {
       size: options.probeSize,
       fill: options.negativeProbeFill,
       stroke: options.negativeProbeStroke,
-      lineWidth: options.probeLineWidth,
-      cursor: options.probeCursor
+      lineWidth: options.probeLineWidth
     } );
+    if ( options.interactive ) {
+      positiveProbe.cursor = options.probeCursor;
+      positiveProbe.addInputListener( probeDragHandler );
+      negativeProbe.cursor = options.probeCursor;
+      negativeProbe.addInputListener( probeDragHandler );
+    }
 
     Node.call( this, { children: [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ] } );
 
@@ -175,8 +177,8 @@ define( function( require ) {
       // move the entire tester
       thisNode.translation = location;
       // probes move with the tester
-      var dx =  oldLocation ? ( location.x - oldLocation.x ) : 0;
-      var dy =  oldLocation ? ( location.y - oldLocation.y ) : 0;
+      var dx = oldLocation ? ( location.x - oldLocation.x ) : 0;
+      var dy = oldLocation ? ( location.y - oldLocation.y ) : 0;
       positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x + dx, positiveProbeLocationProperty.get().y + dy ) );
       negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x + dx, negativeProbeLocationProperty.get().y + dy ) );
     };
@@ -243,19 +245,17 @@ define( function( require ) {
   /**
    * Conductivity probe, origin at bottom center.
    *
-   * @param {SimpleDragHandler} probeDragHandler
    * @param {Node} labelNode
    * @param {Object} [options]
    * @constructor
    */
-  function ProbeNode( probeDragHandler, labelNode, options ) {
+  function ProbeNode( labelNode, options ) {
 
     options = _.extend( {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',
-      lineWidth: 1.5,
-      cursor: 'pointer'
+      lineWidth: 1.5
     }, options );
 
     Node.call( this );
@@ -281,9 +281,6 @@ define( function( require ) {
 
     // expand touch area
     this.touchArea = this.localBounds.dilatedXY( 10, 10 );
-
-    // interactivity
-    this.addInputListener( probeDragHandler );
 
     this.mutate( options );
   }
@@ -333,6 +330,29 @@ define( function( require ) {
       );
     }
   } );
+
+  /**
+   * Convenience function for creating an icon.
+   * @param {number} brightness 0-1 (off to full on)
+   * @param {number} positiveProbeXOffset x-offset of the positive probe, relative to the bulb's tip
+   * @param {number} negativeProbeXOffset x-offset of the negative probe, relative to the bulb's tip
+   * @param {number} bothProbesYOffset y-offset of the negative probe, relative to the bulb's tip
+   * @param {Object} [options] same options as ConductivityTesterNode constructor
+   * @returns {ConductivityTesterNode}
+   */
+  ConductivityTesterNode.createIcon = function( brightness, positiveProbeXOffset, negativeProbeXOffset, bothProbesYOffset, options ) {
+
+    options = options || {};
+    options.interactive = false;
+
+    return new ConductivityTesterNode(
+      new Property( 1 ),
+      new Property( new Vector2( 0, 0 ) ),
+      new Property( new Vector2( positiveProbeXOffset, bothProbesYOffset ) ),
+      new Property( new Vector2( negativeProbeXOffset, bothProbesYOffset ) ),
+      options
+    );
+  };
 
   return ConductivityTesterNode;
 } );

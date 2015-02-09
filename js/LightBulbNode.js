@@ -46,7 +46,11 @@ define( function( require ) {
 
     var thisNode = this;
 
-    thisNode.onNode = new Image( onImage, { scale: BULB_IMAGE_SCALE } ); // @private
+    thisNode.onNode = new Image( onImage, {
+      scale: BULB_IMAGE_SCALE,
+      centerX: 0,
+      bottom: 0
+    } ); // @private
 
     var offNode = new Image( offImage, {
       scale: BULB_IMAGE_SCALE,
