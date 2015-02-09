@@ -44,7 +44,6 @@ define( function( require ) {
       tickSpacing: 15,
       majorTickLength: 15,
       minorTickLength: 7.5,
-      //TODO issue #135 why do we need separate options for the bulb and tube? this looks strange, eg in Friction
       glassThickness: 2, // space between the thermometer outline and the fluid inside it
 
       // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
