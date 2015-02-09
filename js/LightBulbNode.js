@@ -20,7 +20,6 @@ define( function( require ) {
   var offImage = require( 'image!SCENERY_PHET/light-bulb-off.png' );
 
   // constants, these are specific to bulb images
-  var BULB_IMAGE_SCALE = 0.33;
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
   var RAYS_ARC_ANGLE = 3 * Math.PI / 2;
 
@@ -32,6 +31,7 @@ define( function( require ) {
   function LightBulbNode( brightnessProperty, options ) {
 
     var defaultOptions = {
+      bulbImageScale: 0.33,
       rayStroke: 'yellow',
       minRays: 8,
       maxRays: 60,
@@ -47,13 +47,13 @@ define( function( require ) {
     var thisNode = this;
 
     thisNode.onNode = new Image( onImage, {
-      scale: BULB_IMAGE_SCALE,
+      scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
     } ); // @private
 
     var offNode = new Image( offImage, {
-      scale: BULB_IMAGE_SCALE,
+      scale: options.bulbImageScale,
       centerX: thisNode.onNode.centerX,
       bottom: thisNode.onNode.bottom
     } );
