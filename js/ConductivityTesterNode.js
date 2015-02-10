@@ -41,9 +41,9 @@ define( function( require ) {
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
-   * @param {Property.<Vector2>} locationProperty location of the tester, at bottom-center of the bulb
-   * @param {Property.<Vector2>} positiveProbeLocationProperty location of bottom-center of the positive probe
-   * @param {Property.<Vector2>} negativeProbeLocationProperty location of bottom-center of the negative probe
+   * @param {Property.<Vector2>} locationProperty location of the tester, at bottom-center of the bulb (model coordinate frame)
+   * @param {Property.<Vector2>} positiveProbeLocationProperty location of bottom-center of the positive probe (model coordinate frame)
+   * @param {Property.<Vector2>} negativeProbeLocationProperty location of bottom-center of the negative probe (model coordinate frame)
    * @param {Object} [options]
    * @constructor
    */
