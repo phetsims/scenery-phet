@@ -55,10 +55,11 @@ define( function( require ) {
       interactive: true, // set to false if you're creating an icon
       bulbImageScale: 0.33,
       batteryImageScale: 0.6,
+      //TODO add modelViewTransform: ModelViewTransform.createIdentity(), apply where needed
       // common to both probes
-      probeSize: new Dimension2( 20, 68 ),
+      probeSize: new Dimension2( 20, 68 ), // {Dimension2} probe dimensions, in view coordinates
       probeLineWidth: 0.5,
-      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty. null means no constraint.
+      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty, in view coordinates. null means no constraint.
       probeCursor: 'pointer',
       // positive probe
       positiveProbeFill: 'red',
@@ -71,7 +72,7 @@ define( function( require ) {
       // wires
       wireStroke: 'black',
       wireLineWidth: 1.5,
-      bulbToBatteryWireLength: 40, // length of the wire between bulb and battery
+      bulbToBatteryWireLength: 40, // length of the wire between bulb and battery, in view coordinates
       // short-circuit indicator
       shortCircuitFont: new PhetFont( 14 ),
       shortCircuitFill: 'black'
@@ -87,7 +88,7 @@ define( function( require ) {
       font: options.shortCircuitFont,
       fill: options.shortCircuitFill,
       centerX: this.lightBulbNode.centerX,
-      bottom: this.lightBulbNode.top,
+      bottom: this.lightBulbNode.top,  //TODO this will be wrong if initial brightnessProperty is > 0, because lightBulbNode will have rays
       visible: false // initial state is no short circuit
     } );
 
