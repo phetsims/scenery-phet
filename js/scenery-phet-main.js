@@ -26,7 +26,7 @@ define( function( require ) {
     }
   };
 
-  var backgroundColor = phet.phetcommon.getQueryParameter( 'backgroundColor' ) || 'white';
+  var backgroundColor = phet.chipper.getQueryParameter( 'backgroundColor' ) || 'white';
   var screenOptions = { backgroundColor: backgroundColor };
 
   var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 100, 100, { fill: color } ); };
