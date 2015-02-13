@@ -26,8 +26,6 @@ define( function( require ) {
   function ResetAllButton( options ) {
     var buttonRadius = ( options && options.radius ) ? options.radius : DEFAULT_RADIUS;
     options = _.extend( {
-      focusable: true,
-
       // Default values
       radius: DEFAULT_RADIUS,
       minXMargin:     buttonRadius * 0.2,
