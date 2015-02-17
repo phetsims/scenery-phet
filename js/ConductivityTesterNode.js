@@ -17,6 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LightBulbNode = require( 'SCENERY_PHET/LightBulbNode' );
   var MinusNode = require( 'SCENERY_PHET/MinusNode' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -52,10 +53,10 @@ define( function( require ) {
     var thisNode = this;
 
     options = _.extend( {
+      modelViewTransform: ModelViewTransform2.createIdentity(), //TODO this feature requires more testing
       interactive: true, // set to false if you're creating an icon
       bulbImageScale: 0.33,
       batteryImageScale: 0.6,
-      //TODO add modelViewTransform: ModelViewTransform.createIdentity(), apply where needed
       // common to both probes
       probeSize: new Dimension2( 20, 68 ), // {Dimension2} probe dimensions, in view coordinates
       probeLineWidth: 0.5,
@@ -122,16 +123,16 @@ define( function( require ) {
     var positiveWire = new WireNode(
       battery.getGlobalBounds().right,
       battery.getGlobalBounds().centerY,
-      positiveProbeLocationProperty.get().x - locationProperty.get().x,
-      positiveProbeLocationProperty.get().y - locationProperty.get().y - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( positiveProbeLocationProperty.get().x - locationProperty.get().x ),
+      options.modelViewTransform.modelToViewY( positiveProbeLocationProperty.get().y - locationProperty.get().y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
     // wire from base of bulb (origin) to negative probe
     var negativeWire = new WireNode(
       -5, -5, // specific to bulb image file
-      negativeProbeLocationProperty.get().x - locationProperty.get().x,
-      negativeProbeLocationProperty.get().y - locationProperty.get().y - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( negativeProbeLocationProperty.get().x - locationProperty.get().x ),
+      options.modelViewTransform.modelToViewY( negativeProbeLocationProperty.get().y - locationProperty.get().y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
@@ -146,12 +147,16 @@ define( function( require ) {
 
       // probes move together
       drag: function( e ) {
-        var y = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationProperty.get().y - this.clickYOffset;
+        // do dragging in view coordinate frame
+        var locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
+        var yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - this.clickYOffset;
         if ( options.probeDragYRange ) {
-          y = Util.clamp( y, locationProperty.get().y + options.probeDragYRange.min, locationProperty.get().y + options.probeDragYRange.max );
+          yView = Util.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
         }
-        positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x, y ) );
-        negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x, y ) );
+        // convert to model coordinate frame
+        var yModel = options.modelViewTransform.viewToModelY( yView );
+        positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x, yModel ) );
+        negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x, yModel ) );
       }
     } );
 
@@ -192,8 +197,8 @@ define( function( require ) {
 
     // @private update positive wire if end point was changed
     this.positiveProbeObserver = function( positiveProbeLocation ) {
-      positiveProbe.centerX = positiveProbeLocation.x - thisNode.locationProperty.get().x;
-      positiveProbe.bottom = positiveProbeLocation.y - thisNode.locationProperty.get().y;
+      positiveProbe.centerX = options.modelViewTransform.modelToViewX( positiveProbeLocation.x - thisNode.locationProperty.get().x );
+      positiveProbe.bottom = options.modelViewTransform.modelToViewY( positiveProbeLocation.y - thisNode.locationProperty.get().y );
       positiveWire.setEndPoint( positiveProbe.x, positiveProbe.y - options.probeSize.height );
     };
     this.positiveProbeLocationProperty = positiveProbeLocationProperty; // @private
@@ -201,8 +206,8 @@ define( function( require ) {
 
     // @private update negative wire if end point was changed
     this.negativeProbeObserver = function( negativeProbeLocation ) {
-      negativeProbe.centerX = negativeProbeLocation.x - thisNode.locationProperty.get().x;
-      negativeProbe.bottom = negativeProbeLocation.y - thisNode.locationProperty.get().y;
+      negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbeLocation.x - thisNode.locationProperty.get().x );
+      negativeProbe.bottom =  options.modelViewTransform.modelToViewY( negativeProbeLocation.y - thisNode.locationProperty.get().y );
       negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
     this.negativeProbeLocationProperty = negativeProbeLocationProperty; // @private
