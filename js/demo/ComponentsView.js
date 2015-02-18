@@ -97,13 +97,14 @@ define( function( require ) {
     var fluidRateProperty = new Property( 0 );
     var faucetEnabledProperty = new Property( true );
     var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
+      scale: 0.5,
       left: 10,
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( faucetNode );
     var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled' ), faucetEnabledProperty, {
       left: faucetNode.left,
-      bottom: faucetNode.top + 15
+      bottom: faucetNode.top
     } );
     this.addChild( faucetEnabledCheckBox );
 
