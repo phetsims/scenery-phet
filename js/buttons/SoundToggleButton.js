@@ -18,6 +18,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
 
   // Constants
   var WIDTH = 45;
@@ -26,6 +27,7 @@ define( function( require ) {
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
   function SoundToggleButton( property, options ) {
+    var soundToggleButton = this;
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );
     var contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
@@ -40,14 +42,19 @@ define( function( require ) {
       } );
     soundOffNode.addChild( soundOffX );
 
-    BooleanRectangularToggleButtonWithContent.call( this, soundOnNode, soundOffNode, property, _.extend(
-      {
-        baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
-        minWidth: WIDTH,
-        minHeight: HEIGHT,
-        xMargin: MARGIN,
-        yMargin: MARGIN
-      }, options ) );
+    BooleanRectangularToggleButtonWithContent.call( this, soundOnNode, soundOffNode, property, _.extend( {
+      baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
+      minWidth: WIDTH,
+      minHeight: HEIGHT,
+      xMargin: MARGIN,
+      yMargin: MARGIN
+    }, options ) );
+
+    property.link( function( value ) {
+      var checkedText = (value ? 'checked' : 'unchecked');
+      soundToggleButton.textDescription = 'Sound Checkbox (' + checkedText + ')';
+      AriaSpeech.setText( checkedText );
+    } );
   }
 
   return inherit( BooleanRectangularToggleButtonWithContent, SoundToggleButton );
