@@ -136,7 +136,7 @@ define( function( require ) {
         cursor: 'pointer'
       }
     );
-    conductivityTesterNode.addInputListener( new MovableDragHandler( { locationProperty: testerLocationProperty }, ModelViewTransform2.createIdentity() ) );
+    conductivityTesterNode.addInputListener( new MovableDragHandler( testerLocationProperty ) );
     this.addChild( conductivityTesterNode );
 
     // brightness slider
