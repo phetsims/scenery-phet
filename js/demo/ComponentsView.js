@@ -12,12 +12,15 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var CheckBox = require( 'SUN/CheckBox' );
+  var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -119,6 +122,21 @@ define( function( require ) {
     dropperNode.onProperty.lazyLink( function( on ) {
       console.log( 'dropper ' + ( on ? 'on' : 'off' ) );
     } );
+
+    // conductivity tester
+    var brightnessProperty = new Property( 0 ); // 0-1
+    var testerLocationProperty = new Property( new Vector2( 200, 300 ) );
+    var positiveProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x + 140, testerLocationProperty.get().y + 100 ) );
+    var negativeProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x - 40, testerLocationProperty.get().y + 100 ) );
+    var conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
+      testerLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, {
+        // test other options here
+        positiveProbeFill: 'orange',
+        cursor: 'pointer'
+      }
+    );
+    conductivityTesterNode.addInputListener( new MovableDragHandler( { locationProperty: testerLocationProperty }, ModelViewTransform2.createIdentity() ) );
+    this.addChild( conductivityTesterNode );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
