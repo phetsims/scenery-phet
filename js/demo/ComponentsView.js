@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var CheckBox = require( 'SUN/CheckBox' );
+  var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
@@ -137,6 +138,28 @@ define( function( require ) {
     );
     conductivityTesterNode.addInputListener( new MovableDragHandler( { locationProperty: testerLocationProperty }, ModelViewTransform2.createIdentity() ) );
     this.addChild( conductivityTesterNode );
+
+    // brightness slider
+    var brightnessSlider = new HSlider( brightnessProperty, { min: 0, max: 1 }, {
+      thumbSize: new Dimension2( 15, 30 ),
+      thumbFillEnabled: 'orange',
+      thumbFillHighlighted: 'rgb( 255, 210, 0 )',
+      thumbCenterLineStroke: 'black',
+      left: this.layoutBounds.centerX,
+      centerY: this.layoutBounds.centerY + 50
+    } );
+    this.addChild( brightnessSlider );
+
+    // short-circuit check box
+    var shortCircuitProperty = new Property( 0 );
+    shortCircuitProperty.link( function( shortCircuit ) {
+      conductivityTesterNode.shortCircuit = shortCircuit;
+    } );
+    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit' ), shortCircuitProperty, {
+      left: brightnessSlider.left,
+      top: brightnessSlider.bottom + 5
+    } );
+    this.addChild( shortCircuitCheckBox );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
