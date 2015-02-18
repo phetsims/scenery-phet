@@ -125,12 +125,12 @@ define( function( require ) {
 
     // conductivity tester
     var brightnessProperty = new Property( 0 ); // 0-1
-    var testerLocationProperty = new Property( new Vector2( 200, 300 ) );
+    var testerLocationProperty = new Property( new Vector2( 0, 0 ) );
     var positiveProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x + 140, testerLocationProperty.get().y + 100 ) );
     var negativeProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x - 40, testerLocationProperty.get().y + 100 ) );
     var conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
       testerLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, {
-        // test other options here
+        modelViewTransform: ModelViewTransform2.createOffsetScaleMapping( this.layoutBounds.center, 1 ), // move model origin to screen's center
         positiveProbeFill: 'orange',
         cursor: 'pointer'
       }
