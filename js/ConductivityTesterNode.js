@@ -85,11 +85,12 @@ define( function( require ) {
     } );
 
     // @private short-circuit indicator, centered above the light bulb
+    assert && assert( brightnessProperty.get() > 0 ); //TODO layout will be wrong if lightBulbNode has rays
     this.shortCircuitNode = new Text( shortCircuitString, {
       font: options.shortCircuitFont,
       fill: options.shortCircuitFill,
       centerX: this.lightBulbNode.centerX,
-      bottom: this.lightBulbNode.top,  //TODO this will be wrong if initial brightnessProperty is > 0, because lightBulbNode will have rays
+      bottom: this.lightBulbNode.top,
       visible: false // initial state is no short circuit
     } );
 
