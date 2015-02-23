@@ -4,5 +4,7 @@
   "pattern_0sign_1number": "{0}{1}",
   "shortCircuit": "Short circuit!",
   "webglWarning.title": "Running with low graphics quality",
-  "webglWarning.body": "WebGL is not enabled or not available. Click to learn more."
+  "webglWarning.body": "WebGL is not enabled or not available. Click to learn more.",
+  "webglWarning.contextLossFailure": "Sorry, a graphics error has occurred.",
+  "webglWarning.contextLossReload": "Reload"
 }
