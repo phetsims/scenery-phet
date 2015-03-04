@@ -32,7 +32,7 @@ define( function( require ) {
 
   function ComponentsView() {
 
-    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     // thermometer
     var temperatureProperty = new Property( 50 );
