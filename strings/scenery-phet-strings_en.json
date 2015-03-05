@@ -1,7 +1,7 @@
 {
   "WavelengthSlider.pattern_0wavelength_1units": "{0} {1}",
   "units_nm": "nm",
-  "pattern_0sign_1number": "{0}{1}",
+  "FaceWithPointsNode.pattern_0sign_1points": "{0}{1}",
   "shortCircuit": "Short circuit!",
   "webglWarning.title": "Running with low graphics quality",
   "webglWarning.body": "WebGL is not enabled or not available. Click to learn more.",
