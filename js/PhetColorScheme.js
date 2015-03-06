@@ -18,7 +18,7 @@ define( function( require ) {
 
   // Colors that are used for one or more things in the color scheme.
   var DARK_GREEN = 'rgb( 0, 200, 0 )';
-  var RED_COLORBLIND = 'rgb( 255, 85, 0 )';
+  var RED_COLORBLIND = 'rgb( 255, 85, 0 )'; // looks good in colorblind tests, typically used in place of 'red'
   var TAN_ORANGE ='rgb( 236, 153, 55 )';
 
   return {
