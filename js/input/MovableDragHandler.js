@@ -21,12 +21,20 @@ define( function( require ) {
    */
   function MovableDragHandler( locationProperty, options ) {
 
+    var self = this;
+
     options = _.extend( {
       dragBounds: null, // {Bounds2} dragging will be constrained to these optional bounds
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
-      endDrag: function( event ) {}  // use this to do something at the end of dragging, like 'snapping'
+      endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
+      componentID: null,
+      componentType: null
     }, options );
+
+    //@public
+    this.componentID = options.componentID;
+    this.componentType = options.componentType;
 
     var startOffset; // where the drag started, relative to the Movable's origin, in parent view coordinates
 
@@ -36,23 +44,42 @@ define( function( require ) {
 
       // note where the drag started
       start: function( event ) {
+
+        var archID = arch && arch.start( 'user', self.componentID, self.componentType, 'dragStart', {
+            positionX: locationProperty.get().x,
+            positionY: locationProperty.get().y
+          } );
         options.startDrag( event );
         var location = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+
+        arch && arch.end( archID );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
       drag: function( event ) {
+
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = options.modelViewTransform.viewToModelPosition( parentPoint );
         if ( options.dragBounds ) {
           location = constrainLocation( location, options.dragBounds );
         }
+        var archID = arch && arch.start( 'user', self.componentID, self.componentType, 'drag', {
+            positionX: location.x,
+            positionY: location.y
+          } );
         locationProperty.set( location );
+
+        arch && arch.end( archID );
       },
 
       end: function( event ) {
+        var archID = arch && arch.start( 'user', self.componentID, self.componentType, 'dragEnd', {
+            positionX: locationProperty.get().x,
+            positionY: locationProperty.get().y
+          } );
         options.endDrag( event );
+        arch && arch.end( archID );
       }
     } );
   }
