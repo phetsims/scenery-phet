@@ -58,8 +58,8 @@ define( function( require ) {
     this.addChild( returnToLevelSelectButtonLabel );
 
     // Sound toggle button
-    var soundEnabled = new Property( true );
-    var soundToggleButton = new SoundToggleButton( soundEnabled, {
+    var soundEnableProperty = new Property( true );
+    var soundToggleButton = new SoundToggleButton( soundEnableProperty, {
       centerX: refreshButton.centerX,
       top: returnToLevelSelectButton.bottom + BUTTON_CAPTION_SPACING * 5
     } );
@@ -72,8 +72,8 @@ define( function( require ) {
     this.addChild( soundToggleButtonLabel );
 
     // Timer toggle button
-    var timerEnabled = new Property( true );
-    var timerToggleButton = new TimerToggleButton( timerEnabled, { centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5 } );
+    var timerEnableProperty = new Property( true );
+    var timerToggleButton = new TimerToggleButton( timerEnableProperty, { centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5 } );
     this.addChild( timerToggleButton );
     var timerToggleButtonLabel = new Text( 'Timer: ', {
       font: BUTTON_CAPTION_FONT,
@@ -85,8 +85,8 @@ define( function( require ) {
     // Reset All button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        soundEnabled.reset();
-        timerEnabled.reset();
+        soundEnableProperty.reset();
+        timerEnableProperty.reset();
       },
       radius: 22,
       right:  this.layoutBounds.right - 10,
