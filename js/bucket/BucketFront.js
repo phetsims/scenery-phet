@@ -44,8 +44,7 @@ define( function( require ) {
     // Create and add the label, centered on the front.
     var label = new Text( bucket.captionText, {
       font: options.labelFont,
-      fill: bucket.captionColor,
-      renderer: 'svg'
+      fill: bucket.captionColor
     } );
 
     // Scale the label to fit if too large.
