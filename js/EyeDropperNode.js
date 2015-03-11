@@ -78,11 +78,11 @@ define( function( require ) {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    this.button = new RoundMomentaryButton( this.onProperty, { baseColor: 'red', radius: 18 } );
-    this.enabledProperty.link( function( enabled ) { thisNode.button.enabled = enabled; } );
-    this.button.touchArea = Shape.circle( this.button.width / 2, this.button.height / 2, ( this.button.width / 2 ) + options.buttonTouchAreaDilation );
-    this.button.centerX = foreground.centerX;
-    this.button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
+    var button = new RoundMomentaryButton( this.onProperty, { baseColor: 'red', radius: 18 } );
+    this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
+    button.touchArea = Shape.circle( button.width / 2, button.height / 2, ( button.width / 2 ) + options.buttonTouchAreaDilation );
+    button.centerX = foreground.centerX;
+    button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
     // make the background visible only when the dropper is empty
     this.emptyProperty.link( function( empty ) {
@@ -90,7 +90,7 @@ define( function( require ) {
       background.visible = empty;
     } );
 
-    options.children = [ this.fluidNode, background, foreground, this.button ];
+    options.children = [ this.fluidNode, background, foreground, button ];
 
     // add a red dot at the origin
     if ( DEBUG_ORIGIN ) {
