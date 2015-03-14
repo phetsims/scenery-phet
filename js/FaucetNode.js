@@ -139,8 +139,7 @@ define( function( require ) {
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
 
-      componentID: null,
-      componentType: null
+      componentID: null
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -149,7 +148,6 @@ define( function( require ) {
 
     //@public, settable through together API unification
     this.componentID = options.componentID;
-    this.componentType = options.componentType;
 
     // shooter
     var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
