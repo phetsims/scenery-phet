@@ -142,7 +142,8 @@ define( function( require ) {
       tweakersVisible: true,
       cursorVisible: true,
       cursorStroke: 'black',
-      pointerAreasOverTrack: false
+      pointerAreasOverTrack: false,
+      componentID: null
     }, options );
 
     // validate wavelengths
@@ -176,7 +177,11 @@ define( function( require ) {
      * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
      * without affecting the track's bounds.
      */
-    var trackBorder = new Rectangle( 0, 0, track.width, track.height, { stroke: options.trackBorderStroke, lineWidth: 1, pickable: false } );
+    var trackBorder = new Rectangle( 0, 0, track.width, track.height, {
+      stroke: options.trackBorderStroke,
+      lineWidth: 1,
+      pickable: false
+    } );
 
     // rendering order
     thisNode.addChild( track );
@@ -226,12 +231,20 @@ define( function( require ) {
         allowTouchSnag: true,
 
         start: function( event ) {
+          var archID = arch && arch.start( 'user', options.componentID, 'startDrag' );
           clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
+          arch && arch.end( archID );
         },
 
         drag: function( event ) {
+          var archID = arch && arch.start( 'user', options.componentID, 'drag' );
           var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
           wavelength.set( positionToWavelength( x ) );
+          arch && arch.end( archID );
+        },
+        end: function( event ) {
+          var archID = arch && arch.start( 'user', options.componentID, 'endDrag' );
+          arch && arch.end( archID );
         }
       } ) );
 
