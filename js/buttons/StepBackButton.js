@@ -38,11 +38,8 @@ define( function( require ) {
     var triangleWidth = options.radius * 0.65;
     var triangleHeight = barHeight;
 
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', pickable: false } );
-    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
-      fill: 'black',
-      pickable: false
-    } );
+    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
+    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
     trianglePath.mutate( { rotation: Math.PI } );
 
     RoundPushButton.call( this, _.extend( {

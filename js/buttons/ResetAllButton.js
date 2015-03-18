@@ -28,7 +28,7 @@ define( function( require ) {
     options = _.extend( {
       // Default values
       radius: DEFAULT_RADIUS,
-      minXMargin: buttonRadius * 0.2,
+      minXMargin:     buttonRadius * 0.2,
 
       // Default orange color scheme, standard for PhET reset buttons
       baseColor: new Color( 247, 151, 34 ),
@@ -41,10 +41,7 @@ define( function( require ) {
       textDescription: 'Reset All Button'
     }, options );
 
-    var icon = new Path( new ResetAllShape( options.radius ), {
-      fill: 'white',
-      pickable: false // making this unpickable helps performance since it doesn't need to be hit tested
-    } );
+    var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
 
     RoundPushButton.call( this, _.extend( { content: icon }, options ) );
   }

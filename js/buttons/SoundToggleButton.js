@@ -38,8 +38,7 @@ define( function( require ) {
         stroke: 'black',
         lineWidth: 3,
         left: soundOffNode.width + 5,
-        centerY: soundOffNode.centerY,
-        pickable: false
+        centerY: soundOffNode.centerY
       } );
     soundOffNode.addChild( soundOffX );
 
