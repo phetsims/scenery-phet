@@ -16,7 +16,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
-   * @param {Property.<Vector2>} locationProperty - in model reference frame
+   * @param {Property.<Vector2>} locationProperty - in model coordinate frame
    * @param {Object} [options]
    * @constructor
    */
@@ -25,20 +25,19 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      dragBounds: Bounds2.EVERYTHING , // {Bounds2} dragging will be constrained to these optional bounds , in model reference frame
+      dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
       componentID: null
     }, options );
 
-    //@public
-    this.componentID = options.componentID;
+    this.componentID = options.componentID; // @public
 
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
 
-    var startOffset; // where the drag started, relative to the Movable's origin, in parent view coordinates
+    var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
     SimpleDragHandler.call( this, {
 
@@ -63,9 +62,7 @@ define( function( require ) {
 
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = options.modelViewTransform.viewToModelPosition( parentPoint );
-        if ( self._dragBounds ) {
-          location = constrainLocation( location, self._dragBounds );
-        }
+        location = constrainLocation( location, self._dragBounds );
         var archID = arch && arch.start( 'user', self.componentID, 'drag', {
             positionX: location.x,
             positionY: location.y
@@ -105,9 +102,10 @@ define( function( require ) {
     }
   };
 
-  return inherit( SimpleDragHandler, MovableDragHandler,{
+  return inherit( SimpleDragHandler, MovableDragHandler, {
+
     /**
-     * Set the dragBounds.
+     * Sets the dragBounds.
      * In addition, it forces the location to be within the bounds.
      * @param {Bounds2} dragBounds
      */
@@ -115,17 +113,15 @@ define( function( require ) {
       this._dragBounds = dragBounds.copy();
       this.locationProperty.set( constrainLocation( this.locationProperty.value, this._dragBounds ) );
     },
+    set dragBounds( value ) { this.setDragBounds( value ); },
 
     /**
-     * Return the dragBounds of the sim
+     * Gets the dragBounds. Clients should not mutate the value returned.
      * @returns {Bounds2}
      */
     getDragBounds: function() {
       return this._dragBounds;
     },
-
-    // ES5 getter and setter for the dragBounds
-    set dragBounds( value ) { this.setDragBounds( value ); },
     get dragBounds() { return this.getDragBounds(); }
 
   } );
