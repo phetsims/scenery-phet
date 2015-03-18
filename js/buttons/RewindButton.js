@@ -32,7 +32,8 @@ define( function( require ) {
     var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
       fill: 'black',
       stroke: '#bbbbbb',
-      lineWidth: 1
+      lineWidth: 1,
+      pickable: false
     } );
     var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
       fill: 'black',

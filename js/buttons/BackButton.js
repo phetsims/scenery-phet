@@ -42,7 +42,7 @@ define( function( require ) {
     } );
 
     RectangularPushButton.call( this, _.extend( {
-      content: new Path( arrowShape, { fill: 'black' } )
+      content: new Path( arrowShape, { fill: 'black', pickable: false } )
     }, options ) );
   }
 

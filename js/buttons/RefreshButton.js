@@ -74,6 +74,7 @@ define( function( require ) {
     var refreshIconNode = new Node();
     refreshIconNode.addChild( new Path( upperArrowShape, { fill: 'black' } ) );
     refreshIconNode.addChild( new Path( lowerArrowShape, { fill: 'black', y: options.iconWidth * 0.2 } ) );
+    refreshIconNode.pickable = false;
 
     RectangularPushButton.call( this, _.extend( { content: refreshIconNode }, options ) );
   }

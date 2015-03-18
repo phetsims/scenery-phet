@@ -33,6 +33,7 @@ define( function( require ) {
     // Create the node that represents the timer being on.
     var clockRadius = WIDTH * 0.35;
     var timerOnNode = new SimpleClockIcon( clockRadius );
+    timerOnNode.pickable = false;
 
     // Create the node that represents the timer being off.
     var timerOffNode = new Node();
@@ -53,6 +54,7 @@ define( function( require ) {
         centerX: timerOffNode.width / 2,
         centerY: timerOffNode.height / 2
       } ) );
+    timerOffNode.pickable = false;
 
     BooleanRectangularToggleButtonWithContent.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend(
       {

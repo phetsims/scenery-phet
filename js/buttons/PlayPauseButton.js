@@ -40,8 +40,11 @@ define( function( require ) {
     var barWidth = options.radius * 0.2;
     var barHeight = triangleHeight;
 
-    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
-    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } ); };
+    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+      fill: 'black',
+      pickable: false
+    } );
+    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', pickable: false } ); };
     var bar1 = bar();
     var bar2 = bar();
     var pausePath = new HBox( { children: [ bar1, bar2 ], spacing: barWidth } );

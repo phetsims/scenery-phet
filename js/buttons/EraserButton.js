@@ -28,7 +28,7 @@ define( function( require ) {
     }, options );
 
     // eraser icon
-    options.content = new Image( eraserImage );
+    options.content = new Image( eraserImage, { pickable: false } );
     options.content.scale( options.iconWidth / options.content.width );
 
     RectangularPushButton.call( this, options );

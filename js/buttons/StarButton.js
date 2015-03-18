@@ -26,7 +26,10 @@ define( function( require ) {
       baseColor: new Color( 242, 233, 22 )//Color match with the yellow in the PhET logo
     }, options );
 
-    RectangularPushButton.call( this, _.extend( { content: new Path( new StarShape(), { fill: 'black' } ) }, options ) );
+    RectangularPushButton.call( this, _.extend( { content: new Path( new StarShape(), {
+        fill: 'black',
+        pickable: false } ) },
+      options ) );
   }
 
   return inherit( RectangularPushButton, StarButton );

@@ -39,14 +39,14 @@ define( function( require ) {
     // handle at lower-left of glass, at a 45-degree angle
     var outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
     var handleNode = new Line( outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
-      options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ),
+        options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ),
       { stroke: options.magnifyingGlassStroke, lineWidth: 0.4 * options.radius, lineCap: 'round' } );
 
     // plus or minus sign in middle of magnifying glass
     var signOptions = { size: new Dimension2( 1.3 * options.radius, options.radius / 3 ), centerX: glassNode.centerX, centerY: glassNode.centerY };
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-    options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
+    options.content = new Node( { children: [ handleNode, glassNode, signNode ], pickable: false } );
 
     RectangularPushButton.call( this, options );
   }
