@@ -46,7 +46,7 @@ define( function( require ) {
       // note where the drag started
       start: function( event ) {
 
-        var archID = arch && arch.start( 'user', self.componentID, 'dragStart', {
+        var messageIndex = arch && arch.start( 'user', self.componentID, 'dragStart', {
             positionX: locationProperty.get().x,
             positionY: locationProperty.get().y
           } );
@@ -54,7 +54,7 @@ define( function( require ) {
         var location = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
-        arch && arch.end( archID );
+        arch && arch.end( messageIndex );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
@@ -63,22 +63,22 @@ define( function( require ) {
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = options.modelViewTransform.viewToModelPosition( parentPoint );
         location = constrainLocation( location, self._dragBounds );
-        var archID = arch && arch.start( 'user', self.componentID, 'drag', {
+        var messageIndex = arch && arch.start( 'user', self.componentID, 'drag', {
             positionX: location.x,
             positionY: location.y
           } );
         locationProperty.set( location );
 
-        arch && arch.end( archID );
+        arch && arch.end( messageIndex );
       },
 
       end: function( event ) {
-        var archID = arch && arch.start( 'user', self.componentID, 'dragEnd', {
+        var messageIndex = arch && arch.start( 'user', self.componentID, 'dragEnd', {
             positionX: locationProperty.get().x,
             positionY: locationProperty.get().y
           } );
         options.endDrag( event );
-        arch && arch.end( archID );
+        arch && arch.end( messageIndex );
       }
     } );
   }

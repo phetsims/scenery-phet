@@ -235,7 +235,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        var archID = arch && arch.start( 'user', thisNode.componentID, 'startTapToDispense', { flowRate: flowRate } );
+        var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -244,11 +244,11 @@ define( function( require ) {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
-        arch && arch.end( archID );
+        arch && arch.end( messageIndex );
       }
     };
     var endTapToDispense = function() {
-      var archID = arch && arch.start( 'model', thisNode.componentID, 'endTapToDispense', { flowRate: 0 } );
+      var messageIndex = arch && arch.start( 'model', thisNode.componentID, 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -259,7 +259,7 @@ define( function( require ) {
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
-      arch && arch.end( archID );
+      arch && arch.end( messageIndex );
     };
 
     var shooterHandler = new SimpleDragHandler( {
@@ -270,13 +270,13 @@ define( function( require ) {
 
       start: function( event ) {
         if ( enabledProperty.get() ) {
-          var archID = arch && arch.start( 'user', thisNode.componentID, 'dragStart', { flowRate: flowRateProperty.get() } );
+          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragStart', { flowRate: flowRateProperty.get() } );
 
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
           this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
 
-          arch && arch.end( archID );
+          arch && arch.end( messageIndex );
         }
       },
 
@@ -296,9 +296,9 @@ define( function( require ) {
           var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - this.startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
 
-          var archID = arch && arch.start( 'user', thisNode.componentID, 'drag', { flowRate: flowRate } );
+          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'drag', { flowRate: flowRate } );
           flowRateProperty.set( flowRate );
-          arch && arch.end( archID );
+          arch && arch.end( messageIndex );
         }
       },
 
@@ -310,12 +310,12 @@ define( function( require ) {
             ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
-            var archID = arch && arch.start( 'user', thisNode.componentID, 'dragEnd', { flowRate: 0 } );
+            var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragEnd', { flowRate: 0 } );
 
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
 
-            arch && arch.end( archID );
+            arch && arch.end( messageIndex );
           }
         }
       }
