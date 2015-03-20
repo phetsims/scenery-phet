@@ -270,7 +270,7 @@ define( function( require ) {
 
       start: function( event ) {
         if ( enabledProperty.get() ) {
-          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragStart', { flowRate: flowRateProperty.get() } );
+          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragStarted', { flowRate: flowRateProperty.get() } );
 
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
@@ -296,7 +296,7 @@ define( function( require ) {
           var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - this.startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
 
-          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'drag', { flowRate: flowRate } );
+          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragged', { flowRate: flowRate } );
           flowRateProperty.set( flowRate );
           arch && arch.end( messageIndex );
         }
@@ -310,7 +310,7 @@ define( function( require ) {
             ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
-            var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragEnd', { flowRate: 0 } );
+            var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragEnded', { flowRate: 0 } );
 
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );

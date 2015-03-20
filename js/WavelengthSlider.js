@@ -231,19 +231,19 @@ define( function( require ) {
         allowTouchSnag: true,
 
         start: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.componentID, 'startDrag' );
+          var messageIndex = arch && arch.start( 'user', options.componentID, 'dragStarted' );
           clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
           arch && arch.end( messageIndex );
         },
 
         drag: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.componentID, 'drag' );
+          var messageIndex = arch && arch.start( 'user', options.componentID, 'dragged' );
           var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
           wavelength.set( positionToWavelength( x ) );
           arch && arch.end( messageIndex );
         },
         end: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.componentID, 'endDrag' );
+          var messageIndex = arch && arch.start( 'user', options.componentID, 'dragEnded' );
           arch && arch.end( messageIndex );
         }
       } ) );
