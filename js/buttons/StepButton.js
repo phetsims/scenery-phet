@@ -23,7 +23,7 @@ define( function( require ) {
   /**
    * @param stepFunction
    * @param enabledProperty
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function StepButton( stepFunction, enabledProperty, options ) {
