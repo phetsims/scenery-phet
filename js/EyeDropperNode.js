@@ -46,8 +46,11 @@ define( function( require ) {
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
+      componentID: null, //componentID for the dropper, see together
       buttonComponentID: null // componentID for the dropper button, see together
     }, options );
+
+    this.componentID = options.componentID;
 
     var thisNode = this;
 
@@ -103,6 +106,8 @@ define( function( require ) {
     }
 
     Node.call( this, options );
+
+    together && together.addComponent( this );
   }
 
   return inherit( Node, EyeDropperNode, {
