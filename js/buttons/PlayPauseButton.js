@@ -31,7 +31,8 @@ define( function( require ) {
   function PlayPauseButton( runningProperty, options ) {
 
     options = _.extend( {
-      radius: DEFAULT_RADIUS
+      radius: DEFAULT_RADIUS,
+      componentID: null
     }, options );
 
     // play and pause symbols are sized relative to the radius
