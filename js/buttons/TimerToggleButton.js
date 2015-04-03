@@ -15,7 +15,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
-  var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
   // Constants
   var WIDTH = 45;
@@ -54,7 +54,7 @@ define( function( require ) {
         centerY: timerOffNode.height / 2
       } ) );
 
-    BooleanRectangularToggleButtonWithContent.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend(
+    BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend(
       {
         baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
         minWidth: WIDTH,
@@ -62,9 +62,7 @@ define( function( require ) {
         xMargin: MARGIN,
         yMargin: MARGIN
       }, options ) );
-
-    this.buttonModel.property( 'down' );
   }
 
-  return inherit( BooleanRectangularToggleButtonWithContent, TimerToggleButton );
+  return inherit( BooleanRectangularToggleButton, TimerToggleButton );
 } );
