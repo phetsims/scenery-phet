@@ -46,11 +46,11 @@ define( function( require ) {
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
-      componentID: null, //componentID for the dropper, see together
-      buttonComponentID: null // componentID for the dropper button, see together
+      togetherID: null, //togetherID for the dropper, see together
+      buttonComponentID: null // togetherID for the dropper button, see together
     }, options );
 
-    this.componentID = options.componentID;
+    this.togetherID = options.togetherID;
 
     var thisNode = this;
 
@@ -85,7 +85,7 @@ define( function( require ) {
     var button = new RoundMomentaryButton( this.onProperty, {
       baseColor: 'red',
       radius: 18,
-      componentID: options.buttonComponentID
+      togetherID: options.buttonComponentID
     } );
     this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
     button.touchArea = Shape.circle( button.width / 2, button.height / 2, ( button.width / 2 ) + options.buttonTouchAreaDilation );

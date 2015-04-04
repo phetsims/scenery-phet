@@ -29,10 +29,10 @@ define( function( require ) {
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
-      componentID: null
+      togetherID: null
     }, options );
 
-    this.componentID = options.componentID; // @public
+    this.togetherID = options.togetherID; // @public
 
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
@@ -46,7 +46,7 @@ define( function( require ) {
       // note where the drag started
       start: function( event ) {
 
-        var messageIndex = arch && arch.start( 'user', self.componentID, 'dragStarted', {
+        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragStarted', {
             positionX: locationProperty.get().x,
             positionY: locationProperty.get().y
           } );
@@ -63,7 +63,7 @@ define( function( require ) {
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = options.modelViewTransform.viewToModelPosition( parentPoint );
         location = constrainLocation( location, self._dragBounds );
-        var messageIndex = arch && arch.start( 'user', self.componentID, 'dragged', {
+        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragged', {
             positionX: location.x,
             positionY: location.y
           } );
@@ -73,7 +73,7 @@ define( function( require ) {
       },
 
       end: function( event ) {
-        var messageIndex = arch && arch.start( 'user', self.componentID, 'dragEnded', {
+        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragEnded', {
             positionX: locationProperty.get().x,
             positionY: locationProperty.get().y
           } );

@@ -139,7 +139,7 @@ define( function( require ) {
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
 
-      componentID: null
+      togetherID: null
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -147,7 +147,7 @@ define( function( require ) {
     Node.call( thisNode );
 
     //@public, settable through together API unification
-    this.componentID = options.componentID;
+    this.togetherID = options.togetherID;
 
     // shooter
     var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
@@ -235,7 +235,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'startTapToDispense', { flowRate: flowRate } );
+        var messageIndex = arch && arch.start( 'user', thisNode.togetherID, 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -248,7 +248,7 @@ define( function( require ) {
       }
     };
     var endTapToDispense = function() {
-      var messageIndex = arch && arch.start( 'model', thisNode.componentID, 'endTapToDispense', { flowRate: 0 } );
+      var messageIndex = arch && arch.start( 'model', thisNode.togetherID, 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -270,7 +270,7 @@ define( function( require ) {
 
       start: function( event ) {
         if ( enabledProperty.get() ) {
-          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragStarted', { flowRate: flowRateProperty.get() } );
+          var messageIndex = arch && arch.start( 'user', thisNode.togetherID, 'dragStarted', { flowRate: flowRateProperty.get() } );
 
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
@@ -296,7 +296,7 @@ define( function( require ) {
           var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - this.startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
 
-          var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragged', { flowRate: flowRate } );
+          var messageIndex = arch && arch.start( 'user', thisNode.togetherID, 'dragged', { flowRate: flowRate } );
           flowRateProperty.set( flowRate );
           arch && arch.end( messageIndex );
         }
@@ -310,7 +310,7 @@ define( function( require ) {
             ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
-            var messageIndex = arch && arch.start( 'user', thisNode.componentID, 'dragEnded', { flowRate: 0 } );
+            var messageIndex = arch && arch.start( 'user', thisNode.togetherID, 'dragEnded', { flowRate: 0 } );
 
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );

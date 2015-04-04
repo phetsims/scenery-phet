@@ -32,7 +32,7 @@ define( function( require ) {
 
     options = _.extend( {
       radius: DEFAULT_RADIUS,
-      componentID: null
+      togetherID: null
     }, options );
 
     // play and pause symbols are sized relative to the radius
