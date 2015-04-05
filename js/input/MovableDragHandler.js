@@ -29,6 +29,7 @@ define( function( require ) {
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
+      onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
       togetherID: null
     }, options );
 
@@ -36,6 +37,7 @@ define( function( require ) {
 
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
+    this._modelViewTransform = options.modelViewTransform; // @private
 
     var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
@@ -51,7 +53,7 @@ define( function( require ) {
             positionY: locationProperty.get().y
           } );
         options.startDrag( event );
-        var location = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
+        var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
         arch && arch.end( messageIndex );
@@ -61,13 +63,14 @@ define( function( require ) {
       drag: function( event ) {
 
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
-        var location = options.modelViewTransform.viewToModelPosition( parentPoint );
+        var location = self._modelViewTransform.viewToModelPosition( parentPoint );
         location = constrainLocation( location, self._dragBounds );
         var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragged', {
             positionX: location.x,
             positionY: location.y
           } );
         locationProperty.set( location );
+        options.onDrag( event );
 
         arch && arch.end( messageIndex );
       },
@@ -122,7 +125,25 @@ define( function( require ) {
     getDragBounds: function() {
       return this._dragBounds;
     },
-    get dragBounds() { return this.getDragBounds(); }
+    get dragBounds() { return this.getDragBounds(); },
+
+    /**
+     * Sets the modelViewTransform.
+     * @param modelViewTransform
+     */
+    setModelViewTransform: function( modelViewTransform ) {
+      this._modelViewTransform = modelViewTransform;
+    },
+    set modelViewTransform( modelViewTransform ) { this._modelViewTransform = modelViewTransform; },
+
+    /**
+     * Gets the modelViewTransform. Clients should not mutate the value returned.
+     * @returns {ModelViewTransform}
+     */
+    getModelViewTransform: function() {
+      return this._modelViewTransform;
+    },
+    get modelViewTransform() { return this._modelViewTransform; }
 
   } );
 } );
