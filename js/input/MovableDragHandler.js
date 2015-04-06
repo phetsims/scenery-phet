@@ -130,7 +130,7 @@ define( function( require ) {
 
     /**
      * Sets the modelViewTransform.
-     * @param modelViewTransform
+     * @param {ModelViewTransform2} modelViewTransform
      */
     setModelViewTransform: function( modelViewTransform ) {
       this._modelViewTransform = modelViewTransform;
@@ -139,7 +139,7 @@ define( function( require ) {
 
     /**
      * Gets the modelViewTransform. Clients should not mutate the value returned.
-     * @returns {ModelViewTransform}
+     * @returns {ModelViewTransform2}
      */
     getModelViewTransform: function() {
       return this._modelViewTransform;
