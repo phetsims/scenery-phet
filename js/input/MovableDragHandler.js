@@ -70,6 +70,7 @@ define( function( require ) {
             positionY: location.y
           } );
         locationProperty.set( location );
+
         options.onDrag( event );
 
         arch && arch.end( messageIndex );
