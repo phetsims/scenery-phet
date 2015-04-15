@@ -50,14 +50,14 @@ define( function( require ) {
       start: function( event ) {
 
         var initialLocation = locationProperty.get();
-        self.events.trigger1( 'startedCallbacksForDragStart', initialLocation );
+        self.events.trigger1( 'startedCallbacksForDragStarted', initialLocation );
 
         options.startDrag( event );
 
         var location = self._modelViewTransform.modelToViewPosition( initialLocation );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
-        self.events.trigger1( 'endedCallbacksForDragStart', initialLocation );
+        self.events.trigger1( 'endedCallbacksForDragStarted', initialLocation );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
@@ -76,9 +76,9 @@ define( function( require ) {
       },
 
       end: function( event ) {
-        self.events.trigger1( 'startedCallbacksForDragEnd', locationProperty.get() );
+        self.events.trigger1( 'startedCallbacksForDragEnded', locationProperty.get() );
         options.endDrag( event );
-        self.events.trigger1( 'endedCallbacksForDragEnd', locationProperty.get() );
+        self.events.trigger1( 'endedCallbacksForDragEnded', locationProperty.get() );
       }
     } );
   }
