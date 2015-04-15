@@ -14,6 +14,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Events = require( 'AXON/Events' );
 
   /**
    * @param {Property.<Vector2>} locationProperty - in model coordinate frame
@@ -24,16 +25,16 @@ define( function( require ) {
 
     var self = this;
 
+    // Events for signifying when processing callbacks starts/ends
+    this.events = new Events();
+    
     options = _.extend( {
       dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
-      onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
-      togetherID: null
+      onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
     }, options );
-
-    this.togetherID = options.togetherID; // @public
 
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
@@ -48,15 +49,15 @@ define( function( require ) {
       // note where the drag started
       start: function( event ) {
 
-        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragStarted', {
-            positionX: locationProperty.get().x,
-            positionY: locationProperty.get().y
-          } );
+        var initialLocation = locationProperty.get();
+        self.events.trigger1( 'startedCallbacksForDragStart', initialLocation );
+
         options.startDrag( event );
-        var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
+
+        var location = self._modelViewTransform.modelToViewPosition( initialLocation );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
-        arch && arch.end( messageIndex );
+        self.events.trigger1( 'endedCallbacksForDragStart', initialLocation );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
@@ -65,24 +66,19 @@ define( function( require ) {
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = self._modelViewTransform.viewToModelPosition( parentPoint );
         location = constrainLocation( location, self._dragBounds );
-        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragged', {
-            positionX: location.x,
-            positionY: location.y
-          } );
+        self.events.trigger1( 'startedCallbacksForDragged', location );
+
         locationProperty.set( location );
 
         options.onDrag( event );
 
-        arch && arch.end( messageIndex );
+        self.events.trigger1( 'endedCallbacksForDragged', location );
       },
 
       end: function( event ) {
-        var messageIndex = arch && arch.start( 'user', self.togetherID, 'dragEnded', {
-            positionX: locationProperty.get().x,
-            positionY: locationProperty.get().y
-          } );
+        self.events.trigger1( 'startedCallbacksForDragEnd', locationProperty.get() );
         options.endDrag( event );
-        arch && arch.end( messageIndex );
+        self.events.trigger1( 'endedCallbacksForDragEnd', locationProperty.get() );
       }
     } );
   }

@@ -142,8 +142,7 @@ define( function( require ) {
       tweakersVisible: true,
       cursorVisible: true,
       cursorStroke: 'black',
-      pointerAreasOverTrack: false,
-      togetherID: null
+      pointerAreasOverTrack: false
     }, options );
 
     // validate wavelengths
@@ -231,20 +230,20 @@ define( function( require ) {
         allowTouchSnag: true,
 
         start: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.togetherID, 'dragStarted' );
+          thisNode.trigger1( 'startedCallbacksForDragStarted' );
           clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
-          arch && arch.end( messageIndex );
+          thisNode.trigger1( 'startedCallbacksForDragStarted' );
         },
 
         drag: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.togetherID, 'dragged' );
+          thisNode.trigger1( 'startedCallbacksForDragged' );
           var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
           wavelength.set( positionToWavelength( x ) );
-          arch && arch.end( messageIndex );
+          thisNode.trigger1( 'endedCallbacksForDragged' );
         },
         end: function( event ) {
-          var messageIndex = arch && arch.start( 'user', options.togetherID, 'dragEnded' );
-          arch && arch.end( messageIndex );
+          thisNode.trigger1( 'startedCallbacksForDragEnded' );
+          thisNode.trigger1( 'endedCallbacksForDragEnded' );
         }
       } ) );
 

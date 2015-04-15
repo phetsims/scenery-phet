@@ -29,8 +29,7 @@ define( function( require ) {
   function StepButton( stepFunction, enabledProperty, options ) {
 
     options = _.extend( {
-      radius: DEFAULT_RADIUS,
-      togetherID: null
+      radius: DEFAULT_RADIUS
     }, options );
 
     var stepButton = this;

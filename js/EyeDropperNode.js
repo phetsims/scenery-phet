@@ -45,12 +45,8 @@ define( function( require ) {
       enabledProperty: new Property( true ), // is the button enabled?
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
-      fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
-      togetherID: null, //togetherID for the dropper, see together
-      buttonTogetherID: null // togetherID for the dropper button, see together
+      fluidColor: 'yellow' // {Color|String} color of the fluid in the glass
     }, options );
-
-    this.togetherID = options.togetherID;
 
     var thisNode = this;
 
@@ -84,8 +80,7 @@ define( function( require ) {
     // button, centered in the dropper's bulb
     var button = new RoundMomentaryButton( this.onProperty, {
       baseColor: 'red',
-      radius: 18,
-      togetherID: options.buttonTogetherID
+      radius: 18
     } );
     this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
     button.touchArea = Shape.circle( button.width / 2, button.height / 2, ( button.width / 2 ) + options.buttonTouchAreaDilation );
@@ -106,8 +101,6 @@ define( function( require ) {
     }
 
     Node.call( this, options );
-
-    together && together.addComponent( this );
   }
 
   return inherit( Node, EyeDropperNode, {
