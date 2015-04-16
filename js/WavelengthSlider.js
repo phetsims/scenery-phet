@@ -230,20 +230,21 @@ define( function( require ) {
         allowTouchSnag: true,
 
         start: function( event ) {
-          thisNode.trigger1( 'startedCallbacksForDragStarted' );
+          thisNode.trigger0( 'startedCallbacksForDragStarted' );
           clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
-          thisNode.trigger1( 'startedCallbacksForDragStarted' );
+          thisNode.trigger0( 'endedCallbacksForDragStarted' );
         },
 
         drag: function( event ) {
-          thisNode.trigger1( 'startedCallbacksForDragged' );
           var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
-          wavelength.set( positionToWavelength( x ) );
-          thisNode.trigger1( 'endedCallbacksForDragged' );
+          var value = positionToWavelength( x );
+          thisNode.trigger1( 'startedCallbacksForDragged', value );
+          wavelength.set( value );
+          thisNode.trigger1( 'endedCallbacksForDragged', value );
         },
         end: function( event ) {
-          thisNode.trigger1( 'startedCallbacksForDragEnded' );
-          thisNode.trigger1( 'endedCallbacksForDragEnded' );
+          thisNode.trigger0( 'startedCallbacksForDragEnded' );
+          thisNode.trigger0( 'endedCallbacksForDragEnded' );
         }
       } ) );
 
