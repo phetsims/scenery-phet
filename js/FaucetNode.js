@@ -300,18 +300,17 @@ define( function( require ) {
       end: function() {
         if ( enabledProperty.get() ) {
 
+          thisNode.trigger1( 'startedCallbacksForDragEnded', 0 );
           if ( tapToDispenseIsArmed ) {
             // tapping toggles the tap-to-dispense state
             ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
-            thisNode.trigger1( 'startedCallbacksForDragEnded', 0 );
 
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
-
-            thisNode.trigger1( 'endedCallbacksForDragEnded', 0 );
           }
+          thisNode.trigger1( 'endedCallbacksForDragEnded', 0 );
         }
       }
     } );
