@@ -158,7 +158,6 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         temperatureProperty.reset();
-        measuringTapeScaleProperty.reset();
         measuringTape.reset();
         starValueProperty.reset();
         fluidRateProperty.reset();
