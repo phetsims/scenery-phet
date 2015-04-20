@@ -54,22 +54,16 @@ define( function( require ) {
     this.addChild( temperatureSlider );
 
     // measuring tape
-    var measuringTapeScaleProperty = new Property( 0.5 );
+
     var measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
     var measuringTape = new MeasuringTape( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
-      unrolledTapeDistance: 100,
       dragBounds: this.layoutBounds,
-      scaleProperty: measuringTapeScaleProperty,
-      basePositionProperty: new Property( new Vector2( 100, 100 ) )
+      basePositionProperty: new Property( new Vector2( 100, 100 ) ),
+      tipPositionProperty: new Property( new Vector2( 200, 100 ) )
     } );
     this.addChild( measuringTape );
-    var measuringTapeScaleSlider = new HSlider( measuringTapeScaleProperty, { min: 0.5, max: 2 }, {
-      thumbSize: new Dimension2( 15, 30 ),
-      left: 50,
-      top: measuringTape.bottom + 20
-    } );
-    this.addChild( measuringTapeScaleSlider );
+
 
     /*
      * Fill up a star by creating new StarNodes dynamically.

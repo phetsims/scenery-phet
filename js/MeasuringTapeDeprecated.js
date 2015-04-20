@@ -1,215 +1,310 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Measuring tape
+ * A scenery node that is used to represent a draggable Measuring Tape.
+ * It contains a tip and a base that can be dragged separately,
+ * with a text indicating the measurement.
+ * The motion of the measuring tape can be confined by drag bounds.
+ * It assumes that the position of this node is set to (0,0) in the parent Node.
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Siddhartha Chinthapally (ActualConcepts)
  * @author Aaron Davis (PhET)
+ * @author Martin Veillette (Berea College)
  */
 define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-
   var Image = require( 'SCENERY/nodes/Image' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
+
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
-  // constants
-  var FONT = new PhetFont( 16 );
-
   /**
-   * Constructor for the measuring tape
-   * @param {Bounds2} layoutBounds of the simulation
-   * @param {Property.<number>} scaleProperty
-   * @param {Property.<object>} unitsProperty has two fields, (1) name <string>  and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
+   * Constructor for the measuring Tape
+   * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string> and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
+   * @param {Property.<boolean>} isVisibleProperty
+   * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( layoutBounds, scaleProperty, unitsProperty, options ) {
+  function MeasuringTape( unitsProperty, isVisibleProperty, options ) {
     var measuringTape = this;
+
     Node.call( this );
-    this.prevScale = 1;
-    this.options = _.extend( {
-      x: 0,
-      y: 0,
-      tipX: 73.5,
-      tipY: 0,
-      scale: 1,
-      length: 73.5,
-      lengthDefault: 73.5,
-      initialValue: 50000,
-      precision: 2,
-      lineColor: 'gray',
-      tipColor: 'rgba(0,0,0,0)',
-      tipRadius: 15,
-      plusColor: '#E05F20',
-      initialAngle: 0
+    options = _.extend( {
+      basePositionProperty: new Property( new Vector2( 40, 40 ) ), // base Position in view coordinates (rightBottom position of the measuring tape image)
+      unrolledTapeDistance: 1, // in model coordinates
+      angle: 0.0, // angle of the tape in radians, recall that in the view, a positive angle means clockwise rotation.
+      textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
+      modelViewTransform: ModelViewTransform2.createIdentity(),
+      dragBounds: Bounds2.EVERYTHING,// bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
+      scaleProperty: new Property( 1 ), // scale the apparent length of the unrolled Tape, without changing the measurement, analogous to a zoom factor
+      significantFigures: 1, // number of significant figures in the length measurement
+      textColor: 'white', // color of the length measurement and unit
+      textFont: new PhetFont( { size: 16, weight: 'bold' } ), // font for the measurement text
+      baseScale: 0.8, // control the size of the measuringTape Image (the base)
+      lineColor: 'gray', // color of the tapeline itself
+      tapeLineWidth: 2, // linewidth of the tape line
+      tipCircleColor: 'rgba(0,0,0,0.1)', // color of the circle at the tip
+      tipCircleRadius: 10, // radius of the circle on the tip
+      crosshairColor: 'rgb(224, 95, 32)', // orange, color of the two crosshairs
+      crosshairSize: 5, // size of the crosshairs in scenery coordinates ( measured from center)
+      crosshairLineWidth: 2, // linewidth of the crosshairs
+      isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
+      isTipCrosshairRotating: true // do crosshairs rotate around their own axis to line up with the tapeline
     }, options );
 
-    this.unitsProperty = unitsProperty;
 
-    // add base of tape and not base node
-    this.base = new Node( { children: [ new Image( measuringTapeImage ) ], scale: 0.8 } );
-    this.addChild( this.base );
-    this.centerRotation = new Vector2( measuringTape.base.getWidth(), measuringTape.base.getHeight() );
-    this.notBase = new Node();
+    assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) === Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
+    this.modelToViewScale = options.modelViewTransform.modelToViewDeltaX( 1 ); // private
 
-    // initialize angle
-    this.angle = this.options.initialAngle;
+    this.significantFigures = options.significantFigures; // @private
+    this.unitsProperty = unitsProperty; // @private
+    this.isVisibleProperty = isVisibleProperty; // @private
+    this.scaleProperty = options.scaleProperty; // @private
+    this.tipToBaseDistance = options.unrolledTapeDistance; // @private
 
-    // init drag and drop for measuring tape
-    var clickYOffset, clickXOffset, v;
-    var currentlyDragging = '';
-    this.base.cursor = 'pointer';
-    this.base.addInputListener( new SimpleDragHandler( {
-      start: function( e ) {
-        currentlyDragging = 'base';
-        var y0 = measuringTape.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
-        var x0 = measuringTape.globalToParentPoint( e.pointer.point ).x - e.currentTarget.x;
-        var h = measuringTape.centerRotation.timesScalar( Math.cos( measuringTape.angle / 2 ) ).rotated( measuringTape.angle / 2 );
-        v = measuringTape.centerRotation.plus( h.minus( measuringTape.centerRotation ).multiply( 2 ) );
-        clickYOffset = y0 - v.y;
-        clickXOffset = x0 - v.x;
-      },
-      drag: function( e ) {
-        if ( currentlyDragging !== 'base' ) {
-          return;
+
+    this.basePositionProperty = options.basePositionProperty;
+    var tapeDistance = options.modelViewTransform.modelToViewDeltaX( options.unrolledTapeDistance );
+
+    this.tipPositionProperty = new Property( options.basePositionProperty.value.plus( Vector2.createPolar( tapeDistance, options.angle ) ) );
+
+
+    var crosshairShape = new Shape().
+      moveTo( -options.crosshairSize, 0 ).
+      moveTo( -options.crosshairSize, 0 ).
+      lineTo( options.crosshairSize, 0 ).
+      moveTo( 0, -options.crosshairSize ).
+      lineTo( 0, options.crosshairSize );
+
+    var baseCrosshair = new Path( crosshairShape, {
+      stroke: options.crosshairColor,
+      lineWidth: options.crosshairLineWidth
+    } );
+
+    var tipCrosshair = new Path( crosshairShape, {
+      stroke: options.crosshairColor,
+      lineWidth: options.crosshairLineWidth
+    } );
+
+    var tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
+
+    var baseImage = new Image( measuringTapeImage, {
+      scale: options.baseScale,
+      cursor: 'pointer'
+    } );
+
+    // create tapeline (running from one crosshair to the other)
+    var tapeLine = new Line( this.basePositionProperty.value, this.tipPositionProperty.value, {
+      stroke: options.lineColor,
+      lineWidth: options.tapeLineWidth
+    } );
+
+    // add tipCrosshair and tipCircle to the tip
+    var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
+
+    // create text
+    // @public
+    this.labelText = new Text( measuringTape.getText(), {
+      font: options.textFont,
+      fill: options.textColor
+    } );
+
+    // expand the area for touch
+    tip.touchArea = tip.localBounds.dilatedXY( 10, 10 );
+    baseImage.touchArea = baseImage.localBounds.dilatedXY( 10, 10 );
+
+    this.addChild( tapeLine ); // tapeline going from one crosshair to the other
+    this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
+    this.addChild( baseImage ); // base of the measuring tape
+    this.addChild( this.labelText ); // text
+    this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
+
+    var startOffset;
+    baseImage.addInputListener( new SimpleDragHandler( {
+        allowTouchSnag: true,
+        start: function( event, trail ) {
+          startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( measuringTape.basePositionProperty.value );
+        },
+
+        drag: function( event ) {
+          var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
+          var constrainedLocation = constrainBounds( parentPoint, options.dragBounds );
+
+          // translation of the basePosition (subject to the constraining bounds)
+          var translationDelta = constrainedLocation.minus( measuringTape.basePositionProperty.value );
+
+          measuringTape.basePositionProperty.value = constrainedLocation;
+
+          // translate the position of the tip if it is not being dragged
+          if ( !isDraggingTip ) {
+            measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( translationDelta );
+          }
         }
-        var x = measuringTape.globalToParentPoint( e.pointer.point ).x - clickXOffset;
-        var y = measuringTape.globalToParentPoint( e.pointer.point ).y - clickYOffset;
 
-        x = ( x < layoutBounds.left ) ? layoutBounds.left : ( x > layoutBounds.right ) ? layoutBounds.right : x;
-        y = ( y < layoutBounds.top + 10 ) ? layoutBounds.top + 10 : ( y > layoutBounds.bottom ) ? layoutBounds.bottom : y;
+      } )
+    );
 
-        measuringTape.translate( x, y, v );
-      }
-    } ) );
-
-    // add line
-    this.line = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, 0 ), { stroke: this.options.lineColor, lineWidth: 2 } );
-    this.notBase.addChild( this.line );
-
-    // add center point
-    var size = 5;
-    this.mediator = new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {
-      stroke: this.options.plusColor,
-      lineWidth: 2
-    } );
-    this.notBase.addChild( this.mediator );
-
-    // add tip
-    this.tip = new Node( {
-      children: [
-        new Circle( this.options.tipRadius, { fill: this.options.tipColor } ),
-        new Path( new Shape().moveTo( -size, 0 ).lineTo( size, 0 ).moveTo( 0, -size ).lineTo( 0, size ), {
-          stroke: this.options.plusColor,
-          lineWidth: 2
-        } )
-      ]
-    } );
-    this.tip.cursor = 'pointer';
-    this.tip.touchArea = this.tip.localBounds.dilatedXY( 10, 10 );
-    this.notBase.addChild( this.tip );
+    // when the user is not holding onto the tip, dragging the body will also drag the tip
+    var isDraggingTip = false;
 
     // init drag and drop for tip
-    this.tip.addInputListener( new SimpleDragHandler( {
-      start: function( e ) {
-        currentlyDragging = 'tip';
-        clickYOffset = measuringTape.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
-        clickXOffset = measuringTape.globalToParentPoint( e.pointer.point ).x - e.currentTarget.x;
+    tip.addInputListener( new SimpleDragHandler( {
+      allowTouchSnag: true,
+
+      start: function( event, trail ) {
+        isDraggingTip = true;
       },
-      drag: function( e ) {
-        if ( currentlyDragging !== 'tip' ) {
-          return;
-        }
-        var y = measuringTape.globalToParentPoint( e.pointer.point ).y - clickYOffset;
-        var x = measuringTape.globalToParentPoint( e.pointer.point ).x - clickXOffset;
-        // return to previous angle
-        measuringTape.rotate( -measuringTape.angle );
-        // set new angle
-        measuringTape.angle = Math.atan2( y, x );
-        measuringTape.rotate( measuringTape.angle );
-        measuringTape.setTip( x, y );
+
+      translate: function( translationParams ) {
+        measuringTape.tipPositionProperty.value = measuringTape.tipPositionProperty.value.plus( translationParams.delta );
+      },
+
+      end: function( event, trail ) {
+        isDraggingTip = false;
       }
     } ) );
 
-    // add text
-    this.text = new Text( '', { font: FONT, fontWeight: 'bold', fill: 'white', pickable: false, x: -75, y: 20 } );
-    this.notBase.addChild( this.text );
+    // link the positions of base and tip to the scenery nodes such as crosshair, tip, labelText, tapeLine, baseImage
+    Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ], function( basePosition, tipPosition ) {
+      // calculate the orientation and change of orientation of the Measuring tape
+      var oldAngle = baseImage.getRotation();
+      var angle = Math.atan2( tipPosition.y - basePosition.y, tipPosition.x - basePosition.x );
+      var deltaAngle = angle - oldAngle;
 
-    this.addChild( this.notBase );
+      // set position of the tip and the base crosshair
+      baseCrosshair.center = basePosition;
+      tip.center = tipPosition;
 
-    unitsProperty.link( function( data ) {
-      measuringTape.text.setText( measuringTape.getText( data ) );
+      // in order to avoid all kind of geometrical issues with position, let's reset the baseImage upright and then set its position and rotation
+      baseImage.setRotation( 0 );
+      baseImage.rightBottom = basePosition;
+      baseImage.rotateAround( basePosition, angle );
+
+      // reset the text
+      measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
+      measuringTape.labelText.setText( measuringTape.getText() );
+      measuringTape.labelText.centerTop = baseImage.center.plus( options.textPosition.times( options.baseScale ) );
+
+
+      // reposition the tapeline
+      tapeLine.setLine( basePosition.x, basePosition.y, tipPosition.x, tipPosition.y );
+
+      // rotate the crosshairs
+      if ( options.isTipCrosshairRotating ) {
+        tip.rotateAround( tip.center, deltaAngle );
+      }
+      if ( options.isBaseCrosshairRotating ) {
+        baseCrosshair.rotateAround( baseCrosshair.center, deltaAngle );
+      }
+
     } );
 
-    scaleProperty.link( function( newScale ) {
-      measuringTape.scale( newScale );
-    } );
+    // @private
+    this.isVisiblePropertyObserver = function( isVisible ) {
+      measuringTape.visible = isVisible;
+    };
+    this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
 
-    // draw the tape at the correct position
-    measuringTape.resetTape();
+    // @private set Text on on labelText
+    this.unitsPropertyObserver = function() {
+      measuringTape.labelText.setText( measuringTape.getText() );
+    };
+    // link change of units to the text
+    this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
+
+    // @private length of the unrolled tape scales with the scaleProperty (but text stays the same).
+    this.scalePropertyObserver = function( scale, oldScale ) {
+      // make sure that the oldScale exists, if not set to 1.
+      if ( oldScale === null ) {
+        oldScale = 1;
+      }
+      // update the position of the tip
+      var displacementVector = measuringTape.tipPositionProperty.value.minus( measuringTape.basePositionProperty.value );
+      var scaledDisplacementVector = displacementVector.timesScalar( scale / oldScale );
+      measuringTape.tipPositionProperty.value = measuringTape.basePositionProperty.value.plus( scaledDisplacementVector );
+    };
+    // scaleProperty is analogous to a zoom in/zoom out function
+    this.scaleProperty.link( this.scalePropertyObserver ); // must be unlinked in dispose
+
+    /**
+     * Constrains a point to some bounds.
+     *
+     * @param {Vector2} point
+     * @param {Bounds2} bounds
+     * @returns {Vector2}
+     */
+    function constrainBounds( point, bounds ) {
+      if ( _.isUndefined( bounds ) || bounds.containsPoint( point ) ) {
+        return point;
+      }
+      else {
+        var xConstrained = Math.max( Math.min( point.x, bounds.maxX ), bounds.minX );
+        var yConstrained = Math.max( Math.min( point.y, bounds.maxY ), bounds.minY );
+        return new Vector2( xConstrained, yConstrained );
+      }
+    }
+
+    this.mutate( options );
   }
 
   return inherit( Node, MeasuringTape, {
+    /**
+     * reset the MeasuringTape to its initial configuration
+     * @public
+     */
+    reset: function() {
+      this.basePositionProperty.reset();
+      this.tipPositionProperty.reset();
+    },
+
+    //TODO: is is necesseray to have this method now that labelText is not longer a var
+    /**
+     * returns a readout of the current measurement
+     * @public
+     * @returns {string}
+     */
+    getText: function() {
+      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance / this.modelToViewScale / this.scaleProperty.value,
+          this.significantFigures ) + ' ' + this.unitsProperty.value.name;
+    },
+
+    // Ensures that this node is eligible for GC.
+    dispose: function() {
+      this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
+      this.unitsProperty.unlink( this.unitsPropertyObserver );
+      this.scaleProperty.unlink( this.scalePropertyObserver );
+    },
 
     /**
-     * Resets the tape rotation, translation, and tip. Call this after adjusting tape options to redraw correctly.
+     * Set the color of the text label
+     * @param {string||Color} color
      */
-    resetTape: function() {
-      this.rotate( -this.angle );
-      this.translate( this.options.x, this.options.y );
-      this.setTip( this.options.lengthDefault, 0 );
-      this.base.setTranslation( -this.centerRotation.x + this.options.x, -this.centerRotation.y + this.options.y );
+    setTextColor: function( color ) {
+      this.labelText.fill = color;
     },
 
-    getText: function( unitData ) {
-      var multiplier = this.options.initialValue / this.options.lengthDefault;
-      return ( this.options.length * multiplier * unitData.multiplier ).toFixed( this.options.precision ) + ' ' + unitData.name;
-    },
+    // ES5 getter and setter for the textColor
+    set textColor( value ) { this.setTextColor( value ); },
+    get textColor() { return this.labelText.fill; }
 
-    rotate: function( angle ) {
-      this.base.rotateAround( new Vector2( this.notBase.x, this.notBase.y ), angle );
-    },
-
-    scale: function( scale ) {
-      this.options.lengthDefault *= 1 / this.prevScale;
-      this.options.lengthDefault *= scale;
-      this.setTip( this.options.tipX / this.prevScale, this.options.tipY / this.prevScale );
-      this.setTip( this.options.tipX * scale, this.options.tipY * scale );
-      this.prevScale = scale;
-    },
-
-    setTip: function( x, y ) {
-      this.options.length = Math.sqrt( Math.pow( x, 2 ) + Math.pow( y, 2 ) );
-      this.line.setShape( new Shape().moveTo( 0, 0 ).lineTo( x, y ) );
-      this.text.setText( this.getText( this.unitsProperty.get() ) );
-      this.tip.setTranslation( x, y );
-      this.options.tipX = x;
-      this.options.tipY = y;
-    },
-
-    translate: function( x, y, v ) {
-      this.notBase.setTranslation( x, y );
-      v = v || new Vector2( 0, 0 );
-      this.base.setTranslation( x - v.x, y - v.y );
-    },
-
-    reset: function() {
-      this.angle = 0;
-      this.base.setRotation( this.angle );
-      this.resetTape();
-    }
   } );
 } );
+
