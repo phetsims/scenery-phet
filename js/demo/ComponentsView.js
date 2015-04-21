@@ -113,8 +113,8 @@ define( function( require ) {
       top: 10
     } );
     this.addChild( dropperNode );
-    dropperNode.onProperty.lazyLink( function( on ) {
-      console.log( 'dropper ' + ( on ? 'on' : 'off' ) );
+    dropperNode.dispensingProperty.lazyLink( function( dispensing ) {
+      console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) );
     } );
 
     // conductivity tester
