@@ -41,7 +41,7 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      onProperty: new Property( false ), // is the dropper on? (ie, dispensing)
+      dispensingProperty: new Property( false ), // is the dropper dispensing?
       enabledProperty: new Property( true ), // is the button enabled?
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
@@ -51,7 +51,7 @@ define( function( require ) {
     var thisNode = this;
 
     // @public
-    this.onProperty = options.onProperty;
+    this.dispensingProperty = options.dispensingProperty;
     this.enabledProperty = options.enabledProperty;
     this.emptyProperty = options.emptyProperty;
 
@@ -79,7 +79,7 @@ define( function( require ) {
 
     // button, centered in the dropper's bulb
     // @public but only so it can be accessed for together instrumentation
-    this.button = new RoundMomentaryButton( this.onProperty, {
+    this.button = new RoundMomentaryButton( this.dispensingProperty, {
       baseColor: 'red',
       radius: 18
     } );
@@ -113,9 +113,9 @@ define( function( require ) {
     GLASS_MIN_Y: GLASS_MIN_Y,
     GLASS_MAX_Y: GLASS_MAX_Y,
 
-    set on( value ) { this.onProperty = value; },
+    set dispensing( value ) { this.dispensingProperty = value; },
 
-    get on() { return this.onProperty.value; },
+    get dispensing() { return this.dispensingProperty.value; },
 
     set enabled( value ) { this.enabledProperty = value; },
 
