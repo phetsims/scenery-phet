@@ -28,7 +28,7 @@ define( function( require ) {
     options = _.extend( {
       // Default values
       radius: DEFAULT_RADIUS,
-      minXMargin:     buttonRadius * 0.2,
+      minXMargin: buttonRadius * 0.2,
 
       // Default orange color scheme, standard for PhET reset buttons
       baseColor: new Color( 247, 151, 34 ),
@@ -38,7 +38,10 @@ define( function( require ) {
       // values were empirically determined.
       xContentOffset: buttonRadius * 0.03,
       yContentOffset: buttonRadius * ( -0.0125 ),
-      textDescription: 'Reset All Button'
+      textDescription: 'Reset All Button',
+
+      // Marker entry to indicate that tandem is supported (in the parent)
+      tandem: null
     }, options );
 
     var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
