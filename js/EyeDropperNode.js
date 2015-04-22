@@ -45,7 +45,10 @@ define( function( require ) {
       enabledProperty: new Property( true ), // is the button enabled?
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
-      fluidColor: 'yellow' // {Color|String} color of the fluid in the glass
+      fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
+
+      // Note: EyeDropperNode is not draggable and hence only registers its button with tandem.
+      tandem: null
     }, options );
 
     var thisNode = this;
@@ -81,7 +84,8 @@ define( function( require ) {
     // @public but only so it can be accessed for together instrumentation
     this.button = new RoundMomentaryButton( this.dispensingProperty, {
       baseColor: 'red',
-      radius: 18
+      radius: 18,
+      tandem: options.tandem && options.tandem.createTandem( 'button' )
     } );
     this.enabledProperty.link( function( enabled ) { thisNode.button.enabled = enabled; } );
     this.button.touchArea = Shape.circle( this.button.width / 2, this.button.height / 2, ( this.button.width / 2 ) + options.buttonTouchAreaDilation );
@@ -102,6 +106,11 @@ define( function( require ) {
     }
 
     Node.call( this, options );
+
+    // Tandem support
+    // Note that tandem.addInstance() is not called here since this node is not draggable or configurable
+    // tandem was only passed in for the button
+    // Subclasses are responsible for registering the EyeDropperNode if desired (see BLLDropperNode)
   }
 
   return inherit( Node, EyeDropperNode, {

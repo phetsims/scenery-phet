@@ -137,7 +137,8 @@ define( function( require ) {
       tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
       closeOnRelease: true, // when the shooter is released, close the faucet
-      interactiveProperty: new Property( true ) // when the faucet is interactive, the flow rate control is visible, see issue #67
+      interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
+      tandem: null
     }, options );
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -330,6 +331,9 @@ define( function( require ) {
     } );
 
     thisNode.mutate( options );
+
+    // Tandem support
+    options.tandem && options.tandem.addInstance( this );
   }
 
   return inherit( Node, FaucetNode );
