@@ -1,0 +1,26 @@
+{
+  "WavelengthSlider.pattern_0wavelength_1units": {
+    "value": "{0} {1}"
+  },
+  "units_nm": {
+    "value": "nm"
+  },
+  "FaceWithPointsNode.pattern_0sign_1points": {
+    "value": "{0}{1}"
+  },
+  "shortCircuit": {
+    "value": "Short circuit!"
+  },
+  "webglWarning.title": {
+    "value": "Running with low graphics quality"
+  },
+  "webglWarning.body": {
+    "value": "WebGL is not enabled or not available. Click to learn more."
+  },
+  "webglWarning.contextLossFailure": {
+    "value": "Sorry, a graphics error has occurred."
+  },
+  "webglWarning.contextLossReload": {
+    "value": "Reload"
+  }
+}
