@@ -11,6 +11,12 @@
   "shortCircuit": {
     "value": "Short circuit!"
   },
+  "heat": {
+    "value": "Heat"
+  },
+  "cool": {
+    "value": "Cool"
+  },
   "webglWarning.title": {
     "value": "Running with low graphics quality"
   },
