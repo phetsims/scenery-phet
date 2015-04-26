@@ -87,7 +87,7 @@ define( function( require ) {
     if ( maxTitleWidth > bottomWidth / 2 ) {
       titles.forEach( function( title ) {
         title.scale( ( bottomWidth / 2 ) / maxTitleWidth );
-      } )
+      } );
     }
 
     // Create the slider.
