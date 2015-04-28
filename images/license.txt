@@ -13,6 +13,8 @@ faucet_spout.png source=PhET author=Mike Fowler, Amanda McGarry
 faucet_stop.png source=PhET author=Mike Fowler, Amanda McGarry
 faucet_track.png source=PhET author=Mike Fowler, Amanda McGarry
 faucet_vertical_pipe.png source=PhET author=Mike Fowler, Amanda McGarry
+flame.png source=PhET author=John Blanco
+ice-cube-stack.png source=PhET author=John Blanco
 light-bulb-off.png source=PhET author=Bryce Gruneich
 light-bulb-on.png source=PhET author=Bryce Gruneich
 measuringTape.png source=PhET author=Bryce Gruneich
