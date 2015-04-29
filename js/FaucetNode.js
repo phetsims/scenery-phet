@@ -117,8 +117,8 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeShooterNode = function() {
-      enabledProperty.unlink( enabledObserver )
-    }
+      enabledProperty.unlink( enabledObserver );
+    };
   }
 
   inherit( Node, ShooterNode, {
@@ -358,7 +358,7 @@ define( function( require ) {
 
       // tandem
       options.tandem && options.tandem.removeInstance( this );
-    }
+    };
   }
 
   return inherit( Node, FaucetNode, {
