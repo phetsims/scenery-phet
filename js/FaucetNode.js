@@ -105,18 +105,25 @@ define( function( require ) {
     knobNode.centerY = flangeNode.centerY;
     knobDisabledNode.translation = knobNode.translation;
 
-    enabledProperty.link( function( enabled ) {
-
+    var enabledObserver = function( enabled ) {
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
       knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
       knobNode.visible = enabled;
       knobDisabledNode.visible = !enabled;
       flangeNode.visible = enabled;
       flangeDisabledNode.visible = !enabled;
-    } );
+    };
+    enabledProperty.link( enabledObserver );
+
+    // @private called by dispose
+    this.disposeShooterNode = function() {
+      enabledProperty.unlink( enabledObserver )
+    }
   }
 
-  inherit( Node, ShooterNode );
+  inherit( Node, ShooterNode, {
+    dispose: function() { this.disposeShooterNode(); }
+  } );
 
   /**
    *
@@ -168,9 +175,10 @@ define( function( require ) {
     var bodyNode = new Image( bodyImage );
 
     // flow rate control is visible only when the faucet is interactive
-    options.interactiveProperty.link( function( interactive ) {
+    var interactiveObserver = function( interactive ) {
       shooterNode.visible = trackNode.visible = interactive;
-    } );
+    };
+    options.interactiveProperty.link( interactiveObserver );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
@@ -317,24 +325,44 @@ define( function( require ) {
     } );
     shooterNode.addInputListener( shooterHandler );
 
-    flowRateProperty.link( function( flowRate ) {
+    var flowRateObserver = function( flowRate ) {
       shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
-    } );
+    };
+    flowRateProperty.link( flowRateObserver );
 
-    enabledProperty.link( function( enabled ) {
+    var enabledObserver = function( enabled ) {
       if ( !enabled && shooterHandler.dragging ) {
         shooterHandler.endDrag();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
         endTapToDispense();
       }
-    } );
+    };
+    enabledProperty.link( enabledObserver );
 
     thisNode.mutate( options );
 
     // Tandem support
     options.tandem && options.tandem.addInstance( this );
+
+    // @private called by dispose
+    this.disposeFaucetNode = function() {
+
+      // Properties
+      options.interactiveProperty.unlink( interactiveObserver );
+      flowRateProperty.unlink( flowRateObserver );
+      enabledProperty.unlink( enabledObserver );
+
+      // Subcomponents
+      shooterNode.dispose();
+
+      // tandem
+      options.tandem && options.tandem.removeInstance( this );
+    }
   }
 
-  return inherit( Node, FaucetNode );
+  return inherit( Node, FaucetNode, {
+
+    dispose: function() { this.disposeFaucetNode(); }
+  });
 } );
