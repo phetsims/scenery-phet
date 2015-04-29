@@ -142,7 +142,8 @@ define( function( require ) {
       tweakersVisible: true,
       cursorVisible: true,
       cursorStroke: 'black',
-      pointerAreasOverTrack: false
+      pointerAreasOverTrack: false,
+      tandem: null
     }, options );
 
     // validate wavelengths
@@ -214,39 +215,37 @@ define( function( require ) {
 
     // track interactivity
     track.cursor = 'pointer';
-    track.addInputListener(
-      {
-        down: function( event ) {
-          var x = track.globalToParentPoint( event.pointer.point ).x;
-          wavelength.set( positionToWavelength( x ) );
-        }
-      } );
+    track.addInputListener( {
+      down: function( event ) {
+        var x = track.globalToParentPoint( event.pointer.point ).x;
+        wavelength.set( positionToWavelength( x ) );
+      }
+    } );
 
     // thumb interactivity
     thumb.cursor = 'pointer';
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
-    thumb.addInputListener( new SimpleDragHandler(
-      {
-        allowTouchSnag: true,
+    thumb.addInputListener( new SimpleDragHandler( {
+      allowTouchSnag: true,
 
-        start: function( event ) {
-          thisNode.trigger0( 'startedCallbacksForDragStarted' );
-          clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
-          thisNode.trigger0( 'endedCallbacksForDragStarted' );
-        },
+      start: function( event ) {
+        thisNode.trigger0( 'startedCallbacksForDragStarted' );
+        clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
+        thisNode.trigger0( 'endedCallbacksForDragStarted' );
+      },
 
-        drag: function( event ) {
-          var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
-          var value = positionToWavelength( x );
-          thisNode.trigger1( 'startedCallbacksForDragged', value );
-          wavelength.set( value );
-          thisNode.trigger1( 'endedCallbacksForDragged', value );
-        },
-        end: function( event ) {
-          thisNode.trigger0( 'startedCallbacksForDragEnded' );
-          thisNode.trigger0( 'endedCallbacksForDragEnded' );
-        }
-      } ) );
+      drag: function( event ) {
+        var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
+        var value = positionToWavelength( x );
+        thisNode.trigger1( 'startedCallbacksForDragged', value );
+        wavelength.set( value );
+        thisNode.trigger1( 'endedCallbacksForDragged', value );
+      },
+      end: function( event ) {
+        thisNode.trigger0( 'startedCallbacksForDragEnded' );
+        thisNode.trigger0( 'endedCallbacksForDragEnded' );
+      }
+    } ) );
 
     // sync with model
     var updateUI = function( wavelength ) {
@@ -263,33 +262,42 @@ define( function( require ) {
         minusButton.enabled = ( wavelength > options.minWavelength );
       }
     };
-    wavelength.link( function( wavelength ) {
+    var wavelengthListener = function( wavelength ) {
       updateUI( wavelength );
-    } );
+    };
+    wavelength.link( wavelengthListener );
 
     /*
      * The horizontal bounds of the wavelength control changes as the slider knob is dragged.
      * To prevent this, we determine the extents of the control's bounds at min and max values,
      * then add an invisible horizontal strut.
      */
-    {
-      // determine bounds at min and max wavelength settings
-      updateUI( options.minWavelength );
-      var minX = thisNode.left;
-      updateUI( options.maxWavelength );
-      var maxX = thisNode.right;
+    // determine bounds at min and max wavelength settings
+    updateUI( options.minWavelength );
+    var minX = thisNode.left;
+    updateUI( options.maxWavelength );
+    var maxX = thisNode.right;
 
-      // restore the wavelength
-      updateUI( wavelength.get() );
+    // restore the wavelength
+    updateUI( wavelength.get() );
 
-      // add a horizontal strut
-      var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
-      thisNode.addChild( strut );
-      strut.moveToBack();
-    }
+    // add a horizontal strut
+    var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
+    thisNode.addChild( strut );
+    strut.moveToBack();
 
     thisNode.mutate( options );
+    options.tandem && options.tandem.addInstance( this );
+
+    this.disposeWavelengthSlider = function() {
+      options.tandem && options.tandem.removeInstance( this );
+      wavelength.unlink( wavelengthListener );
+    };
   }
 
-  return inherit( Node, WavelengthSlider );
+  return inherit( Node, WavelengthSlider, {
+    dispose: function() {
+      this.disposeWavelengthSlider();
+    }
+  } );
 } );
