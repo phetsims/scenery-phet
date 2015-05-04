@@ -24,6 +24,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -54,7 +55,6 @@ define( function( require ) {
     this.addChild( temperatureSlider );
 
     // measuring tape
-
     var measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
     var measuringTape = new MeasuringTape( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
@@ -63,7 +63,6 @@ define( function( require ) {
       tipPositionProperty: new Property( new Vector2( 200, 100 ) )
     } );
     this.addChild( measuringTape );
-
 
     /*
      * Fill up a star by creating new StarNodes dynamically.
@@ -153,6 +152,22 @@ define( function( require ) {
       top: brightnessSlider.bottom + 5
     } );
     this.addChild( shortCircuitCheckBox );
+
+    // ruler
+    var rulerLength = 300;
+    var majorTickWidth = 50;
+    var majorTickLabels = [];
+    var numberOfTicks = Math.floor( rulerLength / majorTickWidth ) + 1;
+    for ( var i = 0; i < numberOfTicks; i++ ) {
+      majorTickLabels[ i ] = '' + ( i * majorTickWidth );
+    }
+    var rulerNode = new RulerNode( rulerLength, 30, majorTickWidth, majorTickLabels, 'm', {
+      insetsWidth: 25,
+      minorTicksPerMajorTick: 4,
+      centerX: this.layoutBounds.centerX,
+      bottom: this.layoutBounds.bottom - 5
+    } );
+    this.addChild( rulerNode );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
