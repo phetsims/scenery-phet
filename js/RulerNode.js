@@ -33,36 +33,35 @@ define( function( require ) {
   function RulerNode( rulerWidth, rulerHeight, majorTickWidth, majorTickLabels, units, options ) {
 
     // default options
-    options = _.extend(
-      {
-        // body of the ruler
-        backgroundFill: 'rgb(236, 225, 113)',
-        backgroundStroke: 'black',
-        backgroundLineWidth: 1,
-        insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
+    options = _.extend( {
+      // body of the ruler
+      backgroundFill: 'rgb(236, 225, 113)',
+      backgroundStroke: 'black',
+      backgroundLineWidth: 1,
+      insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
 
-        // major tick options
-        majorTickFont: DEFAULT_FONT,
-        majorTickHeight: ( 0.4 * rulerHeight ) / 2,
-        majorTickStroke: 'black',
-        majorTickLineWidth: 1,
+      // major tick options
+      majorTickFont: DEFAULT_FONT,
+      majorTickHeight: ( 0.4 * rulerHeight ) / 2,
+      majorTickStroke: 'black',
+      majorTickLineWidth: 1,
 
-        // minor tick options
-        minorTickFont: DEFAULT_FONT,
-        minorTickHeight: ( 0.2 * rulerHeight ) / 2,
-        minorTickStroke: 'black',
-        minorTickLineWidth: 1,
-        minorTicksPerMajorTick: 0,
+      // minor tick options
+      minorTickFont: DEFAULT_FONT,
+      minorTickHeight: ( 0.2 * rulerHeight ) / 2,
+      minorTickStroke: 'black',
+      minorTickLineWidth: 1,
+      minorTicksPerMajorTick: 0,
 
-        // units options
-        unitsFont: DEFAULT_FONT,
-        unitsMajorTickIndex: 0, // units will be place to the right of this major tick
-        unitsSpacing: 3, // horizontal space between the tick label and the units
+      // units options
+      unitsFont: DEFAULT_FONT,
+      unitsMajorTickIndex: 0, // units will be place to the right of this major tick
+      unitsSpacing: 3, // horizontal space between the tick label and the units
 
-        // appearance options
-        tickMarksOnTop: true,
-        tickMarksOnBottom: true
-      }, options );
+      // appearance options
+      tickMarksOnTop: true,
+      tickMarksOnBottom: true
+    }, options );
 
     // things you're likely to mess up, add more as needed
     assert && assert( Math.floor( rulerWidth / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
