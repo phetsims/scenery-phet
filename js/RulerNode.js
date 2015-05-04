@@ -88,7 +88,7 @@ define( function( require ) {
     var majorTickLinesShape = new Shape();
     var minorTickLinesShape = new Shape();
 
-    while ( x < ( rulerWidth + options.insetsWidth + options.insetsWidth ) ) {
+    while ( x <= ( rulerWidth + options.insetsWidth ) ) {
 
       if ( ( x - options.insetsWidth ) % majorTickWidth === 0 ) {
 
@@ -121,20 +121,17 @@ define( function( require ) {
         }
 
         majorTickIndex++;
-        x += minorTickWidth;
       }
       else {
-        // Minor tick lines, up to the next major tick
-        for ( var k = 1; ( k <= options.minorTicksPerMajorTick ) && ( x < rulerWidth + 2 * options.insetsWidth ); k++ ) {
-          if ( options.tickMarksOnTop ) {
-            minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
-          }
-          if ( options.tickMarksOnBottom ) {
-            minorTickLinesShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
-          }
-          x += minorTickWidth;
+        // Minor tick
+        if ( options.tickMarksOnTop ) {
+          minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
+        }
+        if ( options.tickMarksOnBottom ) {
+          minorTickLinesShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
         }
       }
+      x += minorTickWidth;
     }
 
     // Major tick lines
