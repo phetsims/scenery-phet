@@ -20,6 +20,7 @@ require.config( {
     JOIST: '../../joist/js',
     KITE: '../../kite/js',
     PHETCOMMON: '../../phetcommon/js',
+    REPOSITORY: '..',
     PHET_CORE: '../../phet-core/js',
     SCENERY: '../../scenery/js',
     SCENERY_PHET: '../../scenery-phet/js',
