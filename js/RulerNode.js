@@ -95,12 +95,11 @@ define( function( require ) {
 
         // Major tick label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
-        var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
-
-        //TODO what is this doing? there's no clamping going on here.
-        // Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
-        majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
-        majorTickLabelNode.centerY = backgroundNode.centerY;
+        var majorTickLabelNode = new Text( majorTickLabel, {
+          font: options.majorTickFont,
+          centerX: x,
+          centerY: backgroundNode.centerY
+        } );
 
         // Only add the major tick label if the insetsWidth is nonzero, or if it is not the first (leftmost) label.
         // Don't exclude the last (rightmost) label because there may be minor ticks to the right of it.
@@ -118,10 +117,11 @@ define( function( require ) {
 
         // Units label
         if ( majorTickIndex === options.unitsMajorTickIndex ) {
-          var unitsNode = new Text( units, { font: options.unitsFont } );
-          this.addChild( unitsNode );
-          unitsNode.x = majorTickLabelNode.x + majorTickLabelNode.width + options.unitsSpacing;
-          unitsNode.y = majorTickLabelNode.y + majorTickLabelNode.height - unitsNode.height;
+          this.addChild( new Text( units, {
+            font: options.unitsFont,
+            left: majorTickLabelNode.right + options.unitsSpacing,
+            y: majorTickLabelNode.y
+          } ) );
         }
 
         majorTickIndex++;
