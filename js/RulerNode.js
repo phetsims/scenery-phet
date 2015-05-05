@@ -96,7 +96,9 @@ define( function( require ) {
         // Major tick label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
         var majorTickLabelNode = new Text( majorTickLabel, { font: options.majorTickFont } );
-        //Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
+
+        //TODO what is this doing? there's no clamping going on here.
+        // Clamp and make sure the labels stay within the ruler, especially if the insetsWidth has been set low (or to zero)
         majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
         majorTickLabelNode.centerY = backgroundNode.centerY;
 
