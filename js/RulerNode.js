@@ -102,7 +102,8 @@ define( function( require ) {
         majorTickLabelNode.x = x - ( majorTickLabelNode.width / 2 );
         majorTickLabelNode.centerY = backgroundNode.centerY;
 
-        // Only add the major tick label if the insetsWidth is nonzero, or if it is not an end label
+        // Only add the major tick label if the insetsWidth is nonzero, or if it is not the first (leftmost) label.
+        // Don't exclude the last (rightmost) label because there may be minor ticks to the right of it.
         if ( options.insetsWidth !== 0 || ( majorTickIndex !== 0 ) ) {
           this.addChild( majorTickLabelNode );
         }
