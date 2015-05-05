@@ -93,26 +93,29 @@ define( function( require ) {
 
       if ( i % ( options.minorTicksPerMajorTick + 1 ) === 0 ) {  // assumes that the first (leftmost) tick is a major tick
 
-        // Major tick label
+        // Major tick
+
+        // Create the tick label regardless of whether we add it, since it's required to layout the units label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
-        var majorTickLabelNode = new Text( majorTickLabel, {
-          font: options.majorTickFont,
-          centerX: x,
-          centerY: backgroundNode.centerY
-        } );
+         var majorTickLabelNode = new Text( majorTickLabel, {
+           font: options.majorTickFont,
+           centerX: x,
+           centerY: backgroundNode.centerY
+         } );
 
-        // Only add the major tick label if the insetsWidth is nonzero, or if it is not the first (leftmost) label.
-        // Don't exclude the last (rightmost) label because there may be minor ticks to the right of it.
-        if ( options.insetsWidth !== 0 || majorTickIndex !== 0 ) {
+        // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
+        if ( options.insetsWidth !== 0 || ( i !== 0 && i !== numberOfTicks - 1 ) ) {
+
+          // label
           this.addChild( majorTickLabelNode );
-        }
 
-        // Major tick line
-        if ( options.tickMarksOnTop ) {
-          majorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
-        }
-        if ( options.tickMarksOnBottom ) {
-          majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
+          // line
+          if ( options.tickMarksOnTop ) {
+            majorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
+          }
+          if ( options.tickMarksOnBottom ) {
+            majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
+          }
         }
 
         // Units label
@@ -128,11 +131,14 @@ define( function( require ) {
       }
       else {
         // Minor tick
-        if ( options.tickMarksOnTop ) {
-          minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
-        }
-        if ( options.tickMarksOnBottom ) {
-          minorTickLinesShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
+        // Only add a minor tick at leftmost or rightmost end if the insetsWidth is nonzero
+        if ( options.insetsWidth !== 0 || ( i !== 0 && i !== numberOfTicks - 1 ) ) {
+          if ( options.tickMarksOnTop ) {
+            minorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.minorTickHeight );
+          }
+          if ( options.tickMarksOnBottom ) {
+            minorTickLinesShape.moveTo( x, rulerHeight - options.minorTickHeight ).lineTo( x, rulerHeight );
+          }
         }
       }
       x += minorTickWidth;
