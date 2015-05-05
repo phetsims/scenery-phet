@@ -6,6 +6,7 @@
     "scenery-phet",
     "assert",
     "axon",
+    "babel",
     "brand",
     "chipper",
     "dot",
