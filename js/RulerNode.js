@@ -81,6 +81,7 @@ define( function( require ) {
 
     // Lay out tick marks from left to right
     var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
+    var numberOfTicks = ( rulerWidth / minorTickWidth ) + 1;
     var x = options.insetsWidth;
     var majorTickIndex = 0;
 
@@ -88,9 +89,9 @@ define( function( require ) {
     var majorTickLinesShape = new Shape();
     var minorTickLinesShape = new Shape();
 
-    while ( x <= ( rulerWidth + options.insetsWidth ) ) {
+    for ( var i = 0; i < numberOfTicks; i++ ) {
 
-      if ( ( x - options.insetsWidth ) % majorTickWidth === 0 ) {
+      if ( i % ( options.minorTicksPerMajorTick + 1 ) === 0 ) {  // assumes that the first (leftmost) tick is a major tick
 
         // Major tick label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
