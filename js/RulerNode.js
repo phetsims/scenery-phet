@@ -81,7 +81,7 @@ define( function( require ) {
 
     // Lay out tick marks from left to right
     var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
-    var numberOfTicks = ( rulerWidth / minorTickWidth ) + 1;
+    var numberOfTicks = Math.floor( rulerWidth / minorTickWidth ) + 1;
     var x = options.insetsWidth;
     var majorTickIndex = 0;
 
