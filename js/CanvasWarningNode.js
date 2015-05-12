@@ -50,7 +50,7 @@ define( function( require ) {
 
     this.addInputListener( {
       up: function() {
-        var phetWindow = window.open( 'http://phet.colorado.edu/webgl-disabled-page?simLocale=' + ( phet.chipper && phet.chipper.locale ), '_blank' );
+        var phetWindow = window.open( 'http://phet.colorado.edu/webgl-disabled-page?simLocale=' + phet.joist.sim.locale, '_blank' );
         phetWindow.focus();
       }
     } );
