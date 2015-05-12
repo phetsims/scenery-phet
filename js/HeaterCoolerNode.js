@@ -3,8 +3,8 @@
 /**
  * This is the graphical representation of a stove that can be used to heat or cool things.  The HeaterCoolerNode is
  * composed of HeaterCoolerFront and HeaterCoolerBack so that objects can be layered inside of the heater to create a
- * 3D effect.  This is a convenience node that layers the entire heater in case emitting additional objects from the
- * node is not required.
+ * 3D effect.  This is a convenience node that puts the back and the front together for cases where nothing other than
+ * the flame and the ice needs to come out of the bucket.
  *
  * @author Siddhartha Chinthapally (Actual Concepts) on 20-11-2014.
  * @author Jesse Greenberg

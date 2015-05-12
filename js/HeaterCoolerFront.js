@@ -1,8 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Front of the HeaterCoolerNode.  It is independent from the HeaterCoolerBack so that one can easily layer objects inside of the
- * HeaterCoolerNode.  The HeaterCoolerFront contains the heater body, labels, and control slider.
+ * Front of the HeaterCoolerNode.  It is independent from the HeaterCoolerBack so that one can easily layer objects
+ * inside of the HeaterCoolerNode.  The HeaterCoolerFront contains the heater body, labels, and control slider.
  *
  * @author Siddhartha Chinthapally (Actual Concepts) on 20-11-2014.
  * @author Jesse Greenberg
@@ -47,7 +47,8 @@ define( function( require ) {
       coolEnabled: true // Can this node cool the environment?
     }, options );
 
-    // Dimensions for the rest of the stove, dependent on the desired stove width.
+    // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
+    // be made into options if needed.
     var height = options.width * 0.75;
     var burnerOpeningHeight = options.width * 0.1;
     var bottomWidth = options.width * 0.80;
@@ -59,6 +60,7 @@ define( function( require ) {
       ellipticalArc( options.width / 2, height + burnerOpeningHeight / 4, bottomWidth / 2, burnerOpeningHeight,
       0, Math.PI, 0, true ).
       lineTo( options.width, burnerOpeningHeight / 2 );
+
     var stoveBody = new Path( stoveBodyShape, {
       stroke: 'black',
       fill: new LinearGradient( 0, 0, options.width, 0 )
