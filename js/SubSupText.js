@@ -22,6 +22,12 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
 
+  /**
+   *
+   * @param {string} text
+   * @param {Object} [options]
+   * @constructor
+   */
   function SubSupText( text, options ) {
 
     // defaults

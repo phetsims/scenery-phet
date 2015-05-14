@@ -12,6 +12,11 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
 
+  /**
+   *
+   * @param {Object} options
+   * @constructor
+   */
   function BackspaceIcon( options ) {
     options = _.extend( {
       stroke: 'black',

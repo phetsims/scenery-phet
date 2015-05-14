@@ -17,11 +17,11 @@ define( function( require ) {
 
   /**
    * Slider track that displays the visible spectrum.
-   * @param width
-   * @param height
-   * @param minWavelength
-   * @param maxWavelength
-   * @param opacity 0-1
+   * @param {number} width
+   * @param {number} height
+   * @param {number} minWavelength
+   * @param {number} maxWavelength
+   * @param {number} opacity 0-1
    * @constructor
    */
   function SpectrumNode( width, height, minWavelength, maxWavelength, opacity ) {

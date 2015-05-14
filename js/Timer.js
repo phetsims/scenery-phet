@@ -24,6 +24,13 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
+  /**
+   *
+   * @param {Property.<number>} secondsProperty
+   * @param {Property.<boolean>} runningProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function Timer( secondsProperty, runningProperty, options ) {
     options = _.extend( {
       iconColor: '#333',

@@ -13,6 +13,12 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
 
+  /**
+   *
+   * @param {number} diameter
+   * @param {Object} [options]
+   * @constructor
+   */
   function ShadedSphereNode( diameter, options ) {
 
     options = _.extend( {

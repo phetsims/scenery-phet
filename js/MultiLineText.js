@@ -20,6 +20,12 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  /**
+   *
+   * @param {string} text
+   * @param {Object} [options]
+   * @constructor
+   */
   function MultiLineText( text, options ) {
 
     var thisNode = this;

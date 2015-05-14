@@ -13,7 +13,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   /**
-   * @param {number} Radius of the center of the reset arrow
+   * @param {number} radius of the center of the reset arrow
    * @constructor
    */
   function ResetAllShape( radius ) {

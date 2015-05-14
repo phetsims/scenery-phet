@@ -23,8 +23,8 @@ define( function( require ) {
   var SLOT_CHANGE_TIME = 0.35; // In seconds
 
   /**
-   * @param {Property} selectedKit
-   * @param {Array} kits
+   * @param {Property.<number>} selectedKit
+   * @param {Array.<Object>} kits - where Object is  {{title: {Text}, {content: {Node}}
    * @param {Object} [options]
    * @constructor
    */

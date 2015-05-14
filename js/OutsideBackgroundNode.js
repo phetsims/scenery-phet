@@ -20,11 +20,11 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param centerX
-   * @param centerY
-   * @param width
-   * @param skyHeight
-   * @param groundDepth
+   * @param {number} centerX
+   * @param {number} centerY
+   * @param {number} width
+   * @param {number} skyHeight
+   * @param {number} groundDepth
    * @param {Object} [options]
    * @constructor
    */

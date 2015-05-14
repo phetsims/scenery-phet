@@ -12,7 +12,7 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    * @param {number} numKits
-   * @param {Property} selectedKit - A property that tracks the selected kit as an integer
+   * @param {Property.<number>} selectedKit - A property that tracks the selected kit as an integer
    * @param {Object} [options]
    * @constructor
    */

@@ -10,17 +10,17 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var Color = require( 'SCENERY/util/Color' );
 
   /**
-   * @param x
-   * @param y
-   * @param width
-   * @param height
-   * @param gradientEndDepth
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   * @param {number} gradientEndDepth
    * @param {Object} [options]
    * @constructor
    */

@@ -21,6 +21,10 @@ define( function( require ) {
   var contextLossFailure = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );
   var contextLossReload = require( 'string!SCENERY_PHET/webglWarning.contextLossReload' );
 
+  /**
+   *
+   * @constructor
+   */
   function ContextLossFailureDialog() {
     var warningSign = new FontAwesomeNode( 'warning_sign', {
       fill: '#E87600', // "safety orange", according to Wikipedia

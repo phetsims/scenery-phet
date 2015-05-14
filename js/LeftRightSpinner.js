@@ -17,6 +17,14 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
 
+  /**
+   *
+   * @param {Property.<number>} valueProperty
+   * @param {Property.<boolean>} leftEnabledProperty
+   * @param {Property.<boolean>} rightEnabledProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function LeftRightSpinner( valueProperty, leftEnabledProperty, rightEnabledProperty, options ) {
 
     var shapeWidth = 26;

@@ -16,7 +16,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
-   * @param {Dimension2} size
    * @param {Object} [options]
    * @constructor
    */

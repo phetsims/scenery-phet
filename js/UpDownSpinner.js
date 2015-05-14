@@ -17,6 +17,14 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  /**
+   *
+   * @param {Property.<number>} valueProperty
+   * @param {Property.<boolean>} upEnabledProperty
+   * @param {Property.<boolean>} downEnabledProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function UpDownSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
 
     var shapeWidth = 26;

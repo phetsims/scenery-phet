@@ -16,7 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   * @param radius
+   * @param {number} radius
    * @param {Object} [options]
    * @constructor
    */

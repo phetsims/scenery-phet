@@ -15,11 +15,11 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
 
   /**
-   * @param x
-   * @param y
-   * @param width
-   * @param height
-   * @param gradientEndHeight
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   * @param {number} gradientEndHeight
    * @param {Object} [options]
    * @constructor
    */

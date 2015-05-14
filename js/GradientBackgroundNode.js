@@ -15,6 +15,18 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
+  /**
+   *
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   * @param {string||Color} color1
+   * @param {string||Color} color2
+   * @param {number} y1
+   * @param {number} y2
+   * @constructor
+   */
   function GradientBackgroundNode( x, y, width, height, color1, color2, y1, y2 ) {
     var centerX = x + width / 2;
     var gradient = new LinearGradient( centerX, y1, centerX, y2 );

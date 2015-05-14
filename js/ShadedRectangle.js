@@ -21,6 +21,10 @@ define( function( require ) {
   /*
    * Creates a pseudo-3D shaded rounded rectangle that takes up rectBounds {Bounds2} in size. See below documentation
    * for options (it is passed through to the Node also).
+   *
+   * @param {Bounds2} rectBounds
+   * @param {Object} [options]
+   * @constructor
    */
   function ShadedRectangle( rectBounds, options ) {
     Node.call( this );
