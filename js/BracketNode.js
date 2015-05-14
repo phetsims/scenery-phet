@@ -23,7 +23,7 @@ define( function( require ) {
     options = _.extend( {
       orientation: 'down', // refers to the direction that the tip of the bracket points, 'up'|'down'|'left'|'right'
       labelNode: null, // {Node|null} optional label that will be centered below bracket's tip
-      bracketWidth: 100, // {number} width of the bracket
+      bracketLength: 100, // {number} length of the bracket
       bracketTipLocation: 0.5, // {number} [0,1] exclusive, determines where along the width of the bracket the tip (and optional label) are placed
       bracketEndRadius: 5, // {number} radius of the arcs at the ends of the bracket
       bracketTipRadius: 6, // {number} radius of the arcs at the tip (center) of the bracket
@@ -40,13 +40,13 @@ define( function( require ) {
     // compute tip location
     var tipX;
     if ( options.orientation === 'down' || options.orientation === 'left' ) {
-       tipX = options.bracketTipLocation * options.bracketWidth;
+       tipX = options.bracketTipLocation * options.bracketLength;
     }
     else {
-      tipX = ( 1 - options.bracketTipLocation ) * options.bracketWidth;
+      tipX = ( 1 - options.bracketTipLocation ) * options.bracketLength;
     }
     assert && assert( tipX > ( options.bracketEndRadius + options.bracketTipRadius ) );
-    assert && assert( tipX < options.bracketWidth - ( options.bracketEndRadius + options.bracketTipRadius ) );
+    assert && assert( tipX < options.bracketLength - ( options.bracketEndRadius + options.bracketTipRadius ) );
 
     // bracket shape, created for 'down' orientation, left-to-right
     var bracketShape = new Shape()
@@ -57,8 +57,8 @@ define( function( require ) {
       .arc( tipX - options.bracketTipRadius, options.bracketEndRadius + options.bracketTipRadius, options.bracketTipRadius, 1.5 * Math.PI, 0 )
       .arc( tipX + options.bracketTipRadius, options.bracketEndRadius + options.bracketTipRadius, options.bracketTipRadius, Math.PI, 1.5 * Math.PI )
       // right end curves up
-      .lineTo( options.bracketWidth - options.bracketEndRadius, options.bracketEndRadius )
-      .arc( options.bracketWidth - options.bracketEndRadius, 0, options.bracketEndRadius, 0.5 * Math.PI, 0, true );
+      .lineTo( options.bracketLength - options.bracketEndRadius, options.bracketEndRadius )
+      .arc( options.bracketLength - options.bracketEndRadius, 0, options.bracketEndRadius, 0.5 * Math.PI, 0, true );
 
     // bracket node
     var bracketNode = new Path( bracketShape, {
