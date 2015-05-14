@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -48,7 +47,6 @@ define( function( require ) {
     // transform the shape based on orientation
     switch( options.orientation ) {
       case 'up':
-        bracketShape = bracketShape.transformed( )
         break;
       case 'down':
         // do nothing, this is how the shape was created
@@ -59,7 +57,7 @@ define( function( require ) {
         break;
       default:
         throw new Error( 'unsupported orientation: ' + options.orientation );
-    };
+    }
 
     // bracket node
     var bracketNode = new Path( bracketShape, {
