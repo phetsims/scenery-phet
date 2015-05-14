@@ -145,7 +145,7 @@ define( function( require ) {
     this.addChild( brightnessSlider );
 
     // short-circuit check box
-    var shortCircuitProperty = new Property( 0 );
+    var shortCircuitProperty = new Property( false );
     shortCircuitProperty.link( function( shortCircuit ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
     } );
