@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
+  var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -22,6 +23,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
@@ -168,6 +170,15 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 5
     } );
     this.addChild( rulerNode );
+
+    // bracket
+    var bracketNode = new BracketNode( {
+      orientation: 'down',
+      labelNode: new Text( 'bracket', { font: new PhetFont() } ),
+      left: this.layoutBounds.left + 10,
+      centerY: this.layoutBounds.centerY
+    } );
+    this.addChild( bracketNode );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {

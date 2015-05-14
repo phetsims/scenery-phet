@@ -44,26 +44,29 @@ define( function( require ) {
       .lineTo( options.bracketWidth - options.bracketEndRadius, options.bracketEndRadius )
       .arc( options.bracketWidth - options.bracketEndRadius, 0, options.bracketEndRadius, 0.5 * Math.PI, 0, true );
 
-    // transform the shape based on orientation
-    switch( options.orientation ) {
-      case 'up':
-        break;
-      case 'down':
-        // do nothing, this is how the shape was created
-        break;
-      case 'left':
-        break;
-      case 'right':
-        break;
-      default:
-        throw new Error( 'unsupported orientation: ' + options.orientation );
-    }
-
     // bracket node
     var bracketNode = new Path( bracketShape, {
       stroke: options.bracketStroke
     } );
     this.addChild( bracketNode );
+
+    // put the bracket in the correct orientation
+    switch( options.orientation ) {
+      case 'up':
+        bracketNode.rotation = Math.PI;
+        break;
+      case 'down':
+        // do nothing, this is how the shape was created
+        break;
+      case 'left':
+        bracketNode.rotation = Math.PI / 2;
+        break;
+      case 'right':
+        bracketNode.rotation = -Math.PI / 2;
+        break;
+      default:
+        throw new Error( 'unsupported orientation: ' + options.orientation );
+    }
 
     // optional label, positioned near the bracket's tip
     if ( options.labelNode ) {
@@ -71,7 +74,7 @@ define( function( require ) {
       switch( options.orientation ) {
         case 'up':
           options.labelNode.centerX = bracketNode.centerX;
-          options.labelNode.bottom = bracketNode.top + options.spacing;
+          options.labelNode.bottom = bracketNode.top - options.spacing;
           break;
         case 'down':
           options.labelNode.centerX = bracketNode.centerX;
