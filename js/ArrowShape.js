@@ -14,6 +14,15 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  /**
+   *
+   * @param {number} tailX
+   * @param {number} tailY
+   * @param {number} tipX
+   * @param {number} tipY
+   * @param {Object} [options]
+   * @constructor
+   */
   function ArrowShape( tailX, tailY, tipX, tipY, options ) {
 
     options = _.extend( {
