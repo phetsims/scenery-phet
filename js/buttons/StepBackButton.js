@@ -26,6 +26,13 @@ define( function( require ) {
 
   var DEFAULT_RADIUS = 20;
 
+  /**
+   *
+   * @param stepFunction
+   * @param {Property.<boolean>} playProperty
+   * @param {Object} [options]
+   * @constructor
+   */
   function StepBackButton( stepFunction, playProperty, options ) {
     var stepBackButton = this;
     options = _.extend( {

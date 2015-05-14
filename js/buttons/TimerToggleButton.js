@@ -24,7 +24,7 @@ define( function( require ) {
   var X_STROKE_WIDTH = 6;
 
   /**
-   * @param {Property} timerRunningProperty
+   * @param {Property.<boolean>} timerRunningProperty
    * @param {Object} [options]
    * @constructor
    */

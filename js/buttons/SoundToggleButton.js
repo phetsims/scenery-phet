@@ -26,6 +26,12 @@ define( function( require ) {
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
+  /**
+   *
+   * @param {Property.<boolean>} property
+   * @param {Object} [options]
+   * @constructor
+   */
   function SoundToggleButton( property, options ) {
     var soundToggleButton = this;
     var soundOffNode = new Node();

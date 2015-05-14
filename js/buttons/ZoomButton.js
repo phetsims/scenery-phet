@@ -18,6 +18,11 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
 
+  /**
+   *
+   * @param {Object} [options]
+   * @constructor
+   */
   function ZoomButton( options ) {
 
     options = _.extend( {

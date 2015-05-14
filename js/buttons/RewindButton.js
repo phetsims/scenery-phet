@@ -18,6 +18,12 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
 
+  /**
+   *
+   * @param stepFunction
+   * @param {Property.<boolean>} playProperty
+   * @constructor
+   */
   function RewindButton( stepFunction, playProperty ) {
     var stepButton = this;
     var scale = 0.75;

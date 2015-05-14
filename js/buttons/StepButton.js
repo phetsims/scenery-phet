@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    * @param stepFunction
-   * @param enabledProperty
+   * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
    */
