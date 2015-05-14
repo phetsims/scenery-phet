@@ -31,14 +31,9 @@ define( function( require ) {
       spacing: 2 // {number} space between optional label and tip of bracket
     }, options );
 
-    // validate orientation
+    // validate options
     assert && assert( options.orientation === 'up' || options.orientation === 'down' || options.orientation === 'left' || options.orientation === 'right' );
-
-    // validate the tip location
     assert && assert( options.bracketTipLocation > 0 && options.bracketTipLocation < 1 );
-    assert && assert(
-      ( options.bracketTipLocation * options.bracketWidth ) > ( options.bracketEndRadius + options.bracketTipRadius ) &&
-      ( options.bracketTipLocation * options.bracketWidth ) < options.bracketWidth + ( options.racketEndRadius + options.bracketTipRadius ) );
 
     Node.call( this );
 
@@ -50,6 +45,8 @@ define( function( require ) {
     else {
       tipX = ( 1 - options.bracketTipLocation ) * options.bracketWidth;
     }
+    assert && assert( tipX > ( options.bracketEndRadius + options.bracketTipRadius ) )
+    assert && assert( tipX < options.bracketWidth - ( options.bracketEndRadius + options.bracketTipRadius ) );
 
     // bracket shape, created for 'down' orientation, left-to-right
     var bracketShape = new Shape()
