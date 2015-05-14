@@ -45,7 +45,7 @@ define( function( require ) {
     else {
       tipX = ( 1 - options.bracketTipLocation ) * options.bracketWidth;
     }
-    assert && assert( tipX > ( options.bracketEndRadius + options.bracketTipRadius ) )
+    assert && assert( tipX > ( options.bracketEndRadius + options.bracketTipRadius ) );
     assert && assert( tipX < options.bracketWidth - ( options.bracketEndRadius + options.bracketTipRadius ) );
 
     // bracket shape, created for 'down' orientation, left-to-right
