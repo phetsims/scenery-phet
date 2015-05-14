@@ -173,7 +173,7 @@ define( function( require ) {
 
     // bracket
     var bracketNode = new BracketNode( {
-      orientation: 'down',
+      orientation: 'right',
       labelNode: new Text( 'bracket', { font: new PhetFont() } ),
       left: this.layoutBounds.left + 10,
       centerY: this.layoutBounds.centerY
