@@ -26,6 +26,10 @@ define( function( require ) {
   var fireImage = require( 'image!SCENERY_PHET/flame.png' );
   var iceImage = require( 'image!SCENERY_PHET/ice-cube-stack.png' );
 
+  // constants
+  // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
+  var OPENING_HEIGHT_SCALE = 0.1;
+
   /**
    * Constructor for a HeaterCoolerBack.
    *
@@ -34,7 +38,7 @@ define( function( require ) {
    */
   function HeaterCoolerBack( options ) {
 
-    Node.call( this, options );
+    Node.call( this );
 
     options = _.extend( {
       baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
@@ -46,7 +50,7 @@ define( function( require ) {
     }, options );
 
     // Dimensions for the rest of the stove, dependent on the desired stove width.
-    var burnerOpeningHeight = options.width * 0.1;
+    var burnerOpeningHeight = options.width * OPENING_HEIGHT_SCALE;
 
     // Create the inside bowl of the burner, which is an ellipse.
     var burnerInteriorShape = new Shape()
@@ -75,22 +79,24 @@ define( function( require ) {
     this.addChild( fireNode );
     this.addChild( iceNode );
 
-    this.mutate( options );
-
   }
 
   return inherit( Node, HeaterCoolerBack, {
 
     /**
      * Convenience function that returns the correct position for the front of the HeaterCoolerNode.  Specifically,
-     * this returns the left center of the burner opening under the assumption that the burner opening height is 0.1
-     * times the burner width.
+     * this returns the left center of the burner opening.
      *
      * @returns {Vector2}
      */
     getHeaterFrontPosition: function() {
-      return new Vector2( this.leftTop.x, this.leftTop.y + this.width * 0.1 / 2 );
+      return new Vector2( this.leftTop.x, this.leftTop.y + this.width * OPENING_HEIGHT_SCALE / 2 );
     }
+
+  }, {
+
+    // Make this scale value public.  Shape of heater front depends on this value.
+    OPENING_HEIGHT_SCALE: OPENING_HEIGHT_SCALE
 
   } );
 } );

@@ -22,6 +22,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
 
   // strings
@@ -36,7 +37,7 @@ define( function( require ) {
    */
   function HeaterCoolerFront( options ) {
 
-    Node.call( this, options );
+    Node.call( this );
 
     options = _.extend( {
       baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
@@ -50,7 +51,7 @@ define( function( require ) {
     // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
     // be made into options if needed.
     var height = options.width * 0.75;
-    var burnerOpeningHeight = options.width * 0.1;
+    var burnerOpeningHeight = options.width * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
     var bottomWidth = options.width * 0.80;
 
     // Create the body of the stove.
@@ -111,8 +112,6 @@ define( function( require ) {
 
     this.addChild( stoveBody );
     this.addChild( heatCoolSlider );
-
-    this.mutate( options );
 
   }
 

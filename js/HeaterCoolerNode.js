@@ -20,6 +20,7 @@ define( function( require ) {
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var Property = require( 'AXON/Property' );
   var Color = require( 'SCENERY/util/Color' );
+
   /**
    * Constructor for a HeaterCoolerNode.
    *
@@ -28,7 +29,7 @@ define( function( require ) {
    */
   function HeaterCoolerNode( options ) {
 
-    Node.call( this, options );
+    Node.call( this );
 
     options = _.extend( {
       baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
@@ -38,6 +39,9 @@ define( function( require ) {
       heatEnabled: true, // Can this node heat the environment?
       coolEnabled: true // Can this node cool the environment?
     }, options );
+
+    // @public
+    this.heatCoolLevelProperty = options.heatCoolLevelProperty;
 
     // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
     var heaterCoolerBack = new HeaterCoolerBack( options );
