@@ -95,7 +95,8 @@ define( function( require ) {
 
   }, {
 
-    // Make this scale value public.  Shape of heater front depends on this value.
+    // Shape of heater front depends on this value.
+    // @static
     OPENING_HEIGHT_SCALE: OPENING_HEIGHT_SCALE
 
   } );
