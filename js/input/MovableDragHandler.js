@@ -49,15 +49,15 @@ define( function( require ) {
       // note where the drag started
       start: function( event ) {
 
-        var initialLocation = locationProperty.get();
-        self.events.trigger1( 'startedCallbacksForDragStarted', initialLocation );
+        self.events.trigger1( 'startedCallbacksForDragStarted', locationProperty.get() );
 
         options.startDrag( event );
 
-        var location = self._modelViewTransform.modelToViewPosition( initialLocation );
+        // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
+        var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
-        self.events.trigger1( 'endedCallbacksForDragStarted', initialLocation );
+        self.events.trigger1( 'endedCallbacksForDragStarted', locationProperty.get() );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
@@ -72,7 +72,7 @@ define( function( require ) {
 
         options.onDrag( event );
 
-        self.events.trigger1( 'endedCallbacksForDragged', location );
+        self.events.trigger1( 'endedCallbacksForDragged', locationProperty.get() );
       },
 
       end: function( event ) {
