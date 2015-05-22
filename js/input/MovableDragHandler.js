@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Events = require( 'AXON/Events' );
 
   /**
@@ -65,7 +64,7 @@ define( function( require ) {
 
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
         var location = self._modelViewTransform.viewToModelPosition( parentPoint );
-        location = constrainLocation( location, self._dragBounds );
+        location = self._dragBounds.closestPointTo( location );
         self.events.trigger1( 'startedCallbacksForDragged', location );
 
         locationProperty.set( location );
@@ -83,25 +82,6 @@ define( function( require ) {
     } );
   }
 
-  /**
-   * Constrains a location to some bounds.
-   * It returns (1) the same location if the location is within the bounds
-   * or (2) a location on the edge of the bounds if the location is outside the bounds
-   * @param {Vector2} location
-   * @param {Bounds2} bounds
-   * @returns {Vector2}
-   */
-  var constrainLocation = function( location, bounds ) {
-    if ( bounds.containsCoordinates( location.x, location.y ) ) {
-      return location;
-    }
-    else {
-      var xConstrained = Math.max( Math.min( location.x, bounds.maxX ), bounds.x );
-      var yConstrained = Math.max( Math.min( location.y, bounds.maxY ), bounds.y );
-      return new Vector2( xConstrained, yConstrained );
-    }
-  };
-
   return inherit( SimpleDragHandler, MovableDragHandler, {
 
     /**
@@ -111,7 +91,7 @@ define( function( require ) {
      */
     setDragBounds: function( dragBounds ) {
       this._dragBounds = dragBounds.copy();
-      this.locationProperty.set( constrainLocation( this.locationProperty.value, this._dragBounds ) );
+      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.value ) );
     },
     set dragBounds( value ) { this.setDragBounds( value ); },
 
