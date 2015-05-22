@@ -160,7 +160,7 @@ define( function( require ) {
         drag: function( event ) {
           var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( this.startOffset );
           var unconstrainedBaseLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
-          var constrainedBaseLocation = constrainToBoundsLocation( unconstrainedBaseLocation, measuringTape._dragBounds );
+          var constrainedBaseLocation = measuringTape._dragBounds.closestPointTo( unconstrainedBaseLocation );
 
           // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
           var translationDelta = constrainedBaseLocation.minus( options.basePositionProperty.value ); // in model reference frame
@@ -173,7 +173,7 @@ define( function( require ) {
           if ( !measuringTape._isTipUserControlled ) {
             var unconstrainedTipLocation = translationDelta.add( measuringTape.tipPositionProperty.value );
             if ( options.isTipDragBounded ) {
-              var constrainedTipLocation = constrainToBoundsLocation( unconstrainedTipLocation, measuringTape._dragBounds );
+              var constrainedTipLocation = measuringTape._dragBounds.closestPointTo( unconstrainedTipLocation );
               // translation of the tipPosition (subject to the constraining drag bounds)
               measuringTape.tipPositionProperty.set( constrainedTipLocation );
             }
@@ -205,7 +205,7 @@ define( function( require ) {
         var unconstrainedTipLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
-          var constrainedTipLocation = constrainToBoundsLocation( unconstrainedTipLocation, measuringTape._dragBounds );
+          var constrainedTipLocation = measuringTape._dragBounds.closestPointTo( unconstrainedTipLocation );
           // translation of the tipPosition (subject to the constraining drag bounds)
           measuringTape.tipPositionProperty.set( constrainedTipLocation );
         }
@@ -280,24 +280,6 @@ define( function( require ) {
     this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
 
     this.mutate( options );
-  }
-
-  /**
-   * Constrains a point to some bounds. Returns a vector within the bounds
-   *
-   * @param {Vector2} point
-   * @param {Bounds2} bounds
-   * @returns {Vector2}
-   */
-  function constrainToBoundsLocation( point, bounds ) {
-    if ( _.isUndefined( bounds ) || bounds.containsPoint( point ) ) {
-      return point;
-    }
-    else {
-      var xConstrained = Math.max( Math.min( point.x, bounds.maxX ), bounds.minX );
-      var yConstrained = Math.max( Math.min( point.y, bounds.maxY ), bounds.minY );
-      return new Vector2( xConstrained, yConstrained );
-    }
   }
 
   return inherit( Node, MeasuringTape, {
@@ -393,10 +375,10 @@ define( function( require ) {
     setDragBounds: function( dragBounds ) {
       this._dragBounds = dragBounds.copy();
       // sets the base position of the measuring tape, which may have changed if it was outside of the dragBounds
-      this.basePositionProperty.set( constrainToBoundsLocation( this.basePositionProperty.value, this._dragBounds ) );
+      this.basePositionProperty.set( this._dragBounds.closestPointTo( this.basePositionProperty.value ) );
       // sets a new tip position if the tip of the measuring tape is subject to dragBounds
       if ( this.isTipDragBounded ) {
-        this.tipPositionProperty.set( constrainToBoundsLocation( this.tipPositionProperty.value, this._dragBounds ) );
+        this.tipPositionProperty.set( this._dragBounds.closestPointTo( this.tipPositionProperty.value ) );
       }
     },
 
