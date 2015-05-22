@@ -37,7 +37,11 @@ define( function( require ) {
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
   /**
-   * Constructor for the measuring tape
+   * Constructor for the measuring tape. WARNING: although the MeasuringTape will accept Scenery options such as
+   * x, y, left, etc., you should not use these to set the position of the tape. Use basePositionProperty and
+   * tipPositionProperty instead. However, because there are some Scenery options that might be useful, options
+   * are still propogated to the supertype.
+   *
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string> and (2) multiplier <number>,
    *                                            eg. {name: 'cm', multiplier: 100},
    * @param {Property.<boolean>} isVisibleProperty
