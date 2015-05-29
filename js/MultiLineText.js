@@ -46,18 +46,18 @@ define( function( require ) {
 
   inherit( Node, MultiLineText, {
 
-      get text() {
-        return this._text;
-      },
-
-      set text( value ) {
+      /**
+       * Sets the text.
+       * @param {string} text
+       */
+      setText: function( text ) {
 
         // save the new text
-        this._text = value;
+        this._text = text;
 
         // parse the text and create {Text[]}
         var thisNode = this;
-        var textNodes = value.split( '\n' ).map( function( line ) {
+        var textNodes = text.split( '\n' ).map( function( line ) {
           if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
           return new Text( line, _.omit( thisNode.options, 'align' ) );
         } );
@@ -75,6 +75,14 @@ define( function( require ) {
         } );
         this.insertChild( index, this.textParent );
       },
+      set text( value ) { this.setText( value ); }, // ES5 setter
+
+      /**
+       * Gets the text.
+       * @returns {string}
+       */
+      getText: function() { return this._text; },
+      get text() { return this.getText(); }, // ES5 getter
 
       /**
        * Sets the fill for all Text nodes.
@@ -87,14 +95,14 @@ define( function( require ) {
           children[ i ].setFill( fill );
         }
       },
-      set fill( value ) { this.setFill( fill ); },
+      set fill( value ) { this.setFill( value ); }, // ES5 setter
 
       /**
        * Gets the fill used for the text.
        * @returns {Color|string}
        */
       getFill: function() { return this.options.fill; },
-      get fill() { return getFill(); }
+      get fill() { return getFill(); } // ES5 getter
     }
   );
 
