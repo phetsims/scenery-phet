@@ -31,10 +31,11 @@ define( function( require ) {
 
     var thisNode = this;
 
-    thisNode._options = options = _.extend( {
+    options = _.extend( {
       font: new PhetFont(),
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
+    thisNode._options = options; // @private
 
     Node.call( thisNode );
 
