@@ -17,6 +17,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -31,6 +32,7 @@ define( function( require ) {
     var thisNode = this;
 
     thisNode._options = options = _.extend( {
+      font: new PhetFont(),
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
 
