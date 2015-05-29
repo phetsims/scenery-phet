@@ -102,7 +102,7 @@ define( function( require ) {
        * @returns {Color|string}
        */
       getFill: function() { return this.options.fill; },
-      get fill() { return getFill(); } // ES5 getter
+      get fill() { return this.getFill(); } // ES5 getter
     }
   );
 
