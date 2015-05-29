@@ -28,6 +28,7 @@ define( function( require ) {
       bracketEndRadius: 5, // {number} radius of the arcs at the ends of the bracket
       bracketTipRadius: 6, // {number} radius of the arcs at the tip (center) of the bracket
       bracketStroke: 'black', // {Color|string} color of the bracket
+      bracketLineWidth: 1, // {number} line width (thickness) of the bracket
       spacing: 2 // {number} space between optional label and tip of bracket
     }, options );
 
@@ -62,7 +63,8 @@ define( function( require ) {
 
     // bracket node
     var bracketNode = new Path( bracketShape, {
-      stroke: options.bracketStroke
+      stroke: options.bracketStroke,
+      lineWidth: options.bracketLineWidth
     } );
     this.addChild( bracketNode );
 
