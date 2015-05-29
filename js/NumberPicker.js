@@ -308,8 +308,8 @@ define( function( require ) {
 
     // Ensures that this node is eligible for GC.
     dispose: function() {
-      this.upEnabledProperty.detach();
-      this.downEnabledProperty.detach();
+      this.upEnabledProperty.dispose();
+      this.downEnabledProperty.dispose();
       this.valueProperty.unlink( this.valueObserver );
     }
   } );
