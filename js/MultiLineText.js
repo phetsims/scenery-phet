@@ -74,6 +74,7 @@ define( function( require ) {
 
       /**
        * Sets the fill for all Text nodes.
+       * @param {Color|string} fill
        */
       setFill: function( fill ) {
         var children = this.getTextNodes();
