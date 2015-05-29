@@ -29,20 +29,18 @@ define( function( require ) {
    */
   function MultiLineText( text, options ) {
 
-    var thisNode = this;
-
     options = _.extend( {
       font: new PhetFont(),
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
-    thisNode._options = options; // @private
+    this._options = options; // @private
 
-    Node.call( thisNode );
+    Node.call( this );
 
-    thisNode._text = null; // @private
-    thisNode.text = text; // call ES5 setter
+    this._text = null; // @private
+    this.text = text; // call ES5 setter
 
-    thisNode.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
+    this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
   inherit( Node, MultiLineText, {
