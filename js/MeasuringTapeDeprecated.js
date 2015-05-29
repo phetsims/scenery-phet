@@ -43,7 +43,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( unitsProperty, isVisibleProperty, options ) {
+  function MeasuringTapeDeprecated( unitsProperty, isVisibleProperty, options ) {
     var measuringTape = this;
 
     Node.call( this );
@@ -265,9 +265,9 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, MeasuringTape, {
+  return inherit( Node, MeasuringTapeDeprecated, {
     /**
-     * reset the MeasuringTape to its initial configuration
+     * reset the MeasuringTapeDeprecated to its initial configuration
      * @public
      */
     reset: function() {
