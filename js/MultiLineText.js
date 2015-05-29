@@ -66,7 +66,7 @@ define( function( require ) {
       /**
        * Returns an Array of the text nodes that comprise this multi line text, in case they need to be modified.
        * @private
-       * @returns {Array[Text]}
+       * @returns {Text[]}
        */
       getTextNodes: function() {
         var vbox = this.children[ 0 ];
