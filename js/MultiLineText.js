@@ -37,7 +37,8 @@ define( function( require ) {
 
     Node.call( this );
 
-    this._text = null; // @private
+    this._text = null; // @private underscore prefix because it has ES5 set/get
+    this.textParent = null; // @private
     this.text = text; // call ES5 setter
 
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
@@ -50,25 +51,29 @@ define( function( require ) {
       },
 
       set text( value ) {
-        var thisNode = this;
-        thisNode._text = value;
-        thisNode.children = [ new VBox( {
-          children: value.split( '\n' ).map( function( line ) {
-            if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
-            return new Text( line, _.omit( thisNode.options, 'align' ) );
-          } ),
-          align: thisNode.options.align
-        } ) ];
-      },
 
-      /**
-       * Returns an Array of the text nodes that comprise this multi line text, in case they need to be modified.
-       * @private
-       * @returns {Text[]}
-       */
-      getTextNodes: function() {
-        var vbox = this.children[ 0 ];
-        return vbox.getChildren();
+        // save the new text
+        this._text = value;
+
+        // parse the text and create {Text[]}
+        var thisNode = this;
+        var textNodes = value.split( '\n' ).map( function( line ) {
+          if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
+          return new Text( line, _.omit( thisNode.options, 'align' ) );
+        } );
+
+        // determine where the textParent was, so we can maintain rendering order
+        var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
+
+        // remove the old textParent
+        if ( this.textParent ) { this.removeChild( this.textParent ); }
+
+        // add the new textParent
+        this.textParent = new VBox( {
+          children: textNodes,
+          align: this.options.align
+        } );
+        this.insertChild( index, this.textParent );
       },
 
       /**
@@ -76,11 +81,20 @@ define( function( require ) {
        * @param {Color|string} fill
        */
       setFill: function( fill ) {
-        var children = this.getTextNodes();
+        this.options.fill = fill;
+        var children = this.textParent.getChildren();
         for ( var i = 0; i < children.length; i++ ) {
           children[ i ].setFill( fill );
         }
-      }
+      },
+      set fill( value ) { this.setFill( fill ); },
+
+      /**
+       * Gets the fill used for the text.
+       * @returns {Color|string}
+       */
+      getFill: function() { return this.options.fill; },
+      get fill() { return getFill(); }
     }
   );
 
