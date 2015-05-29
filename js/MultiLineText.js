@@ -33,7 +33,7 @@ define( function( require ) {
       font: new PhetFont(),
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
-    this._options = options; // @private
+    this.options = options; // @private
 
     Node.call( this );
 
@@ -55,9 +55,9 @@ define( function( require ) {
         thisNode.children = [ new VBox( {
           children: value.split( '\n' ).map( function( line ) {
             if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
-            return new Text( line, _.omit( thisNode._options, 'align' ) );
+            return new Text( line, _.omit( thisNode.options, 'align' ) );
           } ),
-          align: thisNode._options.align
+          align: thisNode.options.align
         } ) ];
       },
 
