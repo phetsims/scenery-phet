@@ -100,7 +100,7 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( faucetNode );
-    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled' ), faucetEnabledProperty, {
+    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled', { font: new PhetFont() } ), faucetEnabledProperty, {
       left: faucetNode.left,
       bottom: faucetNode.top
     } );
@@ -149,7 +149,7 @@ define( function( require ) {
     shortCircuitProperty.link( function( shortCircuit ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
     } );
-    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit' ), shortCircuitProperty, {
+    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit', { font: new PhetFont() } ), shortCircuitProperty, {
       left: brightnessSlider.left,
       top: brightnessSlider.bottom + 5
     } );
