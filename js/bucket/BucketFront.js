@@ -29,7 +29,9 @@ define( function( require ) {
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );
 
-    options = _.extend( { labelFont: new PhetFont( { size: 20 } ) }, options );
+    options = _.extend( {
+      labelFont: new PhetFont( { size: 20 } )
+    }, options );
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
