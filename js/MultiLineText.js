@@ -37,7 +37,10 @@ define( function( require ) {
     }, options );
 
     Node.call( thisNode );
-    thisNode.text = text;
+
+    thisNode._text = null; // @private
+    thisNode.text = text; // call ES5 setter
+
     thisNode.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
@@ -47,11 +50,11 @@ define( function( require ) {
         return this._text;
       },
 
-      set text( string ) {
+      set text( value ) {
         var thisNode = this;
-        thisNode._text = string;
+        thisNode._text = value;
         thisNode.children = [ new VBox( {
-          children: string.split( '\n' ).map( function( line ) {
+          children: value.split( '\n' ).map( function( line ) {
             if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
             return new Text( line, _.omit( thisNode._options, 'align' ) );
           } ),
