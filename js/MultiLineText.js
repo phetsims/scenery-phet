@@ -42,9 +42,11 @@ define( function( require ) {
   }
 
   inherit( Node, MultiLineText, {
+
       get text() {
         return this._text;
       },
+
       set text( string ) {
         var thisNode = this;
         thisNode._text = string;
@@ -56,6 +58,7 @@ define( function( require ) {
           align: thisNode._options.align
         } ) ];
       },
+
       /**
        * Returns an Array of the text nodes that comprise this multi line text, in case they need to be modified.
        * @private
