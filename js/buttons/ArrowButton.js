@@ -52,7 +52,9 @@ define( function( require ) {
 
         // options related to press-and-hold feature
         timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-        timerInterval: 100 // fire continuously at this interval (milliseconds)
+        timerInterval: 100, // fire continuously at this interval (milliseconds)
+        startCallback: function() {}, // called when the pointer is pressed
+        endCallback: function() {} // called when the pointer is released
       },
       options );
 
@@ -93,7 +95,9 @@ define( function( require ) {
     var pressAndHoldInputListener = new PressAndHoldInputListener( {
       listener: callback,
       timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval
+      timerInterval: options.timerInterval,
+      startCallback: options.startCallback,
+      endCallback: options.endCallback
     } );
     thisButton.addInputListener( pressAndHoldInputListener );
     thisButton.buttonModel.enabledProperty.link( function( enabled ) {
