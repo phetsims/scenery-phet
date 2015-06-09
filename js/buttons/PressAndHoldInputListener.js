@@ -25,7 +25,9 @@ define( function( require ) {
       listener: null, // optional {function} listener to be notified when fired
       enabled: true, // is this input listener enabled?
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      timerInterval: 100 // fire continuously at this interval (milliseconds)
+      timerInterval: 100, // fire continuously at this interval (milliseconds)
+      startCallback: function() {}, // called when the pointer is pressed
+      endCallback: function() {} // called when the pointer is released
     }, options );
 
     var thisListener = this;
@@ -51,10 +53,13 @@ define( function( require ) {
       }
     };
 
+    var isPressed = false;
     ButtonListener.call( thisListener, {
 
       // set up timers for the initial delay and interval
       down: function() {
+        isPressed = true;
+        options.startCallback();
         if ( delayID === null && intervalID === null ) {
           fired = false;
           delayID = Timer.setTimeout( function() {
@@ -67,8 +72,20 @@ define( function( require ) {
         }
       },
 
+      endPressed: function() {
+        if ( isPressed ) {
+          isPressed = false;
+          options.endCallback();
+          cleanupTimer();
+        }
+      },
+
       up: function() {
-        cleanupTimer();
+        this.endPressed();
+      },
+
+      over: function() {
+        this.endPressed();
       },
 
       fire: function() {
