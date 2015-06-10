@@ -248,7 +248,7 @@ define( function( require ) {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
-        thisNode.trigger1( 'endedCallbacksForStartTapToDispense', flowRate );
+        thisNode.trigger0( 'endedCallbacksForStartTapToDispense' );
       }
     };
     var endTapToDispense = function() {
@@ -263,7 +263,7 @@ define( function( require ) {
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
-      thisNode.trigger1( 'endedCallbacksForEndTapToDispense', 0 );
+      thisNode.trigger0( 'endedCallbacksForEndTapToDispense' );
     };
 
     var shooterHandler = new SimpleDragHandler( {
@@ -280,7 +280,7 @@ define( function( require ) {
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
           this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
 
-          thisNode.trigger1( 'endedCallbacksForDragStarted', flowRateProperty.get() );
+          thisNode.trigger0( 'endedCallbacksForDragStarted' );
         }
       },
 
@@ -302,7 +302,7 @@ define( function( require ) {
 
           thisNode.trigger1( 'startedCallbacksForDragged', flowRate );
           flowRateProperty.set( flowRate );
-          thisNode.trigger1( 'endedCallbacksForDragged', flowRate );
+          thisNode.trigger0( 'endedCallbacksForDragged' );
         }
       },
 
@@ -319,7 +319,7 @@ define( function( require ) {
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
           }
-          thisNode.trigger1( 'endedCallbacksForDragEnded', 0 );
+          thisNode.trigger0( 'endedCallbacksForDragEnded' );
         }
       }
     } );
@@ -364,5 +364,5 @@ define( function( require ) {
   return inherit( Node, FaucetNode, {
 
     dispose: function() { this.disposeFaucetNode(); }
-  });
+  } );
 } );

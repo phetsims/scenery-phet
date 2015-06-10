@@ -239,7 +239,7 @@ define( function( require ) {
         var value = positionToWavelength( x );
         thisNode.trigger1( 'startedCallbacksForDragged', value );
         wavelength.set( value );
-        thisNode.trigger1( 'endedCallbacksForDragged', value );
+        thisNode.trigger0( 'endedCallbacksForDragged' );
       },
       end: function( event ) {
         thisNode.trigger0( 'startedCallbacksForDragEnded' );

@@ -26,7 +26,7 @@ define( function( require ) {
 
     // Events for signifying when processing callbacks starts/ends
     this.events = new Events();
-    
+
     options = _.extend( {
       dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
@@ -56,7 +56,7 @@ define( function( require ) {
         var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
         startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
 
-        self.events.trigger1( 'endedCallbacksForDragStarted', locationProperty.get() );
+        self.events.trigger0( 'endedCallbacksForDragStarted' );
       },
 
       // change the location, adjust for starting offset, constrain to drag bounds
@@ -71,13 +71,13 @@ define( function( require ) {
 
         options.onDrag( event );
 
-        self.events.trigger1( 'endedCallbacksForDragged', locationProperty.get() );
+        self.events.trigger0( 'endedCallbacksForDragged' );
       },
 
       end: function( event ) {
         self.events.trigger1( 'startedCallbacksForDragEnded', locationProperty.get() );
         options.endDrag( event );
-        self.events.trigger1( 'endedCallbacksForDragEnded', locationProperty.get() );
+        self.events.trigger0( 'endedCallbacksForDragEnded' );
       }
     } );
   }
