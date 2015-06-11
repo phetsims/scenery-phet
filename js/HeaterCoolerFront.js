@@ -70,9 +70,9 @@ define( function( require ) {
     } );
 
     // Create the label strings and scale them to support translations.
-    var labelFont = new PhetFont( 14 );
-    var heatTitle = new Text( heatString, { font: labelFont, rotation: Math.PI / 2 } );
-    var coolTitle = new Text( coolString, { font: labelFont, rotation: Math.PI / 2 } );
+    var titleOptions = { font: new PhetFont( 14 ), rotation: Math.PI / 2 };
+    var heatTitle = new Text( heatString, titleOptions );
+    var coolTitle = new Text( coolString, titleOptions );
     var titles = [ heatTitle, coolTitle ];
 
     //  Get the widest title by comparing their height since they are rotated.
