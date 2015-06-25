@@ -89,6 +89,11 @@ define( function( require ) {
     var majorTickLinesShape = new Shape();
     var minorTickLinesShape = new Shape();
 
+    // Units label, which is positioned and (if necessary) scaled later
+    var unitsLabel = new Text( units, { font: options.unitsFont } );
+    var unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
+    this.addChild( unitsLabel );
+
     for ( var i = 0; i < numberOfTicks; i++ ) {
 
       if ( i % ( options.minorTicksPerMajorTick + 1 ) === 0 ) {  // assumes that the first (leftmost) tick is a major tick
@@ -97,11 +102,11 @@ define( function( require ) {
 
         // Create the tick label regardless of whether we add it, since it's required to layout the units label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
-         var majorTickLabelNode = new Text( majorTickLabel, {
-           font: options.majorTickFont,
-           centerX: x,
-           centerY: backgroundNode.centerY
-         } );
+        var majorTickLabelNode = new Text( majorTickLabel, {
+          font: options.majorTickFont,
+          centerX: x,
+          centerY: backgroundNode.centerY
+        } );
 
         // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
         if ( options.insetsWidth !== 0 || ( i !== 0 && i !== numberOfTicks - 1 ) ) {
@@ -118,13 +123,18 @@ define( function( require ) {
           }
         }
 
-        // Units label
+        // Position the units label
         if ( majorTickIndex === options.unitsMajorTickIndex ) {
-          this.addChild( new Text( units, {
-            font: options.unitsFont,
-            left: majorTickLabelNode.right + options.unitsSpacing,
-            y: majorTickLabelNode.y
-          } ) );
+          unitsLabel.left = majorTickLabelNode.right + options.unitsSpacing;
+          unitsLabel.y = majorTickLabelNode.y;
+        }
+        else if ( majorTickIndex > options.unitsMajorTickIndex && unitsLabelMaxWidth === Number.POSITIVE_INFINITY && majorTickLabelNode.width > 0 ) {
+          // make sure the units label fits between the tick mark labels
+          if ( unitsLabel.right > ( majorTickLabelNode.left - options.unitsSpacing ) ) {
+            unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabel.left;
+            assert && assert( unitsLabelMaxWidth > 0, 'space for units label is negative or zero' );
+            unitsLabel.scale( unitsLabelMaxWidth / unitsLabel.width );
+          }
         }
 
         majorTickIndex++;
@@ -142,6 +152,13 @@ define( function( require ) {
         }
       }
       x += minorTickWidth;
+    }
+
+    // Handle the case where the units label extends off the edge of the ruler.  This is kind of a corner case, but was
+    // seen when testing long strings on Pendulum Lab.
+    if ( unitsLabel.bounds.maxX > backgroundNode.bounds.maxX - options.unitsSpacing ){
+      unitsLabelMaxWidth = ( backgroundNode.bounds.maxX - options.unitsSpacing ) - unitsLabel.x;
+      unitsLabel.scale( unitsLabelMaxWidth / unitsLabel.width );
     }
 
     // Major tick lines
