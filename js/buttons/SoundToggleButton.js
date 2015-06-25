@@ -18,7 +18,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
 
   // Constants
   var WIDTH = 45;
@@ -59,7 +58,6 @@ define( function( require ) {
     property.link( function( value ) {
       var checkedText = (value ? 'checked' : 'unchecked');
       soundToggleButton.textDescription = 'Sound Checkbox (' + checkedText + ')';
-      AriaSpeech.setText( checkedText );
     } );
   }
 
