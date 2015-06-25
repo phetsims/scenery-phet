@@ -93,7 +93,7 @@ define( function( require ) {
     var thisNode = this;
     Text.call( this, '?', { font: font, fill: fill } );
     property.link( function( value ) {
-      thisNode.text = StringUtils.format( pattern_0wavelength_1unitsString, value.toFixed( 0 ), units_nmString );
+      thisNode.text = StringUtils.format( pattern_0wavelength_1unitsString, Util.toFixed( value, 0 ), units_nmString );
     } );
   }
 
