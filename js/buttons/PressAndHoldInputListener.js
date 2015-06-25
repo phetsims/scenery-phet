@@ -58,23 +58,28 @@ define( function( require ) {
 
       // set up timers for the initial delay and interval
       down: function() {
-        isPressed = true;
-        options.startCallback();
-        if ( delayID === null && intervalID === null ) {
-          fired = false;
-          delayID = Timer.setTimeout( function() {
-            delayID = null;
-            fired = true;
-            intervalID = Timer.setInterval( function() {
+        if ( thisListener.enabled ) {
+          isPressed = true;
+          console.log( 'startCallback called' );
+          options.startCallback();
+          if ( delayID === null && intervalID === null ) {
+            fired = false;
+            delayID = Timer.setTimeout( function() {
+              delayID = null;
               thisListener.fire();
-            }, options.timerInterval );
-          }, options.timerDelay );
+              fired = true;
+              intervalID = Timer.setInterval( function() {
+                thisListener.fire();
+              }, options.timerInterval );
+            }, options.timerDelay );
+          }
         }
       },
 
       endPressed: function() {
         if ( isPressed ) {
           isPressed = false;
+          console.log( 'endCallback called' );
           options.endCallback();
           cleanupTimer();
         }
