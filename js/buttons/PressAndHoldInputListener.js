@@ -60,7 +60,6 @@ define( function( require ) {
       down: function() {
         if ( thisListener.enabled ) {
           isPressed = true;
-          console.log( 'startCallback called' );
           options.startCallback();
           if ( delayID === null && intervalID === null ) {
             fired = false;
@@ -79,7 +78,6 @@ define( function( require ) {
       endPressed: function() {
         if ( isPressed ) {
           isPressed = false;
-          console.log( 'endCallback called' );
           options.endCallback();
           cleanupTimer();
         }
