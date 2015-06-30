@@ -21,7 +21,7 @@ define( function( require ) {
 
   /**
    * @param {string} direction 'up'|'down'|'left'|'right'
-   * @param callback
+   * @param {function} callback
    * @param {Object} [options]
    * @constructor
    */
@@ -59,7 +59,7 @@ define( function( require ) {
       endCallback: function( over ) {} // called when the pointer is released, {boolean} over indicates whether the pointer was over when released
 
     }, options );
-    options.listener = callback; //TODO remove callback constructor parameter, makes clients use options.listener
+    options.listener = callback;
 
     // arrow node
     var arrowShape;
