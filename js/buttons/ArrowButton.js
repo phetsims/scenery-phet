@@ -13,7 +13,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
 
@@ -51,11 +50,16 @@ define( function( require ) {
       arrowLineWidth: 1,
 
       // options related to press-and-hold feature
-      timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      timerInterval: 100, // fire continuously at this interval (milliseconds)
+      fireOnHold: true,
+      fireOnHoldDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
+      fireOnHoldInterval: 100, // fire continuously at this interval (milliseconds)
+
+      // callbacks
       startCallback: function() {}, // called when the pointer is pressed
-      endCallback: function( inside ) {} // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
+      endCallback: function( over ) {} // called when the pointer is released, {boolean} over indicates whether the pointer was over when released
+
     }, options );
+    options.listener = callback; //TODO remove callback constructor parameter, makes clients use options.listener
 
     // arrow node
     var arrowShape;
@@ -82,26 +86,6 @@ define( function( require ) {
     } );
 
     RectangularPushButton.call( thisButton, options );
-
-    /**
-     * TODO: scenery-phet#71
-     * In order to implement the press-and-hold feature, the implementation is currently adding its own listener,
-     * and ignoring the listener support of its supertype (RectangularPushButton). And the listener that it's
-     * adding is a scenery.ButtonListener, not a sun.ButtonListener. It would be preferable to handle this
-     * via RectangularPushButton, or at least use sun.ButtonListener. But I couldn't see how to do that - which
-     * makes me think this is a deficiency of sun.
-     */
-    var inputListener = new FireOnHoldInputListener( {
-      listener: callback,
-      timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval,
-      startCallback: options.startCallback,
-      endCallback: options.endCallback
-    } );
-    thisButton.addInputListener( inputListener );
-    thisButton.buttonModel.enabledProperty.link( function( enabled ) {
-      inputListener.enabled = enabled;
-    } );
   }
 
   return inherit( RectangularPushButton, ArrowButton );
