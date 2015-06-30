@@ -76,7 +76,7 @@ define( function( require ) {
       arrowShape = new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ).close();
     }
     else {
-      throw new Error( "unsupported direction: " + direction );
+      throw new Error( 'unsupported direction: ' + direction );
     }
     options.content = new Path( arrowShape, {
       fill: options.arrowFill,
