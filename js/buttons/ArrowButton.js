@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PressAndHoldInputListener = require( 'SCENERY_PHET/buttons/PressAndHoldInputListener' );
+  var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
 
@@ -54,7 +54,7 @@ define( function( require ) {
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this interval (milliseconds)
       startCallback: function() {}, // called when the pointer is pressed
-      endCallback: function() {} // called when the pointer is released
+      endCallback: function( inside ) {} // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
     }, options );
 
     // arrow node
@@ -91,16 +91,16 @@ define( function( require ) {
      * via RectangularPushButton, or at least use sun.ButtonListener. But I couldn't see how to do that - which
      * makes me think this is a deficiency of sun.
      */
-    var pressAndHoldInputListener = new PressAndHoldInputListener( {
+    var inputListener = new FireOnHoldInputListener( {
       listener: callback,
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval,
       startCallback: options.startCallback,
       endCallback: options.endCallback
     } );
-    thisButton.addInputListener( pressAndHoldInputListener );
+    thisButton.addInputListener( inputListener );
     thisButton.buttonModel.enabledProperty.link( function( enabled ) {
-      pressAndHoldInputListener.enabled = enabled;
+      inputListener.enabled = enabled;
     } );
   }
 

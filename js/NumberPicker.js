@@ -14,12 +14,12 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PressAndHoldInputListener = require( 'SCENERY_PHET/buttons/PressAndHoldInputListener' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -39,15 +39,15 @@ define( function( require ) {
    * @constructor
    */
   function NumberPickerListener( stateProperty, options ) {
-    PressAndHoldInputListener.call( this, options );
+    FireOnHoldInputListener.call( this, options );
     this.stateProperty = stateProperty; // @private
   }
 
-  inherit( PressAndHoldInputListener, NumberPickerListener, {
+  inherit( FireOnHoldInputListener, NumberPickerListener, {
 
     // @override
     setButtonState: function( event, state ) {
-      PressAndHoldInputListener.prototype.setButtonState.call( this, event, state );
+      FireOnHoldInputListener.prototype.setButtonState.call( this, event, state );
       this.stateProperty.set( state );
     }
   } );
