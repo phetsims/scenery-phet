@@ -32,31 +32,30 @@ define( function( require ) {
 
     options = _.extend( {
 
-        // options for the button
-        cursor: 'pointer',
-        baseColor: 'white',
-        stroke: 'black',
-        lineWidth: 1,
-        cornerRadius: 4,
-        xMargin: 7,
-        yMargin: 5,
-        xTouchExpansion: 7,
-        yTouchExpansion: 7,
+      // options for the button
+      cursor: 'pointer',
+      baseColor: 'white',
+      stroke: 'black',
+      lineWidth: 1,
+      cornerRadius: 4,
+      xMargin: 7,
+      yMargin: 5,
+      xTouchExpansion: 7,
+      yTouchExpansion: 7,
 
-        // options for the arrow
-        arrowHeight: DEFAULT_ARROW_HEIGHT, // from tip to base
-        arrowWidth: DEFAULT_ARROW_HEIGHT * Math.sqrt( 3 ) / 2, // width of base
-        arrowFill: 'black',
-        arrowStroke: null,
-        arrowLineWidth: 1,
+      // options for the arrow
+      arrowHeight: DEFAULT_ARROW_HEIGHT, // from tip to base
+      arrowWidth: DEFAULT_ARROW_HEIGHT * Math.sqrt( 3 ) / 2, // width of base
+      arrowFill: 'black',
+      arrowStroke: null,
+      arrowLineWidth: 1,
 
-        // options related to press-and-hold feature
-        timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-        timerInterval: 100, // fire continuously at this interval (milliseconds)
-        startCallback: function() {}, // called when the pointer is pressed
-        endCallback: function() {} // called when the pointer is released
-      },
-      options );
+      // options related to press-and-hold feature
+      timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
+      timerInterval: 100, // fire continuously at this interval (milliseconds)
+      startCallback: function() {}, // called when the pointer is pressed
+      endCallback: function() {} // called when the pointer is released
+    }, options );
 
     // arrow node
     var arrowShape;
