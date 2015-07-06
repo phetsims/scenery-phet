@@ -133,7 +133,7 @@ define( function( require ) {
           if ( unitsLabel.right > ( majorTickLabelNode.left - options.unitsSpacing ) ) {
             unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabel.left;
             assert && assert( unitsLabelMaxWidth > 0, 'space for units label is negative or zero' );
-            unitsLabel.scale( unitsLabelMaxWidth / unitsLabel.width );
+            unitsLabel.maxWidth = unitsLabelMaxWidth;
           }
         }
 
