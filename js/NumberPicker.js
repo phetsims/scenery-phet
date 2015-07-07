@@ -206,8 +206,8 @@ define( function( require ) {
       .lineTo( arrowButtonSize.width, arrowButtonSize.height )
       .lineTo( 0, arrowButtonSize.height )
       .close();
-    var upArrow = new Path( upArrowShape, arrowOptions );
-    upArrow.addInputListener( upListener );
+    this.upArrow = new Path( upArrowShape, arrowOptions ); // @private
+    this.upArrow.addInputListener( upListener );
 
     // 'down' arrow
     var downArrowShape = new Shape()
@@ -215,25 +215,25 @@ define( function( require ) {
       .lineTo( 0, 0 )
       .lineTo( arrowButtonSize.width, 0 )
       .close();
-    var downArrow = new Path( downArrowShape, arrowOptions );
-    downArrow.addInputListener( downListener );
+    this.downArrow = new Path( downArrowShape, arrowOptions ); // @private
+    this.downArrow.addInputListener( downListener );
 
     // rendering order
     thisNode.addChild( upBackground );
     thisNode.addChild( downBackground );
     thisNode.addChild( strokedBackground );
-    thisNode.addChild( upArrow );
-    thisNode.addChild( downArrow );
+    thisNode.addChild( this.upArrow );
+    thisNode.addChild( this.downArrow );
     thisNode.addChild( valueNode );
 
     // layout, background nodes are already drawn in the local coordinate frame
     var ySpacing = 3;
     valueNode.x = 0;
     valueNode.centerY = backgroundHeight / 2;
-    upArrow.centerX = upBackground.centerX;
-    upArrow.bottom = upBackground.top - ySpacing;
-    downArrow.centerX = downBackground.centerX;
-    downArrow.top = downBackground.bottom + ySpacing;
+    this.upArrow.centerX = upBackground.centerX;
+    this.upArrow.bottom = upBackground.top - ySpacing;
+    this.downArrow.centerX = downBackground.centerX;
+    this.downArrow.top = downBackground.bottom + ySpacing;
 
     // @private Update text to match the value
     thisNode.valueObserver = function( value ) {
@@ -291,13 +291,13 @@ define( function( require ) {
       }
     };
 
-    // update colors for 'up' components
-    thisNode.upColorsUpdater = function() { updateColors( upStateProperty.value, thisNode.upEnabledProperty.value, upBackground, upArrow ); }; // @private
+    // @private update colors for 'up' components
+    thisNode.upColorsUpdater = function() { updateColors( upStateProperty.value, thisNode.upEnabledProperty.value, upBackground, thisNode.upArrow ); };
     upStateProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
     thisNode.upEnabledProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
 
-    // update colors for 'down' components
-    thisNode.downColorsUpdater = function() { updateColors( downStateProperty.value, thisNode.downEnabledProperty.value, downBackground, downArrow ); }; // @private
+    // @private update colors for 'down' components
+    thisNode.downColorsUpdater = function() { updateColors( downStateProperty.value, thisNode.downEnabledProperty.value, downBackground, thisNode.downArrow ); };
     downStateProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
     thisNode.downEnabledProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
 
@@ -311,6 +311,10 @@ define( function( require ) {
       this.upEnabledProperty.dispose();
       this.downEnabledProperty.dispose();
       this.valueProperty.unlink( this.valueObserver );
+    },
+
+    setArrowsVisible: function( visible ) {
+      this.upArrow.visible = this.downArrow.visible = visible;
     }
   } );
 } );
