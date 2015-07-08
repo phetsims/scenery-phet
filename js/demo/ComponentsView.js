@@ -23,8 +23,10 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -181,6 +183,13 @@ define( function( require ) {
       centerY: this.layoutBounds.centerY
     } );
     this.addChild( bracketNode );
+
+    // NumberPicker
+    var picker = new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
+      right: this.layoutBounds.right - 20,
+      centerY: this.layoutBounds.centerY
+    } );
+    this.addChild( picker );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
