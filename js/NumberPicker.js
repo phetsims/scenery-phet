@@ -26,32 +26,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
-  // creates a vertical gradient where with color1 at the top and bottom, color2 in the center
-  var createBackgroundGradient = function( color1, color2, height ) {
-    return new LinearGradient( 0, 0, 0, height )
-      .addColorStop( 0, color1 )
-      .addColorStop( 0.5, color2 )
-      .addColorStop( 1, color1 );
-  };
-
-  /**
-   * Converts ButtonListener events to state changes.
-   *
-   * @param {Property.<string>} stateProperty up|down|over|out
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ButtonStateListener( stateProperty ) {
-    ButtonListener.call( this, {
-      up: function() { stateProperty.set( 'up' ); },
-      over: function() { stateProperty.set( 'over' ); },
-      down: function() { stateProperty.set( 'down' ); },
-      out: function() { stateProperty.set( 'out' ); }
-    } );
-  }
-
-  inherit( ButtonListener, ButtonStateListener );
-
   /**
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} rangeProperty
@@ -262,49 +236,75 @@ define( function( require ) {
     thisNode.valueProperty = valueProperty; // @private
     thisNode.valueProperty.link( thisNode.valueObserver ); // must be unlinked in dispose
 
-    // Update arrow and background colors
-    var updateColors = function( state, enabled, background, arrow ) {
-      if ( enabled ) {
-        arrow.stroke = 'black';
-        if ( state === 'up' ) {
-          background.fill = backgroundColors.up;
-          arrow.fill = arrowColors.up;
-        }
-        else if ( state === 'over' ) {
-          background.fill = backgroundColors.over;
-          arrow.fill = arrowColors.over;
-        }
-        else if ( state === 'down' ) {
-          background.fill = backgroundColors.down;
-          arrow.fill = arrowColors.down;
-        }
-        else if ( state === 'out' ) {
-          background.fill = backgroundColors.out;
-          arrow.fill = arrowColors.out;
-        }
-        else {
-          throw new Error( 'unsupported state: ' + state );
-        }
-      }
-      else {
-        background.fill = backgroundColors.disabled;
-        arrow.fill = arrowColors.disabled;
-        arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
-      }
-    };
-
     // @private update colors for 'up' components
     Property.multilink( [ upStateProperty, thisNode.upEnabledProperty ], function( state, enabled ) {
-      updateColors( state, enabled, upBackground, thisNode.upArrow );
+      updateColors( state, enabled, upBackground, thisNode.upArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for 'down' components
     Property.multilink( [ downStateProperty, thisNode.downEnabledProperty ], function( state, enabled ) {
-      updateColors( state, enabled, downBackground, thisNode.downArrow );
+      updateColors( state, enabled, downBackground, thisNode.downArrow, backgroundColors, arrowColors );
     } );
 
     thisNode.mutate( options );
   }
+
+  // creates a vertical gradient where with color1 at the top and bottom, color2 in the center
+  var createBackgroundGradient = function( color1, color2, height ) {
+    return new LinearGradient( 0, 0, 0, height )
+      .addColorStop( 0, color1 )
+      .addColorStop( 0.5, color2 )
+      .addColorStop( 1, color1 );
+  };
+
+  // Update arrow and background colors
+  var updateColors = function( state, enabled, background, arrow, backgroundColors, arrowColors ) {
+    if ( enabled ) {
+      arrow.stroke = 'black';
+      if ( state === 'up' ) {
+        background.fill = backgroundColors.up;
+        arrow.fill = arrowColors.up;
+      }
+      else if ( state === 'over' ) {
+        background.fill = backgroundColors.over;
+        arrow.fill = arrowColors.over;
+      }
+      else if ( state === 'down' ) {
+        background.fill = backgroundColors.down;
+        arrow.fill = arrowColors.down;
+      }
+      else if ( state === 'out' ) {
+        background.fill = backgroundColors.out;
+        arrow.fill = arrowColors.out;
+      }
+      else {
+        throw new Error( 'unsupported state: ' + state );
+      }
+    }
+    else {
+      background.fill = backgroundColors.disabled;
+      arrow.fill = arrowColors.disabled;
+      arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
+    }
+  };
+
+  /**
+   * Converts ButtonListener events to state changes.
+   *
+   * @param {Property.<string>} stateProperty up|down|over|out
+   * @param {Object} [options]
+   * @constructor
+   */
+  function ButtonStateListener( stateProperty ) {
+    ButtonListener.call( this, {
+      up: function() { stateProperty.set( 'up' ); },
+      over: function() { stateProperty.set( 'over' ); },
+      down: function() { stateProperty.set( 'down' ); },
+      out: function() { stateProperty.set( 'out' ); }
+    } );
+  }
+
+  inherit( ButtonListener, ButtonStateListener );
 
   return inherit( Node, NumberPicker, {
 
