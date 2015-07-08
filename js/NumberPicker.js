@@ -59,15 +59,15 @@ define( function( require ) {
     options.activatedColor = options.activatedColor || Color.toColor( options.color ).darkerColor();
 
     var thisNode = this;
-    Node.call( thisNode );
+    Node.call( this );
 
     // @private must be detached in dispose
-    thisNode.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
+    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value < range.max );
     } );
 
     // @private must be detached in dispose
-    thisNode.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
+    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value > range.min );
     } );
 
@@ -90,8 +90,8 @@ define( function( require ) {
     } );
 
     // enable/disable listeners: unlink unnecessary, properties are owned by this instance
-    thisNode.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
-    thisNode.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
+    this.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
+    this.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
 
     // displays the value
     var valueNode = new Text( '', { font: options.font, pickable: false } );
@@ -196,12 +196,12 @@ define( function( require ) {
     this.downArrow.addInputListener( downListener );
 
     // rendering order
-    thisNode.addChild( upBackground );
-    thisNode.addChild( downBackground );
-    thisNode.addChild( strokedBackground );
-    thisNode.addChild( this.upArrow );
-    thisNode.addChild( this.downArrow );
-    thisNode.addChild( valueNode );
+    this.addChild( upBackground );
+    this.addChild( downBackground );
+    this.addChild( strokedBackground );
+    this.addChild( this.upArrow );
+    this.addChild( this.downArrow );
+    this.addChild( valueNode );
 
     // layout, background nodes are already drawn in the local coordinate frame
     var ySpacing = 3;
@@ -213,7 +213,7 @@ define( function( require ) {
     this.downArrow.top = downBackground.bottom + ySpacing;
 
     // @private Update text to match the value
-    thisNode.valueObserver = function( value ) {
+    this.valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -234,20 +234,20 @@ define( function( require ) {
         }
       }
     };
-    thisNode.valueProperty = valueProperty; // @private
-    thisNode.valueProperty.link( thisNode.valueObserver ); // must be unlinked in dispose
+    this.valueProperty = valueProperty; // @private
+    this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
 
     // @private update colors for 'up' components
-    Property.multilink( [ upStateProperty, thisNode.upEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ upStateProperty, this.upEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, upBackground, thisNode.upArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for 'down' components
-    Property.multilink( [ downStateProperty, thisNode.downEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ downStateProperty, this.downEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, downBackground, thisNode.downArrow, backgroundColors, arrowColors );
     } );
 
-    thisNode.mutate( options );
+    this.mutate( options );
   }
 
   // creates a vertical gradient where with color1 at the top and bottom, color2 in the center
