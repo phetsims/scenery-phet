@@ -61,6 +61,14 @@ define( function( require ) {
     var thisNode = this;
     Node.call( this );
 
+    //------------------------------------------------------------
+    // Properties
+
+    this.valueProperty = valueProperty; // @private must be unlinked in dispose
+
+    var upStateProperty = new Property( 'up' ); // up|down|over|out
+    var downStateProperty = new Property( 'up' ); // up|down|over|out
+
     // @private must be detached in dispose
     this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
       return ( value !== null && value !== undefined && value < range.max );
@@ -71,27 +79,8 @@ define( function( require ) {
       return ( value !== null && value !== undefined && value > range.min );
     } );
 
-    // up listener
-    var upListener = new FireOnHoldInputListener( {
-      listener: function() {
-        valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
-      },
-      timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval
-    } );
-
-    // down listener
-    var downListener = new FireOnHoldInputListener( {
-      listener: function() {
-        valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
-      },
-      timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval
-    } );
-
-    // enable/disable listeners: unlink unnecessary, properties are owned by this instance
-    this.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
-    this.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
+    //------------------------------------------------------------
+    // Nodes
 
     // displays the value
     var valueNode = new Text( '', { font: options.font, pickable: false } );
@@ -115,20 +104,14 @@ define( function( require ) {
       .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close() );
-    upBackground.addInputListener( upListener );
-    var upStateProperty = new Property( 'up' ); // up|down|over|out
-    upBackground.addInputListener( new ButtonStateListener( upStateProperty ) );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
-    var downStateProperty = new Property( 'up' ); // up|down|over|out
     var downBackground = new Path( new Shape()
       .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
       .lineTo( 0, backgroundHeight / 2 )
       .lineTo( backgroundWidth, backgroundHeight / 2 )
       .close() );
-    downBackground.addInputListener( downListener );
-    downBackground.addInputListener( new ButtonStateListener( downStateProperty ) );
 
     // separate rectangle for stroke around value background
     var strokedBackground = new Path( new Shape()
@@ -184,7 +167,6 @@ define( function( require ) {
       .lineTo( 0, arrowButtonSize.height )
       .close();
     this.upArrow = new Path( upArrowShape, arrowOptions ); // @private
-    this.upArrow.addInputListener( upListener );
 
     // 'down' arrow
     var downArrowShape = new Shape()
@@ -193,7 +175,6 @@ define( function( require ) {
       .lineTo( arrowButtonSize.width, 0 )
       .close();
     this.downArrow = new Path( downArrowShape, arrowOptions ); // @private
-    this.downArrow.addInputListener( downListener );
 
     // rendering order
     this.addChild( upBackground );
@@ -211,6 +192,37 @@ define( function( require ) {
     this.upArrow.bottom = upBackground.top - ySpacing;
     this.downArrow.centerX = downBackground.centerX;
     this.downArrow.top = downBackground.bottom + ySpacing;
+
+    //------------------------------------------------------------
+    // Observers and InputListeners
+
+    // up
+    upBackground.addInputListener( new ButtonStateListener( upStateProperty ) );
+    var upListener = new FireOnHoldInputListener( {
+      listener: function() {
+        valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
+      },
+      timerDelay: options.timerDelay,
+      timerInterval: options.timerInterval
+    } );
+    upBackground.addInputListener( upListener );
+    this.upArrow.addInputListener( upListener );
+
+    // down
+    downBackground.addInputListener( new ButtonStateListener( downStateProperty ) );
+    var downListener = new FireOnHoldInputListener( {
+      listener: function() {
+        valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
+      },
+      timerDelay: options.timerDelay,
+      timerInterval: options.timerInterval
+    } );
+    downBackground.addInputListener( downListener );
+    this.downArrow.addInputListener( downListener );
+
+    // enable/disable listeners: unlink unnecessary, properties are owned by this instance
+    this.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
+    this.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
 
     // @private Update text to match the value
     this.valueObserver = function( value ) {
@@ -234,7 +246,6 @@ define( function( require ) {
         }
       }
     };
-    this.valueProperty = valueProperty; // @private
     this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
 
     // @private update colors for 'up' components
