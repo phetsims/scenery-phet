@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -34,23 +35,22 @@ define( function( require ) {
   };
 
   /**
+   * Converts ButtonListener events to state changes.
+   *
    * @param {Property.<string>} stateProperty up|down|over|out
    * @param {Object} [options]
    * @constructor
    */
-  function NumberPickerListener( stateProperty, options ) {
-    FireOnHoldInputListener.call( this, options );
-    this.stateProperty = stateProperty; // @private
+  function ButtonStateListener( stateProperty ) {
+    ButtonListener.call( this, {
+      up: function() { stateProperty.set( 'up' ); },
+      over: function() { stateProperty.set( 'over' ); },
+      down: function() { stateProperty.set( 'down' ); },
+      out: function() { stateProperty.set( 'out' ); }
+    } );
   }
 
-  inherit( FireOnHoldInputListener, NumberPickerListener, {
-
-    // @override
-    setButtonState: function( event, state ) {
-      FireOnHoldInputListener.prototype.setButtonState.call( this, event, state );
-      this.stateProperty.set( state );
-    }
-  } );
+  inherit( ButtonListener, ButtonStateListener );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -97,8 +97,7 @@ define( function( require ) {
     } );
 
     // up listener
-    var upStateProperty = new Property( 'up' ); // up|down|over|out
-    var upListener = new NumberPickerListener( upStateProperty, {
+    var upListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
       },
@@ -107,8 +106,7 @@ define( function( require ) {
     } );
 
     // down listener
-    var downStateProperty = new Property( 'up' ); // up|down|over|out
-    var downListener = new NumberPickerListener( downStateProperty, {
+    var downListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
       },
@@ -143,8 +141,11 @@ define( function( require ) {
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close() );
     upBackground.addInputListener( upListener );
+    var upStateProperty = new Property( 'up' ); // up|down|over|out
+    upBackground.addInputListener( new ButtonStateListener( upStateProperty ) );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
+    var downStateProperty = new Property( 'up' ); // up|down|over|out
     var downBackground = new Path( new Shape()
       .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
@@ -152,6 +153,7 @@ define( function( require ) {
       .lineTo( backgroundWidth, backgroundHeight / 2 )
       .close() );
     downBackground.addInputListener( downListener );
+    downBackground.addInputListener( new ButtonStateListener( downStateProperty ) );
 
     // separate rectangle for stroke around value background
     var strokedBackground = new Path( new Shape()
@@ -292,14 +294,14 @@ define( function( require ) {
     };
 
     // @private update colors for 'up' components
-    thisNode.upColorsUpdater = function() { updateColors( upStateProperty.value, thisNode.upEnabledProperty.value, upBackground, thisNode.upArrow ); };
-    upStateProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
-    thisNode.upEnabledProperty.link( thisNode.upColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
+    Property.multilink( [ upStateProperty, thisNode.upEnabledProperty ], function( state, enabled ) {
+      updateColors( state, enabled, upBackground, thisNode.upArrow );
+    } );
 
     // @private update colors for 'down' components
-    thisNode.downColorsUpdater = function() { updateColors( downStateProperty.value, thisNode.downEnabledProperty.value, downBackground, thisNode.downArrow ); };
-    downStateProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
-    thisNode.downEnabledProperty.link( thisNode.downColorsUpdater ); // unlink unnecessary, property and observer both owned by this instance
+    Property.multilink( [ downStateProperty, thisNode.downEnabledProperty ], function( state, enabled ) {
+      updateColors( state, enabled, downBackground, thisNode.downArrow );
+    } );
 
     thisNode.mutate( options );
   }
