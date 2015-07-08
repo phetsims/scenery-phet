@@ -35,6 +35,7 @@ define( function( require ) {
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
     options = _.extend( {
+      cursor: 'pointer',
       color: new Color( 0, 0, 255 ), // {Color|string}
       cornerRadius: 6,
       xMargin: 3,
@@ -58,7 +59,7 @@ define( function( require ) {
     options.activatedColor = options.activatedColor || Color.toColor( options.color ).darkerColor();
 
     var thisNode = this;
-    Node.call( thisNode, { cursor: 'pointer' } );
+    Node.call( thisNode );
 
     // @private must be detached in dispose
     thisNode.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
