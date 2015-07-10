@@ -1,5 +1,5 @@
 {
-  "comment": "# scenery-phet 1.0.0-dev.4 Fri Jul 10 2015 17:00:55 GMT-0600 (MDT)",
+  "comment": "# scenery-phet 1.0.0-dev.5 Fri Jul 10 2015 17:26:46 GMT-0600 (MDT)",
   "assert": {
     "sha": "858e65ac477bf1861883ce06eed56d9fdefa5027",
     "branch": "master"
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "e32eaf914daad3d1b66c1ba58bdd94d942c279d7",
+    "sha": "a1bdb33e14fbd63f9e97953be64abab1e3b2b3a9",
     "branch": "master"
   },
   "sherpa": {
