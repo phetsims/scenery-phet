@@ -1,4 +1,7 @@
 {
+  "scenery-phet.name": {
+    "value": "scenery-phet demo"
+  },
   "WavelengthSlider.pattern_0wavelength_1units": {
     "value": "{0} {1}"
   },

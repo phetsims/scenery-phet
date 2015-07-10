@@ -18,7 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // Strings
-  var simTitle = 'scenery-phet';
+  var title = require( 'string!SCENERY_PHET/scenery-phet.name' );
 
   var simOptions = {
     credits: {
@@ -34,7 +34,7 @@ define( function( require ) {
   SimLauncher.launch( function() {
     // Create and start the sim
     //Create and start the sim
-    new Sim( simTitle, [
+    new Sim( title, [
       new Screen( 'Buttons',
         createScreenIcon( 'red' ),
         function() {return {};},
