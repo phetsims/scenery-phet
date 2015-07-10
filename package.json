@@ -1,6 +1,6 @@
 {
   "name": "scenery-phet",
-  "version": "1.0.0-dev.4",
+  "version": "1.0.0-dev.5",
   "license": "MIT",
   "simTitleStringKey": "SCENERY_PHET/scenery-phet.name",
   "phetLibs": [
