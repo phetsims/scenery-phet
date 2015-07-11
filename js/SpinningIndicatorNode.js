@@ -19,6 +19,11 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
 
+
+  /**
+   * @param {object} options
+   * @constructor
+   */
   function SpinningIndicatorNode( options ) {
 
     // default options
