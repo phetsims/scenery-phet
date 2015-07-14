@@ -1,5 +1,5 @@
 {
-  "comment": "# scenery-phet 1.0.0-dev.10 Mon Jul 13 2015 18:25:11 GMT-0600 (MDT)",
+  "comment": "# scenery-phet 1.0.0-dev.11 Mon Jul 13 2015 18:28:13 GMT-0600 (MDT)",
   "assert": {
     "sha": "858e65ac477bf1861883ce06eed56d9fdefa5027",
     "branch": "master"
@@ -9,8 +9,8 @@
     "branch": "master"
   },
   "brand": {
-    "sha": "783f015118ae3aff408ce48eb96413888c30320c",
-    "branch": "phet"
+    "sha": "b6f2b93db36b0e9e42ba3fff7921eaafa665e1b5",
+    "branch": "adapted-from-phet"
   },
   "chipper": {
     "sha": "d0a8c2302434940b82ae59826f0f7a46b12b07c1",
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "52ee35380080ec21040f6ee3af074f0474d05feb",
+    "sha": "fd2077d97148b3edf925655c2b1b5c658cadd138",
     "branch": "master"
   },
   "sherpa": {
