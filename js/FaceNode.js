@@ -73,12 +73,6 @@ define( function( require ) {
       lineCap: 'round'
     } );
     this.addChild( this.frownMouth );
-    this.grimaceMouth = new Path( new Shape().moveTo( -headDiameter * 0.2, headDiameter * 0.3 ).lineTo( headDiameter * 0.2, headDiameter * 0.2 ), {
-      stroke: options.mouthStroke,
-      lineWidth: mouthLineWidth,
-      lineCap: 'round'
-    } );
-    this.addChild( this.grimaceMouth );
     this.smile();
 
     // Pass through any options for positioning and such.
@@ -89,19 +83,11 @@ define( function( require ) {
     smile: function() {
       this.smileMouth.visible = true;
       this.frownMouth.visible = false;
-      this.grimaceMouth.visible = false;
       return this; // allow chaining
     },
     frown: function() {
       this.smileMouth.visible = false;
       this.frownMouth.visible = true;
-      this.grimaceMouth.visible = false;
-      return this; // allow chaining
-    },
-    grimace: function() {
-      this.smileMouth.visible = false;
-      this.frownMouth.visible = false;
-      this.grimaceMouth.visible = true;
       return this; // allow chaining
     }
   } );
