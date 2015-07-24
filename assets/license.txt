@@ -1,5 +1,42 @@
-eraser.ai source=PhET author=Amanda McGarry notes=based on original raster artwork by Sharon
-Clock.ai source=PhET author=Sharon
-faucet_components2D.ai source=PhET author=Mike Fowler
-SimpleClock.ai source=PhET author=John B
-MeasuringTape.ai source=PhET author=Bryce Gruneich notes=taken from Fluid Pressure and Flow Artwork.ai
+{
+  "eraser.ai": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry based on original raster artwork by Sharon Siman-Tov"
+  },
+  "Clock.ai": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Sharon Siman-Tov"
+  },
+  "faucet_components2D.ai": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler"
+  },
+  "SimpleClock.ai": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by John Blanco"
+  },
+  "MeasuringTape.ai": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Bryce Gruneich"
+  }
+}
