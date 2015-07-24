@@ -1,20 +1,162 @@
-battery-D-cell.png source=PhET
-eraser.png source=PhET author=Amanda McGarry
-eye_dropper_background.png source=PhET author=Noah P.
-eye_dropper_foreground.png source=PhET author=Noah P.
-faucet_body.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_flange.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_flange_disabled.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_horizontal_pipe.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_knob.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_knob_disabled.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_shaft.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_spout.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_stop.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_track.png source=PhET author=Mike Fowler, Amanda McGarry
-faucet_vertical_pipe.png source=PhET author=Mike Fowler, Amanda McGarry
-flame.png source=PhET author=John Blanco
-ice-cube-stack.png source=PhET author=John Blanco
-light-bulb-off.png source=PhET author=Bryce Gruneich
-light-bulb-on.png source=PhET author=Bryce Gruneich
-measuringTape.png source=PhET author=Bryce Gruneich
+{
+  "battery-D-cell.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": ""
+  },
+  "eraser.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
+  "eye_dropper_background.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  },
+  "eye_dropper_foreground.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  },
+  "faucet_body.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_flange.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_flange_disabled.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_horizontal_pipe.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_knob.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_knob_disabled.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_shaft.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_spout.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_stop.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_track.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "faucet_vertical_pipe.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mike Fowler and Amanda McGarry"
+  },
+  "flame.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by John Blanco"
+  },
+  "ice-cube-stack.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by John Blanco"
+  },
+  "light-bulb-off.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Bryce Gruneich"
+  },
+  "light-bulb-on.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Bryce Gruneich"
+  },
+  "measuringTape.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Bryce Gruneich"
+  }
+}
