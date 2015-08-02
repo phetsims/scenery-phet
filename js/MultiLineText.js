@@ -33,6 +33,9 @@ define( function( require ) {
       font: new PhetFont(),
       align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
     }, options );
+
+    // Normally individual properties from options should be stored rather than the entire options instance,
+    // but in this case the options is stored because it must be propagated to child text instances
     this.options = options; // @private
 
     Node.call( this );
@@ -58,7 +61,10 @@ define( function( require ) {
         // parse the text and create {Text[]}
         var thisNode = this;
         var textNodes = text.split( '\n' ).map( function( line ) {
-          if ( line.length === 0 ) { line = ' '; }  // creates a blank line between consecutive line breaks
+
+          // create a blank line between consecutive line breaks
+          if ( line.length === 0 ) { line = ' '; }
+
           return new Text( line, _.omit( thisNode.options, 'align' ) );
         } );
 
@@ -66,7 +72,9 @@ define( function( require ) {
         var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
 
         // remove the old textParent
-        if ( this.textParent ) { this.removeChild( this.textParent ); }
+        if ( this.textParent ) {
+          this.removeChild( this.textParent );
+        }
 
         // add the new textParent
         this.textParent = new VBox( {
