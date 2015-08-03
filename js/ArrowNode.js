@@ -1,6 +1,5 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
-//TODO: Consolidate with MutableArrowNode, see #34
 /**
  * A single- or double-headed arrow. This is a convenience class, most of the
  * work is done in ArrowShape.
@@ -46,7 +45,7 @@ define( function( require ) {
 
   return inherit( Path, ArrowNode, {
 
-    //Set the tail and tip locations to update the arrow shape.  Matches API in MutableArrowNode so they can easily be swapped
+    // Set the tail and tip locations to update the arrow shape
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
       this.shape = new ArrowShape( tailX, tailY, tipX, tipY, this.options );
     }
