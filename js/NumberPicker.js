@@ -22,6 +22,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -36,7 +37,8 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      color: new Color( 0, 0, 255 ), // {Color|string}
+      color: new Color( 0, 0, 255 ), // {Color|string} color of arrows, and top/bottom gradient on pointer over
+      backgroundColor: 'white', // {Color|string} color of the background when pointer is not over it
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
@@ -49,14 +51,16 @@ define( function( require ) {
       noValueString: '-', // string to display if valueProperty.get is null or undefined
       align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
       touchAreaExpandX: 10,
-      touchAreaExpandY: 20,
+      touchAreaExpandY: 10,
       mouseAreaExpandX: 0,
-      mouseAreaExpandY: 14,
+      mouseAreaExpandY: 5,
       backgroundStroke: 'gray',
       backgroundLineWidth: 0.5,
-      arrowHeight: 6
+      arrowHeight: 6,
+      arrowYSpacing: 3
     }, options );
-    options.activatedColor = options.activatedColor || Color.toColor( options.color ).darkerColor();
+    // {Color|string} color of arrows and top/bottom gradient when pressed
+    options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
 
     var thisNode = this;
     Node.call( this );
@@ -103,7 +107,7 @@ define( function( require ) {
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
       .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
-      .close() );
+      .close(), { pickable: false } );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
     var downBackground = new Path( new Shape()
@@ -111,62 +115,28 @@ define( function( require ) {
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
       .lineTo( 0, backgroundHeight / 2 )
       .lineTo( backgroundWidth, backgroundHeight / 2 )
-      .close() );
+      .close(), { pickable: false } );
 
     // separate rectangle for stroke around value background
-    var strokedBackground = new Path( new Shape()
-      .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
-      .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
-      .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
-      .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
-      .close(), { pickable: false, stroke: options.backgroundStroke, lineWidth: options.backgroundLineWidth } );
-
-    // touch area for buttons
-    upBackground.touchArea = Shape.rectangle(
-      upBackground.left - ( options.touchAreaExpandX / 2 ), upBackground.top - options.touchAreaExpandY,
-      upBackground.width + options.touchAreaExpandX, upBackground.height + options.touchAreaExpandY );
-    downBackground.touchArea = Shape.rectangle(
-      downBackground.left - ( options.touchAreaExpandX / 2 ), downBackground.top,
-      downBackground.width + options.touchAreaExpandX, downBackground.height + options.touchAreaExpandY );
-
-    // mouse area for buttons
-    upBackground.mouseArea = Shape.rectangle(
-      upBackground.left - ( options.mouseAreaExpandX / 2 ), upBackground.top - options.mouseAreaExpandY,
-      upBackground.width + options.mouseAreaExpandX, upBackground.height + options.mouseAreaExpandY );
-    downBackground.mouseArea = Shape.rectangle(
-      downBackground.left - ( options.mouseAreaExpandX / 2 ), downBackground.top,
-      downBackground.width + options.mouseAreaExpandX, downBackground.height + options.mouseAreaExpandY );
-
-    // compute colors
-    var arrowColors = {
-      up: options.color,
-      over: options.color,
-      down: options.activatedColor,
-      out: options.color,
-      disabled: 'rgb(176,176,176)'
-    };
-    var centerColor = 'white';
-    var highlightGradient = createBackgroundGradient( options.color, centerColor, backgroundHeight );
-    var pressedGradient = createBackgroundGradient( options.activatedColor, centerColor, backgroundHeight );
-    var backgroundColors = {
-      up: centerColor,
-      over: highlightGradient,
-      down: pressedGradient,
-      out: pressedGradient,
-      disabled: centerColor
-    };
+    var strokedBackground = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, backgroundCornerRadius, backgroundCornerRadius, {
+      pickable: false,
+      stroke: options.backgroundStroke,
+      lineWidth: options.backgroundLineWidth
+    } );
 
     // compute size of arrows
     var arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, options.arrowHeight );
 
     // 'up' arrow
-    var arrowOptions = { fill: 'white', stroke: 'black', lineWidth: 0.25 };
+    var arrowOptions = { stroke: 'black', lineWidth: 0.25, pickable: false };
     var upArrowShape = new Shape()
       .moveTo( arrowButtonSize.width / 2, 0 )
       .lineTo( arrowButtonSize.width, arrowButtonSize.height )
       .lineTo( 0, arrowButtonSize.height )
       .close();
     this.upArrow = new Path( upArrowShape, arrowOptions ); // @private
+    this.upArrow.centerX = upBackground.centerX;
+    this.upArrow.bottom = upBackground.top - options.arrowYSpacing;
 
     // 'down' arrow
     var downArrowShape = new Shape()
@@ -175,29 +145,68 @@ define( function( require ) {
       .lineTo( arrowButtonSize.width, 0 )
       .close();
     this.downArrow = new Path( downArrowShape, arrowOptions ); // @private
+    this.downArrow.centerX = downBackground.centerX;
+    this.downArrow.top = downBackground.bottom + options.arrowYSpacing;
+
+    // parents for 'up' and 'down' components
+    var upParent = new Node( { children: [ upBackground, this.upArrow ] } );
+    upParent.addChild( new Rectangle( upParent.localBounds ) ); // invisible overlay
+    var downParent = new Node( { children: [ downBackground, this.downArrow ] } );
+    downParent.addChild( new Rectangle( downParent.localBounds ) ); // invisible overlay
 
     // rendering order
-    this.addChild( upBackground );
-    this.addChild( downBackground );
+    this.addChild( upParent );
+    this.addChild( downParent );
     this.addChild( strokedBackground );
-    this.addChild( this.upArrow );
-    this.addChild( this.downArrow );
     this.addChild( valueNode );
 
-    // layout, background nodes are already drawn in the local coordinate frame
-    var ySpacing = 3;
-    valueNode.x = 0;
-    valueNode.centerY = backgroundHeight / 2;
-    this.upArrow.centerX = upBackground.centerX;
-    this.upArrow.bottom = upBackground.top - ySpacing;
-    this.downArrow.centerX = downBackground.centerX;
-    this.downArrow.top = downBackground.bottom + ySpacing;
+    //------------------------------------------------------------
+    // Pointer areas
+
+    // touch area
+    upParent.touchArea = Shape.rectangle(
+      upParent.left - ( options.touchAreaExpandX / 2 ), upParent.top - options.touchAreaExpandY,
+      upParent.width + options.touchAreaExpandX, upParent.height + options.touchAreaExpandY );
+    downParent.touchArea = Shape.rectangle(
+      downParent.left - ( options.touchAreaExpandX / 2 ), downParent.top,
+      downParent.width + options.touchAreaExpandX, downParent.height + options.touchAreaExpandY );
+
+    // mouse area
+    upParent.mouseArea = Shape.rectangle(
+      upParent.left - ( options.mouseAreaExpandX / 2 ), upParent.top - options.mouseAreaExpandY,
+      upParent.width + options.mouseAreaExpandX, upParent.height + options.mouseAreaExpandY );
+    downParent.mouseArea = Shape.rectangle(
+      downParent.left - ( options.mouseAreaExpandX / 2 ), downParent.top,
+      downParent.width + options.mouseAreaExpandX, downParent.height + options.mouseAreaExpandY );
+
+    //------------------------------------------------------------
+    // Colors
+
+    // arrow colors
+    var arrowColors = {
+      up: options.color,
+      over: options.color,
+      down: options.pressedColor,
+      out: options.color,
+      disabled: 'rgb(176,176,176)'
+    };
+
+    // background colors
+    var highlightGradient = createVerticalGradient( options.color, options.backgroundColor, options.color, backgroundHeight );
+    var pressedGradient = createVerticalGradient( options.pressedColor, options.backgroundColor, options.pressedColor, backgroundHeight );
+    var backgroundColors = {
+      up: options.backgroundColor,
+      over: highlightGradient,
+      down: pressedGradient,
+      out: pressedGradient,
+      disabled: options.backgroundColor
+    };
 
     //------------------------------------------------------------
     // Observers and InputListeners
 
     // up
-    upBackground.addInputListener( new ButtonStateListener( upStateProperty ) );
+    upParent.addInputListener( new ButtonStateListener( upStateProperty ) );
     var upListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
@@ -205,11 +214,10 @@ define( function( require ) {
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
     } );
-    upBackground.addInputListener( upListener );
-    this.upArrow.addInputListener( upListener );
+    upParent.addInputListener( upListener );
 
     // down
-    downBackground.addInputListener( new ButtonStateListener( downStateProperty ) );
+    downParent.addInputListener( new ButtonStateListener( downStateProperty ) );
     var downListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
@@ -217,8 +225,7 @@ define( function( require ) {
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
     } );
-    downBackground.addInputListener( downListener );
-    this.downArrow.addInputListener( downListener );
+    downParent.addInputListener( downListener );
 
     // enable/disable listeners: unlink unnecessary, properties are owned by this instance
     this.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
@@ -242,9 +249,10 @@ define( function( require ) {
           valueNode.left = upBackground.left + options.xMargin;
         }
         else {
-          throw new Error( 'unsupported value for option.align: ' + options.align );
+          throw new Error( 'unsupported value for options.align: ' + options.align );
         }
       }
+      valueNode.centerY = backgroundHeight / 2;
     };
     this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
 
@@ -261,12 +269,28 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  // creates a vertical gradient where with color1 at the top and bottom, color2 in the center
-  var createBackgroundGradient = function( color1, color2, height ) {
+  /**
+   * Converts ButtonListener events to state changes.
+   *
+   * @param {Property.<string>} stateProperty up|down|over|out
+   * @param {Object} [options]
+   * @constructor
+   */
+  function ButtonStateListener( stateProperty ) {
+    ButtonListener.call( this, {
+      up: function() { stateProperty.set( 'up' ); },
+      over: function() { stateProperty.set( 'over' ); },
+      down: function() { stateProperty.set( 'down' ); },
+      out: function() { stateProperty.set( 'out' ); }
+    } );
+  }
+
+  // creates a vertical gradient
+  var createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
     return new LinearGradient( 0, 0, 0, height )
-      .addColorStop( 0, color1 )
-      .addColorStop( 0.5, color2 )
-      .addColorStop( 1, color1 );
+      .addColorStop( 0, topColor )
+      .addColorStop( 0.5, centerColor )
+      .addColorStop( 1, bottomColor );
   };
 
   // Update arrow and background colors
@@ -299,22 +323,6 @@ define( function( require ) {
       arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
     }
   };
-
-  /**
-   * Converts ButtonListener events to state changes.
-   *
-   * @param {Property.<string>} stateProperty up|down|over|out
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ButtonStateListener( stateProperty ) {
-    ButtonListener.call( this, {
-      up: function() { stateProperty.set( 'up' ); },
-      over: function() { stateProperty.set( 'over' ); },
-      down: function() { stateProperty.set( 'down' ); },
-      out: function() { stateProperty.set( 'out' ); }
-    } );
-  }
 
   inherit( ButtonListener, ButtonStateListener );
 
