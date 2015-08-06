@@ -44,7 +44,7 @@ define( function( require ) {
       dispensingProperty: new Property( false ), // is the dropper dispensing?
       enabledProperty: new Property( true ), // is the button enabled?
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
-      buttonTouchAreaDilation: 30, // dilation of the button's radius for touchArea
+      buttonTouchAreaDilation: 15, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
 
       // Note: EyeDropperNode is not draggable and hence only registers its button with tandem.
@@ -88,7 +88,7 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'button' )
     } );
     this.enabledProperty.link( function( enabled ) { thisNode.button.enabled = enabled; } );
-    this.button.touchArea = Shape.circle( this.button.width / 2, this.button.height / 2, ( this.button.width / 2 ) + options.buttonTouchAreaDilation );
+    this.button.touchArea = Shape.circle( 0, 0, ( this.button.width / 2 ) + options.buttonTouchAreaDilation );
     this.button.centerX = foreground.centerX;
     this.button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
