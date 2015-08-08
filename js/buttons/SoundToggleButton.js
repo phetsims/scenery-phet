@@ -17,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var BooleanRectangularToggleButtonWithContent = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
   // Constants
   var WIDTH = 45;
@@ -47,7 +47,7 @@ define( function( require ) {
       } );
     soundOffNode.addChild( soundOffX );
 
-    BooleanRectangularToggleButtonWithContent.call( this, soundOnNode, soundOffNode, property, _.extend( {
+    BooleanRectangularToggleButton.call( this, soundOnNode, soundOffNode, property, _.extend( {
       baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
       minWidth: WIDTH,
       minHeight: HEIGHT,
@@ -61,5 +61,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( BooleanRectangularToggleButtonWithContent, SoundToggleButton );
+  return inherit( BooleanRectangularToggleButton, SoundToggleButton );
 } );
