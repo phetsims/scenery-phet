@@ -2,6 +2,7 @@
   "name": "scenery-phet",
   "version": "1.0.0-dev.12",
   "license": "MIT",
+  "requirejsNamespace": "SCENERY_PHET",
   "simTitleStringKey": "SCENERY_PHET/scenery-phet.name",
   "phetLibs": [
     "scenery-phet"
