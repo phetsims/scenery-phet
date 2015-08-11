@@ -31,5 +31,8 @@
   },
   "webglWarning.contextLossReload": {
     "value": "Reload"
+  },
+  "webglWarning.ie11StencilBody": {
+    "value": "We recommend updating IE11 by installing recommended Windows Update patches."
   }
 }
