@@ -21,7 +21,7 @@ define( function( require ) {
 
 
   /**
-   * @param {object} options
+   * @param {Object} options
    * @constructor
    */
   function SpinningIndicatorNode( options ) {
