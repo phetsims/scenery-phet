@@ -29,7 +29,7 @@ define( function( require ) {
   var backgroundColor = phet.chipper.getQueryParameter( 'backgroundColor' ) || 'white';
   var screenOptions = { backgroundColor: backgroundColor };
 
-  var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 100, 100, { fill: color } ); };
+  var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 147, 100, { fill: color } ); };
 
   SimLauncher.launch( function() {
     // Create and start the sim
