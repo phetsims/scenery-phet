@@ -2,11 +2,6 @@
   "name": "scenery-phet",
   "version": "1.0.0-dev.12",
   "license": "MIT",
-  "requirejsNamespace": "SCENERY_PHET",
-  "simTitleStringKey": "SCENERY_PHET/scenery-phet.name",
-  "phetLibs": [
-    "scenery-phet"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/scenery-phet.git"
@@ -17,5 +12,12 @@
     "grunt-contrib-jshint": "~0.6.4",
     "uglify-js": "~2.4.0",
     "requirejs": "~2.1.8"
+  },
+  "phet": {
+    "requirejsNamespace": "SCENERY_PHET",
+    "simTitleStringKey": "SCENERY_PHET/scenery-phet.name",
+    "phetLibs": [
+      "scenery-phet"
+    ]
   }
 }
