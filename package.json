@@ -15,9 +15,6 @@
   },
   "phet": {
     "requirejsNamespace": "SCENERY_PHET",
-    "simTitleStringKey": "SCENERY_PHET/scenery-phet.name",
-    "phetLibs": [
-      "scenery-phet"
-    ]
+    "simTitleStringKey": "SCENERY_PHET/scenery-phet.name"
   }
 }
