@@ -30,6 +30,9 @@ define( function( require ) {
       headHeight: 10,
       headWidth: 10,
       tailWidth: 5,
+      isHeadDynamic: false,
+      scaleTailToo: false,
+      fractionalHeadHeight: 0.5, // head will be scaled when head size is less than fractionalHeadHeight * arrow length
       doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
       fill: 'black',
       stroke: 'black',
