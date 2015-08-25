@@ -16,8 +16,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // images
-  var onImage = require( 'image!SCENERY_PHET/light-bulb-on.png' );
-  var offImage = require( 'image!SCENERY_PHET/light-bulb-off.png' );
+  var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
+  var offImage = require( 'mipmap!SCENERY_PHET/light-bulb-off.png' );
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
