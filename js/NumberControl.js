@@ -35,16 +35,21 @@ define( function( require ) {
   function NumberControl( title, numberProperty, numberRange, options ) {
 
     options = _.extend( {
+
       startCallback: function() {}, // called when interaction begins
       endCallback: function() {}, // called when interaction ends
+
       // title
       titleFont: new PhetFont( 12 ),
+
       // value
       valueFont: new PhetFont( 12 ),
       decimalPlaces: 0,
       units: '',
+
       // arrow buttons
       delta: 1,
+
       // slider
       majorTicks: [],
       minorTickSpacing: 1,
@@ -53,6 +58,7 @@ define( function( require ) {
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
       thumbFillEnabled: 'green'
+
     }, options );
     options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
 
