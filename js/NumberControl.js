@@ -51,8 +51,8 @@ define( function( require ) {
       delta: 1,
 
       // slider
-      majorTicks: [],
-      minorTickSpacing: 1,
+      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
+      minorTickSpacing: 0, // zero indicates no minor ticks
       trackSize: new Dimension2( 180, 3 ),
       thumbSize: new Dimension2( 17, 34 ),
       majorTickLength: 20,
@@ -115,11 +115,13 @@ define( function( require ) {
     }
 
     // minor ticks, exclude values where we already have major ticks
-    for ( var minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
-      if ( !_.find( majorTicks, function( majorTick ) { return majorTick.value === minorTickValue; } ) ) {
-        slider.addMinorTick( minorTickValue );
+    if ( options.minorTickSpacing > 0 ) {
+      for ( var minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
+        if ( !_.find( majorTicks, function( majorTick ) { return majorTick.value === minorTickValue; } ) ) {
+          slider.addMinorTick( minorTickValue );
+        }
+        minorTickValue += options.minorTickSpacing;
       }
-      minorTickValue += options.minorTickSpacing;
     }
 
     options.spacing = 5;
