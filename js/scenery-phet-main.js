@@ -8,14 +8,14 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
+  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
+  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
-  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // Strings
   var title = require( 'string!SCENERY_PHET/scenery-phet.name' );
