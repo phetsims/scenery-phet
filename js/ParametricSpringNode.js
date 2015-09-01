@@ -150,7 +150,7 @@ define( function( require ) {
 
           // horizontal line at left end
           if ( index === 0 ) {
-            p = new Vector2(  0, coilPoints[ 0 ].y  );
+            p = new Vector2( 0, coilPoints[ 0 ].y );
             springPoints.push( p );
             if ( isFront ) {
               frontShape.moveToPoint( p );
@@ -184,7 +184,7 @@ define( function( require ) {
 
         // horizontal line at right end
         var lastCoilPoint = coilPoints[ numberOfCoilPoints - 1 ];
-        p = new Vector2(  lastCoilPoint.x + options.rightEndLength, lastCoilPoint.y  );
+        p = new Vector2( lastCoilPoint.x + options.rightEndLength, lastCoilPoint.y );
         springPoints.push( p );
         if ( wasFront ) {
           frontShape.lineToPoint( p );
@@ -284,5 +284,4 @@ define( function( require ) {
       this.model.reset();
     }
   } );
-} )
-;
+} );
