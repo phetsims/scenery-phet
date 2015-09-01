@@ -34,5 +34,8 @@
   },
   "webglWarning.ie11StencilBody": {
     "value": "Update Internet Explorer by installing recommended Windows Update patches."
+  },
+  "NumberControl.pattern_0value_1units": {
+    "value": "{0} {1}"
   }
 }
