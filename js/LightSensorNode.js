@@ -27,7 +27,7 @@ define( function( require ) {
   // constants
   var DEFAULTS = {
     width: 100,
-    height: 151
+    height: 151 
   };
 
   /**
