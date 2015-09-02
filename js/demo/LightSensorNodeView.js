@@ -11,12 +11,8 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
-  var ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
-  var Range = require( 'DOT/Range' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Line = require( 'SCENERY/nodes/Line' );
   var PropertySet = require( 'AXON/PropertySet' );
   var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
