@@ -26,27 +26,32 @@ define( function( require ) {
    * Constructor for the LightSensorNode
    * @constructor
    */
-  function LightSensorNode() {
+  function LightSensorNode( options ) {
 
-    var width = 100;
+    options = _.extend( {
+      width: 100,
+      height: 151
+    }, options );
+    var width = options.width;
+    var height = options.height;
 
     // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
       .ellipticalArc( width / 2, width / 2, width / 2, width / 2, 0, Math.PI * 0.8, Math.PI * 0.2, false )
       .quadraticCurveTo( width * 0.84, width * 0.87, width * 0.82, width )
-      .quadraticCurveTo( width * 0.81, width * 1.15, width * 0.80, width * 1.30 )
-      .quadraticCurveTo( width * 0.80, width * 1.51, width * 0.65, width * 1.51 )
-      .quadraticCurveTo( width * 0.50, width * 1.51, width * 0.35, width * 1.51 )
-      .quadraticCurveTo( width * 0.20, width * 1.51, width * 0.20, width * 1.30 )
+      .quadraticCurveTo( width * 0.81, height, width * 0.80, width * 1.30 )
+      .quadraticCurveTo( width * 0.80, height, width * 0.65, height )
+      .quadraticCurveTo( width * 0.50, height, width * 0.35, height )
+      .quadraticCurveTo( width * 0.20, height, width * 0.20, width * 1.30 )
       .quadraticCurveTo( width * 0.19, width * 1.15, width * 0.18, width )
       .quadraticCurveTo( width * 0.16, width * 0.87, width * 0.11, width * 0.82 )
       .close();
 
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( 0, 0, 0, width * 1.51 )
+      stroke: new LinearGradient( 0, 0, 0, height )
         .addColorStop( 0, '#408260' ) // dark green
         .addColorStop( 1, '#005D2D' ), // darker green 
-      fill: new LinearGradient( 0, 0, 0, width * 1.51 )
+      fill: new LinearGradient( 0, 0, 0, height )
         .addColorStop( 0, '#7CCAA2' ) // light green
         .addColorStop( 0.3, '#009348' ) // medium green
         .addColorStop( 1, '#008B44' ), // another medium green 
