@@ -28,7 +28,7 @@ define( function( require ) {
    */
   function LightSensorNode() {
 
-    // add sensor node
+    // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
       .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )
       .quadraticCurveTo( 84, 87, 82, 100 )
