@@ -8,14 +8,15 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
+  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
+  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
+  var SpringView = require( 'SCENERY_PHET/demo/SpringView' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
-  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // Strings
   var title = require( 'string!SCENERY_PHET/scenery-phet.name' );
@@ -31,9 +32,8 @@ define( function( require ) {
 
   var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 147, 100, { fill: color } ); };
 
+  // Create and start sim
   SimLauncher.launch( function() {
-    // Create and start the sim
-    //Create and start the sim
     new Sim( title, [
       new Screen( 'Buttons',
         createScreenIcon( 'red' ),
@@ -51,6 +51,12 @@ define( function( require ) {
         createScreenIcon( 'orange' ),
         function() {return {};},
         function( model ) {return new ComponentsView();},
+        screenOptions
+      ),
+      new Screen( 'Spring',
+        createScreenIcon( 'blue' ),
+        function() {return {};},
+        function( model ) {return new SpringView();},
         screenOptions
       )
     ], simOptions ).start();
