@@ -24,6 +24,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var Panel = require( 'SUN/Panel' );
 
   /**
    * @constructor
@@ -63,7 +64,10 @@ define( function( require ) {
     this.addChild( new Line( this.layoutBounds.centerX, -1000, this.layoutBounds.centerX, 3000, { stroke: 'black' } ) );
 
     // Controls
-    this.addChild( new VBox( {
+    this.addChild( new Panel( new VBox( {
+
+      // Don't readjust the size when the slider knob moves all the way to the right 
+      resize: false,
       children: [
         new Text( 'Width' ),
         new HSlider( propertySet.widthProperty, { min: 1, max: LightSensorNode.DEFAULTS.width * 2 } ),
@@ -71,6 +75,16 @@ define( function( require ) {
         new Text( 'Height' ),
         new HSlider( propertySet.heightProperty, { min: 1, max: LightSensorNode.DEFAULTS.height * 2 } )
       ]
+    } ), {
+      xMargin: 20,
+      yMargin: 20,
+
+      // Don't readjust the size when the slider knob moves all the way to the right
+      resize: false,
+
+      // Bottom left of the play area
+      left: 50,
+      bottom: this.layoutBounds.maxY - 50
     } ) );
 
     // Reset All button, bottom right
