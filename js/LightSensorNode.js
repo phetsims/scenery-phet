@@ -8,6 +8,7 @@
  * TODO: This is under development and not ready for review or usage in simulations other than Bending Light.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -38,7 +39,8 @@ define( function( require ) {
       .quadraticCurveTo( 19, 115, 18, 100 )
       .quadraticCurveTo( 16, 87, 11, 82 )
       .close();
-    var sensorOuterShape = new Path( sensorShape, {
+
+    var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( 0, 0, 0, 151 )
         .addColorStop( 0, '#408260' )
         .addColorStop( 1, '#005D2D' ),
@@ -49,24 +51,24 @@ define( function( require ) {
       lineWidth: 2
     } );
 
-    var sensorInnerShape = new Path( sensorShape, {
+    var innerPath = new Path( sensorShape, {
       fill: '#008541',
       lineWidth: 2,
       scale: new Vector2( 0.9, 0.93 ),
-      centerX: sensorOuterShape.centerX,
+      centerX: outerShapePath.centerX,
       y: 5
     } );
-    var sensorInnerCircle = new Path( new Shape().circle( 50, 50, 35 ), {
+    var innerCirclePath = new Path( new Shape().circle( 50, 50, 35 ), {
       fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' )
         .addColorStop( 1, '#C2E7FF' ),
-      centerX: sensorInnerShape.centerX,
+      centerX: innerPath.centerX,
       centerY: 50
     } );
 
     Node.call( this, {
-      children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ],
+      children: [ outerShapePath, innerPath, innerCirclePath ],
       cursor: 'pointer'
     } );
   }
