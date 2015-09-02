@@ -28,23 +28,25 @@ define( function( require ) {
    */
   function LightSensorNode() {
 
+    var width = 100;
+
     // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
-      .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )
-      .quadraticCurveTo( 84, 87, 82, 100 )
-      .quadraticCurveTo( 81, 115, 80, 130 )
-      .quadraticCurveTo( 80, 151, 65, 151 )
-      .quadraticCurveTo( 50, 151, 35, 151 )
-      .quadraticCurveTo( 20, 151, 20, 130 )
-      .quadraticCurveTo( 19, 115, 18, 100 )
-      .quadraticCurveTo( 16, 87, 11, 82 )
+      .ellipticalArc( width / 2, width / 2, width / 2, width / 2, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      .quadraticCurveTo( width * 0.84, width * 0.87, width * 0.82, width )
+      .quadraticCurveTo( width * 0.81, width * 1.15, width * 0.80, width * 1.30 )
+      .quadraticCurveTo( width * 0.80, width * 1.51, width * 0.65, width * 1.51 )
+      .quadraticCurveTo( width * 0.50, width * 1.51, width * 0.35, width * 1.51 )
+      .quadraticCurveTo( width * 0.20, width * 1.51, width * 0.20, width * 1.30 )
+      .quadraticCurveTo( width * 0.19, width * 1.15, width * 0.18, width )
+      .quadraticCurveTo( width * 0.16, width * 0.87, width * 0.11, width * 0.82 )
       .close();
 
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( 0, 0, 0, 151 )
+      stroke: new LinearGradient( 0, 0, 0, width * 1.51 )
         .addColorStop( 0, '#408260' ) // dark green
         .addColorStop( 1, '#005D2D' ), // darker green 
-      fill: new LinearGradient( 0, 0, 0, 151 )
+      fill: new LinearGradient( 0, 0, 0, width * 1.51 )
         .addColorStop( 0, '#7CCAA2' ) // light green
         .addColorStop( 0.3, '#009348' ) // medium green
         .addColorStop( 1, '#008B44' ), // another medium green 
@@ -57,15 +59,15 @@ define( function( require ) {
       lineWidth: 2,
       scale: new Vector2( 0.9, 0.93 ),
       centerX: outerShapePath.centerX,
-      y: 5
+      y: width * 0.05
     } );
-    var innerCirclePath = new Path( Shape.circle( 50, 50, 35 ), {
-      fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
+    var innerCirclePath = new Path( Shape.circle( width * 0.50, width * 0.50, width * 0.35 ), {
+      fill: new RadialGradient( width * 0.35, width * 0.175, 0, width * 0.35, width * 0.70, width * 0.60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
         .addColorStop( 1, '#C2E7FF' ), // darker blue, like glass
       centerX: innerPath.centerX,
-      centerY: 50
+      centerY: width * 0.50
     } );
 
     Node.call( this, {
