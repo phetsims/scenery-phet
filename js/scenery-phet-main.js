@@ -60,7 +60,7 @@ define( function( require ) {
         function( model ) {return new SpringView();},
         screenOptions
       ),
-      new Screen( 'Spring',
+      new Screen( 'Light Sensor',
         createScreenIcon( 'green' ),
         function() {return {};},
         function( model ) {return new LightSensorNodeView();},
