@@ -42,21 +42,21 @@ define( function( require ) {
 
     // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
-      .ellipticalArc( width / 2 - width / 2, width / 2 - width / 2, width / 2, width / 2, 0, Math.PI * 0.8, Math.PI * 0.2, false )
-      .quadraticCurveTo( width * 0.84 - width / 2, width * 0.87 - width / 2, width * 0.82 - width / 2, width - width / 2 )
-      .quadraticCurveTo( width * 0.81 - width / 2, height - width / 2, width * 0.80 - width / 2, width * 1.30 - width / 2 )
-      .quadraticCurveTo( width * 0.80 - width / 2, height - width / 2, width * 0.65 - width / 2, height - width / 2 )
-      .quadraticCurveTo( width * 0.50 - width / 2, height - width / 2, width * 0.35 - width / 2, height - width / 2 )
-      .quadraticCurveTo( width * 0.20 - width / 2, height - width / 2, width * 0.20 - width / 2, width * 1.30 - width / 2 )
-      .quadraticCurveTo( width * 0.19 - width / 2, width * 1.15 - width / 2, width * 0.18 - width / 2, width - width / 2 )
-      .quadraticCurveTo( width * 0.16 - width / 2, width * 0.87 - width / 2, width * 0.11 - width / 2, width * 0.82 - width / 2 )
+      .ellipticalArc( 0, 0, width / 2, width / 2, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      .quadraticCurveTo( width * 0.34, width * 0.37, width * 0.32, width / 2 )
+      .quadraticCurveTo( width * 0.31, height - width / 2, width * 0.30, width * 0.8 )
+      .quadraticCurveTo( width * 0.30, height - width / 2, width * 0.15, height - width / 2 )
+      .quadraticCurveTo( width * 0.00, height - width / 2, -width * 0.15, height - width / 2 )
+      .quadraticCurveTo( -width * 0.30, height - width / 2, -width * 0.30, width * 0.80 )
+      .quadraticCurveTo( -width * 0.31, width * 0.65, -width * 0.32, width / 2 )
+      .quadraticCurveTo( -width * 0.34, width * 0.37, -width * 0.39, width * 0.32 )
       .close();
 
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( 0 - width / 2, 0 - width / 2, 0 - width / 2, height - width / 2 )
+      stroke: new LinearGradient( -width / 2, -width / 2, -width / 2, height - width / 2 )
         .addColorStop( 0, '#408260' ) // dark green
         .addColorStop( 1, '#005D2D' ), // darker green 
-      fill: new LinearGradient( 0 - width / 2, 0 - width / 2, 0 - width / 2, height - width / 2 )
+      fill: new LinearGradient( -width / 2, -width / 2, -width / 2, height - width / 2 )
         .addColorStop( 0, '#7CCAA2' ) // light green
         .addColorStop( 0.3, '#009348' ) // medium green
         .addColorStop( 1, '#008B44' ), // another medium green 
@@ -74,8 +74,8 @@ define( function( require ) {
       y: 2
     } );
 
-    var innerCirclePath = new Path( Shape.circle( width * 0.50 - width / 2, width * 0.50 - width / 2, width * 0.35 ), {
-      fill: new RadialGradient( width * 0.35 - width / 2, width * 0.175 - width / 2, 0, width * 0.35 - width / 2, width * 0.70 - width / 2, width * 0.60 )
+    var innerCirclePath = new Path( Shape.circle( 0, 0, width * 0.35 ), {
+      fill: new RadialGradient( -width * 0.15, -width * 0.325, 0, -width * 0.15, width * 0.20, width * 0.60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
         .addColorStop( 1, '#C2E7FF' ), // darker blue, like glass
