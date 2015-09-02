@@ -42,17 +42,18 @@ define( function( require ) {
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( 0, 0, 0, 151 )
-        .addColorStop( 0, '#408260' )
-        .addColorStop( 1, '#005D2D' ),
+        .addColorStop( 0, '#408260' ) // dark green
+        .addColorStop( 1, '#005D2D' ), // darker green 
       fill: new LinearGradient( 0, 0, 0, 151 )
-        .addColorStop( 0, '#7CCAA2' )
-        .addColorStop( 0.3, '#009348' )
-        .addColorStop( 1, '#008B44' ),
+        .addColorStop( 0, '#7CCAA2' ) // light green
+        .addColorStop( 0.3, '#009348' ) // medium green
+        .addColorStop( 1, '#008B44' ), // another medium green 
       lineWidth: 2
     } );
 
+    // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
     var innerPath = new Path( sensorShape, {
-      fill: '#008541',
+      fill: '#008541', // darkish green
       lineWidth: 2,
       scale: new Vector2( 0.9, 0.93 ),
       centerX: outerShapePath.centerX,
@@ -61,8 +62,8 @@ define( function( require ) {
     var innerCirclePath = new Path( new Shape().circle( 50, 50, 35 ), {
       fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
         .addColorStop( 0, 'white' )
-        .addColorStop( 0.4, '#E6F5FF' )
-        .addColorStop( 1, '#C2E7FF' ),
+        .addColorStop( 0.4, '#E6F5FF' ) // light blue
+        .addColorStop( 1, '#C2E7FF' ), // darker blue, like glass
       centerX: innerPath.centerX,
       centerY: 50
     } );
