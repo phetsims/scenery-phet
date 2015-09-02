@@ -17,6 +17,7 @@ define( function( require ) {
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
+  var LightSensorNodeView = require( 'SCENERY_PHET/demo/LightSensorNodeView' );
 
   // Strings
   var title = require( 'string!SCENERY_PHET/scenery-phet.name' );
@@ -57,6 +58,12 @@ define( function( require ) {
         createScreenIcon( 'blue' ),
         function() {return {};},
         function( model ) {return new SpringView();},
+        screenOptions
+      ),
+      new Screen( 'Spring',
+        createScreenIcon( 'green' ),
+        function() {return {};},
+        function( model ) {return new LightSensorNodeView();},
         screenOptions
       )
     ], simOptions ).start();

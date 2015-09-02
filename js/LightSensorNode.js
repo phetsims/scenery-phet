@@ -5,6 +5,8 @@
  * received. It is typically connected to a body with readouts with a curved wire.  The origin is in the center of the
  * circular part of the sensor (which is not vertically symmetrical).
  *
+ * This code was generalized from Bending Light, see https://github.com/phetsims/bending-light/issues/165
+ *
  * TODO: This is under development and not ready for review or usage in simulations other than Bending Light.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -22,16 +24,19 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
 
+  // constants
+  var DEFAULTS = {
+    width: 100,
+    height: 151
+  };
+
   /**
    * Constructor for the LightSensorNode
    * @constructor
    */
   function LightSensorNode( options ) {
 
-    options = _.extend( {
-      width: 100,
-      height: 151
-    }, options );
+    options = _.extend( DEFAULTS, options );
     var width = options.width;
     var height = options.height;
 
@@ -81,5 +86,13 @@ define( function( require ) {
     } );
   }
 
-  return inherit( Node, LightSensorNode );
+  return inherit( Node, LightSensorNode, {},
+
+    // statics
+    {
+
+      // @public {read-only}, make the defaults publicly available to clients in case they need to make
+      // customizations, such as 0.9 x the default width
+      DEFAULTS: DEFAULTS
+    } );
 } );
