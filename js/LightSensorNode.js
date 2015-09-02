@@ -59,7 +59,7 @@ define( function( require ) {
       centerX: outerShapePath.centerX,
       y: 5
     } );
-    var innerCirclePath = new Path( new Shape().circle( 50, 50, 35 ), {
+    var innerCirclePath = new Path( Shape.circle( 50, 50, 35 ), {
       fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
