@@ -28,7 +28,9 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function SpringView() {
+  function LightSensorNodeView() {
+
+    var lightSensorNodeView = this;
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
@@ -46,7 +48,10 @@ define( function( require ) {
       lightSensorNodeLayer.removeAllChildren();
       lightSensorNodeLayer.addChild( new LightSensorNode( {
         width: propertySet.width,
-        height: propertySet.height
+        height: propertySet.height,
+
+        x: lightSensorNodeView.layoutBounds.width / 2,
+        y: lightSensorNodeView.layoutBounds.height / 2
       } ) );
     };
     propertySet.widthProperty.link( updateLightSensor );
@@ -78,5 +83,5 @@ define( function( require ) {
     } ) );
   }
 
-  return inherit( ScreenView, SpringView );
+  return inherit( ScreenView, LightSensorNodeView );
 } );

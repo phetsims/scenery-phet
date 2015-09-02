@@ -84,6 +84,8 @@ define( function( require ) {
       children: [ outerShapePath, innerPath, innerCirclePath ],
       cursor: 'pointer'
     } );
+
+    this.mutate( options );
   }
 
   return inherit( Node, LightSensorNode, {},
