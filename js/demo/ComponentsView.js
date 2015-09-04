@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var ComboBox = require( 'SUN/ComboBox' );
@@ -28,7 +27,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
