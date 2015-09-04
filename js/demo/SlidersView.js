@@ -27,7 +27,7 @@ define( function( require ) {
     var thisView = this;
     ScreenView.call( this );
 
-     // To add a demo, create an entry here.
+    // To add a demo, create an entry here.
     var demos = [
       { label: 'HSlider', node: demoHSlider( this.layoutBounds ) },
       { label: 'NumberControl', node: demoNumberControl( this.layoutBounds ) },
@@ -76,14 +76,6 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for WavelengthSlider
-  var demoWavelengthSlider = function( layoutBounds ) {
-    var wavelengthProperty = new Property( 500 );
-    return new WavelengthSlider( wavelengthProperty, {
-      center: layoutBounds.center
-    } );
-  };
-
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
 
@@ -100,6 +92,14 @@ define( function( require ) {
         { value: weightRange.max, label: new Text( weightRange.max, new PhetFont( 20 ) ) }
       ],
       minorTickSpacing: 50,
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for WavelengthSlider
+  var demoWavelengthSlider = function( layoutBounds ) {
+    var wavelengthProperty = new Property( 500 );
+    return new WavelengthSlider( wavelengthProperty, {
       center: layoutBounds.center
     } );
   };
