@@ -19,19 +19,25 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var PropertySet = require( 'AXON/PropertySet' );
   var Range = require( 'DOT/Range' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
+  var Shape = require( 'KITE/Shape' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
 
   function ComponentsView() {
@@ -41,15 +47,16 @@ define( function( require ) {
 
     // To add a demo, create an entry here.
     var demos = [
-      { label: 'BracketNode', node: demoBracketNode() },
+      { label: 'BracketNode', node: demoBracketNode( this.layoutBounds ) },
       { label: 'ConductivityTesterNode', node: demoConductivityTesterNode( this.layoutBounds ) },
-      { label: 'EyeDropperNode', node: demoEyeDropperNode() },
-      { label: 'FaucetNode', node: demoFaucetNode() },
+      { label: 'EyeDropperNode', node: demoEyeDropperNode( this.layoutBounds ) },
+      { label: 'FaucetNode', node: demoFaucetNode( this.layoutBounds ) },
+      { label: 'LightSensorNode', node: demoLightSensorNode( this.layoutBounds ) },
       { label: 'MeasuringTape', node: demoMeasuringTape( this.layoutBounds ) },
-      { label: 'NumberPicker', node: demoNumberPicker() },
-      { label: 'RulerNode', node: demoRulerNode() },
-      { label: 'StarNode', node: demoStarNode() },
-      { label: 'ThermometerNode', node: demoTemperatureNode() }
+      { label: 'NumberPicker', node: demoNumberPicker( this.layoutBounds ) },
+      { label: 'RulerNode', node: demoRulerNode( this.layoutBounds ) },
+      { label: 'StarNode', node: demoStarNode( this.layoutBounds ) },
+      { label: 'ThermometerNode', node: demoTemperatureNode( this.layoutBounds ) }
     ];
 
     var comboBoxItems = [];
@@ -64,9 +71,6 @@ define( function( require ) {
 
       // demo is invisible until selected via the combo box
       demo.node.visible = false;
-
-      // demo is centered on the screen
-      demo.node.center = thisView.layoutBounds.center;
     } );
 
     // Combo box for selecting which component to view
@@ -85,12 +89,13 @@ define( function( require ) {
   }
 
   // Creates a demo for BracketNode
-  var demoBracketNode = function() {
+  var demoBracketNode = function( layoutBounds ) {
     return new BracketNode( {
       orientation: 'left',
       bracketTipLocation: 0.75,
       labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
-      spacing: 10
+      spacing: 10,
+      center: layoutBounds.center
     } );
   };
 
@@ -132,16 +137,17 @@ define( function( require ) {
     } );
 
     return new Node( {
-      children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckBox ]
+      children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckBox ],
+      center: layoutBounds.center
     } );
   };
 
   // Creates a demo for EyeDropperNode
-  var demoEyeDropperNode = function() {
+  var demoEyeDropperNode = function( layoutBounds ) {
 
     var dropperNode = new EyeDropperNode( {
       fluidColor: 'purple',
-      visible: false
+      center: layoutBounds.center
     } );
 
     dropperNode.dispensingProperty.lazyLink( function( dispensing ) {
@@ -152,7 +158,7 @@ define( function( require ) {
   };
 
   // Creates a demo for FaucetNode
-  var demoFaucetNode = function() {
+  var demoFaucetNode = function( layoutBounds ) {
 
     var fluidRateProperty = new Property( 0 );
     var faucetEnabledProperty = new Property( true );
@@ -165,8 +171,62 @@ define( function( require ) {
     } );
 
     return new Node( {
-      children: [ faucetNode, faucetEnabledCheckBox ]
+      children: [ faucetNode, faucetEnabledCheckBox ],
+      center: layoutBounds.center
     } );
+  };
+
+  // Creates a demo for LightSensorNode
+  var demoLightSensorNode = function( layoutBounds ) {
+
+    var demoParent = new Node();
+
+    // Layer for the light sensor node.  The node will be destroyed and re-created when its parameters change
+    var lightSensorNodeLayer = new Node();
+
+    // Model properties that describe the sensor
+    var propertySet = new PropertySet( {
+      width: LightSensorNode.DEFAULTS.width,
+      height: LightSensorNode.DEFAULTS.height
+    } );
+
+    // When the model properties change, update the sensor node
+    var updateLightSensor = function() {
+      lightSensorNodeLayer.removeAllChildren();
+      lightSensorNodeLayer.addChild( new LightSensorNode( {
+        width: propertySet.width,
+        height: propertySet.height,
+        center: layoutBounds.center
+      } ) );
+    };
+    propertySet.widthProperty.link( updateLightSensor );
+    propertySet.heightProperty.link( updateLightSensor );
+    demoParent.addChild( lightSensorNodeLayer );
+
+    // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
+    var crossHairDiameter = 400;
+    demoParent.addChild( new Path( new Shape()
+        .moveTo( layoutBounds.centerX - crossHairDiameter / 2, layoutBounds.centerY )
+        .lineTo( layoutBounds.centerX + crossHairDiameter / 2, layoutBounds.centerY )
+        .moveTo( layoutBounds.centerX, layoutBounds.centerY - crossHairDiameter / 2 )
+        .lineTo( layoutBounds.centerX, layoutBounds.centerY + crossHairDiameter / 2 ),
+      { stroke: 'black' } ) );
+
+    // Controls
+    demoParent.addChild( new VBox( {
+      resize: false, // Don't readjust the size when the slider knob moves all the way to the right
+      spacing: 15,
+      children: [
+        new Text( 'Width', { font: new PhetFont( 16 ) } ),
+        new HSlider( propertySet.widthProperty, { min: 1, max: LightSensorNode.DEFAULTS.width * 2 } ),
+        new Text( 'Height', { font: new PhetFont( 16 ) } ),
+        new HSlider( propertySet.heightProperty, { min: 1, max: LightSensorNode.DEFAULTS.height * 2 } )
+      ],
+      left: 50,
+      bottom: layoutBounds.maxY - 50
+    } ) );
+
+    return demoParent;
   };
 
   // Creates a demo for MeasuringTape
@@ -183,12 +243,14 @@ define( function( require ) {
   };
 
   // Creates a demo for NumberPicker
-  var demoNumberPicker = function() {
-    return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ) );
+  var demoNumberPicker = function( layoutBounds ) {
+    return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
+      center: layoutBounds.center
+    } );
   };
 
   // Creates a demo for RulerNode
-  var demoRulerNode = function() {
+  var demoRulerNode = function( layoutBounds ) {
 
     var rulerLength = 300;
     var majorTickWidth = 50;
@@ -205,7 +267,7 @@ define( function( require ) {
   };
 
   // Creates a demo for StarNode
-  var demoStarNode = function() {
+  var demoStarNode = function( layoutBounds ) {
 
     var starNodeContainer = new Node( {
       children: [ new StarNode() ]
@@ -232,12 +294,13 @@ define( function( require ) {
     } );
 
     return new Node( {
-      children: [ starNodeContainer, starSlider ]
+      children: [ starNodeContainer, starSlider ],
+      center: layoutBounds.center
     } );
   };
 
   // Creates a demo for ThermometerNode
-  var demoTemperatureNode = function() {
+  var demoTemperatureNode = function( layoutBounds ) {
 
     var temperatureProperty = new Property( 50 );
 
@@ -256,7 +319,8 @@ define( function( require ) {
     temperatureSlider.centerY = thermometer.centerY;
 
     return new Node( {
-      children: [ thermometer, temperatureSlider ]
+      children: [ thermometer, temperatureSlider ],
+      center: layoutBounds.center
     } );
   };
 
