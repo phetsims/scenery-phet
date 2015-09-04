@@ -118,7 +118,8 @@ define( function( require ) {
 
     // brightness slider
     var brightnessSlider = new HSlider( brightnessProperty, { min: 0, max: 1 }, {
-      thumbSize: new Dimension2( 15, 30 ),
+      trackSize: new Dimension2( 200, 5 ),
+      thumbSize: new Dimension2( 25, 45 ),
       thumbFillEnabled: 'orange',
       thumbFillHighlighted: 'rgb( 255, 210, 0 )',
       thumbCenterLineStroke: 'black',
@@ -131,7 +132,7 @@ define( function( require ) {
     shortCircuitProperty.link( function( shortCircuit ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
     } );
-    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit', { font: new PhetFont() } ), shortCircuitProperty, {
+    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
       left: brightnessSlider.left,
       bottom: brightnessSlider.top - 50
     } );
@@ -165,9 +166,9 @@ define( function( require ) {
 
     var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty );
 
-    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled', { font: new PhetFont() } ), faucetEnabledProperty, {
+    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), faucetEnabledProperty, {
       left: faucetNode.left,
-      bottom: faucetNode.top
+      bottom: faucetNode.top - 20
     } );
 
     return new Node( {
@@ -239,14 +240,15 @@ define( function( require ) {
     return new MeasuringTape( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
       dragBounds: layoutBounds,
-      basePositionProperty: new Property( new Vector2( 100, 100 ) ),
-      tipPositionProperty: new Property( new Vector2( 200, 100 ) )
+      basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
+      tipPositionProperty: new Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
     } );
   };
 
   // Creates a demo for NumberPicker
   var demoNumberPicker = function( layoutBounds ) {
     return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
+      font: new PhetFont( 40 ),
       center: layoutBounds.center
     } );
   };
@@ -254,7 +256,7 @@ define( function( require ) {
   // Creates a demo for RulerNode
   var demoRulerNode = function( layoutBounds ) {
 
-    var rulerLength = 300;
+    var rulerLength = 500;
     var majorTickWidth = 50;
     var majorTickLabels = [];
     var numberOfTicks = Math.floor( rulerLength / majorTickWidth ) + 1;
@@ -262,28 +264,29 @@ define( function( require ) {
       majorTickLabels[ i ] = '' + ( i * majorTickWidth );
     }
 
-    return new RulerNode( rulerLength, 30, majorTickWidth, majorTickLabels, 'm', {
+    return new RulerNode( rulerLength, 0.15 * rulerLength, majorTickWidth, majorTickLabels, 'm', {
       insetsWidth: 25,
-      minorTicksPerMajorTick: 4
+      minorTicksPerMajorTick: 4,
+      center: layoutBounds.center
     } );
   };
 
   // Creates a demo for StarNode
   var demoStarNode = function( layoutBounds ) {
 
-    var starNodeContainer = new Node( {
-      children: [ new StarNode() ]
-    } );
-
     var starValueProperty = new Property( 1 );
 
     var starSlider = new HSlider( starValueProperty, { min: 0, max: 1 }, {
-      thumbSize: new Dimension2( 15, 30 ),
+      thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'yellow',
       thumbFillEnabled: 'rgb(220,220,0)',
-      thumbCenterLineStroke: 'black',
-      right: starNodeContainer.right,
-      top: starNodeContainer.bottom + 10
+      thumbCenterLineStroke: 'black'
+    } );
+
+    var starNodeContainer = new Node( {
+      children: [ new StarNode() ],
+      top: starSlider.bottom + 30,
+      right: starSlider.right
     } );
 
     /*
@@ -292,7 +295,13 @@ define( function( require ) {
      * Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths).
      */
     starValueProperty.link( function( value ) {
-      starNodeContainer.children = [ new StarNode( { value: value } ) ];
+      starNodeContainer.children = [
+        new StarNode( {
+          value: value,
+          outerRadius: 30,
+          innerRadius: 15
+        } )
+      ];
     } );
 
     return new Node( {
@@ -307,17 +316,21 @@ define( function( require ) {
     var temperatureProperty = new Property( 50 );
 
     var thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
+      bulbDiameter: 100,
+      tubeWidth: 60,
+      tubeHeight: 200,
       glassThickness: 6,
       backgroundFill: 'yellow'
     } );
 
     var temperatureSlider = new HSlider( temperatureProperty, { min: 0, max: 100 }, {
-      thumbSize: new Dimension2( 15, 30 ),
+      trackSize: new Dimension2( 200, 5 ),
+      thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'red',
       thumbFillEnabled: 'rgb(158,35,32)'
     } );
     temperatureSlider.rotation = -Math.PI / 2;
-    temperatureSlider.right = thermometer.left - 40;
+    temperatureSlider.right = thermometer.left - 50;
     temperatureSlider.centerY = thermometer.centerY;
 
     return new Node( {
