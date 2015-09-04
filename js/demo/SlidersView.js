@@ -24,7 +24,7 @@ define( function( require ) {
 
   function SlidersView() {
 
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this );
 
     // horizontal slider
     var hSliderProperty = new Property( 0 );

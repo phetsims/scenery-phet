@@ -27,7 +27,7 @@ define( function( require ) {
   var BUTTON_CAPTION_SPACING = 10; // space between buttons and their captions
 
   function ButtonsView() {
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this );
 
     // Refresh button
     var refreshButton = new RefreshButton( {
