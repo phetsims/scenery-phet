@@ -81,6 +81,7 @@ define( function( require ) {
       demo.visible = true;
     } );
     var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
+      buttonFill: 'rgb( 218, 236, 255 )',
       top: 20,
       left: 20
     } );
@@ -195,7 +196,8 @@ define( function( require ) {
       lightSensorNodeLayer.addChild( new LightSensorNode( {
         width: propertySet.width,
         height: propertySet.height,
-        center: layoutBounds.center
+        x: layoutBounds.centerX,
+        y: layoutBounds.centerY
       } ) );
     };
     propertySet.widthProperty.link( updateLightSensor );
@@ -203,13 +205,14 @@ define( function( require ) {
     demoParent.addChild( lightSensorNodeLayer );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
-    var crossHairDiameter = 400;
     demoParent.addChild( new Path( new Shape()
-        .moveTo( layoutBounds.centerX - crossHairDiameter / 2, layoutBounds.centerY )
-        .lineTo( layoutBounds.centerX + crossHairDiameter / 2, layoutBounds.centerY )
-        .moveTo( layoutBounds.centerX, layoutBounds.centerY - crossHairDiameter / 2 )
-        .lineTo( layoutBounds.centerX, layoutBounds.centerY + crossHairDiameter / 2 ),
-      { stroke: 'black' } ) );
+        .moveTo( layoutBounds.left, layoutBounds.centerY )
+        .lineTo( layoutBounds.right, layoutBounds.centerY )
+        .moveTo( layoutBounds.centerX, layoutBounds.top )
+        .lineTo( layoutBounds.centerX, layoutBounds.bottom ), {
+      stroke: 'black',
+      lineWidth: 0.5
+    } ) );
 
     // Controls
     demoParent.addChild( new VBox( {
