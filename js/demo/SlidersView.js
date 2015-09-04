@@ -10,42 +10,83 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
+  var ComboBox = require( 'SUN/ComboBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   function SlidersView() {
 
+    var thisView = this;
     ScreenView.call( this );
 
-    // horizontal slider
+     // To add a demo, create an entry here.
+    var demos = [
+      { label: 'HSlider', node: demoHSlider( this.layoutBounds ) },
+      { label: 'NumberControl', node: demoNumberControl( this.layoutBounds ) },
+      { label: 'WavelengthSlider', node: demoWavelengthSlider( this.layoutBounds ) }
+    ];
+
+    var comboBoxItems = [];
+
+    demos.forEach( function( demo ) {
+
+      // add demo to the combo box
+      comboBoxItems.push( ComboBox.createItem( new Text( demo.label, { font: new PhetFont( 20 ) } ), demo.node ) );
+
+      // add demo to the scenegraph
+      thisView.addChild( demo.node );
+
+      // demo is invisible until selected via the combo box
+      demo.node.visible = false;
+    } );
+
+    // Combo box for selecting which component to view
+    var listParent = new Node();
+    this.addChild( listParent );
+    var selectedDemoProperty = new Property( demos[ 0 ].node );
+    selectedDemoProperty.link( function( demo, oldDemo ) {
+      if ( oldDemo ) { oldDemo.visible = false; }
+      demo.visible = true;
+    } );
+    var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
+      buttonFill: 'rgb( 218, 236, 255 )',
+      top: 20,
+      left: 20
+    } );
+    this.addChild( comboBox );
+  }
+
+  // Creates a demo for HSlider
+  var demoHSlider = function( layoutBounds ) {
     var hSliderProperty = new Property( 0 );
-    var hSlider = new HSlider( hSliderProperty, { min: 0, max: 100 }, {
-      left: 10,
-      top: 10
+    return new HSlider( hSliderProperty, { min: 0, max: 100 }, {
+      center: layoutBounds.center
     } );
-    this.addChild( hSlider );
+  };
 
-    // wavelength slider
+  // Creates a demo for WavelengthSlider
+  var demoWavelengthSlider = function( layoutBounds ) {
     var wavelengthProperty = new Property( 500 );
-    var wavelengthSlider = new WavelengthSlider( wavelengthProperty, {
-      left: 10,
-      top: hSlider.bottom + 10
+    return new WavelengthSlider( wavelengthProperty, {
+      center: layoutBounds.center
     } );
-    this.addChild( wavelengthSlider );
+  };
 
-    // NumberControl
+  // Creates a demo for NumberControl
+  var demoNumberControl = function( layoutBounds ) {
+
     var weightRange = new Range( 0, 300, 100 );
     var weightProperty = new Property( weightRange.defaultValue );
-    var weightControl = new NumberControl( 'Weight:', weightProperty, weightRange, {
+
+    return new NumberControl( 'Weight:', weightProperty, weightRange, {
       titleFont: new PhetFont( 20 ),
       valueFont: new PhetFont( 20 ),
       units: 'lbs',
@@ -55,24 +96,9 @@ define( function( require ) {
         { value: weightRange.max, label: new Text( weightRange.max, new PhetFont( 20 ) ) }
       ],
       minorTickSpacing: 50,
-      left: wavelengthSlider.left,
-      top: wavelengthSlider.bottom + 30
+      center: layoutBounds.center
     } );
-    this.addChild( weightControl );
-
-    // Reset All button
-    var resetAllButton = new ResetAllButton( {
-      listener: function() {
-        hSliderProperty.reset();
-        wavelengthProperty.reset();
-        weightProperty.reset();
-      },
-      radius: 22,
-      right:  this.layoutBounds.right - 10,
-      bottom: this.layoutBounds.bottom - 10
-    } );
-    this.addChild( resetAllButton );
-  }
+  };
 
   return inherit( ScreenView, SlidersView );
 } );
