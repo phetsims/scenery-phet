@@ -72,20 +72,24 @@ define( function( require ) {
       demo.node.visible = false;
     } );
 
-    // Combo box for selecting which component to view
+    // Parent for the combo box popup list
     var listParent = new Node();
     this.addChild( listParent );
+
+    // Combo box for selecting which component to view
     var selectedDemoProperty = new Property( demos[ 0 ].node );
-    selectedDemoProperty.link( function( demo, oldDemo ) {
-      if ( oldDemo ) { oldDemo.visible = false; }
-      demo.visible = true;
-    } );
     var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
       buttonFill: 'rgb( 218, 236, 255 )',
       top: 20,
       left: 20
     } );
     this.addChild( comboBox );
+
+    // Make the selected demo visible
+    selectedDemoProperty.link( function( demo, oldDemo ) {
+      if ( oldDemo ) { oldDemo.visible = false; }
+      demo.visible = true;
+    } );
   }
 
   // Creates a demo for BracketNode
