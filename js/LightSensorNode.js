@@ -37,6 +37,8 @@ define( function( require ) {
   function LightSensorNode( options ) {
 
     options = _.extend( DEFAULTS.clone(), options );
+
+    // To improve readability
     var width = options.width;
     var height = options.height;
 
