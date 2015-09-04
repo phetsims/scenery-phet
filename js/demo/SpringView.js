@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
   var ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
