@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function SpringView() {
 
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
+    ScreenView.call( this );
 
     // A 200-unit vertical "wall", for comparison with the spring size
     var wallNode = new Rectangle( 0, 0, 25, 200, {
