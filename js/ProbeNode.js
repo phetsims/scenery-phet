@@ -43,25 +43,25 @@ define( function( require ) {
     var height = options.height;
 
     // the top of the handle, below the circle at the top of the sensor
-    var handleTop = height - width / 2;
+    var handleBottom = height - width / 2;
 
     // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
       .ellipticalArc( 0, 0, width * 0.5, width * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
       .quadraticCurveTo( width * 0.34, width * 0.37, width * 0.32, width * 0.5 )
-      .quadraticCurveTo( width * 0.31, handleTop, width * 0.30, width * 0.8 )
-      .quadraticCurveTo( width * 0.30, handleTop, width * 0.15, handleTop )
-      .quadraticCurveTo( width * 0.00, handleTop, -width * 0.15, handleTop )
-      .quadraticCurveTo( -width * 0.30, handleTop, -width * 0.30, width * 0.80 )
+      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, width * 0.8 )
+      .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
+      .quadraticCurveTo( width * 0.00, handleBottom, -width * 0.15, handleBottom )
+      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, width * 0.80 )
       .quadraticCurveTo( -width * 0.31, width * 0.65, -width * 0.32, width * 0.5 )
       .quadraticCurveTo( -width * 0.34, width * 0.37, -width * 0.39, width * 0.32 )
       .close();
 
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( -width / 2, -width / 2, -width / 2, handleTop )
+      stroke: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
         .addColorStop( 0, '#408260' ) // dark green
         .addColorStop( 1, '#005D2D' ), // darker green 
-      fill: new LinearGradient( -width / 2, -width / 2, -width / 2, handleTop )
+      fill: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
         .addColorStop( 0, '#7CCAA2' ) // light green
         .addColorStop( 0.3, '#009348' ) // medium green
         .addColorStop( 1, '#008B44' ), // another medium green 
