@@ -27,7 +27,7 @@ define( function( require ) {
   // constants
   var DEFAULTS = {
     width: 100,
-    height: 151 
+    height: 151
   };
 
   /**
@@ -43,18 +43,22 @@ define( function( require ) {
     var height = options.height;
 
     // the top of the handle, below the circle at the top of the sensor
-    var handleBottom = height - width / 2;
+    var handleBottom = height * 2 / 3;
 
     // The shape of the outer body, circular at top with a handle at the bottom
     var sensorShape = new Shape()
-      .ellipticalArc( 0, 0, width * 0.5, width * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
-      .quadraticCurveTo( width * 0.34, width * 0.37, width * 0.32, width * 0.5 )
-      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, width * 0.8 )
-      .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
+      .moveTo( 0, handleBottom )
       .quadraticCurveTo( width * 0.00, handleBottom, -width * 0.15, handleBottom )
-      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, width * 0.80 )
-      .quadraticCurveTo( -width * 0.31, width * 0.65, -width * 0.32, width * 0.5 )
-      .quadraticCurveTo( -width * 0.34, width * 0.37, -width * 0.39, width * 0.32 )
+
+      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, height * 100 / 151 * 0.80 )
+      .quadraticCurveTo( -width * 0.31, height * 100 / 151 * 0.65, -width * 0.32, height * 100 / 151 * 0.5 )
+      .quadraticCurveTo( -width * 0.34, height * 100 / 151 * 0.37, -width * 0.39, height * 100 / 151 * 0.32 )
+
+      .ellipticalArc( 0, 0, width * 0.5, height * 100 / 151 * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      .quadraticCurveTo( width * 0.34, height * 100 / 151 * 0.37, width * 0.32, height * 100 / 151 * 0.5 )
+      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, height * 100 / 151 * 0.8 )
+      .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
+
       .close();
 
     var outerShapePath = new Path( sensorShape, {
