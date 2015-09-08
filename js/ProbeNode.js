@@ -83,8 +83,8 @@ define( function( require ) {
       y: 2
     } );
 
-    var innerCirclePath = new Path( Shape.circle( 0, 0, width * 0.35 ), {
-      fill: new RadialGradient( -width * 0.15, -width * 0.325, 0, -width * 0.15, width * 0.20, width * 0.60 )
+    var innerCirclePath = new Path( new Shape().ellipticalArc( 0, 0, width * 0.35, height * 100 / 151 * 0.35, Math.PI, 0, Math.PI * 2, false ), {
+      fill: new RadialGradient( -width * 0.15, -height * 100 / 151 * 0.325, 0, -width * 0.15, height * 100 / 151 * 0.20, width * 0.60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
         .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
