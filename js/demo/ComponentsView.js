@@ -19,7 +19,7 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
+  var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -50,7 +50,7 @@ define( function( require ) {
       { label: 'ConductivityTesterNode', node: demoConductivityTesterNode( this.layoutBounds ) },
       { label: 'EyeDropperNode', node: demoEyeDropperNode( this.layoutBounds ) },
       { label: 'FaucetNode', node: demoFaucetNode( this.layoutBounds ) },
-      { label: 'LightSensorNode', node: demoLightSensorNode( this.layoutBounds ) },
+      { label: 'ProbeNode', node: demoProbeNode( this.layoutBounds ) },
       { label: 'MeasuringTape', node: demoMeasuringTape( this.layoutBounds ) },
       { label: 'NumberPicker', node: demoNumberPicker( this.layoutBounds ) },
       { label: 'RulerNode', node: demoRulerNode( this.layoutBounds ) },
@@ -181,24 +181,24 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for LightSensorNode
-  var demoLightSensorNode = function( layoutBounds ) {
+  // Creates a demo for ProbeNode
+  var demoProbeNode = function( layoutBounds ) {
 
     var demoParent = new Node();
 
     // Layer for the light sensor node.  The node will be destroyed and re-created when its parameters change
-    var lightSensorNodeLayer = new Node();
+    var probeNodeLayer = new Node();
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( {
-      width: LightSensorNode.DEFAULTS.width,
-      height: LightSensorNode.DEFAULTS.height
+      width: ProbeNode.DEFAULTS.width,
+      height: ProbeNode.DEFAULTS.height
     } );
 
     // When the model properties change, update the sensor node
     var updateLightSensor = function() {
-      lightSensorNodeLayer.removeAllChildren();
-      lightSensorNodeLayer.addChild( new LightSensorNode( {
+      probeNodeLayer.removeAllChildren();
+      probeNodeLayer.addChild( new ProbeNode( {
         width: propertySet.width,
         height: propertySet.height,
         x: layoutBounds.centerX,
@@ -207,7 +207,7 @@ define( function( require ) {
     };
     propertySet.widthProperty.link( updateLightSensor );
     propertySet.heightProperty.link( updateLightSensor );
-    demoParent.addChild( lightSensorNodeLayer );
+    demoParent.addChild( probeNodeLayer );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
     demoParent.addChild( new Path( new Shape()
@@ -225,9 +225,9 @@ define( function( require ) {
       spacing: 15,
       children: [
         new Text( 'Width', { font: new PhetFont( 16 ) } ),
-        new HSlider( propertySet.widthProperty, { min: 1, max: LightSensorNode.DEFAULTS.width * 2 } ),
+        new HSlider( propertySet.widthProperty, { min: 1, max: ProbeNode.DEFAULTS.width * 2 } ),
         new Text( 'Height', { font: new PhetFont( 16 ) } ),
-        new HSlider( propertySet.heightProperty, { min: 1, max: LightSensorNode.DEFAULTS.height * 2 } )
+        new HSlider( propertySet.heightProperty, { min: 1, max: ProbeNode.DEFAULTS.height * 2 } )
       ],
       left: 50,
       bottom: layoutBounds.maxY - 50

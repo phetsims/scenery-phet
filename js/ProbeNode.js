@@ -31,10 +31,10 @@ define( function( require ) {
   };
 
   /**
-   * Constructor for the LightSensorNode
+   * Constructor for the ProbeNode
    * @constructor
    */
-  function LightSensorNode( options ) {
+  function ProbeNode( options ) {
 
     options = _.extend( _.clone( DEFAULTS ), options );
 
@@ -94,7 +94,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, LightSensorNode, {},
+  return inherit( Node, ProbeNode, {},
 
     // statics
     {
