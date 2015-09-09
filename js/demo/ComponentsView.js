@@ -46,19 +46,32 @@ define( function( require ) {
     var thisView = this;
     ScreenView.call( this );
 
+    var layoutBounds = this.layoutBounds;
+
     // To add a demo, create an entry here.
-    var demos = [
-      { label: 'BracketNode', node: demoBracketNode( this.layoutBounds ) },
-      { label: 'ConductivityTesterNode', node: demoConductivityTesterNode( this.layoutBounds ) },
-      { label: 'EyeDropperNode', node: demoEyeDropperNode( this.layoutBounds ) },
-      { label: 'FaucetNode', node: demoFaucetNode( this.layoutBounds ) },
-      { label: 'MeasuringTape', node: demoMeasuringTape( this.layoutBounds ) },
-      { label: 'NumberPicker', node: demoNumberPicker( this.layoutBounds ) },
-      { label: 'ProbeNode', node: demoProbeNode( this.layoutBounds ) },
-      { label: 'RulerNode', node: demoRulerNode( this.layoutBounds ) },
-      { label: 'StarNode', node: demoStarNode( this.layoutBounds ) },
-      { label: 'ThermometerNode', node: demoTemperatureNode( this.layoutBounds ) }
+    var allDemos = [
+      { label: 'BracketNode', getNode: function() {return demoBracketNode( layoutBounds );} },
+      { label: 'ConductivityTesterNode', getNode: function() {return demoConductivityTesterNode( layoutBounds );} },
+      { label: 'EyeDropperNode', getNode: function() {return demoEyeDropperNode( layoutBounds );} },
+      { label: 'FaucetNode', getNode: function() {return demoFaucetNode( layoutBounds );} },
+      { label: 'MeasuringTape', getNode: function() {return demoMeasuringTape( layoutBounds );} },
+      { label: 'NumberPicker', getNode: function() {return demoNumberPicker( layoutBounds );} },
+      { label: 'ProbeNode', getNode: function() {return demoProbeNode( layoutBounds );} },
+      { label: 'RulerNode', getNode: function() {return demoRulerNode( layoutBounds );} },
+      { label: 'StarNode', getNode: function() {return demoStarNode( layoutBounds );} },
+      { label: 'ThermometerNode', getNode: function() {return demoTemperatureNode( layoutBounds ) } }
     ];
+
+    // Choose a particular node based on the ?component query parameter
+    var component = phet.chipper.getQueryParameter( 'component' );
+    var demos = allDemos.filter( function( item ) {
+      return component ? item.label === component : true;
+    } );
+
+    // For any of the selected demos, instantiate its node.
+    demos.forEach( function( demo ) {
+      demo.node = demo.getNode();
+    } );
 
     // Sort the demos by label, so that they appear in the combo box in alphabetical order
     demos = _.sortBy( demos, function( demo ) {
