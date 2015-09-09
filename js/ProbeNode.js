@@ -23,11 +23,13 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // constants
   var DEFAULTS = {
     width: 100,
-    height: 151
+    height: 151,
+    color: '#008541' // darkish green
   };
 
   /**
@@ -37,6 +39,8 @@ define( function( require ) {
   function ProbeNode( options ) {
 
     options = _.extend( _.clone( DEFAULTS ), options );
+
+    var color = new Color( options.color );
 
     // To improve readability
     var width = options.width;
@@ -74,18 +78,18 @@ define( function( require ) {
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
-        .addColorStop( 0, '#408260' ) // dark green
-        .addColorStop( 1, '#005D2D' ), // darker green 
+        .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ) ) // dark 
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // darker 
       fill: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
-        .addColorStop( 0, '#7CCAA2' ) // light green
-        .addColorStop( 0.3, '#009348' ) // medium green
-        .addColorStop( 1, '#008B44' ), // another medium green 
+        .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ) ) // light
+        .addColorStop( 0.3, color.colorUtilsBrightness( +0.2 ) ) // medium light
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.1 ) ), // less light 
       lineWidth: 2
     } );
 
     // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
     var innerPath = new Path( sensorShape, {
-      fill: '#008541', // darkish green
+      fill: options.color,
       lineWidth: 2,
       scale: new Vector2( 0.9, 0.93 ),
       centerX: outerShapePath.centerX,
