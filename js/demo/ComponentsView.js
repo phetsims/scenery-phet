@@ -275,13 +275,14 @@ define( function( require ) {
     } ) );
 
     // Color controls
+    var colorComponentRange = new Range( 0, 255 );
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 15,
       children: [
-        NumberControl.withMinMaxTicks( 'R:', redProperty, new Range( 0, 255 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'G:', greenProperty, new Range( 0, 255 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'B:', blueProperty, new Range( 0, 255 ), numberControlOptions )
+        NumberControl.withMinMaxTicks( 'R:', redProperty, colorComponentRange, numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'G:', greenProperty, colorComponentRange, numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'B:', blueProperty, colorComponentRange, numberControlOptions )
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
