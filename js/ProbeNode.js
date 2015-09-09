@@ -1,9 +1,9 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * A light sensor probe, used in simulations like Bending Light and Beer's Law Lab to show how much light is being
- * received. It is typically connected to a body with readouts with a curved wire.  The origin is in the center of the
- * circular part of the sensor (which is not vertically symmetrical).
+ * A physical-looking probe with a handle and a semicircular sensor region, used in simulations like Bending Light and
+ * Beer's Law Lab to show how much light is being received. It is typically connected to a body with readouts with a
+ * curved wire. The origin is in the center of the circular part of the sensor (which is not vertically symmetrical).
  *
  * This code was generalized from Bending Light, see https://github.com/phetsims/bending-light/issues/165
  *
@@ -11,6 +11,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
