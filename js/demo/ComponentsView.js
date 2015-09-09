@@ -258,7 +258,7 @@ define( function( require ) {
     // Controls
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
-      spacing: 5,
+      spacing: 10,
       children: [
         createNumberControl( 'Radius', propertySet.radiusProperty, new Range( 1, ProbeNode.DEFAULTS.radius * 2 ) ),
         createNumberControl( 'Handle Width', propertySet.handleWidthProperty, new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ) ),
