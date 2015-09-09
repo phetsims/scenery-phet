@@ -251,7 +251,7 @@ define( function( require ) {
       lineWidth: 0.5
     } ) );
 
-    // Controls
+    // Geometry controls
     var numberControlOptions = {
       titleFont: new PhetFont( 14 ),
       valueFont: new PhetFont( 14 ),
