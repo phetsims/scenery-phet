@@ -193,8 +193,10 @@ define( function( require ) {
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( {
-      width: ProbeNode.DEFAULTS.width,
-      height: ProbeNode.DEFAULTS.height
+      radius: ProbeNode.DEFAULTS.radius,
+      handleWidth: ProbeNode.DEFAULTS.handleWidth,
+      handleHeight: ProbeNode.DEFAULTS.handleHeight,
+      handleCornerRadius: ProbeNode.DEFAULTS.handleCornerRadius
     } );
 
     var wavelengthProperty = new Property( 450 );
@@ -212,14 +214,18 @@ define( function( require ) {
 
         // default to the default color, but allow it to be overriden with the wavelength slider
         color: useWavelength ? VisibleColor.wavelengthToColor( wavelengthProperty.value ) : ProbeNode.DEFAULTS.color,
-        width: propertySet.width,
-        height: propertySet.height,
+        radius: propertySet.radius,
         x: layoutBounds.centerX,
-        y: layoutBounds.centerY
+        y: layoutBounds.centerY,
+        handleWidth: propertySet.handleWidth,
+        handleHeight: propertySet.handleHeight,
+        handleCornerRadius: propertySet.handleCornerRadius
       } ) );
     };
-    propertySet.widthProperty.link( updateLightSensor );
-    propertySet.heightProperty.link( updateLightSensor );
+    propertySet.radiusProperty.link( updateLightSensor );
+    propertySet.handleWidthProperty.link( updateLightSensor );
+    propertySet.handleHeightProperty.link( updateLightSensor );
+    propertySet.handleCornerRadiusProperty.link( updateLightSensor );
     wavelengthProperty.link( updateLightSensor );
     demoParent.addChild( probeNodeLayer );
 
@@ -233,16 +239,30 @@ define( function( require ) {
       lineWidth: 0.5
     } ) );
 
+    var textLabel = function( text ) {
+      return new Text( text, { font: new PhetFont( 12 ) } );
+    };
     // Controls
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
-      spacing: 15,
+      spacing: 5,
       children: [
-        new Text( 'Width', { font: new PhetFont( 16 ) } ),
-        new HSlider( propertySet.widthProperty, { min: 1, max: ProbeNode.DEFAULTS.width * 2 } ),
-        new Text( 'Height', { font: new PhetFont( 16 ) } ),
-        new HSlider( propertySet.heightProperty, { min: 1, max: ProbeNode.DEFAULTS.height * 2 } ),
-        new Text( 'Wavelength', { font: new PhetFont( 16 ) } ),
+        textLabel( 'Radius' ),
+        new HSlider( propertySet.radiusProperty, { min: 1, max: ProbeNode.DEFAULTS.radius * 2 } ),
+
+        textLabel( 'Handle Width' ),
+        new HSlider( propertySet.handleWidthProperty, { min: 1, max: ProbeNode.DEFAULTS.handleWidth * 2 } ),
+
+        textLabel( 'Handle Height' ),
+        new HSlider( propertySet.handleHeightProperty, { min: 1, max: ProbeNode.DEFAULTS.handleHeight * 2 } ),
+
+        textLabel( 'Handle Corner Radius' ),
+        new HSlider( propertySet.handleCornerRadiusProperty, {
+          min: 1,
+          max: ProbeNode.DEFAULTS.handleCornerRadius * 2
+        } ),
+
+        textLabel( 'Wavelength' ),
         new WavelengthSlider( wavelengthProperty )
       ],
       left: 50,

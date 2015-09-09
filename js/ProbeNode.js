@@ -27,8 +27,10 @@ define( function( require ) {
 
   // constants
   var DEFAULTS = {
-    width: 100,
-    height: 151,
+    radius: 50,
+    handleWidth: 30,
+    handleHeight: 30,
+    handleCornerRadius: 30,
     color: '#008541' // darkish green
   };
 
@@ -43,14 +45,14 @@ define( function( require ) {
     var color = new Color( options.color );
 
     // To improve readability
-    var width = options.width;
-    var height = options.height;
-
-    // characteristic height
-    var h = height * 100 / 151;
+    var radius = options.radius;
+    var height = radius;
 
     // the top of the handle, below the circle at the top of the sensor
-    var handleBottom = height * 2 / 3;
+    var handleBottom = radius + options.handleHeight;
+
+    // characteristic height
+    var h = radius * 100 / 151 * 2;
 
     // The shape of the outer body, circular at top with a handle at the bottom
 
@@ -61,26 +63,26 @@ define( function( require ) {
       .moveTo( 0, handleBottom )
 
       // bottom left corner
-      .quadraticCurveTo( width * 0.00, handleBottom, -width * 0.15, handleBottom )
+      .quadraticCurveTo( radius * 0.00 * 2, handleBottom, -radius * 0.15 * 2, handleBottom )
 
-      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, h * 0.80 )
-      .quadraticCurveTo( -width * 0.31, h * 0.65, -width * 0.32, h * 0.5 )
-      .quadraticCurveTo( -width * 0.34, h * 0.37, -width * 0.39, h * 0.32 )
+      .quadraticCurveTo( -radius * 0.30 * 2, handleBottom, -radius * 0.30 * 2, h * 0.80 )
+      .quadraticCurveTo( -radius * 0.31 * 2, h * 0.65, -radius * 0.32 * 2, h * 0.50 )
+      .quadraticCurveTo( -radius * 0.34 * 2, h * 0.37, -radius * 0.39 * 2, h * 0.32 )
 
       // Top arc
-      .ellipticalArc( 0, 0, width * 0.5, h * 0.5, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
+      .ellipticalArc( 0, 0, radius, h * 0.5, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
-      .quadraticCurveTo( width * 0.34, h * 0.37, width * 0.32, h * 0.5 )
-      .quadraticCurveTo( width * 0.31, h * 0.65, width * 0.30, h * 0.8 )
-      .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
+      .quadraticCurveTo( radius * 0.34 * 2, h * 0.37, radius * 0.32 * 2, h * 0.50 )
+      .quadraticCurveTo( radius * 0.31 * 2, h * 0.65, radius * 0.30 * 2, h * 0.80 )
+      .quadraticCurveTo( radius * 0.30 * 2, handleBottom, radius * 0.15 * 2, handleBottom )
 
       .close();
 
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
+      stroke: new LinearGradient( -radius / 2, -radius / 2, -radius / 2, handleBottom )
         .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ) ) // dark 
         .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // darker 
-      fill: new LinearGradient( -width / 2, -width / 2, -width / 2, handleBottom )
+      fill: new LinearGradient( -radius / 2, -radius / 2, -radius / 2, handleBottom )
         .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ) ) // light
         .addColorStop( 0.3, color.colorUtilsBrightness( +0.2 ) ) // medium light
         .addColorStop( 1.0, color.colorUtilsBrightness( -0.1 ) ), // less light 
@@ -98,9 +100,9 @@ define( function( require ) {
       y: 2
     } );
 
-    var maxRadius = Math.max( width, h );
-    var innerCirclePath = new Path( new Shape().ellipticalArc( 0, 0, width * 0.35, h * 0.35, Math.PI, 0, Math.PI * 2, false ), {
-      fill: new RadialGradient( -width * 0.15, -height * 100 / 151 * 0.325, 0, -width * 0.15, h * 0.20, maxRadius * 0.60 )
+    var maxRadius = Math.max( radius, h );
+    var innerCirclePath = new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, h * 0.35, Math.PI, 0, Math.PI * 2, false ), {
+      fill: new RadialGradient( -radius * 0.15, -height * 100 / 151 * 0.325, 0, -radius * 0.15, h * 0.20, maxRadius * 0.60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
         .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
