@@ -23,17 +23,17 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
+  // To add a demo, create an entry here.
+  // Demos are instantiated on demand.
+  // A node field will be added to each of these entries when the demo is instantiated.
+  var DEMOS = [
+    { label: 'HSlider', getNode: function( layoutBounds ) { return demoHSlider( layoutBounds ); } },
+    { label: 'NumberControl', getNode: function( layoutBounds ) { return demoNumberControl( layoutBounds ); } },
+    { label: 'WavelengthSlider', getNode: function( layoutBounds ) { return demoWavelengthSlider( layoutBounds ); } }
+  ];
+
   function SlidersView() {
-
-    DemosView.call( this, 'slider', [
-
-      // To add a demo, create an entry here.
-      // Demos are instantiated on demand.
-      // A node field will be added to each of these entries when the demo is instantiated.
-      { label: 'HSlider', getNode: function( layoutBounds ) { return demoHSlider( layoutBounds ); } },
-      { label: 'NumberControl', getNode: function( layoutBounds ) { return demoNumberControl( layoutBounds ); } },
-      { label: 'WavelengthSlider', getNode: function( layoutBounds ) { return demoWavelengthSlider( layoutBounds ); } }
-    ] );
+    DemosView.call( this, DEMOS, 'slider' );
   }
 
   // Creates a demo for HSlider

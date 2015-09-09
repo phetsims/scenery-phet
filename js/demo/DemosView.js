@@ -18,11 +18,11 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**
-   * @param queryParameterName - name of the query parameter uses to set initial selection of the combo box
    * @param {Object[]} demos - each demo has a {string} label and {function} getNode field
+   * @param queryParameterName - name of the query parameter uses to set initial selection of the combo box
    * @constructor
    */
-  function DemosView( queryParameterName, demos ) {
+  function DemosView( demos, queryParameterName ) {
 
     ScreenView.call( this );
 
