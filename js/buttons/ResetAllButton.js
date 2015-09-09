@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var Color = require( 'SCENERY/util/Color' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -46,7 +47,25 @@ define( function( require ) {
 
     var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
 
-    RoundPushButton.call( this, _.extend( { content: icon }, options ) );
+    RoundPushButton.call( this, _.extend( {
+      content: icon,
+      accessibleContent: {
+        createPeer: function( trail ) {
+          // will look like <input value="Reset" type="button" tabindex="0">
+          var domElement = document.createElement( 'input' );
+          domElement.value = 'Reset'; // TODO: translated string
+          domElement.type = 'button';
+
+          domElement.tabIndex = '0';
+
+          domElement.addEventListener( 'click', function() {
+            options.listener();
+          } );
+
+          return new AccessiblePeer( domElement );
+        }
+      }
+    }, options ) );
   }
 
   return inherit( RoundPushButton, ResetAllButton );
