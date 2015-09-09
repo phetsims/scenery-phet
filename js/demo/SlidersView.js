@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var ComboBox = require( 'SUN/ComboBox' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -98,10 +99,17 @@ define( function( require ) {
 
   // Creates a demo for HSlider
   var demoHSlider = function( layoutBounds ) {
-    var hSliderProperty = new Property( 0 );
-    return new HSlider( hSliderProperty, { min: 0, max: 100 }, {
+    var property = new Property( 0 );
+    var range = new Range( 0, 100 );
+    var tickLabelOptions = { font: new PhetFont( 16 ) };
+    var slider = new HSlider( property, range, {
+      trackSize: new Dimension2( 300, 5 ),
       center: layoutBounds.center
     } );
+    slider.addMajorTick( range.min, new Text( range.min, tickLabelOptions ) );
+    slider.addMajorTick( range.getCenter(), new Text( range.getCenter(), tickLabelOptions ) );
+    slider.addMajorTick( range.max, new Text( range.max, tickLabelOptions ) );
+    return slider;
   };
 
   // Creates a demo for NumberControl
