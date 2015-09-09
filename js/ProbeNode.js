@@ -42,21 +42,25 @@ define( function( require ) {
     var width = options.width;
     var height = options.height;
 
+    // characteristic height
+    var h = height * 100 / 151;
+
     // the top of the handle, below the circle at the top of the sensor
     var handleBottom = height * 2 / 3;
 
     // The shape of the outer body, circular at top with a handle at the bottom
+
     var sensorShape = new Shape()
       .moveTo( 0, handleBottom )
       .quadraticCurveTo( width * 0.00, handleBottom, -width * 0.15, handleBottom )
 
-      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, height * 100 / 151 * 0.80 )
-      .quadraticCurveTo( -width * 0.31, height * 100 / 151 * 0.65, -width * 0.32, height * 100 / 151 * 0.5 )
-      .quadraticCurveTo( -width * 0.34, height * 100 / 151 * 0.37, -width * 0.39, height * 100 / 151 * 0.32 )
+      .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, h * 0.80 )
+      .quadraticCurveTo( -width * 0.31, h * 0.65, -width * 0.32, h * 0.5 )
+      .quadraticCurveTo( -width * 0.34, h * 0.37, -width * 0.39, h * 0.32 )
 
-      .ellipticalArc( 0, 0, width * 0.5, height * 100 / 151 * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
-      .quadraticCurveTo( width * 0.34, height * 100 / 151 * 0.37, width * 0.32, height * 100 / 151 * 0.5 )
-      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, height * 100 / 151 * 0.8 )
+      .ellipticalArc( 0, 0, width * 0.5, h * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      .quadraticCurveTo( width * 0.34, h * 0.37, width * 0.32, h * 0.5 )
+      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, h * 0.8 )
       .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
 
       .close();
@@ -83,9 +87,9 @@ define( function( require ) {
       y: 2
     } );
 
-    var maxRadius = Math.max( width, height * 100 / 151 );
-    var innerCirclePath = new Path( new Shape().ellipticalArc( 0, 0, width * 0.35, height * 100 / 151 * 0.35, Math.PI, 0, Math.PI * 2, false ), {
-      fill: new RadialGradient( -width * 0.15, -height * 100 / 151 * 0.325, 0, -width * 0.15, height * 100 / 151 * 0.20, maxRadius * 0.60 )
+    var maxRadius = Math.max( width, h );
+    var innerCirclePath = new Path( new Shape().ellipticalArc( 0, 0, width * 0.35, h * 0.35, Math.PI, 0, Math.PI * 2, false ), {
+      fill: new RadialGradient( -width * 0.15, -height * 100 / 151 * 0.325, 0, -width * 0.15, h * 0.20, maxRadius * 0.60 )
         .addColorStop( 0, 'white' )
         .addColorStop( 0.4, '#E6F5FF' ) // light blue
         .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
