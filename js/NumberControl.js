@@ -155,7 +155,8 @@ define( function( require ) {
 
       options = _.extend( {
         tickLabelFont: new PhetFont( 12 )
-      } );
+      }, options );
+
       options.majorTicks = [
         { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
         { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
