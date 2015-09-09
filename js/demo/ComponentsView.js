@@ -212,7 +212,6 @@ define( function( require ) {
 
   // Creates a demo for ProbeNode
   var demoProbeNode = function( layoutBounds ) {
-    console.log( 'demoProbeNode' );//XXX
 
     var demoParent = new Node();
 
