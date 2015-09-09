@@ -213,7 +213,7 @@ define( function( require ) {
     } );
 
     // When the model properties change, update the sensor node
-    var updateLightSensor = function() {
+    var updateProbe = function() {
       probeNodeLayer.removeAllChildren();
       probeNodeLayer.addChild( new ProbeNode( {
 
@@ -227,11 +227,11 @@ define( function( require ) {
         handleCornerRadius: propertySet.handleCornerRadius
       } ) );
     };
-    propertySet.radiusProperty.link( updateLightSensor );
-    propertySet.handleWidthProperty.link( updateLightSensor );
-    propertySet.handleHeightProperty.link( updateLightSensor );
-    propertySet.handleCornerRadiusProperty.link( updateLightSensor );
-    wavelengthProperty.link( updateLightSensor );
+    propertySet.radiusProperty.link( updateProbe );
+    propertySet.handleWidthProperty.link( updateProbe );
+    propertySet.handleHeightProperty.link( updateProbe );
+    propertySet.handleCornerRadiusProperty.link( updateProbe );
+    wavelengthProperty.link( updateProbe );
     demoParent.addChild( probeNodeLayer );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
