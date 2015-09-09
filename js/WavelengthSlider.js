@@ -112,11 +112,13 @@ define( function( require ) {
   inherit( Rectangle, Cursor );
 
   /**
-   * @param {Property.<number>} wavelength
+   * @param {Property.<number>} wavelength - in nm
    * @param {Object} [options]
    * @constructor
    */
   function WavelengthSlider( wavelength, options ) {
+
+    options = options || {};
 
     // calculate default touchAreaExpand parameters as half of the width
     var defaultThumbWidth = 35;
