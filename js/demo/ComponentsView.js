@@ -199,11 +199,11 @@ define( function( require ) {
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( {
-      color: ProbeNode.DEFAULTS.color,
-      radius: ProbeNode.DEFAULTS.radius,
-      handleWidth: ProbeNode.DEFAULTS.handleWidth,
-      handleHeight: ProbeNode.DEFAULTS.handleHeight,
-      handleCornerRadius: ProbeNode.DEFAULTS.handleCornerRadius
+      color: ProbeNode.DEFAULT_OPTIONS.color,
+      radius: ProbeNode.DEFAULT_OPTIONS.radius,
+      handleWidth: ProbeNode.DEFAULT_OPTIONS.handleWidth,
+      handleHeight: ProbeNode.DEFAULT_OPTIONS.handleHeight,
+      handleCornerRadius: ProbeNode.DEFAULT_OPTIONS.handleCornerRadius
     } );
 
     // RGB color components, for setting the sensor color
@@ -262,13 +262,13 @@ define( function( require ) {
       spacing: 15,
       children: [
         NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
-          new Range( 1, ProbeNode.DEFAULTS.radius * 2 ), numberControlOptions ),
+          new Range( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty,
-          new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ), numberControlOptions ),
+          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
-          new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ), numberControlOptions ),
+          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleHeight * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty,
-          new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ), numberControlOptions )
+          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
       ],
       left: layoutBounds.left + 50,
       centerY: layoutBounds.centerY

@@ -27,7 +27,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
 
   // constants
-  var DEFAULTS = {
+  var DEFAULT_OPTIONS = {
     radius: 50,
     handleWidth: 50,
     handleHeight: 30,
@@ -41,7 +41,7 @@ define( function( require ) {
    */
   function ProbeNode( options ) {
 
-    options = _.extend( _.clone( DEFAULTS ), options );
+    options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
 
     var color = new Color( options.color );
 
@@ -120,6 +120,6 @@ define( function( require ) {
 
       // @public {read-only}, make the defaults publicly available to clients in case they need to make
       // customizations, such as 0.9 x the default width
-      DEFAULTS: DEFAULTS
+      DEFAULT_OPTIONS: DEFAULT_OPTIONS
     } );
 } );
