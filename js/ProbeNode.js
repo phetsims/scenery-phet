@@ -67,7 +67,7 @@ define( function( require ) {
       .ellipticalArc( 0, 0, width * 0.5, h * 0.5, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
       .quadraticCurveTo( width * 0.34, h * 0.37, width * 0.32, h * 0.5 )
-      .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, h * 0.8 )
+      .quadraticCurveTo( width * 0.31, h * 0.65, width * 0.30, h * 0.8 )
       .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
 
       .close();
