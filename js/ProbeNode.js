@@ -50,15 +50,22 @@ define( function( require ) {
 
     // The shape of the outer body, circular at top with a handle at the bottom
 
+    var arcExtent = 0.8;
     var sensorShape = new Shape()
+
+    // start in the bottom center
       .moveTo( 0, handleBottom )
+
+      // bottom left corner
       .quadraticCurveTo( width * 0.00, handleBottom, -width * 0.15, handleBottom )
 
       .quadraticCurveTo( -width * 0.30, handleBottom, -width * 0.30, h * 0.80 )
       .quadraticCurveTo( -width * 0.31, h * 0.65, -width * 0.32, h * 0.5 )
       .quadraticCurveTo( -width * 0.34, h * 0.37, -width * 0.39, h * 0.32 )
 
-      .ellipticalArc( 0, 0, width * 0.5, h * 0.5, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      // Top arc
+      .ellipticalArc( 0, 0, width * 0.5, h * 0.5, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
+
       .quadraticCurveTo( width * 0.34, h * 0.37, width * 0.32, h * 0.5 )
       .quadraticCurveTo( width * 0.31, handleBottom, width * 0.30, h * 0.8 )
       .quadraticCurveTo( width * 0.30, handleBottom, width * 0.15, handleBottom )
