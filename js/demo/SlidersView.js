@@ -1,7 +1,9 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Demonstration of scenery-phet sliders
+ * Demonstration of scenery-phet sliders.
+ * Demos are selected from a combo box, and are instantiated on demand.
+ * Use the 'slider' query parameter to set the initial selection of the combo box.
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -24,14 +26,17 @@ define( function( require ) {
 
   function SlidersView() {
 
-    var thisView = this;
     ScreenView.call( this );
 
+    var layoutBounds = this.layoutBounds;
+
     // To add a demo, create an entry here.
+    // Demos are instantiated on demand.
+    // A node field will be added to each of these entries when the demo is instantiated.
     var demos = [
-      { label: 'HSlider', node: demoHSlider( this.layoutBounds ) },
-      { label: 'NumberControl', node: demoNumberControl( this.layoutBounds ) },
-      { label: 'WavelengthSlider', node: demoWavelengthSlider( this.layoutBounds ) }
+      { label: 'HSlider', getNode: function() { return demoHSlider( layoutBounds ); } },
+      { label: 'NumberControl', getNode: function() { return demoNumberControl( layoutBounds ); } },
+      { label: 'WavelengthSlider', getNode: function() { return demoWavelengthSlider( layoutBounds ); } }
     ];
 
     // Sort the demos by label, so that they appear in the combo box in alphabetical order
@@ -39,26 +44,29 @@ define( function( require ) {
       return demo.label;
     } );
 
+    // All demos will be children of this node, to maintain rendering order with combo box list
+    var demosParent = new Node();
+    this.addChild( demosParent );
+
+    // add each demo to the combo box
     var comboBoxItems = [];
-
     demos.forEach( function( demo ) {
-
-      // add demo to the combo box
-      comboBoxItems.push( ComboBox.createItem( new Text( demo.label, { font: new PhetFont( 20 ) } ), demo.node ) );
-
-      // add demo to the scenegraph
-      thisView.addChild( demo.node );
-
-      // demo is invisible until selected via the combo box
-      demo.node.visible = false;
+      comboBoxItems.push( ComboBox.createItem( new Text( demo.label, { font: new PhetFont( 20 ) } ), demo ) );
     } );
 
     // Parent for the combo box popup list
     var listParent = new Node();
     this.addChild( listParent );
 
+    // Set the initial demo based on the (optional) 'slider' query parameter, whose value is a demo 'label' field value.
+    var component = phet.chipper.getQueryParameter( 'slider' );
+    var selectedDemo = demos.find( function( demo ) {
+      return ( demo.label === component );
+    } );
+    selectedDemo = selectedDemo || demos[ 0 ];
+
     // Combo box for selecting which component to view
-    var selectedDemoProperty = new Property( demos[ 0 ].node );
+    var selectedDemoProperty = new Property( selectedDemo );
     var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
       buttonFill: 'rgb( 218, 236, 255 )',
       top: 20,
@@ -68,8 +76,23 @@ define( function( require ) {
 
     // Make the selected demo visible
     selectedDemoProperty.link( function( demo, oldDemo ) {
-      if ( oldDemo ) { oldDemo.visible = false; }
-      demo.visible = true;
+
+      // make the previous selection invisible
+      if ( oldDemo ) {
+        oldDemo.node.visible = false;
+      }
+
+      if ( demo.node ) {
+
+        // If the selected demo has an associated node, make it visible.
+        demo.node.visible = true;
+      }
+      else {
+
+        // If the selected demo doesn't doesn't have an associated node, create it.
+        demo.node = demo.getNode();
+        demosParent.addChild( demo.node );
+      }
     } );
   }
 
