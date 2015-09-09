@@ -54,20 +54,21 @@ define( function( require ) {
 
     // The shape of the outer body, circular at top with a handle at the bottom
     var arcExtent = 0.8;
+    var handleWidth = options.handleWidth;
     var sensorShape = new Shape()
 
     // start in the bottom center
       .moveTo( 0, handleBottom )
 
-      .lineTo( -options.handleWidth / 2, handleBottom )
-      .lineTo( -options.handleWidth / 2, radius )
+      .lineTo( -handleWidth / 2, handleBottom )
+      .lineTo( -handleWidth / 2, radius )
       //.lineTo( -radius * 0.39 * 2, h * 0.32 )
 
       // Top arc
       .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
-      .lineTo( options.handleWidth / 2, radius )
-      .lineTo( options.handleWidth / 2, handleBottom )
+      .lineTo( handleWidth / 2, radius )
+      .lineTo( handleWidth / 2, handleBottom )
 
       //.lineTo( radius * 0.32 * 2, h * 0.50 )
       //.lineTo( radius * 0.30 * 2, h * 0.80 )
