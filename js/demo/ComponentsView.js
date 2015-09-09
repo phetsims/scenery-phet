@@ -43,7 +43,6 @@ define( function( require ) {
 
   function ComponentsView() {
 
-    var thisView = this;
     ScreenView.call( this );
 
     var layoutBounds = this.layoutBounds;
