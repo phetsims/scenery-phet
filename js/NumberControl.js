@@ -140,5 +140,28 @@ define( function( require ) {
     VBox.call( this, options );
   }
 
-  return inherit( VBox, NumberControl );
+  return inherit( VBox, NumberControl, {}, {
+
+    /**
+     * Creates a NumberControl with default tick marks for min and max values.
+     * @param label
+     * @param property
+     * @param range
+     * @param options
+     * @returns {NumberControl}
+     * @static
+     */
+    withMinMaxTicks: function( label, property, range, options ) {
+
+      options = _.extend( {
+        tickLabelFont: new PhetFont( 12 )
+      } );
+      options.majorTicks = [
+        { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
+        { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
+      ];
+
+      return new NumberControl( label, property, range, options );
+    }
+  } );
 } );

@@ -245,25 +245,15 @@ define( function( require ) {
       lineWidth: 0.5
     } ) );
 
-    var TICK_LABEL_OPTIONS = { font: new PhetFont( 12 ) };
-    var createNumberControl = function( label, property, range ) {
-      return new NumberControl( label, property, range, {
-        majorTicks: [
-          { value: range.min, label: new Text( range.min, TICK_LABEL_OPTIONS ) },
-          { value: range.max, label: new Text( range.max, TICK_LABEL_OPTIONS ) }
-        ]
-      } )
-    };
-
     // Controls
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 10,
       children: [
-        createNumberControl( 'Radius', propertySet.radiusProperty, new Range( 1, ProbeNode.DEFAULTS.radius * 2 ) ),
-        createNumberControl( 'Handle Width', propertySet.handleWidthProperty, new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ) ),
-        createNumberControl( 'Handle Height', propertySet.handleHeightProperty, new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ) ),
-        createNumberControl( 'Handle Corner Radius', propertySet.handleCornerRadiusProperty, new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ) ),
+        NumberControl.withMinMaxTicks( 'Radius', propertySet.radiusProperty, new Range( 1, ProbeNode.DEFAULTS.radius * 2 ) ),
+        NumberControl.withMinMaxTicks( 'Handle Width', propertySet.handleWidthProperty, new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ) ),
+        NumberControl.withMinMaxTicks( 'Handle Height', propertySet.handleHeightProperty, new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ) ),
+        NumberControl.withMinMaxTicks( 'Handle Corner Radius', propertySet.handleCornerRadiusProperty, new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ) ),
         new Text( 'Color', { font: new PhetFont( 12 ) } ),
         new WavelengthSlider( wavelengthProperty, { valueVisible: false } )
       ],
