@@ -38,6 +38,8 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   function ComponentsView() {
 
@@ -195,10 +197,21 @@ define( function( require ) {
       height: ProbeNode.DEFAULTS.height
     } );
 
+    var wavelengthProperty = new Property( 450 );
+
+    // Only switch to the wavelength slider after it has been changed once
+    var useWavelength = false;
+    wavelengthProperty.lazyLink( function() {
+      useWavelength = true;
+    } );
+
     // When the model properties change, update the sensor node
     var updateLightSensor = function() {
       probeNodeLayer.removeAllChildren();
       probeNodeLayer.addChild( new ProbeNode( {
+
+        // default to the default color, but allow it to be overriden with the wavelength slider
+        color: useWavelength ? VisibleColor.wavelengthToColor( wavelengthProperty.value ) : ProbeNode.DEFAULTS.color,
         width: propertySet.width,
         height: propertySet.height,
         x: layoutBounds.centerX,
@@ -207,14 +220,15 @@ define( function( require ) {
     };
     propertySet.widthProperty.link( updateLightSensor );
     propertySet.heightProperty.link( updateLightSensor );
+    wavelengthProperty.link( updateLightSensor );
     demoParent.addChild( probeNodeLayer );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
     demoParent.addChild( new Path( new Shape()
-        .moveTo( layoutBounds.left, layoutBounds.centerY )
-        .lineTo( layoutBounds.right, layoutBounds.centerY )
-        .moveTo( layoutBounds.centerX, layoutBounds.top )
-        .lineTo( layoutBounds.centerX, layoutBounds.bottom ), {
+      .moveTo( layoutBounds.left, layoutBounds.centerY )
+      .lineTo( layoutBounds.right, layoutBounds.centerY )
+      .moveTo( layoutBounds.centerX, layoutBounds.top )
+      .lineTo( layoutBounds.centerX, layoutBounds.bottom ), {
       stroke: 'black',
       lineWidth: 0.5
     } ) );
@@ -227,7 +241,9 @@ define( function( require ) {
         new Text( 'Width', { font: new PhetFont( 16 ) } ),
         new HSlider( propertySet.widthProperty, { min: 1, max: ProbeNode.DEFAULTS.width * 2 } ),
         new Text( 'Height', { font: new PhetFont( 16 ) } ),
-        new HSlider( propertySet.heightProperty, { min: 1, max: ProbeNode.DEFAULTS.height * 2 } )
+        new HSlider( propertySet.heightProperty, { min: 1, max: ProbeNode.DEFAULTS.height * 2 } ),
+        new Text( 'Wavelength', { font: new PhetFont( 16 ) } ),
+        new WavelengthSlider( wavelengthProperty )
       ],
       left: 50,
       bottom: layoutBounds.maxY - 50
