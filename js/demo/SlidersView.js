@@ -33,7 +33,7 @@ define( function( require ) {
   ];
 
   function SlidersView() {
-    DemosView.call( this, DEMOS, 'slider' );
+    DemosView.call( this, _.clone( DEMOS ), 'slider' );
   }
 
   // Creates a demo for HSlider

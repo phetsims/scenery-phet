@@ -59,7 +59,7 @@ define( function( require ) {
   ];
 
   function ComponentsView() {
-    DemosView.call( this, DEMOS, 'component' );
+    DemosView.call( this, _.clone( DEMOS ), 'component' );
   }
 
   // Creates a demo for BracketNode
