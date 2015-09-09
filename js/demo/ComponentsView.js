@@ -251,10 +251,14 @@ define( function( require ) {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 10,
       children: [
-        NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty, new Range( 1, ProbeNode.DEFAULTS.radius * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty, new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty, new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty, new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
+          new Range( 1, ProbeNode.DEFAULTS.radius * 2 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty,
+          new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
+          new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty,
+          new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ), numberControlOptions ),
         new Text( 'Color', { font: numberControlOptions.titleFont } ),
         new WavelengthSlider( wavelengthProperty, { valueVisible: false } )
       ],
