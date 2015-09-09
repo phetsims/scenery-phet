@@ -53,32 +53,42 @@ define( function( require ) {
     var model = springNode.model;
 
     // controls, options tweaked empirically to match ranges
-    var loopsControl = createNumberControl( loopsString, model.loopsProperty, ranges.loopsRange, {
+    var loopsControl = NumberControl.withMinMaxTicks( loopsString, model.loopsProperty, ranges.loopsRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 0,
       delta: 1,
       minorTickSpacing: 1,
       thumbFillEnabled: 'black'
     } );
-    var pointsPerLoopControl = createNumberControl( pointsPerLoopString, model.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
+    var pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, model.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 0,
       delta: 1,
       minorTickSpacing: 10,
       thumbFillEnabled: 'black'
     } );
-    var radiusControl = createNumberControl( radiusString, model.radiusProperty, ranges.radiusRange, {
+    var radiusControl = NumberControl.withMinMaxTicks( radiusString, model.radiusProperty, ranges.radiusRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 0,
       delta: 1,
       minorTickSpacing: 5,
       thumbFillEnabled: 'green'
     } );
-    var aspectRatioControl = createNumberControl( aspectRatioString, model.aspectRatioProperty, ranges.aspectRatioRange, {
+    var aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, model.aspectRatioProperty, ranges.aspectRatioRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 1,
       delta: 0.1,
       minorTickSpacing: 0.5,
       thumbFillEnabled: 'black'
     } );
     assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
-    var phaseControl = createNumberControl( phaseString, model.phaseProperty, ranges.phaseRange, {
+    var phaseControl = new NumberControl( phaseString, model.phaseProperty, ranges.phaseRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 1,
       delta: 0.1,
       minorTickSpacing: 1,
@@ -90,7 +100,9 @@ define( function( require ) {
       ]
     } );
     assert && assert( ranges.deltaPhaseRange.min === 0 && ranges.deltaPhaseRange.max === 2 * Math.PI );
-    var deltaPhaseControl = createNumberControl( deltaPhaseString, model.deltaPhaseProperty, ranges.deltaPhaseRange, {
+    var deltaPhaseControl = new NumberControl( deltaPhaseString, model.deltaPhaseProperty, ranges.deltaPhaseRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 1,
       delta: 0.1,
       minorTickSpacing: 1,
@@ -101,13 +113,17 @@ define( function( require ) {
         { value: ranges.deltaPhaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
       ]
     } );
-    var lineWidthControl = createNumberControl( lineWidthString, model.lineWidthProperty, ranges.lineWidthRange, {
+    var lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, model.lineWidthProperty, ranges.lineWidthRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 1,
       delta: 0.1,
       minorTickSpacing: 1,
       thumbFillEnabled: 'green'
     } );
-    var xScaleControl = createNumberControl( xScaleString, model.xScaleProperty, ranges.xScaleRange, {
+    var xScaleControl = NumberControl.withMinMaxTicks( xScaleString, model.xScaleProperty, ranges.xScaleRange, {
+      titleFont: CONTROL_FONT,
+      valueFont: CONTROL_FONT,
       decimalPlaces: 1,
       delta: 0.1,
       minorTickSpacing: 0.5,
@@ -131,31 +147,6 @@ define( function( require ) {
 
     Panel.call( this, content, options );
   }
-
-  /**
-   * Creates a NumberControl with labeled slider ticks at the min and max values.
-   * @param {string} label
-   * @param {Property.<number>} property
-   * @param {Range} range
-   * @param {Object} [options]
-   */
-  var createNumberControl = function( label, property, range, options ) {
-
-    options = _.extend( {
-      titleFont: CONTROL_FONT,
-      valueFont: CONTROL_FONT,
-      minorTickSpacing: 1,
-      decimalPlaces: 0,
-      delta: 1
-    }, options );
-
-    options.majorTicks = options.majorTicks || [
-        { value: range.min, label: new Text( Util.toFixed( range.min, options.decimalPlaces ), { font: TICK_LABEL_FONT } ) },
-        { value: range.max, label: new Text( Util.toFixed( range.max, options.decimalPlaces ), { font: TICK_LABEL_FONT } ) }
-      ];
-
-    return new NumberControl( label, property, range, options );
-  };
 
   return inherit( Panel, SpringControls );
 } );
