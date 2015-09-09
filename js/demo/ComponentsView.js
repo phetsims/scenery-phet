@@ -52,13 +52,18 @@ define( function( require ) {
       { label: 'ConductivityTesterNode', node: demoConductivityTesterNode( this.layoutBounds ) },
       { label: 'EyeDropperNode', node: demoEyeDropperNode( this.layoutBounds ) },
       { label: 'FaucetNode', node: demoFaucetNode( this.layoutBounds ) },
-      { label: 'ProbeNode', node: demoProbeNode( this.layoutBounds ) },
       { label: 'MeasuringTape', node: demoMeasuringTape( this.layoutBounds ) },
       { label: 'NumberPicker', node: demoNumberPicker( this.layoutBounds ) },
+      { label: 'ProbeNode', node: demoProbeNode( this.layoutBounds ) },
       { label: 'RulerNode', node: demoRulerNode( this.layoutBounds ) },
       { label: 'StarNode', node: demoStarNode( this.layoutBounds ) },
       { label: 'ThermometerNode', node: demoTemperatureNode( this.layoutBounds ) }
     ];
+
+    // Sort the demos by label, so that they appear in the combo box in alphabetical order
+    demos = _.sortBy( demos, function( demo ) {
+      return demo.label;
+    } );
 
     var comboBoxItems = [];
 

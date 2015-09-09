@@ -34,6 +34,11 @@ define( function( require ) {
       { label: 'WavelengthSlider', node: demoWavelengthSlider( this.layoutBounds ) }
     ];
 
+    // Sort the demos by label, so that they appear in the combo box in alphabetical order
+    demos = _.sortBy( demos, function( demo ) {
+      return demo.label;
+    } );
+
     var comboBoxItems = [];
 
     demos.forEach( function( demo ) {
