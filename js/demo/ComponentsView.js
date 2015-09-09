@@ -1,7 +1,9 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Demonstration of misc scenery-phet UI components
+ * Demonstration of misc scenery-phet UI components.
+ * Demos are selected from a combo box, and are instantiated on demand.
+ * Use the 'component' query parameter to set the initial selection of the combo box.
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -82,7 +84,7 @@ define( function( require ) {
     var listParent = new Node();
     this.addChild( listParent );
 
-    // Choose a particular node based on the ?component query parameter
+    // Set the initial demo based on the (optional) 'component' query parameter, whose value is a demo 'label' field value.
     var component = phet.chipper.getQueryParameter( 'component' );
     var selectedDemo = demos.find( function( demo ) {
       return ( demo.label === component );
