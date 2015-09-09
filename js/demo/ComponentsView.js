@@ -236,11 +236,12 @@ define( function( require ) {
     demoParent.addChild( probeNodeLayer );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
+    var crossHairsRadius = 150;
     demoParent.addChild( new Path( new Shape()
-      .moveTo( layoutBounds.left, layoutBounds.centerY )
-      .lineTo( layoutBounds.right, layoutBounds.centerY )
-      .moveTo( layoutBounds.centerX, layoutBounds.top )
-      .lineTo( layoutBounds.centerX, layoutBounds.bottom ), {
+      .moveTo( layoutBounds.centerX - crossHairsRadius, layoutBounds.centerY )
+      .lineTo( layoutBounds.centerX + crossHairsRadius, layoutBounds.centerY )
+      .moveTo( layoutBounds.centerX, layoutBounds.centerY - crossHairsRadius )
+      .lineTo( layoutBounds.centerX, layoutBounds.centerY + crossHairsRadius ), {
       stroke: 'black',
       lineWidth: 0.5
     } ) );
