@@ -66,7 +66,7 @@ define( function( require ) {
     } );
     selectedDemo = selectedDemo || demos[ 0 ];
 
-    // Combo box for selecting which component to view
+    // Combo box for selecting which slider to view
     var selectedDemoProperty = new Property( selectedDemo );
     var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
       buttonFill: 'rgb( 218, 236, 255 )',
