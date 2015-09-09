@@ -24,6 +24,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -244,30 +245,26 @@ define( function( require ) {
       lineWidth: 0.5
     } ) );
 
-    var textLabel = function( text ) {
-      return new Text( text, { font: new PhetFont( 12 ) } );
+    var TICK_LABEL_OPTIONS = { font: new PhetFont( 12 ) };
+    var createNumberControl = function( label, property, range ) {
+      return new NumberControl( label, property, range, {
+        majorTicks: [
+          { value: range.min, label: new Text( range.min, TICK_LABEL_OPTIONS ) },
+          { value: range.max, label: new Text( range.max, TICK_LABEL_OPTIONS ) }
+        ]
+      } )
     };
+
     // Controls
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 5,
       children: [
-        textLabel( 'Radius' ),
-        new HSlider( propertySet.radiusProperty, { min: 1, max: ProbeNode.DEFAULTS.radius * 2 } ),
-
-        textLabel( 'Handle Width' ),
-        new HSlider( propertySet.handleWidthProperty, { min: 1, max: ProbeNode.DEFAULTS.handleWidth * 2 } ),
-
-        textLabel( 'Handle Height' ),
-        new HSlider( propertySet.handleHeightProperty, { min: 1, max: ProbeNode.DEFAULTS.handleHeight * 2 } ),
-
-        textLabel( 'Handle Corner Radius' ),
-        new HSlider( propertySet.handleCornerRadiusProperty, {
-          min: 1,
-          max: ProbeNode.DEFAULTS.handleCornerRadius * 2
-        } ),
-
-        textLabel( 'Wavelength' ),
+        createNumberControl( 'Radius', propertySet.radiusProperty, new Range( 1, ProbeNode.DEFAULTS.radius * 2 ) ),
+        createNumberControl( 'Handle Width', propertySet.handleWidthProperty, new Range( 1, ProbeNode.DEFAULTS.handleWidth * 2 ) ),
+        createNumberControl( 'Handle Height', propertySet.handleHeightProperty, new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ) ),
+        createNumberControl( 'Handle Corner Radius', propertySet.handleCornerRadiusProperty, new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ) ),
+        new Text( 'Color', { font: new PhetFont( 12 ) } ),
         new WavelengthSlider( wavelengthProperty, { valueVisible: false } )
       ],
       left: 50,
