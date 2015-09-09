@@ -268,7 +268,7 @@ define( function( require ) {
         } ),
 
         textLabel( 'Wavelength' ),
-        new WavelengthSlider( wavelengthProperty )
+        new WavelengthSlider( wavelengthProperty, { valueVisible: false } )
       ],
       left: 50,
       bottom: layoutBounds.maxY - 50
