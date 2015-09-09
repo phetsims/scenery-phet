@@ -279,9 +279,9 @@ define( function( require ) {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 15,
       children: [
-        NumberControl.withMinMaxTicks( 'R:', redProperty, new Range( 0, 256 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'G:', greenProperty, new Range( 0, 256 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'B:', blueProperty, new Range( 0, 256 ), numberControlOptions )
+        NumberControl.withMinMaxTicks( 'R:', redProperty, new Range( 0, 255 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'G:', greenProperty, new Range( 0, 255 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'B:', blueProperty, new Range( 0, 255 ), numberControlOptions )
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
