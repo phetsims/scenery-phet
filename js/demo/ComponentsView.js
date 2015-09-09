@@ -14,9 +14,9 @@ define( function( require ) {
   // modules
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
-  var ComboBox = require( 'SUN/ComboBox' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
+  var DemosView = require( 'SCENERY_PHET/demo/DemosView' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
@@ -35,7 +35,6 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Range = require( 'DOT/Range' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
-  var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -45,81 +44,22 @@ define( function( require ) {
 
   function ComponentsView() {
 
-    ScreenView.call( this );
+    DemosView.call( this, 'component', [
 
-    var layoutBounds = this.layoutBounds;
-
-    // To add a demo, create an entry here.
-    // Demos are instantiated on demand.
-    // A node field will be added to each of these entries when the demo is instantiated.
-    var demos = [
-      { label: 'BracketNode', getNode: function() { return demoBracketNode( layoutBounds ); } },
-      { label: 'ConductivityTesterNode', getNode: function() { return demoConductivityTesterNode( layoutBounds ); } },
-      { label: 'EyeDropperNode', getNode: function() { return demoEyeDropperNode( layoutBounds ); } },
-      { label: 'FaucetNode', getNode: function() { return demoFaucetNode( layoutBounds ); } },
-      { label: 'MeasuringTape', getNode: function() { return demoMeasuringTape( layoutBounds ); } },
-      { label: 'NumberPicker', getNode: function() { return demoNumberPicker( layoutBounds ); } },
-      { label: 'ProbeNode', getNode: function() { return demoProbeNode( layoutBounds ); } },
-      { label: 'RulerNode', getNode: function() { return demoRulerNode( layoutBounds ); } },
-      { label: 'StarNode', getNode: function() { return demoStarNode( layoutBounds ); } },
-      { label: 'ThermometerNode', getNode: function() { return demoTemperatureNode( layoutBounds ); } }
-    ];
-
-    // Sort the demos by label, so that they appear in the combo box in alphabetical order
-    demos = _.sortBy( demos, function( demo ) {
-      return demo.label;
-    } );
-
-    // All demos will be children of this node, to maintain rendering order with combo box list
-    var demosParent = new Node();
-    this.addChild( demosParent );
-
-    // add each demo to the combo box
-    var comboBoxItems = [];
-    demos.forEach( function( demo ) {
-      comboBoxItems.push( ComboBox.createItem( new Text( demo.label, { font: new PhetFont( 20 ) } ), demo ) );
-    } );
-
-    // Parent for the combo box popup list
-    var listParent = new Node();
-    this.addChild( listParent );
-
-    // Set the initial demo based on the (optional) 'component' query parameter, whose value is a demo 'label' field value.
-    var component = phet.chipper.getQueryParameter( 'component' );
-    var selectedDemo = demos.find( function( demo ) {
-      return ( demo.label === component );
-    } );
-    selectedDemo = selectedDemo || demos[ 0 ];
-
-    // Combo box for selecting which component to view
-    var selectedDemoProperty = new Property( selectedDemo );
-    var comboBox = new ComboBox( comboBoxItems, selectedDemoProperty, listParent, {
-      buttonFill: 'rgb( 218, 236, 255 )',
-      top: 20,
-      left: 20
-    } );
-    this.addChild( comboBox );
-
-    // Make the selected demo visible
-    selectedDemoProperty.link( function( demo, oldDemo ) {
-
-      // make the previous selection invisible
-      if ( oldDemo ) {
-        oldDemo.node.visible = false;
-      }
-
-      if ( demo.node ) {
-
-        // If the selected demo has an associated node, make it visible.
-        demo.node.visible = true;
-      }
-      else {
-
-        // If the selected demo doesn't doesn't have an associated node, create it.
-        demo.node = demo.getNode();
-        demosParent.addChild( demo.node );
-      }
-    } );
+      // To add a demo, create an entry here.
+      // Demos are instantiated on demand.
+      // A node field will be added to each of these entries when the demo is instantiated.
+      { label: 'BracketNode', getNode: function( layoutBounds ) { return demoBracketNode( layoutBounds ); } },
+      { label: 'ConductivityTesterNode', getNode: function( layoutBounds ) { return demoConductivityTesterNode( layoutBounds ); } },
+      { label: 'EyeDropperNode', getNode: function( layoutBounds ) { return demoEyeDropperNode( layoutBounds ); } },
+      { label: 'FaucetNode', getNode: function( layoutBounds ) { return demoFaucetNode( layoutBounds ); } },
+      { label: 'MeasuringTape', getNode: function( layoutBounds ) { return demoMeasuringTape( layoutBounds ); } },
+      { label: 'NumberPicker', getNode: function( layoutBounds ) { return demoNumberPicker( layoutBounds ); } },
+      { label: 'ProbeNode', getNode: function( layoutBounds ) { return demoProbeNode( layoutBounds ); } },
+      { label: 'RulerNode', getNode: function( layoutBounds ) { return demoRulerNode( layoutBounds ); } },
+      { label: 'StarNode', getNode: function( layoutBounds ) { return demoStarNode( layoutBounds ); } },
+      { label: 'ThermometerNode', getNode: function( layoutBounds ) { return demoTemperatureNode( layoutBounds ); } }
+    ] );
   }
 
   // Creates a demo for BracketNode
@@ -421,5 +361,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( ScreenView, ComponentsView );
+  return inherit( DemosView, ComponentsView );
 } );
