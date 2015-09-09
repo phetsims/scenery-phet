@@ -13,6 +13,7 @@ define( function( require ) {
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var ComboBox = require( 'SUN/ComboBox' );
+  var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
@@ -39,8 +40,6 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   function ComponentsView() {
 
@@ -196,44 +195,50 @@ define( function( require ) {
 
     // Layer for the light sensor node.  The node will be destroyed and re-created when its parameters change
     var probeNodeLayer = new Node();
+    demoParent.addChild( probeNodeLayer );
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( {
+      color: ProbeNode.DEFAULTS.color,
       radius: ProbeNode.DEFAULTS.radius,
       handleWidth: ProbeNode.DEFAULTS.handleWidth,
       handleHeight: ProbeNode.DEFAULTS.handleHeight,
       handleCornerRadius: ProbeNode.DEFAULTS.handleCornerRadius
     } );
 
-    var wavelengthProperty = new Property( 450 );
-
-    // Only switch to the wavelength slider after it has been changed once
-    var useWavelength = false;
-    wavelengthProperty.lazyLink( function() {
-      useWavelength = true;
+    // RGB color components, for setting the sensor color
+    var color = Color.toColor( propertySet.color );
+    var redProperty = new Property( color.red );
+    var greenProperty = new Property( color.green );
+    var blueProperty = new Property( color.blue );
+    Property.multilink( [ redProperty, greenProperty, blueProperty ], function( r, g, b ) {
+      propertySet.color = new Color( r, g, b );
     } );
 
     // When the model properties change, update the sensor node
-    var updateProbe = function() {
-      probeNodeLayer.removeAllChildren();
-      probeNodeLayer.addChild( new ProbeNode( {
+    Property.multilink( [
+        propertySet.colorProperty,
+        propertySet.radiusProperty,
+        propertySet.handleWidthProperty,
+        propertySet.handleHeightProperty,
+        propertySet.handleCornerRadiusProperty
+      ],
+      function() {
+        probeNodeLayer.removeAllChildren();
+        probeNodeLayer.addChild( new ProbeNode( {
 
-        // default to the default color, but allow it to be overriden with the wavelength slider
-        color: useWavelength ? VisibleColor.wavelengthToColor( wavelengthProperty.value ) : ProbeNode.DEFAULTS.color,
-        radius: propertySet.radius,
-        x: layoutBounds.centerX,
-        y: layoutBounds.centerY,
-        handleWidth: propertySet.handleWidth,
-        handleHeight: propertySet.handleHeight,
-        handleCornerRadius: propertySet.handleCornerRadius
-      } ) );
-    };
-    propertySet.radiusProperty.link( updateProbe );
-    propertySet.handleWidthProperty.link( updateProbe );
-    propertySet.handleHeightProperty.link( updateProbe );
-    propertySet.handleCornerRadiusProperty.link( updateProbe );
-    wavelengthProperty.link( updateProbe );
-    demoParent.addChild( probeNodeLayer );
+          // ProbeNode options
+          color: propertySet.color,
+          radius: propertySet.radius,
+          handleWidth: propertySet.handleWidth,
+          handleHeight: propertySet.handleHeight,
+          handleCornerRadius: propertySet.handleCornerRadius,
+
+          // layout options
+          x: layoutBounds.centerX,
+          y: layoutBounds.centerY
+        } ) );
+      } );
 
     // Show a cross hairs in the middle of the screen so that we can verify that the sensor's origin is correct.
     var crossHairsRadius = 150;
@@ -247,10 +252,14 @@ define( function( require ) {
     } ) );
 
     // Controls
-    var numberControlOptions = { titleFont: new PhetFont( 14 ), valueFont: new PhetFont( 14 ) };
+    var numberControlOptions = {
+      titleFont: new PhetFont( 14 ),
+      valueFont: new PhetFont( 14 ),
+      trackSize: new Dimension2( 150, 3 )
+    };
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
-      spacing: 10,
+      spacing: 15,
       children: [
         NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
           new Range( 1, ProbeNode.DEFAULTS.radius * 2 ), numberControlOptions ),
@@ -259,12 +268,23 @@ define( function( require ) {
         NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
           new Range( 1, ProbeNode.DEFAULTS.handleHeight * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty,
-          new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ), numberControlOptions ),
-        new Text( 'Color', { font: numberControlOptions.titleFont } ),
-        new WavelengthSlider( wavelengthProperty, { valueVisible: false } )
+          new Range( 1, ProbeNode.DEFAULTS.handleCornerRadius * 2 ), numberControlOptions )
       ],
-      left: 50,
-      bottom: layoutBounds.maxY - 50
+      left: layoutBounds.left + 50,
+      centerY: layoutBounds.centerY
+    } ) );
+
+    // Color controls
+    demoParent.addChild( new VBox( {
+      resize: false, // Don't readjust the size when the slider knob moves all the way to the right
+      spacing: 15,
+      children: [
+        NumberControl.withMinMaxTicks( 'R:', redProperty, new Range( 0, 256 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'G:', greenProperty, new Range( 0, 256 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'B:', blueProperty, new Range( 0, 256 ), numberControlOptions )
+      ],
+      right: layoutBounds.right - 50,
+      centerY: layoutBounds.centerY
     } ) );
 
     return demoParent;
