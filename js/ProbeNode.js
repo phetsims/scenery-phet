@@ -29,6 +29,7 @@ define( function( require ) {
   // constants
   var DEFAULT_OPTIONS = {
     radius: 50,
+    innerRadius: 35,
     handleWidth: 50,
     handleHeight: 30,
     handleCornerRadius: 30,
@@ -55,6 +56,7 @@ define( function( require ) {
     // The shape of the outer body, circular at top with a handle at the bottom
     var arcExtent = 0.8;
     var handleWidth = options.handleWidth;
+    var innerRadius = Math.min( options.innerRadius, options.radius );
     var sensorShape = new Shape()
 
     // start in the bottom center
@@ -62,7 +64,6 @@ define( function( require ) {
 
       .lineTo( -handleWidth / 2, handleBottom )
       .lineTo( -handleWidth / 2, radius )
-      //.lineTo( -radius * 0.39 * 2, h * 0.32 )
 
       // Top arc
       .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
@@ -70,11 +71,9 @@ define( function( require ) {
       .lineTo( handleWidth / 2, radius )
       .lineTo( handleWidth / 2, handleBottom )
 
-      //.lineTo( radius * 0.32 * 2, h * 0.50 )
-      //.lineTo( radius * 0.30 * 2, h * 0.80 )
-      //.lineTo( radius * 0.15 * 2, handleBottom )
-      //.lineTo( 0, handleBottom )
-
+      .lineTo( 0, handleBottom )
+      .moveTo( innerRadius, 0 )
+      .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
     var outerShapePath = new Path( sensorShape, {
@@ -108,7 +107,7 @@ define( function( require ) {
     } );
 
     Node.call( this, {
-      children: [ outerShapePath, innerPath, innerCirclePath ]
+      children: [ outerShapePath ]
     } );
 
     this.mutate( options );
