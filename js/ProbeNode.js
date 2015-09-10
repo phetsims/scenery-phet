@@ -44,12 +44,13 @@ define( function( require ) {
     var CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
       lineWidth: 3,
+
+      // The amount of blank space visible at the intersection of the 2 crosshairs lines
       intersectionRadius: 8
     };
     options = _.extend( CROSSHAIRS_DEFAULTS, options );
     return function( radius ) {
 
-      // The amount of blank space visible at the intersection of the 2 crosshairs lines
       var lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
       return new Node( {
         children: [
@@ -164,6 +165,10 @@ define( function( require ) {
 
       // @public {read-only}, make the defaults publicly available to clients in case they need to make
       // customizations, such as 0.9 x the default width
-      DEFAULT_OPTIONS: DEFAULT_OPTIONS
+      DEFAULT_OPTIONS: DEFAULT_OPTIONS,
+
+      // Sensor types
+      Crosshairs: Crosshairs,
+      Glass: Glass
     } );
 } );
