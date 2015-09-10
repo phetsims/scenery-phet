@@ -19,7 +19,7 @@ define( function( require ) {
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
 
   // Strings
-  var title = require( 'string!SCENERY_PHET/scenery-phet.name' );
+  var title = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
   var simOptions = {
     credits: {
