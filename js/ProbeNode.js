@@ -93,7 +93,6 @@ define( function( require ) {
 
     // To improve readability
     var radius = options.radius;
-    var height = radius;
 
     // the top of the handle, below the circle at the top of the sensor
     var handleBottom = radius + options.handleHeight;
