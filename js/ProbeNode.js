@@ -26,6 +26,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Color = require( 'SCENERY/util/Color' );
   var Line = require( 'SCENERY/nodes/Line' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
 
   var glass = function( options ) {
     var GLASS_DEFAULTS = {
@@ -33,14 +34,13 @@ define( function( require ) {
       middleColor: '#E6F5FF', // light blue
       edgeColor: '#C2E7FF'    // slightly darker blue, like glass
     };
-    var options = _.extend( GLASS_DEFAULTS, options );
+    options = _.extend( GLASS_DEFAULTS, options );
     return function( radius ) {
-      return new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, radius * 0.35 * 2, Math.PI, 0, Math.PI * 2, false ), {
+      return new Circle( radius, {
         fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
           .addColorStop( 0, options.centerColor )
           .addColorStop( 0.4, options.middleColor ) // light blue
-          .addColorStop( 1, options.edgeColor ), // slightly darker blue, like glass
-        centerX: 0
+          .addColorStop( 1, options.edgeColor ) // slightly darker blue, like glass
       } );
     };
   };
@@ -78,8 +78,8 @@ define( function( require ) {
 
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
-    //sensorType: Glass()
-    sensorType: crosshairs()
+    sensorType: glass()
+    //sensorType: crosshairs()
   };
 
   /**
