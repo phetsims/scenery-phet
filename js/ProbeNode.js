@@ -79,7 +79,6 @@ define( function( require ) {
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
     sensorType: glass()
-    //sensorType: crosshairs()
   };
 
   /**
