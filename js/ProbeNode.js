@@ -27,6 +27,40 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Line = require( 'SCENERY/nodes/Line' );
 
+  var Glass = function( options ) {
+    var GLASS_DEFAULTS = {};
+    return function( radius ) {
+      return new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, radius * 0.35 * 2, Math.PI, 0, Math.PI * 2, false ), {
+        fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
+          .addColorStop( 0, 'white' )
+          .addColorStop( 0.4, '#E6F5FF' ) // light blue
+          .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
+        centerX: 0
+      } );
+    }
+  };
+
+  var Crosshairs = function( options ) {
+    var CROSSHAIRS_DEFAULTS = {
+      stroke: 'black',
+      lineWidth: 3,
+      intersectionRadius: 8
+    };
+    options = _.extend( CROSSHAIRS_DEFAULTS, options );
+    return function( radius ) {
+
+      // The amount of blank space visible at the intersection of the 2 crosshairs lines
+      var lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
+      return new Node( {
+        children: [
+          new Line( -radius, 0, -options.intersectionRadius, 0, lineOptions ),
+          new Line( +radius, 0, +options.intersectionRadius, 0, lineOptions ),
+          new Line( 0, -radius, 0, -options.intersectionRadius, lineOptions ),
+          new Line( 0, +radius, 0, +options.intersectionRadius, lineOptions ) ]
+      } );
+    }
+  };
+
   // constants
   var DEFAULT_OPTIONS = {
     radius: 50,
@@ -37,7 +71,9 @@ define( function( require ) {
     color: '#008541', // darkish green
 
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
-    sensorType: 'glass' // {'glass'|'empty'|'crosshairs'}
+    // or null for an empty region
+    //sensorType: Glass()
+    sensorType: Crosshairs()
   };
 
   /**
@@ -108,26 +144,8 @@ define( function( require ) {
 
     var children = [];
 
-    if ( options.sensorType === 'glass' ) {
-      children.push( new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, radius * 0.35 * 2, Math.PI, 0, Math.PI * 2, false ), {
-        fill: new RadialGradient( -radius * 0.15, -height * 100 / 151 * 0.325, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
-          .addColorStop( 0, 'white' )
-          .addColorStop( 0.4, '#E6F5FF' ) // light blue
-          .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
-        centerX: innerPath.centerX
-      } ) );
-    }
-    else if ( options.sensorType === 'empty' ) {
-
-    }
-    else if ( options.sensorType === 'crosshairs' ) {
-
-      // The amount of blank space visible at the intersection of the 2 crosshairs lines
-      var crossHairCentralRadius = 8;
-      children.push( new Line( -radius, 0, -crossHairCentralRadius, 0, { stroke: 'black', lineWidth: 3 } ) );
-      children.push( new Line( +radius, 0, +crossHairCentralRadius, 0, { stroke: 'black', lineWidth: 3 } ) );
-      children.push( new Line( 0, -radius, 0, -crossHairCentralRadius, { stroke: 'black', lineWidth: 3 } ) );
-      children.push( new Line( 0, +radius, 0, +crossHairCentralRadius, { stroke: 'black', lineWidth: 3 } ) );
+    if ( options.sensorType ) {
+      children.push( options.sensorType( radius ) );
     }
 
     children.push( outerShapePath, innerPath );
