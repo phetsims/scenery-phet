@@ -28,16 +28,21 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
 
   var glass = function( options ) {
-    var GLASS_DEFAULTS = {};
+    var GLASS_DEFAULTS = {
+      centerColor: 'white',
+      middleColor: '#E6F5FF', // light blue
+      edgeColor: '#C2E7FF'    // slightly darker blue, like glass
+    };
+    var options = _.extend( GLASS_DEFAULTS, options );
     return function( radius ) {
       return new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, radius * 0.35 * 2, Math.PI, 0, Math.PI * 2, false ), {
         fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
-          .addColorStop( 0, 'white' )
-          .addColorStop( 0.4, '#E6F5FF' ) // light blue
-          .addColorStop( 1, '#C2E7FF' ), // slightly darker blue, like glass
+          .addColorStop( 0, options.centerColor )
+          .addColorStop( 0.4, options.middleColor ) // light blue
+          .addColorStop( 1, options.edgeColor ), // slightly darker blue, like glass
         centerX: 0
       } );
-    }
+    };
   };
 
   var crosshairs = function( options ) {
@@ -59,7 +64,7 @@ define( function( require ) {
           new Line( 0, -radius, 0, -options.intersectionRadius, lineOptions ),
           new Line( 0, +radius, 0, +options.intersectionRadius, lineOptions ) ]
       } );
-    }
+    };
   };
 
   // constants
