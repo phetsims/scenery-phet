@@ -38,6 +38,7 @@ define( function( require ) {
 
   /**
    * Constructor for the ProbeNode
+   * @param {Object} [options]
    * @constructor
    */
   function ProbeNode( options ) {

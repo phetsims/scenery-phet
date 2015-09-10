@@ -141,13 +141,7 @@ define( function( require ) {
     demoParent.addChild( probeNodeLayer );
 
     // Model properties that describe the sensor
-    var propertySet = new PropertySet( {
-      color: ProbeNode.DEFAULT_OPTIONS.color,
-      radius: ProbeNode.DEFAULT_OPTIONS.radius,
-      handleWidth: ProbeNode.DEFAULT_OPTIONS.handleWidth,
-      handleHeight: ProbeNode.DEFAULT_OPTIONS.handleHeight,
-      handleCornerRadius: ProbeNode.DEFAULT_OPTIONS.handleCornerRadius
-    } );
+    var propertySet = new PropertySet( ProbeNode.DEFAULT_OPTIONS );
 
     // RGB color components, for setting the sensor color
     var color = Color.toColor( propertySet.color );
@@ -162,6 +156,7 @@ define( function( require ) {
     Property.multilink( [
         propertySet.colorProperty,
         propertySet.radiusProperty,
+        propertySet.innerRadiusProperty,
         propertySet.handleWidthProperty,
         propertySet.handleHeightProperty,
         propertySet.handleCornerRadiusProperty
@@ -173,6 +168,7 @@ define( function( require ) {
           // ProbeNode options
           color: propertySet.color,
           radius: propertySet.radius,
+          innerRadius: propertySet.innerRadius,
           handleWidth: propertySet.handleWidth,
           handleHeight: propertySet.handleHeight,
           handleCornerRadius: propertySet.handleCornerRadius,
@@ -206,6 +202,8 @@ define( function( require ) {
       children: [
         NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
           new Range( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
+        NumberControl.withMinMaxTicks( 'Inner Radius:', propertySet.innerRadiusProperty,
+          new Range( 1, ProbeNode.DEFAULT_OPTIONS.innerRadius * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty,
           new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
