@@ -27,7 +27,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Line = require( 'SCENERY/nodes/Line' );
 
-  var Glass = function( options ) {
+  var glass = function( options ) {
     var GLASS_DEFAULTS = {};
     return function( radius ) {
       return new Path( new Shape().ellipticalArc( 0, 0, radius * 0.35 * 2, radius * 0.35 * 2, Math.PI, 0, Math.PI * 2, false ), {
@@ -40,7 +40,7 @@ define( function( require ) {
     }
   };
 
-  var Crosshairs = function( options ) {
+  var crosshairs = function( options ) {
     var CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
       lineWidth: 3,
@@ -74,7 +74,7 @@ define( function( require ) {
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
     //sensorType: Glass()
-    sensorType: Crosshairs()
+    sensorType: crosshairs()
   };
 
   /**
@@ -168,7 +168,8 @@ define( function( require ) {
       DEFAULT_OPTIONS: DEFAULT_OPTIONS,
 
       // Sensor types
-      Crosshairs: Crosshairs,
-      Glass: Glass
+      // @public 
+      crosshairs: crosshairs,
+      glass: glass
     } );
 } );
