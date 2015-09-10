@@ -70,6 +70,8 @@ define( function( require ) {
     DemosView.call( this, 'slider', [
 
       // To add a demo, create an entry here.
+      // label is a {string} that will appear in the combo box.
+      // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
       { label: 'HSlider', getNode: demoHSlider },
       { label: 'NumberControl', getNode: demoNumberControl },
       { label: 'WavelengthSlider', getNode: demoWavelengthSlider }

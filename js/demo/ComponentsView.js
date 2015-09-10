@@ -344,7 +344,9 @@ define( function( require ) {
   function ComponentsView() {
     DemosView.call( this, 'component', [
 
-      // To add a demo, create an entry here
+      // To add a demo, create an entry here.
+      // label is a {string} that will appear in the combo box.
+      // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
