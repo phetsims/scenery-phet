@@ -14,8 +14,11 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
+
+  var resetAllNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
 
   // Constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
@@ -50,10 +53,11 @@ define( function( require ) {
     RoundPushButton.call( this, _.extend( {
       content: icon,
       accessibleContent: {
-        createPeer: function( trail ) {
+        focusHighlight: new Shape().circle( 0, 0, buttonRadius ),
+        createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="button" tabindex="0">
           var domElement = document.createElement( 'input' );
-          domElement.value = 'Reset'; // TODO: translated string
+          domElement.value = resetAllNameString;
           domElement.type = 'button';
 
           domElement.tabIndex = '0';
@@ -62,7 +66,7 @@ define( function( require ) {
             options.listener();
           } );
 
-          return new AccessiblePeer( domElement );
+          return new AccessiblePeer( accessibleInstance, domElement );
         }
       }
     }, options ) );

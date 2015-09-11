@@ -37,5 +37,9 @@
   },
   "NumberControl.pattern_0value_1units": {
     "value": "{0} {1}"
+  },
+  "ResetAllButton.name": {
+    "value": "Reset All",
+    "visible": false
   }
 }
