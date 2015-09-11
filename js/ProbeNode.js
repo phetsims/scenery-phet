@@ -90,9 +90,6 @@ define( function( require ) {
 
     options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
 
-    assert && assert( options.sensorType === 'glass' || options.sensorType === 'empty' || options.sensorType === 'crosshairs',
-      'unsupported type for sensorType' );
-
     var color = new Color( options.color );
 
     // To improve readability
