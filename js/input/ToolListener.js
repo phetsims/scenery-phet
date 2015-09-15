@@ -60,7 +60,7 @@ define( function( require ) {
       }, 200 )
       .onUpdate( function() {
         node.setScaleMagnitude( parameters.scale );
-        node.center = new Vector2( parameters.centerX, parameters.centerY )
+        node.center = new Vector2( parameters.centerX, parameters.centerY );
       } )
       .onComplete( function() {
       } )
