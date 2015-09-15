@@ -126,6 +126,7 @@ define( function( require ) {
 
         // Drop into the toolbox.  But when there is no toolbox (when playAreaNode===toolboxNode) then do nothing.
         if ( toolboxNode !== playAreaNode && node.getGlobalBounds().intersectsBounds( toolboxNode.getGlobalBounds() ) ) {
+
           reparent( node, playAreaNode, toolboxNode );
           inToolboxProperty.value = true;
           var toolboxPosition = getToolboxPosition();
@@ -148,22 +149,41 @@ define( function( require ) {
      * @return {Vector2} - a translation vector that moves the childBounds to fit within the parentBounds, null
      *                   - if it cannot fit or ZERO if it is already within bounds.
      */
-    //var getTranslationVectorToMoveInBounds = function( parentBounds, childBounds ) {
-    //  if ( parentBounds.containsBounds( childBounds ) ) {
-    //    return Vector2.ZERO;
-    //  }
-    //  else if ( childBounds.width > parentBounds.width || childBounds.height > parentBounds.height ) {
-    //    return null;
-    //  }
-    //  else {
-    //    var dx = 0;
-    //    var dy = 0;
-    //    if ( childBounds.minX < parentBounds.minX ) {
-    //      dx = parentBounds.minX - childBounds.minX;
-    //    }else if (childBounds.)
-    //  }
-    //};
+      //var getTranslationVectorToMoveInBounds = function( parentBounds, childBounds ) {
+      //  if ( parentBounds.containsBounds( childBounds ) ) {
+      //    return Vector2.ZERO;
+      //  }
+      //  else if ( childBounds.width > parentBounds.width || childBounds.height > parentBounds.height ) {
+      //    return null;
+      //  }
+      //  else {
+      //    var dx = 0;
+      //    var dy = 0;
+      //    if ( childBounds.minX < parentBounds.minX ) {
+      //      dx = parentBounds.minX - childBounds.minX;
+      //    }else if (childBounds.)
+      //  }
+      //};
+    this.resetToolListener = function() {
+      if ( !inToolboxProperty.value ) {
+        inToolboxProperty.value = true;
+        reparent( node, playAreaNode, toolboxNode );
+
+        node.setScaleMagnitude( toolboxScale );
+        node.center = getToolboxPosition();
+      }
+    };
   }
 
-  return inherit( SimpleDragHandler, ToolListener );
+  return inherit( SimpleDragHandler, ToolListener, {
+
+    /**
+     * The ToolListener knows how to put tools back in the toolbox, so it has a reset method that can be used
+     * to reset tools.
+     * @public, Overrideable
+     */
+    reset: function() {
+      this.resetToolListener();
+    }
+  } );
 } );
