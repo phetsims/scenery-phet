@@ -18,6 +18,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
+  /**
+   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
+   * @param node
+   * @param oldParent
+   * @param newParent
+   */
   var reparent = function( node, oldParent, newParent ) {
     var g1 = node.getLocalToGlobalMatrix();
 
@@ -30,6 +36,12 @@ define( function( require ) {
     node.setMatrix( m2 );
   };
 
+  /**
+   * When the tool is dragged to/from the toolbox it shrinks/grows with animation.
+   * @param node
+   * @param scale
+   * @returns {*}
+   */
   var animateScale = function( node, scale ) {
     var parameters = { scale: node.getScaleVector().x }; // initial state, modified as the animation proceeds
     return new TWEEN.Tween( parameters )
