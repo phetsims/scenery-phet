@@ -428,5 +428,32 @@ define( function( require ) {
 
     set isBaseUserControlledProperty( value ) { return this.setIsBaseUserControlledProperty( value ); },
     set isTipUserControlledProperty( value ) { return this.setIsTipUserControlledProperty( value ); }
+  }, {
+
+    /**
+     * Returns an icon of the measuring tape
+     * @param {Object} [options]
+     * @returns {Image}
+     */
+    createMeasuringTapeIcon: function( options ) {
+
+      // procedure to create an icon Image of a measuringTape
+      // first, create an actual measuring tape
+      var unspooledMeterTape = 30; // in view coordinates
+      var measuringTape = new MeasuringTape( new Property( { name: '', multiplier: 1 } ), new Property( true ), _.extend( {
+        tipPositionProperty: new Property( new Vector2( unspooledMeterTape, 0 ) )
+      }, options ) );
+      measuringTape.setTextVisibility( false ); // let's hide the text label value (the length) for the icon
+
+      // second, create the measuringTape icon
+      var measuringTapeIcon = new Node( { children: [ measuringTape ] } );
+
+      // Create the measuringTape icon using toImage
+      measuringTape.toImage( function( image ) {
+        measuringTapeIcon.children = [ new Image( image ) ];
+      } );
+
+      return measuringTapeIcon.children[ 0 ];
+    }
   } );
 } );
