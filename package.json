@@ -14,6 +14,9 @@
     "requirejs": "~2.1.8"
   },
   "phet": {
-    "requirejsNamespace": "SCENERY_PHET"
+    "requirejsNamespace": "SCENERY_PHET",
+    "preload": [
+      "../sherpa/lib/Tween-r12.js"
+    ]
   }
 }

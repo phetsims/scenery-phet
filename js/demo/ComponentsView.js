@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
+  var Carousel = require( 'SCENERY_PHET/Carousel' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
@@ -34,6 +35,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Range = require( 'DOT/Range' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var Shape = require( 'KITE/Shape' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
@@ -49,6 +51,36 @@ define( function( require ) {
       bracketTipLocation: 0.75,
       labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
       spacing: 10,
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for Carousel
+  var demoCarousel = function( layoutBounds ) {
+
+    // create items
+    var colors = [ 'red', 'blue', 'green', 'yellow', 'pink', 'white', 'orange', 'magenta', 'purple', 'pink' ];
+    var vItems = [];
+    var hItems = [];
+    colors.forEach( function( color ) {
+      vItems.push( new Rectangle( 0, 0, 60, 60, { fill: color, stroke: 'black' } ) );
+      hItems.push( new Rectangle( 0, 0, 60, 60, { fill: color, stroke: 'black' } ) );
+    } );
+
+    var vCarousel = new Carousel( vItems, {
+      orientation: 'vertical',
+      separatorsVisible: true
+    } );
+
+    var hCarousel = new Carousel( hItems, {
+      orientation: 'horizontal',
+      pageControlVisible: true,
+      centerX: vCarousel.centerX,
+      top: vCarousel.bottom + 50
+    } );
+
+    return new Node( {
+      children: [ vCarousel, hCarousel ],
       center: layoutBounds.center
     } );
   };
@@ -346,6 +378,7 @@ define( function( require ) {
       // label is a {string} that will appear in the combo box.
       // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
       { label: 'BracketNode', getNode: demoBracketNode },
+      { label: 'Carousel', getNode: demoCarousel },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
