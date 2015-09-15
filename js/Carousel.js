@@ -46,12 +46,12 @@ define( function( require ) {
     hideDisabledButtons: false, // {boolean} whether to hide buttons when they are disabled
 
     // item separators
-    separatorsVisible: true, // {boolean} whether to put separators between items
+    separatorsVisible: false, // {boolean} whether to put separators between items
     separatorColor: 'rgb( 180, 180, 180 )', // {Color|string} color for separators
     separatorLineWidth: 0.5, // {number} lineWidth for separators
 
     // iOS-style page control
-    pageControlVisible: true, // {boolean} whether to show an iOS-style page control
+    pageControlVisible: false, // {boolean} whether to show an iOS-style page control
     pageControlLocation: 'bottom', // {string} where to place the page control, 'top'|'bottom'|'left'|'right'
     pageControlSpacing: 6, // {number} spacing between page control and carousel background
     dotRadius: 3, // {number} radius of the dots in the page control
@@ -70,7 +70,7 @@ define( function( require ) {
     // Make a copy of default options, so we can modify it
     var defaultOptions = _.clone( DEFAULT_OPTIONS );
 
-    // If options doesn't specify a location for dots, set a valid default
+    // If options doesn't specify a location for page control, set a valid default
     if ( options.orientation && !options.pageControlLocation ) {
       defaultOptions.pageControlLocation = ( options.orientation === 'horizontal' ) ? 'bottom' : 'left';
     }
@@ -239,9 +239,9 @@ define( function( require ) {
 
       pageControl = new PageControl( numberOfPages, pageNumberProperty, {
         orientation: options.orientation,
-        dotRadius: options.dotRadius,
         pageVisibleColor: options.pageVisibleColor,
         pageNotVisibleColor: options.pageNotVisibleColor,
+        dotRadius: options.dotRadius,
         dotSpacing: options.dotSpacing
       } );
 
