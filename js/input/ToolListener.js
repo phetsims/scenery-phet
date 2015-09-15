@@ -6,7 +6,7 @@
  * TODO: This file is highly volatile an not ready for public consumption.  It is being actively developed
  * as part of https://github.com/phetsims/scenery-phet/issues/186 for work in Bending Light.  If it cannot be generalized
  * for usage in other simulations, it will be moved to Bending Light.  The API and implementation are subject to
- * change
+ * change, and this disclaimer will be removed when the code is ready for review or usage.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
