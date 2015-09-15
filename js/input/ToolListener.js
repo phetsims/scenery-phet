@@ -21,6 +21,7 @@ define( function( require ) {
 
   /**
    * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
+   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
    * @param node
    * @param oldParent
    * @param newParent
