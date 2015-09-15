@@ -71,7 +71,7 @@ define( function( require ) {
         inToolboxProperty.value = false;
 
         // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-        var location = node.getTranslation();
+        var location = node.getCenter();
         startOffset = node.globalToParentPoint( event.pointer.point ).minus( location );
       },
       drag: function( event ) {
@@ -80,7 +80,7 @@ define( function( require ) {
         //self.events.trigger1( 'startedCallbacksForDragged', location );
 
         //locationProperty.set( location );
-        node.setTranslation( parentPoint );
+        node.setCenter( parentPoint );
 
         //options.onDrag( event );
 
@@ -105,14 +105,36 @@ define( function( require ) {
       else {
         reparent( node, playAreaNode, toolboxNode );
         animateScale( node, toolboxScale );
-
       }
     } );
 
     // If the drag bounds changes, make sure the protractor didn't go out of bounds
-    playAreaBoundsProperty.link( function( dragBounds ) {
-      node.center = dragBounds.getClosestPoint( node.centerX, node.centerY );
+    playAreaBoundsProperty.link( function( playAreaBounds ) {
+      node.center = playAreaBounds.getClosestPoint( node.centerX, node.centerY );
     } );
+
+    /**
+     *
+     * @param {Bounds2} parentBounds -
+     * @param {Bounds2} childBounds -
+     * @return {Vector2} - a translation vector that moves the childBounds to fit within the parentBounds, null
+     *                   - if it cannot fit or ZERO if it is already within bounds.
+     */
+    //var getTranslationVectorToMoveInBounds = function( parentBounds, childBounds ) {
+    //  if ( parentBounds.containsBounds( childBounds ) ) {
+    //    return Vector2.ZERO;
+    //  }
+    //  else if ( childBounds.width > parentBounds.width || childBounds.height > parentBounds.height ) {
+    //    return null;
+    //  }
+    //  else {
+    //    var dx = 0;
+    //    var dy = 0;
+    //    if ( childBounds.minX < parentBounds.minX ) {
+    //      dx = parentBounds.minX - childBounds.minX;
+    //    }else if (childBounds.)
+    //  }
+    //};
   }
 
   return inherit( SimpleDragHandler, ToolListener );
