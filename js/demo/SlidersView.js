@@ -12,7 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DemosView = require( 'SCENERY_PHET/demo/DemosView' );
+  var DemosView = require( 'SUN/demo/DemosView' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
