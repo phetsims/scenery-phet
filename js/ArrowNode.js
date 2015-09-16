@@ -27,8 +27,6 @@ define( function( require ) {
    */
   function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
-    this.shapeInitialized = false; // @private
-
     // default options
     options = _.extend( {
       headHeight: 10,
@@ -43,17 +41,14 @@ define( function( require ) {
       lineWidth: 1
     }, options );
 
-    this.arrowShape = new Shape();
-    Path.call( this, this.arrowShape );
-
-    // if the arrow has dimensions describe the shape now, otherwise wait until later
-    this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
-    this.initializeShape();
+    Path.call( this, null );
+    this.shapePoints = [];
+    this.options = options;
+    this.setTailAndTip( tailX, tailY, tipX, tipY );
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
 
-    this.options = options;
     this.mutate( options );
   }
 
@@ -66,6 +61,8 @@ define( function( require ) {
      * @private
      */
     initializeShape: function() {
+      this.arrowShape = new Shape();
+
       var thisNode = this;
       this.arrowShape.moveToPoint( this.shapePoints[ 0 ] );
       var tail = _.tail( this.shapePoints );
@@ -73,26 +70,34 @@ define( function( require ) {
         thisNode.arrowShape.lineToPoint( element );
       } );
       this.arrowShape.close();
+
+      this.shape = this.arrowShape;
     },
 
     // Set the tail and tip locations to update the arrow shape
     // @public
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
-      var structureChanged = false;
-      if ( this.shapePoints.length !== ArrowShape.getNumberOfPoints( tailX, tailY, tipX, tipY, this.options ) ) {
-        structureChanged = true;
-        this.shapePoints = null;
-      }
+
+      this.tailX = tailX; // @public {read-only}
+      this.tailY = tailY; // @public {read-only}
+      this.tipX = tipX; // @public {read-only}
+      this.tipY = tipY; // @public {read-only}
+
+      var numberOfPoints = this.shapePoints.length;
       this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, this.shapePoints, this.options );
 
-      if ( structureChanged ) {
-        this.arrowShape = new Shape();
+      if ( this.shapePoints.length !== numberOfPoints ) {
         this.initializeShape();
-        this.shape = this.arrowShape;
       }
       else {
         this.arrowShape.invalidatePoints();
       }
+    },
+
+    setDoubleHead: function( doubleHead ) {
+      this.options.doubleHead = doubleHead;
+      this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
+      this.initializeShape();
     }
   } );
 } );

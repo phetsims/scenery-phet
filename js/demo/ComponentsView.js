@@ -56,10 +56,27 @@ define( function( require ) {
 
   // Creates a demo for ArrowNode
   var demoArrowNode = function( layoutBounds ) {
-    return new ArrowNode( 0, 0, 200, 200, {
-      doubleHead: true,
+
+    var arrowNode = new ArrowNode( 0, 0, 200, 200, {
       center: layoutBounds.center
     } );
+
+    var checkedProperty = new Property( false );
+    checkedProperty.link( function( checked ) {
+      arrowNode.setDoubleHead( checked );
+    } );
+
+    var checkbox = CheckBox.createTextCheckBox( 'Double head', {}, checkedProperty, {
+      left: 0,
+      bottom: layoutBounds.bottom
+    } );
+    return new Node( {
+      children: [
+        checkbox,
+        arrowNode
+      ]
+    } );
+
   };
 
   // Creates a demo for ConductivityTesterNode

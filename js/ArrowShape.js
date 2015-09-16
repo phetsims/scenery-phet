@@ -2,6 +2,10 @@
 
 /**
  * An arrow shape, either single or double headed.
+ * ArrowShape has an optimization that allows you to reuse an array of Vector2.
+ * The array will have 0 points if the tail and tip are the same point,
+ * 7 points if the arrow is single headed, and 10 points if it is double headed.
+ * If you added calls to addPoint, these numbers will need to adjusted in getNumberOfPoints.
  *
  * @author John Blanco
  * @author Chris Malley
@@ -40,7 +44,7 @@ define( function( require ) {
 
     if ( tipX !== tailX || tipY !== tailY ) {
 
-      var points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
+      var points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
 
       // Describe the shape
       this.moveTo( points[ 0 ].x, points[ 0 ].y );
@@ -54,36 +58,26 @@ define( function( require ) {
 
   return inherit( Shape, ArrowShape, {}, {
 
-    getNumberOfPoints: function( tailX, tailY, tipX, tipY, options ) {
-      return (tipX === tailX && tipY === tailY) ? 0 :
-             options.doubleHead ? 10 :
-             7
-    },
-
     /**
      * @private
-     * @param tailX
-     * @param tailY
-     * @param tipX
-     * @param tipY
-     * @param {Vector2[]|null} shapePoints - if provided, values will be overwritten.  This is to achieve
-     *                                     - high performance and is used by ArrowNode to avoid re-creating shapes
+     * @param {number} tailX
+     * @param {number} tailY
+     * @param {number} tipX
+     * @param {number} tipY
+     * @param {Vector2[]} shapePoints - if provided, values will be overwritten.  This is to achieve
+     *                                - high performance and is used by ArrowNode to avoid re-creating shapes
      * @param options
      * @returns {Array}
      */
     getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
 
       if ( tipX === tailX && tipY === tailY ) {
-        return [];
+        return shapePoints;
       }
 
-      var numberPoints = ArrowShape.getNumberOfPoints( tailX, tailY, tipX, tipY, options );
       if ( !shapePoints ) {
-
-        shapePoints = _.times( numberPoints, function() {return new Vector2();} );
+        shapePoints = [];
       }
-
-      assert && assert( shapePoints.length === numberPoints, 'wrong number of shape points' );
 
       var vector = new Vector2( tipX - tailX, tipY - tailY );
       var xHatUnit = vector.normalized();
@@ -118,8 +112,13 @@ define( function( require ) {
       var addPoint = function( xHat, yHat ) {
         var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
         var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
-        shapePoints[ index ].x = x;
-        shapePoints[ index ].y = y;
+        if ( shapePoints[ index ] ) {
+          shapePoints[ index ].x = x;
+          shapePoints[ index ].y = y;
+        }
+        else {
+          shapePoints.push( new Vector2( x, y ) );
+        }
         index++;
       };
 
@@ -145,8 +144,9 @@ define( function( require ) {
         addPoint( 0, -tailWidth / 2 );
       }
 
-      // Make sure the number of points in the above method is synchronized
-      assert && assert( index === numberPoints );
+      if ( index < shapePoints.length ) {
+        shapePoints.length = index;
+      }
 
       return shapePoints;
     }
