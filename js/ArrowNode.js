@@ -45,7 +45,9 @@ define( function( require ) {
 
     // @private
     this.updateShapePoints = function() {
+      var numberOfPoints = this.shapePoints.length;
       arrowNode.shapePoints = ArrowShape.getArrowShapePoints( arrowNode.tailX, arrowNode.tailY, arrowNode.tipX, arrowNode.tipY, arrowNode.shapePoints, options );
+      return arrowNode.shapePoints.length !== numberOfPoints;
     };
 
     // @private
@@ -66,21 +68,22 @@ define( function( require ) {
   return inherit( Path, ArrowNode, {
 
     /**
-     * Initialize the shape. Only called if the number of points in the shape changes.
+     * Initialize or update the shape. Only called if the number of points in the shape changes.
      * @private
      */
-    initializeShape: function() {
-      this.arrowShape = new Shape();
+    updateShape: function() {
 
-      var thisNode = this;
-      this.arrowShape.moveToPoint( this.shapePoints[ 0 ] );
-      var tail = _.tail( this.shapePoints );
-      _.each( tail, function( element ) {
-        thisNode.arrowShape.lineToPoint( element );
-      } );
-      this.arrowShape.close();
+      var shape = new Shape();
 
-      this.shape = this.arrowShape;
+      if ( this.shapePoints.length > 1 ) {
+        shape.moveToPoint( this.shapePoints[ 0 ] );
+        for ( var i = 1; i < this.shapePoints.length; i++ ) {
+          shape.lineToPoint( this.shapePoints[ i ] );
+        }
+        shape.close();
+      }
+
+      this.shape = shape;
     },
 
     /**
@@ -94,21 +97,20 @@ define( function( require ) {
       this.tipX = tipX; // @public {read-only}
       this.tipY = tipY; // @public {read-only}
 
-      var numberOfPoints = this.shapePoints.length;
-      this.updateShapePoints();
+      var numberOfPointsChanged = this.updateShapePoints();
 
-      if ( !this.arrowShape || this.shapePoints.length !== numberOfPoints ) {
-        this.initializeShape();
+      if ( !this.shape || numberOfPointsChanged ) {
+        this.updateShape();
       }
       else {
-        this.arrowShape.invalidatePoints();
+        this.shape.invalidatePoints();
       }
     },
-    
+
     setDoubleHead: function( doubleHead ) {
       this.setDoubleHeaded( doubleHead );
       this.updateShapePoints();
-      this.initializeShape();
+      this.updateShape();
     }
   } );
 } );
