@@ -47,13 +47,8 @@ define( function( require ) {
     Path.call( this, this.arrowShape );
 
     // if the arrow has dimensions describe the shape now, otherwise wait until later
-    if ( tipX !== tailX || tipY !== tailY ) {
-      this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
-      this.initializeShape();
-    }
-    else {
-      this.shapePoints = [];
-    }
+    this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
+    this.initializeShape();
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
@@ -78,20 +73,25 @@ define( function( require ) {
         thisNode.arrowShape.lineToPoint( element );
       } );
       this.arrowShape.close();
-      this.shapeInitialized = true;
     },
 
     // Set the tail and tip locations to update the arrow shape
     // @public
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
-      if ( tipX !== tailX || tipY !== tailY ) {
-        this.computeArrowShapePoints( tailX, tailY, tipX, tipY, this.options );
-        if ( !this.shapeInitialized ) {
-          this.initializeShape();
-        }
-        else {
-          this.arrowShape.invalidatePoints();
-        }
+      var structureChanged = false;
+      if ( this.shapePoints.length !== ArrowShape.getNumberOfPoints( tailX, tailY, tipX, tipY, this.options ) ) {
+        structureChanged = true;
+        this.shapePoints = null;
+      }
+      this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, this.shapePoints, this.options );
+
+      if ( structureChanged ) {
+        this.arrowShape = new Shape();
+        this.initializeShape();
+        this.shape = this.arrowShape;
+      }
+      else {
+        this.arrowShape.invalidatePoints();
       }
     }
   } );

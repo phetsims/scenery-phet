@@ -54,6 +54,12 @@ define( function( require ) {
 
   return inherit( Shape, ArrowShape, {}, {
 
+    getNumberOfPoints: function( tailX, tailY, tipX, tipY, options ) {
+      return (tipX === tailX && tipY === tailY) ? 0 :
+             options.doubleHead ? 10 :
+             7
+    },
+
     /**
      * @private
      * @param tailX
@@ -67,7 +73,11 @@ define( function( require ) {
      */
     getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
 
-      var numberPoints = options.doubleHead ? 10 : 7;
+      if ( tipX === tailX && tipY === tailY ) {
+        return [];
+      }
+
+      var numberPoints = ArrowShape.getNumberOfPoints( tailX, tailY, tipX, tipY, options );
       if ( !shapePoints ) {
 
         shapePoints = _.times( numberPoints, function() {return new Vector2();} );
@@ -134,6 +144,9 @@ define( function( require ) {
       else {
         addPoint( 0, -tailWidth / 2 );
       }
+
+      // Make sure the number of points in the above method is synchronized
+      assert && assert( index === numberPoints );
 
       return shapePoints;
     }
