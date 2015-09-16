@@ -17,9 +17,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Events = require( 'AXON/Events' );
 
@@ -53,7 +51,7 @@ define( function( require ) {
       // note where the drag started
       start: function( event ) {
 
-        self.events.trigger1( 'startedCallbacksForDragStarted', locationProperty.get() );
+        self.events.trigger1( 'startedCallbacksForDragStarted' );
 
         options.startDrag( event );
 
@@ -72,15 +70,12 @@ define( function( require ) {
         location = self._dragBounds.closestPointTo( location );
         self.events.trigger1( 'startedCallbacksForDragged', location );
 
-        locationProperty.set( location );
-
         options.onDrag( event );
 
         self.events.trigger0( 'endedCallbacksForDragged' );
       },
 
       end: function( event ) {
-        self.events.trigger1( 'startedCallbacksForDragEnded', locationProperty.get() );
         options.endDrag( event );
         self.events.trigger0( 'endedCallbacksForDragEnded' );
       }
