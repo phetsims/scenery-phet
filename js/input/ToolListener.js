@@ -18,6 +18,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Events = require( 'AXON/Events' );
 
   /**
    * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
@@ -79,6 +80,11 @@ define( function( require ) {
                          // toolbox is different than where they came from, for instance in the Fractions sims stacks of 
                          // cards
                          getToolboxPosition ) {
+    var events = new Events();
+
+    // @public
+    this.events = events;
+
     var inToolboxProperty = new Property( inToolbox );
     node.setScaleMagnitude( inToolbox ? toolboxScale : playAreaScale );
     node.center = inToolbox ? getToolboxPosition() : node.center;
@@ -132,6 +138,10 @@ define( function( require ) {
           inToolboxProperty.value = true;
           var toolboxPosition = getToolboxPosition();
           animateScale( node, toolboxScale, toolboxPosition.x, toolboxPosition.y );
+        }
+        else {
+          // TODO: should we use a named options callback or axon event here?  Precedent may be for the latter.
+          events.trigger( 'droppedInThePlayArea' );
         }
       }
     };
