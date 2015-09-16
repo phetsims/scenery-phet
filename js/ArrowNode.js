@@ -27,6 +27,8 @@ define( function( require ) {
    */
   function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
+    var arrowNode = this;
+
     // default options
     options = _.extend( {
       headHeight: 10,
@@ -41,9 +43,18 @@ define( function( require ) {
       lineWidth: 1
     }, options );
 
+    // @private
+    this.updateShapePoints = function() {
+      arrowNode.shapePoints = ArrowShape.getArrowShapePoints( arrowNode.tailX, arrowNode.tailY, arrowNode.tipX, arrowNode.tipY, arrowNode.shapePoints, options );
+    };
+
+    // @private
+    this.setDoubleHeaded = function( doubleHead ) {
+      options.doubleHead = doubleHead;
+    };
+
     Path.call( this, null );
     this.shapePoints = [];
-    this.options = options;
     this.setTailAndTip( tailX, tailY, tipX, tipY );
 
     // things you're likely to mess up, add more as needed
@@ -55,9 +66,7 @@ define( function( require ) {
   return inherit( Path, ArrowNode, {
 
     /**
-     * Called only once to describe the initial shape. This method is needed since some sims like pendulum-lab
-     * and gravity-and-orbits have a pattern of initializing ArrowNodes with new ArrowNode( 0, 0, 0, 0 ), which
-     * wouldn't work to draw the shape immediately.
+     * Initialize the shape. Only called if the number of points in the shape changes.
      * @private
      */
     initializeShape: function() {
@@ -74,8 +83,10 @@ define( function( require ) {
       this.shape = this.arrowShape;
     },
 
-    // Set the tail and tip locations to update the arrow shape
-    // @public
+    /**
+     * Set the tail and tip locations to update the arrow shape
+     * @public
+     */
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
 
       this.tailX = tailX; // @public {read-only}
@@ -84,19 +95,19 @@ define( function( require ) {
       this.tipY = tipY; // @public {read-only}
 
       var numberOfPoints = this.shapePoints.length;
-      this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, this.shapePoints, this.options );
+      this.updateShapePoints();
 
-      if ( this.shapePoints.length !== numberOfPoints ) {
+      if ( !this.arrowShape || this.shapePoints.length !== numberOfPoints ) {
         this.initializeShape();
       }
       else {
         this.arrowShape.invalidatePoints();
       }
     },
-
+    
     setDoubleHead: function( doubleHead ) {
-      this.options.doubleHead = doubleHead;
-      this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
+      this.setDoubleHeaded( doubleHead );
+      this.updateShapePoints();
       this.initializeShape();
     }
   } );

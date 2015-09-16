@@ -3,9 +3,7 @@
 /**
  * An arrow shape, either single or double headed.
  * ArrowShape has an optimization that allows you to reuse an array of Vector2.
- * The array will have 0 points if the tail and tip are the same point,
- * 7 points if the arrow is single headed, and 10 points if it is double headed.
- * If you added calls to addPoint, these numbers will need to adjusted in getNumberOfPoints.
+ * The array will have 0 points if the tail and tip are the same point.
  *
  * @author John Blanco
  * @author Chris Malley
@@ -59,13 +57,14 @@ define( function( require ) {
   return inherit( Shape, ArrowShape, {}, {
 
     /**
-     * @private
      * @param {number} tailX
      * @param {number} tailY
      * @param {number} tipX
      * @param {number} tipY
      * @param {Vector2[]} shapePoints - if provided, values will be overwritten.  This is to achieve
-     *                                - high performance and is used by ArrowNode to avoid re-creating shapes
+     *                                  high performance and is used by ArrowNode to avoid re-creating shapes.
+     *                                  Tested this implementation vs the old one by creating hundreds of arrows and
+     *                                  saw significant performance gains.
      * @param options
      * @returns {Array}
      */
