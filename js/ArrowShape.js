@@ -36,9 +36,44 @@ define( function( require ) {
     }, options );
 
     var thisShape = this;
-    Shape.call( thisShape );
+    Shape.call( this );
 
     if ( tipX !== tailX || tipY !== tailY ) {
+
+      var points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
+
+      // Describe the shape
+      this.moveTo( points[ 0 ].x, points[ 0 ].y );
+      var tail = _.tail( points );
+      _.each( tail, function( element ) {
+        thisShape.lineTo( element.x, element.y );
+      } );
+      this.close();
+    }
+  }
+
+  return inherit( Shape, ArrowShape, {}, {
+
+    /**
+     * @private
+     * @param tailX
+     * @param tailY
+     * @param tipX
+     * @param tipY
+     * @param {Vector2[]|null} shapePoints - if provided, values will be overwritten.  This is to achieve
+     *                                     - high performance and is used by ArrowNode to avoid re-creating shapes
+     * @param options
+     * @returns {Array}
+     */
+    getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
+
+      var numberPoints = options.doubleHead ? 10 : 7;
+      if ( !shapePoints ) {
+
+        shapePoints = _.times( numberPoints, function() {return new Vector2();} );
+      }
+
+      assert && assert( shapePoints.length === numberPoints, 'wrong number of shape points' );
 
       var vector = new Vector2( tipX - tailX, tipY - tailY );
       var xHatUnit = vector.normalized();
@@ -58,53 +93,49 @@ define( function( require ) {
           }
         }
         else {
-          //nothing to do; headHeight is already large enough, and previously computed values will be correct.
+          // nothing to do; headHeight is already large enough, and previously computed values will be correct.
         }
       }
+
       // otherwise, just make sure that head height is less than arrow length
       else {
         headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
       }
 
+      var index = 0;
+
       // Set up a coordinate frame that goes from the tail of the arrow to the tip.
-      var getPoint = function( xHat, yHat ) {
+      var addPoint = function( xHat, yHat ) {
         var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
         var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
-        return new Vector2( x, y );
+        shapePoints[ index ].x = x;
+        shapePoints[ index ].y = y;
+        index++;
       };
 
       // Compute points for single- or double-headed arrow
-      var points = [];
       if ( options.doubleHead ) {
-        points.push( getPoint( 0, 0 ) );
-        points.push( getPoint( headHeight, headWidth / 2 ) );
-        points.push( getPoint( headHeight, tailWidth / 2 ) );
+        addPoint( 0, 0 );
+        addPoint( headHeight, headWidth / 2 );
+        addPoint( headHeight, tailWidth / 2 );
       }
       else {
-        points.push( getPoint( 0, tailWidth / 2 ) );
+        addPoint( 0, tailWidth / 2 );
       }
-      points.push( getPoint( length - headHeight, tailWidth / 2 ) );
-      points.push( getPoint( length - headHeight, headWidth / 2 ) );
-      points.push( getPoint( length, 0 ) );
-      points.push( getPoint( length - headHeight, -headWidth / 2 ) );
-      points.push( getPoint( length - headHeight, -tailWidth / 2 ) );
+      addPoint( length - headHeight, tailWidth / 2 );
+      addPoint( length - headHeight, headWidth / 2 );
+      addPoint( length, 0 );
+      addPoint( length - headHeight, -headWidth / 2 );
+      addPoint( length - headHeight, -tailWidth / 2 );
       if ( options.doubleHead ) {
-        points.push( getPoint( headHeight, -tailWidth / 2 ) );
-        points.push( getPoint( headHeight, -headWidth / 2 ) );
+        addPoint( headHeight, -tailWidth / 2 );
+        addPoint( headHeight, -headWidth / 2 );
       }
       else {
-        points.push( getPoint( 0, -tailWidth / 2 ) );
+        addPoint( 0, -tailWidth / 2 );
       }
 
-      // Describe the shape
-      thisShape.moveTo( points[ 0 ].x, points[ 0 ].y );
-      var tail = _.tail( points );
-      _.each( tail, function( element ) {
-        thisShape.lineTo( element.x, element.y );
-      } );
-      thisShape.close();
+      return shapePoints;
     }
-  }
-
-  return inherit( Shape, ArrowShape );
+  } );
 } );

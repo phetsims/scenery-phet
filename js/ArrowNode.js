@@ -11,11 +11,11 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
+  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
 
   /**
    * @param {number} tailX
@@ -44,19 +44,22 @@ define( function( require ) {
     }, options );
 
     this.arrowShape = new Shape();
-    this.shapePoints = []; // store all of the shape points here so they can be mutated
-    Path.call( this, this.arrowShape, options );
+    Path.call( this, this.arrowShape );
 
     // if the arrow has dimensions describe the shape now, otherwise wait until later
     if ( tipX !== tailX || tipY !== tailY ) {
-      this.computeArrowShapePoints( tailX, tailY, tipX, tipY, options );
-      this.describeShape();
+      this.shapePoints = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, null, options );
+      this.initializeShape();
+    }
+    else {
+      this.shapePoints = [];
     }
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
 
     this.options = options;
+    this.mutate( options );
   }
 
   return inherit( Path, ArrowNode, {
@@ -67,7 +70,7 @@ define( function( require ) {
      * wouldn't work to draw the shape immediately.
      * @private
      */
-    describeShape: function() {
+    initializeShape: function() {
       var thisNode = this;
       this.arrowShape.moveToPoint( this.shapePoints[ 0 ] );
       var tail = _.tail( this.shapePoints );
@@ -84,90 +87,11 @@ define( function( require ) {
       if ( tipX !== tailX || tipY !== tailY ) {
         this.computeArrowShapePoints( tailX, tailY, tipX, tipY, this.options );
         if ( !this.shapeInitialized ) {
-          this.describeShape();
+          this.initializeShape();
         }
         else {
           this.arrowShape.invalidatePoints();
         }
-      }
-    },
-
-    /**
-     * @private
-     * @param tailX
-     * @param tailY
-     * @param tipX
-     * @param tipY
-     * @param options
-     * @returns {Array}
-     */
-    computeArrowShapePoints: function( tailX, tailY, tipX, tipY, options ) {
-
-      var vector = new Vector2( tipX - tailX, tipY - tailY );
-      var xHatUnit = vector.normalized();
-      var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-      var length = vector.magnitude();
-
-      // scale down the head if head is dynamic.
-      var headWidth = options.headWidth;
-      var headHeight = options.headHeight;
-      var tailWidth = options.tailWidth;
-      if ( options.isHeadDynamic ) {
-        if ( length < options.headHeight / options.fractionalHeadHeight ) {
-          headHeight = length * options.fractionalHeadHeight;
-          if ( options.scaleTailToo ) {
-            tailWidth = options.tailWidth * headHeight / options.headHeight;
-            headWidth = options.headWidth * headHeight / options.headHeight;
-          }
-        }
-        else {
-          // nothing to do; headHeight is already large enough, and previously computed values will be correct.
-        }
-      }
-      // otherwise, just make sure that head height is less than arrow length
-      else {
-        headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
-      }
-
-      var index = 0;
-      var initializing = this.shapePoints.length === 0;
-      var shapePoints = this.shapePoints;
-
-      // Set up a coordinate frame that goes from the tail of the arrow to the tip.
-      // Either create a new vector or mutate the existing one if it exists
-      var getPoint = function( xHat, yHat ) {
-        var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
-        var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
-        if ( initializing ) {
-          shapePoints.push( new Vector2( x, y ) );
-        }
-        else {
-          shapePoints[ index ].x = x;
-          shapePoints[ index ].y = y;
-          index++;
-        }
-      };
-
-      // Compute points for single- or double-headed arrow
-      if ( options.doubleHead ) {
-        getPoint( 0, 0 );
-        getPoint( headHeight, headWidth / 2 );
-        getPoint( headHeight, tailWidth / 2 );
-      }
-      else {
-        getPoint( 0, tailWidth / 2 );
-      }
-      getPoint( length - headHeight, tailWidth / 2 );
-      getPoint( length - headHeight, headWidth / 2 );
-      getPoint( length, 0 );
-      getPoint( length - headHeight, -headWidth / 2 );
-      getPoint( length - headHeight, -tailWidth / 2 );
-      if ( options.doubleHead ) {
-        getPoint( headHeight, -tailWidth / 2 );
-        getPoint( headHeight, -headWidth / 2 );
-      }
-      else {
-        getPoint( 0, -tailWidth / 2 );
       }
     }
   } );

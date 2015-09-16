@@ -39,6 +39,7 @@ define( function( require ) {
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -49,6 +50,14 @@ define( function( require ) {
       bracketTipLocation: 0.75,
       labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
       spacing: 10,
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for ArrowNode
+  var demoArrowNode = function( layoutBounds ) {
+    return new ArrowNode( 0, 0, 200, 200, {
+      doubleHead: true,
       center: layoutBounds.center
     } );
   };
@@ -345,6 +354,7 @@ define( function( require ) {
       // To add a demo, create an entry here.
       // label is a {string} that will appear in the combo box.
       // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
+      { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
