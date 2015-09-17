@@ -78,7 +78,7 @@ define( function( require ) {
 
       // if arrow has no length, it should have no points so that we don't attempt to draw anything
       if ( tipX === tailX && tipY === tailY ) {
-        return []; 
+        return [];
       }
 
       var vector = new Vector2( tipX - tailX, tipY - tailY );
