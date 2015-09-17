@@ -18,12 +18,16 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // Constants
   var WIDTH = 45;
   var HEIGHT = 45;
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
+
+  // strings
+  var soundToggleButtonString = require( 'string!SCENERY_PHET/SoundToggleButton.name' );
 
   /**
    *
@@ -52,7 +56,24 @@ define( function( require ) {
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
-      yMargin: MARGIN
+      yMargin: MARGIN,
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          // will look like <input value="Sound Button" type="button" tabindex="0">
+          var domElement = document.createElement( 'input' );
+          domElement.value = soundToggleButtonString;
+          domElement.type = 'button';
+
+          domElement.tabIndex = '0';
+
+          domElement.addEventListener( 'click', function() {
+            // toggle the button property
+            property.set( !property.value );
+          } );
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
     }, options ) );
 
     property.link( function( value ) {

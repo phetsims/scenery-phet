@@ -41,5 +41,9 @@
   "ResetAllButton.name": {
     "value": "Reset All",
     "visible": false
+  },
+  "SoundToggleButton.name": {
+    "value": "Toggle Sound",
+    "visible": false
   }
 }
