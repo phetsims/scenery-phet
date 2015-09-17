@@ -57,25 +57,26 @@ define( function( require ) {
   return inherit( Shape, ArrowShape, {}, {
 
     /**
+     * This method is static so it can be used in ArrowShape as well as in ArrowNode.
      * @param {number} tailX
      * @param {number} tailY
      * @param {number} tipX
      * @param {number} tipY
-     * @param {Vector2[]} shapePoints - if provided, values will be overwritten.  This is to achieve
+     * @param {Vector2[]} shapePoints - if provided, values will be overwritten. This is to achieve
      *                                  high performance and is used by ArrowNode to avoid re-creating shapes.
      *                                  Tested this implementation vs the old one by creating hundreds of arrows and
      *                                  saw significant performance gains.
-     * @param options
+     * @param {Object} [options]
      * @returns {Array}
      */
     getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
 
-      if ( tipX === tailX && tipY === tailY ) {
-        return shapePoints;
-      }
-
       if ( !shapePoints ) {
         shapePoints = [];
+      }
+
+      if ( tipX === tailX && tipY === tailY ) {
+        return shapePoints;
       }
 
       var vector = new Vector2( tipX - tailX, tipY - tailY );
