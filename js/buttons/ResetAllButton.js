@@ -55,10 +55,10 @@ define( function( require ) {
       accessibleContent: {
         focusHighlight: new Shape().circle( 0, 0, buttonRadius ),
         createPeer: function( accessibleInstance ) {
-          // will look like <input value="Reset" type="button" tabindex="0">
+          // will look like <input value="Reset" type="reset" tabindex="0">
           var domElement = document.createElement( 'input' );
           domElement.value = resetAllNameString;
-          domElement.type = 'button';
+          domElement.type = 'reset';
 
           domElement.tabIndex = '0';
 
