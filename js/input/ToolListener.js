@@ -86,10 +86,12 @@ define( function( require ) {
     this.events = events;
 
     var inToolboxProperty = new Property( inToolbox );
-    node.setScaleMagnitude( inToolbox ? toolboxScale : playAreaScale );
-    if ( getToolboxPosition ) {
-      node.center = inToolbox ? getToolboxPosition() : node.center;
-    }
+    this.positionInToolbox = function() {
+      node.setScaleMagnitude( inToolbox ? toolboxScale : playAreaScale );
+      if ( getToolboxPosition ) {
+        node.center = inToolbox ? getToolboxPosition() : node.center;
+      }
+    };
 
     var startOffset = null;
 
