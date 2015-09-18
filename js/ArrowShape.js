@@ -71,12 +71,14 @@ define( function( require ) {
      */
     getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
 
+      // default shapePoints to empty array if it isn't passed in
       if ( !shapePoints ) {
         shapePoints = [];
       }
 
+      // if arrow has no length, it should have no points so that we don't attempt to draw anything
       if ( tipX === tailX && tipY === tailY ) {
-        return shapePoints;
+        return [];
       }
 
       var vector = new Vector2( tipX - tailX, tipY - tailY );

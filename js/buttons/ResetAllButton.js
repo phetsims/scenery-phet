@@ -54,6 +54,13 @@ define( function( require ) {
       content: icon,
       accessibleContent: {
         focusHighlight: new Shape().circle( 0, 0, buttonRadius ),
+
+        /**
+         * Create an element for the ResetAllButton in the parallel DOM and set its attributes.
+         *
+         * @param {AccessibleInstance} accessibleInstance
+         * @returns {AccessiblePeer}
+         */
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="reset" tabindex="0">
           var domElement = document.createElement( 'input' );
