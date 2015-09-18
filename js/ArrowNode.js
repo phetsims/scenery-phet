@@ -103,10 +103,14 @@ define( function( require ) {
 
       var numberOfPointsChanged = this.updateShapePoints();
 
+      // This bit of logic is to improve performance for the case where the Shape instance can be reused (if the number of 
+      // points in the array is the same)
       if ( !this.shape || numberOfPointsChanged ) {
         this.updateShape();
       }
       else {
+
+        // This is the higher-performance case where the Shape instance can be reused
         this.shape.invalidatePoints();
       }
     },
