@@ -87,9 +87,23 @@ define( function( require ) {
 
     var inToolboxProperty = new Property( inToolbox );
     node.setScaleMagnitude( inToolbox ? toolboxScale : playAreaScale );
-    node.center = inToolbox ? getToolboxPosition() : node.center;
+    if ( getToolboxPosition ) {
+      node.center = inToolbox ? getToolboxPosition() : node.center;
+    }
 
     var startOffset = null;
+
+    var moveToToolbox = function() {
+      reparent( node, playAreaNode, toolboxNode );
+      inToolboxProperty.value = true;
+      if ( getToolboxPosition ) {
+        var toolboxPosition = getToolboxPosition();
+        animateScale( node, toolboxScale, toolboxPosition.x, toolboxPosition.y );
+      }
+    };
+
+    // @public {read-only}
+    this.moveToToolbox = moveToToolbox;
 
     var options = {
       allowTouchSnag: true,
@@ -134,10 +148,7 @@ define( function( require ) {
         // Drop into the toolbox.  But when there is no toolbox (when playAreaNode===toolboxNode) then do nothing.
         if ( toolboxNode !== playAreaNode && node.getGlobalBounds().intersectsBounds( toolboxNode.getGlobalBounds() ) ) {
 
-          reparent( node, playAreaNode, toolboxNode );
-          inToolboxProperty.value = true;
-          var toolboxPosition = getToolboxPosition();
-          animateScale( node, toolboxScale, toolboxPosition.x, toolboxPosition.y );
+          events.trigger( 'droppedInToolbox', moveToToolbox );
         }
         else {
           // TODO: should we use a named options callback or axon event here?  Precedent may be for the latter.
@@ -181,7 +192,9 @@ define( function( require ) {
         reparent( node, playAreaNode, toolboxNode );
 
         node.setScaleMagnitude( toolboxScale );
-        node.center = getToolboxPosition();
+        if ( getToolboxPosition ) {
+          node.center = getToolboxPosition();
+        }
       }
     };
   }
