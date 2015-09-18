@@ -7,6 +7,8 @@
  *
  * @author John Blanco
  * @author Chris Malley
+ * @author Aaron Davis
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -37,7 +39,7 @@ define( function( require ) {
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
 
-    var thisShape = this;
+    var thisArrowShape = this;
     Shape.call( this );
 
     if ( tipX !== tailX || tipY !== tailY ) {
@@ -48,7 +50,7 @@ define( function( require ) {
       this.moveTo( points[ 0 ].x, points[ 0 ].y );
       var tail = _.tail( points );
       _.each( tail, function( element ) {
-        thisShape.lineTo( element.x, element.y );
+        thisArrowShape.lineTo( element.x, element.y );
       } );
       this.close();
     }
@@ -78,78 +80,80 @@ define( function( require ) {
 
       // if arrow has no length, it should have no points so that we don't attempt to draw anything
       if ( tipX === tailX && tipY === tailY ) {
-        return [];
+        shapePoints.length = 0;
       }
+      else {
 
-      var vector = new Vector2( tipX - tailX, tipY - tailY );
-      var xHatUnit = vector.normalized();
-      var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-      var length = vector.magnitude();
+        // The shape of the arrow will populate the shapePoints array
+        var vector = new Vector2( tipX - tailX, tipY - tailY );
+        var xHatUnit = vector.normalized();
+        var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
+        var length = vector.magnitude();
 
-      // scale down the head if head is dynamic.
-      var headWidth = options.headWidth;
-      var headHeight = options.headHeight;
-      var tailWidth = options.tailWidth;
-      if ( options.isHeadDynamic ) {
-        if ( length < options.headHeight / options.fractionalHeadHeight ) {
-          headHeight = length * options.fractionalHeadHeight;
-          if ( options.scaleTailToo ) {
-            tailWidth = options.tailWidth * headHeight / options.headHeight;
-            headWidth = options.headWidth * headHeight / options.headHeight;
+        // scale down the head if head is dynamic.
+        var headWidth = options.headWidth;
+        var headHeight = options.headHeight;
+        var tailWidth = options.tailWidth;
+        if ( options.isHeadDynamic ) {
+          if ( length < options.headHeight / options.fractionalHeadHeight ) {
+            headHeight = length * options.fractionalHeadHeight;
+            if ( options.scaleTailToo ) {
+              tailWidth = options.tailWidth * headHeight / options.headHeight;
+              headWidth = options.headWidth * headHeight / options.headHeight;
+            }
+          }
+          else {
+            // nothing to do; headHeight is already large enough, and previously computed values will be correct.
           }
         }
+
+        // otherwise, just make sure that head height is less than arrow length
         else {
-          // nothing to do; headHeight is already large enough, and previously computed values will be correct.
+          headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
         }
-      }
 
-      // otherwise, just make sure that head height is less than arrow length
-      else {
-        headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
-      }
+        var index = 0;
 
-      var index = 0;
+        // Set up a coordinate frame that goes from the tail of the arrow to the tip.
+        var addPoint = function( xHat, yHat ) {
+          var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
+          var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
+          if ( shapePoints[ index ] ) {
+            shapePoints[ index ].x = x;
+            shapePoints[ index ].y = y;
+          }
+          else {
+            shapePoints.push( new Vector2( x, y ) );
+          }
+          index++;
+        };
 
-      // Set up a coordinate frame that goes from the tail of the arrow to the tip.
-      var addPoint = function( xHat, yHat ) {
-        var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
-        var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
-        if ( shapePoints[ index ] ) {
-          shapePoints[ index ].x = x;
-          shapePoints[ index ].y = y;
+        // Compute points for single- or double-headed arrow
+        if ( options.doubleHead ) {
+          addPoint( 0, 0 );
+          addPoint( headHeight, headWidth / 2 );
+          addPoint( headHeight, tailWidth / 2 );
         }
         else {
-          shapePoints.push( new Vector2( x, y ) );
+          addPoint( 0, tailWidth / 2 );
         }
-        index++;
-      };
+        addPoint( length - headHeight, tailWidth / 2 );
+        addPoint( length - headHeight, headWidth / 2 );
+        addPoint( length, 0 );
+        addPoint( length - headHeight, -headWidth / 2 );
+        addPoint( length - headHeight, -tailWidth / 2 );
+        if ( options.doubleHead ) {
+          addPoint( headHeight, -tailWidth / 2 );
+          addPoint( headHeight, -headWidth / 2 );
+        }
+        else {
+          addPoint( 0, -tailWidth / 2 );
+        }
 
-      // Compute points for single- or double-headed arrow
-      if ( options.doubleHead ) {
-        addPoint( 0, 0 );
-        addPoint( headHeight, headWidth / 2 );
-        addPoint( headHeight, tailWidth / 2 );
+        if ( index < shapePoints.length ) {
+          shapePoints.length = index;
+        }
       }
-      else {
-        addPoint( 0, tailWidth / 2 );
-      }
-      addPoint( length - headHeight, tailWidth / 2 );
-      addPoint( length - headHeight, headWidth / 2 );
-      addPoint( length, 0 );
-      addPoint( length - headHeight, -headWidth / 2 );
-      addPoint( length - headHeight, -tailWidth / 2 );
-      if ( options.doubleHead ) {
-        addPoint( headHeight, -tailWidth / 2 );
-        addPoint( headHeight, -headWidth / 2 );
-      }
-      else {
-        addPoint( 0, -tailWidth / 2 );
-      }
-
-      if ( index < shapePoints.length ) {
-        shapePoints.length = index;
-      }
-
       return shapePoints;
     }
   } );
