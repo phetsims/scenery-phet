@@ -1,12 +1,12 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * A single- or double-headed arrow. This is a convenience class, most of the
- * work is done in ArrowShape.
+ * A single- or double-headed arrow. This is a convenience class, most of the work is done in ArrowShape.
  *
  * @author John Blanco
  * @author Chris Malley
  * @author Aaron Davis
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -43,14 +43,18 @@ define( function( require ) {
       lineWidth: 1
     }, options );
 
-    // @private
+    /**
+     * @private - Update the internal shapePoints array which is used to populate the points in the Shape instance.
+     * @returns {boolean} - true if the number of points in the array has changed, which would require building a new
+     *                      Shape instance
+     */
     this.updateShapePoints = function() {
       var numberOfPoints = this.shapePoints.length;
       arrowNode.shapePoints = ArrowShape.getArrowShapePoints( arrowNode.tailX, arrowNode.tailY, arrowNode.tipX, arrowNode.tipY, arrowNode.shapePoints, options );
       return arrowNode.shapePoints.length !== numberOfPoints;
     };
 
-    // @private
+    // @private - closure function since the double headed feature is set through options
     this.setDoubleHeaded = function( doubleHead ) {
       options.doubleHead = doubleHead;
     };
@@ -107,6 +111,10 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public - set whether the arrow has one triangle or two
+     * @param doubleHead
+     */
     setDoubleHead: function( doubleHead ) {
       this.setDoubleHeaded( doubleHead );
       this.updateShapePoints();
