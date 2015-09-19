@@ -125,12 +125,14 @@ define( function( require ) {
 
         if ( wasInToolbox && !inToolboxProperty.value ) {
 
-          reparent( node, toolboxNode, playAreaNode );
+          events.trigger( 'draggedOutOfToolbox', function() {
+            reparent( node, toolboxNode, playAreaNode );
 
-          var parentPoint = node.globalToParentPoint( event.pointer.point ).minus( startOffset );
-          parentPoint = playAreaBoundsProperty.value.closestPointTo( parentPoint );
+            var parentPoint = node.globalToParentPoint( event.pointer.point ).minus( startOffset );
+            parentPoint = playAreaBoundsProperty.value.closestPointTo( parentPoint );
 
-          animateScale( node, playAreaScale, parentPoint.x, parentPoint.y );
+            animateScale( node, playAreaScale, parentPoint.x, parentPoint.y );
+          } );
         }
       },
       drag: function( event ) {
