@@ -142,6 +142,7 @@ define( function( require ) {
 
         //locationProperty.set( location );
         node.setCenter( parentPoint );
+        events.trigger( 'dragged' );
 
         //options.onDrag( event );
 
