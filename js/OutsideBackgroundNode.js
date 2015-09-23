@@ -13,7 +13,7 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var SkyNode = require( 'SCENERY_PHET/SkyNode' );
   var GroundNode = require( 'SCENERY_PHET/GroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );

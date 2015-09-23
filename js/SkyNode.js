@@ -9,7 +9,7 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var Color = require( 'SCENERY/util/Color' );
