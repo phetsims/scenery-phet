@@ -20,7 +20,7 @@ define( function( require ) {
 
   var resetAllNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
 
-  // Constants
+  // constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
 
   /**

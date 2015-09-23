@@ -19,7 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
 
-  // Constants
+  // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds
 
   /**

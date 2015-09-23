@@ -20,7 +20,7 @@ define( function( require ) {
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
-  // Constants
+  // constants
   var WIDTH = 45;
   var HEIGHT = 45;
   var MARGIN = 4;

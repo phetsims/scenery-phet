@@ -19,7 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  // Constants
+  // constants
   var DEFAULT_ICON_WIDTH = 24;
 
   /**

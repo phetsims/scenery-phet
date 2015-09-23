@@ -17,7 +17,7 @@ define( function( require ) {
   var SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
 
-  // Constants
+  // constants
   var WIDTH = 45;
   var HEIGHT = 45;
   var MARGIN = 4;
