@@ -18,7 +18,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
 
-  // Strings
+  // strings
   var title = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
   var simOptions = {
