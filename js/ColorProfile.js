@@ -33,11 +33,6 @@ define( function( require ) {
     }
     PropertySet.call( this, initialProperties );
 
-    // initial communication
-    for ( var colorName in colors ) {
-      this.reportColor( colorName );
-    }
-
     // receives iframe communication to set a color
     window.addEventListener( 'message', function( evt ) {
       var data = JSON.parse( evt.data );
@@ -46,30 +41,27 @@ define( function( require ) {
       }
     } );
 
+    // Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
     this.profileNameProperty.link( function( profileName ) {
       for ( var key in thisProfile.colors ) {
-        if ( profileName in thisProfile.colors[ key ] ) {
-          var oldColor = thisProfile[ key ];
-          var newColor = thisProfile.colors[ key ][ profileName ];
-          if ( !newColor.equals( oldColor ) ) {
-            thisProfile[ key ] = newColor;
-            thisProfile.reportColor( key );
-          }
+        var oldColor = thisProfile[ key ];
+        var colorObject = thisProfile.colors[ key ];
+        var newColor = ( profileName in colorObject ) ? colorObject[ profileName ] : colorObject[ 'default' ];
+        if ( !newColor.equals( oldColor ) ) {
+          thisProfile[ key ] = newColor;
+          thisProfile.reportColor( key );
         }
       }
       thisProfile.trigger( 'profileChanged' );
     } );
+
+    // initial communication
+    for ( var colorName in colors ) {
+      this.reportColor( colorName );
+    }
   }
 
   return inherit( PropertySet, ColorProfile, {
-
-    /**
-     * Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
-     * @param {string} profileName - e.g. 'default', 'basics' or 'projector'
-     */
-    applyProfile: function( profileName ) {
-      this.profileNameProperty.set( profileName );
-    },
 
     // sends iframe communication to report the current color for the key name
     reportColor: function( key ) {
