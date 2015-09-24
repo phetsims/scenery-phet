@@ -24,6 +24,7 @@ define( function( require ) {
     // initial properties object, to load into the PropertySet (so reset works nicely)
     var initialProperties = {};
     for ( var key in colors ) {
+      assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color in ColorProfile' );
       initialProperties[ key ] = colors[ key ].default;
     }
     PropertySet.call( this, initialProperties );
@@ -47,11 +48,9 @@ define( function( require ) {
 
     /**
      * Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
-     * @param {string} profileName - one of 'default', 'basics' or 'projector'
+     * @param {string} profileName - e.g. 'default', 'basics' or 'projector'
      */
     applyProfile: function( profileName ) {
-      assert && assert( profileName === 'default' || profileName === 'projector' );
-
       for ( var key in this.colors ) {
         if ( profileName in this.colors[ key ] ) {
           var oldColor = this[ key ];
