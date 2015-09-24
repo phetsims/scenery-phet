@@ -22,7 +22,11 @@ define( function( require ) {
     this.colors = colors; // @private
 
     // initial properties object, to load into the PropertySet (so reset works nicely)
-    var initialProperties = {};
+    // all properties are @public (read-only) except profileNameProperty, which is @public
+    var initialProperties = {
+      profileName: 'default' // {string} @public - name of the color profile, e.g. 'default' or 'projector'
+    };
+
     for ( var key in colors ) {
       assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color for "' + key + '"' );
       initialProperties[ key ] = colors[ key ].default;
@@ -42,6 +46,19 @@ define( function( require ) {
       }
     } );
 
+    this.profileNameProperty.link( function( profileName ) {
+      for ( var key in thisProfile.colors ) {
+        if ( profileName in thisProfile.colors[ key ] ) {
+          var oldColor = thisProfile[ key ];
+          var newColor = thisProfile.colors[ key ][ profileName ];
+          if ( !newColor.equals( oldColor ) ) {
+            thisProfile[ key ] = newColor;
+            thisProfile.reportColor( key );
+          }
+        }
+      }
+      thisProfile.trigger( 'profileChanged' );
+    } );
   }
 
   return inherit( PropertySet, ColorProfile, {
@@ -51,17 +68,7 @@ define( function( require ) {
      * @param {string} profileName - e.g. 'default', 'basics' or 'projector'
      */
     applyProfile: function( profileName ) {
-      for ( var key in this.colors ) {
-        if ( profileName in this.colors[ key ] ) {
-          var oldColor = this[ key ];
-          var newColor = this.colors[ key ][ profileName ];
-          if ( !newColor.equals( oldColor ) ) {
-            this[ key ] = newColor;
-            this.reportColor( key );
-          }
-        }
-      }
-      this.trigger( 'profileChanged' );
+      this.profileNameProperty.set( profileName );
     },
 
     // sends iframe communication to report the current color for the key name
