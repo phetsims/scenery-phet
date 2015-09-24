@@ -24,7 +24,7 @@ define( function( require ) {
     // initial properties object, to load into the PropertySet (so reset works nicely)
     var initialProperties = {};
     for ( var key in colors ) {
-      assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color in ColorProfile' );
+      assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color for "' + key + '"' );
       initialProperties[ key ] = colors[ key ].default;
     }
     PropertySet.call( this, initialProperties );
