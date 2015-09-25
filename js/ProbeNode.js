@@ -46,7 +46,7 @@ define( function( require ) {
     };
   };
 
-  // Crosshairs cane be shown in the central circle
+  // Crosshairs can be shown in the central circle
   var crosshairs = function( options ) {
     var CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
