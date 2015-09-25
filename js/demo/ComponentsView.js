@@ -42,6 +42,7 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
 
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {
@@ -178,6 +179,29 @@ define( function( require ) {
       propertySet.color = new Color( r, g, b );
     } );
 
+    // Controls for the sensor type (glass/crosshairs/empty/etc)
+    var initialValue = ProbeNode.glass();
+    var sensorTypeProperty = new Property( initialValue );
+    var radioButtons = new RadioButtonGroup( sensorTypeProperty, [
+      { value: null, node: new Text( 'null' ) },
+      { value: initialValue, node: new Text( 'default glass' ) },
+      { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
+      {
+        value: ProbeNode.glass( {
+          centerColor: 'red',
+          middleColor: 'green',
+          edgeColor: 'blue'
+        } ), node: new Text( 'custom glass' )
+      }
+    ], {
+      right: layoutBounds.maxX - 5,
+      top: layoutBounds.minY + 5,
+      orientation: 'horizontal',
+      baseColor: 'white',
+      spacing: 5
+    } );
+    demoParent.addChild( radioButtons );
+
     // When the model properties change, update the sensor node
     Property.multilink( [
         propertySet.colorProperty,
@@ -186,7 +210,8 @@ define( function( require ) {
         propertySet.handleWidthProperty,
         propertySet.handleHeightProperty,
         propertySet.handleCornerRadiusProperty,
-        propertySet.lightAngleProperty
+        propertySet.lightAngleProperty,
+        sensorTypeProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
@@ -200,6 +225,7 @@ define( function( require ) {
           handleHeight: propertySet.handleHeight,
           handleCornerRadius: propertySet.handleCornerRadius,
           lightAngle: propertySet.lightAngle,
+          sensorType: sensorTypeProperty.value,
 
           // layout options
           x: layoutBounds.centerX,
