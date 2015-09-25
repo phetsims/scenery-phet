@@ -75,7 +75,7 @@ define( function( require ) {
     innerRadius: 35,
     handleWidth: 50,
     handleHeight: 30,
-    handleCornerRadius: 30,
+    handleCornerRadius: 10,
     lightAngle: 4.25, // in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, 
                       // PI from the left, etc.  The default is from the upper-left 
     color: '#008541', // darkish green
@@ -106,19 +106,22 @@ define( function( require ) {
     var arcExtent = 0.8;
     var handleWidth = options.handleWidth;
     var innerRadius = Math.min( options.innerRadius, options.radius );
+    var cornerRadius = options.handleCornerRadius;
     var sensorShape = new Shape()
 
     // start in the bottom center
       .moveTo( 0, handleBottom )
 
-      .lineTo( -handleWidth / 2, handleBottom )
+      .lineTo( -handleWidth / 2 + cornerRadius, handleBottom )
+      .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
       .lineTo( -handleWidth / 2, radius )
 
       // Top arc
       .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
       .lineTo( handleWidth / 2, radius )
-      .lineTo( handleWidth / 2, handleBottom )
+      .lineTo( handleWidth / 2, handleBottom - cornerRadius )
+      .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
 
       .lineTo( 0, handleBottom )
       .moveTo( innerRadius, 0 )
