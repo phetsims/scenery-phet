@@ -27,6 +27,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {
@@ -107,20 +108,27 @@ define( function( require ) {
     var handleWidth = options.handleWidth;
     var innerRadius = Math.min( options.innerRadius, options.radius );
     var cornerRadius = options.handleCornerRadius;
-    var sensorShape = new Shape()
+
+    var neckCornerRadius = 10;
+
+    // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
+    // Note: This elliptical arc must match the ellipticalArc call below 
+    var ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false ).start;
 
     // start in the bottom center
+    var sensorShape = new Shape()
       .moveTo( 0, handleBottom )
 
-      .lineTo( -handleWidth / 2 + cornerRadius, handleBottom )
+      // Kite Shape automatically lineTo's to the first point of an arc, so no need to lineTo ourselves  
       .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
-      .lineTo( -handleWidth / 2, radius )
+      .lineTo( -handleWidth / 2, radius + neckCornerRadius )
+      .quadraticCurveTo( -handleWidth / 2, radius, ellipticalArcStart.x, ellipticalArcStart.y )
 
       // Top arc
+      // Note: his elliptical arc must match the EllipticalArc above
       .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
-      .lineTo( handleWidth / 2, radius )
-      .lineTo( handleWidth / 2, handleBottom - cornerRadius )
+      .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
       .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
 
       .lineTo( 0, handleBottom )
