@@ -20,16 +20,17 @@ define( function( require ) {
   // Colors that are used for one or more things in the color scheme.
   var DARK_GREEN = new Color( 0, 200, 0 );
   var RED_COLORBLIND = new Color( 255, 85, 0 ); // looks good in colorblind tests, typically used in place of 'red'
+  var GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
   var TAN_ORANGE = new Color( 236, 153, 55 );
 
   return {
     ACCELERATION: Color.GREEN,
     APPLIED_FORCE: TAN_ORANGE,
-    ELASTIC_ENERGY: new Color( 153, 51, 102  ),
+    ELASTIC_ENERGY: new Color( 153, 51, 102 ),
     FRICTION_FORCE: RED_COLORBLIND,
     GRAVITATIONAL_FORCE: new Color( 50, 130, 215 ),
     HEAT_THERMAL_ENERGY: RED_COLORBLIND,
-    IMAGINARY_PART: new Color( 153, 51, 102  ),
+    IMAGINARY_PART: new Color( 153, 51, 102 ),
     KINETIC_ENERGY: Color.GREEN,
     NET_WORK: DARK_GREEN,
     NORMAL_FORCE: new Color( 255, 235, 0 ),
@@ -37,6 +38,7 @@ define( function( require ) {
     POTENTIAL_ENERGY: Color.BLUE,
     REAL_PART: new Color( 255, 153, 0 ),
     RED_COLORBLIND: RED_COLORBLIND,
+    GREEN_COLORBLIND: GREEN_COLORBLIND,
     TOTAL_ENERGY: TAN_ORANGE,
     TOTAL_FORCE: DARK_GREEN,
     VELOCITY: RED_COLORBLIND,

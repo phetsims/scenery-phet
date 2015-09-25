@@ -22,16 +22,16 @@ define( function( require ) {
     this.colors = colors; // @private
 
     // initial properties object, to load into the PropertySet (so reset works nicely)
-    var initialProperties = {};
+    // all properties are @public (read-only) except profileNameProperty, which is @public
+    var initialProperties = {
+      profileName: 'default' // {string} @public - name of the color profile, e.g. 'default' or 'projector'
+    };
+
     for ( var key in colors ) {
+      assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color for "' + key + '"' );
       initialProperties[ key ] = colors[ key ].default;
     }
     PropertySet.call( this, initialProperties );
-
-    // initial communication
-    for ( var colorName in colors ) {
-      this.reportColor( colorName );
-    }
 
     // receives iframe communication to set a color
     window.addEventListener( 'message', function( evt ) {
@@ -41,29 +41,27 @@ define( function( require ) {
       }
     } );
 
+    // Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
+    this.profileNameProperty.link( function( profileName ) {
+      for ( var key in thisProfile.colors ) {
+        var oldColor = thisProfile[ key ];
+        var colorObject = thisProfile.colors[ key ];
+        var newColor = ( profileName in colorObject ) ? colorObject[ profileName ] : colorObject[ 'default' ];
+        if ( !newColor.equals( oldColor ) ) {
+          thisProfile[ key ] = newColor;
+          thisProfile.reportColor( key );
+        }
+      }
+      thisProfile.trigger( 'profileChanged' );
+    } );
+
+    // initial communication
+    for ( var colorName in colors ) {
+      this.reportColor( colorName );
+    }
   }
 
   return inherit( PropertySet, ColorProfile, {
-
-    /**
-     * Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
-     * @param {string} profileName - one of 'default', 'basics' or 'projector'
-     */
-    applyProfile: function( profileName ) {
-      assert && assert( profileName === 'default' || profileName === 'projector' );
-
-      for ( var key in this.colors ) {
-        if ( profileName in this.colors[ key ] ) {
-          var oldColor = this[ key ];
-          var newColor = this.colors[ key ][ profileName ];
-          if ( !newColor.equals( oldColor ) ) {
-            this[ key ] = newColor;
-            this.reportColor( key );
-          }
-        }
-      }
-      this.trigger( 'profileChanged' );
-    },
 
     // sends iframe communication to report the current color for the key name
     reportColor: function( key ) {
