@@ -28,6 +28,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Circle = require( 'SCENERY/nodes/Circle' );
 
+  // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {
     var GLASS_DEFAULTS = {
       centerColor: 'white',
@@ -45,6 +46,7 @@ define( function( require ) {
     };
   };
 
+  // Crosshairs cane be shown in the central circle
   var crosshairs = function( options ) {
     var CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
