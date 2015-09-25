@@ -185,7 +185,8 @@ define( function( require ) {
         propertySet.innerRadiusProperty,
         propertySet.handleWidthProperty,
         propertySet.handleHeightProperty,
-        propertySet.handleCornerRadiusProperty
+        propertySet.handleCornerRadiusProperty,
+        propertySet.lightAngleProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
@@ -198,6 +199,7 @@ define( function( require ) {
           handleWidth: propertySet.handleWidth,
           handleHeight: propertySet.handleHeight,
           handleCornerRadius: propertySet.handleCornerRadius,
+          lightAngle: propertySet.lightAngle,
 
           // layout options
           x: layoutBounds.centerX,
@@ -249,7 +251,11 @@ define( function( require ) {
       children: [
         NumberControl.withMinMaxTicks( 'R:', redProperty, colorComponentRange, numberControlOptions ),
         NumberControl.withMinMaxTicks( 'G:', greenProperty, colorComponentRange, numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'B:', blueProperty, colorComponentRange, numberControlOptions )
+        NumberControl.withMinMaxTicks( 'B:', blueProperty, colorComponentRange, numberControlOptions ),
+        new NumberControl( 'Light Angle', propertySet.lightAngleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
+          decimalPlaces: 2,
+          delta: 0.05
+        }, numberControlOptions ) )
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY

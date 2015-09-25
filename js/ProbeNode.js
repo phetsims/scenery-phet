@@ -76,6 +76,8 @@ define( function( require ) {
     handleWidth: 50,
     handleHeight: 30,
     handleCornerRadius: 30,
+    lightAngle: 4.25, // in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, 
+                      // PI from the left, etc.  The default is from the upper-left 
     color: '#008541', // darkish green
 
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
@@ -123,11 +125,18 @@ define( function( require ) {
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
+    // The light angle is variable so that you can create a probe node that is pointing up or to the side
+    var lightAngle = options.lightAngle;
+    var lightOrigin = Vector2.createPolar( radius / 2, lightAngle );
+    var lightDestination = Vector2.createPolar( handleBottom, lightAngle + Math.PI );
+    var gradientSource = lightOrigin;
+    var gradientDestination = lightDestination;
+
     var outerShapePath = new Path( sensorShape, {
-      stroke: new LinearGradient( -radius / 2, -radius / 2, -radius / 2, handleBottom )
+      stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ) ) // dark 
         .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // darker 
-      fill: new LinearGradient( -radius / 2, -radius / 2, -radius / 2, handleBottom )
+      fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ) ) // light
         .addColorStop( 0.3, color.colorUtilsBrightness( +0.2 ) ) // medium light
         .addColorStop( 1.0, color.colorUtilsBrightness( -0.1 ) ), // less light 
