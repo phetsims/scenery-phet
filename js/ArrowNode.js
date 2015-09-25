@@ -54,10 +54,15 @@ define( function( require ) {
       return arrowNode.shapePoints.length !== numberOfPoints;
     };
 
-    // @private - closure function since the double headed feature is set through options
+    // @private - closure functions since the doubleHeaded and tailWidth features are set through options
     this.setDoubleHeaded = function( doubleHead ) {
       options.doubleHead = doubleHead;
     };
+    // set optional tail width
+    this.setOptionalTailWidth = function( tailWidth ) {
+      options.tailWidth = tailWidth;
+    };
+
 
     Path.call( this, null );
     this.shapePoints = [];
@@ -116,8 +121,18 @@ define( function( require ) {
     },
 
     /**
+     * @public
+     * @param {number} tailWidth
+     */
+    setTailWidth: function( tailWidth ) {
+      this.setOptionalTailWidth( tailWidth );
+      this.updateShapePoints();
+      this.updateShape();
+    },
+
+    /**
      * @public - set whether the arrow has one triangle or two
-     * @param doubleHead
+     * @param {number} doubleHead
      */
     setDoubleHead: function( doubleHead ) {
       this.setDoubleHeaded( doubleHead );
