@@ -81,7 +81,7 @@ define( function( require ) {
                       // PI from the left, etc.  The default is from the upper-left 
     color: '#008541', // {Color|string} darkish green
 
-    // {Node} The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
+    // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
     sensorType: glass()
   };
