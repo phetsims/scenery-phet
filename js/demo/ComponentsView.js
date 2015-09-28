@@ -43,7 +43,6 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
 
   // Creates a demo for BracketNode
