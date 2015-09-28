@@ -303,7 +303,7 @@ define( function( require ) {
       spacing: 15,
       children: [
         colorPanel,
-        lightAngleControl,
+        lightAngleControl
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
