@@ -29,6 +29,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
+  var Panel = require( 'SUN/Panel' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -42,6 +43,7 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var VStrut = require( 'SCENERY/nodes/VStrut' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
 
   // Creates a demo for BracketNode
@@ -273,17 +275,35 @@ define( function( require ) {
 
     // Color controls
     var colorComponentRange = new Range( 0, 255 );
-    demoParent.addChild( new VBox( {
-      resize: false, // Don't readjust the size when the slider knob moves all the way to the right
+    var colorPanel = new Panel( new VBox( {
       spacing: 15,
       children: [
         NumberControl.withMinMaxTicks( 'R:', redProperty, colorComponentRange, numberControlOptions ),
         NumberControl.withMinMaxTicks( 'G:', greenProperty, colorComponentRange, numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'B:', blueProperty, colorComponentRange, numberControlOptions ),
-        new NumberControl( 'Light Angle', propertySet.lightAngleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
-          decimalPlaces: 2,
-          delta: 0.05
-        }, numberControlOptions ) )
+        NumberControl.withMinMaxTicks( 'B:', blueProperty, colorComponentRange, numberControlOptions )
+      ]
+    } ) );
+
+    // Light angle controls
+    var tickLabelOptions = { font: new PhetFont( 14 ) };
+    var lightAngleControl = new NumberControl( 'Light Angle', propertySet.lightAngleProperty, new Range( 0, Math.PI * 2 ),
+      _.extend( {
+        decimalPlaces: 2,
+        delta: 0.05,
+        majorTicks: [
+          { value: 0, label: new Text( '0', tickLabelOptions ) },
+          { value: Math.PI, label: new Text( '\u03c0', tickLabelOptions ) },
+          { value: 2 * Math.PI, label: new Text( '2\u03c0', tickLabelOptions ) }
+        ]
+      }, numberControlOptions ) );
+
+    // Control at right side of play area
+    demoParent.addChild( new VBox( {
+      resize: false, // Don't readjust the size when the slider knob moves all the way to the right
+      spacing: 15,
+      children: [
+        colorPanel,
+        lightAngleControl,
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
