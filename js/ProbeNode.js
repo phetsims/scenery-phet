@@ -79,9 +79,9 @@ define( function( require ) {
     handleCornerRadius: 10,
     lightAngle: 4.25, // in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, 
                       // PI from the left, etc.  The default is from the upper-left 
-    color: '#008541', // darkish green
+    color: '#008541', // {Color|string} darkish green
 
-    // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
+    // {Node} The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
     sensorType: glass()
   };
@@ -95,7 +95,7 @@ define( function( require ) {
 
     options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
 
-    var color = new Color( options.color );
+    var color =  Color.toColor( options.color );
 
     // To improve readability
     var radius = options.radius;
