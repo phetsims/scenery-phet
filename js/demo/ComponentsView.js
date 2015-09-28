@@ -59,6 +59,8 @@ define( function( require ) {
   var demoArrowNode = function( layoutBounds ) {
 
     var arrowNode = new ArrowNode( 0, 0, 200, 200, {
+      headWidth: 30,
+      headHeight: 30,
       center: layoutBounds.center
     } );
 
@@ -67,9 +69,9 @@ define( function( require ) {
       arrowNode.setDoubleHead( checked );
     } );
 
-    var checkbox = CheckBox.createTextCheckBox( 'Double head', {}, checkedProperty, {
-      left: 0,
-      bottom: layoutBounds.bottom
+    var checkbox = CheckBox.createTextCheckBox( 'Double head', { font: new PhetFont( 20 ) }, checkedProperty, {
+      centerX: layoutBounds.centerX,
+      top: arrowNode.bottom + 50
     } );
     return new Node( {
       children: [
