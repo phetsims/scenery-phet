@@ -85,6 +85,7 @@ define( function( require ) {
     // or null for an empty region
     sensorType: glass()
   };
+  assert && Object.freeze( DEFAULT_OPTIONS );
 
   /**
    * Constructor for the ProbeNode
