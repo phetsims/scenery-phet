@@ -94,7 +94,7 @@ define( function( require ) {
    */
   function ProbeNode( options ) {
 
-    options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
+    options = _.extend( {}, DEFAULT_OPTIONS, options );
 
     var color =  Color.toColor( options.color );
 
