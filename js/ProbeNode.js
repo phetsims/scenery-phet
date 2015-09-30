@@ -88,6 +88,7 @@ define( function( require ) {
     // or null for an empty region
     sensorType: glass()
   };
+  assert && Object.freeze( DEFAULT_OPTIONS );
 
   /**
    * Constructor for the ProbeNode
@@ -96,7 +97,7 @@ define( function( require ) {
    */
   function ProbeNode( options ) {
 
-    options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
+    options = _.extend( {}, DEFAULT_OPTIONS, options );
 
     var color = Color.toColor( options.color );
 
