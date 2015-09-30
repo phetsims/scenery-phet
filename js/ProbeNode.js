@@ -77,8 +77,11 @@ define( function( require ) {
     handleWidth: 50,
     handleHeight: 30,
     handleCornerRadius: 10,
-    lightAngle: 4.25, // in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, 
-                      // PI from the left, etc.  The default is from the upper-left 
+    /**
+     * in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, PI from the left, etc.
+     * The default is from the upper-left
+     */
+    lightAngle: 1.35 * Math.PI,
     color: '#008541', // {Color|string} darkish green
 
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
@@ -95,7 +98,7 @@ define( function( require ) {
 
     options = _.extend( _.clone( DEFAULT_OPTIONS ), options );
 
-    var color =  Color.toColor( options.color );
+    var color = Color.toColor( options.color );
 
     // To improve readability
     var radius = options.radius;
