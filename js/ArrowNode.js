@@ -27,8 +27,6 @@ define( function( require ) {
    */
   function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
-    var arrowNode = this;
-
     // default options
     options = _.extend( {
       headHeight: 10,
@@ -42,27 +40,7 @@ define( function( require ) {
       stroke: 'black',
       lineWidth: 1
     }, options );
-
-    /**
-     * @private - Update the internal shapePoints array which is used to populate the points in the Shape instance.
-     * @returns {boolean} - true if the number of points in the array has changed, which would require building a new
-     *                      Shape instance
-     */
-    this.updateShapePoints = function() {
-      var numberOfPoints = this.shapePoints.length;
-      arrowNode.shapePoints = ArrowShape.getArrowShapePoints( arrowNode.tailX, arrowNode.tailY, arrowNode.tipX, arrowNode.tipY, arrowNode.shapePoints, options );
-      return arrowNode.shapePoints.length !== numberOfPoints;
-    };
-
-    // @private - closure functions since the doubleHeaded and tailWidth features are set through options
-    this.setDoubleHeaded = function( doubleHead ) {
-      options.doubleHead = doubleHead;
-    };
-    // set optional tail width
-    this.setOptionalTailWidth = function( tailWidth ) {
-      options.tailWidth = tailWidth;
-    };
-
+    this.options = options; // @private
 
     Path.call( this, null );
     this.shapePoints = [];
@@ -75,6 +53,19 @@ define( function( require ) {
   }
 
   return inherit( Path, ArrowNode, {
+
+    /**
+     * Update the internal shapePoints array which is used to populate the points in the Shape instance.
+     *
+     * @private
+     * @returns {boolean} true if the number of points in the array has changed, which would require building a new
+     *                    shape instance.
+     */
+    updateShapePoints: function() {
+      var numberOfPoints = this.shapePoints.length;
+      this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
+      return this.shapePoints.length !== numberOfPoints;
+    },
 
     /**
      * Initialize or update the shape. Only called if the number of points in the shape changes.
@@ -108,8 +99,8 @@ define( function( require ) {
 
       var numberOfPointsChanged = this.updateShapePoints();
 
-      // This bit of logic is to improve performance for the case where the Shape instance can be reused (if the number of 
-      // points in the array is the same)
+      // This bit of logic is to improve performance for the case where the Shape instance can be reused (if the number
+      // of points in the array is the same)
       if ( !this.shape || numberOfPointsChanged ) {
         this.updateShape();
       }
@@ -125,7 +116,7 @@ define( function( require ) {
      * @param {number} tailWidth
      */
     setTailWidth: function( tailWidth ) {
-      this.setOptionalTailWidth( tailWidth );
+      this.options.tailWidth = tailWidth;
       this.updateShapePoints();
       this.updateShape();
     },
@@ -135,7 +126,7 @@ define( function( require ) {
      * @param {number} doubleHead
      */
     setDoubleHead: function( doubleHead ) {
-      this.setDoubleHeaded( doubleHead );
+      this.options.doubleHead = doubleHead;
       this.updateShapePoints();
       this.updateShape();
     }
