@@ -4,6 +4,10 @@
  * Abstract class for color profiles for simulations. See GravityAndOrbitsColors for an example.
  * This file was modelled after MoleculeShapesColors.
  *
+ * ColorProfile gives the option to synchronize the sim running in an iframe with a color picker.
+ * To create a file with this capacity, model it after gravity-and-orbits-colors.html, with the colors array
+ * changed to match the color profile you are using, and the title and iframe src changed.
+ *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Aaron Davis
  */
