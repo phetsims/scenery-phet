@@ -24,7 +24,7 @@ define( function( require ) {
   var aspectRatioString = 'aspect ratio:';
   var deltaPhaseString = 'delta phase:';
   var lineWidthString = 'line width:';
-  var loopsString = "loops:";
+  var loopsString = 'loops:';
   var phaseString = 'phase:';
   var pointsPerLoopString = 'points per loop:';
   var radiusString = 'radius:';
