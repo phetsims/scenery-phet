@@ -33,6 +33,11 @@ define( function( require ) {
 
     for ( var key in colors ) {
       assert && assert( colors[ key ].hasOwnProperty( 'default' ), 'missing default color for "' + key + '"' );
+
+      // convert all color strings to Color objects
+      for ( var color in colors[ key ] ) {
+        colors[ key ][ color ] = Color.toColor( colors[ key ][ color ] );
+      }
       initialProperties[ key ] = colors[ key ].default;
     }
     PropertySet.call( this, initialProperties );
