@@ -55,7 +55,7 @@ define( function( require ) {
       for ( var key in thisProfile.colors ) {
         var oldColor = thisProfile[ key ];
         var colorObject = thisProfile.colors[ key ];
-        var newColor = ( profileName in colorObject ) ? colorObject[ profileName ] : colorObject[ 'default' ];
+        var newColor = ( profileName in colorObject ) ? colorObject[ profileName ] : colorObject.default;
         if ( !newColor.equals( oldColor ) ) {
           thisProfile[ key ] = newColor;
           thisProfile.reportColor( key );
