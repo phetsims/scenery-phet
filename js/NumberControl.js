@@ -41,9 +41,11 @@ define( function( require ) {
 
       // title
       titleFont: new PhetFont( 12 ),
+      titleMaxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
 
       // value
       valueFont: new PhetFont( 12 ),
+      valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
       decimalPlaces: 0,
       units: '',
 
@@ -64,11 +66,15 @@ define( function( require ) {
 
     var delta = options.delta; // to improve readability
 
-    var titleNode = new Text( title, { font: options.titleFont } );
+    var titleNode = new Text( title, {
+      font: options.titleFont,
+      maxWidth: options.titleMaxWidth
+    } );
 
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, options.units, pattern_0value_1units, {
       font: options.valueFont,
-      decimalPlaces: options.decimalPlaces
+      decimalPlaces: options.decimalPlaces,
+      maxWidth: options.valueMaxWidth
     } );
 
     var arrowButtonOptions = {
