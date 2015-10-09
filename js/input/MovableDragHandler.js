@@ -41,44 +41,50 @@ define( function( require ) {
 
     var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
+    // @private - note where the drag started
+    this.movableDragHandlerStart = function( event ) {
+
+      self.events.trigger1( 'startedCallbacksForDragStarted', locationProperty.get() );
+
+      options.startDrag( event );
+
+      // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
+      var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
+      startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+
+      self.events.trigger0( 'endedCallbacksForDragStarted' );
+    };
+
+    // @private - change the location, adjust for starting offset, constrain to drag bounds
+    this.movableDragHandlerDrag = function( event ) {
+
+      var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
+      var location = self._modelViewTransform.viewToModelPosition( parentPoint );
+      location = self._dragBounds.closestPointTo( location );
+      self.events.trigger1( 'startedCallbacksForDragged', location );
+
+      locationProperty.set( location );
+
+      options.onDrag( event );
+
+      self.events.trigger0( 'endedCallbacksForDragged' );
+    };
+
+    // @private
+    this.movableDragHandlerEnd = function( event ) {
+      self.events.trigger1( 'startedCallbacksForDragEnded', locationProperty.get() );
+      options.endDrag( event );
+      self.events.trigger0( 'endedCallbacksForDragEnded' );
+    };
     SimpleDragHandler.call( this, {
 
       allowTouchSnag: true,
 
-      // note where the drag started
-      start: function( event ) {
+      start: this.movableDragHandlerStart,
 
-        self.events.trigger1( 'startedCallbacksForDragStarted', locationProperty.get() );
+      drag: this.movableDragHandlerDrag,
 
-        options.startDrag( event );
-
-        // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-        var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
-        startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
-
-        self.events.trigger0( 'endedCallbacksForDragStarted' );
-      },
-
-      // change the location, adjust for starting offset, constrain to drag bounds
-      drag: function( event ) {
-
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
-        var location = self._modelViewTransform.viewToModelPosition( parentPoint );
-        location = self._dragBounds.closestPointTo( location );
-        self.events.trigger1( 'startedCallbacksForDragged', location );
-
-        locationProperty.set( location );
-
-        options.onDrag( event );
-
-        self.events.trigger0( 'endedCallbacksForDragged' );
-      },
-
-      end: function( event ) {
-        self.events.trigger1( 'startedCallbacksForDragEnded', locationProperty.get() );
-        options.endDrag( event );
-        self.events.trigger0( 'endedCallbacksForDragEnded' );
-      }
+      end: this.movableDragHandlerEnd
     } );
   }
 
@@ -120,7 +126,33 @@ define( function( require ) {
     getModelViewTransform: function() {
       return this._modelViewTransform;
     },
-    get modelViewTransform() { return this._modelViewTransform; }
 
+    get modelViewTransform() {
+      return this._modelViewTransform;
+    },
+
+    /**
+     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * @param event
+     */
+    forwardStartEvent: function( event ) {
+      this.movableDragHandlerStart( event );
+    },
+
+    /**
+     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * @param event
+     */
+    forwardDragEvent: function( event ) {
+      this.movableDragHandlerDrag( event );
+    },
+
+    /**
+     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * @param event
+     */
+    forwardEndEvent: function( event ) {
+      this.movableDragHandlerEnd( event );
+    }
   } );
 } );
