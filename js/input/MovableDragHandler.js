@@ -17,6 +17,7 @@ define( function( require ) {
 
   /**
    * @param {Property.<Vector2>} locationProperty - in model coordinate frame
+   *        OR {get:...,set:...}, used in Bending Light's PrismNode as somewhat of a hack.
    * @param {Object} [options]
    * @constructor
    */
@@ -97,7 +98,7 @@ define( function( require ) {
      */
     setDragBounds: function( dragBounds ) {
       this._dragBounds = dragBounds.copy();
-      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.value ) );
+      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.get() ) );
     },
     set dragBounds( value ) { this.setDragBounds( value ); },
 
