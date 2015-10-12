@@ -77,9 +77,13 @@ define( function( require ) {
     handleWidth: 50,
     handleHeight: 30,
     handleCornerRadius: 10,
+
     /**
      * in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, PI from the left, etc.
-     * The default is from the upper-left
+     * The default is from the upper-left.  Generally, it is difficult to know the global rotation of the ProbeNode
+     * and automatically update the lightAngle when the global rotation changes, so this is up to the developer
+     * to set properly.  The light in PhET simulations often comes from the top-left, so please set this value
+     * accordingly depending on the context of how the probe is embedded in the simulation.
      */
     lightAngle: 1.35 * Math.PI,
     color: '#008541', // {Color|string} darkish green
