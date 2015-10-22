@@ -144,6 +144,8 @@ define( function( require ) {
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
+    var topArc = new Shape().ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false );
+
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     var lightAngle = options.lightAngle;
     var lightOrigin = Vector2.createPolar( radius * 1.1, lightAngle );
@@ -158,7 +160,7 @@ define( function( require ) {
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( -0.2 ) ) // light
         .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) ) // light
-        .addColorStop( 0.07, color.colorUtilsBrightness( +1.0 ) ) // light
+        .addColorStop( 0.07, color.colorUtilsBrightness( +0.4 ) ) // light
         .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) ) // light
         .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) ) // medium light
         .addColorStop( 0.8, color.colorUtilsBrightness( -0.3 ) ) // less light
@@ -184,7 +186,17 @@ define( function( require ) {
       children.push( options.sensorType( radius ) );
     }
 
-    children.push( outerShapePath, innerPath );
+    // Curved highlighting from the light source
+    var curvedHighlightPath = new Path( topArc, {
+      stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
+        .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ) // light
+        .addColorStop( 0.05, new Color( 'white' ).withAlpha( 0.8 ) ) // light
+        .addColorStop( 0.2, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ), // light
+      lineWidth: 3,
+      scale: new Vector2( 0.93, 0.93 )
+    } );
+
+    children.push( outerShapePath, innerPath, curvedHighlightPath );
 
     Node.call( this, {
       children: children
