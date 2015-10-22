@@ -146,28 +146,33 @@ define( function( require ) {
 
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     var lightAngle = options.lightAngle;
-    var lightOrigin = Vector2.createPolar( radius / 2, lightAngle );
-    var lightDestination = Vector2.createPolar( handleBottom, lightAngle + Math.PI );
+    var lightOrigin = Vector2.createPolar( radius * 1.1, lightAngle );
+    var lightDestination = Vector2.createPolar( handleBottom * 0.9, lightAngle + Math.PI );
     var gradientSource = lightOrigin;
     var gradientDestination = lightDestination;
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ) ) // dark 
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // darker 
+        .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ).withAlpha( 0.7 ) ) // dark
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ).withAlpha( 0.7 ) ), // darker
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ) ) // light
-        .addColorStop( 0.3, color.colorUtilsBrightness( +0.2 ) ) // medium light
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.1 ) ), // less light 
+        .addColorStop( 0.0, color.colorUtilsBrightness( -0.2 ) ) // light
+        .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) ) // light
+        .addColorStop( 0.07, color.colorUtilsBrightness( +1.0 ) ) // light
+        .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) ) // light
+        .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) ) // medium light
+        .addColorStop( 0.8, color.colorUtilsBrightness( -0.3 ) ) // less light
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.6 ) ), // less light
       lineWidth: 2
     } );
 
     // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
     var innerPath = new Path( sensorShape, {
       fill: options.color,
-      lineWidth: 2,
-      scale: new Vector2( 0.9, 0.93 ),
+      scale: new Vector2( 0.9, 0.9 ),
       centerX: outerShapePath.centerX,
+      stroke: color.colorUtilsBrightness( +0.3 ).withAlpha( 0.5 ),
+      lineWidth: 1.2,
 
       // Shift it down a bit to make the face look a bit more 3d
       y: 2
