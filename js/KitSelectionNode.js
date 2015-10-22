@@ -93,7 +93,7 @@ define( function( require ) {
     } );
 
     // Clip the kits so that the unselected ones are invisible.
-    thisNode.clipArea = new Shape.rect( 0, 0, thisNode.selectorSize.width, thisNode.selectorSize.height );
+    thisNode.clipArea = Shape.rect( 0, 0, thisNode.selectorSize.width, thisNode.selectorSize.height );
 
     // Add the remaining nodes.
     thisNode.addChild( thisNode.kitLayer );
