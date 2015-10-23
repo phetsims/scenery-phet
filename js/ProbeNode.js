@@ -163,8 +163,8 @@ define( function( require ) {
         .addColorStop( 0.07, color.colorUtilsBrightness( +0.4 ) ) // light
         .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) ) // light
         .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) ) // medium light
-        .addColorStop( 0.8, color.colorUtilsBrightness( -0.3 ) ) // less light
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.6 ) ), // less light
+        .addColorStop( 0.8, color.colorUtilsBrightness( -0.125 ) ) // less light
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.25 ) ), // less light
       lineWidth: 2
     } );
 
