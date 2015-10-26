@@ -80,7 +80,9 @@ define( function( require ) {
 
       thisNode._textParent.removeAllChildren();
 
-      var node, previousNode, previousNodeType;
+      var node;
+      var previousNode;
+      var previousNodeType;
       $( $.parseHTML( thisNode._text ) ).each( function( index, element ) {
         if ( element.nodeType === 3 ) {
           // Text

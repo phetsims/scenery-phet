@@ -56,7 +56,10 @@ define( function( require ) {
     Shape.call( this );
 
     // Points that define the base of an arrow head. 'inner' is closer to the center of the circle, 'outer' is farther away.
-    var baseInnerX, baseInnerY, baseOuterX, baseOuterY;
+    var baseInnerX;
+    var baseInnerY;
+    var baseOuterX;
+    var baseOuterY;
 
     // optional head at startAngle
     if ( options.doubleHead ) {

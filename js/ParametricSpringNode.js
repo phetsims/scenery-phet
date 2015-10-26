@@ -110,7 +110,8 @@ define( function( require ) {
 
     // Mutate these to improve performance
     var springPoints = []; // {Vector2[]} points in the spring (includes the horizontal ends)
-    var frontShape, backShape;  // {Shape}
+    var frontShape; // {Shape}
+    var backShape; // {Shape}
 
     // Changes to these properties require new points (Vector2) and Shapes, because they change
     // the number of points and/or how the points are allocated to frontShape and backShape.

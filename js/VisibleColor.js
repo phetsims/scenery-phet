@@ -29,7 +29,9 @@ define( function( require ) {
 
     // Populate the color array.
     var wl;
-    var r, g, b;
+    var r;
+    var g;
+    var b;
     for ( var i = 0; i < numWavelengths; i++ ) {
       // Create the RGB component values.
       wl = VisibleColor.MIN_WAVELENGTH + i;

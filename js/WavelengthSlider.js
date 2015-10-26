@@ -162,7 +162,8 @@ define( function( require ) {
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
 
     // tweaker buttons for single-unit increments
-    var plusButton, minusButton;
+    var plusButton;
+    var minusButton;
     if ( options.tweakersVisible ) {
       plusButton = new ArrowButton( 'right', function() {
         wavelength.set( wavelength.get() + 1 );

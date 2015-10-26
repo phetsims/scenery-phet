@@ -127,7 +127,8 @@ define( function( require ) {
         exponent: null // specific exponent to use
       }, options );
 
-      var mantissa, exponent;
+      var mantissa;
+      var exponent;
       if ( value === 0 ) {
         mantissa = 0;
         exponent = 1;
