@@ -7,8 +7,6 @@
  *
  * This code was generalized from Bending Light, see https://github.com/phetsims/bending-light/issues/165
  *
- * TODO: This is under development and not ready for review or usage in simulations other than Bending Light.
- *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Chris Malley (PixelZoom, Inc.)
