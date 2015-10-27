@@ -169,13 +169,13 @@ define( function( require ) {
     // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
     var innerPath = new Path( sensorShape, {
       fill: options.color,
-      scale: new Vector2( 0.9, 0.9 ),
+
+      // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
+      scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
       centerX: outerShapePath.centerX,
       stroke: color.colorUtilsBrightness( +0.3 ).withAlpha( 0.5 ),
       lineWidth: 1.2,
-
-      // Shift it down a bit to make the face look a bit more 3d
-      y: 2
+      y: 2 // Shift it down a bit to make the face look a bit more 3d
     } );
 
     var children = [];
