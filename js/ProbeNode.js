@@ -188,7 +188,7 @@ define( function( require ) {
     var curvedHighlightPath = new Path( topArc, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ) // light
-        .addColorStop( 0.05, new Color( 'white' ).withAlpha( 0.8 ) ) // light
+        .addColorStop( 0.05, new Color( 'white' ).withAlpha( 0.5 ) ) // light
         .addColorStop( 0.2, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ), // light
       lineWidth: 3,
       scale: new Vector2( 0.93, 0.93 )
