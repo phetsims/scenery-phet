@@ -285,14 +285,19 @@ define( function( require ) {
 
     // Light angle control
     var tickLabelOptions = { font: new PhetFont( 14 ) };
-    var lightAngleControl = new NumberControl( 'Light Angle', propertySet.lightAngleProperty, new Range( 0, Math.PI * 2 ),
+    var multiplierProperty = new Property( 0 );
+    multiplierProperty.link( function( multiplier ) {
+       propertySet.lightAngleProperty.set( multiplier * Math.PI );
+    } );
+    var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new Range( 0, 2 ),
       _.extend( {
+        units: '\u03c0',
         decimalPlaces: 2,
         delta: 0.05,
         majorTicks: [
           { value: 0, label: new Text( '0', tickLabelOptions ) },
-          { value: Math.PI, label: new Text( '\u03c0', tickLabelOptions ) },
-          { value: 2 * Math.PI, label: new Text( '2\u03c0', tickLabelOptions ) }
+          { value: 1, label: new Text( '\u03c0', tickLabelOptions ) },
+          { value: 2, label: new Text( '2\u03c0', tickLabelOptions ) }
         ]
       }, numberControlOptions ) );
 
