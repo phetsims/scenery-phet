@@ -283,7 +283,7 @@ define( function( require ) {
       ]
     } ) );
 
-    // Light angle control
+    // Light angle control, sets the multipler for Math.PI
     var tickLabelOptions = { font: new PhetFont( 14 ) };
     var multiplierProperty = new Property( 0 );
     multiplierProperty.link( function( multiplier ) {
