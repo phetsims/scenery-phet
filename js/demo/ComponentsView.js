@@ -173,7 +173,6 @@ define( function( require ) {
     // Model properties that describe the sensor
     var propertySet = new PropertySet( ProbeNode.DEFAULT_OPTIONS );
     propertySet.addProperty( 'sensorType', ProbeNode.glass() );
-    propertySet.addProperty( 'rotation', 0 );
 
     // RGB color components, for setting the sensor color
     var color = Color.toColor( propertySet.color );
@@ -214,8 +213,7 @@ define( function( require ) {
         propertySet.handleHeightProperty,
         propertySet.handleCornerRadiusProperty,
         propertySet.lightAngleProperty,
-        propertySet.sensorTypeProperty,
-        propertySet.rotationProperty
+        propertySet.sensorTypeProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
@@ -298,26 +296,13 @@ define( function( require ) {
         ]
       }, numberControlOptions ) );
 
-    // Rotation control
-    var rotationControl = new NumberControl( 'Rotation', propertySet.rotationProperty, new Range( 0, Math.PI * 2 ),
-      _.extend( {
-        decimalPlaces: 2,
-        delta: 0.05,
-        majorTicks: [
-          { value: 0, label: new Text( '0', tickLabelOptions ) },
-          { value: Math.PI, label: new Text( '\u03c0', tickLabelOptions ) },
-          { value: 2 * Math.PI, label: new Text( '2\u03c0', tickLabelOptions ) }
-        ]
-      }, numberControlOptions ) );
-
     // Control at right side of play area
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 15,
       children: [
         colorPanel,
-        lightAngleControl,
-        rotationControl
+        lightAngleControl
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
