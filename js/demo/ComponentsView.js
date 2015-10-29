@@ -172,6 +172,8 @@ define( function( require ) {
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( ProbeNode.DEFAULT_OPTIONS );
+    propertySet.addProperty( 'sensorType', ProbeNode.glass() );
+    propertySet.addProperty( 'rotation', 0 );
 
     // RGB color components, for setting the sensor color
     var color = Color.toColor( propertySet.color );
@@ -183,11 +185,9 @@ define( function( require ) {
     } );
 
     // Controls for the sensor type (glass/crosshairs/empty/etc)
-    var initialValue = ProbeNode.glass();
-    var sensorTypeProperty = new Property( initialValue );
-    var radioButtons = new RadioButtonGroup( sensorTypeProperty, [
+    var radioButtons = new RadioButtonGroup( propertySet.sensorTypeProperty, [
       { value: null, node: new Text( 'null' ) },
-      { value: initialValue, node: new Text( 'default glass' ) },
+      { value: propertySet.sensorTypeProperty.get(), node: new Text( 'default glass' ) },
       { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
       {
         value: ProbeNode.glass( {
@@ -214,7 +214,8 @@ define( function( require ) {
         propertySet.handleHeightProperty,
         propertySet.handleCornerRadiusProperty,
         propertySet.lightAngleProperty,
-        sensorTypeProperty
+        propertySet.sensorTypeProperty,
+        propertySet.rotationProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
@@ -228,7 +229,8 @@ define( function( require ) {
           handleHeight: propertySet.handleHeight,
           handleCornerRadius: propertySet.handleCornerRadius,
           lightAngle: propertySet.lightAngle,
-          sensorType: sensorTypeProperty.value,
+          sensorType: propertySet.sensorType,
+          rotation: propertySet.rotation,
 
           // layout options
           x: layoutBounds.centerX,
@@ -283,9 +285,21 @@ define( function( require ) {
       ]
     } ) );
 
-    // Light angle controls
+    // Light angle control
     var tickLabelOptions = { font: new PhetFont( 14 ) };
     var lightAngleControl = new NumberControl( 'Light Angle', propertySet.lightAngleProperty, new Range( 0, Math.PI * 2 ),
+      _.extend( {
+        decimalPlaces: 2,
+        delta: 0.05,
+        majorTicks: [
+          { value: 0, label: new Text( '0', tickLabelOptions ) },
+          { value: Math.PI, label: new Text( '\u03c0', tickLabelOptions ) },
+          { value: 2 * Math.PI, label: new Text( '2\u03c0', tickLabelOptions ) }
+        ]
+      }, numberControlOptions ) );
+
+    // Rotation control
+    var rotationControl = new NumberControl( 'Rotation', propertySet.rotationProperty, new Range( 0, Math.PI * 2 ),
       _.extend( {
         decimalPlaces: 2,
         delta: 0.05,
@@ -302,7 +316,8 @@ define( function( require ) {
       spacing: 15,
       children: [
         colorPanel,
-        lightAngleControl
+        lightAngleControl,
+        rotationControl
       ],
       right: layoutBounds.right - 50,
       centerY: layoutBounds.centerY
