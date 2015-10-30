@@ -46,6 +46,7 @@ define( function( require ) {
 
     var thisNode = this;
 
+    // @private
     thisNode.onNode = new Image( onImage, {
       scale: options.bulbImageScale,
       centerX: 0,
@@ -75,7 +76,7 @@ define( function( require ) {
 
   inherit( Node, LightBulbNode, {
 
-    // Ensures that this object is eligible for GC
+    // @public Ensures that this object is eligible for GC
     dispose: function() {
       this.brightnessProperty.unlink( this.brightnessObserver );
     },
@@ -129,7 +130,7 @@ define( function( require ) {
 
   inherit( Node, LightRaysNode, {
 
-    // updates light rays based on brightness, which varies from 0 to 1.
+    // @public updates light rays based on {number} brightness, which varies from 0 to 1.
     setBrightness: function( brightness ) {
 
       assert && assert( brightness >= 0 && brightness <= 1 );

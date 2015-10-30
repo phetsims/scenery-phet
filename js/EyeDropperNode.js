@@ -115,13 +115,6 @@ define( function( require ) {
 
   return inherit( Node, EyeDropperNode, {
 
-    // You'll need these if you want to create fluid coming out of the tip, or put a label on the glass.
-    TIP_WIDTH: TIP_WIDTH,
-    TIP_HEIGHT: TIP_HEIGHT,
-    GLASS_WIDTH: GLASS_WIDTH,
-    GLASS_MIN_Y: GLASS_MIN_Y,
-    GLASS_MAX_Y: GLASS_MAX_Y,
-
     set dispensing( value ) { this.dispensingProperty = value; },
 
     get dispensing() { return this.dispensingProperty.value; },
@@ -137,5 +130,15 @@ define( function( require ) {
     set fluidColor( value ) { this.fluidNode.fill = value; },
 
     get fluidColor() { return this.fluidNode.fill; }
+
+  }, {
+
+    // @static
+    // You'll need these if you want to create fluid coming out of the tip, or put a label on the glass.
+    TIP_WIDTH: TIP_WIDTH,
+    TIP_HEIGHT: TIP_HEIGHT,
+    GLASS_WIDTH: GLASS_WIDTH,
+    GLASS_MIN_Y: GLASS_MIN_Y,
+    GLASS_MAX_Y: GLASS_MAX_Y
   } );
 } );

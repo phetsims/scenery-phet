@@ -21,6 +21,9 @@ define( function( require ) {
   var titleString = require( 'string!SCENERY_PHET/webglWarning.title' );
   var bodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
 
+  /**
+   * @constructor
+   */
   function IE11StencilWarningNode() {
     HBox.call( this, _.extend( {
       children: [

@@ -16,9 +16,13 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
 
+  // strings
   var titleString = require( 'string!SCENERY_PHET/webglWarning.title' );
   var bodyString = require( 'string!SCENERY_PHET/webglWarning.body' );
 
+  /**
+   * @constructor
+   */
   function CanvasWarningNode() {
     HBox.call( this, _.extend( {
       children: [

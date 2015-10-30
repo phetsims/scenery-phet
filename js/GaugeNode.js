@@ -61,6 +61,7 @@ define( function( require ) {
     var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ), { stroke: 'red', lineWidth: 3 } );
     foregroundNode.addChild( needle );
 
+    // @private
     this.label = new Text( label, { font: new PhetFont( 20 ) } ).mutate( { centerX: 0, centerY: -options.radius / 3 } );
     foregroundNode.addChild( this.label );
 

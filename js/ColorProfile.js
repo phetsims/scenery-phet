@@ -19,6 +19,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
 
+  /**
+   * @param {Array.<Color|string>} colors
+   * @constructor
+   */
   function ColorProfile( colors ) {
 
     var thisProfile = this;
@@ -50,7 +54,7 @@ define( function( require ) {
       }
     } );
 
-    // Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
+    // @public Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
     this.profileNameProperty.link( function( profileName ) {
       for ( var key in thisProfile.colors ) {
         var oldColor = thisProfile[ key ];
@@ -72,7 +76,7 @@ define( function( require ) {
 
   return inherit( PropertySet, ColorProfile, {
 
-    // sends iframe communication to report the current color for the key name
+    // @public sends iframe communication to report the current color for the key name
     reportColor: function( key ) {
       var hexColor = this[ key ].toNumber().toString( 16 );
       while ( hexColor.length < 6 ) {

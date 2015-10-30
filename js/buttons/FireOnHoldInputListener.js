@@ -69,7 +69,7 @@ define( function( require ) {
 
   return inherit( DownUpListener, FireOnHoldInputListener, {
 
-    // @public Adds a {function} lister
+    // @public Adds a {function} listener
     addListener: function( listener ) {
       this.timer.addCallback( listener );
     },
@@ -82,6 +82,7 @@ define( function( require ) {
     /**
      * Enables or disabled this input listener. When disabled, the timer is stopped.
      * @param {boolean} enabled
+     * @public
      */
     setEnabled: function( enabled ) {
       this._enabled = enabled;
@@ -91,12 +92,13 @@ define( function( require ) {
     },
     set enabled( value ) { this.setEnabled( value ); },
 
-    // Is this input listener enabled?
+    // @public Is this input listener enabled?
     getEnabled: function() {
       return this._enabled;
     },
     get enabled() { return this.getEnabled(); },
 
+    // @public
     dispose: function() {
       this.listeners.length = 0;
       this.timer.dispose();

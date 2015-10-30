@@ -28,12 +28,13 @@ define( function( require ) {
    */
   function FaceWithPointsNode( options ) {
 
-    // @private
-    this.options = _.extend( {
+    options = _.extend( {
       spacing: 2, // space between face and points
+
       // face options
       faceDiameter: 100,
       faceOpacity: 1, // 0-1, see scenery.Node.opacity
+
       // points options
       pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
       pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
@@ -41,46 +42,55 @@ define( function( require ) {
       pointsStroke: null, // {Color|string}
       pointsOpacity: 1, // {number} 0 (transparent) to 1 (opaque)
       showZeroPoints: false, // whether to show '0' points
-      points: 0
+      points: 0 // {number} the number of points
     }, options );
 
+    // @private options needed by prototype functions
+    this.pointsAlignment = options.pointsAlignment;
+    this.spacing = options.spacing;
+    this.showZeroPoints = options.showZeroPoints;
+
     // @private
-    this.faceNode = new FaceNode( this.options.faceDiameter, { opacity: this.options.faceOpacity } );
+    this.faceNode = new FaceNode( options.faceDiameter, { opacity: options.faceOpacity } );
 
     // @private
     this.pointsNode = new Text( '', {
-      font: this.options.pointsFont,
-      fill: this.options.pointsFill,
-      opacity: this.options.pointsOpacity,
-      stroke: this.options.pointsStroke,
+      font: options.pointsFont,
+      fill: options.pointsFill,
+      opacity: options.pointsOpacity,
+      stroke: options.pointsStroke,
       lineWidth: 1
     } );
 
-    this.options.children = [ this.faceNode, this.pointsNode ];
-    Node.call( this, this.options );
+    options.children = [ this.faceNode, this.pointsNode ];
+    Node.call( this, options );
 
-    this.setPoints( this.options.points );
+    this.setPoints( options.points );
   }
 
   return inherit( Node, FaceWithPointsNode, {
 
+    // @public
     smile: function() {
       this.faceNode.smile();
       this.pointsNode.visible = true;
     },
 
+    // @public
     frown: function() {
       this.faceNode.frown();
       this.pointsNode.visible = false;
     },
 
+    // @public
     grimace: function() {
       this.faceNode.grimace();
       this.pointsNode.visible = false;
     },
 
+    // @public sets the number of {number} points
     setPoints: function( points ) {
-      if ( points === 0 && !this.options.showZeroPoints ) {
+      if ( points === 0 && !this.showZeroPoints ) {
         this.pointsNode.text = '';
       }
       else if ( points < 0 ) {
@@ -95,29 +105,29 @@ define( function( require ) {
 
     // @private Adjusts location of the points to match the specified value of options.pointsAlignment.
     updatePointsLocation: function() {
-      switch( this.options.pointsAlignment ) {
+      switch( this.pointsAlignment ) {
 
         case 'centerBottom':
           this.pointsNode.centerX = this.faceNode.centerX;
-          this.pointsNode.top = this.faceNode.bottom + this.options.spacing;
+          this.pointsNode.top = this.faceNode.bottom + this.spacing;
           break;
 
         case 'rightBottom':
-          var position = new Vector2( this.faceNode.right + this.options.spacing, this.faceNode.centerY );
+          var position = new Vector2( this.faceNode.right + this.spacing, this.faceNode.centerY );
           position.rotate( Math.PI / 4 );
           this.pointsNode.left = position.x;
           this.pointsNode.centerY = position.y;
           break;
 
         case 'rightCenter':
-          this.pointsNode.left = this.faceNode.right + this.options.spacing;
+          this.pointsNode.left = this.faceNode.right + this.spacing;
           this.pointsNode.centerY = this.faceNode.centerY;
           break;
 
         // Add other alignments here as needed, please document in options.
 
         default:
-          throw new Error( 'unsupported pointsAlignment: ' + this.options.pointsAlignment );
+          throw new Error( 'unsupported pointsAlignment: ' + this.pointsAlignment );
       }
     }
   } );

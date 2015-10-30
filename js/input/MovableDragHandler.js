@@ -25,7 +25,7 @@ define( function( require ) {
 
     var self = this;
 
-    // Events for signifying when processing callbacks starts/ends
+    // @private Events for signifying when processing callbacks starts/ends
     this.events = new Events();
 
     options = _.extend( {
@@ -95,6 +95,7 @@ define( function( require ) {
      * Sets the dragBounds.
      * In addition, it forces the location to be within the bounds.
      * @param {Bounds2} dragBounds
+     * @public
      */
     setDragBounds: function( dragBounds ) {
       this._dragBounds = dragBounds.copy();
@@ -105,6 +106,7 @@ define( function( require ) {
     /**
      * Gets the dragBounds. Clients should not mutate the value returned.
      * @returns {Bounds2}
+     * @public
      */
     getDragBounds: function() {
       return this._dragBounds;
@@ -114,6 +116,7 @@ define( function( require ) {
     /**
      * Sets the modelViewTransform.
      * @param {ModelViewTransform2} modelViewTransform
+     * @public
      */
     setModelViewTransform: function( modelViewTransform ) {
       this._modelViewTransform = modelViewTransform;
@@ -123,11 +126,13 @@ define( function( require ) {
     /**
      * Gets the modelViewTransform. Clients should not mutate the value returned.
      * @returns {ModelViewTransform2}
+     * @public
      */
     getModelViewTransform: function() {
       return this._modelViewTransform;
     },
 
+    // @public
     get modelViewTransform() {
       return this._modelViewTransform;
     },
@@ -135,6 +140,7 @@ define( function( require ) {
     /**
      * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
      * @param event
+     * @public
      */
     forwardStartEvent: function( event ) {
       this.movableDragHandlerStart( event );
@@ -143,6 +149,7 @@ define( function( require ) {
     /**
      * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
      * @param event
+     * @public
      */
     forwardDragEvent: function( event ) {
       this.movableDragHandlerDrag( event );
@@ -151,6 +158,7 @@ define( function( require ) {
     /**
      * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
      * @param event
+     * @public
      */
     forwardEndEvent: function( event ) {
       this.movableDragHandlerEnd( event );
