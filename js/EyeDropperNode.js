@@ -139,6 +139,6 @@ define( function( require ) {
     TIP_HEIGHT: TIP_HEIGHT,
     GLASS_WIDTH: GLASS_WIDTH,
     GLASS_MIN_Y: GLASS_MIN_Y,
-    GLASS_MAX_Y: GLASS_MAX_Y,
+    GLASS_MAX_Y: GLASS_MAX_Y
   } );
 } );
