@@ -21,6 +21,38 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
 
+  // convenience function for creating the buttons that act as the individual keys
+  function createNumberKey( number, parentKeypad, buttonSpec ) {
+    return new RectangularPushButton( {
+      content: new Text( number.toString(), { font: buttonSpec.font } ),
+      baseColor: buttonSpec.baseColor,
+      minWidth: buttonSpec.minWidth,
+      minHeight: buttonSpec.minHeight,
+      xMargin: 5,
+      yMargin: 5,
+      listener: function() {
+
+        // If armed for new entry, clear the existing string.
+        if ( parentKeypad.armedForNewEntry ) {
+          parentKeypad.digitStringProperty.reset();
+          parentKeypad.armedForNewEntry = false;
+        }
+
+        // Add the digit to the string, but limit the length and prevent multiple leading zeros.
+        if ( parentKeypad.digitStringProperty.value === '0' ) {
+          if ( number.toString !== 0 ) {
+            // Replace the leading 0 with this digit.
+            parentKeypad.digitStringProperty.value = number.toString();
+          }
+          // else ignore the additional zero
+        }
+        else if ( parentKeypad.digitStringProperty.value.length < options.maxDigits ) {
+          parentKeypad.digitStringProperty.value += number.toString();
+        }
+      }
+    } );
+  }
+
   /**
    * @param {Object} [options]
    * @constructor
@@ -41,54 +73,29 @@ define( function( require ) {
 
     var self = this;
 
-    // @public - string of digits entered by the user
+    // @public, read only - string of digits entered by the user
     this.digitStringProperty = options.digitStringProperty;
 
     // @private - flag used when arming the keypad to start over on the next key stroke
     this.armedForNewEntry = false;
 
-    // function for creating a number key
-    function createNumberKey( number, doubleWide ) {
-      var minWidth = doubleWide ? options.minButtonWidth * 2 + options.xSpacing : options.minButtonWidth;
-      return new RectangularPushButton( _.extend( {
-        content: new Text( number.toString(), { font: options.buttonFont } ),
-        baseColor: options.keyColor,
-        minWidth: minWidth,
-        minHeight: options.minButtonHeight,
-        xMargin: 5,
-        yMargin: 5,
-        listener: function() {
+    // bundle the various options that control the button appearance into a "button specification" or buttonKeySpec
+    var buttonKeySpec = {
+      minWidth: options.minButtonWidth,
+      minHeight: options.minButtonHeight,
+      baseColor: options.keyColor,
+      font: options.buttonFont
+    };
 
-          // If armed for new entry, clear the existing string.
-          if ( self.armedForNewEntry ) {
-            self.digitStringProperty.reset();
-            self.armedForNewEntry = false;
-          }
-
-          // Add the digit to the string, but limit the length and prevent multiple leading zeros.
-          if ( self.digitStringProperty.value === '0' ) {
-            if ( number.toString !== 0 ) {
-              // Replace the leading 0 with this digit.
-              self.digitStringProperty.value = number.toString();
-            }
-            // else ignore the additional zero
-          }
-          else if ( self.digitStringProperty.value.length < options.maxDigits ) {
-            self.digitStringProperty.value += number.toString();
-          }
-        }
-      }, options ) );
-    }
-
-    // Create the backspace button.
+    // create the backspace button
     var backspaceIcon = new BackspaceIcon();
     backspaceIcon.scale( Math.min( options.minButtonWidth / backspaceIcon.width * 0.7, ( options.minButtonHeight * 0.65 ) / backspaceIcon.height ) );
     var backspaceButton = new RectangularPushButton( {
       content: backspaceIcon,
-      minWidth: options.minButtonWidth,
-      minHeight: options.minButtonHeight,
+      minWidth: buttonKeySpec.minWidth,
+      minHeight: buttonKeySpec.minHeight,
       xMargin: 1,
-      baseColor: options.keyColor,
+      baseColor: buttonKeySpec.baseColor,
       listener: function() {
         if ( self.digitStringProperty.value.length > 0 ) {
 
@@ -106,35 +113,45 @@ define( function( require ) {
       }
     } );
 
-    // The bottom row of buttons can vary based on options.
-    var bottomButtonRowChildren = [ createNumberKey( 0, options.doubleWideZeroKey ) ];
-    if ( !options.doubleWideZeroKey ) {
+    // create the bottom row of buttons, which can vary based on options
+    var bottomButtonRowChildren = [];
+    if ( options.doubleWideZeroKey ) {
+      // add a double-width zero key
+      bottomButtonRowChildren.push( createNumberKey(
+        0,
+        this,
+        _.extend( {}, buttonKeySpec, { minWidth: buttonKeySpec.minWidth * 2 + options.xSpacing } )
+      ) );
+    }
+    else {
+      // add a normal width zero key plus a spacer to keep the layout looking good
+      bottomButtonRowChildren.push( createNumberKey( 0, this, buttonKeySpec ) );
       bottomButtonRowChildren.push( new HStrut( options.minButtonWidth ) );
     }
     bottomButtonRowChildren.push( backspaceButton );
 
-    // add the buttons
+    // add the rest of the keys
     VBox.call( this, {
       spacing: options.ySpacing, children: [
         new HBox( {
           spacing: options.xSpacing, children: [
-            createNumberKey( 7 ),
-            createNumberKey( 8 ),
-            createNumberKey( 9 )
+            createNumberKey( 7, this, buttonKeySpec ),
+            createNumberKey( 8, this, buttonKeySpec ),
+            createNumberKey( 9, this, buttonKeySpec )
           ]
         } ),
         new HBox( {
           spacing: options.xSpacing, children: [
-            createNumberKey( 4 ),
-            createNumberKey( 5 ),
-            createNumberKey( 6 )
+            createNumberKey( 4, this, buttonKeySpec ),
+            createNumberKey( 5, this, buttonKeySpec ),
+            createNumberKey( 6, this, buttonKeySpec )
           ]
         } ),
         new HBox( {
           spacing: options.xSpacing, children: [
-            createNumberKey( 1 ),
-            createNumberKey( 2 ),
-            createNumberKey( 3 )
+            createNumberKey( 1, this, buttonKeySpec ),
+            createNumberKey( 2, this, buttonKeySpec ),
+            createNumberKey( 3, this, buttonKeySpec )
           ]
         } ),
         new HBox( { spacing: options.xSpacing, children: bottomButtonRowChildren } )
@@ -147,12 +164,18 @@ define( function( require ) {
 
   return inherit( VBox, Keypad, {
 
-    // Clear anything that has been accumulated in the digitString field.
+    /**
+     * Clear anything that has been accumulated in the digitString field.
+     * @public
+     */
     clear: function() {
       this.digitStringProperty.reset();
     },
 
-    // Set the keypad such that any new digit entry will clear the existing string and start over.
+    /**
+     * Set the keypad such that any new digit entry will clear the existing string and start over.
+     * @public
+     */
     armForNewEntry: function() {
       this.armedForNewEntry = true;
     }
