@@ -46,7 +46,7 @@ define( function( require ) {
           }
           // else ignore the additional zero
         }
-        else if ( parentKeypad.digitStringProperty.value.length < options.maxDigits ) {
+        else if ( parentKeypad.digitStringProperty.value.length < buttonSpec.maxDigits ) {
           parentKeypad.digitStringProperty.value += number.toString();
         }
       }
@@ -84,7 +84,8 @@ define( function( require ) {
       minWidth: options.minButtonWidth,
       minHeight: options.minButtonHeight,
       baseColor: options.keyColor,
-      font: options.buttonFont
+      font: options.buttonFont,
+      maxDigits: options.maxDigits
     };
 
     // create the backspace button
@@ -117,11 +118,8 @@ define( function( require ) {
     var bottomButtonRowChildren = [];
     if ( options.doubleWideZeroKey ) {
       // add a double-width zero key
-      bottomButtonRowChildren.push( createNumberKey(
-        0,
-        this,
-        _.extend( {}, buttonKeySpec, { minWidth: buttonKeySpec.minWidth * 2 + options.xSpacing } )
-      ) );
+      var doubleRowButtonKeySpec = _.extend( {}, buttonKeySpec, { minWidth: buttonKeySpec.minWidth * 2 + options.xSpacing } );
+      bottomButtonRowChildren.push( createNumberKey( 0, this, doubleRowButtonKeySpec ) );
     }
     else {
       // add a normal width zero key plus a spacer to keep the layout looking good
