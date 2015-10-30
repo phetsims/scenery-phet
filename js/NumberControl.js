@@ -156,6 +156,7 @@ define( function( require ) {
      * @param options
      * @returns {NumberControl}
      * @static
+     * @public
      */
     withMinMaxTicks: function( label, property, range, options ) {
 

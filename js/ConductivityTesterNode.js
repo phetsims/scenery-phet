@@ -183,7 +183,7 @@ define( function( require ) {
 
     Node.call( this, { children: [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ] } );
 
-    // when the location changes ...
+    // @private when the location changes ...
     this.locationObserver = function( location, oldLocation ) {
       // move the entire tester
       thisNode.translation = options.modelViewTransform.modelToViewPosition( location );
@@ -195,7 +195,7 @@ define( function( require ) {
         negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x + dx, negativeProbeLocationProperty.get().y + dy ) );
       }
     };
-    this.locationProperty = locationProperty;
+    this.locationProperty = locationProperty; // @private
     this.locationProperty.link( this.locationObserver );
 
     // @private update positive wire if end point was changed
@@ -222,7 +222,7 @@ define( function( require ) {
 
   inherit( Node, ConductivityTesterNode, {
 
-    // Ensures that this object is eligible for GC
+    // @public Ensures that this object is eligible for GC
     dispose: function() {
 
       // unlink from axon properties
@@ -235,7 +235,7 @@ define( function( require ) {
       this.lightBulbNode = null;
     },
 
-    // @override
+    // @public @override
     setVisible: function( visible ) {
       Node.prototype.setVisible.call( this, visible );
       this.lightBulbNode.visible = visible; // to prevent light from updating when invisible
@@ -245,12 +245,14 @@ define( function( require ) {
      * Determines whether 'Short circuit' is shown above the light bulb. Note that it is the client's responsibility
      * to ensure that the bulb's brightness (as set by brightnessProperty) is appropriate for a short circuit.
      * @param {boolean} value
+     * @public
      */
     set shortCircuit( value ) { this.shortCircuitNode.visible = value; },
 
     /**
      * Is 'Short circuit' shown above the light bulb?
      * @returns {boolean}
+     * @public
      */
     get shortCircuit() { return this.shortCircuitNode.visible; }
   } );
@@ -329,7 +331,7 @@ define( function( require ) {
 
   inherit( Path, WireNode, {
 
-    // Sets the end point coordinates, the point attached to the probe.
+    // @private Sets the end point coordinates, the point attached to the probe.
     setEndPoint: function( endX, endY ) {
 
       var startX = this.startPoint.x;

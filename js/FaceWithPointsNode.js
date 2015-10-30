@@ -28,6 +28,7 @@ define( function( require ) {
    */
   function FaceWithPointsNode( options ) {
 
+    //TODO antipattern for extending options, see #200
     // @private
     this.options = _.extend( {
       spacing: 2, // space between face and points
@@ -41,7 +42,7 @@ define( function( require ) {
       pointsStroke: null, // {Color|string}
       pointsOpacity: 1, // {number} 0 (transparent) to 1 (opaque)
       showZeroPoints: false, // whether to show '0' points
-      points: 0
+      points: 0 // {number} the number of points
     }, options );
 
     // @private
@@ -64,21 +65,25 @@ define( function( require ) {
 
   return inherit( Node, FaceWithPointsNode, {
 
+    // @public
     smile: function() {
       this.faceNode.smile();
       this.pointsNode.visible = true;
     },
 
+    // @public
     frown: function() {
       this.faceNode.frown();
       this.pointsNode.visible = false;
     },
 
+    // @public
     grimace: function() {
       this.faceNode.grimace();
       this.pointsNode.visible = false;
     },
 
+    // @public sets the number of {number} points
     setPoints: function( points ) {
       if ( points === 0 && !this.options.showZeroPoints ) {
         this.pointsNode.text = '';

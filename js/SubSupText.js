@@ -124,19 +124,20 @@ define( function( require ) {
 
     // text ----------------------------------------------------------
 
+    // @public
     setText: function( text ) {
       this._text = text;
       this.update();
     },
-
-    getText: function() { return this._text; },
-
-    // ES5
     set text( value ) { this.setText( value ); },
+
+    // @public
+    getText: function() { return this._text; },
     get text() { return this.getText(); },
 
     // fill ----------------------------------------------------------
 
+    // @public
     setFill: function( fill ) {
       this._options.fill = fill;
       var childrenCount = this._textParent.getChildrenCount();
@@ -144,11 +145,10 @@ define( function( require ) {
         this._textParent.getChildAt( i ).fill = fill;
       }
     },
-
-    getFill: function() { return this._fill; },
-
-    // ES5
     set fill( value ) { this.setFill( value ); },
+
+    // @public
+    getFill: function() { return this._fill; },
     get fill() { return this.getFill(); }
 
     //TODO add setters and getters for other scenery.Text properties as needed

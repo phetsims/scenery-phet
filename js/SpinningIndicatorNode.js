@@ -39,16 +39,16 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    this.indicatorRotation = Math.PI * 2; // Current angle of rotation (starts at 2pi so our modulo opreation is safe below)
+    this.indicatorRotation = Math.PI * 2; // @private Current angle of rotation (starts at 2pi so our modulo opreation is safe below)
 
     // parse the colors (if necessary) so we can quickly interpolate between the two
-    this.activeColor = new Color( options.activeColor );
-    this.inactiveColor = new Color( options.inactiveColor );
+    this.activeColor = new Color( options.activeColor ); // @private
+    this.inactiveColor = new Color( options.inactiveColor ); // @private
 
-    // the angle between each element
+    // @private the angle between each element
     this.angleDelta = 2 * Math.PI / options.elementQuantity;
 
-    // create and add all of the elements
+    // @private create and add all of the elements
     this.elements = [];
     var angle = 0;
     for ( var i = 0; i < options.elementQuantity; i++ ) {
@@ -72,6 +72,8 @@ define( function( require ) {
   }
 
   return inherit( Node, SpinningIndicatorNode, {
+
+    // @public
     step: function( dt ) {
       // increment rotation based on DT
       this.indicatorRotation += dt * 10.0 * this.options.indicatorSpeed;
@@ -103,12 +105,12 @@ define( function( require ) {
       }
     }
   }, {
-    // Factory method for creating rectangular-shaped elements, sized to fit.
+    // @static Factory method for creating rectangular-shaped elements, sized to fit.
     rectangleFactory: function( options ) {
       return new Rectangle( 0, 0, options.indicatorSize * 0.175, 1.2 * options.indicatorSize / options.elementQuantity );
     },
 
-    // Factory method for creating circle-shaped elements, sized to fit.
+    // @static Factory method for creating circle-shaped elements, sized to fit.
     circleFactory: function( options ) {
       return new Circle( 0.8 * options.indicatorSize / options.elementQuantity );
     }

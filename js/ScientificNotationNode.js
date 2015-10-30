@@ -40,7 +40,7 @@ define( function( require ) {
     this.options = options; // @private
 
     var textOptions = { font: options.font, fill: options.fill };
-    this.valueProperty = valueProperty; // @public (in case there's any question :)
+    this.valueProperty = valueProperty; // @public
 
     // must be recomputed if font changes!
     var tmpText = new Text( ' ', textOptions );
@@ -60,7 +60,10 @@ define( function( require ) {
 
   return inherit( Node, ScientificNotationNode, {
 
-    // @param {number} value
+    /**
+     * @param {number} value
+     * @private
+     */
     update: function( value ) {
 
       var options = this.options;

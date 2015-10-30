@@ -61,12 +61,16 @@ define( function( require ) {
 
     // Add the mouths.
     var mouthLineWidth = headDiameter * 0.05;
+
+    // @private
     this.smileMouth = new Path( new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
       lineCap: 'round'
     } );
     this.addChild( this.smileMouth );
+
+    // @private
     this.frownMouth = new Path( new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.20, -Math.PI * 0.75, -Math.PI * 0.25 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
@@ -80,11 +84,15 @@ define( function( require ) {
   }
 
   inherit( Node, FaceNode, {
+
+    // @public
     smile: function() {
       this.smileMouth.visible = true;
       this.frownMouth.visible = false;
       return this; // allow chaining
     },
+
+    // @public
     frown: function() {
       this.smileMouth.visible = false;
       this.frownMouth.visible = true;

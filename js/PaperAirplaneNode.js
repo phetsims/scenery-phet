@@ -14,6 +14,10 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
+  /**
+   * @param {Object} [options]
+   * @constructor
+   */
   function PaperAirplaneNode( options ) {
 
     options = _.extend( {

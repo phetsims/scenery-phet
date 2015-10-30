@@ -122,6 +122,8 @@ define( function( require ) {
   }
 
   inherit( Node, ShooterNode, {
+
+    // @public
     dispose: function() { this.disposeShooterNode(); }
   } );
 
@@ -363,6 +365,7 @@ define( function( require ) {
 
   return inherit( Node, FaucetNode, {
 
+    // @public
     dispose: function() { this.disposeFaucetNode(); }
   } );
 } );

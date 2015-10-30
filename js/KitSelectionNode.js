@@ -32,15 +32,12 @@ define( function( require ) {
     Node.call( this );
     var thisNode = this;
 
-    options = _.extend(
-      {
-        // Defaults
-        titleNode: null,
-        selectorPosition: 'sides' // Valid values are 'sides' and 'top'
-      }, options
-    );
+    options = _.extend( {
+      titleNode: null,
+      selectorPosition: 'sides' // Valid values are 'sides' and 'top'
+    }, options );
 
-    // Make the selected kit property visible externally.
+    // @public Make the selected kit property visible externally.
     thisNode.selectedKit = selectedKit;
 
     // Determine the max size of all the kit contents for layout purposes.
@@ -64,10 +61,11 @@ define( function( require ) {
       throw new Error( 'Unknown selector position option: ' + options.selectorPosition );
     }
 
-    // Construct and add the background.  Make it big enough to hold the largest kit.
+    // @private Construct and add the background.  Make it big enough to hold the largest kit.
     thisNode.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
       controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
 
+    // @private
     // Create the layer that contains all the kits, and add the kits side by
     // side spaced by the distance of the background so only 1 kit will be
     // visible at a time.
@@ -136,6 +134,8 @@ define( function( require ) {
   }
 
   return inherit( Node, KitSelectionNode, {
+
+    // @public scrolls to the {number} kitNumber
     scrollTo: function( kitNumber ) {
       this.kitLayerTargetX = -kitNumber * this.selectorSize.width;
     }

@@ -24,8 +24,8 @@ define( function( require ) {
    * @param {Node} centerNode
    * @param {Object} selfOptions  Valid options are:
    *                                arrowColor         - color for the arrow's fill
-   *                                arrowStrokColor    - color for the arrow's stroke
-   *                                arroWidth          - the width of the arrow, from its point to its side
+   *                                arrowStrokeColor   - color for the arrow's stroke
+   *                                arrowWidth         - the width of the arrow, from its point to its side
    *                                arrowHeight        - the height of the arrow, from tip to tip
    *                                next               - a function to be called when the "next" arrow is pressed
    *                                previous           - a function to be called when the "previous" arrow is pressed

@@ -328,13 +328,14 @@ define( function( require ) {
 
   return inherit( Node, NumberPicker, {
 
-    // Ensures that this node is eligible for GC.
+    // @public Ensures that this node is eligible for GC.
     dispose: function() {
       this.upEnabledProperty.dispose();
       this.downEnabledProperty.dispose();
       this.valueProperty.unlink( this.valueObserver );
     },
 
+    // @public
     setArrowsVisible: function( visible ) {
       this.upArrow.visible = this.downArrow.visible = visible;
     }

@@ -88,6 +88,7 @@ define( function( require ) {
      * this returns the left center of the burner opening.
      *
      * @returns {Vector2}
+     * @public
      */
     getHeaterFrontPosition: function() {
       return new Vector2( this.leftTop.x, this.leftTop.y + this.width * OPENING_HEIGHT_SCALE / 2 );

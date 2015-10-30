@@ -115,6 +115,7 @@ define( function( require ) {
 
   return inherit( Node, EyeDropperNode, {
 
+    //TODO #199 these should be static, not added to the prototype
     // You'll need these if you want to create fluid coming out of the tip, or put a label on the glass.
     TIP_WIDTH: TIP_WIDTH,
     TIP_HEIGHT: TIP_HEIGHT,

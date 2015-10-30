@@ -11,6 +11,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @deprecated use scenery-phet.ShadedRectangle
+ * TODO see #200, delete this after use in build-a-molecule is replaced
  */
 define( function( require ) {
   'use strict';

@@ -224,6 +224,7 @@ define( function( require ) {
      * based on the position of the base and tip of the measuringTape
      * @param {Vector2} basePosition
      * @param {Vector2} tipPosition
+     * @private
      */
     this.updatePosition = function( basePosition, tipPosition ) {
       var viewTipPosition = measuringTape._modelViewTransform.modelToViewPosition( tipPosition );
@@ -410,22 +411,23 @@ define( function( require ) {
       return this._modelViewTransform;
     },
 
-    // ES5 getter and setter for the textColor
+    // @public ES5 getter and setter for the textColor
     set textColor( value ) { this.setTextColor( value ); },
     get textColor() { return this.labelText.fill; },
 
-    // ES5 getter and setter for the modelViewTransform
+    // @public ES5 getter and setter for the modelViewTransform
     set modelViewTransform( modelViewTransform ) { this._modelViewTransform = modelViewTransform; },
     get modelViewTransform() { return this._modelViewTransform; },
 
-    // ES5 getter and setter for the dragBounds
+    // @public ES5 getter and setter for the dragBounds
     set dragBounds( value ) { this.setDragBounds( value ); },
     get dragBounds() { return this.getDragBounds(); },
 
-    // ES5 getters and setters
+    // @public ES5 getters and setters
     get isBaseUserControlledProperty() { return this.getIsBaseUserControlledProperty(); },
     get isTipUserControlledProperty() { return this.getIsTipUserControlledProperty(); },
 
+    // @public
     set isBaseUserControlledProperty( value ) { return this.setIsBaseUserControlledProperty( value ); },
     set isTipUserControlledProperty( value ) { return this.setIsTipUserControlledProperty( value ); }
   }, {
@@ -434,6 +436,8 @@ define( function( require ) {
      * Returns an icon of the measuring tape
      * @param {Object} [options]
      * @returns {Image}
+     * @static
+     * @public
      */
     createMeasuringTapeIcon: function( options ) {
 

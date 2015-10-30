@@ -70,6 +70,8 @@ define( function( require ) {
      *                                  saw significant performance gains.
      * @param {Object} [options]
      * @returns {Array}
+     * @static
+     * @public
      */
     getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
 

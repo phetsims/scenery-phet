@@ -52,6 +52,7 @@ define( function( require ) {
       /**
        * Sets the text.
        * @param {string} text
+       * @public
        */
       setText: function( text ) {
 
@@ -88,6 +89,7 @@ define( function( require ) {
       /**
        * Gets the text.
        * @returns {string}
+       * @public
        */
       getText: function() { return this._text; },
       get text() { return this.getText(); }, // ES5 getter
@@ -95,6 +97,7 @@ define( function( require ) {
       /**
        * Sets the fill for all Text nodes.
        * @param {Color|string} fill
+       * @public
        */
       setFill: function( fill ) {
         this.options.fill = fill;
@@ -108,6 +111,7 @@ define( function( require ) {
       /**
        * Gets the fill used for the text.
        * @returns {Color|string}
+       * @public
        */
       getFill: function() { return this.options.fill; },
       get fill() { return this.getFill(); } // ES5 getter

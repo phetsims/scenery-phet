@@ -299,6 +299,8 @@ define( function( require ) {
   }
 
   return inherit( Node, WavelengthSlider, {
+
+    // @public
     dispose: function() {
       this.disposeWavelengthSlider();
     }
