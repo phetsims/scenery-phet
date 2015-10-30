@@ -25,7 +25,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function Keypad( options ) {
+  function NumberKeypad( options ) {
 
     options = _.extend( {
       buttonFont: new PhetFont( { size: 20 } ),
@@ -160,7 +160,7 @@ define( function( require ) {
     } );
   }
 
-  return inherit( VBox, Keypad, {
+  return inherit( VBox, NumberKeypad, {
 
     /**
      * Clear anything that has been accumulated in the digitString field.
