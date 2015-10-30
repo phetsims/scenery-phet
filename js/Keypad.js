@@ -21,38 +21,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
 
-  // convenience function for creating the buttons that act as the individual keys
-  function createNumberKey( number, parentKeypad, buttonSpec ) {
-    return new RectangularPushButton( {
-      content: new Text( number.toString(), { font: buttonSpec.font } ),
-      baseColor: buttonSpec.baseColor,
-      minWidth: buttonSpec.minWidth,
-      minHeight: buttonSpec.minHeight,
-      xMargin: 5,
-      yMargin: 5,
-      listener: function() {
-
-        // If armed for new entry, clear the existing string.
-        if ( parentKeypad.armedForNewEntry ) {
-          parentKeypad.digitStringProperty.reset();
-          parentKeypad.armedForNewEntry = false;
-        }
-
-        // Add the digit to the string, but limit the length and prevent multiple leading zeros.
-        if ( parentKeypad.digitStringProperty.value === '0' ) {
-          if ( number.toString !== 0 ) {
-            // Replace the leading 0 with this digit.
-            parentKeypad.digitStringProperty.value = number.toString();
-          }
-          // else ignore the additional zero
-        }
-        else if ( parentKeypad.digitStringProperty.value.length < buttonSpec.maxDigits ) {
-          parentKeypad.digitStringProperty.value += number.toString();
-        }
-      }
-    } );
-  }
-
   /**
    * @param {Object} [options]
    * @constructor
@@ -158,6 +126,38 @@ define( function( require ) {
 
     // Pass options through to parent class
     this.mutate( options );
+  }
+
+  // convenience function for creating the buttons that act as the individual keys
+  function createNumberKey( number, parentKeypad, buttonSpec ) {
+    return new RectangularPushButton( {
+      content: new Text( number.toString(), { font: buttonSpec.font } ),
+      baseColor: buttonSpec.baseColor,
+      minWidth: buttonSpec.minWidth,
+      minHeight: buttonSpec.minHeight,
+      xMargin: 5,
+      yMargin: 5,
+      listener: function() {
+
+        // If armed for new entry, clear the existing string.
+        if ( parentKeypad.armedForNewEntry ) {
+          parentKeypad.digitStringProperty.reset();
+          parentKeypad.armedForNewEntry = false;
+        }
+
+        // Add the digit to the string, but limit the length and prevent multiple leading zeros.
+        if ( parentKeypad.digitStringProperty.value === '0' ) {
+          if ( number.toString !== 0 ) {
+            // Replace the leading 0 with this digit.
+            parentKeypad.digitStringProperty.value = number.toString();
+          }
+          // else ignore the additional zero
+        }
+        else if ( parentKeypad.digitStringProperty.value.length < buttonSpec.maxDigits ) {
+          parentKeypad.digitStringProperty.value += number.toString();
+        }
+      }
+    } );
   }
 
   return inherit( VBox, Keypad, {
