@@ -33,7 +33,10 @@ define( function( require ) {
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
-      onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
+      onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
+      targetNode: null // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
+      // the target can be overriden here.  This is useful when you need to attach a listener to a sub-
+      // component of a node hierarchy
     }, options );
 
     this.locationProperty = locationProperty; // @private
@@ -50,8 +53,9 @@ define( function( require ) {
       options.startDrag( event );
 
       // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
+      var targetNode = options.targetNode || event.currentTarget;
       var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
-      startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+      startOffset = targetNode.globalToParentPoint( event.pointer.point ).minus( location );
 
       self.events.trigger0( 'endedCallbacksForDragStarted' );
     };
@@ -59,7 +63,8 @@ define( function( require ) {
     // @private - change the location, adjust for starting offset, constrain to drag bounds
     this.movableDragHandlerDrag = function( event ) {
 
-      var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
+      var targetNode = options.targetNode || event.currentTarget;
+      var parentPoint = targetNode.globalToParentPoint( event.pointer.point ).minus( startOffset );
       var location = self._modelViewTransform.viewToModelPosition( parentPoint );
       location = self._dragBounds.closestPointTo( location );
       self.events.trigger1( 'startedCallbacksForDragged', location );
