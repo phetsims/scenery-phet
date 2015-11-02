@@ -26,6 +26,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
+  var Ray2 = require( 'DOT/Ray2' );
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {
@@ -142,14 +143,17 @@ define( function( require ) {
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
-    var topArc = new Shape().ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false );
-
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     var lightAngle = options.lightAngle;
-    var lightOrigin = Vector2.createPolar( radius * 1.1, lightAngle );
-    var lightDestination = Vector2.createPolar( handleBottom * 0.9, lightAngle + Math.PI );
-    var gradientSource = lightOrigin;
-    var gradientDestination = lightDestination;
+
+    var center = sensorShape.bounds.center;
+    var v1 = Vector2.createPolar( 1, lightAngle + Math.PI );
+    var intersections = sensorShape.intersection( new Ray2( center, v1 ) );
+    var gradientSource = intersections[ intersections.length - 1 ].point.plus( v1.timesScalar( 10 ) );
+
+    var v2 = Vector2.createPolar( 1, lightAngle );
+    var intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
+    var gradientDestination = intersections2[ intersections2.length - 1 ].point.plus( v2.timesScalar( 10 ) );
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
@@ -185,16 +189,20 @@ define( function( require ) {
     }
 
     // Curved highlighting from the light source
-    var curvedHighlightPath = new Path( topArc, {
+    var curvedHighlightPath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ) // light
         .addColorStop( 0.05, new Color( 'white' ).withAlpha( 0.5 ) ) // light
         .addColorStop( 0.2, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ), // light
       lineWidth: 3,
-      scale: new Vector2( 0.93, 0.93 )
+      scale: new Vector2( 0.93, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) )
     } );
 
-    children.push( outerShapePath, innerPath, curvedHighlightPath );
+    children.push(
+      outerShapePath,
+      innerPath,
+      curvedHighlightPath
+    );
 
     Node.call( this, {
       children: children
