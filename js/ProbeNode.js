@@ -147,11 +147,11 @@ define( function( require ) {
     var lightAngle = options.lightAngle;
 
     var center = sensorShape.bounds.center;
-    var v1 = Vector2.createPolar( 1, lightAngle + Math.PI );
+    var v1 = Vector2.createPolar( 1, lightAngle );
     var intersections = sensorShape.intersection( new Ray2( center, v1 ) );
     var gradientSource = intersections[ intersections.length - 1 ].point.plus( v1.timesScalar( 10 ) );
 
-    var v2 = Vector2.createPolar( 1, lightAngle );
+    var v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
     var intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
     var gradientDestination = intersections2[ intersections2.length - 1 ].point.plus( v2.timesScalar( 10 ) );
 
