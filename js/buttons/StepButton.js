@@ -29,7 +29,8 @@ define( function( require ) {
   function StepButton( stepFunction, enabledProperty, options ) {
 
     options = _.extend( {
-      radius: DEFAULT_RADIUS
+      radius: DEFAULT_RADIUS,
+      fireOnHold: true
     }, options );
 
     var stepButton = this;
