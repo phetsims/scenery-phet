@@ -36,7 +36,8 @@ define( function( require ) {
   function StepBackButton( stepFunction, playProperty, options ) {
     var stepBackButton = this;
     options = _.extend( {
-      radius: DEFAULT_RADIUS
+      radius: DEFAULT_RADIUS,
+      fireOnHold: true
     }, options );
 
     // step symbol is sized relative to the radius
