@@ -206,16 +206,15 @@ define( function( require ) {
     } );
 
     children.push(
-      // Extends the mouse and touch area with an invisible node
-      new Path( outline ),
-
       outerShapePath,
       innerPath,
       curvedHighlightPath
     );
 
     Node.call( this, {
-      children: children
+      children: children,
+      mouseArea: outline,
+      touchArea: outline
     } );
 
     this.mutate( options );
