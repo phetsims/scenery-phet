@@ -122,26 +122,33 @@ define( function( require ) {
     // Note: This elliptical arc must match the ellipticalArc call below 
     var ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false ).start;
 
-    // start in the bottom center
-    var sensorShape = new Shape()
-      .moveTo( 0, handleBottom )
+    var createShape = function() {
+      return new Shape()
 
-      // Kite Shape automatically lineTo's to the first point of an arc, so no need to lineTo ourselves  
-      .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
-      .lineTo( -handleWidth / 2, radius + neckCornerRadius )
-      .quadraticCurveTo( -handleWidth / 2, radius, ellipticalArcStart.x, ellipticalArcStart.y )
+      // start in the bottom center
+        .moveTo( 0, handleBottom )
 
-      // Top arc
-      // Note: his elliptical arc must match the EllipticalArc above
-      .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
+        // Kite Shape automatically lineTo's to the first point of an arc, so no need to lineTo ourselves
+        .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
+        .lineTo( -handleWidth / 2, radius + neckCornerRadius )
+        .quadraticCurveTo( -handleWidth / 2, radius, ellipticalArcStart.x, ellipticalArcStart.y )
 
-      .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
-      .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
+        // Top arc
+        // Note: his elliptical arc must match the EllipticalArc above
+        .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false )
 
-      .lineTo( 0, handleBottom )
+        .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
+        .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
+
+        .lineTo( 0, handleBottom );
+    };
+
+    var sensorShape = createShape()
       .moveTo( innerRadius, 0 )
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
+
+    var outline = createShape().close();
 
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     var lightAngle = options.lightAngle;
@@ -199,6 +206,9 @@ define( function( require ) {
     } );
 
     children.push(
+      // Extends the mouse and touch area with an invisible node
+      new Path( outline ),
+
       outerShapePath,
       innerPath,
       curvedHighlightPath
