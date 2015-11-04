@@ -18,8 +18,9 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
 
-  var contextLossFailure = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );
-  var contextLossReload = require( 'string!SCENERY_PHET/webglWarning.contextLossReload' );
+  // strings
+  var webglWarningContextLossFailureString = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );
+  var webglWarningContextLossReloadString = require( 'string!SCENERY_PHET/webglWarning.contextLossReload' );
 
   /**
    *
@@ -31,9 +32,9 @@ define( function( require ) {
       scale: 0.6
     } );
 
-    var text = new Text( contextLossFailure, { font: new PhetFont( 12 ) } );
+    var text = new Text( webglWarningContextLossFailureString, { font: new PhetFont( 12 ) } );
 
-    var button = new TextPushButton( contextLossReload, {
+    var button = new TextPushButton( webglWarningContextLossReloadString, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
       listener: function() {

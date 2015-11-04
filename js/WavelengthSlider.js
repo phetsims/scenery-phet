@@ -18,12 +18,14 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var pattern_0wavelength_1unitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
-  var units_nmString = require( 'string!SCENERY_PHET/units_nm' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+
+  // strings
+  var pattern_0wavelength_1unitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
+  var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
 
   /**
    * The slider thumb (aka knob)
@@ -93,7 +95,7 @@ define( function( require ) {
     var thisNode = this;
     Text.call( this, '?', { font: font, fill: fill } );
     property.link( function( value ) {
-      thisNode.text = StringUtils.format( pattern_0wavelength_1unitsString, Util.toFixed( value, 0 ), units_nmString );
+      thisNode.text = StringUtils.format( pattern_0wavelength_1unitsString, Util.toFixed( value, 0 ), unitsNmString );
     } );
   }
 

@@ -17,8 +17,8 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
 
   // strings
-  var titleString = require( 'string!SCENERY_PHET/webglWarning.title' );
-  var bodyString = require( 'string!SCENERY_PHET/webglWarning.body' );
+  var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
+  var webglWarningBodyString = require( 'string!SCENERY_PHET/webglWarning.body' );
 
   /**
    * @constructor
@@ -32,11 +32,11 @@ define( function( require ) {
         } ),
         new VBox( {
           children: [
-            new Text( titleString, {
+            new Text( webglWarningTitleString, {
               font: new PhetFont( 14 ),
               fill: '#ddd'
             } ),
-            new Text( bodyString, {
+            new Text( webglWarningBodyString, {
               font: new PhetFont( 10 ),
               fill: '#999'
             } )

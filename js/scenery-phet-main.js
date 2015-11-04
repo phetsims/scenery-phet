@@ -19,7 +19,7 @@ define( function( require ) {
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
 
   // strings
-  var title = require( 'string!SCENERY_PHET/scenery-phet.title' );
+  var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
   var simOptions = {
     credits: {
@@ -34,7 +34,7 @@ define( function( require ) {
 
   // Create and start sim
   SimLauncher.launch( function() {
-    new Sim( title, [
+    new Sim( sceneryPhetTitleString, [
       new Screen( 'Buttons',
         createScreenIcon( 'red' ),
         function() {return {};},

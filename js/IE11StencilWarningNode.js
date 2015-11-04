@@ -18,8 +18,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
 
-  var titleString = require( 'string!SCENERY_PHET/webglWarning.title' );
-  var bodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
+  var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
+  var webglWarningIe11StencilBodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
 
   /**
    * @constructor
@@ -33,11 +33,11 @@ define( function( require ) {
         } ),
         new VBox( {
           children: [
-            new Text( titleString, {
+            new Text( webglWarningTitleString, {
               font: new PhetFont( 14 ),
               fill: '#ddd'
             } ),
-            new Text( bodyString, {
+            new Text( webglWarningIe11StencilBodyString, {
               font: new PhetFont( 10 ),
               fill: '#999'
             } )
