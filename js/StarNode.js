@@ -49,14 +49,16 @@ define( function( require ) {
       stroke: options.emptyStroke,
       fill: options.emptyFill,
       lineWidth: options.emptyLineWidth,
-      lineJoin: options.emptyLineJoin
+      lineJoin: options.emptyLineJoin,
+      boundsMethod: 'unstroked' // optimization for faster creation and usage
     } ) );
 
     this.addChild( new Path( new StarShape( options ), {
       stroke: options.filledStroke,
       fill: options.filledFill,
       lineWidth: options.filledLineWidth,
-      lineJoin: options.filledLineJoin
+      lineJoin: options.filledLineJoin,
+      boundsMethod: 'unstroked' // optimization for faster creation and usage
     } ) );
 
     this.mutate( options );
