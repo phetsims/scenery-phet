@@ -24,7 +24,7 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
-  var pattern_0wavelength_1unitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
+  var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
 
   /**
@@ -95,7 +95,7 @@ define( function( require ) {
     var thisNode = this;
     Text.call( this, '?', { font: font, fill: fill } );
     property.link( function( value ) {
-      thisNode.text = StringUtils.format( pattern_0wavelength_1unitsString, Util.toFixed( value, 0 ), unitsNmString );
+      thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
     } );
   }
 

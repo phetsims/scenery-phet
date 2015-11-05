@@ -27,7 +27,7 @@ define( function( require ) {
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
   // strings
-  var soundToggleButtonString = require( 'string!SCENERY_PHET/SoundToggleButton.name' );
+  var soundToggleButtonNameString = require( 'string!SCENERY_PHET/SoundToggleButton.name' );
 
   /**
    *
@@ -61,7 +61,7 @@ define( function( require ) {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Sound Button" type="button" tabindex="0">
           var domElement = document.createElement( 'input' );
-          domElement.value = soundToggleButtonString;
+          domElement.value = soundToggleButtonNameString;
           domElement.type = 'button';
 
           domElement.tabIndex = '0';

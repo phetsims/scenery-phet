@@ -18,7 +18,8 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
 
-  var resetAllNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
+  // strings
+  var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
 
   // constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
@@ -64,7 +65,7 @@ define( function( require ) {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="reset" tabindex="0">
           var domElement = document.createElement( 'input' );
-          domElement.value = resetAllNameString;
+          domElement.value = resetAllButtonNameString;
           domElement.type = 'reset';
 
           domElement.tabIndex = '0';

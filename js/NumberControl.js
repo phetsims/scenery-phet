@@ -23,7 +23,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var pattern_0value_1units = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
+  var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
 
   /**
    * @param {string} title
@@ -71,7 +71,7 @@ define( function( require ) {
       maxWidth: options.titleMaxWidth
     } );
 
-    var numberDisplay = new NumberDisplay( numberProperty, numberRange, options.units, pattern_0value_1units, {
+    var numberDisplay = new NumberDisplay( numberProperty, numberRange, options.units, numberControlPattern0Value1UnitsString, {
       font: options.valueFont,
       decimalPlaces: options.decimalPlaces,
       maxWidth: options.valueMaxWidth
