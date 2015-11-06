@@ -89,7 +89,7 @@ define( function( require ) {
 
     // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
     // or null for an empty region
-    sensorType: glass()
+    sensorTypeFunction: glass()
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
 
@@ -191,8 +191,8 @@ define( function( require ) {
 
     var children = [];
 
-    if ( options.sensorType ) {
-      children.push( options.sensorType( radius ) );
+    if ( options.sensorTypeFunction ) {
+      children.push( options.sensorTypeFunction( radius ) );
     }
 
     // Curved highlighting from the light source

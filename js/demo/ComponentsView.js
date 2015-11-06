@@ -172,7 +172,7 @@ define( function( require ) {
 
     // Model properties that describe the sensor
     var propertySet = new PropertySet( ProbeNode.DEFAULT_OPTIONS );
-    propertySet.addProperty( 'sensorType', ProbeNode.glass() );
+    propertySet.addProperty( 'sensorTypeFunction', ProbeNode.glass() );
 
     // RGB color components, for setting the sensor color
     var color = Color.toColor( propertySet.color );
@@ -184,9 +184,9 @@ define( function( require ) {
     } );
 
     // Controls for the sensor type (glass/crosshairs/empty/etc)
-    var radioButtons = new RadioButtonGroup( propertySet.sensorTypeProperty, [
+    var radioButtons = new RadioButtonGroup( propertySet.sensorTypeFunctionProperty, [
       { value: null, node: new Text( 'null' ) },
-      { value: propertySet.sensorTypeProperty.get(), node: new Text( 'default glass' ) },
+      { value: propertySet.sensorTypeFunctionProperty.get(), node: new Text( 'default glass' ) },
       { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
       {
         value: ProbeNode.glass( {
@@ -213,7 +213,7 @@ define( function( require ) {
         propertySet.handleHeightProperty,
         propertySet.handleCornerRadiusProperty,
         propertySet.lightAngleProperty,
-        propertySet.sensorTypeProperty
+        propertySet.sensorTypeFunctionProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
@@ -227,7 +227,7 @@ define( function( require ) {
           handleHeight: propertySet.handleHeight,
           handleCornerRadius: propertySet.handleCornerRadius,
           lightAngle: propertySet.lightAngle,
-          sensorType: propertySet.sensorType,
+          sensorTypeFunction: propertySet.sensorTypeFunction,
           rotation: propertySet.rotation,
 
           // layout options
