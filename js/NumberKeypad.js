@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * A scenery node that looks like a key pad and allows the user to enter digits.  The entered digits are not displayed

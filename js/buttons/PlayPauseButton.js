@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2014-2015, University of Colorado Boulder
 
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.

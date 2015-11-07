@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * This is the graphical representation of a stove that can be used to heat or cool things.  The HeaterCoolerNode is
