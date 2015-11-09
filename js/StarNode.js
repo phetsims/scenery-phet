@@ -4,15 +4,17 @@
  * Star that fills in from left to right.  Can be used in games to show the score.
  *
  * @author Sam Reid
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
-  var Node = require( 'SCENERY/nodes/Node' );
 
   /**
    * @param {Object} [options] see comments in the constructor for options parameter values
@@ -42,24 +44,37 @@ define( function( require ) {
 
     Node.call( this );
 
-    //Add the gray star behind the filled star, so it will look like it fills in
-    var o2 = _.clone( options );
-    o2.value = 1;
-    this.addChild( new Path( new StarShape( o2 ), {
+    // add the gray star behind the filled star, so it will look like it fills in
+    var backgroundStar = new Path( null, {
       stroke: options.emptyStroke,
       fill: options.emptyFill,
       lineWidth: options.emptyLineWidth,
       lineJoin: options.emptyLineJoin,
-      boundsMethod: 'unstroked' // optimization for faster creation and usage
-    } ) );
+      boundsMethod: 'none' // optimization for faster creation and usage
+    } );
+    var o2 = _.clone( options );
+    o2.value = 1;
+    var backgroundStarShape = new StarShape( o2 );
+    backgroundStar.setShape( backgroundStarShape );
+    function getBounds() {
+      return backgroundStarShape.bounds;
+    }
 
-    this.addChild( new Path( new StarShape( options ), {
+    backgroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
+
+    this.addChild( backgroundStar );
+
+    // add the foreground star
+    var foregroundStar = new Path( new StarShape( options ), {
       stroke: options.filledStroke,
       fill: options.filledFill,
       lineWidth: options.filledLineWidth,
       lineJoin: options.filledLineJoin,
-      boundsMethod: 'unstroked' // optimization for faster creation and usage
-    } ) );
+      boundsMethod: 'none' // optimization for faster creation and usage
+    } );
+    foregroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
+    foregroundStar.shape = new StarShape( options );
+    this.addChild( foregroundStar );
 
     this.mutate( options );
   }
