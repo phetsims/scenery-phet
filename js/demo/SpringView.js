@@ -67,7 +67,7 @@ define( function( require ) {
       y: wallNode.centerY
     } );
 
-    // control panel, scaled to fit
+    // control panel, scaled to fit across the bottom
     var controls = new SpringControls( ranges, springNode );
     controls.setScaleMagnitude( Math.min( 1, this.layoutBounds.width / controls.width ) );
     controls.bottom = this.layoutBounds.bottom;
@@ -77,7 +77,7 @@ define( function( require ) {
     this.addChild( springNode );
     this.addChild( wallNode );
 
-    // Reset All button, bottom right
+    // Reset All button, to the right, above control panel
     this.addChild( new ResetAllButton( {
       listener: function() {
         springNode.reset();
