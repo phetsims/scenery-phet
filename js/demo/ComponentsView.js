@@ -45,6 +45,26 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  function ComponentsView() {
+    DemosView.call( this, 'component', [
+
+      // To add a demo, create an entry here.
+      // label is a {string} that will appear in the combo box.
+      // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
+      { label: 'ArrowNode', getNode: demoArrowNode },
+      { label: 'BracketNode', getNode: demoBracketNode },
+      { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
+      { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
+      { label: 'FaucetNode', getNode: demoFaucetNode },
+      { label: 'MeasuringTape', getNode: demoMeasuringTape },
+      { label: 'NumberPicker', getNode: demoNumberPicker },
+      { label: 'ProbeNode', getNode: demoProbeNode },
+      { label: 'RulerNode', getNode: demoRulerNode },
+      { label: 'StarNode', getNode: demoStarNode },
+      { label: 'ThermometerNode', getNode: demoTemperatureNode }
+    ] );
+  }
+
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {
     return new BracketNode( {
@@ -422,26 +442,6 @@ define( function( require ) {
       center: layoutBounds.center
     } );
   };
-
-  function ComponentsView() {
-    DemosView.call( this, 'component', [
-
-      // To add a demo, create an entry here.
-      // label is a {string} that will appear in the combo box.
-      // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
-      { label: 'ArrowNode', getNode: demoArrowNode },
-      { label: 'BracketNode', getNode: demoBracketNode },
-      { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
-      { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
-      { label: 'FaucetNode', getNode: demoFaucetNode },
-      { label: 'MeasuringTape', getNode: demoMeasuringTape },
-      { label: 'NumberPicker', getNode: demoNumberPicker },
-      { label: 'ProbeNode', getNode: demoProbeNode },
-      { label: 'RulerNode', getNode: demoRulerNode },
-      { label: 'StarNode', getNode: demoStarNode },
-      { label: 'ThermometerNode', getNode: demoTemperatureNode }
-    ] );
-  }
 
   return inherit( DemosView, ComponentsView );
 } );
