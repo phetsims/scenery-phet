@@ -20,7 +20,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VSeparator = require( 'SUN/VSeparator' );
 
-  // strings - no need for i18n since this is a developer-only screen
+  // strings - no need for i18n since this is a developer-only demo
   var aspectRatioString = 'aspect ratio:';
   var deltaPhaseString = 'delta phase:';
   var lineWidthString = 'line width:';
@@ -35,7 +35,7 @@ define( function( require ) {
   var TICK_LABEL_FONT = new PhetFont( 14 );
 
   /**
-   * @param {Object} ranges - a collection of dot.Range
+   * @param {Object} ranges - a hash of dot.Range
    * @param {ParametricSpringNode} springNode
    * @param {Object} [options]
    * @constructor
