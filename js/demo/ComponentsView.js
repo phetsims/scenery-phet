@@ -34,6 +34,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Range = require( 'DOT/Range' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var Shape = require( 'KITE/Shape' );
@@ -43,7 +44,6 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
 
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {
