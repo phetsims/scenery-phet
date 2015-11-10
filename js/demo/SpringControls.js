@@ -31,7 +31,7 @@ define( function( require ) {
   var xScaleString = 'x scale:';
 
   // constants
-  var CONTROL_FONT = new PhetFont( 22 );
+  var CONTROL_FONT = new PhetFont( 18 );
   var TICK_LABEL_FONT = new PhetFont( 14 );
 
   /**
