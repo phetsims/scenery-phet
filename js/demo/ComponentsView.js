@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
@@ -41,9 +42,8 @@ define( function( require ) {
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {
