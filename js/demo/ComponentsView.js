@@ -107,8 +107,8 @@ define( function( require ) {
       thumbFillEnabled: 'orange',
       thumbFillHighlighted: 'rgb( 255, 210, 0 )',
       thumbCenterLineStroke: 'black',
-      left: layoutBounds.centerX,
-      bottom: conductivityTesterNode.top - 50
+      centerX: conductivityTesterNode.centerX,
+      bottom: conductivityTesterNode.bottom + 100
     } );
 
     // short-circuit check box
@@ -117,8 +117,8 @@ define( function( require ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
     } );
     var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
-      left: brightnessSlider.left,
-      bottom: brightnessSlider.top - 50
+      centerX: brightnessSlider.centerX,
+      bottom: brightnessSlider.bottom + 50
     } );
 
     return new Node( {
