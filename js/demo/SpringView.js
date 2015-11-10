@@ -29,7 +29,7 @@ define( function( require ) {
       fill: 'rgb( 180, 180, 180 )',
       stroke: 'black',
       left: 20,
-      centerY: 375
+      centerY: 200
     } );
 
     // Ranges for the various properties of ParametricSpringNode
@@ -70,7 +70,7 @@ define( function( require ) {
     // control panel, scaled to fit
     var controls = new SpringControls( ranges, springNode );
     controls.setScaleMagnitude( Math.min( 1, this.layoutBounds.width / controls.width ) );
-    controls.top = 0;
+    controls.bottom = this.layoutBounds.bottom;
     controls.centerX = this.layoutBounds.centerX;
 
     this.addChild( controls );
@@ -83,7 +83,7 @@ define( function( require ) {
         springNode.reset();
       },
       right: this.layoutBounds.maxX - 15,
-      bottom: this.layoutBounds.maxY - 15
+      bottom: controls.top - 10
     } ) );
   }
 
