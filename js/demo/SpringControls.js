@@ -2,7 +2,7 @@
 
 /**
  * Controls for experimenting with a ParametricSpring.
- * Sliders with 'black' thumbs are parameters that result in re-computation of Vector2s and Shapes.
+ * Sliders with 'black' thumbs are parameters that result in instantiation of Vector2s and Shapes.
  * Sliders with 'green' thumbs are parameters that result in mutation of Vector2s and Shapes.
  *
  * @author Chris Malley (PixelZoom, Inc.)
