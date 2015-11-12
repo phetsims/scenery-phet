@@ -21,6 +21,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
+  var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
@@ -37,6 +38,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Range = require( 'DOT/Range' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var Shape = require( 'KITE/Shape' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
@@ -56,6 +58,7 @@ define( function( require ) {
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
+      { label: 'FormulaNode', getNode: demoFormulaNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'ProbeNode', getNode: demoProbeNode },
@@ -178,6 +181,29 @@ define( function( require ) {
     return new Node( {
       children: [ faucetNode, faucetEnabledCheckBox ],
       center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for FormulaNode
+  var demoFormulaNode = function( layoutBounds ) {
+    var conditional = '\\forall \\mathbf{p}\\in\\mathbb{R}^2';
+    var leftVert = '\\left\\lVert';
+    var rightVert = '\\right\\rVert';
+    var matrix = '\\begin{bmatrix} \\cos\\theta & \\sin\\theta \\\\ -\\sin\\theta & \\cos\\theta \\end{bmatrix}^{k+1}';
+    var sumExpr = leftVert + '\\sum_{k=1}^{\\infty}kx^{k-1}' + matrix + rightVert;
+    var integral = '\\int_{0}^{2\\pi}\\overline{f(\\theta)}\\cos\\theta\\,\\mathrm{d}\\theta';
+    var invCos = '\\cos^{-1}\\left( \\frac{\\sqrt{\\varphi_2}}{\\sqrt{x_2^2+x_3^2}} \\right)';
+
+    var formulaNode = new FormulaNode( conditional + '\\quad ' + sumExpr + ' = ' + invCos + ' + ' + integral, {
+      center: layoutBounds.center,
+      scale: 1.3,
+      displayMode: true
+    } );
+    var bounds = Rectangle.bounds( formulaNode.bounds, {
+      fill: 'rgba(0,0,0,0.1)'
+    } );
+    return new Node( {
+      children: [ bounds, formulaNode ]
     } );
   };
 
