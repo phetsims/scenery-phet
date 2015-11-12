@@ -64,17 +64,17 @@ define( function( require ) {
          * @returns {AccessiblePeer}
          */
         createPeer: function( accessibleInstance ) {
-          // will look like <input value="Reset" type="reset" tabindex="0">
+          // will look like <input value="Reset All" type="reset" tabindex="0">
           var domElement = document.createElement( 'input' );
           domElement.value = resetAllButtonNameString;
           domElement.type = 'reset';
           domElement.tabIndex = '0';
 
-          // create an aria element that describes the button
+          // create an element that describes the button with aria-describedby
           var descriptionElement = document.createElement( 'p' );
           descriptionElement.innerText = resetAllButtonDescriptionString;
-          descriptionElement.id = 'pause-description';
-
+          descriptionElement.id = 'reset-all-description';
+          domElement.appendChild( descriptionElement );
           domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
           domElement.addEventListener( 'click', function() {
