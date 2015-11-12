@@ -73,7 +73,7 @@ define( function( require ) {
           // create an aria element that describes the button
           var descriptionElement = document.createElement( 'p' );
           descriptionElement.innerText = resetAllButtonDescriptionString;
-          descriptionElement.id = 'pause-descriptoin';
+          descriptionElement.id = 'pause-description';
 
           domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
