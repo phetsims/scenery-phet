@@ -75,6 +75,8 @@ define( function( require ) {
     thisNode.brightnessProperty.link( this.brightnessObserver );
   }
 
+  sceneryPhet.register( 'LightBulbNode', LightBulbNode );
+
   inherit( Node, LightBulbNode, {
 
     // @public Ensures that this object is eligible for GC
@@ -129,7 +131,7 @@ define( function( require ) {
     }
   }
 
-  sceneryPhet.register( 'LightRaysNode', LightRaysNode );
+  sceneryPhet.register( 'LightBulbNode.LightRaysNode', LightRaysNode );
 
   return inherit( Node, LightRaysNode, {
 
