@@ -133,7 +133,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'LightBulbNode.LightRaysNode', LightRaysNode );
 
-  return inherit( Node, LightRaysNode, {
+  inherit( Node, LightRaysNode, {
 
     // @public updates light rays based on {number} brightness, which varies from 0 to 1.
     setBrightness: function( brightness ) {
@@ -188,4 +188,6 @@ define( function( require ) {
       }
     }
   } );
+
+  return LightBulbNode;
 } );
