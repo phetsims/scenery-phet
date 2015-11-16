@@ -32,6 +32,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
@@ -282,6 +283,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'MeasuringTape', MeasuringTape );
 
   return inherit( Node, MeasuringTape, {
     /**

@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} size A size factor (it'll be a bit bigger)
@@ -45,6 +46,8 @@ define( function( require ) {
     this.lineTo( halfHeadWidth, -halfHeadHeight );
     this.close();
   }
+
+  sceneryPhet.register( 'UTurnArrowShape', UTurnArrowShape );
 
   return inherit( Shape, UTurnArrowShape );
 } );

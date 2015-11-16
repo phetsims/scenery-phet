@@ -16,6 +16,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -63,6 +64,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'LeftRightSpinner', LeftRightSpinner );
 
   return inherit( HBox, LeftRightSpinner );
 } );

@@ -20,6 +20,7 @@ define( function( require ) {
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var Property = require( 'AXON/Property' );
   var Color = require( 'SCENERY/util/Color' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Constructor for a HeaterCoolerNode.
@@ -55,6 +56,8 @@ define( function( require ) {
     this.mutate( options );
 
   }
+
+  sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
 
   return inherit( Node, HeaterCoolerNode );
 } );

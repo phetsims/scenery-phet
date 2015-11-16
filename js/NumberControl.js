@@ -21,6 +21,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
@@ -145,6 +146,8 @@ define( function( require ) {
     ];
     VBox.call( this, options );
   }
+
+  sceneryPhet.register( 'NumberControl', NumberControl );
 
   return inherit( VBox, NumberControl, {}, {
 

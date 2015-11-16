@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -113,6 +114,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'BracketNode', BracketNode );
 
   return inherit( Node, BracketNode );
 } );

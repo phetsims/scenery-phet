@@ -12,9 +12,9 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   *
    * @param {number} diameter
    * @param {Object} [options]
    * @constructor
@@ -39,6 +39,8 @@ define( function( require ) {
 
     Circle.call( this, radius, options );
   }
+
+  sceneryPhet.register( 'ShadedSphereNode', ShadedSphereNode );
 
   return inherit( Circle, ShadedSphereNode );
 } );

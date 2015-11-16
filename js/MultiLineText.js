@@ -20,6 +20,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -47,7 +48,9 @@ define( function( require ) {
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
-  inherit( Node, MultiLineText, {
+  sceneryPhet.register( 'MultiLineText', MultiLineText );
+
+  return inherit( Node, MultiLineText, {
 
       /**
        * Sets the text.
@@ -117,6 +120,4 @@ define( function( require ) {
       get fill() { return this.getFill(); } // ES5 getter
     }
   );
-
-  return MultiLineText;
 } );

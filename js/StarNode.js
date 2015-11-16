@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options] see comments in the constructor for options parameter values
@@ -77,6 +78,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'StarNode', StarNode );
 
   return inherit( Node, StarNode );
 } );

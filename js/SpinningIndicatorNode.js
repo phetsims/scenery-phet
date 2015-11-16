@@ -18,7 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
-
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} options
@@ -70,6 +70,8 @@ define( function( require ) {
 
     this.step( 0 ); // initialize colors
   }
+
+  sceneryPhet.register( 'SpinningIndicatorNode', SpinningIndicatorNode );
 
   return inherit( Node, SpinningIndicatorNode, {
 

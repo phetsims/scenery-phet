@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -34,6 +35,8 @@ define( function( require ) {
     gradient.addColorStop( 1, color2 );
     Rectangle.call( this, x, y, width, height, 0, 0, { fill: gradient } );
   }
+
+  sceneryPhet.register( 'GradientBackgroundNode', GradientBackgroundNode );
 
   return inherit( Rectangle, GradientBackgroundNode );
 } );

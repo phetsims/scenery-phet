@@ -15,6 +15,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -57,6 +58,8 @@ define( function( require ) {
 
     valueProperty.link( this.update.bind( this ) );
   }
+
+  sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
 
   return inherit( Node, ScientificNotationNode, {
 

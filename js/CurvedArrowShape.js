@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * This is a general algorithm, used herein to compute the point for an arrow's tip.
@@ -104,6 +105,8 @@ define( function( require ) {
 
     this.close();
   }
+
+  sceneryPhet.register( 'CurvedArrowShape', CurvedArrowShape );
 
   return inherit( Shape, CurvedArrowShape );
 } );

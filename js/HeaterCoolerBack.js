@@ -21,6 +21,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   //images
   var fireImage = require( 'image!SCENERY_PHET/flame.png' );
@@ -80,6 +81,8 @@ define( function( require ) {
     this.addChild( iceNode );
 
   }
+
+  sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );
 
   return inherit( Node, HeaterCoolerBack, {
 

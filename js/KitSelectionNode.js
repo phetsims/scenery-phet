@@ -18,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'JOIST/Timer' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds
@@ -132,6 +133,8 @@ define( function( require ) {
     // Pass through any options intended for Node.
     thisNode.mutate( options );
   }
+
+  sceneryPhet.register( 'KitSelectionNode', KitSelectionNode );
 
   return inherit( Node, KitSelectionNode, {
 

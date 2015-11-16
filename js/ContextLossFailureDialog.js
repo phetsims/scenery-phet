@@ -17,6 +17,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var webglWarningContextLossFailureString = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );
@@ -52,6 +53,8 @@ define( function( require ) {
       yMargin: 10
     } );
   }
+
+  sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
 
   return inherit( Dialog, ContextLossFailureDialog );
 } );

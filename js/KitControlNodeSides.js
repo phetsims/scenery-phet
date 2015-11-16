@@ -21,6 +21,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var DEFAULT_BASE_COLOR = new Color( 'rgba( 148, 235, 255, 0.5 )' );
@@ -91,6 +92,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'KitControlNodeSides', KitControlNodeSides );
 
   return inherit( Node, KitControlNodeSides );
 } );

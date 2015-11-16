@@ -1,8 +1,7 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * A face that can smile, frown, or grimace.  This is generally used for
- * indicating success or failure.
+ * A face that can smile or frown.  This is generally used for indicating success or failure.
  * <p>
  * This was ported from a version that was originally written in Java.
  *
@@ -19,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} headDiameter
@@ -83,7 +83,9 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  inherit( Node, FaceNode, {
+  sceneryPhet.register( 'FaceNode', FaceNode );
+
+  return inherit( Node, FaceNode, {
 
     // @public
     smile: function() {
@@ -99,6 +101,4 @@ define( function( require ) {
       return this; // allow chaining
     }
   } );
-
-  return FaceNode;
 } );

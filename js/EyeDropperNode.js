@@ -17,6 +17,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
@@ -112,6 +113,8 @@ define( function( require ) {
     // tandem was only passed in for the button
     // Subclasses are responsible for registering the EyeDropperNode if desired (see BLLDropperNode)
   }
+
+  sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
 
   return inherit( Node, EyeDropperNode, {
 

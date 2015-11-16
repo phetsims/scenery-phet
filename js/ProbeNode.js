@@ -27,6 +27,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
   var Ray2 = require( 'DOT/Ray2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {
@@ -219,6 +220,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'ProbeNode', ProbeNode );
 
   return inherit( Node, ProbeNode, {},
 

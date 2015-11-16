@@ -14,6 +14,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Util = require( 'DOT/Util' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
@@ -128,7 +129,9 @@ define( function( require ) {
     }
   }
 
-  inherit( Node, LightRaysNode, {
+  sceneryPhet.register( 'LightRaysNode', LightRaysNode );
+
+  return inherit( Node, LightRaysNode, {
 
     // @public updates light rays based on {number} brightness, which varies from 0 to 1.
     setBrightness: function( brightness ) {
@@ -183,6 +186,4 @@ define( function( require ) {
       }
     }
   } );
-
-  return LightBulbNode;
 } );

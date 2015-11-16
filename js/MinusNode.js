@@ -14,6 +14,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -30,6 +31,8 @@ define( function( require ) {
 
     Rectangle.call( this, 0, 0, options.size.width, options.size.height, options );
   }
+
+  sceneryPhet.register( 'MinusNode', MinusNode );
 
   return inherit( Rectangle, MinusNode );
 } );

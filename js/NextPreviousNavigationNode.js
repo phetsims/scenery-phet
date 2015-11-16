@@ -17,10 +17,12 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  // constants
   var arrowPadding = 8;
 
-  /*
+  /**
    * @param {Node} centerNode
    * @param {Object} selfOptions  Valid options are:
    *                                arrowColor         - color for the arrow's fill
@@ -136,6 +138,8 @@ define( function( require ) {
 
     this.mutate( nodeOptions );
   }
+
+  sceneryPhet.register( 'NextPreviousNavigationNode', NextPreviousNavigationNode );
 
   return inherit( Node, NextPreviousNavigationNode );
 } );

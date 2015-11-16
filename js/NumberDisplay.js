@@ -16,6 +16,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<number>} numberProperty
@@ -72,6 +73,8 @@ define( function( require ) {
 
     Node.call( this, options );
   }
+
+  sceneryPhet.register( 'NumberDisplay', NumberDisplay );
 
   return inherit( Node, NumberDisplay, {
 

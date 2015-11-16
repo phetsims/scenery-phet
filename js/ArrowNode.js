@@ -16,6 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} tailX
@@ -51,6 +52,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'ArrowNode', ArrowNode );
 
   return inherit( Path, ArrowNode, {
 

@@ -9,8 +9,14 @@ define( function( require ) {
 
   // modules
   var Color = require( 'SCENERY/util/Color' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  /**
+   * @constructor
+   */
   function VisibleColor() {}
+
+  sceneryPhet.register( 'VisibleColor', VisibleColor );
 
   // public constants
   VisibleColor.MIN_WAVELENGTH = 380;

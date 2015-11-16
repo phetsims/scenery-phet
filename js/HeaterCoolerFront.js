@@ -24,6 +24,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var heatString = require( 'string!SCENERY_PHET/heat' );
@@ -114,6 +115,8 @@ define( function( require ) {
     this.addChild( heatCoolSlider );
 
   }
+
+  sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );
 
   return inherit( Node, HeaterCoolerFront );
 } );

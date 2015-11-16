@@ -17,8 +17,9 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Color = require( 'SCENERY/util/Color' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  /*
+  /**
    * Creates a pseudo-3D shaded rounded rectangle that takes up rectBounds {Bounds2} in size. See below documentation
    * for options (it is passed through to the Node also).
    *
@@ -155,8 +156,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  inherit( Node, ShadedRectangle );
+  sceneryPhet.register( 'ShadedRectangle', ShadedRectangle );
 
-  return ShadedRectangle;
+  return inherit( Node, ShadedRectangle );
 } );
 

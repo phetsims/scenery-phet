@@ -25,6 +25,7 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -151,6 +152,8 @@ define( function( require ) {
     this.dragTarget = roundedRectangle;
   }
 
+  sceneryPhet.register( 'Timer', Timer );
+
   // the full-sized minutes and seconds string
   function timeToBigString( timeInSeconds ) {
     var minutes = Math.floor( timeInSeconds / 60 ) % 60;
@@ -173,6 +176,5 @@ define( function( require ) {
     return '.' + centiseconds;
   }
 
-  inherit( Node, Timer );
-  return Timer;
+  return inherit( Node, Timer );
 } );

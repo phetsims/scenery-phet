@@ -30,6 +30,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging
@@ -262,6 +263,8 @@ define( function( require ) {
       this.addChild( new Circle( 3, { fill: 'red' } ) );
     }
   }
+
+  sceneryPhet.register( 'ParametricSpringNode', ParametricSpringNode );
 
   // Gets the number of points in the coil part of the spring.
   var computeNumberOfCoilPoints = function( loops, pointsPerLoop ) {

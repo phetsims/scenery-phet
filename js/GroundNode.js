@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var Color = require( 'SCENERY/util/Color' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} x
@@ -32,6 +33,8 @@ define( function( require ) {
       }, options );
     GradientBackgroundNode.call( this, x, y, width, height, options.topColor, options.bottomColor, y, gradientEndDepth );
   }
+
+  sceneryPhet.register( 'GroundNode', GroundNode );
 
   return inherit( GradientBackgroundNode, GroundNode );
 } );

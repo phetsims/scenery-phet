@@ -26,6 +26,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -269,6 +270,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  sceneryPhet.register( 'NumberPicker', NumberPicker );
+
   /**
    * Converts ButtonListener events to state changes.
    *
@@ -284,6 +287,10 @@ define( function( require ) {
       out: function() { stateProperty.set( 'out' ); }
     } );
   }
+
+  sceneryPhet.register( 'NumberPicker.ButtonStateListener', ButtonStateListener );
+
+  inherit( ButtonListener, ButtonStateListener );
 
   // creates a vertical gradient
   var createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
@@ -323,8 +330,6 @@ define( function( require ) {
       arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
     }
   };
-
-  inherit( ButtonListener, ButtonStateListener );
 
   return inherit( Node, NumberPicker, {
 

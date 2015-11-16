@@ -11,6 +11,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -21,6 +22,7 @@ define( function( require ) {
   var linear = require( 'DOT/Util' ).linear;
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Constructor
@@ -123,6 +125,8 @@ define( function( require ) {
     foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: 1 } ) );
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'GaugeNode', GaugeNode );
 
   return inherit( Node, GaugeNode );
 } );

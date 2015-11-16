@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -36,6 +37,8 @@ define( function( require ) {
 
     Node.call( this, options );
   }
+
+  sceneryPhet.register( 'ShadowText', ShadowText );
 
   return inherit( Node, ShadowText );
 } );

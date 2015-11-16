@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} radius of the center of the reset arrow
@@ -46,6 +47,8 @@ define( function( require ) {
     this.arc( 0, 0, innerRadius, neckAngle, startAngle ); // Inner curve.
     this.close();
   }
+
+  sceneryPhet.register( 'ResetAllShape', ResetAllShape );
 
   return inherit( Shape, ResetAllShape );
 } );

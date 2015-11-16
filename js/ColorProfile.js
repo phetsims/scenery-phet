@@ -18,6 +18,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Array.<Color|string>} colors
@@ -73,6 +74,8 @@ define( function( require ) {
       this.reportColor( colorName );
     }
   }
+
+  sceneryPhet.register( 'ColorProfile', ColorProfile );
 
   return inherit( PropertySet, ColorProfile, {
 

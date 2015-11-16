@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -46,6 +47,8 @@ define( function( require ) {
 
     Path.call( this, shape, options );
   }
+
+  sceneryPhet.register( 'PlusNode', PlusNode );
 
   return inherit( Path, PlusNode );
 } );

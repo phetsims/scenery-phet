@@ -22,96 +22,11 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
-
-  /**
-   * The slider thumb (aka knob)
-   * @param {number} width
-   * @param {number} height
-   * @param {number} touchAreaExpandX
-   * @param {number} touchAreaExpandY
-   * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
-   * @param {number} trackHeight only used if pointerAreasOverTrack is true
-   * @constructor
-   */
-  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY, pointerAreasOverTrack, trackHeight ) {
-    // set the radius of the arcs based on the height or width, whichever is smaller
-    var radiusScale = 0.15;
-    var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
-
-    // calculate some parameters of the upper triangles of the thumb for getting arc offsets
-    var hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
-    var angle = Math.acos( width * 0.5 / hypotenuse );
-    var heightOffset = radius * Math.sin( angle );
-
-    // draw the thumb shape starting at the right upper corner of the pentagon below the arc,
-    // this way we can get the arc coordinates for the arc in this corner from the other side, which
-    // will be easier to calculate arcing from bottom to top
-    var shape = new Shape()
-      .moveTo( 0.5 * width, 0.3 * height + heightOffset )
-      .lineTo( 0.5 * width, 1 * height - radius )
-      .arc( 0.5 * width - radius, 1 * height - radius, radius, 0, Math.PI / 2 )
-      .lineTo( -0.5 * width + radius, 1 * height )
-      .arc( -0.5 * width + radius, 1 * height - radius, radius, Math.PI / 2, Math.PI )
-      .lineTo( -0.5 * width, 0.3 * height + heightOffset )
-      .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
-
-    // save the coordinates for the point above the left side arc, for use on the other side
-    var sideArcPoint = shape.getLastPoint();
-
-    shape.lineTo( 0, 0 )
-      .lineTo( -sideArcPoint.x, sideArcPoint.y )
-      .arc( 0.5 * width - radius, 0.3 * height + heightOffset, radius, -angle, 0 )
-      .close();
-
-    Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
-
-    // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
-    var bounds = shape.computeBounds().copy();
-    if ( pointerAreasOverTrack ) {
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY - trackHeight, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY + trackHeight );
-      this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
-    }
-
-    // don't extend above the thumb so that we don't encroach on slider track if pointerAreasOverTrack is false
-    else {
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
-    }
-  }
-
-  inherit( Path, Thumb );
-
-  /**
-   * Displays the value and units.
-   * @param property
-   * @param {string} font
-   * @param {string} fill
-   * @constructor
-   */
-  function ValueDisplay( property, font, fill ) {
-    var thisNode = this;
-    Text.call( this, '?', { font: font, fill: fill } );
-    property.link( function( value ) {
-      thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
-    } );
-  }
-
-  inherit( Text, ValueDisplay );
-
-  /**
-   * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
-   * @param {number} width
-   * @param {number} height
-   * @constructor
-   */
-  function Cursor( width, height, stroke ) {
-    Rectangle.call( this, -width / 2, 0, width, height, { stroke: stroke, lineWidth: 1 } );
-  }
-
-  inherit( Rectangle, Cursor );
 
   /**
    * @param {Property.<number>} wavelength - in nm
@@ -299,6 +214,100 @@ define( function( require ) {
       wavelength.unlink( wavelengthListener );
     };
   }
+
+  sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
+
+  /**
+   * The slider thumb (aka knob)
+   * @param {number} width
+   * @param {number} height
+   * @param {number} touchAreaExpandX
+   * @param {number} touchAreaExpandY
+   * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
+   * @param {number} trackHeight only used if pointerAreasOverTrack is true
+   * @constructor
+   */
+  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY, pointerAreasOverTrack, trackHeight ) {
+    // set the radius of the arcs based on the height or width, whichever is smaller
+    var radiusScale = 0.15;
+    var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
+
+    // calculate some parameters of the upper triangles of the thumb for getting arc offsets
+    var hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
+    var angle = Math.acos( width * 0.5 / hypotenuse );
+    var heightOffset = radius * Math.sin( angle );
+
+    // draw the thumb shape starting at the right upper corner of the pentagon below the arc,
+    // this way we can get the arc coordinates for the arc in this corner from the other side, which
+    // will be easier to calculate arcing from bottom to top
+    var shape = new Shape()
+      .moveTo( 0.5 * width, 0.3 * height + heightOffset )
+      .lineTo( 0.5 * width, 1 * height - radius )
+      .arc( 0.5 * width - radius, 1 * height - radius, radius, 0, Math.PI / 2 )
+      .lineTo( -0.5 * width + radius, 1 * height )
+      .arc( -0.5 * width + radius, 1 * height - radius, radius, Math.PI / 2, Math.PI )
+      .lineTo( -0.5 * width, 0.3 * height + heightOffset )
+      .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
+
+    // save the coordinates for the point above the left side arc, for use on the other side
+    var sideArcPoint = shape.getLastPoint();
+
+    shape.lineTo( 0, 0 )
+      .lineTo( -sideArcPoint.x, sideArcPoint.y )
+      .arc( 0.5 * width - radius, 0.3 * height + heightOffset, radius, -angle, 0 )
+      .close();
+
+    Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
+
+    // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
+    var bounds = shape.computeBounds().copy();
+    if ( pointerAreasOverTrack ) {
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY - trackHeight, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY + trackHeight );
+      this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
+    }
+
+    // don't extend above the thumb so that we don't encroach on slider track if pointerAreasOverTrack is false
+    else {
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
+    }
+  }
+
+  sceneryPhet.register( 'WavelengthSlider.Thumb', Thumb );
+
+  inherit( Path, Thumb );
+
+  /**
+   * Displays the value and units.
+   * @param property
+   * @param {string} font
+   * @param {string} fill
+   * @constructor
+   */
+  function ValueDisplay( property, font, fill ) {
+    var thisNode = this;
+    Text.call( this, '?', { font: font, fill: fill } );
+    property.link( function( value ) {
+      thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
+    } );
+  }
+
+  sceneryPhet.register( 'WavelengthSlider.ValueDisplay', ValueDisplay );
+
+  inherit( Text, ValueDisplay );
+
+  /**
+   * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
+   * @param {number} width
+   * @param {number} height
+   * @constructor
+   */
+  function Cursor( width, height, stroke ) {
+    Rectangle.call( this, -width / 2, 0, width, height, { stroke: stroke, lineWidth: 1 } );
+  }
+
+  sceneryPhet.register( 'WavelengthSlider.Cursor', Cursor );
+
+  inherit( Rectangle, Cursor );
 
   return inherit( Node, WavelengthSlider, {
 

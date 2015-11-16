@@ -18,6 +18,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var faceWithPointsNodePattern0Sign1PointsString = require( 'string!SCENERY_PHET/FaceWithPointsNode.pattern_0sign_1points' );
@@ -67,6 +68,8 @@ define( function( require ) {
 
     this.setPoints( options.points );
   }
+
+  sceneryPhet.register( 'FaceWithPointsNode', FaceWithPointsNode );
 
   return inherit( Node, FaceWithPointsNode, {
 

@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
@@ -59,6 +60,8 @@ define( function( require ) {
       }
     } );
   }
+
+  sceneryPhet.register( 'CanvasWarningNode', CanvasWarningNode );
 
   return inherit( HBox, CanvasWarningNode );
 } );

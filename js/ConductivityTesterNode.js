@@ -29,6 +29,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var batteryImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
@@ -220,6 +221,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
+
   inherit( Node, ConductivityTesterNode, {
 
     // @public Ensures that this object is eligible for GC
@@ -300,6 +303,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  sceneryPhet.register( 'ConductivityTesterNode.ProbeNode', ProbeNode );
+
   inherit( Node, ProbeNode );
 
   /**
@@ -328,6 +333,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'ConductivityTesterNode.WireNode', WireNode );
 
   inherit( Path, WireNode, {
 

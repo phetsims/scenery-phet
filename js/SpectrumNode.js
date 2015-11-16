@@ -8,12 +8,14 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Slider track that displays the visible spectrum.
@@ -45,7 +47,7 @@ define( function( require ) {
     this.setLocalBounds( new Bounds2( 0, 0, width, height ) );
   }
 
-  inherit( Node, SpectrumNode );
+  sceneryPhet.register( 'SpectrumNode', SpectrumNode );
 
-  return SpectrumNode;
+  return inherit( Node, SpectrumNode );
 } );

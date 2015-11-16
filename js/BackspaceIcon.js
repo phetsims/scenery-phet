@@ -11,6 +11,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -42,6 +43,8 @@ define( function( require ) {
 
     Path.call( this, iconShape, options );
   }
+
+  sceneryPhet.register( 'BackspaceIcon', BackspaceIcon );
 
   return inherit( Path, BackspaceIcon );
 } );

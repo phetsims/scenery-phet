@@ -16,6 +16,7 @@ define( function( require ) {
 
   // modules
   var Color = require( 'SCENERY/util/Color' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // Colors that are used for one or more things in the color scheme.
   var DARK_GREEN = new Color( 0, 200, 0 );
@@ -23,7 +24,7 @@ define( function( require ) {
   var GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
   var TAN_ORANGE = new Color( 236, 153, 55 );
 
-  return {
+  var PhetColorScheme = {
     ACCELERATION: Color.GREEN,
     APPLIED_FORCE: TAN_ORANGE,
     ELASTIC_ENERGY: new Color( 153, 51, 102 ),
@@ -44,4 +45,8 @@ define( function( require ) {
     VELOCITY: RED_COLORBLIND,
     WALL_FORCE: new Color( 153, 51, 0 )
   };
+
+  sceneryPhet.register( 'PhetColorScheme', PhetColorScheme );
+
+  return PhetColorScheme;
 } );

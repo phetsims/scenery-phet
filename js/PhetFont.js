@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
@@ -39,6 +40,8 @@ define( function( require ) {
 
     Font.call( this, options );
   }
+
+  sceneryPhet.register( 'PhetFont', PhetFont );
 
   return inherit( Font, PhetFont );
 } );

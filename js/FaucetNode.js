@@ -35,6 +35,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Timer = require( 'JOIST/Timer' );
   var Property = require( 'AXON/Property' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -59,73 +60,6 @@ define( function( require ) {
   var SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in trackImage
   var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
   var TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
-
-  /**
-   * The 'shooter' is the interactive part of the faucet.
-   * It's a relatively complicated node, so it's encapsulated in this nested type.
-   *
-   * @param {Property.<boolean>} enabledProperty
-   * @param {Object} [options] - optional configuration, see constructor
-   * @constructor
-   */
-  function ShooterNode( enabledProperty, options ) {
-
-    options = _.extend( {
-      knobScale: 1
-    }, options );
-
-    // knob
-    var knobNode = new Image( knobImage );
-    var dx = 0.5 * knobNode.width;
-    var dy = 0.5 * knobNode.height;
-    knobNode.touchArea = Shape.rectangle( -dx, -dy, knobNode.width + dx + dx, knobNode.height + dy + dy ); // before scaling!
-    knobNode.scale( options.knobScale );
-    var knobDisabledNode = new Image( knobDisabledImage );
-    knobDisabledNode.scale( knobNode.getScaleVector() );
-
-    // shaft
-    var shaftNode = new Image( shaftImage );
-
-    // flange
-    var flangeNode = new Image( flangeImage );
-    var flangeDisabledNode = new Image( flangeDisabledImage );
-
-    // stop
-    var stopNode = new Image( stopImage );
-
-    Node.call( this, { children: [ shaftNode, stopNode, flangeNode, flangeDisabledNode, knobNode, knobDisabledNode ] } );
-
-    // layout, relative to shaft
-    stopNode.x = shaftNode.x + 13;
-    stopNode.centerY = shaftNode.centerY;
-    flangeNode.left = shaftNode.right - 1; // a bit of overlap
-    flangeNode.centerY = shaftNode.centerY;
-    flangeDisabledNode.translation = flangeNode.translation;
-    knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
-    knobNode.centerY = flangeNode.centerY;
-    knobDisabledNode.translation = knobNode.translation;
-
-    var enabledObserver = function( enabled ) {
-      // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
-      knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
-      knobNode.visible = enabled;
-      knobDisabledNode.visible = !enabled;
-      flangeNode.visible = enabled;
-      flangeDisabledNode.visible = !enabled;
-    };
-    enabledProperty.link( enabledObserver );
-
-    // @private called by dispose
-    this.disposeShooterNode = function() {
-      enabledProperty.unlink( enabledObserver );
-    };
-  }
-
-  inherit( Node, ShooterNode, {
-
-    // @public
-    dispose: function() { this.disposeShooterNode(); }
-  } );
 
   /**
    *
@@ -362,6 +296,77 @@ define( function( require ) {
       options.tandem && options.tandem.removeInstance( this );
     };
   }
+
+  sceneryPhet.register( 'FaucetNode', FaucetNode );
+
+  /**
+   * The 'shooter' is the interactive part of the faucet.
+   * It's a relatively complicated node, so it's encapsulated in this nested type.
+   *
+   * @param {Property.<boolean>} enabledProperty
+   * @param {Object} [options] - optional configuration, see constructor
+   * @constructor
+   */
+  function ShooterNode( enabledProperty, options ) {
+
+    options = _.extend( {
+      knobScale: 1
+    }, options );
+
+    // knob
+    var knobNode = new Image( knobImage );
+    var dx = 0.5 * knobNode.width;
+    var dy = 0.5 * knobNode.height;
+    knobNode.touchArea = Shape.rectangle( -dx, -dy, knobNode.width + dx + dx, knobNode.height + dy + dy ); // before scaling!
+    knobNode.scale( options.knobScale );
+    var knobDisabledNode = new Image( knobDisabledImage );
+    knobDisabledNode.scale( knobNode.getScaleVector() );
+
+    // shaft
+    var shaftNode = new Image( shaftImage );
+
+    // flange
+    var flangeNode = new Image( flangeImage );
+    var flangeDisabledNode = new Image( flangeDisabledImage );
+
+    // stop
+    var stopNode = new Image( stopImage );
+
+    Node.call( this, { children: [ shaftNode, stopNode, flangeNode, flangeDisabledNode, knobNode, knobDisabledNode ] } );
+
+    // layout, relative to shaft
+    stopNode.x = shaftNode.x + 13;
+    stopNode.centerY = shaftNode.centerY;
+    flangeNode.left = shaftNode.right - 1; // a bit of overlap
+    flangeNode.centerY = shaftNode.centerY;
+    flangeDisabledNode.translation = flangeNode.translation;
+    knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
+    knobNode.centerY = flangeNode.centerY;
+    knobDisabledNode.translation = knobNode.translation;
+
+    var enabledObserver = function( enabled ) {
+      // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
+      knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
+      knobNode.visible = enabled;
+      knobDisabledNode.visible = !enabled;
+      flangeNode.visible = enabled;
+      flangeDisabledNode.visible = !enabled;
+    };
+    enabledProperty.link( enabledObserver );
+
+    // @private called by dispose
+    this.disposeShooterNode = function() {
+      enabledProperty.unlink( enabledObserver );
+    };
+  }
+
+  sceneryPhet.register( 'FaucetNode.ShooterNode', ShooterNode );
+
+  inherit( Node, ShooterNode, {
+
+    // @public
+    dispose: function() { this.disposeShooterNode(); }
+  } );
 
   return inherit( Node, FaucetNode, {
 

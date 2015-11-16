@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} radius
@@ -38,6 +39,8 @@ define( function( require ) {
     this.centerY = radius;
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'SimpleClockIcon', SimpleClockIcon );
 
   return inherit( Node, SimpleClockIcon );
 } );

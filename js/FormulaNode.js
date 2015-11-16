@@ -16,9 +16,11 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var DOM = require( 'SCENERY/nodes/DOM' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @constructor
@@ -45,6 +47,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'FormulaNode', FormulaNode );
 
   inherit( DOM, FormulaNode, {
     // @override - We need to have a fairly custom bounds measurement method, since it's a block-level element

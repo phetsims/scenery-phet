@@ -18,6 +18,7 @@ define( function( require ) {
   var GroundNode = require( 'SCENERY_PHET/GroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} centerX
@@ -49,6 +50,8 @@ define( function( require ) {
     // ground
     this.addChild( new GroundNode( centerX - width / 2, centerY, width, groundDepth, centerY + options.groundGradientDepth ) );
   }
+
+  sceneryPhet.register( 'OutsideBackgroundNode', OutsideBackgroundNode );
 
   return inherit( Node, OutsideBackgroundNode );
 } );

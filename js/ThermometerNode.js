@@ -19,6 +19,7 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
@@ -150,6 +151,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'ThermometerNode', ThermometerNode );
 
   return inherit( Node, ThermometerNode );
 } );

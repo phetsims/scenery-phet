@@ -14,6 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Util = require( 'DOT/Util' );
   var Line = require( 'KITE/segments/Line' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -132,6 +133,8 @@ define( function( require ) {
       this.lineTo( highlightedPoints[ i ].x, highlightedPoints[ i ].y );
     }
   }
+
+  sceneryPhet.register( 'StarShape', StarShape );
 
   return inherit( Shape, StarShape );
 } );

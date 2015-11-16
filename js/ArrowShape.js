@@ -17,6 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    *
@@ -55,6 +56,8 @@ define( function( require ) {
       this.close();
     }
   }
+
+  sceneryPhet.register( 'ArrowShape', ArrowShape );
 
   return inherit( Shape, ArrowShape, {}, {
 

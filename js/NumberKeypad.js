@@ -20,6 +20,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -127,6 +128,8 @@ define( function( require ) {
     // Pass options through to parent class
     this.mutate( options );
   }
+
+  sceneryPhet.register( 'NumberKeypad', NumberKeypad );
 
   // convenience function for creating the buttons that act as the individual keys
   function createNumberKey( number, parentKeypad, buttonSpec ) {

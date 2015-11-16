@@ -17,7 +17,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  // strings
   var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
   var webglWarningIe11StencilBodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
 
@@ -60,6 +62,8 @@ define( function( require ) {
       }
     } );
   }
+
+  sceneryPhet.register( 'IE11StencilWarningNode', IE11StencilWarningNode );
 
   return inherit( HBox, IE11StencilWarningNode );
 } );
