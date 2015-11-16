@@ -335,8 +335,13 @@ define( function( require ) {
 
     // @public Ensures that this node is eligible for GC.
     dispose: function() {
+
+      this.upEnabledProperty.unlinkAll(); // Property is owned by this instance
       this.upEnabledProperty.dispose();
+
+      this.downEnabledProperty.unlinkAll(); // Property is owned by this instance
       this.downEnabledProperty.dispose();
+
       this.valueProperty.unlink( this.valueObserver );
     },
 
