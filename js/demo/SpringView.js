@@ -16,6 +16,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @constructor
@@ -86,6 +87,8 @@ define( function( require ) {
       bottom: controls.top - 10
     } ) );
   }
+
+  sceneryPhet.register( 'SpringView', SpringView );
 
   return inherit( ScreenView, SpringView );
 } );

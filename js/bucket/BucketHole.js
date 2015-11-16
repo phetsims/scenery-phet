@@ -6,18 +6,20 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Matrix3 = require( 'DOT/Matrix3' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  var BucketHole = function BucketHole( bucket, modelViewTransform ) {
+  function BucketHole( bucket, modelViewTransform ) {
     Node.call( this );
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
@@ -34,9 +36,9 @@ define( function( require ) {
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
-  };
+  }
 
-  inherit( Node, BucketHole );
+  sceneryPhet.register( 'BucketHole', BucketHole );
 
-  return BucketHole;
+  return inherit( Node, BucketHole );
 } );

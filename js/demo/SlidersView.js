@@ -20,6 +20,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Text = require( 'SCENERY/nodes/Text' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
@@ -49,6 +50,9 @@ define( function( require ) {
     } );
   };
 
+  /**
+   * @constructor
+   */
   function SlidersView() {
     DemosView.call( this, 'slider', [
 
@@ -59,6 +63,8 @@ define( function( require ) {
       { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
     ] );
   }
+
+  sceneryPhet.register( 'SlidersView', SlidersView );
 
   return inherit( DemosView, SlidersView );
 } );

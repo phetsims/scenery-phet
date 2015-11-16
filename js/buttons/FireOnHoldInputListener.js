@@ -13,6 +13,7 @@ define( function( require ) {
   var CallbackTimer = require( 'SUN/CallbackTimer' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -66,6 +67,8 @@ define( function( require ) {
       }
     } );
   }
+
+  sceneryPhet.register( 'FireOnHoldInputListener', FireOnHoldInputListener );
 
   return inherit( DownUpListener, FireOnHoldInputListener, {
 

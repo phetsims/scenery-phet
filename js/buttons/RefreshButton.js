@@ -18,6 +18,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var DEFAULT_ICON_WIDTH = 24;
@@ -77,6 +78,8 @@ define( function( require ) {
 
     RectangularPushButton.call( this, _.extend( { content: refreshIconNode }, options ) );
   }
+
+  sceneryPhet.register( 'RefreshButton', RefreshButton );
 
   return inherit( RectangularPushButton, RefreshButton );
 } );

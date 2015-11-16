@@ -15,6 +15,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 20;
@@ -87,6 +88,8 @@ define( function( require ) {
 
     RectangularPushButton.call( thisButton, options );
   }
+
+  sceneryPhet.register( 'ArrowButton', ArrowButton );
 
   return inherit( RectangularPushButton, ArrowButton );
 } );

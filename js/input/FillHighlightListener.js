@@ -12,6 +12,7 @@ define( function( require ) {
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Color|string} normalFill
@@ -30,7 +31,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( HighlightListener, FillHighlightListener );
+  sceneryPhet.register( 'FillHighlightListener', FillHighlightListener );
 
-  return FillHighlightListener;
+  return inherit( HighlightListener, FillHighlightListener );
 } );

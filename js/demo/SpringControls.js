@@ -19,6 +19,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VSeparator = require( 'SUN/VSeparator' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings - no need for i18n since this is a developer-only demo
   var aspectRatioString = 'aspect ratio:';
@@ -146,6 +147,8 @@ define( function( require ) {
 
     Panel.call( this, content, options );
   }
+
+  sceneryPhet.register( 'SpringControls', SpringControls );
 
   return inherit( Panel, SpringControls );
 } );

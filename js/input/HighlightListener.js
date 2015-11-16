@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {Boolean} indicating whether to highlight
@@ -33,7 +34,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( ButtonListener, HighlightListener );
+  sceneryPhet.register( 'HighlightListener', HighlightListener );
 
-  return HighlightListener;
+  return inherit( ButtonListener, HighlightListener );
 } );

@@ -18,12 +18,11 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   var DEFAULT_RADIUS = 28;
 
-  /*
-   * PlayPauseButton constructor
-   *
+  /**
    * @param {Property.<boolean>} runningProperty property that represents whether the sim is paused or not
    * @param {Object} [options] node options
    * @constructor
@@ -60,6 +59,8 @@ define( function( require ) {
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, runningProperty, options );
   }
+
+  sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );
 
   return inherit( BooleanRoundToggleButton, PlayPauseButton );
 } );

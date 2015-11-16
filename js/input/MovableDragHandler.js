@@ -14,6 +14,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Events = require( 'AXON/Events' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<Vector2>} locationProperty - in model coordinate frame
@@ -93,6 +94,8 @@ define( function( require ) {
       end: this.movableDragHandlerEnd
     } );
   }
+
+  sceneryPhet.register( 'MovableDragHandler', MovableDragHandler );
 
   return inherit( SimpleDragHandler, MovableDragHandler, {
 

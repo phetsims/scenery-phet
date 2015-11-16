@@ -12,6 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
@@ -33,6 +34,8 @@ define( function( require ) {
 
     RectangularPushButton.call( this, options );
   }
+
+  sceneryPhet.register( 'EraserButton', EraserButton );
 
   return inherit( RectangularPushButton, EraserButton );
 } );

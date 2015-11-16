@@ -16,6 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var DEFAULT_RADIUS = 20;
@@ -56,6 +57,8 @@ define( function( require ) {
 
     enabledProperty.link( function( value ) { stepButton.enabled = !value; } );
   }
+
+  sceneryPhet.register( 'StepButton', StepButton );
 
   return inherit( RoundPushButton, StepButton );
 } );

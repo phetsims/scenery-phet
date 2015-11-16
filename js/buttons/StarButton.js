@@ -14,6 +14,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -28,6 +29,8 @@ define( function( require ) {
 
     RectangularPushButton.call( this, _.extend( { content: new Path( new StarShape(), { fill: 'black' } ) }, options ) );
   }
+
+  sceneryPhet.register( 'StarButton', StarButton );
 
   return inherit( RectangularPushButton, StarButton );
 } );

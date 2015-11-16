@@ -20,11 +20,15 @@ define( function( require ) {
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var BUTTON_CAPTION_FONT = new PhetFont( 12 );
   var BUTTON_CAPTION_SPACING = 10; // space between buttons and their captions
 
+  /**
+   * @constructor
+   */
   function ButtonsView() {
     ScreenView.call( this );
 
@@ -93,6 +97,8 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
   }
+
+  sceneryPhet.register( 'ButtonsView', ButtonsView );
 
   return inherit( ScreenView, ButtonsView );
 } );

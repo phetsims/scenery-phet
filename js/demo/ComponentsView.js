@@ -46,7 +46,11 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  /**
+   * @constructor
+   */
   function ComponentsView() {
     DemosView.call( this, 'component', [
 
@@ -67,6 +71,8 @@ define( function( require ) {
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ] );
   }
+
+  sceneryPhet.register( 'ComponentsView', ComponentsView );
 
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {

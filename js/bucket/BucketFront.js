@@ -15,6 +15,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Constructor.
@@ -24,7 +25,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  var BucketFront = function BucketFront( bucket, modelViewTransform, options ) {
+  function BucketFront( bucket, modelViewTransform, options ) {
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );
@@ -58,10 +59,9 @@ define( function( require ) {
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
-  };
+  }
 
-  // Inherit from base type.
-  inherit( Node, BucketFront );
+  sceneryPhet.register( 'BucketFront', BucketFront );
 
-  return BucketFront;
+  return inherit( Node, BucketFront );
 } );

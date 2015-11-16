@@ -17,6 +17,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
@@ -86,6 +87,8 @@ define( function( require ) {
       }
     }, options ) );
   }
+
+  sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
   return inherit( RoundPushButton, ResetAllButton );
 } );

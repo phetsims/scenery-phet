@@ -16,6 +16,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -45,6 +46,8 @@ define( function( require ) {
       content: new Path( arrowShape, { fill: 'black' } )
     }, options ) );
   }
+
+  sceneryPhet.register( 'BackButton', BackButton );
 
   return inherit( RectangularPushButton, BackButton );
 } );

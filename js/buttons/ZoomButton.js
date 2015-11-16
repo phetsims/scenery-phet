@@ -17,9 +17,9 @@ define( function( require ) {
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var Line = require( 'SCENERY/nodes/Line' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   *
    * @param {Object} [options]
    * @constructor
    */
@@ -55,6 +55,8 @@ define( function( require ) {
 
     RectangularPushButton.call( this, options );
   }
+
+  sceneryPhet.register( 'ZoomButton', ZoomButton );
 
   return inherit( RectangularPushButton, ZoomButton );
 } );

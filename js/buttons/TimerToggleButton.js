@@ -16,6 +16,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var WIDTH = 45;
@@ -63,6 +64,8 @@ define( function( require ) {
         yMargin: MARGIN
       }, options ) );
   }
+
+  sceneryPhet.register( 'TimerToggleButton', TimerToggleButton );
 
   return inherit( BooleanRectangularToggleButton, TimerToggleButton );
 } );

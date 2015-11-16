@@ -19,6 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var WIDTH = 45;
@@ -81,6 +82,8 @@ define( function( require ) {
       soundToggleButton.textDescription = 'Sound Checkbox (' + checkedText + ')';
     } );
   }
+
+  sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );
 
   return inherit( BooleanRectangularToggleButton, SoundToggleButton );
 } );
