@@ -85,12 +85,6 @@ define( function( require ) {
       this.pointsNode.visible = false;
     },
 
-    // @public
-    grimace: function() {
-      this.faceNode.grimace();
-      this.pointsNode.visible = false;
-    },
-
     // @public sets the number of {number} points
     setPoints: function( points ) {
       if ( points === 0 && !this.showZeroPoints ) {
