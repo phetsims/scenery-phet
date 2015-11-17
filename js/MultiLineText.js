@@ -69,7 +69,7 @@ define( function( require ) {
           // create a blank line between consecutive line breaks
           if ( line.length === 0 ) { line = ' '; }
 
-          return new Text( line, _.omit( thisNode.options, 'align' ) );
+          return new Text( line, _.omit( thisNode.options, 'align', 'maxWidth' ) );
         } );
 
         // determine where the textParent was, so we can maintain rendering order
