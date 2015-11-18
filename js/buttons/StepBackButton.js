@@ -30,11 +30,11 @@ define( function( require ) {
   /**
    *
    * @param stepFunction
-   * @param {Property.<boolean>} playProperty
+   * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
    */
-  function StepBackButton( stepFunction, playProperty, options ) {
+  function StepBackButton( stepFunction, enabledProperty, options ) {
     var stepBackButton = this;
     options = _.extend( {
       radius: DEFAULT_RADIUS,
@@ -60,7 +60,7 @@ define( function( require ) {
     }, options ) );
     this.enabled = false;
 
-    playProperty.link( function( value ) { stepBackButton.enabled = !value; } );
+    enabledProperty.link( function( value ) { stepBackButton.enabled = value; } );
   }
 
   sceneryPhet.register( 'StepBackButton', StepBackButton );
