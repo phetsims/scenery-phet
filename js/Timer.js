@@ -78,7 +78,7 @@ define( function( require ) {
      * Buttons
      *----------------------------------------------------------------------------*/
     var resetAllShape = new UTurnArrowShape( 10 );
-    var playPauseHeight = resetAllShape.computeBounds().height;
+    var playPauseHeight = resetAllShape.bounds.height;
     var playPauseWidth = playPauseHeight;
     var halfPlayStroke = 0.05 * playPauseWidth;
     var playOffset = 0.15 * playPauseWidth;

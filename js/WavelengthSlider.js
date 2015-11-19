@@ -260,7 +260,7 @@ define( function( require ) {
     Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
 
     // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
-    var bounds = shape.computeBounds().copy();
+    var bounds = shape.bounds.copy();
     if ( pointerAreasOverTrack ) {
       this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY - trackHeight, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY + trackHeight );
       this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
