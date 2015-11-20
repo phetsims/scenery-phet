@@ -21,6 +21,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   /**
    *
@@ -64,7 +65,7 @@ define( function( require ) {
 
         // parse the text and create {Text[]}
         var thisNode = this;
-        var textNodes = text.split( '\n' ).map( function( line ) {
+        var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
 
           // create a blank line between consecutive line breaks
           if ( line.length === 0 ) { line = ' '; }
