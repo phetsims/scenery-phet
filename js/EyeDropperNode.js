@@ -82,16 +82,15 @@ define( function( require ) {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    // @public but only so it can be accessed for together instrumentation
-    this.button = new RoundMomentaryButton( this.dispensingProperty, {
+    var button = new RoundMomentaryButton( this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
       tandem: options.tandem && options.tandem.createTandem( 'button' )
     } );
-    this.enabledProperty.link( function( enabled ) { thisNode.button.enabled = enabled; } );
-    this.button.touchArea = Shape.circle( 0, 0, ( this.button.width / 2 ) + options.buttonTouchAreaDilation );
-    this.button.centerX = foreground.centerX;
-    this.button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
+    this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
+    button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
+    button.centerX = foreground.centerX;
+    button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
     // make the background visible only when the dropper is empty
     this.emptyProperty.link( function( empty ) {
@@ -99,7 +98,7 @@ define( function( require ) {
       background.visible = empty;
     } );
 
-    options.children = [ this.fluidNode, background, foreground, this.button ];
+    options.children = [ this.fluidNode, background, foreground, button ];
 
     // add a red dot at the origin
     if ( DEBUG_ORIGIN ) {
