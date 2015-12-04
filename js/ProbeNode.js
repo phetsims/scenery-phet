@@ -120,7 +120,7 @@ define( function( require ) {
     var neckCornerRadius = 10;
 
     // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
-    // Note: This elliptical arc must match the ellipticalArc call below 
+    // Note: This elliptical arc must match the ellipticalArc call below
     var ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false ).start;
 
     var createShape = function() {
@@ -157,24 +157,24 @@ define( function( require ) {
     var center = sensorShape.bounds.center;
     var v1 = Vector2.createPolar( 1, lightAngle );
     var intersections = sensorShape.intersection( new Ray2( center, v1 ) );
-    var gradientSource = intersections[ intersections.length - 1 ].point.plus( v1.timesScalar( 10 ) );
+    var gradientSource = intersections[ intersections.length - 1 ].point.plus( v1.timesScalar( 1 ) );
 
     var v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
     var intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
-    var gradientDestination = intersections2[ intersections2.length - 1 ].point.plus( v2.timesScalar( 10 ) );
+    var gradientDestination = intersections2[ intersections2.length - 1 ].point.plus( v2.timesScalar( 1 ) );
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( -0.1 ).withAlpha( 0.7 ) ) // dark
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ).withAlpha( 0.7 ) ), // darker
+        .addColorStop( 0.0, color.colorUtilsBrightness( 0.7 ) ) // highlight
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.5 ) ), // shadow
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( -0.2 ) ) // light
-        .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) ) // light
-        .addColorStop( 0.07, color.colorUtilsBrightness( +0.4 ) ) // light
-        .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) ) // light
-        .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) ) // medium light
-        .addColorStop( 0.8, color.colorUtilsBrightness( -0.125 ) ) // less light
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.25 ) ), // less light
+        .addColorStop( 0.0, color.colorUtilsBrightness( +0.5 ) ) // highlight
+        .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) )
+        .addColorStop( 0.07, color.colorUtilsBrightness( +0.4 ) )
+        .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) )
+        .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) )
+        .addColorStop( 0.8, color.colorUtilsBrightness( -0.2 ) ) // shadows
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.3 ) ),
       lineWidth: 2
     } );
 
@@ -196,20 +196,11 @@ define( function( require ) {
       children.push( options.sensorTypeFunction( radius ) );
     }
 
-    // Curved highlighting from the light source
-    var curvedHighlightPath = new Path( sensorShape, {
-      stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ) // light
-        .addColorStop( 0.05, new Color( 'white' ).withAlpha( 0.5 ) ) // light
-        .addColorStop( 0.2, color.colorUtilsBrightness( +0.4 ).withAlpha( 0 ) ), // light
-      lineWidth: 3,
-      scale: new Vector2( 0.93, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) )
-    } );
-
     children.push(
       outerShapePath,
-      innerPath,
-      curvedHighlightPath
+      innerPath
+      //new Circle( 3, { center: gradientSource, fill: 'blue' } ),
+      //new Circle( 3, { center: gradientDestination, fill: 'red' } )
     );
 
     Node.call( this, {
