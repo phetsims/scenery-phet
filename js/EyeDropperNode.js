@@ -82,7 +82,7 @@ define( function( require ) {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    var button = new RoundMomentaryButton( this.dispensingProperty, {
+    var button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
       tandem: options.tandem && options.tandem.createTandem( 'button' )
