@@ -91,7 +91,7 @@ define( function( require ) {
     var minorTickLinesShape = new Shape();
 
     // Units label, which is positioned and (if necessary) scaled later
-    var unitsLabel = new Text( units, { font: options.unitsFont } );
+    var unitsLabel = new Text( units, { font: options.unitsFont, pickable: false } );
     var unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
     this.addChild( unitsLabel );
 
@@ -106,7 +106,8 @@ define( function( require ) {
         var majorTickLabelNode = new Text( majorTickLabel, {
           font: options.majorTickFont,
           centerX: x,
-          centerY: backgroundNode.centerY
+          centerY: backgroundNode.centerY,
+          pickable: false
         } );
 
         // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
@@ -165,13 +166,15 @@ define( function( require ) {
     // Major tick lines
     this.addChild( new Path( majorTickLinesShape, {
       stroke: options.majorTickStroke,
-      lineWidth: options.majorTickLineWidth
+      lineWidth: options.majorTickLineWidth,
+      pickable: false
     } ) );
 
     // Minor tick lines
     this.addChild( new Path( minorTickLinesShape, {
       stroke: options.minorTickStroke,
-      lineWidth: options.minorTickLineWidth
+      lineWidth: options.minorTickLineWidth,
+      pickable: false
     } ) );
 
     this.mutate( options );

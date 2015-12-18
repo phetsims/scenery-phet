@@ -90,8 +90,8 @@ define( function( require ) {
     var bottomOffset = lightFromTop ? darkOffset : lightOffset;
 
     // we layer two gradients on top of each other as the base (using the same rounded rectangle shape)
-    var horizontalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {} );
-    var verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {} );
+    var horizontalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
+    var verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
 
     horizontalNode.fill = new LinearGradient( horizontalNode.left, 0, horizontalNode.right, 0 )
       .addColorStop( 0, leftColor )
@@ -127,7 +127,8 @@ define( function( require ) {
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, baseColor )
         .addColorStop( 1 - lightOffset / cornerRadius, baseColor )
-        .addColorStop( 1, lighterColor )
+        .addColorStop( 1, lighterColor ),
+      pickable: false
     } );
 
     // since both the bottom and right are "darker", we have a rounded gradient along that corner
@@ -138,7 +139,8 @@ define( function( require ) {
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, baseColor )
         .addColorStop( 1 - darkOffset / cornerRadius, baseColor )
-        .addColorStop( 1, darkerColor )
+        .addColorStop( 1, darkerColor ),
+      pickable: false
     } );
 
     // the stroke around the outside
@@ -151,7 +153,7 @@ define( function( require ) {
     this.addChild( verticalNode );
     this.addChild( lightCorner );
     this.addChild( darkCorner );
-    this.addChild( panelStroke );
+    this.addChild( panelStroke ); // NOTE: this is the pickable child used for hit testing. Ensure something is pickable.
 
     this.mutate( options );
   }

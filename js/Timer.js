@@ -59,7 +59,8 @@ define( function( require ) {
       children: [
         bigReadoutText,
         smallReadoutText
-      ]
+      ],
+      pickable: false
     } );
     readoutText.centerX = 0;
 
@@ -68,7 +69,8 @@ define( function( require ) {
      *----------------------------------------------------------------------------*/
     var textBackground = Rectangle.roundedBounds( readoutText.bounds.dilatedXY( 5, 2 ), 5, 5, {
       fill: '#fff',
-      stroke: 'rgba(0,0,0,0.5)'
+      stroke: 'rgba(0,0,0,0.5)',
+      pickable: false
     } );
 
     var paddingBetweenItems = 6;
