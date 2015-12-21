@@ -142,11 +142,15 @@ define( function( require ) {
     };
 
     // track interactivity
+    // TODO: Other tracks continue to drag instead of just setting a single value, why not this?
     track.cursor = 'pointer';
     track.addInputListener( {
       down: function( event ) {
         var x = track.globalToParentPoint( event.pointer.point ).x;
-        wavelength.set( positionToWavelength( x ) );
+        var newValue = positionToWavelength( x );
+        thisNode.trigger1( 'startedCallbacksForTrackDragStarted', newValue );
+        wavelength.set( newValue );
+        thisNode.trigger0( 'endedCallbacksForTrackDragStarted' );
       }
     } );
 
