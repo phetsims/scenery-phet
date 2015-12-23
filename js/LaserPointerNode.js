@@ -1,7 +1,7 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A laser pointer, with on/off button.
+ * A laser pointer, with on/off button (toggle or momentary).
  * Default orientation is pointing to the right. Origin is at right center.
  *
  * @author Chris Malley (PixelZoom, Inc.)
