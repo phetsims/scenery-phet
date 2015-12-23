@@ -13,11 +13,11 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var modelsOfTheHydrogenAtom = require( 'MODELS_OF_THE_HYDROGEN_ATOM/modelsOfTheHydrogenAtom' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
@@ -40,7 +40,10 @@ define( function( require ) {
       buttonType: 'toggle', // {string} 'toggle'|'momentary'
       buttonColor: 'red',
       buttonRadius: 22,
-      buttonTouchExpansion: 15
+      buttonTouchExpansion: 15,
+
+      // PhET-io
+      tandem: null
 
     }, options );
 
@@ -75,23 +78,29 @@ define( function( require ) {
       radius: options.buttonRadius,
       touchExpansion: options.buttonTouchExpansion,
       baseColor: options.buttonColor,
-      center: bodyNode.center
+      center: bodyNode.center,
+      tandem: options.tandem ? options.tandem.createTandem( 'button' ) : null
     };
     // @private
     this.button = ( options.buttonType === 'toggle' ) ?
                  new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
                  new RoundMomentaryButton( false, true, onProperty, buttonOptions );
 
-    // @private called by dispose
-    this.disposeLaserPointerNode = function() {
-      this.button.dispose();
-    };
-
     options.children = [ nozzleNode, bodyNode, this.button ];
     Node.call( this, options );
+
+    this.tandem = options.tandem; // @private
+    this.tandem && this.tandem.addInstance( this );
+
+    // @private called by dispose
+    var thisNode = this;
+    this.disposeLaserPointerNode = function() {
+      thisNode.button.dispose();
+      thisNode.tandem && thisNode.tandem.removeInstance( thisNode );
+    };
   }
 
-  modelsOfTheHydrogenAtom.register( 'LaserPointerNode', LaserPointerNode );
+  sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
 
   return inherit( Node, LaserPointerNode, {
 
