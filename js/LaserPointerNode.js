@@ -29,9 +29,10 @@ define( function( require ) {
     options = _.extend( {
 
       // nozzle and body options
-      bodySize: new Dimension2( 78, 110 ),
-      nozzleSize: new Dimension2( 60, 20 ),
-      baseColor: 'rgb( 50, 50, 50 )',
+      bodySize: new Dimension2( 110, 78 ),
+      nozzleSize: new Dimension2( 20, 60 ),
+      topColor: 'rgb( 170, 170, 170 )',
+      bottomColor: 'rgb( 40, 40, 40 )',
       highlightColor: 'rgb( 245, 245, 245 )',
       stroke: 'black',
       cornerRadius: 5,
@@ -54,23 +55,25 @@ define( function( require ) {
     // the narrow part that the light will come out of
     var nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
       cornerRadius: options.cornerRadius,
-      fill: new LinearGradient( 0, 0, options.nozzleSize.width, 0 )
-        .addColorStop( 0, options.baseColor )
+      fill: new LinearGradient( 0, 0, 0, options.nozzleSize.height )
+        .addColorStop( 0, options.topColor )
         .addColorStop( 0.3, options.highlightColor )
-        .addColorStop( 1, options.baseColor ),
-      stroke: options.stroke
+        .addColorStop( 1, options.bottomColor ),
+      stroke: options.stroke,
+      right: 0,
+      centerY: 0
     } );
 
     // the main body of the laser pointer
     var bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
       cornerRadius: options.cornerRadius,
-      fill: new LinearGradient( 0, 0, options.bodySize.width, 0 )
-        .addColorStop( 0, options.baseColor )
+      fill: new LinearGradient( 0, 0, 0, options.bodySize.height )
+        .addColorStop( 0, options.topColor )
         .addColorStop( 0.3, options.highlightColor )
-        .addColorStop( 1, options.baseColor ),
+        .addColorStop( 1, options.bottomColor ),
       stroke: options.stroke,
-      centerX: nozzleNode.centerX,
-      top: nozzleNode.bottom - options.cornerRadius // overlap to hide corner radius
+      right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
+      centerY: nozzleNode.centerY
     } );
 
     // the button that controls whether the laser is on or off
