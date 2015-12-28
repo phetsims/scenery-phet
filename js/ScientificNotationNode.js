@@ -73,9 +73,9 @@ define( function( require ) {
 
       //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
       // start will all nodes included
-      if ( !this.isChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
-      if ( !this.isChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
-      if ( !this.isChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
+      if ( !this.hasChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
+      if ( !this.hasChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
+      if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
 
       if ( value === null ) {
         // show '-'
