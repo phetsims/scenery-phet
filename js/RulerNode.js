@@ -113,8 +113,10 @@ define( function( require ) {
         // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
         if ( options.insetsWidth !== 0 || ( i !== 0 && i !== numberOfTicks - 1 ) ) {
 
-          // label
-          this.addChild( majorTickLabelNode );
+          // label, only added as a child if it's non-empty (and non-null)
+          if ( majorTickLabel ) {
+            this.addChild( majorTickLabelNode );
+          }
 
           // line
           if ( options.tickMarksOnTop ) {
