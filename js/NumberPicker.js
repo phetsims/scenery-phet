@@ -208,29 +208,30 @@ define( function( require ) {
 
     // up
     upParent.addInputListener( new ButtonStateListener( upStateProperty ) );
-    var upListener = new FireOnHoldInputListener( {
+    this.upListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
       },
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
     } );
-    upParent.addInputListener( upListener );
+    upParent.addInputListener( this.upListener );
 
     // down
     downParent.addInputListener( new ButtonStateListener( downStateProperty ) );
-    var downListener = new FireOnHoldInputListener( {
+    // @private
+    this.downListener = new FireOnHoldInputListener( {
       listener: function() {
         valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
       },
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
     } );
-    downParent.addInputListener( downListener );
+    downParent.addInputListener( this.downListener );
 
     // enable/disable listeners: unlink unnecessary, properties are owned by this instance
-    this.upEnabledProperty.link( function( enabled ) { upListener.enabled = enabled; } );
-    this.downEnabledProperty.link( function( enabled ) { downListener.enabled = enabled; } );
+    this.upEnabledProperty.link( function( enabled ) { thisNode.upListener.enabled = enabled; } );
+    this.downEnabledProperty.link( function( enabled ) { thisNode.downListener.enabled = enabled; } );
 
     // @private Update text to match the value
     this.valueObserver = function( value ) {
@@ -347,6 +348,8 @@ define( function( require ) {
 
     // @public
     setArrowsVisible: function( visible ) {
+      this.upListener.setEnabled( visible );
+      this.downListener.setEnabled( visible );
       this.upArrow.visible = this.downArrow.visible = visible;
     }
   } );
