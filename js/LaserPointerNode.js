@@ -86,8 +86,8 @@ define( function( require ) {
     };
     // @private
     this.button = ( options.buttonType === 'toggle' ) ?
-                 new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
-                 new RoundMomentaryButton( false, true, onProperty, buttonOptions );
+                  new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
+                  new RoundMomentaryButton( false, true, onProperty, buttonOptions );
 
     options.children = [ nozzleNode, bodyNode, this.button ];
     Node.call( this, options );
@@ -117,9 +117,7 @@ define( function( require ) {
      * @param {boolean} value
      * @public
      */
-    setEnabled: function( value ) {
-      this.button.enabled = value;
-    },
+    setEnabled: function( value ) { this.button.enabled = value; },
     set enabled( value ) { this.setEnabled( value ); },
 
     /**
