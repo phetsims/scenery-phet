@@ -2,7 +2,7 @@
 
 /**
  * A laser pointer, with on/off button (toggle or momentary).
- * Default orientation is pointing to the right. Origin is at right center.
+ * Default orientation is pointing to the right. Origin is at right center (the edge of the output nozzle).
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -84,6 +84,7 @@ define( function( require ) {
       center: bodyNode.center,
       tandem: options.tandem ? options.tandem.createTandem( 'button' ) : null
     };
+
     // @private
     this.button = ( options.buttonType === 'toggle' ) ?
                   new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
