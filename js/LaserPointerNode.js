@@ -43,7 +43,7 @@ define( function( require ) {
       buttonRadius: 22,
       buttonTouchExpansion: 15,
 
-      // PhET-io
+      // PhET-iO
       tandem: null
 
     }, options );
