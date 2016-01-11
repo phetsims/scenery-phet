@@ -42,6 +42,7 @@ define( function( require ) {
       buttonColor: 'red',
       buttonRadius: 22,
       buttonTouchExpansion: 15,
+      buttonRotation: 0, // {number} use this to adjust lighting on the button
 
       // PhET-iO
       tandem: null
@@ -81,6 +82,7 @@ define( function( require ) {
       radius: options.buttonRadius,
       touchExpansion: options.buttonTouchExpansion,
       baseColor: options.buttonColor,
+      rotation: options.buttonRotation,
       center: bodyNode.center,
       tandem: options.tandem && options.tandem.createTandem( 'button' )
     };
