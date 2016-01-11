@@ -82,7 +82,7 @@ define( function( require ) {
       touchExpansion: options.buttonTouchExpansion,
       baseColor: options.buttonColor,
       center: bodyNode.center,
-      tandem: options.tandem ? options.tandem.createTandem( 'button' ) : null
+      tandem: options.tandem && options.tandem.createTandem( 'button' )
     };
 
     // @private
