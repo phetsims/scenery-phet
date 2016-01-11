@@ -90,7 +90,8 @@ define( function( require ) {
                   new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
                   new RoundMomentaryButton( false, true, onProperty, buttonOptions );
 
-    options.children = [ nozzleNode, bodyNode, this.button ];
+    // add any children specified by the client
+    options.children = [ nozzleNode, bodyNode, this.button ].concat( options.children || [] );
     Node.call( this, options );
 
     this.tandem = options.tandem; // @private
