@@ -24,6 +24,7 @@ define( function( require ) {
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -63,6 +64,7 @@ define( function( require ) {
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
+      { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'ProbeNode', getNode: demoProbeNode },
@@ -366,6 +368,17 @@ define( function( require ) {
     } ) );
 
     return demoParent;
+  };
+
+  // Creates a demo for LaserPointerNode
+  var demoLaserPointerNode = function( layoutBounds ) {
+    var onProperty = new Property( false );
+    onProperty.link( function( on ) {
+      console.log( 'LaserPointerNode: ' + on );
+    } );
+    return new LaserPointerNode( onProperty, {
+      center: layoutBounds.center
+    } );
   };
 
   // Creates a demo for MeasuringTape
