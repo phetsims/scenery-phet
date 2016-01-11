@@ -373,23 +373,48 @@ define( function( require ) {
   // Creates a demo for LaserPointerNode
   var demoLaserPointerNode = function( layoutBounds ) {
 
-    var onProperty = new Property( false );
+    var leftOnProperty = new Property( false );
+    var rightOnProperty = new Property( false );
 
-    var laserPointerNode = new LaserPointerNode( onProperty, {
-      center: layoutBounds.center
+    // Demonstrate how to adjust lighting
+    var leftLaserNode = new LaserPointerNode( leftOnProperty, {
+
+      // these options adjust the lighting
+      topColor: LaserPointerNode.DEFAULT_OPTIONS.bottomColor,
+      bottomColor: LaserPointerNode.DEFAULT_OPTIONS.topColor,
+      highlightColorStop: 1 - LaserPointerNode.DEFAULT_OPTIONS.highlightColorStop,
+      buttonRotation: Math.PI,
+
+      rotation: Math.PI,
+      right: layoutBounds.centerX - 20,
+      centerY: layoutBounds.centerY
     } );
 
-    var beamNode = new Rectangle( 0, 0, 1000, 40, {
+    var rightLaserNode = new LaserPointerNode( rightOnProperty, {
+      left: layoutBounds.centerX + 20,
+      centerY: layoutBounds.centerY
+    } );
+
+    var leftBeamNode = new Rectangle( 0, 0, 1000, 40, {
       fill: 'yellow',
-      left: laserPointerNode.right - 1,
-      centerY: laserPointerNode.centerY
+      right: leftLaserNode.left + 1,
+      centerY: leftLaserNode.centerY
     } );
 
-    onProperty.link( function( on ) {
-      beamNode.visible = on;
+    var rightBeamNode = new Rectangle( 0, 0, 1000, 40, {
+      fill: 'yellow',
+      left: rightLaserNode.right - 1,
+      centerY: rightLaserNode.centerY
     } );
 
-    return new Node( { children: [ beamNode, laserPointerNode ] } );
+    leftOnProperty.link( function( on ) {
+      leftBeamNode.visible = on;
+    } );
+    rightOnProperty.link( function( on ) {
+      rightBeamNode.visible = on;
+    } );
+
+    return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
   };
 
   // Creates a demo for MeasuringTape

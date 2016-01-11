@@ -26,28 +26,9 @@ define( function( require ) {
    */
   function LaserPointerNode( onProperty, options ) {
 
-    options = _.extend( {
+    options = _.extend( {}, DEFAULT_OPTIONS, options );
 
-      // nozzle and body options
-      bodySize: new Dimension2( 110, 78 ),
-      nozzleSize: new Dimension2( 20, 60 ),
-      topColor: 'rgb( 170, 170, 170 )',
-      bottomColor: 'rgb( 40, 40, 40 )',
-      highlightColor: 'rgb( 245, 245, 245 )',
-      stroke: 'black',
-      cornerRadius: 5,
-
-      // button options
-      buttonType: 'toggle', // {string} 'toggle'|'momentary'
-      buttonColor: 'red',
-      buttonRadius: 22,
-      buttonTouchExpansion: 15,
-      buttonRotation: 0, // {number} use this to adjust lighting on the button
-
-      // PhET-iO
-      tandem: null
-
-    }, options );
+    assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
     // validate options
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
@@ -58,7 +39,7 @@ define( function( require ) {
       cornerRadius: options.cornerRadius,
       fill: new LinearGradient( 0, 0, 0, options.nozzleSize.height )
         .addColorStop( 0, options.topColor )
-        .addColorStop( 0.3, options.highlightColor )
+        .addColorStop( options.highlightColorStop, options.highlightColor )
         .addColorStop( 1, options.bottomColor ),
       stroke: options.stroke,
       right: 0,
@@ -70,7 +51,7 @@ define( function( require ) {
       cornerRadius: options.cornerRadius,
       fill: new LinearGradient( 0, 0, 0, options.bodySize.height )
         .addColorStop( 0, options.topColor )
-        .addColorStop( 0.3, options.highlightColor )
+        .addColorStop( options.highlightColorStop, options.highlightColor )
         .addColorStop( 1, options.bottomColor ),
       stroke: options.stroke,
       right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
@@ -109,6 +90,31 @@ define( function( require ) {
 
   sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
 
+  var DEFAULT_OPTIONS = {
+
+    // nozzle and body options
+    bodySize: new Dimension2( 110, 78 ),
+    nozzleSize: new Dimension2( 20, 60 ),
+    topColor: 'rgb( 170, 170, 170 )',
+    bottomColor: 'rgb( 40, 40, 40 )',
+    highlightColor: 'rgb( 245, 245, 245 )',
+    highlightColorStop: 0.3,  // {number} color stop for highlight, (0,1) exclusive range
+    stroke: 'black',
+    cornerRadius: 5,
+
+    // button options
+    buttonType: 'toggle', // {string} 'toggle'|'momentary'
+    buttonColor: 'red',
+    buttonRadius: 22,
+    buttonTouchExpansion: 15,
+    buttonRotation: 0, // {number} use this to adjust lighting on the button
+
+    // PhET-iO
+    tandem: null
+
+  };
+  assert && Object.freeze( DEFAULT_OPTIONS );
+
   return inherit( Node, LaserPointerNode, {
 
     // @public
@@ -131,5 +137,8 @@ define( function( require ) {
      */
     getEnabled: function() {return this.button.enabled; },
     get enabled() { return this.getEnabled(); }
+  }, {
+
+    DEFAULT_OPTIONS: DEFAULT_OPTIONS
   } );
 } );
