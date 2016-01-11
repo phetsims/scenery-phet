@@ -17,7 +17,7 @@ define( function( require ) {
   var KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
-  var Timer = require( 'JOIST/Timer' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
