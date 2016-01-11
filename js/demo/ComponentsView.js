@@ -372,13 +372,24 @@ define( function( require ) {
 
   // Creates a demo for LaserPointerNode
   var demoLaserPointerNode = function( layoutBounds ) {
+
     var onProperty = new Property( false );
-    onProperty.link( function( on ) {
-      console.log( 'LaserPointerNode: ' + on );
-    } );
-    return new LaserPointerNode( onProperty, {
+
+    var laserPointerNode = new LaserPointerNode( onProperty, {
       center: layoutBounds.center
     } );
+
+    var beamNode = new Rectangle( 0, 0, 1000, 40, {
+      fill: 'yellow',
+      left: laserPointerNode.right - 1,
+      centerY: laserPointerNode.centerY
+    } );
+
+    onProperty.link( function( on ) {
+      beamNode.visible = on;
+    } );
+
+    return new Node( { children: [ beamNode, laserPointerNode ] } );
   };
 
   // Creates a demo for MeasuringTape
