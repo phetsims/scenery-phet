@@ -45,24 +45,22 @@ define( function( require ) {
     xNode.lineTo( xNodeWidth, xNodeWidth );
     xNode.moveTo( 0, xNodeWidth );
     xNode.lineTo( xNodeWidth, 0 );
-    timerOffNode.addChild( new Path( xNode,
-      {
-        stroke: 'red',
-        opacity: 0.55,
-        lineWidth: X_STROKE_WIDTH,
-        lineCap: 'round',
-        centerX: timerOffNode.width / 2,
-        centerY: timerOffNode.height / 2
-      } ) );
+    timerOffNode.addChild( new Path( xNode, {
+      stroke: 'red',
+      opacity: 0.55,
+      lineWidth: X_STROKE_WIDTH,
+      lineCap: 'round',
+      centerX: timerOffNode.width / 2,
+      centerY: timerOffNode.height / 2
+    } ) );
 
-    BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend(
-      {
-        baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
-        minWidth: WIDTH,
-        minHeight: HEIGHT,
-        xMargin: MARGIN,
-        yMargin: MARGIN
-      }, options ) );
+    BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend( {
+      baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
+      minWidth: WIDTH,
+      minHeight: HEIGHT,
+      xMargin: MARGIN,
+      yMargin: MARGIN
+    }, options ) );
   }
 
   sceneryPhet.register( 'TimerToggleButton', TimerToggleButton );
