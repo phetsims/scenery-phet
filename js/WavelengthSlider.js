@@ -42,8 +42,8 @@ define( function( require ) {
     var defaultThumbHeight = 45;
     var thumbWidth = options.thumbWidth || defaultThumbWidth;
     var thumbHeight = options.thumbHeight || defaultThumbHeight;
-    var thumbTouchAreaExpandX = options.thumbTouchAreaExpandX || 0.5 * thumbWidth;
-    var thumbTouchAreaExpandY = options.thumbTouchAreaExpandY || 0.5 * thumbHeight;
+    var thumbTouchAreaXDilation = options.thumbTouchAreaXDilation || 0.5 * thumbWidth;
+    var thumbTouchAreaYDilation = options.thumbTouchAreaYDilation || 0.5 * thumbHeight;
 
     // options that are specific to this type
     options = _.extend( {
@@ -73,7 +73,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaExpandX, thumbTouchAreaExpandY, options.pointerAreasOverTrack, options.trackHeight );
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaXDilation, thumbTouchAreaYDilation, options.pointerAreasOverTrack, options.trackHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
