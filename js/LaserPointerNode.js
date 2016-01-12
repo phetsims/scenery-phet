@@ -112,7 +112,7 @@ define( function( require ) {
     buttonRotation: 0, // {number} use this to adjust lighting on the button
 
     // PhET-iO
-    tandem: null
+    tandem: null // {Tandem|null}
 
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
