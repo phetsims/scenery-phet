@@ -51,10 +51,10 @@ define( function( require ) {
       timerInterval: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
       align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
-      touchAreaExpandX: 10,
-      touchAreaExpandY: 10,
-      mouseAreaExpandX: 0,
-      mouseAreaExpandY: 5,
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 10,
+      mouseAreaXDilation: 0,
+      mouseAreaYDilation: 5,
       backgroundStroke: 'gray',
       backgroundLineWidth: 0.5,
       arrowHeight: 6,
@@ -166,19 +166,19 @@ define( function( require ) {
 
     // touch area
     upParent.touchArea = Shape.rectangle(
-      upParent.left - ( options.touchAreaExpandX / 2 ), upParent.top - options.touchAreaExpandY,
-      upParent.width + options.touchAreaExpandX, upParent.height + options.touchAreaExpandY );
+      upParent.left - ( options.touchAreaXDilation / 2 ), upParent.top - options.touchAreaYDilation,
+      upParent.width + options.touchAreaXDilation, upParent.height + options.touchAreaYDilation );
     downParent.touchArea = Shape.rectangle(
-      downParent.left - ( options.touchAreaExpandX / 2 ), downParent.top,
-      downParent.width + options.touchAreaExpandX, downParent.height + options.touchAreaExpandY );
+      downParent.left - ( options.touchAreaXDilation / 2 ), downParent.top,
+      downParent.width + options.touchAreaXDilation, downParent.height + options.touchAreaYDilation );
 
     // mouse area
     upParent.mouseArea = Shape.rectangle(
-      upParent.left - ( options.mouseAreaExpandX / 2 ), upParent.top - options.mouseAreaExpandY,
-      upParent.width + options.mouseAreaExpandX, upParent.height + options.mouseAreaExpandY );
+      upParent.left - ( options.mouseAreaXDilation / 2 ), upParent.top - options.mouseAreaYDilation,
+      upParent.width + options.mouseAreaXDilation, upParent.height + options.mouseAreaYDilation );
     downParent.mouseArea = Shape.rectangle(
-      downParent.left - ( options.mouseAreaExpandX / 2 ), downParent.top,
-      downParent.width + options.mouseAreaExpandX, downParent.height + options.mouseAreaExpandY );
+      downParent.left - ( options.mouseAreaXDilation / 2 ), downParent.top,
+      downParent.width + options.mouseAreaXDilation, downParent.height + options.mouseAreaYDilation );
 
     //------------------------------------------------------------
     // Colors

@@ -233,13 +233,13 @@ define( function( require ) {
    * The slider thumb (aka knob)
    * @param {number} width
    * @param {number} height
-   * @param {number} touchAreaExpandX
-   * @param {number} touchAreaExpandY
+   * @param {number} touchAreaXDilation
+   * @param {number} touchAreaYDilation
    * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
    * @param {number} trackHeight only used if pointerAreasOverTrack is true
    * @constructor
    */
-  function Thumb( width, height, touchAreaExpandX, touchAreaExpandY, pointerAreasOverTrack, trackHeight ) {
+  function Thumb( width, height, touchAreaXDilation, touchAreaYDilation, pointerAreasOverTrack, trackHeight ) {
     // set the radius of the arcs based on the height or width, whichever is smaller
     var radiusScale = 0.15;
     var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
@@ -274,13 +274,13 @@ define( function( require ) {
     // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
     var bounds = shape.bounds.copy();
     if ( pointerAreasOverTrack ) {
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY - trackHeight, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY + trackHeight );
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY - trackHeight, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation + trackHeight );
       this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
     }
 
     // don't extend above the thumb so that we don't encroach on slider track if pointerAreasOverTrack is false
     else {
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaExpandX, bounds.minY, bounds.width + 2 * touchAreaExpandX, bounds.height + 2 * touchAreaExpandY );
+      this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation );
     }
   }
 
