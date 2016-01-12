@@ -62,6 +62,7 @@ define( function( require ) {
     var buttonOptions = {
       radius: options.buttonRadius,
       touchAreaDilation: options.buttonTouchAreaDilation,
+      mouseAreaDilation: options.buttonMouseAreaDilation,
       baseColor: options.buttonColor,
       rotation: options.buttonRotation,
       center: bodyNode.center,
@@ -107,6 +108,7 @@ define( function( require ) {
     buttonColor: 'red',
     buttonRadius: 22,
     buttonTouchAreaDilation: 15,
+    buttonMouseAreaDilation: 0,
     buttonRotation: 0, // {number} use this to adjust lighting on the button
 
     // PhET-iO
