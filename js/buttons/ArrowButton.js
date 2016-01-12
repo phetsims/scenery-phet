@@ -40,8 +40,8 @@ define( function( require ) {
       cornerRadius: 4,
       xMargin: 7,
       yMargin: 5,
-      xTouchExpansion: 7,
-      yTouchExpansion: 7,
+      touchAreaXDilation: 7,
+      touchAreaYDilation: 7,
 
       // options for the arrow
       arrowHeight: DEFAULT_ARROW_HEIGHT, // from tip to base
