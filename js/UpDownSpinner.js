@@ -42,7 +42,7 @@ define( function( require ) {
         valueProperty.set( valueProperty.get() + 1 );
       },
       radius: radius,
-      touchAreaExpansion: 5,
+      touchAreaDilation: 5,
       baseColor: '#fefd53',
       yContentOffset: -3
     } );
@@ -54,7 +54,7 @@ define( function( require ) {
         valueProperty.set( valueProperty.get() - 1 );
       },
       radius: radius,
-      touchAreaExpansion: 5,
+      touchAreaDilation: 5,
       baseColor: '#fefd53',
       yContentOffset: +3
     } );
