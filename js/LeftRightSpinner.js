@@ -43,7 +43,7 @@ define( function( require ) {
       },
       baseColor: '#7fb539',
       radius: radius,
-      touchExpansion: 10,
+      touchAreaDilation: 10,
       xContentOffset: -3
     } );
     leftEnabledProperty.linkAttribute( leftButton, 'enabled' );

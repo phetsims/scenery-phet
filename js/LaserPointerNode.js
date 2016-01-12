@@ -61,7 +61,7 @@ define( function( require ) {
     // the button that controls whether the laser is on or off
     var buttonOptions = {
       radius: options.buttonRadius,
-      touchExpansion: options.buttonTouchAreaDilation,
+      touchAreaDilation: options.buttonTouchAreaDilation,
       baseColor: options.buttonColor,
       rotation: options.buttonRotation,
       center: bodyNode.center,
