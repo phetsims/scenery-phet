@@ -61,7 +61,7 @@ define( function( require ) {
     // the button that controls whether the laser is on or off
     var buttonOptions = {
       radius: options.buttonRadius,
-      touchExpansion: options.buttonTouchExpansion,
+      touchExpansion: options.buttonTouchAreaDilation,
       baseColor: options.buttonColor,
       rotation: options.buttonRotation,
       center: bodyNode.center,
@@ -106,7 +106,7 @@ define( function( require ) {
     buttonType: 'toggle', // {string} 'toggle'|'momentary'
     buttonColor: 'red',
     buttonRadius: 22,
-    buttonTouchExpansion: 15,
+    buttonTouchAreaDilation: 15,
     buttonRotation: 0, // {number} use this to adjust lighting on the button
 
     // PhET-iO
