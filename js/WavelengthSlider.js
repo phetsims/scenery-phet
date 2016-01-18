@@ -17,7 +17,6 @@ define( function( require ) {
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var TandemDragHandler = require( 'SUN/TandemDragHandler' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
