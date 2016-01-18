@@ -149,9 +149,7 @@ define( function( require ) {
       start: function( event ) {
         var x = track.globalToParentPoint( event.pointer.point ).x;
         var newValue = positionToWavelength( x );
-        thisNode.trigger1( 'startedCallbacksForTrackDragStarted', newValue );
         wavelength.set( newValue );
-        thisNode.trigger0( 'endedCallbacksForTrackDragStarted' );
       }
     } ) );
 
@@ -163,21 +161,13 @@ define( function( require ) {
       allowTouchSnag: true,
 
       start: function( event ) {
-        thisNode.trigger0( 'startedCallbacksForDragStarted' );
         clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
-        thisNode.trigger0( 'endedCallbacksForDragStarted' );
       },
 
       drag: function( event ) {
         var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
         var value = positionToWavelength( x );
-        thisNode.trigger1( 'startedCallbacksForDragged', value );
         wavelength.set( value );
-        thisNode.trigger0( 'endedCallbacksForDragged' );
-      },
-      end: function( event ) {
-        thisNode.trigger0( 'startedCallbacksForDragEnded' );
-        thisNode.trigger0( 'endedCallbacksForDragEnded' );
       }
     } ) );
 
