@@ -55,9 +55,12 @@ define( function( require ) {
   function ComponentsView() {
     DemosView.call( this, 'component', [
 
-      // To add a demo, create an entry here.
-      // label is a {string} that will appear in the combo box.
-      // getNode is a {function} that takes a {Bounds2} layoutBounds and returns a {Node}.
+    /**
+     * To add a demo, add an object literal here. Each object has these properties:
+     *
+     * {string} label - label in the combo box
+     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+     */
       { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
