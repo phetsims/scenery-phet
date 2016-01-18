@@ -18,6 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -144,20 +145,22 @@ define( function( require ) {
     // track interactivity
     // TODO: Other tracks continue to drag instead of just setting a single value, why not this?
     track.cursor = 'pointer';
-    track.addInputListener( {
-      down: function( event ) {
+    track.addInputListener( new TandemDragHandler( {
+      tandem: options.tandem ? options.tandem.createTandem( 'trackInputListener' ) : null,
+      start: function( event ) {
         var x = track.globalToParentPoint( event.pointer.point ).x;
         var newValue = positionToWavelength( x );
         thisNode.trigger1( 'startedCallbacksForTrackDragStarted', newValue );
         wavelength.set( newValue );
         thisNode.trigger0( 'endedCallbacksForTrackDragStarted' );
       }
-    } );
+    } ) );
 
     // thumb interactivity
     thumb.cursor = 'pointer';
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
-    thumb.addInputListener( new SimpleDragHandler( {
+    thumb.addInputListener( new TandemDragHandler( {
+      tandem: options.tandem ? options.tandem.createTandem( 'thumbInputListener' ) : null,
       allowTouchSnag: true,
 
       start: function( event ) {

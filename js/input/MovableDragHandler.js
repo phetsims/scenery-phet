@@ -12,7 +12,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var TandemDragHandler = require( 'SCENERY_PHET/input/TandemDragHandler' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
