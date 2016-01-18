@@ -38,32 +38,24 @@ define( function( require ) {
 
       var newOptions = _.extend( {}, options );
 
-      if ( options.start ) {
+      // Replace start/end/drag even if they did not exist, to get the tracking.
+      newOptions.start = function( event, trail ) {
+        tandemDragHandler.startedCallbacksForDragStartedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
+        options.start && options.start( event, trail );
+        tandemDragHandler.endedCallbacksForDragStartedEmitter.emit();
+      };
 
-        newOptions.start = function( event, trail ) {
-          tandemDragHandler.startedCallbacksForDragStartedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
-          options.start( event, trail );
-          tandemDragHandler.endedCallbacksForDragStartedEmitter.emit();
-        };
-      }
+      newOptions.drag = function( event, trail ) {
+        tandemDragHandler.startedCallbacksForDraggedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
+        options.drag && options.drag( event, trail );
+        tandemDragHandler.endedCallbacksForDraggedEmitter.emit();
+      };
 
-      if ( options.drag ) {
-
-        newOptions.drag = function( event, trail ) {
-          tandemDragHandler.startedCallbacksForDraggedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
-          options.drag( event, trail );
-          tandemDragHandler.endedCallbacksForDraggedEmitter.emit();
-        };
-      }
-
-      if ( options.end ) {
-
-        newOptions.end = function( event, trail ) {
-          tandemDragHandler.startedCallbacksForDragEndedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
-          options.end( event, trail );
-          tandemDragHandler.endedCallbacksForDragEndedEmitter.emit();
-        };
-      }
+      newOptions.end = function( event, trail ) {
+        tandemDragHandler.startedCallbacksForDragEndedEmitter.emit2( event.pointer.point.x, event.pointer.point.y );
+        options.end && options.end( event, trail );
+        tandemDragHandler.endedCallbacksForDragEndedEmitter.emit();
+      };
       SimpleDragHandler.call( this, newOptions );
 
       options.tandem && options.tandem.addInstance( this );
