@@ -22,6 +22,25 @@ define( function( require ) {
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  /**
+   * @constructor
+   */
+  function SlidersView() {
+    DemosView.call( this, 'slider', [
+
+    /**
+     * To add a demo, add an object literal here. Each object has these properties:
+     *
+     * {string} label - label in the combo box
+     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+     */
+      { label: 'NumberControl', getNode: demoNumberControl },
+      { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
+    ] );
+  }
+
+  sceneryPhet.register( 'SlidersView', SlidersView );
+
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
 
@@ -49,25 +68,6 @@ define( function( require ) {
       center: layoutBounds.center
     } );
   };
-
-  /**
-   * @constructor
-   */
-  function SlidersView() {
-    DemosView.call( this, 'slider', [
-
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-     */
-      { label: 'NumberControl', getNode: demoNumberControl },
-      { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
-    ] );
-  }
-
-  sceneryPhet.register( 'SlidersView', SlidersView );
 
   return inherit( DemosView, SlidersView );
 } );
