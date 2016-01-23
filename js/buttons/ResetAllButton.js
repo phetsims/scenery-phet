@@ -21,7 +21,6 @@ define( function( require ) {
 
   // strings
   var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
-  var resetAllButtonDescriptionString = require( 'string!SCENERY_PHET/ResetAllButton.description' );
 
   // constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
@@ -70,13 +69,6 @@ define( function( require ) {
           domElement.value = resetAllButtonNameString;
           domElement.type = 'reset';
           domElement.tabIndex = '0';
-
-          // create an element that describes the button with aria-describedby
-          var descriptionElement = document.createElement( 'p' );
-          descriptionElement.innerText = resetAllButtonDescriptionString;
-          descriptionElement.id = 'reset-all-description';
-          domElement.appendChild( descriptionElement );
-          domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
           domElement.addEventListener( 'click', function() {
             options.listener();

@@ -45,9 +45,5 @@
   "SoundToggleButton.name": {
     "value": "Toggle Sound",
     "visible": false
-  },
-  "ResetAllButton.description": {
-    "value": "Select to reset screen",
-    "visible": false
   }
 }
