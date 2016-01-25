@@ -1,7 +1,7 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * A drag handler for something has a location and is constrained to some (optional) bounds.
+ * A drag handler for something that has a location and is constrained to some (optional) bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -134,7 +134,7 @@ define( function( require ) {
     },
 
     /**
-     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * Forward an event from another listener to this one, useful when dragging an icon from a toolbox.
      * @param event
      * @public
      */
@@ -143,7 +143,7 @@ define( function( require ) {
     },
 
     /**
-     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * Forward an event from another listener to this one, useful when dragging an icon from a toolbox.
      * @param event
      * @public
      */
@@ -152,7 +152,7 @@ define( function( require ) {
     },
 
     /**
-     * Forward an event from another listener to this one, useful when dragging an icon from the toolbox.
+     * Forward an event from another listener to this one, useful when dragging an icon from a toolbox.
      * @param event
      * @public
      */
