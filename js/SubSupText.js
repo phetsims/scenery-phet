@@ -161,10 +161,15 @@ define( function( require ) {
        * Node construction
        *---------------------------------------------------------------------------*/
 
-      // For non-normal slices, what their centerY value be set to.
+      // For non-normal slices, what their centerY and centerX values should be set to.
       var centerYs = {
         sub: options.subYOffset,
-        sup: this._capLineYOffset + options.subYOffset
+        sup: this._capLineYOffset + options.supYOffset
+      };
+
+      var centerXs = {
+        sub: options.subXSpacing,
+        sup: options.supXSpacing
       };
 
       // What slices scale should be set to.
@@ -187,6 +192,7 @@ define( function( require ) {
         } );
         if ( slice.mode !== 'normal' ) {
           node.centerY = centerYs[ slice.mode ];
+          node.left = previousSlice.node.right + centerXs[ slice.mode ]; 
         }
         slice.node = node;
         this._textParent.addChild( node );
