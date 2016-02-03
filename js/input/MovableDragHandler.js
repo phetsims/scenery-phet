@@ -4,6 +4,7 @@
  * A drag handler for something that has a location and is constrained to some (optional) bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -17,7 +18,6 @@ define( function( require ) {
 
   /**
    * @param {Property.<Vector2>} locationProperty - in model coordinate frame
-   *        OR {get:...,set:...}, used in Bending Light's PrismNode as somewhat of a hack.
    * @param {Object} [options]
    * @constructor
    */
@@ -138,7 +138,7 @@ define( function( require ) {
      * @param event
      * @public
      */
-    forwardStartEvent: function( event ) {
+    handleForwardedStartEvent: function( event ) {
       this.movableDragHandlerStart( event );
     },
 
@@ -147,7 +147,7 @@ define( function( require ) {
      * @param event
      * @public
      */
-    forwardDragEvent: function( event ) {
+    handleForwardedDragEvent: function( event ) {
       this.movableDragHandlerDrag( event );
     },
 
@@ -156,7 +156,7 @@ define( function( require ) {
      * @param event
      * @public
      */
-    forwardEndEvent: function( event ) {
+    handleForwardedEndEvent: function( event ) {
       this.movableDragHandlerEnd( event );
     }
   } );
