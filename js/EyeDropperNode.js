@@ -107,10 +107,8 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    // Tandem support
-    // Note that tandem.addInstance() is not called here since this node is not draggable or configurable
-    // tandem was only passed in for the button
-    // Subclasses are responsible for registering the EyeDropperNode if desired (see BLLDropperNode)
+    // TODO: removeInstance from tandem on dispose() when it is implemented
+    options.tandem && options.tandem.addInstance( this );
   }
 
   sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
