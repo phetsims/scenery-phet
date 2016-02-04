@@ -87,7 +87,7 @@ define( function( require ) {
       radius: 18,
       tandem: options.tandem && options.tandem.createTandem( 'button' )
     } );
-    var enabledObserver = function( enabled ) { button.enabled = enabled; }
+    var enabledObserver = function( enabled ) { button.enabled = enabled; };
     this.enabledProperty.link( enabledObserver );
     button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
     button.centerX = foreground.centerX;
@@ -117,7 +117,7 @@ define( function( require ) {
       thisNode.enabledProperty.unlink( enabledObserver );
       thisNode.emptyProperty.link( emptyObserver );
       options.tandem && options.tandem.removeInstance( thisNode );
-    }
+    };
   }
 
   sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
