@@ -87,16 +87,18 @@ define( function( require ) {
       radius: 18,
       tandem: options.tandem && options.tandem.createTandem( 'button' )
     } );
-    this.enabledProperty.link( function( enabled ) { button.enabled = enabled; } );
+    var enabledObserver = function( enabled ) { button.enabled = enabled; };
+    this.enabledProperty.link( enabledObserver );
     button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
     button.centerX = foreground.centerX;
     button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
     // make the background visible only when the dropper is empty
-    this.emptyProperty.link( function( empty ) {
+    var emptyObserver = function( empty ) {
       thisNode.fluidNode.visible = !empty;
       background.visible = empty;
-    } );
+    };
+    this.emptyProperty.link( emptyObserver );
 
     options.children = [ this.fluidNode, background, foreground, button ];
 
@@ -107,13 +109,25 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    // TODO: removeInstance from tandem on dispose() when it is implemented
     options.tandem && options.tandem.addInstance( this );
+
+    // @private
+    this.disposeEyeDropperNode = function() {
+      button.dispose();
+      thisNode.enabledProperty.unlink( enabledObserver );
+      thisNode.emptyProperty.link( emptyObserver );
+      options.tandem && options.tandem.removeInstance( thisNode );
+    };
   }
 
   sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
 
   return inherit( Node, EyeDropperNode, {
+
+    // @public makes this instance eligible for garbage collection
+    dispose: function() {
+      this.disposeEyeDropperNode();
+    },
 
     set dispensing( value ) { this.dispensingProperty = value; },
 
