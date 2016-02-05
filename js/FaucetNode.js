@@ -32,7 +32,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
   var Timer = require( 'PHET_CORE/Timer' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -202,7 +202,7 @@ define( function( require ) {
       thisNode.trigger0( 'endedCallbacksForEndTapToDispense' );
     };
 
-    var shooterHandler = new SimpleDragHandler( {
+    var inputListener = new TandemDragHandler( {
 
       startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
 
@@ -257,9 +257,10 @@ define( function( require ) {
           }
           thisNode.trigger0( 'endedCallbacksForDragEnded' );
         }
-      }
+      },
+      tandem: options.tandem && options.tandem.createTandem( 'inputListener' )
     } );
-    shooterNode.addInputListener( shooterHandler );
+    shooterNode.addInputListener( inputListener );
 
     var flowRateObserver = function( flowRate ) {
       shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
@@ -267,8 +268,8 @@ define( function( require ) {
     flowRateProperty.link( flowRateObserver );
 
     var enabledObserver = function( enabled ) {
-      if ( !enabled && shooterHandler.dragging ) {
-        shooterHandler.endDrag();
+      if ( !enabled && inputListener.dragging ) {
+        inputListener.endDrag();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
         endTapToDispense();
