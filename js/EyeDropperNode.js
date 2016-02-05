@@ -115,7 +115,7 @@ define( function( require ) {
     this.disposeEyeDropperNode = function() {
       button.dispose();
       thisNode.enabledProperty.unlink( enabledObserver );
-      thisNode.emptyProperty.link( emptyObserver );
+      thisNode.emptyProperty.unlink( emptyObserver );
       options.tandem && options.tandem.removeInstance( thisNode );
     };
   }
