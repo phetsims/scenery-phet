@@ -165,8 +165,8 @@ define( function( require ) {
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( 0.7 ) ) // highlight
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.5 ) ), // shadow
+        .addColorStop( 0.0, color.colorUtilsBrightness( 0.2 ) ) // highlight
+        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // shadow
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, color.colorUtilsBrightness( +0.5 ) ) // highlight
         .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) )
