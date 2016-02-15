@@ -118,7 +118,7 @@ define( function( require ) {
     setModelViewTransform: function( modelViewTransform ) {
       this._modelViewTransform = modelViewTransform;
     },
-    set modelViewTransform( modelViewTransform ) { this._modelViewTransform = modelViewTransform; },
+    set modelViewTransform( modelViewTransform ) { this.setModelViewTransform( modelViewTransform ); },
 
     /**
      * Gets the modelViewTransform. Clients should not mutate the value returned.
@@ -129,7 +129,7 @@ define( function( require ) {
       return this._modelViewTransform;
     },
     get modelViewTransform() {
-      return this._modelViewTransform;
+      return this.getModelViewTransform();
     },
 
     /**
