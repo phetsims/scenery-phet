@@ -128,9 +128,7 @@ define( function( require ) {
     getModelViewTransform: function() {
       return this._modelViewTransform;
     },
-    get modelViewTransform() {
-      return this.getModelViewTransform();
-    },
+    get modelViewTransform() { return this.getModelViewTransform(); },
 
     /**
      * Forward an event from another listener to this one, useful when dragging an icon from a toolbox.
