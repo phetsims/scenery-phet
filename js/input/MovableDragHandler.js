@@ -128,8 +128,6 @@ define( function( require ) {
     getModelViewTransform: function() {
       return this._modelViewTransform;
     },
-
-    // @public
     get modelViewTransform() {
       return this._modelViewTransform;
     },
