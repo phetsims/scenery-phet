@@ -139,19 +139,18 @@ define( function( require ) {
     );
 
     // drag handler for probes
+    var clickYOffset = 0;
     var probeDragHandler = new SimpleDragHandler( {
 
-      clickYOffset: 0,
-
       start: function( e ) {
-        this.clickYOffset = e.currentTarget.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
+        clickYOffset = e.currentTarget.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
       },
 
       // probes move together
       drag: function( e ) {
         // do dragging in view coordinate frame
         var locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
-        var yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - this.clickYOffset;
+        var yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - clickYOffset;
         if ( options.probeDragYRange ) {
           yView = Util.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
         }
