@@ -202,9 +202,8 @@ define( function( require ) {
       thisNode.trigger0( 'endedCallbacksForEndTapToDispense' );
     };
 
+    var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
     var inputListener = new TandemDragHandler( {
-
-      startXOffset: 0, // where the drag started, relative to the target node's origin, in parent view coordinates
 
       allowTouchSnag: true,
 
@@ -214,7 +213,7 @@ define( function( require ) {
 
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
-          this.startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
+          startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
 
           thisNode.trigger0( 'endedCallbacksForDragStarted' );
         }
@@ -233,7 +232,7 @@ define( function( require ) {
         if ( enabledProperty.get() ) {
 
           // offsetToFlowRate is relative to bodyNode.left, so account for it
-          var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - this.startXOffset - bodyNode.left;
+          var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
 
           thisNode.trigger1( 'startedCallbacksForDragged', flowRate );
