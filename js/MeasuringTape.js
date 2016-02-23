@@ -152,21 +152,22 @@ define( function( require ) {
     this.addChild( this.labelText ); // text
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
+    var baseStartOffset;
+
     // @private
     this.baseDragHandler = new TandemDragHandler( {
       tandem: this.tandem ? this.tandem.createTandem( 'baseDragHandler' ) : null,
 
-      startOffset: 0,
       allowTouchSnag: true,
 
       start: function( event, trail ) {
         measuringTape._isBaseUserControlledProperty.set( true );
         var location = measuringTape._modelViewTransform.modelToViewPosition( options.basePositionProperty.value );
-        this.startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+        baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( this.startOffset );
+        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
         var unconstrainedBaseLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
         var constrainedBaseLocation = measuringTape._dragBounds.closestPointTo( unconstrainedBaseLocation );
 
@@ -198,21 +199,22 @@ define( function( require ) {
 
     this.baseImage.addInputListener( this.baseDragHandler );
 
+    var tipStartOffset;
+
     // init drag and drop for tip
     tip.addInputListener( new TandemDragHandler( {
       tandem: this.tandem ? this.tandem.createTandem( 'tipDragHandler' ) : null,
 
-      startOffset: 0,
       allowTouchSnag: true,
 
       start: function( event, trail ) {
         measuringTape._isTipUserControlledProperty.set( true );
         var location = measuringTape._modelViewTransform.modelToViewPosition( measuringTape.tipPositionProperty.value );
-        this.startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+        tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( this.startOffset );
+        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
         var unconstrainedTipLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
