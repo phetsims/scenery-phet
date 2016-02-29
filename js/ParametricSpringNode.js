@@ -99,7 +99,8 @@ define( function( require ) {
     // Paths for the front (foreground) and back (background) parts of the spring
     var pathOptions = {
       boundsMethod: options.pathBoundsMethod,
-      lineCap: 'round'
+      lineCap: 'round',
+      lineJoin: 'round'
     };
     var frontPath = new Path( null, pathOptions );
     var backPath = new Path( null, pathOptions );
