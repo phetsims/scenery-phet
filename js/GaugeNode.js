@@ -46,7 +46,7 @@ define( function( require ) {
 
       //8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
       //The ticks are duplicated for the right side, and one tick appears in the middle at the top
-      numTicks:     ( 8 + 2 ) * 2 + 1,
+      numTicks: ( 8 + 2 ) * 2 + 1,
 
       //Optional property to pass in--if the client provides a updateEnabledProperty then the needle will only be updated when changed and visible (or made visible)
       updateEnabledProperty: new Property( true )
@@ -64,7 +64,10 @@ define( function( require ) {
     foregroundNode.addChild( needle );
 
     // @private
-    this.label = new Text( label, { font: new PhetFont( 20 ) } ).mutate( { centerX: 0, centerY: -options.radius / 3 } );
+    this.label = new Text( label, { font: new PhetFont( 20 ), maxWidth: options.radius * 1.3 } ).mutate( {
+      centerX: 0,
+      centerY: -options.radius / 3
+    } );
     foregroundNode.addChild( this.label );
 
     var pin = new Circle( 2, { fill: 'black' } );
