@@ -83,6 +83,8 @@ define( function( require ) {
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
   return inherit( RoundPushButton, ResetAllButton, {}, {
+
+    // Export the base color in case other sim components need to match with it.
     RESET_ALL_BUTTON_BASE_COLOR: ORANGE
   } );
 } );
