@@ -91,13 +91,9 @@ define( function( require ) {
         max: options.heatEnabled ? 1 : 0
       },
       {
-        endDrag: function() {
-          if ( options.snapToZero ) {
-            options.heatCoolLevelProperty.value = 0;
-          }
-        },
+        snapValue: options.snapToZero ? 0 : null,
         trackSize: new Dimension2( options.width / 2, 10 ),
-        trackFill: new LinearGradient( 0, 0, options.width / 2, 0 )
+        trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
           .addColorStop( 0, '#0A00F0' )
           .addColorStop( 1, '#EF000F' ),
         thumbSize: new Dimension2( 15, 30 ),
