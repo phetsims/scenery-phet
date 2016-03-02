@@ -24,6 +24,7 @@ define( function( require ) {
 
   // constants
   var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
+  var ORANGE = new Color( 247, 151, 34 ); // Default orange color scheme, standard for PhET reset buttons
 
   /**
    * @param {Object} [options]
@@ -36,8 +37,7 @@ define( function( require ) {
       radius: DEFAULT_RADIUS,
       minXMargin: buttonRadius * 0.2,
 
-      // Default orange color scheme, standard for PhET reset buttons
-      baseColor: new Color( 247, 151, 34 ),
+      baseColor: ORANGE,
 
       // The arrow shape doesn't look right when perfectly centered, account
       // for that here, and see docs in RoundButtonView.  The multiplier
@@ -82,5 +82,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
-  return inherit( RoundPushButton, ResetAllButton );
+  return inherit( RoundPushButton, ResetAllButton, {}, {
+    RESET_ALL_BUTTON_BASE_COLOR: ORANGE
+  } );
 } );
