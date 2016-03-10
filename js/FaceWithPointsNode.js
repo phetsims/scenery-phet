@@ -20,9 +20,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // strings
-  var faceWithPointsNodePattern0Sign1PointsString = require( 'string!SCENERY_PHET/FaceWithPointsNode.pattern_0sign_1points' );
-
   /**
    * @param {Object} [options]
    * @constructor
@@ -94,8 +91,7 @@ define( function( require ) {
         this.pointsNode.text = points + '';
       }
       else {
-        // + sign for zero and positive numbers, order localized
-        this.pointsNode.text = StringUtils.format( faceWithPointsNodePattern0Sign1PointsString, '+', points );
+        this.pointsNode.text = '+' + points;
       }
       this.updatePointsLocation();
     },

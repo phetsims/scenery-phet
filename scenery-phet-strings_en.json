@@ -8,9 +8,6 @@
   "units_nm": {
     "value": "nm"
   },
-  "FaceWithPointsNode.pattern_0sign_1points": {
-    "value": "{0}{1}"
-  },
   "shortCircuit": {
     "value": "Short circuit!"
   },
