@@ -139,18 +139,35 @@ define( function( require ) {
           else if ( matchString === '<sup>' ) {
             mode = 'sup';
           }
+          else {
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
+          }
         }
         else if ( mode === 'sub' ) {
           assert && assert( matchString === '</sub>',
             'Unexpected tag in sub mode: ' + matchString );
 
           mode = 'normal';
+
+          if ( matchString !== '</sub>' ) {
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
+          }
         }
         else if ( mode === 'sup' ) {
           assert && assert( matchString === '</sup>',
             'Unexpected tag in sup mode: ' + matchString );
 
           mode = 'normal';
+
+          if ( matchString !== '</sup>' ) {
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
+          }
         }
       }
 
@@ -192,7 +209,7 @@ define( function( require ) {
         } );
         if ( slice.mode !== 'normal' ) {
           node.centerY = centerYs[ slice.mode ];
-          node.left = previousSlice.node.right + centerXs[ slice.mode ]; 
+          node.left = previousSlice.node.right + centerXs[ slice.mode ];
         }
         slice.node = node;
         this._textParent.addChild( node );
