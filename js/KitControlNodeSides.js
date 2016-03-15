@@ -24,7 +24,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  var DEFAULT_BASE_COLOR = new Color( 'rgba( 148, 235, 255, 0.5 )' );
+  var DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );
 
   /**
    * @param {number} numKits
@@ -39,7 +39,7 @@ define( function( require ) {
       {
         // Default values
         buttonBaseColor: DEFAULT_BASE_COLOR,
-        buttonStroke: DEFAULT_BASE_COLOR.colorUtilsDarker( 0.4 ),
+        buttonStroke: null,
         buttonLineWidth: 1,
         arrowStroke: 'white',
         arrowLineWidth: 4,
@@ -67,6 +67,7 @@ define( function( require ) {
 
     var nextKitButton = new RectangularPushButton( _.extend( {
       content: nextIcon,
+      baseColor: new Color( 'black' ),
       listener: function() {
         selectedKitProperty.value = selectedKitProperty.value + 1;
       }
@@ -75,6 +76,7 @@ define( function( require ) {
 
     var previousKitButton = new RectangularPushButton( _.extend( {
       content: previousIcon,
+      baseColor: 'orange',
       listener: function() {
         selectedKitProperty.value = selectedKitProperty.value - 1;
       }
