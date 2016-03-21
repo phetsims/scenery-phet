@@ -83,6 +83,11 @@ define( function( require ) {
 
     // @public sets the number of {number} points
     setPoints: function( points ) {
+
+      // We do not have negative points, as it goes against our philosophy,
+      // see https://github.com/phetsims/scenery-phet/issues/224
+      assert && assert( points >= 0, 'Points should be non-negative' );
+
       if ( points === 0 && !this.showZeroPoints ) {
         this.pointsNode.text = '';
       }
