@@ -91,9 +91,6 @@ define( function( require ) {
       if ( points === 0 && !this.showZeroPoints ) {
         this.pointsNode.text = '';
       }
-      else if ( points < 0 ) {
-        this.pointsNode.text = points + '';
-      }
       else {
         this.pointsNode.text = '+' + points;
       }
