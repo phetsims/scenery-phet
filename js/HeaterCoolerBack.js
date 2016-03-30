@@ -68,10 +68,10 @@ define( function( require ) {
     var iceNode = new Image( iceImage, { centerX: burnerInterior.centerX, top: burnerInterior.bottom } );
     options.heatCoolLevelProperty.link( function( heat ) {
       if ( heat > 0 ) {
-        fireNode.setTranslation( (burnerInterior.width - fireNode.width) / 2, -heat * fireImage.height * 0.85 );
+        fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heat * fireImage.height * 0.85 );
       }
       else if ( heat < 0 ) {
-        iceNode.setTranslation( (burnerInterior.width - iceNode.width) / 2, heat * iceImage.height * 0.85 );
+        iceNode.setTranslation( ( burnerInterior.width - iceNode.width ) / 2, heat * iceImage.height * 0.85 );
       }
       iceNode.setVisible( heat < 0 );
       fireNode.setVisible( heat > 0 );
