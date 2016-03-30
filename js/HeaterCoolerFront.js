@@ -76,7 +76,7 @@ define( function( require ) {
     var coolTitle = new Text( coolString, titleOptions );
     var titles = [ heatTitle, coolTitle ];
 
-    //  Get the widest title by comparing their height since they are rotated.
+    // Get the widest title by comparing their height since they are rotated.
     var maxTitleWidth = Math.max( coolTitle.height, heatTitle.height );
     if ( maxTitleWidth > bottomWidth / 2 ) {
       titles.forEach( function( title ) {
@@ -109,11 +109,9 @@ define( function( require ) {
 
     this.addChild( stoveBody );
     this.addChild( heatCoolSlider );
-
   }
 
   sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );
 
   return inherit( Node, HeaterCoolerFront );
 } );
-

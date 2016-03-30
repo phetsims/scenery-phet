@@ -1,8 +1,9 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Representation of the back of a HeaterCoolerNode.  It is independent from the front of the HeaterCoolerNode so that one can easily layer
- * objects between the heater/cooler front and back.  The back contains the elliptical hole and the fire and ice images.
+ * Representation of the back of a HeaterCoolerNode.  It is independent from the front of the HeaterCoolerNode so that
+ * one can easily layer objects between the heater/cooler front and back.  The back contains the elliptical hole and the
+ * fire and ice images.
  *
  * @author Siddhartha Chinthapally (Actual Concepts) on 20-11-2014.
  * @author Jesse Greenberg
@@ -42,8 +43,8 @@ define( function( require ) {
     Node.call( this );
 
     options = _.extend( {
-      baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
-      width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
+      baseColor: new Color( 159, 182, 205 ), //  base color used for the stove body
+      width: 120, // in screen coords, much of the rest of the size of the stove derives from this value
       snapToZero: true, // controls whether the slider will snap to the off.
       heatCoolLevelProperty: new Property( 0 ), // Property set through interaction with slider.  Max value for heating, min for cooling.
       heatEnabled: true, // Can this node heat the environment?
@@ -79,7 +80,6 @@ define( function( require ) {
     this.addChild( burnerInterior );
     this.addChild( fireNode );
     this.addChild( iceNode );
-
   }
 
   sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );

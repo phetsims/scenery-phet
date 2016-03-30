@@ -54,7 +54,6 @@ define( function( require ) {
     this.addChild( heaterCoolerFront );
 
     this.mutate( options );
-
   }
 
   sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
