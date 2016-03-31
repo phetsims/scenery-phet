@@ -440,6 +440,16 @@ define( function( require ) {
     },
 
     /**
+     * Returns the bounding box of the measuring tape's base within its local coordinate frame
+     * @public
+     *
+     * @returns {Bounds2}
+     */
+    getLocalBaseBounds: function() {
+      return this.baseImage.bounds.copy();
+    },
+
+    /**
      * Initiates a drag of the base (whole measuring tape) from a Scenery event.
      * @public
      *
