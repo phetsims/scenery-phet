@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
+  var ResetShape = require( 'SCENERY_PHET/ResetShape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -42,7 +42,7 @@ define( function( require ) {
     }, options );
 
     assert && assert( !options.content, 'content is not customizable' );
-    options.content = new Path( new ResetAllShape( options.radius ), { fill: options.arrowColor } );
+    options.content = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
 
     RoundPushButton.call( this, options );
   }
