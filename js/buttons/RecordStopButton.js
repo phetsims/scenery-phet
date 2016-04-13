@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -28,11 +29,14 @@ define( function( require ) {
 
     var squareLength = 0.75 * options.radius;
 
-    // record icon, a red square
-    var recordIcon = new Rectangle( 0, 0, squareLength, squareLength, { fill: PhetColorScheme.RED_COLORBLIND } );
-
     // stop icon, a black square
-    var stopIcon = new Rectangle( 0, 0, squareLength, squareLength, { fill: 'black' } );
+    var stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, { fill: 'black' } );
+
+    // record icon, a red circle
+    var recordIcon = new Circle( 0.6 * squareLength, {
+      fill: PhetColorScheme.RED_COLORBLIND,
+      center: stopIcon.center
+    } );
 
     BooleanRoundToggleButton.call( this, stopIcon, recordIcon, recordingProperty, options );
   }
