@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * Colors that are specific to PhET simulations.
@@ -39,6 +39,7 @@ define( function( require ) {
     POTENTIAL_ENERGY: Color.BLUE,
     REAL_PART: new Color( 255, 153, 0 ),
     RED_COLORBLIND: RED_COLORBLIND,
+    RESET_ALL_BUTTON_BASE_COLOR: new Color( 247, 151, 34 ),
     GREEN_COLORBLIND: GREEN_COLORBLIND,
     TOTAL_ENERGY: TAN_ORANGE,
     TOTAL_FORCE: DARK_GREEN,

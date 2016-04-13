@@ -1,10 +1,11 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2016, University of Colorado Boulder
 
 /**
- * Reset All button.  This version is drawn in code using shapes, gradients,
- * and such, and does not use any image files.
+ * Reset All button, typically used to reset everything ('reset all') on a Screen.
+ * Extends ResetButton, adding things that are specific to 'reset all'.
  *
  * @author John Blanco
+ * @author Chris Malley
  */
 define( function( require ) {
   'use strict';
@@ -13,78 +14,60 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var Shape = require( 'KITE/Shape' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  var ResetAllShape = require( 'SCENERY_PHET/ResetAllShape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
   var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
-
-  // constants
-  var DEFAULT_RADIUS = 24; // Derived from images initially used for reset button.
-  var ORANGE = new Color( 247, 151, 34 ); // Default orange color scheme, standard for PhET reset buttons
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function ResetAllButton( options ) {
-    var buttonRadius = ( options && options.radius ) ? options.radius : DEFAULT_RADIUS;
+
     options = _.extend( {
-      // Default values
-      radius: DEFAULT_RADIUS,
-      minXMargin: buttonRadius * 0.2,
-
-      baseColor: ORANGE,
-
-      // The arrow shape doesn't look right when perfectly centered, account
-      // for that here, and see docs in RoundButtonView.  The multiplier
-      // values were empirically determined.
-      xContentOffset: buttonRadius * 0.03,
-      yContentOffset: buttonRadius * ( -0.0125 ),
-      textDescription: 'Reset All Button',
-
-      // Marker entry to indicate that tandem is supported (in the parent)
-      tandem: null
+      radius: 24, // derived from the image files that were originally used for this button
+      baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
+      arrowColor: 'white',
+      textDescription: 'Reset All Button', //TODO document, is this for a11y?
+      tandem: null // Marker entry to indicate that tandem is supported (in the parent)
     }, options );
 
-    var icon = new Path( new ResetAllShape( options.radius ), { fill: 'white' } );
+    // a11y
+    assert && assert( !options.accessibleContent, 'accessibleContent is not customizable' );
+    options.accessibleContent = {
+      
+      focusHighlight: new Shape().circle( 0, 0, options.radius ),
 
-    RoundPushButton.call( this, _.extend( {
-      content: icon,
-      accessibleContent: {
-        focusHighlight: new Shape().circle( 0, 0, buttonRadius ),
+      /**
+       * Create an element for the ResetAllButton in the parallel DOM and set its attributes.
+       *
+       * @param {AccessibleInstance} accessibleInstance
+       * @returns {AccessiblePeer}
+       */
+      createPeer: function( accessibleInstance ) {
+        
+        // will look like <input value="Reset All" type="reset" tabindex="0">
+        var domElement = document.createElement( 'input' );
+        domElement.value = resetAllButtonNameString;
+        domElement.type = 'reset';
+        domElement.tabIndex = '0';
 
-        /**
-         * Create an element for the ResetAllButton in the parallel DOM and set its attributes.
-         *
-         * @param {AccessibleInstance} accessibleInstance
-         * @returns {AccessiblePeer}
-         */
-        createPeer: function( accessibleInstance ) {
-          // will look like <input value="Reset All" type="reset" tabindex="0">
-          var domElement = document.createElement( 'input' );
-          domElement.value = resetAllButtonNameString;
-          domElement.type = 'reset';
-          domElement.tabIndex = '0';
+        domElement.addEventListener( 'click', function() {
+          options.listener();
+        } );
 
-          domElement.addEventListener( 'click', function() {
-            options.listener();
-          } );
-
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
+        return new AccessiblePeer( accessibleInstance, domElement );
       }
-    }, options ) );
+    };
+
+    ResetButton.call( this, options );
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
-  return inherit( RoundPushButton, ResetAllButton, {}, {
-
-    // Export the base color in case other sim components need to match with it.
-    RESET_ALL_BUTTON_BASE_COLOR: ORANGE
-  } );
+  return inherit( ResetButton, ResetAllButton );
 } );
