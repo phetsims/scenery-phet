@@ -40,9 +40,9 @@ define( function( require ) {
     this.lineTo(
       ( OUTER_RADIUS + HEAD_WIDTHExtrusion ) * Math.cos( neckAngle ),
       ( OUTER_RADIUS + HEAD_WIDTHExtrusion ) * Math.sin( neckAngle ) );
-    var pointRadius = ( OUTER_RADIUS + INNER_RADIUS ) * 0.55; // Tweaked a little from center for better look.
-    
+
     // Tip of arrowhead.
+    var pointRadius = ( OUTER_RADIUS + INNER_RADIUS ) * 0.55; // Tweaked a little from center for better look.
     this.lineTo(
       pointRadius * Math.cos( neckAngle + ARROW_HEAD_ANGULAR_SPAN ),
       pointRadius * Math.sin( neckAngle + ARROW_HEAD_ANGULAR_SPAN ) );

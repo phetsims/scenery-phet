@@ -32,6 +32,7 @@ define( function( require ) {
       baseColor: 'white',
       arrowColor: 'black',
 
+      //TODO this assumes 3D appearance strategy, see sun#234
       // The arrow shape doesn't look right when perfectly centered, account for that here,
       // and see docs in RoundButtonView. The multiplier values were empirically determined.
       xContentOffset: 0.03 * BUTTON_RADIUS,
