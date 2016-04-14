@@ -106,9 +106,7 @@ define( function( require ) {
     valueProperty.link( valueObserver );
 
     var updateEnabledObserver = function( updateEnabled ) {
-      if ( updateEnabled ) {
-        updateNeedle();
-      }
+      updateNeedle();
     };
     options.updateEnabledProperty.link( updateEnabledObserver );
 
