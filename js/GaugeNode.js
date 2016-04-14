@@ -25,7 +25,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Constructor
    * @param {Property.<number>} valueProperty which is portrayed
    * @param {Object} [options] typical Node layout and display options
    * @param {string} label label to display (scaled to fit if necessary)
