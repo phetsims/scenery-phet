@@ -48,8 +48,8 @@ define( function( require ) {
       // The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1,
 
-      // Optional property to pass in--if the client provides a updateEnabledProperty
-      // then the needle will only be updated when changed and visible (or made visible)
+      // Determines whether the gauge will be updated when the value changes.
+      // Use this to (for example) disable updates while a gauge is not visibile.
       updateEnabledProperty: new Property( true )
     }, options );
 
@@ -83,7 +83,6 @@ define( function( require ) {
 
     var scratchMatrix = new Matrix3();
 
-    // Update when the velocity changes, but only if the gauge is visible
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
@@ -94,6 +93,7 @@ define( function( require ) {
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );
         }
         else {
+
           // Hide the needle if there is no value number value to portray.
           needle.visible = false;
         }
