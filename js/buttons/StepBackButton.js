@@ -1,6 +1,6 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
-//TODO lots of duplication with StepButton, see scenery-phet#235
+//TODO lots of duplication with StepButton, differences noted in TODOs below, see scenery-phet#235
 /**
  * StepBackButton button is generally used along side play/pause and forward buttons.
  * Though the listener is generic, the button is typically used to step back in time frame
@@ -28,16 +28,25 @@ define( function( require ) {
 
   /**
    * @param stepFunction
-   * @param {Property.<boolean>} enabledProperty
+   * @param {Property.<boolean>} enabledProperty - TODO this is different than StepButton
    * @param {Object} [options]
    * @constructor
    */
   function StepBackButton( stepFunction, enabledProperty, options ) {
-    var stepBackButton = this;
+
+    // button radius is used in computation of other default options
+    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
+
     options = _.extend( {
-      radius: 20,
-      fireOnHold: true
+      radius: BUTTON_RADIUS,
+      //TODO multiplier is different than StepButton
+      xContentOffset: -0.15 * BUTTON_RADIUS, // shift the content to center align, assumes 3D appearance
+      fireOnHold: true,
+      iconFill: 'black'
     }, options );
+
+    assert && assert( !options.listener, 'stepFunction replaces options.listener' );
+    options.listener = stepFunction;
 
     // step symbol is sized relative to the radius
     var barWidth = options.radius * 0.15;
@@ -45,20 +54,26 @@ define( function( require ) {
     var triangleWidth = options.radius * 0.65;
     var triangleHeight = barHeight;
 
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
-    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
-    trianglePath.mutate( { rotation: Math.PI } );
+    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: options.iconFill } );
+    var trianglePath = new Path( new Shape()
+      .moveTo( 0, triangleHeight / 2 )
+      .lineTo( triangleWidth, 0 )
+      .lineTo( 0, -triangleHeight / 2 )
+      .close(), {
+      fill: options.iconFill,
+      rotation: Math.PI //TODO rotates the same shape as StepButton
+    } );
 
-    RoundPushButton.call( this, _.extend( {
-      content: new HBox( { children: [ trianglePath, barPath ], spacing: barWidth } ),
-      listener: stepFunction,
-      radius: options.radius,
-      //left shift the content to center align
-      xContentOffset: -options.radius * 0.15
-    }, options ) );
-    this.enabled = false;
+    assert && assert( !options.content, 'button creates its own content' );
+    options.content = new HBox( {
+      children: [ trianglePath, barPath ], //TODO order is different than StepButton
+      spacing: barWidth
+    } );
 
-    enabledProperty.link( function( value ) { stepBackButton.enabled = value; } );
+    RoundPushButton.call( this, options );
+
+    var thisButton = this;
+    enabledProperty.link( function( value ) { thisButton.enabled = value; } ); //TODO this is different than StepButton
   }
 
   sceneryPhet.register( 'StepBackButton', StepBackButton );
