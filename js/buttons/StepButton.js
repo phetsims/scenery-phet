@@ -23,11 +23,11 @@ define( function( require ) {
 
   /**
    * @param stepFunction
-   * @param {Property.<boolean>} enabledProperty
+   * @param {Property.<boolean>} playingProperty - button will be disabled when this is true
    * @param {Object} [options]
    * @constructor
    */
-  function StepButton( stepFunction, enabledProperty, options ) {
+  function StepButton( stepFunction, playingProperty, options ) {
 
     options = _.extend( {
       radius: DEFAULT_RADIUS,
@@ -55,7 +55,7 @@ define( function( require ) {
     }, options ) );
     this.enabled = false;
 
-    enabledProperty.link( function( value ) { stepButton.enabled = !value; } );
+    playingProperty.link( function( value ) { stepButton.enabled = !value; } );
   }
 
   sceneryPhet.register( 'StepButton', StepButton );
