@@ -98,15 +98,8 @@ define( function( require ) {
       }
     };
 
-    var valueObserver = function( value ) {
-      updateNeedle();
-    };
-    valueProperty.link( valueObserver );
-
-    var updateEnabledObserver = function( updateEnabled ) {
-      updateNeedle();
-    };
-    options.updateEnabledProperty.link( updateEnabledObserver );
+    valueProperty.link( updateNeedle );
+    options.updateEnabledProperty.link( updateNeedle );
 
     // Render all of the ticks into two layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
@@ -138,8 +131,8 @@ define( function( require ) {
 
     // @private
     this.disposeGaugeNode = function() {
-      valueProperty.unlink( valueObserver );
-      options.updateEnabledProperty.unlink( updateEnabledObserver );
+      valueProperty.unlink( updateNeedle );
+      options.updateEnabledProperty.unlink( updateNeedle );
     };
   }
 
