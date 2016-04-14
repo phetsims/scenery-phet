@@ -44,11 +44,12 @@ define( function( require ) {
       backgroundLineWidth: 2,
       anglePerTick: Math.PI * 2 / 4 / 8,
 
-      //8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
-      //The ticks are duplicated for the right side, and one tick appears in the middle at the top
+      // 8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
+      // The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1,
 
-      //Optional property to pass in--if the client provides a updateEnabledProperty then the needle will only be updated when changed and visible (or made visible)
+      // Optional property to pass in--if the client provides a updateEnabledProperty
+      // then the needle will only be updated when changed and visible (or made visible)
       updateEnabledProperty: new Property( true )
     }, options );
     this.addChild( new Circle( options.radius, {
@@ -95,14 +96,18 @@ define( function( require ) {
         }
       }
     };
-    valueProperty.link( updateNeedle );
 
-    //When the gauge is made visible, update the needle
-    options.updateEnabledProperty.link( function( visible ) {
-      if ( visible ) {
+    var valueObserver = function( value ) {
+      updateNeedle();
+    };
+    valueProperty.link( valueObserver );
+
+    var updateEnabledObserver = function( updateEnabled ) {
+      if ( updateEnabled ) {
         updateNeedle();
       }
-    } );
+    };
+    options.updateEnabledProperty.link( updateEnabledObserver );
 
     // Render all of the ticks into two layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
@@ -131,9 +136,21 @@ define( function( require ) {
     foregroundNode.addChild( new Path( bigTicksShape, { stroke: 'gray', lineWidth: 2 } ) );
     foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: 1 } ) );
     this.mutate( options );
+
+    // @private
+    this.disposeGaugeNode = function() {
+      valueProperty.unlink( valueObserver );
+      options.updateEnabledProperty.unlink( updateEnabledObserver );
+    };
   }
 
   sceneryPhet.register( 'GaugeNode', GaugeNode );
 
-  return inherit( Node, GaugeNode );
+  return inherit( Node, GaugeNode, {
+
+    // @public
+    dispose: function() {
+      this.disposeGaugeNode();
+    }
+  } );
 } );
