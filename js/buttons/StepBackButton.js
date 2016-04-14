@@ -26,8 +26,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var DEFAULT_RADIUS = 20;
-
   /**
    * @param stepFunction
    * @param {Property.<boolean>} enabledProperty
@@ -37,7 +35,7 @@ define( function( require ) {
   function StepBackButton( stepFunction, enabledProperty, options ) {
     var stepBackButton = this;
     options = _.extend( {
-      radius: DEFAULT_RADIUS,
+      radius: 20,
       fireOnHold: true
     }, options );
 

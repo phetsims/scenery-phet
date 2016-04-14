@@ -18,9 +18,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // constants
-  var DEFAULT_RADIUS = 20;
-
   /**
    * @param stepFunction
    * @param {Property.<boolean>} playingProperty - button will be disabled when this is true
@@ -30,7 +27,7 @@ define( function( require ) {
   function StepButton( stepFunction, playingProperty, options ) {
 
     options = _.extend( {
-      radius: DEFAULT_RADIUS,
+      radius: 20,
       fireOnHold: true
     }, options );
 
