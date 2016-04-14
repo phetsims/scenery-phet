@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2016, University of Colorado Boulder
 
 /**
  * The gauge node is a scenery node that represents a circular gauge that
@@ -52,6 +52,7 @@ define( function( require ) {
       // then the needle will only be updated when changed and visible (or made visible)
       updateEnabledProperty: new Property( true )
     }, options );
+
     this.addChild( new Circle( options.radius, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
@@ -80,7 +81,7 @@ define( function( require ) {
 
     var scratchMatrix = new Matrix3();
 
-    //Update when the velocity changes, but only if the gauge is visible
+    // Update when the velocity changes, but only if the gauge is visible
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
@@ -114,7 +115,7 @@ define( function( require ) {
     var bigTicksShape = new Shape();
     var smallTicksShape = new Shape();
 
-    //Add the tick marks
+    // Add the tick marks
     for ( var i = 0; i < options.numTicks; i++ ) {
       var tickAngle = i * options.anglePerTick + startAngle;
 
