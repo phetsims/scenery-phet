@@ -49,7 +49,7 @@ define( function( require ) {
       numTicks: ( 8 + 2 ) * 2 + 1,
 
       // Determines whether the gauge will be updated when the value changes.
-      // Use this to (for example) disable updates while a gauge is not visibile.
+      // Use this to (for example) disable updates while a gauge is not visible.
       updateEnabledProperty: new Property( true )
     }, options );
 
