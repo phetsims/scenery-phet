@@ -1,12 +1,11 @@
 // Copyright 2013-2016, University of Colorado Boulder
 
 /**
- * The gauge node is a scenery node that represents a circular gauge that
- * depicts some dynamic value.  This was originally ported from the
- * speedometer node in forces-and-motion-basics.
+ * The gauge node is a scenery node that represents a circular gauge that depicts some dynamic value.  This was
+ * originally ported from the speedometer node in forces-and-motion-basics.
  *
- * @author Sam Reid
- * @author John Blanco
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
