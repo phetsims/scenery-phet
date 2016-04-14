@@ -1,12 +1,10 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
- * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
- * Generated programmatically using RoundPushButton (as opposed to using raster images).
+ * Rewind button.
  *
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
@@ -20,13 +18,13 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   *
-   * @param stepFunction
-   * @param {Property.<boolean>} playProperty
+   * @param {Object} [options] - see RoundPushButton
    * @constructor
    */
-  function RewindButton( stepFunction, playProperty ) {
-    var stepButton = this;
+  function RewindButton( options ) {
+
+    options = options || {};
+
     var scale = 0.75;
     var vscale = 1.15;
     var barWidth = 6 * scale;
@@ -47,13 +45,10 @@ define( function( require ) {
       lineWidth: 1
     } );
 
-    RoundPushButton.call( this, {
-      content: new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } ),
-      listener: stepFunction,
-      enabled: false
-    } );
+    assert && assert( !options.content, 'this button creates its own content' );
+    options.content = new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } );
 
-    playProperty.link( function( value ) { stepButton.enabled = !value; } );
+    RoundPushButton.call( this, options );
   }
 
   sceneryPhet.register( 'RewindButton', RewindButton );
