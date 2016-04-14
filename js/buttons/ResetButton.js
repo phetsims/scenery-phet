@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   var Path = require( 'SCENERY/nodes/Path' );
   var ResetShape = require( 'SCENERY_PHET/ResetShape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -32,18 +33,22 @@ define( function( require ) {
       baseColor: 'white',
       arrowColor: 'black',
 
-      //TODO this assumes 3D appearance strategy, see sun#234
-      // The arrow shape doesn't look right when perfectly centered, account for that here,
+      //TODO this should be handled by RoundButtonView.threeDAppearanceStrategy, see sun#234
+      // The icon doesn't look right when perfectly centered, account for that here,
       // and see docs in RoundButtonView. The multiplier values were empirically determined.
-      xContentOffset: 0.03 * BUTTON_RADIUS,
+      xContentOffset: -0.03 * BUTTON_RADIUS,
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
-      // Marker entry to indicate that tandem is supported (in the parent)
-      tandem: null
+      tandem: null // Marker entry to indicate that tandem is supported (in the parent)
     }, options );
 
+    // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235
+    var resetIcon = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
+    var reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, 1 ) ) );
+    resetIcon.localBounds = resetIcon.localBounds.union( reflectedIcon.localBounds );
+
     assert && assert( !options.content, 'content is not customizable' );
-    options.content = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
+    options.content = resetIcon;
 
     RoundPushButton.call( this, options );
   }
