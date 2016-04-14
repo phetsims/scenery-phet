@@ -25,9 +25,9 @@ define( function( require ) {
 
   /**
    * @param {Property.<number>} valueProperty which is portrayed
-   * @param {Object} [options] typical Node layout and display options
    * @param {string} label label to display (scaled to fit if necessary)
    * @param {Object} range contains min and max values that define the range
+   * @param {Object} [options]
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
