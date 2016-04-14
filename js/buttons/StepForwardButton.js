@@ -1,8 +1,9 @@
-// Copyright 2014-2016, University of Colorado Boulder
+// Copyright 2016, University of Colorado Boulder
 
 /**
- * Step Back button.
+ * Step Forward button.
  *
+ * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
@@ -14,19 +15,19 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param stepFunction
-   * @param {Property.<boolean>} enabledProperty
-   * @param {Object} [options]
+   * @param {function} stepFunction
+   * @param {Property.<boolean>} playingProperty - button is disabled when this is true
+   * @param {Object} options
    * @constructor
    */
-  function StepBackButton( stepFunction, enabledProperty, options ) {
+  function StepForwardButton( stepFunction, playingProperty, options ) {
 
     // button radius is used in computation of other default options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
 
     options = _.extend( {
-      direction: 'back',
-      xContentOffset: -0.15 * BUTTON_RADIUS // shift the content to center align, assumes 3D appearance
+      direction: 'forward',
+      xContentOffset: 0.075 * BUTTON_RADIUS // shift the content to center align, assumes 3D appearance
     }, options );
 
     assert && assert( !options.listener, 'stepFunction replaces options.listener' );
@@ -34,11 +35,12 @@ define( function( require ) {
 
     StepButton.call( this, options );
 
+    // Disable this button when playing
     var thisButton = this;
-    enabledProperty.link( function( value ) { thisButton.enabled = value; } );
+    playingProperty.link( function( value ) { thisButton.enabled = !value; } );
   }
 
-  sceneryPhet.register( 'StepBackButton', StepBackButton );
+  sceneryPhet.register( 'StepForwardButton', StepForwardButton );
 
-  return inherit( StepButton, StepBackButton );
+  return inherit( StepButton, StepForwardButton );
 } );

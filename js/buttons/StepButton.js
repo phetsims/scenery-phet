@@ -1,9 +1,11 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
- * Button used for stepping the simulation forward when paused.
+ * Generalized button for stepping forward or back.
+ * See also StepForwardButton and StepBackButton, which provide some additional convenience behavior.
  *
  * @author Sam Reid
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
@@ -18,51 +20,46 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param stepFunction
-   * @param {Property.<boolean>} playingProperty - button will be disabled when this is true
-   * @param {Object} [options]
+   * @param {Object} [options] - see RoundPushButton
    * @constructor
    */
-  function StepButton( stepFunction, playingProperty, options ) {
-
-    // button radius is used in computation of other default options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
+  function StepButton( options ) {
 
     options = _.extend( {
-      radius: BUTTON_RADIUS,
-      xContentOffset: 0.075 * BUTTON_RADIUS, // shift the content to center align, assumes 3D appearance
+      direction: 'forward', // {string} 'forward'|'back'
+      radius: 20,
       fireOnHold: true,
       iconFill: 'black'
     }, options );
+    
+    assert && assert( options.direction === 'forward' || options.direction === 'back',
+    'unsupported direction: ' + options.direction );
 
-    assert && assert( !options.listener, 'stepFunction replaces options.listener' );
-    options.listener = stepFunction;
+    // step icon is sized relative to the radius
+    var BAR_WIDTH = options.radius * 0.15;
+    var BAR_HEIGHT = options.radius * 0.9;
+    var TRIANGLE_WIDTH = options.radius * 0.65;
+    var TRIANGLE_HEIGHT = BAR_HEIGHT;
 
-    // step symbol is sized relative to the radius
-    var barWidth = options.radius * 0.15;
-    var barHeight = options.radius * 0.9;
-    var triangleWidth = options.radius * 0.65;
-    var triangleHeight = barHeight;
-
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: options.iconFill } );
+    // icon, in 'forward' orientation
+    var barPath = new Rectangle( 0, 0, BAR_WIDTH, BAR_HEIGHT, { fill: options.iconFill } );
     var trianglePath = new Path( new Shape()
-      .moveTo( 0, triangleHeight / 2 )
-      .lineTo( triangleWidth, 0 )
-      .lineTo( 0, -triangleHeight / 2 )
+      .moveTo( 0, TRIANGLE_HEIGHT / 2 )
+      .lineTo( TRIANGLE_WIDTH, 0 )
+      .lineTo( 0, -TRIANGLE_HEIGHT / 2 )
       .close(), {
       fill: options.iconFill
     } );
-
-    assert && assert( !options.content, 'button creates its own content' );
-    options.content = new HBox( {
+    var stepIcon =  new HBox( {
       children: [ barPath, trianglePath ],
-      spacing: barWidth
+      spacing: BAR_WIDTH,
+      rotation: ( options.direction === 'forward' )? 0 : Math.PI
     } );
 
-    RoundPushButton.call( this, options );
+    assert && assert( !options.content, 'button creates its own content' );
+    options.content = stepIcon;
 
-    var thisButton = this;
-    playingProperty.link( function( value ) { thisButton.enabled = !value; } );
+    RoundPushButton.call( this, options );
   }
 
   sceneryPhet.register( 'StepButton', StepButton );
