@@ -2,6 +2,7 @@
 
 /**
  * Shape used to indicate 'reset' of something, used on ResetButton.
+ * Origin is at the center of the circle.
  *
  * @author John Blanco
  */
