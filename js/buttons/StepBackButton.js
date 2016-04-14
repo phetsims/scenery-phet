@@ -1,5 +1,6 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
+//TODO lots of duplication with StepButton, see scenery-phet#235
 /**
  * StepBackButton button is generally used along side play/pause and forward buttons.
  * Though the listener is generic, the button is typically used to step back in time frame
@@ -28,7 +29,6 @@ define( function( require ) {
   var DEFAULT_RADIUS = 20;
 
   /**
-   *
    * @param stepFunction
    * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
