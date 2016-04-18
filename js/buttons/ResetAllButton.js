@@ -31,7 +31,6 @@ define( function( require ) {
       radius: 24, // derived from the image files that were originally used for this button
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      textDescription: 'Reset All Button', //TODO document, is this for a11y?
       tandem: null // Marker entry to indicate that tandem is supported (in the parent)
     }, options );
 
