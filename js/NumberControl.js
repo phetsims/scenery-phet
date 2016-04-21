@@ -99,10 +99,11 @@ define( function( require ) {
       numberProperty.set( value );
     }, arrowButtonOptions );
 
-    numberProperty.link( function( value ) {
+    var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
       rightArrowButton.enabled = ( value < numberRange.max );
-    } );
+    };
+    numberProperty.link( arrowEnabledListener );
 
     var slider = new HSlider( numberProperty, numberRange, _.extend( {
       startDrag: options.startCallback,
@@ -145,11 +146,22 @@ define( function( require ) {
       } )
     ];
     VBox.call( this, options );
+
+    this.disposeNumberControl = function() {
+      numberDisplay.dispose();
+      numberProperty.unlink( arrowEnabledListener );
+      slider.dispose();
+    };
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );
 
-  return inherit( VBox, NumberControl, {}, {
+  return inherit( VBox, NumberControl, {
+    dispose: function() {
+      this.disposeNumberControl();
+      VBox.prototype.dispose.call( this );
+    }
+  }, {
 
     /**
      * Creates a NumberControl with default tick marks for min and max values.
