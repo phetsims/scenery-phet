@@ -44,7 +44,7 @@ define( function( require ) {
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235
     var resetIcon = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
-    var reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, 1 ) ) );
+    var reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, -1 ) ) );
     resetIcon.localBounds = resetIcon.localBounds.union( reflectedIcon.localBounds );
 
     assert && assert( !options.content, 'content is not customizable' );
