@@ -58,7 +58,9 @@ define( function( require ) {
       backgroundStroke: 'gray',
       backgroundLineWidth: 0.5,
       arrowHeight: 6,
-      arrowYSpacing: 3
+      arrowYSpacing: 3,
+      arrowStroke: 'black',
+      arrowLineWidth: 0.25
     }, options );
     // {Color|string} color of arrows and top/bottom gradient when pressed
     options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
@@ -128,8 +130,13 @@ define( function( require ) {
     // compute size of arrows
     var arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, options.arrowHeight );
 
+    var arrowOptions = {
+      stroke: options.arrowStroke,
+      lineWidth: options.arrowLineWidth,
+      pickable: false
+    };
+
     // 'up' arrow
-    var arrowOptions = { stroke: 'black', lineWidth: 0.25, pickable: false };
     var upArrowShape = new Shape()
       .moveTo( arrowButtonSize.width / 2, 0 )
       .lineTo( arrowButtonSize.width, arrowButtonSize.height )
