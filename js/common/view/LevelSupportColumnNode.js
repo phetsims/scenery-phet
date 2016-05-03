@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var balancingAct = require( 'BALANCING_ACT/balancingAct' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -67,6 +68,8 @@ define( function( require ) {
       thisNode.visible = state === 'doubleColumns';
     } );
   }
+
+  balancingAct.register( 'LevelSupportColumnNode', LevelSupportColumnNode );
 
   return inherit( Node, LevelSupportColumnNode );
 } );
