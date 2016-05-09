@@ -39,6 +39,8 @@ define( function( require ) {
       backgroundStroke: 'lightGray'
     }, options );
 
+    var thisNode = this;
+
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
     var maxString = Util.toFixed( numberRange.max, options.decimalPlaces );
@@ -50,19 +52,19 @@ define( function( require ) {
       fill: options.numberFill
     } );
 
-    // background
-    var background = new Rectangle( 0, 0, valueNode.width + 2 * options.xMargin, valueNode.height + 2 * options.yMargin, options.cornerRadius, options.cornerRadius, {
+    // @private background
+    this.backgroundNode = new Rectangle( 0, 0, valueNode.width + 2 * options.xMargin, valueNode.height + 2 * options.yMargin, options.cornerRadius, options.cornerRadius, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke
     } );
-    valueNode.centerY = background.centerY;
+    valueNode.centerY = this.backgroundNode.centerY;
 
-    options.children = [ background, valueNode ];
+    options.children = [ this.backgroundNode, valueNode ];
 
     // display the value
     var numberObserver = function( value ) {
       valueNode.text = StringUtils.format( pattern, Util.toFixed( value, options.decimalPlaces ), units );
-      valueNode.right = background.right - options.xMargin; // right justified
+      valueNode.right = thisNode.backgroundNode.right - options.xMargin; // right justified
     };
     numberProperty.link( numberObserver );
 
@@ -81,6 +83,26 @@ define( function( require ) {
     // @public
     dispose: function() {
       this.disposeNumberDisplay();
-    }
+    },
+
+    /**
+     * Sets the background fill.
+     * @param {Color|string} fill
+     * @public
+     */
+    setBackgroundFill: function( fill ) {
+      this.backgroundNode.fill = fill;
+    },
+    set backgroundFill( value ) { this.setBackgroundFill( value ); },
+
+    /**
+     * Sets the background stroke.
+     * @param {Color|string} stroke
+     * @public
+     */
+    setBackgroundStroke: function( stroke ) {
+      this.backgroundNode.stroke = stroke;
+    },
+    set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
   } );
 } );
