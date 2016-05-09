@@ -32,7 +32,7 @@ define( function( require ) {
       buttonFont: new PhetFont( { size: 20 } ),
       minButtonWidth: 35,
       minButtonHeight: 35,
-      doubleWideZeroKey: true,
+      decimalPointKey: false,
       xSpacing: 10,
       ySpacing: 10,
       keyColor: 'white',
@@ -85,15 +85,15 @@ define( function( require ) {
 
     // create the bottom row of buttons, which can vary based on options
     var bottomButtonRowChildren = [];
-    if ( options.doubleWideZeroKey ) {
-      // add a double-width zero key
-      var doubleRowButtonKeySpec = _.extend( {}, buttonKeySpec, { minWidth: buttonKeySpec.minWidth * 2 + options.xSpacing } );
-      bottomButtonRowChildren.push( createNumberKey( 0, this, doubleRowButtonKeySpec ) );
+    if ( options.decimalPointKey ) {
+      // add a decimal point key plus a normal width zero key
+      bottomButtonRowChildren.push( createNumberKey( '.', this, buttonKeySpec ) );
+      bottomButtonRowChildren.push( createNumberKey( 0, this, buttonKeySpec ) );
     }
     else {
-      // add a normal width zero key plus a spacer to keep the layout looking good
-      bottomButtonRowChildren.push( createNumberKey( 0, this, buttonKeySpec ) );
-      bottomButtonRowChildren.push( new HStrut( options.minButtonWidth ) );
+      // add a double-width zero key instead of the decimal point key
+      var doubleRowButtonKeySpec = _.extend( {}, buttonKeySpec, { minWidth: buttonKeySpec.minWidth * 2 + options.xSpacing } );
+      bottomButtonRowChildren.push( createNumberKey( 0, this, doubleRowButtonKeySpec ) );
     }
     bottomButtonRowChildren.push( backspaceButton );
 
@@ -148,16 +148,23 @@ define( function( require ) {
           parentKeypad.armedForNewEntry = false;
         }
 
+        // the new key entry
+        var numberString = number.toString();
+
         // Add the digit to the string, but limit the length and prevent multiple leading zeros.
         if ( parentKeypad.digitStringProperty.value === '0' ) {
-          if ( number.toString !== 0 ) {
+          if ( numberString !== 0 ) {
             // Replace the leading 0 with this digit.
-            parentKeypad.digitStringProperty.value = number.toString();
+            parentKeypad.digitStringProperty.value = numberString;
           }
           // else ignore the additional zero
         }
         else if ( parentKeypad.digitStringProperty.value.length < buttonSpec.maxDigits ) {
-          parentKeypad.digitStringProperty.value += number.toString();
+
+          // only allow a single decimal point
+          if ( numberString !== '.' || parentKeypad.digitStringProperty.value.indexOf( '.' ) == -1 ) {
+            parentKeypad.digitStringProperty.value += numberString;
+          }
         }
       }
     } );
