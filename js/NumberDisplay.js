@@ -47,24 +47,24 @@ define( function( require ) {
     var widestString = StringUtils.format( pattern, ( ( minString.length > maxString.length ) ? minString : maxString ), units );
 
     // value
-    var valueNode = new Text( widestString, {
+    this.valueNode = new Text( widestString, {
       font: options.font,
       fill: options.numberFill
     } );
 
     // @private background
-    this.backgroundNode = new Rectangle( 0, 0, valueNode.width + 2 * options.xMargin, valueNode.height + 2 * options.yMargin, options.cornerRadius, options.cornerRadius, {
+    this.backgroundNode = new Rectangle( 0, 0, this.valueNode.width + 2 * options.xMargin, this.valueNode.height + 2 * options.yMargin, options.cornerRadius, options.cornerRadius, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke
     } );
-    valueNode.centerY = this.backgroundNode.centerY;
+    this.valueNode.centerY = this.backgroundNode.centerY;
 
-    options.children = [ this.backgroundNode, valueNode ];
+    options.children = [ this.backgroundNode, this.valueNode ];
 
     // display the value
     var numberObserver = function( value ) {
-      valueNode.text = StringUtils.format( pattern, Util.toFixed( value, options.decimalPlaces ), units );
-      valueNode.right = thisNode.backgroundNode.right - options.xMargin; // right justified
+      thisNode.valueNode.text = StringUtils.format( pattern, Util.toFixed( value, options.decimalPlaces ), units );
+      thisNode.valueNode.right = thisNode.backgroundNode.right - options.xMargin; // right justified
     };
     numberProperty.link( numberObserver );
 
@@ -84,6 +84,16 @@ define( function( require ) {
     dispose: function() {
       this.disposeNumberDisplay();
     },
+
+    /**
+     * Sets the number text fill.
+     * @param {Color|string} fill
+     * @public
+     */
+    setNumberFill: function( fill ) {
+      this.valueNode.fill = fill;
+    },
+    set numberFill( value ) { this.setNumberFill( value ); },
 
     /**
      * Sets the background fill.
