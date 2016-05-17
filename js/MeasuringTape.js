@@ -41,7 +41,7 @@ define( function( require ) {
    * Constructor for the measuring tape. WARNING: although the MeasuringTape will accept Scenery options such as
    * x, y, left, etc., you should not use these to set the position of the tape. Use basePositionProperty and
    * tipPositionProperty instead. However, because there are some Scenery options that might be useful, options
-   * are still propogated to the supertype.
+   * are still propagated to the supertype.
    *
    * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string> and (2) multiplier <number>,
    *                                            eg. {name: 'cm', multiplier: 100},
