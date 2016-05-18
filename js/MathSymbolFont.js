@@ -10,8 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var Font = require( 'SCENERY/util/Font' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
