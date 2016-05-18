@@ -10,9 +10,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var functionBuilder = require( 'FUNCTION_BUILDER/functionBuilder' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Font = require( 'SCENERY/util/Font' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object|number} [options]
@@ -34,7 +34,7 @@ define( function( require ) {
     Font.call( this, options );
   }
 
-  functionBuilder.register( 'MathSymbolFont', MathSymbolFont );
+  sceneryPhet.register( 'MathSymbolFont', MathSymbolFont );
 
   return inherit( Font, MathSymbolFont );
 } );
