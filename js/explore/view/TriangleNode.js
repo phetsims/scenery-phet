@@ -25,6 +25,12 @@ define( function( require ) {
     .lineTo( 0, 0 );
   var rightTriangleShape = leftTriangleShape.transformed( Matrix3.scaling( -1, 1 ) );
 
+  /**
+   *
+   * @param {string} direction - 'left' or 'right'
+   * @param {Object} [options]
+   * @constructor
+   */
   function TriangleNode( direction, options ) {
     assert && assert( direction === 'right' || direction === 'left', 'Direction should be right or left' );
     options = _.extend( { stroke: 'black', lineWidth: 2 }, options );
