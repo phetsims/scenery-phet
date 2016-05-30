@@ -60,7 +60,8 @@ define( function( require ) {
       arrowHeight: 6,
       arrowYSpacing: 3,
       arrowStroke: 'black',
-      arrowLineWidth: 0.25
+      arrowLineWidth: 0.25,
+      formatText: function( text ) {return text;} // Text processor that can be used for formatting the text
     }, options );
     // {Color|string} color of arrows and top/bottom gradient when pressed
     options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
@@ -93,9 +94,9 @@ define( function( require ) {
     var valueNode = new Text( '', { font: options.font, pickable: false } );
 
     // compute max width of text based on value range
-    valueNode.text = Util.toFixed( rangeProperty.get().min, options.decimalPlaces );
+    valueNode.text = options.formatText( Util.toFixed( rangeProperty.get().min, options.decimalPlaces ) );
     var maxWidth = valueNode.width;
-    valueNode.text = Util.toFixed( rangeProperty.get().max, options.decimalPlaces );
+    valueNode.text = options.formatText( Util.toFixed( rangeProperty.get().max, options.decimalPlaces ) );
     maxWidth = Math.max( maxWidth, valueNode.width );
 
     // compute shape of the background behind the numeric value
@@ -247,7 +248,7 @@ define( function( require ) {
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
       }
       else {
-        valueNode.text = Util.toFixed( value, options.decimalPlaces );
+        valueNode.text = options.formatText( Util.toFixed( value, options.decimalPlaces ) );
         if ( options.align === 'center' ) {
           valueNode.centerX = upBackground.centerX;
         }
