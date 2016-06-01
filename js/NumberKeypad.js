@@ -141,6 +141,10 @@ define( function( require ) {
       yMargin: 5,
       listener: function() {
 
+        var decimalIndex = parentKeypad.digitStringProperty.value.indexOf( '.' );
+        var digitLength = ( decimalIndex === -1 ? parentKeypad.digitStringProperty.value.length :
+                                                  parentKeypad.digitStringProperty.value.length -1 );
+
         // If armed for new entry, clear the existing string.
         if ( parentKeypad.armedForNewEntry ) {
           parentKeypad.digitStringProperty.reset();
@@ -158,7 +162,7 @@ define( function( require ) {
           }
           // else ignore the additional zero
         }
-        else if ( parentKeypad.digitStringProperty.value.length < buttonSpec.maxDigits ) {
+        else if ( digitLength < buttonSpec.maxDigits ) {
 
           // only allow a single decimal point
           if ( numberString !== '.' || parentKeypad.digitStringProperty.value.indexOf( '.' ) === -1 ) {
