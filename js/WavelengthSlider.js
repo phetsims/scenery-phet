@@ -23,6 +23,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
@@ -64,6 +65,8 @@ define( function( require ) {
       pointerAreasOverTrack: false,
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // validate wavelengths
     assert && assert( options.minWavelength < options.maxWavelength );

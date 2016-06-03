@@ -18,6 +18,7 @@ define( function( require ) {
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   var foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
@@ -51,6 +52,8 @@ define( function( require ) {
       // Note: EyeDropperNode is not draggable and hence only registers its button with tandem.
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var thisNode = this;
 

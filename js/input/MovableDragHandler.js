@@ -15,6 +15,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Property.<Vector2>} locationProperty - in model coordinate frame
@@ -37,6 +38,8 @@ define( function( require ) {
       // component of a node hierarchy
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private

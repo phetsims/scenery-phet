@@ -36,6 +36,7 @@ define( function( require ) {
   var Timer = require( 'PHET_CORE/Timer' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -83,6 +84,7 @@ define( function( require ) {
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
       tandem: null
     }, options );
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
     var thisNode = this;

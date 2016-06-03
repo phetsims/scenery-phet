@@ -33,6 +33,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
@@ -80,6 +81,8 @@ define( function( require ) {
       isTipDragBounded: false, // is the tip subject to dragBounds
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // @private - likely to be undefined if not being called from an instrumented sim.
     this.tandem = options.tandem;

@@ -18,6 +18,7 @@ define( function( require ) {
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
@@ -27,6 +28,8 @@ define( function( require ) {
   function LaserPointerNode( onProperty, options ) {
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
