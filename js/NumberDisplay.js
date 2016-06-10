@@ -86,6 +86,16 @@ define( function( require ) {
     },
 
     /**
+     * Sets the number text font.
+     * @param {Font} font
+     * @public
+     */
+    setNumberFont: function( font ) {
+      this.valueNode.font = font;
+    },
+    set numberFont( value ) { this.setNumberFont( value ); },
+
+    /**
      * Sets the number text fill.
      * @param {Color|string} fill
      * @public
