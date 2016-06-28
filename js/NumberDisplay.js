@@ -35,6 +35,7 @@ define( function( require ) {
       yMargin: 2,
       cornerRadius: 0,
       numberFill: 'black',
+      numberMaxWidth: 200,
       backgroundFill: 'white',
       backgroundStroke: 'lightGray'
     }, options );
@@ -49,7 +50,8 @@ define( function( require ) {
     // value
     this.valueNode = new Text( widestString, {
       font: options.font,
-      fill: options.numberFill
+      fill: options.numberFill,
+      maxWidth: options.numberMaxWidth
     } );
 
     // @private background
