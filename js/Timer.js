@@ -37,7 +37,8 @@ define( function( require ) {
   function Timer( secondsProperty, runningProperty, options ) {
     options = _.extend( {
       iconColor: '#333',
-      buttonBaseColor: '#DFE0E1'
+      buttonBaseColor: '#DFE0E1',
+      touchAreaDilation: 10
     }, options );
 
     Node.call( this, _.extend( { cursor: 'pointer' }, options ) );
@@ -135,7 +136,7 @@ define( function( require ) {
       baseColor: new Color( 80, 130, 230 ),
       cornerRadius: 10
     } );
-    roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( 10 );
+    roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
     this.addChild( roundedRectangle );
     this.addChild( container );
 
