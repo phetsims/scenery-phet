@@ -19,6 +19,7 @@ define( function( require ) {
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosView = require( 'SUN/demo/DemosView' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var Drawer = require( 'SCENERY_PHET/Drawer' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
@@ -64,6 +65,7 @@ define( function( require ) {
       { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
+      { label: 'Drawer', getNode: demoDrawer },
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
@@ -157,6 +159,35 @@ define( function( require ) {
 
     return new Node( {
       children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckBox ],
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for Drawer
+  var demoDrawer = function( layoutBounds ) {
+
+    var rectangle = new Rectangle( 0, 0, 400, 50, {
+      fill: 'gray',
+      stroke: 'black',
+      cornerRadius: 10
+    } );
+
+    var textNode = new Text( 'Hello Drawer!', {
+      font: new PhetFont( 40 ),
+      fill: 'red'
+    } );
+
+    var drawer = new Drawer( textNode, {
+      handleLocation: 'bottom',
+      open: false,
+      xMargin: 30,
+      yMargin: 20,
+      centerX: rectangle.centerX,
+      top: rectangle.bottom - 1
+    } );
+
+    return new Node( {
+      children: [ drawer, rectangle ],
       center: layoutBounds.center
     } );
   };
@@ -344,7 +375,7 @@ define( function( require ) {
     var tickLabelOptions = { font: new PhetFont( 14 ) };
     var multiplierProperty = new Property( 0 );
     multiplierProperty.link( function( multiplier ) {
-       propertySet.lightAngleProperty.set( multiplier * Math.PI );
+      propertySet.lightAngleProperty.set( multiplier * Math.PI );
     } );
     var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new Range( 0, 2 ),
       _.extend( {

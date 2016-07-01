@@ -26,10 +26,13 @@ require.config( {
     PHET_CORE: '../../phet-core/js',
     PHET_IO: '../../phet-io/js',
     SCENERY: '../../scenery/js',
-    SCENERY_PHET: '../../scenery-phet/js',
     SHERPA: '../../sherpa',
     SUN: '../../sun/js',
-    TANDEM: '../../tandem/js'
+    TANDEM: '../../tandem/js',
+    TWIXT: '../../twixt/js',
+
+    // this runnable
+    SCENERY_PHET: '.'
   },
 
   // optional cache buster to make browser refresh load all included scripts, can be disabled with ?cacheBuster=false
