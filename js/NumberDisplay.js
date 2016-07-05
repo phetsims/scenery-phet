@@ -14,7 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Util = require( 'DOT/Util' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -37,7 +37,8 @@ define( function( require ) {
       numberFill: 'black',
       numberMaxWidth: 200,
       backgroundFill: 'white',
-      backgroundStroke: 'lightGray'
+      backgroundStroke: 'lightGray',
+      tandem: null
     }, options );
 
     var thisNode = this;
@@ -48,10 +49,11 @@ define( function( require ) {
     var widestString = StringUtils.format( pattern, ( ( minString.length > maxString.length ) ? minString : maxString ), units );
 
     // value
-    this.valueNode = new Text( widestString, {
+    this.valueNode = new TandemText( widestString, {
       font: options.font,
       fill: options.numberFill,
-      maxWidth: options.numberMaxWidth
+      maxWidth: options.numberMaxWidth,
+      tandem: options.tandem && options.tandem.createTandem( 'valueNode' )
     } );
 
     // @private background
@@ -73,9 +75,12 @@ define( function( require ) {
     // @private called by dispose
     this.disposeNumberDisplay = function() {
       numberProperty.unlink( numberObserver );
+      options.tandem && options.tandem.removeInstance( this );
     };
 
     Node.call( this, options );
+
+    options.tandem && options.tandem.addInstance( this );
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );

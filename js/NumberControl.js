@@ -22,6 +22,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
   // strings
   var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
@@ -60,22 +61,26 @@ define( function( require ) {
       thumbSize: new Dimension2( 17, 34 ),
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
-      thumbFillEnabled: 'green'
+      thumbFillEnabled: 'green',
+
+      tandem: null
 
     }, options );
     options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
 
     var delta = options.delta; // to improve readability
 
-    var titleNode = new Text( title, {
+    var titleNode = new TandemText( title, {
       font: options.titleFont,
-      maxWidth: options.titleMaxWidth
+      maxWidth: options.titleMaxWidth,
+      tandem: options.tandem && options.tandem.createTandem( 'titleNode' )
     } );
 
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, options.units, numberControlPattern0Value1UnitsString, {
       font: options.valueFont,
       decimalPlaces: options.decimalPlaces,
-      maxWidth: options.valueMaxWidth
+      maxWidth: options.valueMaxWidth,
+      tandem: options.tandem && options.tandem.createTandem( 'numberDisplay' )
     } );
 
     var arrowButtonOptions = {
@@ -90,14 +95,18 @@ define( function( require ) {
       value = Util.roundSymmetric( value / delta ) * delta; // constrain to delta
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
-    }, arrowButtonOptions );
+    }, _.extend( {
+      tandem: options.tandem && options.tandem.createTandem( 'leftArrowButton' )
+    }, arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + delta;
       value = Util.roundSymmetric( value / delta ) * delta; // constrain to delta
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
-    }, arrowButtonOptions );
+    }, _.extend( {
+      tandem: options.tandem && options.tandem.createTandem( 'rightArrowButton' )
+    }, arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
@@ -114,7 +123,11 @@ define( function( require ) {
         // constrain to range
         return numberRange.constrainValue( value );
       }
-    }, options ) );
+    }, options, {
+
+      // This uses a 3-arg extend so that the tandem is overriden properly
+      tandem: options.tandem && options.tandem.createTandem( 'slider' )
+    } ) );
 
     // major ticks
     var majorTicks = options.majorTicks;
