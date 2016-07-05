@@ -23,6 +23,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
@@ -66,6 +67,9 @@ define( function( require ) {
       tandem: null
 
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+
     options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
 
     var delta = options.delta; // to improve readability
@@ -164,7 +168,10 @@ define( function( require ) {
       numberDisplay.dispose();
       numberProperty.unlink( arrowEnabledListener );
       slider.dispose();
+      options.tandem && options.tandem.removeInstance( this );
     };
+
+    options.tandem && options.tandem.addInstance( this );
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );
