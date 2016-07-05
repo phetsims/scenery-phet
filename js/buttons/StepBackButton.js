@@ -14,7 +14,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param stepFunction
+   * @param {function} stepFunction
    * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
