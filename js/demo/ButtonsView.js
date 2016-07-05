@@ -29,6 +29,7 @@ define( function( require ) {
 
     ScreenView.call( this );
 
+    // If you add a button that requires a Property, add it here, so that resetAllButton functions properly.
     var buttonProperties = new PropertySet( {
       soundEnabled: true,
       timerEnabled: true,
