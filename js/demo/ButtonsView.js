@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var EyeToggleButton = require( 'SCENERY_PHET/buttons/EyeToggleButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -84,6 +85,17 @@ define( function( require ) {
       centerY: timerToggleButton.centerY
     } );
     this.addChild( timerToggleButtonLabel );
+
+    // Eye toggle
+    var eyeToggleProperty = new Property( true );
+    eyeToggleProperty.lazyLink( function( eyeToggle ) {
+       console.log( 'eyeToggle=' + eyeToggle );
+    } );
+    var eyeToggleButton = new EyeToggleButton( eyeToggleProperty, {
+      right: timerToggleButton.right,
+      top: timerToggleButton.bottom + 5
+    } );
+    this.addChild( eyeToggleButton );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
