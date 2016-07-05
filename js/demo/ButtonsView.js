@@ -12,99 +12,77 @@ define( function( require ) {
   // modules
   var EyeToggleButton = require( 'SCENERY_PHET/buttons/EyeToggleButton' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
+  var PropertySet = require( 'AXON/PropertySet' );
   var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-
-  // constants
-  var BUTTON_CAPTION_FONT = new PhetFont( 12 );
-  var BUTTON_CAPTION_SPACING = 10; // space between buttons and their captions
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @constructor
    */
   function ButtonsView() {
+
     ScreenView.call( this );
+
+    var buttonProperties = new PropertySet( {
+      soundEnabled: true,
+      timerEnabled: true,
+      eyeOpen: true
+    } );
 
     // Refresh button
     var refreshButton = new RefreshButton( {
-      listener: function() { console.log( 'Refresh pressed' ); },
-      right: this.layoutBounds.width - 20,
-      top: 10
+      listener: function() { console.log( 'RefreshButton pressed' ); }
     } );
-    this.addChild( refreshButton );
-    var refreshButtonLabel = new Text( 'Refresh: ', {
-      font: BUTTON_CAPTION_FONT,
-      right: refreshButton.left - 5,
-      centerY: refreshButton.centerY
-    } );
-    this.addChild( refreshButtonLabel );
 
-    // Return-to-level-selection button
-    var returnToLevelSelectButton = new StarButton( {
-      listener: function() { console.log( 'Return to Level Selection pressed' ); },
-      centerX: refreshButton.centerX,
-      top: refreshButton.bottom + BUTTON_CAPTION_SPACING
+    // Star button
+    var starButton = new StarButton( {
+      listener: function() { console.log( 'StarButton pressed' ); }
     } );
-    this.addChild( returnToLevelSelectButton );
-    var returnToLevelSelectButtonLabel = new Text( 'Return to Level Selection: ', {
-      font: BUTTON_CAPTION_FONT,
-      right: returnToLevelSelectButton.left - 5,
-      centerY: returnToLevelSelectButton.centerY
-    } );
-    this.addChild( returnToLevelSelectButtonLabel );
 
     // Sound toggle button
-    var soundEnableProperty = new Property( true );
-    var soundToggleButton = new SoundToggleButton( soundEnableProperty, {
-      centerX: refreshButton.centerX,
-      top: returnToLevelSelectButton.bottom + BUTTON_CAPTION_SPACING * 5
+    var soundToggleButton = new SoundToggleButton( buttonProperties.soundEnabledProperty );
+    buttonProperties.soundEnabledProperty.lazyLink( function( soundEnabled ) {
+      console.log( 'soundEnabled=' + soundEnabled );
     } );
-    this.addChild( soundToggleButton );
-    var soundToggleButtonLabel = new Text( 'Sound: ', {
-      font: BUTTON_CAPTION_FONT,
-      right: soundToggleButton.left - 5,
-      centerY: soundToggleButton.centerY
-    } );
-    this.addChild( soundToggleButtonLabel );
 
     // Timer toggle button
-    var timerEnableProperty = new Property( true );
-    var timerToggleButton = new TimerToggleButton( timerEnableProperty, { centerX: refreshButton.centerX, y: soundToggleButton.bottom + 5 } );
-    this.addChild( timerToggleButton );
-    var timerToggleButtonLabel = new Text( 'Timer: ', {
-      font: BUTTON_CAPTION_FONT,
-      right: timerToggleButton.left - 5,
-      centerY: timerToggleButton.centerY
+    var timerToggleButton = new TimerToggleButton( buttonProperties.timerEnabledProperty );
+    buttonProperties.timerEnabledProperty.lazyLink( function( timerEnabled ) {
+      console.log( 'timerEnabled=' + timerEnabled );
     } );
-    this.addChild( timerToggleButtonLabel );
 
-    // Eye toggle
-    var eyeToggleProperty = new Property( true );
-    eyeToggleProperty.lazyLink( function( eyeToggle ) {
-       console.log( 'eyeToggle=' + eyeToggle );
+    // Eye toggle button
+    var eyeToggleButton = new EyeToggleButton( buttonProperties.eyeOpenProperty );
+    buttonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
+      console.log( 'eyeOpen=' + eyeOpen );
     } );
-    var eyeToggleButton = new EyeToggleButton( eyeToggleProperty, {
-      right: timerToggleButton.right,
-      top: timerToggleButton.bottom + 5
-    } );
-    this.addChild( eyeToggleButton );
 
-    // Reset All button
+    this.addChild( new VBox( {
+      children: [
+        refreshButton,
+        starButton,
+        soundToggleButton,
+        timerToggleButton,
+        eyeToggleButton
+      ],
+      spacing: 10,
+      align: 'center',
+      center: this.layoutBounds.center
+    } ) );
+
+    // Reset All button, in its usual lower-right position
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        soundEnableProperty.reset();
-        timerEnableProperty.reset();
+        buttonProperties.reset();
       },
       radius: 22,
-      right:  this.layoutBounds.right - 10,
+      right: this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
     } );
     this.addChild( resetAllButton );
