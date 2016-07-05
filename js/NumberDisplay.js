@@ -17,6 +17,7 @@ define( function( require ) {
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Util = require( 'DOT/Util' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Property.<number>} numberProperty
@@ -40,6 +41,8 @@ define( function( require ) {
       backgroundStroke: 'lightGray',
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var thisNode = this;
 
