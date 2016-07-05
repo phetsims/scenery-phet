@@ -17,7 +17,7 @@ define( function( require ) {
   /**
    * @param {function} stepFunction
    * @param {Property.<boolean>} playingProperty - button is disabled when this is true
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function StepForwardButton( stepFunction, playingProperty, options ) {
