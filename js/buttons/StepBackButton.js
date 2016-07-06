@@ -14,20 +14,12 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
    */
-  function StepBackButton( enabledProperty, options ) {
-
-    options = _.extend( {
-      direction: 'back'
-    }, options );
-
-    StepButton.call( this, options );
-
-    var thisButton = this;
-    enabledProperty.link( function( value ) { thisButton.enabled = value; } );
+  function StepBackButton( options ) {
+    assert && assert( !options.direction );
+    StepButton.call( this, _.extend( {}, options, { direction: 'back' } ) );
   }
 
   sceneryPhet.register( 'StepBackButton', StepBackButton );

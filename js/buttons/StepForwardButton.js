@@ -15,21 +15,12 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {Property.<boolean>} playingProperty - button is disabled when this is true
    * @param {Object} [options]
    * @constructor
    */
-  function StepForwardButton( playingProperty, options ) {
-
-    options = _.extend( {
-      direction: 'forward'
-    }, options );
-
-    StepButton.call( this, options );
-
-    // Disable this button when playing
-    var thisButton = this;
-    playingProperty.link( function( value ) { thisButton.enabled = !value; } );
+  function StepForwardButton( options ) {
+    assert && assert( !options.direction );
+    StepButton.call( this, _.extend( {}, options, { direction: 'forward' } ) );
   }
 
   sceneryPhet.register( 'StepForwardButton', StepForwardButton );

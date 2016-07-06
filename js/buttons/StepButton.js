@@ -36,7 +36,12 @@ define( function( require ) {
       iconFill: 'black',
 
       // shift the content to center align, assumes 3D appearance and specific content
-      xContentOffset: ( DIRECTION === 'forward' ) ? ( 0.075 * BUTTON_RADIUS ) : ( -0.15 * BUTTON_RADIUS )
+      xContentOffset: ( DIRECTION === 'forward' ) ? ( 0.075 * BUTTON_RADIUS ) : ( -0.15 * BUTTON_RADIUS ),
+
+      // {Property.<boolean>|null} is the sim playing? This is a convenience option.
+      // If this Property is provided, it will disable the button while the sim is playing,
+      // and you should avoid using the button's native 'enabled' property.
+      playingProperty: null
     }, options );
     
     assert && assert( options.direction === 'forward' || options.direction === 'back',
@@ -67,9 +72,25 @@ define( function( require ) {
     options.content = stepIcon;
 
     RoundPushButton.call( this, options );
+
+    // Disable the button when the sim is playing
+    if ( options.playingProperty ) {
+      var thisButton = this;
+      var playingObserver = function( playing ) { thisButton.enabled = !playing; };
+      options.playingProperty.link( playingObserver );
+    }
+
+    // @private
+    this.disposeStepButton = function() {
+      options.playingProperty && options.playingProperty.unlink( playingObserver );
+    };
   }
 
   sceneryPhet.register( 'StepButton', StepButton );
 
-  return inherit( RoundPushButton, StepButton );
+  return inherit( RoundPushButton, StepButton, {
+
+    // @public
+    dispose: function() { this.disposeStepButton(); }
+  } );
 } );
