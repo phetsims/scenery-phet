@@ -45,7 +45,7 @@ define( function( require ) {
     }, options );
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
-    'unsupported direction: ' + options.direction );
+      'unsupported direction: ' + options.direction );
 
     // step icon is sized relative to the radius
     var BAR_WIDTH = options.radius * 0.15;
@@ -62,10 +62,10 @@ define( function( require ) {
       .close(), {
       fill: options.iconFill
     } );
-    var stepIcon =  new HBox( {
+    var stepIcon = new HBox( {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
-      rotation: ( options.direction === 'forward' )? 0 : Math.PI
+      rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
     } );
 
     assert && assert( !options.content, 'button creates its own content' );
