@@ -2,7 +2,7 @@
 
 /**
  * Generalized button for stepping forward or back.
- * See also StepForwardButton and StepBackButton, which provide some additional convenience behavior.
+ * See also StepForwardButton and StepBackwardButton, which provide some additional convenience behavior.
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
