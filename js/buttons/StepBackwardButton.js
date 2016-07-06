@@ -18,7 +18,7 @@ define( function( require ) {
    * @constructor
    */
   function StepBackwardButton( options ) {
-    assert && assert( !options.direction );
+    assert && assert( !options.direction, 'options.direction must not be specified for StepBackwardButton' );
     StepButton.call( this, _.extend( {}, options, { direction: 'backward' } ) );
   }
 

@@ -19,7 +19,7 @@ define( function( require ) {
    * @constructor
    */
   function StepForwardButton( options ) {
-    assert && assert( !options.direction );
+    assert && assert( !options.direction, 'options.direction must not be specified for StepForwardButton' );
     StepButton.call( this, _.extend( {}, options, { direction: 'forward' } ) );
   }
 
