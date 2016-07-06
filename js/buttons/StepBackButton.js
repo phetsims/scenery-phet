@@ -14,12 +14,11 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {function} stepFunction
    * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
    * @constructor
    */
-  function StepBackButton( stepFunction, enabledProperty, options ) {
+  function StepBackButton( enabledProperty, options ) {
 
     // button radius is used in computation of other default options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
@@ -28,9 +27,6 @@ define( function( require ) {
       direction: 'back',
       xContentOffset: -0.15 * BUTTON_RADIUS // shift the content to center align, assumes 3D appearance
     }, options );
-
-    assert && assert( !options.listener, 'stepFunction replaces options.listener' );
-    options.listener = stepFunction;
 
     StepButton.call( this, options );
 
