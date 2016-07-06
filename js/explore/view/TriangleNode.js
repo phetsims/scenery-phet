@@ -16,14 +16,14 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
 
   // constants
-  var triangleLength = 25;
-  var triangleAltitude = Math.sqrt( 3 ) / 2 * triangleLength;
-  var leftTriangleShape = new Shape()
+  var TRIANGLE_LENGTH = 25;
+  var TRIANGLE_ALTITUDE = Math.sqrt( 3 ) / 2 * TRIANGLE_LENGTH;
+  var LEFT_TRIANGLE_SHAPE = new Shape()
     .moveTo( 0, 0 )
-    .lineTo( triangleAltitude, triangleLength / 2 )
-    .lineTo( 0, triangleLength )
+    .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
+    .lineTo( 0, TRIANGLE_LENGTH )
     .lineTo( 0, 0 );
-  var rightTriangleShape = leftTriangleShape.transformed( Matrix3.scaling( -1, 1 ) );
+  var RIGHT_TRIANGLE_SHAPE = LEFT_TRIANGLE_SHAPE.transformed( Matrix3.scaling( -1, 1 ) );
 
   /**
    *
@@ -34,7 +34,7 @@ define( function( require ) {
   function TriangleNode( direction, options ) {
     assert && assert( direction === 'right' || direction === 'left', 'Direction should be right or left' );
     options = _.extend( { stroke: 'black', lineWidth: 2 }, options );
-    Path.call( this, direction === 'right' ? rightTriangleShape : leftTriangleShape, options );
+    Path.call( this, direction === 'right' ? RIGHT_TRIANGLE_SHAPE : LEFT_TRIANGLE_SHAPE, options );
   }
 
   proportionPlayground.register( 'TriangleNode', TriangleNode );
