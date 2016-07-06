@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Step Forward button.
+ * Step forward button.
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)

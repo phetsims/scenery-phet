@@ -1,7 +1,7 @@
 // Copyright 2014-2016, University of Colorado Boulder
 
 /**
- * Step Back button.
+ * Step backward button.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -17,12 +17,12 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function StepBackButton( options ) {
+  function StepBackwardButton( options ) {
     assert && assert( !options.direction );
-    StepButton.call( this, _.extend( {}, options, { direction: 'back' } ) );
+    StepButton.call( this, _.extend( {}, options, { direction: 'backward' } ) );
   }
 
-  sceneryPhet.register( 'StepBackButton', StepBackButton );
+  sceneryPhet.register( 'StepBackwardButton', StepBackwardButton );
 
-  return inherit( StepButton, StepBackButton );
+  return inherit( StepButton, StepBackwardButton );
 } );

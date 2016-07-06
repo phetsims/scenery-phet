@@ -30,7 +30,7 @@ define( function( require ) {
     var DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
 
     options = _.extend( {
-      direction: DIRECTION, // {string} 'forward'|'back'
+      direction: DIRECTION, // {string} 'forward'|'backward'
       radius: BUTTON_RADIUS,
       fireOnHold: true,
       iconFill: 'black',
@@ -44,7 +44,7 @@ define( function( require ) {
       playingProperty: null
     }, options );
     
-    assert && assert( options.direction === 'forward' || options.direction === 'back',
+    assert && assert( options.direction === 'forward' || options.direction === 'backward',
     'unsupported direction: ' + options.direction );
 
     // step icon is sized relative to the radius
