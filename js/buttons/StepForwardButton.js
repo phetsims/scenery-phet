@@ -19,8 +19,8 @@ define( function( require ) {
    * @constructor
    */
   function StepForwardButton( options ) {
-    assert && assert( !options.direction, 'options.direction must not be specified for StepForwardButton' );
-    StepButton.call( this, _.extend( {}, options, { direction: 'forward' } ) );
+    assert && assert( !options.direction, 'options.direction must be omitted for StepForwardButton' );
+    StepButton.call( this, _.extend( { direction: 'forward' }, options ) );
   }
 
   sceneryPhet.register( 'StepForwardButton', StepForwardButton );
