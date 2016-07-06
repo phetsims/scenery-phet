@@ -21,12 +21,8 @@ define( function( require ) {
    */
   function StepForwardButton( playingProperty, options ) {
 
-    // button radius is used in computation of other default options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
-
     options = _.extend( {
-      direction: 'forward',
-      xContentOffset: 0.075 * BUTTON_RADIUS // shift the content to center align, assumes 3D appearance
+      direction: 'forward'
     }, options );
 
     StepButton.call( this, options );

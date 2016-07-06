@@ -20,12 +20,8 @@ define( function( require ) {
    */
   function StepBackButton( enabledProperty, options ) {
 
-    // button radius is used in computation of other default options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
-
     options = _.extend( {
-      direction: 'back',
-      xContentOffset: -0.15 * BUTTON_RADIUS // shift the content to center align, assumes 3D appearance
+      direction: 'back'
     }, options );
 
     StepButton.call( this, options );

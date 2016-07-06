@@ -25,11 +25,18 @@ define( function( require ) {
    */
   function StepButton( options ) {
 
+    // these options are used in computation of other default options
+    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
+    var DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
+
     options = _.extend( {
-      direction: 'forward', // {string} 'forward'|'back'
-      radius: 20,
+      direction: DIRECTION, // {string} 'forward'|'back'
+      radius: BUTTON_RADIUS,
       fireOnHold: true,
-      iconFill: 'black'
+      iconFill: 'black',
+
+      // shift the content to center align, assumes 3D appearance and specific content
+      xContentOffset: ( DIRECTION === 'forward' ) ? ( 0.075 * BUTTON_RADIUS ) : ( -0.15 * BUTTON_RADIUS )
     }, options );
     
     assert && assert( options.direction === 'forward' || options.direction === 'back',
