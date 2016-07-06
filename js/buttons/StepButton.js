@@ -1,8 +1,8 @@
 // Copyright 2014-2016, University of Colorado Boulder
 
 /**
- * Generalized button for stepping forward or back.
- * See also StepForwardButton and StepBackwardButton, which provide some additional convenience behavior.
+ * Generalized button for stepping forward or back.  While this class is not private, clients will generally use the
+ * convenience subclasses: StepForwardButton and StepBackwardButton
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
@@ -43,7 +43,7 @@ define( function( require ) {
       // and you should avoid using the button's native 'enabled' property.
       playingProperty: null
     }, options );
-    
+
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
     'unsupported direction: ' + options.direction );
 
