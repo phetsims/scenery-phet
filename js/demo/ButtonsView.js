@@ -27,7 +27,8 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  var StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
+  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -73,8 +74,12 @@ define( function( require ) {
       listener: function() { console.log( 'StarButton pressed' ); }
     } );
 
-    var stepButton = new StepButton( {
-      listener: function() { console.log( 'StepButton pressed' ); }
+    var stepBackwardButton = new StepBackwardButton( {
+      listener: function() { console.log( 'StepBackwardButton pressed' ); }
+    } );
+
+    var stepForwardButton = new StepForwardButton( {
+      listener: function() { console.log( 'StepForwardButton pressed' ); }
     } );
 
     var zoomButton = new ZoomButton( {
@@ -92,7 +97,8 @@ define( function( require ) {
         resetButton,
         rewindButton,
         starButton,
-        stepButton,
+        stepBackwardButton,
+        stepForwardButton,
         zoomButton
       ],
       spacing: 10,
