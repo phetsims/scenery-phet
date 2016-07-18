@@ -17,7 +17,7 @@ define( function( require ) {
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Text = require( 'SCENERY/nodes/Text' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -44,7 +44,7 @@ define( function( require ) {
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
 
-    var weightRange = new Range( 0, 300, 100 );
+    var weightRange = new RangeWithValue( 0, 300, 100 );
     var weightProperty = new Property( weightRange.defaultValue );
 
     return new NumberControl( 'Weight:', weightProperty, weightRange, {

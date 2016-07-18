@@ -39,7 +39,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Range = require( 'DOT/Range' );
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -346,22 +346,22 @@ define( function( require ) {
       spacing: 15,
       children: [
         NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
-          new Range( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
+          new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Inner Radius:', propertySet.innerRadiusProperty,
-          new Range( 1, ProbeNode.DEFAULT_OPTIONS.innerRadius * 2 ), numberControlOptions ),
+          new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.innerRadius * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty,
-          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
+          new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
-          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleHeight * 2 ), numberControlOptions ),
+          new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleHeight * 2 ), numberControlOptions ),
         NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty,
-          new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
+          new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
       ],
       left: layoutBounds.left + 50,
       centerY: layoutBounds.centerY
     } ) );
 
     // Color controls
-    var colorComponentRange = new Range( 0, 255 );
+    var colorComponentRange = new RangeWithValue( 0, 255 );
     var colorPanel = new Panel( new VBox( {
       spacing: 15,
       children: [
@@ -377,7 +377,7 @@ define( function( require ) {
     multiplierProperty.link( function( multiplier ) {
       propertySet.lightAngleProperty.set( multiplier * Math.PI );
     } );
-    var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new Range( 0, 2 ),
+    var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new RangeWithValue( 0, 2 ),
       _.extend( {
         units: '\u03c0',
         decimalPlaces: 2,
@@ -466,7 +466,7 @@ define( function( require ) {
 
   // Creates a demo for NumberPicker
   var demoNumberPicker = function( layoutBounds ) {
-    return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
+    return new NumberPicker( new Property( 0 ), new Property( new RangeWithValue( -10, 10 ) ), {
       font: new PhetFont( 40 ),
       center: layoutBounds.center
     } );

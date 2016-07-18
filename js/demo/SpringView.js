@@ -12,7 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
   var ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
-  var Range = require( 'DOT/Range' );
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -35,14 +35,14 @@ define( function( require ) {
 
     // Ranges for the various properties of ParametricSpringNode
     var ranges = {
-      loopsRange: new Range( 4, 15, 10 ),
-      radiusRange: new Range( 5, 70, 10 ),
-      aspectRatioRange: new Range( 0.5, 10, 4 ),
-      pointsPerLoopRange: new Range( 10, 100, 30 ),
-      lineWidthRange: new Range( 1, 10, 3 ),
-      phaseRange: new Range( 0, 2 * Math.PI, Math.PI ), // radians
-      deltaPhaseRange: new Range( 0, 2 * Math.PI, Math.PI / 2 ), // radians
-      xScaleRange: new Range( 0.5, 11, 2.5 )
+      loopsRange: new RangeWithValue( 4, 15, 10 ),
+      radiusRange: new RangeWithValue( 5, 70, 10 ),
+      aspectRatioRange: new RangeWithValue( 0.5, 10, 4 ),
+      pointsPerLoopRange: new RangeWithValue( 10, 100, 30 ),
+      lineWidthRange: new RangeWithValue( 1, 10, 3 ),
+      phaseRange: new RangeWithValue( 0, 2 * Math.PI, Math.PI ), // radians
+      deltaPhaseRange: new RangeWithValue( 0, 2 * Math.PI, Math.PI / 2 ), // radians
+      xScaleRange: new RangeWithValue( 0.5, 11, 2.5 )
     };
 
     // spring
