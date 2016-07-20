@@ -284,7 +284,7 @@ define( function( require ) {
     thisNode.mutate( options );
 
     // Tandem support
-    options.tandem && options.tandem.addInstance( this, TFaucet );
+    TFaucet && options.tandem && options.tandem.addInstance( this, TFaucet );
 
     // @private called by dispose
     this.disposeFaucetNode = function() {
