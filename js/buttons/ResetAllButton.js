@@ -37,7 +37,7 @@ define( function( require ) {
     // a11y
     assert && assert( !options.accessibleContent, 'accessibleContent is not customizable' );
     options.accessibleContent = {
-      
+
       focusHighlight: new Shape().circle( 0, 0, options.radius ),
 
       /**
@@ -47,12 +47,11 @@ define( function( require ) {
        * @returns {AccessiblePeer}
        */
       createPeer: function( accessibleInstance ) {
-        
+
         // will look like <input value="Reset All" type="reset" tabindex="0">
         var domElement = document.createElement( 'input' );
-        domElement.value = resetAllButtonNameString;
-        domElement.type = 'reset';
-        domElement.tabIndex = '0';
+        domElement.setAttribute( 'aria-label', resetAllButtonNameString );
+        domElement.type = 'button';
 
         domElement.addEventListener( 'click', function() {
           options.listener();
