@@ -20,6 +20,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
    * @param {Object} [options]
@@ -82,7 +85,7 @@ define( function( require ) {
     Node.call( this, options );
 
     this.tandem = options.tandem; // @private
-    this.tandem && this.tandem.addInstance( this );
+    TNode && this.tandem && this.tandem.addInstance( this, TNode );
 
     // @private called by dispose
     var thisNode = this;
