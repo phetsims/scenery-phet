@@ -185,10 +185,10 @@ define( function( require ) {
 
     /**
      * Creates a NumberControl with default tick marks for min and max values.
-     * @param label
-     * @param property
-     * @param range
-     * @param options
+     * @param {string} label
+     * @param {Property.<number>} property
+     * @param {Range} range
+     * @param {Object} [options]
      * @returns {NumberControl}
      * @static
      * @public
