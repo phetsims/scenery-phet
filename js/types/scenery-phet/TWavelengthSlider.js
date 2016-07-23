@@ -19,10 +19,6 @@ define( function( require ) {
     TNode.call( this, slider, phetioID );
     assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
   }, {}, {
-    api: {
-      thumbInputListener: TTandemDragHandler,
-      trackInputListener: TTandemDragHandler
-    },
     documentation: 'A slider that shows wavelengths for selection'
   } );
 

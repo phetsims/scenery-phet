@@ -22,13 +22,6 @@ define( function( require ) {
     TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
   }, {}, {
-    api: {
-      leftArrowButton: TButton,
-      rightArrowButton: TButton,
-      slider: THSlider,
-      titleNode: TTandemText,
-      numberDisplay: TNumberDisplay
-    },
     documentation: 'A number control with a title, slider and +/- buttons'
   } );
 

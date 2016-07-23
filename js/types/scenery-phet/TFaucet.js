@@ -29,10 +29,7 @@ define( function( require ) {
     } );
   }, {}, {
     documentation: 'Faucet that emits fluid, typically user-controllable',
-    events: [ 'startTapToDispense', 'endTapToDispense' ],
-    api: {
-      inputListener: TTandemDragHandler
-    }
+    events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );
 
   phetioNamespace.register( 'TFaucet', TFaucet );

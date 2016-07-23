@@ -19,11 +19,7 @@ define( function( require ) {
     TNode.call( this, measuringTape, phetioID );
     assertInstanceOf( measuringTape, phet.sceneryPhet.MeasuringTape );
   }, {}, {
-    documentation: 'A measuring tape with a draggable base and tip',
-    api: {
-      baseDragHandler: TTandemDragHandler,
-      tipDragHandler: TTandemDragHandler
-    }
+    documentation: 'A measuring tape with a draggable base and tip'
   } );
 
   phetioNamespace.register( 'TMeasuringTape', TMeasuringTape );

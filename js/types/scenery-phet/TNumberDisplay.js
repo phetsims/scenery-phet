@@ -19,9 +19,6 @@ define( function( require ) {
     TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
   }, {}, {
-    api: {
-      valueNode: TTandemText
-    },
     documentation: 'A numeric readout with a background'
   } );
 
