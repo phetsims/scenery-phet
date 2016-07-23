@@ -21,10 +21,10 @@ define( function( require ) {
     assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
 
     // These must be model events because they are triggered by a user event 'dragEnded'
-    toEventOnStatic( faucet, 'CallbacksForStartTapToDispense', 'model', phetioID, 'startTapToDispense', function( flowRate ) {
+    toEventOnStatic( faucet, 'CallbacksForStartTapToDispense', 'model', phetioID, TFaucet, 'startTapToDispense', function( flowRate ) {
       return { flowRate: flowRate };
     } );
-    toEventOnStatic( faucet, 'CallbacksForEndTapToDispense', 'model', phetioID, 'endTapToDispense', function( flowRate ) {
+    toEventOnStatic( faucet, 'CallbacksForEndTapToDispense', 'model', phetioID, TFaucet, 'endTapToDispense', function( flowRate ) {
       return { flowRate: flowRate };
     } );
   }, {}, {
