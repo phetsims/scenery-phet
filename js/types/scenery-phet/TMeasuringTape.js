@@ -13,7 +13,6 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var TTandemDragHandler = require( 'PHET_IO/types/tandem/scenery/input/TTandemDragHandler' );
 
   var TMeasuringTape = phetioInherit( TNode, 'TMeasuringTape', function( measuringTape, phetioID ) {
     TNode.call( this, measuringTape, phetioID );

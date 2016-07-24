@@ -14,7 +14,6 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
-  var TTandemDragHandler = require( 'PHET_IO/types/tandem/scenery/input/TTandemDragHandler' );
 
   var TFaucet = phetioInherit( TNode, 'TFaucet', function( faucet, phetioID ) {
     TNode.call( this, faucet, phetioID );
