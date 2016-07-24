@@ -29,6 +29,9 @@ define( function( require ) {
   var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
 
+  // phet-io modules
+  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+
   /**
    * @param {Property.<number>} wavelength - in nm
    * @param {Object} [options]
@@ -214,7 +217,7 @@ define( function( require ) {
     strut.moveToBack();
 
     thisNode.mutate( options );
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TNode );
 
     this.disposeWavelengthSlider = function() {
       options.tandem && options.tandem.removeInstance( this );
