@@ -30,7 +30,7 @@ define( function( require ) {
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
 
   // phet-io modules
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * @param {Property.<number>} wavelength - in nm

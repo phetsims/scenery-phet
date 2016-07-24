@@ -21,7 +21,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
