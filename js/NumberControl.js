@@ -10,7 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
+  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
