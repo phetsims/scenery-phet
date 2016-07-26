@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
   var CloseButton = require( 'SCENERY_PHET/buttons/CloseButton' );
   var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
@@ -43,8 +42,6 @@ define( function( require ) {
 
     //------------------------------------------------------------------------------------------------------
     // Push buttons
-
-    var arrowButton = new ArrowButton( 'left', function() { console.log( 'ArrowButton pressed' ); } );
 
     var backButton = new BackButton( {
       listener: function() { console.log( 'BackButton pressed' ); }
@@ -89,7 +86,6 @@ define( function( require ) {
     // Push buttons
     var pushButtons = new VBox( {
       children: [
-        arrowButton,
         backButton,
         closeButton,
         eraserButton,
