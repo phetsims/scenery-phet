@@ -21,11 +21,12 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function EraserButton( options ) {
+  function EraserButton( tandem, options ) {
 
     options = _.extend( {
       baseColor: '#F2E916',
-      iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
+      iconWidth: 20, // width of eraser icon, used for scaling, the aspect ratio will determine height
+      tandem: tandem
     }, options );
 
     // eraser icon
