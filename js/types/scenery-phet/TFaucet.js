@@ -23,6 +23,7 @@ define( function( require ) {
     toEventOnStatic( faucet, 'CallbacksForStartTapToDispense', 'model', phetioID, TFaucet, 'startTapToDispense', function( flowRate ) {
       return { flowRate: flowRate };
     } );
+
     toEventOnStatic( faucet, 'CallbacksForEndTapToDispense', 'model', phetioID, TFaucet, 'endTapToDispense', function( flowRate ) {
       return { flowRate: flowRate };
     } );
