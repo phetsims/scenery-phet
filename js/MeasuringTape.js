@@ -61,6 +61,9 @@ define( function( require ) {
       // tip Position in model coordinate reference frame (center position of the tip)
       tipPositionProperty: new Property( new Vector2( 1, 0 ) ),
 
+      // use this to omit the value and units displayed below the tape measure, useful with createIcon
+      hasValue: true,
+
       // bounds for the measuring tape (in model coordinate reference frame), default value is everything, effectively no bounds
       dragBounds: Bounds2.EVERYTHING,
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
@@ -152,7 +155,9 @@ define( function( require ) {
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
     this.addChild( this.baseImage ); // base of the measuring tape
-    this.addChild( this.labelText ); // text
+    if ( options.hasValue ) {
+      this.addChild( this.labelText ); // text
+    }
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
     var baseStartOffset;
@@ -484,31 +489,39 @@ define( function( require ) {
   }, {
 
     /**
-     * Returns an icon of the measuring tape
-     * @param {Object} [options]
-     * @returns {Image}
+     * Creates an icon of the measuring tape.
+     *
+     * @param {Object} [measuringTapeOptions] - options applied to the 'look' of icon.
+     *    These options are not applied to the icon this returned. And DO NOT use layout options!
+     * @returns {Node}
      * @static
      * @public
      */
-    createMeasuringTapeIcon: function( options ) {
+    createIcon: function( measuringTapeOptions ) {
 
-      // procedure to create an icon Image of a measuringTape
-      // first, create an actual measuring tape
-      var unspooledMeterTape = 30; // in view coordinates
-      var measuringTape = new MeasuringTape( new Property( { name: '', multiplier: 1 } ), new Property( true ), _.extend( {
-        tipPositionProperty: new Property( new Vector2( unspooledMeterTape, 0 ) )
-      }, options ) );
-      measuringTape.setTextVisibility( false ); // let's hide the text label value (the length) for the icon
+      // See documentation above!
+      measuringTapeOptions = _.extend( {
+        tipPositionProperty: new Property( new Vector2( 30, 0 ) )
+      }, measuringTapeOptions, {
+        hasValue: false, // no value below the tape
+        pickable: false // MeasuringTape has a drag handle, don't allow the user to interact with it
+      } );
 
-      // second, create the measuringTape icon
+      // Create an actual measuring tape.
+      var measuringTape = new MeasuringTape( new Property( { name: '', multiplier: 1 } ), new Property( true ),
+        measuringTapeOptions );
+
+      // Create the icon, with measuringTape as its initial child.  This child will be replaced once the image becomes
+      // available in the callback to toImage (see below). Since toImage happens asynchronously, this ensures that
+      // the icon has initial bounds that will match the icon once the image is available.
       var measuringTapeIcon = new Node( { children: [ measuringTape ] } );
 
-      // Create the measuringTape icon using toImage
+      // Convert measuringTape to an image, and make it the child of measuringTapeIcon.
       measuringTape.toImage( function( image ) {
         measuringTapeIcon.children = [ new Image( image ) ];
       } );
 
-      return measuringTapeIcon.children[ 0 ];
+      return measuringTapeIcon;
     }
   } );
 } );
