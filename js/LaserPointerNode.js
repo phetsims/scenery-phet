@@ -85,7 +85,7 @@ define( function( require ) {
     Node.call( this, options );
 
     this.tandem = options.tandem; // @private
-    TNode && this.tandem && this.tandem.addInstance( this, TNode );
+    this.tandem && this.tandem.addInstance( this, TNode );
 
     // @private called by dispose
     var thisNode = this;
