@@ -501,9 +501,9 @@ define( function( require ) {
 
       // See documentation above!
       measuringTapeOptions = _.extend( {
-        tipPositionProperty: new Property( new Vector2( 30, 0 ) )
+        tipPositionProperty: new Property( new Vector2( 30, 0 ) ),
+        hasValue: false // no value below the tape
       }, measuringTapeOptions, {
-        hasValue: false, // no value below the tape
         pickable: false // MeasuringTape has a drag handle, don't allow the user to interact with it
       } );
 
