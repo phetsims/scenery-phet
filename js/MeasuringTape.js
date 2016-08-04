@@ -492,7 +492,7 @@ define( function( require ) {
      * Creates an icon of the measuring tape.
      *
      * @param {Object} [measuringTapeOptions] - options applied to the 'look' of icon.
-     *    These options are not applied to the icon this returned. And DO NOT use layout options!
+     *    These options are not applied to the icon this returns. DO NOT use layout options!
      * @returns {Node}
      * @static
      * @public
