@@ -14,17 +14,17 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  var Util = require( 'DOT/Util' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
   var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
