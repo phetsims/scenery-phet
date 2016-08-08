@@ -18,6 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -42,6 +43,8 @@ define( function( require ) {
 
       startCallback: function() {}, // called when interaction begins
       endCallback: function() {}, // called when interaction ends
+      enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
+      disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
       // title
       titleFont: new PhetFont( 12 ),
@@ -69,9 +72,13 @@ define( function( require ) {
 
     }, options );
 
+    options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
+
+    // validate options
+    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
+    var thisNode = this;
 
     var delta = options.delta; // to improve readability
 
@@ -169,9 +176,20 @@ define( function( require ) {
     ];
     VBox.call( this, options );
 
+    // enabled/disable this control
+    this.enabledProperty = options.enabledProperty; // @public
+    var enabledObserver = function( enabled ) {
+      thisNode.pickable = enabled;
+      thisNode.opacity = enabled ? 1.0 : options.disabledOpacity;
+      //TODO if !enabled, cancel any interaction that is in progress, see scenery#218
+    };
+    this.enabledProperty.link( enabledObserver );
+
+    // @private
     this.disposeNumberControl = function() {
       numberDisplay.dispose();
       numberProperty.unlink( arrowEnabledListener );
+      thisNode.enabledProperty.unlink( enabledObserver );
       slider.dispose();
       options.tandem && options.tandem.removeInstance( this );
     };
@@ -182,10 +200,21 @@ define( function( require ) {
   sceneryPhet.register( 'NumberControl', NumberControl );
 
   return inherit( VBox, NumberControl, {
+
+    // @public
     dispose: function() {
       this.disposeNumberControl();
       VBox.prototype.dispose.call( this );
-    }
+    },
+
+    // @public
+    setEnabled: function( enabled ) { this.enabledProperty.set( enabled ); },
+    set enabled( value ) { this.setEnabled( value ); },
+
+    // @public
+    getEnabled: function() { return this.enabledProperty.get(); },
+    get enabled() { return this.getEnabled(); }
+
   }, {
 
     /**

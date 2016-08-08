@@ -12,15 +12,17 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var CheckBox = require( 'SUN/CheckBox' );
   var DemosView = require( 'SUN/demo/DemosView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   /**
    * @constructor
@@ -46,8 +48,10 @@ define( function( require ) {
 
     var weightRange = new RangeWithValue( 0, 300, 100 );
     var weightProperty = new Property( weightRange.defaultValue );
+    var enabledProperty = new Property( true );
 
-    return new NumberControl( 'Weight:', weightProperty, weightRange, {
+    var numberControl = new NumberControl( 'Weight:', weightProperty, weightRange, {
+      enabledProperty: enabledProperty,
       titleFont: new PhetFont( 20 ),
       valueFont: new PhetFont( 20 ),
       units: 'lbs',
@@ -56,7 +60,14 @@ define( function( require ) {
         { value: weightRange.getCenter(), label: new Text( weightRange.getCenter(), new PhetFont( 20 ) ) },
         { value: weightRange.max, label: new Text( weightRange.max, new PhetFont( 20 ) ) }
       ],
-      minorTickSpacing: 50,
+      minorTickSpacing: 50
+    } );
+
+    var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+
+    return new VBox( {
+      children: [ numberControl, enabledCheckBox ],
+      spacing: 50,
       center: layoutBounds.center
     } );
   };
