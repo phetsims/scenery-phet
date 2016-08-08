@@ -22,6 +22,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Tandem = require( 'TANDEM/Tandem' );
 
@@ -50,7 +51,7 @@ define( function( require ) {
       valueFont: new PhetFont( 12 ),
       valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
       decimalPlaces: 0,
-      units: '',
+      units: null,
 
       // arrow buttons
       delta: 1,
@@ -80,7 +81,11 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'titleNode' )
     } );
 
-    var numberDisplay = new NumberDisplay( numberProperty, numberRange, options.units, numberControlPattern0Value1UnitsString, {
+    // if units were provided, fill in the {1} units, but leave the {0} value alone.
+    var valuePattern = options.units ? StringUtils.format( numberControlPattern0Value1UnitsString, '{0}', options.units ) : '{0}';
+
+    var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
+      valuePattern: valuePattern,
       font: options.valueFont,
       decimalPlaces: options.decimalPlaces,
       maxWidth: options.valueMaxWidth,

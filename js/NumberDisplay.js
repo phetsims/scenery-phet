@@ -19,17 +19,20 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // valid values for options.align
+  var ALIGN_VALUES = [ 'center', 'left', 'right' ];
+
   /**
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
-   * @param {string} units
-   * @param {string} pattern
    * @param {Object} [options]
    * @constructor
    */
-  function NumberDisplay( numberProperty, numberRange, units, pattern, options ) {
+  function NumberDisplay( numberProperty, numberRange, options ) {
 
     options = _.extend( {
+      align: 'right', // see ALIGN_VALUES
+      valuePattern: '{0}', // {string} if you want units, add them to the pattern, e.g. '{0} L'
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
       xMargin: 8,
@@ -42,6 +45,9 @@ define( function( require ) {
       tandem: null
     }, options );
 
+    // validate options
+    assert && assert( _.contains( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
+
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var thisNode = this;
@@ -49,7 +55,7 @@ define( function( require ) {
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
     var maxString = Util.toFixed( numberRange.max, options.decimalPlaces );
-    var widestString = StringUtils.format( pattern, ( ( minString.length > maxString.length ) ? minString : maxString ), units );
+    var widestString = StringUtils.format( options.valuePattern, ( ( minString.length > maxString.length ) ? minString : maxString ) );
 
     // value
     this.valueNode = new TandemText( widestString, {
@@ -70,8 +76,20 @@ define( function( require ) {
 
     // display the value
     var numberObserver = function( value ) {
-      thisNode.valueNode.text = StringUtils.format( pattern, Util.toFixed( value, options.decimalPlaces ), units );
-      thisNode.valueNode.right = thisNode.backgroundNode.right - options.xMargin; // right justified
+
+      // update the value
+      thisNode.valueNode.text = StringUtils.format( options.valuePattern, Util.toFixed( value, options.decimalPlaces ) );
+
+      // horizontally align value in background
+      if ( options.align === 'center' ) {
+        thisNode.valueNode.centerX = thisNode.backgroundNode.centerX;
+      }
+      else if ( options.align === 'left' ) {
+        thisNode.valueNode.left = thisNode.backgroundNode.left + options.xMargin;
+      }
+      else { // right
+        thisNode.valueNode.right = thisNode.backgroundNode.right - options.xMargin;
+      }
     };
     numberProperty.link( numberObserver );
 
