@@ -72,6 +72,7 @@ define( function( require ) {
 
     }, options );
 
+    // highlight color for thumb defaults to a brighter version of the thumb color
     options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
 
     // validate options
