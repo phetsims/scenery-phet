@@ -194,7 +194,7 @@ define( function( require ) {
       numberProperty.unlink( arrowEnabledListener );
       thisNode.enabledProperty.unlink( enabledObserver );
       slider.dispose();
-      options.tandem && options.tandem.removeInstance( this );
+      options.tandem && options.tandem.removeInstance( thisNode );
     };
 
     options.tandem && options.tandem.addInstance( this );
