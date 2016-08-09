@@ -137,6 +137,7 @@ define( function( require ) {
     };
     numberProperty.link( arrowEnabledListener );
 
+    //TODO pass only options that are relevant to HSlider, see https://github.com/phetsims/scenery-phet/issues/255
     var slider = new HSlider( numberProperty, numberRange, _.extend( {
       startDrag: options.startCallback,
       endDrag: options.endCallback,
