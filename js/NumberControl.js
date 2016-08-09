@@ -75,6 +75,12 @@ define( function( require ) {
     // highlight color for thumb defaults to a brighter version of the thumb color
     options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
 
+    // constrain the slider value to the provided range and the same delta as the arrow buttons
+    options.constrainValue = options.constrainValue || function( value ) {
+        var newValue = Util.roundSymmetric( value / options.delta ) * options.delta;
+        return numberRange.constrainValue( newValue );
+      };
+
     // validate options
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
@@ -134,12 +140,7 @@ define( function( require ) {
     var slider = new HSlider( numberProperty, numberRange, _.extend( {
       startDrag: options.startCallback,
       endDrag: options.endCallback,
-      constrainValue: function( value ) {
-        // constrain to delta
-        value = Util.roundSymmetric( value / options.delta ) * options.delta;
-        // constrain to range
-        return numberRange.constrainValue( value );
-      }
+      constrainValue: options.constrainValue
     }, options, {
 
       // This uses a 3-arg extend so that the tandem is overriden properly
