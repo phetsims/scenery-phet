@@ -13,6 +13,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Util = require( 'DOT/Util' );
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
@@ -65,14 +66,15 @@ define( function( require ) {
       var angle = RAYS_START_ANGLE;
       var deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
-      // Pick one of 3 pre-allocated ray widths.
-      var lineWidth = this.options.shortRayLineWidth;
-      if ( rayLength > ( 0.6 * maxRayLength ) ) {
-        lineWidth = this.options.longRayLineWidth;
-      }
-      else if ( rayLength > ( 0.3 * maxRayLength ) ) {
-        lineWidth = this.options.shortRayLineWidth;
-      }
+      // The ray line width is a linear function within the allowed range
+      var lineWidth = Util.linear(
+        0.3 * maxRayLength,
+        0.6 * maxRayLength,
+        this.options.shortRayLineWidth,
+        this.options.longRayLineWidth,
+        rayLength
+      );
+      lineWidth = Util.clamp( lineWidth, this.options.shortRayLineWidth, this.options.longRayLineWidth );
 
       // rays fill part of a circle, incrementing clockwise
       for ( var i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
