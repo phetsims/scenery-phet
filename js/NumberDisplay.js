@@ -32,7 +32,7 @@ define( function( require ) {
 
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
-      valuePattern: '{0}', // {string} if you want units or other verbage, add them to the pattern, e.g. '{0} L'
+      valuePattern: '{0}', // {string} if you want units or other verbiage, add them to the pattern, e.g. '{0} L'
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
       xMargin: 8,
