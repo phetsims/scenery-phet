@@ -14,10 +14,12 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
-  var TNumberDisplay = phetioInherit( TNode, 'TNumberControl', function( numberControl, phetioID ) {
+  var TNumberDisplay = function( numberControl, phetioID ) {
     TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
-  }, {}, {
+  };
+
+  phetioInherit( TNode, 'TNumberControl', TNumberDisplay, {}, {
     documentation: 'A numeric readout with a background'
   } );
 
