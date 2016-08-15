@@ -27,6 +27,9 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // phet-io modules
+  var TNumberControl = require( 'ifphetio!PHET_IO/types/scenery-phet/TNumberControl' );
+
   // strings
   var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
 
@@ -197,7 +200,7 @@ define( function( require ) {
       options.tandem && options.tandem.removeInstance( thisNode );
     };
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TNumberControl );
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );

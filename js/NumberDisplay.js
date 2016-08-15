@@ -19,6 +19,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TNumberDisplay = require( 'ifphetio!PHET_IO/types/scenery-phet/TNumberDisplay' );
+
   // valid values for options.align
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
 
@@ -101,7 +104,7 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TNumberDisplay );
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
