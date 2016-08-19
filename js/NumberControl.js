@@ -77,10 +77,6 @@ define( function( require ) {
       // (see CREATE_LAYOUT_FUNCTION_*) or create your own function.
       layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_1(),
 
-      // {Object} options passed to layoutFunction. These are specific to the function used, see your
-      // desired layout function for the set of options.
-      // layoutOptions: {},
-
       tandem: null
 
     }, options );
