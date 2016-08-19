@@ -88,6 +88,7 @@ define( function( require ) {
       layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
          return new HBox( {
            spacing: 8,
+           resize: false, // workaround for slider
            children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
          } );
       }
