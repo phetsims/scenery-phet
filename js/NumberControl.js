@@ -147,7 +147,7 @@ define( function( require ) {
     //TODO pass only options that are relevant to HSlider, see https://github.com/phetsims/scenery-phet/issues/255
     var slider = new HSlider( numberProperty, numberRange, _.extend( {
       startDrag: options.startCallback,
-      endDrag: options.endCallback,
+      endDrag: options.endCallback
     }, options, {
 
       // This uses a 3-arg extend so that the tandem is overriden properly
