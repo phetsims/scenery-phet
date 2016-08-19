@@ -50,7 +50,7 @@ define( function( require ) {
     var weightProperty = new Property( weightRange.defaultValue );
     var enabledProperty = new Property( true );
 
-    var numberControl = new NumberControl( 'Weight:', weightProperty, weightRange, {
+    var numberControlOptions = {
       enabledProperty: enabledProperty,
       titleFont: new PhetFont( 20 ),
       valueFont: new PhetFont( 20 ),
@@ -61,12 +61,25 @@ define( function( require ) {
         { value: weightRange.max, label: new Text( weightRange.max, new PhetFont( 20 ) ) }
       ],
       minorTickSpacing: 50
-    } );
+    };
+
+    var numberControl1 = new NumberControl( 'Weight:', weightProperty, weightRange, numberControlOptions );
+
+    var numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
+      _.extend( {
+        layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_2()
+      }, numberControlOptions ) );
+
+    var numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+      layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_3( {
+        alignTitle: 'left'
+      })
+    }, numberControlOptions ) );
 
     var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {
-      children: [ numberControl, enabledCheckBox ],
+      children: [ numberControl1, numberControl2, numberControl3, enabledCheckBox ],
       spacing: 50,
       center: layoutBounds.center
     } );
