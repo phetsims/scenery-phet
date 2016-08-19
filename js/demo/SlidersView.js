@@ -98,8 +98,9 @@ define( function( require ) {
     var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {
+      spacing: 30,
+      resize: false, // workaround for sliders
       children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckBox ],
-      spacing: 50,
       center: layoutBounds.center
     } );
   };

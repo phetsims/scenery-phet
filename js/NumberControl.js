@@ -341,6 +341,7 @@ define( function( require ) {
       return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
         return new VBox( {
           spacing: options.ySpacing,
+          resize: false, // workaround for slider
           align: options.alignTitle,
           children: [
             titleNode,
