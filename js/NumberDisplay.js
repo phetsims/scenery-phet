@@ -36,7 +36,8 @@ define( function( require ) {
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
 
-      // {string} Must contain '{0}'. If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
+      /// {string} Pattern used to format the value. Must contain '{0}'.
+      // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
       valuePattern: '{0}',
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
