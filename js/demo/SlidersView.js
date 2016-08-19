@@ -73,12 +73,12 @@ define( function( require ) {
     // NumberControl with a predefined alternate layout
     var numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
       _.extend( {
-        layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_2()
+        layoutFunction: NumberControl.createLayoutFunction2()
       }, numberControlOptions ) );
 
     // NumberControl with options provided for a predefined alternate layout
     var numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
-      layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_3( {
+      layoutFunction: NumberControl.createLayoutFunction3( {
         alignTitle: 'left'
       } )
     }, numberControlOptions ) );

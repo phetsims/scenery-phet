@@ -75,7 +75,7 @@ define( function( require ) {
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
       // (see CREATE_LAYOUT_FUNCTION_*) or create your own function.
-      layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_1(),
+      layoutFunction: NumberControl.createLayoutFunction1(),
 
       tandem: null
 
@@ -252,7 +252,7 @@ define( function( require ) {
      * @public
      * @static
      */
-    CREATE_LAYOUT_FUNCTION_1: function( options ) {
+    createLayoutFunction1: function( options ) {
 
       options = _.extend( {
         align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
@@ -292,7 +292,7 @@ define( function( require ) {
      * @public
      * @static
      */
-    CREATE_LAYOUT_FUNCTION_2: function( options ) {
+    createLayoutFunction2: function( options ) {
 
       options = _.extend( {
         align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
@@ -329,7 +329,7 @@ define( function( require ) {
      * @public
      * @static
      */
-    CREATE_LAYOUT_FUNCTION_3: function( options ) {
+    createLayoutFunction3: function( options ) {
 
       options = _.extend( {
         alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
