@@ -77,7 +77,8 @@ define( function( require ) {
       // (see CREATE_LAYOUT_FUNCTION_*) or create your own function.
       layoutFunction: NumberControl.createLayoutFunction1(),
 
-      tandem: null
+      // phet-io
+      tandem: null // {Tandem|null}
 
     }, options );
 
