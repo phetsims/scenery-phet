@@ -99,7 +99,7 @@ define( function( require ) {
 
     return new VBox( {
       spacing: 30,
-      resize: false, // workaround for sliders
+      resize: false, // prevent sliders from causing a resize when thumb is at min or max
       children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckBox ],
       center: layoutBounds.center
     } );

@@ -272,7 +272,7 @@ define( function( require ) {
             } ),
             new HBox( {
               spacing: options.arrowButtonsXSpacing,
-              resize: false, // workaround for slider
+              resize: false, // prevent slider from causing a resize when thumb is at min or max
               children: [ leftArrowButton, slider, rightArrowButton ]
             } )
           ]
@@ -304,7 +304,7 @@ define( function( require ) {
         return new VBox( {
           align: options.align,
           spacing: options.ySpacing,
-          resize: false, // workaround for slider
+          resize: false, // prevent slider from causing a resize when thumb is at min or max
           children: [
             new HBox( {
               spacing: options.xSpacing,
@@ -341,13 +341,13 @@ define( function( require ) {
       return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
         return new VBox( {
           spacing: options.ySpacing,
-          resize: false, // workaround for slider
+          resize: false, // prevent slider from causing a resize when thumb is at min or max
           align: options.alignTitle,
           children: [
             titleNode,
             new VBox( {
               spacing: options.ySpacing,
-              resize: false, // workaround for slider
+              resize: false, // prevent slider from causing a resize when thumb is at min or max
               align: options.alignNumber,
               children: [
                 new HBox( {
