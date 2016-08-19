@@ -379,7 +379,7 @@ define( function( require ) {
     } );
     var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new RangeWithValue( 0, 2 ),
       _.extend( {
-        units: '\u03c0',
+        valuePattern: '{0} \u03c0',
         decimalPlaces: 2,
         delta: 0.05,
         majorTicks: [

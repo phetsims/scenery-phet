@@ -54,7 +54,7 @@ define( function( require ) {
       enabledProperty: enabledProperty,
       titleFont: new PhetFont( 20 ),
       valueFont: new PhetFont( 20 ),
-      units: 'lbs',
+      valuePattern: '{0} lbs',
       majorTicks: [
         { value: weightRange.min, label: new Text( weightRange.min, new PhetFont( 20 ) ) },
         { value: weightRange.getCenter(), label: new Text( weightRange.getCenter(), new PhetFont( 20 ) ) },

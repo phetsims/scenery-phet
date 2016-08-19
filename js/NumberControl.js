@@ -23,15 +23,11 @@ define( function( require ) {
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // phet-io modules
   var TNumberControl = require( 'ifphetio!PHET_IO/types/scenery-phet/TNumberControl' );
-
-  // strings
-  var numberControlPattern0Value1UnitsString = require( 'string!SCENERY_PHET/NumberControl.pattern_0value_1units' );
 
   /**
    * @param {string} title
@@ -57,7 +53,10 @@ define( function( require ) {
       valueFont: new PhetFont( 12 ),
       valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
       decimalPlaces: 0,
-      units: null,
+
+      // {string} Pattern used to format the value. Must contain '{0}'.
+      // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
+      valuePattern: '{0}',
 
       // arrow buttons
       delta: 1,
@@ -98,11 +97,8 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'titleNode' )
     } );
 
-    // if units were provided, fill in the {1} units, but leave the {0} value alone.
-    var valuePattern = options.units ? StringUtils.format( numberControlPattern0Value1UnitsString, '{0}', options.units ) : '{0}';
-
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
-      valuePattern: valuePattern,
+      valuePattern: options.valuePattern,
       font: options.valueFont,
       decimalPlaces: options.decimalPlaces,
       maxWidth: options.valueMaxWidth,
