@@ -16,6 +16,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -69,6 +70,16 @@ define( function( require ) {
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
       thumbFillEnabled: 'green',
+
+      // A {function} that handles layout of subcomponents.
+      // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
+      // and returns a Node. If you want to customize the layout, use one of the predefined creators
+      // (see CREATE_LAYOUT_FUNCTION_*) or create your own function.
+      layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_1(),
+
+      // {Object} options passed to layoutFunction. These are specific to the function used, see your
+      // desired layout function for the set of options.
+      // layoutOptions: {},
 
       tandem: null
 
@@ -163,20 +174,10 @@ define( function( require ) {
       }
     }
 
-    options.spacing = 5;
-    options.resize = false; // workaround for slider
     options.children = [
-      new HBox( {
-        spacing: 5,
-        children: [ titleNode, numberDisplay ]
-      } ),
-      new HBox( {
-        spacing: 15,
-        resize: false,
-        children: [ leftArrowButton, slider, rightArrowButton ]
-      } )
+      options.layoutFunction( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
     ];
-    VBox.call( this, options );
+    Node.call( this, options );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
@@ -241,6 +242,127 @@ define( function( require ) {
       ];
 
       return new NumberControl( label, property, range, options );
+    },
+
+    /**
+     * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
+     * Arranges subcomponents like this:
+     *
+     *  title number
+     *  < ------|------ >
+     *
+     * @param {Object} [options]
+     * @returns {function}
+     * @public
+     * @static
+     */
+    CREATE_LAYOUT_FUNCTION_1: function( options ) {
+
+      options = _.extend( {
+        align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
+        titleXSpacing: 5, // {number} horizontal spacing between title and number
+        arrowButtonsXSpacing: 15, // {number} horizontal spacing between arrow buttons and slider
+        ySpacing: 5 // {number} vertical spacing between rows
+      }, options );
+
+      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+        return new VBox( {
+          align: options.align,
+          spacing: options.ySpacing,
+          children: [
+            new HBox( {
+              spacing: options.titleXSpacing,
+              children: [ titleNode, numberDisplay ]
+            } ),
+            new HBox( {
+              spacing: options.arrowButtonsXSpacing,
+              resize: false, // workaround for slider
+              children: [ leftArrowButton, slider, rightArrowButton ]
+            } )
+          ]
+        } );
+      };
+    },
+
+    /**
+     * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
+     * Arranges subcomponents like this:
+     *
+     *  title < number >
+     *  ------|------
+     *
+     * @param {Object} [options]
+     * @returns {function}
+     * @public
+     * @static
+     */
+    CREATE_LAYOUT_FUNCTION_2: function( options ) {
+
+      options = _.extend( {
+        align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
+        xSpacing: 5, // {number} horizontal spacing in top row
+        ySpacing: 5 // {number} vertical spacing between rows
+      }, options );
+
+      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+        return new VBox( {
+          align: options.align,
+          spacing: options.ySpacing,
+          resize: false, // workaround for slider
+          children: [
+            new HBox( {
+              spacing: options.xSpacing,
+              children: [ titleNode, leftArrowButton, numberDisplay, rightArrowButton ]
+            } ),
+            slider
+          ]
+        } );
+      };
+    },
+
+    /**
+     * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
+     * Arranges subcomponents like this:
+     *
+     *  title
+     *  < number >
+     *  -------|-------
+     *
+     * @param {Object} [options]
+     * @returns {function}
+     * @public
+     * @static
+     */
+    CREATE_LAYOUT_FUNCTION_3: function( options ) {
+
+      options = _.extend( {
+        alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
+        alignNumber: 'center', // {string} horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
+        xSpacing: 5, // {number} horizontal spacing between arrow buttons and slider
+        ySpacing: 5 // {number} vertical spacing between rows
+      }, options );
+
+      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+        return new VBox( {
+          spacing: options.ySpacing,
+          align: options.alignTitle,
+          children: [
+            titleNode,
+            new VBox( {
+              spacing: options.ySpacing,
+              resize: false, // workaround for slider
+              align: options.alignNumber,
+              children: [
+                new HBox( {
+                  spacing: options.xSpacing,
+                  children: [ leftArrowButton, numberDisplay, rightArrowButton ]
+                } ),
+                slider
+              ]
+            } )
+          ]
+        } );
+      };
     }
   } );
 } );
