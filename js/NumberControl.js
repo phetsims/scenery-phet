@@ -148,7 +148,6 @@ define( function( require ) {
     var slider = new HSlider( numberProperty, numberRange, _.extend( {
       startDrag: options.startCallback,
       endDrag: options.endCallback,
-      constrainValue: options.constrainValue
     }, options, {
 
       // This uses a 3-arg extend so that the tandem is overriden properly
