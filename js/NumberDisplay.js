@@ -35,7 +35,9 @@ define( function( require ) {
 
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
-      valuePattern: '{0}', // {string} if you want units or other verbiage, add them to the pattern, e.g. '{0} L'
+
+      // {string} Must contain '{0}'. If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
+      valuePattern: '{0}',
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
       xMargin: 8,
@@ -49,6 +51,7 @@ define( function( require ) {
     }, options );
 
     // validate options
+    assert && assert( options.valuePattern.indexOf( '{0}' ) !== -1, '{0} missing from valuePattern: ' + options.valuePattern );
     assert && assert( _.contains( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
