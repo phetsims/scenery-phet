@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var CheckBox = require( 'SUN/CheckBox' );
   var DemosView = require( 'SUN/demo/DemosView' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -47,9 +48,12 @@ define( function( require ) {
   var demoNumberControl = function( layoutBounds ) {
 
     var weightRange = new RangeWithValue( 0, 300, 100 );
+
+    // all NumberControls will be synchronized with these Properties
     var weightProperty = new Property( weightRange.defaultValue );
     var enabledProperty = new Property( true );
 
+    // options shared by all NumberControls
     var numberControlOptions = {
       enabledProperty: enabledProperty,
       titleFont: new PhetFont( 20 ),
@@ -63,23 +67,37 @@ define( function( require ) {
       minorTickSpacing: 50
     };
 
+    // NumberControl with default layout
     var numberControl1 = new NumberControl( 'Weight:', weightProperty, weightRange, numberControlOptions );
 
+    // NumberControl with a predefined alternate layout
     var numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
       _.extend( {
         layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_2()
       }, numberControlOptions ) );
 
+    // NumberControl with options provided for a predefined alternate layout
     var numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
       layoutFunction: NumberControl.CREATE_LAYOUT_FUNCTION_3( {
         alignTitle: 'left'
-      })
+      } )
     }, numberControlOptions ) );
 
+    // NumberControl with alternate layout provided by the client
+    var numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+      layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+         return new HBox( {
+           spacing: 8,
+           children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
+         } );
+      }
+    }, numberControlOptions ) );
+
+    // Check box that will disable all NumberControls
     var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {
-      children: [ numberControl1, numberControl2, numberControl3, enabledCheckBox ],
+      children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckBox ],
       spacing: 50,
       center: layoutBounds.center
     } );
