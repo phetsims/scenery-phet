@@ -62,6 +62,7 @@ define( function( require ) {
       valueFont: new PhetFont( 20 ),
       valueFill: 'black',
       valueVisible: true,
+      ySpacing: 2, // {number} space between value and top of track
       tweakersVisible: true,
       cursorVisible: true,
       cursorStroke: 'black',
@@ -129,7 +130,7 @@ define( function( require ) {
     // layout
     if ( cursor ) { cursor.top = track.top; }
     thumb.top = track.bottom;
-    if ( valueDisplay ) { valueDisplay.bottom = track.top - 2; }
+    if ( valueDisplay ) { valueDisplay.bottom = track.top - options.ySpacing; }
     if ( options.tweakersVisible ) {
       plusButton.left = track.right + 8;
       plusButton.centerY = track.centerY;
