@@ -1,7 +1,7 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A laser pointer, with on/off button (toggle or momentary).
+ * A laser pointer, with optional on/off button (toggle or momentary).
  * Default orientation is pointing to the right. Origin is at right center (the edge of the output nozzle).
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
@@ -33,12 +34,16 @@ define( function( require ) {
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
+
+    this.enabledProperty = options.enabledProperty; // @public
 
     // validate options
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
       'invalid buttonType: ' + options.buttonType );
+
+    var thisNode = this;
+    var children = [];
 
     // the narrow part that the light will come out of
     var nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
@@ -51,6 +56,7 @@ define( function( require ) {
       right: 0,
       centerY: 0
     } );
+    children.push( nozzleNode );
 
     // the main body of the laser pointer
     var bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
@@ -63,34 +69,46 @@ define( function( require ) {
       right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
       centerY: nozzleNode.centerY
     } );
+    children.push( bodyNode );
 
-    // the button that controls whether the laser is on or off
-    var buttonOptions = {
-      radius: options.buttonRadius,
-      touchAreaDilation: options.buttonTouchAreaDilation,
-      mouseAreaDilation: options.buttonMouseAreaDilation,
-      baseColor: options.buttonColor,
-      rotation: options.buttonRotation,
-      center: bodyNode.center,
-      tandem: options.tandem && options.tandem.createTandem( 'button' )
-    };
+    // the optional button that controls whether the laser is on or off
+    if ( options.hasButton ) {
 
-    // @private
-    this.button = ( options.buttonType === 'toggle' ) ?
-                  new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
-                  new RoundMomentaryButton( false, true, onProperty, buttonOptions );
+      var buttonOptions = {
+        radius: options.buttonRadius,
+        touchAreaDilation: options.buttonTouchAreaDilation,
+        mouseAreaDilation: options.buttonMouseAreaDilation,
+        baseColor: options.buttonColor,
+        rotation: options.buttonRotation,
+        center: bodyNode.center,
+        tandem: options.tandem && options.tandem.createTandem( 'button' )
+      };
+
+      // @private
+      this.button = ( options.buttonType === 'toggle' ) ?
+                    new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
+                    new RoundMomentaryButton( false, true, onProperty, buttonOptions );
+
+      children.push( this.button );
+    }
 
     // add any children specified by the client
-    options.children = [ nozzleNode, bodyNode, this.button ].concat( options.children || [] );
+    options.children = children.concat( options.children || [] );
     Node.call( this, options );
 
     this.tandem = options.tandem; // @private
     this.tandem && this.tandem.addInstance( this, TNode );
 
+    // enables and disables the button
+    var enabledObserver = function( enabled ) {
+      thisNode.button && ( thisNode.button.enabled = enabled );
+    };
+    this.enabledProperty.link( enabledObserver );
+
     // @private called by dispose
-    var thisNode = this;
     this.disposeLaserPointerNode = function() {
       thisNode.button.dispose();
+      thisNode.enabledProperty.link( enabledObserver );
       thisNode.tandem && thisNode.tandem.removeInstance( thisNode );
     };
   }
@@ -98,6 +116,8 @@ define( function( require ) {
   sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
 
   var DEFAULT_OPTIONS = {
+
+    enabledProperty: new Property( true ),
 
     // nozzle and body options
     bodySize: new Dimension2( 110, 78 ),
@@ -110,6 +130,7 @@ define( function( require ) {
     cornerRadius: 5,
 
     // button options
+    hasButton: true, // {boolean} other button options are ignore if this is false
     buttonType: 'toggle', // {string} 'toggle'|'momentary'
     buttonColor: 'red',
     buttonRadius: 22,
@@ -131,19 +152,19 @@ define( function( require ) {
     },
 
     /**
-     * Sets the enabled state of the laser's button.
+     * Sets the enabled state.
      * @param {boolean} value
      * @public
      */
-    setEnabled: function( value ) { this.button.enabled = value; },
+    setEnabled: function( value ) { this.enabledProperty.set( value ); },
     set enabled( value ) { this.setEnabled( value ); },
 
     /**
-     * Gets the enabled state of the laser's button.
+     * Gets the enabled state.
      * @returns {boolean}
      * @public
      */
-    getEnabled: function() {return this.button.enabled; },
+    getEnabled: function() {return this.enabledProperty.get(); },
     get enabled() { return this.getEnabled(); }
   }, {
 

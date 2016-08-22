@@ -409,9 +409,12 @@ define( function( require ) {
 
     var leftOnProperty = new Property( false );
     var rightOnProperty = new Property( false );
+    var enabledProperty = new Property( true );
 
     // Demonstrate how to adjust lighting
     var leftLaserNode = new LaserPointerNode( leftOnProperty, {
+
+      enabledProperty: enabledProperty,
 
       // these options adjust the lighting
       topColor: LaserPointerNode.DEFAULT_OPTIONS.bottomColor,
@@ -425,6 +428,7 @@ define( function( require ) {
     } );
 
     var rightLaserNode = new LaserPointerNode( rightOnProperty, {
+      enabledProperty: enabledProperty,
       left: layoutBounds.centerX + 20,
       centerY: layoutBounds.centerY
     } );
@@ -448,7 +452,13 @@ define( function( require ) {
       rightBeamNode.visible = on;
     } );
 
-    return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
+    // enabled check box
+    var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty, {
+      centerX: layoutBounds.centerX,
+      top: leftLaserNode.bottom + 40
+    } );
+
+    return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckBox ] } );
   };
 
   // Creates a demo for MeasuringTape
