@@ -89,19 +89,17 @@ define( function( require ) {
     var minusButton;
     if ( options.tweakersVisible ) {
 
-      var plusButtonOptions = {};
-      var minusButtonOptions = {};
-      if ( options.tandem ) {
-        plusButtonOptions.tandem = options.tandem.createTandem( 'plusButton' );
-        minusButtonOptions.tandem = options.tandem.createTandem( 'minusButton' );
-      }
-
       plusButton = new ArrowButton( 'right', function() {
         wavelength.set( wavelength.get() + 1 );
-      }, plusButtonOptions );
+      }, {
+        tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
+      } );
+
       minusButton = new ArrowButton( 'left', function() {
         wavelength.set( wavelength.get() - 1 );
-      }, minusButtonOptions );
+      }, {
+        tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
+      } );
     }
 
     /*
