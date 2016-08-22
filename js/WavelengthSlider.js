@@ -64,6 +64,7 @@ define( function( require ) {
       valueVisible: true,
       ySpacing: 2, // {number} space between value and top of track
       tweakersVisible: true,
+      maxTweakersHeight: 30,
       cursorVisible: true,
       cursorStroke: 'black',
       pointerAreasOverTrack: false,
@@ -93,12 +94,15 @@ define( function( require ) {
       plusButton = new ArrowButton( 'right', function() {
         wavelength.set( wavelength.get() + 1 );
       }, {
+        maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
       } );
+      console.log( 'plusButton.height=' + plusButton.height );//XXX
 
       minusButton = new ArrowButton( 'left', function() {
         wavelength.set( wavelength.get() - 1 );
       }, {
+        maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
       } );
     }
