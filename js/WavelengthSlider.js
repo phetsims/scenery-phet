@@ -97,7 +97,6 @@ define( function( require ) {
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
       } );
-      console.log( 'plusButton.height=' + plusButton.height );//XXX
 
       minusButton = new ArrowButton( 'left', function() {
         wavelength.set( wavelength.get() - 1 );
