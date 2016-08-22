@@ -36,7 +36,7 @@ define( function( require ) {
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
-    this.enabledProperty = options.enabledProperty; // @public
+    this.enabledProperty = options.enabledProperty || new Property( true ); // @public
 
     // validate options
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
@@ -98,6 +98,8 @@ define( function( require ) {
     options.children = children.concat( options.children || [] );
     Node.call( this, options );
 
+    options.tandem && options.tandem.addInstance( this, TNode );
+
     // enables and disables the button
     var enabledObserver = function( enabled ) {
       thisNode.button && ( thisNode.button.enabled = enabled );
@@ -106,8 +108,8 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeLaserPointerNode = function() {
-      thisNode.button.dispose();
-      thisNode.enabledProperty.link( enabledObserver );
+      thisNode.button && thisNode.button.dispose();
+      thisNode.enabledProperty.unlink( enabledObserver );
       options.tandem && thisNode.options.removeInstance( thisNode );
     };
   }
@@ -116,7 +118,9 @@ define( function( require ) {
 
   var DEFAULT_OPTIONS = {
 
-    enabledProperty: new Property( true ),
+    // {Property.<boolean>} Set this if you want to control enabled via your own Property.
+    // Otherwise use this.enabledProperty or the setter/getter for enabled.
+    enabledProperty: null,
 
     // nozzle and body options
     bodySize: new Dimension2( 110, 78 ),
