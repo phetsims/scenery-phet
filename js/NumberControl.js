@@ -74,7 +74,7 @@ define( function( require ) {
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
-      // (see CREATE_LAYOUT_FUNCTION_*) or create your own function.
+      // (see createLayoutFunction*) or create your own function.
       layoutFunction: NumberControl.createLayoutFunction1(),
 
       // phet-io
