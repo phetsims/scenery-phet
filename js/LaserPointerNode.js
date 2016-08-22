@@ -110,7 +110,7 @@ define( function( require ) {
     this.disposeLaserPointerNode = function() {
       thisNode.button && thisNode.button.dispose();
       thisNode.enabledProperty.unlink( enabledObserver );
-      options.tandem && thisNode.options.removeInstance( thisNode );
+      options.tandem && options.tandem.removeInstance( thisNode );
     };
   }
 
