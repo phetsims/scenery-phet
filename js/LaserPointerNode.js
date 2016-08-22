@@ -53,6 +53,7 @@ define( function( require ) {
         .addColorStop( options.highlightColorStop, options.highlightColor )
         .addColorStop( 1, options.bottomColor ),
       stroke: options.stroke,
+      lineWidth: options.lineWidth,
       right: 0,
       centerY: 0
     } );
@@ -66,6 +67,7 @@ define( function( require ) {
         .addColorStop( options.highlightColorStop, options.highlightColor )
         .addColorStop( 1, options.bottomColor ),
       stroke: options.stroke,
+      lineWidth: options.lineWidth,
       right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
       centerY: nozzleNode.centerY
     } );
@@ -124,6 +126,7 @@ define( function( require ) {
     highlightColor: 'rgb( 245, 245, 245 )',
     highlightColorStop: 0.3,  // {number} color stop for highlight, (0,1) exclusive range
     stroke: 'black',
+    lineWidth: 1,
     cornerRadius: 5,
 
     // button options
