@@ -88,7 +88,7 @@ define( function( require ) {
       layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
          return new HBox( {
            spacing: 8,
-           resize: false, // workaround for slider
+           resize: false, // prevent sliders from causing a resize when thumb is at min or max
            children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
          } );
       }
