@@ -96,9 +96,6 @@ define( function( require ) {
     options.children = children.concat( options.children || [] );
     Node.call( this, options );
 
-    this.tandem = options.tandem; // @private
-    this.tandem && this.tandem.addInstance( this, TNode );
-
     // enables and disables the button
     var enabledObserver = function( enabled ) {
       thisNode.button && ( thisNode.button.enabled = enabled );
@@ -109,7 +106,7 @@ define( function( require ) {
     this.disposeLaserPointerNode = function() {
       thisNode.button.dispose();
       thisNode.enabledProperty.link( enabledObserver );
-      thisNode.tandem && thisNode.tandem.removeInstance( thisNode );
+      options.tandem && thisNode.options.removeInstance( thisNode );
     };
   }
 
