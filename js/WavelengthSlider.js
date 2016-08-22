@@ -271,15 +271,17 @@ define( function( require ) {
 
     Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
 
-    // compute mouse/touch areas, extend up to top of track if pointerAreasOverTrack is true
+    // compute pointer areas
     var bounds = shape.bounds.copy();
     if ( pointerAreasOverTrack ) {
+
+      // extend up to top of track
       this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY - trackHeight, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation + trackHeight );
       this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
     }
-
-    // don't extend above the thumb so that we don't encroach on slider track if pointerAreasOverTrack is false
     else {
+
+      // don't extend above the thumb, so that we don't encroach on slider track
       this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation );
     }
   }
