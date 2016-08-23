@@ -25,13 +25,13 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
-  // strings
-  var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
-  var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
-
   // phet-io modules
   var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
-  
+
+  // strings
+  var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
+  var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
+
   // constants
   var DEFAULT_THUMB_WIDTH = 35;
   var DEFAULT_THUMB_HEIGHT = 45;
