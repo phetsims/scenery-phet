@@ -99,7 +99,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation, options.pointerAreasOverTrack, options.trackHeight );
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
@@ -236,6 +236,14 @@ define( function( require ) {
     thisNode.addChild( strut );
     strut.moveToBack();
 
+
+    // thumb touchArea
+    if ( options.thumbTouchAreaXDilation || options.thumbTouchAreaYDilation ) {
+      thumb.touchArea = thumb.localBounds
+        .dilatedXY( options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation )
+        .shiftedY( 0.25 * thumb.height )
+    }
+
     thisNode.mutate( options );
     options.tandem && options.tandem.addInstance( this, TNode );
 
@@ -253,13 +261,9 @@ define( function( require ) {
    * The slider thumb (aka knob)
    * @param {number} width
    * @param {number} height
-   * @param {number} touchAreaXDilation
-   * @param {number} touchAreaYDilation
-   * @param {Boolean} pointerAreasOverTrack whether or not the pointer areas for dragging should extend to the top of the track
-   * @param {number} trackHeight only used if pointerAreasOverTrack is true
    * @constructor
    */
-  function Thumb( width, height, touchAreaXDilation, touchAreaYDilation, pointerAreasOverTrack, trackHeight ) {
+  function Thumb( width, height ) {
     // set the radius of the arcs based on the height or width, whichever is smaller
     var radiusScale = 0.15;
     var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
@@ -290,20 +294,6 @@ define( function( require ) {
       .close();
 
     Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
-
-    // compute pointer areas
-    var bounds = shape.bounds.copy();
-    if ( pointerAreasOverTrack ) {
-
-      // extend up to top of track
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY - trackHeight, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation + trackHeight );
-      this.mouseArea = Shape.rectangle( bounds.minX, bounds.minY - trackHeight, bounds.width, bounds.height + trackHeight );
-    }
-    else {
-
-      // don't extend above the thumb, so that we don't encroach on slider track
-      this.touchArea = Shape.rectangle( bounds.minX - touchAreaXDilation, bounds.minY, bounds.width + 2 * touchAreaXDilation, bounds.height + 2 * touchAreaYDilation );
-    }
   }
 
   sceneryPhet.register( 'WavelengthSlider.Thumb', Thumb );
