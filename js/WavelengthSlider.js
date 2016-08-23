@@ -177,12 +177,10 @@ define( function( require ) {
     thisNode.addChild( track );
     thisNode.addChild( trackBorder );
     thisNode.addChild( thumb );
-    if ( valueDisplay ) { thisNode.addChild( valueDisplay ); }
-    if ( cursor ) { thisNode.addChild( cursor ); }
-    if ( options.tweakersVisible ) {
-      thisNode.addChild( plusButton );
-      thisNode.addChild( minusButton );
-    }
+    valueDisplay && thisNode.addChild( valueDisplay );
+    cursor && thisNode.addChild( cursor );
+    plusButton && thisNode.addChild( plusButton );
+    minusButton && thisNode.addChild( minusButton );
 
     // layout
     if ( cursor ) { cursor.top = track.top; }
