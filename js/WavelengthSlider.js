@@ -266,24 +266,26 @@ define( function( require ) {
   sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
 
   /**
-   * The slider thumb (aka knob)
+   * The slider thumb
+   *
    * @param {number} width
    * @param {number} height
    * @constructor
    */
   function Thumb( width, height ) {
-    // set the radius of the arcs based on the height or width, whichever is smaller
+
+    // Set the radius of the arcs based on the height or width, whichever is smaller.
     var radiusScale = 0.15;
     var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
 
-    // calculate some parameters of the upper triangles of the thumb for getting arc offsets
+    // Calculate some parameters of the upper triangles of the thumb for getting arc offsets.
     var hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
     var angle = Math.acos( width * 0.5 / hypotenuse );
     var heightOffset = radius * Math.sin( angle );
 
-    // draw the thumb shape starting at the right upper corner of the pentagon below the arc,
-    // this way we can get the arc coordinates for the arc in this corner from the other side, which
-    // will be easier to calculate arcing from bottom to top
+    // Draw the thumb shape starting at the right upper corner of the pentagon below the arc,
+    // this way we can get the arc coordinates for the arc in this corner from the other side,
+    // which will be easier to calculate arcing from bottom to top.
     var shape = new Shape()
       .moveTo( 0.5 * width, 0.3 * height + heightOffset )
       .lineTo( 0.5 * width, 1 * height - radius )
@@ -293,7 +295,7 @@ define( function( require ) {
       .lineTo( -0.5 * width, 0.3 * height + heightOffset )
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
-    // save the coordinates for the point above the left side arc, for use on the other side
+    // Save the coordinates for the point above the left side arc, for use on the other side.
     var sideArcPoint = shape.getLastPoint();
 
     shape.lineTo( 0, 0 )
