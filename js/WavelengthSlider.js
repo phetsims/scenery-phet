@@ -80,7 +80,12 @@ define( function( require ) {
 
       // tweakers
       tweakersVisible: true,
+      tweakersXSpacing: 8,
       maxTweakersHeight: 30,
+      tweakersTouchAreaXDilation: 7,
+      tweakersTouchAreaYDilation: 7,
+      tweakersMouseAreaXDilation: 0,
+      tweakersMouseAreaYDilation: 0,
 
       // cursor
       cursorVisible: true,
@@ -124,6 +129,22 @@ define( function( require ) {
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
       } );
+
+      // tweakers touchArea
+      plusButton.touchArea = plusButton.localBounds
+        .dilatedXY( options.tweakersTouchAreaXDilation, options.tweakersTouchAreaYDilation )
+        .shiftedX( options.tweakersTouchAreaXDilation );
+      minusButton.touchArea = minusButton.localBounds
+        .dilatedXY( options.tweakersTouchAreaXDilation, options.tweakersTouchAreaYDilation )
+        .shiftedX( -options.tweakersTouchAreaXDilation );
+
+      // tweakers mouseArea
+      plusButton.mouseArea = plusButton.localBounds
+        .dilatedXY( options.tweakersMouseAreaXDilation, options.tweakersMouseAreaYDilation )
+        .shiftedX( options.tweakersMouseAreaXDilation );
+      minusButton.mouseArea = minusButton.localBounds
+        .dilatedXY( options.tweakersMouseAreaXDilation, options.tweakersMouseAreaYDilation )
+        .shiftedX( -options.tweakersMouseAreaXDilation );
     }
 
     /*
@@ -155,9 +176,9 @@ define( function( require ) {
     thumb.top = track.bottom;
     if ( valueDisplay ) { valueDisplay.bottom = track.top - options.valueYSpacing; }
     if ( options.tweakersVisible ) {
-      plusButton.left = track.right + 8;
+      plusButton.left = track.right + options.tweakersXSpacing;
       plusButton.centerY = track.centerY;
-      minusButton.right = track.left - 8;
+      minusButton.right = track.left - options.tweakersXSpacing;
       minusButton.centerY = track.centerY;
     }
 
