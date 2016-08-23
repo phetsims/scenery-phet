@@ -48,7 +48,7 @@ define( function( require ) {
     // Compute defaults for pointer area dilation.  Must be done before _.extends call
     // because these values are proportional to thumb size.
     var DEFAULT_THUMB_TOUCH_AREA_X_DILATION = 0.5 * ( options.thumbWidth || DEFAULT_THUMB_WIDTH );
-    var DEFAULT_THUMB_TOUCH_AREA_Y_DILATION = 0.5 * ( options.thumbHeight || DEFAULT_THUMB_HEIGHT );
+    var DEFAULT_THUMB_TOUCH_AREA_Y_DILATION = 0.25 * ( options.thumbHeight || DEFAULT_THUMB_HEIGHT );
 
     // options that are specific to this type
     options = _.extend( {
