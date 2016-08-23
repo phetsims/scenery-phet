@@ -53,8 +53,6 @@ define( function( require ) {
     // options that are specific to this type
     options = _.extend( {
 
-      pointerAreasOverTrack: false,//TODO delete this, see https://github.com/phetsims/scenery-phet/issues/261
-
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
 
