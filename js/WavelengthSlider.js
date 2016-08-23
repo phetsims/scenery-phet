@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2016, University of Colorado Boulder
 
 /**
  * WavelengthSlider is a slider-like control used for setting visible wavelength.
@@ -31,6 +31,10 @@ define( function( require ) {
 
   // phet-io modules
   var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
+  
+  // constants
+  var DEFAULT_THUMB_WIDTH = 35;
+  var DEFAULT_THUMB_HEIGHT = 45;
 
   /**
    * @param {Property.<number>} wavelength - in nm
@@ -41,34 +45,48 @@ define( function( require ) {
 
     options = options || {};
 
-    // calculate default touchAreaExpand parameters as half of the width
-    var defaultThumbWidth = 35;
-    var defaultThumbHeight = 45;
-    var thumbWidth = options.thumbWidth || defaultThumbWidth;
-    var thumbHeight = options.thumbHeight || defaultThumbHeight;
-    var thumbTouchAreaXDilation = options.thumbTouchAreaXDilation || 0.5 * thumbWidth;
-    var thumbTouchAreaYDilation = options.thumbTouchAreaYDilation || 0.5 * thumbHeight;
+    // Compute defaults for pointer area dilation.  Must be done before _.extends call
+    // because these values are proportional to thumb size.
+    var DEFAULT_THUMB_TOUCH_AREA_X_DILATION = 0.5 * ( options.thumbWidth || DEFAULT_THUMB_WIDTH );
+    var DEFAULT_THUMB_TOUCH_AREA_Y_DILATION = 0.5 * ( options.thumbHeight || DEFAULT_THUMB_HEIGHT );
 
     // options that are specific to this type
     options = _.extend( {
+
+      pointerAreasOverTrack: false,//TODO delete this, see https://github.com/phetsims/scenery-phet/issues/261
+
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
+
+      // track
       trackWidth: 150,
       trackHeight: 30,
       trackOpacity: 1,
       trackBorderStroke: 'black',
-      thumbWidth: defaultThumbWidth,
-      thumbHeight: defaultThumbHeight,
+
+      // thumb
+      thumbWidth: DEFAULT_THUMB_WIDTH,
+      thumbHeight: DEFAULT_THUMB_HEIGHT,
+      thumbTouchAreaXDilation: DEFAULT_THUMB_TOUCH_AREA_X_DILATION,
+      thumbTouchAreaYDilation: DEFAULT_THUMB_TOUCH_AREA_Y_DILATION,
+
+      // value
       valueFont: new PhetFont( 20 ),
       valueFill: 'black',
       valueVisible: true,
       valueYSpacing: 2, // {number} space between value and top of track
+
+      // tweakers
       tweakersVisible: true,
       maxTweakersHeight: 30,
+
+      // cursor
       cursorVisible: true,
       cursorStroke: 'black',
-      pointerAreasOverTrack: false,
+
+      // phet-io
       tandem: null
+
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
@@ -81,7 +99,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, thumbTouchAreaXDilation, thumbTouchAreaYDilation, options.pointerAreasOverTrack, options.trackHeight );
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation, options.pointerAreasOverTrack, options.trackHeight );
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
