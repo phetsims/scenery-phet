@@ -186,10 +186,15 @@ define( function( require ) {
 
     // @private
     this.disposeNumberControl = function() {
+
       numberDisplay.dispose();
+      leftArrowButton.dispose();
+      rightArrowButton.dispose();
+      slider.dispose();
+
       numberProperty.unlink( arrowEnabledListener );
       thisNode.enabledProperty.unlink( enabledObserver );
-      slider.dispose();
+
       options.tandem && options.tandem.removeInstance( thisNode );
     };
 

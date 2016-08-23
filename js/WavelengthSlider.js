@@ -222,8 +222,10 @@ define( function( require ) {
     options.tandem && options.tandem.addInstance( this, TNode );
 
     this.disposeWavelengthSlider = function() {
-      options.tandem && options.tandem.removeInstance( this );
+      plusButton && plusButton.dispose();
+      minusButton && minusButton.dispose();
       wavelength.unlink( wavelengthListener );
+      options.tandem && options.tandem.removeInstance( this );
     };
   }
 
