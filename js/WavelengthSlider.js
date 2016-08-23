@@ -105,6 +105,21 @@ define( function( require ) {
     Node.call( thisNode );
 
     var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
+
+    // thumb touchArea
+    if ( options.thumbTouchAreaXDilation || options.thumbTouchAreaYDilation ) {
+      thumb.touchArea = thumb.localBounds
+        .dilatedXY( options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation )
+        .shiftedY( options.thumbTouchAreaYDilation );
+    }
+
+    // thumb mouseArea
+    if ( options.thumbMouseAreaXDilation || options.thumbMouseAreaYDilation ) {
+      thumb.mouseArea = thumb.localBounds
+        .dilatedXY( options.thumbMouseAreaXDilation, options.thumbMouseAreaYDilation )
+        .shiftedY( options.thumbMouseAreaYDilation );
+    }
+
     var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
@@ -256,20 +271,6 @@ define( function( require ) {
     var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
     thisNode.addChild( strut );
     strut.moveToBack();
-
-    // thumb touchArea
-    if ( options.thumbTouchAreaXDilation || options.thumbTouchAreaYDilation ) {
-      thumb.touchArea = thumb.localBounds
-        .dilatedXY( options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation )
-        .shiftedY( options.thumbTouchAreaYDilation );
-    }
-
-    // thumb mouseArea
-    if ( options.thumbMouseAreaXDilation || options.thumbMouseAreaYDilation ) {
-      thumb.mouseArea = thumb.localBounds
-        .dilatedXY( options.thumbMouseAreaXDilation, options.thumbMouseAreaYDilation )
-        .shiftedY( options.thumbMouseAreaYDilation );
-    }
 
     thisNode.mutate( options );
     options.tandem && options.tandem.addInstance( this, TNode );
