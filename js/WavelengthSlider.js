@@ -288,7 +288,9 @@ define( function( require ) {
     thisNode.mutate( options );
     options.tandem && options.tandem.addInstance( this, TNode );
 
+    // @private called by dispose
     this.disposeWavelengthSlider = function() {
+      valueDisplay.dispose();
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
       wavelengthProperty.unlink( wavelengthListener );
@@ -346,22 +348,35 @@ define( function( require ) {
   /**
    * Displays the value and units.
    *
-   * @param {Property} property
+   * @param {Property} valueProperty
    * @param {string} font
    * @param {string} fill
    * @constructor
    */
-  function ValueDisplay( property, font, fill ) {
+  function ValueDisplay( valueProperty, font, fill ) {
+
     var thisNode = this;
     Text.call( this, '?', { font: font, fill: fill } );
-    property.link( function( value ) {
+
+    var valueObserver = function( value ) {
       thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
-    } );
+    };
+    valueProperty.link( valueObserver );
+
+    // @private called by dispose
+    this.disposeValueDisplay = function() {
+      valueProperty.unlink( valueObserver );
+    };
   }
 
   sceneryPhet.register( 'WavelengthSlider.ValueDisplay', ValueDisplay );
 
-  inherit( Text, ValueDisplay );
+  inherit( Text, ValueDisplay, {
+
+    dispose: function() {
+      this.disposeValueDisplay();
+    }
+  } );
 
   /**
    * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
