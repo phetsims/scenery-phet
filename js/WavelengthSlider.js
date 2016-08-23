@@ -85,7 +85,7 @@ define( function( require ) {
       tweakersMouseAreaXDilation: 0,
       tweakersMouseAreaYDilation: 0,
 
-      // cursor
+      // cursor, the rectangle than follows the thumb in the track
       cursorVisible: true,
       cursorStroke: 'black',
 
