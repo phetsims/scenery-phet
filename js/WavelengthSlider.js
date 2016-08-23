@@ -37,11 +37,11 @@ define( function( require ) {
   var DEFAULT_THUMB_HEIGHT = 45;
 
   /**
-   * @param {Property.<number>} wavelength - in nm
+   * @param {Property.<number>} wavelengthProperty - wavelength, in nm
    * @param {Object} [options]
    * @constructor
    */
-  function WavelengthSlider( wavelength, options ) {
+  function WavelengthSlider( wavelengthProperty, options ) {
 
     options = options || {};
 
@@ -120,7 +120,7 @@ define( function( require ) {
         .shiftedY( options.thumbMouseAreaYDilation );
     }
 
-    var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelength, options.valueFont, options.valueFill ) : null;
+    var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelengthProperty, options.valueFont, options.valueFill ) : null;
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
 
@@ -130,14 +130,14 @@ define( function( require ) {
     if ( options.tweakersVisible ) {
 
       plusButton = new ArrowButton( 'right', function() {
-        wavelength.set( wavelength.get() + 1 );
+        wavelengthProperty.set( wavelengthProperty.get() + 1 );
       }, {
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
       } );
 
       minusButton = new ArrowButton( 'left', function() {
-        wavelength.set( wavelength.get() - 1 );
+        wavelengthProperty.set( wavelengthProperty.get() - 1 );
       }, {
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
@@ -204,14 +204,25 @@ define( function( require ) {
     };
 
     // track interactivity
-    // TODO: Other tracks continue to drag instead of just setting a single value, why not this?
     track.cursor = 'pointer';
+
+    // click in the track to change the value, continue dragging if desired
+    var handleTrackEvent = function( event ) {
+      var x = thumb.globalToParentPoint( event.pointer.point ).x;
+      var wavelength = positionToWavelength( x );
+      wavelengthProperty.set( wavelength );
+    };
+
     track.addInputListener( new TandemDragHandler( {
+
       tandem: options.tandem ? options.tandem.createTandem( 'trackInputListener' ) : null,
-      start: function( event ) {
-        var x = track.globalToParentPoint( event.pointer.point ).x;
-        var newValue = positionToWavelength( x );
-        wavelength.set( newValue );
+
+      start: function( event, trail ) {
+        handleTrackEvent( event );
+      },
+
+      drag: function( event, trail ) {
+        handleTrackEvent( event );
       }
     } ) );
 
@@ -219,7 +230,9 @@ define( function( require ) {
     thumb.cursor = 'pointer';
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
     thumb.addInputListener( new TandemDragHandler( {
+
       tandem: options.tandem ? options.tandem.createTandem( 'thumbInputListener' ) : null,
+
       allowTouchSnag: true,
 
       start: function( event ) {
@@ -229,7 +242,7 @@ define( function( require ) {
       drag: function( event ) {
         var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
         var value = positionToWavelength( x );
-        wavelength.set( value );
+        wavelengthProperty.set( value );
       }
     } ) );
 
@@ -251,7 +264,7 @@ define( function( require ) {
     var wavelengthListener = function( wavelength ) {
       updateUI( wavelength );
     };
-    wavelength.link( wavelengthListener );
+    wavelengthProperty.link( wavelengthListener );
 
     /*
      * The horizontal bounds of the wavelength control changes as the slider knob is dragged.
@@ -265,7 +278,7 @@ define( function( require ) {
     var maxX = thisNode.right;
 
     // restore the wavelength
-    updateUI( wavelength.get() );
+    updateUI( wavelengthProperty.get() );
 
     // add a horizontal strut
     var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
@@ -278,7 +291,7 @@ define( function( require ) {
     this.disposeWavelengthSlider = function() {
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
-      wavelength.unlink( wavelengthListener );
+      wavelengthProperty.unlink( wavelengthListener );
       options.tandem && options.tandem.removeInstance( this );
     };
   }
@@ -332,7 +345,8 @@ define( function( require ) {
 
   /**
    * Displays the value and units.
-   * @param property
+   *
+   * @param {Property} property
    * @param {string} font
    * @param {string} fill
    * @constructor
@@ -351,8 +365,10 @@ define( function( require ) {
 
   /**
    * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
+   *
    * @param {number} width
    * @param {number} height
+   * @param {Color|string} stroke
    * @constructor
    */
   function Cursor( width, height, stroke ) {
