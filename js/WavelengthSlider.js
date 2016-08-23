@@ -290,7 +290,7 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeWavelengthSlider = function() {
-      valueDisplay.dispose();
+      valueDisplay && valueDisplay.dispose();
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
       wavelengthProperty.unlink( wavelengthListener );
