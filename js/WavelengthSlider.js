@@ -69,6 +69,8 @@ define( function( require ) {
       thumbHeight: DEFAULT_THUMB_HEIGHT,
       thumbTouchAreaXDilation: DEFAULT_THUMB_TOUCH_AREA_X_DILATION,
       thumbTouchAreaYDilation: DEFAULT_THUMB_TOUCH_AREA_Y_DILATION,
+      thumbMouseAreaXDilation: 0,
+      thumbMouseAreaYDilation: 0,
 
       // value
       valueFont: new PhetFont( 20 ),
@@ -236,12 +238,18 @@ define( function( require ) {
     thisNode.addChild( strut );
     strut.moveToBack();
 
-
     // thumb touchArea
     if ( options.thumbTouchAreaXDilation || options.thumbTouchAreaYDilation ) {
       thumb.touchArea = thumb.localBounds
         .dilatedXY( options.thumbTouchAreaXDilation, options.thumbTouchAreaYDilation )
-        .shiftedY( 0.25 * thumb.height )
+        .shiftedY( options.thumbTouchAreaYDilation );
+    }
+
+    // thumb mouseArea
+    if ( options.thumbMouseAreaXDilation || options.thumbMouseAreaYDilation ) {
+      thumb.mouseArea = thumb.localBounds
+        .dilatedXY( options.thumbMouseAreaXDilation, options.thumbMouseAreaYDilation )
+        .shiftedY( options.thumbMouseAreaYDilation );
     }
 
     thisNode.mutate( options );
