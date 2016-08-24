@@ -104,7 +104,30 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight );
+``    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
+    track.cursor = 'pointer'; //TODO add options param to SpectrumNode
+
+    var valueDisplay = null;
+    if ( options.valueVisible ) {
+      valueDisplay = new ValueDisplay( wavelengthProperty, {
+        font: options.valueFont,
+        fill: options.valueFill,
+        bottom: track.top - options.valueYSpacing
+      } );
+    }
+
+    var cursor = null;
+    if ( options.cursorVisible ) {
+      cursor = new Cursor( 3, track.height, {
+        stroke: options.cursorStroke,
+        top: track.top
+      } );
+    }
+
+    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, {
+      cursor: 'pointer',
+      top: track.bottom
+    } );
 
     // thumb touchArea
     if ( options.thumbTouchAreaXDilation || options.thumbTouchAreaYDilation ) {
@@ -120,10 +143,6 @@ define( function( require ) {
         .shiftedY( options.thumbMouseAreaYDilation );
     }
 
-    var valueDisplay = ( options.valueVisible ) ? new ValueDisplay( wavelengthProperty, options.valueFont, options.valueFill ) : null;
-    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
-    var cursor = ( options.cursorVisible ) ? new Cursor( 3, track.height, options.cursorStroke ) : null;
-
     // tweaker buttons for single-unit increments
     var plusButton;
     var minusButton;
@@ -132,6 +151,8 @@ define( function( require ) {
       plusButton = new ArrowButton( 'right', function() {
         wavelengthProperty.set( wavelengthProperty.get() + 1 );
       }, {
+        left: track.right + options.tweakersXSpacing,
+        centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
       } );
@@ -139,6 +160,8 @@ define( function( require ) {
       minusButton = new ArrowButton( 'left', function() {
         wavelengthProperty.set( wavelengthProperty.get() - 1 );
       }, {
+        right: track.left - options.tweakersXSpacing,
+        centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
       } );
@@ -182,17 +205,6 @@ define( function( require ) {
     plusButton && thisNode.addChild( plusButton );
     minusButton && thisNode.addChild( minusButton );
 
-    // layout
-    if ( cursor ) { cursor.top = track.top; }
-    thumb.top = track.bottom;
-    if ( valueDisplay ) { valueDisplay.bottom = track.top - options.valueYSpacing; }
-    if ( options.tweakersVisible ) {
-      plusButton.left = track.right + options.tweakersXSpacing;
-      plusButton.centerY = track.centerY;
-      minusButton.right = track.left - options.tweakersXSpacing;
-      minusButton.centerY = track.centerY;
-    }
-
     // transforms between position and wavelength
     var positionToWavelength = function( x ) {
       return Math.floor( Util.clamp( Util.linear( 0, track.width, options.minWavelength, options.maxWavelength, x ), options.minWavelength, options.maxWavelength ) );
@@ -200,9 +212,6 @@ define( function( require ) {
     var wavelengthToPosition = function( wavelength ) {
       return Math.floor( Util.clamp( Util.linear( options.minWavelength, options.maxWavelength, 0, track.width, wavelength ), 0, track.width ) );
     };
-
-    // track interactivity
-    track.cursor = 'pointer';
 
     // click in the track to change the value, continue dragging if desired
     var handleTrackEvent = function( event ) {
@@ -303,9 +312,16 @@ define( function( require ) {
    *
    * @param {number} width
    * @param {number} height
+   * @param {Object} [options]
    * @constructor
    */
-  function Thumb( width, height ) {
+  function Thumb( width, height, options ) {
+
+    options = _.extend( {
+      stroke: 'black',
+      lineWidth: 1,
+      fill: 'black'
+    }, options );
 
     // Set the radius of the arcs based on the height or width, whichever is smaller.
     var radiusScale = 0.15;
@@ -336,7 +352,7 @@ define( function( require ) {
       .arc( 0.5 * width - radius, 0.3 * height + heightOffset, radius, -angle, 0 )
       .close();
 
-    Path.call( this, shape, { stroke: 'black', lineWidth: 1, fill: 'black' } );
+    Path.call( this, shape, options );
   }
 
   sceneryPhet.register( 'WavelengthSlider.Thumb', Thumb );
@@ -347,14 +363,13 @@ define( function( require ) {
    * Displays the value and units.
    *
    * @param {Property} valueProperty
-   * @param {string} font
-   * @param {string} fill
+   * @param {Object} [options]
    * @constructor
    */
-  function ValueDisplay( valueProperty, font, fill ) {
+  function ValueDisplay( valueProperty, options ) {
 
     var thisNode = this;
-    Text.call( this, '?', { font: font, fill: fill } );
+    Text.call( this, '?', options );
 
     var valueObserver = function( value ) {
       thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
@@ -376,16 +391,17 @@ define( function( require ) {
     }
   } );
 
+  //TODO better name for this, that doesn't conflict with scenery cursor
   /**
    * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
    *
    * @param {number} width
    * @param {number} height
-   * @param {Color|string} stroke
+   * @param {Object} [options]
    * @constructor
    */
-  function Cursor( width, height, stroke ) {
-    Rectangle.call( this, -width / 2, 0, width, height, { stroke: stroke, lineWidth: 1 } );
+  function Cursor( width, height, options ) {
+    Rectangle.call( this, -width / 2, 0, width, height, options );
   }
 
   sceneryPhet.register( 'WavelengthSlider.Cursor', Cursor );
