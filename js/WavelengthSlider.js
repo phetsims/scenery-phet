@@ -107,7 +107,7 @@ define( function( require ) {
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     track.cursor = 'pointer'; //TODO add options param to SpectrumNode
 
-    var valueDisplay = null;
+    var valueDisplay;
     if ( options.valueVisible ) {
       valueDisplay = new ValueDisplay( wavelengthProperty, {
         font: options.valueFont,
@@ -116,7 +116,7 @@ define( function( require ) {
       } );
     }
 
-    var cursor = null;
+    var cursor;
     if ( options.cursorVisible ) {
       cursor = new Cursor( 3, track.height, {
         stroke: options.cursorStroke,
