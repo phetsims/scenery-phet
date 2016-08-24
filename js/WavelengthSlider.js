@@ -78,7 +78,7 @@ define( function( require ) {
 
       // tweakers
       tweakersVisible: true,
-      tweakersXSpacing: 8,
+      tweakersXSpacing: 8, // {number} space between tweakers and track
       maxTweakersHeight: 30,
       tweakersTouchAreaXDilation: 7,
       tweakersTouchAreaYDilation: 7,
