@@ -233,8 +233,7 @@ define( function( require ) {
       }
     } ) );
 
-    // thumb interactivity
-    thumb.cursor = 'pointer';
+    // thumb drag handler
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
     thumb.addInputListener( new TandemDragHandler( {
 
