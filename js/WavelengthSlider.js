@@ -107,6 +107,19 @@ define( function( require ) {
     var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     track.cursor = 'pointer'; //TODO add options param to SpectrumNode
 
+    /*
+     * Put a border around the track.
+     * We don't stroke the track itself because stroking the track will affect its bounds,
+     * and will thus affect the drag handle behavior.
+     * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
+     * without affecting the track's bounds.
+     */
+    var trackBorder = new Rectangle( 0, 0, track.width, track.height, {
+      stroke: options.trackBorderStroke,
+      lineWidth: 1,
+      pickable: false
+    } );
+
     var valueDisplay;
     if ( options.valueVisible ) {
       valueDisplay = new ValueDisplay( wavelengthProperty, {
@@ -182,19 +195,6 @@ define( function( require ) {
         .dilatedXY( options.tweakersMouseAreaXDilation, options.tweakersMouseAreaYDilation )
         .shiftedX( -options.tweakersMouseAreaXDilation );
     }
-
-    /*
-     * Put a border around the track.
-     * We don't stroke the track itself because stroking the track will affect its bounds,
-     * and will thus affect the drag handle behavior.
-     * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
-     * without affecting the track's bounds.
-     */
-    var trackBorder = new Rectangle( 0, 0, track.width, track.height, {
-      stroke: options.trackBorderStroke,
-      lineWidth: 1,
-      pickable: false
-    } );
 
     // rendering order
     thisNode.addChild( track );
