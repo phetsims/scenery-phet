@@ -104,7 +104,7 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-``    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
+    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
     track.cursor = 'pointer'; //TODO add options param to SpectrumNode
 
     var valueDisplay = null;
@@ -337,10 +337,10 @@ define( function( require ) {
     // which will be easier to calculate arcing from bottom to top.
     var shape = new Shape()
       .moveTo( 0.5 * width, 0.3 * height + heightOffset )
-      .lineTo( 0.5 * width, 1 * height - radius )
-      .arc( 0.5 * width - radius, 1 * height - radius, radius, 0, Math.PI / 2 )
-      .lineTo( -0.5 * width + radius, 1 * height )
-      .arc( -0.5 * width + radius, 1 * height - radius, radius, Math.PI / 2, Math.PI )
+      .lineTo( 0.5 * width, height - radius )
+      .arc( 0.5 * width - radius, height - radius, radius, 0, Math.PI / 2 )
+      .lineTo( -0.5 * width + radius, height )
+      .arc( -0.5 * width + radius, height - radius, radius, Math.PI / 2, Math.PI )
       .lineTo( -0.5 * width, 0.3 * height + heightOffset )
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
