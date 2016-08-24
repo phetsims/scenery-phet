@@ -308,7 +308,7 @@ define( function( require ) {
   sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
 
   /**
-   * The slider thumb
+   * The slider thumb, origin at top center.
    *
    * @param {number} width
    * @param {number} height
@@ -393,7 +393,7 @@ define( function( require ) {
 
   //TODO better name for this, that doesn't conflict with scenery cursor
   /**
-   * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center of cursor.
+   * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center.
    *
    * @param {number} width
    * @param {number} height
