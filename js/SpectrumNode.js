@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
  * SpectrumNode displays a rectangle of the visible spectrum.
@@ -9,45 +9,52 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Util = require( 'DOT/Util' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
    * Slider track that displays the visible spectrum.
-   * @param {number} width
-   * @param {number} height
-   * @param {number} minWavelength
-   * @param {number} maxWavelength
-   * @param {number} opacity 0-1
+   *
+   * @param {Object} [options]
    * @constructor
    */
-  function SpectrumNode( width, height, minWavelength, maxWavelength, opacity ) {
+  function SpectrumNode( options ) {
 
-    Node.call( this );
+    options = _.extend( {
+      size: new Dimension2( 150, 30 ),
+      minWavelength: VisibleColor.MIN_WAVELENGTH,
+      maxWavelength: VisibleColor.MAX_WAVELENGTH
+    }, options );
+
+    // validate wavelengths
+    assert && assert( options.minWavelength < options.maxWavelength );
+    assert && assert( options.minWavelength >= VisibleColor.MIN_WAVELENGTH && options.minWavelength <= VisibleColor.MAX_WAVELENGTH );
+    assert && assert( options.maxWavelength >= VisibleColor.MIN_WAVELENGTH && options.maxWavelength <= VisibleColor.MAX_WAVELENGTH );
 
     // Draw the spectrum directly to a canvas, to improve performance.
     var canvas = document.createElement( 'canvas' );
     var context = canvas.getContext( '2d' );
-    canvas.width = width;
-    canvas.height = height;
-    for ( var i = 0; i < width; i++ ) {
-      var wavelength = Util.clamp( Util.linear( 0, width, minWavelength, maxWavelength, i ), minWavelength, maxWavelength );  // position -> wavelength
-      context.fillStyle = VisibleColor.wavelengthToColor( wavelength ).withAlpha( opacity ).toCSS();
-      context.fillRect( i, 0, 1, height );
+    canvas.width = options.size.width;
+    canvas.height = options.size.height;
+    for ( var i = 0; i < options.size.width; i++ ) {
+      // map position to wavelength
+      var wavelength = Util.clamp( Util.linear( 0, options.size.width, options.minWavelength, options.maxWavelength, i ), options.minWavelength, options.maxWavelength );
+      context.fillStyle = VisibleColor.wavelengthToColor( wavelength ).toCSS();
+      context.fillRect( i, 0, 1, options.size.height );
     }
 
-    this.addChild( new Image( canvas.toDataURL() ) );
+    Image.call( this, canvas.toDataURL(), options );
 
     // since the Image's bounds aren't immediately computed, we override it here
-    this.setLocalBounds( new Bounds2( 0, 0, width, height ) );
+    this.setLocalBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
   }
 
   sceneryPhet.register( 'SpectrumNode', SpectrumNode );
 
-  return inherit( Node, SpectrumNode );
+  return inherit( Image, SpectrumNode );
 } );

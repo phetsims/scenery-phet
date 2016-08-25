@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -104,8 +105,13 @@ define( function( require ) {
     var thisNode = this;
     Node.call( thisNode );
 
-    var track = new SpectrumNode( options.trackWidth, options.trackHeight, options.minWavelength, options.maxWavelength, options.trackOpacity );
-    track.cursor = 'pointer'; //TODO add options param to SpectrumNode
+    var track = new SpectrumNode( {
+      size: new Dimension2( options.trackWidth, options.trackHeight ),
+      minWavelength: options.minWavelength,
+      maxWavelength: options.maxWavelength,
+      opacity: options.trackOpacity,
+      cursor: 'pointer'
+    } );
 
     /*
      * Put a border around the track.
