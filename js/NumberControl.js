@@ -69,7 +69,6 @@ define( function( require ) {
       thumbSize: new Dimension2( 17, 34 ),
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
-      thumbFillEnabled: 'green',
 
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
@@ -83,7 +82,9 @@ define( function( require ) {
     }, options );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
-    options.thumbFillHighlighted = options.thumbFillHighlighted || Color.toColor( options.thumbFillEnabled ).brighterColor();
+    if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
+      options.thumbFillHighlighted =  Color.toColor( options.thumbFillEnabled ).brighterColor();
+    }
 
     // constrain the slider value to the provided range and the same delta as the arrow buttons
     options.constrainValue = options.constrainValue || function( value ) {
