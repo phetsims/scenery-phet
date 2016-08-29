@@ -33,10 +33,6 @@ define( function( require ) {
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
   var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
 
-  // constants
-  var DEFAULT_THUMB_WIDTH = 35;
-  var DEFAULT_THUMB_HEIGHT = 45;
-
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength, in nm
    * @param {Object} [options]
@@ -45,11 +41,6 @@ define( function( require ) {
   function WavelengthSlider( wavelengthProperty, options ) {
 
     options = options || {};
-
-    // Compute defaults for touchArea dilation.
-    // Must be done before _.extends call because these values are proportional to thumb size.
-    var DEFAULT_THUMB_TOUCH_AREA_X_DILATION = 0.5 * ( options.thumbWidth || DEFAULT_THUMB_WIDTH );
-    var DEFAULT_THUMB_TOUCH_AREA_Y_DILATION = 0.25 * ( options.thumbHeight || DEFAULT_THUMB_HEIGHT );
 
     // options that are specific to this type
     options = _.extend( {
@@ -64,10 +55,10 @@ define( function( require ) {
       trackBorderStroke: 'black',
 
       // thumb
-      thumbWidth: DEFAULT_THUMB_WIDTH,
-      thumbHeight: DEFAULT_THUMB_HEIGHT,
-      thumbTouchAreaXDilation: DEFAULT_THUMB_TOUCH_AREA_X_DILATION,
-      thumbTouchAreaYDilation: DEFAULT_THUMB_TOUCH_AREA_Y_DILATION,
+      thumbWidth: 35,
+      thumbHeight: 45,
+      thumbTouchAreaXDilation: 12,
+      thumbTouchAreaYDilation: 10,
       thumbMouseAreaXDilation: 0,
       thumbMouseAreaYDilation: 0,
 
