@@ -16,8 +16,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   var DEFAULT_RADIUS = 28;
@@ -38,12 +36,12 @@ define( function( require ) {
     var triangleWidth = options.radius * 0.8;
     var barWidth = options.radius * 0.2;
     var barHeight = triangleHeight;
-
     var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
-    var bar = function() { return new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } ); };
-    var bar1 = bar();
-    var bar2 = bar();
-    var pausePath = new HBox( { children: [ bar1, bar2 ], spacing: barWidth } );
+
+    var pauseIconShape = new Shape()
+      .rect( 0, 0, barWidth, barHeight )
+      .rect( 2 * barWidth, 0, barWidth, barHeight );
+    var pausePath = new Path( pauseIconShape, { fill: 'black' } );
 
     // put the play and pause symbols inside circles so they have the same bounds,
     // otherwise ToggleNode will re-adjust their positions relative to each other
