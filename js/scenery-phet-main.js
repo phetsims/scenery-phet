@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
  * Main file for the scenery-phet library demo.
@@ -30,7 +30,9 @@ define( function( require ) {
   var backgroundColor = phet.chipper.getQueryParameter( 'backgroundColor' ) || 'white';
   var screenOptions = { backgroundColor: backgroundColor };
 
-  var createScreenIcon = function( color ) { return new Rectangle( 0, 0, 147, 100, { fill: color } ); };
+  var createScreenIcon = function( color ) {
+    return new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: color } );
+  };
 
   // Create and start sim
   SimLauncher.launch( function() {
