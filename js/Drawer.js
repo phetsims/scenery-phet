@@ -200,7 +200,7 @@ define( function( require ) {
             !open && options.afterClose && options.afterClose();
           }
         } );
-        animation.start( phet.joist.elapsedTime );
+        animation.start( window.phet && window.phet.joist && window.phet.joist.elapsedTime );
       }
       else {
 
