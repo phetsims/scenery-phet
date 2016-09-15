@@ -24,7 +24,7 @@ define( function( require ) {
    */
   function LevelSupportColumnNode( modelViewTransform, levelSupportColumn, columnState ) {
     Node.call( this );
-    var thisNode = this;
+    var self = this;
 
     // Create and add the main body of the column.
     var transformedColumnShape = modelViewTransform.modelToViewShape( levelSupportColumn.shape );
@@ -40,7 +40,7 @@ define( function( require ) {
         stroke: 'black',
         lineWidth: 1
       } );
-    thisNode.addChild( columnNode );
+    self.addChild( columnNode );
 
     // Create and add the column support.
     var supportWidth = transformedColumnShape.bounds.width * 1.3; // Empirically determined.
@@ -62,10 +62,10 @@ define( function( require ) {
         stroke: 'black',
         lineWidth: 1
       } );
-    thisNode.addChild( columnSupportNode );
+    self.addChild( columnSupportNode );
 
     columnState.link( function( state ) {
-      thisNode.visible = state === 'doubleColumns';
+      self.visible = state === 'doubleColumns';
     } );
   }
 
