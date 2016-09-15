@@ -41,10 +41,10 @@ define( function( require ) {
 
     options = _.extend( {}, defaultOptions, options ); // don't modify defaultOptions!
 
-    var thisNode = this;
+    var self = this;
 
     // @private
-    thisNode.onNode = new Image( onImage, {
+    self.onNode = new Image( onImage, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
@@ -52,8 +52,8 @@ define( function( require ) {
 
     var offNode = new Image( offImage, {
       scale: options.bulbImageScale,
-      centerX: thisNode.onNode.centerX,
-      bottom: thisNode.onNode.bottom
+      centerX: self.onNode.centerX,
+      bottom: self.onNode.bottom
     } );
 
     // rays
@@ -61,14 +61,14 @@ define( function( require ) {
     var rayOptions = _.pick( options, _.keys( defaultOptions ) ); // cherry-pick options that are specific to rays
     rayOptions.x = this.onNode.centerX;
     rayOptions.y = offNode.top + bulbRadius;
-    thisNode.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
+    self.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
 
-    options.children = [ thisNode.raysNode, offNode, thisNode.onNode ];
-    Node.call( thisNode, options );
+    options.children = [ self.raysNode, offNode, self.onNode ];
+    Node.call( self, options );
 
-    thisNode.brightnessObserver = function( brightness ) { thisNode.update(); }; // @private
-    thisNode.brightnessProperty = brightnessProperty; // @private
-    thisNode.brightnessProperty.link( this.brightnessObserver );
+    self.brightnessObserver = function( brightness ) { self.update(); }; // @private
+    self.brightnessProperty = brightnessProperty; // @private
+    self.brightnessProperty.link( this.brightnessObserver );
   }
 
   sceneryPhet.register( 'LightBulbNode', LightBulbNode );

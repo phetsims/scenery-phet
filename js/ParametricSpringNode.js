@@ -82,7 +82,7 @@ define( function( require ) {
       pathBoundsMethod: 'accurate'
     }, options );
 
-    var thisNode = this;
+    var self = this;
 
     this.model = new PropertySet( {
       // @public
@@ -129,8 +129,8 @@ define( function( require ) {
         backShape = new Shape();
 
         // Values of other properties, to improve readability
-        var radius = thisNode.model.radiusProperty.get();
-        var xScale = thisNode.model.xScaleProperty.get();
+        var radius = self.model.radiusProperty.get();
+        var xScale = self.model.xScaleProperty.get();
 
         // compute the points for the coil
         var coilPoints = []; // {Vector2[]}
@@ -208,11 +208,11 @@ define( function( require ) {
       function( radius, xScale ) {
 
         // Values of other properties, to improve readability
-        var loops = thisNode.model.loopsProperty.get();
-        var pointsPerLoop = thisNode.model.pointsPerLoopProperty.get();
-        var aspectRatio = thisNode.model.aspectRatioProperty.get();
-        var phase = thisNode.model.phaseProperty.get();
-        var deltaPhase = thisNode.model.deltaPhaseProperty.get();
+        var loops = self.model.loopsProperty.get();
+        var pointsPerLoop = self.model.pointsPerLoopProperty.get();
+        var aspectRatio = self.model.aspectRatioProperty.get();
+        var phase = self.model.phaseProperty.get();
+        var deltaPhase = self.model.deltaPhaseProperty.get();
 
         // number of points in the coil
         var numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );

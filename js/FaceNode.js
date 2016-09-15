@@ -36,8 +36,7 @@ define( function( require ) {
     }, options );
     options.headStroke = options.headStroke || Color.toColor( options.headFill ).darkerColor();
 
-    var thisNode = this;
-    Node.call( thisNode );
+    Node.call( this );
 
     // Add head.
     this.addChild( new Circle( headDiameter / 2, {

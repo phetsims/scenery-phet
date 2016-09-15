@@ -37,7 +37,7 @@ define( function( require ) {
    * @constructor
    */
   function SoundToggleButton( property, options ) {
-    var soundToggleButton = this;
+
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );
     var contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
@@ -76,9 +76,10 @@ define( function( require ) {
       }
     }, options ) );
 
+    var self = this;
     property.link( function( value ) {
       var checkedText = (value ? 'checked' : 'unchecked');
-      soundToggleButton.textDescription = 'Sound Checkbox (' + checkedText + ')';
+      self.textDescription = 'Sound Checkbox (' + checkedText + ')';
     } );
   }
 

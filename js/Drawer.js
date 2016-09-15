@@ -69,7 +69,7 @@ define( function( require ) {
     this.contentsNode = contentsNode; // @public (read-only)
     this._animationEnabled = options.animationEnabled; // @private
 
-    var thisNode = this;
+    var self = this;
 
     // size of contents, adjusted for margins
     var CONTENTS_WIDTH = contentsNode.width + ( 2 * options.xMargin );
@@ -172,7 +172,7 @@ define( function( require ) {
     // click on the handle to toggle between open and closed
     handleNode.addInputListener( new DownUpListener( {
       down: function( event, trail ) {
-        thisNode.openProperty.set( !thisNode.openProperty.get() );
+        self.openProperty.set( !self.openProperty.get() );
       }
     } ) );
 
@@ -189,7 +189,7 @@ define( function( require ) {
 
       open && options.beforeOpen && options.beforeOpen();
 
-      if ( thisNode._animationEnabled ) {
+      if ( self._animationEnabled ) {
 
         // animate open/closed
         animation = new MoveTo( drawerNode, open ? openLocation : closeLocation, {
@@ -213,9 +213,9 @@ define( function( require ) {
 
     // @private
     this.disposeDrawer = function() {
-      thisNode.openProperty.unlink( openObserver );
-      thisNode.openProperty.dispose(); // will fail if clients haven't removed observers
-      thisNode.openProperty = null;
+      self.openProperty.unlink( openObserver );
+      self.openProperty.dispose(); // will fail if clients haven't removed observers
+      self.openProperty = null;
     };
   }
 

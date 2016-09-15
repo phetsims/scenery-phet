@@ -51,7 +51,7 @@ define( function( require ) {
    * @constructor
    */
   function MeasuringTape( unitsProperty, isVisibleProperty, options ) {
-    var measuringTape = this;
+    var self = this;
 
     Node.call( this );
     options = _.extend( {
@@ -71,7 +71,7 @@ define( function( require ) {
       significantFigures: 1, // number of significant figures in the length measurement
       textColor: 'white', // color of the length measurement and unit
       textFont: new PhetFont( { size: 16, weight: 'bold' } ), // font for the measurement text
-      baseScale: 0.8, // control the size of the measuringTape Image (the base)
+      baseScale: 0.8, // control the size of the measuring tape Image (the base)
       lineColor: 'gray', // color of the tapeline itself
       tapeLineWidth: 2, // linewidth of the tape line
       tipCircleColor: 'rgba(0,0,0,0.1)', // color of the circle at the tip
@@ -142,7 +142,7 @@ define( function( require ) {
 
     // create text
     // @public
-    this.labelText = new Text( measuringTape.getText(), {
+    this.labelText = new Text( self.getText(), {
       font: options.textFont,
       fill: options.textColor
     } );
@@ -169,15 +169,15 @@ define( function( require ) {
       allowTouchSnag: true,
 
       start: function( event, trail ) {
-        measuringTape._isBaseUserControlledProperty.set( true );
-        var location = measuringTape._modelViewTransform.modelToViewPosition( options.basePositionProperty.value );
+        self._isBaseUserControlledProperty.set( true );
+        var location = self._modelViewTransform.modelToViewPosition( options.basePositionProperty.value );
         baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
-        var unconstrainedBaseLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
-        var constrainedBaseLocation = measuringTape._dragBounds.closestPointTo( unconstrainedBaseLocation );
+        var unconstrainedBaseLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
+        var constrainedBaseLocation = self._dragBounds.closestPointTo( unconstrainedBaseLocation );
 
         // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
         var translationDelta = constrainedBaseLocation.minus( options.basePositionProperty.value ); // in model reference frame
@@ -187,21 +187,21 @@ define( function( require ) {
 
         // translate the position of the tip if it is not being dragged
         // when the user is not holding onto the tip, dragging the body will also drag the tip
-        if ( !measuringTape._isTipUserControlled ) {
-          var unconstrainedTipLocation = translationDelta.add( measuringTape.tipPositionProperty.value );
+        if ( !self._isTipUserControlled ) {
+          var unconstrainedTipLocation = translationDelta.add( self.tipPositionProperty.value );
           if ( options.isTipDragBounded ) {
-            var constrainedTipLocation = measuringTape._dragBounds.closestPointTo( unconstrainedTipLocation );
+            var constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
             // translation of the tipPosition (subject to the constraining drag bounds)
-            measuringTape.tipPositionProperty.set( constrainedTipLocation );
+            self.tipPositionProperty.set( constrainedTipLocation );
           }
           else {
-            measuringTape.tipPositionProperty.set( unconstrainedTipLocation );
+            self.tipPositionProperty.set( unconstrainedTipLocation );
           }
         }
       },
 
       end: function( event, trail ) {
-        measuringTape._isBaseUserControlledProperty.set( false );
+        self._isBaseUserControlledProperty.set( false );
       }
     } );
 
@@ -216,43 +216,43 @@ define( function( require ) {
       allowTouchSnag: true,
 
       start: function( event, trail ) {
-        measuringTape._isTipUserControlledProperty.set( true );
-        var location = measuringTape._modelViewTransform.modelToViewPosition( measuringTape.tipPositionProperty.value );
+        self._isTipUserControlledProperty.set( true );
+        var location = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
         tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
         var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
-        var unconstrainedTipLocation = measuringTape._modelViewTransform.viewToModelPosition( parentPoint );
+        var unconstrainedTipLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
-          var constrainedTipLocation = measuringTape._dragBounds.closestPointTo( unconstrainedTipLocation );
+          var constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
           // translation of the tipPosition (subject to the constraining drag bounds)
-          measuringTape.tipPositionProperty.set( constrainedTipLocation );
+          self.tipPositionProperty.set( constrainedTipLocation );
         }
         else {
-          measuringTape.tipPositionProperty.set( unconstrainedTipLocation );
+          self.tipPositionProperty.set( unconstrainedTipLocation );
         }
       },
 
       end: function( event, trail ) {
-        measuringTape._isTipUserControlledProperty.set( false );
+        self._isTipUserControlledProperty.set( false );
       }
     } ) );
 
     /**
      * Update the scenery nodes of the measuring tape such as crosshair, tip, labelText, tapeLine, baseImage
-     * based on the position of the base and tip of the measuringTape
+     * based on the position of the base and tip of the measuring tape
      * @param {Vector2} basePosition
      * @param {Vector2} tipPosition
      * @private
      */
     this.updatePosition = function( basePosition, tipPosition ) {
-      var viewTipPosition = measuringTape._modelViewTransform.modelToViewPosition( tipPosition );
-      var viewBasePosition = measuringTape._modelViewTransform.modelToViewPosition( basePosition );
+      var viewTipPosition = self._modelViewTransform.modelToViewPosition( tipPosition );
+      var viewBasePosition = self._modelViewTransform.modelToViewPosition( basePosition );
 
       // calculate the orientation and change of orientation of the Measuring tape
-      var oldAngle = measuringTape.baseImage.getRotation();
+      var oldAngle = self.baseImage.getRotation();
       var angle = Math.atan2( viewTipPosition.y - viewBasePosition.y, viewTipPosition.x - viewBasePosition.x );
       var deltaAngle = angle - oldAngle;
 
@@ -262,14 +262,14 @@ define( function( require ) {
 
       // in order to avoid all kind of geometrical issues with position,
       // let's reset the baseImage upright and then set its position and rotation
-      measuringTape.baseImage.setRotation( 0 );
-      measuringTape.baseImage.rightBottom = viewBasePosition;
-      measuringTape.baseImage.rotateAround( measuringTape.baseImage.rightBottom, angle );
+      self.baseImage.setRotation( 0 );
+      self.baseImage.rightBottom = viewBasePosition;
+      self.baseImage.rotateAround( self.baseImage.rightBottom, angle );
 
       // reset the text
-      measuringTape.tipToBaseDistance = tipPosition.distance( basePosition );
-      measuringTape.labelText.setText( measuringTape.getText() );
-      measuringTape.labelText.centerTop = measuringTape.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
+      self.tipToBaseDistance = tipPosition.distance( basePosition );
+      self.labelText.setText( self.getText() );
+      self.labelText.centerTop = self.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
 
       // reposition the tapeline
       tapeLine.setLine( viewBasePosition.x, viewBasePosition.y, viewTipPosition.x, viewTipPosition.y );
@@ -285,18 +285,18 @@ define( function( require ) {
 
     // link the positions of base and tip to the measuring tape to the scenery update function
     Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ], function( basePosition, tipPosition ) {
-      measuringTape.updatePosition( basePosition, tipPosition );
+      self.updatePosition( basePosition, tipPosition );
     } );
 
     // @private
     this.isVisiblePropertyObserver = function( isVisible ) {
-      measuringTape.visible = isVisible;
+      self.visible = isVisible;
     };
     this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
 
     // @private set Text on on labelText
     this.unitsPropertyObserver = function() {
-      measuringTape.labelText.setText( measuringTape.getText() );
+      self.labelText.setText( self.getText() );
     };
     // link change of units to the text
     this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
@@ -376,7 +376,7 @@ define( function( require ) {
 
     /**
      * Sets the property indicating if the tip of the measuring tape is being dragged or not.
-     * (Useful to set externally if using a creator node to generate the measuringTape)
+     * (Useful to set externally if using a creator node to generate the measuring tape)
      * @public
      * @param {boolean} value
      */
@@ -394,7 +394,7 @@ define( function( require ) {
     },
 
     /**
-     * Sets the dragBounds of the of the measuringTape.
+     * Sets the dragBounds of the of the measuring tape.
      * In addition, it forces the tip and base of the measuring tape to be within the new bounds.
      * @public
      * @param {Bounds2} dragBounds

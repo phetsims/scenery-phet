@@ -40,7 +40,7 @@ define( function( require ) {
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
 
-    var thisArrowShape = this;
+    var self = this;
     Shape.call( this );
 
     if ( tipX !== tailX || tipY !== tailY ) {
@@ -51,7 +51,7 @@ define( function( require ) {
       this.moveTo( points[ 0 ].x, points[ 0 ].y );
       var tail = _.tail( points );
       _.each( tail, function( element ) {
-        thisArrowShape.lineTo( element.x, element.y );
+        self.lineTo( element.x, element.y );
       } );
       this.close();
     }

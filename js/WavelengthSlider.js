@@ -93,8 +93,7 @@ define( function( require ) {
     assert && assert( options.minWavelength >= VisibleColor.MIN_WAVELENGTH && options.minWavelength <= VisibleColor.MAX_WAVELENGTH );
     assert && assert( options.maxWavelength >= VisibleColor.MIN_WAVELENGTH && options.maxWavelength <= VisibleColor.MAX_WAVELENGTH );
 
-    var thisNode = this;
-    Node.call( thisNode );
+    Node.call( this );
 
     var track = new SpectrumNode( {
       size: new Dimension2( options.trackWidth, options.trackHeight ),
@@ -194,13 +193,13 @@ define( function( require ) {
     }
 
     // rendering order
-    thisNode.addChild( track );
-    thisNode.addChild( trackBorder );
-    thisNode.addChild( thumb );
-    valueDisplay && thisNode.addChild( valueDisplay );
-    cursor && thisNode.addChild( cursor );
-    plusButton && thisNode.addChild( plusButton );
-    minusButton && thisNode.addChild( minusButton );
+    this.addChild( track );
+    this.addChild( trackBorder );
+    this.addChild( thumb );
+    valueDisplay && this.addChild( valueDisplay );
+    cursor && this.addChild( cursor );
+    plusButton && this.addChild( plusButton );
+    minusButton && this.addChild( minusButton );
 
     // transforms between position and wavelength
     var positionToWavelength = function( x ) {
@@ -276,19 +275,19 @@ define( function( require ) {
      */
     // determine bounds at min and max wavelength settings
     updateUI( options.minWavelength );
-    var minX = thisNode.left;
+    var minX = this.left;
     updateUI( options.maxWavelength );
-    var maxX = thisNode.right;
+    var maxX = this.right;
 
     // restore the wavelength
     updateUI( wavelengthProperty.get() );
 
     // add a horizontal strut
     var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
-    thisNode.addChild( strut );
+    this.addChild( strut );
     strut.moveToBack();
 
-    thisNode.mutate( options );
+    this.mutate( options );
     options.tandem && options.tandem.addInstance( this, TNode );
 
     // @private called by dispose
@@ -364,11 +363,11 @@ define( function( require ) {
    */
   function ValueDisplay( valueProperty, options ) {
 
-    var thisNode = this;
     Text.call( this, '?', options );
 
+    var self = this;
     var valueObserver = function( value ) {
-      thisNode.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
+      self.text = StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
     };
     valueProperty.link( valueObserver );
 

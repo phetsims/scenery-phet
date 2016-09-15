@@ -57,7 +57,7 @@ define( function( require ) {
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    var thisNode = this;
+    var self = this;
 
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
@@ -85,17 +85,17 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       // update the value
-      thisNode.valueNode.text = StringUtils.format( options.valuePattern, Util.toFixed( value, options.decimalPlaces ) );
+      self.valueNode.text = StringUtils.format( options.valuePattern, Util.toFixed( value, options.decimalPlaces ) );
 
       // horizontally align value in background
       if ( options.align === 'center' ) {
-        thisNode.valueNode.centerX = thisNode.backgroundNode.centerX;
+        self.valueNode.centerX = self.backgroundNode.centerX;
       }
       else if ( options.align === 'left' ) {
-        thisNode.valueNode.left = thisNode.backgroundNode.left + options.xMargin;
+        self.valueNode.left = self.backgroundNode.left + options.xMargin;
       }
       else { // right
-        thisNode.valueNode.right = thisNode.backgroundNode.right - options.xMargin;
+        self.valueNode.right = self.backgroundNode.right - options.xMargin;
       }
     };
     numberProperty.link( numberObserver );

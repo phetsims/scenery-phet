@@ -64,13 +64,13 @@ define( function( require ) {
         this._text = text;
 
         // parse the text and create {Text[]}
-        var thisNode = this;
+        var self = this;
         var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
 
           // create a blank line between consecutive line breaks
           if ( line.length === 0 ) { line = ' '; }
 
-          return new Text( line, _.omit( thisNode.options, 'align', 'maxWidth' ) );
+          return new Text( line, _.omit( self.options, 'align', 'maxWidth' ) );
         } );
 
         // determine where the textParent was, so we can maintain rendering order

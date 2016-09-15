@@ -26,7 +26,7 @@ define( function( require ) {
    */
   function ColorProfile( colors ) {
 
-    var thisProfile = this;
+    var self = this;
 
     this.colors = colors; // @private
 
@@ -51,22 +51,22 @@ define( function( require ) {
     window.addEventListener( 'message', function( evt ) {
       var data = JSON.parse( evt.data );
       if ( data.type === 'setColor' ) {
-        thisProfile[ data.name ] = new Color( data.value );
+        self[ data.name ] = new Color( data.value );
       }
     } );
 
     // @public Applies all colors for the specific named color scheme, ignoring colors that aren't specified for it.
     this.profileNameProperty.link( function( profileName ) {
-      for ( var key in thisProfile.colors ) {
-        var oldColor = thisProfile[ key ];
-        var colorObject = thisProfile.colors[ key ];
+      for ( var key in self.colors ) {
+        var oldColor = self[ key ];
+        var colorObject = self.colors[ key ];
         var newColor = ( profileName in colorObject ) ? colorObject[ profileName ] : colorObject.default;
         if ( !newColor.equals( oldColor ) ) {
-          thisProfile[ key ] = newColor;
-          thisProfile.reportColor( key );
+          self[ key ] = newColor;
+          self.reportColor( key );
         }
       }
-      thisProfile.trigger( 'profileChanged' );
+      self.trigger( 'profileChanged' );
     } );
 
     // initial communication

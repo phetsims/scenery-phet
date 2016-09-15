@@ -42,7 +42,7 @@ define( function( require ) {
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
       'invalid buttonType: ' + options.buttonType );
 
-    var thisNode = this;
+    var self = this;
     var children = [];
 
     // the narrow part that the light will come out of
@@ -102,15 +102,15 @@ define( function( require ) {
 
     // enables and disables the button
     var enabledObserver = function( enabled ) {
-      thisNode.button && ( thisNode.button.enabled = enabled );
+      self.button && ( self.button.enabled = enabled );
     };
     this.enabledProperty.link( enabledObserver );
 
     // @private called by dispose
     this.disposeLaserPointerNode = function() {
-      thisNode.button && thisNode.button.dispose();
-      thisNode.enabledProperty.unlink( enabledObserver );
-      options.tandem && options.tandem.removeInstance( thisNode );
+      self.button && self.button.dispose();
+      self.enabledProperty.unlink( enabledObserver );
+      options.tandem && options.tandem.removeInstance( self );
     };
   }
 

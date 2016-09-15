@@ -66,7 +66,7 @@ define( function( require ) {
     // {Color|string} color of arrows and top/bottom gradient when pressed
     options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
 
-    var thisNode = this;
+    var self = this;
     Node.call( this );
 
     //------------------------------------------------------------
@@ -238,8 +238,8 @@ define( function( require ) {
     downParent.addInputListener( this.downListener );
 
     // enable/disable listeners: unlink unnecessary, properties are owned by this instance
-    this.upEnabledProperty.link( function( enabled ) { thisNode.upListener.enabled = enabled; } );
-    this.downEnabledProperty.link( function( enabled ) { thisNode.downListener.enabled = enabled; } );
+    this.upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
+    this.downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
 
     // @private Update text to match the value
     this.valueObserver = function( value ) {
@@ -268,12 +268,12 @@ define( function( require ) {
 
     // @private update colors for 'up' components
     Property.multilink( [ upStateProperty, this.upEnabledProperty ], function( state, enabled ) {
-      updateColors( state, enabled, upBackground, thisNode.upArrow, backgroundColors, arrowColors );
+      updateColors( state, enabled, upBackground, self.upArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for 'down' components
     Property.multilink( [ downStateProperty, this.downEnabledProperty ], function( state, enabled ) {
-      updateColors( state, enabled, downBackground, thisNode.downArrow, backgroundColors, arrowColors );
+      updateColors( state, enabled, downBackground, self.downArrow, backgroundColors, arrowColors );
     } );
 
     this.mutate( options );

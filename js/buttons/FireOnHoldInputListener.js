@@ -30,12 +30,10 @@ define( function( require ) {
       endCallback: function( inside ) {} // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
     }, options );
 
-    var thisListener = this;
+    this._enabled = options.enabled; // @private
 
-    thisListener._enabled = options.enabled; // @private
-
-    thisListener.listeners = []; // @private
-    if ( options.listener ) { thisListener.listeners.push( options.listener ); }
+    this.listeners = []; // @private
+    if ( options.listener ) { this.listeners.push( options.listener ); }
 
     // @private
     this.timer = new CallbackTimer( {
@@ -44,26 +42,27 @@ define( function( require ) {
       interval: options.timerInterval
     } );
 
-    DownUpListener.call( thisListener, {
+    var self = this;
+    DownUpListener.call( this, {
 
       // Pointer down, start the timer.
       down: function() {
-        if ( thisListener._enabled ) {
+        if ( self._enabled ) {
           options.startCallback();
-          thisListener.timer.start();
+          self.timer.start();
         }
       },
 
       // Point released inside. Stop the timer, fire if we haven't already.
       upInside: function() {
         options.endCallback( true );
-        thisListener.timer.stop( thisListener._enabled );
+        self.timer.stop( self._enabled );
       },
 
       // Pointer released outside. Stop the timer, don't fire if we haven't already
       upOutside: function() {
         options.endCallback( false );
-        thisListener.timer.stop( false );
+        self.timer.stop( false );
       }
     } );
   }

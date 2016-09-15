@@ -55,7 +55,7 @@ define( function( require ) {
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    var thisNode = this;
+    var self = this;
 
     // @public
     this.dispensingProperty = options.dispensingProperty;
@@ -98,7 +98,7 @@ define( function( require ) {
 
     // make the background visible only when the dropper is empty
     var emptyObserver = function( empty ) {
-      thisNode.fluidNode.visible = !empty;
+      self.fluidNode.visible = !empty;
       background.visible = empty;
     };
     this.emptyProperty.link( emptyObserver );
@@ -117,9 +117,9 @@ define( function( require ) {
     // @private
     this.disposeEyeDropperNode = function() {
       button.dispose();
-      thisNode.enabledProperty.unlink( enabledObserver );
-      thisNode.emptyProperty.unlink( emptyObserver );
-      options.tandem && options.tandem.removeInstance( thisNode );
+      self.enabledProperty.unlink( enabledObserver );
+      self.emptyProperty.unlink( emptyObserver );
+      options.tandem && options.tandem.removeInstance( self );
     };
   }
 

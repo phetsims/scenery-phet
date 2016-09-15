@@ -31,7 +31,7 @@ define( function( require ) {
    */
   function KitSelectionNode( selectedKit, kits, options ) {
     Node.call( this );
-    var thisNode = this;
+    var self = this;
 
     options = _.extend( {
       titleNode: null,
@@ -39,7 +39,7 @@ define( function( require ) {
     }, options );
 
     // @public Make the selected kit property visible externally.
-    thisNode.selectedKit = selectedKit;
+    self.selectedKit = selectedKit;
 
     // Determine the max size of all the kit contents for layout purposes.
     var maxKitContentSize = new Dimension2( 0, 0 );
@@ -63,14 +63,14 @@ define( function( require ) {
     }
 
     // @private Construct and add the background.  Make it big enough to hold the largest kit.
-    thisNode.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
+    self.selectorSize = new Dimension2( Math.max( Math.max( maxKitContentSize.width, maxKitTitleSize.width ), controlNode.width ),
       controlNode.height + maxKitContentSize.height + maxKitTitleSize.height );
 
     // @private
     // Create the layer that contains all the kits, and add the kits side by
     // side spaced by the distance of the background so only 1 kit will be
     // visible at a time.
-    thisNode.kitLayer = new Node();
+    self.kitLayer = new Node();
 
     // Add the kits to the kit layer, spacing them out so they don't overlap.
     var x = 0;
@@ -78,60 +78,60 @@ define( function( require ) {
       // Put the title centered at the top and the content node centered in the
       // available space beneath.
       if ( kit.title ) {
-        kit.title.centerX = x + thisNode.selectorSize.width / 2;
+        kit.title.centerX = x + self.selectorSize.width / 2;
         kit.title.top = 0;
-        thisNode.kitLayer.addChild( kit.title );
+        self.kitLayer.addChild( kit.title );
       }
 
-      kit.content.centerX = x + thisNode.selectorSize.width / 2;
+      kit.content.centerX = x + self.selectorSize.width / 2;
       kit.content.centerY = kit.title.bottom + maxKitContentSize.height / 2;
-      thisNode.kitLayer.addChild( kit.content );
+      self.kitLayer.addChild( kit.content );
 
       // Move over to the next kit
-      x += thisNode.selectorSize.width;
+      x += self.selectorSize.width;
     } );
 
     // Clip the kits so that the unselected ones are invisible.
-    thisNode.clipArea = Shape.rect( 0, 0, thisNode.selectorSize.width, thisNode.selectorSize.height );
+    self.clipArea = Shape.rect( 0, 0, self.selectorSize.width, self.selectorSize.height );
 
     // Add the remaining nodes.
-    thisNode.addChild( thisNode.kitLayer );
-    thisNode.addChild( controlNode );
+    self.addChild( self.kitLayer );
+    self.addChild( controlNode );
 
     // Layout
     if ( options.selectorPosition === 'top ' ) {
       controlNode.top = 0;
-      controlNode.centerX = thisNode.selectorSize.width / 2;
-      thisNode.kitLayer.top = controlNode.height;
+      controlNode.centerX = self.selectorSize.width / 2;
+      self.kitLayer.top = controlNode.height;
     }
     else { // control node at sides
-      controlNode.centerX = thisNode.selectorSize.width / 2;
-      controlNode.centerY = thisNode.bounds.height / 2;
-      thisNode.kitLayer.top = 0;
+      controlNode.centerX = self.selectorSize.width / 2;
+      controlNode.centerY = self.bounds.height / 2;
+      self.kitLayer.top = 0;
     }
 
     // Set up an observer to set visibility of the selected kit.
     selectedKit.link( function( kit ) {
-      thisNode.scrollTo( kit );
+      self.scrollTo( kit );
     } );
 
     // Set up the timer and function that will animate the carousel position.
-    var motionVelocity = thisNode.selectorSize.width / SLOT_CHANGE_TIME;
-    thisNode.kitLayerTargetX = thisNode.kitLayer.x;
+    var motionVelocity = self.selectorSize.width / SLOT_CHANGE_TIME;
+    self.kitLayerTargetX = self.kitLayer.x;
     Timer.addStepListener( function( dt ) {
-      if ( thisNode.kitLayer.x !== thisNode.kitLayerTargetX ) {
-        var dx = dt * motionVelocity * ( thisNode.kitLayerTargetX < thisNode.kitLayer.x ? -1 : 1 );
-        if ( Math.abs( thisNode.kitLayer.x - thisNode.kitLayerTargetX ) <= Math.abs( dx ) ) {
-          thisNode.kitLayer.x = thisNode.kitLayerTargetX;
+      if ( self.kitLayer.x !== self.kitLayerTargetX ) {
+        var dx = dt * motionVelocity * ( self.kitLayerTargetX < self.kitLayer.x ? -1 : 1 );
+        if ( Math.abs( self.kitLayer.x - self.kitLayerTargetX ) <= Math.abs( dx ) ) {
+          self.kitLayer.x = self.kitLayerTargetX;
         }
         else {
-          thisNode.kitLayer.x += dx;
+          self.kitLayer.x += dx;
         }
       }
     } );
 
     // Pass through any options intended for Node.
-    thisNode.mutate( options );
+    self.mutate( options );
   }
 
   sceneryPhet.register( 'KitSelectionNode', KitSelectionNode );

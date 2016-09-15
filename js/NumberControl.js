@@ -96,7 +96,7 @@ define( function( require ) {
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    var thisNode = this;
+    var self = this;
 
     var delta = options.delta; // to improve readability
 
@@ -179,8 +179,8 @@ define( function( require ) {
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
     var enabledObserver = function( enabled ) {
-      thisNode.pickable = enabled;
-      thisNode.opacity = enabled ? 1.0 : options.disabledOpacity;
+      self.pickable = enabled;
+      self.opacity = enabled ? 1.0 : options.disabledOpacity;
       //TODO if !enabled, cancel any interaction that is in progress, see scenery#218
     };
     this.enabledProperty.link( enabledObserver );
@@ -194,9 +194,9 @@ define( function( require ) {
       slider.dispose();
 
       numberProperty.unlink( arrowEnabledListener );
-      thisNode.enabledProperty.unlink( enabledObserver );
+      self.enabledProperty.unlink( enabledObserver );
 
-      options.tandem && options.tandem.removeInstance( thisNode );
+      options.tandem && options.tandem.removeInstance( self );
     };
 
     options.tandem && options.tandem.addInstance( this, TNumberControl );
