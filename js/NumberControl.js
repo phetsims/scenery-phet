@@ -152,7 +152,7 @@ define( function( require ) {
     var slider = new HSlider( numberProperty, numberRange, _.extend(
 
       // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
-      _.omit( options, _.keys( Node.prototype._mutatorKeys ) ),
+      _.omit( options, Node.prototype._mutatorKeys ),
       {
         startDrag: options.startCallback,
         endDrag: options.endCallback,
