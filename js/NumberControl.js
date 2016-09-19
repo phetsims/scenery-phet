@@ -62,13 +62,15 @@ define( function( require ) {
       // arrow buttons
       delta: 1,
 
-      // slider
-      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
-      minorTickSpacing: 0, // zero indicates no minor ticks
+      // all HSlider options may be used, these are the ones that NumberControl overrides
       trackSize: new Dimension2( 180, 3 ),
       thumbSize: new Dimension2( 17, 34 ),
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
+
+      // other slider options that are specific to NumberControl
+      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
+      minorTickSpacing: 0, // zero indicates no minor ticks
 
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
@@ -93,6 +95,8 @@ define( function( require ) {
       };
 
     // validate options
+    assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
+    assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
@@ -145,15 +149,15 @@ define( function( require ) {
     };
     numberProperty.link( arrowEnabledListener );
 
-    //TODO pass only options that are relevant to HSlider, see https://github.com/phetsims/scenery-phet/issues/255
-    var slider = new HSlider( numberProperty, numberRange, _.extend( {
-      startDrag: options.startCallback,
-      endDrag: options.endCallback
-    }, options, {
+    var slider = new HSlider( numberProperty, numberRange, _.extend(
 
-      // This uses a 3-arg extend so that the tandem is overriden properly
-      tandem: options.tandem && options.tandem.createTandem( 'slider' )
-    } ) );
+      // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
+      _.omit( options, _.keys( Node.prototype._mutatorKeys ) ),
+      {
+        startDrag: options.startCallback,
+        endDrag: options.endCallback,
+        tandem: options.tandem && options.tandem.createTandem( 'slider' )
+      } ) );
 
     // major ticks
     var majorTicks = options.majorTicks;
