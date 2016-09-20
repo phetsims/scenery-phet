@@ -363,7 +363,8 @@ define( function( require ) {
    */
   function ValueDisplay( valueProperty, options ) {
 
-    Text.call( this, '?', options );
+    Text.call( this, '????', options );
+    this.maxWidth = this.width;
 
     var self = this;
     var valueObserver = function( value ) {
