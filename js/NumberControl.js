@@ -62,7 +62,8 @@ define( function( require ) {
       // arrow buttons
       delta: 1,
 
-      // all HSlider options may be used, these are the ones that NumberControl overrides
+      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
+      // all HSlider options may be used. These are the ones that NumberControl overrides:
       trackSize: new Dimension2( 180, 3 ),
       thumbSize: new Dimension2( 17, 34 ),
       majorTickLength: 20,
