@@ -155,6 +155,8 @@ define( function( require ) {
       // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
       _.omit( options, Node.prototype._mutatorKeys ),
       {
+        // Use these more general callback options, because the same callbacks apply to the arrow buttons,
+        // where it makes no sense to call them startDrag and endDrag.
         startDrag: options.startCallback,
         endDrag: options.endCallback,
         tandem: options.tandem && options.tandem.createTandem( 'slider' )
