@@ -318,7 +318,7 @@ define( function( require ) {
    */
   function WireNode( startX, startY, endX, endY, options ) {
 
-    Path.call( this );
+    Path.call( this, null );
 
     this.startPoint = { x: startX, y: startY }; // @private
     // control point offsets for when probe is to left of light bulb
