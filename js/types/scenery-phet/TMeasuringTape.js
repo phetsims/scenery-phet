@@ -14,10 +14,10 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
-  var TMeasuringTape = function( measuringTape, phetioID ) {
+  function TMeasuringTape( measuringTape, phetioID ) {
     TNode.call( this, measuringTape, phetioID );
     assertInstanceOf( measuringTape, phet.sceneryPhet.MeasuringTape );
-  };
+  }
 
   phetioInherit( TNode, 'TMeasuringTape', TMeasuringTape, {}, {
     documentation: 'A measuring tape with a draggable base and tip'

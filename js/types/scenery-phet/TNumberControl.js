@@ -14,10 +14,10 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
-  var TNumberControl = function( numberControl, phetioID ) {
+  function TNumberControl( numberControl, phetioID ) {
     TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
-  };
+  }
 
   phetioInherit( TNode, 'TNumberControl', TNumberControl, {}, {
     documentation: 'A number control with a title, slider and +/- buttons'

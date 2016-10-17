@@ -15,7 +15,7 @@ define( function( require ) {
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
 
-  var TFaucet = function( faucet, phetioID ) {
+  function TFaucet( faucet, phetioID ) {
     TNode.call( this, faucet, phetioID );
     assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
 
@@ -27,7 +27,7 @@ define( function( require ) {
     toEventOnStatic( faucet, 'CallbacksForEndTapToDispense', 'model', phetioID, TFaucet, 'endTapToDispense', function( flowRate ) {
       return { flowRate: flowRate };
     } );
-  };
+  }
 
   phetioInherit( TNode, 'TFaucet', TFaucet, {}, {
     documentation: 'Faucet that emits fluid, typically user-controllable',

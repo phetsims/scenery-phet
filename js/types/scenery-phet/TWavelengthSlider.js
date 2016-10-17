@@ -14,10 +14,10 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
-  var TWavelengthSlider = function( slider, phetioID ) {
+  function TWavelengthSlider( slider, phetioID ) {
     TNode.call( this, slider, phetioID );
     assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
-  };
+  }
 
   phetioInherit( TNode, 'TWavelengthSlider', TWavelengthSlider, {}, {
     documentation: 'A slider that shows wavelengths for selection'
