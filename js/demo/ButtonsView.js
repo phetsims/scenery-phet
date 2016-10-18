@@ -19,7 +19,6 @@ define( function( require ) {
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var PropertySet = require( 'AXON/PropertySet' );
   var RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
-  var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
@@ -55,10 +54,6 @@ define( function( require ) {
       listener: function() { console.log( 'EraserButton pressed' ); }
     } );
 
-    var refreshButton = new RefreshButton( {
-      listener: function() { console.log( 'RefreshButton pressed' ); }
-    } );
-
     var resetButton = new ResetButton( {
       listener: function() { console.log( 'ResetButton pressed' ); }
     } );
@@ -89,7 +84,6 @@ define( function( require ) {
         backButton,
         closeButton,
         eraserButton,
-        refreshButton,
         resetButton,
         rewindButton,
         starButton,
