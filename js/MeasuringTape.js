@@ -35,6 +35,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TMeasuringTape = require( 'ifphetio!PHET_IO/types/scenery-phet/TMeasuringTape' );
+
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
@@ -303,7 +306,7 @@ define( function( require ) {
 
     this.mutate( options );
 
-    this.tandem && this.tandem.addInstance( this );
+    this.tandem && this.tandem.addInstance( this, TMeasuringTape );
   }
 
   sceneryPhet.register( 'MeasuringTape', MeasuringTape );
