@@ -94,7 +94,7 @@ define( function( require ) {
       phase: options.phase,
       deltaPhase: options.deltaPhase,
       xScale: options.xScale
-    }, options );
+    } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
     var pathOptions = {
