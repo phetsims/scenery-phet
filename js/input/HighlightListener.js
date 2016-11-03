@@ -19,7 +19,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {Boolean} indicating whether to highlight
+   * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {boolean} indicating whether to highlight
    * @constructor
    */
   function HighlightListener( callback ) {
