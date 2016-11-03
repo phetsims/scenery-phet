@@ -17,7 +17,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -100,13 +100,13 @@ define( function( require ) {
     // Toggle buttons
 
     // Add button properties here, so that resetAllButton functions properly.
-    var buttonProperties = new PropertySet( {
-      eyeOpen: true,
-      playing: true,
-      recording: true,
-      soundEnabled: true,
-      timerEnabled: true
-    } );
+    var buttonProperties = {
+      eyeOpenProperty: new Property( true ),
+      playingProperty: new Property( true ),
+      recordingProperty: new Property( true ),
+      soundEnabledProperty: new Property( true ),
+      timerEnabledProperty: new Property( true )
+    };
 
     var eyeButton = new EyeToggleButton( buttonProperties.eyeOpenProperty );
     buttonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
@@ -157,7 +157,13 @@ define( function( require ) {
     // Reset All button, in its usual lower-right position
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        buttonProperties.reset();
+
+        // reset each Property in buttonProperties
+        for ( var property in buttonProperties ) {
+          if ( buttonProperties.hasOwnProperty( property ) && ( buttonProperties[ property ] instanceof Property ) ) {
+            buttonProperties[ property ].reset();
+          }
+        }
       },
       radius: 22,
       right: this.layoutBounds.right - 10,

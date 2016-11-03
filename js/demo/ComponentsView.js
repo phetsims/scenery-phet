@@ -37,7 +37,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   var Property = require( 'AXON/Property' );
-  var PropertySet = require( 'AXON/PropertySet' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -56,12 +55,12 @@ define( function( require ) {
   function ComponentsView() {
     DemosView.call( this, 'component', [
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-     */
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+       */
       { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
@@ -258,23 +257,29 @@ define( function( require ) {
     var probeNodeLayer = new Node();
     demoParent.addChild( probeNodeLayer );
 
-    // Model properties that describe the sensor
-    var propertySet = new PropertySet( ProbeNode.DEFAULT_OPTIONS );
-    propertySet.addProperty( 'sensorTypeFunction', ProbeNode.glass() );
+    // Properties that describe the probe's options
+    var colorProperty = new Property( ProbeNode.DEFAULT_OPTIONS.color );
+    var radiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.radius );
+    var innerRadiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.innerRadius );
+    var handleWidthProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleWidth );
+    var handleHeightProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleHeight );
+    var handleCornerRadiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleCornerRadius );
+    var lightAngleProperty = new Property( ProbeNode.DEFAULT_OPTIONS.lightAngle );
+    var sensorTypeFunctionProperty = new Property( ProbeNode.DEFAULT_OPTIONS.sensorTypeFunction );
 
     // RGB color components, for setting the sensor color
-    var color = Color.toColor( propertySet.color );
+    var color = Color.toColor( colorProperty.value );
     var redProperty = new Property( color.red );
     var greenProperty = new Property( color.green );
     var blueProperty = new Property( color.blue );
     Property.multilink( [ redProperty, greenProperty, blueProperty ], function( r, g, b ) {
-      propertySet.color = new Color( r, g, b );
+      colorProperty.value = new Color( r, g, b );
     } );
 
     // Controls for the sensor type (glass/crosshairs/empty/etc)
-    var radioButtons = new RadioButtonGroup( propertySet.sensorTypeFunctionProperty, [
+    var radioButtons = new RadioButtonGroup( sensorTypeFunctionProperty, [
       { value: null, node: new Text( 'null' ) },
-      { value: propertySet.sensorTypeFunctionProperty.get(), node: new Text( 'default glass' ) },
+      { value: sensorTypeFunctionProperty.value, node: new Text( 'default glass' ) },
       { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
       {
         value: ProbeNode.glass( {
@@ -294,29 +299,28 @@ define( function( require ) {
 
     // When the model properties change, update the sensor node
     Property.multilink( [
-        propertySet.colorProperty,
-        propertySet.radiusProperty,
-        propertySet.innerRadiusProperty,
-        propertySet.handleWidthProperty,
-        propertySet.handleHeightProperty,
-        propertySet.handleCornerRadiusProperty,
-        propertySet.lightAngleProperty,
-        propertySet.sensorTypeFunctionProperty
+        colorProperty,
+        radiusProperty,
+        innerRadiusProperty,
+        handleWidthProperty,
+        handleHeightProperty,
+        handleCornerRadiusProperty,
+        lightAngleProperty,
+        sensorTypeFunctionProperty
       ],
       function() {
         probeNodeLayer.removeAllChildren();
         probeNodeLayer.addChild( new ProbeNode( {
 
           // ProbeNode options
-          color: propertySet.color,
-          radius: propertySet.radius,
-          innerRadius: propertySet.innerRadius,
-          handleWidth: propertySet.handleWidth,
-          handleHeight: propertySet.handleHeight,
-          handleCornerRadius: propertySet.handleCornerRadius,
-          lightAngle: propertySet.lightAngle,
-          sensorTypeFunction: propertySet.sensorTypeFunction,
-          rotation: propertySet.rotation,
+          color: colorProperty.value,
+          radius: radiusProperty.value,
+          innerRadius: innerRadiusProperty.value,
+          handleWidth: handleWidthProperty.value,
+          handleHeight: handleHeightProperty.value,
+          handleCornerRadius: handleCornerRadiusProperty.value,
+          lightAngle: lightAngleProperty.value,
+          sensorTypeFunction: sensorTypeFunctionProperty.value,
 
           // layout options
           x: layoutBounds.centerX,
@@ -345,15 +349,15 @@ define( function( require ) {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
       spacing: 15,
       children: [
-        NumberControl.withMinMaxTicks( 'Radius:', propertySet.radiusProperty,
+        NumberControl.withMinMaxTicks( 'Radius:', radiusProperty,
           new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Inner Radius:', propertySet.innerRadiusProperty,
+        NumberControl.withMinMaxTicks( 'Inner Radius:', innerRadiusProperty,
           new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.innerRadius * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Width:', propertySet.handleWidthProperty,
+        NumberControl.withMinMaxTicks( 'Handle Width:', handleWidthProperty,
           new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Height:', propertySet.handleHeightProperty,
+        NumberControl.withMinMaxTicks( 'Handle Height:', handleHeightProperty,
           new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleHeight * 2 ), numberControlOptions ),
-        NumberControl.withMinMaxTicks( 'Handle Corner Radius:', propertySet.handleCornerRadiusProperty,
+        NumberControl.withMinMaxTicks( 'Handle Corner Radius:', handleCornerRadiusProperty,
           new RangeWithValue( 1, ProbeNode.DEFAULT_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
       ],
       left: layoutBounds.left + 50,
@@ -375,7 +379,7 @@ define( function( require ) {
     var tickLabelOptions = { font: new PhetFont( 14 ) };
     var multiplierProperty = new Property( 0 );
     multiplierProperty.link( function( multiplier ) {
-      propertySet.lightAngleProperty.set( multiplier * Math.PI );
+      lightAngleProperty.value = ( multiplier * Math.PI );
     } );
     var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new RangeWithValue( 0, 2 ),
       _.extend( {
