@@ -11,12 +11,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   /**
    * @param {Object} [options]
@@ -32,7 +32,7 @@ define( function( require ) {
       yMargin: 10.9,
 
       // Default base code matches the yellow in the PhET logo (the one with the paper airplane).
-      baseColor: new Color( 242, 233, 22 )
+      baseColor: PhetColorScheme.PHET_YELLOW
 
     }, options );
 

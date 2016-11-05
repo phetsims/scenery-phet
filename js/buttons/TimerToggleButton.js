@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -17,6 +16,7 @@ define( function( require ) {
   var SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // constants
   var WIDTH = 45;
@@ -55,7 +55,7 @@ define( function( require ) {
     } ) );
 
     BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend( {
-      baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
+      baseColor: PhetColorScheme.PHET_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,

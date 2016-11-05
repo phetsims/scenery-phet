@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -20,6 +19,7 @@ define( function( require ) {
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // constants
   var WIDTH = 45;
@@ -52,7 +52,7 @@ define( function( require ) {
     soundOffNode.addChild( soundOffX );
 
     BooleanRectangularToggleButton.call( this, soundOnNode, soundOffNode, property, _.extend( {
-      baseColor: new Color( 242, 233, 22 ),//Color match with the yellow in the PhET logo
+      baseColor: PhetColorScheme.PHET_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
