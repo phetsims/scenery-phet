@@ -14,6 +14,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   /**
    * @param {Object} [options]
@@ -23,7 +24,7 @@ define( function( require ) {
 
     options = _.extend( {
       size: new Dimension2( 20, 16 ), // dimensions taken from screen shot of logo on main site
-      fill: '#F2E916'
+      fill: PhetColorScheme.PHET_YELLOW
     }, options );
 
     // Define the shape.  This was done by trial and error and a little math.

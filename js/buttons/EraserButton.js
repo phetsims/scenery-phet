@@ -13,6 +13,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // images
   var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
@@ -24,7 +25,7 @@ define( function( require ) {
   function EraserButton( options ) {
 
     options = _.extend( {
-      baseColor: '#F2E916',
+      baseColor: PhetColorScheme.PHET_YELLOW,
       iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
     }, options );
 
