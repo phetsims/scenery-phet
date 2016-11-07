@@ -102,13 +102,14 @@ define( function( require ) {
         self.armedForNewEntry = false;
       }
 
-      // Add the digit to the string, but limit the length and prevent multiple leading zeros.
-      if ( self.valueStringProperty.value === '0' ) {
-        if ( keyString !== '0' ) {
-          // Replace the leading 0 with this digit.
-          self.valueStringProperty.value = keyString;
-        }
-        // else ignore the additional zero
+      // Add keyString to valueString
+      if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
+        // ignore multiple leading zeros
+      }
+      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== '.' ) {
+
+        // replace a leading 0 on integers with this key
+        self.valueStringProperty.value = keyString;
       }
       else if ( digitLength < keyOptions.maxDigits ) {
 
@@ -196,6 +197,8 @@ define( function( require ) {
   }
 
   return inherit( VBox, NumberKeypad, {
+
+    //TODO implement dispose
 
     /**
      * Clear anything that has been accumulated in the valueStringProperty field.
