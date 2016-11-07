@@ -87,19 +87,52 @@ define( function( require ) {
       }
     } );
 
+    // Called when a key is pressed.
+    var keyCallback = function( keyString ) {
+
+      var decimalIndex = self.digitStringProperty.value.indexOf( '.' );
+
+      //TODO bug here? Type '5.67' and digitLength is 2
+      var digitLength = ( decimalIndex === -1 ) ?
+                        self.digitStringProperty.value.length :
+                        self.digitStringProperty.value.length - 1;
+
+      // If armed for new entry, clear the existing string.
+      if ( self.armedForNewEntry ) {
+        self.digitStringProperty.reset();
+        self.armedForNewEntry = false;
+      }
+
+      // Add the digit to the string, but limit the length and prevent multiple leading zeros.
+      if ( self.digitStringProperty.value === '0' ) {
+        if ( keyString !== '0' ) {
+          // Replace the leading 0 with this digit.
+          self.digitStringProperty.value = keyString;
+        }
+        // else ignore the additional zero
+      }
+      else if ( digitLength < keyOptions.maxDigits ) {
+
+        // only allow a single decimal point
+        if ( keyString !== '.' || self.digitStringProperty.value.indexOf( '.' ) === -1 ) {
+          self.digitStringProperty.value += keyString;
+        }
+      }
+    };
+
     // create the bottom row of keys, which can vary based on options
     var bottomRowChildren = [];
     if ( options.decimalPointKey ) {
 
       // add a decimal point key plus a normal width zero key
-      bottomRowChildren.push( createKey( '.', this, keyOptions ) );
-      bottomRowChildren.push( createKey( '0', this, keyOptions ) );
+      bottomRowChildren.push( createKey( '.', keyCallback, keyOptions ) );
+      bottomRowChildren.push( createKey( '0', keyCallback, keyOptions ) );
     }
     else {
 
       // add a double-width zero key instead of the decimal point key
       var doubleRowButtonKeySpec = _.extend( {}, keyOptions, { minWidth: keyOptions.minWidth * 2 + options.xSpacing } );
-      bottomRowChildren.push( createKey( '0', this, doubleRowButtonKeySpec ) );
+      bottomRowChildren.push( createKey( '0', keyCallback, doubleRowButtonKeySpec ) );
     }
     bottomRowChildren.push( backspaceKey );
 
@@ -110,25 +143,25 @@ define( function( require ) {
         new HBox( {
           spacing: options.xSpacing,
           children: [
-            createKey( '7', this, keyOptions ),
-            createKey( '8', this, keyOptions ),
-            createKey( '9', this, keyOptions )
+            createKey( '7', keyCallback, keyOptions ),
+            createKey( '8', keyCallback, keyOptions ),
+            createKey( '9', keyCallback, keyOptions )
           ]
         } ),
         new HBox( {
           spacing: options.xSpacing,
           children: [
-            createKey( '4', this, keyOptions ),
-            createKey( '5', this, keyOptions ),
-            createKey( '6', this, keyOptions )
+            createKey( '4', keyCallback, keyOptions ),
+            createKey( '5', keyCallback, keyOptions ),
+            createKey( '6', keyCallback, keyOptions )
           ]
         } ),
         new HBox( {
           spacing: options.xSpacing,
           children: [
-            createKey( '1', this, keyOptions ),
-            createKey( '2', this, keyOptions ),
-            createKey( '3', this, keyOptions )
+            createKey( '1', keyCallback, keyOptions ),
+            createKey( '2', keyCallback, keyOptions ),
+            createKey( '3', keyCallback, keyOptions )
           ]
         } ),
         new HBox( {
@@ -138,7 +171,6 @@ define( function( require ) {
       ]
     } );
 
-    // Pass options through to parent class
     this.mutate( options );
   }
 
@@ -148,51 +180,19 @@ define( function( require ) {
    * Creates a key for the keypad.
    *
    * @param {string} keyString - string that appears on the key
-   * @param {NumberKeypad} keypad
+   * @param {function(string)} callback - called when the key is pressed
    * @param {Object} keyOptions - see RectangularPushButton.options
    * @returns {*}
    */
-  function createKey( keyString, keypad, keyOptions ) {
+  function createKey( keyString, callback, keyOptions ) {
     return new RectangularPushButton( {
-
       content: new Text( keyString, { font: keyOptions.font } ),
       baseColor: keyOptions.baseColor,
       minWidth: keyOptions.minWidth,
       minHeight: keyOptions.minHeight,
       xMargin: 5,
       yMargin: 5,
-
-      //TODO why do we have an instance of this complex function for every button? Buttons should simply provide their value when pressed.
-      listener: function() {
-
-        var decimalIndex = keypad.digitStringProperty.value.indexOf( '.' );
-
-        //TODO bug here? Type '5.67' and digitLength is 2
-        var digitLength = ( decimalIndex === -1 ? keypad.digitStringProperty.value.length :
-                                                  keypad.digitStringProperty.value.length -1 );
-
-        // If armed for new entry, clear the existing string.
-        if ( keypad.armedForNewEntry ) {
-          keypad.digitStringProperty.reset();
-          keypad.armedForNewEntry = false;
-        }
-
-        // Add the digit to the string, but limit the length and prevent multiple leading zeros.
-        if ( keypad.digitStringProperty.value === '0' ) {
-          if ( keyString !== '0' ) {
-            // Replace the leading 0 with this digit.
-            keypad.digitStringProperty.value = keyString;
-          }
-          // else ignore the additional zero
-        }
-        else if ( digitLength < keyOptions.maxDigits ) {
-
-          // only allow a single decimal point
-          if ( keyString !== '.' || keypad.digitStringProperty.value.indexOf( '.' ) === -1 ) {
-            keypad.digitStringProperty.value += keyString;
-          }
-        }
-      }
+      listener: function() { callback( keyString ); }
     } );
   }
 
