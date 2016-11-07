@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -18,7 +19,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
+
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
