@@ -91,10 +91,10 @@ define( function( require ) {
 
       var decimalIndex = self.valueStringProperty.value.indexOf( '.' );
 
-      //TODO bug here? Type '5.67' and digitLength is 2
-      var digitLength = ( decimalIndex === -1 ) ?
-                        self.valueStringProperty.value.length :
-                        self.valueStringProperty.value.length - 1;
+      //TODO bug here? Type '5.67' and numberOfDigits is 2
+      var numberOfDigits = ( decimalIndex === -1 ) ?
+                           self.valueStringProperty.value.length :
+                           self.valueStringProperty.value.length - 1;
 
       // If armed for new entry, clear the existing string.
       if ( self.armedForNewEntry ) {
@@ -111,7 +111,7 @@ define( function( require ) {
         // replace a leading 0 on integers with this key
         self.valueStringProperty.value = keyString;
       }
-      else if ( digitLength < keyOptions.maxDigits ) {
+      else if ( numberOfDigits < keyOptions.maxDigits ) {
 
         // only allow a single decimal point
         if ( keyString !== '.' || self.valueStringProperty.value.indexOf( '.' ) === -1 ) {
