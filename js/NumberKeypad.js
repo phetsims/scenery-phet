@@ -139,11 +139,14 @@ define( function( require ) {
       minHeight: buttonSpec.minHeight,
       xMargin: 5,
       yMargin: 5,
+
+      //TODO why do we have an instance of this complex function for every button? Buttons should simply provide their value when pressed.
       listener: function() {
 
         var decimalIndex = parentKeypad.digitStringProperty.value.indexOf( '.' );
         var digitLength = ( decimalIndex === -1 ? parentKeypad.digitStringProperty.value.length :
                                                   parentKeypad.digitStringProperty.value.length -1 );
+        console.log( 'digitLength=' + digitLength );//XXX
 
         // If armed for new entry, clear the existing string.
         if ( parentKeypad.armedForNewEntry ) {
