@@ -41,12 +41,15 @@ define( function( require ) {
 
     var self = this;
 
+    //TODO bad name. Numbers contain more than 'digits' - decimal point, sign, ...
     // @public, read only - string of digits entered by the user
     this.digitStringProperty = options.digitStringProperty;
 
+    //TODO I've read this 5 times and have no idea what it does
     // @private - flag used when arming the keypad to start over on the next key stroke
     this.armedForNewEntry = false;
 
+    //TODO how about naming this buttonOptions?
     // bundle the various options that control the button appearance into a "button specification" or buttonKeySpec
     var buttonKeySpec = {
       minWidth: options.minButtonWidth,
@@ -130,9 +133,13 @@ define( function( require ) {
 
   sceneryPhet.register( 'NumberKeypad', NumberKeypad );
 
+  //TODO how about some JSdoc here?
+  //TODO in the case of createNumberKey( '.', ...), parameter 'number' is not a number
   // convenience function for creating the buttons that act as the individual keys
   function createNumberKey( number, parentKeypad, buttonSpec ) {
     return new RectangularPushButton( {
+
+      //TODO 'number' is not always a number
       content: new Text( number.toString(), { font: buttonSpec.font } ),
       baseColor: buttonSpec.baseColor,
       minWidth: buttonSpec.minWidth,
@@ -144,9 +151,10 @@ define( function( require ) {
       listener: function() {
 
         var decimalIndex = parentKeypad.digitStringProperty.value.indexOf( '.' );
+
+        //TODO bug here? Type '5.67' and digitLength is 2
         var digitLength = ( decimalIndex === -1 ? parentKeypad.digitStringProperty.value.length :
                                                   parentKeypad.digitStringProperty.value.length -1 );
-        console.log( 'digitLength=' + digitLength );//XXX
 
         // If armed for new entry, clear the existing string.
         if ( parentKeypad.armedForNewEntry ) {
@@ -154,6 +162,7 @@ define( function( require ) {
           parentKeypad.armedForNewEntry = false;
         }
 
+        //TODO second time you've called number.toString
         // the new key entry
         var numberString = number.toString();
 
