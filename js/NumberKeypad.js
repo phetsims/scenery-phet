@@ -101,23 +101,27 @@ define( function( require ) {
 
     // add the rest of the keys
     VBox.call( this, {
-      spacing: options.ySpacing, children: [
+      spacing: options.ySpacing,
+      children: [
         new HBox( {
-          spacing: options.xSpacing, children: [
+          spacing: options.xSpacing,
+          children: [
             createNumberKey( 7, this, buttonKeySpec ),
             createNumberKey( 8, this, buttonKeySpec ),
             createNumberKey( 9, this, buttonKeySpec )
           ]
         } ),
         new HBox( {
-          spacing: options.xSpacing, children: [
+          spacing: options.xSpacing,
+          children: [
             createNumberKey( 4, this, buttonKeySpec ),
             createNumberKey( 5, this, buttonKeySpec ),
             createNumberKey( 6, this, buttonKeySpec )
           ]
         } ),
         new HBox( {
-          spacing: options.xSpacing, children: [
+          spacing: options.xSpacing,
+          children: [
             createNumberKey( 1, this, buttonKeySpec ),
             createNumberKey( 2, this, buttonKeySpec ),
             createNumberKey( 3, this, buttonKeySpec )
