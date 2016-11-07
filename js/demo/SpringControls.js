@@ -50,10 +50,8 @@ define( function( require ) {
       yMargin: 10
     }, options );
 
-    var model = springNode.model;
-
     // controls, options tweaked empirically to match ranges
-    var loopsControl = NumberControl.withMinMaxTicks( loopsString, model.loopsProperty, ranges.loopsRange, {
+    var loopsControl = NumberControl.withMinMaxTicks( loopsString, springNode.loopsProperty, ranges.loopsRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 0,
@@ -61,7 +59,7 @@ define( function( require ) {
       minorTickSpacing: 1,
       thumbFillEnabled: 'black'
     } );
-    var pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, model.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
+    var pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, springNode.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 0,
@@ -69,7 +67,7 @@ define( function( require ) {
       minorTickSpacing: 10,
       thumbFillEnabled: 'black'
     } );
-    var radiusControl = NumberControl.withMinMaxTicks( radiusString, model.radiusProperty, ranges.radiusRange, {
+    var radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 0,
@@ -77,7 +75,7 @@ define( function( require ) {
       minorTickSpacing: 5,
       thumbFillEnabled: 'green'
     } );
-    var aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, model.aspectRatioProperty, ranges.aspectRatioRange, {
+    var aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 1,
@@ -86,7 +84,7 @@ define( function( require ) {
       thumbFillEnabled: 'black'
     } );
     assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
-    var phaseControl = new NumberControl( phaseString, model.phaseProperty, ranges.phaseRange, {
+    var phaseControl = new NumberControl( phaseString, springNode.phaseProperty, ranges.phaseRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 1,
@@ -100,7 +98,7 @@ define( function( require ) {
       ]
     } );
     assert && assert( ranges.deltaPhaseRange.min === 0 && ranges.deltaPhaseRange.max === 2 * Math.PI );
-    var deltaPhaseControl = new NumberControl( deltaPhaseString, model.deltaPhaseProperty, ranges.deltaPhaseRange, {
+    var deltaPhaseControl = new NumberControl( deltaPhaseString, springNode.deltaPhaseProperty, ranges.deltaPhaseRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 1,
@@ -113,7 +111,7 @@ define( function( require ) {
         { value: ranges.deltaPhaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
       ]
     } );
-    var lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, model.lineWidthProperty, ranges.lineWidthRange, {
+    var lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, springNode.lineWidthProperty, ranges.lineWidthRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 1,
@@ -121,7 +119,7 @@ define( function( require ) {
       minorTickSpacing: 1,
       thumbFillEnabled: 'green'
     } );
-    var xScaleControl = NumberControl.withMinMaxTicks( xScaleString, model.xScaleProperty, ranges.xScaleRange, {
+    var xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
       titleFont: CONTROL_FONT,
       valueFont: CONTROL_FONT,
       decimalPlaces: 1,

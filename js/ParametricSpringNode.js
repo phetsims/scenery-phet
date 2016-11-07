@@ -27,7 +27,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
-  var PropertySet = require( 'AXON/PropertySet' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -84,17 +83,15 @@ define( function( require ) {
 
     var self = this;
 
-    this.model = new PropertySet( {
-      // @public
-      loops: options.loops,
-      radius: options.radius,
-      aspectRatio: options.aspectRatio,
-      pointsPerLoop: options.pointsPerLoop,
-      lineWidth: options.lineWidth,
-      phase: options.phase,
-      deltaPhase: options.deltaPhase,
-      xScale: options.xScale
-    } );
+    // @public
+    this.loopsProperty = new Property( options.loops );
+    this.radiusProperty = new Property( options.radius );
+    this.aspectRatioProperty = new Property( options.aspectRatio );
+    this.pointsPerLoopProperty = new Property( options.pointsPerLoop );
+    this.lineWidthProperty = new Property( options.lineWidth );
+    this.phaseProperty = new Property( options.phase );
+    this.deltaPhaseProperty = new Property( options.deltaPhase );
+    this.xScaleProperty = new Property( options.xScale );
 
     // Paths for the front (foreground) and back (background) parts of the spring
     var pathOptions = {
@@ -106,7 +103,7 @@ define( function( require ) {
     var backPath = new Path( null, pathOptions );
 
     // Update the line width
-    this.model.lineWidthProperty.link( function( lineWidth ) {
+    this.lineWidthProperty.link( function( lineWidth ) {
       frontPath.lineWidth = backPath.lineWidth = lineWidth;
     } );
 
@@ -118,8 +115,8 @@ define( function( require ) {
     // Changes to these properties require new points (Vector2) and Shapes, because they change
     // the number of points and/or how the points are allocated to frontShape and backShape.
     Property.multilink( [
-        this.model.loopsProperty, this.model.pointsPerLoopProperty,
-        this.model.aspectRatioProperty, this.model.phaseProperty, this.model.deltaPhaseProperty
+        this.loopsProperty, this.pointsPerLoopProperty,
+        this.aspectRatioProperty, this.phaseProperty, this.deltaPhaseProperty
       ],
       function( loops, pointsPerLoop, aspectRatio, phase, deltaPhase ) {
 
@@ -129,8 +126,8 @@ define( function( require ) {
         backShape = new Shape();
 
         // Values of other properties, to improve readability
-        var radius = self.model.radiusProperty.get();
-        var xScale = self.model.xScaleProperty.get();
+        var radius = self.radiusProperty.get();
+        var xScale = self.xScaleProperty.get();
 
         // compute the points for the coil
         var coilPoints = []; // {Vector2[]}
@@ -204,15 +201,15 @@ define( function( require ) {
 
     // Changes to these properties can be accomplished by mutating existing points (Vector2) and Shapes,
     // because the number of points remains the same, as does their allocation to frontShape and backShape.
-    Property.lazyMultilink( [ this.model.radiusProperty, this.model.xScaleProperty ],
+    Property.lazyMultilink( [ this.radiusProperty, this.xScaleProperty ],
       function( radius, xScale ) {
 
         // Values of other properties, to improve readability
-        var loops = self.model.loopsProperty.get();
-        var pointsPerLoop = self.model.pointsPerLoopProperty.get();
-        var aspectRatio = self.model.aspectRatioProperty.get();
-        var phase = self.model.phaseProperty.get();
-        var deltaPhase = self.model.deltaPhaseProperty.get();
+        var loops = self.loopsProperty.get();
+        var pointsPerLoop = self.pointsPerLoopProperty.get();
+        var aspectRatio = self.aspectRatioProperty.get();
+        var phase = self.phaseProperty.get();
+        var deltaPhase = self.deltaPhaseProperty.get();
 
         // number of points in the coil
         var numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
@@ -240,7 +237,7 @@ define( function( require ) {
       } );
 
     // Update the stroke gradients
-    Property.multilink( [ this.model.radiusProperty, this.model.aspectRatioProperty ],
+    Property.multilink( [ this.radiusProperty, this.aspectRatioProperty ],
       function( radius, aspectRatio ) {
 
         var yRadius = radius * aspectRatio;
@@ -286,7 +283,14 @@ define( function( require ) {
 
     // @public
     reset: function() {
-      this.model.reset();
+      this.loopsProperty.reset();
+      this.radiusProperty.reset();
+      this.aspectRatioProperty.reset();
+      this.pointsPerLoopProperty.reset();
+      this.lineWidthProperty.reset();
+      this.phaseProperty.reset();
+      this.deltaPhaseProperty.reset();
+      this.xScaleProperty.reset();
     }
   } );
 } );
