@@ -53,10 +53,10 @@ define( function( require ) {
     var digits = new Text( '', { font: options.readoutFont } );
     this.addChild( digits );
     this.value = 0; // @private
-    this.keypad.digitStringProperty.link( function( digitString ) {
-      digits.text = digitString;
+    this.keypad.valueStringProperty.link( function( valueString ) {
+      digits.text = valueString;
       digits.center = readoutBackground.center;
-      self.value = Number( digitString );
+      self.value = Number( valueString );
     } );
 
     // Layout
@@ -89,7 +89,7 @@ define( function( require ) {
       assert && assert( typeof number === 'number' );
       assert && assert( number % 1 === 0, 'Only supports integers currently' );
 
-      this.keypad.digitStringProperty.set( '' + number );
+      this.keypad.valueStringProperty.set( '' + number );
     },
 
     /**

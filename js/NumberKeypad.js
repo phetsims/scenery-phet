@@ -39,14 +39,13 @@ define( function( require ) {
 
       //TODO replace with a function that accepts or rejects entry
       maxDigits: 8, // Maximum number of digits that the user may enter
-      digitStringProperty: new Property( '' ) // create a digit string property or use the one supplied by the client
+      valueStringProperty: new Property( '' )
     }, options );
 
     var self = this;
 
-    //TODO bad name. Numbers contain more than 'digits' - decimal point, sign, ...
-    // @public, read only - string of digits entered by the user
-    this.digitStringProperty = options.digitStringProperty;
+    // @public (read only) - sequence of key values entered by the user
+    this.valueStringProperty = options.valueStringProperty;
 
     //TODO I've read this 5 times and have no idea what it does
     // @private - flag used when arming the keypad to start over on the next key stroke
@@ -71,18 +70,18 @@ define( function( require ) {
       xMargin: 1,
       baseColor: keyOptions.baseColor,
       listener: function() {
-        if ( self.digitStringProperty.value.length > 0 ) {
+        if ( self.valueStringProperty.value.length > 0 ) {
 
           // remove the last digit from the current digit string
-          var shortenedDigitString = self.digitStringProperty.value.slice( 0, -1 );
+          var shortenedDigitString = self.valueStringProperty.value.slice( 0, -1 );
 
           if ( self.armedForNewEntry ) {
-            self.digitStringProperty.reset(); // this reset will trigger the state change that we want in the game
+            self.valueStringProperty.reset(); // this reset will trigger the state change that we want in the game
             self.armedForNewEntry = false;
           }
 
           // set the new shortened value
-          self.digitStringProperty.value = shortenedDigitString;
+          self.valueStringProperty.value = shortenedDigitString;
         }
       }
     } );
@@ -90,32 +89,32 @@ define( function( require ) {
     // Called when a key is pressed.
     var keyCallback = function( keyString ) {
 
-      var decimalIndex = self.digitStringProperty.value.indexOf( '.' );
+      var decimalIndex = self.valueStringProperty.value.indexOf( '.' );
 
       //TODO bug here? Type '5.67' and digitLength is 2
       var digitLength = ( decimalIndex === -1 ) ?
-                        self.digitStringProperty.value.length :
-                        self.digitStringProperty.value.length - 1;
+                        self.valueStringProperty.value.length :
+                        self.valueStringProperty.value.length - 1;
 
       // If armed for new entry, clear the existing string.
       if ( self.armedForNewEntry ) {
-        self.digitStringProperty.reset();
+        self.valueStringProperty.reset();
         self.armedForNewEntry = false;
       }
 
       // Add the digit to the string, but limit the length and prevent multiple leading zeros.
-      if ( self.digitStringProperty.value === '0' ) {
+      if ( self.valueStringProperty.value === '0' ) {
         if ( keyString !== '0' ) {
           // Replace the leading 0 with this digit.
-          self.digitStringProperty.value = keyString;
+          self.valueStringProperty.value = keyString;
         }
         // else ignore the additional zero
       }
       else if ( digitLength < keyOptions.maxDigits ) {
 
         // only allow a single decimal point
-        if ( keyString !== '.' || self.digitStringProperty.value.indexOf( '.' ) === -1 ) {
-          self.digitStringProperty.value += keyString;
+        if ( keyString !== '.' || self.valueStringProperty.value.indexOf( '.' ) === -1 ) {
+          self.valueStringProperty.value += keyString;
         }
       }
     };
@@ -199,11 +198,11 @@ define( function( require ) {
   return inherit( VBox, NumberKeypad, {
 
     /**
-     * Clear anything that has been accumulated in the digitString field.
+     * Clear anything that has been accumulated in the valueStringProperty field.
      * @public
      */
     clear: function() {
-      this.digitStringProperty.reset();
+      this.valueStringProperty.reset();
     },
 
     /**
