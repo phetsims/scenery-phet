@@ -21,7 +21,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {Array.<Color|string>} colors
+   * @param {Object} colors - object hash, whose property names become Property names.
+   *                          Each property is another hash, whose properties are the colors for each scheme.
+   *                          (Confusing? You bet. See https://github.com/phetsims/scenery-phet/issues/277)
    * @constructor
    */
   function ColorProfile( colors ) {
