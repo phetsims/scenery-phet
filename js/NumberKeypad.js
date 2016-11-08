@@ -6,6 +6,7 @@
  *
  * @author John Blanco
  * @author Andrey Zelenkov (MLearner)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
