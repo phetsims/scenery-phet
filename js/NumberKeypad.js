@@ -76,7 +76,7 @@ define( function( require ) {
 
           //TODO shouldn't this be done after armedForNewEntry?
           // remove the last digit from the current digit string
-          var shortenedDigitString = self.valueStringProperty.value.slice( 0, -1 );
+          var shortenedValueString = self.valueStringProperty.value.slice( 0, -1 );
 
           //TODO duplicated code
           if ( self.armedForNewEntry ) {
@@ -85,7 +85,7 @@ define( function( require ) {
           }
 
           // set the new shortened value
-          self.valueStringProperty.value = shortenedDigitString;
+          self.valueStringProperty.value = shortenedValueString;
         }
       }
     } );
