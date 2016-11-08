@@ -71,9 +71,11 @@ define( function( require ) {
       listener: function() {
         if ( self.valueStringProperty.value.length > 0 ) {
 
+          //TODO shouldn't this be done after armedForNewEntry?
           // remove the last digit from the current digit string
           var shortenedDigitString = self.valueStringProperty.value.slice( 0, -1 );
 
+          //TODO duplicated code
           if ( self.armedForNewEntry ) {
             self.valueStringProperty.value = '';
             self.armedForNewEntry = false;
