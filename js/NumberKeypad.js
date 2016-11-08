@@ -75,7 +75,7 @@ define( function( require ) {
           var shortenedDigitString = self.valueStringProperty.value.slice( 0, -1 );
 
           if ( self.armedForNewEntry ) {
-            self.valueStringProperty.reset(); // this reset will trigger the state change that we want in the game
+            self.valueStringProperty.value = '';
             self.armedForNewEntry = false;
           }
 
@@ -133,7 +133,7 @@ define( function( require ) {
 
       // If armed for new entry, clear the existing string.
       if ( self.armedForNewEntry ) {
-        self.valueStringProperty.reset();
+        self.valueStringProperty.value = '';
         self.armedForNewEntry = false;
       }
 
@@ -226,7 +226,7 @@ define( function( require ) {
      * @public
      */
     clear: function() {
-      this.valueStringProperty.reset();
+      this.valueStringProperty.value = '';
     },
 
     /**
