@@ -23,6 +23,7 @@ define( function( require ) {
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -31,6 +32,7 @@ define( function( require ) {
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -70,6 +72,7 @@ define( function( require ) {
       { label: 'FormulaNode', getNode: demoFormulaNode },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
+      { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'ProbeNode', getNode: demoProbeNode },
       { label: 'RulerNode', getNode: demoRulerNode },
@@ -475,6 +478,50 @@ define( function( require ) {
       dragBounds: layoutBounds,
       basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
       tipPositionProperty: new Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
+    } );
+  };
+
+  // Creates a demo for NumberKeypad
+  var demoNumberKeypad = function( layoutBounds ) {
+
+    var integerKeypad = new NumberKeypad( {
+      maxDigits: 4
+    } );
+
+    // value of integerKeypad is displayed here
+    var integerText = new Text( '', { font: new PhetFont( 24 ) } );
+    integerKeypad.valueStringProperty.link( function( valueString ) {
+      integerText.text = valueString;
+    } );
+
+    var decimalKeypad = new NumberKeypad( {
+      decimalPointKey: true,
+      maxDigits: 4 //TODO this option is inappropriate for decimal numbers, see https://github.com/phetsims/scenery-phet/issues/272
+    } );
+
+    // value of decimalKeypad is displayed here
+    var decimalText = new Text( '', { font: new PhetFont( 24 ) } );
+    decimalKeypad.valueStringProperty.link( function( valueString ) {
+      decimalText.text = valueString;
+    } );
+
+    return new HBox( {
+      spacing: 100,
+      children: [
+
+        // integer keypad and display
+        new VBox( {
+          spacing: 40,
+          children: [ integerText, integerKeypad ]
+        } ),
+
+        // decimal keypad and display
+        new VBox( {
+          spacing: 40,
+          children: [ decimalText, decimalKeypad ]
+        } )
+      ],
+      center: layoutBounds.center
     } );
   };
 
