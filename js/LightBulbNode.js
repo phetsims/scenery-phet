@@ -64,10 +64,10 @@ define( function( require ) {
 
     options.children = [ this.raysNode, offNode, this.onNode ];
     Node.call( this, options );
+    this.brightnessProperty = brightnessProperty;
 
     var brightnessObserver = function() { this.update(); }; // @private
-    this.brightnessProperty = brightnessProperty; // @private
-    this.brightnessProperty.link( this.brightnessObserver );
+    brightnessProperty.link( brightnessObserver );
 
     // this.mouseArea = new Rectangle( 0, 0, 100, 100 );
     // this.touchArea = new Rectangle( 200, 200, 300, 400 );
