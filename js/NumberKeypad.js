@@ -85,7 +85,7 @@ define( function( require ) {
       }
     } );
 
-    //TODO provide API to accept/reject input, https://github.com/phetsims/scenery-phet/issues/272
+    //TODO allow client to provide this function, https://github.com/phetsims/scenery-phet/issues/272
     /**
      * Creates the new string that results from pressing a key.
      * @param {string} keyString - string associated with the key that was pressed
