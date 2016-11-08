@@ -15,6 +15,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Rectangle = require( 'DOT/Rectangle' );
 
   // images
   var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
@@ -64,9 +65,17 @@ define( function( require ) {
     options.children = [ this.raysNode, offNode, this.onNode ];
     Node.call( this, options );
 
-    this.brightnessObserver = function( brightness ) { this.update(); }; // @private
+    var brightnessObserver = function() { this.update(); }; // @private
     this.brightnessProperty = brightnessProperty; // @private
     this.brightnessProperty.link( this.brightnessObserver );
+
+    // this.mouseArea = new Rectangle( 0, 0, 100, 100 );
+    // this.touchArea = new Rectangle( 200, 200, 300, 400 );
+
+    // @private
+    this.disposeLightBulbNode = function() {
+      brightnessProperty.unlink( brightnessObserver );
+    };
   }
 
   sceneryPhet.register( 'LightBulbNode', LightBulbNode );
@@ -75,7 +84,7 @@ define( function( require ) {
 
     // @public Ensures that this object is eligible for GC
     dispose: function() {
-      this.brightnessProperty.unlink( this.brightnessObserver );
+      this.disposeLightBulbNode();
     },
 
     // @private
