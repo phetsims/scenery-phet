@@ -15,7 +15,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Rectangle = require( 'DOT/Rectangle' );
 
   // images
   var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
@@ -42,8 +41,10 @@ define( function( require ) {
 
     options = _.extend( {}, defaultOptions, options ); // don't modify defaultOptions!
 
+    var self = this;
+
     // @private
-    this.onNode = new Image( onImage, {
+    self.onNode = new Image( onImage, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
@@ -51,8 +52,8 @@ define( function( require ) {
 
     var offNode = new Image( offImage, {
       scale: options.bulbImageScale,
-      centerX: this.onNode.centerX,
-      bottom: this.onNode.bottom
+      centerX: self.onNode.centerX,
+      bottom: self.onNode.bottom
     } );
 
     // rays
@@ -60,22 +61,14 @@ define( function( require ) {
     var rayOptions = _.pick( options, _.keys( defaultOptions ) ); // cherry-pick options that are specific to rays
     rayOptions.x = this.onNode.centerX;
     rayOptions.y = offNode.top + bulbRadius;
-    this.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
+    self.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
 
-    options.children = [ this.raysNode, offNode, this.onNode ];
-    Node.call( this, options );
-    this.brightnessProperty = brightnessProperty;
+    options.children = [ self.raysNode, offNode, self.onNode ];
+    Node.call( self, options );
 
-    var brightnessObserver = function() { this.update(); }; // @private
-    brightnessProperty.link( brightnessObserver );
-
-    // this.mouseArea = new Rectangle( 0, 0, 100, 100 );
-    // this.touchArea = new Rectangle( 200, 200, 300, 400 );
-
-    // @private
-    this.disposeLightBulbNode = function() {
-      brightnessProperty.unlink( brightnessObserver );
-    };
+    self.brightnessObserver = function( brightness ) { self.update(); }; // @private
+    self.brightnessProperty = brightnessProperty; // @private
+    self.brightnessProperty.link( this.brightnessObserver );
   }
 
   sceneryPhet.register( 'LightBulbNode', LightBulbNode );
@@ -84,7 +77,7 @@ define( function( require ) {
 
     // @public Ensures that this object is eligible for GC
     dispose: function() {
-      this.disposeLightBulbNode();
+      this.brightnessProperty.unlink( this.brightnessObserver );
     },
 
     // @private
