@@ -104,7 +104,9 @@ define( function( require ) {
 
       var newValueString;
       if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
+
         // ignore multiple leading zeros
+        newValueString = valueString;
       }
       else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== decimalPointString ) {
 
