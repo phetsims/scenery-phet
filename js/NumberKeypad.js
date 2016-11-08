@@ -47,8 +47,7 @@ define( function( require ) {
     // @public (read only) - sequence of key values entered by the user
     this.valueStringProperty = options.valueStringProperty;
 
-    //TODO I've read this 5 times and have no idea what it does
-    // @private - flag used when arming the keypad to start over on the next key stroke
+    // @private - when true, the next key press will clear valueStringProperty
     this.armedForNewEntry = false;
 
     // options for keys
@@ -86,6 +85,7 @@ define( function( require ) {
       }
     } );
 
+    //TODO provide API to accept/reject input, https://github.com/phetsims/scenery-phet/issues/272
     /**
      * Creates the new string that results from pressing a key.
      * @param {string} keyString - string associated with the key that was pressed
