@@ -86,15 +86,50 @@ define( function( require ) {
       }
     } );
 
-    // Called when a key is pressed.
+    /**
+     * Creates the new string that results from pressing a key.
+     * @param {string} keyString - string associated with the key that was pressed
+     * @param {string} valueString - string that corresponds to the sequence of keys that have been pressed
+     * @returns {string} the result
+     */
+    var processKeyString = function( keyString, valueString ) {
+
+      var hasDecimalPoint = valueString.indexOf( '.' ) !== -1;
+      var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
+
+      var newValueString;
+      if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
+        // ignore multiple leading zeros
+      }
+      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== '.' ) {
+
+        // replace a leading 0 that's not followed by a decimal point with this key
+        newValueString = keyString;
+      }
+      else if ( keyString !== '.' && numberOfDigits < keyOptions.maxDigits ) {
+
+        // constrain to maxDigits
+        newValueString = valueString + keyString;
+      }
+      else if ( keyString === '.' && self.valueStringProperty.value.indexOf( '.' ) === -1 ) {
+
+        // allow one decimal point
+        newValueString = valueString + keyString;
+      }
+      else {
+
+        // ignore keyString
+        newValueString = valueString;
+      }
+
+      return newValueString;
+    };
+
+    /**
+     * Called when a key is pressed.
+     * @param {string} keyString - string associated with the key that was pressed
+     */
     var keyCallback = function( keyString ) {
-
-      var decimalIndex = self.valueStringProperty.value.indexOf( '.' );
-
-      //TODO bug here? Type '5.67' and numberOfDigits is 2
-      var numberOfDigits = ( decimalIndex === -1 ) ?
-                           self.valueStringProperty.value.length :
-                           self.valueStringProperty.value.length - 1;
 
       // If armed for new entry, clear the existing string.
       if ( self.armedForNewEntry ) {
@@ -102,22 +137,8 @@ define( function( require ) {
         self.armedForNewEntry = false;
       }
 
-      // Add keyString to valueString
-      if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
-        // ignore multiple leading zeros
-      }
-      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== '.' ) {
-
-        // replace a leading 0 on integers with this key
-        self.valueStringProperty.value = keyString;
-      }
-      else if ( numberOfDigits < keyOptions.maxDigits ) {
-
-        // only allow a single decimal point
-        if ( keyString !== '.' || self.valueStringProperty.value.indexOf( '.' ) === -1 ) {
-          self.valueStringProperty.value += keyString;
-        }
-      }
+      // process the keyString
+      self.valueStringProperty.value = processKeyString( keyString, self.valueStringProperty.value );
     };
 
     // create the bottom row of keys, which can vary based on options
