@@ -22,6 +22,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // string
+  var decimalPointString = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
+
   /**
    * @param {Object} [options]
    * @constructor
@@ -96,24 +99,24 @@ define( function( require ) {
      */
     var processKeyString = function( keyString, valueString ) {
 
-      var hasDecimalPoint = valueString.indexOf( '.' ) !== -1;
+      var hasDecimalPoint = valueString.indexOf( decimalPointString ) !== -1;
       var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
 
       var newValueString;
       if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
         // ignore multiple leading zeros
       }
-      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== '.' ) {
+      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== decimalPointString ) {
 
         // replace a leading 0 that's not followed by a decimal point with this key
         newValueString = keyString;
       }
-      else if ( keyString !== '.' && numberOfDigits < keyOptions.maxDigits ) {
+      else if ( keyString !== decimalPointString && numberOfDigits < keyOptions.maxDigits ) {
 
         // constrain to maxDigits
         newValueString = valueString + keyString;
       }
-      else if ( keyString === '.' && self.valueStringProperty.value.indexOf( '.' ) === -1 ) {
+      else if ( keyString === decimalPointString && self.valueStringProperty.value.indexOf( decimalPointString ) === -1 ) {
 
         // allow one decimal point
         newValueString = valueString + keyString;
@@ -148,7 +151,7 @@ define( function( require ) {
     if ( options.decimalPointKey ) {
 
       // add a decimal point key plus a normal width zero key
-      bottomRowChildren.push( createKey( '.', keyCallback, keyOptions ) );
+      bottomRowChildren.push( createKey( decimalPointString, keyCallback, keyOptions ) );
       bottomRowChildren.push( createKey( '0', keyCallback, keyOptions ) );
     }
     else {
