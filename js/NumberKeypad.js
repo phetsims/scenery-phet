@@ -37,7 +37,7 @@ define( function( require ) {
       ySpacing: 10,
       keyColor: 'white',
 
-      //TODO replace with a function that accepts or rejects entry
+      //TODO replace with a function that accepts or rejects entry, https://github.com/phetsims/scenery-phet/issues/272
       maxDigits: 8, // Maximum number of digits that the user may enter
       valueStringProperty: new Property( '' )
     }, options );
