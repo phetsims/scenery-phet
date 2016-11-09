@@ -28,13 +28,13 @@ define( function( require ) {
     Node.call( this );
     var self = this;
     options = _.extend( {
-      maxDigits: 5,
+      maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
       readoutFont: new PhetFont( 20 )
     }, options );
 
     // Add the keypad.
     this.keypad = new NumberKeypad( {
-      maxDigits: options.maxDigits
+      validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
     } );
     this.addChild( this.keypad );
 

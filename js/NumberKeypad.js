@@ -39,10 +39,10 @@ define( function( require ) {
       xSpacing: 10,
       ySpacing: 10,
       keyColor: 'white',
+      valueStringProperty: new Property( '' ),
 
-      //TODO replace with a function that accepts or rejects entry, https://github.com/phetsims/scenery-phet/issues/272
-      maxDigits: 8, // Maximum number of digits that the user may enter
-      valueStringProperty: new Property( '' )
+      // {function(string, string)} validates a key press, see example and documentation in validateMaxDigits
+      validateKey: validateMaxDigits( { maxDigits: 8 } )
     }, options );
 
     var self = this;
@@ -58,8 +58,7 @@ define( function( require ) {
       minWidth: options.minButtonWidth,
       minHeight: options.minButtonHeight,
       baseColor: options.keyColor,
-      font: options.buttonFont,
-      maxDigits: options.maxDigits
+      font: options.buttonFont
     };
 
     // create the backspace key
@@ -85,48 +84,6 @@ define( function( require ) {
       }
     } );
 
-    //TODO allow client to provide this function, https://github.com/phetsims/scenery-phet/issues/272
-    /**
-     * Creates the new string that results from pressing a key.
-     * @param {string} keyString - string associated with the key that was pressed
-     * @param {string} valueString - string that corresponds to the sequence of keys that have been pressed
-     * @returns {string} the result
-     */
-    var processKeyString = function( keyString, valueString ) {
-
-      var hasDecimalPoint = valueString.indexOf( decimalPointString ) !== -1;
-      var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
-
-      var newValueString;
-      if ( self.valueStringProperty.value === '0' && keyString === '0' ) {
-
-        // ignore multiple leading zeros
-        newValueString = valueString;
-      }
-      else if ( self.valueStringProperty.value === '0' && keyString !== '0' && keyString !== decimalPointString ) {
-
-        // replace a leading 0 that's not followed by a decimal point with this key
-        newValueString = keyString;
-      }
-      else if ( keyString !== decimalPointString && numberOfDigits < keyOptions.maxDigits ) {
-
-        // constrain to maxDigits
-        newValueString = valueString + keyString;
-      }
-      else if ( keyString === decimalPointString && self.valueStringProperty.value.indexOf( decimalPointString ) === -1 ) {
-
-        // allow one decimal point
-        newValueString = valueString + keyString;
-      }
-      else {
-
-        // ignore keyString
-        newValueString = valueString;
-      }
-
-      return newValueString;
-    };
-
     /**
      * Called when a key is pressed.
      * @param {string} keyString - string associated with the key that was pressed
@@ -140,7 +97,7 @@ define( function( require ) {
       }
 
       // process the keyString
-      self.valueStringProperty.value = processKeyString( keyString, self.valueStringProperty.value );
+      self.valueStringProperty.value = options.validateKey( keyString, self.valueStringProperty.value );
     };
 
     // create the bottom row of keys, which can vary based on options
@@ -219,6 +176,61 @@ define( function( require ) {
     } );
   }
 
+  /**
+   * Creates a validation function that constrains the value to a maximum number of digits, with 1 leading zero.
+   *
+   * @param {Object} [options]
+   * @returns {function(string, string)}
+   */
+  var validateMaxDigits = function( options ) {
+
+    options = _.extend( {
+      maxDigits: 8 // {number} the maximum number of digits (numbers)
+    }, options );
+    assert && assert( options.maxDigits > 0, 'invalid maxDigits: ' + options.maxDigits );
+
+    /**
+     * Creates the new string that results from pressing a key.
+     * @param {string} keyString - string associated with the key that was pressed
+     * @param {string} valueString - string that corresponds to the sequence of keys that have been pressed
+     * @returns {string} the result
+     */
+    return function( keyString, valueString ) {
+
+      var hasDecimalPoint = valueString.indexOf( decimalPointString ) !== -1;
+      var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
+
+      var newValueString;
+      if ( valueString === '0' && keyString === '0' ) {
+
+        // ignore multiple leading zeros
+        newValueString = valueString;
+      }
+      else if ( valueString === '0' && keyString !== '0' && keyString !== decimalPointString ) {
+
+        // replace a leading 0 that's not followed by a decimal point with this key
+        newValueString = keyString;
+      }
+      else if ( keyString !== decimalPointString && numberOfDigits < options.maxDigits ) {
+
+        // constrain to maxDigits
+        newValueString = valueString + keyString;
+      }
+      else if ( keyString === decimalPointString && valueString.indexOf( decimalPointString ) === -1 ) {
+
+        // allow one decimal point
+        newValueString = valueString + keyString;
+      }
+      else {
+
+        // ignore keyString
+        newValueString = valueString;
+      }
+
+      return newValueString;
+    };
+  };
+
   return inherit( VBox, NumberKeypad, {
 
     /**
@@ -236,5 +248,9 @@ define( function( require ) {
     armForNewEntry: function() {
       this.armedForNewEntry = true;
     }
+  }, {
+
+    // Functions for creating useful values for options.validateKey
+    validateMaxDigits: validateMaxDigits
   } );
 } );

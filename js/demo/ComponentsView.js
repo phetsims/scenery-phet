@@ -486,7 +486,7 @@ define( function( require ) {
   var demoNumberKeypad = function( layoutBounds ) {
 
     var integerKeypad = new NumberKeypad( {
-      maxDigits: 4
+      validateKey: NumberKeypad.validateMaxDigits( { maxDigits: 4 } )
     } );
 
     // value of integerKeypad is displayed here
@@ -504,8 +504,7 @@ define( function( require ) {
     } );
 
     var decimalKeypad = new NumberKeypad( {
-      decimalPointKey: true,
-      maxDigits: 4 //TODO this option is inappropriate for decimal numbers, see https://github.com/phetsims/scenery-phet/issues/272
+      decimalPointKey: true
     } );
 
     // value of decimalKeypad is displayed here
@@ -516,6 +515,7 @@ define( function( require ) {
 
     return new HBox( {
       spacing: 100,
+      align: 'top',
       children: [
 
         // integer keypad and display
