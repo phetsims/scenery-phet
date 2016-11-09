@@ -74,18 +74,13 @@ define( function( require ) {
       listener: function() {
         if ( self.valueStringProperty.value.length > 0 ) {
 
-          //TODO shouldn't this be done after armedForNewEntry?
-          // remove the last digit from the current digit string
-          var shortenedValueString = self.valueStringProperty.value.slice( 0, -1 );
+          // The backspace key ignores and resets the armedForNewEntry flag. The rationale is that if a user has
+          // entered an incorrect value and wants to correct it by using the backspace, then it should work like
+          // the backspace always does instead of clearing the display.
+          self.armedForNewEntry = false;
 
-          //TODO duplicated code
-          if ( self.armedForNewEntry ) {
-            self.valueStringProperty.value = '';
-            self.armedForNewEntry = false;
-          }
-
-          // set the new shortened value
-          self.valueStringProperty.value = shortenedValueString;
+          // Remove the last character
+          self.valueStringProperty.set( self.valueStringProperty.get().slice( 0, -1 ) );
         }
       }
     } );
