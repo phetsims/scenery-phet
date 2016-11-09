@@ -221,8 +221,6 @@ define( function( require ) {
 
   return inherit( VBox, NumberKeypad, {
 
-    //TODO implement dispose
-
     /**
      * Clear anything that has been accumulated in the valueStringProperty field.
      * @public
