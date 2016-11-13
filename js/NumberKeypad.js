@@ -242,7 +242,7 @@ define( function( require ) {
     },
 
     /**
-     * Set the keypad such that any new digit entry will clear the existing string and start over.
+     * Set the keypad such that any new entry will clear the existing string and start over.
      * @public
      */
     armForNewEntry: function() {
