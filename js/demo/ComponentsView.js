@@ -42,7 +42,6 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -495,12 +494,15 @@ define( function( require ) {
       integerText.text = valueString;
     } );
 
-    // For testing NumberKeypad's armForNewEntry feature
-    var armButton = new RectangularPushButton( {
-      content: new Text( 'armForNewEntry', { font: new PhetFont( 16 ) } ),
-      listener: function() {
-        integerKeypad.armForNewEntry();
-      }
+    // For testing NumberKeypad's armedForNewEntry feature
+    var armedForNewEntryProperty = new Property( false );
+    var armedForNewEntryButton = new CheckBox( new Text( 'armedForNewEntry', { font: new PhetFont( 16 ) } ), armedForNewEntryProperty );
+
+    armedForNewEntryProperty.link( function( armedForNewEntry ) {
+      integerKeypad.armedForNewEntry = armedForNewEntry;
+    } );
+    integerKeypad.valueStringProperty.link( function( valueString ) {
+      armedForNewEntryProperty.value = integerKeypad.armedForNewEntry;
     } );
 
     var decimalKeypad = new NumberKeypad( {
@@ -521,7 +523,7 @@ define( function( require ) {
         // integer keypad and display
         new VBox( {
           spacing: 40,
-          children: [ integerText, integerKeypad, armButton ]
+          children: [ integerText, integerKeypad, armedForNewEntryButton ]
         } ),
 
         // decimal keypad and display

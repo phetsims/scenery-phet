@@ -100,12 +100,13 @@ define( function( require ) {
       this.keypad.clear();
     },
 
+    //TODO add ES5 setter/getter, ala NumberKeypad?
     /**
-     * Set the keypad such that any new digit entry will clear the existing string and start over.
+     * Determines whether pressing a key (except for the decimal point) will clear the existing value.
      * @public
      */
-    armForNewEntry: function() {
-      this.keypad.armForNewEntry();
+    setArmedForNewEntry: function( armedForNewEntry ) {
+      this.keypad.armedForNewEntry = armedForNewEntry;
     }
   } );
 } );

@@ -51,7 +51,7 @@ define( function( require ) {
     this.valueStringProperty = options.valueStringProperty;
 
     // @private - when true, the next key press will clear valueStringProperty
-    this.armedForNewEntry = false;
+    this._armedForNewEntry = false;
 
     // options for keys
     var keyOptions = {
@@ -76,7 +76,7 @@ define( function( require ) {
           // The backspace key ignores and resets the armedForNewEntry flag. The rationale is that if a user has
           // entered an incorrect value and wants to correct it by using the backspace, then it should work like
           // the backspace always does instead of clearing the display.
-          self.armedForNewEntry = false;
+          self._armedForNewEntry = false;
 
           // Remove the last character
           self.valueStringProperty.set( self.valueStringProperty.get().slice( 0, -1 ) );
@@ -91,9 +91,9 @@ define( function( require ) {
     var keyCallback = function( keyString ) {
 
       // If armed for new entry, clear the existing string.
-      if ( self.armedForNewEntry ) {
+      if ( self._armedForNewEntry ) {
         self.valueStringProperty.value = '';
-        self.armedForNewEntry = false;
+        self._armedForNewEntry = false;
       }
 
       // process the keyString
@@ -241,13 +241,29 @@ define( function( require ) {
       this.valueStringProperty.value = '';
     },
 
-    /**
-     * Set the keypad such that any new entry will clear the existing string and start over.
-     * @public
-     */
     armForNewEntry: function() {
       this.armedForNewEntry = true;
-    }
+    },
+
+    /**
+     * Determines whether pressing a key (except for the decimal point) will clear the existing value.
+     * @param {boolean} armedForNewEntry
+     * @public
+     */
+    setArmedForNewEntry: function( armedForNewEntry ) {
+      this._armedForNewEntry = armedForNewEntry;
+    },
+    set armedForNewEntry( value ) { this.setArmedForNewEntry( value ); },
+
+
+    /**
+     * Will pressing a key (except for the decimal point) clear the existing value?
+     * @returns {boolean}
+     */
+    getArmedForNewEntry: function() {
+      return this._armedForNewEntry;
+    },
+    get armedForNewEntry() { return this.getArmedForNewEntry(); }
   }, {
 
     // Functions for creating useful values for options.validateKey
