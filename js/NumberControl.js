@@ -57,6 +57,7 @@ define( function( require ) {
       valueYMargin: 2,
       valueBackgroundStroke: 'lightGray',
       valueBackgroundLineWidth: 1,
+      valueBackgroundCornerRadius: 0,
       decimalPlaces: 0,
 
       // {string} Pattern used to format the value. Must contain '{0}'.
@@ -126,6 +127,7 @@ define( function( require ) {
       yMargin: options.valueYMargin,
       backgroundStroke: options.valueBackgroundStroke,
       backgroundLineWidth: options.valueBackgroundLineWidth,
+      cornerRadius: options.valueBackgroundCornerRadius,
       maxWidth: options.valueMaxWidth,
       tandem: options.tandem && options.tandem.createTandem( 'numberDisplay' )
     } );
