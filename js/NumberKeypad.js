@@ -241,10 +241,6 @@ define( function( require ) {
       this.valueStringProperty.value = '';
     },
 
-    armForNewEntry: function() {
-      this.armedForNewEntry = true;
-    },
-
     /**
      * Determines whether pressing a key (except for the backspace) will clear the existing value.
      * @param {boolean} armedForNewEntry
