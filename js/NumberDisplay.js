@@ -48,6 +48,7 @@ define( function( require ) {
       numberMaxWidth: 200,
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
+      backgroundLineWidth: 1,
       tandem: null
     }, options );
 
@@ -73,9 +74,11 @@ define( function( require ) {
     } );
 
     // @private background
-    this.backgroundNode = new Rectangle( 0, 0, this.valueNode.width + 2 * options.xMargin, this.valueNode.height + 2 * options.yMargin, options.cornerRadius, options.cornerRadius, {
+    this.backgroundNode = new Rectangle( 0, 0, this.valueNode.width + 2 * options.xMargin, this.valueNode.height + 2 * options.yMargin, {
+      cornerRadius: options.cornerRadius,
       fill: options.backgroundFill,
-      stroke: options.backgroundStroke
+      stroke: options.backgroundStroke,
+      lineWidth: options.backgroundLineWidth
     } );
     this.valueNode.centerY = this.backgroundNode.centerY;
 

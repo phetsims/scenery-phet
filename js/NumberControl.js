@@ -53,6 +53,10 @@ define( function( require ) {
       // value
       valueFont: new PhetFont( 12 ),
       valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
+      valueXMargin: 8,
+      valueYMargin: 2,
+      valueBackgroundStroke: 'lightGray',
+      valueBackgroundLineWidth: 1,
       decimalPlaces: 0,
 
       // {string} Pattern used to format the value. Must contain '{0}'.
@@ -118,6 +122,10 @@ define( function( require ) {
       valuePattern: options.valuePattern,
       font: options.valueFont,
       decimalPlaces: options.decimalPlaces,
+      xMargin: options.valueXMargin,
+      yMargin: options.valueYMargin,
+      backgroundStroke: options.valueBackgroundStroke,
+      backgroundLineWidth: options.valueBackgroundLineWidth,
       maxWidth: options.valueMaxWidth,
       tandem: options.tandem && options.tandem.createTandem( 'numberDisplay' )
     } );
