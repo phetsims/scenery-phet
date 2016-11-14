@@ -246,7 +246,7 @@ define( function( require ) {
     },
 
     /**
-     * Determines whether pressing a key (except for the decimal point) will clear the existing value.
+     * Determines whether pressing a key (except for the backspace) will clear the existing value.
      * @param {boolean} armedForNewEntry
      * @public
      */
@@ -257,7 +257,7 @@ define( function( require ) {
 
 
     /**
-     * Will pressing a key (except for the decimal point) clear the existing value?
+     * Will pressing a key (except for the backspace point) clear the existing value?
      * @returns {boolean}
      */
     getArmedForNewEntry: function() {

@@ -102,7 +102,7 @@ define( function( require ) {
 
     //TODO add ES5 setter/getter, ala NumberKeypad?
     /**
-     * Determines whether pressing a key (except for the decimal point) will clear the existing value.
+     * Determines whether pressing a key (except for the backspace) will clear the existing value.
      * @public
      */
     setArmedForNewEntry: function( armedForNewEntry ) {
