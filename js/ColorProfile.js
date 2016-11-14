@@ -6,6 +6,46 @@
  *
  * It also contains hooks that allow synchronizing the colors over iframe communication, so that colors can be controlled by a color picker.
  *
+ * ColorProfile will take an object map ({string} color name => {Object} profile map) and will create a {Property<Color>} for each, that will
+ * change based on the color profile's profileNameProperty's current value.
+ *
+ * For example:
+ *
+ * var profile = new ColorProfile( {
+ *   fishFill: {
+ *     default: new Color( 0, 0, 0 ),
+ *     projector: 'white'
+ *   },
+ *   fishStroke: {
+ *     default: '#0f0'
+ *     projector: Color.BLUE
+ *   }
+ * }, [ 'default', 'projector' ] );
+ *
+ * creates a ColorProfile object that now contains the three properties:
+ * {
+ *   profileNameProperty: {Property.<string>} - initially 'default',
+ *   fishFillProperty: {Property.<Color>} - initially the new Color( 0, 0, 0 ),
+ *   fishStrokeProperty: {Property.<Color>} - initially #0f0 converted to a Color object
+ * }
+ *
+ * The color properties will change whenever the profileName property changes, so:
+ *
+ * profile.profileNameProperty.value = 'projector';
+ *
+ * will set the ColorProfile to the 'projector' profile name, updating both of the color properties to their specified 'projector' colors
+ * (converted to Scenery Color objects as necessary).
+ *
+ * NOTE: It is acceptable to omit a non-default profile key for colors, e.g. just { default: ... }. If a profile key is not present for the color,
+ *       then the default will be used.
+ *
+ * NOTE: It is ideal to pass color properties directly to Scenery object fill/strokes, e.g.:
+ *
+ *   new Path( ..., { fill: profile.fishFillProperty } );
+ *
+ * NOTE: Generally a require.js module should be responsible for returning a singleton instance of ColorProfile for a simulation, e.g.
+ *       GravityAndOrbitsColorProfile.
+ *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Aaron Davis
  */
@@ -19,11 +59,10 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
+   * @public
    * @constructor
    *
-   * @param {Object} colors - object hash, whose property names become Property names.
-   *                          Each property is another hash, whose properties are the colors for each scheme.
-   *                          (Confusing? You bet. See https://github.com/phetsims/scenery-phet/issues/277)
+   * @param {Object} colors - See documentation above
    * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
    */
   function ColorProfile( colors, profileNames ) {
