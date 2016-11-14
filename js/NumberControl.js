@@ -79,6 +79,9 @@ define( function( require ) {
       // (see createLayoutFunction*) or create your own function.
       layoutFunction: NumberControl.createLayoutFunction1(),
 
+      // scale factor applied to the arrow buttons
+      arrowButtonScale: 0.85,
+
       // phet-io
       tandem: null // {Tandem|null}
 
@@ -86,7 +89,7 @@ define( function( require ) {
 
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
-      options.thumbFillHighlighted =  Color.toColor( options.thumbFillEnabled ).brighterColor();
+      options.thumbFillHighlighted = Color.toColor( options.thumbFillEnabled ).brighterColor();
     }
 
     // constrain the slider value to the provided range and the same delta as the arrow buttons
@@ -123,7 +126,7 @@ define( function( require ) {
       delta: options.delta,
       startCallback: options.startCallback,
       endCallback: options.endCallback,
-      scale: 0.85
+      scale: options.arrowButtonScale
     };
 
     var leftArrowButton = new ArrowButton( 'left', function() {
