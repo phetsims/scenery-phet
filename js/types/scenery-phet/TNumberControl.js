@@ -14,6 +14,12 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
+  /**
+   * Wrapper type for phet/scenery-phet's NumberControl class.
+   * @param numberControl
+   * @param phetioID
+   * @constructor
+   */
   function TNumberControl( numberControl, phetioID ) {
     TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );

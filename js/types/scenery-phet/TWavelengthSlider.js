@@ -14,6 +14,12 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
+  /**
+   * Wrapper type for phet/scenery-phet's WavelengthSlider class.
+   * @param slider
+   * @param phetioID
+   * @constructor
+   */
   function TWavelengthSlider( slider, phetioID ) {
     TNode.call( this, slider, phetioID );
     assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );

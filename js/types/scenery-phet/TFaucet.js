@@ -15,6 +15,12 @@ define( function( require ) {
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
 
+  /**
+   * Wrapper type for phet/sun's Faucet class.
+   * @param faucet
+   * @param phetioID
+   * @constructor
+   */
   function TFaucet( faucet, phetioID ) {
     TNode.call( this, faucet, phetioID );
     assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
