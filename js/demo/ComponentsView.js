@@ -55,7 +55,7 @@ define( function( require ) {
    * @constructor
    */
   function ComponentsView() {
-    DemosView.call( this, 'component', [
+    DemosView.call( this, [
 
       /**
        * To add a demo, add an object literal here. Each object has these properties:
@@ -78,7 +78,9 @@ define( function( require ) {
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
-    ] );
+    ], {
+      selectedDemoLabel: QueryStringMachine.get( 'component', { type: 'string', defaultValue: null } )
+    } );
   }
 
   sceneryPhet.register( 'ComponentsView', ComponentsView );

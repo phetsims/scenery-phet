@@ -29,17 +29,19 @@ define( function( require ) {
    * @constructor
    */
   function SlidersView() {
-    DemosView.call( this, 'slider', [
+    DemosView.call( this, [
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-     */
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+       */
       { label: 'NumberControl', getNode: demoNumberControl },
       { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
-    ] );
+    ], {
+      selectedDemoLabel: QueryStringMachine.get( 'slider', { type: 'string', defaultValue: null } )
+    } );
   }
 
   sceneryPhet.register( 'SlidersView', SlidersView );
