@@ -22,7 +22,10 @@ define( function( require ) {
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
   // constants
-  var BACKGROUND_COLOR = phet.chipper.getQueryParameter( 'backgroundColor' ) || 'white';
+  var BACKGROUND_COLOR = QueryStringMachine.get( 'backgroundColor', {
+    type: 'string', // CSS color format, e.g. 'green', 'ff8c00', 'rgb(255,0,255)'
+    defaultValue: 'white'
+  } );
 
   var simOptions = {
     credits: {
