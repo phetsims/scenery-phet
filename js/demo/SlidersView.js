@@ -21,6 +21,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
@@ -29,17 +30,19 @@ define( function( require ) {
    * @constructor
    */
   function SlidersView() {
-    DemosView.call( this, 'slider', [
+    DemosView.call( this, [
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-     */
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+       */
       { label: 'NumberControl', getNode: demoNumberControl },
       { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
-    ] );
+    ], {
+      selectedDemoLabel: sceneryPhetQueryParameters.slider
+    } );
   }
 
   sceneryPhet.register( 'SlidersView', SlidersView );
