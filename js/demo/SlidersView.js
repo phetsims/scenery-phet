@@ -21,6 +21,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
@@ -40,7 +41,7 @@ define( function( require ) {
       { label: 'NumberControl', getNode: demoNumberControl },
       { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
     ], {
-      selectedDemoLabel: QueryStringMachine.get( 'slider', { type: 'string', defaultValue: null } )
+      selectedDemoLabel: sceneryPhetQueryParameters.slider
     } );
   }
 

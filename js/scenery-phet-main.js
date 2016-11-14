@@ -13,6 +13,7 @@ define( function( require ) {
   var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
   var SpringView = require( 'SCENERY_PHET/demo/SpringView' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
@@ -20,12 +21,6 @@ define( function( require ) {
 
   // strings
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
-
-  // constants
-  var BACKGROUND_COLOR = QueryStringMachine.get( 'backgroundColor', {
-    type: 'string', // CSS color format, e.g. 'green', 'ff8c00', 'rgb(255,0,255)'
-    defaultValue: 'white'
-  } );
 
   var simOptions = {
     credits: {
@@ -47,7 +42,7 @@ define( function( require ) {
         function( model ) {return new ButtonsView();},
         {
           name: 'Buttons',
-          backgroundColor: BACKGROUND_COLOR,
+          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
           homeScreenIcon: createScreenIcon( 'red' )
         }
       ),
@@ -57,7 +52,7 @@ define( function( require ) {
         function( model ) {return new SlidersView();},
         {
           name: 'Sliders',
-          backgroundColor: BACKGROUND_COLOR,
+          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
           homeScreenIcon: createScreenIcon( 'yellow' )
         }
       ),
@@ -67,7 +62,7 @@ define( function( require ) {
         function( model ) {return new ComponentsView();},
         {
           name: 'Components',
-          backgroundColor: BACKGROUND_COLOR,
+          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
           homeScreenIcon: createScreenIcon( 'orange' )
         }
       ),
@@ -77,7 +72,7 @@ define( function( require ) {
         function( model ) {return new SpringView();},
         {
           name: 'Spring',
-          backgroundColor: BACKGROUND_COLOR,
+          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
           homeScreenIcon: createScreenIcon( 'blue' )
         }
       )

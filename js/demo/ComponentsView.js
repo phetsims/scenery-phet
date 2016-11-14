@@ -44,6 +44,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Shape = require( 'KITE/Shape' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -79,7 +80,7 @@ define( function( require ) {
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ], {
-      selectedDemoLabel: QueryStringMachine.get( 'component', { type: 'string', defaultValue: null } )
+      selectedDemoLabel: sceneryPhetQueryParameters.component
     } );
   }
 
