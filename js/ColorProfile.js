@@ -68,8 +68,9 @@ define( function( require ) {
   function ColorProfile( colors, profileNames ) {
     var self = this;
 
-    // @public {Property.<string>} - The current profile name. Change this Property's value to change which profile is currently active.
-    //                               'default' will use all default colors, and 'projector' is a common color profile that is also used.
+    // @public {Property.<string>}
+    // The current profile name. Change this Property's value to change which profile is currently active.
+    // 'default' will use all default colors, and 'projector' is a common color profile that is also used.
     var profileNameProperty = this.profileNameProperty = new Property( 'default', {
       validValues: profileNames
     } );
