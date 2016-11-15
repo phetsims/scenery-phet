@@ -52,6 +52,7 @@ define( function( require ) {
 
       // value
       valueFont: new PhetFont( 12 ),
+      valueAlign: 'right',
       valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
       valueXMargin: 8,
       valueYMargin: 2,
@@ -122,6 +123,7 @@ define( function( require ) {
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
       valuePattern: options.valuePattern,
       font: options.valueFont,
+      align: options.valueAlign,
       decimalPlaces: options.decimalPlaces,
       xMargin: options.valueXMargin,
       yMargin: options.valueYMargin,
