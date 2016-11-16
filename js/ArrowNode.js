@@ -12,11 +12,15 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * @param {number} tailX
@@ -39,9 +43,12 @@ define( function( require ) {
       doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
       fill: 'black',
       stroke: 'black',
-      lineWidth: 1
+      lineWidth: 1,
+      tandem: Tandem.createDefaultTandem( 'arrowNode' )
     }, options );
     this.options = options; // @private
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Path.call( this, null );
     this.shapePoints = [];
@@ -51,6 +58,15 @@ define( function( require ) {
     assert && assert( options.headWidth > options.tailWidth );
 
     this.mutate( options );
+
+    // Tandem support
+    options.tandem.addInstance( this, TNode );
+
+    // @private called by dispose
+    this.disposeArrowNode = function() {
+      options.tandem.removeInstance( this );
+    };
+
   }
 
   sceneryPhet.register( 'ArrowNode', ArrowNode );
@@ -132,6 +148,12 @@ define( function( require ) {
       this.options.doubleHead = doubleHead;
       this.updateShapePoints();
       this.updateShape();
+    },
+
+    // @public
+    dispose: function() {
+      this.disposeArrowNode();
     }
+
   } );
 } );
