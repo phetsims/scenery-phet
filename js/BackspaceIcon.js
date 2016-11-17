@@ -1,47 +1,52 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * Scenery node that represents a backspace icon.  This was originally created for use on keypads, but may have other
- * applications.  This is set at a fixed size and can be scaled as needed.
+ * Scenery node that draws a backspace icon.
+ * This was originally created for use on keypads, but may have other applications.
+ *
+ * @author John Blanco
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
-   *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function BackspaceIcon( options ) {
+
     options = _.extend( {
       stroke: 'black',
       lineWidth: 1,
       lineJoin: 'round',
-      lineCap: 'square'
-
+      lineCap: 'square',
+      size: new Dimension2( 15, 10 )
     }, options );
 
     var iconShape = new Shape();
 
     // the outline, tip points left, described clockwise from the tip
-    iconShape.moveTo( 0, 5 )
-      .lineTo( 5, 0 )
-      .lineTo( 15, 0 )
-      .lineTo( 15, 10 )
-      .lineTo( 5, 10 )
+    var tipWidth = options.size.width / 3;
+    iconShape.moveTo( 0, tipWidth )
+      .lineTo( tipWidth, 0 )
+      .lineTo( options.size.width, 0 )
+      .lineTo( options.size.width, options.size.height )
+      .lineTo( tipWidth, options.size.height )
       .close();
 
-    // the x in the middle.
-    iconShape.moveTo( 7, 3 )
-      .lineTo( 11, 7 )
-      .moveTo( 7, 7 )
-      .lineTo( 11, 3 );
+    // the x in the middle
+    iconShape.moveTo( 0.47 * options.size.width, 0.3 * options.size.height )
+      .lineTo( 0.73 * options.size.width, 0.7 * options.size.height )
+      .moveTo( 0.73 * options.size.width, 0.3 * options.size.height )
+      .lineTo( 0.47 * options.size.width, 0.7 * options.size.height );
 
     Path.call( this, iconShape, options );
   }
