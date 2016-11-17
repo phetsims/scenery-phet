@@ -105,8 +105,8 @@ define( function( require ) {
      * Determines whether pressing a key (except for the backspace) will clear the existing value.
      * @public
      */
-    setArmedForNewEntry: function( armedForNewEntry ) {
-      this.keypad.armedForNewEntry = armedForNewEntry;
+    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+      this.keypad.clearOnNextKeyPress = clearOnNextKeyPress;
     }
   } );
 } );
