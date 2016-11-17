@@ -42,7 +42,7 @@ define( function( require ) {
       .lineTo( tipWidth, options.size.height )
       .close();
 
-    // the x in the middle
+    // the x in the middle, multipliers determined empirically
     var left = 0.47 * options.size.width;
     var right = 0.73 * options.size.width;
     var top = 0.3 * options.size.height;
