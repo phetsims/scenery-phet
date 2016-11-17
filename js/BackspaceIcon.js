@@ -27,19 +27,21 @@ define( function( require ) {
 
     }, options );
 
-    var iconShape = new Shape().
-      moveTo( 0, 5 ).
-      lineTo( 5, 0 ).
-      lineTo( 15, 0 ).
-      lineTo( 15, 10 ).
-      lineTo( 5, 10 ).
-      close();
+    var iconShape = new Shape();
 
-    // Add the x in the middle.
-    iconShape.moveTo( 7, 3 );
-    iconShape.lineTo( 11, 7 );
-    iconShape.moveTo( 7, 7 );
-    iconShape.lineTo( 11, 3 );
+    // the outline, tip points left, described clockwise from the tip
+    iconShape.moveTo( 0, 5 )
+      .lineTo( 5, 0 )
+      .lineTo( 15, 0 )
+      .lineTo( 15, 10 )
+      .lineTo( 5, 10 )
+      .close();
+
+    // the x in the middle.
+    iconShape.moveTo( 7, 3 )
+      .lineTo( 11, 7 )
+      .moveTo( 7, 7 )
+      .lineTo( 11, 3 );
 
     Path.call( this, iconShape, options );
   }
