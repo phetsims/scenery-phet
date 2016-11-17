@@ -43,10 +43,14 @@ define( function( require ) {
       .close();
 
     // the x in the middle
-    iconShape.moveTo( 0.47 * options.size.width, 0.3 * options.size.height )
-      .lineTo( 0.73 * options.size.width, 0.7 * options.size.height )
-      .moveTo( 0.73 * options.size.width, 0.3 * options.size.height )
-      .lineTo( 0.47 * options.size.width, 0.7 * options.size.height );
+    var left = 0.47 * options.size.width;
+    var right = 0.73 * options.size.width;
+    var top = 0.3 * options.size.height;
+    var bottom = 0.7 * options.size.height;
+    iconShape.moveTo( left, top )
+      .lineTo( right, bottom )
+      .moveTo( right, top )
+      .lineTo( left, bottom );
 
     Path.call( this, iconShape, options );
   }
