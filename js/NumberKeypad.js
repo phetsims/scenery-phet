@@ -262,7 +262,11 @@ define( function( require ) {
     get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
   }, {
 
-    // Functions for creating useful values for options.validateKey
+    /**
+     * Functions for creating useful values for options.validateKey
+     * @public
+     * @static
+     */
     validateMaxDigits: validateMaxDigits
   } );
 } );
