@@ -35,6 +35,7 @@ define( function( require ) {
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
+  var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
@@ -78,7 +79,8 @@ define( function( require ) {
       { label: 'ProbeNode', getNode: demoProbeNode },
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
-      { label: 'ThermometerNode', getNode: demoTemperatureNode }
+      { label: 'ThermometerNode', getNode: demoTemperatureNode },
+      { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode }
     ], {
       selectedDemoLabel: sceneryPhetQueryParameters.component
     } );
@@ -601,6 +603,14 @@ define( function( require ) {
     return new Node( {
       children: [ starNodeContainer, starSlider ],
       center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for PaperAirplaneNode
+  var demoPaperAirplaneNode = function( layoutBounds ) {
+    return new PaperAirplaneNode( {
+      center: layoutBounds.center,
+      scale: 5.5
     } );
   };
 

@@ -23,29 +23,28 @@ define( function( require ) {
   function PaperAirplaneNode( options ) {
 
     options = _.extend( {
-      size: new Dimension2( 20, 16 ), // dimensions taken from screen shot of logo on main site
       fill: PhetColorScheme.PHET_YELLOW
     }, options );
 
-    // Define the shape.  This was done by trial and error and a little math.
-    var bodyShape = new Shape();
-    var width = options.size.width;
-    var height = options.size.height;
+    // Define the shape, from the points in the PhET Logo AI file, see https://github.com/phetsims/scenery-phet/issues/75
+    // The bounds offset were determined by getting bodyShape.bounds.minX, bodyShape.bounds.minY, and the shape
+    // is adjusted to have top/left at (0,0)
+    var dx = 221.92;
+    var dy = 114.975;
+    var bodyShape = new Shape()
+      .moveTo( 221.92 - dx, 131.225 - dy )
+      .lineTo( 234.307 - dx, 135.705 - dy )
+      .lineTo( 250.253 - dx, 122.428 - dy )
+      .lineTo( 237.983 - dx, 136.955 - dy )
+      .lineTo( 251.236 - dx, 141.627 - dy )
+      .lineTo( 256.021 - dx, 114.975 - dy )
+      .close()
 
-    // main body
-    bodyShape.moveTo( width, 0 ); // front tip
-    bodyShape.lineTo( width * 0.8, height * 0.9 ); // right wing tip
-    bodyShape.lineTo( width * 0.45, height * 0.725 );
-    bodyShape.lineTo( width * 0.85, height * 0.2 );
-    bodyShape.lineTo( width * 0.35, height * 0.675 );
-    bodyShape.lineTo( 0, height * 0.5 ); // left wing tip
-    bodyShape.close();
-
-    // underneath part
-    bodyShape.moveTo( width * 0.45, height * 0.8 );
-    bodyShape.lineTo( width * 0.45, height );
-    bodyShape.lineTo( width * 0.6, height * 0.875 );
-    bodyShape.close();
+      // Lower part
+      .moveTo( 238.004 - dx, 139.547 - dy )
+      .lineTo( 238.312 - dx, 146.48 - dy )
+      .lineTo( 243.254 - dx, 141.54 - dy )
+      .close();
 
     Path.call( this, bodyShape, options );
   }
