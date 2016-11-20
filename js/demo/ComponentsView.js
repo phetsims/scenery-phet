@@ -608,10 +608,11 @@ define( function( require ) {
 
   // Creates a demo for PaperAirplaneNode
   var demoPaperAirplaneNode = function( layoutBounds ) {
-    return new PaperAirplaneNode( {
+    var paperAirplaneNode = new PaperAirplaneNode( {
       center: layoutBounds.center,
-      scale: 5.5
+      scale: 5
     } );
+    return paperAirplaneNode;
   };
 
   // Creates a demo for ThermometerNode
