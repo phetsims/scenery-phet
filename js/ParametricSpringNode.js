@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * Spring described by a parametric equation. This implementation is a variation of the cycloid equation.

@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
  * Demonstration of misc scenery-phet UI components.
@@ -499,15 +499,15 @@ define( function( require ) {
       integerText.text = valueString;
     } );
 
-    // For testing NumberKeypad's armedForNewEntry feature
-    var armedForNewEntryProperty = new Property( false );
-    var armedForNewEntryButton = new CheckBox( new Text( 'armedForNewEntry', { font: new PhetFont( 16 ) } ), armedForNewEntryProperty );
+    // For testing NumberKeypad's clearOnNextKeyPress feature
+    var clearOnNextKeyPressProperty = new Property( false );
+    var clearOnNextKeyPressButton = new CheckBox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
 
-    armedForNewEntryProperty.link( function( armedForNewEntry ) {
-      integerKeypad.armedForNewEntry = armedForNewEntry;
+    clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+      integerKeypad.clearOnNextKeyPress = clearOnNextKeyPress;
     } );
     integerKeypad.valueStringProperty.link( function( valueString ) {
-      armedForNewEntryProperty.value = integerKeypad.armedForNewEntry;
+      clearOnNextKeyPressProperty.value = integerKeypad.clearOnNextKeyPress;
     } );
 
     var decimalKeypad = new NumberKeypad( {
@@ -528,7 +528,7 @@ define( function( require ) {
         // integer keypad and display
         new VBox( {
           spacing: 40,
-          children: [ integerText, integerKeypad, armedForNewEntryButton ]
+          children: [ integerText, integerKeypad, clearOnNextKeyPressButton ]
         } ),
 
         // decimal keypad and display

@@ -51,7 +51,7 @@ define( function( require ) {
     this.valueStringProperty = options.valueStringProperty;
 
     // @private - when true, the next key press will clear valueStringProperty
-    this._armedForNewEntry = false;
+    this._clearOnNextKeyPress = false;
 
     // options for keys
     var keyOptions = {
@@ -73,10 +73,10 @@ define( function( require ) {
       listener: function() {
         if ( self.valueStringProperty.value.length > 0 ) {
 
-          // The backspace key ignores and resets the armedForNewEntry flag. The rationale is that if a user has
+          // The backspace key ignores and resets the clearOnNextKeyPress flag. The rationale is that if a user has
           // entered an incorrect value and wants to correct it by using the backspace, then it should work like
           // the backspace always does instead of clearing the display.
-          self._armedForNewEntry = false;
+          self._clearOnNextKeyPress = false;
 
           // Remove the last character
           self.valueStringProperty.set( self.valueStringProperty.get().slice( 0, -1 ) );
@@ -91,9 +91,9 @@ define( function( require ) {
     var keyCallback = function( keyString ) {
 
       // If armed for new entry, clear the existing string.
-      if ( self._armedForNewEntry ) {
+      if ( self._clearOnNextKeyPress ) {
         self.valueStringProperty.value = '';
-        self._armedForNewEntry = false;
+        self._clearOnNextKeyPress = false;
       }
 
       // process the keyString
@@ -243,26 +243,30 @@ define( function( require ) {
 
     /**
      * Determines whether pressing a key (except for the backspace) will clear the existing value.
-     * @param {boolean} armedForNewEntry
+     * @param {boolean} clearOnNextKeyPress
      * @public
      */
-    setArmedForNewEntry: function( armedForNewEntry ) {
-      this._armedForNewEntry = armedForNewEntry;
+    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+      this._clearOnNextKeyPress = clearOnNextKeyPress;
     },
-    set armedForNewEntry( value ) { this.setArmedForNewEntry( value ); },
+    set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
 
 
     /**
      * Will pressing a key (except for the backspace point) clear the existing value?
      * @returns {boolean}
      */
-    getArmedForNewEntry: function() {
-      return this._armedForNewEntry;
+    getClearOnNextKeyPress: function() {
+      return this._clearOnNextKeyPress;
     },
-    get armedForNewEntry() { return this.getArmedForNewEntry(); }
+    get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
   }, {
 
-    // Functions for creating useful values for options.validateKey
+    /**
+     * Functions for creating useful values for options.validateKey
+     * @public
+     * @static
+     */
     validateMaxDigits: validateMaxDigits
   } );
 } );

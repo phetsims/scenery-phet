@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2016, University of Colorado Boulder
 
 /**
  * A composite Scenery node that brings together a keypad and a box where the entered values are displayed.  Kind of
@@ -105,8 +105,8 @@ define( function( require ) {
      * Determines whether pressing a key (except for the backspace) will clear the existing value.
      * @public
      */
-    setArmedForNewEntry: function( armedForNewEntry ) {
-      this.keypad.armedForNewEntry = armedForNewEntry;
+    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+      this.keypad.clearOnNextKeyPress = clearOnNextKeyPress;
     }
   } );
 } );
