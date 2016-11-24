@@ -18,6 +18,8 @@ define( function( require ) {
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
+  var Property = require( 'AXON/Property' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
@@ -42,7 +44,7 @@ define( function( require ) {
         function( model ) {return new ButtonsView();},
         {
           name: 'Buttons',
-          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
+          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
           homeScreenIcon: createScreenIcon( 'red' )
         }
       ),
@@ -52,7 +54,7 @@ define( function( require ) {
         function( model ) {return new SlidersView();},
         {
           name: 'Sliders',
-          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
+          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
           homeScreenIcon: createScreenIcon( 'yellow' )
         }
       ),
@@ -62,7 +64,7 @@ define( function( require ) {
         function( model ) {return new ComponentsView();},
         {
           name: 'Components',
-          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
+          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
           homeScreenIcon: createScreenIcon( 'orange' )
         }
       ),
@@ -72,7 +74,7 @@ define( function( require ) {
         function( model ) {return new SpringView();},
         {
           name: 'Spring',
-          backgroundColor: sceneryPhetQueryParameters.backgroundColor,
+          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
           homeScreenIcon: createScreenIcon( 'blue' )
         }
       )
