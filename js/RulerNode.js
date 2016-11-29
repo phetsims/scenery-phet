@@ -214,6 +214,6 @@ define( function( require ) {
     // @public - Provide dispose() on the prototype for ease of subclassing.
     dispose: function() {
       this.disposeRulerNode();
-    },
+    }
   } );
 } );
