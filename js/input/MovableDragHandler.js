@@ -48,21 +48,18 @@ define( function( require ) {
     var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
     // @private - note where the drag started
-    this.movableDragHandlerStart = function( event ) {
+    this.movableDragHandlerStart = function( event, trail ) {
 
       options.startDrag( event );
 
       // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-      var targetNode = options.targetNode || event.currentTarget;
       var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
-      startOffset = targetNode.globalToParentPoint( event.pointer.point ).minus( location );
+      startOffset = ( options.targetNode ? options.targetNode : trail ).globalToParentPoint( event.pointer.point ).minus( location );
     };
 
     // @private - change the location, adjust for starting offset, constrain to drag bounds
-    this.movableDragHandlerDrag = function( event ) {
-
-      var targetNode = options.targetNode || event.currentTarget;
-      var parentPoint = targetNode.globalToParentPoint( event.pointer.point ).minus( startOffset );
+    this.movableDragHandlerDrag = function( event, trail ) {
+      var parentPoint = ( options.targetNode ? options.targetNode : trail ).globalToParentPoint( event.pointer.point ).minus( startOffset );
       var location = self._modelViewTransform.viewToModelPosition( parentPoint );
       location = self._dragBounds.closestPointTo( location );
 
@@ -72,7 +69,7 @@ define( function( require ) {
     };
 
     // @private
-    this.movableDragHandlerEnd = function( event ) {
+    this.movableDragHandlerEnd = function( event, trail ) {
       options.endDrag( event );
     };
 
