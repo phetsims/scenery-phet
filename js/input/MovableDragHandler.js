@@ -135,8 +135,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedStartEvent: function( event ) {
-      this.movableDragHandlerStart( event );
+    handleForwardedStartEvent: function( event, trail ) {
+      this.movableDragHandlerStart( event, trail );
     },
 
     /**
@@ -144,8 +144,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedDragEvent: function( event ) {
-      this.movableDragHandlerDrag( event );
+    handleForwardedDragEvent: function( event, trail ) {
+      this.movableDragHandlerDrag( event, trail );
     },
 
     /**
@@ -153,8 +153,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedEndEvent: function( event ) {
-      this.movableDragHandlerEnd( event );
+    handleForwardedEndEvent: function( event, trail ) {
+      this.movableDragHandlerEnd( event, trail );
     }
   } );
 } );
