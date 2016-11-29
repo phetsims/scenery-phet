@@ -137,9 +137,7 @@ define( function( require ) {
 
           // line
           if ( options.tickMarksOnTop ) {
-
-          .
-            moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
+            majorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
           }
           if ( options.tickMarksOnBottom ) {
             majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
