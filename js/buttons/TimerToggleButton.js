@@ -55,7 +55,7 @@ define( function( require ) {
     } ) );
 
     BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend( {
-      baseColor: PhetColorScheme.PHET_YELLOW,
+      baseColor: PhetColorScheme.PHET_LOGO_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,

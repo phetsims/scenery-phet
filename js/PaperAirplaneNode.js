@@ -22,7 +22,7 @@ define( function( require ) {
   function PaperAirplaneNode( options ) {
 
     options = _.extend( {
-      fill: PhetColorScheme.PHET_YELLOW
+      fill: PhetColorScheme.PHET_LOGO_YELLOW
     }, options );
 
     // Define the shape, from the points in the PhET Logo AI file, see https://github.com/phetsims/scenery-phet/issues/75
