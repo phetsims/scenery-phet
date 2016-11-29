@@ -33,6 +33,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
+  var KeyPadLayout = require( 'SCENERY_PHET/KeyPadLayout' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
@@ -75,6 +76,7 @@ define( function( require ) {
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
+      { label: 'KeyPadLayout', getNode: demoKeyPadLayout },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'ProbeNode', getNode: demoProbeNode },
       { label: 'RulerNode', getNode: demoRulerNode },
@@ -539,6 +541,385 @@ define( function( require ) {
       ],
       center: layoutBounds.center
     } );
+  };
+
+  // creates a demo for KeyPad Layout
+  var demoKeyPadLayout = function( layoutBounds ){
+    // layout 1
+    var keysSet1 = [
+      {
+        column: 0,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '7'
+      },
+      {
+        column: 1,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '8'
+      },
+      {
+        column: 2,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '9'
+      },
+      {
+        column: 0,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '4'
+      },
+      {
+        column: 1,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '5'
+      },
+      {
+        column: 2,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '6'
+      },
+      {
+        column: 0,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '1'
+      },
+      {
+        column: 1,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '2'
+      },
+      {
+        column: 2,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '3'
+      },
+      {
+        column: 0,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: 'B'
+      },
+      {
+        column: 1,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '0'
+      },
+      {
+        column: 2,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '.'
+      }
+    ];
+    var keyPadLayout1 = new KeyPadLayout( keysSet1 );
+
+    // layout 2
+    var keysSet2 = [
+      {
+        column: 0,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '7'
+      },
+      {
+        column: 1,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '8'
+      },
+      {
+        column: 2,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '9'
+      },
+      {
+        column: 0,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '4'
+      },
+      {
+        column: 1,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '5'
+      },
+      {
+        column: 2,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '6'
+      },
+      {
+        column: 0,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '1'
+      },
+      {
+        column: 1,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '2'
+      },
+      {
+        column: 2,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '3'
+      },
+      {
+        column: 0,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 2,
+        content: 'B'
+      },
+      {
+        column: 2,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '0'
+      }
+    ];
+    var keyPadLayout2 = new KeyPadLayout( keysSet2 );
+
+    // layout 3
+    var keysSet3 = [
+      {
+        column: 0,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '7'
+      },
+      {
+        column: 1,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '8'
+      },
+      {
+        column: 2,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '9'
+      },
+      {
+        column: 0,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '4'
+      },
+      {
+        column: 1,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '5'
+      },
+      {
+        column: 2,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '6'
+      },
+      {
+        column: 0,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '1'
+      },
+      {
+        column: 1,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '2'
+      },
+      {
+        column: 2,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '3'
+      },
+      {
+        column: 0,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: 'B'
+      },
+      {
+        column: 2,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '0'
+      }
+    ];
+    var keyPadLayout3 = new KeyPadLayout( keysSet3 );
+
+    // layout 4
+    var keysSet4 = [
+      {
+        column: 0,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '7'
+      },
+      {
+        column: 1,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '8'
+      },
+      {
+        column: 2,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '9'
+      },
+      {
+        column: 3,
+        row: 0,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: 'x'
+      },
+      {
+        column: 0,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '4'
+      },
+      {
+        column: 1,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '5'
+      },
+      {
+        column: 2,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '6'
+      },
+      {
+        column: 3,
+        row: 1,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: 'y'
+      },
+      {
+        column: 0,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '1'
+      },
+      {
+        column: 1,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '2'
+      },
+      {
+        column: 2,
+        row: 2,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '3'
+      },
+      {
+        column: 3,
+        row: 2,
+        verticalSpan: 2,
+        horizontalSpan: 1,
+        content: '+'
+      },
+      {
+        column: 0,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: 'B'
+      },
+      {
+        column: 1,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '0'
+      },
+      {
+        column: 2,
+        row: 3,
+        verticalSpan: 1,
+        horizontalSpan: 1,
+        content: '.'
+      }
+    ];
+    var keyPadLayout4 = new KeyPadLayout( keysSet4 );
+
+    return new HBox( {
+      spacing: 100,
+      align: 'top',
+      children: [
+        keyPadLayout1,
+        keyPadLayout2,
+        keyPadLayout3,
+        keyPadLayout4
+      ],
+      center: layoutBounds.center
+    } );
+
   };
 
   // Creates a demo for NumberPicker
