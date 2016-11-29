@@ -11,13 +11,17 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var Shape = require( 'KITE/Shape' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+
+  // phet-io modules
+  var TRulerNode = require( 'ifphetio!PHET_IO/types/scenery-phet/TRulerNode' );
 
   // constants
   var DEFAULT_FONT = new PhetFont( 18 );
@@ -61,8 +65,13 @@ define( function( require ) {
 
       // appearance options
       tickMarksOnTop: true,
-      tickMarksOnBottom: true
+      tickMarksOnBottom: true,
+
+      // phet-io
+      tandem: Tandem.createDefaultTandem( 'rulerNode' )
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // things you're likely to mess up, add more as needed
     assert && assert( Math.floor( rulerWidth / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
@@ -70,13 +79,14 @@ define( function( require ) {
     assert && assert( options.majorTickHeight < rulerHeight / 2 );
     assert && assert( options.minorTickHeight < rulerHeight / 2 );
 
-    Node.call( this );
+    TandemNode.call( this, { tandem: options.tandem.createSupertypeTandem() } );
 
     // background
-    var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
+    var backgroundNode = new TandemRectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
-      lineWidth: options.backgroundLineWidth
+      lineWidth: options.backgroundLineWidth,
+      tandem: options.tandem.createTandem( 'backgroundNode' )
     } );
     this.addChild( backgroundNode );
 
@@ -86,14 +96,20 @@ define( function( require ) {
     var x = options.insetsWidth;
     var majorTickIndex = 0;
 
-    // Minimize number of nodes by using one Path for each type of tick line
+    // Minimize number of nodes by using one path for each type of tick line
     var majorTickLinesShape = new Shape();
     var minorTickLinesShape = new Shape();
 
     // Units label, which is positioned and (if necessary) scaled later
-    var unitsLabel = new Text( units, { font: options.unitsFont, pickable: false } );
+    var unitsLabel = new TandemText( units, {
+      font: options.unitsFont,
+      pickable: false,
+      tandem: options.tandem.createTandem( 'unitsLabel' )
+    } );
     var unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
     this.addChild( unitsLabel );
+
+    var majorTickLabelsGroupTandem = options.tandem.createGroupTandem( 'majorTickLabels' );
 
     for ( var i = 0; i < numberOfTicks; i++ ) {
 
@@ -103,11 +119,12 @@ define( function( require ) {
 
         // Create the tick label regardless of whether we add it, since it's required to layout the units label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
-        var majorTickLabelNode = new Text( majorTickLabel, {
+        var majorTickLabelNode = new TandemText( majorTickLabel, {
           font: options.majorTickFont,
           centerX: x,
           centerY: backgroundNode.centerY,
-          pickable: false
+          pickable: false,
+          tandem: majorTickLabelsGroupTandem.createNextTandem()
         } );
 
         // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
@@ -120,7 +137,9 @@ define( function( require ) {
 
           // line
           if ( options.tickMarksOnTop ) {
-            majorTickLinesShape.moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
+
+          .
+            moveTo( x, 0 ).lineTo( x, options.majorTickHeight );
           }
           if ( options.tickMarksOnBottom ) {
             majorTickLinesShape.moveTo( x, rulerHeight - options.majorTickHeight ).lineTo( x, rulerHeight );
@@ -166,23 +185,37 @@ define( function( require ) {
     }
 
     // Major tick lines
-    this.addChild( new Path( majorTickLinesShape, {
+    this.addChild( new TandemPath( majorTickLinesShape, {
       stroke: options.majorTickStroke,
       lineWidth: options.majorTickLineWidth,
-      pickable: false
+      pickable: false,
+      tandem: options.tandem.createTandem( 'majorTickLinesNode' )
     } ) );
 
     // Minor tick lines
-    this.addChild( new Path( minorTickLinesShape, {
+    this.addChild( new TandemPath( minorTickLinesShape, {
       stroke: options.minorTickStroke,
       lineWidth: options.minorTickLineWidth,
-      pickable: false
+      pickable: false,
+      tandem: options.tandem.createTandem( 'minorTickLinesNode' )
     } ) );
 
     this.mutate( options );
+
+    this.disposeRulerNode = function() {
+      options.tandem && options.tandem.removeInstance( this );
+    };
+
+    options.tandem.addInstance( this, TRulerNode );
   }
 
   sceneryPhet.register( 'RulerNode', RulerNode );
 
-  return inherit( Node, RulerNode );
+  return inherit( TandemNode, RulerNode, {
+
+    // @public - Provide dispose() on the prototype for ease of subclassing.
+    dispose: function() {
+      this.disposeRulerNode();
+    },
+  } );
 } );
