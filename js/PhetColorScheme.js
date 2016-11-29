@@ -24,7 +24,7 @@ define( function( require ) {
   var GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
   var TAN_ORANGE = new Color( 236, 153, 55 );
   var PHET_LOGO_BLUE = new Color( 106, 206, 245 ); // the color of the blue in the PhET logo
-  var PHET_LOGO_YELLOW = new Color( 242, 233, 22 ); // the color of the yellow in the PhET logo
+  var PHET_LOGO_YELLOW = new Color( 254, 225, 5 ); // the color of the yellow in the PhET logo
 
   var PhetColorScheme = {
     ACCELERATION: Color.GREEN,
