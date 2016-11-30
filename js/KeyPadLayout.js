@@ -44,8 +44,10 @@ define( function( require ) {
 
   return inherit( Node, KeyPadLayout, {
     createButtonNode: function( button, minWidth, minHeight, options ) {
+      var content = button.content instanceof Node ? button.content :
+                    new Text( button.content, { font: options.buttonFont } );
       var buttonNode = new RectangularPushButton( {
-        content: new Text( button.content, { font: options.buttonFont } ),
+        content: content,
         baseColor: options.buttonColor,
         minWidth: minWidth,
         minHeight: minHeight,

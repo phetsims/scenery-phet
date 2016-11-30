@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
@@ -545,6 +546,28 @@ define( function( require ) {
 
   // creates a demo for KeyPad Layout
   var demoKeyPadLayout = function( layoutBounds ){
+    var minButtonWidth = 35;
+    var minButtonHeight = 35;
+    var backSpaceIconLayout1 = new BackspaceIcon();
+    backSpaceIconLayout1.scale(
+      Math.min( minButtonWidth / backSpaceIconLayout1.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout1.height )
+    );
+
+    var backSpaceIconLayout2 = new BackspaceIcon();
+    backSpaceIconLayout2.scale(
+      Math.min( minButtonWidth / backSpaceIconLayout2.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout2.height )
+    );
+
+    var backSpaceIconLayout3 = new BackspaceIcon();
+    backSpaceIconLayout3.scale(
+      Math.min( minButtonWidth / backSpaceIconLayout3.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout3.height )
+    );
+
+    var backSpaceIconLayout4 = new BackspaceIcon();
+    backSpaceIconLayout4.scale(
+      Math.min( minButtonWidth / backSpaceIconLayout4.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout4.height )
+    );
+
     // layout 1
     var keysSet1 = [
       {
@@ -615,7 +638,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: 'B'
+        content: backSpaceIconLayout1
       },
       {
         column: 1,
@@ -632,7 +655,10 @@ define( function( require ) {
         content: '.'
       }
     ];
-    var keyPadLayout1 = new KeyPadLayout( keysSet1 );
+    var keyPadLayout1 = new KeyPadLayout( keysSet1, {
+      minButtonWidth: minButtonWidth,
+      minButtonHeight: minButtonHeight
+    } );
 
     // layout 2
     var keysSet2 = [
@@ -704,7 +730,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 2,
-        content: 'B'
+        content: backSpaceIconLayout2
       },
       {
         column: 2,
@@ -714,7 +740,10 @@ define( function( require ) {
         content: '0'
       }
     ];
-    var keyPadLayout2 = new KeyPadLayout( keysSet2 );
+    var keyPadLayout2 = new KeyPadLayout( keysSet2, {
+      minButtonWidth: minButtonWidth,
+      minButtonHeight: minButtonHeight
+    } );
 
     // layout 3
     var keysSet3 = [
@@ -786,7 +815,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: 'B'
+        content: backSpaceIconLayout3
       },
       {
         column: 2,
@@ -796,7 +825,10 @@ define( function( require ) {
         content: '0'
       }
     ];
-    var keyPadLayout3 = new KeyPadLayout( keysSet3 );
+    var keyPadLayout3 = new KeyPadLayout( keysSet3, {
+      minButtonWidth: minButtonWidth,
+      minButtonHeight: minButtonHeight
+    } );
 
     // layout 4
     var keysSet4 = [
@@ -889,7 +921,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: 'B'
+        content: backSpaceIconLayout4
       },
       {
         column: 1,
@@ -906,7 +938,10 @@ define( function( require ) {
         content: '.'
       }
     ];
-    var keyPadLayout4 = new KeyPadLayout( keysSet4 );
+    var keyPadLayout4 = new KeyPadLayout( keysSet4, {
+      minButtonWidth: minButtonWidth,
+      minButtonHeight: minButtonHeight
+    } );
 
     return new HBox( {
       spacing: 100,
