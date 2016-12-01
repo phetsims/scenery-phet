@@ -33,9 +33,11 @@ define( function( require ) {
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
       onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
       allowTouchSnag: true, // Override this with false to prevent touch snagging.
-      targetNode: null, // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
-      // the target can be overriden here.  This is useful when you need to attach a listener to a sub-
-      // component of a node hierarchy
+
+      // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
+      // the target can be overriden here. This is useful when you need to attach a listener to a sub-component
+      // of a node hierarchy
+      targetNode: null,
       tandem: null
     }, options );
 
