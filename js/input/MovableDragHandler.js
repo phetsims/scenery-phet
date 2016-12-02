@@ -33,9 +33,11 @@ define( function( require ) {
       endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
       onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
       allowTouchSnag: true, // Override this with false to prevent touch snagging.
-      targetNode: null, // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
-      // the target can be overriden here.  This is useful when you need to attach a listener to a sub-
-      // component of a node hierarchy
+
+      // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
+      // the target can be overriden here. This is useful when you need to attach a listener to a sub-component
+      // of a node hierarchy
+      targetNode: null,
       tandem: null
     }, options );
 
@@ -48,21 +50,18 @@ define( function( require ) {
     var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
     // @private - note where the drag started
-    this.movableDragHandlerStart = function( event ) {
+    this.movableDragHandlerStart = function( event, trail ) {
 
       options.startDrag( event );
 
       // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-      var targetNode = options.targetNode || event.currentTarget;
       var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
-      startOffset = targetNode.globalToParentPoint( event.pointer.point ).minus( location );
+      startOffset = ( options.targetNode ? options.targetNode : trail ).globalToParentPoint( event.pointer.point ).minus( location );
     };
 
     // @private - change the location, adjust for starting offset, constrain to drag bounds
-    this.movableDragHandlerDrag = function( event ) {
-
-      var targetNode = options.targetNode || event.currentTarget;
-      var parentPoint = targetNode.globalToParentPoint( event.pointer.point ).minus( startOffset );
+    this.movableDragHandlerDrag = function( event, trail ) {
+      var parentPoint = ( options.targetNode ? options.targetNode : trail ).globalToParentPoint( event.pointer.point ).minus( startOffset );
       var location = self._modelViewTransform.viewToModelPosition( parentPoint );
       location = self._dragBounds.closestPointTo( location );
 
@@ -72,7 +71,7 @@ define( function( require ) {
     };
 
     // @private
-    this.movableDragHandlerEnd = function( event ) {
+    this.movableDragHandlerEnd = function( event, trail ) {
       options.endDrag( event );
     };
 
@@ -138,8 +137,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedStartEvent: function( event ) {
-      this.movableDragHandlerStart( event );
+    handleForwardedStartEvent: function( event, trail ) {
+      this.movableDragHandlerStart( event, trail );
     },
 
     /**
@@ -147,8 +146,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedDragEvent: function( event ) {
-      this.movableDragHandlerDrag( event );
+    handleForwardedDragEvent: function( event, trail ) {
+      this.movableDragHandlerDrag( event, trail );
     },
 
     /**
@@ -156,8 +155,8 @@ define( function( require ) {
      * @param event
      * @public
      */
-    handleForwardedEndEvent: function( event ) {
-      this.movableDragHandlerEnd( event );
+    handleForwardedEndEvent: function( event, trail ) {
+      this.movableDragHandlerEnd( event, trail );
     }
   } );
 } );
