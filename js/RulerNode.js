@@ -11,14 +11,14 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
+  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // phet-io modules
   var TRulerNode = require( 'ifphetio!PHET_IO/types/scenery-phet/TRulerNode' );
