@@ -85,6 +85,8 @@ define( function( require ) {
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ], {
+      comboBoxItemFont: new PhetFont( 12 ),
+      comboBoxItemYMargin: 3,
       selectedDemoLabel: sceneryPhetQueryParameters.component
     } );
   }
