@@ -74,16 +74,16 @@ define( function( require ) {
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
+      { label: 'KeyPadLayout', getNode: demoKeyPadLayout },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
-      { label: 'KeyPadLayout', getNode: demoKeyPadLayout },
       { label: 'NumberPicker', getNode: demoNumberPicker },
+      { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
       { label: 'ProbeNode', getNode: demoProbeNode },
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
-      { label: 'ThermometerNode', getNode: demoTemperatureNode },
-      { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode }
+      { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ], {
       selectedDemoLabel: sceneryPhetQueryParameters.component
     } );
