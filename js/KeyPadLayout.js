@@ -24,10 +24,40 @@ define( function( require ) {
       buttonFont: new PhetFont( { size: 20 } )
     }, options );
 
+    // get number of rows and columns from the input layout
+    var numRows = 0;
+    var numColumns = 0;
+    var i;
+    for( i = 0; i < buttons.length; i++ ){
+      if ( buttons[ i ].row + 1 > numRows ){
+        numRows = buttons[ i ].row + 1;
+      }
+      if ( buttons[ i ].column + 1 > numColumns ){
+        numColumns = buttons[ i ].column + 1;
+      }
+    }
+
+    var layoutGrid = [];
+
+    for( i = 0; i < numRows; i++ ){
+      layoutGrid[ i ] = [];
+      for( var j = 0; j < numColumns; j++ ){
+        layoutGrid[ i ][ j ] = 0;
+      }
+    }
 
     buttons.forEach( function( button ){
       var startColumn = button.column;
       var startRow = button.row;
+      var verticalSpan = button.verticalSpan;
+      var horizontalSpan = button.horizontalSpan;
+      // check for overlap of button
+      for( i = startRow; i < ( startRow + verticalSpan ); i++ ){
+        for ( j = startColumn; j < ( startColumn + horizontalSpan ); j++ ){
+          assert && assert( !layoutGrid[ i ][ j ], 'Keys Overlap in the Layout' );
+          layoutGrid[ i ][ j ] = true;
+        }
+      }
       var buttonWidth = button.horizontalSpan * options.minButtonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
       var buttonHeight = button.verticalSpan * options.minButtonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
 
@@ -36,7 +66,6 @@ define( function( require ) {
       buttonNode.top = startRow * options.minButtonHeight + startRow * options.ySpacing;
       self.addChild( buttonNode );
     }  );
-
     this.mutate( options );
   }
 
