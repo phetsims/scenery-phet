@@ -10,7 +10,12 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  function Keypad( buttons, options ) {
+  /**
+   * @param {Array.<object>} layout each object in this array represents a button in the grid with position span and content
+   * @param {object} options
+   * @constructor
+   */
+  function Keypad( layout, options ) {
     Node.call( this );
     var self = this;
     options = _.extend( {
@@ -26,12 +31,12 @@ define( function( require ) {
     var numRows = 0;
     var numColumns = 0;
     var i;
-    for( i = 0; i < buttons.length; i++ ){
-      if ( buttons[ i ].row + 1 > numRows ){
-        numRows = buttons[ i ].row + 1;
+    for( i = 0; i < layout.length; i++ ){
+      if ( layout[ i ].row + 1 > numRows ){
+        numRows = layout[ i ].row + 1;
       }
-      if ( buttons[ i ].column + 1 > numColumns ){
-        numColumns = buttons[ i ].column + 1;
+      if ( layout[ i ].column + 1 > numColumns ){
+        numColumns = layout[ i ].column + 1;
       }
     }
 
@@ -44,7 +49,7 @@ define( function( require ) {
       }
     }
 
-    buttons.forEach( function( button ){
+    layout.forEach( function( button ){
       var startColumn = button.column;
       var startRow = button.row;
       var verticalSpan = button.verticalSpan;
