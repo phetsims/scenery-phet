@@ -34,7 +34,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
-  var KeyPadLayout = require( 'SCENERY_PHET/KeyPadLayout' );
+  var Keypad = require( 'SCENERY_PHET/Keypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
@@ -74,7 +74,7 @@ define( function( require ) {
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
-      { label: 'KeyPadLayout', getNode: demoKeyPadLayout },
+      { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
@@ -546,8 +546,8 @@ define( function( require ) {
     } );
   };
 
-  // creates a demo for KeyPad Layout
-  var demoKeyPadLayout = function( layoutBounds ){
+  // creates a demo for Keypad
+  var demoKeypad = function( layoutBounds ){
     var minButtonWidth = 35;
     var minButtonHeight = 35;
     var backSpaceIconLayout1 = new BackspaceIcon();
@@ -657,7 +657,7 @@ define( function( require ) {
         content: '.'
       }
     ];
-    var keyPadLayout1 = new KeyPadLayout( keysSet1, {
+    var keyPadLayout1 = new Keypad( keysSet1, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
@@ -742,7 +742,7 @@ define( function( require ) {
         content: '0'
       }
     ];
-    var keyPadLayout2 = new KeyPadLayout( keysSet2, {
+    var keyPadLayout2 = new Keypad( keysSet2, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
@@ -827,7 +827,7 @@ define( function( require ) {
         content: '0'
       }
     ];
-    var keyPadLayout3 = new KeyPadLayout( keysSet3, {
+    var keyPadLayout3 = new Keypad( keysSet3, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
@@ -940,7 +940,7 @@ define( function( require ) {
         content: '.'
       }
     ];
-    var keyPadLayout4 = new KeyPadLayout( keysSet4, {
+    var keyPadLayout4 = new Keypad( keysSet4, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );

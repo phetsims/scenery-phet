@@ -10,12 +10,10 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  function KeyPadLayout( buttons, options ) {
+  function Keypad( buttons, options ) {
     Node.call( this );
     var self = this;
     options = _.extend( {
-      //numRows: 4,
-      //numColumns: 3,
       minButtonWidth: 35,
       minButtonHeight: 35,
       xSpacing: 10,
@@ -69,9 +67,9 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  sceneryPhet.register( 'KeyPadLayout', KeyPadLayout );
+  sceneryPhet.register( 'Keypad', Keypad );
 
-  return inherit( Node, KeyPadLayout, {
+  return inherit( Node, Keypad, {
     createButtonNode: function( button, minWidth, minHeight, options ) {
       var content = button.content instanceof Node ? button.content :
                     new Text( button.content, { font: options.buttonFont } );
