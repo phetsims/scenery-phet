@@ -28,7 +28,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -166,7 +166,7 @@ define( function( require ) {
     var baseStartOffset;
 
     // @private
-    this.baseDragHandler = new TandemDragHandler( {
+    this.baseDragHandler = new TandemSimpleDragHandler( {
       tandem: this.tandem ? this.tandem.createTandem( 'baseDragHandler' ) : null,
 
       allowTouchSnag: true,
@@ -213,7 +213,7 @@ define( function( require ) {
     var tipStartOffset;
 
     // init drag and drop for tip
-    tip.addInputListener( new TandemDragHandler( {
+    tip.addInputListener( new TandemSimpleDragHandler( {
       tandem: this.tandem ? this.tandem.createTandem( 'tipDragHandler' ) : null,
 
       allowTouchSnag: true,

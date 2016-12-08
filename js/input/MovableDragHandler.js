@@ -13,7 +13,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
@@ -75,7 +75,7 @@ define( function( require ) {
       options.endDrag( event );
     };
 
-    TandemDragHandler.call( this, {
+    TandemSimpleDragHandler.call( this, {
       tandem: options.tandem,
       allowTouchSnag: options.allowTouchSnag,
       start: this.movableDragHandlerStart,
@@ -86,9 +86,9 @@ define( function( require ) {
 
   sceneryPhet.register( 'MovableDragHandler', MovableDragHandler );
 
-  // MovableDragHandler extends TandemDragHandler to facilitate phet-io instrumentation.  If no tandem is provided,
+  // MovableDragHandler extends TandemSimpleDragHandler to facilitate phet-io instrumentation.  If no tandem is provided,
   // then no additional work is done.
-  return inherit( TandemDragHandler, MovableDragHandler, {
+  return inherit( TandemSimpleDragHandler, MovableDragHandler, {
 
     /**
      * Sets the dragBounds.
