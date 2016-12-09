@@ -90,7 +90,7 @@ define( function( require ) {
      */
     var keyCallback = function( keyString ) {
 
-      // If armed for new entry, clear the existing string.
+      // If set to clear the value on the next key press, clear the existing string.
       if ( self._clearOnNextKeyPress ) {
         self.valueStringProperty.value = '';
         self._clearOnNextKeyPress = false;
