@@ -15,9 +15,10 @@ define( function( require ) {
    * @param {object} options
    * @constructor
    */
-  function Keypad( layout, options ) {
+  function Keypad( layout, accumulator, options ) {
     Node.call( this );
     var self = this;
+    this.accumulator = accumulator;
     options = _.extend( {
       minButtonWidth: 35,
       minButtonHeight: 35,
@@ -76,8 +77,9 @@ define( function( require ) {
 
   return inherit( Node, Keypad, {
     createButtonNode: function( button, minWidth, minHeight, options ) {
-      var content = button.content instanceof Node ? button.content :
-                    new Text( button.content, { font: options.buttonFont } );
+      var self = this;
+      var content = button.key.displayNode instanceof Node ? button.key.displayNode :
+                    new Text( button.key.displayNode, { font: options.buttonFont } );
       var buttonNode = new RectangularPushButton( {
         content: content,
         baseColor: options.buttonColor,
@@ -85,7 +87,10 @@ define( function( require ) {
         minHeight: minHeight,
         xMargin: 5,
         yMargin: 5,
-        listener: function() { }
+        listener: function() {
+          var newAccumulatedArray = button.key.handleKeyPressed( self.accumulator.accumulatedArrayProperty.get() );
+          self.accumulator.validateInput( newAccumulatedArray );
+        }
       } );
       buttonNode.scale( minWidth / buttonNode.width, minHeight / buttonNode.height );
       return buttonNode;

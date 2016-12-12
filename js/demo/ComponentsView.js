@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
+  var BackspaceKey = require( 'SCENERY_PHET/BackspaceKey' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
@@ -27,6 +28,8 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntegerAccumulator = require( 'SCENERY_PHET/IntegerAccumulator' );
+  var IntegerKey = require( 'SCENERY_PHET/IntegerKey' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -40,6 +43,7 @@ define( function( require ) {
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PlusMinusKey = require( 'SCENERY_PHET/PlusMinusKey' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -577,92 +581,102 @@ define( function( require ) {
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '7'
+        key: new IntegerKey( '7' )
       },
       {
         column: 1,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '8'
+        key: new IntegerKey( '8' )
       },
       {
         column: 2,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '9'
+        key: new IntegerKey( '9' )
       },
       {
         column: 0,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '4'
+        key: new IntegerKey( '4' )
       },
       {
         column: 1,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '5'
+        key: new IntegerKey( '5' )
       },
       {
         column: 2,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '6'
+        key: new IntegerKey( '6' )
       },
       {
         column: 0,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '1'
+        key: new IntegerKey( '1' )
       },
       {
         column: 1,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '2'
+        key: new IntegerKey( '2' )
       },
       {
         column: 2,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '3'
+        key: new IntegerKey( '3' )
       },
       {
         column: 0,
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: backSpaceIconLayout1
+        key: new BackspaceKey( minButtonWidth, minButtonHeight )
       },
       {
         column: 1,
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '0'
+        key: new IntegerKey( '0' )
       },
       {
         column: 2,
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        content: '.'
-      }
+        key: new PlusMinusKey()
+      },
     ];
-    var keyPadLayout1 = new Keypad( keysSet1, {
+
+    var accumulator = new IntegerAccumulator( 3 );
+    accumulator.valueProperty.link( function( val ){
+      console.log( val );
+    } );
+
+    accumulator.displayProperty.link( function( val ){
+      console.log( val );
+    } );
+
+    var keyPadLayout1 = new Keypad( keysSet1, accumulator, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
 
-    // layout 2
+    /*// layout 2
     var keysSet2 = [
       {
         column: 0,
@@ -944,15 +958,15 @@ define( function( require ) {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
-
+*/
     return new HBox( {
       spacing: 100,
       align: 'top',
       children: [
-        keyPadLayout1,
-        keyPadLayout2,
-        keyPadLayout3,
-        keyPadLayout4
+        keyPadLayout1
+        //keyPadLayout2,
+        //keyPadLayout3,
+        //keyPadLayout4
       ],
       center: layoutBounds.center
     } );
