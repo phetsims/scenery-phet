@@ -36,13 +36,13 @@ define( function( require ) {
       baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
       width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
       snapToZero: true, // controls whether the slider will snap to the off.
-      heatCoolLevelProperty: new Property( 0 ), // Property set through interaction with slider.  Max value for heating, min for cooling.
+      heatCoolAmountProperty: new Property( 0 ), // Property set through interaction with slider.  +1 for max heating, -1 for max cooling.
       heatEnabled: true, // Can this node heat the environment?
       coolEnabled: true // Can this node cool the environment?
     }, options );
 
     // @public
-    this.heatCoolLevelProperty = options.heatCoolLevelProperty;
+    this.heatCoolAmountProperty = options.heatCoolAmountProperty;
 
     // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
     var heaterCoolerBack = new HeaterCoolerBack( options );
