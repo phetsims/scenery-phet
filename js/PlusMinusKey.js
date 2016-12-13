@@ -14,16 +14,22 @@ define( function( require ) {
   sceneryPhet.register( 'PlusMinusKey', PlusMinusKey);
 
   return inherit( AbstractKey, PlusMinusKey, {
-    handleKeyPressed: function( array ){
-      var newArray = _.clone( array );
-      if ( newArray.length > 0 ){
-        // check if first element of array is instance of this class
-        if ( newArray[ 0 ].identifier === this.identifier ){
-          newArray.shift();
-        }
-        else{
-          newArray.unshift( this );
-        }
+    handleKeyPressed: function( accumulator ){
+
+      var newArray;
+      if ( accumulator.getClearOnNextKeyPress() ){
+        newArray = [];
+        accumulator.setClearOnNextKeyPress( false );
+      }
+      else{
+        newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+      }
+      // check if first element of array is instance of this class
+      if ( newArray.length > 0 && newArray[ 0 ].identifier === this.identifier ){
+        newArray.shift();
+      }
+      else{
+        newArray.unshift( this );
       }
       return newArray;
     }

@@ -19,8 +19,11 @@ define( function( require ) {
   sceneryPhet.register( 'BackspaceKey', BackspaceKey);
 
   return inherit( AbstractKey, BackspaceKey, {
-    handleKeyPressed: function( array ){
-      var newArray = _.clone( array );
+    handleKeyPressed: function( accumulator ){
+      var newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+      if ( accumulator.getClearOnNextKeyPress() ){
+        accumulator.setClearOnNextKeyPress( false );
+      }
       newArray.pop( );
       return newArray;
     }
