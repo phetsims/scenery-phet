@@ -13,8 +13,15 @@ define( function( require ) {
 
   sceneryPhet.register( 'IntegerKey', IntegerKey );
   return inherit( AbstractKey, IntegerKey, {
-    handleKeyPressed: function( array ){
-      var newArray = _.clone( array );
+    handleKeyPressed: function( accumulator ){
+      var newArray;
+      if ( accumulator.getClearOnNextKeyPress() ){
+        newArray = [];
+        accumulator.setClearOnNextKeyPress( false );
+      }
+      else{
+        newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+      }
       newArray.push( this );
       return newArray;
     }

@@ -12,6 +12,7 @@ define( function( require ) {
 
   /**
    * @param {Array.<object>} layout each object in this array represents a button in the grid with position span and content
+   * @param {IntegerAccumulator} accumulator
    * @param {object} options
    * @constructor
    */
@@ -88,7 +89,7 @@ define( function( require ) {
         xMargin: 5,
         yMargin: 5,
         listener: function() {
-          var newAccumulatedArray = button.key.handleKeyPressed( self.accumulator.accumulatedArrayProperty.get() );
+          var newAccumulatedArray = button.key.handleKeyPressed( self.accumulator );
           self.accumulator.validateInput( newAccumulatedArray );
         }
       } );

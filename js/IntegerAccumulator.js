@@ -9,12 +9,16 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  function IntegerAccumulator( allowedLength ) {
-    this.allowedLength = allowedLength;
+  function IntegerAccumulator( options ) {
+    options = _.extend( {
+      allowedLength: Number.MAX_SAFE_INTEGER.toString().length
+    }, options );
+
+    this.options = options;
     this.accumulatedArrayProperty = new Property( [] );
     this.displayProperty = new Property( this.displayValue( this.accumulatedArrayProperty.get(), 0 ) );
     this.valueProperty = new Property( this.logicalValue( this.accumulatedArrayProperty.get(), 0 ) );
-    
+    this._clearOnNextKeyPress = false; //@private
   }
 
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
@@ -41,7 +45,7 @@ define( function( require ) {
     validateInput: function( accumulatedArray ){
       var length = accumulatedArray.length;
       var multiplier = 1;
-      var allowedLength = this.allowedLength;
+      var allowedLength = this.options.allowedLength;
       var startIndex = 0;
       var startString = '';
       if( length > 0  && accumulatedArray[0] instanceof PlusMinusKey ){
@@ -55,6 +59,34 @@ define( function( require ) {
         this.displayProperty.set( startString.concat( this.displayValue( this.accumulatedArrayProperty.get(), startIndex ) ) );
         this.valueProperty.set( this.logicalValue( this.accumulatedArrayProperty.get(), startIndex ) * multiplier );
       }
-    }
+    },
+
+    clear: function(){
+      this.accumulatedArrayProperty.reset();
+      this.displayProperty.reset();
+      this.valueProperty.reset();
+      this.setClearOnNextKeyPress( false );
+    },
+
+    /**
+     * Determines whether pressing a key (except for the backspace) will clear the existing value.
+     * @param {boolean} clearOnNextKeyPress
+     * @public
+     */
+    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+      this._clearOnNextKeyPress = clearOnNextKeyPress;
+    },
+    set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
+
+
+    /**
+     * Will pressing a key (except for the backspace point) clear the existing value?
+     * @returns {boolean}
+     */
+    getClearOnNextKeyPress: function() {
+      return this._clearOnNextKeyPress;
+    },
+    get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
+
   } );
 } );

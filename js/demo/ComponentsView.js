@@ -13,7 +13,6 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var BackspaceKey = require( 'SCENERY_PHET/BackspaceKey' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
@@ -49,6 +48,7 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
@@ -554,25 +554,7 @@ define( function( require ) {
   var demoKeypad = function( layoutBounds ){
     var minButtonWidth = 35;
     var minButtonHeight = 35;
-    var backSpaceIconLayout1 = new BackspaceIcon();
-    backSpaceIconLayout1.scale(
-      Math.min( minButtonWidth / backSpaceIconLayout1.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout1.height )
-    );
 
-    var backSpaceIconLayout2 = new BackspaceIcon();
-    backSpaceIconLayout2.scale(
-      Math.min( minButtonWidth / backSpaceIconLayout2.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout2.height )
-    );
-
-    var backSpaceIconLayout3 = new BackspaceIcon();
-    backSpaceIconLayout3.scale(
-      Math.min( minButtonWidth / backSpaceIconLayout3.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout3.height )
-    );
-
-    var backSpaceIconLayout4 = new BackspaceIcon();
-    backSpaceIconLayout4.scale(
-      Math.min( minButtonWidth / backSpaceIconLayout4.width * 0.7, ( minButtonHeight * 0.65 ) / backSpaceIconLayout4.height )
-    );
 
     // layout 1
     var keysSet1 = [
@@ -659,22 +641,59 @@ define( function( require ) {
         verticalSpan: 1,
         horizontalSpan: 1,
         key: new PlusMinusKey()
-      },
+      }
     ];
 
-    var accumulator = new IntegerAccumulator( 3 );
+    var accumulator = new IntegerAccumulator( { allowedLength: 5 } );
+
+    // value of integerKeypad is displayed here
+    var integerText = new Text( '', { font: new PhetFont( 24 ) } );
+
     accumulator.valueProperty.link( function( val ){
       console.log( val );
     } );
 
     accumulator.displayProperty.link( function( val ){
-      console.log( val );
+      integerText.text = val;
     } );
 
     var keyPadLayout1 = new Keypad( keysSet1, accumulator, {
       minButtonWidth: minButtonWidth,
       minButtonHeight: minButtonHeight
     } );
+
+    var clearButton = new RectangularPushButton( {
+      content: new Text( 'Clear Keypad' ),
+      listener: function() {
+        accumulator.clear();
+      }
+    } );
+
+    var clearOnNextKeyPressButton = new RectangularPushButton( {
+      content: new Text( 'Clear On Next Key Press' ),
+      listener: function() {
+        accumulator.setClearOnNextKeyPress( true );
+      }
+    } );
+
+    var buttonNode = new HBox( {
+      spacing: 40,
+      align: 'top',
+      children: [
+        clearButton,
+        clearOnNextKeyPressButton
+      ]
+    } );
+
+    var keyPad1 = new VBox( {
+      spacing: 30,
+      children: [
+        integerText,
+        keyPadLayout1,
+        buttonNode
+      ]
+    } );
+
 
     /*// layout 2
     var keysSet2 = [
@@ -963,7 +982,7 @@ define( function( require ) {
       spacing: 100,
       align: 'top',
       children: [
-        keyPadLayout1
+        keyPad1
         //keyPadLayout2,
         //keyPadLayout3,
         //keyPadLayout4
