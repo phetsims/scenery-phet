@@ -16,8 +16,8 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
 
   // constants
-  var TRIANGLE_LENGTH = 25;
-  var TRIANGLE_ALTITUDE = Math.sqrt( 3 ) / 2 * TRIANGLE_LENGTH;
+  var TRIANGLE_LENGTH = 17;
+  var TRIANGLE_ALTITUDE = 10;
   var LEFT_TRIANGLE_SHAPE = new Shape()
     .moveTo( 0, 0 )
     .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
@@ -33,7 +33,7 @@ define( function( require ) {
    */
   function TriangleNode( direction, options ) {
     assert && assert( direction === 'right' || direction === 'left', 'Direction should be right or left' );
-    options = _.extend( { stroke: 'black', lineWidth: 2 }, options );
+    options = _.extend( { stroke: 'black', lineWidth: 1 }, options );
     Path.call( this, direction === 'right' ? RIGHT_TRIANGLE_SHAPE : LEFT_TRIANGLE_SHAPE, options );
   }
 
