@@ -22,6 +22,11 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+
+  // phet-io modules
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    *
@@ -33,25 +38,40 @@ define( function( require ) {
 
     options = _.extend( {
       font: new PhetFont(),
-      align: 'center' // 'center', 'left' or 'right' (as supported by VBox)
+      align: 'center', // 'center', 'left' or 'right' (as supported by VBox)
+      tandem: Tandem.createDefaultTandem( 'multiLineText' )
     }, options );
+
+    Tandem.validateOptions( options );
 
     // Normally individual properties from options should be stored rather than the entire options instance,
     // but in this case the options is stored because it must be propagated to child text instances
     this.options = options; // @private
 
-    Node.call( this );
+    TandemNode.call( this, {
+      tandem: options.tandem.createSupertypeTandem()
+    } );
 
     this._text = null; // @private underscore prefix because it has ES5 set/get
     this.textParent = null; // @private
     this.text = text; // call ES5 setter
 
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
+
+    options.tandem.addInstance( this, TNode );
+
+    this.disposeMultiLineText = function() {
+      options.tandem.removeInstance( this );
+    };
   }
 
   sceneryPhet.register( 'MultiLineText', MultiLineText );
 
   return inherit( Node, MultiLineText, {
+
+    dispose: function() {
+      this.disposeMultiLineText();
+    },
 
       /**
        * Sets the text.
