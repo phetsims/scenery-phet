@@ -1,4 +1,9 @@
 // Copyright 2016, University of Colorado Boulder
+
+/**
+ * IntegerAccumulator class contains the keys pressed by user and process over those inputs to get logical value and
+ * display value
+ */
 define( function( require ) {
   'use strict';
 
@@ -24,6 +29,7 @@ define( function( require ) {
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
 
   return inherit( Object, IntegerAccumulator, {
+
     displayValue: function( accumulatedArray, index ){
       var returnValue = '';
       for( var i = index; i < accumulatedArray.length; i++ ){
@@ -42,7 +48,7 @@ define( function( require ) {
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
-    validateInput: function( accumulatedArray ){
+    validateAndProcessInput: function( accumulatedArray ){
       var length = accumulatedArray.length;
       var multiplier = 1;
       var allowedLength = this.options.allowedLength;

@@ -1,4 +1,13 @@
 // Copyright 2016, University of Colorado Boulder
+
+/**
+ * Base class for the key which specifies that key should contain display node for display, value if any identifier for
+ * internal use
+ * All they keys are derived from this class and have to implement onKeyPressed function
+ *
+ * @author Aadish Gupta
+ */
+
 define( function( require ) {
   'use strict';
 
@@ -17,16 +26,10 @@ define( function( require ) {
   return inherit( Object, AbstractKey, {
 
     onKeyPressed: function(){
-      // To Be Implemented by Derived Class
+      assert && assert( false, 'Derived class should implement this function' );
     }
 
-    /*// helper functions
 
-    convertIntegerArrayToLogicalValue: function(){
-      var computedValue;
-      var computedString = '';
-
-    }*/
 
   } );
 } );

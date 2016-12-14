@@ -1,4 +1,13 @@
 // Copyright 2016, University of Colorado Boulder
+
+/**
+ * IntegerKey Class derived from AbstractKey class. Handles Single Digit only.
+ *
+ * When this key is pressed it adds the instance of the class at the end of the array
+ *
+ * @author Aadish Gupta
+ */
+
 define( function( require ) {
   'use strict';
 
@@ -7,11 +16,17 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  function IntegerKey( integerRep ) {
-    AbstractKey.call( this, integerRep, parseInt( integerRep, 10 ), integerRep );
+  /**
+   * @param {number} integer
+   * @constructor
+   */
+  function IntegerKey( integer ) {
+    assert && assert( integer.toString().length === 1, 'Integer Key Handles Single Digit Only' );
+    AbstractKey.call( this, integer.toString(), integer, integer );
   }
 
   sceneryPhet.register( 'IntegerKey', IntegerKey );
+
   return inherit( AbstractKey, IntegerKey, {
     handleKeyPressed: function( accumulator ){
       var newArray;
