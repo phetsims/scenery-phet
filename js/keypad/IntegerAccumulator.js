@@ -9,8 +9,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerKey = require( 'SCENERY_PHET/IntegerKey' );
-  var PlusMinusKey = require( 'SCENERY_PHET/PlusMinusKey' );
+  var IntegerKey = require( 'SCENERY_PHET/keypad/IntegerKey' );
+  var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 

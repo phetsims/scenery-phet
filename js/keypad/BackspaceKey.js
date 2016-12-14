@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AbstractKey = require( 'SCENERY_PHET/AbstractKey' );
+  var AbstractKey = require( 'SCENERY_PHET/keypad/AbstractKey' );
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );

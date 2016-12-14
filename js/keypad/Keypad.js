@@ -11,12 +11,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BackspaceKey = require( 'SCENERY_PHET/BackspaceKey' );
+  var BackspaceKey = require( 'SCENERY_PHET/keypad/BackspaceKey' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerKey = require( 'SCENERY_PHET/IntegerKey' );
+  var IntegerKey = require( 'SCENERY_PHET/keypad/IntegerKey' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlusMinusKey = require( 'SCENERY_PHET/PlusMinusKey' );
+  var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
