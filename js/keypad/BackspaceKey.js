@@ -1,12 +1,11 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * BackspaceKey Class derived from AbstractKey class. Does not have any value associated with it.
- * When this key is presses it removes the last object from the array and returns the new array
+ * backspace key for use in the keypad - when this key is presses it removes the last object from the accumulated keys
+ * array and returns the new array
  *
  * @author Aadish Gupta
  */
-
 define( function( require ) {
   'use strict';
 
@@ -16,6 +15,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  /**
+   * @param {number} width
+   * @param {number} height
+   * @constructor
+   */
   function BackspaceKey( width, height ) {
     var backSpaceIcon = new BackspaceIcon();
     backSpaceIcon.scale(
@@ -27,6 +31,13 @@ define( function( require ) {
   sceneryPhet.register( 'BackspaceKey', BackspaceKey);
 
   return inherit( AbstractKey, BackspaceKey, {
+
+    /**
+     * @override
+     * @param accumulator
+     * @returns {*}
+     * @public
+     */
     handleKeyPressed: function( accumulator ){
       var newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
       if ( accumulator.getClearOnNextKeyPress() ){

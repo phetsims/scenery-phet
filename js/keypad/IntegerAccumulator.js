@@ -9,7 +9,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerKey = require( 'SCENERY_PHET/keypad/IntegerKey' );
+  var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
   var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -33,7 +33,7 @@ define( function( require ) {
     displayValue: function( accumulatedArray, index ){
       var returnValue = '';
       for( var i = index; i < accumulatedArray.length; i++ ){
-        assert && assert( accumulatedArray[i] instanceof IntegerKey, 'This Accumulator Only Supports Integer Key' );
+        assert && assert( accumulatedArray[ i ] instanceof DigitKey, 'This Accumulator Only Supports Integer Key' );
         returnValue = returnValue.concat( accumulatedArray[ i ].identifier );
       }
       return returnValue;

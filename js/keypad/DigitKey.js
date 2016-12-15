@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * IntegerKey Class derived from AbstractKey class. Handles Single Digit only.
+ * DigitKey Class derived from AbstractKey class. Handles Single Digit only.
  *
  * When this key is pressed it adds the instance of the class at the end of the array
  *
@@ -17,17 +17,24 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {number} integer
+   * @param {number} digit
    * @constructor
    */
-  function IntegerKey( integer ) {
-    assert && assert( integer.toString().length === 1, 'Integer Key Handles Single Digit Only' );
-    AbstractKey.call( this, integer.toString(), integer, integer );
+  function DigitKey( digit ) {
+    assert && assert( !isNaN( digit ) && digit >= 0 && digit <= 9, 'digit must be a number between 0 and 9' );
+    AbstractKey.call( this, digit.toString(), digit, digit );
   }
 
-  sceneryPhet.register( 'IntegerKey', IntegerKey );
+  sceneryPhet.register( 'DigitKey', DigitKey );
 
-  return inherit( AbstractKey, IntegerKey, {
+  return inherit( AbstractKey, DigitKey, {
+
+    /**
+     * @override
+     * @param accumulator
+     * @returns {Array.<AbstractKey>}
+     * @public
+     */
     handleKeyPressed: function( accumulator ){
       var newArray;
       if ( accumulator.getClearOnNextKeyPress() ){

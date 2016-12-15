@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var BackspaceKey = require( 'SCENERY_PHET/keypad/BackspaceKey' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerKey = require( 'SCENERY_PHET/keypad/IntegerKey' );
+  var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
@@ -131,63 +131,63 @@ define( function( require ) {
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 7 )
+        key: new DigitKey( 7 )
       },
       {
         column: 1,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 8 )
+        key: new DigitKey( 8 )
       },
       {
         column: 2,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 9 )
+        key: new DigitKey( 9 )
       },
       {
         column: 0,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 4 )
+        key: new DigitKey( 4 )
       },
       {
         column: 1,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 5 )
+        key: new DigitKey( 5 )
       },
       {
         column: 2,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 6 )
+        key: new DigitKey( 6 )
       },
       {
         column: 0,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 1 )
+        key: new DigitKey( 1 )
       },
       {
         column: 1,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 2 )
+        key: new DigitKey( 2 )
       },
       {
         column: 2,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 3 )
+        key: new DigitKey( 3 )
       },
       {
         column: 2,
@@ -201,7 +201,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 2,
-        key: new IntegerKey( 0 )
+        key: new DigitKey( 0 )
       }
     ],
     NegativeNumberLayout: [
@@ -210,63 +210,63 @@ define( function( require ) {
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 7 )
+        key: new DigitKey( 7 )
       },
       {
         column: 1,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 8 )
+        key: new DigitKey( 8 )
       },
       {
         column: 2,
         row: 0,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 9 )
+        key: new DigitKey( 9 )
       },
       {
         column: 0,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 4 )
+        key: new DigitKey( 4 )
       },
       {
         column: 1,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 5 )
+        key: new DigitKey( 5 )
       },
       {
         column: 2,
         row: 1,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 6 )
+        key: new DigitKey( 6 )
       },
       {
         column: 0,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 1 )
+        key: new DigitKey( 1 )
       },
       {
         column: 1,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 2 )
+        key: new DigitKey( 2 )
       },
       {
         column: 2,
         row: 2,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 3 )
+        key: new DigitKey( 3 )
       },
       {
         column: 2,
@@ -280,7 +280,7 @@ define( function( require ) {
         row: 3,
         verticalSpan: 1,
         horizontalSpan: 1,
-        key: new IntegerKey( 0 )
+        key: new DigitKey( 0 )
       },
       {
         column: 0,
