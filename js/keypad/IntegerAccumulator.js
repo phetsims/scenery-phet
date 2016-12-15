@@ -1,11 +1,16 @@
 // Copyright 2016, University of Colorado Boulder
+
+/**
+ * IntegerAccumulator class contains the keys pressed by user and process over those inputs to get logical value and
+ * display value
+ */
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerKey = require( 'SCENERY_PHET/IntegerKey' );
-  var PlusMinusKey = require( 'SCENERY_PHET/PlusMinusKey' );
+  var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
+  var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -24,10 +29,11 @@ define( function( require ) {
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
 
   return inherit( Object, IntegerAccumulator, {
+
     displayValue: function( accumulatedArray, index ){
       var returnValue = '';
       for( var i = index; i < accumulatedArray.length; i++ ){
-        assert && assert( accumulatedArray[i] instanceof IntegerKey, 'This Accumulator Only Supports Integer Key' );
+        assert && assert( accumulatedArray[ i ] instanceof DigitKey, 'This Accumulator Only Supports Integer Key' );
         returnValue = returnValue.concat( accumulatedArray[ i ].identifier );
       }
       return returnValue;
@@ -42,7 +48,7 @@ define( function( require ) {
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
-    validateInput: function( accumulatedArray ){
+    validateAndProcessInput: function( accumulatedArray ){
       var length = accumulatedArray.length;
       var multiplier = 1;
       var allowedLength = this.options.allowedLength;

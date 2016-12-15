@@ -13,7 +13,6 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var BackspaceKey = require( 'SCENERY_PHET/BackspaceKey' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
@@ -27,8 +26,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerAccumulator = require( 'SCENERY_PHET/IntegerAccumulator' );
-  var IntegerKey = require( 'SCENERY_PHET/IntegerKey' );
+  var IntegerAccumulator = require( 'SCENERY_PHET/keypad/IntegerAccumulator' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -36,13 +34,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
-  var Keypad = require( 'SCENERY_PHET/Keypad' );
+  var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlusMinusKey = require( 'SCENERY_PHET/PlusMinusKey' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -552,114 +549,25 @@ define( function( require ) {
 
   // creates a demo for Keypad
   var demoKeypad = function( layoutBounds ){
-    var minButtonWidth = 35;
-    var minButtonHeight = 35;
-
-
-    // layout 1
-    var keysSet1 = [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '7' )
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '8' )
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '9' )
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '4' )
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '5' )
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '6' )
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '1' )
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '2' )
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '3' )
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new BackspaceKey( minButtonWidth, minButtonHeight )
-      },
-      {
-        column: 1,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new IntegerKey( '0' )
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new PlusMinusKey()
-      }
-    ];
+    var buttonWidth = 35;
+    var buttonHeight = 35;
 
     var accumulator = new IntegerAccumulator( { allowedLength: 5 } );
 
-    // value of integerKeypad is displayed here
-    var integerText = new Text( '', { font: new PhetFont( 24 ) } );
+    var stringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+    var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
     accumulator.valueProperty.link( function( val ){
-      console.log( val );
+      valueRepresentation.text = 'Arithmetic Value: ' + val;
     } );
 
     accumulator.displayProperty.link( function( val ){
-      integerText.text = val;
+      stringRepresentation.text = 'Display: ' + val;
     } );
 
-    var keyPadLayout1 = new Keypad( keysSet1, accumulator, {
-      minButtonWidth: minButtonWidth,
-      minButtonHeight: minButtonHeight
+    var keyPad = new Keypad( Keypad.NegativeNumberLayout, accumulator, {
+      buttonWidth: buttonWidth,
+      buttonHeight: buttonHeight
     } );
 
     var clearButton = new RectangularPushButton( {
@@ -685,307 +593,21 @@ define( function( require ) {
       ]
     } );
 
-    var keyPad1 = new VBox( {
+    var keyPadCombo = new VBox( {
       spacing: 30,
       children: [
-        integerText,
-        keyPadLayout1,
+        valueRepresentation,
+        stringRepresentation,
+        keyPad,
         buttonNode
       ]
     } );
 
-
-    /*// layout 2
-    var keysSet2 = [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '7'
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '8'
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '9'
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '4'
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '5'
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '6'
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '1'
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '2'
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '3'
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 2,
-        content: backSpaceIconLayout2
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '0'
-      }
-    ];
-    var keyPadLayout2 = new Keypad( keysSet2, {
-      minButtonWidth: minButtonWidth,
-      minButtonHeight: minButtonHeight
-    } );
-
-    // layout 3
-    var keysSet3 = [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '7'
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '8'
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '9'
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '4'
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '5'
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '6'
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '1'
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '2'
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '3'
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: backSpaceIconLayout3
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '0'
-      }
-    ];
-    var keyPadLayout3 = new Keypad( keysSet3, {
-      minButtonWidth: minButtonWidth,
-      minButtonHeight: minButtonHeight
-    } );
-
-    // layout 4
-    var keysSet4 = [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '7'
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '8'
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '9'
-      },
-      {
-        column: 3,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: 'x'
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '4'
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '5'
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '6'
-      },
-      {
-        column: 3,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: 'y'
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '1'
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '2'
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '3'
-      },
-      {
-        column: 3,
-        row: 2,
-        verticalSpan: 2,
-        horizontalSpan: 1,
-        content: '+'
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: backSpaceIconLayout4
-      },
-      {
-        column: 1,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '0'
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        content: '.'
-      }
-    ];
-    var keyPadLayout4 = new Keypad( keysSet4, {
-      minButtonWidth: minButtonWidth,
-      minButtonHeight: minButtonHeight
-    } );
-*/
     return new HBox( {
       spacing: 100,
       align: 'top',
       children: [
-        keyPad1
-        //keyPadLayout2,
-        //keyPadLayout3,
-        //keyPadLayout4
+        keyPadCombo
       ],
       center: layoutBounds.center
     } );
