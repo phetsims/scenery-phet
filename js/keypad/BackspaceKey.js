@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * backspace key for use in the keypad - when this key is presses it removes the last object from the accumulated keys
+ * backspace key for use in the keypad - when this key is pressed it removes the last object from the accumulated keys
  * array and returns the new array
  *
  * @author Aadish Gupta

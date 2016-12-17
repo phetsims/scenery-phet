@@ -552,7 +552,7 @@ define( function( require ) {
     var buttonWidth = 35;
     var buttonHeight = 35;
 
-    var accumulator = new IntegerAccumulator( { allowedLength: 5 } );
+    var accumulator = new IntegerAccumulator( { maxLength: 5 } );
 
     var stringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
     var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
@@ -561,7 +561,7 @@ define( function( require ) {
       valueRepresentation.text = 'Arithmetic Value: ' + val;
     } );
 
-    accumulator.displayProperty.link( function( val ){
+    accumulator.stringProperty.link( function( val ) {
       stringRepresentation.text = 'Display: ' + val;
     } );
 

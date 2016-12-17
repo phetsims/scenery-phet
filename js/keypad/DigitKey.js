@@ -3,7 +3,7 @@
 /**
  * DigitKey Class derived from AbstractKey class. Handles Single Digit only.
  *
- * When this key is pressed it adds the instance of the class at the end of the array
+ * When this key is pressed it adds the instance of the class at the end of the accumulated keys array.
  *
  * @author Aadish Gupta
  */
@@ -47,7 +47,6 @@ define( function( require ) {
       newArray.push( this );
       return newArray;
     }
-
 
   } );
 } );

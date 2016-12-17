@@ -1,8 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * IntegerAccumulator class contains the keys pressed by user and process over those inputs to get logical value and
- * display value
+ * a key accumulator the works in conjunction with a keypad to collect user input for integer values
+ *
+ * @author Aadish Gupta
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -24,13 +26,21 @@ define( function( require ) {
     AbstractKeyAccumulator.call( this );
 
     options = _.extend( {
-      allowedLength: Number.MAX_SAFE_INTEGER.toString().length
+
+      // max number of digits that can be accumulated, the minus sign is not included in this
+      maxLength: Number.MAX_SAFE_INTEGER.toString().length
     }, options );
 
-    this.options = options;
-    this.displayProperty = new Property( this.displayValue( this.accumulatedKeysProperty.get(), 0 ) );
+    this.options = options; // @private
+
+    // @public - string representation of the keys entered by the user
+    this.stringProperty = new Property( this.displayValue( this.accumulatedKeysProperty.get(), 0 ) );
+
+    // @public - numerical value of the keys entered by the user
     this.valueProperty = new Property( this.logicalValue( this.accumulatedKeysProperty.get(), 0 ) );
-    this._clearOnNextKeyPress = false; //@private
+
+    // @private - flag that controls whether the next key entry should clear the accumulated value
+    this._clearOnNextKeyPress = false;
   }
 
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
@@ -58,18 +68,18 @@ define( function( require ) {
     validateAndProcessInput: function( accumulatedKeys ) {
       var length = accumulatedKeys.length;
       var multiplier = 1;
-      var allowedLength = this.options.allowedLength;
+      var maxLength = this.options.maxLength;
       var startIndex = 0;
       var startString = '';
       if ( length > 0 && accumulatedKeys[ 0 ] instanceof PlusMinusKey ) {
         multiplier = -1;
-        allowedLength += 1;
+        maxLength += 1;
         startIndex = 1;
         startString = '-';
       }
-      if ( accumulatedKeys.length <= allowedLength ) {
+      if ( accumulatedKeys.length <= maxLength ) {
         this.accumulatedKeysProperty.set( accumulatedKeys );
-        this.displayProperty.set( startString.concat( this.displayValue( this.accumulatedKeysProperty.get(), startIndex ) ) );
+        this.stringProperty.set( startString.concat( this.displayValue( this.accumulatedKeysProperty.get(), startIndex ) ) );
         this.valueProperty.set( this.logicalValue( this.accumulatedKeysProperty.get(), startIndex ) * multiplier );
       }
     },
@@ -80,7 +90,7 @@ define( function( require ) {
      */
     clear: function(){
       AbstractKeyAccumulator.prototype.clear.call( this );
-      this.displayProperty.reset();
+      this.stringProperty.reset();
       this.valueProperty.reset();
       this.setClearOnNextKeyPress( false );
     },
