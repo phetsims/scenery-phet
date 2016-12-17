@@ -8,74 +8,85 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
   var inherit = require( 'PHET_CORE/inherit' );
   var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
   var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  /**
+   * @param {Object} options
+   * @constructor
+   */
   function IntegerAccumulator( options ) {
+
+    AbstractKeyAccumulator.call( this );
+
     options = _.extend( {
       allowedLength: Number.MAX_SAFE_INTEGER.toString().length
     }, options );
 
     this.options = options;
-    this.accumulatedArrayProperty = new Property( [] );
-    this.displayProperty = new Property( this.displayValue( this.accumulatedArrayProperty.get(), 0 ) );
-    this.valueProperty = new Property( this.logicalValue( this.accumulatedArrayProperty.get(), 0 ) );
+    this.displayProperty = new Property( this.displayValue( this.accumulatedKeysProperty.get(), 0 ) );
+    this.valueProperty = new Property( this.logicalValue( this.accumulatedKeysProperty.get(), 0 ) );
     this._clearOnNextKeyPress = false; //@private
   }
 
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
 
-  return inherit( Object, IntegerAccumulator, {
+  return inherit( AbstractKeyAccumulator, IntegerAccumulator, {
 
-    displayValue: function( accumulatedArray, index ){
+    displayValue: function( accumulatedKeys, index ) {
       var returnValue = '';
-      for( var i = index; i < accumulatedArray.length; i++ ){
-        assert && assert( accumulatedArray[ i ] instanceof DigitKey, 'This Accumulator Only Supports Integer Key' );
-        returnValue = returnValue.concat( accumulatedArray[ i ].identifier );
+      for ( var i = index; i < accumulatedKeys.length; i++ ) {
+        assert && assert( accumulatedKeys[ i ] instanceof DigitKey, 'This Accumulator Only Supports Integer Key' );
+        returnValue = returnValue.concat( accumulatedKeys[ i ].identifier );
       }
       return returnValue;
     },
 
-    logicalValue: function( accumulatedArray, index ){
-      if ( accumulatedArray.length === 0 ){
+    logicalValue: function( accumulatedKeys, index ) {
+      if ( accumulatedKeys.length === 0 ) {
         return 0;
       }
 
-      var stringRepresentation = this.displayValue( accumulatedArray, index );
+      var stringRepresentation = this.displayValue( accumulatedKeys, index );
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
-    validateAndProcessInput: function( accumulatedArray ){
-      var length = accumulatedArray.length;
+    validateAndProcessInput: function( accumulatedKeys ) {
+      var length = accumulatedKeys.length;
       var multiplier = 1;
       var allowedLength = this.options.allowedLength;
       var startIndex = 0;
       var startString = '';
-      if( length > 0  && accumulatedArray[0] instanceof PlusMinusKey ){
+      if ( length > 0 && accumulatedKeys[ 0 ] instanceof PlusMinusKey ) {
         multiplier = -1;
         allowedLength += 1;
         startIndex = 1;
         startString = '-';
       }
-      if ( accumulatedArray.length <= allowedLength ){
-        this.accumulatedArrayProperty.set( accumulatedArray );
-        this.displayProperty.set( startString.concat( this.displayValue( this.accumulatedArrayProperty.get(), startIndex ) ) );
-        this.valueProperty.set( this.logicalValue( this.accumulatedArrayProperty.get(), startIndex ) * multiplier );
+      if ( accumulatedKeys.length <= allowedLength ) {
+        this.accumulatedKeysProperty.set( accumulatedKeys );
+        this.displayProperty.set( startString.concat( this.displayValue( this.accumulatedKeysProperty.get(), startIndex ) ) );
+        this.valueProperty.set( this.logicalValue( this.accumulatedKeysProperty.get(), startIndex ) * multiplier );
       }
     },
 
+    /**
+     * clear the accumulator
+     * @public
+     */
     clear: function(){
-      this.accumulatedArrayProperty.reset();
+      AbstractKeyAccumulator.prototype.clear.call( this );
       this.displayProperty.reset();
       this.valueProperty.reset();
       this.setClearOnNextKeyPress( false );
     },
 
     /**
-     * Determines whether pressing a key (except for the backspace) will clear the existing value.
+     * set a flag that will cause the accumulator to be cleared on the entry of the next non-backspace key
      * @param {boolean} clearOnNextKeyPress
      * @public
      */
@@ -86,8 +97,8 @@ define( function( require ) {
 
 
     /**
-     * Will pressing a key (except for the backspace point) clear the existing value?
      * @returns {boolean}
+     * @public
      */
     getClearOnNextKeyPress: function() {
       return this._clearOnNextKeyPress;

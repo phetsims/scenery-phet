@@ -42,7 +42,7 @@ define( function( require ) {
         accumulator.setClearOnNextKeyPress( false );
       }
       else{
-        newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+        newArray = _.clone( accumulator.accumulatedKeysProperty.get() );
       }
       newArray.push( this );
       return newArray;

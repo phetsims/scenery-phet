@@ -565,7 +565,7 @@ define( function( require ) {
       stringRepresentation.text = 'Display: ' + val;
     } );
 
-    var keyPad = new Keypad( Keypad.NegativeNumberLayout, accumulator, {
+    var keyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, accumulator, {
       buttonWidth: buttonWidth,
       buttonHeight: buttonHeight
     } );

@@ -32,7 +32,7 @@ define( function( require ) {
         accumulator.setClearOnNextKeyPress( false );
       }
       else{
-        newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+        newArray = _.clone( accumulator.accumulatedKeysProperty.get() );
       }
       // check if first element of array is instance of this class
       if ( newArray.length > 0 && newArray[ 0 ].identifier === this.identifier ){

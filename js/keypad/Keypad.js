@@ -1,10 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Class that creates the display node for an input keypad based on given layout and passes inputs to the
- * accumulator
+ * A flexible keypad that looks somewhat like a calculator or keyboard keypad.
  *
  * @author Aadish Gupta
+ * @author John Blanco
  */
 
 define( function( require ) {
@@ -12,8 +12,8 @@ define( function( require ) {
 
   // modules
   var BackspaceKey = require( 'SCENERY_PHET/keypad/BackspaceKey' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
@@ -21,8 +21,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  // Constants
-
+  // constants
   var DEFAULT_BUTTON_WIDTH = 35;
   var DEFAULT_BUTTON_HEIGHT = 35;
 
@@ -47,8 +46,8 @@ define( function( require ) {
       xMargin: 5,
       yMargin: 5,
       listener: function() {
-        var newAccumulatedArray = keyObject.key.handleKeyPressed( accumulator );
-        accumulator.validateAndProcessInput( newAccumulatedArray );
+        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( accumulator );
+        accumulator.validateAndProcessInput( newAccumulatedKeysArray );
       }
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
@@ -56,13 +55,14 @@ define( function( require ) {
   }
 
   /**
-   * @param {Array.<object>} layout each object in this array represents a button in the grid with position span and content
-   * Look for static layouts for more information on the array format
-   * @param {IntegerAccumulator} accumulator
-   * @param {object} options
+   * @param {Array.<object>} layout - an array that specifies the keys and the layout, see static instance below for
+   * example usage
+   * @param {AbstractAccumulator} accumulator - object that accumulates the keys pressed by the user
+   * @param {Object} options
    * @constructor
    */
   function Keypad( layout, accumulator, options ) {
+
     Node.call( this );
     var self = this;
     this.accumulator = accumulator;
@@ -97,35 +97,40 @@ define( function( require ) {
       }
     }
 
+    // interpret the layout specification
     layout.forEach( function( button ){
       var startColumn = button.column;
       var startRow = button.row;
       var verticalSpan = button.verticalSpan;
       var horizontalSpan = button.horizontalSpan;
-      // check for overlap of button
+
+      // check for overlap between the buttons
       for( i = startRow; i < ( startRow + verticalSpan ); i++ ){
         for ( j = startColumn; j < ( startColumn + horizontalSpan ); j++ ){
-          assert && assert( !occupiedLayoutGrid[ i ][ j ], 'Keys Overlap in the Layout' );
+          assert && assert( !occupiedLayoutGrid[ i ][ j ], 'keys overlap in the layout' );
           occupiedLayoutGrid[ i ][ j ] = true;
         }
       }
+
+      // create and add the buttons
       var buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
       var buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-
       var buttonNode = createKeyNode( button, self.accumulator, buttonWidth, buttonHeight, options );
       buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
       buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
       self.addChild( buttonNode );
     }  );
+
     this.mutate( options );
   }
 
   sceneryPhet.register( 'Keypad', Keypad );
 
   return inherit( Node, Keypad, {}, {
-    // static common layouts
 
-    PositiveNumberLayout: [
+    // -------------------- static common layouts -------------------------
+
+    PositiveIntegerLayout: [
       {
         column: 0,
         row: 0,
@@ -204,7 +209,8 @@ define( function( require ) {
         key: new DigitKey( 0 )
       }
     ],
-    NegativeNumberLayout: [
+
+    PositiveAndNegativeIntegerLayout: [
       {
         column: 0,
         row: 0,

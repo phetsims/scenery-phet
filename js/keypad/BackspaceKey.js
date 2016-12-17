@@ -39,7 +39,7 @@ define( function( require ) {
      * @public
      */
     handleKeyPressed: function( accumulator ){
-      var newArray = _.clone( accumulator.accumulatedArrayProperty.get() );
+      var newArray = _.clone( accumulator.accumulatedKeysProperty.get() );
       if ( accumulator.getClearOnNextKeyPress() ){
         accumulator.setClearOnNextKeyPress( false );
       }
