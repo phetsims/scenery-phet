@@ -23,7 +23,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // string
-  var decimalPointString = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
+  var DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
 
   /**
    * @param {Object} [options]
@@ -105,7 +105,7 @@ define( function( require ) {
     if ( options.decimalPointKey ) {
 
       // add a decimal point key plus a normal width zero key
-      bottomRowChildren.push( createKey( decimalPointString, keyCallback, keyOptions ) );
+      bottomRowChildren.push( createKey( DECIMAL_POINT, keyCallback, keyOptions ) );
       bottomRowChildren.push( createKey( '0', keyCallback, keyOptions ) );
     }
     else {
@@ -197,7 +197,7 @@ define( function( require ) {
      */
     return function( keyString, valueString ) {
 
-      var hasDecimalPoint = valueString.indexOf( decimalPointString ) !== -1;
+      var hasDecimalPoint = valueString.indexOf( DECIMAL_POINT ) !== -1;
       var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
 
       var newValueString;
@@ -206,17 +206,17 @@ define( function( require ) {
         // ignore multiple leading zeros
         newValueString = valueString;
       }
-      else if ( valueString === '0' && keyString !== '0' && keyString !== decimalPointString ) {
+      else if ( valueString === '0' && keyString !== '0' && keyString !== DECIMAL_POINT ) {
 
         // replace a leading 0 that's not followed by a decimal point with this key
         newValueString = keyString;
       }
-      else if ( keyString !== decimalPointString && numberOfDigits < options.maxDigits ) {
+      else if ( keyString !== DECIMAL_POINT && numberOfDigits < options.maxDigits ) {
 
         // constrain to maxDigits
         newValueString = valueString + keyString;
       }
-      else if ( keyString === decimalPointString && valueString.indexOf( decimalPointString ) === -1 ) {
+      else if ( keyString === DECIMAL_POINT && valueString.indexOf( DECIMAL_POINT ) === -1 ) {
 
         // allow one decimal point
         newValueString = valueString + keyString;
@@ -267,6 +267,12 @@ define( function( require ) {
      * @public
      * @static
      */
-    validateMaxDigits: validateMaxDigits
+    validateMaxDigits: validateMaxDigits,
+
+    /**
+     * String used for the decimal point. Needed for writing custom options.validateKey functions.
+     * @public
+     */
+    DECIMAL_POINT: DECIMAL_POINT
   } );
 } );
