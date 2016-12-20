@@ -34,10 +34,10 @@ define( function( require ) {
     this.options = options; // @private
 
     // @public - string representation of the keys entered by the user
-    this.stringProperty = new Property( this.displayValue( this.accumulatedKeysProperty.get(), 0 ) );
+    this.stringProperty = new Property( this.updateStringValue( this.accumulatedKeysProperty.get(), 0 ) );
 
     // @public - numerical value of the keys entered by the user
-    this.valueProperty = new Property( this.logicalValue( this.accumulatedKeysProperty.get(), 0 ) );
+    this.valueProperty = new Property( this.updateNumericalValue( this.accumulatedKeysProperty.get(), 0 ) );
 
     // @private - flag that controls whether the next key entry should clear the accumulated value
     this._clearOnNextKeyPress = false;
@@ -47,21 +47,23 @@ define( function( require ) {
 
   return inherit( AbstractKeyAccumulator, IntegerAccumulator, {
 
-    displayValue: function( accumulatedKeys, index ) {
+    // @private
+    updateStringValue: function( accumulatedKeys, index ) {
       var returnValue = '';
       for ( var i = index; i < accumulatedKeys.length; i++ ) {
-        assert && assert( accumulatedKeys[ i ] instanceof DigitKey, 'This Accumulator Only Supports Integer Key' );
+        assert && assert( accumulatedKeys[ i ] instanceof DigitKey, 'this accumulator only supports keys associated with integer values' );
         returnValue = returnValue.concat( accumulatedKeys[ i ].identifier );
       }
       return returnValue;
     },
 
-    logicalValue: function( accumulatedKeys, index ) {
+    // @private
+    updateNumericalValue: function( accumulatedKeys, index ) {
       if ( accumulatedKeys.length === 0 ) {
         return 0;
       }
 
-      var stringRepresentation = this.displayValue( accumulatedKeys, index );
+      var stringRepresentation = this.updateStringValue( accumulatedKeys, index );
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
@@ -79,8 +81,8 @@ define( function( require ) {
       }
       if ( accumulatedKeys.length <= maxLength ) {
         this.accumulatedKeysProperty.set( accumulatedKeys );
-        this.stringProperty.set( startString.concat( this.displayValue( this.accumulatedKeysProperty.get(), startIndex ) ) );
-        this.valueProperty.set( this.logicalValue( this.accumulatedKeysProperty.get(), startIndex ) * multiplier );
+        this.stringProperty.set( startString.concat( this.updateStringValue( this.accumulatedKeysProperty.get(), startIndex ) ) );
+        this.valueProperty.set( this.updateNumericalValue( this.accumulatedKeysProperty.get(), startIndex ) * multiplier );
       }
     },
 
@@ -104,7 +106,6 @@ define( function( require ) {
       this._clearOnNextKeyPress = clearOnNextKeyPress;
     },
     set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
-
 
     /**
      * @returns {boolean}

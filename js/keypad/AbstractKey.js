@@ -1,10 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Base class for keys used in a keypad - specifies the node to be displayed on the key, value if any identifier for
+ * Base type for keys used in a keypad - specifies the node to be displayed on the key, value if any identifier for
  * internal use
  *
- * All keys are derived from this class and must implement onKeyPressed function.
+ * All keys are derived from this class and must implement handleKeyPressed function.
  *
  * @author Aadish Gupta
  */
@@ -37,7 +37,7 @@ define( function( require ) {
      * classes.
      * @public
      */
-    onKeyPressed: function(){
+    handleKeyPressed: function() {
       assert && assert( false, 'Derived class should implement this function' );
     }
   } );

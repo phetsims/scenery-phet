@@ -29,13 +29,13 @@ define( function( require ) {
    * Helper function to create the display key node for the provided key object
    *
    * @param {Object} keyObject
-   * @param {IntegerAccumulator} accumulator
+   * @param {IntegerAccumulator} keyAccumulator
    * @param {number} width
    * @param {number} height
    * @param {Object} [options]
    * @returns {RectangularPushButton} keyNode
    */
-  function createKeyNode( keyObject, accumulator, width, height, options ) {
+  function createKeyNode( keyObject, keyAccumulator, width, height, options ) {
     var content = keyObject.key.displayNode instanceof Node ? keyObject.key.displayNode :
                   new Text( keyObject.key.displayNode, { font: options.buttonFont } );
     var keyNode = new RectangularPushButton( {
@@ -46,8 +46,8 @@ define( function( require ) {
       xMargin: 5,
       yMargin: 5,
       listener: function() {
-        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( accumulator );
-        accumulator.validateAndProcessInput( newAccumulatedKeysArray );
+        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( keyAccumulator );
+        keyAccumulator.validateAndProcessInput( newAccumulatedKeysArray );
       }
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
@@ -57,15 +57,15 @@ define( function( require ) {
   /**
    * @param {Array.<object>} layout - an array that specifies the keys and the layout, see static instance below for
    * example usage
-   * @param {AbstractAccumulator} accumulator - object that accumulates the keys pressed by the user
+   * @param {AbstractKeyAccumulator} keyAccumulator - object that accumulates the keys pressed by the user
    * @param {Object} options
    * @constructor
    */
-  function Keypad( layout, accumulator, options ) {
+  function Keypad( layout, keyAccumulator, options ) {
 
     Node.call( this );
     var self = this;
-    this.accumulator = accumulator;
+    this.keyAccumulator = keyAccumulator;
     options = _.extend( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
@@ -115,7 +115,7 @@ define( function( require ) {
       // create and add the buttons
       var buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
       var buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-      var buttonNode = createKeyNode( button, self.accumulator, buttonWidth, buttonHeight, options );
+      var buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
       buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
       buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
       self.addChild( buttonNode );

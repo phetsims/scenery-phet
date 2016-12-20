@@ -31,18 +31,18 @@ define( function( require ) {
 
     /**
      * @override
-     * @param accumulator
+     * @param keyAccumulator
      * @returns {Array.<AbstractKey>}
      * @public
      */
-    handleKeyPressed: function( accumulator ){
+    handleKeyPressed: function( keyAccumulator ) {
       var newArray;
-      if ( accumulator.getClearOnNextKeyPress() ){
+      if ( keyAccumulator.getClearOnNextKeyPress() ) {
         newArray = [];
-        accumulator.setClearOnNextKeyPress( false );
+        keyAccumulator.setClearOnNextKeyPress( false );
       }
       else{
-        newArray = _.clone( accumulator.accumulatedKeysProperty.get() );
+        newArray = _.clone( keyAccumulator.accumulatedKeysProperty.get() );
       }
       newArray.push( this );
       return newArray;
