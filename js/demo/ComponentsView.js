@@ -560,12 +560,12 @@ define( function( require ) {
     var stringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
     var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-    accumulator.stringProperty.link( function( val ) {
-      stringRepresentation.text = 'string: ' + val;
+    accumulator.stringProperty.link( function( value ) {
+      stringRepresentation.text = 'string: ' + value;
     } );
 
-    accumulator.valueProperty.link( function( val ){
-      valueRepresentation.text = 'number: ' + val;
+    accumulator.valueProperty.link( function( value ){
+      valueRepresentation.text = 'number: ' + value;
     } );
 
     var clearButton = new RectangularPushButton( {
