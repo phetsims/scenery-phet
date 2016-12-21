@@ -558,11 +558,11 @@ define( function( require ) {
     var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
     accumulator.valueProperty.link( function( val ){
-      valueRepresentation.text = 'Arithmetic Value: ' + val;
+      valueRepresentation.text = 'number: ' + val;
     } );
 
     accumulator.stringProperty.link( function( val ) {
-      stringRepresentation.text = 'Display: ' + val;
+      stringRepresentation.text = 'string: ' + val;
     } );
 
     var keyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, accumulator, {
@@ -577,41 +577,29 @@ define( function( require ) {
       }
     } );
 
-    var clearOnNextKeyPressButton = new RectangularPushButton( {
-      content: new Text( 'Clear On Next Key Press' ),
-      listener: function() {
-        accumulator.setClearOnNextKeyPress( true );
-      }
+    // For testing clearOnNextKeyPress feature
+    var clearOnNextKeyPressProperty = new Property( accumulator.getClearOnNextKeyPress() );
+    var clearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), clearOnNextKeyPressProperty );
+    clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+      accumulator.setClearOnNextKeyPress( clearOnNextKeyPress );
+    } );
+    accumulator.valueProperty.link( function( value ) {
+      clearOnNextKeyPressProperty.value = accumulator.getClearOnNextKeyPress();
     } );
 
-    var buttonNode = new HBox( {
-      spacing: 40,
-      align: 'top',
-      children: [
-        clearButton,
-        clearOnNextKeyPressButton
-      ]
-    } );
-
-    var keyPadCombo = new VBox( {
+    return new VBox( {
       spacing: 30,
+      resize: false,
+      align: 'left',
       children: [
         valueRepresentation,
         stringRepresentation,
         keyPad,
-        buttonNode
-      ]
-    } );
-
-    return new HBox( {
-      spacing: 100,
-      align: 'top',
-      children: [
-        keyPadCombo
+        clearButton,
+        clearOnNextKeyPressButton
       ],
       center: layoutBounds.center
     } );
-
   };
 
   // Creates a demo for NumberPicker
