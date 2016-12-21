@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * a key accumulator the works in conjunction with a keypad to collect user input for integer values
+ * A key accumulator that collects user input for integer values.
  *
  * @author Aadish Gupta
  * @author John Blanco
@@ -47,6 +47,7 @@ define( function( require ) {
 
   return inherit( AbstractKeyAccumulator, IntegerAccumulator, {
 
+    //TODO document me
     // @private
     updateStringValue: function( accumulatedKeys, index ) {
       var returnValue = '';
@@ -57,6 +58,7 @@ define( function( require ) {
       return returnValue;
     },
 
+    //TODO document me
     // @private
     updateNumericalValue: function( accumulatedKeys, index ) {
       if ( accumulatedKeys.length === 0 ) {
@@ -67,6 +69,7 @@ define( function( require ) {
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
+    //TODO document me
     validateAndProcessInput: function( accumulatedKeys ) {
       var length = accumulatedKeys.length;
       var multiplier = 1;

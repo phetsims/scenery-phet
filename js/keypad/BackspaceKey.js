@@ -1,8 +1,8 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * backspace key for use in the a keypad - when this key is pressed it removes the last object from the accumulated keys
- * array and returns the new array
+ * Backspace key for use in a keypad.
+ * Removes the last item from the array of accumulated keys.
  *
  * @author Aadish Gupta
  */
@@ -33,8 +33,7 @@ define( function( require ) {
   return inherit( AbstractKey, BackspaceKey, {
 
     /**
-     * method that is called when this key is pressed, generally removes the last item from the array of accumulated
-     * keys
+     * Removes the last item from the array of accumulated keys.
      * @param {AbstractKeyAccumulator} keyAccumulator
      * @returns {Array.<AbstractKey>}
      * @override

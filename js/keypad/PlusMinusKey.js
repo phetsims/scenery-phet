@@ -1,14 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * PlusMinusKey Class derived from AbstractKey class. Has no value associated with it.
- *
- * When this key is pressed it adds the instance of the class at the beginning of the array if it does not exist or
- * removes it if it does.
+ * Plus/minus key for use in a keypad, for toggling the sign.
  *
  * @author Aadish Gupta
  */
-
 define( function( require ) {
   'use strict';
 
@@ -29,9 +25,12 @@ define( function( require ) {
   return inherit( AbstractKey, PlusMinusKey, {
 
     /**
-     * method that is invoked when this key is pressed
+     * When this key is pressed it adds the instance of the class at the beginning of the array
+     * if it does not exist, or removes it if it does. This effectively toggles the sign.
      * @param {AbstractKeyAccumulator} keyAccumulator
      * @returns {Array.<AbstractKey>}
+     * @override
+     * @public
      */
     handleKeyPressed: function( keyAccumulator ) {
 

@@ -1,14 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Base type for keys used in a keypad - specifies the node to be displayed on the key, value if any identifier for
- * internal use
- *
- * All keys are derived from this class and must implement handleKeyPressed function.
+ * Base type for keys used in a keypad.
  *
  * @author Aadish Gupta
  */
-
 define( function( require ) {
   'use strict';
 
@@ -18,11 +14,13 @@ define( function( require ) {
 
   /**
    * @param {Node} displayNode - node that will appear on the key
-   * @param {number} value
-   * @param identifier
+   * @param {number} value TODO document me
+   * @param {string} identifier TODO document me
    * @constructor
    */
   function AbstractKey( displayNode, value, identifier ) {
+
+    //TODO visibility annotations?
     this.displayNode = displayNode;
     this.value = value;
     this.identifier = identifier;
@@ -33,12 +31,13 @@ define( function( require ) {
   return inherit( Object, AbstractKey, {
 
     /**
-     * Function that is called by the key accumulator when this key is pressed, must be implemented in descendant
-     * classes.
+     * Called by the key accumulator when this key is pressed.
+     * @param {AbstractKeyAccumulator} keyAccumulator
      * @public
+     * @abstract
      */
-    handleKeyPressed: function() {
-      assert && assert( false, 'Derived class should implement this function' );
+    handleKeyPressed: function( keyAccumulator ) {
+      throw new Error( 'abstract function must be implemented by subtypes' );
     }
   } );
 } );

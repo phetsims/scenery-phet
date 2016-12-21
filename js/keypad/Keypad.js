@@ -24,41 +24,13 @@ define( function( require ) {
   // constants
   var DEFAULT_BUTTON_WIDTH = 35;
   var DEFAULT_BUTTON_HEIGHT = 35;
+  var DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
 
   /**
-   * Helper function to create the display key node for the provided key object
-   *
-   * @param {Object} keyObject
-   * @param {IntegerAccumulator} keyAccumulator
-   * @param {number} width
-   * @param {number} height
-   * @param {Object} [options]
-   * @returns {RectangularPushButton} keyNode
-   */
-  function createKeyNode( keyObject, keyAccumulator, width, height, options ) {
-    var content = keyObject.key.displayNode instanceof Node ? keyObject.key.displayNode :
-                  new Text( keyObject.key.displayNode, { font: options.buttonFont } );
-    var keyNode = new RectangularPushButton( {
-      content: content,
-      baseColor: options.buttonColor,
-      minWidth: width,
-      minHeight: height,
-      xMargin: 5,
-      yMargin: 5,
-      listener: function() {
-        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( keyAccumulator );
-        keyAccumulator.validateAndProcessInput( newAccumulatedKeysArray );
-      }
-    } );
-    keyNode.scale( width / keyNode.width, height / keyNode.height );
-    return keyNode;
-  }
-
-  /**
-   * @param {Array.<object>} layout - an array that specifies the keys and the layout, see static instance below for
+   * @param {Array.<Object>} layout - an array that specifies the keys and the layout, see static instance below for
    * example usage
    * @param {AbstractKeyAccumulator} keyAccumulator - object that accumulates the keys pressed by the user
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function Keypad( layout, keyAccumulator, options ) {
@@ -72,7 +44,7 @@ define( function( require ) {
       xSpacing: 10,
       ySpacing: 10,
       buttonColor: 'white',
-      buttonFont: new PhetFont( { size: 20 } )
+      buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
     // determine number of rows and columns from the input layout
@@ -125,6 +97,43 @@ define( function( require ) {
   }
 
   sceneryPhet.register( 'Keypad', Keypad );
+
+  /**
+   * Helper function to create the display key node for the provided key object
+   *
+   * @param {Object} keyObject
+   * @param {IntegerAccumulator} keyAccumulator
+   * @param {number} width
+   * @param {number} height
+   * @param {Object} [options]
+   * @returns {RectangularPushButton} keyNode
+   */
+  function createKeyNode( keyObject, keyAccumulator, width, height, options ) {
+
+    options = _.extend( {
+      buttonColor: 'white',
+      buttonFont: DEFAULT_BUTTON_FONT
+    }, options );
+
+    var content = ( keyObject.key.displayNode instanceof Node ) ?
+                  keyObject.key.displayNode :
+                  new Text( keyObject.key.displayNode, { font: options.buttonFont } );
+
+    var keyNode = new RectangularPushButton( {
+      content: content,
+      baseColor: options.buttonColor,
+      minWidth: width,
+      minHeight: height,
+      xMargin: 5,
+      yMargin: 5,
+      listener: function() {
+        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( keyAccumulator );
+        keyAccumulator.validateAndProcessInput( newAccumulatedKeysArray );
+      }
+    } );
+    keyNode.scale( width / keyNode.width, height / keyNode.height );
+    return keyNode;
+  }
 
   return inherit( Node, Keypad, {}, {
 

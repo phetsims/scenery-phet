@@ -1,13 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * DigitKey Class derived from AbstractKey class. Handles Single Digit only.
- *
- * When this key is pressed it adds the instance of the class at the end of the accumulated keys array.
+ * Digit (integer) key for use in a keypad.
  *
  * @author Aadish Gupta
  */
-
 define( function( require ) {
   'use strict';
 
@@ -21,6 +18,8 @@ define( function( require ) {
    * @constructor
    */
   function DigitKey( digit ) {
+
+    //TODO should digit be an integer? i.e. DOT.Util.isInteger( digit )?
     assert && assert( !isNaN( digit ) && digit >= 0 && digit <= 9, 'digit must be a number between 0 and 9' );
     AbstractKey.call( this, digit.toString(), digit, digit );
   }
@@ -30,9 +29,9 @@ define( function( require ) {
   return inherit( AbstractKey, DigitKey, {
 
     /**
-     * @override
-     * @param keyAccumulator
+     * @param {AbstractKeyAccumulator} keyAccumulator
      * @returns {Array.<AbstractKey>}
+     * @override
      * @public
      */
     handleKeyPressed: function( keyAccumulator ) {

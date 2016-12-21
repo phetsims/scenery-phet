@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * base type for an object that accumulates key presses, works in conjunction with a keypad
+ * Base type for an object that accumulates key presses, works in conjunction with a keypad.
  *
  * @author John Blanco
  * @author Aadish Gupta
@@ -19,6 +19,7 @@ define( function( require ) {
    */
   function AbstractKeyAccumulator() {
 
+    //TODO what is the type of the array elements? Document like {Property.<[]?>}
     // @public - array property that tracks the accumulated key presses
     this.accumulatedKeysProperty = new Property( [] );
   }
@@ -28,7 +29,7 @@ define( function( require ) {
   return inherit( Object, AbstractKeyAccumulator, {
 
     /**
-     * clear the accumulated keys
+     * Clears the accumulated keys.
      * @public
      */
     clear: function() {
@@ -36,11 +37,12 @@ define( function( require ) {
     },
 
     /**
-     * validate the accumulated keys, must be implemented in descendant types
+     * Validates the accumulated keys.
      * @public
+     * @abstract
      */
     validateAndProcessInput: function( accumulatedKeys ) {
-      assert && assert( false, 'this function must be implemented in descendant types' );
+      throw new Error( 'abstract function must be implemented by subtypes' );
     }
 
   } );
