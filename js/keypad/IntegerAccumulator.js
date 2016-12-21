@@ -18,12 +18,10 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function IntegerAccumulator( options ) {
-
-    AbstractKeyAccumulator.call( this );
 
     options = _.extend( {
 
@@ -32,6 +30,8 @@ define( function( require ) {
     }, options );
 
     this.options = options; // @private
+
+    AbstractKeyAccumulator.call( this );
 
     // @public - string representation of the keys entered by the user
     this.stringProperty = new Property( this.updateStringValue( this.accumulatedKeysProperty.get(), 0 ) );
@@ -69,7 +69,7 @@ define( function( require ) {
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
-    //TODO document me
+    //TODO document me, add visibilty annotation
     validateAndProcessInput: function( accumulatedKeys ) {
       var length = accumulatedKeys.length;
       var multiplier = 1;

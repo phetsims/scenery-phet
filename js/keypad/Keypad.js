@@ -35,9 +35,6 @@ define( function( require ) {
    */
   function Keypad( layout, keyAccumulator, options ) {
 
-    Node.call( this );
-    var self = this;
-    this.keyAccumulator = keyAccumulator;
     options = _.extend( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
@@ -46,6 +43,12 @@ define( function( require ) {
       buttonColor: 'white',
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
+
+    Node.call( this );
+    var self = this;
+
+    //TODO add visibility annotation
+    this.keyAccumulator = keyAccumulator;
 
     // determine number of rows and columns from the input layout
     var numRows = 0;
