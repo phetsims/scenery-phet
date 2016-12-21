@@ -29,17 +29,20 @@ define( function( require ) {
       maxLength: Number.MAX_SAFE_INTEGER.toString().length
     }, options );
 
+    //TODO saving the entire options is an anti-pattern. And the only option actually used is maxLength.
     this.options = options; // @private
 
     AbstractKeyAccumulator.call( this );
 
+    //TODO @public (read-only) ?
     // @public - string representation of the keys entered by the user
     this.stringProperty = new Property( this.updateStringValue( this.accumulatedKeysProperty.get(), 0 ) );
 
+    //TODO @public (read-only) ?
     // @public - numerical value of the keys entered by the user
     this.valueProperty = new Property( this.updateNumericalValue( this.accumulatedKeysProperty.get(), 0 ) );
 
-    // @private - flag that controls whether the next key entry should clear the accumulated value
+    // @private - when true, the next key press (expect backspace) will clear the accumulated value
     this._clearOnNextKeyPress = false;
   }
 
@@ -105,7 +108,7 @@ define( function( require ) {
     },
 
     /**
-     * set a flag that will cause the accumulator to be cleared on the entry of the next non-backspace key
+     * Determines whether pressing a key (except for backspace) will clear the existing value.
      * @param {boolean} clearOnNextKeyPress
      * @public
      */
@@ -115,6 +118,7 @@ define( function( require ) {
     set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
 
     /**
+     * Will pressing a key (except for backspace) clear the existing value?
      * @returns {boolean}
      * @public
      */
