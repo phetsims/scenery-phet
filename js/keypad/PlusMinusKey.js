@@ -17,7 +17,7 @@ define( function( require ) {
    * @constructor
    */
   function PlusMinusKey( ) {
-    AbstractKey.call( this, '+/-', null, 'PlusMinus' ); //TODO Check how to represent this node
+    AbstractKey.call( this, '\u002b/\u2212', null, 'PlusMinus' );
   }
 
   sceneryPhet.register( 'PlusMinusKey', PlusMinusKey);
