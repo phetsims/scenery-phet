@@ -27,6 +27,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntegerAccumulator = require( 'SCENERY_PHET/keypad/IntegerAccumulator' );
+  var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -34,7 +35,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
-  var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Panel = require( 'SUN/Panel' );
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
