@@ -69,7 +69,11 @@ define( function( require ) {
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
 
-    //TODO document me, add visibilty annotation
+    /**
+     * TODO document me
+     * @public
+     * @override
+     */
     validateAndProcessInput: function( accumulatedKeys ) {
       var length = accumulatedKeys.length;
       var multiplier = 1;
