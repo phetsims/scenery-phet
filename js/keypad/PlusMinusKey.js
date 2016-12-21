@@ -13,14 +13,18 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  // constants
+  var PLUS_CHAR = '\u002b';
+  var MINUS_CHAR = '\u2212';
+
   /**
    * @constructor
    */
-  function PlusMinusKey( ) {
-    AbstractKey.call( this, '\u002b/\u2212', null, 'PlusMinus' );
+  function PlusMinusKey() {
+    AbstractKey.call( this, PLUS_CHAR + '/' + MINUS_CHAR, null, 'PlusMinus' );
   }
 
-  sceneryPhet.register( 'PlusMinusKey', PlusMinusKey);
+  sceneryPhet.register( 'PlusMinusKey', PlusMinusKey );
 
   return inherit( AbstractKey, PlusMinusKey, {
 
@@ -39,17 +43,20 @@ define( function( require ) {
         newArray = [];
         keyAccumulator.setClearOnNextKeyPress( false );
       }
-      else{
+      else {
         newArray = _.clone( keyAccumulator.accumulatedKeysProperty.get() );
       }
       // check if first element of array is instance of this class
-      if ( newArray.length > 0 && newArray[ 0 ].identifier === this.identifier ){
+      if ( newArray.length > 0 && newArray[ 0 ].identifier === this.identifier ) {
         newArray.shift();
       }
-      else{
+      else {
         newArray.unshift( this );
       }
       return newArray;
     }
+  }, {
+
+    MINUS_CHAR: MINUS_CHAR
   } );
 } );

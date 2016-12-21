@@ -82,7 +82,7 @@ define( function( require ) {
 
       // PlusMinusKey (if present) will be first key, and indicates that the number is negative
       if ( keys.length > 0 && keys[ i ] instanceof PlusMinusKey ) {
-        returnValue = NEGATIVE_CHAR;
+        returnValue = PlusMinusKey.MINUS_CHAR;
         i++;
       }
 
@@ -105,10 +105,12 @@ define( function( require ) {
      */
     stringToInteger: function( stringValue ) {
       var returnValue = 0; //TODO default should be null
-      if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === NEGATIVE_CHAR ) ) {
 
-        // replace Unicode negative sign with vanilla '-', or parseInt will fail for negative numbers
-        returnValue = parseInt( stringValue.replace( NEGATIVE_CHAR, '-' ), 10 );
+      // if stringValue contains something other than just a minus sign...
+      if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === PlusMinusKey.MINUS_CHAR ) ) {
+
+        // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
+        returnValue = parseInt( stringValue.replace( PlusMinusKey.MINUS_CHAR, '-' ), 10 );
       }
       assert && assert( !isNaN( returnValue ) && Util.isInteger( returnValue ), 'invalid integer: ' + returnValue );
       return returnValue;
