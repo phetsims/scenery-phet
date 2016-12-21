@@ -37,11 +37,12 @@ define( function( require ) {
     },
 
     /**
-     * Validates the accumulated keys.
+     * Validates a proposed set of keys and (if valid) updates other other state in the accumulator.
+     * @param {AbstractKey[]} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @abstract
      */
-    validateAndProcessInput: function( accumulatedKeys ) {
+    validateAndUpdate: function( proposedKeys ) {
       throw new Error( 'abstract function must be implemented by subtypes' );
     }
 

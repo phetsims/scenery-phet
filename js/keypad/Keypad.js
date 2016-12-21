@@ -130,8 +130,8 @@ define( function( require ) {
       xMargin: 5,
       yMargin: 5,
       listener: function() {
-        var newAccumulatedKeysArray = keyObject.key.handleKeyPressed( keyAccumulator );
-        keyAccumulator.validateAndProcessInput( newAccumulatedKeysArray );
+        var proposedKeys = keyObject.key.handleKeyPressed( keyAccumulator );
+        keyAccumulator.validateAndUpdate( proposedKeys );
       }
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
