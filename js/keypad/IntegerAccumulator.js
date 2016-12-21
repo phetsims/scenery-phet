@@ -64,10 +64,6 @@ define( function( require ) {
     //TODO document me
     // @private
     updateNumericalValue: function( accumulatedKeys, index ) {
-      if ( accumulatedKeys.length === 0 ) {
-        return 0;
-      }
-
       var stringRepresentation = this.updateStringValue( accumulatedKeys, index );
       return stringRepresentation.length > 0 ? parseInt( stringRepresentation, 10 ) : 0;
     },
