@@ -44,7 +44,7 @@ define( function( require ) {
 
     //TODO @public (read-only) ?
     // @public - numerical value of the keys entered by the user
-    this.valueProperty = new Property( this.stringToNumber( this.stringProperty.get() ) );
+    this.valueProperty = new Property( this.stringToInteger( this.stringProperty.get() ) );
 
     // @private - when true, the next key press (expect backspace) will clear the accumulated value
     this._clearOnNextKeyPress = false;
@@ -64,7 +64,7 @@ define( function( require ) {
       if ( this.getNumberOfDigits( proposedKeys ) <= this.options.maxLength ) {
         this.accumulatedKeysProperty.set( proposedKeys );
         this.stringProperty.set( this.keysToString( this.accumulatedKeysProperty.get() ) );
-        this.valueProperty.set( this.stringToNumber( this.stringProperty.get() ) );
+        this.valueProperty.set( this.stringToInteger( this.stringProperty.get() ) );
       }
     },
 
@@ -97,12 +97,12 @@ define( function( require ) {
     },
 
     /**
-     * Converts a string representation to a number.
+     * Converts a string representation to an integer.
      * @param {string} stringValue
      * @returns {number}
      * @private
      */
-    stringToNumber: function( stringValue ) {
+    stringToInteger: function( stringValue ) {
       var returnValue = 0; //TODO default should be null
       if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === NEGATIVE_CHAR ) ) {
 
