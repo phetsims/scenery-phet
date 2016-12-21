@@ -549,25 +549,23 @@ define( function( require ) {
 
   // creates a demo for Keypad
   var demoKeypad = function( layoutBounds ){
-    var buttonWidth = 35;
-    var buttonHeight = 35;
 
     var accumulator = new IntegerAccumulator( { maxLength: 5 } );
 
+    var keyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, accumulator, {
+      buttonWidth: 35,
+      buttonHeight: 35
+    } );
+
     var stringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
     var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
-
-    accumulator.valueProperty.link( function( val ){
-      valueRepresentation.text = 'number: ' + val;
-    } );
 
     accumulator.stringProperty.link( function( val ) {
       stringRepresentation.text = 'string: ' + val;
     } );
 
-    var keyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, accumulator, {
-      buttonWidth: buttonWidth,
-      buttonHeight: buttonHeight
+    accumulator.valueProperty.link( function( val ){
+      valueRepresentation.text = 'number: ' + val;
     } );
 
     var clearButton = new RectangularPushButton( {
