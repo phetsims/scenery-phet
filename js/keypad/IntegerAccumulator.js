@@ -20,7 +20,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // constants
-  var NEGATIVE_CHAR = '\u2212';
+  // var NEGATIVE_CHAR = '\u2212';
 
   /**
    * @param {Object} [options]
