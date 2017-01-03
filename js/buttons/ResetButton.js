@@ -17,6 +17,7 @@ define( function( require ) {
   var ResetShape = require( 'SCENERY_PHET/ResetShape' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
@@ -26,7 +27,7 @@ define( function( require ) {
 
     // radius is used in computation of defaults for other options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 24;
-    
+
     options = _.extend( {
       radius: BUTTON_RADIUS,
       minXMargin: BUTTON_RADIUS * 0.2,
@@ -39,7 +40,7 @@ define( function( require ) {
       xContentOffset: -0.03 * BUTTON_RADIUS,
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
-      tandem: null // Marker entry to indicate that tandem is supported (in the parent)
+      tandem: Tandem.createDefaultTandem( 'resetButton' )
     }, options );
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235

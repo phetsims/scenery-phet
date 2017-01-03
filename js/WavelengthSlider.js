@@ -82,7 +82,7 @@ define( function( require ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'wavelengthSlider' )
 
     }, options );
 
@@ -163,7 +163,7 @@ define( function( require ) {
         left: track.right + options.tweakersXSpacing,
         centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,
-        tandem: options.tandem && options.tandem.createTandem( 'plusButton' )
+        tandem: options.tandem.createTandem( 'plusButton' )
       } );
 
       minusButton = new ArrowButton( 'left', function() {
@@ -172,7 +172,7 @@ define( function( require ) {
         right: track.left - options.tweakersXSpacing,
         centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,
-        tandem: options.tandem && options.tandem.createTandem( 'minusButton' )
+        tandem: options.tandem.createTandem( 'minusButton' )
       } );
 
       // tweakers touchArea
@@ -218,7 +218,7 @@ define( function( require ) {
 
     track.addInputListener( new TandemSimpleDragHandler( {
 
-      tandem: options.tandem ? options.tandem.createTandem( 'trackInputListener' ) : null,
+      tandem: options.tandem.createTandem( 'trackInputListener' ),
 
       start: function( event, trail ) {
         handleTrackEvent( event );
@@ -233,7 +233,7 @@ define( function( require ) {
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
     thumb.addInputListener( new TandemSimpleDragHandler( {
 
-      tandem: options.tandem ? options.tandem.createTandem( 'thumbInputListener' ) : null,
+      tandem: options.tandem.createTandem( 'thumbInputListener' ),
 
       allowTouchSnag: true,
 
@@ -288,7 +288,7 @@ define( function( require ) {
     strut.moveToBack();
 
     this.mutate( options );
-    options.tandem && options.tandem.addInstance( this, TNode );
+    options.tandem.addInstance( this, TNode );
 
     // @private called by dispose
     this.disposeWavelengthSlider = function() {
@@ -296,7 +296,7 @@ define( function( require ) {
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
       wavelengthProperty.unlink( wavelengthListener );
-      options.tandem && options.tandem.removeInstance( this );
+      options.tandem.removeInstance( this );
     };
   }
 

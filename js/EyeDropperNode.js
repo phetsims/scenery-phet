@@ -50,7 +50,7 @@ define( function( require ) {
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
 
       // Note: EyeDropperNode is not draggable and hence only registers its button with tandem.
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'eyeDropperNode' )
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
@@ -88,7 +88,7 @@ define( function( require ) {
     var button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
-      tandem: options.tandem && options.tandem.createTandem( 'button' )
+      tandem: options.tandem.createTandem( 'button' )
     } );
     var enabledObserver = function( enabled ) { button.enabled = enabled; };
     this.enabledProperty.link( enabledObserver );
@@ -112,14 +112,14 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem.addInstance( this );
 
     // @private
     this.disposeEyeDropperNode = function() {
       button.dispose();
       self.enabledProperty.unlink( enabledObserver );
       self.emptyProperty.unlink( emptyObserver );
-      options.tandem && options.tandem.removeInstance( self );
+      options.tandem.removeInstance( self );
     };
   }
 

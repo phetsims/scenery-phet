@@ -89,7 +89,7 @@ define( function( require ) {
       arrowButtonScale: 0.85,
 
       // phet-io
-      tandem: null // {Tandem|null}
+      tandem: Tandem.createDefaultTandem( 'numberControl' )
 
     }, options );
 
