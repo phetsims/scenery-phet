@@ -17,6 +17,7 @@ define( function( require ) {
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
@@ -31,7 +32,7 @@ define( function( require ) {
       radius: 24, // derived from the image files that were originally used for this button
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      tandem: null // Marker entry to indicate that tandem is supported (in the parent)
+      tandem: Tandem.createDefaultTandem( 'resetAllButton' )
     }, options );
 
     // a11y
