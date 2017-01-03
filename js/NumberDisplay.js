@@ -49,7 +49,7 @@ define( function( require ) {
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'numberDisplay' )
     }, options );
 
     // validate options
@@ -70,7 +70,7 @@ define( function( require ) {
       font: options.font,
       fill: options.numberFill,
       maxWidth: options.numberMaxWidth,
-      tandem: options.tandem && options.tandem.createTandem( 'valueNode' )
+      tandem: options.tandem.createTandem( 'valueNode' )
     } );
 
     // @private background
@@ -106,12 +106,12 @@ define( function( require ) {
     // @private called by dispose
     this.disposeNumberDisplay = function() {
       numberProperty.unlink( numberObserver );
-      options.tandem && options.tandem.removeInstance( this );
+      options.tandem.removeInstance( this );
     };
 
     Node.call( this, options );
 
-    options.tandem && options.tandem.addInstance( this, TNumberDisplay );
+    options.tandem.addInstance( this, TNumberDisplay );
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );

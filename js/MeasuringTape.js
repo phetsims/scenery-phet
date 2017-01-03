@@ -85,7 +85,7 @@ define( function( require ) {
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipDragBounded: false, // is the tip subject to dragBounds
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'measuringTape' )
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
@@ -110,12 +110,7 @@ define( function( require ) {
 
     this.tipToBaseDistance = (this.basePositionProperty.value).distance( this.tipPositionProperty.value ); // @private
 
-    var crosshairShape = new Shape().
-      moveTo( -options.crosshairSize, 0 ).
-      moveTo( -options.crosshairSize, 0 ).
-      lineTo( options.crosshairSize, 0 ).
-      moveTo( 0, -options.crosshairSize ).
-      lineTo( 0, options.crosshairSize );
+    var crosshairShape = new Shape().moveTo( -options.crosshairSize, 0 ).moveTo( -options.crosshairSize, 0 ).lineTo( options.crosshairSize, 0 ).moveTo( 0, -options.crosshairSize ).lineTo( 0, options.crosshairSize );
 
     var baseCrosshair = new Path( crosshairShape, {
       stroke: options.crosshairColor,
@@ -167,7 +162,7 @@ define( function( require ) {
 
     // @private
     this.baseDragHandler = new TandemSimpleDragHandler( {
-      tandem: this.tandem ? this.tandem.createTandem( 'baseDragHandler' ) : null,
+      tandem: this.tandem.createTandem( 'baseDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -214,7 +209,7 @@ define( function( require ) {
 
     // init drag and drop for tip
     tip.addInputListener( new TandemSimpleDragHandler( {
-      tandem: this.tandem ? this.tandem.createTandem( 'tipDragHandler' ) : null,
+      tandem: this.tandem.createTandem( 'tipDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -306,7 +301,7 @@ define( function( require ) {
 
     this.mutate( options );
 
-    this.tandem && this.tandem.addInstance( this, TMeasuringTape );
+    this.tandem.addInstance( this, TMeasuringTape );
   }
 
   sceneryPhet.register( 'MeasuringTape', MeasuringTape );
@@ -328,7 +323,7 @@ define( function( require ) {
     dispose: function() {
       this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.unitsProperty.unlink( this.unitsPropertyObserver );
-      this.tandem && this.tandem.removeInstance( this );
+      this.tandem.removeInstance( this );
     },
 
     /**

@@ -38,7 +38,7 @@ define( function( require ) {
       // the target can be overriden here. This is useful when you need to attach a listener to a sub-component
       // of a node hierarchy
       targetNode: null,
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'movableDragHandler' )
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'

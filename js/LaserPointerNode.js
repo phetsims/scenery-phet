@@ -83,7 +83,7 @@ define( function( require ) {
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
         center: bodyNode.center,
-        tandem: options.tandem && options.tandem.createTandem( 'button' )
+        tandem: options.tandem.createTandem( 'button' )
       };
 
       // @private
@@ -98,7 +98,7 @@ define( function( require ) {
     options.children = children.concat( options.children || [] );
     Node.call( this, options );
 
-    options.tandem && options.tandem.addInstance( this, TNode );
+    options.tandem.addInstance( this, TNode );
 
     // enables and disables the button
     var enabledObserver = function( enabled ) {
@@ -110,7 +110,7 @@ define( function( require ) {
     this.disposeLaserPointerNode = function() {
       self.button && self.button.dispose();
       self.enabledProperty.unlink( enabledObserver );
-      options.tandem && options.tandem.removeInstance( self );
+      options.tandem.removeInstance( self );
     };
   }
 
@@ -143,7 +143,7 @@ define( function( require ) {
     buttonRotation: 0, // {number} use this to adjust lighting on the button
 
     // PhET-iO
-    tandem: null // {Tandem|null}
+    tandem: Tandem.createDefaultTandem( 'laserPointerNode' )
 
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
