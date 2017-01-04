@@ -13,7 +13,7 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
 
   /**
    * Wrapper type for phet/sun's Faucet class.
@@ -26,13 +26,27 @@ define( function( require ) {
     assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
 
     // These must be model events because they are triggered by a user event 'dragEnded'
-    toEventOnStatic( faucet, 'CallbacksForStartTapToDispense', 'model', phetioID, TFaucet, 'startTapToDispense', function( flowRate ) {
-      return { flowRate: flowRate };
-    } );
+    toEventOnEmit(
+      faucet.startedCallbacksForStartTapToDispenseEmitter,
+      faucet.endedCallbacksForStartTapToDispenseEmitter,
+      'model',
+      phetioID,
+      TFaucet,
+      'startTapToDispense',
+      function( flowRate ) {
+        return { flowRate: flowRate };
+      } );
 
-    toEventOnStatic( faucet, 'CallbacksForEndTapToDispense', 'model', phetioID, TFaucet, 'endTapToDispense', function( flowRate ) {
-      return { flowRate: flowRate };
-    } );
+    toEventOnEmit(
+      faucet.startedCallbacksForEndTapToDispenseEmitter,
+      faucet.endedCallbacksForEndTapToDispenseEmitter,
+      'model',
+      phetioID,
+      TFaucet,
+      'endTapToDispense',
+      function( flowRate ) {
+        return { flowRate: flowRate };
+      } );
   }
 
   phetioInherit( TNode, 'TFaucet', TFaucet, {}, {
