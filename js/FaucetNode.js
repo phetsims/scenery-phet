@@ -26,6 +26,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Emitter = require( 'AXON/Emitter' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
@@ -170,6 +171,22 @@ define( function( require ) {
       shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
     }
 
+    this.startedCallbacksForStartTapToDispenseEmitter = new Emitter();
+    this.endedCallbacksForStartTapToDispenseEmitter = new Emitter();
+
+    this.startedCallbacksForEndTapToDispenseEmitter = new Emitter();
+    this.endedCallbacksForEndTapToDispenseEmitter = new Emitter();
+
+    this.startedCallbacksForDragStartedEmitter = new Emitter();
+    this.endedCallbacksForDragStartedEmitter = new Emitter();
+
+    this.startedCallbacksForDragEndedEmitter = new Emitter();
+    this.endedCallbacksForDragEndedEmitter = new Emitter();
+
+    this.startedCallbacksForDraggedEmitter = new Emitter();
+    this.endedCallbacksForDraggedEmitter = new Emitter();
+
+
     // x-offset relative to left edge of bodyNode
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
@@ -181,7 +198,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        self.trigger1( 'startedCallbacksForStartTapToDispense', flowRate );
+        self.startedCallbacksForStartTapToDispenseEmitter.emit1( flowRate );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -190,11 +207,11 @@ define( function( require ) {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
-        self.trigger0( 'endedCallbacksForStartTapToDispense' );
+        self.endedCallbacksForStartTapToDispenseEmitter.emit();
       }
     };
     var endTapToDispense = function() {
-      self.trigger1( 'startedCallbacksForEndTapToDispense', 0 );
+      self.startedCallbacksForEndTapToDispenseEmitter.emit1( 0 );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -205,7 +222,7 @@ define( function( require ) {
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
-      self.trigger0( 'endedCallbacksForEndTapToDispense' );
+      self.endedCallbacksForEndTapToDispenseEmitter.emit();
     };
 
     var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
@@ -215,13 +232,9 @@ define( function( require ) {
 
       start: function( event ) {
         if ( enabledProperty.get() ) {
-          self.trigger1( 'startedCallbacksForDragStarted', flowRateProperty.get() );
-
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
           startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
-
-          self.trigger0( 'endedCallbacksForDragStarted' );
         }
       },
 
@@ -241,16 +254,13 @@ define( function( require ) {
           var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
           var flowRate = offsetToFlowRate( xOffset );
 
-          self.trigger1( 'startedCallbacksForDragged', flowRate );
           flowRateProperty.set( flowRate );
-          self.trigger0( 'endedCallbacksForDragged' );
         }
       },
 
       end: function() {
         if ( enabledProperty.get() ) {
 
-          self.trigger1( 'startedCallbacksForDragEnded', 0 );
           if ( tapToDispenseIsArmed ) {
             // tapping toggles the tap-to-dispense state
             ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
@@ -260,7 +270,6 @@ define( function( require ) {
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
           }
-          self.trigger0( 'endedCallbacksForDragEnded' );
         }
       },
       tandem: options.tandem.createTandem( 'inputListener' )
