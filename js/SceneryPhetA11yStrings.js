@@ -19,7 +19,8 @@ define( function( require ) {
     tabString: 'Tab',
     shiftString: 'Shift',
     capsLockString: 'Caps Lock',
-    enterString: 'Enter'
+    enterString: 'Enter',
+    escString: 'Esc'
   };
 
   // verify that object is immutable, without the runtime penalty in production code
