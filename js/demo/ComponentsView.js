@@ -14,12 +14,14 @@ define( function( require ) {
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
+  var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosView = require( 'SUN/demo/DemosView' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
+  var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
@@ -27,6 +29,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntegerAccumulator = require( 'SCENERY_PHET/keypad/IntegerAccumulator' );
+  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
@@ -50,7 +53,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Shape = require( 'KITE/Shape' );
+  var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
+  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -75,6 +80,7 @@ define( function( require ) {
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
+      { label: 'KeyNode', getNode: demoKeyNode },
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTape', getNode: demoMeasuringTape },
@@ -544,6 +550,46 @@ define( function( require ) {
         } )
       ],
       center: layoutBounds.center
+    } );
+  };
+
+  // creates a demo for KeyNode
+  var demoKeyNode = function( layoutBounds ) {
+
+    // example letter keys, portion of a typical keyboard
+    var topRowKeyStrings = [ 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\' ];
+    var middleRowKeyStrings = [ 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '\:', '\"' ];
+    var bottomRowKeyStrings = [ 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '\'', '.', '\/' ];
+
+    // arrays that hold key nodes for each row of a keyboard - each row starts with an additional multi-character key
+    var topKeyNodes = [ new TabKeyNode() ];
+    var middleKeyNodes = [ new CapsLockKeyNode() ];
+    var bottomKeyNodes = [ new ShiftKeyNode() ];
+
+    var i;
+    for ( i = 0; i < topRowKeyStrings.length; i++ ) {
+      topKeyNodes.push( new KeyNode( new Text( topRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+    }
+    for ( i = 0; i < middleRowKeyStrings.length; i++ ) {
+      middleKeyNodes.push( new KeyNode( new Text( middleRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+    }
+    for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
+      bottomKeyNodes.push( new KeyNode( new Text( bottomRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+    }
+
+    // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
+    middleKeyNodes.push( new EnterKeyNode() );
+    bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', minKeyWidth: 87, maxKeyWidth: 87 } ) );
+
+    var topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
+    var midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
+    var bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
+
+    return new VBox( { 
+      children: [ topHBox, midddleHBox, bottomHBox ],
+      center: layoutBounds.center,
+      align: 'left',
+      spacing: 3
     } );
   };
 
