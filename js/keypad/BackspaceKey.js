@@ -28,7 +28,7 @@ define( function( require ) {
     backSpaceIcon.scale(
       Math.min( width / backSpaceIcon.width * 0.7, ( height * 0.65 ) / backSpaceIcon.height )
     ); //TODO Figure how to do without specifying height and width
-    AbstractKey.call( this, backSpaceIcon, null, 'Backspace' );
+    AbstractKey.call( this, backSpaceIcon, 'Backspace' );
   }
 
   sceneryPhet.register( 'BackspaceKey', BackspaceKey);

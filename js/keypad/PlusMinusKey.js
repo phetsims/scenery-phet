@@ -24,7 +24,7 @@ define( function( require ) {
   function PlusMinusKey() {
     Tandem.indicateUninstrumentedCode();
 
-    AbstractKey.call( this, PLUS_CHAR + '/' + MINUS_CHAR, null, 'PlusMinus' );
+    AbstractKey.call( this, PLUS_CHAR + '/' + MINUS_CHAR, 'PlusMinus' );
   }
 
   sceneryPhet.register( 'PlusMinusKey', PlusMinusKey );

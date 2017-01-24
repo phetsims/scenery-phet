@@ -15,11 +15,10 @@ define( function( require ) {
 
   /**
    * @param {Node} displayNode - node that will appear on the key
-   * @param {number} value TODO document me
    * @param {string} identifier TODO document me
    * @constructor
    */
-  function AbstractKey( displayNode, value, identifier, options ) {
+  function AbstractKey( displayNode, identifier, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
@@ -29,7 +28,6 @@ define( function( require ) {
 
     //TODO visibility annotations?
     this.displayNode = displayNode;
-    this.value = value;
     this.identifier = identifier;
     this.horizontalSpan = options.horizontalSpan;
     this.verticalSpan = options.verticalSpan;

@@ -23,7 +23,8 @@ define( function( require ) {
 
     //TODO should digit be an integer? i.e. DOT.Util.isInteger( digit )?
     assert && assert( !isNaN( digit ) && digit >= 0 && digit <= 9, 'digit must be a number between 0 and 9' );
-    AbstractKey.call( this, digit.toString(), digit, digit, options );
+    AbstractKey.call( this, digit.toString(), digit, options );
+    this.value = digit;
   }
 
   sceneryPhet.register( 'DigitKey', DigitKey );
