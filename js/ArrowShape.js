@@ -18,7 +18,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    *
@@ -30,7 +30,6 @@ define( function( require ) {
    * @constructor
    */
   function ArrowShape( tailX, tailY, tipX, tipY, options ) {
-    // Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       tailWidth: 5,
@@ -41,6 +40,8 @@ define( function( require ) {
       scaleTailToo: false,
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
+
+    Tandem.disallowTandem( options );
 
     var self = this;
     Shape.call( this );
