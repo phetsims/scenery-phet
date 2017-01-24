@@ -16,7 +16,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * Slider track that displays the visible spectrum.
@@ -25,7 +25,7 @@ define( function( require ) {
    * @constructor
    */
   function SpectrumNode( options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       size: new Dimension2( 150, 30 ),

@@ -57,7 +57,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @public
@@ -67,7 +67,7 @@ define( function( require ) {
    * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
    */
   function ColorProfile( colors, profileNames ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
     var self = this;
 
     // @public {Property.<string>}

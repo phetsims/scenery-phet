@@ -20,7 +20,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var WIDTH = 45;
@@ -38,7 +38,7 @@ define( function( require ) {
    * @constructor
    */
   function SoundToggleButton( property, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );

@@ -17,7 +17,7 @@ define( function( require ) {
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var WIDTH = 45;
@@ -31,7 +31,7 @@ define( function( require ) {
    * @constructor
    */
   function TimerToggleButton( timerRunningProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode( );
 
     // Create the node that represents the timer being on.
     var clockRadius = WIDTH * 0.35;

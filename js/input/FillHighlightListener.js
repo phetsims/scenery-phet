@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Color|string} normalFill
@@ -22,7 +22,7 @@ define( function( require ) {
    * @constructor
    */
   function FillHighlightListener( normalFill, highlightFill, enabled ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     enabled = _.isUndefined( enabled ) ? new Property( true ) : enabled;
 

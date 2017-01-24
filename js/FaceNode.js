@@ -19,7 +19,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} headDiameter
@@ -27,7 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function FaceNode( headDiameter, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     // default options
     options = _.extend( {

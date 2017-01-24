@@ -14,7 +14,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function EraserButton( options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       baseColor: PhetColorScheme.PHET_LOGO_YELLOW,

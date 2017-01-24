@@ -16,7 +16,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * Constructor.
@@ -27,7 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function BucketFront( bucket, modelViewTransform, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );
