@@ -27,7 +27,6 @@ define( function( require ) {
    * @constructor
    */
   function PhetFont( options ) {
-    // Tandem.indicateUninstrumentedCode();
 
     // convenience constructor: new PhetFont( {number|string} size )
     if ( typeof options === 'number' || typeof options === 'string' ) {
