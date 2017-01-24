@@ -86,8 +86,6 @@ define( function( require ) {
 
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // validate wavelengths
     assert && assert( options.minWavelength < options.maxWavelength );
     assert && assert( options.minWavelength >= VisibleColor.MIN_WAVELENGTH && options.minWavelength <= VisibleColor.MAX_WAVELENGTH );

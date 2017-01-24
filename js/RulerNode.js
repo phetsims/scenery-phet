@@ -71,8 +71,6 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // things you're likely to mess up, add more as needed
     assert && assert( Math.floor( rulerWidth / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
     assert && assert( options.unitsMajorTickIndex < majorTickLabels.length );

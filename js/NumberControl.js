@@ -108,7 +108,6 @@ define( function( require ) {
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var self = this;
 

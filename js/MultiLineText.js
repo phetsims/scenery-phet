@@ -42,8 +42,6 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options );
-
     // Normally individual properties from options should be stored rather than the entire options instance,
     // but in this case the options is stored because it must be propagated to child text instances
     this.options = options; // @private

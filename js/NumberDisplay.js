@@ -56,8 +56,6 @@ define( function( require ) {
     assert && assert( options.valuePattern.indexOf( '{0}' ) !== -1, '{0} missing from valuePattern: ' + options.valuePattern );
     assert && assert( _.contains( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     var self = this;
 
     // determine the widest value

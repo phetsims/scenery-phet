@@ -88,8 +88,6 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // @private - likely to be undefined if not being called from an instrumented sim.
     this.tandem = options.tandem;
 

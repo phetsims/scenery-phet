@@ -41,8 +41,6 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     this.locationProperty = locationProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
     this._modelViewTransform = options.modelViewTransform; // @private

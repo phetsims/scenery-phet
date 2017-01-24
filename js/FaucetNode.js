@@ -89,7 +89,6 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
     var self = this;

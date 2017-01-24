@@ -48,8 +48,6 @@ define( function( require ) {
     }, options );
     this.options = options; // @private
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     Path.call( this, null );
     this.shapePoints = [];
     this.setTailAndTip( tailX, tailY, tipX, tipY );

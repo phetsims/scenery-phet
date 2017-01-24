@@ -33,7 +33,6 @@ define( function( require ) {
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
     this.enabledProperty = options.enabledProperty || new Property( true ); // @public
@@ -144,7 +143,6 @@ define( function( require ) {
 
     // PhET-iO
     tandem: Tandem.tandemRequired()
-
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
 
