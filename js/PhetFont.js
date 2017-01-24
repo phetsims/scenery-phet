@@ -17,7 +17,10 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
+  var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TFont = require( 'ifphetio!PHET_IO/types/scenery/util/TFont' ); // TODO: we should have TPhetFont
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
@@ -31,9 +34,12 @@ define( function( require ) {
       options = { size: options };
     }
 
+    assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
+
     // PhET defaults
     options = _.extend( {
-      family: 'Arial'
+      family: 'Arial',
+      tandem: Tandem.tandemOptional()
     }, options );
 
     // Guarantee a fallback family
@@ -41,6 +47,8 @@ define( function( require ) {
     options.family = options.family + ', sans-serif';
 
     Font.call( this, options );
+
+    options.tandem.addInstance( this, TFont );
   }
 
   sceneryPhet.register( 'PhetFont', PhetFont );
