@@ -13,14 +13,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} radius of the center of the reset arrow
    * @constructor
    */
   function ResetShape( radius ) {
-    // Tandem.indicateUninstrumentedCode();
 
     Shape.call( this );
 

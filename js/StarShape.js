@@ -15,14 +15,13 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Line = require( 'KITE/segments/Line' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StarShape( options ) {
-    // Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 
@@ -35,6 +34,8 @@ define( function( require ) {
       //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
       innerRadius: 7.5
     }, options );
+
+    Tandem.disallowTandem( options );
 
     Shape.call( this );
 
