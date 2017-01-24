@@ -44,6 +44,9 @@ define( function( require ) {
       }
       else{
         newArray = _.clone( keyAccumulator.accumulatedKeysProperty.get() );
+        if ( keyAccumulator.valueProperty.get() === 0 ){
+          newArray.pop();
+        }
       }
       newArray.push( this );
       return newArray;

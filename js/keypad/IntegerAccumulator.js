@@ -106,15 +106,16 @@ define( function( require ) {
      * @private
      */
     stringToInteger: function( stringValue ) {
-      var returnValue = 0; //TODO default should be null
+      var returnValue = null;
 
       // if stringValue contains something other than just a minus sign...
       if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === PlusMinusKey.MINUS_CHAR ) ) {
 
         // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
         returnValue = parseInt( stringValue.replace( PlusMinusKey.MINUS_CHAR, '-' ), 10 );
+        assert && assert( !isNaN( returnValue ) && Util.isInteger( returnValue ), 'invalid integer: ' + returnValue );
       }
-      assert && assert( !isNaN( returnValue ) && Util.isInteger( returnValue ), 'invalid integer: ' + returnValue );
+
       return returnValue;
     },
 
