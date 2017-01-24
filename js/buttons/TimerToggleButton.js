@@ -17,6 +17,8 @@ define( function( require ) {
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var WIDTH = 45;

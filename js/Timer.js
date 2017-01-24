@@ -26,6 +26,8 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    *

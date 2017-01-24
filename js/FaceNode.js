@@ -19,6 +19,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} headDiameter

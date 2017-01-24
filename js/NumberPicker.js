@@ -27,6 +27,8 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Property.<number>} valueProperty

@@ -15,6 +15,8 @@ define( function( require ) {
   var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} x

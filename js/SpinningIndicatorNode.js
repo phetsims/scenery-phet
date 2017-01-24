@@ -19,6 +19,8 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} options

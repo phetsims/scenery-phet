@@ -43,6 +43,8 @@ define( function( require ) {
       tandem: Tandem.createDefaultTandem( 'resetButton' )
     }, options );
 
+    Tandem.validateOptions( options );
+
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235
     var resetIcon = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
     var reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, -1 ) ) );

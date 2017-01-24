@@ -18,6 +18,8 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // strings
   var webglWarningContextLossFailureString = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );

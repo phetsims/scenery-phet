@@ -17,6 +17,8 @@ define( function( require ) {
   // modules
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // Colors that are used for one or more things in the color scheme.
   var DARK_GREEN = new Color( 0, 200, 0 );

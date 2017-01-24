@@ -16,6 +16,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
   var capsLockString = SceneryPhetA11yStrings.capsLockString;

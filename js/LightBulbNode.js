@@ -15,6 +15,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // images
   var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );

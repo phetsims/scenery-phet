@@ -21,6 +21,8 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * Constructor for a HeaterCoolerNode.

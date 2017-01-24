@@ -19,6 +19,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Timer = require( 'PHET_CORE/Timer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds

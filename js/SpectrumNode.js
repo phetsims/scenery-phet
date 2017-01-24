@@ -16,6 +16,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * Slider track that displays the visible spectrum.

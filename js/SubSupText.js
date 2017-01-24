@@ -23,6 +23,8 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    *

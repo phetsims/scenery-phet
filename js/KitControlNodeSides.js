@@ -22,6 +22,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );

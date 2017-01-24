@@ -20,6 +20,8 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var DEFAULT_BUTTON_WIDTH = 35;

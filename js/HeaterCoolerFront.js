@@ -25,6 +25,8 @@ define( function( require ) {
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // strings
   var heatString = require( 'string!SCENERY_PHET/heat' );

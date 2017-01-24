@@ -15,6 +15,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options] see comments in the constructor for options parameter values

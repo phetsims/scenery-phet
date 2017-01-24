@@ -20,6 +20,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam

@@ -14,6 +14,8 @@ define( function( require ) {
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]

@@ -13,6 +13,8 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.

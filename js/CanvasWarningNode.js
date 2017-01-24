@@ -16,6 +16,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // strings
   var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );

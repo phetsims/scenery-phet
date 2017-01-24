@@ -16,6 +16,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]

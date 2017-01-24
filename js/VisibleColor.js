@@ -16,6 +16,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants
   var COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.

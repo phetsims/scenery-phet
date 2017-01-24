@@ -14,6 +14,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;

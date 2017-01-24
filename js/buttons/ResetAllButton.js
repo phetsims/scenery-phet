@@ -35,6 +35,7 @@ define( function( require ) {
       tandem: Tandem.createDefaultTandem( 'resetAllButton' )
     }, options );
 
+    Tandem.validateOptions( options );
     // a11y
     assert && assert( !options.accessibleContent, 'accessibleContent is not customizable' );
     options.accessibleContent = {

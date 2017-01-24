@@ -18,6 +18,8 @@ define( function( require ) {
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * Constructor.

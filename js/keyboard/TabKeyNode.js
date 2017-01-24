@@ -16,6 +16,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
   var tabString = SceneryPhetA11yStrings.tabString;
@@ -29,7 +31,7 @@ define( function( require ) {
 
     options = _.extend( {
       minKeyWidth: 50, // in the ScreenView coordinate frame, tab key is usually wider than other keys
-      maxKeyWidth: 50,
+      maxKeyWidth: 50
     }, options );
 
     TextKeyNode.call( this, tabString, options );

@@ -17,6 +17,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    *

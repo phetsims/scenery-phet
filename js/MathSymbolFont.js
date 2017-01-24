@@ -13,6 +13,8 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object|number} [options]
