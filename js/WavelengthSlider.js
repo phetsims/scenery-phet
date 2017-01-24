@@ -82,7 +82,7 @@ define( function( require ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: Tandem.createDefaultTandem( 'wavelengthSlider' )
+      tandem: Tandem.tandemRequired()
 
     }, options );
 

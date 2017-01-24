@@ -39,7 +39,7 @@ define( function( require ) {
     options = _.extend( {
       font: new PhetFont(),
       align: 'center', // 'center', 'left' or 'right' (as supported by VBox)
-      tandem: Tandem.createDefaultTandem( 'multiLineText' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options );

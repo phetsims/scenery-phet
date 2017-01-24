@@ -40,7 +40,7 @@ define( function( require ) {
       xContentOffset: -0.03 * BUTTON_RADIUS,
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
-      tandem: Tandem.createDefaultTandem( 'resetButton' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options );

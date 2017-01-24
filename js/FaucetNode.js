@@ -86,7 +86,7 @@ define( function( require ) {
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
-      tandem: Tandem.createDefaultTandem( 'faucetNode' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'

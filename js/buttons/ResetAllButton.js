@@ -32,7 +32,7 @@ define( function( require ) {
       radius: 24, // derived from the image files that were originally used for this button
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      tandem: Tandem.createDefaultTandem( 'resetAllButton' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options );

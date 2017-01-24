@@ -44,7 +44,7 @@ define( function( require ) {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
-      tandem: Tandem.createDefaultTandem( 'arrowNode' )
+      tandem: Tandem.tandemRequired()
     }, options );
     this.options = options; // @private
 

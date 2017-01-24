@@ -49,7 +49,7 @@ define( function( require ) {
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
-      tandem: Tandem.createDefaultTandem( 'numberDisplay' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // validate options

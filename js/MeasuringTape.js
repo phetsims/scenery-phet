@@ -85,7 +85,7 @@ define( function( require ) {
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipDragBounded: false, // is the tip subject to dragBounds
-      tandem: Tandem.createDefaultTandem( 'measuringTape' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'

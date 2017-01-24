@@ -68,7 +68,7 @@ define( function( require ) {
       tickMarksOnBottom: true,
 
       // phet-io
-      tandem: Tandem.createDefaultTandem( 'rulerNode' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
