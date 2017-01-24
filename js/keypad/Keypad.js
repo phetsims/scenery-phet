@@ -80,7 +80,8 @@ define( function( require ) {
     }
 
     // interpret the layout specification
-    var x, y;
+    var x;
+    var y;
     for( i = 0; i < layout.length; i++ ){
       var startRow = i;
       for( j = 0; j < layout[i].length; j++ ){
