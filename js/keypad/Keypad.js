@@ -53,18 +53,23 @@ define( function( require ) {
     this.keyAccumulator = keyAccumulator;
 
     // determine number of rows and columns from the input layout
-    var numRows = 0;
+    var numRows = layout.length;
     var numColumns = 0;
     var i;
-    for( i = 0; i < layout.length; i++ ){
-      if ( layout[ i ].row + 1 > numRows ){
-        numRows = layout[ i ].row + 1;
-      }
-      if ( layout[ i ].column + 1 > numColumns ){
-        numColumns = layout[ i ].column + 1;
+
+    for( i = 0; i < numRows; i++ ){
+      if ( layout[ i ].length > numColumns ){
+        numColumns = layout[ i ].length;
       }
     }
-
+    // check last row to see if any button has vertical span more than 1
+    var maxVerticalSpan = 1;
+    for ( i = 0; i < layout[ numRows - 1 ].length; i++ ){
+      if ( layout[ numRows - 1][i] && layout[ numRows - 1][i].verticalSpan > maxVerticalSpan ){
+        maxVerticalSpan = layout[ numRows - 1][i].verticalSpan;
+      }
+    }
+    numRows += maxVerticalSpan - 1;
     var occupiedLayoutGrid = [];
 
     for( i = 0; i < numRows; i++ ){
@@ -75,28 +80,34 @@ define( function( require ) {
     }
 
     // interpret the layout specification
-    layout.forEach( function( button ){
-      var startColumn = button.column;
-      var startRow = button.row;
-      var verticalSpan = button.verticalSpan;
-      var horizontalSpan = button.horizontalSpan;
+    var x, y;
+    for( i = 0; i < layout.length; i++ ){
+      var startRow = i;
+      for( j = 0; j < layout[i].length; j++ ){
+        var button = layout[ i ][ j ];
+        if ( button ) {
+          var startColumn = j + ( j > 0 && layout[ i ][ j - 1 ] ? layout[ i ][ j - 1 ].horizontalSpan - 1 : 0 );
+          var verticalSpan = button.verticalSpan;
+          var horizontalSpan = button.horizontalSpan;
+          // check for overlap between the buttons
+          for ( x = startRow; x < ( startRow + verticalSpan ); x++ ) {
+            for ( y = startColumn; y < ( startColumn + horizontalSpan ); y++ ) {
+              assert && assert( !occupiedLayoutGrid[ x ][ y ], 'keys overlap in the layout' );
+              occupiedLayoutGrid[ x ][ y ] = true;
+            }
+          }
 
-      // check for overlap between the buttons
-      for( i = startRow; i < ( startRow + verticalSpan ); i++ ){
-        for ( j = startColumn; j < ( startColumn + horizontalSpan ); j++ ){
-          assert && assert( !occupiedLayoutGrid[ i ][ j ], 'keys overlap in the layout' );
-          occupiedLayoutGrid[ i ][ j ] = true;
+          // create and add the buttons
+          var buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
+          var buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
+          var buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
+          buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
+          buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
+          self.addChild( buttonNode );
         }
-      }
 
-      // create and add the buttons
-      var buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
-      var buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-      var buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
-      buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
-      buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
-      self.addChild( buttonNode );
-    }  );
+      }
+    }
 
     this.mutate( options );
   }
@@ -120,9 +131,9 @@ define( function( require ) {
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
-    var content = ( keyObject.key.displayNode instanceof Node ) ?
-                  keyObject.key.displayNode :
-                  new Text( keyObject.key.displayNode, { font: options.buttonFont } );
+    var content = ( keyObject.displayNode instanceof Node ) ?
+                  keyObject.displayNode :
+                  new Text( keyObject.displayNode, { font: options.buttonFont } );
 
     var keyNode = new RectangularPushButton( {
       content: content,
@@ -132,7 +143,7 @@ define( function( require ) {
       xMargin: 5,
       yMargin: 5,
       listener: function() {
-        var proposedKeys = keyObject.key.handleKeyPressed( keyAccumulator );
+        var proposedKeys = keyObject.handleKeyPressed( keyAccumulator );
         keyAccumulator.validateAndUpdate( proposedKeys );
       }
     } );
@@ -144,171 +155,27 @@ define( function( require ) {
 
     // -------------------- static common layouts -------------------------
 
-    PositiveIntegerLayout: [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 7 )
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 8 )
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 9 )
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 4 )
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 5 )
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 6 )
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 1 )
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 2 )
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 3 )
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT )
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 2,
-        key: new DigitKey( 0 )
-      }
+    WeirdLayout: [
+      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3, { horizontalSpan: 3 } )],
+      [ null, new DigitKey( 4 )],
+      [ new DigitKey( 5, { verticalSpan: 2 } ), new DigitKey( 6 ), new DigitKey( 7 )],
+      [ null, new DigitKey( 8 ), new DigitKey( 9 ) ],
+      [ null, new DigitKey( 0 , { horizontalSpan: 2 , verticalSpan: 2} ) ]
     ],
 
+    PositiveIntegerLayout: [
+      [ new DigitKey( 7 ), new DigitKey( 8 ), new DigitKey( 9 ) ],
+      [ new DigitKey( 4 ), new DigitKey( 5 ), new DigitKey( 6 ) ],
+      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3 ) ],
+      [ new DigitKey( 0 , { horizontalSpan: 2 } ), new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT ) ]
+    ],
+      
+
     PositiveAndNegativeIntegerLayout: [
-      {
-        column: 0,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 7 )
-      },
-      {
-        column: 1,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 8 )
-      },
-      {
-        column: 2,
-        row: 0,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 9 )
-      },
-      {
-        column: 0,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 4 )
-      },
-      {
-        column: 1,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 5 )
-      },
-      {
-        column: 2,
-        row: 1,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 6 )
-      },
-      {
-        column: 0,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 1 )
-      },
-      {
-        column: 1,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 2 )
-      },
-      {
-        column: 2,
-        row: 2,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 3 )
-      },
-      {
-        column: 2,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT )
-      },
-      {
-        column: 1,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new DigitKey( 0 )
-      },
-      {
-        column: 0,
-        row: 3,
-        verticalSpan: 1,
-        horizontalSpan: 1,
-        key: new PlusMinusKey()
-      }
+      [ new DigitKey( 7 ), new DigitKey( 8 ), new DigitKey( 9 ) ],
+      [ new DigitKey( 4 ), new DigitKey( 5 ), new DigitKey( 6 ) ],
+      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3 ) ],
+      [ new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT ), new DigitKey( 0 ), new PlusMinusKey() ]
     ]
   } );
 } );

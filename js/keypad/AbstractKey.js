@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Node} displayNode - node that will appear on the key
@@ -19,13 +18,19 @@ define( function( require ) {
    * @param {string} identifier TODO document me
    * @constructor
    */
-  function AbstractKey( displayNode, value, identifier ) {
-    Tandem.indicateUninstrumentedCode();
+  function AbstractKey( displayNode, value, identifier, options ) {
+
+    options = _.extend( {
+      horizontalSpan: 1,
+      verticalSpan: 1
+    }, options );
 
     //TODO visibility annotations?
     this.displayNode = displayNode;
     this.value = value;
     this.identifier = identifier;
+    this.horizontalSpan = options.horizontalSpan;
+    this.verticalSpan = options.verticalSpan;
   }
 
   sceneryPhet.register( 'AbstractKey', AbstractKey );
