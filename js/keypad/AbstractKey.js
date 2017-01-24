@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Node} displayNode - node that will appear on the key
@@ -19,6 +20,7 @@ define( function( require ) {
    * @constructor
    */
   function AbstractKey( displayNode, value, identifier, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       horizontalSpan: 1,

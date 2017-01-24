@@ -12,12 +12,14 @@ define( function( require ) {
   var AbstractKey = require( 'SCENERY_PHET/keypad/AbstractKey' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} digit
    * @constructor
    */
   function DigitKey( digit, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     //TODO should digit be an integer? i.e. DOT.Util.isInteger( digit )?
     assert && assert( !isNaN( digit ) && digit >= 0 && digit <= 9, 'digit must be a number between 0 and 9' );
