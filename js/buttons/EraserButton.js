@@ -15,7 +15,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // images
   var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
@@ -25,6 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function EraserButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       baseColor: PhetColorScheme.PHET_LOGO_YELLOW,

@@ -16,7 +16,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} radius
@@ -24,6 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function SimpleClockIcon( radius, options ) {
+    Tandem.indicateUninstrumentedCode();
     Node.call( this );
     options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
     this.addChild( new Circle( radius, options ) );

@@ -14,13 +14,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object|number} [options]
    * @constructor
    */
   function MathSymbolFont( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // convenience for specifying font size only, e.g. new MathSymbolFont(24)
     if ( typeof options === 'number' ) {

@@ -16,7 +16,6 @@ define( function( require ) {
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // images
   var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
@@ -28,6 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function LightBulbNode( brightnessProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     var defaultOptions = {
       bulbImageScale: 0.33,

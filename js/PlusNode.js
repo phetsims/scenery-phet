@@ -16,13 +16,13 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function PlusNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       size: new Dimension2( 20, 5 ), // width of the plus sign, height of the horizontal line in plus sign

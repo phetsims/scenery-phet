@@ -20,7 +20,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   // default options for the KeyNode, all widths, offsets, and height values are
@@ -60,6 +59,7 @@ define( function( require ) {
    * @param {Object} options
    */
   function KeyNode( keyIcon, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
     assert && assert( options.minKeyWidth <= options.maxKeyWidth, 'max key width must be greater than min key width' );

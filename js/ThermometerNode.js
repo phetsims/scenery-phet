@@ -21,7 +21,6 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
@@ -37,6 +36,7 @@ define( function( require ) {
    * @constructor
    */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       bulbDiameter: 50,

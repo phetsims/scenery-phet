@@ -22,7 +22,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // string
   var DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
@@ -32,6 +31,7 @@ define( function( require ) {
    * @constructor
    */
   function NumberKeypad( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       buttonFont: new PhetFont( { size: 20 } ),

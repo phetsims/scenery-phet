@@ -17,13 +17,13 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options] - see RectangularPushButton
    * @constructor
    */
   function CloseButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       iconLength: 8, // {number} length of the 'X' icon, whose bounds are square

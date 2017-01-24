@@ -14,7 +14,6 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
@@ -22,6 +21,8 @@ define( function( require ) {
    * @constructor
    */
   function BucketHole( bucket, modelViewTransform ) {
+    Tandem.indicateUninstrumentedCode();
+
     Node.call( this );
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );

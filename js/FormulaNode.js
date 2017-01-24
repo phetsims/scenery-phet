@@ -22,7 +22,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @constructor
@@ -30,6 +29,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function FormulaNode( formula, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       // Defaults

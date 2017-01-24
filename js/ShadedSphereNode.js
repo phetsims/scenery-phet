@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} diameter
@@ -22,6 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function ShadedSphereNode( diameter, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       mainColor: 'gray',

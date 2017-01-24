@@ -16,13 +16,13 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StarButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       xMargin: 8.134152255572697, //Match the size of the star button to the refresh buttons, since they often appear together.  see https://github.com/phetsims/scenery-phet/issues/44

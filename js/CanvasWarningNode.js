@@ -17,7 +17,6 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // strings
   var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
@@ -27,6 +26,8 @@ define( function( require ) {
    * @constructor
    */
   function CanvasWarningNode() {
+    Tandem.indicateUninstrumentedCode();
+
     HBox.call( this, _.extend( {
       children: [
         new FontAwesomeNode( 'warning_sign', {

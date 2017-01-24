@@ -15,7 +15,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} width
@@ -23,6 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function BackspaceKey( width, height ) {
+    Tandem.indicateUninstrumentedCode();
+
     var backSpaceIcon = new BackspaceIcon();
     backSpaceIcon.scale(
       Math.min( width / backSpaceIcon.width * 0.7, ( height * 0.65 ) / backSpaceIcon.height )

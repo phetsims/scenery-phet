@@ -12,7 +12,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Node} displayNode - node that will appear on the key
@@ -21,6 +20,7 @@ define( function( require ) {
    * @constructor
    */
   function AbstractKey( displayNode, value, identifier ) {
+    Tandem.indicateUninstrumentedCode();
 
     //TODO visibility annotations?
     this.displayNode = displayNode;

@@ -15,13 +15,13 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function BracketNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       orientation: 'down', // refers to the direction that the tip of the bracket points, 'up'|'down'|'left'|'right'

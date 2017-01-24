@@ -29,7 +29,6 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {
@@ -102,6 +101,7 @@ define( function( require ) {
    * @constructor
    */
   function ProbeNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 

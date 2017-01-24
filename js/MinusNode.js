@@ -16,13 +16,13 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function MinusNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       size: new Dimension2( 20, 5 ),

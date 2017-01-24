@@ -21,7 +21,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var WIDTH = 45;
@@ -39,6 +38,7 @@ define( function( require ) {
    * @constructor
    */
   function SoundToggleButton( property, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );

@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var PLUS_CHAR = '\u002b';
@@ -23,6 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function PlusMinusKey() {
+    Tandem.indicateUninstrumentedCode();
+
     AbstractKey.call( this, PLUS_CHAR + '/' + MINUS_CHAR, null, 'PlusMinus' );
   }
 

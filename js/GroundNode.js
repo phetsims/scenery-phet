@@ -16,7 +16,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} x
@@ -28,6 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function GroundNode( x, y, width, height, gradientEndDepth, options ) {
+    Tandem.indicateUninstrumentedCode();
     options = _.extend(
       {
         topColor: new Color( 144, 199, 86 ),

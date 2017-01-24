@@ -13,13 +13,14 @@ define( function( require ) {
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StepBackwardButton( options ) {
+    Tandem.indicateUninstrumentedCode();
+
     assert && assert( !options.direction, 'options.direction must be omitted for StepBackwardButton' );
     StepButton.call( this, _.extend( { direction: 'backward' }, options ) );
   }

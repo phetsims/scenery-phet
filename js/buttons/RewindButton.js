@@ -17,13 +17,13 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options] - see RoundPushButton
    * @constructor
    */
   function RewindButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = options || {};
 

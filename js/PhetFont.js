@@ -18,13 +18,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
    * @constructor
    */
   function PhetFont( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // convenience constructor: new PhetFont( {number|string} size )
     if ( typeof options === 'number' || typeof options === 'string' ) {

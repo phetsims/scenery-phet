@@ -17,7 +17,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * Constructor.
@@ -28,6 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function BucketFront( bucket, modelViewTransform, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );

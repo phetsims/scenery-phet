@@ -18,13 +18,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {boolean} indicating whether to highlight
    * @constructor
    */
   function HighlightListener( callback ) {
+    Tandem.indicateUninstrumentedCode();
 
     ButtonListener.call( this, {
       over: function( event ) {

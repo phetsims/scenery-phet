@@ -15,7 +15,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
@@ -28,6 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function LightRaysNode( bulbRadius, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     assert && assert( bulbRadius > 0 );
     assert && assert( options ); // assumes that options are properly populated by LightBulbNode

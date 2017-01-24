@@ -27,7 +27,6 @@ define( function( require ) {
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    *
@@ -37,6 +36,7 @@ define( function( require ) {
    * @constructor
    */
   function Timer( secondsProperty, runningProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
     options = _.extend( {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',

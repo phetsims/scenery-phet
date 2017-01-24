@@ -21,7 +21,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} numKits
@@ -30,6 +29,8 @@ define( function( require ) {
    * @constructor
    */
   function KitControlNodeTop( numKits, selectedKit, options ) {
+    Tandem.indicateUninstrumentedCode();
+
     Node.call( this );
     options = _.extend(
       {

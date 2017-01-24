@@ -19,13 +19,13 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options] - see RoundPushButton
    * @constructor
    */
   function StepButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // these options are used in computation of other default options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;

@@ -22,7 +22,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * Constructor for a HeaterCoolerNode.
@@ -31,6 +30,7 @@ define( function( require ) {
    * @constructor
    */
   function HeaterCoolerNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     Node.call( this );
 

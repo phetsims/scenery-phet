@@ -19,7 +19,6 @@ define( function( require ) {
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // strings
   var webglWarningContextLossFailureString = require( 'string!SCENERY_PHET/webglWarning.contextLossFailure' );
@@ -30,6 +29,8 @@ define( function( require ) {
    * @constructor
    */
   function ContextLossFailureDialog() {
+    Tandem.indicateUninstrumentedCode();
+
     var warningSign = new FontAwesomeNode( 'warning_sign', {
       fill: '#E87600', // "safety orange", according to Wikipedia
       scale: 0.6

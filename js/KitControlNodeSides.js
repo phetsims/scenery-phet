@@ -23,7 +23,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );
@@ -36,6 +35,8 @@ define( function( require ) {
    * @constructor
    */
   function KitControlNodeSides( numKits, selectedKitProperty, spaceBetweenControls, options ) {
+    Tandem.indicateUninstrumentedCode();
+
     Node.call( this );
     options = _.extend(
       {

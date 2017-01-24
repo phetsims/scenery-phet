@@ -18,7 +18,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    *
@@ -29,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function LeftRightSpinner( valueProperty, leftEnabledProperty, rightEnabledProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     var shapeWidth = 26;
     var leftShape = new Shape().moveTo( 0, 0 ).lineTo( -10, shapeWidth / 2 ).lineTo( 0, shapeWidth );

@@ -24,7 +24,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   //images
   var fireImage = require( 'image!SCENERY_PHET/flame.png' );
@@ -41,6 +40,7 @@ define( function( require ) {
    * @constructor
    */
   function HeaterCoolerBack( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     Node.call( this );
 

@@ -14,12 +14,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @constructor
    */
   function AbstractKeyAccumulator() {
+    Tandem.indicateUninstrumentedCode();
 
     //TODO what is the type of the array elements? Document like {Property.<[]?>}
     // @public - array property that tracks the accumulated key presses

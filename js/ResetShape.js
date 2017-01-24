@@ -14,13 +14,14 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} radius of the center of the reset arrow
    * @constructor
    */
   function ResetShape( radius ) {
+    Tandem.indicateUninstrumentedCode();
+
     Shape.call( this );
 
     // Adjust these parameters to tweak the appearance of the arrow.

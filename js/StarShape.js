@@ -16,13 +16,13 @@ define( function( require ) {
   var Line = require( 'KITE/segments/Line' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StarShape( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 

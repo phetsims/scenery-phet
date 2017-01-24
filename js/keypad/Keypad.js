@@ -21,7 +21,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var DEFAULT_BUTTON_WIDTH = 35;
@@ -36,6 +35,7 @@ define( function( require ) {
    * @constructor
    */
   function Keypad( layout, keyAccumulator, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,

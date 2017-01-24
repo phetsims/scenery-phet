@@ -15,13 +15,13 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function ShadowText( text, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       font: new PhetFont( 24 ),

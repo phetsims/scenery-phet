@@ -15,7 +15,6 @@ define( function( require ) {
   var RectangularToggleButton = require( 'SUN/buttons/RectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Property.<boolean>} eyeOpenProperty - true: eye is open; false: eye is closed
@@ -23,6 +22,7 @@ define( function( require ) {
    * @constructor
    */
   function EyeToggleButton( eyeOpenProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = options || {};
 

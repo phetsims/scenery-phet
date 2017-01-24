@@ -19,7 +19,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   // var NEGATIVE_CHAR = '\u2212';
@@ -29,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function IntegerAccumulator( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 

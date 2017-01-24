@@ -58,7 +58,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @public
@@ -68,6 +67,7 @@ define( function( require ) {
    * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
    */
   function ColorProfile( colors, profileNames ) {
+    Tandem.indicateUninstrumentedCode();
     var self = this;
 
     // @public {Property.<string>}

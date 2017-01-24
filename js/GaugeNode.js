@@ -23,7 +23,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Property.<number>} valueProperty which is portrayed
@@ -33,6 +32,7 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     Node.call( this );
 

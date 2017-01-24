@@ -19,7 +19,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * Constructor.
@@ -28,6 +27,7 @@ define( function( require ) {
    * @param {Object} options
    */
   function TextKeyNode( string, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // margins, width, and height in ScreenView coordinates
     options = _.extend( {

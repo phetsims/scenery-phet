@@ -18,7 +18,6 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   var DEFAULT_RADIUS = 28;
 
@@ -28,6 +27,7 @@ define( function( require ) {
    * @constructor
    */
   function PlayPauseButton( runningProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       radius: DEFAULT_RADIUS

@@ -19,13 +19,13 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function ZoomButton( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       in: true, // true: zoom-in button, false: zoom-out button

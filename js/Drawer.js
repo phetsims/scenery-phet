@@ -21,7 +21,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Node} contentsNode - contents of the drawer
@@ -29,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function Drawer( contentsNode, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 

@@ -19,7 +19,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    *
@@ -31,6 +30,7 @@ define( function( require ) {
    * @constructor
    */
   function ArrowShape( tailX, tailY, tipX, tipY, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       tailWidth: 5,

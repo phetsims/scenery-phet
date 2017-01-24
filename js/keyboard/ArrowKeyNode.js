@@ -17,7 +17,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;
@@ -29,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function ArrowKeyNode( direction, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 

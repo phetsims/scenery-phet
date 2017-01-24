@@ -15,13 +15,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function FireOnHoldInputListener( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       listener: null, // {function} convenience for adding 1 listener

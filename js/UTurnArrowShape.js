@@ -13,13 +13,13 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {number} size A size factor (it'll be a bit bigger)
    * @constructor
    */
   function UTurnArrowShape( size ) {
+    Tandem.indicateUninstrumentedCode();
     Shape.call( this );
 
     var strokeWidth = size * 0.3;

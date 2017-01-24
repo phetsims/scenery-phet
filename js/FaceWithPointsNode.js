@@ -19,13 +19,13 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function FaceWithPointsNode( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       spacing: 2, // space between face and points

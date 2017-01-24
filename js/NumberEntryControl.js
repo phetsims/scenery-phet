@@ -20,13 +20,14 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function NumberEntryControl( options ) {
+    Tandem.indicateUninstrumentedCode();
+
     Node.call( this );
     var self = this;
     options = _.extend( {

@@ -18,7 +18,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    *
@@ -29,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function UpDownSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     var shapeWidth = 26;
     var upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );

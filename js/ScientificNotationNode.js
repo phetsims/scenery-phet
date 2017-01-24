@@ -17,7 +17,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Property.<number>} valueProperty
@@ -25,6 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function ScientificNotationNode( valueProperty, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       fill: 'black',

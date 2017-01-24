@@ -17,13 +17,13 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function BackspaceIcon( options ) {
+    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       stroke: 'black',

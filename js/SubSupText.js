@@ -24,7 +24,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
-  Tandem.indicateUninstrumentedCode();
 
   /**
    *
@@ -33,6 +32,7 @@ define( function( require ) {
    * @constructor
    */
   function SubSupText( text, options ) {
+    Tandem.indicateUninstrumentedCode();
 
     // defaults
     options = _.extend( {
