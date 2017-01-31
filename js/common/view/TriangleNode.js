@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var proportionPlayground = require( 'PROPORTION_PLAYGROUND/proportionPlayground' );
+  var Side = require( 'PROPORTION_PLAYGROUND/common/model/Side' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Matrix3 = require( 'DOT/Matrix3' );
@@ -18,23 +19,28 @@ define( function( require ) {
   // constants
   var TRIANGLE_LENGTH = 17;
   var TRIANGLE_ALTITUDE = 10;
-  var LEFT_TRIANGLE_SHAPE = new Shape()
-    .moveTo( 0, 0 )
-    .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
-    .lineTo( 0, TRIANGLE_LENGTH )
-    .lineTo( 0, 0 );
+  var LEFT_TRIANGLE_SHAPE = new Shape().moveTo( 0, 0 )
+                                       .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
+                                       .lineTo( 0, TRIANGLE_LENGTH )
+                                       .lineTo( 0, 0 );
   var RIGHT_TRIANGLE_SHAPE = LEFT_TRIANGLE_SHAPE.transformed( Matrix3.scaling( -1, 1 ) );
 
   /**
-   *
-   * @param {string} direction - 'left' or 'right'
-   * @param {Object} [options]
    * @constructor
+   *
+   * @param {string} side - Side.LEFT or Side.RIGHT
+   * @param {Object} [options]
    */
-  function TriangleNode( direction, options ) {
-    assert && assert( direction === 'right' || direction === 'left', 'Direction should be right or left' );
-    options = _.extend( { stroke: 'black', lineWidth: 1 }, options );
-    Path.call( this, direction === 'right' ? RIGHT_TRIANGLE_SHAPE : LEFT_TRIANGLE_SHAPE, options );
+  function TriangleNode( side, options ) {
+    assert && assert( Side.isSide( side ), 'Side should be Side.LEFT or Side.RIGHT' );
+
+    // defaults
+    options = _.extend( {
+      stroke: 'black',
+      lineWidth: 1
+    }, options );
+
+    Path.call( this, side === Side.LEFT ? LEFT_TRIANGLE_SHAPE : RIGHT_TRIANGLE_SHAPE, options );
   }
 
   proportionPlayground.register( 'TriangleNode', TriangleNode );
