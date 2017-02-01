@@ -1,8 +1,7 @@
 // Copyright 2016-2017, University of Colorado Boulder
 
 /**
- * Node that looks like an arrow key on the keyboard.  Default is a rounded
- * triangle centered in a square key.
+ * Node that looks like an arrow key on the keyboard.  Default is a rounded triangle centered in a square key.
  * 
  * @author Jesse Greenberg
  */
@@ -22,6 +21,14 @@ define( function( require ) {
   var DEFAULT_ARROW_HEIGHT = 10;
   var DEFAULT_ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for equilateral triangle
 
+  // possible directions for the arrows in the key
+  var DIRECTION_ANGLES = {
+    up: 0,
+    down: Math.PI,
+    left: -Math.PI / 2,
+    right: Math.PI / 2
+  };
+
   /**
    * @param {string} direction - direction of arrow, 'up'|'down'|'left'|'right'
    * @param {Object} options
@@ -29,6 +36,8 @@ define( function( require ) {
    */
   function ArrowKeyNode( direction, options ) {
     Tandem.indicateUninstrumentedCode();
+
+    assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
 
     options = _.extend( {
 
@@ -52,30 +61,13 @@ define( function( require ) {
     var arrowShape = new Shape();
     arrowShape.moveTo( arrowHeight / 2, 0 ).lineTo( arrowHeight, arrowWidth + 0 ).lineTo( 0, arrowWidth + 0 ).close();
 
-    // draw the arrow
-    var pathOptions = {
+    var arrowPath = new Path( arrowShape, {
       fill: arrowFill,
       stroke: arrowStroke,
       lineJoin: arrowLineJoin,
-      lineWidth: arrowLineWidth
-    };
-    var arrowPath = new Path( arrowShape, pathOptions );
-
-    if ( direction === 'up' ) {
-      arrowPath.rotate( 0 ); // default arrow shape points up
-    }
-    else if ( direction === 'down' ) {
-      arrowPath.rotate( Math.PI );
-    }
-    else if ( direction === 'left' ) {
-      arrowPath.rotate( -Math.PI / 2 );
-    }
-    else if ( direction === 'right' ) {
-      arrowPath.rotate( Math.PI / 2 );
-    }
-    else {
-      throw new Error( 'unsupported direction: ' + direction );
-    }
+      lineWidth: arrowLineWidth,
+      rotation: DIRECTION_ANGLES[ direction ]
+    } );
 
     // place the arrow in the key
     KeyNode.call( this, arrowPath, options );
