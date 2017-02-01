@@ -17,7 +17,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   // var Tandem = require( 'TANDEM/Tandem' );
@@ -27,9 +26,6 @@ define( function( require ) {
   var HEIGHT = 45;
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
-
-  // strings
-  var soundToggleButtonNameString = require( 'string!SCENERY_PHET/SoundToggleButton.name' );
 
   /**
    *
@@ -58,31 +54,8 @@ define( function( require ) {
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
-      yMargin: MARGIN,
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          // will look like <input value="Sound Button" type="button" tabindex="0">
-          var domElement = document.createElement( 'input' );
-          domElement.value = soundToggleButtonNameString;
-          domElement.type = 'button';
-
-          domElement.tabIndex = '0';
-
-          domElement.addEventListener( 'click', function() {
-            // toggle the button property
-            property.set( !property.value );
-          } );
-
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
+      yMargin: MARGIN
     }, options ) );
-
-    var self = this;
-    property.link( function( value ) {
-      var checkedText = (value ? 'checked' : 'unchecked');
-      self.textDescription = 'Sound Checkbox (' + checkedText + ')';
-    } );
   }
 
   sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );
