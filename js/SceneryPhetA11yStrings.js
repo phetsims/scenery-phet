@@ -20,7 +20,10 @@ define( function( require ) {
     shiftString: 'Shift',
     capsLockString: 'Caps Lock',
     enterString: 'Enter',
-    escString: 'Esc'
+    escString: 'Esc',
+
+    // button labels
+    soundToggleLabelString: 'Mute Sound'
   };
 
   // verify that object is immutable, without the runtime penalty in production code

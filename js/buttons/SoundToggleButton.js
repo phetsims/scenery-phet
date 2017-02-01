@@ -16,6 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -54,11 +55,53 @@ define( function( require ) {
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
-      yMargin: MARGIN
+      yMargin: MARGIN,
+
+      // a11y - tab navigation and auditory descriptions
+      parentContainerTagName: 'div',
+      tagName: 'input',
+      inputType: 'button',
+      labelTagName: 'label',
+      accessibleLabel: SceneryPhetA11yStrings.soundToggleLabelString
     }, options ) );
+
+    // dilate the focus highlight bounds to give the button some space
+    this.focusHighlight = new Shape.bounds( this.bounds.dilated( 5 ) );
+
+    var self = this;
+
+    // accessibility input listener - must be removed in dispose
+    var clickListener = {
+      click: function( event ) {
+        self.buttonModel.toggle();
+      }
+    };
+    this.addAccessibleInputListener( clickListener );
+
+    // accessible attribute lets user know when the toggle is pressed - must be unlinked in dispose
+    var pressedListener = function() {
+      self.setAccessibleAttribute( 'aria-pressed', !property.value );
+    };
+    property.link( pressedListener );
+
+    // @private - make eligible for garbage collection
+    this.disposeSoundToggleButton = function() {
+      self.removeAccessibleInputListener( clickListener );
+      property.unlink( pressedListener );
+    };
   }
 
   sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );
 
-  return inherit( BooleanRectangularToggleButton, SoundToggleButton );
+  return inherit( BooleanRectangularToggleButton, SoundToggleButton, {
+
+    /**
+     * Make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      BooleanRectangularToggleButton.prototype.dispose.call( this );
+      this.disposeSoundToggleButton();
+    }
+  } );
 } );
