@@ -11,15 +11,14 @@ define( function( require ) {
   // modules
   var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
   var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
-  var SpringView = require( 'SCENERY_PHET/demo/SpringView' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
-  var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
+  var SpringView = require( 'SCENERY_PHET/demo/SpringView' );
 
   // strings
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
@@ -44,7 +43,7 @@ define( function( require ) {
         function( model ) {return new ButtonsView();},
         {
           name: 'Buttons',
-          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
           homeScreenIcon: createScreenIcon( 'red' )
         }
       ),
@@ -54,7 +53,7 @@ define( function( require ) {
         function( model ) {return new SlidersView();},
         {
           name: 'Sliders',
-          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
           homeScreenIcon: createScreenIcon( 'yellow' )
         }
       ),
@@ -64,7 +63,7 @@ define( function( require ) {
         function( model ) {return new ComponentsView();},
         {
           name: 'Components',
-          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
           homeScreenIcon: createScreenIcon( 'orange' )
         }
       ),
@@ -74,7 +73,7 @@ define( function( require ) {
         function( model ) {return new SpringView();},
         {
           name: 'Spring',
-          backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
           homeScreenIcon: createScreenIcon( 'blue' )
         }
       )
