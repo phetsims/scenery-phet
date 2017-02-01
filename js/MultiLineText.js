@@ -23,10 +23,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-
-  // phet-io modules
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    *
@@ -46,97 +42,83 @@ define( function( require ) {
     // but in this case the options is stored because it must be propagated to child text instances
     this.options = options; // @private
 
-    TandemNode.call( this, {
-      tandem: options.tandem.createSupertypeTandem()
-    } );
+    Node.call( this );
 
     this._text = null; // @private underscore prefix because it has ES5 set/get
     this.textParent = null; // @private
     this.text = text; // call ES5 setter
 
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
-
-    options.tandem.addInstance( this, TNode );
-
-    this.disposeMultiLineText = function() {
-      options.tandem.removeInstance( this );
-    };
   }
 
   sceneryPhet.register( 'MultiLineText', MultiLineText );
 
   return inherit( Node, MultiLineText, {
+    /**
+     * Sets the text.
+     * @param {string} text
+     * @public
+     */
+    setText: function( text ) {
 
-    dispose: function() {
-      this.disposeMultiLineText();
+      // save the new text
+      this._text = text;
+
+      // parse the text and create {Text[]}
+      var self = this;
+      var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
+
+        // create a blank line between consecutive line breaks
+        if ( line.length === 0 ) { line = ' '; }
+
+        return new Text( line, _.omit( self.options, 'align', 'maxWidth', 'tandem' ) );
+      } );
+
+      // determine where the textParent was, so we can maintain rendering order
+      var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
+
+      // remove the old textParent
+      if ( this.textParent ) {
+        this.removeChild( this.textParent );
+      }
+
+      // add the new textParent
+      this.textParent = new VBox( {
+        children: textNodes,
+        align: this.options.align
+      } );
+      this.insertChild( index, this.textParent );
     },
+    set text( value ) { this.setText( value ); }, // ES5 setter
 
-      /**
-       * Sets the text.
-       * @param {string} text
-       * @public
-       */
-      setText: function( text ) {
+    /**
+     * Gets the text.
+     * @returns {string}
+     * @public
+     */
+    getText: function() { return this._text; },
+    get text() { return this.getText(); }, // ES5 getter
 
-        // save the new text
-        this._text = text;
+    /**
+     * Sets the fill for all Text nodes.
+     * @param {Color|string} fill
+     * @public
+     */
+    setFill: function( fill ) {
+      this.options.fill = fill;
+      var children = this.textParent.getChildren();
+      for ( var i = 0; i < children.length; i++ ) {
+        children[ i ].setFill( fill );
+      }
+    },
+    set fill( value ) { this.setFill( value ); }, // ES5 setter
 
-        // parse the text and create {Text[]}
-        var self = this;
-        var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
-
-          // create a blank line between consecutive line breaks
-          if ( line.length === 0 ) { line = ' '; }
-
-          return new Text( line, _.omit( self.options, 'align', 'maxWidth' ) );
-        } );
-
-        // determine where the textParent was, so we can maintain rendering order
-        var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
-
-        // remove the old textParent
-        if ( this.textParent ) {
-          this.removeChild( this.textParent );
-        }
-
-        // add the new textParent
-        this.textParent = new VBox( {
-          children: textNodes,
-          align: this.options.align
-        } );
-        this.insertChild( index, this.textParent );
-      },
-      set text( value ) { this.setText( value ); }, // ES5 setter
-
-      /**
-       * Gets the text.
-       * @returns {string}
-       * @public
-       */
-      getText: function() { return this._text; },
-      get text() { return this.getText(); }, // ES5 getter
-
-      /**
-       * Sets the fill for all Text nodes.
-       * @param {Color|string} fill
-       * @public
-       */
-      setFill: function( fill ) {
-        this.options.fill = fill;
-        var children = this.textParent.getChildren();
-        for ( var i = 0; i < children.length; i++ ) {
-          children[ i ].setFill( fill );
-        }
-      },
-      set fill( value ) { this.setFill( value ); }, // ES5 setter
-
-      /**
-       * Gets the fill used for the text.
-       * @returns {Color|string}
-       * @public
-       */
-      getFill: function() { return this.options.fill; },
-      get fill() { return this.getFill(); } // ES5 getter
-    }
-  );
+    /**
+     * Gets the fill used for the text.
+     * @returns {Color|string}
+     * @public
+     */
+    getFill: function() { return this.options.fill; },
+    get fill() { return this.getFill(); } // ES5 getter
+  } );
 } );
