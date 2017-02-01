@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var CheckBox = require( 'SUN/CheckBox' );
@@ -565,6 +566,8 @@ define( function( require ) {
     var topKeyNodes = [ new TabKeyNode() ];
     var middleKeyNodes = [ new CapsLockKeyNode() ];
     var bottomKeyNodes = [ new ShiftKeyNode() ];
+    var topArrowKeyNode;
+    var bottomArrowKeyNodes;
 
     var i;
     for ( i = 0; i < topRowKeyStrings.length; i++ ) {
@@ -576,6 +579,9 @@ define( function( require ) {
     for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
       bottomKeyNodes.push( new KeyNode( new Text( bottomRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
     }
+    topArrowKeyNode = new ArrowKeyNode( 'up' );
+    bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
+    var bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 5} );
 
     // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
     middleKeyNodes.push( new EnterKeyNode() );
@@ -584,11 +590,14 @@ define( function( require ) {
     var topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
     var midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
     var bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
+    var arrowKeysVBox = new VBox( {
+      children: [ topArrowKeyNode, bottomArrowKeyBox ]
+    } );
 
     return new VBox( { 
-      children: [ topHBox, midddleHBox, bottomHBox ],
+      children: [ topHBox, midddleHBox, bottomHBox, arrowKeysVBox ],
       center: layoutBounds.center,
-      align: 'left',
+      align: 'right',
       spacing: 3
     } );
   };
