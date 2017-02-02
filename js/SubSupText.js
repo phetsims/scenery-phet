@@ -34,6 +34,12 @@ define( function( require ) {
   function SubSupText( text, options ) {
     // Tandem.indicateUninstrumentedCode();
 
+    // Check for XSS string, and remap. See https://github.com/phetsims/scenery/issues/528. This type of string should
+    // almost certainly not be otherwise passed to SubSupText.
+    if ( text.indexOf( 'data:image/png;base64' ) ) {
+      text = 'XSS Test, see Scenery issue #528';
+    }
+
     // defaults
     options = _.extend( {
       // all text
