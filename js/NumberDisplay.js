@@ -54,7 +54,7 @@ define( function( require ) {
 
     // validate options
     assert && assert( options.valuePattern.indexOf( '{0}' ) !== -1, '{0} missing from valuePattern: ' + options.valuePattern );
-    assert && assert( _.contains( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
+    assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
 
     var self = this;
 
