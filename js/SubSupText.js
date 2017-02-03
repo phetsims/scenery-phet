@@ -36,7 +36,7 @@ define( function( require ) {
 
     // Check for XSS string, and remap. See https://github.com/phetsims/scenery/issues/528. This type of string should
     // almost certainly not be otherwise passed to SubSupText.
-    if ( text.indexOf( 'data:image/png;base64' ) ) {
+    if ( text.indexOf( 'data:image/png;base64' ) >= 0 ) {
       text = 'XSS Test, see Scenery issue #528';
     }
 
