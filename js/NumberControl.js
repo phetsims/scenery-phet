@@ -22,7 +22,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -113,7 +113,7 @@ define( function( require ) {
 
     var delta = options.delta; // to improve readability
 
-    var titleNode = new TandemText( title, {
+    var titleNode = new Text( title, {
       font: options.titleFont,
       maxWidth: options.titleMaxWidth,
       tandem: options.tandem && options.tandem.createTandem( 'titleNode' )

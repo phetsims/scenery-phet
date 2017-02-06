@@ -18,7 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // phet-io modules
   var TRulerNode = require( 'ifphetio!PHET_IO/types/scenery-phet/TRulerNode' );
@@ -99,7 +99,7 @@ define( function( require ) {
     var minorTickLinesShape = new Shape();
 
     // Units label, which is positioned and (if necessary) scaled later
-    var unitsLabel = new TandemText( units, {
+    var unitsLabel = new Text( units, {
       font: options.unitsFont,
       pickable: false,
       tandem: options.tandem.createTandem( 'unitsLabel' )
@@ -117,7 +117,7 @@ define( function( require ) {
 
         // Create the tick label regardless of whether we add it, since it's required to layout the units label
         var majorTickLabel = majorTickLabels[ majorTickIndex ];
-        var majorTickLabelNode = new TandemText( majorTickLabel, {
+        var majorTickLabelNode = new Text( majorTickLabel, {
           font: options.majorTickFont,
           centerX: x,
           centerY: backgroundNode.centerY,
