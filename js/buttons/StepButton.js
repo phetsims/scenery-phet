@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function StepButton( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     // these options are used in computation of other default options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;

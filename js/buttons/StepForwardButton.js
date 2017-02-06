@@ -19,7 +19,7 @@ define( function( require ) {
    * @constructor
    */
   function StepForwardButton( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
     assert && assert( !options.direction, 'options.direction must be omitted for StepForwardButton' );
     StepButton.call( this, _.extend( { direction: 'forward' }, options ) );
   }

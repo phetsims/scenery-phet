@@ -26,7 +26,7 @@ define( function( require ) {
    * @constructor
    */
   function BucketFront( bucket, modelViewTransform, options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );

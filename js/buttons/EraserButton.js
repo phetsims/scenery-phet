@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function EraserButton( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       baseColor: PhetColorScheme.PHET_LOGO_YELLOW,

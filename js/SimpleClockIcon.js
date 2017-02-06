@@ -22,7 +22,7 @@ define( function( require ) {
    * @constructor
    */
   function SimpleClockIcon( radius, options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
     Node.call( this );
     options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
     this.addChild( new Circle( radius, options ) );

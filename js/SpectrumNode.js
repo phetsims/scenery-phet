@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function SpectrumNode( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       size: new Dimension2( 150, 30 ),

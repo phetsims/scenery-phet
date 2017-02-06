@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function StarNode( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
 

@@ -31,7 +31,7 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     Node.call( this );
 

@@ -34,7 +34,7 @@ define( function( require ) {
    * @constructor
    */
   function SoundToggleButton( property, options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );

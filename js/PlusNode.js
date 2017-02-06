@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function PlusNode( options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       size: new Dimension2( 20, 5 ), // width of the plus sign, height of the horizontal line in plus sign

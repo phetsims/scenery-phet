@@ -26,7 +26,7 @@ define( function( require ) {
    * @constructor
    */
   function PlayPauseButton( runningProperty, options ) {
-    // Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       radius: DEFAULT_RADIUS
