@@ -19,7 +19,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   // default options for the KeyNode, all widths, offsets, and height values are
@@ -59,7 +58,7 @@ define( function( require ) {
    * @param {Object} options
    */
   function KeyNode( keyIcon, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
     assert && assert( options.minKeyWidth <= options.maxKeyWidth, 'max key width must be greater than min key width' );

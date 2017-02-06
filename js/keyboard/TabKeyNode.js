@@ -16,7 +16,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
   var tabString = SceneryPhetA11yStrings.tabString;
@@ -27,7 +26,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function TabKeyNode( options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       minKeyWidth: 50, // in the ScreenView coordinate frame, tab key is usually wider than other keys

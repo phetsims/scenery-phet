@@ -18,7 +18,6 @@ define( function( require ) {
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * Constructor.
@@ -27,7 +26,7 @@ define( function( require ) {
    * @param {Object} options
    */
   function TextKeyNode( string, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     // margins, width, and height in ScreenView coordinates
     options = _.extend( {

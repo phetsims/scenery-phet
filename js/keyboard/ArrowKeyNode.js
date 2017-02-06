@@ -15,7 +15,6 @@ define( function( require ) {
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;
@@ -35,7 +34,7 @@ define( function( require ) {
    * @constructor
    */
   function ArrowKeyNode( direction, options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
 

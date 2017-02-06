@@ -16,7 +16,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
   var shiftString = SceneryPhetA11yStrings.shiftString;
@@ -27,7 +26,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function ShiftKeyNode( options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
 
     options = _.extend( {
       minKeyWidth: 75, // in ScreenView coordinates, shift key is usually longer than other keys
