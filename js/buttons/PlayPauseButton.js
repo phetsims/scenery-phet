@@ -17,7 +17,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
 
   var DEFAULT_RADIUS = 28;
 

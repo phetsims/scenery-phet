@@ -15,7 +15,6 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} radius

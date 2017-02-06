@@ -13,7 +13,6 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  // var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} diameter
