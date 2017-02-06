@@ -16,7 +16,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
@@ -181,7 +181,7 @@ define( function( require ) {
     }
 
     // Major tick lines
-    this.addChild( new TandemPath( majorTickLinesShape, {
+    this.addChild( new Path( majorTickLinesShape, {
       stroke: options.majorTickStroke,
       lineWidth: options.majorTickLineWidth,
       pickable: false,
@@ -189,7 +189,7 @@ define( function( require ) {
     } ) );
 
     // Minor tick lines
-    this.addChild( new TandemPath( minorTickLinesShape, {
+    this.addChild( new Path( minorTickLinesShape, {
       stroke: options.minorTickStroke,
       lineWidth: options.minorTickLineWidth,
       pickable: false,
