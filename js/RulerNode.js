@@ -17,7 +17,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
   // phet-io modules
@@ -80,7 +80,7 @@ define( function( require ) {
     Node.call( this, { tandem: options.tandem.createSupertypeTandem() } );
 
     // background
-    var backgroundNode = new TandemRectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
+    var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
       lineWidth: options.backgroundLineWidth,
