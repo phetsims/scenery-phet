@@ -15,7 +15,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
@@ -77,7 +77,7 @@ define( function( require ) {
     assert && assert( options.majorTickHeight < rulerHeight / 2 );
     assert && assert( options.minorTickHeight < rulerHeight / 2 );
 
-    TandemNode.call( this, { tandem: options.tandem.createSupertypeTandem() } );
+    Node.call( this, { tandem: options.tandem.createSupertypeTandem() } );
 
     // background
     var backgroundNode = new TandemRectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
@@ -207,7 +207,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'RulerNode', RulerNode );
 
-  return inherit( TandemNode, RulerNode, {
+  return inherit( Node, RulerNode, {
 
     // @public - Provide dispose() on the prototype for ease of subclassing.
     dispose: function() {
