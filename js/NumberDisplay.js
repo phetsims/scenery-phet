@@ -58,6 +58,9 @@ define( function( require ) {
 
     var self = this;
 
+    var tandem = options.tandem;
+    options.tandem = options.tandem.createSupertypeTandem();
+
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
     var maxString = Util.toFixed( numberRange.max, options.decimalPlaces );
@@ -104,12 +107,12 @@ define( function( require ) {
     // @private called by dispose
     this.disposeNumberDisplay = function() {
       numberProperty.unlink( numberObserver );
-      options.tandem.removeInstance( this );
+      tandem.removeInstance( this );
     };
 
     Node.call( this, options );
 
-    options.tandem.addInstance( this, TNumberDisplay );
+    tandem.addInstance( this, TNumberDisplay );
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
@@ -118,6 +121,7 @@ define( function( require ) {
 
     // @public
     dispose: function() {
+      Node.prototype.dispose.call( this );
       this.disposeNumberDisplay();
     },
 

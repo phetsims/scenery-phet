@@ -110,6 +110,9 @@ define( function( require ) {
 
     var self = this;
 
+    var tandem = options.tandem;
+    options.tandem = options.tandem.createSupertypeTandem();
+
     var delta = options.delta; // to improve readability
 
     var titleNode = new Text( title, {
@@ -164,7 +167,6 @@ define( function( require ) {
     numberProperty.link( arrowEnabledListener );
 
     var slider = new HSlider( numberProperty, numberRange, _.extend(
-
       // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
       _.omit( options, Node.prototype._mutatorKeys ),
       {
@@ -216,10 +218,10 @@ define( function( require ) {
       numberProperty.unlink( arrowEnabledListener );
       self.enabledProperty.unlink( enabledObserver );
 
-      options.tandem && options.tandem.removeInstance( self );
+      tandem.removeInstance( self );
     };
 
-    options.tandem && options.tandem.addInstance( this, TNumberControl );
+    tandem.addInstance( this, TNumberControl );
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );
