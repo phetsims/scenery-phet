@@ -107,7 +107,7 @@ define( function( require ) {
     // @private called by dispose
     this.disposeNumberDisplay = function() {
       numberProperty.unlink( numberObserver );
-      tandem.removeInstance( this );
+      tandem.removeInstance( self );
     };
 
     Node.call( this, options );

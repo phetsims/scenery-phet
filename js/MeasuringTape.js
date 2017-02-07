@@ -300,7 +300,7 @@ define( function( require ) {
     this.mutate( options );
 
     this.disposeMeasuringTape = function() {
-      tandem.removeInstance( this );
+      tandem.removeInstance( self );
     };
 
     tandem.addInstance( this, TMeasuringTape );

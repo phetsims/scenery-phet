@@ -310,7 +310,7 @@ define( function( require ) {
       shooterNode.dispose();
 
       // tandem
-      tandem.removeInstance( this );
+      tandem.removeInstance( self );
     };
   }
 
