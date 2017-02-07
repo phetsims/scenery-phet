@@ -88,8 +88,8 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    // @private - likely to be undefined if not being called from an instrumented sim.
-    this.tandem = options.tandem;
+    var tandem = options.tandem;
+    options.tandem = options.tandem.createSupertypeTandem();
 
     assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) ===
                       Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
@@ -160,7 +160,7 @@ define( function( require ) {
 
     // @private
     this.baseDragHandler = new TandemSimpleDragHandler( {
-      tandem: this.tandem.createTandem( 'baseDragHandler' ),
+      tandem: tandem.createTandem( 'baseDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -207,7 +207,7 @@ define( function( require ) {
 
     // init drag and drop for tip
     tip.addInputListener( new TandemSimpleDragHandler( {
-      tandem: this.tandem.createTandem( 'tipDragHandler' ),
+      tandem: tandem.createTandem( 'tipDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -299,7 +299,11 @@ define( function( require ) {
 
     this.mutate( options );
 
-    this.tandem.addInstance( this, TMeasuringTape );
+    this.disposeMeasuringTape = function() {
+      tandem.removeInstance( this );
+    };
+
+    tandem.addInstance( this, TMeasuringTape );
   }
 
   sceneryPhet.register( 'MeasuringTape', MeasuringTape );
@@ -321,7 +325,7 @@ define( function( require ) {
     dispose: function() {
       this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.unitsProperty.unlink( this.unitsPropertyObserver );
-      this.tandem.removeInstance( this );
+      this.disposeMeasuringTape();
     },
 
     /**
