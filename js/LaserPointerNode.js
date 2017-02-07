@@ -21,9 +21,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // phet-io modules
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
-
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
    * @param {Object} [options]
@@ -97,8 +94,6 @@ define( function( require ) {
     options.children = children.concat( options.children || [] );
     Node.call( this, options );
 
-    options.tandem.addInstance( this, TNode );
-
     // enables and disables the button
     var enabledObserver = function( enabled ) {
       self.button && ( self.button.enabled = enabled );
@@ -109,7 +104,6 @@ define( function( require ) {
     this.disposeLaserPointerNode = function() {
       self.button && self.button.dispose();
       self.enabledProperty.unlink( enabledObserver );
-      options.tandem.removeInstance( self );
     };
   }
 
@@ -150,6 +144,7 @@ define( function( require ) {
 
     // @public
     dispose: function() {
+      Node.prototype.dispose.call( this );
       this.disposeLaserPointerNode();
     },
 

@@ -26,9 +26,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
-  // phet-io modules
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
-
   // strings
   var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
   var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
@@ -286,7 +283,6 @@ define( function( require ) {
     strut.moveToBack();
 
     this.mutate( options );
-    options.tandem.addInstance( this, TNode );
 
     // @private called by dispose
     this.disposeWavelengthSlider = function() {
@@ -294,7 +290,6 @@ define( function( require ) {
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
       wavelengthProperty.unlink( wavelengthListener );
-      options.tandem.removeInstance( this );
     };
   }
 
@@ -405,6 +400,7 @@ define( function( require ) {
 
     // @public
     dispose: function() {
+      Node.prototype.dispose.call( this );
       this.disposeWavelengthSlider();
     }
   } );

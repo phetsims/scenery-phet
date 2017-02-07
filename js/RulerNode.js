@@ -20,9 +20,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  // phet-io modules
-  var TRulerNode = require( 'ifphetio!PHET_IO/types/scenery-phet/TRulerNode' );
-
   // constants
   var DEFAULT_FONT = new PhetFont( 18 );
 
@@ -175,7 +172,7 @@ define( function( require ) {
 
     // Handle the case where the units label extends off the edge of the ruler.  This is kind of a corner case, but was
     // seen when testing long strings on Pendulum Lab.
-    if ( unitsLabel.bounds.maxX > backgroundNode.bounds.maxX - options.unitsSpacing ){
+    if ( unitsLabel.bounds.maxX > backgroundNode.bounds.maxX - options.unitsSpacing ) {
       unitsLabelMaxWidth = ( backgroundNode.bounds.maxX - options.unitsSpacing ) - unitsLabel.x;
       unitsLabel.scale( unitsLabelMaxWidth / unitsLabel.width );
     }
@@ -197,21 +194,9 @@ define( function( require ) {
     } ) );
 
     this.mutate( options );
-
-    this.disposeRulerNode = function() {
-      options.tandem && options.tandem.removeInstance( this );
-    };
-
-    options.tandem.addInstance( this, TRulerNode );
   }
 
   sceneryPhet.register( 'RulerNode', RulerNode );
 
-  return inherit( Node, RulerNode, {
-
-    // @public - Provide dispose() on the prototype for ease of subclassing.
-    dispose: function() {
-      this.disposeRulerNode();
-    }
-  } );
+  return inherit( Node, RulerNode );
 } );

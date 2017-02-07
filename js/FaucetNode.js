@@ -89,6 +89,9 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
+    var tandem = options.tandem;
+    options.tandem = options.tandem.createSupertypeTandem();
+
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
     var self = this;
@@ -293,7 +296,7 @@ define( function( require ) {
     self.mutate( options );
 
     // Tandem support
-    options.tandem.addInstance( this, TFaucet );
+    tandem.addInstance( this, TFaucet );
 
     // @private called by dispose
     this.disposeFaucetNode = function() {
@@ -307,7 +310,7 @@ define( function( require ) {
       shooterNode.dispose();
 
       // tandem
-      options.tandem.removeInstance( this );
+      tandem.removeInstance( this );
     };
   }
 

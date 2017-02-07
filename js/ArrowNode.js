@@ -19,9 +19,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // phet-io modules
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
-
   /**
    * @param {number} tailX
    * @param {number} tailY
@@ -56,15 +53,6 @@ define( function( require ) {
     assert && assert( options.headWidth > options.tailWidth );
 
     this.mutate( options );
-
-    // Tandem support
-    options.tandem.addInstance( this, TNode );
-
-    // @private called by dispose
-    this.disposeArrowNode = function() {
-      options.tandem.removeInstance( this );
-    };
-
   }
 
   sceneryPhet.register( 'ArrowNode', ArrowNode );
@@ -146,12 +134,6 @@ define( function( require ) {
       this.options.doubleHead = doubleHead;
       this.updateShapePoints();
       this.updateShape();
-    },
-
-    // @public
-    dispose: function() {
-      this.disposeArrowNode();
     }
-
   } );
 } );
