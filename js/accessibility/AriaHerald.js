@@ -32,16 +32,23 @@ define( function( require ) {
 
   // constants
   var disabled = false; // flag that enables/disables alerts via AriaHerald
+
+  // ids for each of the aria-live elements
+  var ASSERTIVE_ELEMENT_ID = 'assertive';
+  var POLITE_ELEMENT_ID = 'polite';
+  var ASSERTIVE_ALERT_ELEMENT_ID = 'assertive-alert';
+  var POLITE_STATUS_ELEMENT_ID = 'polite-status';
+  var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
   
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
 
   // DOM elements which will receive the updated content
-  var assertiveElement = document.getElementById( 'assertive' );
-  var politeElement = document.getElementById( 'polite' );
-  var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-  var politeStatusElement = document.getElementById( 'polite-status' );
-  var alertContainer = document.getElementById( 'aria-live-elements' );
+  var assertiveElement = document.getElementById( ASSERTIVE_ELEMENT_ID );
+  var politeElement = document.getElementById( POLITE_ELEMENT_ID );
+  var assertiveAlertElement = document.getElementById( ASSERTIVE_ALERT_ELEMENT_ID );
+  var politeStatusElement = document.getElementById( POLITE_STATUS_ELEMENT_ID );
+  var alertContainer = document.getElementById( ALERT_CONTAINER_ELEMENT_ID );
 
   // verify that all elements are present
   assert && assert( assertiveElement, 'No assertive element found in document' );
@@ -211,7 +218,14 @@ define( function( require ) {
      */
     setDisabled: function( isDisabled ) {
       disabled = isDisabled;
-    }
+    },
+
+    // static constants
+    ASSERTIVE_ELEMENT_ID: ASSERTIVE_ELEMENT_ID,
+    POLITE_ELEMENT_ID: POLITE_ELEMENT_ID,
+    ASSERTIVE_ALERT_ELEMENT_ID: ASSERTIVE_ALERT_ELEMENT_ID,
+    POLITE_STATUS_ELEMENT_ID: POLITE_STATUS_ELEMENT_ID,
+    ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
