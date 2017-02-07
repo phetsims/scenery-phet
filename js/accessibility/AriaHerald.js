@@ -28,7 +28,7 @@ define( function( require ) {
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   // phet-io support
-  var tandem = Tandem.createStaticTandem( 'AriaHerald' );
+  var tandem = Tandem.createStaticTandem( 'ariaHerald' );
 
   // constants
   var disabled = false; // flag that enables/disables alerts via AriaHerald
