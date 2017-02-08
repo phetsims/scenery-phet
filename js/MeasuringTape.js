@@ -35,9 +35,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // phet-io modules
-  var TMeasuringTape = require( 'ifphetio!PHET_IO/types/scenery-phet/TMeasuringTape' );
-
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
 
@@ -87,9 +84,6 @@ define( function( require ) {
       isTipDragBounded: false, // is the tip subject to dragBounds
       tandem: Tandem.tandemRequired()
     }, options );
-
-    var tandem = options.tandem;
-    options.tandem = options.tandem.createSupertypeTandem();
 
     assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) ===
                       Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
@@ -160,7 +154,7 @@ define( function( require ) {
 
     // @private
     this.baseDragHandler = new TandemSimpleDragHandler( {
-      tandem: tandem.createTandem( 'baseDragHandler' ),
+      tandem: options.tandem.createTandem( 'baseDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -207,7 +201,7 @@ define( function( require ) {
 
     // init drag and drop for tip
     tip.addInputListener( new TandemSimpleDragHandler( {
-      tandem: tandem.createTandem( 'tipDragHandler' ),
+      tandem: options.tandem.createTandem( 'tipDragHandler' ),
 
       allowTouchSnag: true,
 
@@ -298,12 +292,6 @@ define( function( require ) {
     this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
 
     this.mutate( options );
-
-    this.disposeMeasuringTape = function() {
-      tandem.removeInstance( self );
-    };
-
-    tandem.addInstance( this, TMeasuringTape );
   }
 
   sceneryPhet.register( 'MeasuringTape', MeasuringTape );
@@ -323,9 +311,9 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
+      Node.prototype.dispose.call( this );
       this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.unitsProperty.unlink( this.unitsPropertyObserver );
-      this.disposeMeasuringTape();
     },
 
     /**
