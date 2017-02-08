@@ -86,11 +86,9 @@ define( function( require ) {
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TFaucet
     }, options );
-
-    var tandem = options.tandem;
-    options.tandem = options.tandem.createSupertypeTandem();
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -295,9 +293,6 @@ define( function( require ) {
 
     self.mutate( options );
 
-    // Tandem support
-    tandem.addInstance( this, TFaucet );
-
     // @private called by dispose
     this.disposeFaucetNode = function() {
 
@@ -308,9 +303,6 @@ define( function( require ) {
 
       // Subcomponents
       shooterNode.dispose();
-
-      // tandem
-      tandem.removeInstance( self );
     };
   }
 
