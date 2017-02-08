@@ -88,8 +88,8 @@ define( function( require ) {
       arrowButtonScale: 0.85,
 
       // phet-io
-      tandem: Tandem.tandemRequired()
-
+      tandem: Tandem.tandemRequired(),
+      phetioType: TNumberControl
     }, options );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
@@ -110,15 +110,12 @@ define( function( require ) {
 
     var self = this;
 
-    var tandem = options.tandem;
-    options.tandem = options.tandem.createSupertypeTandem();
-
     var delta = options.delta; // to improve readability
 
     var titleNode = new Text( title, {
       font: options.titleFont,
       maxWidth: options.titleMaxWidth,
-      tandem: options.tandem && options.tandem.createTandem( 'titleNode' )
+      tandem: options.tandem.createTandem( 'titleNode' )
     } );
 
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
@@ -132,7 +129,7 @@ define( function( require ) {
       backgroundLineWidth: options.valueBackgroundLineWidth,
       cornerRadius: options.valueBackgroundCornerRadius,
       maxWidth: options.valueMaxWidth,
-      tandem: options.tandem && options.tandem.createTandem( 'numberDisplay' )
+      tandem: options.tandem.createTandem( 'numberDisplay' )
     } );
 
     var arrowButtonOptions = {
@@ -148,7 +145,7 @@ define( function( require ) {
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem && options.tandem.createTandem( 'leftArrowButton' )
+      tandem: options.tandem.createTandem( 'leftArrowButton' )
     }, arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
@@ -157,7 +154,7 @@ define( function( require ) {
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem && options.tandem.createTandem( 'rightArrowButton' )
+      tandem: options.tandem.createTandem( 'rightArrowButton' )
     }, arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
@@ -174,7 +171,7 @@ define( function( require ) {
         // where it makes no sense to call them startDrag and endDrag.
         startDrag: options.startCallback,
         endDrag: options.endCallback,
-        tandem: options.tandem && options.tandem.createTandem( 'slider' )
+        tandem: options.tandem.createTandem( 'slider' )
       } ) );
 
     // major ticks
@@ -217,11 +214,7 @@ define( function( require ) {
 
       numberProperty.unlink( arrowEnabledListener );
       self.enabledProperty.unlink( enabledObserver );
-
-      tandem.removeInstance( self );
     };
-
-    tandem.addInstance( this, TNumberControl );
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );

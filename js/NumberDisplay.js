@@ -49,7 +49,8 @@ define( function( require ) {
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TNumberDisplay
     }, options );
 
     // validate options
@@ -57,9 +58,6 @@ define( function( require ) {
     assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
 
     var self = this;
-
-    var tandem = options.tandem;
-    options.tandem = options.tandem.createSupertypeTandem();
 
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
@@ -107,12 +105,9 @@ define( function( require ) {
     // @private called by dispose
     this.disposeNumberDisplay = function() {
       numberProperty.unlink( numberObserver );
-      tandem.removeInstance( self );
     };
 
     Node.call( this, options );
-
-    tandem.addInstance( this, TNumberDisplay );
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
