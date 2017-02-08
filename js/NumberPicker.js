@@ -65,6 +65,7 @@ define( function( require ) {
       arrowLineWidth: 0.25,
       formatText: function( text ) {return text;} // Text processor that can be used for formatting the text
     }, options );
+
     // {Color|string} color of arrows and top/bottom gradient when pressed
     options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
 
