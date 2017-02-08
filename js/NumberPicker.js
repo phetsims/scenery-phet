@@ -288,7 +288,6 @@ define( function( require ) {
    * Converts ButtonListener events to state changes.
    *
    * @param {Property.<string>} stateProperty up|down|over|out
-   * @param {Object} [options]
    * @constructor
    */
   function ButtonStateListener( stateProperty ) {
