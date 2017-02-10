@@ -99,7 +99,7 @@ define( function( require ) {
    * @param {boolean} [withClear] - optional, whether or not to remove the old text content before updating the element
    */
   function updateLiveElement( elementContentProperty, textContent, withClear ) {
-    withClear = ( withClear === 'undefined' ) ? DEFAULT_WITH_CLEAR : withClear;
+    withClear = ( withClear === undefined ) ? DEFAULT_WITH_CLEAR : withClear;
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // only update content if the group of aria-live elements are enabled
@@ -214,10 +214,24 @@ define( function( require ) {
 
     /**
      * Disables or enable all aria-live elements. When disabled, the user will hear no alerts.
+     * @public
+     * 
      * @param {Boolean} isDisabled
      */
     setDisabled: function( isDisabled ) {
       disabled = isDisabled;
+    },
+
+    /**
+     * Call the desired callback, first disabling all alerts.  When the callback returns, enable alerts again.
+     * @public
+     * 
+     * @param {Function} callback
+     */
+    callWithDisabledAlerts: function( callback ) {
+      disabled = true;
+      callback();
+      disabled = false;
     },
 
     // static constants
