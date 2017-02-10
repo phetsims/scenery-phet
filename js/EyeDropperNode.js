@@ -128,6 +128,7 @@ define( function( require ) {
     // @public makes this instance eligible for garbage collection
     dispose: function() {
       this.disposeEyeDropperNode();
+      Node.prototype.dispose.call( this );
     },
 
     set dispensing( value ) { this.dispensingProperty = value; },

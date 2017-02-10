@@ -144,8 +144,8 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      Node.prototype.dispose.call( this );
       this.disposeLaserPointerNode();
+      Node.prototype.dispose.call( this );
     },
 
     /**

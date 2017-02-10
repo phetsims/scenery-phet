@@ -374,12 +374,18 @@ define( function( require ) {
   inherit( Node, ShooterNode, {
 
     // @public
-    dispose: function() { this.disposeShooterNode(); }
+    dispose: function() {
+      this.disposeShooterNode();
+      Node.prototype.dispose.call( this );
+    }
   } );
 
   return inherit( Node, FaucetNode, {
 
     // @public
-    dispose: function() { this.disposeFaucetNode(); }
+    dispose: function() {
+      this.disposeFaucetNode();
+      Node.prototype.dispose.call( this );
+    }
   } );
 } );

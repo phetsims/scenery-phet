@@ -92,6 +92,9 @@ define( function( require ) {
   return inherit( RoundPushButton, StepButton, {
 
     // @public
-    dispose: function() { this.disposeStepButton(); }
+    dispose: function() {
+      this.disposeStepButton();
+      RoundPushButton.prototype.dispose.call( this );
+    }
   } );
 } );

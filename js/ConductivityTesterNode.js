@@ -237,6 +237,8 @@ define( function( require ) {
       // dispose of sub-components
       this.lightBulbNode.dispose();
       this.lightBulbNode = null;
+
+      Node.prototype.dispose.call( this );
     },
 
     // @public @override

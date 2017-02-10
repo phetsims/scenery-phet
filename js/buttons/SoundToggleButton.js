@@ -99,8 +99,8 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      BooleanRectangularToggleButton.prototype.dispose.call( this );
       this.disposeSoundToggleButton();
+      BooleanRectangularToggleButton.prototype.dispose.call( this );
     }
   } );
 } );

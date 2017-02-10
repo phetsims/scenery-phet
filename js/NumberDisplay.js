@@ -116,8 +116,8 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      Node.prototype.dispose.call( this );
       this.disposeNumberDisplay();
+      Node.prototype.dispose.call( this );
     },
 
     /**

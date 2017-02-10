@@ -311,9 +311,9 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      Node.prototype.dispose.call( this );
       this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.unitsProperty.unlink( this.unitsPropertyObserver );
+      Node.prototype.dispose.call( this );
     },
 
     /**

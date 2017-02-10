@@ -354,6 +354,8 @@ define( function( require ) {
       this.downEnabledProperty.dispose();
 
       this.valueProperty.unlink( this.valueObserver );
+
+      Node.prototype.dispose.call( this );
     },
 
     // @public

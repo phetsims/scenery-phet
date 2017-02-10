@@ -107,6 +107,7 @@ define( function( require ) {
       this.listeners.length = 0;
       this.timer.dispose();
       this.timer = null;
+      DownUpListener.prototype.dispose && DownUpListener.prototype.dispose.call( this );
     }
   } );
 } );

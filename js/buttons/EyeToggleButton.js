@@ -60,6 +60,7 @@ define( function( require ) {
     // @public
     dispose: function() {
       this.disposeEyeToggleButton();
+      RectangularToggleButton.prototype.dispose.call( this );
     }
   } );
 } );

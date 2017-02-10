@@ -228,6 +228,7 @@ define( function( require ) {
     // @public
     dispose: function() {
       this.disposeDrawer();
+      Node.prototype.dispose.call( this );
     },
 
     /**

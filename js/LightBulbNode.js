@@ -80,6 +80,7 @@ define( function( require ) {
     // @public Ensures that this object is eligible for GC
     dispose: function() {
       this.brightnessProperty.unlink( this.brightnessObserver );
+      Node.prototype.dispose.call( this );
     },
 
     // @private

@@ -144,6 +144,7 @@ define( function( require ) {
     // @public
     dispose: function() {
       this.disposeGaugeNode();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );

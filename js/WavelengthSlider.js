@@ -376,6 +376,7 @@ define( function( require ) {
 
     dispose: function() {
       this.disposeValueDisplay();
+      Text.prototype.dispose.call( this );
     }
   } );
 
@@ -400,8 +401,8 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      Node.prototype.dispose.call( this );
       this.disposeWavelengthSlider();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
