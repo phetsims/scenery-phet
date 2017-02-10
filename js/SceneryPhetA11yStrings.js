@@ -23,7 +23,11 @@ define( function( require ) {
     escString: 'Esc',
 
     // button labels
-    soundToggleLabelString: 'Mute Sound'
+    soundToggleLabelString: 'Mute Sound',
+
+    // alert for sim reset
+    resetAllAlertString: 'Sim screen restarted, everything reset'
+
   };
 
   // verify that object is immutable, without the runtime penalty in production code
