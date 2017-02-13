@@ -27,6 +27,7 @@ define( function( require ) {
    */
   function FaceNode( headDiameter, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, customization for FaceNode is lower priority
 
     // default options
     options = _.extend( {

@@ -32,6 +32,7 @@ define( function( require ) {
    */
   function SubSupText( text, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, further customization is probably not necessary
 
     // Check for XSS string, and remap. See https://github.com/phetsims/scenery/issues/528. This type of string should
     // almost certainly not be otherwise passed to SubSupText.

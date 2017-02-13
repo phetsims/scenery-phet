@@ -101,6 +101,7 @@ define( function( require ) {
    */
   function ProbeNode( options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, further customization is probably not necessary
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 

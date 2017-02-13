@@ -25,6 +25,7 @@ define( function( require ) {
    */
   function StepButton( options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Tandem required by the parent class, further customization is probably not necessary
 
     // these options are used in computation of other default options
     var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;

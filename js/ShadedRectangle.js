@@ -29,6 +29,7 @@ define( function( require ) {
    */
   function ShadedRectangle( rectBounds, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, further customization is probably not necessary
 
     Node.call( this );
 

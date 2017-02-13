@@ -27,6 +27,7 @@ define( function( require ) {
    */
   function ShiftKeyNode( options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, further customization is probably not necessary
 
     options = _.extend( {
       minKeyWidth: 75, // in ScreenView coordinates, shift key is usually longer than other keys

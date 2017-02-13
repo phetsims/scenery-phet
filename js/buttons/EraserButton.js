@@ -24,6 +24,7 @@ define( function( require ) {
    */
   function EraserButton( options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Tandem required by the parent class, further customization is probably not necessary
 
     options = _.extend( {
       baseColor: PhetColorScheme.PHET_LOGO_YELLOW,

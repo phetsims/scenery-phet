@@ -59,6 +59,7 @@ define( function( require ) {
    */
   function KeyNode( keyIcon, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Instrumentation provided by Node, further customization is probably not necessary
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
     assert && assert( options.minKeyWidth <= options.maxKeyWidth, 'max key width must be greater than min key width' );

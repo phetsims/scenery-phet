@@ -32,6 +32,7 @@ define( function( require ) {
    */
   function GaugeNode( valueProperty, label, range, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Medium priority, tandem should be tandemRequired and passed through to children
 
     Node.call( this );
 

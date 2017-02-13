@@ -35,6 +35,7 @@ define( function( require ) {
    */
   function SoundToggleButton( property, options ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
+    // Tandem required by the parent class, further customization is probably not necessary
 
     var soundOffNode = new Node();
     var soundOnNode = new FontAwesomeNode( 'volume_up' );
