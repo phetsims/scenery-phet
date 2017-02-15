@@ -27,10 +27,10 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging
