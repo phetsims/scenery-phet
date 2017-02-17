@@ -51,7 +51,7 @@ define( function( require ) {
 
     // a11y - wrap the listener with a function that disables all accessibility alerts and announces a summary of the 
     // reset action after the listener returns. Rather than announce all of the alerts that could trigger as the screen
-    // is reset, it is prefereable to announce a short summary that is consistent every time the ResetAllButton is
+    // is reset, it is preferable to announce a short summary that is consistent every time the ResetAllButton is
     // pressed.
     // stored by value so that options.listener doesn't call accessibleListener recursively
     var resetAllListener = options.listener;
