@@ -14,8 +14,9 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * Constructor.
@@ -26,14 +27,13 @@ define( function( require ) {
    * @constructor
    */
   function BucketFront( bucket, modelViewTransform, options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Instrumentation provided by Node, further customization is probably not necessary
 
     // Invoke super constructor.
     Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
-      labelFont: new PhetFont( 20 )
+      labelFont: new PhetFont( 20 ),
+      tandem: Tandem.tandemRequired()
     }, options );
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
@@ -49,7 +49,8 @@ define( function( require ) {
     // Create and add the label, centered on the front.
     var label = new Text( bucket.captionText, {
       font: options.labelFont,
-      fill: bucket.captionColor
+      fill: bucket.captionColor,
+      tandem: options.tandem.createTandem( 'label' )
     } );
 
     // Scale the label to fit if too large.
@@ -61,6 +62,8 @@ define( function( require ) {
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
+
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'BucketFront', BucketFront );
