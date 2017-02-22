@@ -13,15 +13,16 @@ define( function( require ) {
   // modules
   var AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
-  var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
+  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
+  //var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  // var NEGATIVE_CHAR = '\u2212';
+  var NEGATIVE_CHAR = '\u2212';
+
 
   /**
    * @param {Object} [options]
@@ -49,14 +50,42 @@ define( function( require ) {
     // @public - numerical value of the keys entered by the user
     this.valueProperty = new Property( this.stringToInteger( this.stringProperty.get() ) );
 
-    // @private - when true, the next key press (expect backspace) will clear the accumulated value
-    this._clearOnNextKeyPress = false;
   }
 
   sceneryPhet.register( 'IntegerAccumulator', IntegerAccumulator );
 
   return inherit( AbstractKeyAccumulator, IntegerAccumulator, {
 
+    handleKeyPressed: function( keyIdentifier ) {
+      var newArray = this.handleClearOnNextKeyPress( keyIdentifier );
+      if ( this.isDigit( keyIdentifier ) ) {
+        this.removeLeadingZero( newArray );
+        newArray.push( keyIdentifier );
+
+      } else if ( keyIdentifier === Keys.BACKSPACE ){
+        newArray.pop();
+
+      } else if ( keyIdentifier === Keys.PLUSMINUS ){
+        // check if first element of array is instance of this class
+        if ( newArray.length > 0 && newArray[ 0 ] === Keys.PLUSMINUS ) {
+          newArray.shift();
+        }
+        else {
+          newArray.unshift( keyIdentifier );
+        }
+      }
+      else{
+        assert && assert( false, 'This type of Key is not supported for Integer Keypad' );
+      }
+
+      this.validateAndUpdate( newArray );
+    },
+
+    removeLeadingZero: function( array ){
+      if ( this.valueProperty.get() === 0 ){
+        array.pop();
+      }
+    },
     /**
      * Validates a proposed set of keys and (if valid) updates the string and numeric Properties.
      * @param {AbstractKey[]} proposedKeys - the proposed set of keys, to be validated
@@ -83,8 +112,8 @@ define( function( require ) {
       var i = 0;
 
       // PlusMinusKey (if present) will be first key, and indicates that the number is negative
-      if ( keys.length > 0 && keys[ i ] instanceof PlusMinusKey ) {
-        returnValue = PlusMinusKey.MINUS_CHAR;
+      if ( keys.length > 0 && keys[ i ] === Keys.PLUSMINUS ) {
+        returnValue = NEGATIVE_CHAR;
         i++;
       }
 
@@ -92,8 +121,8 @@ define( function( require ) {
       for ( ; i < keys.length; i++ ) {
 
         // PlusMinusKey (if present) should only be first
-        assert && assert( keys[ i ] instanceof DigitKey, 'unexpected key type' );
-        returnValue = returnValue + keys[ i ].identifier;
+        assert && assert( this.isDigit( keys[ i ] ), 'unexpected key type' );
+        returnValue = returnValue + keys[ i ];
       }
 
       return returnValue;
@@ -109,10 +138,10 @@ define( function( require ) {
       var returnValue = null;
 
       // if stringValue contains something other than just a minus sign...
-      if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === PlusMinusKey.MINUS_CHAR ) ) {
+      if ( stringValue.length > 0 && !( stringValue.length === 1 && stringValue[ 0 ] === NEGATIVE_CHAR ) ) {
 
         // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
-        returnValue = parseInt( stringValue.replace( PlusMinusKey.MINUS_CHAR, '-' ), 10 );
+        returnValue = parseInt( stringValue.replace( NEGATIVE_CHAR, '-' ), 10 );
         assert && assert( !isNaN( returnValue ) && Util.isInteger( returnValue ), 'invalid integer: ' + returnValue );
       }
 
@@ -128,7 +157,7 @@ define( function( require ) {
     getNumberOfDigits: function( keys ) {
       var numberOfDigits = 0;
       for ( var i = 0; i < keys.length; i++ ) {
-        if ( keys[ i ] instanceof DigitKey ) {
+        if ( this.isDigit( keys[ i ] ) ) {
           numberOfDigits++;
         }
       }
@@ -144,27 +173,7 @@ define( function( require ) {
       this.stringProperty.reset();
       this.valueProperty.reset();
       this.setClearOnNextKeyPress( false );
-    },
-
-    /**
-     * Determines whether pressing a key (except for backspace) will clear the existing value.
-     * @param {boolean} clearOnNextKeyPress
-     * @public
-     */
-    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
-      this._clearOnNextKeyPress = clearOnNextKeyPress;
-    },
-    set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
-
-    /**
-     * Will pressing a key (except for backspace) clear the existing value?
-     * @returns {boolean}
-     * @public
-     */
-    getClearOnNextKeyPress: function() {
-      return this._clearOnNextKeyPress;
-    },
-    get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
+    }
 
   } );
 } );

@@ -11,12 +11,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BackspaceKey = require( 'SCENERY_PHET/keypad/BackspaceKey' );
-  var DigitKey = require( 'SCENERY_PHET/keypad/DigitKey' );
+  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Key = require( 'SCENERY_PHET/keypad/Key' );
+  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlusMinusKey = require( 'SCENERY_PHET/keypad/PlusMinusKey' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -26,6 +26,8 @@ define( function( require ) {
   var DEFAULT_BUTTON_WIDTH = 35;
   var DEFAULT_BUTTON_HEIGHT = 35;
   var DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
+  var PLUS_CHAR = '\u002b';
+  var MINUS_CHAR = '\u2212';
 
   /**
    * @param {Array.<Object>} layout - an array that specifies the keys and the layout, see static instance below for
@@ -144,8 +146,7 @@ define( function( require ) {
       xMargin: 5,
       yMargin: 5,
       listener: function() {
-        var proposedKeys = keyObject.handleKeyPressed( keyAccumulator );
-        keyAccumulator.validateAndUpdate( proposedKeys );
+        keyAccumulator.handleKeyPressed( keyObject.identifier );
       }
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
@@ -157,26 +158,33 @@ define( function( require ) {
     // -------------------- static common layouts -------------------------
 
     WeirdLayout: [
-      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3, { horizontalSpan: 3 } )],
-      [ null, new DigitKey( 4 )],
-      [ new DigitKey( 5, { verticalSpan: 2 } ), new DigitKey( 6 ), new DigitKey( 7 )],
-      [ null, new DigitKey( 8 ), new DigitKey( 9 ) ],
-      [ null, new DigitKey( 0 , { horizontalSpan: 2 , verticalSpan: 2} ) ]
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } )],
+      [ null, new Key( '4', Keys.FOUR )],
+      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN )],
+      [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2 , verticalSpan: 2} ) ]
     ],
 
     PositiveIntegerLayout: [
-      [ new DigitKey( 7 ), new DigitKey( 8 ), new DigitKey( 9 ) ],
-      [ new DigitKey( 4 ), new DigitKey( 5 ), new DigitKey( 6 ) ],
-      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3 ) ],
-      [ new DigitKey( 0 , { horizontalSpan: 2 } ), new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT ) ]
+      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
+      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
     ],
-      
 
     PositiveAndNegativeIntegerLayout: [
-      [ new DigitKey( 7 ), new DigitKey( 8 ), new DigitKey( 9 ) ],
-      [ new DigitKey( 4 ), new DigitKey( 5 ), new DigitKey( 6 ) ],
-      [ new DigitKey( 1 ), new DigitKey( 2 ), new DigitKey( 3 ) ],
-      [ new BackspaceKey( DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT ), new DigitKey( 0 ), new PlusMinusKey() ]
+      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
+      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ), new Key( '0', Keys.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ]
+    ],
+
+    PositiveFloatingPointLayout: [
+      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
+      [ new Key( '.', Keys.DECIMAL ), new Key( '0', Keys.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
     ]
+
   } );
 } );

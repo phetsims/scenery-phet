@@ -10,17 +10,22 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Node} displayNode - node that will appear on the key
    * @param {string} identifier TODO document me
+   * @param options
    * @constructor
    */
-  function AbstractKey( displayNode, identifier, options ) {
+  function Key( displayNode, identifier, options ) {
     Tandem.indicateUninstrumentedCode();
 
+    // make sure identifier passed exists in the Keys enum
+
+    //assert && assert( Keys[ identifier ], 'This type of key does not exist yet. Please refer to Keys Enum' );
     options = _.extend( {
       horizontalSpan: 1,
       verticalSpan: 1
@@ -33,18 +38,9 @@ define( function( require ) {
     this.verticalSpan = options.verticalSpan;
   }
 
-  sceneryPhet.register( 'AbstractKey', AbstractKey );
+  sceneryPhet.register( 'Key', Key );
 
-  return inherit( Object, AbstractKey, {
+  return inherit( Object, Key, {
 
-    /**
-     * Called by the key accumulator when this key is pressed.
-     * @param {AbstractKeyAccumulator} keyAccumulator
-     * @public
-     * @abstract
-     */
-    handleKeyPressed: function( keyAccumulator ) {
-      throw new Error( 'abstract function must be implemented by subtypes' );
-    }
   } );
 } );
