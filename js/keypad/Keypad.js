@@ -53,10 +53,10 @@ define( function( require ) {
     var self = this;
 
     // @private
-    if ( options.accumulator ){
+    if ( options.accumulator ) {
       this.keyAccumulator = options.accumulator;
     }
-    else{
+    else {
       this.keyAccumulator = new NumberAccumulator( options );
     }
 
@@ -69,24 +69,24 @@ define( function( require ) {
     var numColumns = 0;
     var i;
 
-    for( i = 0; i < numRows; i++ ){
-      if ( layout[ i ].length > numColumns ){
+    for ( i = 0; i < numRows; i++ ) {
+      if ( layout[ i ].length > numColumns ) {
         numColumns = layout[ i ].length;
       }
     }
     // check last row to see if any button has vertical span more than 1
     var maxVerticalSpan = 1;
-    for ( i = 0; i < layout[ numRows - 1 ].length; i++ ){
-      if ( layout[ numRows - 1][i] && layout[ numRows - 1][i].verticalSpan > maxVerticalSpan ){
-        maxVerticalSpan = layout[ numRows - 1][i].verticalSpan;
+    for ( i = 0; i < layout[ numRows - 1 ].length; i++ ) {
+      if ( layout[ numRows - 1 ][ i ] && layout[ numRows - 1 ][ i ].verticalSpan > maxVerticalSpan ) {
+        maxVerticalSpan = layout[ numRows - 1 ][ i ].verticalSpan;
       }
     }
     numRows += maxVerticalSpan - 1;
     var occupiedLayoutGrid = [];
 
-    for( i = 0; i < numRows; i++ ){
+    for ( i = 0; i < numRows; i++ ) {
       occupiedLayoutGrid[ i ] = [];
-      for( var j = 0; j < numColumns; j++ ){
+      for ( var j = 0; j < numColumns; j++ ) {
         occupiedLayoutGrid[ i ][ j ] = 0;
       }
     }
@@ -94,9 +94,9 @@ define( function( require ) {
     // interpret the layout specification
     var x;
     var y;
-    for( i = 0; i < layout.length; i++ ){
+    for ( i = 0; i < layout.length; i++ ) {
       var startRow = i;
-      for( j = 0; j < layout[i].length; j++ ){
+      for ( j = 0; j < layout[ i ].length; j++ ) {
         var button = layout[ i ][ j ];
         if ( button ) {
           var startColumn = j + ( j > 0 && layout[ i ][ j - 1 ] ? layout[ i ][ j - 1 ].horizontalSpan - 1 : 0 );
@@ -118,7 +118,6 @@ define( function( require ) {
           buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
           self.addChild( buttonNode );
         }
-
       }
     }
 
@@ -165,7 +164,7 @@ define( function( require ) {
 
   return inherit( Node, Keypad, {
 
-    clear: function(){
+    clear: function() {
       this.keyAccumulator.clear();
     },
 
@@ -201,32 +200,32 @@ define( function( require ) {
 
     // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
     WeirdLayout: [
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } )],
-      [ null, new Key( '4', Keys.FOUR )],
-      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN )],
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } ) ],
+      [ null, new Key( '4', Keys.FOUR ) ],
+      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN ) ],
       [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2 , verticalSpan: 2} ) ]
+      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
     ],
 
     PositiveIntegerLayout: [
       [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
+      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
     ],
 
     PositiveAndNegativeIntegerLayout: [
       [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ), new Key( '0', Keys.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ]
+      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ), new Key( '0', Keys.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ]
     ],
 
     PositiveFloatingPointLayout: [
       [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( '.', Keys.DECIMAL ), new Key( '0', Keys.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
+      [ new Key( '.', Keys.DECIMAL ), new Key( '0', Keys.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
     ],
 
     PositiveAndNegativeFloatingPointLayout: [
@@ -234,7 +233,7 @@ define( function( require ) {
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
       [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ],
-      [ new Key( '.', Keys.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
+      [ new Key( '.', Keys.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
     ]
 
   } );
