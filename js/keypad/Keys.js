@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * enum that defines the type of keys supported by Keypad. If a new type of key has to be added add here
+ * enum that defines the type of keys supported by Keypad. If a new type of key is needed it has to be added here
  *
  * @author Aadish Gupta
  */

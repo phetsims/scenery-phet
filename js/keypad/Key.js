@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Base type for keys used in a keypad.
+ * Create Key to be used in a keypad.
  *
  * @author Aadish Gupta
  */
@@ -15,26 +15,22 @@ define( function( require ) {
 
   /**
    * @param {Node} displayNode - node that will appear on the key
-   * @param {string} identifier TODO document me
-   * @param options
+   * @param {string} identifier look at Keys enum for types of identifier supported
+   * @param {object} [options]
    * @constructor
    */
   function Key( displayNode, identifier, options ) {
     Tandem.indicateUninstrumentedCode();
 
-    // make sure identifier passed exists in the Keys enum
-
-    //assert && assert( Keys[ identifier ], 'This type of key does not exist yet. Please refer to Keys Enum' );
     options = _.extend( {
       horizontalSpan: 1,
       verticalSpan: 1
     }, options );
 
-    //TODO visibility annotations?
-    this.displayNode = displayNode;
-    this.identifier = identifier;
-    this.horizontalSpan = options.horizontalSpan;
-    this.verticalSpan = options.verticalSpan;
+    this.displayNode = displayNode; // @public
+    this.identifier = identifier; // @public
+    this.horizontalSpan = options.horizontalSpan; // @public
+    this.verticalSpan = options.verticalSpan; // @public
   }
 
   sceneryPhet.register( 'Key', Key );

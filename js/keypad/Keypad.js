@@ -191,13 +191,15 @@ define( function( require ) {
 
     // -------------------- static common layouts -------------------------
 
-    // Layout Specifications For creating your custom layout
-    // If Vertical Span greater than 1 is provided the column in the next rows has to be null else it will hit assertion
-    // for overlap
-    // If Horizontal Span greater than 1 is provided the next key in that row will not overlap and start after the row
-    // If you want blank spaces in the row you would need to provide null
-    // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
+    /**
+     * Layout Specifications for creating your custom layout
+     * If Vertical Span greater than 1 is provided the column in the next rows has to be null else it will hit assertion
+     * for overlap
+     * If Horizontal Span greater than 1 is provided the next key in that row will not overlap and start after the row
+     * If you want blank spaces in the row you would need to provide null
+     */
 
+    // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
     WeirdLayout: [
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } )],
       [ null, new Key( '4', Keys.FOUR )],
