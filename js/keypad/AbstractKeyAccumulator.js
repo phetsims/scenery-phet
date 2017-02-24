@@ -17,17 +17,25 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
+   * @param {Object} [options]
    * @constructor
    */
-  function AbstractKeyAccumulator() {
+  function AbstractKeyAccumulator( options ) {
     Tandem.indicateUninstrumentedCode();
 
-    //TODO what is the type of the array elements? Document like {Property.<[]?>}
+    options = _.extend( {
+      additionalValidator: null,
+      alternativeValidator: null
+    }, options );
+
     // @public - array property that tracks the accumulated key presses
-    this.accumulatedKeysProperty = new Property( [] );
+    this.accumulatedKeysProperty = new Property( [] ); //{Array.<string>}
 
     // @private - when true, the next key press (expect backspace) will clear the accumulated value
     this._clearOnNextKeyPress = false;
+
+    this.additionalValidator = options.additionalValidator; // @private
+    this.alternativeValidator = options.alternativeValidator; // @private
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -64,7 +72,7 @@ define( function( require ) {
 
     /**
      * Validates a proposed set of keys and (if valid) updates other other state in the accumulator.
-     * @param {AbstractKey[]} proposedKeys - the proposed set of keys, to be validated
+     * @param {string[]} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @abstract
      */
@@ -74,7 +82,7 @@ define( function( require ) {
 
     /**
      * Called by the key accumulator when this key is pressed.
-     * @param {AbstractKeyAccumulator} keyAccumulator
+     * @param {string} keyIdentifier
      * @public
      * @abstract
      */
@@ -82,20 +90,22 @@ define( function( require ) {
       throw new Error( 'abstract function must be implemented by subtypes' );
     },
 
-    isDigit: function( char ) {
-      return !isNaN( char ) && char >= '0' && char <= 9;
-    },
-
+    /**
+     * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
+     * @param {string} keyIdentifier
+     * @returns {string[]} proposedArray
+     * @private
+     */
     handleClearOnNextKeyPress: function( keyIdentifier ) {
-      var newArray;
+      var proposedArray;
       if ( !this.getClearOnNextKeyPress() || keyIdentifier === Keys.BACKSPACE ) {
-        newArray = _.clone( this.accumulatedKeysProperty.get() );
+        proposedArray = _.clone( this.accumulatedKeysProperty.get() );
       }
       else {
-        newArray = [];
+        proposedArray = [];
       }
       this.setClearOnNextKeyPress( false );
-      return newArray;
+      return proposedArray;
     }
   } );
 } );

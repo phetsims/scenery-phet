@@ -29,7 +29,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntegerAccumulator = require( 'SCENERY_PHET/keypad/IntegerAccumulator' );
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -605,54 +604,163 @@ define( function( require ) {
   // creates a demo for Keypad
   var demoKeypad = function( layoutBounds ){
 
-    var accumulator = new IntegerAccumulator( { maxLength: 5 } );
-
-    var keyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, accumulator, {
+    var integerKeyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, {
       buttonWidth: 35,
-      buttonHeight: 35
+      buttonHeight: 35,
+      maxDigits: 5
     } );
 
-    var stringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
-    var valueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+    var integerStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+    var integerValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-    accumulator.stringProperty.link( function( value ) {
-      stringRepresentation.text = 'string: ' + value;
+    integerKeyPad.stringProperty.link( function( value ) {
+      integerStringRepresentation.text = 'string: ' + value;
     } );
 
-    accumulator.valueProperty.link( function( value ){
-      valueRepresentation.text = 'number: ' + value;
+    integerKeyPad.valueProperty.link( function( value ){
+      integerValueRepresentation.text = 'number: ' + value;
     } );
 
-    var clearButton = new RectangularPushButton( {
+    var integerClearButton = new RectangularPushButton( {
       content: new Text( 'Clear Keypad' ),
       listener: function() {
-        accumulator.clear();
+        integerKeyPad.clear();
       }
     } );
 
     // For testing clearOnNextKeyPress feature
-    var clearOnNextKeyPressProperty = new Property( accumulator.getClearOnNextKeyPress() );
-    var clearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), clearOnNextKeyPressProperty );
-    clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
-      accumulator.setClearOnNextKeyPress( clearOnNextKeyPress );
-    } );
-    accumulator.valueProperty.link( function( value ) {
-      clearOnNextKeyPressProperty.value = accumulator.getClearOnNextKeyPress();
+    var integerClearOnNextKeyPressProperty = new Property( integerKeyPad.getClearOnNextKeyPress() );
+    var integerClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), integerClearOnNextKeyPressProperty );
+    integerClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+      integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
 
-    return new VBox( {
+    integerKeyPad.valueProperty.link( function( value ) {
+      integerClearOnNextKeyPressProperty.value = integerKeyPad.getClearOnNextKeyPress();
+    } );
+
+    var integerVBox = new VBox( {
       spacing: 30,
       resize: false,
       align: 'left',
       children: [
-        valueRepresentation,
-        stringRepresentation,
-        keyPad,
-        clearButton,
-        clearOnNextKeyPressButton
+        integerValueRepresentation,
+        integerStringRepresentation,
+        integerKeyPad,
+        integerClearButton,
+        integerClearOnNextKeyPressButton
+      ]
+    } );
+
+    var floatingPointKeyPad = new Keypad( Keypad.PositiveFloatingPointLayout, {
+      buttonWidth: 35,
+      buttonHeight: 35,
+      maxDigits: 4,
+      maxDigitsRightOfMantissa: 2
+    } );
+
+    var floatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+    var floatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+
+    floatingPointKeyPad.stringProperty.link( function( value ) {
+      floatingPointStringRepresentation.text = 'string: ' + value;
+    } );
+
+    floatingPointKeyPad.valueProperty.link( function( value ){
+      floatingPointValueRepresentation.text = 'number: ' + value;
+    } );
+
+    var floatingPointClearButton = new RectangularPushButton( {
+      content: new Text( 'Clear Keypad' ),
+      listener: function() {
+        floatingPointKeyPad.clear();
+      }
+    } );
+
+    // For testing clearOnNextKeyPress feature
+    var floatingPointClearOnNextKeyPressProperty = new Property( floatingPointKeyPad.getClearOnNextKeyPress() );
+    var floatingPointClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), floatingPointClearOnNextKeyPressProperty );
+    floatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+      floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
+    } );
+
+    floatingPointKeyPad.valueProperty.link( function( value ) {
+      floatingPointClearOnNextKeyPressProperty.value = floatingPointKeyPad.getClearOnNextKeyPress();
+    } );
+
+    var floatingPointVBox = new VBox( {
+      spacing: 30,
+      resize: false,
+      align: 'left',
+      children: [
+        floatingPointValueRepresentation,
+        floatingPointStringRepresentation,
+        floatingPointKeyPad,
+        floatingPointClearButton,
+        floatingPointClearOnNextKeyPressButton
+      ]
+    } );
+
+    var positiveAndNegativeFloatingPointKeyPad = new Keypad( Keypad.PositiveAndNegativeFloatingPointLayout, {
+      buttonWidth: 35,
+      buttonHeight: 35,
+      maxDigits: 4,
+      maxDigitsRightOfMantissa: 2
+    } );
+
+    var positiveAndNegativeFloatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+    var positiveAndNegativeFloatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
+
+    positiveAndNegativeFloatingPointKeyPad.stringProperty.link( function( value ) {
+      positiveAndNegativeFloatingPointStringRepresentation.text = 'string: ' + value;
+    } );
+
+    positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ){
+      positiveAndNegativeFloatingPointValueRepresentation.text = 'number: ' + value;
+    } );
+
+    var positiveAndNegativeFloatingPointClearButton = new RectangularPushButton( {
+      content: new Text( 'Clear Keypad' ),
+      listener: function() {
+        positiveAndNegativeFloatingPointKeyPad.clear();
+      }
+    } );
+
+    // For testing clearOnNextKeyPress feature
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property( positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress() );
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), positiveAndNegativeFloatingPointClearOnNextKeyPressProperty );
+    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+      positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
+    } );
+
+    positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
+      positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value = positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
+    } );
+
+    var positiveAndNegativeFloatingPointVBox = new VBox( {
+      spacing: 30,
+      resize: false,
+      align: 'left',
+      children: [
+        positiveAndNegativeFloatingPointValueRepresentation,
+        positiveAndNegativeFloatingPointStringRepresentation,
+        positiveAndNegativeFloatingPointKeyPad,
+        positiveAndNegativeFloatingPointClearButton,
+        positiveAndNegativeFloatingPointClearOnNextKeyPressButton
+      ]
+    } );
+
+    return new HBox( {
+      spacing: 50,
+      resize: false,
+      children: [
+        integerVBox,
+        floatingPointVBox,
+        positiveAndNegativeFloatingPointVBox
       ],
       center: layoutBounds.center
     } );
+
   };
 
   // Creates a demo for NumberPicker

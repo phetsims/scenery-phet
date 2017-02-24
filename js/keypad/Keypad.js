@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
   var Key = require( 'SCENERY_PHET/keypad/Key' );
   var Keys = require( 'SCENERY_PHET/keypad/Keys' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -30,13 +31,12 @@ define( function( require ) {
   var MINUS_CHAR = '\u2212';
 
   /**
-   * @param {Array.<Object>} layout - an array that specifies the keys and the layout, see static instance below for
+   * @param {Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
    * example usage
-   * @param {AbstractKeyAccumulator} keyAccumulator - object that accumulates the keys pressed by the user
    * @param {Object} [options]
    * @constructor
    */
-  function Keypad( layout, keyAccumulator, options ) {
+  function Keypad( layout, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
@@ -45,14 +45,24 @@ define( function( require ) {
       xSpacing: 10,
       ySpacing: 10,
       buttonColor: 'white',
-      buttonFont: DEFAULT_BUTTON_FONT
+      buttonFont: DEFAULT_BUTTON_FONT,
+      accumulator: null
     }, options );
 
     Node.call( this );
     var self = this;
 
-    //TODO add visibility annotation
-    this.keyAccumulator = keyAccumulator;
+    // @private
+    if ( options.accumulator ){
+      this.keyAccumulator = options.accumulator;
+    }
+    else{
+      this.keyAccumulator = new NumberAccumulator( options );
+    }
+
+    this.stringProperty = this.keyAccumulator.stringProperty; // @public (read-only)
+    this.valueProperty = this.keyAccumulator.valueProperty; // @public (read-only)
+    this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty; // @public (read-only)
 
     // determine number of rows and columns from the input layout
     var numRows = layout.length;
@@ -121,7 +131,7 @@ define( function( require ) {
    * Helper function to create the display key node for the provided key object
    *
    * @param {Object} keyObject
-   * @param {IntegerAccumulator} keyAccumulator
+   * @param {AbstractKeyAccumulator} keyAccumulator
    * @param {number} width
    * @param {number} height
    * @param {Object} [options]
@@ -153,9 +163,40 @@ define( function( require ) {
     return keyNode;
   }
 
-  return inherit( Node, Keypad, {}, {
+  return inherit( Node, Keypad, {
+
+    clear: function(){
+      this.keyAccumulator.clear();
+    },
+
+    /**
+     * Determines whether pressing a key (except for backspace) will clear the existing value.
+     * @param {boolean} clearOnNextKeyPress
+     * @public
+     */
+    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+      this.keyAccumulator.setClearOnNextKeyPress( clearOnNextKeyPress );
+    },
+
+    /**
+     * Will pressing a key (except for backspace) clear the existing value?
+     * @returns {boolean}
+     * @public
+     */
+    getClearOnNextKeyPress: function() {
+      return this.keyAccumulator.getClearOnNextKeyPress();
+    }
+
+  }, {
 
     // -------------------- static common layouts -------------------------
+
+    // Layout Specifications For creating your custom layout
+    // If Vertical Span greater than 1 is provided the column in the next rows has to be null else it will hit assertion
+    // for overlap
+    // If Horizontal Span greater than 1 is provided the next key in that row will not overlap and start after the row
+    // If you want blank spaces in the row you would need to provide null
+    // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
 
     WeirdLayout: [
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } )],
@@ -184,6 +225,14 @@ define( function( require ) {
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
       [ new Key( '.', Keys.DECIMAL ), new Key( '0', Keys.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
+    ],
+
+    PositiveAndNegativeFloatingPointLayout: [
+      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
+      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ],
+      [ new Key( '.', Keys.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ) , Keys.BACKSPACE ) ]
     ]
 
   } );
