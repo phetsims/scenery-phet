@@ -47,8 +47,8 @@ define( function( require ) {
       yMargin: 3,
       decimalPlaces: 0,
       font: new PhetFont( 24 ),
-      upFunction: function() { return valueProperty.get() + 1; },
-      downFunction: function() { return valueProperty.get() - 1; },
+      upFunction: function( value ) { return value + 1; },
+      downFunction: function( value ) { return value - 1; },
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this frequency (milliseconds),
       noValueString: '-', // string to display if valueProperty.get is null or undefined
@@ -221,7 +221,7 @@ define( function( require ) {
     upParent.addInputListener( new ButtonStateListener( upStateProperty ) );
     this.upListener = new FireOnHoldInputListener( {
       listener: function() {
-        valueProperty.set( Math.min( options.upFunction(), rangeProperty.get().max ) );
+        valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
       },
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
@@ -233,7 +233,7 @@ define( function( require ) {
     // @private
     this.downListener = new FireOnHoldInputListener( {
       listener: function() {
-        valueProperty.set( Math.max( options.downFunction(), rangeProperty.get().min ) );
+        valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
       },
       timerDelay: options.timerDelay,
       timerInterval: options.timerInterval
