@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    * @param {Node} displayNode - node that will appear on the key
-   * @param {string} identifier look at Keys enum for types of identifier supported
+   * @param {Keys} identifier look at Keys enum for types of identifier supported
    * @param {object} [options]
    * @constructor
    */
@@ -35,7 +35,5 @@ define( function( require ) {
 
   sceneryPhet.register( 'Key', Key );
 
-  return inherit( Object, Key, {
-
-  } );
+  return inherit( Object, Key, {} );
 } );

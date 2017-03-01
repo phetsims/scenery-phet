@@ -129,7 +129,7 @@ define( function( require ) {
   /**
    * Helper function to create the display key node for the provided key object
    *
-   * @param {Object} keyObject
+   * @param {Key} keyObject
    * @param {AbstractKeyAccumulator} keyAccumulator
    * @param {number} width
    * @param {number} height
@@ -164,6 +164,9 @@ define( function( require ) {
 
   return inherit( Node, Keypad, {
 
+    /**
+     * Calls the clear function for the given accumulator
+     */
     clear: function() {
       this.keyAccumulator.clear();
     },
@@ -198,15 +201,6 @@ define( function( require ) {
      * If you want blank spaces in the row you would need to provide null
      */
 
-    // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
-    WeirdLayout: [
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } ) ],
-      [ null, new Key( '4', Keys.FOUR ) ],
-      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN ) ],
-      [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
-    ],
-
     PositiveIntegerLayout: [
       [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
       [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
@@ -234,6 +228,15 @@ define( function( require ) {
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
       [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ],
       [ new Key( '.', Keys.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
+    ],
+
+    // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
+    WeirdLayout: [
+      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } ) ],
+      [ null, new Key( '4', Keys.FOUR ) ],
+      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN ) ],
+      [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
+      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
     ]
 
   } );

@@ -24,8 +24,10 @@ define( function( require ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
-      additionalValidator: null,
-      alternativeValidator: null
+      alternativeValidator: null,  // if non-null, called at the start of validateAndUpdate.
+                                   // alternativeValidator( proposedKeys ) { return true/false }
+      additionalValidator: null    // if non-null, called after default validation in validateAndUpdate.
+                                   // additionalValidator( proposedKeys ) { return true/false }
     }, options );
 
     // @public - array property that tracks the accumulated key presses
@@ -36,6 +38,9 @@ define( function( require ) {
 
     this.additionalValidator = options.additionalValidator; // @private
     this.alternativeValidator = options.alternativeValidator; // @private
+
+    assert && assert( !( this.additionalValidator && this.alternativeValidator ),
+      'Cannot provide additional and alternative validation simultaneously' );
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -72,7 +77,7 @@ define( function( require ) {
 
     /**
      * Validates a proposed set of keys and (if valid) updates other other state in the accumulator.
-     * @param {string[]} proposedKeys - the proposed set of keys, to be validated
+     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @abstract
      */
@@ -82,7 +87,7 @@ define( function( require ) {
 
     /**
      * Called by the key accumulator when this key is pressed.
-     * @param {string} keyIdentifier
+     * @param {Keys} keyIdentifier
      * @public
      * @abstract
      */
@@ -92,8 +97,8 @@ define( function( require ) {
 
     /**
      * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
-     * @param {string} keyIdentifier
-     * @returns {string[]} proposedArray
+     * @param {Keys} keyIdentifier
+     * @returns {Keys[]} proposedArray
      * @private
      */
     handleClearOnNextKeyPress: function( keyIdentifier ) {

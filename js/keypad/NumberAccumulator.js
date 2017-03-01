@@ -42,12 +42,12 @@ define( function( require ) {
     this.maxDigits = options.maxDigits; // @private
 
     // @public (read-only) - string representation of the keys entered by the user
-    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ){
+    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ) {
       return self.keysToString( accumulatedKeys );
     } );
 
     // @public (read-only) - numerical value of the keys entered by the user
-    this.valueProperty = new DerivedProperty( [ this.stringProperty  ], function( stringValue ){
+    this.valueProperty = new DerivedProperty( [ this.stringProperty ], function( stringValue ) {
       return self.stringToInteger( stringValue );
     } );
 
@@ -59,7 +59,7 @@ define( function( require ) {
 
     /**
      * Handles what happens when a key is pressed and create proposed set of keys to be passed to Validator
-     * @param {string} keyIdentifier - identifier for the key pressed
+     * @param {Keys} keyIdentifier - identifier for the key pressed
      * @public
      * @override
      */
@@ -69,10 +69,12 @@ define( function( require ) {
         this.removeLeadingZero( newArray );
         newArray.push( keyIdentifier );
 
-      } else if ( keyIdentifier === Keys.BACKSPACE ){
+      }
+      else if ( keyIdentifier === Keys.BACKSPACE ) {
         newArray.pop();
 
-      } else if ( keyIdentifier === Keys.PLUSMINUS ){
+      }
+      else if ( keyIdentifier === Keys.PLUSMINUS ) {
         // check if first element of array is instance of this class
         if ( newArray.length > 0 && newArray[ 0 ] === Keys.PLUSMINUS ) {
           newArray.shift();
@@ -80,12 +82,13 @@ define( function( require ) {
         else {
           newArray.unshift( keyIdentifier );
         }
-      } else if ( keyIdentifier === Keys.DECIMAL  ){
-        if ( ! this.containsFloatingPoint( newArray ) ){
+      }
+      else if ( keyIdentifier === Keys.DECIMAL ) {
+        if ( !this.containsFloatingPoint( newArray ) ) {
           newArray.push( keyIdentifier );
         }
       }
-      else{
+      else {
         assert && assert( false, 'This type of Key is not supported Number Keypad' );
       }
       this.validateAndUpdate( newArray );
@@ -93,35 +96,37 @@ define( function( require ) {
 
     /**
      * removes leading zeros from the array
-     * @param {string[]} array
+     * @param {Keys[]} array
      * @private
      */
-    removeLeadingZero: function( array ){
-      if ( this.valueProperty.get() === 0 && ! this.containsFloatingPoint( array ) ){
+    removeLeadingZero: function( array ) {
+      if ( this.valueProperty.get() === 0 && !this.containsFloatingPoint( array ) ) {
         array.pop();
       }
     },
 
     /**
      * Validates a proposed set of keys and (if valid) updates the accumulated keys.
-     * @param {string[]} proposedKeys - the proposed set of keys, to be validated
+     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @override
      */
     validateAndUpdate: function( proposedKeys ) {
-      if ( this.alternativeValidator ){
-        if ( this.alternativeValidator.call( null, proposedKeys ) ){
+      // if alternative validation is provided it is called here
+      if ( this.alternativeValidator ) {
+        if ( this.alternativeValidator.call( null, proposedKeys ) ) {
           this.accumulatedKeysProperty.set( proposedKeys );
         }
       }
       else {
-        if ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits &&
-             !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits &&
-               proposedKeys[ proposedKeys.length - 1 ] === Keys.DECIMAL ) &&
+        // default validation for the accumulator
+        if ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits &&
+             proposedKeys[ proposedKeys.length - 1 ] === Keys.DECIMAL ) &&
              this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa ) {
 
-          if ( this.additionalValidator ){
-            if ( this.additionalValidator.call( null, proposedKeys ) ){
+          // if additional validation is provided it is called here
+          if ( this.additionalValidator ) {
+            if ( this.additionalValidator.call( null, proposedKeys ) ) {
               this.accumulatedKeysProperty.set( proposedKeys );
             }
           }
@@ -134,7 +139,7 @@ define( function( require ) {
 
     /**
      * Converts a set of keys to a string.
-     * @param {string[]} keys
+     * @param {Keys[]} keys
      * @returns {string}
      * @private
      */
@@ -152,7 +157,7 @@ define( function( require ) {
       // process remaining keys
       for ( ; i < keys.length; i++ ) {
 
-        if ( keys[ i ] === Keys.DECIMAL ){
+        if ( keys[ i ] === Keys.DECIMAL ) {
           returnValue = returnValue + DECIMAL_CHAR;
         }
         else {
@@ -191,7 +196,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits to the left of mantissa in the accumulator.
-     * @param {string[]} keys
+     * @param {Keys[]} keys
      * @returns {number}
      * @private
      */
@@ -202,7 +207,7 @@ define( function( require ) {
           numberOfDigits++;
         }
 
-        if ( keys[ i ] === Keys.DECIMAL ){
+        if ( keys[ i ] === Keys.DECIMAL ) {
           break;
         }
       }
@@ -211,7 +216,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits to the right of mantissa in the accumulator.
-     * @param {string[]} keys
+     * @param {Keys[]} keys
      * @returns {number}
      * @private
      */
@@ -230,7 +235,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits in the accumulator.
-     * @param {string[]} keys
+     * @param {Keys[]} keys
      * @returns {number}
      * @private
      */
@@ -246,7 +251,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits in the accumulator.
-     * @param {string[]} keys
+     * @param {Keys[]} keys
      * @returns {boolean}
      * @private
      */
