@@ -15,7 +15,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Tandem = require( 'TANDEM/Tandem');
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery-phet/TBarrierRectangle' );
@@ -29,13 +29,11 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-        tandem: Tandem.tandemRequired(),
-        phetioType: TBarrierRectangle
-      },
-      options
-    );
+      tandem: Tandem.tandemRequired(),
+      phetioType: TBarrierRectangle
+    }, options );
 
-    Plane.call( this);
+    Plane.call( this );
 
     // @private
     this.startedCallbacksForFiredEmitter = new Emitter();
