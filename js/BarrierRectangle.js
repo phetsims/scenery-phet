@@ -52,6 +52,7 @@ define( function( require ) {
       }
     } ) );
 
+    // @private
     this.disposeBarrierRectangle = function() {
       modalNodeStack.lengthProperty.unlink();
     };
@@ -62,6 +63,8 @@ define( function( require ) {
   sceneryPhet.register( 'BarrierRectangle', BarrierRectangle );
 
   return inherit( Plane, BarrierRectangle, {
+
+    // @public
     dispose: function() {
       this.disposeBarrierRectangle();
       Plane.prototype.dispose.call( this );
