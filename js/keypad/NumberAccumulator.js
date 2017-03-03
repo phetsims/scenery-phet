@@ -114,7 +114,7 @@ define( function( require ) {
     validateAndUpdate: function( proposedKeys ) {
       // if alternative validation is provided it is called here
       if ( this.alternativeValidator ) {
-        if ( this.alternativeValidator.call( null, proposedKeys ) ) {
+        if ( this.alternativeValidator( proposedKeys ) ) {
           this.accumulatedKeysProperty.set( proposedKeys );
         }
       }
@@ -126,7 +126,7 @@ define( function( require ) {
 
           // if additional validation is provided it is called here
           if ( this.additionalValidator ) {
-            if ( this.additionalValidator.call( null, proposedKeys ) ) {
+            if ( this.additionalValidator( proposedKeys ) ) {
               this.accumulatedKeysProperty.set( proposedKeys );
             }
           }
