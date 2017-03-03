@@ -79,9 +79,38 @@ define( function( require ) {
      * Validates a proposed set of keys and (if valid) updates other other state in the accumulator.
      * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
      * @public
-     * @abstract
      */
     validateAndUpdate: function( proposedKeys ) {
+      // if alternative validation is provided it is called here
+      if ( this.alternativeValidator ) {
+        if ( this.alternativeValidator( proposedKeys ) ) {
+          this.accumulatedKeysProperty.set( proposedKeys );
+        }
+      }
+      else {
+        // default validation for the accumulator
+        if ( this.defaultValidator( proposedKeys ) ) {
+          // if additional validation is provided it is called here
+          if ( this.additionalValidator ) {
+            if ( this.additionalValidator( proposedKeys ) ) {
+              this.accumulatedKeysProperty.set( proposedKeys );
+            }
+          }
+          else {
+            this.accumulatedKeysProperty.set( proposedKeys );
+          }
+        }
+      }
+    },
+
+    /**
+     * Validates a proposed set of keys.
+     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
+     * @return {boolean}
+     * @private
+     * @abstract
+     */
+    defaultValidator: function( proposedKeys ) {
       throw new Error( 'abstract function must be implemented by subtypes' );
     },
 

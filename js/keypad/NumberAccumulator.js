@@ -106,35 +106,17 @@ define( function( require ) {
     },
 
     /**
-     * Validates a proposed set of keys and (if valid) updates the accumulated keys.
+     * Validates a proposed set of keys.
      * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @override
      */
-    validateAndUpdate: function( proposedKeys ) {
-      // if alternative validation is provided it is called here
-      if ( this.alternativeValidator ) {
-        if ( this.alternativeValidator( proposedKeys ) ) {
-          this.accumulatedKeysProperty.set( proposedKeys );
-        }
-      }
-      else {
-        // default validation for the accumulator
-        if ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits &&
-             proposedKeys[ proposedKeys.length - 1 ] === Keys.DECIMAL ) &&
-             this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa ) {
-
-          // if additional validation is provided it is called here
-          if ( this.additionalValidator ) {
-            if ( this.additionalValidator( proposedKeys ) ) {
-              this.accumulatedKeysProperty.set( proposedKeys );
-            }
-          }
-          else {
-            this.accumulatedKeysProperty.set( proposedKeys );
-          }
-        }
-      }
+    defaultValidator: function( proposedKeys ) {
+      return ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits
+               && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits
+               && proposedKeys[ proposedKeys.length - 1 ] === Keys.DECIMAL )
+               && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa
+      );
     },
 
     /**
