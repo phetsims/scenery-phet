@@ -27,6 +27,7 @@ define( function( require ) {
   var DEFAULT_BUTTON_WIDTH = 35;
   var DEFAULT_BUTTON_HEIGHT = 35;
   var DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
+  var DEFAULT_BUTTON_COLOR = 'white';
   var PLUS_CHAR = '\u002b';
   var MINUS_CHAR = '\u2212';
 
@@ -44,7 +45,7 @@ define( function( require ) {
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
       ySpacing: 10,
-      buttonColor: 'white',
+      buttonColor: DEFAULT_BUTTON_COLOR,
       buttonFont: DEFAULT_BUTTON_FONT,
       accumulator: null
     }, options );
@@ -67,39 +68,44 @@ define( function( require ) {
     // determine number of rows and columns from the input layout
     var numRows = layout.length;
     var numColumns = 0;
-    var i;
+    var row;
+    var column;
 
-    for ( i = 0; i < numRows; i++ ) {
-      if ( layout[ i ].length > numColumns ) {
-        numColumns = layout[ i ].length;
+    for ( row = 0; row < numRows; row++ ) {
+      if ( layout[ row ].length > numColumns ) {
+        numColumns = layout[ row ].length;
       }
     }
     // check last row to see if any button has vertical span more than 1
     var maxVerticalSpan = 1;
-    for ( i = 0; i < layout[ numRows - 1 ].length; i++ ) {
-      if ( layout[ numRows - 1 ][ i ] && layout[ numRows - 1 ][ i ].verticalSpan > maxVerticalSpan ) {
-        maxVerticalSpan = layout[ numRows - 1 ][ i ].verticalSpan;
+    for ( column = 0; column < layout[ numRows - 1 ].length; column++ ) {
+      if ( layout[ numRows - 1 ][ column ] && layout[ numRows - 1 ][ column ].verticalSpan > maxVerticalSpan ) {
+        maxVerticalSpan = layout[ numRows - 1 ][ column ].verticalSpan;
       }
     }
     numRows += maxVerticalSpan - 1;
+
+    // 2D grid to check for the overlap
     var occupiedLayoutGrid = [];
 
-    for ( i = 0; i < numRows; i++ ) {
-      occupiedLayoutGrid[ i ] = [];
-      for ( var j = 0; j < numColumns; j++ ) {
-        occupiedLayoutGrid[ i ][ j ] = 0;
+    for ( row = 0; row < numRows; row++ ) {
+      occupiedLayoutGrid[ row ] = [];
+      for ( column = 0; column < numColumns; column++ ) {
+        occupiedLayoutGrid[ row ][ column ] = 0;
       }
     }
 
     // interpret the layout specification
     var x;
     var y;
-    for ( i = 0; i < layout.length; i++ ) {
-      var startRow = i;
-      for ( j = 0; j < layout[ i ].length; j++ ) {
-        var button = layout[ i ][ j ];
+    for ( row = 0; row < layout.length; row++ ) {
+      var startRow = row;
+      for ( column = 0; column < layout[ row ].length; column++ ) {
+        var button = layout[ row ][ column ];
         if ( button ) {
-          var startColumn = j + ( j > 0 && layout[ i ][ j - 1 ] ? layout[ i ][ j - 1 ].horizontalSpan - 1 : 0 );
+          var startColumn = column +
+                            ( column > 0 && layout[ row ][ column - 1 ] ?
+                              layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
           var verticalSpan = button.verticalSpan;
           var horizontalSpan = button.horizontalSpan;
           // check for overlap between the buttons
@@ -233,7 +239,7 @@ define( function( require ) {
     // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
     WeirdLayout: [
       [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } ) ],
-      [ null, new Key( '4', Keys.FOUR ) ],
+      [ null, new Key( '4', Keys.FOUR, { horizontalSpan: 5 } ) ],
       [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN ) ],
       [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
       [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
