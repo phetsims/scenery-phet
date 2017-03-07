@@ -49,23 +49,13 @@ define( function( require ) {
       focusHighlight: new Shape().circle( 0, 0, RESET_ALL_BUTTON_RADIUS )
     }, options );
 
-    // a11y - wrap the listener with a function that disables all accessibility alerts and announces a summary of the 
-    // reset action after the listener returns. Rather than announce all of the alerts that could trigger as the screen
-    // is reset, it is preferable to announce a short summary that is consistent every time the ResetAllButton is
-    // pressed.
-    // stored by value so that options.listener doesn't call accessibleListener recursively
-    var resetAllListener = options.listener;
-    var accessibleListener = function() {
-      resetAllListener && AriaHerald.callWithDisabledAlerts( resetAllListener );
-      AriaHerald.announceAssertiveWithAlert( resetAllAlertString );
-    };
-    options.listener = accessibleListener;
-
+    // remove listener from options so that it is not passed to PushButtonModel
+    var listener = options.listener;
+    options = _.omit( options, [ 'listener' ] );
     ResetButton.call( this, options );
 
-    // @private - a11y
-    this.accessibleClickListener = { click: accessibleListener };
-    this.addAccessibleInputListener( this.accessibleClickListener );
+    // add the listener
+    listener && this.addListener( listener );
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
@@ -77,8 +67,32 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.removeAccessibleInputListener( this.accessibleClickListener );
+      this.clickListener && this.removeAccessibleInputListener( this.clickListener );
       ResetButton.prototype.dispose && ResetButton.prototype.dispose.call( this );
+    },
+
+    /**
+     * Add a listener to the ResetAllButton, wrapping it in a function that handles keyboard navigation and
+     * accessibility announcements. All accessibility alerts are disabled during reset. Rather than announce
+     * all alerts that trigger when the Screen is reset, a short and consistent summary of the reset action
+     * is announced.
+     * @public
+     * @param {function} listener
+     */
+    addListener: function( listener ) {
+
+      // wrap the listener in a function that disables alerts until the listener
+      // returns - then announce that the Screen has been reset 
+      var accessibleListener = function() {
+        AriaHerald.callWithDisabledAlerts( listener );
+        AriaHerald.announceAssertiveWithAlert( resetAllAlertString );
+      };
+
+      // @private - add the accessibility listener so button fires on 'enter' or 'spacebar'
+      this.clickListener = { click: accessibleListener };
+      this.addAccessibleInputListener( this.clickListener );
+
+      ResetButton.prototype.addListener.call( this, accessibleListener );
     }
   } );
 } );

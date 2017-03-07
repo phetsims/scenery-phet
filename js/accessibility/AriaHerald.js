@@ -31,7 +31,7 @@ define( function( require ) {
   var tandem = Tandem.createStaticTandem( 'ariaHerald' );
 
   // constants
-  var disabled = false; // flag that enables/disables alerts via AriaHerald
+  var enabled = true; // flag that enables/disables alerts via AriaHerald
 
   // ids for each of the aria-live elements
   var ASSERTIVE_ELEMENT_ID = 'assertive';
@@ -103,7 +103,7 @@ define( function( require ) {
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // only update content if the group of aria-live elements are enabled
-    if ( !disabled ) {
+    if ( enabled ) {
       if ( withClear ) { elementContentProperty.reset(); }
       elementContentProperty.set( textContent );
     }
@@ -213,25 +213,35 @@ define( function( require ) {
     },
 
     /**
-     * Disables or enable all aria-live elements. When disabled, the user will hear no alerts.
+     * Enable or disable all aria-live elements. When not enabled, the user will hear no alerts.
      * @public
      * 
-     * @param {Boolean} isDisabled
+     * @param {boolean} isDisabled
      */
-    setDisabled: function( isDisabled ) {
-      disabled = isDisabled;
+    setEnabled: function( isEnabled ) {
+      enabled = isEnabled;
     },
+    set enabled( isEnabled ) { AriaHerald.setEnabled( isEnabled ); },
 
     /**
-     * Call the desired callback, first disabling all alerts.  When the callback returns, enable alerts again.
+     * Get whether or not all alerts are enabled.
+     * @return {boolean}
+     */
+    getEnabled: function() {
+      return enabled;
+    },
+    get enabled() { return AriaHerald.getEnabled(); },
+
+    /**
+     * Call the desired callback, first disabling all alerts. When the callback returns, enable alerts again.
      * @public
      * 
-     * @param {Function} callback
+     * @param {function} callback
      */
     callWithDisabledAlerts: function( callback ) {
-      disabled = true;
+      enabled = false;
       callback();
-      disabled = false;
+      enabled = true;
     },
 
     // static constants
