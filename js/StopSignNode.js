@@ -17,6 +17,9 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Node = require( 'SCENERY/nodes/Node' );
 
+  // constants
+  var NUMBER_OF_SIDES = 8;
+
   /**
    * @param {Object} options
    * @constructor
@@ -25,29 +28,19 @@ define( function( require ) {
 
     options = _.extend( {
       fillRadius: 23,
-      innerStrokeRadius: 2,
-      outerStrokeRadius: 1,
+      innerStrokeWidth: 2,
+      outerStrokeWidth: 1,
 
       fill: 'red',
-      outerStroke: 'black',
       innerStroke: 'white',
+      outerStroke: 'black',
 
       tandem: Tandem.tandemRequired()
     }, options );
-    var createStopSignPath = function( fill, radius ) {
-      return new Path( Shape.regularPolygon( 8, radius ), {
-        fill: fill,
-        rotation: Math.PI / 8,
-
-        // To support centering when stacked in z-order
-        centerX: 0,
-        centerY: 0
-      } );
-    };
 
     options.children = [
-      createStopSignPath( options.outerStroke, options.fillRadius + options.innerStrokeRadius + options.outerStrokeRadius ),
-      createStopSignPath( options.innerStroke, options.fillRadius + options.innerStrokeRadius ),
+      createStopSignPath( options.outerStroke, options.fillRadius + options.innerStrokeWidth + options.outerStrokeWidth ),
+      createStopSignPath( options.innerStroke, options.fillRadius + options.innerStrokeWidth ),
       createStopSignPath( options.fill, options.fillRadius )
     ];
 
@@ -55,6 +48,17 @@ define( function( require ) {
   }
 
   sceneryPhet.register( 'StopSignNode', StopSignNode );
+
+  var createStopSignPath = function( fill, radius ) {
+    return new Path( Shape.regularPolygon( NUMBER_OF_SIDES, radius ), {
+      fill: fill,
+      rotation: Math.PI / NUMBER_OF_SIDES,
+
+      // To support centering when stacked in z-order
+      centerX: 0,
+      centerY: 0
+    } );
+  };
 
   return inherit( Node, StopSignNode );
 } );
