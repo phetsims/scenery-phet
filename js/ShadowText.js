@@ -17,6 +17,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
+   * @param {string} text
    * @param {Object} [options]
    * @constructor
    */
