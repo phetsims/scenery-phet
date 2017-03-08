@@ -169,7 +169,7 @@ define( function( require ) {
       ) {
 
         // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
-        returnValue = parseFloat( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ), 10 );
+        returnValue = parseFloat( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ) );
         assert && assert( !isNaN( returnValue ), 'invalid number: ' + returnValue );
       }
 
