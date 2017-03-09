@@ -22,6 +22,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Property.<number>} valueProperty which is portrayed
@@ -31,9 +32,6 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Medium priority, tandem should be tandemRequired and passed through to children
-
     Node.call( this );
 
     options = _.extend( {
@@ -50,8 +48,11 @@ define( function( require ) {
 
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
-      updateEnabledProperty: new Property( true )
+      updateEnabledProperty: new Property( true ),
+      tandem: Tandem.tandemRequired()
     }, options );
+
+    var tandem = options.tandem;
 
     this.addChild( new Circle( options.radius, {
       fill: options.backgroundFill,
@@ -59,15 +60,21 @@ define( function( require ) {
       lineWidth: options.backgroundLineWidth
     } ) );
 
-    var foregroundNode = new Node( { pickable: false } );
+    var foregroundNode = new Node( { pickable: false, tandem: tandem.createTandem( 'foregroundNode' ) } );
     this.addChild( foregroundNode );
 
-    var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ), { stroke: 'red', lineWidth: 3 } );
+    var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ),
+      {
+        stroke: 'red',
+        lineWidth: 3,
+        tandem: tandem.createTandem( 'needle' )
+      } );
     foregroundNode.addChild( needle );
 
     var labelNode = new Text( label, {
       font: new PhetFont( 20 ),
-      maxWidth: options.radius * 1.3
+      maxWidth: options.radius * 1.3,
+      tandem: tandem.createTandem( 'labelNode' )
     } ).mutate( {
       centerX: 0,
       centerY: -options.radius / 3
