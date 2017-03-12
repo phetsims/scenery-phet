@@ -26,7 +26,6 @@ require.config( {
     PHET_CORE: '../../phet-core/js',
     PHET_IO: '../../phet-io/js',
     SCENERY: '../../scenery/js',
-    SHERPA: '../../sherpa',
     SUN: '../../sun/js',
     TANDEM: '../../tandem/js',
     TWIXT: '../../twixt/js',
