@@ -25,7 +25,6 @@ define( function( require ) {
    * @constructor
    */
   function StopSignNode( options ) {
-
     options = _.extend( {
       fillRadius: 23,
       innerStrokeWidth: 2,
