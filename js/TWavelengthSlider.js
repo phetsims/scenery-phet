@@ -14,7 +14,7 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Wrapper type for phet/scenery-phet's WavelengthSlider class.
@@ -31,7 +31,7 @@ define( function( require ) {
     documentation: 'A slider that shows wavelengths for selection'
   } );
 
-  phetioNamespace.register( 'TWavelengthSlider', TWavelengthSlider );
+  sceneryPhet.register( 'TWavelengthSlider', TWavelengthSlider );
 
   return TWavelengthSlider;
 } );

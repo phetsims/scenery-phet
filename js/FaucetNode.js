@@ -38,9 +38,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TFaucet = require( 'ifphetio!PHET_IO/types/scenery-phet/TFaucet' );
+  var TFaucet = require( 'SCENERY_PHET/TFaucet' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );

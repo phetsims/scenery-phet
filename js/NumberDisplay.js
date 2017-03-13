@@ -18,9 +18,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TNumberDisplay = require( 'ifphetio!PHET_IO/types/scenery-phet/TNumberDisplay' );
+  var TNumberDisplay = require( 'SCENERY_PHET/TNumberDisplay' );
 
   // valid values for options.align
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];

@@ -25,9 +25,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-
-  // phet-io modules
-  var TNumberControl = require( 'ifphetio!PHET_IO/types/scenery-phet/TNumberControl' );
+  var TNumberControl = require( 'SCENERY_PHET/TNumberControl' );
 
   /**
    * @param {string} title

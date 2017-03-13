@@ -14,7 +14,7 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
 
   /**
@@ -56,7 +56,7 @@ define( function( require ) {
     events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );
 
-  phetioNamespace.register( 'TFaucet', TFaucet );
+  sceneryPhet.register( 'TFaucet', TFaucet );
 
   return TFaucet;
 } );

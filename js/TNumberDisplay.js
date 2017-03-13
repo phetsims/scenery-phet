@@ -14,24 +14,24 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/scenery-phet's NumberControl class.
+   * Wrapper type for phet/scenery-phet's NumberDisplay class.
    * @param numberControl
    * @param phetioID
    * @constructor
    */
-  function TNumberControl( numberControl, phetioID ) {
+  function TNumberDisplay( numberControl, phetioID ) {
     TNode.call( this, numberControl, phetioID );
-    assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
+    assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
   }
 
-  phetioInherit( TNode, 'TNumberControl', TNumberControl, {}, {
-    documentation: 'A number control with a title, slider and +/- buttons'
+  phetioInherit( TNode, 'TNumberControl', TNumberDisplay, {}, {
+    documentation: 'A numeric readout with a background'
   } );
 
-  phetioNamespace.register( 'TNumberControl', TNumberControl );
+  sceneryPhet.register( 'TNumberDisplay', TNumberDisplay );
 
-  return TNumberControl;
+  return TNumberDisplay;
 } );

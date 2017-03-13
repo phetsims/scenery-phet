@@ -16,9 +16,7 @@ define( function( require ) {
   var Plane = require( 'SCENERY/nodes/Plane' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery-phet/TBarrierRectangle' );
+  var TBarrierRectangle = require( 'SCENERY_PHET/TBarrierRectangle' );
 
   /**
    * @param {ObservableArray} modalNodeStack - see usage in Sim.js
