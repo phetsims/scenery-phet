@@ -9,11 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
+  var TNode = require( 'SCENERY/nodes/TNode' );
+
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
 
   /**
    * Wrapper type for phet/scenery's BarrierRectangle
