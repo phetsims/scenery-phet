@@ -18,9 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TFont = require( 'ifphetio!PHET_IO/types/scenery/util/TFont' ); // TODO: we should have TPhetFont
+  var TFont = require( 'SCENERY/util/TFont' ); // TODO: we should have TPhetFont
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
