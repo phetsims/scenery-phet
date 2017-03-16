@@ -26,7 +26,7 @@ define( function( require ) {
     soundToggleLabelString: 'Mute Sound',
 
     // alert for sim reset
-    resetAllAlertString: 'Simulation screen has been reset.'
+    resetAllAlertString: 'Sim screen restarted. Everything reset.'
 
   };
 
