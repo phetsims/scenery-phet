@@ -89,8 +89,7 @@ define( function( require ) {
       };
 
       // @private - add the accessibility listener so button fires on 'enter' or 'spacebar'
-      this.clickListener = { click: accessibleListener };
-      this.addAccessibleInputListener( this.clickListener );
+      this.clickListener = this.addAccessibleInputListener( { click: accessibleListener } );
 
       ResetButton.prototype.addListener.call( this, accessibleListener );
     }
