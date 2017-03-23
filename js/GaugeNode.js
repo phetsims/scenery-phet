@@ -42,9 +42,17 @@ define( function( require ) {
       backgroundLineWidth: 2,
       anglePerTick: Math.PI * 2 / 4 / 8,
 
+      // defines max width of the label, relative to the radius
+      maxLabelWidthScale: 1.3,
+
       // 8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
       // The ticks are duplicated for the right side, and one tick appears in the middle at the top
       numTicks: ( 8 + 2 ) * 2 + 1,
+
+      majorTickLength: 10,
+      minorTickLength: 5,
+      majorTickLineWidth: 2,
+      minorTickLineWidth: 1, 
 
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
@@ -73,7 +81,7 @@ define( function( require ) {
 
     var labelNode = new Text( label, {
       font: new PhetFont( 20 ),
-      maxWidth: options.radius * 1.3,
+      maxWidth: options.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelNode' )
     } ).mutate( {
       centerX: 0,
@@ -119,7 +127,7 @@ define( function( require ) {
     for ( var i = 0; i < options.numTicks; i++ ) {
       var tickAngle = i * options.anglePerTick + startAngle;
 
-      var tickLength = i % 2 === 0 ? 10 : 5;
+      var tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
       var x1 = (options.radius - tickLength) * Math.cos( tickAngle );
       var y1 = (options.radius - tickLength) * Math.sin( tickAngle );
       var x2 = options.radius * Math.cos( tickAngle );
@@ -134,8 +142,8 @@ define( function( require ) {
       }
     }
 
-    foregroundNode.addChild( new Path( bigTicksShape, { stroke: 'gray', lineWidth: 2 } ) );
-    foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: 1 } ) );
+    foregroundNode.addChild( new Path( bigTicksShape, { stroke: 'gray', lineWidth: options.majorTickLineWidth } ) );
+    foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: options.minorTickLineWidth } ) );
     this.mutate( options );
 
     // @private
