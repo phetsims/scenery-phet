@@ -40,7 +40,8 @@ define( function( require ) {
     options = _.extend( {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
-      touchAreaDilation: 10
+      touchAreaDilation: 10,
+      //tandem: Tandem.required()
     }, options );
 
     Node.call( this, _.extend( { cursor: 'pointer' }, options ) );
@@ -108,7 +109,11 @@ define( function( require ) {
 
     var playPauseButton = new BooleanRectangularToggleButton(
       new Path( pauseShape, { fill: options.iconColor } ),
-      new Path( playShape, { stroke: options.iconColor, fill: '#eef', lineWidth: halfPlayStroke * 2 } ), runningProperty, {
+      new Path( playShape, {
+        stroke: options.iconColor,
+        fill: '#eef',
+        lineWidth: halfPlayStroke * 2
+      } ), runningProperty, {
         baseColor: options.buttonBaseColor,
         minWidth: minimumButtonWidth
       } );
@@ -145,16 +150,23 @@ define( function( require ) {
     /*---------------------------------------------------------------------------*
      * Control logic
      *----------------------------------------------------------------------------*/
-    secondsProperty.link( function updateTime( value ) {
+    var updateTime = function updateTime( value ) {
       bigReadoutText.text = timeToBigString( value );
       smallReadoutText.text = timeToSmallString( value );
       resetButton.enabled = value > 0;
-    } );
+    };
+    secondsProperty.link( updateTime );
 
     /*---------------------------------------------------------------------------*
      * Target for drag listeners
      *----------------------------------------------------------------------------*/
     this.dragTarget = roundedRectangle;
+
+    this.disposeTimer = function() {
+      secondsProperty.unlink( updateTime );
+      resetButton.dispose();
+      playPauseButton.dispose();
+    }
   }
 
   sceneryPhet.register( 'Timer', Timer );
@@ -181,5 +193,10 @@ define( function( require ) {
     return '.' + centiseconds;
   }
 
-  return inherit( Node, Timer );
+  return inherit( Node, Timer, {
+    // @public - Provide dispose() on the prototype for ease of subclassing.
+    dispose: function() {
+      this.disposeTimer();
+    }
+  } );
 } );
