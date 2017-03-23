@@ -166,7 +166,7 @@ define( function( require ) {
       secondsProperty.unlink( updateTime );
       resetButton.dispose();
       playPauseButton.dispose();
-    }
+    };
   }
 
   sceneryPhet.register( 'Timer', Timer );
