@@ -1,4 +1,4 @@
-// Copyright 2014-2016, University of Colorado Boulder
+// Copyright 2014-2017, University of Colorado Boulder
 
 /**
  * Renders text that contains subscripts and superscripts.
@@ -6,7 +6,7 @@
  * Text must be provided in HTML format, and may contain only plaintext, <sub> and <sup>.
  * Each <sub> and <sup> tag must be preceded by plaintext, and nesting of tags is not supported.
  * This node's y position will be at the text's baseline.
- * <p>
+ *
  * Beware of using this for situations where the text changes frequently.
  * The implementation relies on jQuery to parse the HTML, and this has not been profiled.
  * More significantly, since the HTML string is general, changing it requires rebuilding the node.

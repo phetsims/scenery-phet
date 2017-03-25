@@ -1,9 +1,9 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * Encapsulation of the font used for PhET simulations.
  * Provides PhET-specific defaults, and guarantees a fallback for font family.
- * <p>
+ *
  * Sample use:
  * new PhetFont( { family: 'Futura', size: 24, weight: 'bold' } )
  * new PhetFont( 24 )

@@ -1,11 +1,11 @@
-// Copyright 2013-2016, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * MultiLine plain text, with alignment.
  * The line break character is '\n'.
  * Specify alignment via the 'align' option.
  * Text node options can be specified to style the text.
- * <p>
+ *
  * Example: new MultiLineText( 'Hello\nWorld', { align: 'left', font: new PhetFont(20), fill: 'red' } );
  *
  * @author Sam Reid

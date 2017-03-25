@@ -1,10 +1,10 @@
-// Copyright 2015-2016, University of Colorado Boulder
+// Copyright 2015-2017, University of Colorado Boulder
 
 /**
  * Colors that are specific to PhET simulations.
  * Reuse these in sims whenever possible to facilitate uniformity across sims.
  * These should all be instances of scenery.Color, since {Color} can typically be used anywhere but {string} cannot.
- * <p>
+ * 
  * This is based on the google doc here:
  * http://spreadsheets.google.com/ccc?key=0Ajw3oS4YmCBqdDZzYUhlMksxZ0lfUHZ3bXUzM0JNU3c&hl=en&pli=1#gid=0
  *

@@ -1,8 +1,7 @@
-// Copyright 2013-2016, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * A face that can smile or frown.  This is generally used for indicating success or failure.
- * <p>
  * This was ported from a version that was originally written in Java.
  *
  * @author Chris Malley (PixelZoom, Inc.)
