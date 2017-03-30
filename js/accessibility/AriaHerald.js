@@ -26,12 +26,10 @@ define( function( require ) {
 
   // phet-io modules
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
   // phet-io support
   var tandem = Tandem.createStaticTandem( 'ariaHerald' );
-
-  // constants
-  var enabled = true; // flag that enables/disables alerts via AriaHerald
 
   // ids for each of the aria-live elements
   var ASSERTIVE_ELEMENT_ID = 'assertive';
@@ -88,6 +86,17 @@ define( function( require ) {
     politeStatusElement.textContent = text;
   } );
 
+  // Properties that indicate whether or not AriaHerald is enabled and visible - this is done primarily
+  // to support phet-io so that these Properties can be observed
+  var alertsVisibleProperty = new Property( true, {
+    tandem: tandem.createTandem( 'alertsVisibleProperty' ),
+    phetioValueType: TBoolean
+  } );
+  var alertsEnabledProperty = new Property( true, {
+    tandem: tandem.createTandem( 'alertsEnabledProperty' ),
+    phetioValueType: TBoolean
+  } );
+
   /**
    * Update an element with the 'aria-live' attribute by setting its text content.
    * If using withClear, old element text content will be explicitly removed before new text content is set.  This will
@@ -103,7 +112,7 @@ define( function( require ) {
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // only update content if the group of aria-live elements are enabled
-    if ( enabled ) {
+    if ( alertsEnabledProperty.get() ) {
       if ( withClear ) { elementContentProperty.reset(); }
       elementContentProperty.set( textContent );
     }
@@ -213,22 +222,42 @@ define( function( require ) {
     },
 
     /**
+     * Completely hide or show the aria-live elements to screen readers. If hidden, all alerts will be 'invisible'
+     * to a screen reader user, and alerts wil also be effectively disabled.
+     */
+    setVisible: function( visible ) {
+      alertsVisibleProperty.set( visible );
+    },
+    set visible( visible ) { AriaHerald.setVisible( visible ); },
+
+    /**
+     * Get whether or not the elements associated with the AriaHerald are visible.  While not visible, all alerts
+     * are disabled, screen readers will not announce any updates.
+     * @public
+     * @return {boolean}
+     */
+    getVisible: function() {
+      return alertsVisibleProperty.get();
+    },
+    get visible() { return alertsVisibleProperty.get(); },
+
+    /**
      * Enable or disable all aria-live elements. When not enabled, the user will hear no alerts.
      * @public
      * 
      * @param {boolean} isDisabled
      */
-    setEnabled: function( isEnabled ) {
-      enabled = isEnabled;
+    setEnabled: function( enabled ) {
+      alertsEnabledProperty.set( enabled );
     },
-    set enabled( isEnabled ) { AriaHerald.setEnabled( isEnabled ); },
+    set enabled( enabled ) { AriaHerald.setEnabled( enabled ); },
 
     /**
      * Get whether or not all alerts are enabled.
      * @return {boolean}
      */
     getEnabled: function() {
-      return enabled;
+      return alertsEnabledProperty.get();
     },
     get enabled() { return AriaHerald.getEnabled(); },
 
@@ -239,9 +268,9 @@ define( function( require ) {
      * @param {function} callback
      */
     callWithDisabledAlerts: function( callback ) {
-      enabled = false;
+      alertsEnabledProperty.set( false );
       callback();
-      enabled = true;
+      alertsEnabledProperty.set( true );
     },
 
     // static constants

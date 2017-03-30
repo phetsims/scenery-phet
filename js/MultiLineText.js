@@ -48,6 +48,10 @@ define( function( require ) {
     this.textParent = null; // @private
     this.text = text; // call ES5 setter
 
+    // a11y - set the accessible content with setters since options will be propagated to child text instances
+    this.tagName = 'p';
+    this.accessibleLabel = text;
+
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
