@@ -34,12 +34,6 @@ define( function( require ) {
     // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
     // Instrumentation provided by Node, further customization is probably not necessary
 
-    // Check for XSS string, and remap. See https://github.com/phetsims/scenery/issues/528. This type of string should
-    // almost certainly not be otherwise passed to SubSupText.
-    if ( text.indexOf( 'data:image/png;base64' ) >= 0 ) {
-      text = 'XSS Test, see Scenery issue #528';
-    }
-
     // defaults
     options = _.extend( {
       // all text
@@ -86,6 +80,13 @@ define( function( require ) {
      * @throws Error if the text doesn't follow the constraints defines in the JSdoc above
      */
     update: function() {
+
+      // Check for XSS string, and remap. See https://github.com/phetsims/scenery/issues/528. This type of string should
+      // almost certainly not be otherwise passed to SubSupText.
+      if ( this._text.indexOf( 'data:image/png;base64' ) >= 0 ) {
+        this._text = 'XSS Test, see Scenery issue #528';
+      }
+
       var text = this._text;
       var options = this._options;
 
