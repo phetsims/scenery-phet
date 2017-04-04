@@ -23,6 +23,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Timer = require( 'PHET_CORE/Timer' );
 
   // phet-io modules
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
@@ -114,7 +115,10 @@ define( function( require ) {
     // only update content if the group of aria-live elements are enabled
     if ( alertsEnabledProperty.get() ) {
       if ( withClear ) { elementContentProperty.reset(); }
-      elementContentProperty.set( textContent );
+
+      // update the content with a small delay - refresh rate of the accessibility tree is often slow, and without a
+      // delay, many alerts would be lost forever
+      Timer.setTimeout( function() { elementContentProperty.set( textContent ); }, 200 ); 
     }
   }
 
