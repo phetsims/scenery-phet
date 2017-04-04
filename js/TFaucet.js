@@ -33,7 +33,7 @@ define( function( require ) {
       faucet.endedCallbacksForStartTapToDispenseEmitter,
       'model',
       phetioID,
-      TFaucet,
+      this.constructor,
       'startTapToDispense',
       function( flowRate ) {
         return { flowRate: flowRate };
@@ -44,7 +44,7 @@ define( function( require ) {
       faucet.endedCallbacksForEndTapToDispenseEmitter,
       'model',
       phetioID,
-      TFaucet,
+      this.constructor,
       'endTapToDispense',
       function( flowRate ) {
         return { flowRate: flowRate };

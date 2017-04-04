@@ -31,7 +31,7 @@ define( function( require ) {
       barrierRectangle.endedCallbacksForFiredEmitter,
       'user',
       phetioID,
-      TBarrierRectangle,
+      this.constructor,
       'fired' );
   }
 
