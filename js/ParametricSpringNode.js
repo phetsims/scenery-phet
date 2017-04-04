@@ -92,53 +92,35 @@ define( function( require ) {
 
     // @public
     this.loopsProperty = new Property( options.loops, {
-      phetioValueType: TNumber( {
-        type: 'Integer',
-        range: new Range( 1, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { type: 'Integer', range: new Range( 1, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'loopsProperty' )
     } );
     this.radiusProperty = new Property( options.radius, {
-      phetioValueType: TNumber( {
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'radiusProperty' )
     } );
     this.aspectRatioProperty = new Property( options.aspectRatio, {
-      phetioValueType: TNumber( {
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'aspectRatioProperty' )
     } );
     this.pointsPerLoopProperty = new Property( options.pointsPerLoop, {
-      phetioValueType: TNumber( {
-        type: 'Integer',
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { type: 'Integer', range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'pointsPerLoopProperty' )
     } );
     this.lineWidthProperty = new Property( options.lineWidth, {
-      phetioValueType: TNumber( {
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'lineWidthProperty' )
     } );
     this.phaseProperty = new Property( options.phase, {
-      phetioValueType: TNumber( {
-        range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'phaseProperty' )
     } );
     this.deltaPhaseProperty = new Property( options.deltaPhase, {
-      phetioValueType: TNumber( {
-        range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'deltaPhaseProperty' )
     } );
     this.xScaleProperty = new Property( options.xScale, {
-      phetioValueType: TNumber( {
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ),
+      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
       tandem: options.tandem.createTandem( 'xScaleProperty' )
     } );
 
