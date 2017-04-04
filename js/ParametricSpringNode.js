@@ -31,6 +31,10 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Range = require( 'DOT/Range' );
+
+  // phet-io modules
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
   var SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging
@@ -40,7 +44,6 @@ define( function( require ) {
    * @constructor
    */
   function ParametricSpringNode( options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
 
@@ -80,20 +83,64 @@ define( function( require ) {
       xScale: 2.5,
 
       // {string} method used to compute bounds for scenery.Path components, see Path.boundsMethod
-      pathBoundsMethod: 'accurate'
+      pathBoundsMethod: 'accurate',
+
+      tandem: Tandem.tandemRequired()
     }, options );
 
     var self = this;
 
     // @public
-    this.loopsProperty = new Property( options.loops );
-    this.radiusProperty = new Property( options.radius );
-    this.aspectRatioProperty = new Property( options.aspectRatio );
-    this.pointsPerLoopProperty = new Property( options.pointsPerLoop );
-    this.lineWidthProperty = new Property( options.lineWidth );
-    this.phaseProperty = new Property( options.phase );
-    this.deltaPhaseProperty = new Property( options.deltaPhase );
-    this.xScaleProperty = new Property( options.xScale );
+    this.loopsProperty = new Property( options.loops, {
+      phetioValueType: TNumber( {
+        type: 'Integer',
+        range: new Range( 1, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'loopsProperty' )
+    } );
+    this.radiusProperty = new Property( options.radius, {
+      phetioValueType: TNumber( {
+        range: new Range( 0, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'radiusProperty' )
+    } );
+    this.aspectRatioProperty = new Property( options.aspectRatio, {
+      phetioValueType: TNumber( {
+        range: new Range( 0, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'aspectRatioProperty' )
+    } );
+    this.pointsPerLoopProperty = new Property( options.pointsPerLoop, {
+      phetioValueType: TNumber( {
+        type: 'Integer',
+        range: new Range( 0, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'pointsPerLoopProperty' )
+    } );
+    this.lineWidthProperty = new Property( options.lineWidth, {
+      phetioValueType: TNumber( {
+        range: new Range( 0, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'lineWidthProperty' )
+    } );
+    this.phaseProperty = new Property( options.phase, {
+      phetioValueType: TNumber( {
+        range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'phaseProperty' )
+    } );
+    this.deltaPhaseProperty = new Property( options.deltaPhase, {
+      phetioValueType: TNumber( {
+        range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'deltaPhaseProperty' )
+    } );
+    this.xScaleProperty = new Property( options.xScale, {
+      phetioValueType: TNumber( {
+        range: new Range( 0, Number.POSITIVE_INFINITY )
+      } ),
+      tandem: options.tandem.createTandem( 'xScaleProperty' )
+    } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
     var pathOptions = {
@@ -101,8 +148,8 @@ define( function( require ) {
       lineCap: 'round',
       lineJoin: 'round'
     };
-    var frontPath = new Path( null, pathOptions );
-    var backPath = new Path( null, pathOptions );
+    var frontPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
+    var backPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
 
     // Update the line width
     this.lineWidthProperty.link( function( lineWidth ) {
