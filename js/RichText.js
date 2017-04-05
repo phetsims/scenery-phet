@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Color = require( 'SCENERY/util/Color' );
-  var Font = require( 'SCENERY/util/Font' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var extendDefined = require( 'PHET_CORE/extendDefined' );
+  var Font = require( 'SCENERY/util/Font' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var RICH_TEXT_OPTION_KEYS = [
@@ -139,6 +139,7 @@ define( function( require ) {
      *                      (https://github.com/andrejewski/himalaya/blob/master/text/ast-spec-v0.md)
      * @param {Font|string} font - The font to apply at this level
      * @param {null|string|Color|Property.<string|Color>|LinearGradient|RadialGradient|Pattern} fill - Fill to apply
+     * @param {boolean} isLTR - True if LTR, false if RTL (handles RTL text properly)
      */
     appendElement: function( containerNode, element, font, fill, isLTR ) {
       var nextSideName = isLTR ? 'left' : 'right';
@@ -147,6 +148,7 @@ define( function( require ) {
       // If our container has content, we want to know where to add to that on the right side.
       var x = isFinite( containerNode.localBounds[ previousSideName ] ) ? containerNode.localBounds[ previousSideName ] : 0;
 
+      // {Node|Text} - The main Node for the element that we are adding
       var node;
 
       // If we're a leaf
@@ -161,26 +163,31 @@ define( function( require ) {
       else if ( element.type === 'Element' ) {
         node = new Node();
 
+        // Bold
         if ( element.tagName === 'b' || element.tagName === 'strong' ) {
           font = font.copy( {
             weight: 'bold'
           } );
         }
+        // Italic
         else if ( element.tagName === 'i' || element.tagName === 'em' ) {
           font = font.copy( {
             style: 'italic'
           } );
         }
+        // Subscript
         else if ( element.tagName === 'sub' ) {
           node.scale( this._subScale );
           node.x += ( isLTR ? 1 : -1 ) * this._subXSpacing;
           node.y += this._subYOffset;
         }
+        // Superscript
         else if ( element.tagName === 'sup' ) {
           node.scale( this._supScale );
           node.x += ( isLTR ? 1 : -1 ) * this._supXSpacing;
           node.y += this._supYOffset;
         }
+        // Font (color/face/size attributes)
         else if ( element.tagName === 'font' ) {
           if ( element.attributes.color ) {
             fill = new Color( element.attributes.color );
@@ -196,6 +203,7 @@ define( function( require ) {
             } );
           }
         }
+        // Span (dir attribute)
         else if ( element.tagName === 'span' ) {
           if ( element.attributes.dir ) {
             assert && assert( element.attributes.dir === 'ltr' || element.attributes.dir === 'rtl',
@@ -204,20 +212,24 @@ define( function( require ) {
           }
         }
 
+        // Process children
         for ( var i = 0; i < element.children.length; i++ ) {
           this.appendElement( node, element.children[ i ], font, fill, isLTR );
         }
 
+        // Subscript positioning
         if ( element.tagName === 'sub' ) {
           if ( isFinite( node.height ) ) {
             node.centerY = 0;
           }
         }
+        // Superscript positioning
         else if ( element.tagName === 'sup' ) {
           if ( isFinite( node.height ) ) {
             node.centerY = new Text( 'X', { font: font } ).top * this._capHeightScale;
           }
         }
+        // Underline
         else if ( element.tagName === 'u' ) {
           var underlineY = -node.top * this._underlineHeightScale;
           if ( isFinite( node.top ) ) {
@@ -227,6 +239,7 @@ define( function( require ) {
             } ) );
           }
         }
+        // Strikethrough
         else if ( element.tagName === 's' ) {
           var strikethroughY = node.top * this._strikethroughHeightScale;
           if ( isFinite( node.top ) ) {
@@ -237,6 +250,8 @@ define( function( require ) {
           }
         }
       }
+
+      // Only add/position the content if it has finite bounds (ignoring empty elements)
       if ( isFinite( node.width ) ) {
         node[ nextSideName ] = x;
         containerNode.addChild( node );
