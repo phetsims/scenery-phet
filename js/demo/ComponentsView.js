@@ -49,6 +49,7 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var RichText = require( 'SCENERY_PHET/RichText' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
@@ -88,6 +89,7 @@ define( function( require ) {
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
       { label: 'ProbeNode', getNode: demoProbeNode },
+      { label: 'RichText', getNode: demoRichText },
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
@@ -428,6 +430,21 @@ define( function( require ) {
     return demoParent;
   };
 
+  // Creates a demo for RichText
+  var demoRichText = function( layoutBounds ) {
+    return new VBox( {
+      spacing: 15,
+      children: [
+        new RichText( 'RichText can have <b>bold</b> and <i>italic</i> text.' ),
+        new RichText( 'Can do H<sub>2</sub>O (A<sub>sub</sub> and A<sup>sup</sup>), or nesting: x<sup>2<sup>2</sup></sup>' ),
+        new RichText( 'Additionally: <font color="blue">color</font>, <font size="30px">sizes</font>, <font face="serif">faces</font>, <s>strikethrough</s>, and <u>underline</u>' ),
+        new RichText( 'These <b><em>can</em> <u><font color="red">be</font> mixed<sup>1</sup></u></b>.' ),
+        new RichText( '\u202aHandles bidirectional text: \u202b<font color="#0a0">مقابض</font> النص ثنائي <b>الاتجاه</b><sub>2</sub>\u202c\u202c' )
+      ],
+      center: layoutBounds.center
+    } );
+  };
+
   // Creates a demo for LaserPointerNode
   var demoLaserPointerNode = function( layoutBounds ) {
 
@@ -593,7 +610,7 @@ define( function( require ) {
       children: [ topArrowKeyNode, bottomArrowKeyBox ]
     } );
 
-    return new VBox( { 
+    return new VBox( {
       children: [ topHBox, midddleHBox, bottomHBox, arrowKeysVBox ],
       center: layoutBounds.center,
       align: 'right',
