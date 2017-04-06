@@ -32,7 +32,7 @@ define( function( require ) {
      *
      * @param {number} wavelength will be rounded to the closest integer value
      * @param {Object} [options]
-     * @return {Color|null}
+     * @returns {Color|null}
      */
     wavelengthToColor: function( wavelength, options ) {
 
@@ -67,7 +67,7 @@ define( function( require ) {
      * value; the alpha value is ignored.
      *
      * @param {Color|string} color - the color
-     * @return {number} the wavelength
+     * @returns {number} the wavelength
      */
     colorToWavelength: function( color ) {
 
@@ -99,7 +99,7 @@ define( function( require ) {
 
   /**
    * Creates a table that is used to map wavelength to Color.
-   * @return {Color[]}
+   * @returns {Color[]}
    */
   var createColorTable = function() {
 

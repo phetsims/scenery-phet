@@ -106,7 +106,7 @@ define( function( require ) {
     /**
      * Validates a proposed set of keys.
      * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
-     * @return {boolean}
+     * @returns {boolean}
      * @private
      * @abstract
      */

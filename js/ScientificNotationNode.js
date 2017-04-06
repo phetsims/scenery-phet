@@ -126,7 +126,7 @@ define( function( require ) {
      * @static
      * @param {number} value the number to be formatted
      * @param {Object} [options]
-     * @return {mantissa:{number}, exponent:{number}}
+     * @returns {mantissa:{number}, exponent:{number}}
      */
     toScientificNotation: function( value, options ) {
 

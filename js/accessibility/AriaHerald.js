@@ -238,7 +238,7 @@ define( function( require ) {
      * Get whether or not the elements associated with the AriaHerald are visible.  While not visible, all alerts
      * are disabled, screen readers will not announce any updates.
      * @public
-     * @return {boolean}
+     * @returns {boolean}
      */
     getVisible: function() {
       return alertsVisibleProperty.get();
@@ -258,7 +258,7 @@ define( function( require ) {
 
     /**
      * Get whether or not all alerts are enabled.
-     * @return {boolean}
+     * @returns {boolean}
      */
     getEnabled: function() {
       return alertsEnabledProperty.get();
