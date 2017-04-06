@@ -1,7 +1,25 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Displays rich text with HTML-style tags for styling.
+ * Displays rich text with HTML-style tags by splitting it into multiple (child) Text nodes.
+ *
+ * It should be a close to drop-in replacement for SubSupText, and supports the following markup and features:
+ * - <b> and <strong> for bold text
+ * - <i> and <em> for italic text
+ * - <sub> and <sup> for subscripts / superscripts
+ * - <u> for underlined text
+ * - <s> for strikethrough text
+ * - <font> tags with attributes color="cssString", face="familyString", size="cssSize"
+ * - <span> tags with a dir="ltr" / dir="rtl" attribute
+ * - Unicode bidirectional marks (present in PhET strings) for full RTL support
+ *
+ * Examples from the scenery-phet demo:
+ *
+ * new RichText( 'RichText can have <b>bold</b> and <i>italic</i> text.' ),
+ * new RichText( 'Can do H<sub>2</sub>O (A<sub>sub</sub> and A<sup>sup</sup>), or nesting: x<sup>2<sup>2</sup></sup>' ),
+ * new RichText( 'Additionally: <font color="blue">color</font>, <font size="30px">sizes</font>, <font face="serif">faces</font>, <s>strikethrough</s>, and <u>underline</u>' ),
+ * new RichText( 'These <b><em>can</em> <u><font color="red">be</font> mixed<sup>1</sup></u></b>.' ),
+ * new RichText( '\u202aHandles bidirectional text: \u202b<font color="#0a0">مقابض</font> النص ثنائي <b>الاتجاه</b><sub>2</sub>\u202c\u202c' )
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
