@@ -22,6 +22,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   /**
    *
@@ -77,52 +78,143 @@ define( function( require ) {
      * @throws Error if the text doesn't follow the constraints defines in the JSdoc above
      */
     update: function() {
+      var text = this._text;
+      var options = this._options;
 
-      var thisNode = this;
-      var options = thisNode._options;
+      /*---------------------------------------------------------------------------*
+       * Parsing the text into slices
+       *
+       * E.g. if we have a string (with embedding marks represented by LTR, RTL, POP):
+       * RTL + 'Molecule: ' + LTR + 'Na<sub>2</sub>O' + POP + POP
+       *
+       * Then we will result in an array of slices:
+       *
+       * [
+       *   { mode: 'normal', string: RTL + 'Molecule: ' + LTR + 'Na' + POP + POP },
+       *   { mode: 'sub', string: RTL + LTR + '2' + POP + POP },
+       *   { mode: 'normal', string: RTL + LTR + 'O' + POP + POP }
+       * ]
+       *
+       * See https://github.com/phetsims/scenery-phet/issues/207 for details on the embedding mark handling.
+       *---------------------------------------------------------------------------*/
 
-      thisNode._textParent.removeAllChildren();
+      var regex = /<\/?[^>]+>/g; // Regular expression that will identify start and end tags
+      var match; // {string} - Matched string with an index, from regex.exec( string ). Also has .index property.
+      var index = 0;
+      var mode = 'normal'; // 'normal', 'sub', 'sup' - Current "mode", nesting not supported
+      var slices = []; // {Array.<{ mode: 'normal'|'sub'|'sup', string: {string} }>} - Strings tagged with sub/sup info
 
-      var node;
-      var previousNode;
-      var previousNodeType;
-      $( $.parseHTML( thisNode._text ) ).each( function( index, element ) {
-        if ( element.nodeType === 3 ) {
-          // Text
-          node = new Text( element.nodeValue, { font: options.font, fill: options.fill } );
-          thisNode._textParent.addChild( node );
-          if ( previousNode ) {
-            node.left = previousNode.right + options.textXSpacing;
-          }
+      // Pushes a string slice (tagged with the current sub/sup mode) to the slices array.
+      function addSlice( startIndex, endIndex ) {
+        // Ignore empty strings
+        if ( endIndex > startIndex ) {
+          slices.push( {
+            mode: mode,
+
+            // Use embeddedSlice so that embedding marks are added to keep the directions the same.
+            // See https://github.com/phetsims/scenery-phet/issues/207
+            string: StringUtils.embeddedSlice( text, startIndex, endIndex )
+          } );
         }
-        else if ( element.nodeType === 1 ) {
-          // Element
-          if ( previousNodeType !== 3 ) {
-            throw new Error( 'sub or sup element must be preceded by text' );
-          }
+      }
 
-          if ( element.tagName === 'SUB' ) { // HTML spec says that element names are uppercase
-            node = new Text( element.innerHTML, { font: options.font, fill: options.fill, scale: options.subScale } );
-            thisNode._textParent.addChild( node );
-            node.left = previousNode.right + options.subXSpacing;
-            node.centerY = previousNode.y + options.subYOffset; // center on baseline
+      // Iterate through regex matches. The match will be the full string of the tag, like '</sub>', and will have the
+      // index of the match in the string.
+      while ( ( match = regex.exec( text ) ) !== null ) {
+        var matchString = match[ 0 ]; // e.g. '</sub>'
+        var matchIndex = match.index;
+
+        // If we have remaining text before this tag, add it as a slice
+        addSlice( index, matchIndex );
+        index = matchIndex + matchString.length;
+
+        // Change modes, with assertions to ensure we have the expected tag values
+        if ( mode === 'normal' ) {
+          assert && assert( matchString === '<sub>' || matchString === '<sup>',
+            'Unexpected tag in normal mode: ' + matchString );
+
+          if ( matchString === '<sub>' ) {
+            mode = 'sub';
           }
-          else if ( element.tagName === 'SUP' ) { // HTML spec says that element names are uppercase
-            node = new Text( element.innerHTML, { font: options.font, fill: options.fill, scale: options.supScale } );
-            thisNode._textParent.addChild( node );
-            node.left = previousNode.right + options.supXSpacing;
-            node.centerY = previousNode.y + thisNode._capLineYOffset + options.supYOffset; // center on cap line
+          else if ( matchString === '<sup>' ) {
+            mode = 'sup';
           }
           else {
-            throw new Error( 'unsupported tagName: ' + element.tagName );
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
           }
         }
-        else {
-          throw new Error( 'unsupported nodeType: ' + element.nodeType );
+        else if ( mode === 'sub' ) {
+          assert && assert( matchString === '</sub>',
+            'Unexpected tag in sub mode: ' + matchString );
+
+          mode = 'normal';
+
+          if ( matchString !== '</sub>' ) {
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
+          }
         }
-        previousNode = node;
-        previousNodeType = element.nodeType;
-      } );
+        else if ( mode === 'sup' ) {
+          assert && assert( matchString === '</sup>',
+            'Unexpected tag in sup mode: ' + matchString );
+
+          mode = 'normal';
+
+          if ( matchString !== '</sup>' ) {
+            // Break out and stop parsing tags, see https://github.com/phetsims/scenery/issues/528.
+            // Would have happened after assertion failure
+            break;
+          }
+        }
+      }
+
+      // At the end, add a slice for any text that's between the last tag and the end of the string
+      addSlice( index, text.length );
+
+      /*---------------------------------------------------------------------------*
+       * Node construction
+       *---------------------------------------------------------------------------*/
+
+      // For non-normal slices, what their centerY and centerX values should be set to.
+      var centerYs = {
+        sub: options.subYOffset,
+        sup: this._capLineYOffset + options.supYOffset
+      };
+
+      var centerXs = {
+        sub: options.subXSpacing,
+        sup: options.supXSpacing
+      };
+
+      // What slices scale should be set to.
+      var scales = {
+        normal: 1,
+        sub: options.subScale,
+        sup: options.supScale
+      };
+
+      this._textParent.removeAllChildren();
+
+      var previousSlice;
+      for ( var i = 0; i < slices.length; i++ ) {
+        var slice = slices[ i ];
+        var node = new Text( slice.string, {
+          font: options.font,
+          fill: options.fill,
+          scale: scales[ slice.mode ],
+          left: previousSlice ? previousSlice.node.right + options.textXSpacing : 0
+        } );
+        if ( slice.mode !== 'normal' ) {
+          node.centerY = centerYs[ slice.mode ];
+          node.left = previousSlice.node.right + centerXs[ slice.mode ];
+        }
+        slice.node = node;
+        this._textParent.addChild( node );
+        previousSlice = slice;
+      }
     },
 
     // text ----------------------------------------------------------
