@@ -36,6 +36,9 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
+    // @public (a11y)
+    this.bucket = bucket;
+
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
     var baseColor = new Color( bucket.baseColor );
