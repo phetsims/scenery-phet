@@ -63,6 +63,7 @@ define( function( require ) {
       arrowYSpacing: 3,
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
+      valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
       formatText: function( text ) {return text;} // Text processor that can be used for formatting the text
     }, options );
 
@@ -101,12 +102,19 @@ define( function( require ) {
     var maxWidth = valueNode.width;
     valueNode.text = options.formatText( Util.toFixed( rangeProperty.get().max, options.decimalPlaces ) );
     maxWidth = Math.max( maxWidth, valueNode.width );
+    // Cap the maxWidth if valueMaxWidth is provided, see https://github.com/phetsims/scenery-phet/issues/297
+    if ( options.valueMaxWidth !== null ) {
+      maxWidth = Math.min( maxWidth, options.valueMaxWidth );
+    }
 
     // compute shape of the background behind the numeric value
     var backgroundWidth = maxWidth + ( 2 * options.xMargin );
     var backgroundHeight = valueNode.height + ( 2 * options.yMargin );
     var backgroundOverlap = 1;
     var backgroundCornerRadius = options.cornerRadius;
+
+    // Apply the max-width AFTER computing the backgroundHeight, so it doesn't shrink vertically
+    valueNode.maxWidth = maxWidth;
 
     // top half of the background, for 'up'. Shape computed starting at upper-left, going clockwise.
     var upBackground = new Path( new Shape()
