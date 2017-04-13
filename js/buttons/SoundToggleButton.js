@@ -19,6 +19,7 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // constants
@@ -75,8 +76,11 @@ define( function( require ) {
     } );
 
     // accessible attribute lets user know when the toggle is pressed - must be unlinked in dispose
-    var pressedListener = function() {
-      self.setAccessibleAttribute( 'aria-pressed', !property.value );
+    var pressedListener = function( value ) {
+      self.setAccessibleAttribute( 'aria-pressed', !value );
+
+      var alertString = value ? SceneryPhetA11yStrings.simSoundOnString : SceneryPhetA11yStrings.simSoundOffString;
+      AriaHerald.announcePolite( alertString );
     };
     property.link( pressedListener );
 
