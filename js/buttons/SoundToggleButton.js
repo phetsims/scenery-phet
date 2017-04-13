@@ -57,11 +57,8 @@ define( function( require ) {
       xMargin: MARGIN,
       yMargin: MARGIN,
 
-      // a11y - tab navigation and auditory descriptions
-      parentContainerTagName: 'div',
-      tagName: 'input',
-      inputType: 'button',
-      labelTagName: 'label',
+      // a11y
+      tagName: 'button',
       accessibleLabel: SceneryPhetA11yStrings.soundToggleLabelString
     }, options ) );
 
