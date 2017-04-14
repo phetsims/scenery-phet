@@ -164,7 +164,7 @@ define( function( require ) {
    * @param {string} keyString - string that appears on the key
    * @param {function(string)} callback - called when the key is pressed
    * @param {Object} keyOptions - see RectangularPushButton.options
-   * @returns {*}
+   * @returns {RectangularPushButton}
    */
   function createKey( keyString, callback, keyOptions ) {
     return new RectangularPushButton( {
