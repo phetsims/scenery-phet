@@ -52,9 +52,6 @@ define( function( require ) {
     }, options );
 
     var textNode = new Text( string, { font: options.font, fill: options.fill } );
-    assert && assert( textNode.width < options.maxKeyWidth, 'text will extend outside of key' );
-
-
     KeyNode.call( this, textNode, options );
   }
 
