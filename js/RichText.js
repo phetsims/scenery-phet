@@ -3,7 +3,7 @@
 /**
  * Displays rich text with HTML-style tags by splitting it into multiple (child) Text nodes.
  *
- * It should be a close to drop-in replacement for SubSupText, and supports the following markup and features:
+ * It supports the following markup and features:
  * - <b> and <strong> for bold text
  * - <i> and <em> for italic text
  * - <sub> and <sup> for subscripts / superscripts
