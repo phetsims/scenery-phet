@@ -205,6 +205,12 @@ define( function( require ) {
       //new Circle( 3, { center: gradientDestination, fill: 'red' } )
     );
 
+    // Any children supplied in the options should be added on top of the probe node itself
+    if ( options.children ) {
+      children = children.concat( options.children );
+      delete options.children;
+    }
+
     Node.call( this, {
       children: children,
       mouseArea: outline,
