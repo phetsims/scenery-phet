@@ -30,8 +30,8 @@ define( function( require ) {
       dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
-      endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
       onDrag: function( event ) {}, // use this to do something every time drag is called, such as notify that a user has modified the position
+      endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
       allowTouchSnag: true, // Override this with false to prevent touch snagging.
 
       // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
