@@ -64,7 +64,27 @@ define( function( require ) {
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
-      formatText: function( text ) {return text;} // Text processor that can be used for formatting the text
+      formatText: function( text ) {return text;}, // Text processor that can be used for formatting the text
+
+      /**
+       * Determines whether the up arrow is enabled.
+       * @param {number} value - the current value
+       * @param {Range} range - the picker's range
+       * @returns {boolean}
+       */
+      upEnabledFunction: function( value, range ) {
+        return ( value !== null && value !== undefined && value < range.max );
+      },
+
+      /**
+       * Determines whether the down arrow is enabled.
+       * @param {number} value - the current value
+       * @param {Range} range - the picker's range
+       * @returns {boolean}
+       */
+      downEnabledFunction: function( value, range ) {
+        return ( value !== null && value !== undefined && value > range.min );
+      }
     }, options );
 
     // {Color|string} color of arrows and top/bottom gradient when pressed
@@ -82,14 +102,10 @@ define( function( require ) {
     var downStateProperty = new Property( 'up' ); // up|down|over|out
 
     // @private must be detached in dispose
-    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
-      return ( value !== null && value !== undefined && value < range.max );
-    } );
+    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
     // @private must be detached in dispose
-    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], function( value, range ) {
-      return ( value !== null && value !== undefined && value > range.min );
-    } );
+    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     //------------------------------------------------------------
     // Nodes
