@@ -28,7 +28,7 @@ define( function( require ) {
   /**
    * @constructor
    *
-   * @param {string} side - Side.LEFT or Side.RIGHT
+   * @param {Side} side - Side.LEFT or Side.RIGHT
    * @param {Object} [options]
    */
   function TriangleNode( side, options ) {
