@@ -27,6 +27,7 @@ define( function( require ) {
 
   /**
    * @constructor
+   * @extends {Path}
    *
    * @param {Side} side - Side.LEFT or Side.RIGHT
    * @param {Object} [options]
