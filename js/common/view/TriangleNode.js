@@ -10,11 +10,11 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var proportionPlayground = require( 'PROPORTION_PLAYGROUND/proportionPlayground' );
-  var Side = require( 'PROPORTION_PLAYGROUND/common/model/Side' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Matrix3 = require( 'DOT/Matrix3' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var proportionPlayground = require( 'PROPORTION_PLAYGROUND/proportionPlayground' );
+  var Shape = require( 'KITE/Shape' );
+  var Side = require( 'PROPORTION_PLAYGROUND/common/model/Side' );
 
   // constants
   var TRIANGLE_LENGTH = 17;
