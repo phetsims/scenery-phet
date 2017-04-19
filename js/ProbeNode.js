@@ -205,19 +205,14 @@ define( function( require ) {
       //new Circle( 3, { center: gradientDestination, fill: 'red' } )
     );
 
-    // Any children supplied in the options should be added on top of the probe node itself
-    if ( options.children ) {
-      children = children.concat( options.children );
-      delete options.children;
-    }
+    // Allow the client to override mouse and touch area, but fall back to the outline
+    options.mouseArea = options.mouseArea || outline;
+    options.touchArea = options.touchArea || outline;
 
-    Node.call( this, {
-      children: children,
-      mouseArea: outline,
-      touchArea: outline
-    } );
+    // Allow the client to add child nodes
+    options.children = children.concat( options.children || [] );
 
-    this.mutate( options );
+    Node.call( this, options );
   }
 
   sceneryPhet.register( 'ProbeNode', ProbeNode );
