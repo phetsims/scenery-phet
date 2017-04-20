@@ -97,6 +97,8 @@ define( function( require ) {
      */
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
 
+      // assert && assert( !(tailX === tipX && tailY === tipY), 'arrow should have different tail and tip' );
+
       this.tailX = tailX; // @public {read-only}
       this.tailY = tailY; // @public {read-only}
       this.tipX = tipX; // @public {read-only}
