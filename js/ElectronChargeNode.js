@@ -27,6 +27,8 @@ define( function( require ) {
     // No options supported yet
     options = _.extend( {}, options );
     options.children = [
+
+      // The blue shaded sphere
       new Circle( RADIUS, {
         fill: new RadialGradient(
           2, -3, 2,
@@ -36,6 +38,7 @@ define( function( require ) {
           .addColorStop( 1, '#00a9e8' )
       } ),
 
+      // Minus sign, intentionally not internationalized
       new Rectangle( 0, 0, 11, 2, {
         fill: 'white',
         centerX: 0,
