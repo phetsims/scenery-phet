@@ -49,13 +49,7 @@ define( function( require ) {
       focusHighlight: new Shape().circle( 0, 0, RESET_ALL_BUTTON_RADIUS )
     }, options );
 
-    // remove listener from options so that it is not passed to PushButtonModel
-    var listener = options.listener;
-    options = _.omit( options, [ 'listener' ] );
     ResetButton.call( this, options );
-
-    // add the listener
-    listener && this.addListener( listener );
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
