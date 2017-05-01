@@ -75,14 +75,16 @@ define( function( require ) {
       }
     } );
 
-    // accessible attribute lets user know when the toggle is pressed - must be unlinked in dispose
+    // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
+    // on construction and must be unlinked in dispose
     var pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       var alertString = value ? SceneryPhetA11yStrings.simSoundOnString : SceneryPhetA11yStrings.simSoundOffString;
       AriaHerald.announcePolite( alertString );
     };
-    property.link( pressedListener );
+    property.lazyLink( pressedListener );
+    self.setAccessibleAttribute( 'aria-pressed', !property.get() );
 
     // @private - make eligible for garbage collection
     this.disposeSoundToggleButton = function() {
