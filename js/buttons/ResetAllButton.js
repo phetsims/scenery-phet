@@ -19,6 +19,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+  var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button
@@ -49,7 +51,23 @@ define( function( require ) {
       focusHighlight: new Shape().circle( 0, 0, RESET_ALL_BUTTON_RADIUS )
     }, options );
 
+    var tandem = options.tandem;
+    options.tandem = tandem.createSupertypeTandem();
+
+    this.startedCallbacksForResetEmitter = new TandemEmitter( {
+      tandem: tandem.createTandem( 'startedResetEmitted' ),
+      phetioArgumentTypes: [ ],
+      phetioEmitData: false
+    } );
+    this.endedCallbacksForResetEmitter = new TandemEmitter( {
+      tandem: tandem.createTandem( 'endedResetEmitted' ),
+      phetioArgumentTypes: [ ],
+      phetioEmitData: false
+    } );
+
     ResetButton.call( this, options );
+
+    tandem.addInstance( this, TResetAllButton );
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
@@ -74,12 +92,17 @@ define( function( require ) {
      * @param {function} listener
      */
     addListener: function( listener ) {
+      var self = this;
 
       // wrap the listener in a function that disables alerts until the listener
       // returns - then announce that the Screen has been reset 
       var accessibleListener = function() {
+        self.startedCallbacksForResetEmitter.emit();
+
         AriaHerald.callWithDisabledAlerts( listener );
         AriaHerald.announceAssertiveWithAlert( resetAllAlertString );
+
+        self.endedCallbacksForResetEmitter.emit();
       };
 
       // @private - add the accessibility listener so button fires on 'enter' or 'spacebar'
