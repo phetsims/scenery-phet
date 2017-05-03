@@ -27,10 +27,11 @@ define( function( require ) {
    * @constructor
    */
   function LightRaysNode( bulbRadius, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     assert && assert( bulbRadius > 0 );
     assert && assert( options ); // assumes that options are properly populated by LightBulbNode
+
+    options.tandem = options.tandem || Tandem.tandemOptional();
 
     this.bulbRadius = bulbRadius; //@private
     this.options = options; // @private
@@ -39,8 +40,13 @@ define( function( require ) {
 
     // @private pre-calculate reusable rays {Line}
     this.cachedLines = [];
+    var groupTandem = options.tandem.createGroupTandem( 'lines' );
     for ( var i = options.maxRays; i--; ) {
-      this.cachedLines[ i ] = new Line( 0, 0, 0, 0, { stroke: options.rayStroke } );
+
+      this.cachedLines[ i ] = new Line( 0, 0, 0, 0, {
+        stroke: options.rayStroke,
+        tandem: groupTandem.createNextTandem()
+      } );
       this.addChild( this.cachedLines[ i ] );
     }
   }

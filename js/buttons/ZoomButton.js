@@ -25,14 +25,14 @@ define( function( require ) {
    * @constructor
    */
   function ZoomButton( options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       in: true, // true: zoom-in button, false: zoom-out button
       radius: 15,
       baseColor: 'rgb(255,200,0)',
       magnifyingGlassFill: 'white', // center of the glass
-      magnifyingGlassStroke: 'black' // rim and handle
+      magnifyingGlassStroke: 'black', // rim and handle
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // the magnifying glass
@@ -40,17 +40,27 @@ define( function( require ) {
     var glassNode = new Circle( options.radius, {
       fill: options.magnifyingGlassFill,
       stroke: options.magnifyingGlassStroke,
-      lineWidth: glassLineWidth
+      lineWidth: glassLineWidth,
+      tandem: options.tandem.createTandem( 'glassNode' )
     } );
 
     // handle at lower-left of glass, at a 45-degree angle
     var outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
-    var handleNode = new Line( outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
-      options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ),
-      { stroke: options.magnifyingGlassStroke, lineWidth: 0.4 * options.radius, lineCap: 'round' } );
+    var handleNode = new Line(
+      outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
+      options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ), {
+        stroke: options.magnifyingGlassStroke,
+        lineWidth: 0.4 * options.radius,
+        lineCap: 'round'
+      } );
 
     // plus or minus sign in middle of magnifying glass
-    var signOptions = { size: new Dimension2( 1.3 * options.radius, options.radius / 3 ), centerX: glassNode.centerX, centerY: glassNode.centerY };
+    var signOptions = {
+      size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
+      centerX: glassNode.centerX,
+      centerY: glassNode.centerY,
+      tandem: options.tandem.createTandem( 'signNode' )
+    };
     var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
     options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
