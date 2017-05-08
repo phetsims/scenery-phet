@@ -20,9 +20,9 @@ define( function( require ) {
   var TRIANGLE_LENGTH = 17;
   var TRIANGLE_ALTITUDE = 10;
   var LEFT_TRIANGLE_SHAPE = new Shape().moveTo( 0, 0 )
-                                       .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
-                                       .lineTo( 0, TRIANGLE_LENGTH )
-                                       .lineTo( 0, 0 );
+    .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
+    .lineTo( 0, TRIANGLE_LENGTH )
+    .lineTo( 0, 0 );
   var RIGHT_TRIANGLE_SHAPE = LEFT_TRIANGLE_SHAPE.transformed( Matrix3.scaling( -1, 1 ) );
 
   /**
