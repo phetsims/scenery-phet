@@ -100,7 +100,7 @@ define( function( require ) {
         self.startedCallbacksForResetEmitter.emit();
 
         AriaHerald.callWithDisabledAlerts( listener );
-        AriaHerald.announceAssertiveWithAlert( resetAllAlertString );
+        AriaHerald.announceAssertive( resetAllAlertString );
 
         self.endedCallbacksForResetEmitter.emit();
       };
