@@ -17,6 +17,21 @@
   "cool": {
     "value": "Cool"
   },
+  "tab": {
+    "value": "Tab"
+  },
+  "shift": {
+    "value": "Shift"
+  },
+  "capsLock": {
+    "value": "Caps Lock"
+  },
+  "enter": {
+    "value": "Enter"
+  },
+  "esc": {
+    "value": "Esc"
+  },
   "webglWarning.title": {
     "value": "Running with low graphics quality"
   },

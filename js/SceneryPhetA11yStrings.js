@@ -15,13 +15,6 @@ define( function( require ) {
 
   var SceneryPhetA11yStrings = {
 
-    // keyboard key strings
-    tabString: 'Tab',
-    shiftString: 'Shift',
-    capsLockString: 'Caps Lock',
-    enterString: 'Enter',
-    escString: 'Esc',
-
     // button labels
     soundToggleLabelString: 'Mute Sound',
 

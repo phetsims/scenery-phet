@@ -15,10 +15,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
-  // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
-  var tabString = SceneryPhetA11yStrings.tabString;
+  // strings
+  var tabString = require( 'string!SCENERY_PHET/tab' );
 
   /**
    * Constructor.
