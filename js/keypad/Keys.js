@@ -24,7 +24,9 @@ define( function( require ) {
     NINE: '9',
     BACKSPACE: 'BACKSPACE',
     DECIMAL: 'DECIMAL',
-    PLUSMINUS: 'PLUSMINUS'
+    PLUSMINUS: 'PLUSMINUS',
+    X: 'X',
+    XSQUARED: 'XSQUARED'
   };
 
   // verify that enum is immutable, without the runtime penalty in production code
