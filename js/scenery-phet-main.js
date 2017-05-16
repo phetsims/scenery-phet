@@ -9,16 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonsView = require( 'SCENERY_PHET/demo/ButtonsView' );
-  var ComponentsView = require( 'SCENERY_PHET/demo/ComponentsView' );
+  var ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
+  var ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var SlidersView = require( 'SCENERY_PHET/demo/SlidersView' );
-  var SpringView = require( 'SCENERY_PHET/demo/SpringView' );
+  var SlidersScreenView = require( 'SCENERY_PHET/demo/SlidersScreenView' );
+  var SpringScreenView = require( 'SCENERY_PHET/demo/SpringScreenView' );
 
   // strings
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
@@ -40,7 +40,7 @@ define( function( require ) {
 
       new Screen(
         function() {return {};},
-        function( model ) {return new ButtonsView();},
+        function( model ) {return new ButtonsScreenView();},
         {
           name: 'Buttons',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -50,7 +50,7 @@ define( function( require ) {
 
       new Screen(
         function() {return {};},
-        function( model ) {return new SlidersView();},
+        function( model ) {return new SlidersScreenView();},
         {
           name: 'Sliders',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -60,7 +60,7 @@ define( function( require ) {
 
       new Screen(
         function() {return {};},
-        function( model ) {return new ComponentsView();},
+        function( model ) {return new ComponentsScreenView();},
         {
           name: 'Components',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -70,7 +70,7 @@ define( function( require ) {
 
       new Screen(
         function() {return {};},
-        function( model ) {return new SpringView();},
+        function( model ) {return new SpringScreenView();},
         {
           name: 'Spring',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),

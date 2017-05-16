@@ -29,7 +29,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function SlidersView() {
+  function SlidersScreenView() {
     DemosScreenView.call( this, [
 
       /**
@@ -45,7 +45,7 @@ define( function( require ) {
     } );
   }
 
-  sceneryPhet.register( 'SlidersView', SlidersView );
+  sceneryPhet.register( 'SlidersScreenView', SlidersScreenView );
 
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
@@ -116,5 +116,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( DemosScreenView, SlidersView );
+  return inherit( DemosScreenView, SlidersScreenView );
 } );

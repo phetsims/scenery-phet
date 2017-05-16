@@ -21,7 +21,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function SpringView() {
+  function SpringScreenView() {
 
     ScreenView.call( this );
 
@@ -88,7 +88,7 @@ define( function( require ) {
     } ) );
   }
 
-  sceneryPhet.register( 'SpringView', SpringView );
+  sceneryPhet.register( 'SpringScreenView', SpringScreenView );
 
-  return inherit( ScreenView, SpringView );
+  return inherit( ScreenView, SpringScreenView );
 } );

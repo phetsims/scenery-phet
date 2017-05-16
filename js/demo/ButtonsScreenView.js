@@ -35,7 +35,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function ButtonsView() {
+  function ButtonsScreenView() {
 
     ScreenView.call( this );
 
@@ -172,7 +172,7 @@ define( function( require ) {
     this.addChild( resetAllButton );
   }
 
-  sceneryPhet.register( 'ButtonsView', ButtonsView );
+  sceneryPhet.register( 'ButtonsScreenView', ButtonsScreenView );
 
-  return inherit( ScreenView, ButtonsView );
+  return inherit( ScreenView, ButtonsScreenView );
 } );

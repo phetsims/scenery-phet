@@ -65,7 +65,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function ComponentsView() {
+  function ComponentsScreenView() {
     DemosScreenView.call( this, [
 
       /**
@@ -100,7 +100,7 @@ define( function( require ) {
     } );
   }
 
-  sceneryPhet.register( 'ComponentsView', ComponentsView );
+  sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
 
   // Creates a demo for BracketNode
   var demoBracketNode = function( layoutBounds ) {
@@ -883,5 +883,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( DemosScreenView, ComponentsView );
+  return inherit( DemosScreenView, ComponentsScreenView );
 } );
