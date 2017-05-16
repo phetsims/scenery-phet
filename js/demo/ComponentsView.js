@@ -19,7 +19,7 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
-  var DemosView = require( 'SUN/demo/DemosView' );
+  var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
@@ -66,7 +66,7 @@ define( function( require ) {
    * @constructor
    */
   function ComponentsView() {
-    DemosView.call( this, [
+    DemosScreenView.call( this, [
 
       /**
        * To add a demo, add an object literal here. Each object has these properties:
@@ -883,5 +883,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( DemosView, ComponentsView );
+  return inherit( DemosScreenView, ComponentsView );
 } );

@@ -13,7 +13,7 @@ define( function( require ) {
 
   // modules
   var CheckBox = require( 'SUN/CheckBox' );
-  var DemosView = require( 'SUN/demo/DemosView' );
+  var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -30,7 +30,7 @@ define( function( require ) {
    * @constructor
    */
   function SlidersView() {
-    DemosView.call( this, [
+    DemosScreenView.call( this, [
 
       /**
        * To add a demo, add an object literal here. Each object has these properties:
@@ -116,5 +116,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( DemosView, SlidersView );
+  return inherit( DemosScreenView, SlidersView );
 } );
