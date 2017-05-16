@@ -14,7 +14,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * @param {Node} displayNode - node that will appear on the key
+   * @param {Node|string} displayNode - node (or string to be converted) that will appear on the key
    * @param {Keys} identifier look at Keys enum for types of identifier supported
    * @param {object} [options]
    * @constructor
