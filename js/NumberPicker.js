@@ -38,6 +38,9 @@ define( function( require ) {
   function NumberPicker( valueProperty, rangeProperty, options ) {
     Tandem.indicateUninstrumentedCode();
 
+    // See https://github.com/phetsims/area-model-common/issues/5
+    assert && assert( !options.formatText, 'Deprecated, use formatValue instead' );
+
     options = _.extend( {
       cursor: 'pointer',
       color: new Color( 0, 0, 255 ), // {Color|string} color of arrows, and top/bottom gradient on pointer over
@@ -64,7 +67,9 @@ define( function( require ) {
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
-      formatText: function( text ) {return text;}, // Text processor that can be used for formatting the text
+      formatValue: function( value ) {
+        return Util.toFixed( value, options.decimalPlaces );
+      },
 
       /**
        * Determines whether the up arrow is enabled.
@@ -113,11 +118,20 @@ define( function( require ) {
     // displays the value
     var valueNode = new Text( '', { font: options.font, pickable: false } );
 
-    // compute max width of text based on value range
-    valueNode.text = options.formatText( Util.toFixed( rangeProperty.get().min, options.decimalPlaces ) );
-    var maxWidth = valueNode.width;
-    valueNode.text = options.formatText( Util.toFixed( rangeProperty.get().max, options.decimalPlaces ) );
-    maxWidth = Math.max( maxWidth, valueNode.width );
+    // compute max width of text based on the width of all possible values.
+    // See https://github.com/phetsims/area-model-common/issues/5
+    // TODO: Recalculate maximum width on range changes, see https://github.com/phetsims/scenery-phet/issues/306
+    var currentSampleValue = rangeProperty.get().min;
+    var sampleValues = [];
+    while ( currentSampleValue <= rangeProperty.get().max ) {
+      sampleValues.push( currentSampleValue );
+      currentSampleValue = options.upFunction( currentSampleValue );
+      assert && assert( sampleValues.length < 500000, 'Don\'t infinite loop here' );
+    }
+    var maxWidth = Math.max.apply( null, sampleValues.map( function( value ) {
+      valueNode.text = options.formatValue( value );
+      return valueNode.width;
+    } ) );
     // Cap the maxWidth if valueMaxWidth is provided, see https://github.com/phetsims/scenery-phet/issues/297
     if ( options.valueMaxWidth !== null ) {
       maxWidth = Math.min( maxWidth, options.valueMaxWidth );
@@ -275,7 +289,7 @@ define( function( require ) {
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
       }
       else {
-        valueNode.text = options.formatText( Util.toFixed( value, options.decimalPlaces ) );
+        valueNode.text = options.formatValue( value );
         if ( options.align === 'center' ) {
           valueNode.centerX = upBackground.centerX;
         }
