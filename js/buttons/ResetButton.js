@@ -51,6 +51,7 @@ define( function( require ) {
     assert && assert( !options.content, 'content is not customizable' );
     options.content = resetIcon;
 
+    options.tandem = options.tandem.createSupertypeTandem();
     RoundPushButton.call( this, options );
   }
 

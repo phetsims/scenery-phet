@@ -19,7 +19,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
   var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
 
   // constants
@@ -54,17 +53,6 @@ define( function( require ) {
     var tandem = options.tandem;
     options.tandem = tandem.createSupertypeTandem();
 
-    this.startedCallbacksForResetEmitter = new TandemEmitter( {
-      tandem: tandem.createTandem( 'startedResetEmitted' ),
-      phetioArgumentTypes: [ ],
-      phetioEmitData: false
-    } );
-    this.endedCallbacksForResetEmitter = new TandemEmitter( {
-      tandem: tandem.createTandem( 'endedResetEmitted' ),
-      phetioArgumentTypes: [ ],
-      phetioEmitData: false
-    } );
-
     ResetButton.call( this, options );
 
     tandem.addInstance( this, TResetAllButton );
@@ -92,17 +80,12 @@ define( function( require ) {
      * @param {function} listener
      */
     addListener: function( listener ) {
-      var self = this;
 
-      // wrap the listener in a function that disables alerts until the listener
-      // returns - then announce that the Screen has been reset 
+      // Wrap the listener in a function that disables alerts until the listener returns - then announce that the
+      // Screen has been reset
       var accessibleListener = function() {
-        self.startedCallbacksForResetEmitter.emit();
-
         AriaHerald.callWithDisabledAlerts( listener );
         AriaHerald.announcePolite( resetAllAlertString );
-
-        self.endedCallbacksForResetEmitter.emit();
       };
 
       // @private - add the accessibility listener so button fires on 'enter' or 'spacebar'
