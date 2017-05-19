@@ -31,7 +31,10 @@ define( function( require ) {
 
   /**
    * @param {Property.<number>} valueProperty
-   * @param {Property.<Range>} rangeProperty
+   * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
+   *                                           property contain the (maximum) union of all potential changes, so that
+   *                                           NumberPicker can iterate through all possible values and compute the
+   *                                           bounds of the labels.
    * @param {Object} [options]
    * @constructor
    */
@@ -67,6 +70,15 @@ define( function( require ) {
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
+
+      /**
+       * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
+       * to the same value depending on external state, it is recommended to rebuild the NumberPicker when that state
+       * changes (as it uses formatValue over the initial range to determine the bounds that labels can take).
+       *
+       * @param {number} value - the current value
+       * @returns {string}
+       */
       formatValue: function( value ) {
         return Util.toFixed( value, options.decimalPlaces );
       },
