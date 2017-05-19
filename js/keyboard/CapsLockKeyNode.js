@@ -25,12 +25,10 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function CapsLockKeyNode( options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Instrumentation provided by Node, further customization is probably not necessary
 
     options = _.extend( {
       minKeyWidth: 60, // in ScreenView coordinates
-      maxKeyWidth: 60,
+      maxKeyWidth: 60
     }, options );
 
     TextKeyNode.call( this, capsLockString, options );
