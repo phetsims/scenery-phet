@@ -30,36 +30,30 @@ define( function( require ) {
     Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
-      labelFont: new PhetFont( 20 ),
-      tandem: Tandem.tandemRequired()
+      labelNode: new Text( bucket.captionText, {
+        font: new PhetFont( 20 ),
+        fill: bucket.captionColor,
+        tandem: Tandem.tandemRequired().createTandem( 'label' )
+      } )
     }, options );
 
     // @public (a11y)
     this.bucket = bucket;
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
-    var transformedShape = bucket.containerShape.transformed( scaleMatrix );
+    this.transformedShape = bucket.containerShape.transformed( scaleMatrix );
     var baseColor = new Color( bucket.baseColor );
-    var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
+    var frontGradient = new LinearGradient( this.transformedShape.bounds.getMinX(),
+      0,
+      this.transformedShape.bounds.getMaxX(),
+      0 );
     frontGradient.addColorStop( 0, baseColor.colorUtilsBrighter( 0.5 ).toCSS() );
     frontGradient.addColorStop( 1, baseColor.colorUtilsDarker( 0.5 ).toCSS() );
-    this.addChild( new Path( transformedShape, {
+    this.addChild( new Path( this.transformedShape, {
       fill: frontGradient
     } ) );
-
-    // Create and add the label, centered on the front.
-    var label = new Text( bucket.captionText, {
-      font: options.labelFont,
-      fill: bucket.captionColor,
-      tandem: options.tandem.createTandem( 'label' )
-    } );
-
-    // Scale the label to fit if too large.
-    label.scale( Math.min( 1, Math.min( ( ( transformedShape.bounds.width * 0.75 ) / label.width ), ( transformedShape.bounds.height * 0.8 ) / label.height ) ) );
-    label.centerX = transformedShape.bounds.getCenterX();
-    label.centerY = transformedShape.bounds.getCenterY();
-
-    this.addChild( label );
+    this.labelNode = options.labelNode;
+    this.setLabel( this.labelNode );
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
@@ -69,5 +63,23 @@ define( function( require ) {
 
   sceneryPhet.register( 'BucketFront', BucketFront );
 
-  return inherit( Node, BucketFront );
+  return inherit( Node, BucketFront, {
+      /**
+       * Set a scenery node to appear in front of the bucket.
+       * @public
+       * @param {Node} labelNode
+       */
+      setLabel: function( labelNode ) {
+        if ( this.hasChild( this.labelNode ) ) {
+          this.removeChild( this.labelNode );
+          this.labelNode = labelNode;
+        }
+        labelNode.scale( Math.min( 1,
+          Math.min( ( ( this.transformedShape.bounds.width * 0.75 ) / labelNode.width ),
+            ( this.transformedShape.bounds.height * 0.8 ) / labelNode.height ) ) );
+        labelNode.center = this.transformedShape.bounds.getCenter();
+        this.addChild( labelNode );
+      }
+    }
+  );
 } );
