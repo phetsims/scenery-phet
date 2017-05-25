@@ -46,14 +46,15 @@ define( function( require ) {
       tagName: 'input',
       inputType: 'button',
       accessibleLabel: resetAllButtonNameString,
-      useAriaLabel: true,
-      focusHighlight: new Shape().circle( 0, 0, RESET_ALL_BUTTON_RADIUS )
+      useAriaLabel: true
     }, options );
 
     var tandem = options.tandem;
     options.tandem = tandem.createSupertypeTandem();
 
     ResetButton.call( this, options );
+
+    this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
     tandem.addInstance( this, TResetAllButton );
   }
