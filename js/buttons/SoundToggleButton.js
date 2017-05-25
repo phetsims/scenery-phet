@@ -64,7 +64,7 @@ define( function( require ) {
     }, options ) );
 
     // dilate the focus highlight bounds to give the button some space
-    this.focusHighlight = new Shape.bounds( this.bounds.dilated( 5 ) );
+    this.focusHighlight = new Shape.bounds( this.localBounds.dilated( 5 ) );
 
     var self = this;
 
