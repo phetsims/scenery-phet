@@ -41,17 +41,19 @@ define( function( require ) {
     this.bucket = bucket;
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
-    this.transformedShape = bucket.containerShape.transformed( scaleMatrix );
+    var transformedShape = bucket.containerShape.transformed( scaleMatrix );
     var baseColor = new Color( bucket.baseColor );
-    var frontGradient = new LinearGradient( this.transformedShape.bounds.getMinX(),
+    var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
       0,
-      this.transformedShape.bounds.getMaxX(),
+      transformedShape.bounds.getMaxX(),
       0 );
     frontGradient.addColorStop( 0, baseColor.colorUtilsBrighter( 0.5 ).toCSS() );
     frontGradient.addColorStop( 1, baseColor.colorUtilsDarker( 0.5 ).toCSS() );
-    this.addChild( new Path( this.transformedShape, {
+    this.addChild( new Path( transformedShape, {
       fill: frontGradient
     } ) );
+
+    // @public
     this.labelNode = options.labelNode;
     this.setLabel( this.labelNode );
 
@@ -64,22 +66,24 @@ define( function( require ) {
   sceneryPhet.register( 'BucketFront', BucketFront );
 
   return inherit( Node, BucketFront, {
-      /**
-       * Set a scenery node to appear in front of the bucket.
-       * @public
-       * @param {Node} labelNode
-       */
-      setLabel: function( labelNode ) {
-        if ( this.hasChild( this.labelNode ) ) {
-          this.removeChild( this.labelNode );
-          this.labelNode = labelNode;
-        }
-        labelNode.scale( Math.min( 1,
-          Math.min( ( ( this.transformedShape.bounds.width * 0.75 ) / labelNode.width ),
-            ( this.transformedShape.bounds.height * 0.8 ) / labelNode.height ) ) );
-        labelNode.center = this.transformedShape.bounds.getCenter();
-        this.addChild( labelNode );
+    /**
+     * Set a scenery node to appear in front of the bucket.
+     * @public
+     * @param {Node} labelNode
+     */
+    setLabel: function( labelNode ) {
+
+      if ( this.hasChild( this.labelNode ) ) {
+        this.removeChild( this.labelNode );
+      }
+
+      if ( labelNode ) {
+        this.labelNode = labelNode;
+        this.labelNode.maxWidth = this.width * 0.8;
+        this.labelNode.maxHeight = this.height;
+        this.labelNode.center = this.localBounds.center;
+        this.addChild( this.labelNode );
       }
     }
-  );
+  } );
 } );
