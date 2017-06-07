@@ -37,7 +37,8 @@ define( function( require ) {
 
   phetioInherit( TNode, 'TBarrierRectangle', TBarrierRectangle, {}, {
     documentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
-    events: [ 'fired' ]
+    events: [ 'fired' ],
+    dataStreamOnlyType: true
   } );
 
   sceneryPhet.register( 'TBarrierRectangle', TBarrierRectangle );
