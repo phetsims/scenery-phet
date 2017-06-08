@@ -30,12 +30,17 @@ define( function( require ) {
     Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
-      labelNode: new Text( bucket.captionText, {
+      tandem: Tandem.tandemRequired()
+    }, options );
+
+    // This is basically like extending the options with the labelNode, but with dynamic content in the tandem.
+    if ( !options.labelNode ) {
+      options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
-        tandem: Tandem.tandemRequired().createTandem( 'label' )
-      } )
-    }, options );
+        tandem: options.tandem.createTandem( 'label' )
+      } );
+    }
 
     // @public (a11y)
     this.bucket = bucket;
