@@ -1,4 +1,4 @@
-// Copyright 2015-2016, University of Colorado Boulder
+// Copyright 2015-2017, University of Colorado Boulder
 
 /**
  * Light rays that indicate brightness of a light source such as a bulb.
@@ -20,6 +20,18 @@ define( function( require ) {
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
   var RAYS_ARC_ANGLE = 3 * Math.PI / 2;
 
+  // default options, do not modify!
+  var DEFAULT_OPTIONS = Object.freeze( {
+    raysStroke: 'yellow',
+    minRays: 8,
+    maxRays: 60,
+    minRayLength: 0,
+    maxRayLength: 200,
+    longRayLineWidth: 1.5, // for long rays
+    mediumRayLineWidth: 1, // for medium-length rays
+    shortRayLineWidth: 0.5 // for short rays
+  } );
+
   /**
    * Rays of light that come out of the light bulb.
    * @param {number} bulbRadius
@@ -29,22 +41,23 @@ define( function( require ) {
   function LightRaysNode( bulbRadius, options ) {
 
     assert && assert( bulbRadius > 0 );
-    assert && assert( options ); // assumes that options are properly populated by LightBulbNode
-
-    options.tandem = options.tandem || Tandem.tandemOptional();
-
-    this.bulbRadius = bulbRadius; //@private
-    this.options = options; // @private
 
     options = _.extend( {
-      stroke: options.rayStroke
-    }, options );
+      tandem: Tandem.tandemOptional()
+    }, DEFAULT_OPTIONS, options );
+
+    assert && assert( !options.stroke );
+    options.stroke = options.raysStroke;
+
+    this.bulbRadius = bulbRadius; //@private
+    this.options = options; // @private save all options, most are needed by prototype functions
+
     Path.call( this, null, options );
   }
 
   sceneryPhet.register( 'LightRaysNode', LightRaysNode );
 
-  inherit( Path, LightRaysNode, {
+  return inherit( Path, LightRaysNode, {
 
     // @public updates light rays based on {number} brightness, which varies from 0 to 1.
     setBrightness: function( brightness ) {
@@ -96,7 +109,8 @@ define( function( require ) {
       // Set the shape of the path to the shape created above
       this.setShape( shape );
     }
-  } );
+  }, {
 
-  return LightRaysNode;
+    DEFAULT_OPTIONS: DEFAULT_OPTIONS
+  } );
 } );

@@ -1,4 +1,4 @@
-// Copyright 2015-2016, University of Colorado Boulder
+// Copyright 2015-2017, University of Colorado Boulder
 
 /**
  * Light bulb, made to 'glow' by modulating opacity of the 'on' image.
@@ -29,19 +29,11 @@ define( function( require ) {
   function LightBulbNode( brightnessProperty, options ) {
     Tandem.indicateUninstrumentedCode();
 
-    var defaultOptions = {
-      bulbImageScale: 0.33,
-      rayStroke: 'yellow',
-      minRays: 8,
-      maxRays: 60,
-      minRayLength: 0,
-      maxRayLength: 200,
-      longRayLineWidth: 1.5, // for long rays
-      mediumRayLineWidth: 1, // for medium-length rays
-      shortRayLineWidth: 0.5 // for short rays
-    };
+    options = _.extend( {
+      bulbImageScale: 0.33
 
-    options = _.extend( {}, defaultOptions, options ); // don't modify defaultOptions!
+      // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
+    }, options );
 
     var self = this;
 
@@ -60,7 +52,7 @@ define( function( require ) {
 
     // rays
     var bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
-    var rayOptions = _.pick( options, _.keys( defaultOptions ) ); // cherry-pick options that are specific to rays
+    var rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
     rayOptions.x = this.onNode.centerX;
     rayOptions.y = offNode.top + bulbRadius;
     self.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
