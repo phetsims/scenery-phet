@@ -10,11 +10,11 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Util = require( 'DOT/Util' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;
@@ -36,24 +36,15 @@ define( function( require ) {
     this.bulbRadius = bulbRadius; //@private
     this.options = options; // @private
 
-    Node.call( this, options );
-
-    // @private pre-calculate reusable rays {Line}
-    this.cachedLines = [];
-    var groupTandem = options.tandem.createGroupTandem( 'lines' );
-    for ( var i = options.maxRays; i--; ) {
-
-      this.cachedLines[ i ] = new Line( 0, 0, 0, 0, {
-        stroke: options.rayStroke,
-        tandem: groupTandem.createNextTandem()
-      } );
-      this.addChild( this.cachedLines[ i ] );
-    }
+    options = _.extend( {
+      stroke: options.rayStroke
+    }, options );
+    Path.call( this, null, options );
   }
 
   sceneryPhet.register( 'LightRaysNode', LightRaysNode );
 
-  inherit( Node, LightRaysNode, {
+  inherit( Path, LightRaysNode, {
 
     // @public updates light rays based on {number} brightness, which varies from 0 to 1.
     setBrightness: function( brightness ) {
@@ -82,8 +73,9 @@ define( function( require ) {
         this.options.longRayLineWidth,
         rayLength
       );
-      lineWidth = Util.clamp( lineWidth, this.options.shortRayLineWidth, this.options.longRayLineWidth );
+      this.lineWidth = Util.clamp( lineWidth, this.options.shortRayLineWidth, this.options.longRayLineWidth );
 
+      var shape = new Shape();
       // rays fill part of a circle, incrementing clockwise
       for ( var i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
         if ( i < numberOfRays ) {
@@ -94,19 +86,15 @@ define( function( require ) {
           x2 = Math.cos( angle ) * ( this.bulbRadius + rayLength );
           y2 = Math.sin( angle ) * ( this.bulbRadius + rayLength );
 
-          // set properties of line from the cache
-          this.cachedLines[ i ].visible = true;
-          this.cachedLines[ i ].lineWidth = lineWidth;
-          this.cachedLines[ i ].setLine( x1, y1, x2, y2 );
+          shape.moveTo( x1, y1 ).lineTo( x2, y2 );
 
           // increment the angle
           angle += deltaAngle;
         }
-        else {
-          // hide unusable lined
-          this.cachedLines[ i ].visible = false;
-        }
       }
+
+      // Set the shape of the path to the shape created above
+      this.setShape( shape );
     }
   } );
 
