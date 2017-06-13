@@ -171,7 +171,8 @@ define( function( require ) {
 
       // If we're a leaf
       if ( element.type === 'Text' ) {
-        node = new Text( element.content, {
+        var mappedContent = isLTR ? ( '\u202a' + element.content + '\u202c' ) : ( '\u202b' + element.content + '\u202c' );
+        node = new Text( mappedContent, {
           font: font,
           fill: fill,
           stroke: this._stroke
