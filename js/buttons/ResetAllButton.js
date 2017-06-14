@@ -56,6 +56,27 @@ define( function( require ) {
 
     this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
+    // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
+    // while many properties are reset
+    var disableAlertsListener = function() {
+      AriaHerald.enabled = false;
+    };
+    this.buttonModel.startedCallbacksForFiredEmitter.addListener( disableAlertsListener );
+
+    // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
+    // was reset
+    var enableAlertsListener = function() {
+      AriaHerald.enabled = true;
+      AriaHerald.announcePolite( resetAllAlertString );
+    };
+    this.buttonModel.endedCallbacksForFiredEmitter.addListener( enableAlertsListener );
+
+    // @private
+    this.disposeResetAllButton = function() {
+      self.buttonModel.startedCallbacksForFiredEmitter.removeListener( disableAlertsListener );
+      self.buttonModel.endedCallbacksForFiredEmitter.removeListener( enableAlertsListener );
+    };
+
     tandem.addInstance( this, TResetAllButton );
   }
 
@@ -68,31 +89,8 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.clickListener && this.removeAccessibleInputListener( this.clickListener );
+      this.disposeResetAllButton();
       ResetButton.prototype.dispose && ResetButton.prototype.dispose.call( this );
-    },
-
-    /**
-     * Add a listener to the ResetAllButton, wrapping it in a function that handles keyboard navigation and
-     * accessibility announcements. All accessibility alerts are disabled during reset. Rather than announce
-     * all alerts that trigger when the Screen is reset, a short and consistent summary of the reset action
-     * is announced.
-     * @public
-     * @param {function} listener
-     */
-    addListener: function( listener ) {
-
-      // Wrap the listener in a function that disables alerts until the listener returns - then announce that the
-      // Screen has been reset
-      var accessibleListener = function() {
-        AriaHerald.callWithDisabledAlerts( listener );
-        AriaHerald.announcePolite( resetAllAlertString );
-      };
-
-      // @private - add the accessibility listener so button fires on 'enter' or 'spacebar'
-      this.clickListener = this.addAccessibleInputListener( { click: accessibleListener } );
-
-      ResetButton.prototype.addListener.call( this, accessibleListener );
     }
   } );
 } );
