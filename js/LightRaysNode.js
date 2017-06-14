@@ -50,7 +50,9 @@ define( function( require ) {
     options.stroke = options.raysStroke;
 
     this.bulbRadius = bulbRadius; //@private
-    this.options = options; // @private save all options, most are needed by prototype functions
+    
+    // @private cherry pick options specific to this type, needed by prototype functions
+    this.lightRaysNodeOptions = _.pick( options, _.keys( DEFAULT_OPTIONS ) );
 
     Path.call( this, null, options );
   }
@@ -65,10 +67,10 @@ define( function( require ) {
       assert && assert( brightness >= 0 && brightness <= 1 );
 
       // local vars to improve readability
-      var minRays = this.options.minRays;
-      var maxRays = this.options.maxRays;
-      var minRayLength = this.options.minRayLength;
-      var maxRayLength = this.options.maxRayLength;
+      var minRays = this.lightRaysNodeOptions.minRays;
+      var maxRays = this.lightRaysNodeOptions.maxRays;
+      var minRayLength = this.lightRaysNodeOptions.minRayLength;
+      var maxRayLength = this.lightRaysNodeOptions.maxRayLength;
 
       // number of rays is a function of brightness
       var numberOfRays = ( brightness === 0 ) ? 0 : minRays + Math.round( brightness * ( maxRays - minRays ) );
@@ -82,11 +84,11 @@ define( function( require ) {
       var lineWidth = Util.linear(
         0.3 * maxRayLength,
         0.6 * maxRayLength,
-        this.options.shortRayLineWidth,
-        this.options.longRayLineWidth,
+        this.lightRaysNodeOptions.shortRayLineWidth,
+        this.lightRaysNodeOptions.longRayLineWidth,
         rayLength
       );
-      this.lineWidth = Util.clamp( lineWidth, this.options.shortRayLineWidth, this.options.longRayLineWidth );
+      this.lineWidth = Util.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
 
       var shape = new Shape();
       // rays fill part of a circle, incrementing clockwise
