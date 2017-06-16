@@ -46,8 +46,8 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      color: new Color( 0, 0, 255 ), // {Color|string} color of arrows, and top/bottom gradient on pointer over
-      backgroundColor: 'white', // {Color|string} color of the background when pointer is not over it
+      color: new Color( 0, 0, 255 ), // {Color|string|Property.<Color|string>} color of arrows, and top/bottom gradient on pointer over
+      backgroundColor: 'white', // {Color|string|Property.<Color|string>} color of the background when pointer is not over it
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
@@ -104,8 +104,19 @@ define( function( require ) {
       }
     }, options );
 
-    // {Color|string} color of arrows and top/bottom gradient when pressed
-    options.pressedColor = options.pressedColor || Color.toColor( options.color ).darkerColor();
+    // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
+    if ( options.pressedColor === undefined ) {
+      if ( options.color instanceof Property ) {
+        // @private {Property.<Color>}
+        this.pressedColorProperty = new DerivedProperty( [ options.color ], function( color ) {
+          return Color.toColor( color ).darkerColor();
+        } );
+        options.pressedColor = this.pressedColorProperty;
+      }
+      else {
+        options.pressedColor = Color.toColor( options.color ).darkerColor();
+      }
+    }
 
     var self = this;
     Node.call( this );
@@ -396,6 +407,9 @@ define( function( require ) {
 
     // @public Ensures that this node is eligible for GC.
     dispose: function() {
+      if ( this.pressedColorProperty ) {
+        this.pressedColorProperty.dispose();
+      }
 
       this.upEnabledProperty.unlinkAll(); // Property is owned by this instance
       this.upEnabledProperty.dispose();
