@@ -78,7 +78,12 @@ define( function( require ) {
     // Disable the button when the sim is playing
     if ( options.playingProperty ) {
       var self = this;
-      var playingObserver = function( playing ) { self.enabled = !playing; };
+      var playingObserver = function( playing ) { 
+        self.enabled = !playing; 
+
+        // a11y
+        self.focusable = !playing;
+      };
       options.playingProperty.link( playingObserver );
     }
 
