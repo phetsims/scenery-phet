@@ -87,8 +87,9 @@ define( function( require ) {
     politeStatusElement.textContent = text;
   } );
 
-  // Properties that indicate whether or not AriaHerald is enabled and visible - this is done primarily
-  // to support phet-io so that these Properties can be observed
+  // Properties that indicate whether or not AriaHerald is enabled and visible. When disabled, no new alerts will
+  // come through the screen reader.  When hidden, no alerts will come through, and the content will be hidden from 
+  // the screen creader virtual cursor.  Properties are used primarily to support phet-io so that they can be observed.
   var alertsVisibleProperty = new Property( true, {
     tandem: tandem.createTandem( 'alertsVisibleProperty' ),
     phetioValueType: TBoolean
@@ -96,6 +97,12 @@ define( function( require ) {
   var alertsEnabledProperty = new Property( true, {
     tandem: tandem.createTandem( 'alertsEnabledProperty' ),
     phetioValueType: TBoolean
+  } );
+
+  // Hide the container when alerts are not visible, hiding all of this content from the virtual cursor and preventing
+  // alerts from coming through the assistive technology
+  alertsVisibleProperty.link( function( visible ) {
+    alertContainer.hidden = !visible;
   } );
 
   /**
