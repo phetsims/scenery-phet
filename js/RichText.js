@@ -1,7 +1,11 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Displays rich text with HTML-style tags by splitting it into multiple (child) Text nodes.
+ * Displays rich text by interpreting the input text as HTML, supporting a limited set of tags that prevent any
+ * security vulnerabilities. It does this by parsing the input HTML and splitting it into multiple Text children
+ * recursively.
+ *
+ * NOTE: Encoding HTML entities is required, and malformed HTML is not accepted.
  *
  * It supports the following markup and features:
  * - <b> and <strong> for bold text
@@ -171,7 +175,9 @@ define( function( require ) {
 
       // If we're a leaf
       if ( element.type === 'Text' ) {
-        var mappedContent = isLTR ? ( '\u202a' + element.content + '\u202c' ) : ( '\u202b' + element.content + '\u202c' );
+        // Unescapes HTML entities, see https://github.com/phetsims/scenery-phet/issues/315
+        var unescapedContent = _.unescape( element.content );
+        var mappedContent = isLTR ? ( '\u202a' + unescapedContent + '\u202c' ) : ( '\u202b' + unescapedContent + '\u202c' );
         node = new Text( mappedContent, {
           font: font,
           fill: fill,
@@ -280,6 +286,8 @@ define( function( require ) {
     /**
      * Sets the text displayed by our node.
      * @public
+     *
+     * NOTE: Encoding HTML entities is required, and malformed HTML is not accepted.
      *
      * @param {string|number} text - The text to display. If it's a number, it will be cast to a string
      * @returns {RichText} - For chaining
