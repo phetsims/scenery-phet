@@ -23,6 +23,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TMultiLineText = require( 'SCENERY_PHET/TMultiLineText' );
+
 
   /**
    *
@@ -35,7 +37,8 @@ define( function( require ) {
     options = _.extend( {
       font: new PhetFont(),
       align: 'center', // 'center', 'left' or 'right' (as supported by VBox)
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TMultiLineText
     }, options );
 
     // Normally individual properties from options should be stored rather than the entire options instance,
@@ -58,6 +61,7 @@ define( function( require ) {
   sceneryPhet.register( 'MultiLineText', MultiLineText );
 
   return inherit( Node, MultiLineText, {
+
     /**
      * Sets the text.
      * @param {string} text
