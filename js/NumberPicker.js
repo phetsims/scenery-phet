@@ -26,6 +26,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var Input = require( 'SCENERY/input/Input' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
@@ -70,6 +71,11 @@ define( function( require ) {
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
+
+      // a11y
+      tagName: 'input',
+      inputType: 'number',
+      inputValue: valueProperty.get(),
 
       /**
        * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
@@ -340,7 +346,39 @@ define( function( require ) {
       updateColors( state, enabled, downBackground, self.downArrow, backgroundColors, arrowColors );
     } );
 
+    // @private (a11y) - update Property value on input from keyboard or assistive technology
+    this.accessibleInputListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+
+        // prevent user from changing value with number or the space keys
+        if ( Input.isNumberKey( event.keyCode ) || event.keyCode === Input.KEY_SPACE ) {
+          event.preventDefault();
+        }
+      },
+      input: function( event ) {
+
+        // if input value is empty, inputValue was cleared by the browser after focus, don't update the Property value
+        if ( self.inputValue ) {
+          if ( self.inputValue > valueProperty.get() && self.upEnabledProperty.get() ) {
+
+            // user intended to increment
+            valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
+          }
+          else if ( self.inputValue < valueProperty.get() && self.downEnabledProperty.get() ) {
+
+            // user intended to decrement
+            valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
+          }
+        }
+
+        self.inputValue = valueProperty.get();
+      }
+    } );
+
     this.mutate( options );
+
+    // a11y
+    this.focusHighlight = Shape.bounds( this.localBounds.dilated( 5 ) );
   }
 
   sceneryPhet.register( 'NumberPicker', NumberPicker );
@@ -418,6 +456,8 @@ define( function( require ) {
       this.downEnabledProperty.dispose();
 
       this.valueProperty.unlink( this.valueObserver );
+
+      this.removeAccessibleInputListener( this.accessibleInputListener );
 
       Node.prototype.dispose.call( this );
     },
