@@ -60,7 +60,7 @@ define( function( require ) {
       cornerRadius: 4,
       xMargin: 5,
       yMargin: 3,
-      buttonAppearanceStrategy: RectangularButtonView.flatAppearanceStrategy
+      buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy
     };
 
     // Create the icons that signify previous and next.
