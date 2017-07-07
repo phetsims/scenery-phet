@@ -226,8 +226,8 @@ define( function( require ) {
             // also see https://github.com/phetsims/joist/issues/430
             node.tagName = 'a';
             node.accessibleLabel = RichText.himalayaElementToString( element, isLTR );
-            this.setAccessibleAttribute( 'href', href );
-            this.setAccessibleAttribute( 'target', '_blank' );
+            node.setAccessibleAttribute( 'href', href );
+            node.setAccessibleAttribute( 'target', '_blank' );
           }
         }
         // Bold
