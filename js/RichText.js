@@ -8,6 +8,7 @@
  * NOTE: Encoding HTML entities is required, and malformed HTML is not accepted.
  *
  * It supports the following markup and features:
+ * - <a href="{{placeholder}}"> for links (pass in { links: { placeholder: ACTUAL_HREF } })
  * - <b> and <strong> for bold text
  * - <i> and <em> for italic text
  * - <sub> and <sup> for subscripts / superscripts
