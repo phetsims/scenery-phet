@@ -222,6 +222,12 @@ define( function( require ) {
                 newWindow.focus();
               }
             } ) );
+            // a11y - open the link in the new tab when activated with a keyboard.
+            // also see https://github.com/phetsims/joist/issues/430
+            node.tagName = 'a';
+            node.accessibleLabel = RichText.himalayaElementToString( element, isLTR );
+            this.setAccessibleAttribute( 'href', href );
+            this.setAccessibleAttribute( 'target', '_blank' );
           }
         }
         // Bold
@@ -838,6 +844,33 @@ define( function( require ) {
     },
     get links() { return this.getLinks(); }
   }, {
+    /**
+     * Stringifies an HTML subtree defined by the given element.
+     * @public
+     *
+     * @param {*} element - See himalaya
+     * @param {boolean} isLTR
+     * @returns {string}
+     */
+    himalayaElementToString: function( element, isLTR ) {
+      if ( element.type === 'Text' ) {
+        return RichText.contentToString( element.content, isLTR );
+      }
+      else if ( element.type === 'Element' ) {
+        if ( element.tagName === 'span' && element.attributes.dir ) {
+          isLTR = element.attributes.dir === 'ltr';
+        }
+
+        // Process children
+        return element.children.map( function( child ) {
+          return RichText.himalayaElementToString( child, isLTR );
+        } ).join( '' );
+      }
+      else {
+        return '';
+      }
+    },
+
     /**
      * Takes the element.content from himalaya, unescapes HTML entities, and applies the proper directional tags.
      * @private
