@@ -441,7 +441,16 @@ define( function( require ) {
         new RichText( 'These <b><em>can</em> <u><font color="red">be</font> mixed<sup>1</sup></u></b>.' ),
         new RichText( '\u202aHandles bidirectional text: \u202b<font color="#0a0">مقابض</font> النص ثنائي <b>الاتجاه</b><sub>2</sub>\u202c\u202c' ),
         new RichText( '\u202b\u062a\u0633\u062a (\u0632\u0628\u0627\u0646)\u202c' ),
-        new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' )
+        new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' ),
+        new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>.', {
+          links: {
+            phetWebsite: 'https://phet.colorado.edu'
+          }
+        } ),
+        new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
+          links: true
+        } ),
+        new RichText( 'Links not found <a href="{{bogus}}">are ignored</a> for security.' )
       ],
       center: layoutBounds.center
     } );

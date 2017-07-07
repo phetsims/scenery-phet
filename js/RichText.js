@@ -31,6 +31,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var extendDefined = require( 'PHET_CORE/extendDefined' );
   var Font = require( 'SCENERY/util/Font' );
@@ -57,6 +58,9 @@ define( function( require ) {
     'underlineHeightScale',
     'strikethroughLineWidth',
     'strikethroughHeightScale',
+    'linkFill',
+    'linkEventsHandled',
+    'links',
     'text'
   ];
 
@@ -106,6 +110,15 @@ define( function( require ) {
     // @private {number}
     this._strikethroughLineWidth = 1;
     this._strikethroughHeightScale = 0.3;
+
+    // @private {paint}
+    this._linkFill = 'rgb(27,0,241)';
+
+    // @private {boolean}
+    this._linkEventsHandled = false;
+
+    // @private {Object|boolean}
+    this._links = {};
 
     Node.call( this );
 
@@ -164,6 +177,8 @@ define( function( require ) {
      * @param {boolean} isLTR - True if LTR, false if RTL (handles RTL text properly)
      */
     appendElement: function( containerNode, element, font, fill, isLTR ) {
+      var self = this;
+
       var nextSideName = isLTR ? 'left' : 'right';
       var previousSideName = isLTR ? 'right' : 'left';
 
@@ -175,10 +190,7 @@ define( function( require ) {
 
       // If we're a leaf
       if ( element.type === 'Text' ) {
-        // Unescapes HTML entities, see https://github.com/phetsims/scenery-phet/issues/315
-        var unescapedContent = _.unescape( element.content );
-        var mappedContent = isLTR ? ( '\u202a' + unescapedContent + '\u202c' ) : ( '\u202b' + unescapedContent + '\u202c' );
-        node = new Text( mappedContent, {
+        node = new Text( RichText.contentToString( element.content, isLTR ), {
           font: font,
           fill: fill,
           stroke: this._stroke
@@ -188,8 +200,32 @@ define( function( require ) {
       else if ( element.type === 'Element' ) {
         node = new Node();
 
+        if ( element.tagName === 'a' ) {
+          var href = element.attributes.href;
+          if ( this._links !== true ) {
+            if ( href.indexOf( '{{' ) === 0 && href.indexOf( '}}' ) === href.length - 2 ) {
+              href = this._links[ href.slice( 2, -2 ) ];
+            }
+            else {
+              href = null;
+            }
+          }
+          if ( href ) {
+            if ( this._linkFill !== null ) {
+              fill = this._linkFill; // Link color
+            }
+            node.cursor = 'pointer';
+            node.addInputListener( new ButtonListener( {
+              fire: function( event ) {
+                self._linkEventsHandled && event.handle();
+                var newWindow = window.open( href, '_blank' ); // open in a new window/tab
+                newWindow.focus();
+              }
+            } ) );
+          }
+        }
         // Bold
-        if ( element.tagName === 'b' || element.tagName === 'strong' ) {
+        else if ( element.tagName === 'b' || element.tagName === 'strong' ) {
           font = font.copy( {
             weight: 'bold'
           } );
@@ -703,7 +739,118 @@ define( function( require ) {
     getStrikethroughHeightScale: function() {
       return this._strikethroughHeightScale;
     },
-    get strikethroughHeightScale() { return this.getStrikethroughHeightScale(); }
+    get strikethroughHeightScale() { return this.getStrikethroughHeightScale(); },
 
+    /**
+     * Sets the color of links. If null, no fill will be overridden.
+     * @public
+     *
+     * @param {paint} linkFill
+     * @returs {RichText} - For chaining
+     */
+    setLinkFill: function( linkFill ) {
+      if ( this._linkFill !== linkFill ) {
+        this._linkFill = linkFill;
+        this.rebuildRichText();
+      }
+      return this;
+    },
+    set linkFill( value ) { this.setLinkFill( value ); },
+
+    /**
+     * Returns the color of links.
+     * @public
+     *
+     * @returns {paint}
+     */
+    getLinkFill: function() {
+      return this._linkFill;
+    },
+    get linkFill() { return this.getLinkFill(); },
+
+    /**
+     * Sets whether link clicks will call event.handle().
+     * @public
+     *
+     * @param {boolean} linkEventsHandled
+     * @returs {RichText} - For chaining
+     */
+    setLinkEventsHandled: function( linkEventsHandled ) {
+      if ( this._linkEventsHandled !== linkEventsHandled ) {
+        this._linkEventsHandled = linkEventsHandled;
+        this.rebuildRichText();
+      }
+      return this;
+    },
+    set linkEventsHandled( value ) { this.setLinkEventsHandled( value ); },
+
+    /**
+     * Returns whether link events will be handled.
+     * @public
+     *
+     * @returns {boolean}
+     */
+    getLinkEventsHandled: function() {
+      return this._linkEventsHandled;
+    },
+    get linkEventsHandled() { return this.getLinkEventsHandled(); },
+
+    /**
+     * Sets the map of href placeholder => actual href used for links. However if set to true ({boolean}) as a full
+     * object, links in the string will not be mapped, but will be directly added.
+     * @public
+     *
+     * For instance, the default is to map hrefs for security purposes:
+     *
+     * new RichText( '<a href="alink">content</a>', {
+     *   links: {
+     *     alink: 'https://phet.colorado.edu'
+     *   }
+     * } );
+     *
+     * But links with an href not matching will be ignored. This can be avoided by passing links: true to directly
+     * embed links:
+     *
+     * new RichText( '<a href="https://phet.colorado.edu">content</a>', { links: true } );
+     *
+     * See https://github.com/phetsims/scenery-phet/issues/316 for more information.
+     *
+     * @param {Object|boolean} links
+     * @returs {RichText} - For chaining
+     */
+    setLinks: function( links ) {
+      if ( this._links !== links ) {
+        this._links = links;
+        this.rebuildRichText();
+      }
+      return this;
+    },
+    set links( value ) { this.setLinks( value ); },
+
+    /**
+     * Returns whether link events will be handled.
+     * @public
+     *
+     * @returns {Object}
+     */
+    getLinks: function() {
+      return this._links;
+    },
+    get links() { return this.getLinks(); }
+  }, {
+    /**
+     * Takes the element.content from himalaya, unescapes HTML entities, and applies the proper directional tags.
+     * @private
+     *
+     * See https://github.com/phetsims/scenery-phet/issues/315
+     *
+     * @param {string} content
+     * @param {boolean} isLTR
+     * @returns {string}
+     */
+    contentToString: function( content, isLTR ) {
+      var unescapedContent = _.unescape( content );
+      return isLTR ? ( '\u202a' + unescapedContent + '\u202c' ) : ( '\u202b' + unescapedContent + '\u202c' );
+    }
   } );
 } );
