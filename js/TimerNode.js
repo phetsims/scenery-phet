@@ -35,7 +35,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function Timer( secondsProperty, runningProperty, options ) {
+  function TimerNode( secondsProperty, runningProperty, options ) {
     Tandem.indicateUninstrumentedCode();
     options = _.extend( {
       iconColor: '#333',
@@ -162,14 +162,14 @@ define( function( require ) {
      *----------------------------------------------------------------------------*/
     this.dragTarget = roundedRectangle;
 
-    this.disposeTimer = function() {
+    this.disposeTimerNode = function() {
       secondsProperty.unlink( updateTime );
       resetButton.dispose();
       playPauseButton.dispose();
     };
   }
 
-  sceneryPhet.register( 'Timer', Timer );
+  sceneryPhet.register( 'TimerNode', TimerNode );
 
   // the full-sized minutes and seconds string
   function timeToBigString( timeInSeconds ) {
@@ -193,10 +193,10 @@ define( function( require ) {
     return '.' + centiseconds;
   }
 
-  return inherit( Node, Timer, {
+  return inherit( Node, TimerNode, {
     // @public - Provide dispose() on the prototype for ease of subclassing.
     dispose: function() {
-      this.disposeTimer();
+      this.disposeTimerNode();
     }
   } );
 } );
