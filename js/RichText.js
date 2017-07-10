@@ -25,6 +25,17 @@
  * new RichText( 'Additionally: <font color="blue">color</font>, <font size="30px">sizes</font>, <font face="serif">faces</font>, <s>strikethrough</s>, and <u>underline</u>' ),
  * new RichText( 'These <b><em>can</em> <u><font color="red">be</font> mixed<sup>1</sup></u></b>.' ),
  * new RichText( '\u202aHandles bidirectional text: \u202b<font color="#0a0">مقابض</font> النص ثنائي <b>الاتجاه</b><sub>2</sub>\u202c\u202c' )
+ * new RichText( '\u202b\u062a\u0633\u062a (\u0632\u0628\u0627\u0646)\u202c' ),
+ * new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' ),
+ * new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>.', {
+ *   links: {
+ *     phetWebsite: 'https://phet.colorado.edu'
+ *   }
+ * } ),
+ * new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
+ *   links: true
+ * } ),
+ * new RichText( 'Links not found <a href="{{bogus}}">are ignored</a> for security.' )
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -66,6 +77,11 @@ define( function( require ) {
   ];
 
   var DEFAULT_FONT = new PhetFont( 20 );
+
+  // Tags that should be included in accessibleLabel, see https://github.com/phetsims/joist/issues/430
+  var ACCESSIBLE_TAGS = [
+    'b', 'strong', 'i', 'em', 'sub', 'sup', 'u', 's'
+  ];
 
   /**
    * @public
@@ -226,7 +242,7 @@ define( function( require ) {
             // a11y - open the link in the new tab when activated with a keyboard.
             // also see https://github.com/phetsims/joist/issues/430
             node.tagName = 'a';
-            node.accessibleLabel = RichText.himalayaElementToString( element, isLTR );
+            node.accessibleLabel = RichText.himalayaElementToAccessibleString( element, isLTR );
             node.setAccessibleAttribute( 'href', href );
             node.setAccessibleAttribute( 'target', '_blank' );
           }
@@ -866,6 +882,41 @@ define( function( require ) {
         return element.children.map( function( child ) {
           return RichText.himalayaElementToString( child, isLTR );
         } ).join( '' );
+      }
+      else {
+        return '';
+      }
+    },
+
+    /**
+     * Stringifies an HTML subtree defined by the given element, but removing certain tags that we don't need for
+     * accessibility (like <a>, <font>, <span>, etc.), and adding in tags we do want (see ACCESSIBLE_TAGS).
+     * @public
+     *
+     * @param {*} element - See himalaya
+     * @param {boolean} isLTR
+     * @returns {string}
+     */
+    himalayaElementToAccessibleString: function( element, isLTR ) {
+      if ( element.type === 'Text' ) {
+        return RichText.contentToString( element.content, isLTR );
+      }
+      else if ( element.type === 'Element' ) {
+        if ( element.tagName === 'span' && element.attributes.dir ) {
+          isLTR = element.attributes.dir === 'ltr';
+        }
+
+        // Process children
+        var content = element.children.map( function( child ) {
+          return RichText.himalayaElementToAccessibleString( child, isLTR );
+        } ).join( '' );
+
+        if ( _.includes( ACCESSIBLE_TAGS, element.tagName ) ) {
+          return '<' + element.tagName + '>' + content + '</' + element.tagName + '>';
+        }
+        else {
+          return content;
+        }
       }
       else {
         return '';
