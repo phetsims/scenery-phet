@@ -32,7 +32,7 @@ define( function( require ) {
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  var MeasuringTape = require( 'SCENERY_PHET/MeasuringTape' );
+  var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -84,7 +84,7 @@ define( function( require ) {
       { label: 'KeyNode', getNode: demoKeyNode },
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
-      { label: 'MeasuringTape', getNode: demoMeasuringTape },
+      { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
@@ -513,12 +513,12 @@ define( function( require ) {
     return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckBox ] } );
   };
 
-  // Creates a demo for MeasuringTape
-  var demoMeasuringTape = function( layoutBounds ) {
+  // Creates a demo for MeasuringTapeNode
+  var demoMeasuringTapeNode = function( layoutBounds ) {
 
     var measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
 
-    return new MeasuringTape( measuringTapeUnitsProperty, new Property( true ), {
+    return new MeasuringTapeNode( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
       dragBounds: layoutBounds,
       basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),

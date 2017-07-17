@@ -50,7 +50,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function MeasuringTape( unitsProperty, isVisibleProperty, options ) {
+  function MeasuringTapeNode( unitsProperty, isVisibleProperty, options ) {
     var self = this;
 
     Node.call( this );
@@ -294,11 +294,11 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  sceneryPhet.register( 'MeasuringTape', MeasuringTape );
+  sceneryPhet.register( 'MeasuringTapeNode', MeasuringTapeNode );
 
-  return inherit( Node, MeasuringTape, {
+  return inherit( Node, MeasuringTapeNode, {
     /**
-     * Resets the MeasuringTape to its initial configuration
+     * Resets the MeasuringTapeNode to its initial configuration
      * @public
      */
     reset: function() {
@@ -492,11 +492,11 @@ define( function( require ) {
         tipPositionProperty: new Property( new Vector2( 30, 0 ) ),
         hasValue: false // no value below the tape
       }, measuringTapeOptions, {
-        pickable: false // MeasuringTape has a drag handle, don't allow the user to interact with it
+        pickable: false // MeasuringTapeNode has a drag handle, don't allow the user to interact with it
       } );
 
       // Create an actual measuring tape.
-      var measuringTape = new MeasuringTape( new Property( { name: '', multiplier: 1 } ), new Property( true ),
+      var measuringTape = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), new Property( true ),
         measuringTapeOptions );
 
       // Create the icon, with measuringTape as its initial child.  This child will be replaced once the image becomes
