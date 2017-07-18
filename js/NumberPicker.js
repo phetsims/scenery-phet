@@ -377,8 +377,19 @@ define( function( require ) {
 
     this.mutate( options );
 
-    // a11y
-    this.focusHighlight = Shape.bounds( this.localBounds.dilated( 5 ) );
+    // a11y - custom focus highlight that matches rounded background behind the numeric value
+    var focusBounds = this.localBounds.dilated( 5 );
+    this.focusHighlight = Shape.roundedRectangleWithRadii(
+      focusBounds.minX,
+      focusBounds.minY,
+      focusBounds.width,
+      focusBounds.height, {
+        topLeft: options.cornerRadius,
+        topRight: options.cornerRadius,
+        bottomLeft: options.cornerRadius,
+        bottomRight: options.cornerRadius
+      }
+    );
   }
 
   sceneryPhet.register( 'NumberPicker', NumberPicker );
