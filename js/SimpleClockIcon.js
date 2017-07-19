@@ -22,8 +22,6 @@ define( function( require ) {
    * @constructor
    */
   function SimpleClockIcon( radius, options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Instrumentation provided by Node, further customization is probably not necessary
 
     Node.call( this );
     options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );

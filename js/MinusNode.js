@@ -20,8 +20,6 @@ define( function( require ) {
    * @constructor
    */
   function MinusNode( options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Instrumentation provided by Node, further customization is probably not necessary
 
     options = _.extend( {
       size: new Dimension2( 20, 5 ),
