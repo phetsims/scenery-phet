@@ -30,7 +30,6 @@ define( function( require ) {
    * @constructor
    */
   function TimerToggleButton( timerRunningProperty, options ) {
-    // Tandem.indicateUninstrumentedCode( );
 
     // Create the node that represents the timer being on.
     var clockRadius = WIDTH * 0.35;
