@@ -26,8 +26,6 @@ define( function( require ) {
    * @constructor
    */
   function PlayPauseButton( runningProperty, options ) {
-    // Tandem.indicateUninstrumentedCode();  // see https://github.com/phetsims/phet-io/issues/986
-    // Tandem required by the parent class, further customization is probably not necessary
 
     options = _.extend( {
       radius: DEFAULT_RADIUS
