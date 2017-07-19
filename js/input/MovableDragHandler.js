@@ -35,7 +35,7 @@ define( function( require ) {
       allowTouchSnag: true, // Override this with false to prevent touch snagging.
 
       // MovableDragHandler defaults to using event.currentTarget for its reference coordinate frame, but
-      // the target can be overriden here. This is useful when you need to attach a listener to a sub-component
+      // the target can be overridden here. This is useful when you need to attach a listener to a sub-component
       // of a node hierarchy
       targetNode: null,
       tandem: Tandem.tandemRequired()
