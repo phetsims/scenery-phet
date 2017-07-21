@@ -53,6 +53,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TRichText = require( 'SCENERY_PHET/TRichText' );
 
   // constants
   var RICH_TEXT_OPTION_KEYS = [
@@ -143,7 +145,9 @@ define( function( require ) {
 
     options = extendDefined( {
       fill: '#000000',
-      text: text
+      text: text,
+      tandem: Tandem.tandemOptional(),
+      phetioType: TRichText
     }, options );
 
     this.mutate( options );
@@ -171,8 +175,8 @@ define( function( require ) {
 
       // Turn bidirectional marks into explicit elements, so that the nesting is applied correctly.
       var mappedText = this._text.replace( /\u202a/g, '<span dir="ltr">' )
-                                 .replace( /\u202b/g, '<span dir="rtl">' )
-                                 .replace( /\u202c/g, '</span>' );
+        .replace( /\u202b/g, '<span dir="rtl">' )
+        .replace( /\u202c/g, '</span>' );
 
       // Start appending all top-level elements
       var rootElements = himalaya.parse( mappedText );
