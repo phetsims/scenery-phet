@@ -32,6 +32,21 @@
   "esc": {
     "value": "Esc"
   },
+  "fn": {
+    "value": "Fn"
+  },
+  "pageUp": {
+    "value": "Page Up"
+  },
+  "pageDown": {
+    "value": "Page Down"
+  },
+  "home": {
+    "value": "Home"
+  },
+  "end": {
+    "value": "End"
+  },
   "webglWarning.title": {
     "value": "Running with low graphics quality"
   },
