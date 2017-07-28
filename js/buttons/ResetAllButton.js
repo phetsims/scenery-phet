@@ -41,6 +41,7 @@ define( function( require ) {
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
       tandem: Tandem.tandemRequired(),
+      phetioType: TResetAllButton,
 
       // a11y
       tagName: 'input',
@@ -77,7 +78,10 @@ define( function( require ) {
       self.buttonModel.endedCallbacksForFiredEmitter.removeListener( enableAlertsListener );
     };
 
-    tandem.addInstance( this, TResetAllButton );
+    this.mutate( {
+      tandem: tandem,
+      phetioType: options.phetioValueType
+    } );
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
