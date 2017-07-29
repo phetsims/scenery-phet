@@ -37,7 +37,7 @@ define( function( require ) {
     options = _.extend( {
       font: new PhetFont(),
       align: 'center', // 'center', 'left' or 'right' (as supported by VBox)
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.tandemOptional(),
       phetioType: TMultiLineText
     }, options );
 
