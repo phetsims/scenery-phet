@@ -26,6 +26,9 @@ define( function( require ) {
   // the interval for sending alerts to the screen reader, in milliseconds
   var interval = 500;
 
+  // whether or not Utterances moving through the queue are read by a screen reader
+  var muted = false;
+
   var UtteranceQueue = {
 
     /**
@@ -79,10 +82,41 @@ define( function( require ) {
       var nextUtterance = queue.shift();
 
       // only speek the utterance if the Utterance predicate returns true
-      if ( nextUtterance && nextUtterance.predicate() ) {
+      if ( nextUtterance && !muted && nextUtterance.predicate() ) {
         AriaHerald.announcePolite( nextUtterance.text );
       }
     },
+
+    /**
+     * Clear the UtteranceQueue of all Utterances, any Utterances remaining in the queue will
+     * not be announced by the screen reader.
+     * 
+     * @public
+     */
+    clear: function() {
+      queue = [];
+    },
+
+    /**
+     * Set whether or not the utterance queue is muted.  When muted, Utterances will still 
+     * move through the queue, but nothing will be sent to assistive technology.
+     * 
+     * @param {boolean} isMuted
+     */
+    setMuted: function( isMuted ) {
+      muted = isMuted;
+    },
+    set muted( isMuted ) { this.setMuted( isMuted ); },
+
+    /**
+     * Get whether or not the UtteranceQueue is muted.  When muted, Utterances will still
+     * move through the queue, but nothing will be read by asistive technology.
+     * @public
+     */
+    getMuted: function() {
+      return muted;
+    },
+    get muted() { return this.getMuted(); },
 
     /**
      * Get the interval that alerts are sent to the screen reader.
