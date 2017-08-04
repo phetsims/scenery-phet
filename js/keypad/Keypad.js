@@ -15,7 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
   var Key = require( 'SCENERY_PHET/keypad/Key' );
-  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
+  var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -53,17 +53,20 @@ define( function( require ) {
     Node.call( this );
     var self = this;
 
-    // @private
-    if ( options.accumulator ) {
-      this.keyAccumulator = options.accumulator;
-    }
-    else {
-      this.keyAccumulator = new NumberAccumulator( options );
-    }
+    // @private {function}
+    this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( options );
 
-    this.stringProperty = this.keyAccumulator.stringProperty; // @public (read-only)
-    this.valueProperty = this.keyAccumulator.valueProperty; // @public (read-only)
-    this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty; // @public (read-only)
+    // @public {Property.<Array.<KeyID>>} (read-only) - a property containing an array of the keys that have been
+    // accumulated
+    this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty;
+
+    // @public {Property.<string>} (read-only) - a property containing a string representation of the keys that have been
+    // accumulated
+    this.stringProperty = this.keyAccumulator.stringProperty;
+
+    // @public {Property.<number>} (read-only) - a property containing a numeric representation of the keys that have
+    // been accumulated
+    this.valueProperty = this.keyAccumulator.valueProperty;
 
     // determine number of rows and columns from the input layout
     var numRows = layout.length;
@@ -76,6 +79,7 @@ define( function( require ) {
         numColumns = layout[ row ].length;
       }
     }
+
     // check last row to see if any button has vertical span more than 1
     var maxVerticalSpan = 1;
     for ( column = 0; column < layout[ numRows - 1 ].length; column++ ) {
@@ -108,6 +112,7 @@ define( function( require ) {
                               layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
           var verticalSpan = button.verticalSpan;
           var horizontalSpan = button.horizontalSpan;
+
           // check for overlap between the buttons
           for ( x = startRow; x < ( startRow + verticalSpan ); x++ ) {
             for ( y = startColumn; y < ( startColumn + horizontalSpan ); y++ ) {
@@ -149,9 +154,9 @@ define( function( require ) {
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
-    var content = ( keyObject.displayNode instanceof Node ) ?
-                  keyObject.displayNode :
-                  new Text( keyObject.displayNode, { font: options.buttonFont } );
+    var content = ( keyObject.label instanceof Node ) ?
+                  keyObject.label :
+                  new Text( keyObject.label, { font: options.buttonFont } );
 
     var keyNode = new RectangularPushButton( {
       content: content,
@@ -172,6 +177,7 @@ define( function( require ) {
 
     /**
      * Calls the clear function for the given accumulator
+     * @public
      */
     clear: function() {
       this.keyAccumulator.clear();
@@ -197,52 +203,49 @@ define( function( require ) {
 
   }, {
 
-    // -------------------- static common layouts -------------------------
-
-    /**
-     * Layout Specifications for creating your custom layout
-     * If Vertical Span greater than 1 is provided the column in the next rows has to be null else it will hit assertion
-     * for overlap
-     * If Horizontal Span greater than 1 is provided the next key in that row will not overlap and start after the row
-     * If you want blank spaces in the row you would need to provide null
-     */
+    //------------------------------------------------------------------------------------------------------------------
+    // static keypad layouts - These can be used as is for common layouts or serve as examples for creating custom
+    // layouts. If the vertical span is greater than 1 is provided the column in the next row(s) has to be null.  If
+    // the horizontal span is greater than 1, the next key in that row will not overlap and will be placed in the next
+    // space in the grid. If a blank space is desired, null should be provided.
+    //------------------------------------------------------------------------------------------------------------------
 
     PositiveIntegerLayout: [
-      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
+      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
+      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
+      [ new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
     ],
 
     PositiveAndNegativeIntegerLayout: [
-      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ), new Key( '0', Keys.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ]
+      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
+      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
+      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ), new Key( '0', KeyID.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS ) ]
     ],
 
     PositiveFloatingPointLayout: [
-      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( '.', Keys.DECIMAL ), new Key( '0', Keys.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
+      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
+      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
+      [ new Key( '.', KeyID.DECIMAL ), new Key( '0', KeyID.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
     ],
 
     PositiveAndNegativeFloatingPointLayout: [
-      [ new Key( '7', Keys.SEVEN ), new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ new Key( '4', Keys.FOUR ), new Key( '5', Keys.FIVE ), new Key( '6', Keys.SIX ) ],
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE ) ],
-      [ new Key( '0', Keys.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, Keys.PLUSMINUS ) ],
-      [ new Key( '.', Keys.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), Keys.BACKSPACE ) ]
+      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
+      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
+      [ new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS ) ],
+      [ new Key( '.', KeyID.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
     ],
 
     // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
     WeirdLayout: [
-      [ new Key( '1', Keys.ONE ), new Key( '2', Keys.TWO ), new Key( '3', Keys.THREE, { horizontalSpan: 3 } ) ],
-      [ null, new Key( '4', Keys.FOUR, { horizontalSpan: 5 } ) ],
-      [ new Key( '5', Keys.FIVE, { verticalSpan: 2 } ), new Key( '6', Keys.SIX ), new Key( '7', Keys.SEVEN ) ],
-      [ null, new Key( '8', Keys.EIGHT ), new Key( '9', Keys.NINE ) ],
-      [ null, new Key( '0', Keys.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
+      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE, { horizontalSpan: 3 } ) ],
+      [ null, new Key( '4', KeyID.FOUR, { horizontalSpan: 5 } ) ],
+      [ new Key( '5', KeyID.FIVE, { verticalSpan: 2 } ), new Key( '6', KeyID.SIX ), new Key( '7', KeyID.SEVEN ) ],
+      [ null, new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+      [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
     ]
 
   } );

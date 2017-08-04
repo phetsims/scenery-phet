@@ -1,9 +1,11 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * enum that defines the type of keys supported by Keypad. If a new type of key is needed it has to be added here
+ * An enum that defines the keys supported by the common-code keypad. If a new type of key is needed, it must be added
+ * here.
  *
  * @author Aadish Gupta
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -11,7 +13,7 @@ define( function( require ) {
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var Keys = {
+  var KeyID = {
     ZERO: '0',
     ONE: '1',
     TWO: '2',
@@ -24,15 +26,15 @@ define( function( require ) {
     NINE: '9',
     BACKSPACE: 'BACKSPACE',
     DECIMAL: 'DECIMAL',
-    PLUSMINUS: 'PLUSMINUS',
+    PLUS_MINUS: 'PLUS_MINUS',
     X: 'X',
-    XSQUARED: 'XSQUARED'
+    X_SQUARED: 'X_SQUARED'
   };
 
   // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( Keys ); }
+  if ( assert ) { Object.freeze( KeyID ); }
 
-  sceneryPhet.register( 'Keys', Keys );
+  sceneryPhet.register( 'KeyID', KeyID );
 
-  return Keys;
+  return KeyID;
 } );

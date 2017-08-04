@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Base type for an object that accumulates key presses, works in conjunction with a keypad.
+ * base type for an object that accumulates key presses, works in conjunction with the common-code keypad
  *
  * @author John Blanco
  * @author Aadish Gupta
@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
+  var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -24,23 +24,34 @@ define( function( require ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
-      alternativeValidator: null,  // if non-null, called at the start of validateAndUpdate.
-                                   // alternativeValidator( proposedKeys ) { return true/false }
-      additionalValidator: null    // if non-null, called after default validation in validateAndUpdate.
-                                   // additionalValidator( proposedKeys ) { return true/false }
+
+      // a function that, if non-null, is used instead of the default validation function to validate the user input
+      // type spec: alternativeValidator(Array.<KeyID>) { return true/false }
+      alternativeValidator: null,
+
+      // a function that, if non-null, is used in addition to the default validation function to validate the user input
+      // type spec: additionalValidator(Array.<KeyID>) { return true/false }
+      additionalValidator: null
+
     }, options );
 
-    // @public - array property that tracks the accumulated key presses
-    this.accumulatedKeysProperty = new Property( [] ); //{Array.<string>}
+    // option validation
+    assert && assert(
+      !( this.additionalValidator && this.alternativeValidator ),
+      'Cannot provide additional and alternative validation simultaneously'
+    );
 
-    // @private - when true, the next key press (expect backspace) will clear the accumulated value
+    // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
+    this.accumulatedKeysProperty = new Property( [] );
+
+    // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
     this._clearOnNextKeyPress = false;
 
-    this.additionalValidator = options.additionalValidator; // @private
-    this.alternativeValidator = options.alternativeValidator; // @private
+    // @private {function|null}
+    this.additionalValidator = options.additionalValidator;
 
-    assert && assert( !( this.additionalValidator && this.alternativeValidator ),
-      'Cannot provide additional and alternative validation simultaneously' );
+    // @private {function|null}
+    this.alternativeValidator = options.alternativeValidator; // @private
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -48,7 +59,7 @@ define( function( require ) {
   return inherit( Object, AbstractKeyAccumulator, {
 
     /**
-     * Clears the accumulated keys.
+     * clears the accumulated keys
      * @public
      */
     clear: function() {
@@ -56,7 +67,7 @@ define( function( require ) {
     },
 
     /**
-     * Determines whether pressing a key (except for backspace) will clear the existing value.
+     * set/clear the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys
      * @param {boolean} clearOnNextKeyPress
      * @public
      */
@@ -66,7 +77,8 @@ define( function( require ) {
     set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
 
     /**
-     * Will pressing a key (except for backspace) clear the existing value?
+     * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
+     * keys
      * @returns {boolean}
      * @public
      */
@@ -76,11 +88,12 @@ define( function( require ) {
     get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); },
 
     /**
-     * Validates a proposed set of keys and (if valid) updates other other state in the accumulator.
-     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
+     * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
      * @public
      */
     validateAndUpdate: function( proposedKeys ) {
+
       // if alternative validation is provided it is called here
       if ( this.alternativeValidator ) {
         if ( this.alternativeValidator( proposedKeys ) ) {
@@ -88,6 +101,7 @@ define( function( require ) {
         }
       }
       else {
+
         // default validation for the accumulator
         if ( this.defaultValidator( proposedKeys ) ) {
           // if additional validation is provided it is called here
@@ -104,8 +118,8 @@ define( function( require ) {
     },
 
     /**
-     * Validates a proposed set of keys.
-     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
+     * default validation, must be overridden in sub-types
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
      * @returns {boolean}
      * @private
      * @abstract
@@ -116,7 +130,7 @@ define( function( require ) {
 
     /**
      * Called by the key accumulator when this key is pressed.
-     * @param {Keys} keyIdentifier
+     * @param {KeyID} keyIdentifier
      * @public
      * @abstract
      */
@@ -126,13 +140,13 @@ define( function( require ) {
 
     /**
      * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
-     * @param {Keys} keyIdentifier
-     * @returns {Keys[]} proposedArray
+     * @param {KeyID} keyIdentifier
+     * @returns {Array.<KeyID>} proposedArray
      * @private
      */
     handleClearOnNextKeyPress: function( keyIdentifier ) {
       var proposedArray;
-      if ( !this.getClearOnNextKeyPress() || keyIdentifier === Keys.BACKSPACE ) {
+      if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
         proposedArray = _.clone( this.accumulatedKeysProperty.get() );
       }
       else {

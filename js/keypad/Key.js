@@ -1,9 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Create Key to be used in a keypad.
+ * key object, intended for use in the PhET common-code keypad
  *
  * @author Aadish Gupta
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -14,12 +15,12 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * @param {Node|string} displayNode - node (or string to be converted) that will appear on the key
-   * @param {Keys} identifier look at Keys enum for types of identifier supported
+   * @param {Node|string} label - node or string that will appear on the key
+   * @param {KeyID} identifier - ID for this key, see KeyID.js
    * @param {object} [options]
    * @constructor
    */
-  function Key( displayNode, identifier, options ) {
+  function Key( label, identifier, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
@@ -27,10 +28,17 @@ define( function( require ) {
       verticalSpan: 1
     }, options );
 
-    this.displayNode = displayNode; // @public
-    this.identifier = identifier; // @public
-    this.horizontalSpan = options.horizontalSpan; // @public
-    this.verticalSpan = options.verticalSpan; // @public
+    // @public (read-only) {Node|string}
+    this.label = label; // @public
+
+    // @public (read-only) {KeyID}
+    this.identifier = identifier;
+
+    // @public (read-only) {number} - number of horizontal cells in the keypad grid that this key occupies
+    this.horizontalSpan = options.horizontalSpan;
+
+    // @public (read-only) {number} - number of vertical cells in the keypad grid that this key occupies
+    this.verticalSpan = options.verticalSpan;
   }
 
   sceneryPhet.register( 'Key', Key );

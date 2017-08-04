@@ -1,7 +1,8 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * A key accumulator that collects user input for integer and floating point values.
+ * A key accumulator that collects user input for integer and floating point values, intended for use in conjunction
+ * with the common-code keypad.
  *
  * @author Aadish Gupta
  * @author John Blanco
@@ -14,14 +15,13 @@ define( function( require ) {
   var AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Keys = require( 'SCENERY_PHET/keypad/Keys' );
+  var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var NEGATIVE_CHAR = '\u2212';
   var DECIMAL_CHAR = '.';
-
 
   /**
    * @param {Object} [options]
@@ -50,7 +50,6 @@ define( function( require ) {
     this.valueProperty = new DerivedProperty( [ this.stringProperty ], function( stringValue ) {
       return self.stringToInteger( stringValue );
     } );
-
   }
 
   sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
@@ -59,7 +58,7 @@ define( function( require ) {
 
     /**
      * Handles what happens when a key is pressed and create proposed set of keys to be passed to Validator
-     * @param {Keys} keyIdentifier - identifier for the key pressed
+     * @param {KeyID} keyIdentifier - identifier for the key pressed
      * @public
      * @override
      */
@@ -70,20 +69,20 @@ define( function( require ) {
         newArray.push( keyIdentifier );
 
       }
-      else if ( keyIdentifier === Keys.BACKSPACE ) {
+      else if ( keyIdentifier === KeyID.BACKSPACE ) {
         newArray.pop();
 
       }
-      else if ( keyIdentifier === Keys.PLUSMINUS ) {
+      else if ( keyIdentifier === KeyID.PLUS_MINUS ) {
         // check if first element of array is instance of this class
-        if ( newArray.length > 0 && newArray[ 0 ] === Keys.PLUSMINUS ) {
+        if ( newArray.length > 0 && newArray[ 0 ] === KeyID.PLUS_MINUS ) {
           newArray.shift();
         }
         else {
           newArray.unshift( keyIdentifier );
         }
       }
-      else if ( keyIdentifier === Keys.DECIMAL ) {
+      else if ( keyIdentifier === KeyID.DECIMAL ) {
         if ( !this.containsFloatingPoint( newArray ) ) {
           newArray.push( keyIdentifier );
         }
@@ -96,7 +95,7 @@ define( function( require ) {
 
     /**
      * removes leading zeros from the array
-     * @param {Keys[]} array
+     * @param {Array.<KeyID>} array
      * @private
      */
     removeLeadingZero: function( array ) {
@@ -107,21 +106,21 @@ define( function( require ) {
 
     /**
      * Validates a proposed set of keys.
-     * @param {Keys[]} proposedKeys - the proposed set of keys, to be validated
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
      * @public
      * @override
      */
     defaultValidator: function( proposedKeys ) {
       return ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits
                && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits
-               && proposedKeys[ proposedKeys.length - 1 ] === Keys.DECIMAL )
+               && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
                && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa
       );
     },
 
     /**
      * Converts a set of keys to a string.
-     * @param {Keys[]} keys
+     * @param {Array.<KeyID>} keys
      * @returns {string}
      * @private
      */
@@ -131,7 +130,7 @@ define( function( require ) {
       var i = 0;
 
       // PlusMinusKey (if present) will be first key, and indicates that the number is negative
-      if ( keys.length > 0 && keys[ i ] === Keys.PLUSMINUS ) {
+      if ( keys.length > 0 && keys[ i ] === KeyID.PLUS_MINUS ) {
         returnValue = NEGATIVE_CHAR;
         i++;
       }
@@ -139,7 +138,7 @@ define( function( require ) {
       // process remaining keys
       for ( ; i < keys.length; i++ ) {
 
-        if ( keys[ i ] === Keys.DECIMAL ) {
+        if ( keys[ i ] === KeyID.DECIMAL ) {
           returnValue = returnValue + DECIMAL_CHAR;
         }
         else {
@@ -178,7 +177,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits to the left of mantissa in the accumulator.
-     * @param {Keys[]} keys
+     * @param {Array.<KeyID>} keys
      * @returns {number}
      * @private
      */
@@ -189,7 +188,7 @@ define( function( require ) {
           numberOfDigits++;
         }
 
-        if ( keys[ i ] === Keys.DECIMAL ) {
+        if ( keys[ i ] === KeyID.DECIMAL ) {
           break;
         }
       }
@@ -198,12 +197,12 @@ define( function( require ) {
 
     /**
      * Gets the number of digits to the right of mantissa in the accumulator.
-     * @param {Keys[]} keys
+     * @param {Array.<KeyID>} keys
      * @returns {number}
      * @private
      */
     getNumberOfDigitsRightOfMantissa: function( keys ) {
-      var decimalKeyIndex = keys.indexOf( Keys.DECIMAL );
+      var decimalKeyIndex = keys.indexOf( KeyID.DECIMAL );
       var numberOfDigits = 0;
       if ( decimalKeyIndex >= 0 ) {
         for ( var i = decimalKeyIndex; i < keys.length; i++ ) {
@@ -217,7 +216,7 @@ define( function( require ) {
 
     /**
      * Gets the number of digits in the accumulator.
-     * @param {Keys[]} keys
+     * @param {Array.<KeyID>} keys
      * @returns {number}
      * @private
      */
@@ -233,12 +232,12 @@ define( function( require ) {
 
     /**
      * Gets the number of digits in the accumulator.
-     * @param {Keys[]} keys
+     * @param {Array.<KeyID>} keys
      * @returns {boolean}
      * @private
      */
     containsFloatingPoint: function( keys ) {
-      return ( keys.indexOf( Keys.DECIMAL ) >= 0 );
+      return ( keys.indexOf( KeyID.DECIMAL ) >= 0 );
     },
 
     /**
