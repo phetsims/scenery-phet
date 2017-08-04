@@ -47,6 +47,9 @@ define( function( require ) {
       ySpacing: 10,
       buttonColor: DEFAULT_BUTTON_COLOR,
       buttonFont: DEFAULT_BUTTON_FONT,
+
+      // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implemtations for
+      // examples
       accumulator: null
     }, options );
 

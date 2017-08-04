@@ -104,6 +104,7 @@ define( function( require ) {
 
         // default validation for the accumulator
         if ( this.defaultValidator( proposedKeys ) ) {
+
           // if additional validation is provided it is called here
           if ( this.additionalValidator ) {
             if ( this.additionalValidator( proposedKeys ) ) {

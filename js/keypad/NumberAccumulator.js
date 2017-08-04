@@ -57,7 +57,7 @@ define( function( require ) {
   return inherit( AbstractKeyAccumulator, NumberAccumulator, {
 
     /**
-     * Handles what happens when a key is pressed and create proposed set of keys to be passed to Validator
+     * invoked when a key is pressed and creates proposed set of keys to be passed to the validator
      * @param {KeyID} keyIdentifier - identifier for the key pressed
      * @public
      * @override
@@ -105,8 +105,9 @@ define( function( require ) {
     },
 
     /**
-     * Validates a proposed set of keys.
+     * validate a proposed set of keys
      * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
+     * @returns {boolean}
      * @public
      * @override
      */
