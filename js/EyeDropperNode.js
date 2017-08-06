@@ -110,14 +110,11 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    options.tandem.addInstance( this );
-
     // @private
     this.disposeEyeDropperNode = function() {
       button.dispose();
       self.enabledProperty.unlink( enabledObserver );
       self.emptyProperty.unlink( emptyObserver );
-      options.tandem.removeInstance( self );
     };
   }
 
