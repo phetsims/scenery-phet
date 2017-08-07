@@ -169,20 +169,20 @@ define( function( require ) {
       shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
     }
 
-    this.startedCallbacksForStartTapToDispenseEmitter = new Emitter();
-    this.endedCallbacksForStartTapToDispenseEmitter = new Emitter();
+    this.startedCallbacksForStartTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForStartTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
 
-    this.startedCallbacksForEndTapToDispenseEmitter = new Emitter();
-    this.endedCallbacksForEndTapToDispenseEmitter = new Emitter();
+    this.startedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
 
-    this.startedCallbacksForDragStartedEmitter = new Emitter();
-    this.endedCallbacksForDragStartedEmitter = new Emitter();
+    this.startedCallbacksForDragStartedEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForDragStartedEmitter = new Emitter( { indicateCallbacks: false } );
 
-    this.startedCallbacksForDragEndedEmitter = new Emitter();
-    this.endedCallbacksForDragEndedEmitter = new Emitter();
+    this.startedCallbacksForDragEndedEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForDragEndedEmitter = new Emitter( { indicateCallbacks: false } );
 
-    this.startedCallbacksForDraggedEmitter = new Emitter();
-    this.endedCallbacksForDraggedEmitter = new Emitter();
+    this.startedCallbacksForDraggedEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForDraggedEmitter = new Emitter( { indicateCallbacks: false } );
 
 
     // x-offset relative to left edge of bodyNode

@@ -34,8 +34,8 @@ define( function( require ) {
     Plane.call( this );
 
     // @private
-    this.startedCallbacksForFiredEmitter = new Emitter();
-    this.endedCallbacksForFiredEmitter = new Emitter();
+    this.startedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
 
     modalNodeStack.lengthProperty.link( function( numBarriers ) {
       self.visible = numBarriers > 0;
