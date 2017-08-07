@@ -110,18 +110,22 @@ define( function( require ) {
    * If using withClear, old element text content will be explicitly removed before new text content is set.  This will
    * allow sequential alerts with identical text content to be announced multiple times in a row, which some screen
    * readers might have prevented.  Text content is only updated if the alerts are enabled.
-   * 
+   *
+   * @param {HTMLElement} liveElement - the HTML element that will send the alert to the assistive technology
    * @param {Property.<string>} elementContentProperty - the property containing text content as a string
    * @param {string} textContent - the content to be announced
    * @param {boolean} [withClear] - optional, whether or not to remove the old text content before updating the element
    */
-  function updateLiveElement( elementContentProperty, textContent, withClear ) {
+  function updateLiveElement( liveElement, elementContentProperty, textContent, withClear ) {
     withClear = ( withClear === undefined ) ? DEFAULT_WITH_CLEAR : withClear;
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // only update content if the group of aria-live elements are enabled
     if ( alertsEnabledProperty.get() ) {
-      if ( withClear ) { elementContentProperty.reset(); }
+
+      // clearing the old content allows repeated alerts, but clear the HTMLElement content directly
+      // so that we don't see the empty content in the PhET-iO data stream
+      if ( withClear ) { liveElement.textContent = ''; }
 
       // update the content with a small delay - refresh rate of the accessibility tree is often slow, and without a
       // delay, many alerts would be lost forever
@@ -143,7 +147,7 @@ define( function( require ) {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announceAssertive: function( textContent, withClear ) {
-      updateLiveElement( assertiveElementProperty, textContent, withClear );
+      updateLiveElement( assertiveElement, assertiveElementProperty, textContent, withClear );
     },
 
     /**
@@ -155,7 +159,7 @@ define( function( require ) {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announcePolite: function( textContent, withClear ) {
-      updateLiveElement( politeElementProperty, textContent, withClear );
+      updateLiveElement( politeElement, politeElementProperty, textContent, withClear );
     },
 
     /**
@@ -168,7 +172,7 @@ define( function( require ) {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announceAssertiveWithAlert: function( textContent, withClear ) {
-      updateLiveElement( assertiveAlertElementProperty, textContent, withClear );
+      updateLiveElement( assertiveAlertElement, assertiveAlertElementProperty, textContent, withClear );
     },
 
     /**
@@ -181,7 +185,7 @@ define( function( require ) {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announcePoliteWithStatus: function( textContent, withClear ) {
-      updateLiveElement( politeStatusElementProperty, textContent, withClear );
+      updateLiveElement( politeStatusElement, politeStatusElementProperty, textContent, withClear );
     },
 
     /**
