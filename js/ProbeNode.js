@@ -157,11 +157,17 @@ define( function( require ) {
     var center = sensorShape.bounds.center;
     var v1 = Vector2.createPolar( 1, lightAngle );
     var intersections = sensorShape.intersection( new Ray2( center, v1 ) );
-    var gradientSource = intersections[ intersections.length - 1 ].point.plus( v1.timesScalar( 1 ) );
+
+    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
+    var lastIntersection = intersections[ intersections.length - 1 ] || new Vector2();
+    var gradientSource = lastIntersection.point.plus( v1.timesScalar( 1 ) );
 
     var v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
     var intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
-    var gradientDestination = intersections2[ intersections2.length - 1 ].point.plus( v2.timesScalar( 1 ) );
+
+    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
+    var lastIntersection2 = intersections2[ intersections2.length - 1 ] || new Vector2();
+    var gradientDestination = lastIntersection2.point.plus( v2.timesScalar( 1 ) );
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
