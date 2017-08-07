@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function TBarrierRectangle( barrierRectangle, phetioID ) {
-    assertInstanceOf( barrierRectangle, phet.scenery.Rectangle );
+    assertInstanceOf( barrierRectangle, phet.sceneryPhet.BarrierRectangle );
     TNode.call( this, barrierRectangle, phetioID );
 
     toEventOnEmit( barrierRectangle.startedCallbacksForFiredEmitter,
