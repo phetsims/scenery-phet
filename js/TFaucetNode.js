@@ -23,9 +23,9 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TFaucet( faucet, phetioID ) {
-    TNode.call( this, faucet, phetioID );
+  function TFaucetNode( faucet, phetioID ) {
     assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
+    TNode.call( this, faucet, phetioID );
 
     // These must be model events because they are triggered by a user event 'dragEnded'
     toEventOnEmit(
@@ -51,13 +51,13 @@ define( function( require ) {
       } );
   }
 
-  phetioInherit( TNode, 'TFaucet', TFaucet, {}, {
+  phetioInherit( TNode, 'TFaucetNode', TFaucetNode, {}, {
     documentation: 'Faucet that emits fluid, typically user-controllable',
     events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );
 
-  sceneryPhet.register( 'TFaucet', TFaucet );
+  sceneryPhet.register( 'TFaucetNode', TFaucetNode );
 
-  return TFaucet;
+  return TFaucetNode;
 } );
 

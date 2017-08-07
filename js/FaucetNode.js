@@ -38,7 +38,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TFaucet = require( 'SCENERY_PHET/TFaucet' );
+  var TFaucetNode = require( 'SCENERY_PHET/TFaucetNode' );
 
   // images
   var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
@@ -85,7 +85,7 @@ define( function( require ) {
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
       tandem: Tandem.tandemRequired(),
-      phetioType: TFaucet
+      phetioType: TFaucetNode
     }, options );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
