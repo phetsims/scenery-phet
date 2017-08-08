@@ -21,7 +21,7 @@ define( function( require ) {
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
@@ -211,7 +211,7 @@ define( function( require ) {
       wavelengthProperty.set( wavelength );
     };
 
-    track.addInputListener( new TandemSimpleDragHandler( {
+    track.addInputListener( new SimpleDragHandler( {
 
       tandem: options.tandem.createTandem( 'trackInputListener' ),
 
@@ -226,7 +226,7 @@ define( function( require ) {
 
     // thumb drag handler
     var clickXOffset = 0; // x-offset between initial click and thumb's origin
-    thumb.addInputListener( new TandemSimpleDragHandler( {
+    thumb.addInputListener( new SimpleDragHandler( {
 
       tandem: options.tandem.createTandem( 'thumbInputListener' ),
 
