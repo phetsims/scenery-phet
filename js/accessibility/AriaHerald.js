@@ -20,15 +20,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
   var Property = require( 'AXON/Property' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
+  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   // phet-io support
   var tandem = Tandem.createStaticTandem( 'ariaHerald' );
@@ -61,28 +61,32 @@ define( function( require ) {
   // simply be set directly
   var assertiveElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'assertiveElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   assertiveElementProperty.link( function( text ) {
     assertiveElement.textContent = text;
   } );
   var politeElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'politeElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   politeElementProperty.link( function( text ) {
     politeElement.textContent = text;
   } );
   var assertiveAlertElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'assertiveAlertElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   assertiveAlertElementProperty.link( function( text ) {
     assertiveAlertElement.textContent = text;
   } );
   var politeStatusElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'politeStatusElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   politeStatusElementProperty.link( function( text ) {
     politeStatusElement.textContent = text;
