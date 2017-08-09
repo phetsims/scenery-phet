@@ -33,7 +33,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Timer = require( 'PHET_CORE/Timer' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -224,7 +224,7 @@ define( function( require ) {
     };
 
     var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
-    var inputListener = new TandemSimpleDragHandler( {
+    var inputListener = new SimpleDragHandler( {
 
       allowTouchSnag: true,
 

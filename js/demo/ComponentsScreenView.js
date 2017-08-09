@@ -49,7 +49,7 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var RichText = require( 'SCENERY_PHET/RichText' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
@@ -450,7 +450,16 @@ define( function( require ) {
         new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
           links: true
         } ),
-        new RichText( 'Links not found <a href="{{bogus}}">are ignored</a> for security.' )
+        new RichText( 'Links not found <a href="{{bogus}}">are ignored</a> for security.' ),
+        new HBox( {
+          spacing: 30,
+          children: [
+            new RichText( 'Multi-line text with the<br>separator &lt;br&gt; and <a href="https://phet.colorado.edu">handles<br>links</a> and other <b>tags<br>across lines</b>', {
+              links: true
+            } ),
+            new RichText( 'Supposedly RichText supports line wrapping. Here is a lineWrap of 300, which should probably wrap multiple times here', { lineWrap: 300 })
+          ]
+        } )
       ],
       center: layoutBounds.center
     } );
