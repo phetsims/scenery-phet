@@ -265,9 +265,10 @@ define( function( require ) {
      * Enable or disable all aria-live elements. When not enabled, the user will hear no alerts.
      * @public
      *
-     * @param {boolean} isDisabled
+     * @param {boolean} enabled
      */
     setEnabled: function( enabled ) {
+      this.clearAll();
       alertsEnabledProperty.set( enabled );
     },
     set enabled( enabled ) { AriaHerald.setEnabled( enabled ); },
