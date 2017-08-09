@@ -442,9 +442,12 @@ define( function( require ) {
         new RichText( '\u202aHandles bidirectional text: \u202b<font color="#0a0">مقابض</font> النص ثنائي <b>الاتجاه</b><sub>2</sub>\u202c\u202c' ),
         new RichText( '\u202b\u062a\u0633\u062a (\u0632\u0628\u0627\u0646)\u202c' ),
         new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' ),
-        new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>.', {
+        new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>, and <a href="{{callback}}">links that call functions</a>.', {
           links: {
-            phetWebsite: 'https://phet.colorado.edu'
+            phetWebsite: 'https://phet.colorado.edu',
+            callback: function() {
+              console.log( 'Link was clicked' );
+            }
           }
         } ),
         new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
