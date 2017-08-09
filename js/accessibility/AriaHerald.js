@@ -21,6 +21,7 @@ define( function( require ) {
 
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
   var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
@@ -38,7 +39,7 @@ define( function( require ) {
   var ASSERTIVE_ALERT_ELEMENT_ID = 'assertive-alert';
   var POLITE_STATUS_ELEMENT_ID = 'polite-status';
   var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
-  
+
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
 
@@ -129,7 +130,7 @@ define( function( require ) {
 
       // update the content with a small delay - refresh rate of the accessibility tree is often slow, and without a
       // delay, many alerts would be lost forever
-      Timer.setTimeout( function() { elementContentProperty.set( textContent ); }, 200 ); 
+      Timer.setTimeout( function() { elementContentProperty.set( textContent ); }, 200 );
     }
   }
 
@@ -259,7 +260,7 @@ define( function( require ) {
     /**
      * Enable or disable all aria-live elements. When not enabled, the user will hear no alerts.
      * @public
-     * 
+     *
      * @param {boolean} isDisabled
      */
     setEnabled: function( enabled ) {
@@ -279,7 +280,7 @@ define( function( require ) {
     /**
      * Call the desired callback, first disabling all alerts. When the callback returns, enable alerts again.
      * @public
-     * 
+     *
      * @param {function} callback
      */
     callWithDisabledAlerts: function( callback ) {
@@ -295,6 +296,8 @@ define( function( require ) {
     POLITE_STATUS_ELEMENT_ID: POLITE_STATUS_ELEMENT_ID,
     ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
+
+  tandem.addInstance( AriaHerald, TAriaHerald );
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
 
