@@ -48,8 +48,8 @@ define( function( require ) {
       buttonColor: DEFAULT_BUTTON_COLOR,
       buttonFont: DEFAULT_BUTTON_FONT,
 
-      // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implemtations for
-      // examples
+      // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implementations
+      // for examples
       accumulator: null
     }, options );
 
