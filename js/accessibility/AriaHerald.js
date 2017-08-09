@@ -20,14 +20,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Property = require( 'AXON/Property' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
+  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   // phet-io support
   var tandem = Tandem.createStaticTandem( 'ariaHerald' );
@@ -38,7 +39,7 @@ define( function( require ) {
   var ASSERTIVE_ALERT_ELEMENT_ID = 'assertive-alert';
   var POLITE_STATUS_ELEMENT_ID = 'polite-status';
   var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
-  
+
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
 
@@ -60,28 +61,32 @@ define( function( require ) {
   // simply be set directly
   var assertiveElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'assertiveElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   assertiveElementProperty.link( function( text ) {
     assertiveElement.textContent = text;
   } );
   var politeElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'politeElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   politeElementProperty.link( function( text ) {
     politeElement.textContent = text;
   } );
   var assertiveAlertElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'assertiveAlertElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   assertiveAlertElementProperty.link( function( text ) {
     assertiveAlertElement.textContent = text;
   } );
   var politeStatusElementProperty = new Property( '', {
     tandem: tandem.createTandem( 'politeStatusElementProperty' ),
-    phetioValueType: TString
+    phetioValueType: TString,
+    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
   } );
   politeStatusElementProperty.link( function( text ) {
     politeStatusElement.textContent = text;
@@ -129,7 +134,7 @@ define( function( require ) {
 
       // update the content with a small delay - refresh rate of the accessibility tree is often slow, and without a
       // delay, many alerts would be lost forever
-      Timer.setTimeout( function() { elementContentProperty.set( textContent ); }, 200 ); 
+      Timer.setTimeout( function() { elementContentProperty.set( textContent ); }, 200 );
     }
   }
 
@@ -259,7 +264,7 @@ define( function( require ) {
     /**
      * Enable or disable all aria-live elements. When not enabled, the user will hear no alerts.
      * @public
-     * 
+     *
      * @param {boolean} isDisabled
      */
     setEnabled: function( enabled ) {
@@ -279,7 +284,7 @@ define( function( require ) {
     /**
      * Call the desired callback, first disabling all alerts. When the callback returns, enable alerts again.
      * @public
-     * 
+     *
      * @param {function} callback
      */
     callWithDisabledAlerts: function( callback ) {
@@ -295,6 +300,8 @@ define( function( require ) {
     POLITE_STATUS_ELEMENT_ID: POLITE_STATUS_ELEMENT_ID,
     ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
+
+  tandem.addInstance( AriaHerald, TAriaHerald );
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
 
