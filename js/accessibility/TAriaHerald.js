@@ -21,7 +21,7 @@ define( function( require ) {
   // var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
 
   /**
-   * Wrapper type for phet/scenery's Node
+   * Wrapper type for phet/scenery-phet's AriaHerald controller
    * @param ariaHerald
    * @param phetioID
    * @constructor
@@ -40,76 +40,17 @@ define( function( require ) {
         return this.instance.announcePolite( textContent, withClear );
       },
       documentation: 'Set the polite aria-live attribute in the sim frame\'s PDOM.'
+    },
+
+    setEnabled: {
+      returnType: TVoid,
+      parameterTypes: [ TBoolean ],
+      implementation: function( enabled ) {
+        this.instance.setEnabled (enabled) ;
+      },
+      documentation: 'Set whether the ariaHerald will be enabled.'
     }
 
-    // setVisible: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TBoolean ],
-    //   implementation: function( visible ) {
-    //     this.instance.visible = visible;
-    //   },
-    //   documentation: 'Set whether the ariaHerald will be visible (and interactive)'
-    // },
-    //
-    // setPickable: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TBoolean ],
-    //   implementation: function( pickable ) {
-    //     this.instance.pickable = pickable;
-    //   },
-    //   documentation: 'Set whether the ariaHerald will be pickable (and hence interactive)'
-    // },
-    //
-    // isPickable: {
-    //   returnType: TBoolean,
-    //   parameterTypes: [],
-    //   implementation: function() {
-    //     return this.instance.pickable;
-    //   },
-    //   documentation: 'Gets whether the ariaHerald is pickable (and hence interactive)'
-    // },
-    //
-    // addPickableListener: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TFunctionWrapper( TVoid, [ TBoolean ] ) ],
-    //   implementation: function( callback ) {
-    //     var inst = this.instance;
-    //     this.instance.on( 'pickability', function() {
-    //       callback( inst.isPickable() );
-    //     } );
-    //   },
-    //   documentation: 'Adds a listener for when pickability of the ariaHerald changes'
-    // },
-    //
-    // addVisibleListener: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TFunctionWrapper( TVoid, [ TBoolean ] ) ],
-    //   implementation: function( callback ) {
-    //     var inst = this.instance;
-    //     this.instance.on( 'visibility', function() {
-    //       callback( inst.isVisible() );
-    //     } );
-    //   },
-    //   documentation: 'Adds a listener for when visibility of the ariaHerald changes'
-    // },
-    //
-    // setOpacity: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TNumber() ],
-    //   implementation: function( opacity ) {
-    //     this.instance.opacity = opacity;
-    //   },
-    //   documentation: 'Set opacity between 0-1 (inclusive)'
-    // },
-    //
-    // setRotation: {
-    //   returnType: TVoid,
-    //   parameterTypes: [ TNumber() ],
-    //   implementation: function( rotation ) {
-    //     this.instance.rotation = rotation;
-    //   },
-    //   documentation: 'Set the rotation of the ariaHerald, in radians'
-    // }
   }, {
     documentation: 'Interfacing type to handle Aria alerts via the aria-live attribute.'
   } );
