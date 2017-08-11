@@ -719,7 +719,10 @@ define( function( require ) {
 
     // For testing clearOnNextKeyPress feature
     var floatingPointClearOnNextKeyPressProperty = new Property( floatingPointKeyPad.getClearOnNextKeyPress() );
-    var floatingPointClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), floatingPointClearOnNextKeyPressProperty );
+    var floatingPointClearOnNextKeyPressButton = new CheckBox(
+      new Text( 'Clear On Next Key Press' ),
+      floatingPointClearOnNextKeyPressProperty
+    );
     floatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
@@ -774,9 +777,12 @@ define( function( require ) {
       new Text( 'Clear On Next Key Press' ),
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
     );
-    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+    function handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged( clearOnNextKeyPress ) {
       positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
-    } );
+    }
+    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link(
+      handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
+    );
 
     positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
@@ -790,7 +796,11 @@ define( function( require ) {
       listener: function(){
         if ( positiveAndNegativeFloatingPointVBox.hasChild( positiveAndNegativeFloatingPointKeyPad ) ){
           positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
+          positiveAndNegativeFloatingPointKeyPad.dispose();
           positiveAndNegativeFloatingPointClearButton.dispose();
+          positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.unlink(
+            handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
+          );
         }
         else{
           console.log( 'keypad was already removed' );

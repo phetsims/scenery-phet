@@ -217,6 +217,7 @@ define( function( require ) {
       this.buttonNodes.forEach( function( buttonNode ) {
         buttonNode.dispose();
       } );
+      Node.prototype.dispose.call( this );
     }
   }, {
 
