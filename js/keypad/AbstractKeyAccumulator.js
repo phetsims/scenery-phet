@@ -155,6 +155,14 @@ define( function( require ) {
       }
       this.setClearOnNextKeyPress( false );
       return proposedArray;
+    },
+
+    /**
+     * Cleans up references.
+     * @public
+     */
+    dispose: function(){
+      this.accumulatedKeysProperty.dispose();
     }
   } );
 } );

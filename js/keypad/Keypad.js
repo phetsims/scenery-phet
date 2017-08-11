@@ -213,6 +213,7 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
+      this.keyAccumulator.dispose();
       this.buttonNodes.forEach( function( buttonNode ) {
         buttonNode.dispose();
       } );

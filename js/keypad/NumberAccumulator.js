@@ -258,6 +258,16 @@ define( function( require ) {
     clear: function() {
       AbstractKeyAccumulator.prototype.clear.call( this );
       this.setClearOnNextKeyPress( false );
+    },
+
+    /**
+     * Cleans up references.
+     * @public
+     */
+    dispose: function(){
+      this.valueProperty.dispose();
+      this.stringProperty.dispose();
+      AbstractKeyAccumulator.prototype.dispose.call( this );
     }
 
   } );

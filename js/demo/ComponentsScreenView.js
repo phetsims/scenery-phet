@@ -767,14 +767,35 @@ define( function( require ) {
     } );
 
     // For testing clearOnNextKeyPress feature
-    var positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property( positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress() );
-    var positiveAndNegativeFloatingPointClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), positiveAndNegativeFloatingPointClearOnNextKeyPressProperty );
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property(
+      positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress()
+    );
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressButton = new CheckBox(
+      new Text( 'Clear On Next Key Press' ),
+      positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
+    );
     positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
 
     positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
-      positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value = positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
+      positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
+        positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
+    } );
+
+    // create and add a button that will remove the keypad from the screen - this exists to test dispose
+    var removeKeypadFromScreenButton = new RectangularPushButton( {
+      content: new Text( 'Remove Keypad (tests dispose)' ),
+      baseColor: '#73DC69',
+      listener: function(){
+        if ( positiveAndNegativeFloatingPointVBox.hasChild( positiveAndNegativeFloatingPointKeyPad ) ){
+          positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
+          positiveAndNegativeFloatingPointClearButton.dispose();
+        }
+        else{
+          console.log( 'keypad was already removed' );
+        }
+      }
     } );
 
     var positiveAndNegativeFloatingPointVBox = new VBox( {
@@ -786,7 +807,8 @@ define( function( require ) {
         positiveAndNegativeFloatingPointStringRepresentation,
         positiveAndNegativeFloatingPointKeyPad,
         positiveAndNegativeFloatingPointClearButton,
-        positiveAndNegativeFloatingPointClearOnNextKeyPressButton
+        positiveAndNegativeFloatingPointClearOnNextKeyPressButton,
+        removeKeypadFromScreenButton
       ]
     } );
 
