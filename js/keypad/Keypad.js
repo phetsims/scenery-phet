@@ -71,6 +71,9 @@ define( function( require ) {
     // been accumulated
     this.valueProperty = this.keyAccumulator.valueProperty;
 
+    // @private {Array.<RectangularPushButton>}
+    this.buttonNodes = [];
+
     // determine number of rows and columns from the input layout
     var numRows = layout.length;
     var numColumns = 0;
@@ -130,6 +133,7 @@ define( function( require ) {
           var buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
           buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
           buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
+          self.buttonNodes.push( buttonNode );
           self.addChild( buttonNode );
         }
       }
@@ -202,8 +206,17 @@ define( function( require ) {
      */
     getClearOnNextKeyPress: function() {
       return this.keyAccumulator.getClearOnNextKeyPress();
-    }
+    },
 
+    /**
+     * Cleans up references.
+     * @public
+     */
+    dispose: function() {
+      this.buttonNodes.forEach( function( buttonNode ) {
+        buttonNode.dispose();
+      } );
+    }
   }, {
 
     //------------------------------------------------------------------------------------------------------------------

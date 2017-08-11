@@ -36,7 +36,7 @@ define( function( require ) {
       maxDigits: Number.MAX_SAFE_INTEGER.toString().length
     }, options );
 
-    AbstractKeyAccumulator.call( this );
+    AbstractKeyAccumulator.call( this, options );
 
     this.maxDigitsRightOfMantissa = options.maxDigitsRightOfMantissa; // @private
     this.maxDigits = options.maxDigits; // @private
