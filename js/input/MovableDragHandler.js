@@ -111,7 +111,7 @@ define( function( require ) {
      */
     setDragBounds: function( dragBounds ) {
       this._dragBounds = dragBounds.copy();
-      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.get() ) );
+      this.constrainToBounds();
     },
     set dragBounds( value ) { this.setDragBounds( value ); },
 
@@ -124,6 +124,14 @@ define( function( require ) {
       return this._dragBounds;
     },
     get dragBounds() { return this.getDragBounds(); },
+
+    /**
+     * If the location is outside of the drag bounds, change it to lie to the closest in-bounds point.
+     * @public
+     */
+    constrainToBounds: function() {
+      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.get() ) );
+    },
 
     /**
      * Sets the modelViewTransform.
