@@ -68,12 +68,12 @@ define( function( require ) {
   function ComponentsScreenView() {
     DemosScreenView.call( this, [
 
-      /**
-       * To add a demo, add an object literal here. Each object has these properties:
-       *
-       * {string} label - label in the combo box
-       * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-       */
+    /**
+     * To add a demo, add an object literal here. Each object has these properties:
+     *
+     * {string} label - label in the combo box
+     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+     */
       { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
@@ -460,7 +460,7 @@ define( function( require ) {
             new RichText( 'Multi-line text with the<br>separator &lt;br&gt; and <a href="https://phet.colorado.edu">handles<br>links</a> and other <b>tags<br>across lines</b>', {
               links: true
             } ),
-            new RichText( 'Supposedly RichText supports line wrapping. Here is a lineWrap of 300, which should probably wrap multiple times here', { lineWrap: 300 })
+            new RichText( 'Supposedly RichText supports line wrapping. Here is a lineWrap of 300, which should probably wrap multiple times here', { lineWrap: 300 } )
           ]
         } )
       ],
@@ -620,7 +620,7 @@ define( function( require ) {
     }
     topArrowKeyNode = new ArrowKeyNode( 'up' );
     bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
-    var bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 5} );
+    var bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 5 } );
 
     // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
     middleKeyNodes.push( new EnterKeyNode() );
@@ -642,7 +642,7 @@ define( function( require ) {
   };
 
   // creates a demo for Keypad
-  var demoKeypad = function( layoutBounds ){
+  var demoKeypad = function( layoutBounds ) {
 
     var integerKeyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, {
       buttonWidth: 35,
@@ -657,7 +657,7 @@ define( function( require ) {
       integerStringRepresentation.text = 'string: ' + value;
     } );
 
-    integerKeyPad.valueProperty.link( function( value ){
+    integerKeyPad.valueProperty.link( function( value ) {
       integerValueRepresentation.text = 'number: ' + value;
     } );
 
@@ -706,7 +706,7 @@ define( function( require ) {
       floatingPointStringRepresentation.text = 'string: ' + value;
     } );
 
-    floatingPointKeyPad.valueProperty.link( function( value ){
+    floatingPointKeyPad.valueProperty.link( function( value ) {
       floatingPointValueRepresentation.text = 'number: ' + value;
     } );
 
@@ -719,7 +719,10 @@ define( function( require ) {
 
     // For testing clearOnNextKeyPress feature
     var floatingPointClearOnNextKeyPressProperty = new Property( floatingPointKeyPad.getClearOnNextKeyPress() );
-    var floatingPointClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), floatingPointClearOnNextKeyPressProperty );
+    var floatingPointClearOnNextKeyPressButton = new CheckBox(
+      new Text( 'Clear On Next Key Press' ),
+      floatingPointClearOnNextKeyPressProperty
+    );
     floatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
@@ -755,7 +758,7 @@ define( function( require ) {
       positiveAndNegativeFloatingPointStringRepresentation.text = 'string: ' + value;
     } );
 
-    positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ){
+    positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
       positiveAndNegativeFloatingPointValueRepresentation.text = 'number: ' + value;
     } );
 
@@ -774,9 +777,14 @@ define( function( require ) {
       new Text( 'Clear On Next Key Press' ),
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
     );
-    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+
+    function handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged( clearOnNextKeyPress ) {
       positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
-    } );
+    }
+
+    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.link(
+      handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
+    );
 
     positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
@@ -787,14 +795,15 @@ define( function( require ) {
     var removeKeypadFromScreenButton = new RectangularPushButton( {
       content: new Text( 'Remove Keypad (tests dispose)' ),
       baseColor: '#73DC69',
-      listener: function(){
-        if ( positiveAndNegativeFloatingPointVBox.hasChild( positiveAndNegativeFloatingPointKeyPad ) ){
-          positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
-          positiveAndNegativeFloatingPointClearButton.dispose();
-        }
-        else{
-          console.log( 'keypad was already removed' );
-        }
+      listener: function() {
+        positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
+        positiveAndNegativeFloatingPointKeyPad.dispose();
+        positiveAndNegativeFloatingPointClearButton.dispose();
+        positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.unlink(
+          handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
+        );
+        positiveAndNegativeFloatingPointVBox.removeChild( removeKeypadFromScreenButton );
+        removeKeypadFromScreenButton.dispose();
       }
     } );
 
