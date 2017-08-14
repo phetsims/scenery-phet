@@ -553,12 +553,12 @@ define( function( require ) {
 
     // For testing NumberKeypad's clearOnNextKeyPress feature
     var clearOnNextKeyPressProperty = new Property( false );
-    var clearOnNextKeyPressButton = new CheckBox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
+    var clearOnNextKeyPressCheckBox = new CheckBox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
 
     clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       integerKeypad.clearOnNextKeyPress = clearOnNextKeyPress;
     } );
-    integerKeypad.valueStringProperty.link( function( valueString ) {
+    integerKeypad.valueStringProperty.link( function() {
       clearOnNextKeyPressProperty.value = integerKeypad.clearOnNextKeyPress;
     } );
 
@@ -580,7 +580,7 @@ define( function( require ) {
         // integer keypad and display
         new VBox( {
           spacing: 40,
-          children: [ integerText, integerKeypad, clearOnNextKeyPressButton ]
+          children: [ integerText, integerKeypad, clearOnNextKeyPressCheckBox ]
         } ),
 
         // decimal keypad and display
@@ -670,7 +670,10 @@ define( function( require ) {
 
     // For testing clearOnNextKeyPress feature
     var integerClearOnNextKeyPressProperty = new Property( integerKeyPad.getClearOnNextKeyPress() );
-    var integerClearOnNextKeyPressButton = new CheckBox( new Text( 'Clear On Next Key Press' ), integerClearOnNextKeyPressProperty );
+    var integerClearOnNextKeyPressCheckBox = new CheckBox(
+      new Text( 'Clear On Next Key Press' ),
+      integerClearOnNextKeyPressProperty
+    );
     integerClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
@@ -688,7 +691,7 @@ define( function( require ) {
         integerStringRepresentation,
         integerKeyPad,
         integerClearButton,
-        integerClearOnNextKeyPressButton
+        integerClearOnNextKeyPressCheckBox
       ]
     } );
 
@@ -727,7 +730,7 @@ define( function( require ) {
       floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
     } );
 
-    floatingPointKeyPad.valueProperty.link( function( value ) {
+    floatingPointKeyPad.valueProperty.link( function() {
       floatingPointClearOnNextKeyPressProperty.value = floatingPointKeyPad.getClearOnNextKeyPress();
     } );
 
@@ -773,7 +776,7 @@ define( function( require ) {
     var positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property(
       positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress()
     );
-    var positiveAndNegativeFloatingPointClearOnNextKeyPressButton = new CheckBox(
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox = new CheckBox(
       new Text( 'Clear On Next Key Press' ),
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
     );
@@ -796,12 +799,14 @@ define( function( require ) {
       content: new Text( 'Remove Keypad (tests dispose)' ),
       baseColor: '#73DC69',
       listener: function() {
+        positiveAndNegativeFloatingPointKeyPad.clear();
         positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
         positiveAndNegativeFloatingPointKeyPad.dispose();
+        positiveAndNegativeFloatingPointKeyPad = null;
+        positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointClearButton );
         positiveAndNegativeFloatingPointClearButton.dispose();
-        positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.unlink(
-          handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
-        );
+        positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox );
+        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox.dispose();
         positiveAndNegativeFloatingPointVBox.removeChild( removeKeypadFromScreenButton );
         removeKeypadFromScreenButton.dispose();
       }
@@ -816,7 +821,7 @@ define( function( require ) {
         positiveAndNegativeFloatingPointStringRepresentation,
         positiveAndNegativeFloatingPointKeyPad,
         positiveAndNegativeFloatingPointClearButton,
-        positiveAndNegativeFloatingPointClearOnNextKeyPressButton,
+        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox,
         removeKeypadFromScreenButton
       ]
     } );

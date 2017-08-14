@@ -161,8 +161,7 @@ define( function( require ) {
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
-    var content = ( keyObject.label instanceof Node ) ?
-                  keyObject.label :
+    var content = ( keyObject.label instanceof Node ) ? keyObject.label :
                   new Text( keyObject.label, { font: options.buttonFont } );
 
     var keyNode = new RectangularPushButton( {
