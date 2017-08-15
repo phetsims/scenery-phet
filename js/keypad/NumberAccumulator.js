@@ -143,6 +143,7 @@ define( function( require ) {
           returnValue = returnValue + DECIMAL_CHAR;
         }
         else {
+          
           // PlusMinusKey (if present) should only be first
           assert && assert( this.isDigit( keys[ i ] ), 'unexpected key type' );
           returnValue = returnValue + keys[ i ];
