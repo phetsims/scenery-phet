@@ -218,8 +218,8 @@ define( function( require ) {
   }, {
 
     //------------------------------------------------------------------------------------------------------------------
-    // static keypad layouts - These can be used as is for common layouts or serve as examples for creating custom
-    // layouts. If the vertical span is greater than 1 is provided the column in the next row(s) has to be null.  If
+    // static keypad layouts - These can be used 'as is' for common layouts or serve as examples for creating custom
+    // layouts. If the vertical span is greater than 1, the column in the next row(s) has to be null.  If
     // the horizontal span is greater than 1, the next key in that row will not overlap and will be placed in the next
     // space in the grid. If a blank space is desired, null should be provided.
     //------------------------------------------------------------------------------------------------------------------
