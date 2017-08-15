@@ -1,6 +1,8 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
+ * DO NOT USE IN NEW DEVELOPMENT. Please use SCENERY/nodes/RichText.
+ *
  * MultiLine plain text, with alignment.
  * The line break character is '\n'.
  * Specify alignment via the 'align' option.
