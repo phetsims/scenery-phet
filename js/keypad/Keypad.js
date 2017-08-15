@@ -59,16 +59,13 @@ define( function( require ) {
     // @private {function}
     this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( options );
 
-    // @public {Property.<Array.<KeyID>>} (read-only) - a property containing an array of the keys that have been
-    // accumulated
+    // @public {Property.<Array.<KeyID>>} (read-only) - array of the keys that have been accumulated
     this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty;
 
-    // @public {Property.<string>} (read-only) - a property containing a string representation of the keys that have been
-    // accumulated
+    // @public {Property.<string>} (read-only) - string representation of the keys that have been accumulated
     this.stringProperty = this.keyAccumulator.stringProperty;
 
-    // @public {Property.<number>} (read-only) - a property containing a numeric representation of the keys that have
-    // been accumulated
+    // @public {Property.<number>} (read-only) - numeric representation of the keys that have been accumulated
     this.valueProperty = this.keyAccumulator.valueProperty;
 
     // @private {Array.<RectangularPushButton>}
