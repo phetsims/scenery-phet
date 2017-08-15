@@ -14,7 +14,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * This is a general algorithm, used herein to compute the point for an arrow's tip.
@@ -47,8 +46,6 @@ define( function( require ) {
    * @constructor
    */
   function CurvedArrowShape( radius, startAngle, endAngle, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       doubleHead: false, // false = single head at endAngle, true = heads at startAngle and endAngle
       headWidth: 10,
