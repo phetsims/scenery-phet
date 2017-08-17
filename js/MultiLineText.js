@@ -27,12 +27,11 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TMultiLineText = require( 'SCENERY_PHET/TMultiLineText' );
 
-
   /**
-   *
    * @param {string} text
    * @param {Object} [options]
    * @constructor
+   * @deprecated
    */
   function MultiLineText( text, options ) {
 
