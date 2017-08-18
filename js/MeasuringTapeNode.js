@@ -116,6 +116,7 @@ define( function( require ) {
 
     var tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
+    // @private
     this.baseImage = new Image( measuringTapeImage, {
       scale: options.baseScale,
       cursor: 'pointer'
