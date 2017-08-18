@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2017, University of Colorado Boulder
 
 /**
  * A key accumulator that collects user input for integer and floating point values, intended for use in conjunction
@@ -108,7 +108,7 @@ define( function( require ) {
      * validate a proposed set of keys
      * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
      * @returns {boolean}
-     * @public
+     * @protected
      * @override
      */
     defaultValidator: function( proposedKeys ) {
@@ -130,7 +130,7 @@ define( function( require ) {
       var returnValue = '';
       var i = 0;
 
-      // PlusMinusKey (if present) will be first key, and indicates that the number is negative
+      // the plus/minus key (if present) will be first key, and indicates that the number is negative
       if ( keys.length > 0 && keys[ i ] === KeyID.PLUS_MINUS ) {
         returnValue = NEGATIVE_CHAR;
         i++;
@@ -144,7 +144,7 @@ define( function( require ) {
         }
         else {
           
-          // PlusMinusKey (if present) should only be first
+          // the plus/minus key should be first if present
           assert && assert( this.isDigit( keys[ i ] ), 'unexpected key type' );
           returnValue = returnValue + keys[ i ];
         }

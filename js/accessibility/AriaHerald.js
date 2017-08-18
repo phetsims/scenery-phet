@@ -1,4 +1,4 @@
-// Copyright 2002-2017, University of Colorado Boulder
+// Copyright 2017, University of Colorado Boulder
 
 /**
  * A static object used to send aria-live updates to the screen reader.  The herald simply references 'aria-live'

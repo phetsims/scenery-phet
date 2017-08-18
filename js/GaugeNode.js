@@ -1,4 +1,4 @@
-// Copyright 2013-2016, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * The gauge node is a scenery node that represents a circular gauge that depicts some dynamic value.  This was

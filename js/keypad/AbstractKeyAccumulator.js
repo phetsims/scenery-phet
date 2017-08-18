@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2016-2017, University of Colorado Boulder
 
 /**
  * base type for an object that accumulates key presses, works in conjunction with the common-code keypad
@@ -90,7 +90,7 @@ define( function( require ) {
     /**
      * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
      * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
-     * @public
+     * @protected
      */
     validateAndUpdate: function( proposedKeys ) {
 
@@ -120,9 +120,9 @@ define( function( require ) {
 
     /**
      * default validation, must be overridden in sub-types
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys to be validated
      * @returns {boolean}
-     * @private
+     * @protected
      * @abstract
      */
     defaultValidator: function( proposedKeys ) {

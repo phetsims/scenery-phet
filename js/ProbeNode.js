@@ -1,4 +1,4 @@
-// Copyright 2015-2016, University of Colorado Boulder
+// Copyright 2015-2017, University of Colorado Boulder
 
 /**
  * A physical-looking probe with a handle and a semicircular sensor region, used in simulations like Bending Light and
