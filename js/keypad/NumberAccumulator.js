@@ -22,7 +22,11 @@ define( function( require ) {
   // constants
   var NEGATIVE_CHAR = '\u2212';
   var DECIMAL_CHAR = '.';
-  var MAX_SAFE_INTEGER = 9007199254740991; // Used as references for various `Number` constants
+
+  // Define the maximum integer that can be handled.  The portion with the explicit numeric value is necessary for IE11
+  // support, see https://github.com/phetsims/scenery-phet/issues/332.
+  var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+  var MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
 
   /**
    * @param {Object} [options]
@@ -34,8 +38,13 @@ define( function( require ) {
     var self = this;
     options = _.extend( {
       maxDigitsRightOfMantissa: 0,
-      maxDigits: MAX_SAFE_INTEGER.toString().length
+      maxDigits: MAX_DIGITS
     }, options );
+
+    assert && assert(
+      options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
+      'maxDigits out of range: ' + options.maxDigits
+    );
 
     AbstractKeyAccumulator.call( this, options );
 
