@@ -33,7 +33,7 @@ define( function( require ) {
     var self = this;
     options = _.extend( {
       maxDigitsRightOfMantissa: 0,
-      maxDigits: Number.MAX_SAFE_INTEGER.toString().length
+      maxDigits: 15
     }, options );
 
     AbstractKeyAccumulator.call( this, options );
