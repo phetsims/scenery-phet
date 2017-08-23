@@ -41,9 +41,14 @@ define( function( require ) {
       maxDigits: MAX_DIGITS
     }, options );
 
+    // range check the options
     assert && assert(
       options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
       'maxDigits out of range: ' + options.maxDigits
+    );
+    assert && assert(
+      options.maxDigitsRightOfMantissa >= 0 && options.maxDigitsRightOfMantissa <= options.maxDigits,
+      'maxDigitsRightOfMantissa is out of range: ' + options.maxDigitsRightOfMantissa
     );
 
     AbstractKeyAccumulator.call( this, options );
