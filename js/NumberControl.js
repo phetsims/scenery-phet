@@ -57,6 +57,7 @@ define( function( require ) {
       valueBackgroundLineWidth: 1,
       valueBackgroundCornerRadius: 0,
       decimalPlaces: 0,
+      useRichText: false,
 
       // {string} Pattern used to format the value. Must contain '{0}'.
       // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
@@ -117,6 +118,7 @@ define( function( require ) {
     } );
 
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
+      useRichText: options.useRichText,
       valuePattern: options.valuePattern,
       font: options.valueFont,
       align: options.valueAlign,

@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -37,6 +38,7 @@ define( function( require ) {
       /// {string} Pattern used to format the value. Must contain '{0}'.
       // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
       valuePattern: '{0}',
+      useRichText: false,
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
       xMargin: 8,
@@ -62,7 +64,8 @@ define( function( require ) {
     var widestString = StringUtils.format( options.valuePattern, ( ( minString.length > maxString.length ) ? minString : maxString ) );
 
     // value
-    this.valueNode = new Text( widestString, {
+    var Constructor = options.useRichText ? RichText : Text;
+    this.valueNode = new Constructor( widestString, {
       font: options.font,
       fill: options.numberFill,
       maxWidth: options.numberMaxWidth,
