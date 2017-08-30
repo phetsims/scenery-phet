@@ -179,7 +179,7 @@ define( function( require ) {
     setInterval: function( alertInterval ) {
       interval = alertInterval;
     },
-    set interval( alertInterval ) { this.setInterval( interval ); } // TODO: interval should be 'alertInterval'
+    set interval( alertInterval ) { this.setInterval( alertInterval ); }
   };
 
   sceneryPhet.register( 'UtteranceQueue', UtteranceQueue );
