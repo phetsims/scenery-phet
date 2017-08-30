@@ -8,7 +8,7 @@
  * Screen readers are inconsistent in the way that they order alerts, some use last-in-first-out order,
  * others use first-in-first-out order, others just read the last alert that was provided. This queue
  * manages order and improves consistency.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -29,16 +29,24 @@ define( function( require ) {
   // whether or not Utterances moving through the queue are read by a screen reader
   var muted = false;
 
+  // whether the UtterancesQueue is alerting, and if you can add/remove utterances
+  var enabled = true;
+
   var UtteranceQueue = {
 
     /**
      * Add an utterance ot the end of the queue.  If the utterance has a type of alert which
      * is already in the queue, the older alert will be immediately removed.
-     * 
+     *
      * @public
      * @param {Utterance|string} utterance
      */
     addToBack: function( utterance ) {
+
+      // No-op function if the UtteranceQueue is disabled
+      if ( !enabled ) {
+        return;
+      }
 
       if ( typeof utterance === 'string' ) {
         utterance = new Utterance( utterance );
@@ -64,6 +72,11 @@ define( function( require ) {
      */
     addToFront: function( utterance ) {
 
+      // No-op function if the UtteranceQueue is disabled
+      if ( !enabled ) {
+        return;
+      }
+
       if ( typeof utterance === 'string' ) {
         utterance = new Utterance( utterance );
       }
@@ -73,7 +86,7 @@ define( function( require ) {
     /**
      * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
      * returns false, no alert will be read. Called privately by Timer.setInterval
-     * 
+     *
      * @private
      */
     next: function() {
@@ -90,17 +103,23 @@ define( function( require ) {
     /**
      * Clear the UtteranceQueue of all Utterances, any Utterances remaining in the queue will
      * not be announced by the screen reader.
-     * 
+     *
      * @public
      */
     clear: function() {
+
+      // No-op function if the UtteranceQueue is disabled
+      if ( !enabled ) {
+        return;
+      }
+
       queue = [];
     },
 
     /**
-     * Set whether or not the utterance queue is muted.  When muted, Utterances will still 
+     * Set whether or not the utterance queue is muted.  When muted, Utterances will still
      * move through the queue, but nothing will be sent to assistive technology.
-     * 
+     *
      * @param {boolean} isMuted
      */
     setMuted: function( isMuted ) {
@@ -118,9 +137,32 @@ define( function( require ) {
     },
     get muted() { return this.getMuted(); },
 
+
+    /**
+     * Set whether or not the utterance queue is enabled.  When enabled, Utterances cannot be added to
+     * the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.
+     *
+     * @param {boolean} isEnabled
+     */
+    setEnabled: function( isEnabled ) {
+      enabled = isEnabled;
+    },
+    set enabled( isEnabled ) { this.setEnabled( isEnabled ); },
+
+    /**
+     * Get whether or not the utterance queue is enabled.  When enabled, Utterances cannot be added to
+     * the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.
+     * @public
+     */
+    getEnabled: function() {
+      return enabled;
+    },
+    get enabled() { return this.getEnabled(); },
+
+
     /**
      * Get the interval that alerts are sent to the screen reader.
-     * 
+     *
      * @public
      * @return {number}
      */
@@ -132,18 +174,27 @@ define( function( require ) {
     /**
      * Set the alert interval in milliseconds
      * @public
-     * @param {number} interval
+     * @param {number} alertInterval
      */
     setInterval: function( alertInterval ) {
       interval = alertInterval;
     },
-    set interval( alertInterval ) { this.setInterval( interval ); },
+    set interval( alertInterval ) { this.setInterval( interval ); } // TODO: interval should be 'alertInterval'
   };
 
   sceneryPhet.register( 'UtteranceQueue', UtteranceQueue );
 
   // step the alert queue
-  Timer.setInterval( UtteranceQueue.next, UtteranceQueue.interval );
+  Timer.setInterval( function() {
+
+      // No-op function if the UtteranceQueue is disabled
+      if ( !enabled ) {
+        return;
+      }
+
+      UtteranceQueue.next();
+    }, UtteranceQueue.interval
+  );
 
   return UtteranceQueue;
 } );
