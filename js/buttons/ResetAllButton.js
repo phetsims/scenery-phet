@@ -11,15 +11,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var Shape = require( 'KITE/Shape' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button
@@ -60,15 +61,19 @@ define( function( require ) {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many properties are reset
     var disableAlertsListener = function() {
-      AriaHerald.enabled = false;
+      UtteranceQueue.setMuted= false;
     };
     this.buttonModel.startedCallbacksForFiredEmitter.addListener( disableAlertsListener );
 
     // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
     // was reset
     var enableAlertsListener = function() {
-      AriaHerald.enabled = true;
-      AriaHerald.announcePolite( resetAllAlertString );
+      UtteranceQueue.clear();
+      UtteranceQueue.setMuted= true;
+
+      UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
+          typeId: 'resetAllButtonAlert'
+      } ) );
     };
     this.buttonModel.endedCallbacksForFiredEmitter.addListener( enableAlertsListener );
 
