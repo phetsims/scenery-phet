@@ -61,16 +61,15 @@ define( function( require ) {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many properties are reset
     var disableAlertsListener = function() {
-      UtteranceQueue.setMuted= true;
+      UtteranceQueue.enabled= false;
     };
     this.buttonModel.startedCallbacksForFiredEmitter.addListener( disableAlertsListener );
 
     // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
     // was reset
     var enableAlertsListener = function() {
-      UtteranceQueue.clear();
 
-      UtteranceQueue.setMuted= false;
+      UtteranceQueue.enabled = true;
       UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
           typeId: 'resetAllButtonAlert'
       } ) );
