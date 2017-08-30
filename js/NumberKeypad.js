@@ -8,9 +8,9 @@
  * @author Andrey Zelenkov (MLearner)
  * @author Chris Malley (PixelZoom, Inc.)
  *
- * @depracated - This keypad has been replaced by a more flexible and general version.  While there are no plans to
- * go back and replace existing usages, but new implementations should use Keypad.js instead.  See
- * https://github.com/phetsims/scenery-phet/issues/283 for the history of this. -jbphet, Aug 2017
+ * @depracated - This keypad has been replaced by a more flexible and general version.
+ * While there are no plans to go back and replace existing usages, new implementations should use Keypad.js.
+ * See https://github.com/phetsims/scenery-phet/issues/283 for the history of this. -jbphet, Aug 2017
  */
 define( function( require ) {
   'use strict';

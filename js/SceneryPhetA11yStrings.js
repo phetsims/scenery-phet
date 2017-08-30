@@ -19,8 +19,8 @@ define( function( require ) {
     soundToggleLabelString: 'Mute Sound',
 
     // SoundToggleButton alerts
-    simSoundOnString: 'Sim sound on',
-    simSoundOffString: 'Sim sound off',
+    simSoundOnString: 'Sim sound on.',
+    simSoundOffString: 'Sim sound off.',
 
     // alert for sim reset
     resetAllAlertString: 'Sim screen restarted. Everything reset.'
