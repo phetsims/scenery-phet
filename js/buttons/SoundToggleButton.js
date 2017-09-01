@@ -44,7 +44,7 @@ define( function( require ) {
     var soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ), {
       stroke: 'black',
       lineWidth: 3,
-      left: soundOffNode.width + 5,
+      right: soundOnNode.width,
       centerY: soundOffNode.centerY
     } );
     soundOffNode.addChild( soundOffX );
