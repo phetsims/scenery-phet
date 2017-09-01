@@ -61,7 +61,7 @@ define( function( require ) {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many properties are reset
     var disableAlertsListener = function() {
-      UtteranceQueue.enabled= false;
+      UtteranceQueue.enabled = false;
     };
     this.buttonModel.startedCallbacksForFiredEmitter.addListener( disableAlertsListener );
 
