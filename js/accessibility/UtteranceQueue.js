@@ -107,12 +107,6 @@ define( function( require ) {
      * @public
      */
     clear: function() {
-
-      // No-op function if the UtteranceQueue is disabled
-      if ( !enabled ) {
-        return;
-      }
-
       queue = [];
     },
 
