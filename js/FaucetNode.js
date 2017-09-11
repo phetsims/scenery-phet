@@ -31,27 +31,27 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Timer = require( 'PHET_CORE/Timer' );
-  var Property = require( 'AXON/Property' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TFaucetNode = require( 'SCENERY_PHET/TFaucetNode' );
+  var Timer = require( 'PHET_CORE/Timer' );
 
   // images
-  var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
-  var knobDisabledImage = require( 'image!SCENERY_PHET/faucet_knob_disabled.png' );
-  var shaftImage = require( 'image!SCENERY_PHET/faucet_shaft.png' );
-  var flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
-  var flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
-  var stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
-  var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
-  var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
   var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
+  var flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
+  var flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
+  var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
+  var knobDisabledImage = require( 'image!SCENERY_PHET/faucet_knob_disabled.png' );
+  var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
+  var shaftImage = require( 'image!SCENERY_PHET/faucet_shaft.png' );
   var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
+  var stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
   var trackImage = require( 'image!SCENERY_PHET/faucet_track.png' );
+  var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
 
   // constants
   var DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)

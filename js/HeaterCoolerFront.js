@@ -12,24 +12,24 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Shape = require( 'KITE/Shape' );
-  var HSlider = require( 'SUN/HSlider' );
-  var Property = require( 'AXON/Property' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var Color = require( 'SCENERY/util/Color' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
+  var HSlider = require( 'SUN/HSlider' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var heatString = require( 'string!SCENERY_PHET/heat' );
   var coolString = require( 'string!SCENERY_PHET/cool' );
+  var heatString = require( 'string!SCENERY_PHET/heat' );
 
   /**
    * Constructor for a HeaterCoolerFront.

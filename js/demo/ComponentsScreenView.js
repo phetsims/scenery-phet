@@ -12,8 +12,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var CheckBox = require( 'SUN/CheckBox' );

@@ -10,8 +10,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**

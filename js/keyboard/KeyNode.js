@@ -13,12 +13,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   // default options for the KeyNode, all widths, offsets, and height values are

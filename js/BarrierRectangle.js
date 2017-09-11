@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Emitter = require( 'AXON/Emitter' );
-  var Plane = require( 'SCENERY/nodes/Plane' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Emitter = require( 'AXON/Emitter' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Plane = require( 'SCENERY/nodes/Plane' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TBarrierRectangle = require( 'SCENERY_PHET/TBarrierRectangle' );
 

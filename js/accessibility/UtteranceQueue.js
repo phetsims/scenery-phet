@@ -15,10 +15,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Timer = require( 'PHET_CORE/Timer' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Timer = require( 'PHET_CORE/Timer' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
   // {Utterance} - array of utterances, spoken in first to last order
   var queue = [];

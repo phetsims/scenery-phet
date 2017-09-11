@@ -11,14 +11,14 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // phet-io modules
+  // var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
+  // var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
-  // var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
-  // var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
 
   /**
    * Wrapper type for phet/scenery-phet's AriaHerald controller

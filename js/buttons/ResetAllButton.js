@@ -11,16 +11,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
-  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button

@@ -10,11 +10,11 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Util = require( 'DOT/Util' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var Util = require( 'DOT/Util' );
 
   // constants, these are specific to bulb images
   var RAYS_START_ANGLE = 3 * Math.PI / 4;

@@ -9,11 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // images
   var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );

@@ -14,9 +14,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**

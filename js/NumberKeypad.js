@@ -17,15 +17,15 @@ define( function( require ) {
 
   // modules
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // string
   var DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279

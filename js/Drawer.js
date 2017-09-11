@@ -19,8 +19,8 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Node} contentsNode - contents of the drawer

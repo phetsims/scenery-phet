@@ -12,14 +12,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * @param {Object} [options]

@@ -10,8 +10,8 @@ define( function( require ) {
 
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**

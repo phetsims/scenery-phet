@@ -19,16 +19,16 @@ define( function( require ) {
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var Property = require( 'AXON/Property' );
   var RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
-  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
   var StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 

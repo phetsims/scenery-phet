@@ -14,11 +14,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var SkyNode = require( 'SCENERY_PHET/SkyNode' );
   var GroundNode = require( 'SCENERY_PHET/GroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SkyNode = require( 'SCENERY_PHET/SkyNode' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**

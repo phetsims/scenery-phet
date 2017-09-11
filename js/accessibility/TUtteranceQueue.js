@@ -14,8 +14,8 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
 
   /**

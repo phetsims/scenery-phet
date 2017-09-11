@@ -10,9 +10,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var Color = require( 'SCENERY/util/Color' );
+  var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 

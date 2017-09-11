@@ -13,8 +13,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var StarShape = require( 'SCENERY_PHET/StarShape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StarShape = require( 'SCENERY_PHET/StarShape' );
 
   /**
    * @param {Object} [options] see comments in the constructor for options parameter values

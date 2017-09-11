@@ -12,14 +12,14 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearFunction = require( 'DOT/LinearFunction' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Shape = require( 'KITE/Shape' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants

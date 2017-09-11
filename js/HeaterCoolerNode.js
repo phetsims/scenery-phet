@@ -14,12 +14,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Color = require( 'SCENERY/util/Color' );
+  var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
+  var HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
-  var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 

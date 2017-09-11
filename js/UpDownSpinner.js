@@ -12,12 +12,12 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    *

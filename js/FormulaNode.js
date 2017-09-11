@@ -17,9 +17,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var DOM = require( 'SCENERY/nodes/DOM' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var DOM = require( 'SCENERY/nodes/DOM' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 

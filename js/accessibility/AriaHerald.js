@@ -21,10 +21,10 @@ define( function( require ) {
 
   // modules
   var Property = require( 'AXON/Property' );
-  var Timer = require( 'PHET_CORE/Timer' );
-  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
+  var Timer = require( 'PHET_CORE/Timer' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );

@@ -15,19 +15,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var Color = require( 'SCENERY/util/Color' );
-  var Line = require( 'SCENERY/nodes/Line' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Color = require( 'SCENERY/util/Color' );
   var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Ray2 = require( 'DOT/Ray2' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
   var glass = function( options ) {

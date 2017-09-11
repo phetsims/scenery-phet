@@ -11,15 +11,15 @@ define( function( require ) {
   // modules
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Util = require( 'DOT/Util' );
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Util = require( 'DOT/Util' );
 
   // images
-  var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
   var offImage = require( 'mipmap!SCENERY_PHET/light-bulb-off.png' );
+  var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
 
   /**
    * @param {Property.<number>} brightnessProperty 0 (off) to 1 (full brightness)

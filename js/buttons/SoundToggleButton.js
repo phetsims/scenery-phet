@@ -11,16 +11,16 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var Shape = require( 'KITE/Shape' );
 
   // constants
   var WIDTH = 45;

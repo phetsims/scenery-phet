@@ -11,15 +11,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
   var KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Shape = require( 'KITE/Shape' );
-  var Timer = require( 'PHET_CORE/Timer' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Timer = require( 'PHET_CORE/Timer' );
 
   // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds

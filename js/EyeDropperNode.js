@@ -16,13 +16,13 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
-  var Shape = require( 'KITE/Shape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // images
-  var foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
   var backgroundImage = require( 'image!SCENERY_PHET/eye_dropper_background.png' );
+  var foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
 
   // constants
   var DEBUG_ORIGIN = false; // if true, put a red dot at the dropper's origin (bottom center)

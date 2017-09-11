@@ -16,10 +16,10 @@ define( function( require ) {
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VSeparator = require( 'SUN/VSeparator' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings - no need for i18n since this is a developer-only demo
   var aspectRatioString = 'aspect ratio:';

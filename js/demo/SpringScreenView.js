@@ -10,13 +10,13 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
   var ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ScreenView = require( 'JOIST/ScreenView' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var ScreenView = require( 'JOIST/ScreenView' );
+  var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
 
   /**
    * @constructor

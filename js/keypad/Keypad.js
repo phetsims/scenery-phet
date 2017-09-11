@@ -13,15 +13,15 @@ define( function( require ) {
   // modules
   var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
   var Key = require( 'SCENERY_PHET/keypad/Key' );
   var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var DEFAULT_BUTTON_WIDTH = 35;

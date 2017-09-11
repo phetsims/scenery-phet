@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var RADIUS = 10;
