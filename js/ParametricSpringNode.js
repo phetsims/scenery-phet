@@ -21,20 +21,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+  var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Range = require( 'DOT/Range' );
-
-  // phet-io modules
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
   var SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging
@@ -91,37 +89,39 @@ define( function( require ) {
     var self = this;
 
     // @public
-    this.loopsProperty = new Property( options.loops, {
-      phetioValueType: TNumber( { type: 'Integer', range: new Range( 1, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'loopsProperty' )
+    this.loopsProperty = new NumberProperty( options.loops, {
+      tandem: options.tandem.createTandem( 'loopsProperty' ),
+      valueType: 'Integer',
+      range: new Range( 1, Number.POSITIVE_INFINITY )
     } );
-    this.radiusProperty = new Property( options.radius, {
-      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'radiusProperty' )
+    this.radiusProperty = new NumberProperty( options.radius, {
+      tandem: options.tandem.createTandem( 'radiusProperty' ),
+      range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
-    this.aspectRatioProperty = new Property( options.aspectRatio, {
-      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'aspectRatioProperty' )
+    this.aspectRatioProperty = new NumberProperty( options.aspectRatio, {
+      tandem: options.tandem.createTandem( 'aspectRatioProperty' ),
+      range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
-    this.pointsPerLoopProperty = new Property( options.pointsPerLoop, {
-      phetioValueType: TNumber( { type: 'Integer', range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'pointsPerLoopProperty' )
+    this.pointsPerLoopProperty = new NumberProperty( options.pointsPerLoop, {
+      tandem: options.tandem.createTandem( 'pointsPerLoopProperty' ),
+      valueType: 'Integer',
+      range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
-    this.lineWidthProperty = new Property( options.lineWidth, {
-      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'lineWidthProperty' )
+    this.lineWidthProperty = new NumberProperty( options.lineWidth, {
+      tandem: options.tandem.createTandem( 'lineWidthProperty' ),
+      range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
-    this.phaseProperty = new Property( options.phase, {
-      phetioValueType: TNumber( { range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'phaseProperty' )
+    this.phaseProperty = new NumberProperty( options.phase, {
+      tandem: options.tandem.createTandem( 'phaseProperty' ),
+      range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
-    this.deltaPhaseProperty = new Property( options.deltaPhase, {
-      phetioValueType: TNumber( { range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'deltaPhaseProperty' )
+    this.deltaPhaseProperty = new NumberProperty( options.deltaPhase, {
+      tandem: options.tandem.createTandem( 'deltaPhaseProperty' ),
+      range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
-    this.xScaleProperty = new Property( options.xScale, {
-      phetioValueType: TNumber( { range: new Range( 0, Number.POSITIVE_INFINITY ) } ),
-      tandem: options.tandem.createTandem( 'xScaleProperty' )
+    this.xScaleProperty = new NumberProperty( options.xScale, {
+      tandem: options.tandem.createTandem( 'xScaleProperty' ),
+      range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
