@@ -57,6 +57,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+
+  // constants
+  var tandem = Tandem.createStaticTandem( 'colorProfile' );
 
   /**
    * @public
@@ -72,6 +79,8 @@ define( function( require ) {
     // The current profile name. Change this Property's value to change which profile is currently active.
     // 'default' will use all default colors, and 'projector' is a common color profile that is also used.
     var profileNameProperty = this.profileNameProperty = new Property( 'default', {
+      tandem: tandem.createTandem( 'profileNameProperty' ),
+      phetioValueType: TString,
       validValues: profileNames
     } );
 
