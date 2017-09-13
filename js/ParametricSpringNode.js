@@ -121,7 +121,7 @@ define( function( require ) {
     } );
     this.xScaleProperty = new NumberProperty( options.xScale, {
       tandem: options.tandem.createTandem( 'xScaleProperty' ),
-      range: new Range( 0, Number.POSITIVE_INFINITY )
+      range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
