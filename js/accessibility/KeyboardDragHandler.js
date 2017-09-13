@@ -6,7 +6,7 @@
  *
  * JavaScript does not natively handle multiple 'keydown' events at once, so we have a custom implementation that
  * tracks which keys are down and for how long in a step() function. To function, this drag handler requires a view step.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -17,7 +17,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Input = require('SCENERY/input/Input' );
+  var Input = require( 'SCENERY/input/Input' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
   /**
@@ -34,7 +34,7 @@ define( function( require ) {
       dragBounds: Bounds2.EVERYTHING, // position will be limited to these bounds
       onDrag: function() {}, // called every drag where the position changes
       startDrag: function( event ) {}, // called at the very start of the drag
-      endDrag: function( event ) {}, // called at the end of the dragging interaction
+      endDrag: function( event ) {} // called at the end of the dragging interaction
     }, options );
 
     // @private - tracks the state of the keyboard, array elements are objects with key-value pairs of keyCode {number},
@@ -111,9 +111,9 @@ define( function( require ) {
     };
 
     // @public (read-only) - reset when the focus is blurred from the node being dragged.
-    this.blur = function(){
+    this.blur = function() {
       self.reset();
-    }
+    };
   }
 
   sceneryPhet.register( 'KeyboardDragHandler', KeyboardDragHandler );
@@ -125,7 +125,7 @@ define( function( require ) {
      * so we need to track the state of the keyboard in an Object and update the position Property in a step
      * function based on the keyboard state object every animation frame.  In order for the drag handler to
      * work, call this function somewhere in ScreenView.step().
-     * 
+     *
      * @public
      */
     step: function( dt ) {
@@ -228,7 +228,7 @@ define( function( require ) {
 
     /**
      * Returns true if any of the keys in the list are currently down.
-     * 
+     *
      * @param  {Array.<number>} keys
      * @return {boolean}
      */
@@ -254,7 +254,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keystate indicates that a key is down that should move the object to the left.
-     * 
+     *
      * @private
      * @return {boolean}
      */
@@ -264,7 +264,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keystate indicates that a key is down that should move the object to the right.
-     * 
+     *
      * @public
      * @return {boolean}
      */
@@ -274,7 +274,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keystate indicatest that a key is down that should move the object up.
-     * 
+     *
      * @public
      * @return {boolean}
      */
@@ -284,7 +284,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keystate indicates that a key is down that should move the upject down.
-     * 
+     *
      * @public
      * @return {boolean}
      */
@@ -294,18 +294,18 @@ define( function( require ) {
 
     /**
      * Returns true if any of the movement keys are down (arrow keys or WASD keys).
-     * 
+     *
      * @return {boolean}
      */
     getMovementKeysDown: function() {
       return this.rightMovementKeysDown() || this.leftMovementKeysDown() ||
-                this.upMovementKeysDown() || this.downMovementKeysDown();
+             this.upMovementKeysDown() || this.downMovementKeysDown();
     },
     get movementKeysDown() { return this.getMovementKeysDown(); },
 
     /**
      * Returns true if the enter key is currently pressed down.
-     * 
+     *
      * @return {boolean}
      */
     enterKeyDown: function() {
@@ -314,7 +314,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keystate indicates that the shift key is currently down.
-     * 
+     *
      * @return {boolean}
      */
     shiftKeyDown: function() {
@@ -335,7 +335,7 @@ define( function( require ) {
 
     /**
      * Get the Bounds2 Object wich constrains the possible Vector2 values of the position Property.
-     * 
+     *
      * @public
      * @return {Bounds2}
      */
@@ -345,9 +345,9 @@ define( function( require ) {
     get dragBounds() { return this.getDragBounds(); },
 
     /**
-     * Add a set of hotkeys that behave such that the desired callback will be called when 
+     * Add a set of hotkeys that behave such that the desired callback will be called when
      * all keys listed in the array are pressed down in order.
-     * 
+     *
      * @param {Object} hotKeyGroup - { keys: [].<number>, callback: function }
      */
     addHotkeyGroup: function( hotkeyGroup ) {
@@ -358,7 +358,7 @@ define( function( require ) {
      * Add mutliple sets of hotkey groups that behave such hat the desired callback will be called
      * when all keys listed in the array are pressed down in order.  Behaves much like addHotkeyGroup,
      * but allows you to add multiple groups at one time.
-     * 
+     *
      * @param {[].<string>} hotKeyGroups
      */
     addHotkeyGroups: function( hotKeyGroups ) {
@@ -369,7 +369,7 @@ define( function( require ) {
 
     /**
      * Reset the keystate Object tracking which keys are currently pressed down.
-     * 
+     *
      * @public
      */
     reset: function() {
@@ -379,7 +379,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keycode corresponds to a key that should move the object to the left.
-     * 
+     *
      * @private
      * @return {boolean}
      */
@@ -389,7 +389,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keycode corresponds to a key that should move the object to the right.
-     * 
+     *
      * @public
      * @return {boolean}
      */
@@ -399,7 +399,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keycode corresponse to a key that should move the object up.
-     * 
+     *
      * @public
      * @return {boolean}
      */
@@ -409,7 +409,7 @@ define( function( require ) {
 
     /**
      * Returns true if the keycode corresponds to a key that should move the upject down.
-     * 
+     *
      * @public
      * @return {boolean}
      */
