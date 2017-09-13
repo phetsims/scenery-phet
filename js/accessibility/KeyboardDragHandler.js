@@ -109,6 +109,11 @@ define( function( require ) {
         options.endDrag( event );
       }
     };
+
+    // @public (read-only) - reset when the focus is blurred from the node being dragged.
+    this.blur = function(){
+      self.reset();
+    }
   }
 
   sceneryPhet.register( 'KeyboardDragHandler', KeyboardDragHandler );
