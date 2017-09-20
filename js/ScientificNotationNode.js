@@ -93,21 +93,24 @@ define( function( require ) {
       }
       else {
         var scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-        if ( scientificNotation.mantissa === 0 && options.showZeroAsInteger ) {
+        var mantissaNumber = Util.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+        var exponentNumber = parseInt( scientificNotation.exponent, 10 );
+
+        if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
           // show '0 x 10^E' as '0'
           this.mantissaNode.text = '0';
           this.removeChild( this.timesTenNode );
           this.removeChild( this.exponentNode );
         }
-        else if ( scientificNotation.exponent === 0 && !options.showZeroExponent ) {
+        else if ( exponentNumber === 0 && !options.showZeroExponent ) {
           // show 'M x 10^0' as 'M'
-          this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+          this.mantissaNode.text = scientificNotation.mantissa;
           this.removeChild( this.timesTenNode );
           this.removeChild( this.exponentNode );
         }
         else {
           // show 'M x 10^E'
-          this.mantissaNode.text = Util.toFixed( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+          this.mantissaNode.text = scientificNotation.mantissa;
           this.timesTenNode.text = 'x 10';
           this.exponentNode.text = scientificNotation.exponent;
         }
@@ -126,7 +129,7 @@ define( function( require ) {
      * @static
      * @param {number} value the number to be formatted
      * @param {Object} [options]
-     * @returns {mantissa:{number}, exponent:{number}}
+     * @returns {mantissa:{string}, exponent:{string}}
      */
     toScientificNotation: function( value, options ) {
 
@@ -163,6 +166,10 @@ define( function( require ) {
           exponent = options.exponent;
         }
       }
+
+      // restore precision in case toFixedNumber removed zeros to right of decimal
+      mantissa = Util.toFixed( mantissa, options.mantissaDecimalPlaces );
+      exponent = exponent.toString();
 
       // mantissa x 10^exponent
       return { mantissa: mantissa, exponent: exponent };
