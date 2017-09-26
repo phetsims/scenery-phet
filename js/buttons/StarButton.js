@@ -26,7 +26,7 @@ define( function( require ) {
 
     options = _.extend( {
       xMargin: 8.134152255572697, //Match the size of the star button to the refresh buttons, since they often appear together.  see https://github.com/phetsims/scenery-phet/issues/44
-      baseColor: PhetColorScheme.PHET_LOGO_YELLOW
+      baseColor: PhetColorScheme.BUTTON_YELLOW
     }, options );
 
     RectangularPushButton.call( this, _.extend( { content: new Path( new StarShape(), { fill: 'black' } ) }, options ) );

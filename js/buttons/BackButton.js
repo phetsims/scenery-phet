@@ -33,8 +33,7 @@ define( function( require ) {
       xMargin: 8,
       yMargin: 10.9,
 
-      // Default base code matches the yellow in the PhET logo (the one with the paper airplane).
-      baseColor: PhetColorScheme.PHET_LOGO_YELLOW
+      baseColor: PhetColorScheme.BUTTON_YELLOW
 
     }, options );
 

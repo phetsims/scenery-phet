@@ -25,7 +25,7 @@ define( function( require ) {
   function EraserButton( options ) {
 
     options = _.extend( {
-      baseColor: PhetColorScheme.PHET_LOGO_YELLOW,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
     }, options );
 

@@ -53,7 +53,7 @@ define( function( require ) {
     soundOffNode.addChild( soundOffX );
 
     BooleanRectangularToggleButton.call( this, soundOnNode, soundOffNode, property, _.extend( {
-      baseColor: PhetColorScheme.PHET_LOGO_YELLOW,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
