@@ -30,6 +30,7 @@ define( function( require ) {
   var PhetColorScheme = {
     ACCELERATION: Color.GREEN,
     APPLIED_FORCE: TAN_ORANGE,
+    BUTTON_YELLOW: PHET_LOGO_YELLOW,
     ELASTIC_ENERGY: new Color( 153, 51, 102 ),
     FRICTION_FORCE: RED_COLORBLIND,
     GRAVITATIONAL_FORCE: new Color( 50, 130, 215 ),
