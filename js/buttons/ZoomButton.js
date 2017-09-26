@@ -15,6 +15,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var MinusNode = require( 'SCENERY_PHET/MinusNode' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -29,7 +30,7 @@ define( function( require ) {
     options = _.extend( {
       in: true, // true: zoom-in button, false: zoom-out button
       radius: 15,
-      baseColor: 'rgb(255,200,0)',
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       magnifyingGlassFill: 'white', // center of the glass
       magnifyingGlassStroke: 'black', // rim and handle
       tandem: Tandem.tandemRequired()
