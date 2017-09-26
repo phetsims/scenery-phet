@@ -64,9 +64,6 @@ define( function( require ) {
       accessibleLabel: SceneryPhetA11yStrings.soundToggleLabelString
     }, options ) );
 
-    // dilate the focus highlight bounds to give the button some space
-    this.focusHighlight = new Shape.bounds( this.localBounds.dilated( 5 ) );
-
     var self = this;
 
     // accessibility input listener - must be removed in dispose
