@@ -16,8 +16,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * Constructor.
@@ -44,12 +44,12 @@ define( function( require ) {
       maxKeyHeight: 32,
 
       // text options
-      font: new PhetFont( 10 ),
+      font: new PhetFont( { size: 10, weight: 'bold' } ),
       fill: 'black'
 
     }, options );
 
-    var textNode = new Text( string, { font: options.font, fill: options.fill } );
+    var textNode = new RichText( string, { font: options.font, fill: options.fill } );
     KeyNode.call( this, textNode, options );
   }
 

@@ -36,10 +36,10 @@
     "value": "Fn"
   },
   "pageUp": {
-    "value": "Page Up"
+    "value": "Page<br>Up"
   },
   "pageDown": {
-    "value": "Page Down"
+    "value": "Page<br>Down"
   },
   "home": {
     "value": "Home"
