@@ -14,11 +14,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Input = require( 'SCENERY/input/Input' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Input = require( 'SCENERY/input/Input' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
