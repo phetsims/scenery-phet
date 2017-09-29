@@ -175,16 +175,6 @@ define( function( require ) {
     this.startedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
     this.endedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
 
-    this.startedCallbacksForDragStartedEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForDragStartedEmitter = new Emitter( { indicateCallbacks: false } );
-
-    this.startedCallbacksForDragEndedEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForDragEndedEmitter = new Emitter( { indicateCallbacks: false } );
-
-    this.startedCallbacksForDraggedEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForDraggedEmitter = new Emitter( { indicateCallbacks: false } );
-
-
     // x-offset relative to left edge of bodyNode
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
