@@ -37,6 +37,8 @@ define( function( require ) {
    */
   function ResetAllButton( options ) {
 
+    var self = this;
+
     options = _.extend( {
       radius: RESET_ALL_BUTTON_RADIUS,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
@@ -63,7 +65,7 @@ define( function( require ) {
     var disableAlertsListener = function() {
       UtteranceQueue.enabled = false;
     };
-    this.buttonModel.startedCallbacksForFiredEmitter.addListener( disableAlertsListener );
+    this.buttonModel.startedFireEmitter.addListener( disableAlertsListener );
 
     // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
     // was reset
@@ -71,15 +73,15 @@ define( function( require ) {
 
       UtteranceQueue.enabled = true;
       UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
-          typeId: 'resetAllButtonAlert'
+        typeId: 'resetAllButtonAlert'
       } ) );
     };
-    this.buttonModel.endedCallbacksForFiredEmitter.addListener( enableAlertsListener );
+    this.buttonModel.endedFireEmitter.addListener( enableAlertsListener );
 
     // @private
     this.disposeResetAllButton = function() {
-      self.buttonModel.startedCallbacksForFiredEmitter.removeListener( disableAlertsListener );
-      self.buttonModel.endedCallbacksForFiredEmitter.removeListener( enableAlertsListener );
+      self.buttonModel.startedFireEmitter.removeListener( disableAlertsListener );
+      self.buttonModel.endedFireEmitter.removeListener( enableAlertsListener );
     };
 
     this.mutate( {
