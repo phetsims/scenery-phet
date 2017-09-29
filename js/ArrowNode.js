@@ -41,7 +41,7 @@ define( function( require ) {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemOptional()
     }, options );
     this.options = options; // @private
 
