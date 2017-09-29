@@ -11,8 +11,8 @@ define( function( require ) {
 
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -33,20 +33,16 @@ define( function( require ) {
 
     Plane.call( this );
 
-    // @private
-    this.startedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
-
     modalNodeStack.lengthProperty.link( function( numBarriers ) {
       self.visible = numBarriers > 0;
     } );
 
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        self.startedCallbacksForFiredEmitter.emit();
+        var id = phetioEvents.start( 'user', options.tandem.id, TBarrierRectangle, 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
-        self.endedCallbacksForFiredEmitter.emit();
+        phetioEvents.end( id );
       }
     } ) );
 
