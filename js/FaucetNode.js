@@ -26,11 +26,11 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Emitter = require( 'AXON/Emitter' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -88,7 +88,7 @@ define( function( require ) {
       phetioType: TFaucetNode
     }, options );
 
-    assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
+    assert && assert( (1000 * options.tapToDispenseAmount / options.tapToDispenseInterval) <= maxFlowRate );
 
     var self = this;
     Node.call( self );
@@ -107,7 +107,7 @@ define( function( require ) {
 
     // vertical pipe
     var verticalPipeNode = new Image( verticalPipeImage );
-    var verticalPipeNodeHeight = options.verticalPipeLength + ( 2 * VERTICAL_PIPE_Y_OVERLAP );
+    var verticalPipeNodeHeight = options.verticalPipeLength + (2 * VERTICAL_PIPE_Y_OVERLAP);
     assert && assert( verticalPipeNodeHeight > 0 );
     verticalPipeNode.setScaleMagnitude( 1, verticalPipeNodeHeight / verticalPipeNode.height );
 
@@ -169,12 +169,6 @@ define( function( require ) {
       shooterNode.centerY = trackNode.top + SHOOTER_Y_OFFSET;
     }
 
-    this.startedCallbacksForStartTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForStartTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
-
-    this.startedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForEndTapToDispenseEmitter = new Emitter( { indicateCallbacks: false } );
-
     // x-offset relative to left edge of bodyNode
     var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
@@ -185,8 +179,8 @@ define( function( require ) {
     var intervalID = null;
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
-        var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        self.startedCallbacksForStartTapToDispenseEmitter.emit1( flowRate );
+        var flowRate = (options.tapToDispenseAmount / options.tapToDispenseInterval) * 1000;
+        var id = phetioEvents.start( 'model', options.tandem.id, TFaucetNode, 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -195,11 +189,11 @@ define( function( require ) {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
-        self.endedCallbacksForStartTapToDispenseEmitter.emit();
+        phetioEvents.end( id );
       }
     };
     var endTapToDispense = function() {
-      self.startedCallbacksForEndTapToDispenseEmitter.emit1( 0 );
+      var id = phetioEvents.start( 'model', options.tandem.id, TFaucetNode, 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -210,7 +204,7 @@ define( function( require ) {
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
-      self.endedCallbacksForEndTapToDispenseEmitter.emit();
+      phetioEvents.end( id );
     };
 
     var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
@@ -251,7 +245,7 @@ define( function( require ) {
 
           if ( tapToDispenseIsArmed ) {
             // tapping toggles the tap-to-dispense state
-            ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
+            (tapToDispenseIsRunning || flowRateProperty.get() !== 0) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
 
