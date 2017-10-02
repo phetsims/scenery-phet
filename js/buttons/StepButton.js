@@ -79,8 +79,8 @@ define( function( require ) {
       var playingObserver = function( playing ) { 
         self.enabled = !playing; 
 
-        // a11y
-        self.focusable = !playing;
+        // a11y note: we do not alter the focusability of such buttons. They should always be in the accessible
+        // order.
       };
       options.playingProperty.link( playingObserver );
     }
