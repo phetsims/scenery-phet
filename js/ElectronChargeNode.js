@@ -25,11 +25,18 @@ define( function( require ) {
   function ElectronChargeNode( options ) {
 
     // No options supported yet
-    options = _.extend( {}, options );
+    options = _.extend( {
+
+      // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
+      sphereOpacity: 1,
+      minusSignOpacity: 1
+
+    }, options );
     options.children = [
 
       // The blue shaded sphere
       new Circle( RADIUS, {
+        opacity: options.sphereOpacity,
         fill: new RadialGradient(
           2, -3, 2,
           2, -3, 7 )
@@ -40,6 +47,7 @@ define( function( require ) {
 
       // Minus sign, intentionally not internationalized
       new Rectangle( 0, 0, 11, 2, {
+        opacity: options.minusSignOpacity,
         fill: 'white',
         centerX: 0,
         centerY: 0
