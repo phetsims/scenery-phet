@@ -532,6 +532,10 @@ define( function( require ) {
 
     return new MeasuringTapeNode( measuringTapeUnitsProperty, new Property( true ), {
       textColor: 'black',
+      textBackgroundColor: 'rgba( 255, 0, 0, 0.1 )', // translucent red
+      textBackgroundXMargin: 10,
+      textBackgroundYMargin: 3,
+      textBackgroundCornerRadius: 5,
       dragBounds: layoutBounds,
       basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
       tipPositionProperty: new Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
