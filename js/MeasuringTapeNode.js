@@ -27,13 +27,14 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
@@ -70,6 +71,10 @@ define( function( require ) {
       modelViewTransform: ModelViewTransform2.createIdentity(),
       significantFigures: 1, // number of significant figures in the length measurement
       textColor: 'white', // color of the length measurement and unit
+      textBackgroundColor: null, // {Color|string|null} fill color of the text background
+      textBackgroundXMargin: 4,
+      textBackgroundYMargin: 2,
+      textBackgroundCornerRadius: 2,
       textFont: new PhetFont( { size: 16, weight: 'bold' } ), // font for the measurement text
       baseScale: 0.8, // control the size of the measuring tape Image (the base)
       lineColor: 'gray', // color of the tapeline itself
@@ -116,6 +121,7 @@ define( function( require ) {
 
     var tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
+    // @private
     this.baseImage = new Image( measuringTapeImage, {
       scale: options.baseScale,
       cursor: 'pointer'
@@ -130,12 +136,27 @@ define( function( require ) {
     // add tipCrosshair and tipCircle to the tip
     var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
-    // create text
-    // @public
-    this.labelText = new Text( self.getText(), {
+    // @private
+    this.valueNode = new Text( self.getText(), {
       font: options.textFont,
       fill: options.textColor
     } );
+
+    // @private
+    this.valueBackgroundNode = new Rectangle( 0, 0, 1, 1, {
+      cornerRadius: options.textBackgroundCornerRadius,
+      fill: options.textBackgroundColor
+    } );
+
+    // Resizes the value background and centers it on the value
+    var updateValueBackgroundNode = function() {
+      var valueBackgroundWidth = self.valueNode.width + ( 2 * options.textBackgroundXMargin );
+      var valueBackgroundHeight = self.valueNode.height + ( 2 * options.textBackgroundYMargin );
+      self.valueBackgroundNode.setRect( 0, 0, valueBackgroundWidth, valueBackgroundHeight );
+      self.valueBackgroundNode.center = self.valueNode.center;
+    };
+    this.valueNode.on( 'bounds', updateValueBackgroundNode );
+    updateValueBackgroundNode();
 
     // expand the area for touch
     tip.touchArea = tip.localBounds.dilated( 15 );
@@ -146,7 +167,8 @@ define( function( require ) {
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
     this.addChild( this.baseImage ); // base of the measuring tape
     if ( options.hasValue ) {
-      this.addChild( this.labelText ); // text
+      this.addChild( this.valueBackgroundNode );
+      this.addChild( this.valueNode );
     }
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
@@ -231,7 +253,7 @@ define( function( require ) {
     } ) );
 
     /**
-     * Update the scenery nodes of the measuring tape such as crosshair, tip, labelText, tapeLine, baseImage
+     * Update the scenery nodes of the measuring tape such as crosshair, tip, valueNode, tapeLine, baseImage
      * based on the position of the base and tip of the measuring tape
      * @param {Vector2} basePosition
      * @param {Vector2} tipPosition
@@ -258,8 +280,8 @@ define( function( require ) {
 
       // reset the text
       self.tipToBaseDistance = tipPosition.distance( basePosition );
-      self.labelText.setText( self.getText() );
-      self.labelText.centerTop = self.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
+      self.valueNode.setText( self.getText() );
+      self.valueNode.centerTop = self.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
 
       // reposition the tapeline
       tapeLine.setLine( viewBasePosition.x, viewBasePosition.y, viewTipPosition.x, viewTipPosition.y );
@@ -284,9 +306,9 @@ define( function( require ) {
     };
     this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
 
-    // @private set Text on on labelText
+    // @private set Text on on valueNode
     this.unitsPropertyObserver = function() {
-      self.labelText.setText( self.getText() );
+      self.valueNode.setText( self.getText() );
     };
     // link change of units to the text
     this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
@@ -329,10 +351,19 @@ define( function( require ) {
     /**
      * Sets the color of the text label
      * @public
-     * @param {string||Color} color
+     * @param {Color|string|null} color
      */
     setTextColor: function( color ) {
-      this.labelText.fill = color;
+      this.valueNode.fill = color;
+    },
+
+    /**
+     * Sets the color of the text background
+     * @param {Color|string|null} color
+     * @public
+     */
+    setTextBackgroundColor: function( color ) {
+      this.valueBackgroundNode.fill = color;
     },
 
     /**
@@ -341,7 +372,7 @@ define( function( require ) {
      * @param {boolean} visible
      */
     setTextVisibility: function( visible ) {
-      this.labelText.visible = visible;
+      this.valueNode.visible = visible;
     },
 
     /**
@@ -457,7 +488,7 @@ define( function( require ) {
 
     // @public ES5 getter and setter for the textColor
     set textColor( value ) { this.setTextColor( value ); },
-    get textColor() { return this.labelText.fill; },
+    get textColor() { return this.valueNode.fill; },
 
     // @public ES5 getter and setter for the modelViewTransform
     set modelViewTransform( modelViewTransform ) { this._modelViewTransform = modelViewTransform; },
