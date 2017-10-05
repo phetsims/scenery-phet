@@ -73,12 +73,14 @@ define( function( require ) {
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
     this.keydown = function( event ) {
 
+      // required to work with Safari and VoiceOver, otherwise arrow keys will move virtual cursor
+      if ( Input.isArrowKey( event.keyCode ) ) {
+        event.preventDefault();
+      }
+
       // if the key is already down, don't do anything else (we don't want to create a new keystate object
       // for a key that is already being tracked and down, nor call startDrag every keydown event)
       if ( self.keyInListDown( [ event.keyCode ] ) ) { return; }
-
-      // required to work with Safari and VoiceOver, otherwise arrow keys will move virtual cursor
-      if ( Input.isArrowKey( event.keyCode ) ) { event.preventDefault(); }
 
       // update the key state
       self.keyState.push( {
