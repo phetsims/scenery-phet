@@ -1,10 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a keyboard key with text that is generally more than a
- * single character.  By default, a key node with text is more rectangular than
- * a letter key, and the text content is aligned in the left top corner by
- * default.
+ * Node that looks like a keyboard key with text that is generally more than a single character. By default, a key
+ * node with text is more rectangular than a letter key, and the key compactly surrounds the text content.
  * 
  * @author Jesse Greenberg
  */
@@ -31,25 +29,26 @@ define( function( require ) {
     options = _.extend( {
 
       // keynode options
-      xAlign: 'left',
-      yAlign: 'top',
+      xAlign: 'center',
+      yAlign: 'center',
 
-      xMargin: 5,
-      yMargin: 5,
-
-      minKeyWidth: 42,
-      maxKeyWidth: 42,
-
-      minKeyHeight: 32, // smaller than width to appear rectangular
-      maxKeyHeight: 32,
+      xShadowOffset: 1.5,
+      yShadowOffset: 1.5,
 
       // text options
-      font: new PhetFont( { size: 10, weight: 'bold' } ),
-      fill: 'black'
+      font: new PhetFont( { size: 12 } ),
+      fill: 'black',
+      textMaxWidth: 50
 
     }, options );
 
-    var textNode = new RichText( string, { font: options.font, fill: options.fill } );
+    // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
+    var textNode = new RichText( string, { font: options.font, fill: options.fill, maxWidth: options.textMaxWidth } );
+
+    // by default, key should tightly surround the text, with a bit more horizontal space
+    options.minKeyWidth = options.minKeyWidth || textNode.width + 8;
+    options.minKeyHeight = options.minKeyHeight || textNode.height + 2;
+
     KeyNode.call( this, textNode, options );
   }
 

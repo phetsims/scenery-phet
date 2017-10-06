@@ -19,6 +19,8 @@ define( function( require ) {
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;
   var DEFAULT_ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for equilateral triangle
+  var DEFAULT_MIN_KEY_WIDTH = 30;
+  var DEFAULT_MIN_KEY_HEIGHT = 30;
 
   // possible directions for the arrows in the key
   var DIRECTION_ANGLES = {
@@ -46,6 +48,11 @@ define( function( require ) {
       arrowLineWidth: 3,
       arrowHeight: DEFAULT_ARROW_HEIGHT,
       arrowWidth: DEFAULT_ARROW_WIDTH,
+
+      // KeyNode options
+      minKeyWidth: DEFAULT_MIN_KEY_WIDTH,
+      minKeyHeight: DEFAULT_MIN_KEY_HEIGHT,
+      xAlign: 'center'
     }, options );
 
     var arrowHeight = options.arrowHeight;

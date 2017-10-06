@@ -1,10 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * A node that looks like a keyboard key.  Has a shadow rectangle under the key
- * icon with a slight offset so that it has a 3D appearance.  KeyNodes are primarily
- * used for accessibility to provide extra information about keyboard navigation and
- * functionality, but an icon could be used for any purpose.
+ * A node that looks like a keyboard key.  Has a shadow rectangle under the key icon with a slight offset so that it
+ * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard
+ * navigation and functionality, but an icon could be used for any purpose.
  * 
  * @author Jesse Greenberg
  */
@@ -21,15 +20,14 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  // default options for the KeyNode, all widths, offsets, and height values are
-  // in the ScreenView coordinate frame
+  // default options for the KeyNode, all widths, offsets, and height values are in the ScreenView coordinate frame
   var DEFAULT_OPTIONS = {
 
     // color and styling
     keyFill: 'white',
     keyShadowFill: 'black',
     lineWidth: 1, // line width for the key icon
-    cornerRadius: 3, // corner radius applied to the key and its shadow
+    cornerRadius: 2, // corner radius applied to the key and its shadow
 
     // offset for the shadow rectangle relative to the top left corner of the key
     xShadowOffset: 2,
@@ -43,13 +41,9 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
-    // by default the max and min widths are the same so that the icon size does not
-    // change the size of the key
-    minKeyWidth: 32, // minimum width of the key
-    minKeyHeight: 32, // min height of the key
-
-    maxKeyWidth: 32, // max width of the key, will apply scaling to the icon
-    maxKeyHeight: 32 // max height of key, will apply scaling to the icon 
+    // key will be at least this wide/tall, making it possible to surround the icon with extra space if necessary
+    minKeyWidth: 0,
+    minKeyHeight: 0 
   };
 
   /**
@@ -60,23 +54,19 @@ define( function( require ) {
   function KeyNode( keyIcon, options ) {
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
-    assert && assert( options.minKeyWidth <= options.maxKeyWidth, 'max key width must be greater than min key width' );
-    assert && assert( options.minKeyHeight <= options.maxKeyHeight, 'max key height must be greater than min key height' );
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
-    // i18n, and to make sure the icon is completely within the key
-    keyIcon.maxWidth = options.maxKeyWidth - 2 * options.xMargin;
-    keyIcon.maxHeight = options.maxKeyHeight - 2 * options.yMargin;    
+    var minKeyWidth = Math.max( options.minKeyWidth, keyIcon.width );
+    var minKeyHeight = Math.max( options.minKeyHeight, keyIcon.height );
 
-    // place content in an align box so that the key surrounding the icon has minimum bounds
+    // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
+    // with support for margins
     var content = new AlignBox( keyIcon, {
-      alignBounds: new Bounds2( 0, 0, options.minKeyWidth, options.minKeyHeight ),
-      xMargin: options.xMargin,
-      yMargin: options.yMargin,
-      xAlign: options.xAlign, 
+      alignBounds: new Bounds2( 0, 0, minKeyWidth, minKeyHeight ),
+      xAlign: options.xAlign,
       yAlign: options.yAlign,
-      maxWidth: options.maxKeyWidth,
-      maxHeight: options.maxKeyHeight
+      xMargin: options.xMargin,
+      yMargin: options.yMargin
     } );
 
     // children of the icon node, including the background shadow, foreground key, and content icon
