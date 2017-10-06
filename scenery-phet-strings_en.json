@@ -36,10 +36,10 @@
     "value": "Fn"
   },
   "pageUp": {
-    "value": "Page<br>Up"
+    "value": "Pg Up"
   },
   "pageDown": {
-    "value": "Page<br>Down"
+    "value": "Pg Down"
   },
   "home": {
     "value": "Home"
@@ -69,5 +69,38 @@
   "SoundToggleButton.name": {
     "value": "Toggle Sound",
     "visible": false
+  },
+  "sliderControls": {
+    "value": "Slider Controls"
+  },
+  "moveSliders": {
+    "value": "Move sliders:"
+  },
+  "moveInSmallerSteps": {
+    "value": "Move in smaller steps:"
+  },
+  "moveInLargerSteps": {
+    "value": "Move in larger steps:"
+  },
+  "moveToMinimumValue": {
+    "value": "Move to minimum value:"
+  },
+  "moveToMaximumValue": {
+    "value": "Move to maximum value:"
+  },
+  "generalNavigation": {
+    "value": "General Navigation"
+  },
+  "moveToNextItem": {
+    "value": "Move to next item:"
+  },
+  "moveToPreviousItem": {
+    "value": "Move to previous item:"
+  },
+  "exitADialog": {
+    "value": "Exit a dialog:"
+  },
+  "or": {
+    "value": "or"
   }
 }
