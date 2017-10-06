@@ -1,9 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a 'Home' key on a keyboard.  By default, the Home key is
- * square, and the text content is aligned
- * in the left top corner.
+ * Node that looks like a 'Home' key on a keyboard.
  * 
  * @author Michael Barlow
  */
@@ -16,7 +14,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
-  // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
+  // strings
   var homeString = require( 'string!SCENERY_PHET/home' );
 
   /**
@@ -25,12 +23,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function HomeKeyNode( options ) {
-
-    // options = _.extend( {
-    //   minKeyWidth: 75, // in ScreenView coordinates, function key is usually longer than other keys
-    //   maxKeyWidth: 75,
-    // }, options );
-
     TextKeyNode.call( this, homeString, options );
   }
 

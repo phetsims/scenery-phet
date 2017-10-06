@@ -1,9 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a 'Enter' key on a keyboard.  By default, the Enter key is
- * more rectangular than a letter key, and the text content is aligned
- * in the right top corner.
+ * Node that looks like a 'Enter' key on a keyboard.
  * 
  * @author Jesse Greenberg
  */
@@ -25,15 +23,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function EnterKeyNode( options ) {
-
-    options = _.extend( {
-      minKeyWidth: 62, // in ScreenView coordinates
-      maxKeyWidth: 62,
-
-      xAlign: 'right',
-      yAlign: 'top'
-    }, options );
-
     TextKeyNode.call( this, enterString, options );
   }
 

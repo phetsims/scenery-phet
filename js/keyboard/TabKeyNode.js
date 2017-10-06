@@ -1,9 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a 'Tab' key on a keyboard.  By default, the tab key is
- * more rectangular than a letter key, and the text content is aligned
- * in the left top corner.
+ * Node that looks like a 'Tab' key on a keyboard.
  * 
  * @author Jesse Greenberg
  */
@@ -25,12 +23,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function TabKeyNode( options ) {
-
-    options = _.extend( {
-      minKeyWidth: 50, // in the ScreenView coordinate frame, tab key is usually wider than other keys
-      maxKeyWidth: 50
-    }, options );
-
     TextKeyNode.call( this, tabString, options );
   }
 

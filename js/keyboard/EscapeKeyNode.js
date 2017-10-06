@@ -1,8 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like an 'Esc' key on a keyboard.  By default the escape key
- * is a square key, and the text content is aligned in the center.
+ * Node that looks like an 'Esc' key on a keyboard.
  * 
  * @author Jesse Greenberg
  */
@@ -24,13 +23,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function EscapeKeyNode( options ) {
-
-    options = _.extend( {
-      xAlign: 'center',
-      yAlign: 'center',
-      minKeyWidth: 32,
-      maxKeyWidth: 32
-    }, options );
     TextKeyNode.call( this, escString, options );
   }
 
