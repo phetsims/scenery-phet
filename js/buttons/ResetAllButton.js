@@ -65,7 +65,6 @@ define( function( require ) {
     var disableAlertsListener = function() {
       UtteranceQueue.enabled = false;
     };
-    this.buttonModel.startedFireEmitter.addListener( disableAlertsListener );
 
     // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
     // was reset
@@ -76,7 +75,10 @@ define( function( require ) {
         typeId: 'resetAllButtonAlert'
       } ) );
     };
-    this.buttonModel.endedFireEmitter.addListener( enableAlertsListener );
+    this.buttonModel.isFiringProperty.link( function( isFiring ) {
+      isFiring && disableAlertsListener();
+      !isFiring && enableAlertsListener();
+    } );
 
     // @private
     this.disposeResetAllButton = function() {
