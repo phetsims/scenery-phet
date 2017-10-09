@@ -18,7 +18,6 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TResetAllButton = require( 'SUN/buttons/TResetAllButton' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
@@ -44,7 +43,6 @@ define( function( require ) {
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
       tandem: Tandem.tandemRequired(),
-      phetioType: TResetAllButton,
 
       // a11y
       tagName: 'input',
@@ -61,34 +59,23 @@ define( function( require ) {
     this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
-    // while many Properties are reset
-    var disableAlertsListener = function() {
-      UtteranceQueue.enabled = false;
-    };
+    // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
+    // alert that everything was reset.
+    this.buttonModel.isFiringProperty.lazyLink( function( isFiring ) {
+      UtteranceQueue.enabled = !isFiring;
 
-    // a11y - when callbacks are ended for reset all, enable alerts again and announce an alert that everything
-    // was reset
-    var enableAlertsListener = function() {
-
-      UtteranceQueue.enabled = true;
-      UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
+      !isFiring  && UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
         typeId: 'resetAllButtonAlert'
       } ) );
-    };
-    this.buttonModel.isFiringProperty.link( function( isFiring ) {
-      isFiring && disableAlertsListener();
-      !isFiring && enableAlertsListener();
     } );
 
     // @private
     this.disposeResetAllButton = function() {
-      self.buttonModel.startedFireEmitter.removeListener( disableAlertsListener );
-      self.buttonModel.endedFireEmitter.removeListener( enableAlertsListener );
+      self.buttonModel.isFiringProperty.unlinkAll();
     };
 
     this.mutate( {
       tandem: tandem,
-      phetioType: options.phetioValueType
     } );
   }
 
