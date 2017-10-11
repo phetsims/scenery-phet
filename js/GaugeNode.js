@@ -47,12 +47,12 @@ define( function( require ) {
 
       // 8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
       // The ticks are duplicated for the right side, and one tick appears in the middle at the top
-      numTicks: ( 8 + 2 ) * 2 + 1,
+      numTicks: (8 + 2) * 2 + 1,
 
       majorTickLength: 10,
       minorTickLength: 5,
       majorTickLineWidth: 2,
-      minorTickLineWidth: 1, 
+      minorTickLineWidth: 1,
 
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
@@ -71,12 +71,10 @@ define( function( require ) {
     var foregroundNode = new Node( { pickable: false, tandem: tandem.createTandem( 'foregroundNode' ) } );
     this.addChild( foregroundNode );
 
-    var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ),
-      {
-        stroke: 'red',
-        lineWidth: 3,
-        tandem: tandem.createTandem( 'needle' )
-      } );
+    var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ), {
+      stroke: 'red',
+      lineWidth: 3
+    } );
     foregroundNode.addChild( needle );
 
     var labelNode = new Text( label, {
@@ -100,7 +98,7 @@ define( function( require ) {
 
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
-        if ( typeof( valueProperty.get() ) === 'number' ) {
+        if ( typeof(valueProperty.get()) === 'number' ) {
           needle.visible = true;
           var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
 
