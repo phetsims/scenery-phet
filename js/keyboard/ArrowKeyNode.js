@@ -18,7 +18,7 @@ define( function( require ) {
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;
-  var DEFAULT_ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for equilateral triangle
+  var DEFAULT_ARROW_WIDTH = 0.6 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for an isosceles triangle
   var DEFAULT_MIN_KEY_WIDTH = 30;
   var DEFAULT_MIN_KEY_HEIGHT = 30;
 
