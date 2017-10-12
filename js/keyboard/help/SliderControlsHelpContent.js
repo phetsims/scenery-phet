@@ -14,6 +14,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
@@ -80,8 +81,11 @@ define( function( require ) {
     var moveInLargerStepsText = new RichText( moveInLargerStepsString, DEFAULT_LABEL_OPTIONS );
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
-    var pageUpOrPageDownIcon = HelpContent.iconOrIcon( pageUpKeyNode, pageDownKeyNode );
-    var moveInLargerStepsRow = HelpContent.labelWithIcon( moveInLargerStepsText, pageUpOrPageDownIcon );
+    var pageUpPageDownIcon = new HBox( {
+      children: [ pageUpKeyNode, pageDownKeyNode ],
+      spacing: HelpContent.DEFAULT_ICON_SPACING
+    } );
+    var moveInLargerStepsRow = HelpContent.labelWithIcon( moveInLargerStepsText, pageUpPageDownIcon );
 
     // 'move to minimum value' content
     var moveToMinimumValueText = new RichText( moveToMinimumValueString, DEFAULT_LABEL_OPTIONS );
