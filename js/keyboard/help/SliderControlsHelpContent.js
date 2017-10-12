@@ -48,20 +48,33 @@ define( function( require ) {
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
     }, options );
 
-    // 'adjust the sliders' content
+    // 'Move sliders' content
     var moveSlidersText = new RichText( moveSlidersString, DEFAULT_LABEL_OPTIONS );
-    var moveSlidersIcon = HelpContent.arrowKeysRowIcon( {
+    var moveSlidersLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
       scale: options.arrowKeysScale
     } );
+    var moveSlidersUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
+      scale: options.arrowKeysScale
+    } );
+    var moveSlidersIcon = HelpContent.iconOrIcon( moveSlidersLeftRightIcon, moveSlidersUpDownIcon );
     var moveSlidersRow = HelpContent.labelWithIcon( moveSlidersText, moveSlidersIcon );
 
     // 'move in smaller steps' content
     var moveInSmallerStepsText = new RichText( moveInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
-    var smallStepsArrowsIcon = HelpContent.arrowKeysRowIcon( {
+    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
       scale: options.arrowKeysScale
     } );
-    var shiftPlusArrowsIcon = HelpContent.shiftPlusIcon( smallStepsArrowsIcon );
-    var moveSlidersInSmallerStepsRow = HelpContent.labelWithIcon( moveInSmallerStepsText, shiftPlusArrowsIcon );
+    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
+      scale: options.arrowKeysScale
+    } );
+
+    var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
+    var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
+
+    var moveSlidersInSmallerStepsRow = HelpContent.labelWithIconList( moveInSmallerStepsText, [
+      shiftPlusLeftRightIcon,
+      shiftPlusUpDownIcon
+    ] );
 
     // 'move in larger steps' content
     var moveInLargerStepsText = new RichText( moveInLargerStepsString, DEFAULT_LABEL_OPTIONS );

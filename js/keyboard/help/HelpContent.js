@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -106,6 +107,58 @@ define( function( require ) {
     },
 
     /**
+     * Horizontally aligned label with a list of icons.  The icons will be vertically aligned, each separated by 'or'
+     * text.The label will be vertically centered with the first item in the list of icons.  The result will look like
+     *
+     * This is the label: Icon1 or
+     *                    Icon2 or
+     *                    Icon3
+     *
+     * @param {Node} label - label for the icon, usually Text or RichText
+     * @param {Node[]} icons
+     *
+     * @return {HBox}
+     */
+    labelWithIconList: function( label, icons ) {
+
+      // Use align group to horizontally align the label with the first item in the list of icons, guarantees
+      // that the label and first icon have identical heights
+      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );      
+      labelIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
+      var labelBox = labelIconGroup.createBox( label );
+
+      // for each of the icons (excluding the last one,  add a vertically aligned 'or' text to the right
+      var iconsWithOrText = [];
+      for ( var i = 0; i < icons.length - 1; i++ ) {
+        var orText = new Text( orString, {
+          font: DEFAULT_LABEL_FONT,
+          maxWidth: DEFAULT_TEXT_MAX_WIDTH / 10
+        } );
+
+        // place orText with the icon in an HBox
+        iconsWithOrText.push( new HBox( {
+          children: [ icons[ i ], orText ],
+          spacing: DEFAULT_ICON_SPACING
+        } ) );
+      }
+      iconsWithOrText.push( icons[ icons.length - 1 ] );
+
+      // place icons in a VBox
+      var iconsVBox = new VBox( {
+        children: iconsWithOrText,
+        spacing: DEFAULT_ICON_SPACING,
+        align: 'left'
+      } );
+
+      var content = new HBox( {
+        children: [ labelBox, iconsVBox ],
+        align: 'top',
+        spacing: DEFAULT_LABEL_ICON_SPACING
+      } );
+      return content;
+    },
+
+    /**
      * Get horizontally aligned arrow keys, all in a row including left, up, down, and right arrow keys in that order.
      *
      * @param {Object} options
@@ -124,6 +177,44 @@ define( function( require ) {
       var rightArowKeyNode = new ArrowKeyNode( 'right' );
 
       options.children = [ leftArrowKeyNode, upArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
+      return new HBox( options );
+    },
+
+    /**
+     * An icon containing icons for the up and down arrow keys aligned horizontally.
+     *
+     * @param {Object} options
+     * @return {HBox}
+     */
+    upDownArrowKeysRowIcon: function( options ) {
+      options = _.extend( {
+        spacing: 2,
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      var upArrowKeyNode = new ArrowKeyNode( 'up' );
+      var downArrowKeyNode = new ArrowKeyNode( 'down' );
+
+      options.children = [ upArrowKeyNode, downArrowKeyNode ];
+      return new HBox( options );
+    },
+
+    /**
+     * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
+     *
+     * @param {Object} options
+     * @return {HBox}
+     */
+    leftRightArrowKeysRowIcon: function( options ) {
+      options = _.extend( {
+        spacing: 2,
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      var upArrowKeyNode = new ArrowKeyNode( 'left' );
+      var downArrowKeyNode = new ArrowKeyNode( 'right' );
+
+      options.children = [  upArrowKeyNode, downArrowKeyNode ];
       return new HBox( options );
     },
 
