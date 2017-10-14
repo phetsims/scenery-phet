@@ -45,7 +45,7 @@ define( function( require ) {
 
     Font.call( this, options );
 
-    options.tandem.addInstance( this, TFont );
+    options.tandem.addInstance( this, TFont, options );
   }
 
   sceneryPhet.register( 'PhetFont', PhetFont );
