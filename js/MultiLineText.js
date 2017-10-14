@@ -27,6 +27,9 @@ define( function( require ) {
   var TMultiLineText = require( 'SCENERY_PHET/TMultiLineText' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // phet-io modules
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
+
   /**
    * @param {string} text
    * @param {Object} [options]
@@ -51,6 +54,13 @@ define( function( require ) {
     this._text = null; // @private underscore prefix because it has ES5 set/get
     this.textParent = null; // @private
     this.text = text; // call ES5 setter
+
+    this.on( 'text', function( oldText, newText ) {
+      options.tandem.isLegalAndUsable() && phetioEvents.trigger( 'model', options.tandem.id, TMultiLineText, 'textChanged', {
+        oldText: oldText,
+        newText: newText
+      } );
+    } );
 
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }

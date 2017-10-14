@@ -14,7 +14,6 @@ define( function( require ) {
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
@@ -28,12 +27,6 @@ define( function( require ) {
   function TMultiLineText( text, phetioID ) {
     TNode.call( this, text, phetioID );
     assertInstanceOf( text, phet.sceneryPhet.MultiLineText );
-    text.on( 'text', function( oldText, newText ) {
-      phetioEvents.trigger( 'model', phetioID, TMultiLineText, 'textChanged', {
-        oldText: oldText,
-        newText: newText
-      } );
-    } );
   }
 
   phetioInherit( TNode, 'TMultiLineText', TMultiLineText, {
