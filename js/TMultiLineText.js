@@ -48,7 +48,8 @@ define( function( require ) {
       documentation: 'Get the text content'
     }
   }, {
-    documentation: 'The tandem wrapper type for the scenery phet\'s MultiLineText node'
+    documentation: 'The tandem wrapper type for the scenery phet\'s MultiLineText node',
+    events: [ 'textChanged' ]
   } );
 
   sceneryPhet.register( 'TMultiLineText', TMultiLineText );

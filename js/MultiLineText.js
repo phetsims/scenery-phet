@@ -55,13 +55,6 @@ define( function( require ) {
     this.textParent = null; // @private
     this.text = text; // call ES5 setter
 
-    this.on( 'text', function( oldText, newText ) {
-      options.tandem.isLegalAndUsable() && phetioEvents.trigger( 'model', options.tandem.id, TMultiLineText, 'textChanged', {
-        oldText: oldText,
-        newText: newText
-      } );
-    } );
-
     this.mutate( _.omit( options, 'align' ) ); // mutate after removing options that are specific to this subtype
   }
 
@@ -75,6 +68,15 @@ define( function( require ) {
      * @public
      */
     setText: function( text ) {
+
+      // Only trigger the changed event if there is a previous text stored. This must be called before the 'text' arg
+      // overwrites the old value of
+      if ( this.options.tandem.isLegalAndUsable() && this.text ) {
+        phetioEvents.trigger( 'model', this.options.tandem.id, TMultiLineText, 'textChanged', {
+          oldText: this.text,
+          newText: text
+        } );
+      }
 
       // save the new text
       this._text = text;
