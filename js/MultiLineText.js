@@ -72,7 +72,7 @@ define( function( require ) {
       // Only trigger the changed event if there is a previous text stored. This must be called before the 'text' arg
       // overwrites the old value of
       if ( this.options.tandem.isLegalAndUsable() && this.text ) {
-        phetioEvents.trigger( 'model', this.options.tandem.id, TMultiLineText, 'textChanged', {
+        phetioEvents.trigger( 'model', this.options.tandem.id, TMultiLineText, 'changed', {
           oldText: this.text,
           newText: text
         } );

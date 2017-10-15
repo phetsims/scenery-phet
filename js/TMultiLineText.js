@@ -49,7 +49,7 @@ define( function( require ) {
     }
   }, {
     documentation: 'The tandem wrapper type for the scenery phet\'s MultiLineText node',
-    events: [ 'textChanged' ]
+    events: [ 'changed' ]
   } );
 
   sceneryPhet.register( 'TMultiLineText', TMultiLineText );
