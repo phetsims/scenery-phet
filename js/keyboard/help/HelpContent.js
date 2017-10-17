@@ -4,7 +4,7 @@
  * Maintains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and content which is aligned in a
  * VBox. This type has many static functions for creating and laying out content that could be useful for subtypes
  * that use this Node. Default values for spacing and fonts are also available through statics.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -123,7 +123,7 @@ define( function( require ) {
 
       // Use align group to horizontally align the label with the first item in the list of icons, guarantees
       // that the label and first icon have identical heights
-      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );      
+      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );
       labelIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
       var labelBox = labelIconGroup.createBox( label );
 
@@ -150,12 +150,11 @@ define( function( require ) {
         align: 'left'
       } );
 
-      var content = new HBox( {
+      return new HBox( {
         children: [ labelBox, iconsVBox ],
         align: 'top',
         spacing: DEFAULT_LABEL_ICON_SPACING
       } );
-      return content;
     },
 
     /**
@@ -214,7 +213,7 @@ define( function( require ) {
       var upArrowKeyNode = new ArrowKeyNode( 'left' );
       var downArrowKeyNode = new ArrowKeyNode( 'right' );
 
-      options.children = [  upArrowKeyNode, downArrowKeyNode ];
+      options.children = [ upArrowKeyNode, downArrowKeyNode ];
       return new HBox( options );
     },
 
