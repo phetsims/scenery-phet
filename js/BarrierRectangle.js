@@ -28,7 +28,8 @@ define( function( require ) {
 
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
-      phetioType: TBarrierRectangle
+      phetioType: TBarrierRectangle,
+      phetioMethods: false // Keep barrierRectangle out of instance proxies
     }, options );
 
     Plane.call( this );
