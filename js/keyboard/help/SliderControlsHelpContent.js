@@ -23,11 +23,11 @@ define( function( require ) {
 
   // strings
   var sliderControlsString = require( 'string!SCENERY_PHET/sliderControls' );
-  var moveSlidersString = require( 'string!SCENERY_PHET/moveSliders' );
-  var moveInSmallerStepsString = require( 'string!SCENERY_PHET/moveInSmallerSteps' );
-  var moveInLargerStepsString = require( 'string!SCENERY_PHET/moveInLargerSteps' );
-  var moveToMaximumValueString = require( 'string!SCENERY_PHET/moveToMaximumValue' );
-  var moveToMinimumValueString = require( 'string!SCENERY_PHET/moveToMinimumValue' );
+  var adjustSliderString = require( 'string!SCENERY_PHET/adjustSlider' );
+  var adjustInSmallerStepsString = require( 'string!SCENERY_PHET/adjustInSmallerSteps' );
+  var adjustInLargerStepsString = require( 'string!SCENERY_PHET/adjustInLargerSteps' );
+  var jumpToMaximumString = require( 'string!SCENERY_PHET/jumpToMaximum' );
+  var jumpToMinimumString = require( 'string!SCENERY_PHET/jumpToMinimum' );
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {
@@ -50,18 +50,18 @@ define( function( require ) {
     }, options );
 
     // 'Move sliders' content
-    var moveSlidersText = new RichText( moveSlidersString, DEFAULT_LABEL_OPTIONS );
-    var moveSlidersLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
+    var adjustSliderText = new RichText( adjustSliderString, DEFAULT_LABEL_OPTIONS );
+    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
       scale: options.arrowKeysScale
     } );
-    var moveSlidersUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
+    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
       scale: options.arrowKeysScale
     } );
-    var moveSlidersIcon = HelpContent.iconOrIcon( moveSlidersLeftRightIcon, moveSlidersUpDownIcon );
-    var moveSlidersRow = HelpContent.labelWithIcon( moveSlidersText, moveSlidersIcon );
+    var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
+    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon );
 
     // 'move in smaller steps' content
-    var moveInSmallerStepsText = new RichText( moveInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInSmallerStepsText = new RichText( adjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
     var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
       scale: options.arrowKeysScale
     } );
@@ -72,34 +72,34 @@ define( function( require ) {
     var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
 
-    var moveSlidersInSmallerStepsRow = HelpContent.labelWithIconList( moveInSmallerStepsText, [
+    var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [
       shiftPlusLeftRightIcon,
       shiftPlusUpDownIcon
     ] );
 
     // 'move in larger steps' content
-    var moveInLargerStepsText = new RichText( moveInLargerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInLargerStepsText = new RichText( adjustInLargerStepsString, DEFAULT_LABEL_OPTIONS );
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
     var pageUpPageDownIcon = new HBox( {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: HelpContent.DEFAULT_ICON_SPACING
     } );
-    var moveInLargerStepsRow = HelpContent.labelWithIcon( moveInLargerStepsText, pageUpPageDownIcon );
+    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon );
 
     // 'move to minimum value' content
-    var moveToMinimumValueText = new RichText( moveToMinimumValueString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMinimumText = new RichText( jumpToMinimumString, DEFAULT_LABEL_OPTIONS );
     var homeKeyNode = new HomeKeyNode();
-    var moveToMinimumValueRow = HelpContent.labelWithIcon( moveToMinimumValueText, homeKeyNode );
+    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode );
 
     // 'move to maximum value' content
-    var moveToMaximumValueText = new RichText( moveToMaximumValueString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMaximumText = new RichText( jumpToMaximumString, DEFAULT_LABEL_OPTIONS );
     var endKeyNode = new EndKeyNode();
-    var moveToMaximumValueRow = HelpContent.labelWithIcon( moveToMaximumValueText, endKeyNode );
+    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode );
 
     // content aligned in a VBox
     var content = new VBox( {
-      children: [ moveSlidersRow, moveSlidersInSmallerStepsRow, moveInLargerStepsRow, moveToMinimumValueRow, moveToMaximumValueRow ],
+      children: [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ],
       align: 'left',
       spacing: options.verticalIconSpacing
     } );

@@ -73,20 +73,20 @@
   "sliderControls": {
     "value": "Slider Controls"
   },
-  "moveSliders": {
-    "value": "Move sliders:"
+  "adjustSlider": {
+    "value": "Adjust slider:"
   },
-  "moveInSmallerSteps": {
-    "value": "Move in smaller steps:"
+  "adjustInSmallerSteps": {
+    "value": "Adjust in smaller steps:"
   },
-  "moveInLargerSteps": {
-    "value": "Move in larger steps:"
+  "adjustInLargerSteps": {
+    "value": "Adjust in larger steps:"
   },
-  "moveToMinimumValue": {
-    "value": "Move to minimum value:"
+  "jumpToMinimum": {
+    "value": "Jump to minimum:"
   },
-  "moveToMaximumValue": {
-    "value": "Move to maximum value:"
+  "jumpToMaximum": {
+    "value": "Jump to maximum:"
   },
   "generalNavigation": {
     "value": "General Navigation"
