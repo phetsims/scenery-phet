@@ -48,7 +48,11 @@ define( function( require ) {
       tagName: 'input',
       inputType: 'button',
       accessibleLabel: resetAllButtonNameString,
-      useAriaLabel: true
+      useAriaLabel: true,
+
+      // We want to be able to make the ResetAllButton fully interoperable, which means opting in and passing that to
+      // the button model.
+      phetioMethods: true
     }, options );
 
     var tandem = options.tandem;
