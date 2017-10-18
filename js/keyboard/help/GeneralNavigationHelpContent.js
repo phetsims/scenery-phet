@@ -14,7 +14,6 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
@@ -31,8 +30,7 @@ define( function( require ) {
     options = _.extend( {
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
       labelFont: HelpContent.DEFAULT_LABEL_FONT,
-      labelMaxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH,
-      tandem: Tandem.tandemRequired(),
+      labelMaxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
     }, options );
 
     var labelOptions = {

@@ -20,7 +20,6 @@ define( function( require ) {
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -60,9 +59,7 @@ define( function( require ) {
       headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
       // VBox options
-      align: DEFAULT_ALIGN,
-
-      tandem: Tandem.tandemRequired()
+      align: DEFAULT_ALIGN
     }, options );
 
     // create the heading
@@ -75,8 +72,7 @@ define( function( require ) {
     VBox.call( this, {
       children: [ headingText, content ],
       align: options.align,
-      spacing: DEFAULT_HEADING_CONTENT_SPACING,
-      tandem: options.tandem
+      spacing: DEFAULT_HEADING_CONTENT_SPACING
     } );
   }
 

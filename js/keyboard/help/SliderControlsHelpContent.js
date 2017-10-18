@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
@@ -42,7 +41,6 @@ define( function( require ) {
   function SliderControlsHelpContent( options ) {
 
     options = _.extend( {
-      tandem: Tandem.tandemRequired(),
 
       // icon options
       arrowKeysScale: 0.55,
