@@ -16,8 +16,10 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -112,10 +114,15 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node[]} icons
+     * @param {Object} options
      *
      * @return {HBox}
      */
-    labelWithIconList: function( label, icons ) {
+    labelWithIconList: function( label, icons, options ) {
+
+      options = _.extend( {
+        verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75 // less than the normal vertical icon spacing since it is a group
+      }, options );
 
       // Use align group to horizontally align the label with the first item in the list of icons, guarantees
       // that the label and first icon have identical heights
@@ -142,7 +149,7 @@ define( function( require ) {
       // place icons in a VBox
       var iconsVBox = new VBox( {
         children: iconsWithOrText,
-        spacing: DEFAULT_ICON_SPACING,
+        spacing: options.verticalSpacing,
         align: 'left'
       } );
 
@@ -154,7 +161,7 @@ define( function( require ) {
     },
 
     /**
-     * Get horizontally aligned arrow keys, all in a row including left, up, down, and right arrow keys in that order.
+     * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
      *
      * @param {Object} options
      * @return {HBox}
@@ -162,16 +169,16 @@ define( function( require ) {
     arrowKeysRowIcon: function( options ) {
 
       options = _.extend( {
-        spacing: 2,
+        spacing: 2
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var leftArrowKeyNode = new ArrowKeyNode( 'up' );
-      var upArrowKeyNode = new ArrowKeyNode( 'left' );
+      var upArrowKeyNode = new ArrowKeyNode( 'up' );
+      var leftArrowKeyNode = new ArrowKeyNode( 'left' );
       var downArrowKeyNode = new ArrowKeyNode( 'down' );
       var rightArowKeyNode = new ArrowKeyNode( 'right' );
 
-      options.children = [ leftArrowKeyNode, upArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
+      options.children = [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
       return new HBox( options );
     },
 
@@ -183,7 +190,7 @@ define( function( require ) {
      */
     upDownArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: 2,
+        spacing: 2
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -202,7 +209,7 @@ define( function( require ) {
      */
     leftRightArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: 2,
+        spacing: 2
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -210,6 +217,28 @@ define( function( require ) {
       var downArrowKeyNode = new ArrowKeyNode( 'right' );
 
       options.children = [ upArrowKeyNode, downArrowKeyNode ];
+      return new HBox( options );
+    },
+
+    /**
+     * An icon containing icons for the up and down arrow keys aligned horizontally.
+     *
+     * @param {Object} options
+     * @return {HBox}
+     */
+    wasdRowIcon: function( options ) {
+      options = _.extend( {
+        spacing: 2
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      // TODO: margin doesn't seem to work
+      var wKeyNode = new KeyNode( new RichText( 'W' ), { xMargin: 20, yMargin: 10 } );
+      var aKeyNode = new KeyNode( new RichText( 'A' ), { xMargin: 20, yMargin: 10 } );
+      var sKeyNode = new KeyNode( new RichText( 'S' ), { xMargin: 20, yMargin: 10 } );
+      var dKeyNode = new KeyNode( new RichText( 'D' ), { xMargin: 20, yMargin: 10 } );
+
+      options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
     },
 
@@ -228,7 +257,7 @@ define( function( require ) {
         spacing: DEFAULT_ICON_SPACING,
 
         // plus icon
-        plusIconSize: new Dimension2( 8, 1.2 ),
+        plusIconSize: new Dimension2( 8, 1.2 )
       }, options );
       assert && assert( !options.children );
 
@@ -256,7 +285,7 @@ define( function( require ) {
     iconOrIcon: function( iconA, iconB, options ) {
 
       options = _.extend( {
-        spacing: DEFAULT_ICON_SPACING,
+        spacing: DEFAULT_ICON_SPACING
       }, options );
       assert && assert( !options.children );
 
