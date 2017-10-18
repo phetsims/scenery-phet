@@ -89,6 +89,11 @@ define( function( require ) {
         this.labelNode.center = this.localBounds.center;
         this.addChild( this.labelNode );
       }
+    },
+
+    dispose: function() {
+      this.labelNode && this.labelNode.dispose();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
