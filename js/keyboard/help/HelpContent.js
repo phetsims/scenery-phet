@@ -42,7 +42,7 @@ define( function( require ) {
 
   // labels and keys
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
-  var DEFAULT_TEXT_MAX_WIDTH = 150;
+  var DEFAULT_TEXT_MAX_WIDTH = 175;
 
   /**
    * @constructor

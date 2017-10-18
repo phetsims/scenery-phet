@@ -94,8 +94,17 @@
   "moveToNextItem": {
     "value": "Move to next item:"
   },
+  "moveToNextItemOrGroup": {
+    "value": "Move to next item or group:"
+  },
   "moveToPreviousItem": {
     "value": "Move to previous item:"
+  },
+  "moveToPreviousItemOrGroup": {
+    "value": "Move to previous item or group:"
+  },
+  "moveBetweenItemsInAGroup": {
+    "value": "Move between items in a group:"
   },
   "exitADialog": {
     "value": "Exit a dialog:"

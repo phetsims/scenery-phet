@@ -1,33 +1,43 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Type Documentation
+ * General help information for how to navigation a simulation with a keyboard.
+ * 
  * @author Jesse Greenberg
  */
-
 define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
+  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
-
   // stings
-  var generalNavigationString = require( 'string!SCENERY_PHET/generalNavigation' );
-  var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
-  var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
   var exitADialogString = require( 'string!SCENERY_PHET/exitADialog' );
+  var generalNavigationString = require( 'string!SCENERY_PHET/generalNavigation' );
+  var moveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/moveBetweenItemsInAGroup' );
+  var moveToNextItemOrGroupString = require( 'string!SCENERY_PHET/moveToNextItemOrGroup' );
+  var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
+  var moveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/moveToPreviousItemOrGroup' );
+  var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
 
   // constants
+  var DEFAULT_ARROW_KEYS_SCALE = 0.55;
+
+  /**
+   * @constructor
+   * @param {Object} options
+   */
   function GeneralNavigationHelpContent( options ) {
 
     options = _.extend( {
+      withGroupContent: false, // if true, the help content will include information about how to interact with groups
+
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
       labelFont: HelpContent.DEFAULT_LABEL_FONT,
       labelMaxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
@@ -54,9 +64,33 @@ define( function( require ) {
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon );
 
+    var contentChildren = [];
+    if ( options.withGroupContent ) {
+
+      // if the general navigation section includes help content includes groups, modify some text and add another
+      // section to describe how to navigate groups
+      moveToNextItemText.setText( moveToNextItemOrGroupString );
+      moveToPreviousItemText.setText( moveToPreviousItemOrGroupString );
+
+      var moveBetweenItemsInAGroupText = new RichText( moveBetweenItemsInAGroupString, labelOptions );
+      var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon( {
+        scale: DEFAULT_ARROW_KEYS_SCALE
+      } );
+      var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon( {
+        scale: DEFAULT_ARROW_KEYS_SCALE
+      } );
+      var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
+      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon );
+
+      contentChildren = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
+    }
+    else {
+      contentChildren = [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ];
+    }
+
     // content aligned in a VBox
     var content = new VBox( {
-      children: [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ],
+      children: contentChildren,
       align: 'left',
       spacing: options.verticalIconSpacing
     } );
