@@ -232,11 +232,20 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      // TODO: margin doesn't seem to work
-      var wKeyNode = new KeyNode( new RichText( 'W' ), { xMargin: 20, yMargin: 10 } );
-      var aKeyNode = new KeyNode( new RichText( 'A' ), { xMargin: 20, yMargin: 10 } );
-      var sKeyNode = new KeyNode( new RichText( 'S' ), { xMargin: 20, yMargin: 10 } );
-      var dKeyNode = new KeyNode( new RichText( 'D' ), { xMargin: 20, yMargin: 10 } );
+      // options for the KeyNode for each letter
+      var keyOptions = {
+        xAlign: 'left',
+        yAlign: 'top',
+        xMargin: 2,
+        yMargin: 1,
+        minKeyWidth: 18,
+        minKeyHeight: 18
+      };
+
+      var wKeyNode = new KeyNode( new RichText( 'W', { scale: .60 } ), keyOptions );
+      var aKeyNode = new KeyNode( new RichText( 'A', { scale: .60 } ), keyOptions );
+      var sKeyNode = new KeyNode( new RichText( 'S', { scale: .60 } ), keyOptions );
+      var dKeyNode = new KeyNode( new RichText( 'D', { scale: .60 } ), keyOptions );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
