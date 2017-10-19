@@ -42,6 +42,9 @@ define( function( require ) {
 
     options = _.extend( {
 
+      // heading string for this content
+      headingString: sliderControlsString,
+
       // icon options
       arrowKeysScale: 0.55,
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
@@ -102,7 +105,7 @@ define( function( require ) {
       spacing: options.verticalIconSpacing
     } );
      
-    HelpContent.call( this, sliderControlsString, content, options );
+    HelpContent.call( this, options.headingString, content, options );
   }
 
   sceneryPhet.register( 'SliderControlsHelpContent', SliderControlsHelpContent );
