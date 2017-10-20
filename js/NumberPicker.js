@@ -16,6 +16,8 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
+  var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -379,7 +381,7 @@ define( function( require ) {
 
     // a11y - custom focus highlight that matches rounded background behind the numeric value
     var focusBounds = this.localBounds.dilated( 5 );
-    this.focusHighlight = Shape.roundedRectangleWithRadii(
+    this.focusHighlight = new FocusHighlightPath( Shape.roundedRectangleWithRadii(
       focusBounds.minX,
       focusBounds.minY,
       focusBounds.width,
@@ -388,6 +390,10 @@ define( function( require ) {
         topRight: options.cornerRadius,
         bottomLeft: options.cornerRadius,
         bottomRight: options.cornerRadius
+      } ),
+      {
+        innerLineWidth: FocusHighlightPath.getInnerLineWidthFromNode( this ),
+        outerLineWidth: FocusHighlightPath.getOuterLineWidthFromNode( this )
       }
     );
   }
