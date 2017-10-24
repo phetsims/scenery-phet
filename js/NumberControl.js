@@ -13,6 +13,8 @@ define( function( require ) {
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -98,9 +100,9 @@ define( function( require ) {
 
     // constrain the slider value to the provided range and the same delta as the arrow buttons
     options.constrainValue = options.constrainValue || function( value ) {
-        var newValue = Util.roundSymmetric( value / options.delta ) * options.delta;
-        return numberRange.constrainValue( newValue );
-      };
+      var newValue = Util.roundSymmetric( value / options.delta ) * options.delta;
+      return numberRange.constrainValue( newValue );
+    };
 
     // validate options
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
@@ -147,6 +149,7 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'leftArrowButton' )
     }, arrowButtonOptions ) );
+    leftArrowButton.focusable = false;
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + delta;
@@ -156,6 +159,7 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'rightArrowButton' )
     }, arrowButtonOptions ) );
+    rightArrowButton.focusable = false;
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
@@ -194,6 +198,17 @@ define( function( require ) {
       options.layoutFunction( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
     ];
     Node.call( this, options );
+
+    var numberControlFocusHighlightBorder = new FocusHighlightFromNode( this, {
+      outerLineWidth: 2,
+      innerLineWidth: 2,
+      innerStroke: FocusHighlightPath.FOCUS_COLOR, // make both the inner and outer focus color be the same
+      visible: false
+    }, true );
+    this.addChild( numberControlFocusHighlightBorder );
+    slider.focusChangedEmitter.addListener( function( isFocused ) {
+      numberControlFocusHighlightBorder.visible = isFocused;
+    } );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
