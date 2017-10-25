@@ -209,7 +209,7 @@ define( function( require ) {
       innerStroke: FocusHighlightPath.FOCUS_COLOR, // make both the inner and outer focus color be the same
       visible: false
     }, true );
-    this.addChild( numberControlFocusHighlightBorder );
+    // this.addChild( numberControlFocusHighlightBorder ); // TODO: don't change the bounds of NumberControl by adding this, see https://github.com/phetsims/scenery-phet/issues/341
     slider.focusChangedEmitter.addListener( function( isFocused ) {
       numberControlFocusHighlightBorder.visible = isFocused;
     } );
