@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -428,6 +429,7 @@ define( function( require ) {
       options = _.extend( {
         alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
         alignNumber: 'center', // {string} horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
+        titleLeftIndent: 0, // {number|null}  if provided, add an HStrut on the left of the title to push the title to the right
         xSpacing: 5, // {number} horizontal spacing between arrow buttons and slider
         ySpacing: 5 // {number} vertical spacing between rows
       }, options );
@@ -438,7 +440,7 @@ define( function( require ) {
           resize: false, // prevent slider from causing a resize when thumb is at min or max
           align: options.alignTitle,
           children: [
-            titleNode,
+            new AlignBox( titleNode, { leftMargin: options.titleLeftIndent } ),
             new VBox( {
               spacing: options.ySpacing,
               resize: false, // prevent slider from causing a resize when thumb is at min or max
