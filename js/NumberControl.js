@@ -29,6 +29,16 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // constants
+  var SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
+    'sliderStartCallback',
+    'sliderEndCallback',
+    'leftArrowStartCallback',
+    'leftArrowEndCallback',
+    'rightArrowStartCallback',
+    'rightArrowEndCallback'
+  ];
+
   /**
    * @param {string} title
    * @param {Property.<number>} numberProperty
@@ -40,8 +50,18 @@ define( function( require ) {
 
     options = _.extend( {
 
-      startCallback: function() {}, // called when interaction begins
-      endCallback: function() {}, // called when interaction ends
+      // General Callbacks
+      startCallback: null, // called when interaction begins, default value set in validateCallbacksAndSetDefault()
+      endCallback: null, // called when interaction ends, default value set in validateCallbacksAndSetDefault()
+
+      // Specific callbacks for each component
+      sliderStartCallback: null, // called when specific interaction begins
+      sliderEndCallback: null, // called when specific interaction ends
+      leftArrowStartCallback: null, // called when specific interaction begins
+      leftArrowEndCallback: null, // called when specific interaction ends
+      rightArrowStartCallback: null, // called when specific interaction begins
+      rightArrowEndCallback: null, // called when specific interaction ends
+
       enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
@@ -111,6 +131,9 @@ define( function( require ) {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
 
+    // Make sure that general callbacks and specific callbacks aren't used in tandem.
+    validateCallbacksAndSetDefault( options );
+
     var self = this;
 
     var delta = options.delta; // to improve readability
@@ -140,8 +163,6 @@ define( function( require ) {
 
     var arrowButtonOptions = {
       delta: options.delta,
-      startCallback: options.startCallback,
-      endCallback: options.endCallback,
       scale: options.arrowButtonScale
     };
 
@@ -151,7 +172,9 @@ define( function( require ) {
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem.createTandem( 'leftArrowButton' )
+      tandem: options.tandem.createTandem( 'leftArrowButton' ),
+      startCallback: options.leftArrowStartCallback || options.startCallback,
+      endCallback: options.leftArrowEndCallback || options.endCallback
     }, arrowButtonOptions ) );
     leftArrowButton.focusable = false;
 
@@ -161,7 +184,9 @@ define( function( require ) {
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem.createTandem( 'rightArrowButton' )
+      tandem: options.tandem.createTandem( 'rightArrowButton' ),
+      startCallback: options.rightArrowStartCallback || options.startCallback,
+      endCallback: options.rightArrowEndCallback || options.endCallback
     }, arrowButtonOptions ) );
     rightArrowButton.focusable = false;
 
@@ -177,8 +202,8 @@ define( function( require ) {
       {
         // Use these more general callback options, because the same callbacks apply to the arrow buttons,
         // where it makes no sense to call them startDrag and endDrag.
-        startDrag: options.startCallback,
-        endDrag: options.endCallback,
+        startDrag: options.sliderStartCallback || options.startCallback,
+        endDrag: options.sliderEndCallback || options.endCallback,
         tandem: options.tandem.createTandem( 'slider' )
       } ) );
 
@@ -234,6 +259,35 @@ define( function( require ) {
       numberProperty.unlink( arrowEnabledListener );
       self.enabledProperty.unlink( enabledObserver );
     };
+  }
+
+  /**
+   * Validate all of the callback related options. There are two types of callbacks. The "start/endCallback" pair
+   * are passed into all components in the NumberControl. The second set are start/end callbacks for each individual
+   * component. This was added to support multitouch in Rutherford Scattering as part of https://github.com/phetsims/rutherford-scattering/issues/128.
+   *
+   *
+   * This function mutates the options by initializing general callbacks from null (in the extend call) to a no-op function.
+   * @param {Object} options
+   */
+  function validateCallbacksAndSetDefault( options ) {
+
+    var normalCallbacksPresent = options.startCallback || options.endCallback;
+
+    var specificCallbacksPresent = false;
+    SPECIFIC_COMPONENT_CALLBACK_OPTIONS.forEach( function( callbackOption ) {
+      if ( options[ callbackOption ] ) {
+        assert && assert( typeof options[ callbackOption ] === 'function', 'callback must be a function' );
+        specificCallbacksPresent = true;
+      }
+    } );
+
+    assert && assert( normalCallbacksPresent !== specificCallbacksPresent,
+      'Use general callbacks like "startCallback" or specific callbacks like "sliderStartCallback" but not both.' );
+
+    // Set here so that we can validate above based on falsey.
+    options.startCallback = function() {};
+    options.endCallback = function() {};
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );
