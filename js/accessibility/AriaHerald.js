@@ -59,11 +59,7 @@ define( function( require ) {
 
   // associate a property with each live region - this is done in support of phet-io, otherwise the region values would
   // simply be set directly
-  var assertiveElementProperty = new Property( '', {
-    tandem: tandem.createTandem( 'assertiveElementProperty' ),
-    phetioValueType: TString,
-    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
-  } );
+  var assertiveElementProperty = new Property( '' );
   assertiveElementProperty.link( function( text ) {
     assertiveElement.textContent = text;
   } );
@@ -75,19 +71,11 @@ define( function( require ) {
   politeElementProperty.link( function( text ) {
     politeElement.textContent = text;
   } );
-  var assertiveAlertElementProperty = new Property( '', {
-    tandem: tandem.createTandem( 'assertiveAlertElementProperty' ),
-    phetioValueType: TString,
-    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
-  } );
+  var assertiveAlertElementProperty = new Property( '' );
   assertiveAlertElementProperty.link( function( text ) {
     assertiveAlertElement.textContent = text;
   } );
-  var politeStatusElementProperty = new Property( '', {
-    tandem: tandem.createTandem( 'politeStatusElementProperty' ),
-    phetioValueType: TString,
-    phetioInstanceDocumentation: 'This Property is read-only, do not attempt to set its value.'
-  } );
+  var politeStatusElementProperty = new Property( '' );
   politeStatusElementProperty.link( function( text ) {
     politeStatusElement.textContent = text;
   } );
@@ -95,10 +83,7 @@ define( function( require ) {
   // Properties that indicate whether or not AriaHerald is enabled and visible. When disabled, no new alerts will
   // come through the screen reader.  When hidden, no alerts will come through, and the content will be hidden from 
   // the screen creader virtual cursor.  Properties are used primarily to support phet-io so that they can be observed.
-  var alertsVisibleProperty = new Property( true, {
-    tandem: tandem.createTandem( 'alertsVisibleProperty' ),
-    phetioValueType: TBoolean
-  } );
+  var alertsVisibleProperty = new Property( true );
   var alertsEnabledProperty = new Property( true, {
     tandem: tandem.createTandem( 'alertsEnabledProperty' ),
     phetioValueType: TBoolean
