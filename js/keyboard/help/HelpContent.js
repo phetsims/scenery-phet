@@ -43,6 +43,8 @@ define( function( require ) {
   // labels and keys
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
   var DEFAULT_TEXT_MAX_WIDTH = 175;
+  var DEFAULT_MIN_KEY_WIDTH = 30; // TODO: these are the same 'constants' as in ArrowKeyNode
+  var DEFAULT_MIN_KEY_HEIGHT = 30; // TODO: these are the same 'constants' as in ArrowKeyNode
 
   /**
    * @constructor
@@ -234,18 +236,15 @@ define( function( require ) {
 
       // options for the KeyNode for each letter
       var keyOptions = {
-        xAlign: 'left',
-        yAlign: 'top',
-        xMargin: 2,
-        yMargin: 1,
-        minKeyWidth: 18,
-        minKeyHeight: 18
+        minKeyWidth: DEFAULT_MIN_KEY_WIDTH,
+        minKeyHeight: DEFAULT_MIN_KEY_HEIGHT,
+        scale: .53 // TODO: this is hard coded to match the size of the arrow keys row
       };
 
-      var wKeyNode = new KeyNode( new RichText( 'W', { scale: .60 } ), keyOptions );
-      var aKeyNode = new KeyNode( new RichText( 'A', { scale: .60 } ), keyOptions );
-      var sKeyNode = new KeyNode( new RichText( 'S', { scale: .60 } ), keyOptions );
-      var dKeyNode = new KeyNode( new RichText( 'D', { scale: .60 } ), keyOptions );
+      var wKeyNode = new KeyNode( new RichText( 'W' ), keyOptions );
+      var aKeyNode = new KeyNode( new RichText( 'A' ), keyOptions );
+      var sKeyNode = new KeyNode( new RichText( 'S' ), keyOptions );
+      var dKeyNode = new KeyNode( new RichText( 'D' ), keyOptions );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
