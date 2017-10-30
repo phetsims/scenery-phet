@@ -55,7 +55,8 @@ define( function( require ) {
       implementation: function( muted ) {
         this.instance.muted( muted );
       },
-      documentation: 'Set whether the utteranceQueue will be muted or not. If muted utterances still move through the queue.'
+      documentation: 'Set whether the utteranceQueue will be muted or not. If muted, utterances still move through the ' +
+                     'queue but will not be read by screen readers.'
     }
   }, {
     documentation: 'Manages a queue of Utterances that are read in order by a screen reader.'

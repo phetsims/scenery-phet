@@ -17,8 +17,13 @@ define( function( require ) {
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
+  var TUtteranceQueue = require( 'SCENERY_PHET/accessibility/TUtteranceQueue' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+
+  // {Tandem} - phet-io support
+  var tandem = Tandem.createStaticTandem( 'utteranceQueue' );
 
   // {Utterance} - array of utterances, spoken in first to last order
   var queue = [];
@@ -189,6 +194,8 @@ define( function( require ) {
       UtteranceQueue.next();
     }, UtteranceQueue.interval
   );
+
+  tandem.addInstance( UtteranceQueue, TUtteranceQueue );
 
   return UtteranceQueue;
 } );
