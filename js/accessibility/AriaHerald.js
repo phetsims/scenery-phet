@@ -23,7 +23,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TAriaHerald = require( 'SCENERY_PHET/accessibility/TAriaHerald' );
   var Timer = require( 'PHET_CORE/Timer' );
 
   // phet-io modules
@@ -286,8 +285,6 @@ define( function( require ) {
     POLITE_STATUS_ELEMENT_ID: POLITE_STATUS_ELEMENT_ID,
     ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
-
-  tandem.addInstance( AriaHerald, TAriaHerald );
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
 
