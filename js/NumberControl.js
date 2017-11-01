@@ -113,7 +113,11 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.tandemRequired(),
-      phetioType: TNumberControl
+      phetioType: TNumberControl,
+
+      // a11y
+      tagName: 'input',
+      inputType: 'range'
     }, options );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
@@ -205,7 +209,10 @@ define( function( require ) {
         // where it makes no sense to call them startDrag and endDrag.
         startDrag: options.sliderStartCallback || options.startCallback,
         endDrag: options.sliderEndCallback || options.endCallback,
-        tandem: options.tandem.createTandem( 'slider' )
+        tandem: options.tandem.createTandem( 'slider' ),
+
+        // a11y
+        focusable: false
       } ) );
 
     // major ticks
@@ -229,16 +236,34 @@ define( function( require ) {
     ];
     Node.call( this, options );
 
+    // a11y - keyboard navigation skips over the tweaker buttons, so this focus highlight indicates that the
+    // NumberControl is a self contained input
     var numberControlFocusHighlightBorder = new FocusHighlightFromNode( this, {
       outerLineWidth: 2,
       innerLineWidth: 2,
       innerStroke: FocusHighlightPath.FOCUS_COLOR, // make both the inner and outer focus color be the same
-      visible: false
-    }, true );
-    // this.addChild( numberControlFocusHighlightBorder ); // TODO: don't change the bounds of NumberControl by adding this, see https://github.com/phetsims/scenery-phet/issues/341
-    slider.focusChangedEmitter.addListener( function( isFocused ) {
-      numberControlFocusHighlightBorder.visible = isFocused;
     } );
+
+    // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
+    var focusHighlight = new Node();
+    focusHighlight.addChild( numberControlFocusHighlightBorder );
+    focusHighlight.addChild( slider.focusHighlight );
+    this.focusHighlight = focusHighlight;
+
+    // a11y - place the slider's focus highlight relative to the NumberControl, going through the global coordinate frame
+    var sliderFocusHighlightPosition;
+    numberProperty.link( function( value ) {
+      sliderFocusHighlightPosition = self.globalToLocalPoint(
+        slider.localToGlobalPoint( slider.focusHighlight.center ) );
+        slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
+    } );
+
+    // vertical position of focus highlight is set once so that it doesn't continue to change as we get the
+    // highlight's localToGlobalPoint
+    slider.focusHighlight.centerY = sliderFocusHighlightPosition.y;
+
+    // add the same input listeners that the slider does, so that NumberControl keyboard interaction mimics HSlider's
+    this.addAccessibleInputListener( slider.accessibleInputListener );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
