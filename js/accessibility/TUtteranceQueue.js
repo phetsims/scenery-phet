@@ -59,7 +59,8 @@ define( function( require ) {
                      'queue but will not be read by screen readers.'
     }
   }, {
-    documentation: 'Manages a queue of Utterances that are read in order by a screen reader.'
+    documentation: 'Manages a queue of Utterances that are read in order by a screen reader.',
+    events: [ 'announced' ]
   } );
 
   sceneryPhet.register( 'TUtteranceQueue', TUtteranceQueue );

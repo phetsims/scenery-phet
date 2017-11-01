@@ -22,6 +22,9 @@ define( function( require ) {
   var TUtteranceQueue = require( 'SCENERY_PHET/accessibility/TUtteranceQueue' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
+  // phet-io modules
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
+
   // {Tandem} - phet-io support
   var tandem = Tandem.createStaticTandem( 'utteranceQueue' );
 
@@ -47,6 +50,8 @@ define( function( require ) {
      * @param {Utterance|string} utterance
      */
     addToBack: function( utterance ) {
+      assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
+        'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the UtteranceQueue is disabled
       if ( !enabled ) {
@@ -76,6 +81,8 @@ define( function( require ) {
      * @param {Utterance|string} utterance
      */
     addToFront: function( utterance ) {
+      assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
+        'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the UtteranceQueue is disabled
       if ( !enabled ) {
@@ -99,9 +106,16 @@ define( function( require ) {
       // get and remove the next item from the queue
       var nextUtterance = queue.shift();
 
-      // only speek the utterance if the Utterance predicate returns true
+      // only speak the utterance if the Utterance predicate returns true
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
+
+        // phet-io event to the data stream
+        var id = phetioEvents.start( 'model', tandem.id, TUtteranceQueue, 'announced', { utterance: nextUtterance.text } );
+
+        // Pass the utterance text on to be set in the PDOM.
         AriaHerald.announcePolite( nextUtterance.text );
+
+        phetioEvents.end( id );
       }
     },
 
