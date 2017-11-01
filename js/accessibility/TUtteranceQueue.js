@@ -61,7 +61,7 @@ define( function( require ) {
     getMuted: {
       returnType: TBoolean,
       parameterTypes: [ TVoid ],
-      implementation: function( ) {
+      implementation: function() {
         return this.instance.muted();
       },
       documentation: 'Get whether the utteranceQueue is muted. If muted, utterances still move through the ' +
@@ -79,7 +79,7 @@ define( function( require ) {
     getEnabled: {
       returnType: TBoolean,
       parameterTypes: [ TVoid ],
-      implementation: function( ) {
+      implementation: function() {
         return this.instance.enabled();
       },
       documentation: 'Get whether the utteranceQueue is enabled. When enabled, Utterances cannot be added to ' +
