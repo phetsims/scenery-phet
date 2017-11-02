@@ -265,15 +265,28 @@ define( function( require ) {
     // add the same input listeners that the slider does, so that NumberControl keyboard interaction mimics HSlider's
     this.addAccessibleInputListener( slider.accessibleInputListener );
 
+    // when focused, you should not be able to set enabled to true
+    var disableWhenFocusedListener = function() {
+      leftArrowButton.enabled = false;
+      rightArrowButton.enabled = false;
+    };
+
     // toggle "enabled" of the arrow buttons based on a11y focus
     this.addAccessibleInputListener( {
+
+      // Buttons should always be disabled on focus
       focus: function() {
-        leftArrowButton.enabled = false;
-        rightArrowButton.enabled = false;
+        leftArrowButton.buttonModel.enabledProperty.link( disableWhenFocusedListener );
+        rightArrowButton.buttonModel.enabledProperty.link( disableWhenFocusedListener );
       },
+
+      // remove listeners and set back to original enabled value
       blur: function() {
-        leftArrowButton.enabled = true;
-        rightArrowButton.enabled = true;
+        leftArrowButton.buttonModel.enabledProperty.unlink( disableWhenFocusedListener );
+        rightArrowButton.buttonModel.enabledProperty.unlink( disableWhenFocusedListener );
+
+        // reset enabled based on the original listener call
+        arrowEnabledListener( numberProperty.get() );
       }
     } );
 
