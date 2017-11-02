@@ -241,7 +241,7 @@ define( function( require ) {
     var numberControlFocusHighlightBorder = new FocusHighlightFromNode( this, {
       outerLineWidth: 2,
       innerLineWidth: 2,
-      innerStroke: FocusHighlightPath.FOCUS_COLOR // make both the inner and outer focus color be the same
+      innerStroke: FocusHighlightPath.FOCUS_COLOR, // make both the inner and outer focus color be the same
     } );
 
     // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
@@ -255,7 +255,7 @@ define( function( require ) {
     numberProperty.link( function( value ) {
       sliderFocusHighlightPosition = self.globalToLocalPoint(
         slider.localToGlobalPoint( slider.focusHighlight.center ) );
-      slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
+        slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
     } );
 
     // vertical position of focus highlight is set once so that it doesn't continue to change as we get the
@@ -264,18 +264,6 @@ define( function( require ) {
 
     // add the same input listeners that the slider does, so that NumberControl keyboard interaction mimics HSlider's
     this.addAccessibleInputListener( slider.accessibleInputListener );
-
-    // toggle "enabled" of the arrow buttons based on a11y focus
-    this.addAccessibleInputListener( {
-      focus: function() {
-        leftArrowButton.enabled = false;
-        rightArrowButton.enabled = false;
-      },
-      blur: function() {
-        leftArrowButton.enabled = true;
-        rightArrowButton.enabled = true;
-      }
-    } );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
