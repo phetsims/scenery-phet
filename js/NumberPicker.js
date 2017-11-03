@@ -389,11 +389,8 @@ define( function( require ) {
         topRight: options.cornerRadius,
         bottomLeft: options.cornerRadius,
         bottomRight: options.cornerRadius
-      } ),
-      {
-        innerLineWidth: FocusHighlightPath.getInnerLineWidthFromNode( this ),
-        outerLineWidth: FocusHighlightPath.getOuterLineWidthFromNode( this )
-      } );
+      } )
+    );
   }
 
   sceneryPhet.register( 'NumberPicker', NumberPicker );
