@@ -25,8 +25,8 @@ define( function( require ) {
    * @constructor
    */
   function TUtteranceQueue( utteranceQueue, phetioID ) {
-    TObject.call( this, utteranceQueue, phetioID );
     assertInstanceOf( utteranceQueue, Object );
+    TObject.call( this, utteranceQueue, phetioID );
   }
 
   phetioInherit( TObject, 'TUtteranceQueue', TUtteranceQueue, {

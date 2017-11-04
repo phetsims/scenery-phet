@@ -25,8 +25,8 @@ define( function( require ) {
    * @constructor
    */
   function TMultiLineText( text, phetioID ) {
-    TNode.call( this, text, phetioID );
     assertInstanceOf( text, phet.sceneryPhet.MultiLineText );
+    TNode.call( this, text, phetioID );
   }
 
   phetioInherit( TNode, 'TMultiLineText', TMultiLineText, {

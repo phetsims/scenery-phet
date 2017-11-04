@@ -23,8 +23,8 @@ define( function( require ) {
    * @constructor
    */
   function TNumberDisplay( numberControl, phetioID ) {
-    TNode.call( this, numberControl, phetioID );
     assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
+    TNode.call( this, numberControl, phetioID );
   }
 
   phetioInherit( TNode, 'TNumberControl', TNumberDisplay, {}, {
