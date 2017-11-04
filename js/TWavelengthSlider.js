@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TWavelengthSlider( slider, phetioID ) {
-    assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
+    assert && assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
     TNode.call( this, slider, phetioID );
   }
 

@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TBarrierRectangle( barrierRectangle, phetioID ) {
-    assertInstanceOf( barrierRectangle, phet.sceneryPhet.BarrierRectangle );
+    assert && assertInstanceOf( barrierRectangle, phet.sceneryPhet.BarrierRectangle );
     TNode.call( this, barrierRectangle, phetioID );
   }
 

@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TFaucetNode( faucet, phetioID ) {
-    assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
+    assert && assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
     TNode.call( this, faucet, phetioID );
   }
 

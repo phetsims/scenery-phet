@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TNumberControl( numberControl, phetioID ) {
-    assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
+    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
     TNode.call( this, numberControl, phetioID );
   }
 
