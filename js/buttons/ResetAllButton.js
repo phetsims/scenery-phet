@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
@@ -18,6 +19,7 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
@@ -35,8 +37,6 @@ define( function( require ) {
    * @constructor
    */
   function ResetAllButton( options ) {
-
-    var self = this;
 
     options = _.extend( {
       radius: RESET_ALL_BUTTON_RADIUS,
@@ -62,24 +62,28 @@ define( function( require ) {
 
     this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
+
+    // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
+    this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
+      tandem: options.tandem.createTandem( 'isFiringProperty' ),
+      phetioValueType: TBoolean,
+      phetioState: options.phetioState,
+      phetioMethods: options.phetioMethods
+    } );
+
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
-    this.buttonModel.isFiringProperty.lazyLink( function( isFiring ) {
+    this.isFiringProperty.lazyLink( function( isFiring ) {
       UtteranceQueue.enabled = !isFiring;
 
-      !isFiring  && UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
+      !isFiring && UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
         typeId: 'resetAllButtonAlert'
       } ) );
     } );
 
-    // @private
-    this.disposeResetAllButton = function() {
-      self.buttonModel.isFiringProperty.unlinkAll();
-    };
-
     this.mutate( {
-      tandem: tandem,
+      tandem: tandem
     } );
   }
 
@@ -92,8 +96,10 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.disposeResetAllButton();
-      ResetButton.prototype.dispose && ResetButton.prototype.dispose.call( this );
+
+      this.isFiringProperty.dispose();
+
+      ResetButton.prototype.dispose.call( this );
     }
   } );
 } );
