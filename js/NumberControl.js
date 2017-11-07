@@ -179,9 +179,9 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'leftArrowButton' ),
       startCallback: options.leftArrowStartCallback || options.startCallback,
-      endCallback: options.leftArrowEndCallback || options.endCallback
+      endCallback: options.leftArrowEndCallback || options.endCallback,
+      focusable: false
     }, arrowButtonOptions ) );
-    leftArrowButton.focusable = false;
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + delta;
@@ -191,9 +191,9 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'rightArrowButton' ),
       startCallback: options.rightArrowStartCallback || options.startCallback,
-      endCallback: options.rightArrowEndCallback || options.endCallback
+      endCallback: options.rightArrowEndCallback || options.endCallback,
+      focusable: false
     }, arrowButtonOptions ) );
-    rightArrowButton.focusable = false;
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
