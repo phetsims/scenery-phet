@@ -44,7 +44,6 @@ define( function( require ) {
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
   var DEFAULT_TEXT_MAX_WIDTH = 175;
   var DEFAULT_MIN_KEY_WIDTH = 30; // TODO: these are the same 'constants' as in ArrowKeyNode
-  var DEFAULT_MIN_KEY_HEIGHT = 30; // TODO: these are the same 'constants' as in ArrowKeyNode
 
   /**
    * @constructor
@@ -236,9 +235,7 @@ define( function( require ) {
 
       // options for the KeyNode for each letter
       var keyOptions = {
-        minKeyWidth: DEFAULT_MIN_KEY_WIDTH,
-        minKeyHeight: DEFAULT_MIN_KEY_HEIGHT,
-        scale: .53 // TODO: this is hard coded to match the size of the arrow keys row
+        minKeyWidth: DEFAULT_MIN_KEY_WIDTH
       };
 
       var wKeyNode = new KeyNode( new RichText( 'W' ), keyOptions );

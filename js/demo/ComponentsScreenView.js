@@ -631,7 +631,7 @@ define( function( require ) {
 
     // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
     middleKeyNodes.push( new EnterKeyNode() );
-    bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', minKeyWidth: 87, maxKeyWidth: 87 } ) );
+    bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 87, maxKeyWidth: 87 } ) );
 
     var topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
     var midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );

@@ -32,9 +32,6 @@ define( function( require ) {
       xAlign: 'center',
       yAlign: 'center',
 
-      xShadowOffset: 1.5,
-      yShadowOffset: 1.5,
-
       // text options
       font: new PhetFont( { size: 12 } ),
       fill: 'black',
@@ -46,8 +43,7 @@ define( function( require ) {
     var textNode = new RichText( string, { font: options.font, fill: options.fill, maxWidth: options.textMaxWidth } );
 
     // by default, key should tightly surround the text, with a bit more horizontal space
-    options.minKeyWidth = options.minKeyWidth || textNode.width + 8;
-    options.minKeyHeight = options.minKeyHeight || textNode.height + 2;
+    options.minKeyWidth = options.minKeyWidth || textNode.width + 8; // TODO: 8 should be a constant somewhere
 
     KeyNode.call( this, textNode, options );
   }

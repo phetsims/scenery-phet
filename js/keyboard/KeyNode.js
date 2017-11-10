@@ -4,7 +4,7 @@
  * A node that looks like a keyboard key.  Has a shadow rectangle under the key icon with a slight offset so that it
  * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard
  * navigation and functionality, but an icon could be used for any purpose.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -41,9 +41,11 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
-    // key will be at least this wide/tall, making it possible to surround the icon with extra space if necessary
-    minKeyWidth: 0,
-    minKeyHeight: 0 
+    // key will be at least this wide, making it possible to surround the icon with extra space if necessary
+    minKeyWidth: 25,
+
+    // TODO: this should not be an option. All keys must be this height!
+    maxKeyHeight: 25
   };
 
   /**
@@ -57,12 +59,20 @@ define( function( require ) {
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
     var minKeyWidth = Math.max( options.minKeyWidth, keyIcon.width );
-    var minKeyHeight = Math.max( options.minKeyHeight, keyIcon.height );
+    var maxKeyHeight = options.maxKeyHeight;
+
+    // scale down the size of the keyIcon passed in if it is taller than the max heigh of the icon
+    var scalar = 1;
+    if ( keyIcon.height > options.maxKeyHeight ) {
+      scalar = 1 / keyIcon.height / options.maxKeyHeight;
+    }
+    // Add the scale to a new node, with keyIcon as a child so that we don't mutate the parameter node.
+    var scaleNode = new Node( { children: [ keyIcon ], scale: scalar } );
 
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
-    var content = new AlignBox( keyIcon, {
-      alignBounds: new Bounds2( 0, 0, minKeyWidth, minKeyHeight ),
+    var content = new AlignBox( scaleNode, {
+      alignBounds: new Bounds2( 0, 0, minKeyWidth, maxKeyHeight ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,
       xMargin: options.xMargin,
@@ -71,25 +81,27 @@ define( function( require ) {
 
     // children of the icon node, including the background shadow, foreground key, and content icon
     options.children = [
+
       // background (shadow rectangle)
-      Rectangle.roundedBounds( content.bounds.shifted( 
+      Rectangle.roundedBounds( content.bounds.shifted(
         options.xShadowOffset, options.yShadowOffset ), options.cornerRadius, options.cornerRadius, {
-          fill: options.keyShadowFill
-        } ),
+        fill: options.keyShadowFill
+      } ),
+
       // foreground
       Rectangle.roundedBounds( content.bounds, options.cornerRadius, options.cornerRadius, {
         fill: options.keyFill,
         stroke: 'black',
         lineWidth: options.lineWidth
       } ),
+
       // content on top
       content
     ];
 
     Node.call( this, options );
- }
-
- sceneryPhet.register( 'KeyNode', KeyNode );
+  }
+  sceneryPhet.register( 'KeyNode', KeyNode );
 
   return inherit( Node, KeyNode );
 } );
