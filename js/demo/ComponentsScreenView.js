@@ -31,7 +31,6 @@ define( function( require ) {
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -602,7 +601,7 @@ define( function( require ) {
     } );
   };
 
-  // creates a demo for KeyNode
+  // creates a demo for KeyNode and its subtypes
   var demoKeyNode = function( layoutBounds ) {
 
     // example letter keys, portion of a typical keyboard
@@ -619,13 +618,13 @@ define( function( require ) {
 
     var i;
     for ( i = 0; i < topRowKeyStrings.length; i++ ) {
-      topKeyNodes.push( new KeyNode( new Text( topRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+      topKeyNodes.push( new TextKeyNode( topRowKeyStrings[ i ] ) );
     }
     for ( i = 0; i < middleRowKeyStrings.length; i++ ) {
-      middleKeyNodes.push( new KeyNode( new Text( middleRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+      middleKeyNodes.push( new TextKeyNode( middleRowKeyStrings[ i ] ) );
     }
     for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
-      bottomKeyNodes.push( new KeyNode( new Text( bottomRowKeyStrings[ i ], { font: new PhetFont( 16 ) } ) ) );
+      bottomKeyNodes.push( new TextKeyNode( bottomRowKeyStrings[ i ] ) );
     }
     topArrowKeyNode = new ArrowKeyNode( 'up' );
     bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
