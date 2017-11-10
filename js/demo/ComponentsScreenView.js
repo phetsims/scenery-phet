@@ -26,6 +26,7 @@ define( function( require ) {
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
+  var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
@@ -56,6 +57,7 @@ define( function( require ) {
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
+  var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -670,20 +672,42 @@ define( function( require ) {
     var shiftPlusIcon = HelpContent.shiftPlusIcon( new TextKeyNode( 'Hi' ) );
     var iconOrIcon = HelpContent.iconOrIcon( new TextKeyNode( 'Hi' ), new TextKeyNode( 'Hi' ) );
 
-    return new Panel( new HelpContent( 'Help Content', new VBox( {
-      children: [ labelWithIcon,
-        labelWithIconList,
-        arrowKeysRowIcon,
-        upDownArrowKeysRowIcon,
-        leftRightArrowKeysRowIcon,
-        wasdRowIcon,
-        shiftPlusIcon,
-        iconOrIcon
+    // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
+    // in their own panel
+    return new HBox( {
+
+      children: [
+
+        // Custom Help Content Panel
+        new Panel( new HelpContent( 'Custom Help Content', new VBox( {
+          children: [ labelWithIcon,
+            labelWithIconList,
+            arrowKeysRowIcon,
+            upDownArrowKeysRowIcon,
+            leftRightArrowKeysRowIcon,
+            wasdRowIcon,
+            shiftPlusIcon,
+            iconOrIcon
+          ],
+          center: layoutBounds.center,
+          align: 'right',
+          spacing: 3
+        } ), {} ) ),
+
+        // Individual help content subtypes
+        new Panel( new SliderControlsHelpContent() ),
+        new VBox( {
+          children: [
+            new Panel( new GeneralNavigationHelpContent() ),
+            new Panel( new GeneralNavigationHelpContent( { withGroupContent: true } ) )
+          ],
+          spacing: 10
+        } )
       ],
-      center: layoutBounds.center,
-      align: 'right',
-      spacing: 3
-    } ), {} ), { left: 500, top: 100 } );
+      left: 200,
+      top: 100,
+      spacing: 10
+    } );
   };
 
   // creates a demo for Keypad

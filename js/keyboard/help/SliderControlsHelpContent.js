@@ -2,7 +2,7 @@
 
 /**
  * Content for a KeyboardHelpDialog that describes how to use sliders.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -46,29 +46,20 @@ define( function( require ) {
       headingString: sliderControlsString,
 
       // icon options
-      arrowKeysScale: 0.55,
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
     }, options );
 
     // 'Move sliders' content
     var adjustSliderText = new RichText( adjustSliderString, DEFAULT_LABEL_OPTIONS );
-    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
-      scale: options.arrowKeysScale
-    } );
-    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
-      scale: options.arrowKeysScale
-    } );
+    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
+    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon );
 
     // 'move in smaller steps' content
     var adjustInSmallerStepsText = new RichText( adjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
-    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( {
-      scale: options.arrowKeysScale
-    } );
-    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon( {
-      scale: options.arrowKeysScale
-    } );
+    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
+    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
 
     var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
@@ -104,7 +95,7 @@ define( function( require ) {
       align: 'left',
       spacing: options.verticalIconSpacing
     } );
-     
+
     HelpContent.call( this, options.headingString, content, options );
   }
 

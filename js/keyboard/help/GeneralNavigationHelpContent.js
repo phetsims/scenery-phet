@@ -2,7 +2,7 @@
 
 /**
  * General help information for how to navigation a simulation with a keyboard.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -25,9 +25,6 @@ define( function( require ) {
   var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
   var moveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/moveToPreviousItemOrGroup' );
   var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
-
-  // constants
-  var DEFAULT_ARROW_KEYS_SCALE = 0.55;
 
   /**
    * @constructor
@@ -73,12 +70,8 @@ define( function( require ) {
       moveToPreviousItemText.setText( moveToPreviousItemOrGroupString );
 
       var moveBetweenItemsInAGroupText = new RichText( moveBetweenItemsInAGroupString, labelOptions );
-      var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon( {
-        scale: DEFAULT_ARROW_KEYS_SCALE
-      } );
-      var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon( {
-        scale: DEFAULT_ARROW_KEYS_SCALE
-      } );
+      var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
+      var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon );
 
