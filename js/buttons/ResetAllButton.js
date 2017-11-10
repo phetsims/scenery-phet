@@ -52,7 +52,7 @@ define( function( require ) {
 
       // We want to be able to make the ResetAllButton fully interoperable, which means opting in and passing that to
       // the button model.
-      phetioMethods: true
+      phetioReadOnly: false
     }, options );
 
     var tandem = options.tandem;
@@ -68,7 +68,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
       phetioValueType: TBoolean,
       phetioState: options.phetioState,
-      phetioMethods: options.phetioMethods
+      phetioReadOnly: options.phetioReadOnly
     } );
 
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
