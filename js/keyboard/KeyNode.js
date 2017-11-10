@@ -5,6 +5,9 @@
  * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard
  * navigation and functionality, but an icon could be used for any purpose.
  *
+ * Each KeyNode should have the same height, the content node will be scaled down if it is too large to maintain the
+ * proper key height.
+ *
  * @author Jesse Greenberg
  */
 
@@ -20,6 +23,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
+  var MAX_KEY_HEIGHT = 25;
+
   // default options for the KeyNode, all widths, offsets, and height values are in the ScreenView coordinate frame
   var DEFAULT_OPTIONS = {
 
@@ -42,10 +47,7 @@ define( function( require ) {
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
     // key will be at least this wide, making it possible to surround the icon with extra space if necessary
-    minKeyWidth: 25,
-
-    // TODO: this should not be an option. All keys must be this height!
-    maxKeyHeight: 25
+    minKeyWidth: 25
   };
 
   /**
@@ -59,12 +61,11 @@ define( function( require ) {
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
     var minKeyWidth = Math.max( options.minKeyWidth, keyIcon.width );
-    var maxKeyHeight = options.maxKeyHeight;
 
     // scale down the size of the keyIcon passed in if it is taller than the max heigh of the icon
     var scalar = 1;
-    if ( keyIcon.height > options.maxKeyHeight ) {
-      scalar = 1 / keyIcon.height / options.maxKeyHeight;
+    if ( keyIcon.height > MAX_KEY_HEIGHT ) {
+      scalar = 1 / keyIcon.height / MAX_KEY_HEIGHT;
     }
     // Add the scale to a new node, with keyIcon as a child so that we don't mutate the parameter node.
     var scaleNode = new Node( { children: [ keyIcon ], scale: scalar } );
@@ -72,7 +73,7 @@ define( function( require ) {
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
     var content = new AlignBox( scaleNode, {
-      alignBounds: new Bounds2( 0, 0, minKeyWidth, maxKeyHeight ),
+      alignBounds: new Bounds2( 0, 0, minKeyWidth, MAX_KEY_HEIGHT ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,
       xMargin: options.xMargin,

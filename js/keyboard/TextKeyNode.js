@@ -28,10 +28,6 @@ define( function( require ) {
     // margins, width, and height in ScreenView coordinates
     options = _.extend( {
 
-      // keynode options
-      xAlign: 'center',
-      yAlign: 'center',
-
       // text options
       font: new PhetFont( { size: 12 } ),
       fill: 'black',

@@ -638,7 +638,8 @@ define( function( require ) {
     var midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
     var bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
     var arrowKeysVBox = new VBox( {
-      children: [ topArrowKeyNode, bottomArrowKeyBox ]
+      children: [ topArrowKeyNode, bottomArrowKeyBox ],
+      spacing: 2
     } );
 
     return new VBox( {
