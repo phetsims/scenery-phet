@@ -657,8 +657,8 @@ define( function( require ) {
     var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ) );
     var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List' ), [
       new TextKeyNode( 'Hi' ),
-      new TextKeyNode( 'Hi' ),
-      new TextKeyNode( 'Hi' )
+      new TextKeyNode( 'Hello' ),
+      new TextKeyNode( 'Ahoy\' Manatee' )
     ] );
 
     var arrowKeysRowIcon = HelpContent.arrowKeysRowIcon();
@@ -670,7 +670,7 @@ define( function( require ) {
     var wasdRowIcon = HelpContent.wasdRowIcon();
 
     var shiftPlusIcon = HelpContent.shiftPlusIcon( new TextKeyNode( 'Hi' ) );
-    var iconOrIcon = HelpContent.iconOrIcon( new TextKeyNode( 'Hi' ), new TextKeyNode( 'Hi' ) );
+    var iconOrIcon = HelpContent.iconOrIcon( new TextKeyNode( 'Hi' ), new TextKeyNode( 'Sup' ) );
 
     // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
     // in their own panel
