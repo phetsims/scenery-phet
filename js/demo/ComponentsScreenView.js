@@ -27,6 +27,7 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
@@ -58,6 +59,7 @@ define( function( require ) {
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -68,12 +70,12 @@ define( function( require ) {
   function ComponentsScreenView() {
     DemosScreenView.call( this, [
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} getNode - creates the scene graph for the demo
-     */
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} getNode - creates the scene graph for the demo
+       */
       { label: 'ArrowNode', getNode: demoArrowNode },
       { label: 'BracketNode', getNode: demoBracketNode },
       { label: 'ConductivityTesterNode', getNode: demoConductivityTesterNode },
@@ -82,6 +84,7 @@ define( function( require ) {
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
       { label: 'KeyNode', getNode: demoKeyNode },
+      { label: 'HelpContent', getNode: demoHelpContent },
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
@@ -643,6 +646,44 @@ define( function( require ) {
       align: 'right',
       spacing: 3
     } );
+  };
+
+
+  // creates a demo for KeyNode
+  var demoHelpContent = function( layoutBounds ) {
+
+    var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ) );
+    var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List' ), [
+      new TextKeyNode( 'Hi' ),
+      new TextKeyNode( 'Hi' ),
+      new TextKeyNode( 'Hi' )
+    ] );
+
+    var arrowKeysRowIcon = HelpContent.arrowKeysRowIcon();
+
+    var upDownArrowKeysRowIcon = HelpContent.upDownArrowKeysRowIcon();
+
+    var leftRightArrowKeysRowIcon = HelpContent.leftRightArrowKeysRowIcon();
+
+    var wasdRowIcon = HelpContent.wasdRowIcon();
+
+    var shiftPlusIcon = HelpContent.shiftPlusIcon( new TextKeyNode( 'Hi' ) );
+    var iconOrIcon = HelpContent.iconOrIcon( new TextKeyNode( 'Hi' ), new TextKeyNode( 'Hi' ) );
+
+    return new Panel( new HelpContent( 'Help Content', new VBox( {
+      children: [ labelWithIcon,
+        labelWithIconList,
+        arrowKeysRowIcon,
+        upDownArrowKeysRowIcon,
+        leftRightArrowKeysRowIcon,
+        wasdRowIcon,
+        shiftPlusIcon,
+        iconOrIcon
+      ],
+      center: layoutBounds.center,
+      align: 'right',
+      spacing: 3
+    } ), {} ), { left: 500, top: 100 } );
   };
 
   // creates a demo for Keypad

@@ -91,7 +91,7 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node} icon
-     * @param {Object} options
+     * @param {Object} [options]
      * @return {HBox}
      */
     labelWithIcon: function( label, icon, options ) {
@@ -116,7 +116,7 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node[]} icons
-     * @param {Object} options
+     * @param {Object} [options]
      *
      * @return {HBox}
      */
@@ -165,7 +165,7 @@ define( function( require ) {
     /**
      * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
      *
-     * @param {Object} options
+     * @param {Object} [options]
      * @return {HBox}
      */
     arrowKeysRowIcon: function( options ) {
@@ -187,7 +187,7 @@ define( function( require ) {
     /**
      * An icon containing icons for the up and down arrow keys aligned horizontally.
      *
-     * @param {Object} options
+     * @param {Object} [options]
      * @return {HBox}
      */
     upDownArrowKeysRowIcon: function( options ) {
@@ -206,7 +206,7 @@ define( function( require ) {
     /**
      * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
      *
-     * @param {Object} options
+     * @param {Object} [options]
      * @return {HBox}
      */
     leftRightArrowKeysRowIcon: function( options ) {
@@ -225,7 +225,7 @@ define( function( require ) {
     /**
      * An icon containing icons for the up and down arrow keys aligned horizontally.
      *
-     * @param {Object} options
+     * @param {Object} [options]
      * @return {HBox}
      */
     wasdRowIcon: function( options ) {
@@ -255,7 +255,7 @@ define( function( require ) {
      * of shift, plus icon, and desired icon.
      *
      * @param {Node} icon - icon to right of 'shift +'
-     * @param {Object} options
+     * @param {Object} [options]
      *
      * @return {HBox}
      */
@@ -286,7 +286,7 @@ define( function( require ) {
      *
      * @param {Node} iconA - to the left of 'or' text
      * @param {Node} iconB - to the right of 'or' text
-     * @param {Object} options
+     * @param {Object} [options]
      *
      * @return {HBox}
      */
