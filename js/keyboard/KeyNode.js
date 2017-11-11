@@ -23,7 +23,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  var MAX_KEY_HEIGHT = 25;
+  var KEY_HEIGHT = 15;
 
   // default options for the KeyNode, all widths, offsets, and height values are in the ScreenView coordinate frame
   var DEFAULT_OPTIONS = {
@@ -46,8 +46,10 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
+    keyWidthMargin: 0,
+
     // key will be at least this wide, making it possible to surround the icon with extra space if necessary
-    minKeyWidth: 25
+    minKeyWidth: 15
   };
 
   /**
@@ -60,20 +62,23 @@ define( function( require ) {
     options = _.extend( {}, DEFAULT_OPTIONS, options );
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
-    var minKeyWidth = Math.max( options.minKeyWidth, keyIcon.width );
+    assert && assert( options.minKeyWidth >= DEFAULT_OPTIONS.minKeyWidth,
+      'KeyNode must have a min width of at least ' + DEFAULT_OPTIONS.minKeyWidth );
 
-    // scale down the size of the keyIcon passed in if it is taller than the max heigh of the icon
+    // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
     var scalar = 1;
-    if ( keyIcon.height > MAX_KEY_HEIGHT ) {
-      scalar = 1 / keyIcon.height / MAX_KEY_HEIGHT;
+    if ( keyIcon.height > KEY_HEIGHT ) {
+      scalar = KEY_HEIGHT / keyIcon.height;
     }
     // Add the scale to a new node, with keyIcon as a child so that we don't mutate the parameter node.
     var scaleNode = new Node( { children: [ keyIcon ], scale: scalar } );
 
+    var minKeyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.keyWidthMargin );
+
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
     var content = new AlignBox( scaleNode, {
-      alignBounds: new Bounds2( 0, 0, minKeyWidth, MAX_KEY_HEIGHT ),
+      alignBounds: new Bounds2( 0, 0, minKeyWidth, KEY_HEIGHT ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,
       xMargin: options.xMargin,

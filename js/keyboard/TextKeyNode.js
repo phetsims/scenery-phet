@@ -3,7 +3,7 @@
 /**
  * Node that looks like a keyboard key with text that is generally more than a single character. By default, a key
  * node with text is more rectangular than a letter key, and the key compactly surrounds the text content.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -19,7 +19,7 @@ define( function( require ) {
 
   /**
    * Constructor.
-   * 
+   *
    * @param {string} string
    * @param {Object} options
    */
@@ -31,15 +31,15 @@ define( function( require ) {
       // text options
       font: new PhetFont( { size: 12 } ),
       fill: 'black',
-      textMaxWidth: 50
+      textMaxWidth: 50,
+
+      // by default, key should tightly surround the text, with a bit more horizontal space
+      keyWidthMargin: 8
 
     }, options );
 
     // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
     var textNode = new RichText( string, { font: options.font, fill: options.fill, maxWidth: options.textMaxWidth } );
-
-    // by default, key should tightly surround the text, with a bit more horizontal space
-    options.minKeyWidth = options.minKeyWidth || textNode.width + 8; // TODO: 8 should be a constant somewhere
 
     KeyNode.call( this, textNode, options );
   }

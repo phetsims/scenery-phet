@@ -19,7 +19,6 @@ define( function( require ) {
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;
   var DEFAULT_ARROW_WIDTH = 0.6 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for an isosceles triangle
-  var DEFAULT_MIN_KEY_WIDTH = 30;
 
   // possible directions for the arrows in the key
   var DIRECTION_ANGLES = {
@@ -46,11 +45,7 @@ define( function( require ) {
       arrowLineJoin: 'round',
       arrowLineWidth: 3,
       arrowHeight: DEFAULT_ARROW_HEIGHT,
-      arrowWidth: DEFAULT_ARROW_WIDTH,
-
-      // KeyNode options
-      minKeyWidth: DEFAULT_MIN_KEY_WIDTH,
-      xAlign: 'center'
+      arrowWidth: DEFAULT_ARROW_WIDTH
     }, options );
 
     var arrowHeight = options.arrowHeight;

@@ -25,12 +25,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function CapsLockKeyNode( options ) {
-
-    options = _.extend( {
-      minKeyWidth: 60, // in ScreenView coordinates
-      maxKeyWidth: 60
-    }, options );
-
     TextKeyNode.call( this, capsLockString, options );
   }
 
