@@ -16,13 +16,12 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -43,7 +42,6 @@ define( function( require ) {
   // labels and keys
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
   var DEFAULT_TEXT_MAX_WIDTH = 175;
-  var DEFAULT_MIN_KEY_WIDTH = 30; // TODO: these are the same 'constants' as in ArrowKeyNode
 
   /**
    * @constructor
@@ -233,15 +231,10 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      // options for the KeyNode for each letter
-      var keyOptions = {
-        minKeyWidth: DEFAULT_MIN_KEY_WIDTH
-      };
-
-      var wKeyNode = new KeyNode( new RichText( 'W' ), keyOptions );
-      var aKeyNode = new KeyNode( new RichText( 'A' ), keyOptions );
-      var sKeyNode = new KeyNode( new RichText( 'S' ), keyOptions );
-      var dKeyNode = new KeyNode( new RichText( 'D' ), keyOptions );
+      var wKeyNode = new TextKeyNode( 'W' );
+      var aKeyNode = new TextKeyNode( 'A' );
+      var sKeyNode = new TextKeyNode( 'S' );
+      var dKeyNode = new TextKeyNode( 'D' );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
