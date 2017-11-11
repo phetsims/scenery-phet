@@ -628,18 +628,18 @@ define( function( require ) {
     }
     topArrowKeyNode = new ArrowKeyNode( 'up' );
     bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
-    var bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 5 } );
+    var bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 2 } );
 
     // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
     middleKeyNodes.push( new EnterKeyNode() );
-    bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 87, maxKeyWidth: 87 } ) );
+    bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 70 } ) );
 
     var topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
     var midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
     var bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
     var arrowKeysVBox = new VBox( {
       children: [ topArrowKeyNode, bottomArrowKeyBox ],
-      spacing: 2
+      spacing: 1
     } );
 
     return new VBox( {

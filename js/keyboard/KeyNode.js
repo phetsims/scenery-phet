@@ -46,9 +46,12 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
+    // Apply margins by way of the bounds of the align box. This is different from the xMargin yMargin because it works
+    // when center aligned
     keyWidthMargin: 0,
+    keyHeightMargin: 5,
 
-    // key will be at least this wide, making it possible to surround the icon with extra space if necessary
+    // Key will be at least this wide, making it possible to surround the icon with extra space if necessary
     minKeyWidth: 15
   };
 
@@ -67,9 +70,11 @@ define( function( require ) {
 
     // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
     var scalar = 1;
-    if ( keyIcon.height > KEY_HEIGHT ) {
-      scalar = KEY_HEIGHT / keyIcon.height;
+    var heightOfKeyIcon = KEY_HEIGHT - options.keyHeightMargin; // adjust for the vertical margin
+    if ( keyIcon.height > heightOfKeyIcon ) {
+      scalar = heightOfKeyIcon / keyIcon.height;
     }
+
     // Add the scale to a new node, with keyIcon as a child so that we don't mutate the parameter node.
     var scaleNode = new Node( { children: [ keyIcon ], scale: scalar } );
 
@@ -107,6 +112,7 @@ define( function( require ) {
 
     Node.call( this, options );
   }
+
   sceneryPhet.register( 'KeyNode', KeyNode );
 
   return inherit( Node, KeyNode );
