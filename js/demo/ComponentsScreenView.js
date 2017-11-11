@@ -646,7 +646,8 @@ define( function( require ) {
       children: [ topHBox, midddleHBox, bottomHBox, arrowKeysVBox ],
       center: layoutBounds.center,
       align: 'right',
-      spacing: 3
+      spacing: 3,
+      scale: 2
     } );
   };
 
