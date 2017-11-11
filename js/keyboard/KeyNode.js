@@ -49,7 +49,7 @@ define( function( require ) {
     // Apply margins by way of the bounds of the align box. This is different from the xMargin yMargin because it works
     // when center aligned
     keyWidthMargin: 0,
-    keyHeightMargin: 5,
+    keyHeightMargin: 0,
 
     // Key will be at least this wide, making it possible to surround the icon with extra space if necessary
     minKeyWidth: 15

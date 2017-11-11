@@ -2,7 +2,7 @@
 
 /**
  * Node that looks like an arrow key on the keyboard.  Default is a rounded triangle centered in a square key.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -45,7 +45,9 @@ define( function( require ) {
       arrowLineJoin: 'round',
       arrowLineWidth: 3,
       arrowHeight: DEFAULT_ARROW_HEIGHT,
-      arrowWidth: DEFAULT_ARROW_WIDTH
+      arrowWidth: DEFAULT_ARROW_WIDTH,
+
+      keyHeightMargin: 7 // this way the arrows will be scaled down and given proper margin in the key
     }, options );
 
     var arrowHeight = options.arrowHeight;
