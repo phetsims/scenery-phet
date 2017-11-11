@@ -656,17 +656,20 @@ define( function( require ) {
   var demoHelpContent = function( layoutBounds ) {
 
     var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ) );
-    var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List' ), [
+    var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List: ' ), [
       new TextKeyNode( 'Hi' ),
       new TextKeyNode( 'Hello' ),
       new TextKeyNode( 'Ahoy\' Manatee' )
     ] );
 
     var arrowKeysRowIcon = HelpContent.arrowKeysRowIcon();
+    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon() );
 
     var upDownArrowKeysRowIcon = HelpContent.upDownArrowKeysRowIcon();
+    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon() );
 
     var leftRightArrowKeysRowIcon = HelpContent.leftRightArrowKeysRowIcon();
+    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with left right arrows: ' ), HelpContent.leftRightArrowKeysRowIcon() );
 
     var wasdRowIcon = HelpContent.wasdRowIcon();
 
@@ -684,8 +687,11 @@ define( function( require ) {
           children: [ labelWithIcon,
             labelWithIconList,
             arrowKeysRowIcon,
+            labelWithArrowKeysRowIcon,
             upDownArrowKeysRowIcon,
+            labelWithUpDownArrowKeysRowIcon,
             leftRightArrowKeysRowIcon,
+            labelWithLeftRightArrowKeysRowIcon,
             wasdRowIcon,
             shiftPlusIcon,
             iconOrIcon
