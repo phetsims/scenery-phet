@@ -82,7 +82,8 @@ define( function( require ) {
   return inherit( VBox, HelpContent, {}, {
 
     /**
-     * Horizontally align a label and an icon, with the label on the left and the icon on the right.
+     * Horizontally align a label and an icon, with the label on the left and the icon on the right. Optionally,
+     * the icon can be ordered before the label, see labelFirst option.
      * @public
      * @static
      *
@@ -95,11 +96,12 @@ define( function( require ) {
 
       options = _.extend( {
         spacing: DEFAULT_LABEL_ICON_SPACING,
-        align: 'center'
+        align: 'center',
+        labelFirst: true
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      options.children = [ label, icon ];
+      options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
       return new HBox( options );
     },
 
@@ -240,6 +242,24 @@ define( function( require ) {
       return new HBox( options );
     },
 
+     /**
+     * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
+     *
+     * @param {Object} [options]
+     * @return {HBox}
+     */
+    arrowOrWasdKeysRowIcon: function( options ) {
+      options = _.extend( {
+        spacing: DEFAULT_ICON_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      var arrowKeys = HelpContent.arrowKeysRowIcon();
+      var wasdKeys = HelpContent.wasdRowIcon();
+
+      return HelpContent.iconOrIcon( arrowKeys, wasdKeys, options );
+    },
+
     /**
      * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
      * of shift, plus icon, and desired icon.
@@ -293,6 +313,34 @@ define( function( require ) {
       } );
 
       options.children = [ iconA, orText, iconB ];
+      return new HBox( options );
+    },
+
+    /**
+     * Get two icons horizontally aligned and separated by '+' text.
+     *
+     * @param {Node} iconA - to the left of '+' text
+     * @param {Node} iconB - to the right of '+' text
+     * @param {Object} [options]
+     *
+     * @return {HBox}
+     */
+    iconPlusIcon: function( iconA, iconB, options ) {
+
+      options = _.extend( {
+        spacing: DEFAULT_ICON_SPACING,
+
+        // plus icon
+        plusIconSize: new Dimension2( 8, 1.2 )
+      }, options );
+      assert && assert( !options.children );
+
+       // plus icon
+      var plusIconNode = new PlusNode( {
+        size: options.plusIconSize
+      } );
+
+      options.children = [ iconA, plusIconNode, iconB ];
       return new HBox( options );
     },
 
