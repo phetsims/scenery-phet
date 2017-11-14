@@ -140,7 +140,8 @@ define( function( require ) {
         verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
 
         // a11y
-        tagName: 'li'
+        tagName: 'li',
+        accessibleLabel: null // screen reader description often used for entire list, passed to final HBox
       }, options );
 
       // Use align group to horizontally align the label with the first item in the list of icons, guarantees
