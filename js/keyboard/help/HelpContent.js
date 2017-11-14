@@ -16,6 +16,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -60,18 +61,29 @@ define( function( require ) {
       headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
       // VBox options
-      align: DEFAULT_ALIGN
+      align: DEFAULT_ALIGN,
+
+      // a11y
+      a11yContentTagName: 'ul' // almost all help content will be list items, wrap with a ul tag
     }, options );
 
     // create the heading
     var headingText = new Text( headingString, {
       font: options.headingFont,
-      maxWidth: DEFAULT_HEADING_MAX_WIDTH
+      maxWidth: DEFAULT_HEADING_MAX_WIDTH,
+
+      // a11y
+      tagName: 'h2',
+      accessibleLabel: headingString
     } );
+
+    // wrap the content with a node that represents the optional a11yContentTagName, if defined
+    var contentWrapper = new Node( { children: [ content ] } );
+    options.a11yContentTagName && contentWrapper.setTagName( options.a11yContentTagName );
 
     // heading and content aligned in a VBox
     VBox.call( this, {
-      children: [ headingText, content ],
+      children: [ headingText, contentWrapper ],
       align: options.align,
       spacing: DEFAULT_HEADING_CONTENT_SPACING
     } );
@@ -97,7 +109,10 @@ define( function( require ) {
       options = _.extend( {
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
-        labelFirst: true
+        labelFirst: true,
+
+        // a11y
+        tagName: 'li'
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
@@ -122,7 +137,10 @@ define( function( require ) {
     labelWithIconList: function( label, icons, options ) {
 
       options = _.extend( {
-        verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75 // less than the normal vertical icon spacing since it is a group
+        verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
+
+        // a11y
+        tagName: 'li'
       }, options );
 
       // Use align group to horizontally align the label with the first item in the list of icons, guarantees
@@ -157,7 +175,9 @@ define( function( require ) {
       return new HBox( {
         children: [ labelBox, iconsVBox ],
         align: 'top',
-        spacing: DEFAULT_LABEL_ICON_SPACING
+        spacing: DEFAULT_LABEL_ICON_SPACING,
+        tagName: options.tagName,
+        accessibleLabel: options.accessibleLabel
       } );
     },
 

@@ -23,8 +23,13 @@ define( function( require ) {
     simSoundOffString: 'Sim sound off.',
 
     // alert for sim reset
-    resetAllAlertString: 'Sim screen restarted. Everything reset.'
+    resetAllAlertString: 'Sim screen restarted. Everything reset.',
 
+    // help descriptions for general navigation
+    tabDescriptionString: 'Move to next item with Tab key.',
+    shiftTabDescriptionString: 'Move to previous item with Shift plus Tab key.',
+    groupNavigationDescriptionString: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.',
+    exitDialogDescriptionString: 'Exit a dialog with Escape key.'
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {

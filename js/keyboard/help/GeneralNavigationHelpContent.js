@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -25,6 +26,12 @@ define( function( require ) {
   var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
   var moveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/moveToPreviousItemOrGroup' );
   var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
+
+  // invisible strings for screen readers, no i18n support
+  var tabDescriptionString = SceneryPhetA11yStrings.tabDescriptionString;
+  var shiftTabDescriptionString = SceneryPhetA11yStrings.shiftTabDescriptionString;
+  var groupNavigationDescriptionString = SceneryPhetA11yStrings.groupNavigationDescriptionString;
+  var exitDialogDescriptionString = SceneryPhetA11yStrings.exitDialogDescriptionString;
 
   /**
    * @constructor
@@ -48,18 +55,24 @@ define( function( require ) {
     // 'move to next item' content
     var moveToNextItemText = new RichText( moveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
-    var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon );
+    var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
+      accessibleLabel: tabDescriptionString
+    } );
 
     // 'move to previous item' content
     var moveToPreviousItemText = new RichText( moveToPreviousItemString, labelOptions );
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
-    var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon );
+    var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
+      accessibleLabel: shiftTabDescriptionString
+    } );
 
     // 'exit a dialog' content
     var exitADialogText = new RichText( exitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
-    var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon );
+    var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
+      accessibleLabel: exitDialogDescriptionString
+    } );
 
     var contentChildren = [];
     if ( options.withGroupContent ) {
@@ -73,7 +86,9 @@ define( function( require ) {
       var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon );
+      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
+        accessibleLabel: groupNavigationDescriptionString
+      } );
 
       contentChildren = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
     }
