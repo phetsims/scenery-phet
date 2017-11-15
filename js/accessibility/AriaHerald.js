@@ -57,9 +57,11 @@ define( function( require ) {
     // clearing the old content allows repeated alerts
     if ( withClear ) { liveElement.textContent = ''; }
 
-    // update the content with a small delay - refresh rate of the accessibility tree is often slow, and without a
-    // delay, many alerts would be lost forever
-    Timer.setTimeout( function() { liveElement.textContent = textContent; }, 200 );      
+    liveElement.textContent = textContent;
+
+    // after a small delay, remove this alert content from the DOM so that it cannot be found again - must occur
+    // after a delay for screen reader to register the change in text content
+    Timer.setTimeout( function() { liveElement.textContent = ''; }, 200 );
   }
 
   /**
