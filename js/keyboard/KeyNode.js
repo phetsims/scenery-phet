@@ -49,10 +49,10 @@ define( function( require ) {
 
     // Key will be at least this wide, making it possible to surround the icon with extra space if necessary.
     // The minimum width of the KeyNode allowed, if the icon is wider, than it will expand gracefully
-    minKeyWidth: 15, // default equal to the height, a square key as the minimum.
+    minKeyWidth: 17, // default equal to the height, a square key as the minimum.
 
     // the desired height of the KeyNode; icon will be scaled down if too big
-    keyHeight: 15,
+    keyHeight: 17,
 
     // Force the width of the KeyNode to be the same width as height, based on the height.
     // Will scale down the icon if too wide.
