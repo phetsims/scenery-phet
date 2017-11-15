@@ -13,7 +13,7 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
@@ -51,7 +51,7 @@ define( function( require ) {
 
     setMuted: {
       returnType: TVoid,
-      parameterTypes: [ TBoolean ],
+      parameterTypes: [ BooleanIO ],
       implementation: function( muted ) {
         this.instance.muted( muted );
       },
@@ -59,7 +59,7 @@ define( function( require ) {
                      'queue but will not be read by screen readers.'
     },
     getMuted: {
-      returnType: TBoolean,
+      returnType: BooleanIO,
       parameterTypes: [ TVoid ],
       implementation: function() {
         return this.instance.muted();
@@ -69,7 +69,7 @@ define( function( require ) {
     },
     setEnabled: {
       returnType: TVoid,
-      parameterTypes: [ TBoolean ],
+      parameterTypes: [ BooleanIO ],
       implementation: function( enabled ) {
         this.instance.enabled( enabled );
       },
@@ -77,7 +77,7 @@ define( function( require ) {
                      'the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.'
     },
     getEnabled: {
-      returnType: TBoolean,
+      returnType: BooleanIO,
       parameterTypes: [ TVoid ],
       implementation: function() {
         return this.instance.enabled();

@@ -19,7 +19,7 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
@@ -63,7 +63,7 @@ define( function( require ) {
     // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
     this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
-      phetioType: DerivedPropertyIO( TBoolean ),
+      phetioType: DerivedPropertyIO( BooleanIO ),
       phetioState: options.phetioState,
       phetioReadOnly: options.phetioReadOnly
     } );
