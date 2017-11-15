@@ -22,9 +22,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // constants
-  var KEY_HEIGHT = 15;
-
   // default options for the KeyNode, all widths, offsets, and height values are in the ScreenView coordinate frame
   var DEFAULT_OPTIONS = {
 
@@ -38,7 +35,7 @@ define( function( require ) {
     xShadowOffset: 2,
     yShadowOffset: 2,
 
-    // margins
+    // margins set by AlignBox
     xMargin: 0, // sets the horizontal margin for the icon from the left/right edge
     yMargin: 0, // set the vertical margin for the icon from the top/botton edges
 
@@ -46,13 +43,20 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
-    // Apply margins by way of the bounds of the align box. This is different from the xMargin yMargin because it works
-    // when center aligned
-    keyWidthMargin: 0,
-    keyHeightMargin: 0,
+    // x and y padding, making the key larger by adding additional space around the icon
+    xPadding: 3,
+    yPadding: 3,
 
-    // Key will be at least this wide, making it possible to surround the icon with extra space if necessary
-    minKeyWidth: 15
+    // Key will be at least this wide, making it possible to surround the icon with extra space if necessary.
+    // The minimum width of the KeyNode allowed, if the icon is wider, than it will expand gracefully
+    minKeyWidth: 15, // default equal to the height, a square key as the minimum.
+
+    // the desired height of the KeyNode; icon will be scaled down if too big
+    keyHeight: 15,
+
+    // Force the width of the KeyNode to be the same width as height, based on the height.
+    // Will scale down the icon if too wide.
+    forceSquareKey: false
   };
 
   /**
@@ -65,25 +69,40 @@ define( function( require ) {
     options = _.extend( {}, DEFAULT_OPTIONS, options );
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
-    assert && assert( options.minKeyWidth >= DEFAULT_OPTIONS.minKeyWidth,
-      'KeyNode must have a min width of at least ' + DEFAULT_OPTIONS.minKeyWidth );
-
     // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
-    var scalar = 1;
-    var heightOfKeyIcon = KEY_HEIGHT - options.keyHeightMargin; // adjust for the vertical margin
-    if ( keyIcon.height > heightOfKeyIcon ) {
-      scalar = heightOfKeyIcon / keyIcon.height;
+    var heightScalar = 1;
+    var availableHeightForKeyIcon = options.keyHeight - options.yPadding; // adjust for the vertical margin
+    if ( keyIcon.height > availableHeightForKeyIcon ) {
+      heightScalar = availableHeightForKeyIcon / keyIcon.height;
     }
 
-    // Add the scale to a new node, with keyIcon as a child so that we don't mutate the parameter node.
-    var scaleNode = new Node( { children: [ keyIcon ], scale: scalar } );
+    // Add the scale to a new node based on the height, with keyIcon as a child so that we don't mutate the parameter node.
+    var scaleNode = new Node( { children: [ keyIcon ], scale: heightScalar } );
 
-    var minKeyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.keyWidthMargin );
+    var minKeyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.xPadding );
+
+    // Make the width the same as the height by scaling down the icon if necessary
+    if ( options.forceSquareKey ) {
+
+      // If we are forcing square, we may have to scale the node down to fit
+      var availableWidthForKeyIcon = options.minKeyWidth - options.xPadding; // adjust for the horizontal margin
+
+      var widthScalar = 1;
+      if ( keyIcon.width > availableWidthForKeyIcon ) {
+        widthScalar = availableWidthForKeyIcon / keyIcon.width;
+      }
+      // Add the scale to a new node based on the width
+      scaleNode = new Node( { children: [ scaleNode ], scale: widthScalar } );
+
+      // Set the width to the height to make sure the alignBounds below are set correctly as a square.
+      minKeyWidth = options.keyHeight;
+    }
+
 
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
     var content = new AlignBox( scaleNode, {
-      alignBounds: new Bounds2( 0, 0, minKeyWidth, KEY_HEIGHT ),
+      alignBounds: new Bounds2( 0, 0, minKeyWidth, options.keyHeight ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,
       xMargin: options.xMargin,

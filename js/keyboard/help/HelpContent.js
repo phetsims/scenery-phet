@@ -43,6 +43,7 @@ define( function( require ) {
   // labels and keys
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
   var DEFAULT_TEXT_MAX_WIDTH = 175;
+  var DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS = { forceSquareKey: true };
 
   /**
    * @constructor
@@ -195,10 +196,10 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var upArrowKeyNode = new ArrowKeyNode( 'up' );
-      var leftArrowKeyNode = new ArrowKeyNode( 'left' );
-      var downArrowKeyNode = new ArrowKeyNode( 'down' );
-      var rightArowKeyNode = new ArrowKeyNode( 'right' );
+      var upArrowKeyNode = new ArrowKeyNode( 'up', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var leftArrowKeyNode = new ArrowKeyNode( 'left', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var downArrowKeyNode = new ArrowKeyNode( 'down', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var rightArowKeyNode = new ArrowKeyNode( 'right', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
 
       options.children = [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
       return new HBox( options );
@@ -216,8 +217,8 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var upArrowKeyNode = new ArrowKeyNode( 'up' );
-      var downArrowKeyNode = new ArrowKeyNode( 'down' );
+      var upArrowKeyNode = new ArrowKeyNode( 'up', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var downArrowKeyNode = new ArrowKeyNode( 'down', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
 
       options.children = [ upArrowKeyNode, downArrowKeyNode ];
       return new HBox( options );
@@ -235,8 +236,8 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var upArrowKeyNode = new ArrowKeyNode( 'left' );
-      var downArrowKeyNode = new ArrowKeyNode( 'right' );
+      var upArrowKeyNode = new ArrowKeyNode( 'left', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var downArrowKeyNode = new ArrowKeyNode( 'right', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
 
       options.children = [ upArrowKeyNode, downArrowKeyNode ];
       return new HBox( options );
@@ -254,16 +255,16 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var wKeyNode = new TextKeyNode( 'W' );
-      var aKeyNode = new TextKeyNode( 'A' );
-      var sKeyNode = new TextKeyNode( 'S' );
-      var dKeyNode = new TextKeyNode( 'D' );
+      var wKeyNode = new TextKeyNode( 'W', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var aKeyNode = new TextKeyNode( 'A', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var sKeyNode = new TextKeyNode( 'S', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
+      var dKeyNode = new TextKeyNode( 'D', DEFAULT_ARROW_AND_LETTER_KEY_OPTIONS );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
     },
 
-     /**
+    /**
      * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
      *
      * @param {Object} [options]
@@ -356,7 +357,7 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children );
 
-       // plus icon
+      // plus icon
       var plusIconNode = new PlusNode( {
         size: options.plusIconSize
       } );

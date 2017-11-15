@@ -34,7 +34,7 @@ define( function( require ) {
       textMaxWidth: 50,
 
       // by default, key should tightly surround the text, with a bit more horizontal space
-      keyWidthMargin: 8
+      xPadding: 8
 
     }, options );
 

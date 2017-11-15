@@ -618,13 +618,13 @@ define( function( require ) {
 
     var i;
     for ( i = 0; i < topRowKeyStrings.length; i++ ) {
-      topKeyNodes.push( new TextKeyNode( topRowKeyStrings[ i ] ) );
+      topKeyNodes.push( new TextKeyNode( topRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     for ( i = 0; i < middleRowKeyStrings.length; i++ ) {
-      middleKeyNodes.push( new TextKeyNode( middleRowKeyStrings[ i ] ) );
+      middleKeyNodes.push( new TextKeyNode( middleRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
-      bottomKeyNodes.push( new TextKeyNode( bottomRowKeyStrings[ i ] ) );
+      bottomKeyNodes.push( new TextKeyNode( bottomRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     topArrowKeyNode = new ArrowKeyNode( 'up' );
     bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];

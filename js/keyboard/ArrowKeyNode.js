@@ -47,7 +47,7 @@ define( function( require ) {
       arrowHeight: DEFAULT_ARROW_HEIGHT,
       arrowWidth: DEFAULT_ARROW_WIDTH,
 
-      keyHeightMargin: 7 // this way the arrows will be scaled down and given proper margin in the key
+      yPadding: 7 // this way the arrows will be scaled down and given proper margin in the key
     }, options );
 
     var arrowHeight = options.arrowHeight;
