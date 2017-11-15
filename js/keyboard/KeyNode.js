@@ -5,8 +5,9 @@
  * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard
  * navigation and functionality, but an icon could be used for any purpose.
  *
- * Each KeyNode should have the same height, the content node will be scaled down if it is too large to maintain the
- * proper key height.
+ * Each KeyNode has the same height by default, and the content node will be scaled down if it is too large to maintain the
+ * proper key height. The width will expand based on padding and the width of the icon node in order to surround content
+ * fully.
  *
  * @author Jesse Greenberg
  */
@@ -98,7 +99,6 @@ define( function( require ) {
       // Set the width to the height to make sure the alignBounds below are set correctly as a square.
       keyWidth = options.keyHeight;
     }
-
 
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
