@@ -79,7 +79,8 @@ define( function( require ) {
     // Add the scale to a new node based on the height, with keyIcon as a child so that we don't mutate the parameter node.
     var scaleNode = new Node( { children: [ keyIcon ], scale: heightScalar } );
 
-    var minKeyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.xPadding );
+    // Set the keyWidth to either be the minimum, or the width of the icon + padding, which ever is larger.
+    var keyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.xPadding );
 
     // Make the width the same as the height by scaling down the icon if necessary
     if ( options.forceSquareKey ) {
@@ -95,14 +96,14 @@ define( function( require ) {
       scaleNode = new Node( { children: [ scaleNode ], scale: widthScalar } );
 
       // Set the width to the height to make sure the alignBounds below are set correctly as a square.
-      minKeyWidth = options.keyHeight;
+      keyWidth = options.keyHeight;
     }
 
 
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
     var content = new AlignBox( scaleNode, {
-      alignBounds: new Bounds2( 0, 0, minKeyWidth, options.keyHeight ),
+      alignBounds: new Bounds2( 0, 0, keyWidth, options.keyHeight ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,
       xMargin: options.xMargin,
