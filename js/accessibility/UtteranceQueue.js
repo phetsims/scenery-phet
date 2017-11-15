@@ -209,7 +209,7 @@ define( function( require ) {
     }, UtteranceQueue.interval
   );
 
-  tandem.addInstance( UtteranceQueue, TUtteranceQueue );
+  tandem.addInstance( UtteranceQueue, { phetioType: TUtteranceQueue } );
 
   return UtteranceQueue;
 } );

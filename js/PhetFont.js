@@ -36,7 +36,8 @@ define( function( require ) {
     // PhET defaults
     options = _.extend( {
       family: 'Arial',
-      tandem: Tandem.tandemOptional()
+      tandem: Tandem.tandemOptional(),
+      phetioType: TFont
     }, options );
 
     // Guarantee a fallback family
@@ -45,7 +46,7 @@ define( function( require ) {
 
     Font.call( this, options );
 
-    options.tandem.addInstance( this, TFont, options );
+    options.tandem.addInstance( this, options );
   }
 
   sceneryPhet.register( 'PhetFont', PhetFont );

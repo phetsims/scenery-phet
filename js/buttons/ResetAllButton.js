@@ -20,6 +20,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TDerivedProperty = require( 'AXON/TDerivedProperty' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
@@ -55,18 +56,14 @@ define( function( require ) {
       phetioReadOnly: false
     }, options );
 
-    var tandem = options.tandem;
-    options.tandem = tandem.createSupertypeTandem();
-
     ResetButton.call( this, options );
 
     this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
-
     // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
     this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
-      phetioValueType: TBoolean,
+      phetioType: TDerivedProperty( TBoolean ),
       phetioState: options.phetioState,
       phetioReadOnly: options.phetioReadOnly
     } );
@@ -80,10 +77,6 @@ define( function( require ) {
       !isFiring && UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
         typeId: 'resetAllButtonAlert'
       } ) );
-    } );
-
-    this.mutate( {
-      tandem: tandem
     } );
   }
 

@@ -74,7 +74,7 @@ define( function( require ) {
     assert && assert( options.majorTickHeight < rulerHeight / 2 );
     assert && assert( options.minorTickHeight < rulerHeight / 2 );
 
-    Node.call( this, { tandem: options.tandem.createSupertypeTandem() } );
+    Node.call( this, { tandem: options.tandem } );
 
     // background
     var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
