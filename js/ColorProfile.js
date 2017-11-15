@@ -61,7 +61,7 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
 
   // phet-io modules
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // constants
   var tandem = Tandem.createStaticTandem( 'colorProfile' );
@@ -81,7 +81,7 @@ define( function( require ) {
     // 'default' will use all default colors, and 'projector' is a common color profile that is also used.
     var profileNameProperty = this.profileNameProperty = new Property( 'default', {
       tandem: tandem.createTandem( 'profileNameProperty' ),
-      phetioType: PropertyIO( TString ),
+      phetioType: PropertyIO( StringIO ),
       validValues: profileNames
     } );
 

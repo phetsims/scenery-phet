@@ -14,9 +14,9 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
-  var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
+  var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   /**
    * Wrapper type for phet/scenery-phet's UtteranceQueue
@@ -26,14 +26,14 @@ define( function( require ) {
    */
   function TUtteranceQueue( utteranceQueue, phetioID ) {
     assert && assertInstanceOf( utteranceQueue, Object );
-    TObject.call( this, utteranceQueue, phetioID );
+    ObjectIO.call( this, utteranceQueue, phetioID );
   }
 
-  phetioInherit( TObject, 'TUtteranceQueue', TUtteranceQueue, {
+  phetioInherit( ObjectIO, 'TUtteranceQueue', TUtteranceQueue, {
 
     addToBack: {
-      returnType: TVoid,
-      parameterTypes: [ TString ],
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
       implementation: function( textContent ) {
         return this.instance.addToBack( textContent );
       },
@@ -41,8 +41,8 @@ define( function( require ) {
     },
 
     addToFront: {
-      returnType: TVoid,
-      parameterTypes: [ TString ],
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
       implementation: function( textContent ) {
         return this.instance.addToFront( textContent );
       },
@@ -50,7 +50,7 @@ define( function( require ) {
     },
 
     setMuted: {
-      returnType: TVoid,
+      returnType: VoidIO,
       parameterTypes: [ BooleanIO ],
       implementation: function( muted ) {
         this.instance.muted( muted );
@@ -60,7 +60,7 @@ define( function( require ) {
     },
     getMuted: {
       returnType: BooleanIO,
-      parameterTypes: [ TVoid ],
+      parameterTypes: [ VoidIO ],
       implementation: function() {
         return this.instance.muted();
       },
@@ -68,7 +68,7 @@ define( function( require ) {
                      'queue but will not be read by screen readers.'
     },
     setEnabled: {
-      returnType: TVoid,
+      returnType: VoidIO,
       parameterTypes: [ BooleanIO ],
       implementation: function( enabled ) {
         this.instance.enabled( enabled );
@@ -78,7 +78,7 @@ define( function( require ) {
     },
     getEnabled: {
       returnType: BooleanIO,
-      parameterTypes: [ TVoid ],
+      parameterTypes: [ VoidIO ],
       implementation: function() {
         return this.instance.enabled();
       },
