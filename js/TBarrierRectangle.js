@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TBarrierRectangle( barrierRectangle, phetioID ) {
     assert && assertInstanceOf( barrierRectangle, phet.sceneryPhet.BarrierRectangle );
-    TNode.call( this, barrierRectangle, phetioID );
+    NodeIO.call( this, barrierRectangle, phetioID );
   }
 
-  phetioInherit( TNode, 'TBarrierRectangle', TBarrierRectangle, {}, {
+  phetioInherit( NodeIO, 'TBarrierRectangle', TBarrierRectangle, {}, {
     documentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
     events: [ 'fired' ]
   } );

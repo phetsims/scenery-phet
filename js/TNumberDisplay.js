@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TNumberDisplay( numberControl, phetioID ) {
     assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
-    TNode.call( this, numberControl, phetioID );
+    NodeIO.call( this, numberControl, phetioID );
   }
 
-  phetioInherit( TNode, 'TNumberControl', TNumberDisplay, {}, {
+  phetioInherit( NodeIO, 'TNumberControl', TNumberDisplay, {}, {
     documentation: 'A numeric readout with a background'
   } );
 

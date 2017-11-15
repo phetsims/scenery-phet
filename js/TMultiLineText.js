@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -26,10 +26,10 @@ define( function( require ) {
    */
   function TMultiLineText( text, phetioID ) {
     assert && assertInstanceOf( text, phet.sceneryPhet.MultiLineText );
-    TNode.call( this, text, phetioID );
+    NodeIO.call( this, text, phetioID );
   }
 
-  phetioInherit( TNode, 'TMultiLineText', TMultiLineText, {
+  phetioInherit( NodeIO, 'TMultiLineText', TMultiLineText, {
     setText: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],

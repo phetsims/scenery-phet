@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TWavelengthSlider( slider, phetioID ) {
     assert && assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
-    TNode.call( this, slider, phetioID );
+    NodeIO.call( this, slider, phetioID );
   }
 
-  phetioInherit( TNode, 'TWavelengthSlider', TWavelengthSlider, {}, {
+  phetioInherit( NodeIO, 'TWavelengthSlider', TWavelengthSlider, {}, {
     documentation: 'A slider that shows wavelengths for selection'
   } );
 

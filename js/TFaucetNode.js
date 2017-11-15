@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TFaucetNode( faucet, phetioID ) {
     assert && assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
-    TNode.call( this, faucet, phetioID );
+    NodeIO.call( this, faucet, phetioID );
   }
 
-  phetioInherit( TNode, 'TFaucetNode', TFaucetNode, {}, {
+  phetioInherit( NodeIO, 'TFaucetNode', TFaucetNode, {}, {
     documentation: 'Faucet that emits fluid, typically user-controllable',
     events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );
