@@ -18,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TFont = require( 'SCENERY/util/TFont' ); // TODO: we should have TPhetFont
+  var FontIO = require( 'SCENERY/util/FontIO' ); // TODO: we should have TPhetFont
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
@@ -37,7 +37,7 @@ define( function( require ) {
     options = _.extend( {
       family: 'Arial',
       tandem: Tandem.tandemOptional(),
-      phetioType: TFont
+      phetioType: FontIO
     }, options );
 
     // Guarantee a fallback family
