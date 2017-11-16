@@ -33,8 +33,8 @@ define( function( require ) {
     cornerRadius: 2, // corner radius applied to the key and its shadow
 
     // offset for the shadow rectangle relative to the top left corner of the key
-    xShadowOffset: 2,
-    yShadowOffset: 2,
+    xShadowOffset: 1.3,
+    yShadowOffset: 1.3,
 
     // margins set by AlignBox
     xMargin: 0, // sets the horizontal margin for the icon from the left/right edge

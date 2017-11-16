@@ -47,7 +47,7 @@ define( function( require ) {
       arrowHeight: DEFAULT_ARROW_HEIGHT,
       arrowWidth: DEFAULT_ARROW_WIDTH,
 
-      yPadding: 7, // this way the arrows will be scaled down and given proper margin in the key
+      yPadding: 10, // this way the arrows will be scaled down and given proper margin in the key
       forceSquareKey: true // arrow keys are typically square
     }, options );
 
