@@ -24,12 +24,12 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TUtteranceQueue( utteranceQueue, phetioID ) {
+  function UtteranceQueueIO( utteranceQueue, phetioID ) {
     assert && assertInstanceOf( utteranceQueue, Object );
     ObjectIO.call( this, utteranceQueue, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TUtteranceQueue', TUtteranceQueue, {
+  phetioInherit( ObjectIO, 'UtteranceQueueIO', UtteranceQueueIO, {
 
     addToBack: {
       returnType: VoidIO,
@@ -90,8 +90,8 @@ define( function( require ) {
     events: [ 'announced' ]
   } );
 
-  sceneryPhet.register( 'TUtteranceQueue', TUtteranceQueue );
+  sceneryPhet.register( 'UtteranceQueueIO', UtteranceQueueIO );
 
-  return TUtteranceQueue;
+  return UtteranceQueueIO;
 } );
 

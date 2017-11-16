@@ -19,7 +19,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var TUtteranceQueue = require( 'SCENERY_PHET/accessibility/TUtteranceQueue' );
+  var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
   // phet-io modules
@@ -110,7 +110,7 @@ define( function( require ) {
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
 
         // phet-io event to the data stream
-        var id = phetioEvents.start( 'model', tandem.id, TUtteranceQueue, 'announced', { utterance: nextUtterance.text } );
+        var id = phetioEvents.start( 'model', tandem.id, UtteranceQueueIO, 'announced', { utterance: nextUtterance.text } );
 
         // Pass the utterance text on to be set in the PDOM.
         AriaHerald.announcePolite( nextUtterance.text );
@@ -209,7 +209,7 @@ define( function( require ) {
     }, UtteranceQueue.interval
   );
 
-  tandem.addInstance( UtteranceQueue, { phetioType: TUtteranceQueue } );
+  tandem.addInstance( UtteranceQueue, { phetioType: UtteranceQueueIO } );
 
   return UtteranceQueue;
 } );
