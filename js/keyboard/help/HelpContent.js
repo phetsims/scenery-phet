@@ -22,7 +22,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -39,6 +39,7 @@ define( function( require ) {
   var DEFAULT_LABEL_ICON_SPACING = 6; // spacing between 
   var DEFAULT_ICON_SPACING = 5;
   var DEFAULT_VERTICAL_ICON_SPACING = 10;
+  var DEFAULT_LETTER_KEY_SPACING = 1;
 
   // labels and keys
   var DEFAULT_LABEL_FONT = new PhetFont( 12 );
@@ -191,7 +192,7 @@ define( function( require ) {
     arrowKeysRowIcon: function( options ) {
 
       options = _.extend( {
-        spacing: 2
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -212,7 +213,7 @@ define( function( require ) {
      */
     upDownArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: 2
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -231,7 +232,7 @@ define( function( require ) {
      */
     leftRightArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: 2
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -250,14 +251,15 @@ define( function( require ) {
      */
     wasdRowIcon: function( options ) {
       options = _.extend( {
-        spacing: 2
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var wKeyNode = new TextKeyNode( 'W' );
-      var aKeyNode = new TextKeyNode( 'A' );
-      var sKeyNode = new TextKeyNode( 'S' );
-      var dKeyNode = new TextKeyNode( 'D' );
+      // 'W' is a wider character than the others, give it less horizontal padding
+      var wKeyNode = new LetterKeyNode( 'W' );
+      var aKeyNode = new LetterKeyNode( 'A' );
+      var sKeyNode = new LetterKeyNode( 'S' );
+      var dKeyNode = new LetterKeyNode( 'D' );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
