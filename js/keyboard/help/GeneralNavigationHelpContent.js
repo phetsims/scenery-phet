@@ -19,13 +19,13 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // stings
-  var exitADialogString = require( 'string!SCENERY_PHET/exitADialog' );
-  var generalNavigationString = require( 'string!SCENERY_PHET/generalNavigation' );
-  var moveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/moveBetweenItemsInAGroup' );
-  var moveToNextItemOrGroupString = require( 'string!SCENERY_PHET/moveToNextItemOrGroup' );
-  var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
-  var moveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/moveToPreviousItemOrGroup' );
-  var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
+  var keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
+  var keyboardHelpDialogGeneralNavigationString = require( 'string!SCENERY_PHET/keyboardHelpDialog.generalNavigation' );
+  var keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
+  var keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
+  var keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
+  var keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
+  var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
 
   // invisible strings for screen readers, no i18n support
   var tabDescriptionString = SceneryPhetA11yStrings.tabDescriptionString;
@@ -53,14 +53,14 @@ define( function( require ) {
     };
 
     // 'move to next item' content
-    var moveToNextItemText = new RichText( moveToNextItemString, labelOptions );
+    var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
       accessibleLabel: tabDescriptionString
     } );
 
     // 'move to previous item' content
-    var moveToPreviousItemText = new RichText( moveToPreviousItemString, labelOptions );
+    var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, labelOptions );
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
@@ -68,7 +68,7 @@ define( function( require ) {
     } );
 
     // 'exit a dialog' content
-    var exitADialogText = new RichText( exitADialogString, labelOptions );
+    var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
       accessibleLabel: exitDialogDescriptionString
@@ -79,10 +79,10 @@ define( function( require ) {
 
       // if the general navigation section includes help content includes groups, modify some text and add another
       // section to describe how to navigate groups
-      moveToNextItemText.setText( moveToNextItemOrGroupString );
-      moveToPreviousItemText.setText( moveToPreviousItemOrGroupString );
+      moveToNextItemText.setText( keyboardHelpDialogMoveToNextItemOrGroupString );
+      moveToPreviousItemText.setText( keyboardHelpDialogMoveToPreviousItemOrGroupString );
 
-      var moveBetweenItemsInAGroupText = new RichText( moveBetweenItemsInAGroupString, labelOptions );
+      var moveBetweenItemsInAGroupText = new RichText( keyboardHelpDialogMoveBetweenItemsInAGroupString, labelOptions );
       var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
@@ -103,7 +103,7 @@ define( function( require ) {
       spacing: options.verticalIconSpacing
     } );
 
-    HelpContent.call( this, generalNavigationString, content, options );
+    HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );
   }
 
   sceneryPhet.register( 'GeneralNavigationHelpContent', GeneralNavigationHelpContent );

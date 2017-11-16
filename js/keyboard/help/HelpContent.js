@@ -26,7 +26,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var orString = require( 'string!SCENERY_PHET/or' );
+  var keyboardHelpDialogOrString = require( 'string!SCENERY_PHET/keyboardHelpDialog.or' );
 
   // constants
   // heading defaults
@@ -154,7 +154,7 @@ define( function( require ) {
       // for each of the icons (excluding the last one,  add a vertically aligned 'or' text to the right
       var iconsWithOrText = [];
       for ( var i = 0; i < icons.length - 1; i++ ) {
-        var orText = new Text( orString, {
+        var orText = new Text( keyboardHelpDialogOrString, {
           font: DEFAULT_LABEL_FONT,
           maxWidth: DEFAULT_TEXT_MAX_WIDTH / 10
         } );
@@ -329,7 +329,7 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children );
 
-      var orText = new Text( orString, {
+      var orText = new Text( keyboardHelpDialogOrString, {
         font: DEFAULT_LABEL_FONT,
         maxWidth: DEFAULT_TEXT_MAX_WIDTH / 10
       } );

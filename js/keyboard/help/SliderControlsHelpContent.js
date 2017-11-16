@@ -21,12 +21,12 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var adjustInLargerStepsString = require( 'string!SCENERY_PHET/adjustInLargerSteps' );
-  var adjustInSmallerStepsString = require( 'string!SCENERY_PHET/adjustInSmallerSteps' );
-  var adjustSliderString = require( 'string!SCENERY_PHET/adjustSlider' );
-  var jumpToMaximumString = require( 'string!SCENERY_PHET/jumpToMaximum' );
-  var jumpToMinimumString = require( 'string!SCENERY_PHET/jumpToMinimum' );
-  var sliderControlsString = require( 'string!SCENERY_PHET/sliderControls' );
+  var keyboardHelpDialogAdjustInLargerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInLargerSteps' );
+  var keyboardHelpDialogAdjustInSmallerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInSmallerSteps' );
+  var keyboardHelpDialogAdjustSliderString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustSlider' );
+  var keyboardHelpDialogJumpToMaximumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMaximum' );
+  var keyboardHelpDialogJumpToMinimumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMinimum' );
+  var keyboardHelpDialogSliderControlsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.sliderControls' );
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {
@@ -43,21 +43,21 @@ define( function( require ) {
     options = _.extend( {
 
       // heading string for this content
-      headingString: sliderControlsString,
+      headingString: keyboardHelpDialogSliderControlsString,
 
       // icon options
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
     }, options );
 
     // 'Move sliders' content
-    var adjustSliderText = new RichText( adjustSliderString, DEFAULT_LABEL_OPTIONS );
+    var adjustSliderText = new RichText( keyboardHelpDialogAdjustSliderString, DEFAULT_LABEL_OPTIONS );
     var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon );
 
     // 'move in smaller steps' content
-    var adjustInSmallerStepsText = new RichText( adjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
     var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
 
@@ -70,7 +70,7 @@ define( function( require ) {
     ] );
 
     // 'move in larger steps' content
-    var adjustInLargerStepsText = new RichText( adjustInLargerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInLargerStepsText = new RichText( keyboardHelpDialogAdjustInLargerStepsString, DEFAULT_LABEL_OPTIONS );
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
     var pageUpPageDownIcon = new HBox( {
@@ -80,12 +80,12 @@ define( function( require ) {
     var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon );
 
     // 'move to minimum value' content
-    var jumpToMinimumText = new RichText( jumpToMinimumString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, DEFAULT_LABEL_OPTIONS );
     var homeKeyNode = new HomeKeyNode();
     var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode );
 
     // 'move to maximum value' content
-    var jumpToMaximumText = new RichText( jumpToMaximumString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, DEFAULT_LABEL_OPTIONS );
     var endKeyNode = new EndKeyNode();
     var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode );
 

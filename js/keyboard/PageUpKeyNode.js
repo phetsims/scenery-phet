@@ -14,7 +14,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var pageUpString = require( 'string!SCENERY_PHET/pageUp' );
+  var keyPageUpString = require( 'string!SCENERY_PHET/key.pageUp' );
 
   /**
    * Constructor.
@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function PageUpKeyNode( options ) {
-    TextKeyNode.call( this, pageUpString, options );
+    TextKeyNode.call( this, keyPageUpString, options );
   }
 
   sceneryPhet.register( 'PageUpKeyNode', PageUpKeyNode );

@@ -17,37 +17,37 @@
   "cool": {
     "value": "Cool"
   },
-  "tab": {
+  "key.tab": {
     "value": "Tab"
   },
-  "shift": {
+  "key.shift": {
     "value": "Shift"
   },
-  "capsLock": {
+  "key.capsLock": {
     "value": "Caps Lock"
   },
-  "enter": {
+  "key.enter": {
     "value": "Enter"
   },
-  "space": {
+  "key.space": {
     "value": "Space"
   },
-  "esc": {
+  "key.esc": {
     "value": "Esc"
   },
-  "fn": {
+  "key.fn": {
     "value": "Fn"
   },
-  "pageUp": {
+  "key.pageUp": {
     "value": "Pg Up"
   },
-  "pageDown": {
+  "key.pageDown": {
     "value": "Pg Down"
   },
-  "home": {
+  "key.home": {
     "value": "Home"
   },
-  "end": {
+  "key.end": {
     "value": "End"
   },
   "webglWarning.title": {
@@ -73,46 +73,46 @@
     "value": "Toggle Sound",
     "visible": false
   },
-  "sliderControls": {
+  "keyboardHelpDialog.sliderControls": {
     "value": "Slider Controls"
   },
-  "adjustSlider": {
+  "keyboardHelpDialog.adjustSlider": {
     "value": "Adjust slider:"
   },
-  "adjustInSmallerSteps": {
+  "keyboardHelpDialog.adjustInSmallerSteps": {
     "value": "Adjust in smaller steps:"
   },
-  "adjustInLargerSteps": {
+  "keyboardHelpDialog.adjustInLargerSteps": {
     "value": "Adjust in larger steps:"
   },
-  "jumpToMinimum": {
+  "keyboardHelpDialog.jumpToMinimum": {
     "value": "Jump to minimum:"
   },
-  "jumpToMaximum": {
+  "keyboardHelpDialog.jumpToMaximum": {
     "value": "Jump to maximum:"
   },
-  "generalNavigation": {
+  "keyboardHelpDialog.generalNavigation": {
     "value": "General Navigation"
   },
-  "moveToNextItem": {
+  "keyboardHelpDialog.moveToNextItem": {
     "value": "Move to next item:"
   },
-  "moveToNextItemOrGroup": {
+  "keyboardHelpDialog.moveToNextItemOrGroup": {
     "value": "Move to next item or group:"
   },
-  "moveToPreviousItem": {
+  "keyboardHelpDialog.moveToPreviousItem": {
     "value": "Move to previous item:"
   },
-  "moveToPreviousItemOrGroup": {
+  "keyboardHelpDialog.moveToPreviousItemOrGroup": {
     "value": "Move to previous item or group:"
   },
-  "moveBetweenItemsInAGroup": {
+  "keyboardHelpDialog.moveBetweenItemsInAGroup": {
     "value": "Move between items in a group:"
   },
-  "exitADialog": {
+  "keyboardHelpDialog.exitADialog": {
     "value": "Exit a dialog:"
   },
-  "or": {
+  "keyboardHelpDialog.or": {
     "value": "or"
   }
 }

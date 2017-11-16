@@ -15,7 +15,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var spaceString = require( 'string!SCENERY_PHET/space' );
+  var keySpaceString = require( 'string!SCENERY_PHET/key.space' );
 
   /**
    * Constructor.
@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function SpaceKeyNode( options ) {
-    TextKeyNode.call( this, spaceString, options );
+    TextKeyNode.call( this, keySpaceString, options );
   }
 
   sceneryPhet.register( 'SpaceKeyNode', SpaceKeyNode );

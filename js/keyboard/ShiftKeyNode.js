@@ -15,7 +15,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var shiftString = require( 'string!SCENERY_PHET/shift' );
+  var keyShiftString = require( 'string!SCENERY_PHET/key.shift' );
 
   /**
    * Constructor.
@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function ShiftKeyNode( options ) {
-    TextKeyNode.call( this, shiftString, options );
+    TextKeyNode.call( this, keyShiftString, options );
   }
 
   sceneryPhet.register( 'ShiftKeyNode', ShiftKeyNode );
