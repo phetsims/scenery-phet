@@ -17,22 +17,23 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/scenery-phet's WavelengthSlider class.
-   * @param slider
+   * Wrapper type for phet/sun's Faucet class.
+   * @param faucet
    * @param phetioID
    * @constructor
    */
-  function TWavelengthSlider( slider, phetioID ) {
-    assert && assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
-    NodeIO.call( this, slider, phetioID );
+  function FaucetNodeIO( faucet, phetioID ) {
+    assert && assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
+    NodeIO.call( this, faucet, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TWavelengthSlider', TWavelengthSlider, {}, {
-    documentation: 'A slider that shows wavelengths for selection'
+  phetioInherit( NodeIO, 'FaucetNodeIO', FaucetNodeIO, {}, {
+    documentation: 'Faucet that emits fluid, typically user-controllable',
+    events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );
 
-  sceneryPhet.register( 'TWavelengthSlider', TWavelengthSlider );
+  sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
 
-  return TWavelengthSlider;
+  return FaucetNodeIO;
 } );
 

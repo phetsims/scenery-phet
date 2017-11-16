@@ -37,7 +37,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TFaucetNode = require( 'SCENERY_PHET/TFaucetNode' );
+  var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Timer = require( 'PHET_CORE/Timer' );
 
   // images
@@ -85,7 +85,7 @@ define( function( require ) {
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
       tandem: Tandem.tandemRequired(),
-      phetioType: TFaucetNode
+      phetioType: FaucetNodeIO
     }, options );
 
     assert && assert( (1000 * options.tapToDispenseAmount / options.tapToDispenseInterval) <= maxFlowRate );
@@ -180,7 +180,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = (options.tapToDispenseAmount / options.tapToDispenseInterval) * 1000;
-        var id = phetioEvents.start( 'model', options.tandem.id, TFaucetNode, 'startTapToDispense', { flowRate: flowRate } );
+        var id = phetioEvents.start( 'model', options.tandem.id, FaucetNodeIO, 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -193,7 +193,7 @@ define( function( require ) {
       }
     };
     var endTapToDispense = function() {
-      var id = phetioEvents.start( 'model', options.tandem.id, TFaucetNode, 'endTapToDispense', { flowRate: 0 } );
+      var id = phetioEvents.start( 'model', options.tandem.id, FaucetNodeIO, 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );

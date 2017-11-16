@@ -22,18 +22,18 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TBarrierRectangle( barrierRectangle, phetioID ) {
+  function BarrierRectangleIO( barrierRectangle, phetioID ) {
     assert && assertInstanceOf( barrierRectangle, phet.sceneryPhet.BarrierRectangle );
     NodeIO.call( this, barrierRectangle, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TBarrierRectangle', TBarrierRectangle, {}, {
+  phetioInherit( NodeIO, 'BarrierRectangleIO', BarrierRectangleIO, {}, {
     documentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
     events: [ 'fired' ]
   } );
 
-  sceneryPhet.register( 'TBarrierRectangle', TBarrierRectangle );
+  sceneryPhet.register( 'BarrierRectangleIO', BarrierRectangleIO );
 
-  return TBarrierRectangle;
+  return BarrierRectangleIO;
 } );
 

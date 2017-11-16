@@ -17,23 +17,21 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/sun's Faucet class.
-   * @param faucet
+   * Wrapper type for phet/scenery-phet's NumberControl class.
+   * @param numberControl
    * @param phetioID
    * @constructor
    */
-  function TFaucetNode( faucet, phetioID ) {
-    assert && assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
-    NodeIO.call( this, faucet, phetioID );
+  function NumberControlIO( numberControl, phetioID ) {
+    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
+    NodeIO.call( this, numberControl, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TFaucetNode', TFaucetNode, {}, {
-    documentation: 'Faucet that emits fluid, typically user-controllable',
-    events: [ 'startTapToDispense', 'endTapToDispense' ]
+  phetioInherit( NodeIO, 'NumberControlIO', NumberControlIO, {}, {
+    documentation: 'A number control with a title, slider and +/- buttons'
   } );
 
-  sceneryPhet.register( 'TFaucetNode', TFaucetNode );
+  sceneryPhet.register( 'NumberControlIO', NumberControlIO );
 
-  return TFaucetNode;
+  return NumberControlIO;
 } );
-

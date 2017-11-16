@@ -17,21 +17,21 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/scenery-phet's NumberControl class.
+   * Wrapper type for phet/scenery-phet's NumberDisplay class.
    * @param numberControl
    * @param phetioID
    * @constructor
    */
-  function TNumberControl( numberControl, phetioID ) {
-    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberControl );
+  function NumberDisplayIO( numberControl, phetioID ) {
+    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
     NodeIO.call( this, numberControl, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TNumberControl', TNumberControl, {}, {
-    documentation: 'A number control with a title, slider and +/- buttons'
+  phetioInherit( NodeIO, 'NumberControlIO', NumberDisplayIO, {}, {
+    documentation: 'A numeric readout with a background'
   } );
 
-  sceneryPhet.register( 'TNumberControl', TNumberControl );
+  sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
 
-  return TNumberControl;
+  return NumberDisplayIO;
 } );

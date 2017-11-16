@@ -17,21 +17,22 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/scenery-phet's NumberDisplay class.
-   * @param numberControl
+   * Wrapper type for phet/scenery-phet's WavelengthSlider class.
+   * @param slider
    * @param phetioID
    * @constructor
    */
-  function TNumberDisplay( numberControl, phetioID ) {
-    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
-    NodeIO.call( this, numberControl, phetioID );
+  function WavelengthSliderIO( slider, phetioID ) {
+    assert && assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
+    NodeIO.call( this, slider, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TNumberControl', TNumberDisplay, {}, {
-    documentation: 'A numeric readout with a background'
+  phetioInherit( NodeIO, 'WavelengthSliderIO', WavelengthSliderIO, {}, {
+    documentation: 'A slider that shows wavelengths for selection'
   } );
 
-  sceneryPhet.register( 'TNumberDisplay', TNumberDisplay );
+  sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
 
-  return TNumberDisplay;
+  return WavelengthSliderIO;
 } );
+

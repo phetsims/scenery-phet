@@ -26,7 +26,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TNumberControl = require( 'SCENERY_PHET/TNumberControl' );
+  var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -113,7 +113,7 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.tandemRequired(),
-      phetioType: TNumberControl,
+      phetioType: NumberControlIO,
 
       // a11y
       tagName: 'input',

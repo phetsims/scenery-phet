@@ -24,7 +24,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TMultiLineText = require( 'SCENERY_PHET/TMultiLineText' );
+  var MultiLineTextIO = require( 'SCENERY_PHET/MultiLineTextIO' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // phet-io modules
@@ -42,7 +42,7 @@ define( function( require ) {
       font: new PhetFont(),
       align: 'center', // 'center', 'left' or 'right' (as supported by VBox)
       tandem: Tandem.tandemOptional(),
-      phetioType: TMultiLineText
+      phetioType: MultiLineTextIO
     }, options );
 
     // Normally individual properties from options should be stored rather than the entire options instance,
@@ -72,7 +72,7 @@ define( function( require ) {
       // Only trigger the changed event if there is a previous text stored. This must be called before the 'text' arg
       // overwrites the old value of
       if ( this.options.tandem.isLegalAndUsable() && this.text ) {
-        phetioEvents.trigger( 'model', this.options.tandem.id, TMultiLineText, 'changed', {
+        phetioEvents.trigger( 'model', this.options.tandem.id, MultiLineTextIO, 'changed', {
           oldText: this.text,
           newText: text
         } );

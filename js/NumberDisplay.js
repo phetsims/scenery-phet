@@ -18,7 +18,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TNumberDisplay = require( 'SCENERY_PHET/TNumberDisplay' );
+  var NumberDisplayIO = require( 'SCENERY_PHET/NumberDisplayIO' );
   var Util = require( 'DOT/Util' );
 
   // valid values for options.align
@@ -50,7 +50,7 @@ define( function( require ) {
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
       tandem: Tandem.tandemRequired(),
-      phetioType: TNumberDisplay
+      phetioType: NumberDisplayIO
     }, options );
 
     // validate options

@@ -24,12 +24,12 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function TMultiLineText( text, phetioID ) {
+  function MultiLineTextIO( text, phetioID ) {
     assert && assertInstanceOf( text, phet.sceneryPhet.MultiLineText );
     NodeIO.call( this, text, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TMultiLineText', TMultiLineText, {
+  phetioInherit( NodeIO, 'MultiLineTextIO', MultiLineTextIO, {
     setText: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
@@ -52,7 +52,7 @@ define( function( require ) {
     events: [ 'changed' ]
   } );
 
-  sceneryPhet.register( 'TMultiLineText', TMultiLineText );
+  sceneryPhet.register( 'MultiLineTextIO', MultiLineTextIO );
 
-  return TMultiLineText;
+  return MultiLineTextIO;
 } );

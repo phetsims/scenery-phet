@@ -16,7 +16,7 @@ define( function( require ) {
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TBarrierRectangle = require( 'SCENERY_PHET/TBarrierRectangle' );
+  var BarrierRectangleIO = require( 'SCENERY_PHET/BarrierRectangleIO' );
 
   /**
    * @param {ObservableArray} modalNodeStack - see usage in Sim.js
@@ -28,7 +28,7 @@ define( function( require ) {
 
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
-      phetioType: TBarrierRectangle,
+      phetioType: BarrierRectangleIO,
       phetioReadOnly: true // Disable controls in instance proxies
     }, options );
 
@@ -40,7 +40,7 @@ define( function( require ) {
 
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        var id = phetioEvents.start( 'user', options.tandem.id, TBarrierRectangle, 'fired' );
+        var id = phetioEvents.start( 'user', options.tandem.id, BarrierRectangleIO, 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
         phetioEvents.end( id );
