@@ -44,7 +44,8 @@ define( function( require ) {
     xAlign: 'center', // {string} 'left', 'center', or 'right'
     yAlign: 'center', // {string} 'top', 'center', or 'bottom'
 
-    // x and y padding, making the key larger by adding additional space around the icon
+    // x and y padding around the icon, will increase the size of the key if there is available space,
+    // or scale down the icon if key is at max width or height
     xPadding: 3,
     yPadding: 3,
 
