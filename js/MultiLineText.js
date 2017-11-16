@@ -18,13 +18,13 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var MultiLineTextIO = require( 'SCENERY_PHET/MultiLineTextIO' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var MultiLineTextIO = require( 'SCENERY_PHET/MultiLineTextIO' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // phet-io modules

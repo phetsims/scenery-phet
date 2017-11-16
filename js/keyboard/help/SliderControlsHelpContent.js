@@ -10,23 +10,23 @@ define( function( require ) {
 
   // modules
   var EndKeyNode = require( 'SCENERY_PHET/keyboard/EndKeyNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var sliderControlsString = require( 'string!SCENERY_PHET/sliderControls' );
-  var adjustSliderString = require( 'string!SCENERY_PHET/adjustSlider' );
-  var adjustInSmallerStepsString = require( 'string!SCENERY_PHET/adjustInSmallerSteps' );
   var adjustInLargerStepsString = require( 'string!SCENERY_PHET/adjustInLargerSteps' );
+  var adjustInSmallerStepsString = require( 'string!SCENERY_PHET/adjustInSmallerSteps' );
+  var adjustSliderString = require( 'string!SCENERY_PHET/adjustSlider' );
   var jumpToMaximumString = require( 'string!SCENERY_PHET/jumpToMaximum' );
   var jumpToMinimumString = require( 'string!SCENERY_PHET/jumpToMinimum' );
+  var sliderControlsString = require( 'string!SCENERY_PHET/sliderControls' );
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {

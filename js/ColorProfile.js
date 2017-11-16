@@ -56,9 +56,9 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
 
   // phet-io modules
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );

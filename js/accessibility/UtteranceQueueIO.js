@@ -12,9 +12,9 @@ define( function( require ) {
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
   var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 

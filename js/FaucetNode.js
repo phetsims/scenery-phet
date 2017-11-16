@@ -26,6 +26,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
@@ -37,7 +38,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Timer = require( 'PHET_CORE/Timer' );
 
   // images

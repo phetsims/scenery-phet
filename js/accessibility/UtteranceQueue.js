@@ -19,8 +19,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );

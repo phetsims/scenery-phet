@@ -20,13 +20,13 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 

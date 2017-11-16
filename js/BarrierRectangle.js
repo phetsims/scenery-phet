@@ -10,13 +10,13 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BarrierRectangleIO = require( 'SCENERY_PHET/BarrierRectangleIO' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var BarrierRectangleIO = require( 'SCENERY_PHET/BarrierRectangleIO' );
 
   /**
    * @param {ObservableArray} modalNodeStack - see usage in Sim.js

@@ -11,7 +11,9 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
@@ -19,8 +21,6 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 

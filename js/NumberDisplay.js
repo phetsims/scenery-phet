@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberDisplayIO = require( 'SCENERY_PHET/NumberDisplayIO' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
@@ -18,7 +19,6 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var NumberDisplayIO = require( 'SCENERY_PHET/NumberDisplayIO' );
   var Util = require( 'DOT/Util' );
 
   // valid values for options.align
