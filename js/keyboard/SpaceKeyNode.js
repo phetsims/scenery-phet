@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a 'Enter' key on a keyboard.
+ * Node that represents a 'Space' key on a keyboard.
  * 
  * @author Jesse Greenberg
  */
@@ -15,19 +15,19 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var keyEnterString = require( 'string!SCENERY_PHET/key.enter' );
+  var keySpaceString = require( 'string!SCENERY_PHET/key.space' );
 
   /**
    * Constructor.
    * 
    * @param {Object} [options]
    */
-  function EnterKeyNode( options ) {
-    TextKeyNode.call( this, keyEnterString, options );
+  function SpaceKeyNode( options ) {
+    TextKeyNode.call( this, keySpaceString, options );
   }
 
-  sceneryPhet.register( 'EnterKeyNode', EnterKeyNode );
+  sceneryPhet.register( 'SpaceKeyNode', SpaceKeyNode );
 
-  return inherit( TextKeyNode, EnterKeyNode );
+  return inherit( TextKeyNode, SpaceKeyNode );
 
 } );

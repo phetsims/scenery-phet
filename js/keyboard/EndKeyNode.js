@@ -14,7 +14,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var endString = require( 'string!SCENERY_PHET/end' );
+  var keyEndString = require( 'string!SCENERY_PHET/key.end' );
 
   /**
    * Constructor.
@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function EndKeyNode( options ) {
-    TextKeyNode.call( this, endString, options );
+    TextKeyNode.call( this, keyEndString, options );
   }
 
   sceneryPhet.register( 'EndKeyNode', EndKeyNode );

@@ -17,7 +17,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
-  var fnString = require( 'string!SCENERY_PHET/fn' );
+  var keyFnString = require( 'string!SCENERY_PHET/key.fn' );
 
   /**
    * Constructor.
@@ -31,7 +31,7 @@ define( function( require ) {
       maxKeyWidth: 75,
     }, options );
 
-    TextKeyNode.call( this, fnString, options );
+    TextKeyNode.call( this, keyFnString, options );
   }
 
   sceneryPhet.register( 'FunctionKeyNode', FunctionKeyNode );

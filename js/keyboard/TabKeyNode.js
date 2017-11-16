@@ -15,7 +15,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var tabString = require( 'string!SCENERY_PHET/tab' );
+  var keyTabString = require( 'string!SCENERY_PHET/key.tab' );
 
   /**
    * Constructor.
@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function TabKeyNode( options ) {
-    TextKeyNode.call( this, tabString, options );
+    TextKeyNode.call( this, keyTabString, options );
   }
 
   sceneryPhet.register( 'TabKeyNode', TabKeyNode );

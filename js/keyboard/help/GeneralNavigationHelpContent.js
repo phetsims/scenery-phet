@@ -20,10 +20,10 @@ define( function( require ) {
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
 
   // stings
-  var generalNavigationString = require( 'string!SCENERY_PHET/generalNavigation' );
-  var moveToNextItemString = require( 'string!SCENERY_PHET/moveToNextItem' );
-  var moveToPreviousItemString = require( 'string!SCENERY_PHET/moveToPreviousItem' );
-  var exitADialogString = require( 'string!SCENERY_PHET/exitADialog' );
+  var keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
+  var keyboardHelpDialogGeneralNavigationString = require( 'string!SCENERY_PHET/keyboardHelpDialog.generalNavigation' );
+  var keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
+  var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
 
   // constants
   function GeneralNavigationHelpContent( options ) {
@@ -41,18 +41,18 @@ define( function( require ) {
     };
 
     // 'move to next item' content
-    var moveToNextItemText = new RichText( moveToNextItemString, labelOptions );
+    var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon );
 
     // 'move to previous item' content
-    var moveToPreviousItemText = new RichText( moveToPreviousItemString, labelOptions );
+    var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, labelOptions );
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon );
 
     // 'exit a dialog' content
-    var exitADialogText = new RichText( exitADialogString, labelOptions );
+    var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon );
 
@@ -63,7 +63,7 @@ define( function( require ) {
       spacing: options.verticalIconSpacing
     } );
 
-    HelpContent.call( this, generalNavigationString, content, options );
+    HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );
   }
 
   sceneryPhet.register( 'GeneralNavigationHelpContent', GeneralNavigationHelpContent );

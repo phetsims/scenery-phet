@@ -17,7 +17,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var capsLockString = require( 'string!SCENERY_PHET/capsLock' );
+  var keyCapsLockString = require( 'string!SCENERY_PHET/key.capsLock' );
 
   /**
    * Constructor.
@@ -31,7 +31,7 @@ define( function( require ) {
       maxKeyWidth: 60
     }, options );
 
-    TextKeyNode.call( this, capsLockString, options );
+    TextKeyNode.call( this, keyCapsLockString, options );
   }
 
   sceneryPhet.register( 'CapsLockKeyNode', CapsLockKeyNode );
