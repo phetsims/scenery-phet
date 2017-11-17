@@ -29,7 +29,6 @@ define( function( require ) {
     }, options );
 
     TextKeyNode.call( this, string, options );
-    console.log( this.width );
   }
 
   sceneryPhet.register( 'LetterKeyNode', LetterKeyNode );
