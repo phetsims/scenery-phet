@@ -33,6 +33,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -618,13 +619,13 @@ define( function( require ) {
 
     var i;
     for ( i = 0; i < topRowKeyStrings.length; i++ ) {
-      topKeyNodes.push( new TextKeyNode( topRowKeyStrings[ i ], { forceSquareKey: true } ) );
+      topKeyNodes.push( new LetterKeyNode( topRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     for ( i = 0; i < middleRowKeyStrings.length; i++ ) {
-      middleKeyNodes.push( new TextKeyNode( middleRowKeyStrings[ i ], { forceSquareKey: true } ) );
+      middleKeyNodes.push( new LetterKeyNode( middleRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
-      bottomKeyNodes.push( new TextKeyNode( bottomRowKeyStrings[ i ], { forceSquareKey: true } ) );
+      bottomKeyNodes.push( new LetterKeyNode( bottomRowKeyStrings[ i ], { forceSquareKey: true } ) );
     }
     topArrowKeyNode = new ArrowKeyNode( 'up' );
     bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];

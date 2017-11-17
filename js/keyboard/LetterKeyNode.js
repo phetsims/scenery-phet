@@ -1,10 +1,10 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node that looks like a keyboard key with a single letter. By default, a letter key is square, with a bit less 
+ * Node that looks like a keyboard key with a single letter. By default, a letter key is square, with a bit less
  * horizontal padding than a key with a full word.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 define( function( require ) {
