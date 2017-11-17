@@ -20,13 +20,13 @@ define( function( require ) {
 
   /**
    * Wrapper type for scenery's Text node.
-   * @param {Text} text
+   * @param {Text} multiLineText
    * @param {string} phetioID
    * @constructor
    */
-  function MultiLineTextIO( text, phetioID ) {
-    assert && assertInstanceOf( text, phet.sceneryPhet.MultiLineText );
-    NodeIO.call( this, text, phetioID );
+  function MultiLineTextIO( multiLineText, phetioID ) {
+    assert && assertInstanceOf( multiLineText, phet.sceneryPhet.MultiLineText );
+    NodeIO.call( this, multiLineText, phetioID );
   }
 
   phetioInherit( NodeIO, 'MultiLineTextIO', MultiLineTextIO, {
