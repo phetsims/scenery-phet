@@ -97,7 +97,7 @@ define( function( require ) {
        * @returns {boolean}
        */
       upEnabledFunction: function( value, range ) {
-        return ( value !== null && value !== undefined && value < range.max );
+        return (value !== null && value !== undefined && value < range.max);
       },
 
       /**
@@ -107,7 +107,7 @@ define( function( require ) {
        * @returns {boolean}
        */
       downEnabledFunction: function( value, range ) {
-        return ( value !== null && value !== undefined && value > range.min );
+        return (value !== null && value !== undefined && value > range.min);
       }
     }, options );
 
@@ -168,8 +168,8 @@ define( function( require ) {
     }
 
     // compute shape of the background behind the numeric value
-    var backgroundWidth = maxWidth + ( 2 * options.xMargin );
-    var backgroundHeight = valueNode.height + ( 2 * options.yMargin );
+    var backgroundWidth = maxWidth + (2 * options.xMargin);
+    var backgroundHeight = valueNode.height + (2 * options.yMargin);
     var backgroundOverlap = 1;
     var backgroundCornerRadius = options.cornerRadius;
 
@@ -180,8 +180,8 @@ define( function( require ) {
     var upBackground = new Path( new Shape()
       .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
-      .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
-      .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
+      .lineTo( backgroundWidth, (backgroundHeight / 2) + backgroundOverlap )
+      .lineTo( 0, (backgroundHeight / 2) + backgroundOverlap )
       .close(), { pickable: false } );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
@@ -245,18 +245,18 @@ define( function( require ) {
 
     // touch area
     upParent.touchArea = Shape.rectangle(
-      upParent.left - ( options.touchAreaXDilation / 2 ), upParent.top - options.touchAreaYDilation,
+      upParent.left - (options.touchAreaXDilation / 2), upParent.top - options.touchAreaYDilation,
       upParent.width + options.touchAreaXDilation, upParent.height + options.touchAreaYDilation );
     downParent.touchArea = Shape.rectangle(
-      downParent.left - ( options.touchAreaXDilation / 2 ), downParent.top,
+      downParent.left - (options.touchAreaXDilation / 2), downParent.top,
       downParent.width + options.touchAreaXDilation, downParent.height + options.touchAreaYDilation );
 
     // mouse area
     upParent.mouseArea = Shape.rectangle(
-      upParent.left - ( options.mouseAreaXDilation / 2 ), upParent.top - options.mouseAreaYDilation,
+      upParent.left - (options.mouseAreaXDilation / 2), upParent.top - options.mouseAreaYDilation,
       upParent.width + options.mouseAreaXDilation, upParent.height + options.mouseAreaYDilation );
     downParent.mouseArea = Shape.rectangle(
-      downParent.left - ( options.mouseAreaXDilation / 2 ), downParent.top,
+      downParent.left - (options.mouseAreaXDilation / 2), downParent.top,
       downParent.width + options.mouseAreaXDilation, downParent.height + options.mouseAreaYDilation );
 
     //------------------------------------------------------------
@@ -316,7 +316,7 @@ define( function( require ) {
     this.valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
-        valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
+        valueNode.x = (backgroundWidth - valueNode.width) / 2; // horizontally centered
       }
       else {
         valueNode.text = options.formatValue( value );
@@ -378,8 +378,10 @@ define( function( require ) {
 
     this.mutate( options );
 
-    // a11y - custom focus highlight that matches rounded background behind the numeric value
+    // Dilate based on consistent technique which brings into account transform of this node.
     var focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
+
+    // a11y - custom focus highlight that matches rounded background behind the numeric value
     this.focusHighlight = new FocusHighlightPath( Shape.roundedRectangleWithRadii(
       focusBounds.minX,
       focusBounds.minY,
