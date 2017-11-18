@@ -188,7 +188,7 @@ define( function( require ) {
         // handle the change in position
         var deltaX = 0;
         var deltaY = 0;
-        var positionDelta = this.shiftKeyDown() ? ( this.positionDelta * this.shiftKeyMultiplier ) : this.positionDelta;
+        var positionDelta = this.shiftKeyDown() ? (this.positionDelta * this.shiftKeyMultiplier) : this.positionDelta;
 
         if ( this.leftMovementKeysDown() ) {
           deltaX = -positionDelta;
@@ -352,8 +352,8 @@ define( function( require ) {
      *
      * @param {Object} hotKeyGroup - { keys: [].<number>, callback: function }
      */
-    addHotkeyGroup: function( hotkeyGroup ) {
-      this.hotkeyGroups.push( hotkeyGroup );
+    addHotkeyGroup: function( hotKeyGroup ) {
+      this.hotkeyGroups.push( hotKeyGroup );
     },
 
     /**
