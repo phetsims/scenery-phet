@@ -112,7 +112,7 @@ define( function( require ) {
       arrowButtonScale: 0.85,
 
       // phet-io
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       phetioType: NumberControlIO,
 
       // a11y

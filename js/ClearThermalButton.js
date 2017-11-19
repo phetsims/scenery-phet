@@ -49,7 +49,7 @@ define( function( require ) {
       },
       xMargin: 7,
       yMargin: 3,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     var arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {

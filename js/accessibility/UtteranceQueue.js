@@ -26,7 +26,7 @@ define( function( require ) {
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
 
   // {Tandem} - phet-io support
-  var tandem = Tandem.createStaticTandem( 'utteranceQueue' );
+  var tandem = Tandem.rootTandem.createTandem( 'utteranceQueue' );
 
   // {Utterance} - array of utterances, spoken in first to last order
   var queue = [];

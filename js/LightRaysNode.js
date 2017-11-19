@@ -43,7 +43,7 @@ define( function( require ) {
     assert && assert( bulbRadius > 0 );
 
     options = _.extend( {
-      tandem: Tandem.tandemOptional()
+      tandem: Tandem.optional
     }, DEFAULT_OPTIONS, options );
 
     assert && assert( !options.stroke );

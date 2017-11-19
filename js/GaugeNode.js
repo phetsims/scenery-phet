@@ -57,7 +57,7 @@ define( function( require ) {
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
       updateEnabledProperty: new Property( true ),
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     var tandem = options.tandem;

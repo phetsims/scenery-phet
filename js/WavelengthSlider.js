@@ -79,7 +79,7 @@ define( function( require ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
 
     }, options );
 

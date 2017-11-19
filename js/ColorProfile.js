@@ -64,7 +64,7 @@ define( function( require ) {
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // constants
-  var tandem = Tandem.createStaticTandem( 'colorProfile' );
+  var tandem = Tandem.rootTandem.createTandem( 'colorProfile' );
 
   /**
    * @public

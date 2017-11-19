@@ -136,7 +136,7 @@ define( function( require ) {
     buttonRotation: 0, // {number} use this to adjust lighting on the button
 
     // PhET-iO
-    tandem: Tandem.tandemRequired()
+    tandem: Tandem.required
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
 

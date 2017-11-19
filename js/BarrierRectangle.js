@@ -27,7 +27,7 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       phetioType: BarrierRectangleIO,
       phetioReadOnly: true // Disable controls in instance proxies
     }, options );

@@ -36,7 +36,7 @@ define( function( require ) {
     // PhET defaults
     options = _.extend( {
       family: 'Arial',
-      tandem: Tandem.tandemOptional(),
+      tandem: Tandem.optional,
       phetioType: FontIO
     }, options );
 

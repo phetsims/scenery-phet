@@ -34,7 +34,7 @@ define( function( require ) {
       innerStroke: 'white',
       outerStroke: 'black',
 
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     options.children = [

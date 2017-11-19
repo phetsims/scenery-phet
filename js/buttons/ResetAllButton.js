@@ -43,7 +43,7 @@ define( function( require ) {
       radius: RESET_ALL_BUTTON_RADIUS,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
 
       // a11y
       tagName: 'input',

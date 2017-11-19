@@ -30,7 +30,7 @@ define( function( require ) {
     Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     // This is basically like extending the options with the labelNode, but with dynamic content in the tandem.

@@ -87,7 +87,7 @@ define( function( require ) {
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipDragBounded: false, // is the tip subject to dragBounds
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) ===
