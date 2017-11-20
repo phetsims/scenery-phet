@@ -298,6 +298,9 @@ define( function( require ) {
     // @private
     this.disposeNumberControl = function() {
 
+      // dispose accessibility features
+      self.disposeAccessibleSlider();
+
       numberDisplay.dispose();
       leftArrowButton.dispose();
       rightArrowButton.dispose();
