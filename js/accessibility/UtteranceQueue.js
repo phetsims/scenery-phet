@@ -3,13 +3,18 @@
 /**
  * Manages a queue of Utterances that are read in order by a screen reader.  This queue typically reads
  * things in a first-in-first-out manner, but it is possible to send an alert directly to the front of
- * the queue.  Items in the queue are sent to the screen reader front to back with a certain delay.
+ * the queue.  Items in the queue are sent to the screen reader front to back with a certain delay interval.
  *
  * Screen readers are inconsistent in the way that they order alerts, some use last-in-first-out order,
  * others use first-in-first-out order, others just read the last alert that was provided. This queue
  * manages order and improves consistency.
  *
- * @author Jesse Greenberg
+ * NOTE: UtteranceQueue is just an Object, not a type, but it needs to be initialized before use as a singleton.
+ * As of this writing (Nov 2017) this initialization occurs in Sim.js. Therefore if something adds an alert to the
+ * queue before Sim.js has initialized the queue, the result will be a silent no-op.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -40,6 +45,9 @@ define( function( require ) {
   // whether the UtterancesQueue is alerting, and if you can add/remove utterances
   var enabled = true;
 
+  // initialization is like UtteranceQueue's constructor. No-ops all around if not initialized (cheers).
+  var initialized = false;
+
   var UtteranceQueue = {
 
     /**
@@ -54,7 +62,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the UtteranceQueue is disabled
-      if ( !enabled ) {
+      if ( !enabled || !initialized ) {
         return;
       }
 
@@ -85,7 +93,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the UtteranceQueue is disabled
-      if ( !enabled ) {
+      if ( !enabled || !initialized ) {
         return;
       }
 
@@ -150,7 +158,6 @@ define( function( require ) {
     },
     get muted() { return this.getMuted(); },
 
-
     /**
      * Set whether or not the utterance queue is enabled.  When enabled, Utterances cannot be added to
      * the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.
@@ -172,7 +179,6 @@ define( function( require ) {
     },
     get enabled() { return this.getEnabled(); },
 
-
     /**
      * Get the interval that alerts are sent to the screen reader.
      *
@@ -192,24 +198,36 @@ define( function( require ) {
     setInterval: function( alertInterval ) {
       interval = alertInterval;
     },
-    set interval( alertInterval ) { this.setInterval( alertInterval ); }
+    set interval( alertInterval ) { this.setInterval( alertInterval ); },
+
+    /**
+     * Basically a constructor for the queue. Setup necessary processes for runing the queue and register
+     * the phet-io tandem. If UtteranceQueue is not initialized, all functions will be no-ops. See type
+     * documentation above for NOTE.
+     * @public
+     */
+    initialize: function() {
+      initialized = true;
+
+      var self = this;
+
+      // step the alert queue
+      Timer.setInterval( function() {
+
+          // No-op function if the UtteranceQueue is disabled
+          if ( !enabled ) {
+            return;
+          }
+
+          self.next();
+        }, this.interval
+      );
+
+      tandem.addInstance( this, { phetioType: UtteranceQueueIO } );
+    }
   };
 
   sceneryPhet.register( 'UtteranceQueue', UtteranceQueue );
-
-  // step the alert queue
-  Timer.setInterval( function() {
-
-      // No-op function if the UtteranceQueue is disabled
-      if ( !enabled ) {
-        return;
-      }
-
-      UtteranceQueue.next();
-    }, UtteranceQueue.interval
-  );
-
-  tandem.addInstance( UtteranceQueue, { phetioType: UtteranceQueueIO } );
 
   return UtteranceQueue;
 } );
