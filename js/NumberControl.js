@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
@@ -113,11 +114,7 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.required,
-      phetioType: NumberControlIO,
-
-      // a11y
-      tagName: 'input',
-      inputType: 'range'
+      phetioType: NumberControlIO
     }, options );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
@@ -201,19 +198,17 @@ define( function( require ) {
     };
     numberProperty.link( arrowEnabledListener );
 
-    var slider = new HSlider( numberProperty, numberRange, _.extend(
-      // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
-      _.omit( options, Node.prototype._mutatorKeys ),
-      {
-        // Use these more general callback options, because the same callbacks apply to the arrow buttons,
-        // where it makes no sense to call them startDrag and endDrag.
-        startDrag: options.sliderStartCallback || options.startCallback,
-        endDrag: options.sliderEndCallback || options.endCallback,
-        tandem: options.tandem.createTandem( 'slider' ),
+    // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
+    var sliderOptions = _.extend( _.omit( options, Node.prototype._mutatorKeys ),
+    {
+      // Use these more general callback options, because the same callbacks apply to the arrow buttons,
+      // where it makes no sense to call them startDrag and endDrag.
+      startDrag: options.sliderStartCallback || options.startCallback,
+      endDrag: options.sliderEndCallback || options.endCallback,
+      tandem: options.tandem.createTandem( 'slider' )
+    } ); 
 
-        // a11y
-        focusable: false
-      } ) );
+    var slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
     // major ticks
     var majorTicks = options.majorTicks;
@@ -235,6 +230,10 @@ define( function( require ) {
       options.layoutFunction( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
     ];
     Node.call( this, options );
+
+    // a11y - the number control acts like a range input for a11y, pass slider options without tandem
+    var accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
+    this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
 
     // a11y - keyboard navigation skips over the tweaker buttons, so this focus highlight indicates that the
     // NumberControl is a self contained input
@@ -261,9 +260,6 @@ define( function( require ) {
     // vertical position of focus highlight is set once so that it doesn't continue to change as we get the
     // highlight's localToGlobalPoint
     slider.focusHighlight.centerY = sliderFocusHighlightPosition.y;
-
-    // add the same input listeners that the slider does, so that NumberControl keyboard interaction mimics HSlider's
-    this.addAccessibleInputListener( slider.accessibleInputListener );
 
     // when focused, you should not be able to set enabled to true
     var disableWhenFocusedListener = function() {
@@ -343,7 +339,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'NumberControl', NumberControl );
 
-  return inherit( VBox, NumberControl, {
+  inherit( VBox, NumberControl, {
 
     // @public
     dispose: function() {
@@ -508,4 +504,9 @@ define( function( require ) {
       };
     }
   } );
+
+  // mix accessibility features into NumberControl
+  AccessibleSlider.mixInto( NumberControl );
+
+  return NumberControl;
 } );
