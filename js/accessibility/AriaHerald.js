@@ -10,7 +10,11 @@
  *
  * These attributes were tested and determined to be the most widely supported and most useful for PhET sims,
  * see https://github.com/phetsims/chipper/issues/472.
- * 
+ *
+ * NOTE: AriaHerald is just an Object, not a type, but it needs to be initialized before use as a singleton.
+ * As of this writing (Nov 2017) this initialization occurs in Sim.js. Therefore if something uses AriaHerald
+ * before Sim.js has initialized this file, the result will be a silent no-op.
+ *
  * @author Jesse Greenberg
  * @author John Blanco
  */
@@ -29,6 +33,9 @@ define( function( require ) {
 
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
+
+  // If not initialized, then AriaHerald will no-op for all functionality
+  var initialized = false;
 
   // DOM elements which will receive the updated content
   var assertiveElement = document.getElementById( ASSERTIVE_ELEMENT_ID );
@@ -51,7 +58,13 @@ define( function( require ) {
    * @param {boolean} [withClear] - optional, whether or not to remove the old text content before updating the element
    */
   function updateLiveElement( liveElement, textContent, withClear ) {
-    withClear = ( withClear === undefined ) ? DEFAULT_WITH_CLEAR : withClear;
+
+    // no-op if not initialized
+    if ( !initialized ) {
+      return;
+    }
+
+    withClear = (withClear === undefined) ? DEFAULT_WITH_CLEAR : withClear;
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // clearing the old content allows repeated alerts
@@ -68,6 +81,14 @@ define( function( require ) {
    * Static object that provides the functions for updating the aria-live regions for screen reader announcements.
    */
   var AriaHerald = {
+
+    /**
+     * Initialize AriaHerald to allow usage of its features. If not initialized, then it will no-op. This allows
+     * AriaHerald to be disabled completely if a11y is not enabled.
+     */
+    initialize: function() {
+      initialized = true;
+    },
 
     /**
      * Announce an assertive alert.  This alert should be announced by the AT immediately, regardless of current user
@@ -109,6 +130,12 @@ define( function( require ) {
      * @public
      */
     clearAssertive: function() {
+
+      // no-op if not initialized
+      if ( !initialized ) {
+        return;
+      }
+
       assertiveElement.textContent = '';
     },
 
@@ -118,6 +145,12 @@ define( function( require ) {
      * @public
      */
     clearPolite: function() {
+
+      // no-op if not initialized
+      if ( !initialized ) {
+        return;
+      }
+
       politeElement.textContent = '';
     },
 
