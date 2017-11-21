@@ -19,7 +19,6 @@ define( function( require ) {
   var HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
   var keyboardHelpDialogAdjustInLargerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInLargerSteps' );
@@ -43,6 +42,9 @@ define( function( require ) {
 
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
+
+      // heading string for this content
+      headingString: keyboardHelpDialogSliderControlsString,
 
       // icon options
       arrowKeysScale: 0.55,
@@ -97,14 +99,10 @@ define( function( require ) {
     var endKeyNode = new EndKeyNode();
     var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode );
 
-    // content aligned in a VBox
-    var content = new VBox( {
-      children: [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ],
-      align: 'left',
-      spacing: options.verticalIconSpacing
-    } );
-     
-    HelpContent.call( this, keyboardHelpDialogSliderControlsString, content, options );
+    // assemble final content for HelpContent
+    var content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
+    
+    HelpContent.call( this, options.headingString, content, options );
   }
 
   sceneryPhet.register( 'SliderControlsHelpContent', SliderControlsHelpContent );

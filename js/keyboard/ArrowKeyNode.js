@@ -52,7 +52,10 @@ define( function( require ) {
       // KeyNode options
       minKeyWidth: DEFAULT_MIN_KEY_WIDTH,
       minKeyHeight: DEFAULT_MIN_KEY_HEIGHT,
-      xAlign: 'center'
+      xAlign: 'center',
+      xShadowOffset: 2.5,
+      yShadowOffset: 2.5,
+      cornerRadius: 3
     }, options );
 
     var arrowHeight = options.arrowHeight;

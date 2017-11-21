@@ -15,7 +15,6 @@ define( function( require ) {
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
 
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
 
@@ -56,13 +55,7 @@ define( function( require ) {
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon );
 
-    // content aligned in a VBox
-    var content = new VBox( {
-      children: [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ],
-      align: 'left',
-      spacing: options.verticalIconSpacing
-    } );
-
+    var content = [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ];
     HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );
   }
 
