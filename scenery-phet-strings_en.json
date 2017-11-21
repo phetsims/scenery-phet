@@ -77,40 +77,40 @@
     "value": "Slider Controls"
   },
   "keyboardHelpDialog.adjustSlider": {
-    "value": "Adjust slider:"
+    "value": "Adjust slider"
   },
   "keyboardHelpDialog.adjustInSmallerSteps": {
-    "value": "Adjust in smaller steps:"
+    "value": "Adjust in smaller steps"
   },
   "keyboardHelpDialog.adjustInLargerSteps": {
-    "value": "Adjust in larger steps:"
+    "value": "Adjust in larger steps"
   },
   "keyboardHelpDialog.jumpToMinimum": {
-    "value": "Jump to minimum:"
+    "value": "Jump to minimum"
   },
   "keyboardHelpDialog.jumpToMaximum": {
-    "value": "Jump to maximum:"
+    "value": "Jump to maximum"
   },
   "keyboardHelpDialog.generalNavigation": {
     "value": "General Navigation"
   },
   "keyboardHelpDialog.moveToNextItem": {
-    "value": "Move to next item:"
+    "value": "Move to next item"
   },
   "keyboardHelpDialog.moveToNextItemOrGroup": {
-    "value": "Move to next item or group:"
+    "value": "Move to next item or group"
   },
   "keyboardHelpDialog.moveToPreviousItem": {
-    "value": "Move to previous item:"
+    "value": "Move to previous item"
   },
   "keyboardHelpDialog.moveToPreviousItemOrGroup": {
-    "value": "Move to previous item or group:"
+    "value": "Move to previous item or group"
   },
   "keyboardHelpDialog.moveBetweenItemsInAGroup": {
-    "value": "Move between items in a group:"
+    "value": "Move between items in a group"
   },
   "keyboardHelpDialog.exitADialog": {
-    "value": "Exit a dialog:"
+    "value": "Exit a dialog"
   },
   "keyboardHelpDialog.or": {
     "value": "or"
