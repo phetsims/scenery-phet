@@ -1,9 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Maintains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and content which is aligned in a
- * VBox. This type has many static functions for creating and laying out content that could be useful for subtypes
- * that use this Node. Default values for spacing and fonts are also available through statics.
+ * Contains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and an array of content with 
+ * labels and icons. This type has many static functions for creating and laying out content that could be useful for
+ * subtypes of this Node. Default values for spacing and fonts are also available through statics.
  *
  * @author Jesse Greenberg
  */
@@ -16,7 +16,6 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -36,7 +35,7 @@ define( function( require ) {
 
   // Content spacing and alignment
   var DEFAULT_ALIGN = 'left'; // default alignment for the content and title
-  var DEFAULT_LABEL_ICON_SPACING = 6; // spacing between 
+  var DEFAULT_LABEL_ICON_SPACING = 20; // spacing between 
   var DEFAULT_ICON_SPACING = 5;
   var DEFAULT_VERTICAL_ICON_SPACING = 10;
   var DEFAULT_LETTER_KEY_SPACING = 1;
@@ -49,7 +48,12 @@ define( function( require ) {
    * @constructor
    *
    * @param {string} headingString - the translatable label for this content
-   * @param {Node} content
+   * @param {Array.<Object>} content - {label: <Node>, icon: <Node> }, icons and labels are each placed in their own
+   *                                   VBox, and these layout boxes are aligned horizontally. It is assumed that each
+   *                                   label and icon have bounds so that each row of content is aligned as desired.
+   *                                   See HelpContent.labelWithIcon and HelpContent.labelWithIconList for how this is
+   *                                   done with AlignBox.
+   *                                   
    * @param {Object} [options]
    */
   function HelpContent( headingString, content, options ) {
@@ -78,13 +82,32 @@ define( function( require ) {
       accessibleLabel: headingString
     } );
 
-    // wrap the content with a node that represents the optional a11yContentTagName, if defined
-    var contentWrapper = new Node( { children: [ content ] } );
-    options.a11yContentTagName && contentWrapper.setTagName( options.a11yContentTagName );
+    // place icons in labels in unique layout boxes for alignment
+    var icons = [];
+    var labels = [];
+    for ( var i = 0; i < content.length; i++ ) {
+      icons.push( content[ i ].icon );
+      labels.push( content[ i ].label );
+    }
+
+    var vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
+    var labelVBox = new VBox( _.extend( {
+      children: labels
+    }, vBoxOptions ) );
+
+    var iconVBox = new VBox( _.extend( {
+      children: icons
+    }, vBoxOptions ) );
+
+    // labels and icons horizontally aligned
+    var contentHBox = new HBox( {
+      children: [ labelVBox, iconVBox ],
+      spacing: DEFAULT_LABEL_ICON_SPACING
+    } );
 
     // heading and content aligned in a VBox
     VBox.call( this, {
-      children: [ headingText, contentWrapper ],
+      children: [ headingText, contentHBox ],
       align: options.align,
       spacing: DEFAULT_HEADING_CONTENT_SPACING
     } );
@@ -95,15 +118,16 @@ define( function( require ) {
   return inherit( VBox, HelpContent, {}, {
 
     /**
-     * Horizontally align a label and an icon, with the label on the left and the icon on the right. Optionally,
-     * the icon can be ordered before the label, see labelFirst option.
+     * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
+     * to give the label and icon identical heights when laying out the content in a Dialog. Optionally, the icon can
+     * be ordered before the label, see labelFirst option.
      * @public
      * @static
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node} icon
      * @param {Object} [options]
-     * @return {HBox}
+     * @return {Object} - Object that looks like {label: <Node>, icon: <Node>}
      */
     labelWithIcon: function( label, icon, options ) {
 
@@ -117,13 +141,21 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
-      return new HBox( options );
+      // make the label and icon the same height so that they will align when we assemble help content group
+      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );
+      var labelBox = labelIconGroup.createBox( label );
+      var iconBox = labelIconGroup.createBox( icon );
+
+      // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
+      var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };
+      return content;
     },
 
     /**
-     * Horizontally aligned label with a list of icons.  The icons will be vertically aligned, each separated by 'or'
-     * text.The label will be vertically centered with the first item in the list of icons.  The result will look like
+     * Create a label with a list of icons. The icons will be vertically aligned, each separated by 'or' text. The
+     * label will be vertically centered with the first item in the list of icons. To vertically align the label
+     * with the first icon, AlignGroup is used to match their heights. Finally, an AlignGroup is used to make the label
+     * content match height with the icon content. When assembled, the label with icon list will look like:
      *
      * This is the label: Icon1 or
      *                    Icon2 or
@@ -145,11 +177,11 @@ define( function( require ) {
         accessibleLabel: null // screen reader description often used for entire list, passed to final HBox
       }, options );
 
-      // Use align group to horizontally align the label with the first item in the list of icons, guarantees
-      // that the label and first icon have identical heights
-      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );
-      labelIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
-      var labelBox = labelIconGroup.createBox( label );
+      // horizontally align the label with the first item in the list of icons, guarantees that the label and first
+      // icon have identical heights
+      var labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
+      labelFirstIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
+      var labelBox = labelFirstIconGroup.createBox( label );
 
       // for each of the icons (excluding the last one,  add a vertically aligned 'or' text to the right
       var iconsWithOrText = [];
@@ -174,13 +206,13 @@ define( function( require ) {
         align: 'left'
       } );
 
-      return new HBox( {
-        children: [ labelBox, iconsVBox ],
-        align: 'top',
-        spacing: DEFAULT_LABEL_ICON_SPACING,
-        tagName: options.tagName,
-        accessibleLabel: options.accessibleLabel
-      } );
+      // make the label the same height as the icon list by aligning them in a box that matches height
+      var groupOptions = { yAlign: 'top' };
+      var labelIconListGroup = new AlignGroup( { matchHorizontal: false } );
+      var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
+      var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
+
+      return { label: labelWithHeightBox, icon: iconsBox };
     },
 
     /**

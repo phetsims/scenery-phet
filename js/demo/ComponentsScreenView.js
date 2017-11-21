@@ -663,19 +663,9 @@ define( function( require ) {
       new TextKeyNode( 'Ahoy\' Manatee' )
     ] );
 
-    var arrowKeysRowIcon = HelpContent.arrowKeysRowIcon();
     var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon() );
-
-    var upDownArrowKeysRowIcon = HelpContent.upDownArrowKeysRowIcon();
     var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon() );
-
-    var leftRightArrowKeysRowIcon = HelpContent.leftRightArrowKeysRowIcon();
     var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with left right arrows: ' ), HelpContent.leftRightArrowKeysRowIcon() );
-
-    var wasdRowIcon = HelpContent.wasdRowIcon();
-
-    var shiftPlusIcon = HelpContent.shiftPlusIcon( new TextKeyNode( 'Hi' ) );
-    var iconOrIcon = HelpContent.iconOrIcon( new TextKeyNode( 'Hi' ), new TextKeyNode( 'Sup' ) );
 
     // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
     // in their own panel
@@ -684,23 +674,15 @@ define( function( require ) {
       children: [
 
         // Custom Help Content Panel
-        new Panel( new HelpContent( 'Custom Help Content', new VBox( {
-          children: [ labelWithIcon,
+        new Panel( new HelpContent( 'Custom Help Content',
+          [
+            labelWithIcon,
             labelWithIconList,
-            arrowKeysRowIcon,
             labelWithArrowKeysRowIcon,
-            upDownArrowKeysRowIcon,
             labelWithUpDownArrowKeysRowIcon,
-            leftRightArrowKeysRowIcon,
-            labelWithLeftRightArrowKeysRowIcon,
-            wasdRowIcon,
-            shiftPlusIcon,
-            iconOrIcon
-          ],
-          center: layoutBounds.center,
-          align: 'right',
-          spacing: 3
-        } ), {} ) ),
+            labelWithLeftRightArrowKeysRowIcon
+          ]
+        ) ),
 
         // Individual help content subtypes
         new Panel( new SliderControlsHelpContent() ),

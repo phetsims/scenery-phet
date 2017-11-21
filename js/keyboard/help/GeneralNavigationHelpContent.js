@@ -16,7 +16,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // stings
   var keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
@@ -74,7 +73,7 @@ define( function( require ) {
       accessibleLabel: exitDialogDescriptionString
     } );
 
-    var contentChildren = [];
+    var content = [];
     if ( options.withGroupContent ) {
 
       // if the general navigation section includes help content includes groups, modify some text and add another
@@ -90,18 +89,11 @@ define( function( require ) {
         accessibleLabel: groupNavigationDescriptionString
       } );
 
-      contentChildren = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
+      content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
     }
     else {
-      contentChildren = [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ];
+      content = [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ];
     }
-
-    // content aligned in a VBox
-    var content = new VBox( {
-      children: contentChildren,
-      align: 'left',
-      spacing: options.verticalIconSpacing
-    } );
 
     HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );
   }
