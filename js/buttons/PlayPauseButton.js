@@ -16,8 +16,14 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
 
+  // a11y strings
+  var playString = SceneryPhetA11yStrings.playString.value;
+  var pauseString = SceneryPhetA11yStrings.pauseString.value;
+
+  // constants
   var DEFAULT_RADIUS = 28;
 
   /**
@@ -26,10 +32,13 @@ define( function( require ) {
    * @constructor
    */
   function PlayPauseButton( runningProperty, options ) {
+    var self = this;
 
     options = _.extend( {
       radius: DEFAULT_RADIUS
     }, options );
+
+    this.runningProperty = runningProperty; // @private
 
     // play and pause symbols are sized relative to the radius
     var triangleHeight = options.radius;
@@ -56,9 +65,24 @@ define( function( require ) {
     pausedCircle.addChild( pausePath );
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, runningProperty, options );
+
+    // @private
+    this.runningListener = function( running ) {
+      self.accessibleLabel = running ? pauseString : playString;
+    };
+    runningProperty.link( this.runningListener );
   }
 
   sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );
 
-  return inherit( BooleanRoundToggleButton, PlayPauseButton );
+  return inherit( BooleanRoundToggleButton, PlayPauseButton, {
+
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.runningProperty.unlink( this.runningListener );
+      BooleanRoundToggleButton.prototype.dispose.call( this );
+    }
+  } );
 } );

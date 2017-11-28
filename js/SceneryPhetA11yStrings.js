@@ -29,7 +29,15 @@ define( function( require ) {
     tabDescriptionString: 'Move to next item with Tab key.',
     shiftTabDescriptionString: 'Move to previous item with Shift plus Tab key.',
     groupNavigationDescriptionString: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.',
-    exitDialogDescriptionString: 'Exit a dialog with Escape key.'
+    exitDialogDescriptionString: 'Exit a dialog with Escape key.',
+
+    // PlayPauseButton
+    playString: {
+      'value': 'Play'
+    },
+    pauseString: {
+      'value': 'Pause'
+    }
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
