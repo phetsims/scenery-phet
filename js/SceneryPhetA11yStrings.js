@@ -37,6 +37,11 @@ define( function( require ) {
     },
     pauseString: {
       'value': 'Pause'
+    },
+
+    // StepButton
+    stepString: {
+      'value': 'Step'
     }
   };
 

@@ -17,7 +17,11 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
+
+  // a11y strings
+  var stepString = SceneryPhetA11yStrings.stepString.value;
 
   /**
    * @param {Object} [options] - see RoundPushButton
@@ -26,8 +30,8 @@ define( function( require ) {
   function StepButton( options ) {
 
     // these options are used in computation of other default options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
-    var DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
+    var BUTTON_RADIUS = (options && options.radius) ? options.radius : 20;
+    var DIRECTION = (options && options.direction) ? options.direction : 'forward';
 
     options = _.extend( {
       direction: DIRECTION, // {string} 'forward'|'backward'
@@ -36,12 +40,15 @@ define( function( require ) {
       iconFill: 'black',
 
       // shift the content to center align, assumes 3D appearance and specific content
-      xContentOffset: ( DIRECTION === 'forward' ) ? ( 0.075 * BUTTON_RADIUS ) : ( -0.15 * BUTTON_RADIUS ),
+      xContentOffset: (DIRECTION === 'forward') ? (0.075 * BUTTON_RADIUS) : (-0.15 * BUTTON_RADIUS),
 
       // {Property.<boolean>|null} is the sim playing? This is a convenience option.
       // If this Property is provided, it will disable the button while the sim is playing,
       // and you should avoid using the button's native 'enabled' property.
-      playingProperty: null
+      playingProperty: null,
+
+      // a11y
+      accessibleLabel: stepString
     }, options );
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
@@ -65,7 +72,7 @@ define( function( require ) {
     var stepIcon = new HBox( {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
-      rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
+      rotation: (options.direction === 'forward') ? 0 : Math.PI
     } );
 
     assert && assert( !options.content, 'button creates its own content' );
@@ -76,8 +83,8 @@ define( function( require ) {
     // Disable the button when the sim is playing
     if ( options.playingProperty ) {
       var self = this;
-      var playingObserver = function( playing ) { 
-        self.enabled = !playing; 
+      var playingObserver = function( playing ) {
+        self.enabled = !playing;
       };
       options.playingProperty.link( playingObserver );
     }
