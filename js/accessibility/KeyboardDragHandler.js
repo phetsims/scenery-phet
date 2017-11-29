@@ -203,17 +203,21 @@ define( function( require ) {
           deltaY = positionDelta;
         }
 
-        // determine if the new position is within the constraints of the drag bounds
+        // only initiate move if there was some attempted keyboard dragging
         var vectorDelta = new Vector2( deltaX, deltaY );
-        var newPosition = this.positionProperty.get().plus( vectorDelta );
-        newPosition = this._dragBounds.closestPointTo( newPosition );
+        if ( !vectorDelta.equals( Vector2.ZERO ) ) {
 
-        // update the position if it is different
-        if ( !newPosition.equals( this.positionProperty.get() ) ) {
-          this.positionProperty.set( newPosition );
+          // determine if the new position is within the constraints of the drag bounds
+          var newPosition = this.positionProperty.get().plus( vectorDelta );
+          newPosition = this._dragBounds.closestPointTo( newPosition );
 
-          // on successful drag, call the optional onDrag function
-          this.onDrag();
+          // update the position if it is different
+          if ( !newPosition.equals( this.positionProperty.get() ) ) {
+            this.positionProperty.set( newPosition );
+
+            // on successful drag, call the optional onDrag function
+            this.onDrag();
+          }          
         }
       }
     },
