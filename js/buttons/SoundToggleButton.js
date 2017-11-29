@@ -28,6 +28,10 @@ define( function( require ) {
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
+  var soundToggleLabelString = SceneryPhetA11yStrings.soundToggleLabelString.value;
+  var simSoundOnString = SceneryPhetA11yStrings.simSoundOnString.value;
+  var simSoundOffString = SceneryPhetA11yStrings.simSoundOffString.value;
+
   /**
    *
    * @param {Property.<boolean>} property
@@ -38,7 +42,7 @@ define( function( require ) {
 
     // 'on' icon is a font-awesome icon
     var soundOnNode = new FontAwesomeNode( 'volume_up' );
-    var contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
+    var contentScale = (WIDTH - (2 * MARGIN)) / soundOnNode.width;
     soundOnNode.scale( contentScale );
 
     // 'off' icon is a font-awesome icon, with an 'x' added to the right.
@@ -61,7 +65,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: SceneryPhetA11yStrings.soundToggleLabelString
+      accessibleLabel: soundToggleLabelString
     }, options ) );
 
     var self = this;
@@ -78,7 +82,7 @@ define( function( require ) {
     var pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
-      var alertString = value ? SceneryPhetA11yStrings.simSoundOnString : SceneryPhetA11yStrings.simSoundOffString;
+      var alertString = value ? simSoundOnString : simSoundOffString;
       AriaHerald.announcePolite( alertString );
     };
     property.lazyLink( pressedListener );

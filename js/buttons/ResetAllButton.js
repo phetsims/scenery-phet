@@ -31,7 +31,7 @@ define( function( require ) {
   var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
 
   // a11y strings - not translatable
-  var resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString;
+  var resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
 
   /**
    * @param {Object} [options]

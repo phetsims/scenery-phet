@@ -27,10 +27,10 @@ define( function( require ) {
   var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
 
   // invisible strings for screen readers, no i18n support
-  var tabDescriptionString = SceneryPhetA11yStrings.tabDescriptionString;
-  var shiftTabDescriptionString = SceneryPhetA11yStrings.shiftTabDescriptionString;
-  var groupNavigationDescriptionString = SceneryPhetA11yStrings.groupNavigationDescriptionString;
-  var exitDialogDescriptionString = SceneryPhetA11yStrings.exitDialogDescriptionString;
+  var tabDescriptionString = SceneryPhetA11yStrings.tabDescriptionString.value;
+  var shiftTabDescriptionString = SceneryPhetA11yStrings.shiftTabDescriptionString.value;
+  var groupNavigationDescriptionString = SceneryPhetA11yStrings.groupNavigationDescriptionString.value;
+  var exitDialogDescriptionString = SceneryPhetA11yStrings.exitDialogDescriptionString.value;
 
   /**
    * @constructor

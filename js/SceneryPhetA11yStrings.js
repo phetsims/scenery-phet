@@ -16,29 +16,43 @@ define( function( require ) {
   var SceneryPhetA11yStrings = {
 
     // button labels
-    soundToggleLabelString: 'Mute Sound',
+    soundToggleLabelString: {
+      value: 'Mute Sound'
+    },
 
     // SoundToggleButton alerts
-    simSoundOnString: 'Sim sound on.',
-    simSoundOffString: 'Sim sound off.',
+    simSoundOnString: {
+      value: 'Sim sound on.'
+    },
+    simSoundOffString: {
+      value: 'Sim sound off.'
+    },
 
     // alert for sim reset
-    resetAllAlertString: 'Sim screen restarted. Everything reset.',
+    resetAllAlertString: {
+      value: 'Sim screen restarted. Everything reset.'
+    },
 
     // help descriptions for general navigation
-    tabDescriptionString: 'Move to next item with Tab key.',
-    shiftTabDescriptionString: 'Move to previous item with Shift plus Tab key.',
-    groupNavigationDescriptionString: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.',
-    exitDialogDescriptionString: 'Exit a dialog with Escape key.',
+    tabDescriptionString: {
+      value: 'Move to next item with Tab key.'
+    },
+    shiftTabDescriptionString: {
+      value: 'Move to previous item with Shift plus Tab key.'
+    },
+    groupNavigationDescriptionString: {
+      value: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.'
+    },
+    exitDialogDescriptionString: {
+      value: 'Exit a dialog with Escape key.'
+    },
 
-
-    // TODO these a11y strings with "value" keys are not being injected with xss strings. See https://github.com/phetsims/a11y-research/issues/65
     // PlayPauseButton
     playString: {
-      'value': 'Play'
+      value: 'Play'
     },
     pauseString: {
-      'value': 'Pause'
+      value: 'Pause'
     },
 
     // StepButton
@@ -49,7 +63,7 @@ define( function( require ) {
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
     for ( var key in SceneryPhetA11yStrings ) {
-      SceneryPhetA11yStrings[ key ] += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
+      SceneryPhetA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
     }
   }
 
