@@ -31,6 +31,8 @@ define( function( require ) {
     groupNavigationDescriptionString: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.',
     exitDialogDescriptionString: 'Exit a dialog with Escape key.',
 
+
+    // TODO these a11y strings with "value" keys are not being injected with xss strings. See https://github.com/phetsims/a11y-research/issues/65
     // PlayPauseButton
     playString: {
       'value': 'Play'
