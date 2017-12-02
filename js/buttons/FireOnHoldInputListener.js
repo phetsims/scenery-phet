@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function FireOnHoldInputListener( options ) {
-    Tandem.indicateUninstrumentedCode();
+    // Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       listener: null, // {function} convenience for adding 1 listener
@@ -29,7 +29,9 @@ define( function( require ) {
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this interval (milliseconds)
       startCallback: function() {}, // called when the pointer is pressed
-      endCallback: function( inside ) {} // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
+      endCallback: function( inside ) {}, // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
+      tandem: Tandem.optional
+
     }, options );
 
     this._enabled = options.enabled; // @private
