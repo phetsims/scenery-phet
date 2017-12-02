@@ -11,9 +11,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
@@ -24,9 +26,11 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -41,7 +45,6 @@ define( function( require ) {
    * @constructor
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     // See https://github.com/phetsims/area-model-common/issues/5
     assert && assert( !options.formatText, 'Deprecated, use formatValue instead' );
@@ -73,6 +76,8 @@ define( function( require ) {
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
 
+      tandem: Tandem.required,
+
       // a11y
       tagName: 'input',
       inputType: 'number',
@@ -97,7 +102,7 @@ define( function( require ) {
        * @returns {boolean}
        */
       upEnabledFunction: function( value, range ) {
-        return (value !== null && value !== undefined && value < range.max);
+        return ( value !== null && value !== undefined && value < range.max );
       },
 
       /**
@@ -107,7 +112,7 @@ define( function( require ) {
        * @returns {boolean}
        */
       downEnabledFunction: function( value, range ) {
-        return (value !== null && value !== undefined && value > range.min);
+        return ( value !== null && value !== undefined && value > range.min );
       }
     }, options );
 
@@ -133,14 +138,26 @@ define( function( require ) {
 
     this.valueProperty = valueProperty; // @private must be unlinked in dispose
 
-    var upStateProperty = new Property( 'up' ); // up|down|over|out
-    var downStateProperty = new Property( 'up' ); // up|down|over|out
+    var upStateProperty = new Property( 'up', {
+      tandem: options.tandem.createTandem( 'upStateProperty' ),
+      phetioType: PropertyIO( StringIO )
+    } ); // up|down|over|out
+    var downStateProperty = new Property( 'up', {
+      tandem: options.tandem.createTandem( 'downStateProperty' ),
+      phetioType: PropertyIO( StringIO )
+    } ); // up|down|over|out
 
     // @private must be detached in dispose
-    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
+    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction, {
+      tandem: options.tandem.createTandem( 'upEnabledProperty'),
+      phetioType: DerivedPropertyIO( BooleanIO )
+    } );
 
     // @private must be detached in dispose
-    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
+    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction, {
+      tandem: options.tandem.createTandem( 'downEnabledProperty'),
+      phetioType: DerivedPropertyIO( BooleanIO )
+    } );
 
     //------------------------------------------------------------
     // Nodes
@@ -168,8 +185,8 @@ define( function( require ) {
     }
 
     // compute shape of the background behind the numeric value
-    var backgroundWidth = maxWidth + (2 * options.xMargin);
-    var backgroundHeight = valueNode.height + (2 * options.yMargin);
+    var backgroundWidth = maxWidth + ( 2 * options.xMargin );
+    var backgroundHeight = valueNode.height + ( 2 * options.yMargin );
     var backgroundOverlap = 1;
     var backgroundCornerRadius = options.cornerRadius;
 
@@ -180,8 +197,8 @@ define( function( require ) {
     var upBackground = new Path( new Shape()
       .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
-      .lineTo( backgroundWidth, (backgroundHeight / 2) + backgroundOverlap )
-      .lineTo( 0, (backgroundHeight / 2) + backgroundOverlap )
+      .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
+      .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close(), { pickable: false } );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
@@ -245,18 +262,18 @@ define( function( require ) {
 
     // touch area
     upParent.touchArea = Shape.rectangle(
-      upParent.left - (options.touchAreaXDilation / 2), upParent.top - options.touchAreaYDilation,
+      upParent.left - ( options.touchAreaXDilation / 2 ), upParent.top - options.touchAreaYDilation,
       upParent.width + options.touchAreaXDilation, upParent.height + options.touchAreaYDilation );
     downParent.touchArea = Shape.rectangle(
-      downParent.left - (options.touchAreaXDilation / 2), downParent.top,
+      downParent.left - ( options.touchAreaXDilation / 2 ), downParent.top,
       downParent.width + options.touchAreaXDilation, downParent.height + options.touchAreaYDilation );
 
     // mouse area
     upParent.mouseArea = Shape.rectangle(
-      upParent.left - (options.mouseAreaXDilation / 2), upParent.top - options.mouseAreaYDilation,
+      upParent.left - ( options.mouseAreaXDilation / 2 ), upParent.top - options.mouseAreaYDilation,
       upParent.width + options.mouseAreaXDilation, upParent.height + options.mouseAreaYDilation );
     downParent.mouseArea = Shape.rectangle(
-      downParent.left - (options.mouseAreaXDilation / 2), downParent.top,
+      downParent.left - ( options.mouseAreaXDilation / 2 ), downParent.top,
       downParent.width + options.mouseAreaXDilation, downParent.height + options.mouseAreaYDilation );
 
     //------------------------------------------------------------
@@ -316,7 +333,7 @@ define( function( require ) {
     this.valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
-        valueNode.x = (backgroundWidth - valueNode.width) / 2; // horizontally centered
+        valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
       }
       else {
         valueNode.text = options.formatValue( value );
