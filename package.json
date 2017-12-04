@@ -18,6 +18,10 @@
     ],
     "phetLibs": [
       "twixt"
+    ],
+    "runnable": true,
+    "supportedBrands": [
+      "phet"
     ]
   }
 }
