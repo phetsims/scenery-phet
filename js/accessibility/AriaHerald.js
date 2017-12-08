@@ -26,8 +26,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Timer = require( 'PHET_CORE/Timer' );
 
-  // ids for each of the aria-live elements
-  var ASSERTIVE_ELEMENT_ID = 'assertive';
+  // ids for the aria-live elements
   var POLITE_ELEMENT_ID = 'polite';
   var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
 
@@ -37,15 +36,14 @@ define( function( require ) {
   // If not initialized, then AriaHerald will no-op for all functionality
   var initialized = false;
 
-  // DOM elements which will receive the updated content
-  var assertiveElement = document.getElementById( ASSERTIVE_ELEMENT_ID );
+  // verify that container is present
+  assert && assert( document.getElementById( ALERT_CONTAINER_ELEMENT_ID ), 'No alert container element found in document' );
+
+  // DOM element which will receive the updated content
   var politeElement = document.getElementById( POLITE_ELEMENT_ID );
-  var alertContainer = document.getElementById( ALERT_CONTAINER_ELEMENT_ID );
 
   // verify that all elements are present
-  assert && assert( assertiveElement, 'No assertive element found in document' );
   assert && assert( politeElement, 'No polite element found in document' );
-  assert && assert( alertContainer, 'No alert container element found in document' );
 
   /**
    * Update an element with the 'aria-live' attribute by setting its text content.
@@ -64,7 +62,7 @@ define( function( require ) {
       return;
     }
 
-    withClear = (withClear === undefined) ? DEFAULT_WITH_CLEAR : withClear;
+    withClear = ( withClear === undefined ) ? DEFAULT_WITH_CLEAR : withClear;
     assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
 
     // clearing the old content allows repeated alerts
@@ -91,18 +89,6 @@ define( function( require ) {
     },
 
     /**
-     * Announce an assertive alert.  This alert should be announced by the AT immediately, regardless of current user
-     * interaction status.
-     * @public
-     *
-     * @param {string} textContent - the alert to announce
-     * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
-     */
-    announceAssertive: function( textContent, withClear ) {
-      updateLiveElement( assertiveElement, textContent, withClear );
-    },
-
-    /**
      * Announce a polite alert.  This alert should be announced when the user has finished their current interaction or
      * after other utterances in the screen reader's queue are finished.
      * @public
@@ -120,23 +106,7 @@ define( function( require ) {
      * @public
      */
     clearAll: function() {
-      AriaHerald.clearAssertive();
       AriaHerald.clearPolite();
-    },
-
-    /**
-     * Clear the text content from the assertive alert element. AT will not announce anything but this will prevent
-     * content from being found in the document with the virtual cursor.
-     * @public
-     */
-    clearAssertive: function() {
-
-      // no-op if not initialized
-      if ( !initialized ) {
-        return;
-      }
-
-      assertiveElement.textContent = '';
     },
 
     /**
@@ -155,7 +125,6 @@ define( function( require ) {
     },
 
     // static constants
-    ASSERTIVE_ELEMENT_ID: ASSERTIVE_ELEMENT_ID,
     POLITE_ELEMENT_ID: POLITE_ELEMENT_ID,
     ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
