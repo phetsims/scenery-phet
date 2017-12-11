@@ -20,7 +20,7 @@ define( function( require ) {
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Input = require( 'SCENERY/input/Input' );
+  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -369,7 +369,7 @@ define( function( require ) {
       keydown: function( event ) {
 
         // prevent user from changing value with number or the space keys
-        if ( Input.isNumberKey( event.keyCode ) || event.keyCode === Input.KEY_SPACE ) {
+        if ( KeyboardUtil.isNumberKey( event.keyCode ) || event.keyCode === KeyboardUtil.KEY_SPACE ) {
           event.preventDefault();
         }
       },
