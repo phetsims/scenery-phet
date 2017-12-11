@@ -26,6 +26,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
 
   /**
@@ -186,7 +187,7 @@ define( function( require ) {
 
   // the smaller hundredths-of-a-second string
   function timeToSmallString( timeInSeconds ) {
-    var centiseconds = Math.floor( timeInSeconds % 1 * 100 );
+    var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
     if ( centiseconds < 10 ) {
       centiseconds = '0' + centiseconds;
     }
