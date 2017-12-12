@@ -15,8 +15,6 @@ define( function( require ) {
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -114,7 +112,10 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.required,
-      phetioType: NumberControlIO
+      phetioType: NumberControlIO,
+
+      // a11y
+      groupFocusHighlight: true
     }, options );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
@@ -235,25 +236,13 @@ define( function( require ) {
     var accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
     this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
 
-    // a11y - keyboard navigation skips over the tweaker buttons, so this focus highlight indicates that the
-    // NumberControl is a self contained input
-    var numberControlFocusHighlightBorder = new FocusHighlightFromNode( this, {
-      outerLineWidth: 2,
-      innerLineWidth: 2,
-      innerStroke: FocusHighlightPath.FOCUS_COLOR // make both the inner and outer focus color be the same
-    } );
-
     // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
-    var focusHighlight = new Node();
-    focusHighlight.addChild( numberControlFocusHighlightBorder );
-    focusHighlight.addChild( slider.focusHighlight );
-    this.focusHighlight = focusHighlight;
+    this.focusHighlight = slider.focusHighlight;
 
     // a11y - place the slider's focus highlight relative to the NumberControl, going through the global coordinate frame
     var sliderFocusHighlightPosition;
     numberProperty.link( function( value ) {
-      sliderFocusHighlightPosition = self.globalToLocalPoint(
-        slider.localToGlobalPoint( slider.focusHighlight.center ) );
+      sliderFocusHighlightPosition = self.globalToLocalPoint( slider.localToGlobalPoint( slider.focusHighlight.center ) );
       slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
     } );
 
