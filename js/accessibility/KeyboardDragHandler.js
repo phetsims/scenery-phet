@@ -99,6 +99,20 @@ define( function( require ) {
     this.keyup = function( event ) {
       var moveKeysDown = self.movementKeysDown;
 
+      // if the shift key is down when we navigate to the object, add it to the keystate because it won't be added until
+      // the next keydown event
+      if ( event.keyCode === Input.KEY_TAB ) {
+        if ( event.shiftKey ) {
+
+          // add 'shift' to the keystate until it is released again
+          self.keyState.push( {
+            keyDown: true,
+            keyCode: Input.KEY_SHIFT,
+            timeDown: 0 // in ms
+          } );
+        }
+      }
+
       for ( var i = 0; i < self.keyState.length; i++ ) {
         if ( event.keyCode === self.keyState[ i ].keyCode ) {
           self.keyState.splice( i, 1 );
