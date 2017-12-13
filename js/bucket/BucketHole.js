@@ -19,9 +19,9 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function BucketHole( bucket, modelViewTransform ) {
+  function BucketHole( bucket, modelViewTransform, options ) {
 
-    Node.call( this );
+    Node.call( this, options );
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.holeShape.transformed( scaleMatrix );

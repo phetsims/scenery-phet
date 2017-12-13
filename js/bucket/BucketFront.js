@@ -26,12 +26,11 @@ define( function( require ) {
    */
   function BucketFront( bucket, modelViewTransform, options ) {
 
-    // Invoke super constructor.
-    Node.call( this, { cursor: 'pointer' } );
-
     options = _.extend( {
       tandem: Tandem.required
     }, options );
+
+    Node.call( this, { cursor: 'pointer', tandem: options.tandem } );
 
     // This is basically like extending the options with the labelNode, but with dynamic content in the tandem.
     if ( !options.labelNode ) {

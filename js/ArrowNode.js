@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -45,7 +46,7 @@ define( function( require ) {
     }, options );
     this.options = options; // @private
 
-    Path.call( this, null );
+    Path.call( this, null, IOObject.getOptions( options ) );
     this.shapePoints = [];
     this.setTailAndTip( tailX, tailY, tipX, tipY );
 

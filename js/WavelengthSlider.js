@@ -12,6 +12,7 @@ define( function( require ) {
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -36,8 +37,6 @@ define( function( require ) {
    * @constructor
    */
   function WavelengthSlider( wavelengthProperty, options ) {
-
-    options = options || {};
 
     // options that are specific to this type
     options = _.extend( {
@@ -88,7 +87,7 @@ define( function( require ) {
     assert && assert( options.minWavelength >= VisibleColor.MIN_WAVELENGTH && options.minWavelength <= VisibleColor.MAX_WAVELENGTH );
     assert && assert( options.maxWavelength >= VisibleColor.MIN_WAVELENGTH && options.maxWavelength <= VisibleColor.MAX_WAVELENGTH );
 
-    Node.call( this );
+    Node.call( this, IOObject.getOptions( options ) );
 
     var track = new SpectrumNode( {
       size: new Dimension2( options.trackWidth, options.trackHeight ),

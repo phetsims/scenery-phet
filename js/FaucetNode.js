@@ -29,6 +29,7 @@ define( function( require ) {
   var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -88,10 +89,10 @@ define( function( require ) {
       phetioType: FaucetNodeIO
     }, options );
 
-    assert && assert( (1000 * options.tapToDispenseAmount / options.tapToDispenseInterval) <= maxFlowRate );
+    assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
     var self = this;
-    Node.call( self );
+    Node.call( this, IOObject.getOptions( options ) );
 
     // shooter
     var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
@@ -107,7 +108,7 @@ define( function( require ) {
 
     // vertical pipe
     var verticalPipeNode = new Image( verticalPipeImage );
-    var verticalPipeNodeHeight = options.verticalPipeLength + (2 * VERTICAL_PIPE_Y_OVERLAP);
+    var verticalPipeNodeHeight = options.verticalPipeLength + ( 2 * VERTICAL_PIPE_Y_OVERLAP );
     assert && assert( verticalPipeNodeHeight > 0 );
     verticalPipeNode.setScaleMagnitude( 1, verticalPipeNodeHeight / verticalPipeNode.height );
 
@@ -179,7 +180,7 @@ define( function( require ) {
     var intervalID = null;
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
-        var flowRate = (options.tapToDispenseAmount / options.tapToDispenseInterval) * 1000;
+        var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
         var id = phetioEvents.start( 'model', options.tandem.id, FaucetNodeIO, 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
@@ -245,7 +246,7 @@ define( function( require ) {
 
           if ( tapToDispenseIsArmed ) {
             // tapping toggles the tap-to-dispense state
-            (tapToDispenseIsRunning || flowRateProperty.get() !== 0) ? endTapToDispense() : startTapToDispense();
+            ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
 

@@ -20,6 +20,7 @@ define( function( require ) {
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -131,7 +132,7 @@ define( function( require ) {
     }
 
     var self = this;
-    Node.call( this );
+    Node.call( this, IOObject.getOptions( options ) );
 
     //------------------------------------------------------------
     // Properties

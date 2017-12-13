@@ -18,6 +18,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var MultiLineTextIO = require( 'SCENERY_PHET/MultiLineTextIO' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -49,7 +50,7 @@ define( function( require ) {
     // but in this case the options is stored because it must be propagated to child text instances
     this.options = options; // @private
 
-    Node.call( this );
+    Node.call( this, IOObject.getOptions( options ) );
 
     this._text = null; // @private underscore prefix because it has ES5 set/get
     this.textParent = null; // @private

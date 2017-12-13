@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -32,8 +33,6 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
-    Node.call( this );
-
     options = _.extend( {
       // Defaults
       radius: 67,
@@ -47,7 +46,7 @@ define( function( require ) {
 
       // 8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
       // The ticks are duplicated for the right side, and one tick appears in the middle at the top
-      numTicks: (8 + 2) * 2 + 1,
+      numTicks: ( 8 + 2 ) * 2 + 1,
 
       majorTickLength: 10,
       minorTickLength: 5,
@@ -59,6 +58,8 @@ define( function( require ) {
       updateEnabledProperty: new Property( true ),
       tandem: Tandem.required
     }, options );
+
+    Node.call( this, IOObject.getOptions( options ) );
 
     var tandem = options.tandem;
 
@@ -90,7 +91,7 @@ define( function( require ) {
     var pin = new Circle( 2, { fill: 'black' } );
     foregroundNode.addChild( pin );
 
-    var totalAngle = (options.numTicks - 1) * options.anglePerTick;
+    var totalAngle = ( options.numTicks - 1 ) * options.anglePerTick;
     var startAngle = -1 / 2 * Math.PI - totalAngle / 2;
     var endAngle = startAngle + totalAngle;
 
@@ -98,7 +99,7 @@ define( function( require ) {
 
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
-        if ( typeof(valueProperty.get()) === 'number' ) {
+        if ( typeof( valueProperty.get() ) === 'number' ) {
           needle.visible = true;
           var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
 
@@ -126,8 +127,8 @@ define( function( require ) {
       var tickAngle = i * options.anglePerTick + startAngle;
 
       var tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
-      var x1 = (options.radius - tickLength) * Math.cos( tickAngle );
-      var y1 = (options.radius - tickLength) * Math.sin( tickAngle );
+      var x1 = ( options.radius - tickLength ) * Math.cos( tickAngle );
+      var y1 = ( options.radius - tickLength ) * Math.sin( tickAngle );
       var x2 = options.radius * Math.cos( tickAngle );
       var y2 = options.radius * Math.sin( tickAngle );
       if ( i % 2 === 0 ) {

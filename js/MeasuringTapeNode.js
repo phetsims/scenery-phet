@@ -21,6 +21,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var Line = require( 'SCENERY/nodes/Line' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -54,7 +55,6 @@ define( function( require ) {
   function MeasuringTapeNode( unitsProperty, isVisibleProperty, options ) {
     var self = this;
 
-    Node.call( this );
     options = _.extend( {
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
       basePositionProperty: new Property( new Vector2( 0, 0 ) ),
@@ -89,6 +89,8 @@ define( function( require ) {
       isTipDragBounded: false, // is the tip subject to dragBounds
       tandem: Tandem.required
     }, options );
+
+    Node.call( this, IOObject.getOptions( options ) );
 
     assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) ===
                       Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
