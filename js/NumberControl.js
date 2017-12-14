@@ -18,7 +18,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
@@ -201,7 +200,7 @@ define( function( require ) {
     numberProperty.link( arrowEnabledListener );
 
     // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
-    var sliderOptions = _.extend( _.omit( options, Node.prototype._mutatorKeys.concat( IOObject.OPTIONS_KEYS ) ), {
+    var sliderOptions = _.extend( _.omit( options, Node.prototype._mutatorKeys ), {
 
       // Use these more general callback options, because the same callbacks apply to the arrow buttons,
       // where it makes no sense to call them startDrag and endDrag.

@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IOObject = require( 'TANDEM/IOObject' );
   var BarrierRectangleIO = require( 'SCENERY_PHET/BarrierRectangleIO' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -34,7 +33,7 @@ define( function( require ) {
       phetioState: false
     }, options );
 
-    Plane.call( this, IOObject.getOptions( options ) );
+    Plane.call( this );
 
     modalNodeStack.lengthProperty.link( function( numBarriers ) {
       self.visible = numBarriers > 0;

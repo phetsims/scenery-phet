@@ -29,7 +29,6 @@ define( function( require ) {
   var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -92,7 +91,7 @@ define( function( require ) {
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
     var self = this;
-    Node.call( this, IOObject.getOptions( options ) );
+    Node.call( this );
 
     // shooter
     var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );

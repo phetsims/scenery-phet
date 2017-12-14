@@ -13,7 +13,6 @@ define( function( require ) {
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -59,7 +58,7 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
-    Node.call( this, IOObject.getOptions( options ) );
+    Node.call( this );
 
     var tandem = options.tandem;
 
