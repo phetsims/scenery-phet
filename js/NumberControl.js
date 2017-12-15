@@ -17,6 +17,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
+  var HSliderIO = require( 'SUN/HSliderIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
@@ -208,6 +209,9 @@ define( function( require ) {
       endDrag: options.sliderEndCallback || options.endCallback,
       tandem: options.tandem.createTandem( 'slider' )
     } );
+
+    // Make sure HSlider gets created with the right IO Type
+    sliderOptions.phetioType = HSliderIO;
 
     var slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
