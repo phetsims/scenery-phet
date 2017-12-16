@@ -18,7 +18,6 @@ define( function( require ) {
   var FontIO = require( 'SCENERY/util/FontIO' ); // TODO: we should have PhetFontIO
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
@@ -36,7 +35,6 @@ define( function( require ) {
     // PhET defaults
     options = _.extend( {
       family: 'Arial',
-      tandem: Tandem.optional,
       phetioType: FontIO
     }, options );
 
@@ -45,8 +43,6 @@ define( function( require ) {
     options.family = options.family + ', sans-serif';
 
     Font.call( this, options );
-
-    options.tandem.addInstance( this, options );
   }
 
   sceneryPhet.register( 'PhetFont', PhetFont );
