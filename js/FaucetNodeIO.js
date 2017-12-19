@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- *
+ * IO type for FaucetNode.
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
@@ -18,13 +18,13 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/sun's Faucet class.
-   * @param faucet
-   * @param phetioID
+   * @param {FaucetNode} faucetNode
+   * @param {string} phetioID
    * @constructor
    */
-  function FaucetNodeIO( faucet, phetioID ) {
-    assert && assertInstanceOf( faucet, phet.sceneryPhet.FaucetNode );
-    NodeIO.call( this, faucet, phetioID );
+  function FaucetNodeIO( faucetNode, phetioID ) {
+    assert && assertInstanceOf( faucetNode, phet.sceneryPhet.FaucetNode );
+    NodeIO.call( this, faucetNode, phetioID );
   }
 
   phetioInherit( NodeIO, 'FaucetNodeIO', FaucetNodeIO, {}, {
