@@ -9,9 +9,8 @@
  * others use first-in-first-out order, others just read the last alert that was provided. This queue
  * manages order and improves consistency.
  *
- * NOTE: UtteranceQueue is just an Object, not a type, but it needs to be initialized before use as a singleton.
- * As of this writing (Nov 2017) this initialization occurs in Sim.js. Therefore if something adds an alert to the
- * queue before Sim.js has initialized the queue, the result will be a silent no-op.
+ * NOTE: UtteranceQueue is a type but instantiated and returned as a singleton.  It is initialized by Sim.js and if
+ * something adds an alert to the queue before Sim.js has initialized the queue, the result will be a silent no-op.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -21,17 +20,13 @@ define( function( require ) {
 
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
-
-  // phet-io modules
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
-
-  // {Tandem} - phet-io support
-  var tandem = Tandem.rootTandem.createTandem( 'utteranceQueue' );
 
   // {Utterance} - array of utterances, spoken in first to last order
   var queue = [];
@@ -48,7 +43,12 @@ define( function( require ) {
   // initialization is like UtteranceQueue's constructor. No-ops all around if not initialized (cheers).
   var initialized = false;
 
-  var UtteranceQueue = {
+  function UtteranceQueue() {
+
+    PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
+  }
+
+  inherit( PhetioObject, UtteranceQueue, {
 
     /**
      * Add an utterance ot the end of the queue.  If the utterance has a type of alert which
@@ -118,12 +118,12 @@ define( function( require ) {
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
 
         // phet-io event to the data stream
-        var id = phetioEvents.start( 'model', tandem.id, UtteranceQueueIO, 'announced', { utterance: nextUtterance.text } );
+        var id = this.startEvent( 'model', 'announced', { utterance: nextUtterance.text } );
 
         // Pass the utterance text on to be set in the PDOM.
         AriaHerald.announcePolite( nextUtterance.text );
 
-        phetioEvents.end( id );
+        this.endEvent( id );
       }
     },
 
@@ -201,9 +201,9 @@ define( function( require ) {
     set interval( alertInterval ) { this.setInterval( alertInterval ); },
 
     /**
-     * Basically a constructor for the queue. Setup necessary processes for runing the queue and register
-     * the phet-io tandem. If UtteranceQueue is not initialized, all functions will be no-ops. See type
-     * documentation above for NOTE.
+     * Basically a constructor for the queue. Setup necessary processes for running the queue and register
+     * the phet-io tandem. If UtteranceQueue is not initialized (say, when accessibility is not enabled), all functions
+     * will be no-ops. See type documentation above for NOTE.
      * @public
      */
     initialize: function() {
@@ -223,11 +223,16 @@ define( function( require ) {
         }, this.interval
       );
 
-      tandem.addInstance( this, { phetioType: UtteranceQueueIO } );
+      this.initializePhetioObject( {}, {
+        tandem: Tandem.rootTandem.createTandem( 'utteranceQueue' ),
+        phetioType: UtteranceQueueIO
+      } );
     }
-  };
+  } );
 
-  sceneryPhet.register( 'UtteranceQueue', UtteranceQueue );
+  var instance = new UtteranceQueue();
 
-  return UtteranceQueue;
+  sceneryPhet.register( 'UtteranceQueue', instance );
+
+  return instance;
 } );
