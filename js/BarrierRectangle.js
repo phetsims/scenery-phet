@@ -41,10 +41,10 @@ define( function( require ) {
 
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        var id = phetioEvents.start( 'user', options.tandem.id, BarrierRectangleIO, 'fired' );
+        var id = this.startEvent( 'user', 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
-        phetioEvents.end( id );
+        this.endEvent( id );
       }
     } ) );
 
