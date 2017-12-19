@@ -12,8 +12,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   /**
    * Constructor.

@@ -16,12 +16,12 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
