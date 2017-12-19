@@ -22,7 +22,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button
@@ -72,9 +72,9 @@ define( function( require ) {
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
     this.isFiringProperty.lazyLink( function( isFiring ) {
-      UtteranceQueue.enabled = !isFiring;
+      utteranceQueue.enabled = !isFiring;
 
-      !isFiring && UtteranceQueue.addToBack( new Utterance( resetAllAlertString, {
+      !isFiring && utteranceQueue.addToBack( new Utterance( resetAllAlertString, {
         typeId: 'resetAllButtonAlert'
       } ) );
     } );

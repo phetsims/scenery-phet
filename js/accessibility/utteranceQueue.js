@@ -9,7 +9,7 @@
  * others use first-in-first-out order, others just read the last alert that was provided. This queue
  * manages order and improves consistency.
  *
- * NOTE: UtteranceQueue is a type but instantiated and returned as a singleton.  It is initialized by Sim.js and if
+ * NOTE: utteranceQueue is a type but instantiated and returned as a singleton.  It is initialized by Sim.js and if
  * something adds an alert to the queue before Sim.js has initialized the queue, the result will be a silent no-op.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -40,15 +40,15 @@ define( function( require ) {
   // whether the UtterancesQueue is alerting, and if you can add/remove utterances
   var enabled = true;
 
-  // initialization is like UtteranceQueue's constructor. No-ops all around if not initialized (cheers).
+  // initialization is like utteranceQueue's constructor. No-ops all around if not initialized (cheers).
   var initialized = false;
 
-  function UtteranceQueue() {
+  function utteranceQueue() {
 
     PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
   }
 
-  inherit( PhetioObject, UtteranceQueue, {
+  inherit( PhetioObject, utteranceQueue, {
 
     /**
      * Add an utterance ot the end of the queue.  If the utterance has a type of alert which
@@ -61,7 +61,7 @@ define( function( require ) {
       assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
         'utterance queue only supports string or type Utterance.' );
 
-      // No-op function if the UtteranceQueue is disabled
+      // No-op function if the utteranceQueue is disabled
       if ( !enabled || !initialized ) {
         return;
       }
@@ -92,7 +92,7 @@ define( function( require ) {
       assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
         'utterance queue only supports string or type Utterance.' );
 
-      // No-op function if the UtteranceQueue is disabled
+      // No-op function if the utteranceQueue is disabled
       if ( !enabled || !initialized ) {
         return;
       }
@@ -128,7 +128,7 @@ define( function( require ) {
     },
 
     /**
-     * Clear the UtteranceQueue of all Utterances, any Utterances remaining in the queue will
+     * Clear the utteranceQueue of all Utterances, any Utterances remaining in the queue will
      * not be announced by the screen reader.
      *
      * @public
@@ -149,7 +149,7 @@ define( function( require ) {
     set muted( isMuted ) { this.setMuted( isMuted ); },
 
     /**
-     * Get whether or not the UtteranceQueue is muted.  When muted, Utterances will still
+     * Get whether or not the utteranceQueue is muted.  When muted, Utterances will still
      * move through the queue, but nothing will be read by asistive technology.
      * @public
      */
@@ -202,7 +202,7 @@ define( function( require ) {
 
     /**
      * Basically a constructor for the queue. Setup necessary processes for running the queue and register
-     * the phet-io tandem. If UtteranceQueue is not initialized (say, when accessibility is not enabled), all functions
+     * the phet-io tandem. If utteranceQueue is not initialized (say, when accessibility is not enabled), all functions
      * will be no-ops. See type documentation above for NOTE.
      * @public
      */
@@ -214,7 +214,7 @@ define( function( require ) {
       // step the alert queue
       Timer.setInterval( function() {
 
-          // No-op function if the UtteranceQueue is disabled
+        // No-op function if the utteranceQueue is disabled
           if ( !enabled ) {
             return;
           }
@@ -230,9 +230,9 @@ define( function( require ) {
     }
   } );
 
-  var instance = new UtteranceQueue();
+  var instance = new utteranceQueue();
 
-  sceneryPhet.register( 'UtteranceQueue', instance );
+  sceneryPhet.register( 'utteranceQueue', instance );
 
   return instance;
 } );
