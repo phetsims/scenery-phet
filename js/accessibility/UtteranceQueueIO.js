@@ -20,8 +20,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/scenery-phet's utteranceQueue
-   * @param utteranceQueue
-   * @param phetioID
+   * @param {Object} utteranceQueue
+   * @param {string} phetioID
    * @constructor
    */
   function UtteranceQueueIO( utteranceQueue, phetioID ) {

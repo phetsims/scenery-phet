@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/scenery-phet's NumberControl class.
-   * @param numberControl
-   * @param phetioID
+   * @param {NumberControl} numberControl
+   * @param {string} phetioID
    * @constructor
    */
   function NumberControlIO( numberControl, phetioID ) {

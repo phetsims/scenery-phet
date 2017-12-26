@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/scenery-phet's WavelengthSlider class.
-   * @param slider
-   * @param phetioID
+   * @param {WavelengthSlider} slider
+   * @param {string} phetioID
    * @constructor
    */
   function WavelengthSliderIO( slider, phetioID ) {

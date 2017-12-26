@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/scenery's BarrierRectangle
-   * @param barrierRectangle
-   * @param phetioID
+   * @param {BarrierRectangle} barrierRectangle
+   * @param {string} phetioID
    * @constructor
    */
   function BarrierRectangleIO( barrierRectangle, phetioID ) {
