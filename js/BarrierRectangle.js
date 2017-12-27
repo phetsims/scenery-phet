@@ -40,10 +40,10 @@ define( function( require ) {
 
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        var id = self.startEvent( 'user', 'fired' );
+        self.startEvent( 'user', 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
-        self.endEvent( id );
+        self.endEvent();
       }
     } ) );
 
