@@ -2,6 +2,7 @@
 
 /**
  * IO type for FaucetNode.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
@@ -17,7 +18,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/sun's Faucet class.
+   * IO type for phet/sun's Faucet class.
    * @param {FaucetNode} faucetNode
    * @param {string} phetioID
    * @constructor

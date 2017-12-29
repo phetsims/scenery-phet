@@ -19,7 +19,7 @@ define( function( require ) {
   var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   /**
-   * Wrapper type for phet/scenery-phet's utteranceQueue
+   * IO type for phet/scenery-phet's utteranceQueue
    * @param {Object} utteranceQueue
    * @param {string} phetioID
    * @constructor

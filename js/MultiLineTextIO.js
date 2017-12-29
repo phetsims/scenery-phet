@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Wrapper type for scenery-phet's MultiLineText node.
+ * IO type for scenery-phet's MultiLineText node.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -19,7 +19,7 @@ define( function( require ) {
   var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   /**
-   * Wrapper type for scenery's Text node.
+   * IO type for scenery's Text node.
    * @param {MultiLineText} multiLineText
    * @param {string} phetioID
    * @constructor
@@ -48,7 +48,7 @@ define( function( require ) {
       documentation: 'Get the text content'
     }
   }, {
-    documentation: 'The tandem wrapper type for the scenery phet\'s MultiLineText node',
+    documentation: 'The tandem IO type for the scenery phet\'s MultiLineText node',
     events: [ 'changed' ]
   } );
 

@@ -17,7 +17,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * Wrapper type for phet/scenery-phet's NumberControl class.
+   * IO type for phet/scenery-phet's NumberControl class.
    * @param {NumberControl} numberControl
    * @param {string} phetioID
    * @constructor
