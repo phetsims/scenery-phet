@@ -1,6 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * IO type for UtteranceQueue
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

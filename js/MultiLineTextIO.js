@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * IO type for scenery-phet's MultiLineText node.
+ * IO type for MultiLineText
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
