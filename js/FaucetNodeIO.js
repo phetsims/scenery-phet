@@ -18,7 +18,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * IO type for phet/sun's Faucet class.
    * @param {FaucetNode} faucetNode
    * @param {string} phetioID
    * @constructor

@@ -17,7 +17,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * IO type for phet/scenery's BarrierRectangle
    * @param {BarrierRectangle} barrierRectangle
    * @param {string} phetioID
    * @constructor
