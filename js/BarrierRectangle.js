@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade out
