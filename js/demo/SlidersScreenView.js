@@ -97,7 +97,7 @@ define( function( require ) {
       }
     }, numberControlOptions ) );
 
-    // Check box that will disable all NumberControls
+    // Checkbox that will disable all NumberControls
     var enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {

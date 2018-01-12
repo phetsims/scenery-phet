@@ -173,7 +173,7 @@ define( function( require ) {
       bottom: conductivityTesterNode.bottom + 100
     } );
 
-    // short-circuit check box
+    // short-circuit checkbox
     var shortCircuitProperty = new Property( false );
     shortCircuitProperty.link( function( shortCircuit ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
@@ -521,7 +521,7 @@ define( function( require ) {
       rightBeamNode.visible = on;
     } );
 
-    // enabled check box
+    // enabled checkbox
     var enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty, {
       centerX: layoutBounds.centerX,
       top: leftLaserNode.bottom + 40
