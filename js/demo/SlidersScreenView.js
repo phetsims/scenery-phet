@@ -12,7 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var CheckBox = require( 'SUN/CheckBox' );
+  var Checkbox = require( 'SUN/Checkbox' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -98,12 +98,12 @@ define( function( require ) {
     }, numberControlOptions ) );
 
     // Check box that will disable all NumberControls
-    var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+    var enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {
       spacing: 30,
       resize: false, // prevent sliders from causing a resize when thumb is at min or max
-      children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckBox ],
+      children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckbox ],
       center: layoutBounds.center
     } );
   };

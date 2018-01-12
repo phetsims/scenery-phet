@@ -16,7 +16,7 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
-  var CheckBox = require( 'SUN/CheckBox' );
+  var Checkbox = require( 'SUN/Checkbox' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
@@ -132,7 +132,7 @@ define( function( require ) {
       arrowNode.setDoubleHead( checked );
     } );
 
-    var checkbox = CheckBox.createTextCheckBox( 'Double head', { font: new PhetFont( 20 ) }, checkedProperty, {
+    var checkbox = Checkbox.createTextCheckbox( 'Double head', { font: new PhetFont( 20 ) }, checkedProperty, {
       centerX: layoutBounds.centerX,
       top: arrowNode.bottom + 50
     } );
@@ -178,13 +178,13 @@ define( function( require ) {
     shortCircuitProperty.link( function( shortCircuit ) {
       conductivityTesterNode.shortCircuit = shortCircuit;
     } );
-    var shortCircuitCheckBox = new CheckBox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
+    var shortCircuitCheckbox = new Checkbox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
       centerX: brightnessSlider.centerX,
       bottom: brightnessSlider.bottom + 50
     } );
 
     return new Node( {
-      children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckBox ],
+      children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckbox ],
       center: layoutBounds.center
     } );
   };
@@ -241,13 +241,13 @@ define( function( require ) {
 
     var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty );
 
-    var faucetEnabledCheckBox = new CheckBox( new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), faucetEnabledProperty, {
+    var faucetEnabledCheckbox = new Checkbox( new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), faucetEnabledProperty, {
       left: faucetNode.left,
       bottom: faucetNode.top - 20
     } );
 
     return new Node( {
-      children: [ faucetNode, faucetEnabledCheckBox ],
+      children: [ faucetNode, faucetEnabledCheckbox ],
       center: layoutBounds.center
     } );
   };
@@ -522,12 +522,12 @@ define( function( require ) {
     } );
 
     // enabled check box
-    var enabledCheckBox = new CheckBox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty, {
+    var enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty, {
       centerX: layoutBounds.centerX,
       top: leftLaserNode.bottom + 40
     } );
 
-    return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckBox ] } );
+    return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckbox ] } );
   };
 
   // Creates a demo for MeasuringTapeNode
@@ -562,7 +562,7 @@ define( function( require ) {
 
     // For testing NumberKeypad's clearOnNextKeyPress feature
     var clearOnNextKeyPressProperty = new Property( false );
-    var clearOnNextKeyPressCheckBox = new CheckBox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
+    var clearOnNextKeyPressCheckbox = new Checkbox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
 
     clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
       integerKeypad.clearOnNextKeyPress = clearOnNextKeyPress;
@@ -589,7 +589,7 @@ define( function( require ) {
         // integer keypad and display
         new VBox( {
           spacing: 40,
-          children: [ integerText, integerKeypad, clearOnNextKeyPressCheckBox ]
+          children: [ integerText, integerKeypad, clearOnNextKeyPressCheckbox ]
         } ),
 
         // decimal keypad and display
@@ -729,7 +729,7 @@ define( function( require ) {
 
     // For testing clearOnNextKeyPress feature
     var integerClearOnNextKeyPressProperty = new Property( integerKeyPad.getClearOnNextKeyPress() );
-    var integerClearOnNextKeyPressCheckBox = new CheckBox(
+    var integerClearOnNextKeyPressCheckbox = new Checkbox(
       new Text( 'Clear On Next Key Press' ),
       integerClearOnNextKeyPressProperty
     );
@@ -750,7 +750,7 @@ define( function( require ) {
         integerStringRepresentation,
         integerKeyPad,
         integerClearButton,
-        integerClearOnNextKeyPressCheckBox
+        integerClearOnNextKeyPressCheckbox
       ]
     } );
 
@@ -781,7 +781,7 @@ define( function( require ) {
 
     // For testing clearOnNextKeyPress feature
     var floatingPointClearOnNextKeyPressProperty = new Property( floatingPointKeyPad.getClearOnNextKeyPress() );
-    var floatingPointClearOnNextKeyPressButton = new CheckBox(
+    var floatingPointClearOnNextKeyPressButton = new Checkbox(
       new Text( 'Clear On Next Key Press' ),
       floatingPointClearOnNextKeyPressProperty
     );
@@ -835,7 +835,7 @@ define( function( require ) {
     var positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property(
       positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress()
     );
-    var positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox = new CheckBox(
+    var positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox = new Checkbox(
       new Text( 'Clear On Next Key Press' ),
       positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
     );
@@ -864,8 +864,8 @@ define( function( require ) {
         positiveAndNegativeFloatingPointKeyPad = null;
         positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointClearButton );
         positiveAndNegativeFloatingPointClearButton.dispose();
-        positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox );
-        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox.dispose();
+        positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox );
+        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox.dispose();
         positiveAndNegativeFloatingPointVBox.removeChild( removeKeypadFromScreenButton );
         removeKeypadFromScreenButton.dispose();
       }
@@ -880,7 +880,7 @@ define( function( require ) {
         positiveAndNegativeFloatingPointStringRepresentation,
         positiveAndNegativeFloatingPointKeyPad,
         positiveAndNegativeFloatingPointClearButton,
-        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckBox,
+        positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox,
         removeKeypadFromScreenButton
       ]
     } );
