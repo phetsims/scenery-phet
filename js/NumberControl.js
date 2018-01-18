@@ -134,6 +134,7 @@ define( function( require ) {
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
+    assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
 
     // Make sure that general callbacks and specific callbacks aren't used in tandem.
     validateCallbacksAndSetDefault( options );
@@ -240,6 +241,9 @@ define( function( require ) {
     var accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
     this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
 
+    // a11y - shift keyboard step is zero, shift behavior handled by arrow buttons
+    this.shiftKeyboardStep = 0;
+
     // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
     this.focusHighlight = slider.focusHighlight;
 
@@ -254,30 +258,11 @@ define( function( require ) {
     // highlight's localToGlobalPoint
     slider.focusHighlight.centerY = sliderFocusHighlightPosition.y;
 
-    // when focused, you should not be able to set enabled to true
-    var disableWhenFocusedListener = function() {
-      leftArrowButton.enabled = false;
-      rightArrowButton.enabled = false;
-    };
-
-    // toggle "enabled" of the arrow buttons based on a11y focus
-    this.addAccessibleInputListener( {
-
-      // Buttons should always be disabled on focus
-      focus: function() {
-        leftArrowButton.buttonModel.enabledProperty.link( disableWhenFocusedListener );
-        rightArrowButton.buttonModel.enabledProperty.link( disableWhenFocusedListener );
-      },
-
-      // remove listeners and set back to original enabled value
-      blur: function() {
-        leftArrowButton.buttonModel.enabledProperty.unlink( disableWhenFocusedListener );
-        rightArrowButton.buttonModel.enabledProperty.unlink( disableWhenFocusedListener );
-
-        // reset enabled based on the original listener call
-        arrowEnabledListener( numberProperty.get() );
-      }
-    } );
+    // a11y - click the left and right arrow buttons when shift keys are down, must be disposed
+    var rightButtonListener = function( button ) { self.shiftKeyDown && rightArrowButton.buttonModel.a11yClick(); };
+    var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.buttonModel.a11yClick(); };
+    this.increasedEmitter.addListener( rightButtonListener );
+    this.decreasedEmitter.addListener( leftButtonListener );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
@@ -292,6 +277,8 @@ define( function( require ) {
     this.disposeNumberControl = function() {
 
       // dispose accessibility features
+      self.increasedEmitter.removeListener( rightButtonListener );
+      self.decreasedEmitter.removeListener( leftButtonListener );
       self.disposeAccessibleSlider();
 
       numberDisplay.dispose();
