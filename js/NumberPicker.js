@@ -351,6 +351,9 @@ define( function( require ) {
         }
       }
       valueNode.centerY = backgroundHeight / 2;
+
+      // a11y - the input value read by assistive technology
+      self.inputValue = valueProperty.get();
     };
     this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
 
@@ -368,28 +371,17 @@ define( function( require ) {
     this.accessibleInputListener = this.addAccessibleInputListener( {
       keydown: function( event ) {
 
-        // prevent user from changing value with number or the space keys
-        if ( KeyboardUtil.isNumberKey( event.keyCode ) || event.keyCode === KeyboardUtil.KEY_SPACE ) {
+        // prevent user from changing value with number or the space keys, arrow keys change value
+        if ( KeyboardUtil.isArrowKey( event.keyCode ) || KeyboardUtil.isNumberKey( event.keyCode ) || event.keyCode === KeyboardUtil.KEY_SPACE ) {
           event.preventDefault();
-        }
-      },
-      input: function( event ) {
 
-        // if input value is empty, inputValue was cleared by the browser after focus, don't update the Property value
-        if ( self.inputValue ) {
-          if ( self.inputValue > valueProperty.get() && self.upEnabledProperty.get() ) {
-
-            // user intended to increment
+          if ( event.keyCode === KeyboardUtil.KEY_RIGHT_ARROW || event.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
             valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
           }
-          else if ( self.inputValue < valueProperty.get() && self.downEnabledProperty.get() ) {
-
-            // user intended to decrement
+          else if ( event.keyCode === KeyboardUtil.KEY_LEFT_ARROW || event.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
             valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
           }
         }
-
-        self.inputValue = valueProperty.get();
       }
     } );
 
