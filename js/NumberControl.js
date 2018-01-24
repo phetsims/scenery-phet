@@ -70,7 +70,6 @@ define( function( require ) {
       titleFont: new PhetFont( 12 ),
       titleMaxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
       titleFill: 'black',
-      titleFontWeight: 'normal',
 
       // value
       valueFont: new PhetFont( 12 ),
@@ -147,7 +146,6 @@ define( function( require ) {
       font: options.titleFont,
       maxWidth: options.titleMaxWidth,
       fill: options.titleFill,
-      fontWeight: options.titleFontWeight,
       tandem: options.tandem.createTandem( 'titleNode' )
     } );
 
