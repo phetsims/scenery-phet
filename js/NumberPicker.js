@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessibleNumberTweaker = require( 'SUN/accessibility/AccessibleNumberTweaker' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
@@ -20,7 +21,6 @@ define( function( require ) {
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -79,9 +79,7 @@ define( function( require ) {
       tandem: Tandem.required,
 
       // a11y
-      tagName: 'input',
-      inputType: 'number',
-      inputValue: valueProperty.get(),
+      a11yPageValueDelta: 2, // {number} - change in value when using page up/page down, see AccessibleNumberTweaker
 
       /**
        * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
@@ -367,24 +365,6 @@ define( function( require ) {
       updateColors( state, enabled, downBackground, self.downArrow, backgroundColors, arrowColors );
     } );
 
-    // @private (a11y) - update Property value on input from keyboard or assistive technology
-    this.accessibleInputListener = this.addAccessibleInputListener( {
-      keydown: function( event ) {
-
-        // prevent user from changing value with number or the space keys, arrow keys change value
-        if ( KeyboardUtil.isArrowKey( event.keyCode ) || KeyboardUtil.isNumberKey( event.keyCode ) || event.keyCode === KeyboardUtil.KEY_SPACE ) {
-          event.preventDefault();
-
-          if ( event.keyCode === KeyboardUtil.KEY_RIGHT_ARROW || event.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
-            valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
-          }
-          else if ( event.keyCode === KeyboardUtil.KEY_LEFT_ARROW || event.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
-            valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
-          }
-        }
-      }
-    } );
-
     this.mutate( options );
 
     // Dilate based on consistent technique which brings into account transform of this node.
@@ -402,6 +382,15 @@ define( function( require ) {
         bottomRight: options.cornerRadius
       } )
     );
+
+    // initialize accessibility features - must reach into up function to get delta
+    this.initializeAccessibleNumberTweaker( valueProperty, rangeProperty, new Property( true ), _.extend( {
+      a11yValueDelta: options.upFunction( valueProperty.get() ) - valueProperty.get()
+    }, options ) );
+
+    // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberTweaker
+    this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
+    this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
   }
 
   sceneryPhet.register( 'NumberPicker', NumberPicker );
@@ -464,7 +453,7 @@ define( function( require ) {
     }
   };
 
-  return inherit( Node, NumberPicker, {
+  inherit( Node, NumberPicker, {
 
     // @public Ensures that this node is eligible for GC.
     dispose: function() {
@@ -480,7 +469,8 @@ define( function( require ) {
 
       this.valueProperty.unlink( this.valueObserver );
 
-      this.removeAccessibleInputListener( this.accessibleInputListener );
+      // dispose a11y features
+      this.disposeAccessibleNumberTweaker();
 
       Node.prototype.dispose.call( this );
     },
@@ -492,4 +482,9 @@ define( function( require ) {
       this.upArrow.visible = this.downArrow.visible = visible;
     }
   } );
+
+  // mix accessibility into NumberPicker
+  AccessibleNumberTweaker.mixInto( NumberPicker );
+
+  return NumberPicker;
 } );
