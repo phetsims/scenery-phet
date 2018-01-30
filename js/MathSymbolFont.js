@@ -16,22 +16,27 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * @param {Object|number} [options]
+   * @param {Object|number|string} [options] number or string indicate the font size, otherwise same options as scenery.Font
    * @constructor
    */
   function MathSymbolFont( options ) {
+
     Tandem.indicateUninstrumentedCode();
 
-    // convenience for specifying font size only, e.g. new MathSymbolFont(24)
-    if ( typeof options === 'number' ) {
+    assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
+
+    options = options || {};
+
+    // convenience constructor: new MathSymbolFont( {number|string} size )
+    if ( typeof options === 'number' || typeof options === 'string' ) {
       options = { size: options };
     }
 
-    // font options, see scenery.Font
-    options = _.extend( {
-      family: '"Times New Roman", Times, serif',
-      style: 'italic'
-    }, options );
+    assert && assert( !options.family, 'this type sets family' );
+    options.family = '"Times New Roman", Times, serif';
+
+    assert && assert( !options.style, 'this type sets style' );
+    options.style = 'italic';
 
     Font.call( this, options );
   }
