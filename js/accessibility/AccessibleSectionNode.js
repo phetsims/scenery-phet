@@ -32,7 +32,7 @@ define( function( require ) {
       accessibleLabel: label,
       labelTagName: 'h2',
       prependLabels: true
-    } );
+    }, options );
 
     Node.call( this, options );
   }
