@@ -20,7 +20,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {number|Object} [options] if number this is the font size, otherwise same options as scenery.Font
+   * @param {number|string|Object} [options] if number this is the font size, otherwise same options as scenery.Font
    * @constructor
    */
   function PhetFont( options ) {
