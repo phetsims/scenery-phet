@@ -25,12 +25,12 @@ define( function( require ) {
    */
   function PhetFont( options ) {
 
+    assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
+
     // convenience constructor: new PhetFont( {number|string} size )
     if ( typeof options === 'number' || typeof options === 'string' ) {
       options = { size: options };
     }
-
-    assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
 
     // PhET defaults
     options = _.extend( {
