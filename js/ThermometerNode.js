@@ -20,7 +20,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
