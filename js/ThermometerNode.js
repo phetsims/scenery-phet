@@ -36,8 +36,6 @@ define( function( require ) {
    * @constructor
    */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       bulbDiameter: 50,
       tubeWidth: 30,
