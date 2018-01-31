@@ -66,7 +66,7 @@ define( function( require ) {
     var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, {
       a11yIconAccessibleLabel: keyboardHelpDialogAdjustSliderString,
       a11yIconTagName: 'ul',
-      a11yIconLabelTagName: 'span',
+      a11yIconLabelTagName: 'p',
       a11yIconParentContainerTagName: 'li',
       a11yIconPrependLabels: true
     } );

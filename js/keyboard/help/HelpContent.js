@@ -193,7 +193,7 @@ define( function( require ) {
         // a11y options to pass through to the entry for the whole list, by default this is a sub list in the
         // HelpContent
         a11yIconTagName: 'ul',
-        a11yIconLabelTagName: 'span',
+        a11yIconLabelTagName: 'p',
         a11yIconParentContainerTagName: 'li',
         a11yIconAccessibleLabel: null,
         a11yIconPrependLabels: true
