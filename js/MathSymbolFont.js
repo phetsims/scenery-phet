@@ -13,15 +13,12 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object|number|string} [options] number or string indicate the font size, otherwise same options as scenery.Font
    * @constructor
    */
   function MathSymbolFont( options ) {
-
-    Tandem.indicateUninstrumentedCode();
 
     assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
 

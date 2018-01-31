@@ -15,7 +15,6 @@ define( function( require ) {
 
   // modules
   var Font = require( 'SCENERY/util/Font' );
-  var FontIO = require( 'SCENERY/util/FontIO' ); // TODO: we should have PhetFontIO
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -34,8 +33,7 @@ define( function( require ) {
 
     // PhET defaults
     options = _.extend( {
-      family: 'Arial',
-      phetioType: FontIO
+      family: 'Arial'
     }, options );
 
     // Guarantee a fallback family
