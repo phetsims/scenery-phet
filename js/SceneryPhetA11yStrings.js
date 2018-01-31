@@ -34,17 +34,40 @@ define( function( require ) {
     },
 
     // help descriptions for general navigation
-    tabDescriptionString: {
+    keyboardHelpDialogTabDescriptionString: {
       value: 'Move to next item with Tab key.'
     },
-    shiftTabDescriptionString: {
+    keyboardHelpDialogShiftTabDescriptionString: {
       value: 'Move to previous item with Shift plus Tab key.'
     },
-    groupNavigationDescriptionString: {
+    keyboardHelpDialogGroupNavigationDescriptionString: {
       value: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.'
     },
-    exitDialogDescriptionString: {
+    keyboardHelpDialogExitDialogDescriptionString: {
       value: 'Exit a dialog with Escape key.'
+    },
+
+    // help descriptions for sliders
+    keyboardHelpDialogShiftUpDownString: {
+      value: 'Hold Shift plus Left or Right arrow key, or'
+    },
+    keyboardHelpDialogShiftLeftRightString: {
+      value: 'Hold Shift plus Up or Down arrow key.'
+    },
+    keyboardHelpDialogUpDownString: {
+      value: 'Up and Down arrow keys.'
+    },
+    keyboardHelpDialogLeftRightString: {
+      value: 'Left and Right arrow keys, or'
+    },
+    keyboardHelpDialogAdjustLargerStepsString: {
+      value: 'Adjust in larger steps with Page Up or Page Down key.'
+    },
+    keyboardHelpDialogJumpToHomeString:  {
+      value: 'Jump to minimum with Home key.'
+    },
+    keyboardHelpDialogJumpToEndString: {
+      value: 'Jump to maximum with End key.'
     },
 
     // PlayPauseButton

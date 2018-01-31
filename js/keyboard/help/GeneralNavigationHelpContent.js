@@ -27,10 +27,10 @@ define( function( require ) {
   var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
 
   // invisible strings for screen readers, no i18n support
-  var tabDescriptionString = SceneryPhetA11yStrings.tabDescriptionString.value;
-  var shiftTabDescriptionString = SceneryPhetA11yStrings.shiftTabDescriptionString.value;
-  var groupNavigationDescriptionString = SceneryPhetA11yStrings.groupNavigationDescriptionString.value;
-  var exitDialogDescriptionString = SceneryPhetA11yStrings.exitDialogDescriptionString.value;
+  var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescriptionString.value;
+  var keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescriptionString.value;
+  var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescriptionString.value;
+  var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescriptionString.value;
 
   /**
    * @constructor
@@ -55,7 +55,7 @@ define( function( require ) {
     var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
-      accessibleLabel: tabDescriptionString
+      a11yIconAccessibleLabel: keyboardHelpDialogTabDescriptionString
     } );
 
     // 'move to previous item' content
@@ -63,14 +63,14 @@ define( function( require ) {
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
-      accessibleLabel: shiftTabDescriptionString
+      a11yIconAccessibleLabel: keyboardHelpDialogShiftTabDescriptionString
     } );
 
     // 'exit a dialog' content
     var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
-      accessibleLabel: exitDialogDescriptionString
+      a11yIconAccessibleLabel: keyboardHelpDialogExitDialogDescriptionString
     } );
 
     var content = [];
@@ -86,7 +86,7 @@ define( function( require ) {
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
-        accessibleLabel: groupNavigationDescriptionString
+        accessibleLabel: keyboardHelpDialogGroupNavigationDescriptionString
       } );
 
       content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];

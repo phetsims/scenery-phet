@@ -17,6 +17,7 @@ define( function( require ) {
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   var RichText = require( 'SCENERY/nodes/RichText' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
@@ -26,6 +27,15 @@ define( function( require ) {
   var keyboardHelpDialogJumpToMaximumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMaximum' );
   var keyboardHelpDialogJumpToMinimumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMinimum' );
   var keyboardHelpDialogSliderControlsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.sliderControls' );
+
+  // AT strings, not yet translatable
+  var keyboardHelpDialogShiftLeftRightString = SceneryPhetA11yStrings.keyboardHelpDialogShiftLeftRightString.value;
+  var keyboardHelpDialogShiftUpDownString = SceneryPhetA11yStrings.keyboardHelpDialogShiftUpDownString.value;
+  var keyboardHelpDialogUpDownString = SceneryPhetA11yStrings.keyboardHelpDialogUpDownString.value;
+  var keyboardHelpDialogLeftRightString = SceneryPhetA11yStrings.keyboardHelpDialogLeftRightString.value;
+  var keyboardHelpDialogAdjustLargerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustLargerStepsString.value;
+  var keyboardHelpDialogJumpToHomeString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToHomeString.value;
+  var keyboardHelpDialogJumpToEndString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToEndString.value;
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {
@@ -50,15 +60,21 @@ define( function( require ) {
 
     // 'Move sliders' content
     var adjustSliderText = new RichText( keyboardHelpDialogAdjustSliderString, DEFAULT_LABEL_OPTIONS );
-    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
-    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
+    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( { accessibleLabel: keyboardHelpDialogLeftRightString } );
+    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon( { accessibleLabel: keyboardHelpDialogUpDownString } );
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
-    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon );
+    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, {
+      a11yIconAccessibleLabel: keyboardHelpDialogAdjustSliderString,
+      a11yIconTagName: 'ul',
+      a11yIconLabelTagName: 'span',
+      a11yIconParentContainerTagName: 'li',
+      a11yIconPrependLabels: true
+    } );
 
     // 'move in smaller steps' content
     var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
-    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
-    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
+    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon( { accessibleLabel: keyboardHelpDialogShiftLeftRightString } );
+    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon( { accessibleLabel: keyboardHelpDialogShiftUpDownString } );
 
     var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
@@ -66,7 +82,7 @@ define( function( require ) {
     var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [
       shiftPlusLeftRightIcon,
       shiftPlusUpDownIcon
-    ] );
+    ], { a11yIconAccessibleLabel: keyboardHelpDialogAdjustInSmallerStepsString } );
 
     // 'move in larger steps' content
     var adjustInLargerStepsText = new RichText( keyboardHelpDialogAdjustInLargerStepsString, DEFAULT_LABEL_OPTIONS );
@@ -76,17 +92,23 @@ define( function( require ) {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: HelpContent.DEFAULT_ICON_SPACING
     } );
-    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon );
+    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, {
+      a11yIconAccessibleLabel: keyboardHelpDialogAdjustLargerStepsString
+    } );
 
     // 'move to minimum value' content
     var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, DEFAULT_LABEL_OPTIONS );
     var homeKeyNode = new HomeKeyNode();
-    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode );
+    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, {
+      a11yIconAccessibleLabel: keyboardHelpDialogJumpToHomeString
+    } );
 
     // 'move to maximum value' content
     var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, DEFAULT_LABEL_OPTIONS );
     var endKeyNode = new EndKeyNode();
-    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode );
+    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, {
+      a11yIconAccessibleLabel: keyboardHelpDialogJumpToEndString
+    } );
 
     // assemble final content for HelpContent
     var content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];

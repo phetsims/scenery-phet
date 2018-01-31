@@ -5,6 +5,11 @@
  * labels and icons. This type has many static functions for creating and laying out content that could be useful for
  * subtypes of this Node. Default values for spacing and fonts are also available through statics.
  *
+ * Help content is aligned with two groups. Text labels are aligned in one VBox, icons are aligned in another. To
+ * structure the accessible content, we chose to instrument a11y on the icons in the help content. To label content
+ * in your own HelpContent, instrument the icons not the label Text so a11y content is placed correctly in the DOM.
+ * Help content is generally a list of items, so each icon has a  tagName of 'li' be default.
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -66,10 +71,7 @@ define( function( require ) {
       headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
       // VBox options
-      align: DEFAULT_ALIGN,
-
-      // a11y
-      a11yContentTagName: 'ul' // almost all help content will be list items, wrap with a ul tag
+      align: DEFAULT_ALIGN
     }, options );
 
     // create the heading
@@ -95,8 +97,12 @@ define( function( require ) {
       children: labels
     }, vBoxOptions ) );
 
+    // parent for all icons
     var iconVBox = new VBox( _.extend( {
-      children: icons
+      children: icons,
+
+      // a11y
+      tagName: 'ul' // a11y for all help content contained in a list
     }, vBoxOptions ) );
 
     // labels and icons horizontally aligned
@@ -135,16 +141,28 @@ define( function( require ) {
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
         labelFirst: true,
+        matchHorizontal: false,
 
-        // a11y
-        tagName: 'li'
+        // a11y options to pass through to the entry for the help content
+        a11yIconTagName: 'li',
+        a11yIconLabelTagName: null,
+        a11yIconParentContainerTagName: null,
+        a11yIconAccessibleLabel: null,
+        a11yIconPrependLabels: false,
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
       // make the label and icon the same height so that they will align when we assemble help content group
-      var labelIconGroup = new AlignGroup( { matchHorizontal: false } );
+      var labelIconGroup = new AlignGroup( options );
       var labelBox = labelIconGroup.createBox( label );
       var iconBox = labelIconGroup.createBox( icon );
+
+      // add a11y to the icon
+      iconBox.tagName = options.a11yIconTagName;
+      iconBox.labelTagName = options.a11yIconLabelTagName;
+      iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
+      iconBox.prependLabels = options.a11yIconPrependLabels;
+      iconBox.parentContainerTagName = options.a11yIconParentContainerTagName;
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
       var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };
@@ -172,9 +190,13 @@ define( function( require ) {
       options = _.extend( {
         verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
 
-        // a11y
-        tagName: 'li',
-        accessibleLabel: null // screen reader description often used for entire list, passed to final HBox
+        // a11y options to pass through to the entry for the whole list, by default this is a sub list in the
+        // HelpContent
+        a11yIconTagName: 'ul',
+        a11yIconLabelTagName: 'span',
+        a11yIconParentContainerTagName: 'li',
+        a11yIconAccessibleLabel: null,
+        a11yIconPrependLabels: true
       }, options );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
@@ -203,7 +225,14 @@ define( function( require ) {
       var iconsVBox = new VBox( {
         children: iconsWithOrText,
         spacing: options.verticalSpacing,
-        align: 'left'
+        align: 'left',
+
+        // a11y - this list itself is a list item in the help content, but each icon is place in a sub-list
+        tagName: options.a11yIconTagName,
+        labelTagName: options.a11yIconLabelTagName,
+        parentContainerTagName: options.a11yIconParentContainerTagName,
+        accessibleLabel: options.a11yIconAccessibleLabel,
+        prependLabels: options.a11yIconPrependLabels
       } );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
@@ -245,7 +274,10 @@ define( function( require ) {
      */
     upDownArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
+        spacing: DEFAULT_LETTER_KEY_SPACING,
+
+        // a11y
+        tagName: 'li'
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -264,7 +296,10 @@ define( function( require ) {
      */
     leftRightArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
+        spacing: DEFAULT_LETTER_KEY_SPACING,
+
+        // a11y
+        tagName: 'li'
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
