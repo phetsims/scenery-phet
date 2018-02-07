@@ -190,13 +190,9 @@ define( function( require ) {
       options = _.extend( {
         verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
 
-        // a11y options to pass through to the entry for the whole list, by default this is a sub list in the
-        // HelpContent
-        a11yIconTagName: 'ul',
-        a11yIconLabelTagName: 'p',
-        a11yIconParentContainerTagName: 'li',
+        // a11y options to pass through to the entry for the whole list, by default, this is just another list item
+        a11yIconTagName: 'li',
         a11yIconAccessibleLabel: null,
-        a11yIconPrependLabels: true
       }, options );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
@@ -227,12 +223,9 @@ define( function( require ) {
         spacing: options.verticalSpacing,
         align: 'left',
 
-        // a11y - this list itself is a list item in the help content, but each icon is place in a sub-list
+        // a11y
         tagName: options.a11yIconTagName,
-        labelTagName: options.a11yIconLabelTagName,
-        parentContainerTagName: options.a11yIconParentContainerTagName,
         accessibleLabel: options.a11yIconAccessibleLabel,
-        prependLabels: options.a11yIconPrependLabels
       } );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
@@ -274,10 +267,7 @@ define( function( require ) {
      */
     upDownArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING,
-
-        // a11y
-        tagName: 'li'
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -296,10 +286,7 @@ define( function( require ) {
      */
     leftRightArrowKeysRowIcon: function( options ) {
       options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING,
-
-        // a11y
-        tagName: 'li'
+        spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 

@@ -48,17 +48,11 @@ define( function( require ) {
     },
 
     // help descriptions for sliders
-    keyboardHelpDialogShiftUpDownString: {
-      value: 'Hold Shift plus Left or Right arrow key, or'
+    keyboardHelpDialogAdjustDefaultStepsString: {
+      value: 'Adjust slider with Left and Right arrow keys, or Up and Down arrow keys.'
     },
-    keyboardHelpDialogShiftLeftRightString: {
-      value: 'Hold Shift plus Up or Down arrow key.'
-    },
-    keyboardHelpDialogUpDownString: {
-      value: 'Up and Down arrow keys.'
-    },
-    keyboardHelpDialogLeftRightString: {
-      value: 'Left and Right arrow keys, or'
+    keyboardHelpDialogAdjustSmallerStepsString: {
+      value: 'Adjust in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key.'
     },
     keyboardHelpDialogAdjustLargerStepsString: {
       value: 'Adjust in larger steps with Page Up or Page Down key.'
