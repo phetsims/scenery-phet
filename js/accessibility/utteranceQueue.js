@@ -223,9 +223,11 @@ define( function( require ) {
         }, this.interval
       );
 
+      // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
         tandem: Tandem.rootTandem.createTandem( 'utteranceQueue' ),
-        phetioType: UtteranceQueueIO
+        phetioType: UtteranceQueueIO,
+        phetioState: false
       } );
     }
   } );
