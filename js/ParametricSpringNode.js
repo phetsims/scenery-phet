@@ -91,7 +91,7 @@ define( function( require ) {
     // @public
     this.loopsProperty = new NumberProperty( options.loops, {
       tandem: options.tandem.createTandem( 'loopsProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       range: new Range( 1, Number.POSITIVE_INFINITY )
     } );
     this.radiusProperty = new NumberProperty( options.radius, {
@@ -104,7 +104,7 @@ define( function( require ) {
     } );
     this.pointsPerLoopProperty = new NumberProperty( options.pointsPerLoop, {
       tandem: options.tandem.createTandem( 'pointsPerLoopProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
     this.lineWidthProperty = new NumberProperty( options.lineWidth, {
