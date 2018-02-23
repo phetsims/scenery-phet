@@ -93,27 +93,29 @@ define( function( require ) {
     }
 
     var vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
-    var labelVBox = new VBox( _.extend( {
+
+    // @private - to adjust spacing if necessary for alignment
+    this.labelVBox = new VBox( _.extend( {
       children: labels
     }, vBoxOptions ) );
 
-    // parent for all icons
-    var iconVBox = new VBox( _.extend( {
+    // @private - parent for all icons, instance variable to adjust spacing if necessary
+    this.iconVBox = new VBox( _.extend( {
       children: icons,
 
       // a11y
       tagName: 'ul' // a11y for all help content contained in a list
     }, vBoxOptions ) );
 
-    // labels and icons horizontally aligned
-    var contentHBox = new HBox( {
-      children: [ labelVBox, iconVBox ],
+    // @private - labels and icons horizontally aligned, instance variable to adjust spacing if necessary
+    this.contentHBox = new HBox( {
+      children: [ this.labelVBox, this.iconVBox ],
       spacing: DEFAULT_LABEL_ICON_SPACING
     } );
 
     // heading and content aligned in a VBox
     VBox.call( this, {
-      children: [ headingText, contentHBox ],
+      children: [ headingText, this.contentHBox ],
       align: options.align,
       spacing: DEFAULT_HEADING_CONTENT_SPACING
     } );
@@ -419,6 +421,24 @@ define( function( require ) {
 
       options.children = [ iconA, plusIconNode, iconB ];
       return new HBox( options );
+    },
+
+    /**
+     * Vertically align icons for a number of different HelpContents. Useful when two HelpContent sections are
+     * stacked vertically in a Dialog. Loops through  contentArray and finds the max x value of the left edge
+     * of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
+     *
+     * @param {[].HelpContent} contentArray
+     */
+    alignHelpContentIcons: function( contentArray ) {
+
+      // left edge of icons farthest to the right in the array of HelpContent
+      var maxLeftEdge = _.maxBy( contentArray, function( content ) { return content.iconVBox.left; } ).iconVBox.left;
+
+      // adjust the spacing of all content HBoxes so that they align
+      contentArray.forEach( function( content ) {
+        content.contentHBox.spacing = content.contentHBox.spacing + maxLeftEdge - content.iconVBox.left;
+      } );
     },
 
     // static defaults fonts for content
