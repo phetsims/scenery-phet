@@ -71,7 +71,10 @@ define( function( require ) {
       headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
       // VBox options
-      align: DEFAULT_ALIGN
+      align: DEFAULT_ALIGN,
+
+      // a11y - tag name for the entire content, usually content is a list of items
+      a11yContentTagName: 'ul'
     }, options );
 
     // create the heading
@@ -104,7 +107,7 @@ define( function( require ) {
       children: icons,
 
       // a11y
-      tagName: 'ul' // a11y for all help content contained in a list
+      tagName: options.a11yContentTagName
     }, vBoxOptions ) );
 
     // @private - labels and icons horizontally aligned, instance variable to adjust spacing if necessary

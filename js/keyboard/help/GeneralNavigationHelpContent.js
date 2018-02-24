@@ -86,7 +86,7 @@ define( function( require ) {
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
-        accessibleLabel: keyboardHelpDialogGroupNavigationDescriptionString
+        a11yIconAccessibleLabel: keyboardHelpDialogGroupNavigationDescriptionString
       } );
 
       content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
