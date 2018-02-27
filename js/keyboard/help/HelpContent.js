@@ -347,7 +347,7 @@ define( function( require ) {
     /**
      * An icon containing icons for the page up/down keys aligned horizontally.
      * 
-     * @param  {Objects} [options]
+     * @param  {Object} [options]
      * @return {HBox}
      */
     pageUpPageDownRowIcon: function( options ) {
