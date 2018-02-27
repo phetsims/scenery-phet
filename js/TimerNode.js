@@ -174,8 +174,13 @@ define( function( require ) {
 
   // the full-sized minutes and seconds string
   function timeToBigString( timeInSeconds ) {
+    // Round to the nearest centisecond (compatible with timeToSmallString).
+    // see https://github.com/phetsims/masses-and-springs/issues/156
+    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+
     var minutes = Math.floor( timeInSeconds / 60 ) % 60;
     var seconds = Math.floor( timeInSeconds ) % 60;
+
     if ( seconds < 10 ) {
       seconds = '0' + seconds;
     }
@@ -187,6 +192,11 @@ define( function( require ) {
 
   // the smaller hundredths-of-a-second string
   function timeToSmallString( timeInSeconds ) {
+    // Round to the nearest centisecond (compatible with timeToSmallString).
+    // see https://github.com/phetsims/masses-and-springs/issues/156
+    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+    
+    // Rounding after mod, in case there is floating-point error
     var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
     if ( centiseconds < 10 ) {
       centiseconds = '0' + centiseconds;
