@@ -22,6 +22,8 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
+  var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
+  var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlusNode = require( 'SCENERY_PHET/PlusNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -340,6 +342,26 @@ define( function( require ) {
       var wasdKeys = HelpContent.wasdRowIcon();
 
       return HelpContent.iconOrIcon( arrowKeys, wasdKeys, options );
+    },
+
+    /**
+     * An icon containing icons for the page up/down keys aligned horizontally.
+     * 
+     * @param  {Objects} [options]
+     * @return {HBox}
+     */
+    pageUpPageDownRowIcon: function( options ) {
+      options = _.extend( {
+        spacing: DEFAULT_ICON_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      var pageUpKeyNode = new PageUpKeyNode();
+      var pageDownKeyNode = new PageDownKeyNode();
+
+      options.children = [ pageUpKeyNode, pageDownKeyNode ];
+
+      return new HBox( options );
     },
 
     /**
