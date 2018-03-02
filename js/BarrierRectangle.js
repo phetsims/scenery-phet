@@ -28,7 +28,7 @@ define( function( require ) {
     options = _.extend( {
       tandem: Tandem.required,
       phetioType: BarrierRectangleIO,
-      phetioReadOnly: true, // Disable controls in instance proxies
+      phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioState: false
     }, options );
 
