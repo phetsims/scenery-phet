@@ -1,16 +1,14 @@
 // Copyright 2014-2017, University of Colorado Boulder
 
 /**
- * A scenery node that is used to represent a draggable Measuring Tape.
- * It contains a tip and a base that can be dragged separately,
- * with a text indicating the measurement.
- * The motion of the measuring tape can be confined by drag bounds.
- * The position of the measuring tape should be set via the basePosition
- * and tipPosition rather than the scenery coordinates
+ * A scenery node that is used to represent a draggable Measuring Tape. It contains a tip and a base that can be dragged
+ * separately, with a text indicating the measurement. The motion of the measuring tape can be confined by drag bounds.
+ * The position of the measuring tape should be set via the basePosition and tipPosition rather than the scenery
+ * coordinates
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Siddhartha Chinthapally (ActualConcepts)
- * @author Aaron Davis (PhET)
+ * @author Aaron Davis (PhET Interactive Simulations)
  * @author Martin Veillette (Berea College)
  */
 define( function( require ) {
@@ -106,7 +104,7 @@ define( function( require ) {
     this._isTipUserControlledProperty = new Property( false );// @private
     this._isBaseUserControlledProperty = new Property( false ); // @private
 
-    this.tipToBaseDistance = (this.basePositionProperty.value).distance( this.tipPositionProperty.value ); // @private
+    this.tipToBaseDistance = ( this.basePositionProperty.value ).distance( this.tipPositionProperty.value ); // @private
 
     var crosshairShape = new Shape().moveTo( -options.crosshairSize, 0 ).moveTo( -options.crosshairSize, 0 ).lineTo( options.crosshairSize, 0 ).moveTo( 0, -options.crosshairSize ).lineTo( 0, options.crosshairSize );
 
@@ -346,7 +344,7 @@ define( function( require ) {
      */
     getText: function() {
       return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance,
-          this.significantFigures ) + ' ' + this.unitsProperty.value.name;
+        this.significantFigures ) + ' ' + this.unitsProperty.value.name;
     },
 
     /**
@@ -356,24 +354,6 @@ define( function( require ) {
      */
     setTextColor: function( color ) {
       this.valueNode.fill = color;
-    },
-
-    /**
-     * Sets the color of the text background
-     * @param {Color|string|null} color
-     * @public
-     */
-    setTextBackgroundColor: function( color ) {
-      this.valueBackgroundNode.fill = color;
-    },
-
-    /**
-     * Sets the visibility of the text label
-     * @public
-     * @param {boolean} visible
-     */
-    setTextVisibility: function( visible ) {
-      this.valueNode.visible = visible;
     },
 
     /**
@@ -540,7 +520,6 @@ define( function( require ) {
       measuringTape.toImage( function( image ) {
         measuringTapeIcon.children = [ new Image( image ) ];
       } );
-
       return measuringTapeIcon;
     }
   } );
