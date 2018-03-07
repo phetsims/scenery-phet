@@ -93,7 +93,6 @@ define( function( require ) {
         max: options.heatEnabled ? 1 : 0
       },
       {
-        snapValue: options.snapToZero ? 0 : null,
         trackSize: new Dimension2( options.width / 2, 10 ),
         trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
           .addColorStop( 0, '#0A00F0' )
@@ -103,7 +102,12 @@ define( function( require ) {
         minorTickLength: 12,
         rotation: -Math.PI / 2,
         centerY: stoveBody.centerY,
-        right: stoveBody.right - options.width / 8
+        right: stoveBody.right - options.width / 8,
+        endDrag: function() {
+          if ( options.snapToZero ) {
+            options.heatCoolAmountProperty.set( 0 );
+          }
+        }
       } );
     if( options.heatEnabled ) { heatCoolSlider.addMajorTick( 1, heatTitle ); }
     heatCoolSlider.addMinorTick( 0 );
