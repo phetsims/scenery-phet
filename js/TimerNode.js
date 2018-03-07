@@ -41,8 +41,7 @@ define( function( require ) {
     options = _.extend( {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
-      touchAreaDilation: 10,
-      //tandem: Tandem.required()
+      touchAreaDilation: 10
     }, options );
 
     Node.call( this, _.extend( { cursor: 'pointer' }, options ) );
@@ -195,7 +194,7 @@ define( function( require ) {
     // Round to the nearest centisecond (compatible with timeToSmallString).
     // see https://github.com/phetsims/masses-and-springs/issues/156
     timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
-    
+
     // Rounding after mod, in case there is floating-point error
     var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
     if ( centiseconds < 10 ) {
