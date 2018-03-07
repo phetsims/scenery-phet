@@ -3,12 +3,11 @@
 /**
  * A static object used to send aria-live updates to a screen reader. These are alerts that are independent of user
  * focus. This will simply reference 'aria-live' elements in the HTML document and update their content. ARIA
- * attributes specify the behavior of timing for the alerts. The following alert elements must be in the HTML document
+ * attributes specify the behavior of timing for the alerts. The following HTML element must be in the document
  *
- *    <p id="assertive" aria-live="assertive" aria-atomic="true"></p>
- *    <p id="polite" aria-live="polite" aria-atomic="true"></p>
+ *    <p id="polite" aria-live="polite"></p>
  *
- * These attributes were tested and determined to be the most widely supported and most useful for PhET sims,
+ * Many aria-live and related attributes were tested, but none were well supported or particularly useful for PhET sims,
  * see https://github.com/phetsims/chipper/issues/472.
  *
  * NOTE: AriaHerald is just an Object, not a type, but it needs to be initialized before use as a singleton.
