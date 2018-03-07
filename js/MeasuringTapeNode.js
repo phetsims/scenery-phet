@@ -84,6 +84,8 @@ define( function( require ) {
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipDragBounded: false, // is the tip subject to dragBounds
+      interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
+      baseDragEnded: function() {}, // called when the base drag ends, for testing whether it has dropped into the toolbox
       tandem: Tandem.required
     }, options );
 
@@ -213,15 +215,16 @@ define( function( require ) {
 
       end: function( event, trail ) {
         self._isBaseUserControlledProperty.set( false );
+        options.baseDragEnded();
       }
     } );
 
-    this.baseImage.addInputListener( this.baseDragHandler );
+    options.interactive && this.baseImage.addInputListener( this.baseDragHandler );
 
     var tipStartOffset;
 
     // init drag and drop for tip
-    tip.addInputListener( new SimpleDragHandler( {
+    options.interactive && tip.addInputListener( new SimpleDragHandler( {
       tandem: options.tandem.createTandem( 'tipDragHandler' ),
 
       allowTouchSnag: true,
