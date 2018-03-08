@@ -25,6 +25,7 @@ define( function( require ) {
     MINUS: '\u2212',
     TIMES: '\u00d7',
     DIVIDE: '\u00f7',
+    DOT: '\u22c5',
 
     // unary operators
     UNARY_PLUS: '\u002b', // currently the same as PLUS
