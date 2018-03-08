@@ -22,7 +22,7 @@ define( function( require ) {
 
     // binary operators
     PLUS: '+',
-    MINUS: '\u2212', // longer than '-'
+    MINUS: '\u2212', // longer than UNARY_MINUS (PhET-specific convention)
     TIMES: '\u00d7',
     DIVIDE: '\u00f7',
     DOT: '\u22c5',
