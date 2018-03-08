@@ -21,21 +21,21 @@ define( function( require ) {
   var MathSymbols = {
 
     // binary operators
-    PLUS: '\u002b',
-    MINUS: '\u2212',
+    PLUS: '+',
+    MINUS: '\u2212', // longer than '-'
     TIMES: '\u00d7',
     DIVIDE: '\u00f7',
     DOT: '\u22c5',
 
     // unary operators
-    UNARY_PLUS: '\u002b', // currently the same as PLUS
-    UNARY_MINUS: '\u002d', // shorter than MINUS, a PhET-specific convention
+    UNARY_PLUS: '+',
+    UNARY_MINUS: '-', // shorter than MINUS (PhET-specific convention)
 
     // relational operators
-    EQUAL_TO: '\u003d',
+    EQUAL_TO: '=',
     NOT_EQUAL_TO: '\u2260',
-    GREATER_THAN: '\u003e',
-    LESS_THAN: '\u003c'
+    GREATER_THAN: '>',
+    LESS_THAN: '<'
 
   };
 
