@@ -5,10 +5,10 @@
  * Sims should use these so that they are easy to change in the future.
  * Do NOT inline characters in string concatenations.
  *
- * E.g. for an expression that involves the addition of 2 values:
- * Good:  var expressionString = value1 + ' ' + MathSymbols.PLUS + ' ' +  value2;
- * Bad:   var expressionString = value1 + ' \u002b ' + value2;
- * Wrong: var expressionString = value1 + ' + ' + value2;
+ * E.g. for an expression that involves the multiplication of 2 values:
+ * Good:  var expressionString = value1 + ' ' + MathSymbols.TIMES + ' ' +  value2;
+ * Bad:   var expressionString = value1 + ' \u00d7 ' + value2;
+ * Wrong: var expressionString = value1 + ' x ' + value2;
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
