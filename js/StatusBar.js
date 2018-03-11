@@ -37,7 +37,7 @@ define( function( require ) {
       xMargin: 20,
       yMargin: 10,
       backgroundFill: 'rgb( 49, 117, 202 )',
-      spacing: 3,
+      spacing: 8,
       alwaysInsideLayoutBounds: true // otherwise, moves with the edges of browser window
     }, options );
 
