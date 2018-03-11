@@ -80,8 +80,13 @@ define( function( require ) {
       }
     };
 
-    // TODO: dispose
     visibleBoundsProperty.link( boundsListener );
+
+    // @private
+    this.disposeStatusBar = function() {
+      backButton.dispose();
+      visibleBoundsProperty.unlink( boundsListener );
+    };
 
     options.children = [ backgroundNode, backButton, messageNode, scoreDisplay ];
 
@@ -90,5 +95,12 @@ define( function( require ) {
 
   vegas.register( 'StatusBar', StatusBar );
 
-  return inherit( Node, StatusBar );
+  return inherit( Node, StatusBar, {
+
+    // @public
+    dispose: function() {
+      this.disposeStatusBar;
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
