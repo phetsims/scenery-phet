@@ -28,8 +28,6 @@ define( function( require ) {
    */
   function StatusBar( visibleBoundsProperty, messageNode, scoreProperty, options ) {
 
-    assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
-
     options = _.extend( {
       scoreDisplayType: 'stars', // stars|numberAndStar|textAndNumber
       backButtonListener: null,
@@ -39,6 +37,8 @@ define( function( require ) {
       spacing: 8,
       alwaysInsideLayoutBounds: true // otherwise, moves with the edges of browser window
     }, options );
+
+    assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
 
     var backButton = new BackButton( { listener: options.backButtonListener } );
     
