@@ -20,14 +20,13 @@ define( function( require ) {
   var vegas = require( 'VEGAS/vegas' );
 
   /**
-   * @param {number} screenWidth
+   * @param {Property} visibleBoundsProperty - for layout
    * @param {Node} messageNode - to the right of the back button, typically Text
    * @param {Property.<number>} scoreProperty
    * @param {Object} [options]
    * @constructor
    */
-  function StatusBar( screenWidth, messageNode, scoreProperty, options ) {
-    // TODO: screenWidth... layoutBounds...
+  function StatusBar( visibleBoundsProperty, messageNode, scoreProperty, options ) {
 
     assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
 
@@ -55,15 +54,34 @@ define( function( require ) {
     }
 
     var backgroundHeight = Math.max( backButton.height, messageNode.height, scoreDisplay.height ) + 2 * options.yMargin;
-    var backgroundNode = new Rectangle( 0, 0, 4 * screenWidth, backgroundHeight, { fill: options.backgroundFill } );
+    var backgroundNode = new Rectangle(
+      visibleBoundsProperty.get().minX,
+      visibleBoundsProperty.minY,
+      visibleBoundsProperty.get().maxX - visibleBoundsProperty.get().minX,
+      backgroundHeight, {
+        fill: options.backgroundFill
+    } );
 
     // layout
-    backButton.left = options.xMargin;
+    backButton.left = backgroundNode.left + options.xMargin;
     backButton.centerY = backgroundNode.centerY;
     messageNode.left = backButton.right + options.spacing;
     messageNode.centerY = backgroundNode.centerY;
-    scoreDisplay.right = screenWidth - options.xMargin;
+    scoreDisplay.right = backgroundNode.right - options.xMargin;
     scoreDisplay.centerY = backgroundNode.centerY;
+
+    var boundsListener = function( bounds ) {
+      backgroundNode.setRectX( bounds.minX );
+      backgroundNode.setRectWidth( bounds.maxX - bounds.minX );
+      if ( !options.alwaysInsideLayoutBounds ) {
+        backButton.left = backgroundNode.left + options.xMargin;
+        messageNode.left = backButton.right + options.spacing;
+        scoreDisplay.right = backgroundNode.right - options.xMargin;
+      }
+    };
+
+    // TODO: dispose
+    visibleBoundsProperty.link( boundsListener );
 
     options.children = [ backgroundNode, backButton, messageNode, scoreDisplay ];
 
