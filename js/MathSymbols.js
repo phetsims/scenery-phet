@@ -35,7 +35,9 @@ define( function( require ) {
     EQUAL_TO: '=',
     NOT_EQUAL_TO: '\u2260',
     GREATER_THAN: '>',
-    LESS_THAN: '<'
+    LESS_THAN: '<',
+
+    PERCENT: '%'
 
   };
 
