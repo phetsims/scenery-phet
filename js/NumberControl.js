@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
+  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -482,6 +483,51 @@ define( function( require ) {
             } )
           ]
         } );
+      };
+    },
+
+    /**
+     * Like layoutFunction1, but the title and value go all the way to the edges. Ported from PendulumNumberControl.js
+     * on March 14, 2018.
+     * @param {Object} [options]
+     * @returns {Function}
+     */
+    createLayoutFunction4: function( options ) {
+      options = _.extend( {
+        excludeTweakers: false,
+        sliderPadding: 0,
+        hasReadoutProperty: null,
+        createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
+      }, options );
+      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+        var bottomBox = new HBox( {
+          resize: false, // prevent slider from causing resize?
+          spacing: 5,
+          children: options.excludeTweakers ? [ slider ] : [
+            leftArrowButton,
+            slider,
+            rightArrowButton
+          ]
+        } );
+        var bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
+
+        var group = new AlignGroup( { matchHorizontal: false } );
+        var titleBox = new AlignBox( titleNode, {
+          group: group
+        } );
+        var numberBox = new AlignBox( numberDisplay, {
+          group: group
+        } );
+        titleBox.bottom = numberBox.bottom = bottomContent.top - 5;
+        titleBox.left = bottomContent.left - options.sliderPadding;
+        numberBox.right = bottomContent.right + options.sliderPadding;
+        var node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
+        if ( options.hasReadoutProperty ) {
+          options.hasReadoutProperty.link( function( hasReadout ) {
+            numberBox.visible = hasReadout;
+          } );
+        }
+        return node;
       };
     }
   } );
