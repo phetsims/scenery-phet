@@ -496,6 +496,7 @@ define( function( require ) {
       options = _.extend( {
         excludeTweakers: false,
         sliderPadding: 0,
+        verticalSpacing: 5,
         hasReadoutProperty: null,
         createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
       }, options );
@@ -518,7 +519,7 @@ define( function( require ) {
         var numberBox = new AlignBox( numberDisplay, {
           group: group
         } );
-        titleBox.bottom = numberBox.bottom = bottomContent.top - 5;
+        titleBox.bottom = numberBox.bottom = bottomContent.top - options.verticalSpacing;
         titleBox.left = bottomContent.left - options.sliderPadding;
         numberBox.right = bottomContent.right + options.sliderPadding;
         var node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
