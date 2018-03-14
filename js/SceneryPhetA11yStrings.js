@@ -16,7 +16,7 @@ define( function( require ) {
   var SceneryPhetA11yStrings = {
 
     //------------------------------------------------------------------------
-    // Scene summary strings
+    // A11y Section strings
     //------------------------------------------------------------------------
     sceneSummary: {
       value: 'Scene Summary'
@@ -34,11 +34,15 @@ define( function( require ) {
       value: 'This is an interactive sim. It changes as you play with it. The sim has a Play Area and Control Panel. '
     },
 
-    //------------------------------------------------------------------------
-
     playArea: {
       value: 'Play Area'
     },
+    controlPanel: {
+      value: 'Control Panel'
+    },
+
+    //------------------------------------------------------------------------
+
 
     // button labels
     soundToggleLabelString: {
