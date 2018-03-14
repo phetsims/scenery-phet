@@ -36,6 +36,10 @@ define( function( require ) {
 
     //------------------------------------------------------------------------
 
+    playArea: {
+      value: 'Play Area'
+    },
+
     // button labels
     soundToggleLabelString: {
       value: 'Mute Sound'
