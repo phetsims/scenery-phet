@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * Single location of all accessibility strings used in scenery-phet.  These
@@ -14,6 +14,27 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   var SceneryPhetA11yStrings = {
+
+    //------------------------------------------------------------------------
+    // Scene summary strings
+    //------------------------------------------------------------------------
+    sceneSummary: {
+      value: 'Scene Summary'
+    },
+
+    // scene summary intro for a multiscreen sim (not sim specific),
+    // extra space at end for string concat with rest of the scene summary
+    sceneSummaryMultiScreenIntro: {
+      value: 'This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Panel. '
+    },
+
+    // scene summary intro for a single screen sim (not sim specific),
+    // extra space at end for string concat with rest of the scene summary
+    sceneSummarySingleScreenIntro: {
+      value: 'This is an interactive sim. It changes as you play with it. The sim has a Play Area and Control Panel. '
+    },
+
+    //------------------------------------------------------------------------
 
     // button labels
     soundToggleLabelString: {
@@ -57,7 +78,7 @@ define( function( require ) {
     keyboardHelpDialogAdjustLargerStepsString: {
       value: 'Adjust in larger steps with Page Up or Page Down key.'
     },
-    keyboardHelpDialogJumpToHomeString:  {
+    keyboardHelpDialogJumpToHomeString: {
       value: 'Jump to minimum with Home key.'
     },
     keyboardHelpDialogJumpToEndString: {
