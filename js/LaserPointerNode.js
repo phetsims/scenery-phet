@@ -79,7 +79,13 @@ define( function( require ) {
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
         center: bodyNode.center,
-        tandem: options.tandem.createTandem( 'button' )
+        tandem: options.tandem.createTandem( 'button' ),
+
+        // a11y
+        labelTagName: 'label',
+        accessibleLabel: options.buttonAccessibleLabel,
+        accessibleDescription: options.buttonAccessibleDescription,
+        prependLabels: true
       };
 
       // @private
@@ -134,6 +140,8 @@ define( function( require ) {
     buttonTouchAreaDilation: 15,
     buttonMouseAreaDilation: 0,
     buttonRotation: 0, // {number} use this to adjust lighting on the button
+    buttonAccessibleLabel: '',
+    buttonAccessibleDescription: '',
 
     // PhET-iO
     tandem: Tandem.required
