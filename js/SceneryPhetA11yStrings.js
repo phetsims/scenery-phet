@@ -104,6 +104,9 @@ define( function( require ) {
     // StepButton
     stepString: {
       'value': 'Step'
+    },
+    stepDescriptionString: {
+      'value': 'Pause and resume stream with every press.'
     }
   };
 
