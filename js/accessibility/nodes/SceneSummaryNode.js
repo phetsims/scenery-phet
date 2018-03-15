@@ -18,6 +18,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
+  // a11y strings
   var sceneSummaryMultiScreenIntroString = SceneryPhetA11yStrings.sceneSummaryMultiScreenIntro.value;
   var sceneSummarySingleScreenIntroString = SceneryPhetA11yStrings.sceneSummarySingleScreenIntro.value;
   var sceneSummaryString = SceneryPhetA11yStrings.sceneSummary.value;

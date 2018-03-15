@@ -28,6 +28,7 @@ define( function( require ) {
   var MARGIN = 4;
   var X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
+  // a11y strings
   var soundToggleLabelString = SceneryPhetA11yStrings.soundToggleLabelString.value;
   var simSoundOnString = SceneryPhetA11yStrings.simSoundOnString.value;
   var simSoundOffString = SceneryPhetA11yStrings.simSoundOffString.value;
