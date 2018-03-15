@@ -37,8 +37,12 @@ define( function( require ) {
     GREATER_THAN: '>',
     LESS_THAN: '<',
 
-    PERCENT: '%'
-
+    // other math symbols
+    PERCENT: '%',
+    INFINITY: '\u221E',
+    PI: '\u03c0',
+    PLUS_MINUS: '\u00B1',
+    THETA: '\u03b8'
   };
 
   sceneryPhet.register( 'MathSymbols', MathSymbols );
