@@ -42,7 +42,9 @@ define( function( require ) {
     INFINITY: '\u221E',
     PI: '\u03c0',
     PLUS_MINUS: '\u00B1',
-    THETA: '\u03b8'
+    THETA: '\u03b8',
+    OHMS: '\u2126',
+    RHO: '\u03C1'
   };
 
   sceneryPhet.register( 'MathSymbols', MathSymbols );
