@@ -1,20 +1,17 @@
-// Copyright 2014-2017, University of Colorado Boulder
+// Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Copyright 2002-2013, University of Colorado
  * Timer Node.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Anton Ulyanov (Mlearner)
  */
-
 define( function( require ) {
   'use strict';
 
   // modules
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -139,10 +136,7 @@ define( function( require ) {
     /*---------------------------------------------------------------------------*
      * Panel background
      *----------------------------------------------------------------------------*/
-    var roundedRectangle = new ShadedRectangle( container.bounds.dilated( panelPad ), {
-      baseColor: new Color( 80, 130, 230 ),
-      cornerRadius: 10
-    } );
+    var roundedRectangle = new ShadedRectangle( container.bounds.dilated( panelPad ) );
     roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
     this.addChild( roundedRectangle );
     this.addChild( container );
