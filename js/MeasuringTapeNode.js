@@ -183,7 +183,7 @@ define( function( require ) {
 
       start: function( event, trail ) {
         self._isBaseUserControlledProperty.set( true );
-        var location = self._modelViewTransform.modelToViewPosition( options.basePositionProperty.value );
+        var location = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
         baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
@@ -193,10 +193,10 @@ define( function( require ) {
         var constrainedBaseLocation = self._dragBounds.closestPointTo( unconstrainedBaseLocation );
 
         // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
-        var translationDelta = constrainedBaseLocation.minus( options.basePositionProperty.value ); // in model reference frame
+        var translationDelta = constrainedBaseLocation.minus( self.basePositionProperty.value ); // in model reference frame
 
         // translation of the basePosition (subject to the constraining drag bounds)
-        options.basePositionProperty.set( constrainedBaseLocation );
+        self.basePositionProperty.set( constrainedBaseLocation );
 
         // translate the position of the tip if it is not being dragged
         // when the user is not holding onto the tip, dragging the body will also drag the tip
@@ -321,6 +321,7 @@ define( function( require ) {
   sceneryPhet.register( 'MeasuringTapeNode', MeasuringTapeNode );
 
   return inherit( Node, MeasuringTapeNode, {
+
     /**
      * Resets the MeasuringTapeNode to its initial configuration
      * @public
