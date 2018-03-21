@@ -36,8 +36,7 @@ define( function( require ) {
     options = _.extend( {
       fullHeight: IntroConstants.BEAKER_HEIGHT,
       xRadius: 40,
-      yRadius: 12,
-      tickWidth: 2
+      yRadius: 12
     }, options );
 
     var height = options.fullHeight * numerator / denominator;
@@ -69,25 +68,21 @@ define( function( require ) {
 
     var bucketFront = new Path( bucketFrontShape, {
       stroke: 'grey',
-      fill: glassGradient,
-      lineWidth: 2
+      fill: glassGradient
     } );
     var bucketBack = new Path( bucketBackShape, {
       stroke: 'grey',
-      fill: glassGradient,
-      lineWidth: 2
+      fill: glassGradient
     } );
     bucketBack.setScaleMagnitude( -1, 1 );
     var bucketBottom = new Path( bucketBottomShape, {
       stroke: 'grey',
       fill: EMPTY_BEAKER_COLOR,
-      lineWidth: 2,
       pickable: false
     } );
     var waterSide = new Path( waterSideShape, {
       stroke: 'black',
       fill: WATER_SIDE_COLOR,
-      lineWidth: 2,
       pickable: false
     } );
     var waterTop = new Path( waterTopShape, {
@@ -96,7 +91,7 @@ define( function( require ) {
     } );
     var ticks = new Path( ticksShape, {
       stroke: 'black',
-      lineWidth: options.tickWidth,
+      lineWidth: 1.5,
       pickable: false
     } );
 
