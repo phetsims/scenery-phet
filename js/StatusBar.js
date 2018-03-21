@@ -13,7 +13,7 @@ define( function( require ) {
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ProgressIndicator = require( 'VEGAS/ProgressIndicator' );
+  var ScoreDisplayDiscreteStars = require( 'VEGAS/ScoreDisplayDiscreteStars' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScoreDisplayNumberAndStar = require( 'VEGAS/ScoreDisplayNumberAndStar' );
   var ScoreDisplayTextAndNumber = require( 'VEGAS/ScoreDisplayTextAndNumber' );
@@ -29,7 +29,7 @@ define( function( require ) {
   function StatusBar( visibleBoundsProperty, messageNode, scoreProperty, options ) {
 
     options = _.extend( {
-      scoreDisplayType: 'stars', // stars|numberAndStar|textAndNumber
+      scoreDisplayType: 'discreteStars', // discreteStars|numberAndStar|textAndNumber
       backButtonListener: null,
       xMargin: 20,
       yMargin: 10,
@@ -43,8 +43,8 @@ define( function( require ) {
     var backButton = new BackButton( { listener: options.backButtonListener } );
     
     // TODO: assert that scoreDisplayType is right
-    if ( options.scoreDisplayType === 'stars' ) {
-      var scoreDisplay = new ProgressIndicator( 4, scoreProperty, 1 ); // TODO: create a ScoreDisplayStars
+    if ( options.scoreDisplayType === 'discreteStars' ) {
+      var scoreDisplay = new ScoreDisplayDiscreteStars( scoreProperty ); // TODO: passing options...
     }
     else if ( options.scoreDisplayType === 'numberAndStar' ) {
       scoreDisplay = new ScoreDisplayNumberAndStar( scoreProperty );
