@@ -13,23 +13,20 @@ define( function( require ) {
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ScoreDisplayDiscreteStars = require( 'VEGAS/ScoreDisplayDiscreteStars' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ScoreDisplayNumberAndStar = require( 'VEGAS/ScoreDisplayNumberAndStar' );
-  var ScoreDisplayTextAndNumber = require( 'VEGAS/ScoreDisplayTextAndNumber' );
   var vegas = require( 'VEGAS/vegas' );
 
   /**
    * @param {Property} visibleBoundsProperty - for layout
    * @param {Node} messageNode - to the right of the back button, typically Text
-   * @param {Property.<number>} scoreProperty
+   * @param {Node} scoreDisplay - intended to be one of the ScoreDisplay* nodes but can be any custom Node provided
+   * by the client
    * @param {Object} [options]
    * @constructor
    */
-  function StatusBar( visibleBoundsProperty, messageNode, scoreProperty, options ) {
+  function StatusBar( visibleBoundsProperty, messageNode, scoreDisplay, options ) {
 
     options = _.extend( {
-      scoreDisplayType: 'discreteStars', // discreteStars|numberAndStar|textAndNumber
       backButtonListener: null,
       xMargin: 20,
       yMargin: 10,
@@ -42,17 +39,6 @@ define( function( require ) {
 
     var backButton = new BackButton( { listener: options.backButtonListener } );
     
-    // TODO: assert that scoreDisplayType is right
-    if ( options.scoreDisplayType === 'discreteStars' ) {
-      var scoreDisplay = new ScoreDisplayDiscreteStars( scoreProperty ); // TODO: passing options...
-    }
-    else if ( options.scoreDisplayType === 'numberAndStar' ) {
-      scoreDisplay = new ScoreDisplayNumberAndStar( scoreProperty );
-    }
-    else {
-      scoreDisplay = new ScoreDisplayTextAndNumber( scoreProperty );
-    }
-
     var backgroundHeight = Math.max( backButton.height, messageNode.height, scoreDisplay.height ) + 2 * options.yMargin;
     var backgroundNode = new Rectangle(
       visibleBoundsProperty.get().minX,
