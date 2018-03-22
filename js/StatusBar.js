@@ -39,7 +39,7 @@ define( function( require ) {
 
     var backButton = new BackButton( { listener: options.backButtonListener } );
     
-    var backgroundHeight = Math.max( backButton.height, messageNode.height, scoreDisplay.height ) + 2 * options.yMargin;
+    var backgroundHeight = _.max( [ backButton.height, messageNode.height, scoreDisplay.height ] ) + 2 * options.yMargin;
     var backgroundNode = new Rectangle(
       visibleBoundsProperty.get().minX,
       visibleBoundsProperty.minY,
