@@ -351,9 +351,6 @@ define( function( require ) {
         }
       }
       valueNode.centerY = backgroundHeight / 2;
-
-      // a11y - the input value read by assistive technology
-      self.inputValue = valueProperty.get();
     };
     this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
 
