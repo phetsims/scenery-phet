@@ -100,7 +100,12 @@ define( function( require ) {
     pauseString: {
       value: 'Pause'
     },
-
+    playDescriptionString: {
+      value: 'Resume what is happening in the Play Area'
+    },
+    pauseDescriptionString: {
+      value: 'Pause what is happening in the Play Area'
+    }, 
     // StepButton
     stepString: {
       'value': 'Step'

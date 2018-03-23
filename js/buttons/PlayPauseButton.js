@@ -22,6 +22,8 @@ define( function( require ) {
   // a11y strings
   var playString = SceneryPhetA11yStrings.playString.value;
   var pauseString = SceneryPhetA11yStrings.pauseString.value;
+  var playDescriptionString = SceneryPhetA11yStrings.playDescriptionString.value;
+  var pauseDescriptionString = SceneryPhetA11yStrings.pauseDescriptionString.value;
 
   // constants
   var DEFAULT_RADIUS = 28;
@@ -35,7 +37,10 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      radius: DEFAULT_RADIUS
+      radius: DEFAULT_RADIUS,
+      parentContainerTagName: 'div',
+      a11yPauseDescription: pauseDescriptionString,
+      a11yPlayDescription: playDescriptionString
     }, options );
 
     this.runningProperty = runningProperty; // @private
@@ -69,6 +74,7 @@ define( function( require ) {
     // @private
     this.runningListener = function( running ) {
       self.accessibleLabel = running ? pauseString : playString;
+      self.accessibleDescription = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
     runningProperty.link( this.runningListener );
   }
