@@ -50,8 +50,7 @@ define( function( require ) {
       // a11y
       tagName: 'input',
       inputType: 'button',
-      accessibleLabel: resetAllButtonNameString,
-      useAriaLabel: true,
+      ariaLabel: resetAllButtonNameString,
 
       // We want to be able to make the ResetAllButton fully interoperable, which means opting in and passing that to
       // the button model.
