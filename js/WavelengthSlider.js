@@ -9,12 +9,17 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -36,6 +41,8 @@ define( function( require ) {
    * @constructor
    */
   function WavelengthSlider( wavelengthProperty, options ) {
+
+    var self = this;
 
     // options that are specific to this type
     options = _.extend( {
@@ -241,11 +248,15 @@ define( function( require ) {
       }
     } ) );
 
+    // @public (a11y) - custom focus highlight that surrounds and moves with the thumb
+    this.focusHighlight = new FocusHighlightFromNode( thumb );
+
     // sync with model
     var updateUI = function( wavelength ) {
       // positions
       var x = wavelengthToPosition( wavelength );
       thumb.centerX = x;
+      self.focusHighlight.centerX = thumb.centerX;
       if ( cursor ) { cursor.centerX = x; }
       if ( valueDisplay ) { valueDisplay.centerX = x; }
       // thumb color
@@ -282,13 +293,18 @@ define( function( require ) {
 
     this.mutate( options );
 
-    // @private called by dispose
+    // @private - called by dispose
     this.disposeWavelengthSlider = function() {
       valueDisplay && valueDisplay.dispose();
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
       wavelengthProperty.unlink( wavelengthListener );
+      self.disposeAccessibleSlider(); // dispose accessibility
     };
+
+    // mix accessible slider functionality into HSlider
+    var rangeProperty = new Property( new Range( options.minWavelength, options.maxWavelength ) );
+    this.initializeAccessibleSlider( wavelengthProperty, rangeProperty, new BooleanProperty( true ), options );
   }
 
   sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
@@ -395,7 +411,7 @@ define( function( require ) {
 
   inherit( Rectangle, Cursor );
 
-  return inherit( Node, WavelengthSlider, {
+  inherit( Node, WavelengthSlider, {
 
     // @public
     dispose: function() {
@@ -403,4 +419,9 @@ define( function( require ) {
       Node.prototype.dispose.call( this );
     }
   } );
+
+  // mix accessibility in
+  AccessibleSlider.mixInto( WavelengthSlider );
+
+  return WavelengthSlider;
 } );
