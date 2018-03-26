@@ -65,6 +65,7 @@ define( function( require ) {
     // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
     this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
+      phetioInstanceDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
       phetioType: DerivedPropertyIO( BooleanIO ),
       phetioState: options.phetioState,
       phetioReadOnly: options.phetioReadOnly
