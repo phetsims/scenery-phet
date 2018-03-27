@@ -38,7 +38,7 @@ define( function( require ) {
 
     options = _.extend( {
       radius: DEFAULT_RADIUS,
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       a11yPauseDescription: pauseDescriptionString,
       a11yPlayDescription: playDescriptionString
     }, options );

@@ -153,7 +153,7 @@ define( function( require ) {
         // a11y options to pass through to the entry for the help content
         a11yIconTagName: 'li',
         a11yIconLabelTagName: null,
-        a11yIconParentContainerTagName: null,
+        a11yIconcontainerTagName: null,
         a11yIconAccessibleLabel: null,
         a11yIconPrependLabels: false,
       }, options );
@@ -169,7 +169,7 @@ define( function( require ) {
       iconBox.labelTagName = options.a11yIconLabelTagName;
       iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
       iconBox.prependLabels = options.a11yIconPrependLabels;
-      iconBox.parentContainerTagName = options.a11yIconParentContainerTagName;
+      iconBox.containerTagName = options.a11yIconcontainerTagName;
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
       var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };

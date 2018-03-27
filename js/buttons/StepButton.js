@@ -50,7 +50,7 @@ define( function( require ) {
 
       // a11y
       accessibleLabel: stepString,
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       accessibleDescription: stepDescriptionString
     }, options );
 

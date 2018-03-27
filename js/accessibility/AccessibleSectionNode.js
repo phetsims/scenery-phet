@@ -27,7 +27,7 @@ define( function( require ) {
 
     // options for accessibility, but others can be passed to Node call
     options = _.extend( {
-      parentContainerTagName: 'section',
+      containerTagName: 'section',
       tagName: 'div',
       accessibleLabel: label,
       labelTagName: 'h2',
