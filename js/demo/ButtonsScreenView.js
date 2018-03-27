@@ -15,6 +15,7 @@ define( function( require ) {
   var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
   var EyeToggleButton = require( 'SCENERY_PHET/buttons/EyeToggleButton' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var Property = require( 'AXON/Property' );
@@ -78,6 +79,10 @@ define( function( require ) {
       listener: function() { console.log( 'ZoomButton pressed' ); }
     } );
 
+    var infoButton = new InfoButton( {
+      listener: function() { console.log( 'InfoButton pressed' ); }
+    } );
+
     // Push buttons
     var pushButtons = new VBox( {
       children: [
@@ -89,7 +94,8 @@ define( function( require ) {
         starButton,
         stepBackwardButton,
         stepForwardButton,
-        zoomButton
+        zoomButton,
+        infoButton
       ],
       spacing: 10,
       align: 'center',

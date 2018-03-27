@@ -3,9 +3,20 @@
 /**
  * A static object used to send aria-live updates to a screen reader. These are alerts that are independent of user
  * focus. This will simply reference 'aria-live' elements in the HTML document and update their content. ARIA
- * attributes specify the behavior of timing for the alerts. The following HTML element must be in the document
+ * attributes specify the behavior of timing for the alerts. The following HTML elements must be in the document
  *
- *    <p id="polite" aria-live="polite"></p>
+ *    <p id="polite-1" aria-live="polite"></p>
+ *    <p id="polite-2" aria-live="polite"></p>
+ *    <p id="polite-3" aria-live="polite"></p>
+ *    <p id="polite-4" aria-live="polite"></p>
+ *
+ * It was discovered that cycling through these alerts prevented a VoiceOver bug where alerts would interrupt each
+ * other. Starting from the first element, content is set on each element in order and cycles through.
+ *
+ * It is a commonly known (but not specified) limitation that aria-live elements must exist in the document before
+ * the page has finished loading  to work with screen readers. Screen readers do not add observers to aria-live
+ * elements that are added to the document after page load. So these elements must exist in the document before the
+ * `onload` event triggers.
  *
  * Many aria-live and related attributes were tested, but none were well supported or particularly useful for PhET sims,
  * see https://github.com/phetsims/chipper/issues/472.
@@ -25,24 +36,30 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Timer = require( 'PHET_CORE/Timer' );
 
-  // ids for the aria-live elements
-  var POLITE_ELEMENT_ID = 'polite';
-  var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
-
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
 
   // If not initialized, then AriaHerald will no-op for all functionality
   var initialized = false;
 
-  // verify that container is present
-  assert && assert( document.getElementById( ALERT_CONTAINER_ELEMENT_ID ), 'No alert container element found in document' );
+  // DOM elements which will receive the updated content. By having four elements and cycling through each one, we
+  // can get around a VoiceOver bug where a new alert would interrupt the previous alert if it wasn't finished
+  // speaking, see https://github.com/phetsims/scenery-phet/issues/362
+  var politeElement1 = document.getElementById( 'polite-1' );
+  var politeElement2 = document.getElementById( 'polite-2' );
+  var politeElement3 = document.getElementById( 'polite-3' );
+  var politeElement4 = document.getElementById( 'polite-4' );
+  var ariaLiveElements = [ politeElement1, politeElement2, politeElement3, politeElement4 ];
 
-  // DOM element which will receive the updated content
-  var politeElement = document.getElementById( POLITE_ELEMENT_ID );
+  // index of current aria-live element to use, updated every time an event triggers
+  var elementIndex = 0;
 
-  // verify that all elements are present
-  assert && assert( politeElement, 'No polite element found in document' );
+  // verify that all elements are in the document
+  assert && assert( document.getElementById( 'aria-live-elements' ), 'No alert container element found in document' );
+  assert && assert( politeElement1, 'aria-live element 1 missing from document, all are required' );
+  assert && assert( politeElement2, 'aria-live element 2 missing from document, all are required' );
+  assert && assert( politeElement3, 'aria-live element 3 missing from document, all are required' );
+  assert && assert( politeElement4, 'aria-live element 4 missing from document, all are required' );
 
   /**
    * Update an element with the 'aria-live' attribute by setting its text content.
@@ -96,36 +113,12 @@ define( function( require ) {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announcePolite: function( textContent, withClear ) {
-      updateLiveElement( politeElement, textContent, withClear );
-    },
+      var element = ariaLiveElements[ elementIndex ];
+      updateLiveElement( element, textContent, withClear );
 
-    /**
-     * Clear all alerts by resetting text content with empty strings. A screen reader will not announce anything, but
-     * this will remove all text content from the aria-live elements so that it cannot be found by the virtual cursor.
-     * @public
-     */
-    clearAll: function() {
-      AriaHerald.clearPolite();
-    },
-
-    /**
-     * Clear the text content from the polite alert element.  AT will not announce anything but this will prevent
-     * text content from being found in the document with the virtual cursor.
-     * @public
-     */
-    clearPolite: function() {
-
-      // no-op if not initialized
-      if ( !initialized ) {
-        return;
-      }
-
-      politeElement.textContent = '';
-    },
-
-    // static constants
-    POLITE_ELEMENT_ID: POLITE_ELEMENT_ID,
-    ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
+      // update index for next time
+      elementIndex =  ( elementIndex + 1 ) % ariaLiveElements.length;
+    }
   };
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
