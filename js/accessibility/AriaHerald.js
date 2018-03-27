@@ -36,9 +36,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Timer = require( 'PHET_CORE/Timer' );
 
-  // ids for the aria-live elements
-  var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
-
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
 
@@ -58,7 +55,7 @@ define( function( require ) {
   var elementIndex = 0;
 
   // verify that all elements are in the document
-  assert && assert( document.getElementById( ALERT_CONTAINER_ELEMENT_ID ), 'No alert container element found in document' );
+  assert && assert( document.getElementById( 'aria-live-elements' ), 'No alert container element found in document' );
   assert && assert( politeElement1, 'aria-live element 1 missing from document, all are required' );
   assert && assert( politeElement2, 'aria-live element 2 missing from document, all are required' );
   assert && assert( politeElement3, 'aria-live element 3 missing from document, all are required' );
@@ -145,10 +142,7 @@ define( function( require ) {
       }
 
       politeElement1.textContent = '';
-    },
-
-    // static constants
-    ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
+    }
   };
 
   sceneryPhet.register( 'AriaHerald', AriaHerald );
