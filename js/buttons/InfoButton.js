@@ -25,12 +25,13 @@ define( function( require ) {
       minYMargin: 10,
       touchAreaXDilation: 10,
       touchAreaYDilation: 5,
-      baseColor: 'rgb(238, 238, 238)'
+      baseColor: 'rgb( 238, 238, 238 )',
+      iconFill: 'rgb( 41, 106, 163 )'
     }, options );
 
     assert && assert( !options.content, 'InfoButton sets content' );
     options.content = new FontAwesomeNode( 'info_circle', {
-      fill: 'rgb(41, 106, 163)'
+      fill: options.iconFill
       // maxWidth: zoomInButton.width - chromeBounds.width - 2 * iconPadding,
       // maxHeight: zoomInButton.height - chromeBounds.height - 2 * iconPadding
     } );
