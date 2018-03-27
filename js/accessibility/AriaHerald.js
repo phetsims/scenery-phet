@@ -118,30 +118,6 @@ define( function( require ) {
 
       // update index for next time
       elementIndex =  ( elementIndex + 1 ) % ariaLiveElements.length;
-    },
-
-    /**
-     * Clear all alerts by resetting text content with empty strings. A screen reader will not announce anything, but
-     * this will remove all text content from the aria-live elements so that it cannot be found by the virtual cursor.
-     * @public
-     */
-    clearAll: function() {
-      AriaHerald.clearPolite();
-    },
-
-    /**
-     * Clear the text content from the polite alert element.  AT will not announce anything but this will prevent
-     * text content from being found in the document with the virtual cursor.
-     * @public
-     */
-    clearPolite: function() {
-
-      // no-op if not initialized
-      if ( !initialized ) {
-        return;
-      }
-
-      politeElement1.textContent = '';
     }
   };
 
