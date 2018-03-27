@@ -26,7 +26,7 @@ define( function( require ) {
       touchAreaXDilation: 10,
       touchAreaYDilation: 5,
       baseColor: 'rgb( 238, 238, 238 )',
-      iconFill: 'rgb( 41, 106, 163 )'
+      iconFill: 'black'
     }, options );
 
     assert && assert( !options.content, 'InfoButton sets content' );
