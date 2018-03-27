@@ -37,7 +37,6 @@ define( function( require ) {
   var Timer = require( 'PHET_CORE/Timer' );
 
   // ids for the aria-live elements
-  var POLITE_ELEMENT_ID = 'polite-1';
   var ALERT_CONTAINER_ELEMENT_ID = 'aria-live-elements';
 
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
@@ -149,7 +148,6 @@ define( function( require ) {
     },
 
     // static constants
-    POLITE_ELEMENT_ID: POLITE_ELEMENT_ID,
     ALERT_CONTAINER_ELEMENT_ID: ALERT_CONTAINER_ELEMENT_ID
   };
 
