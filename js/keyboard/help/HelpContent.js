@@ -153,9 +153,9 @@ define( function( require ) {
         // a11y options to pass through to the entry for the help content
         a11yIconTagName: 'li',
         a11yIconLabelTagName: null,
-        a11yIconcontainerTagName: null,
+        a11yIconContainerTagName: null,
         a11yIconAccessibleLabel: null,
-        a11yIconPrependLabels: false,
+        a11yIconPrependLabels: false
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
@@ -169,7 +169,11 @@ define( function( require ) {
       iconBox.labelTagName = options.a11yIconLabelTagName;
       iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
       iconBox.prependLabels = options.a11yIconPrependLabels;
-      iconBox.containerTagName = options.a11yIconcontainerTagName;
+
+      // Prevent blowing away a default container with "null"
+      if( options.a11yIconContainerTagName ){
+        iconBox.containerTagName = options.a11yIconContainerTagName;
+      }
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
       var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };
