@@ -21,6 +21,40 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // constants
+  var DEFAULT_OPTIONS = {
+
+    // {Property.<boolean>} Set this if you want to control enabled via your own Property.
+    // Otherwise use this.enabledProperty or the setter/getter for enabled.
+    enabledProperty: null,
+
+    // nozzle and body options
+    bodySize: new Dimension2( 110, 78 ),
+    nozzleSize: new Dimension2( 20, 60 ),
+    topColor: 'rgb( 170, 170, 170 )',
+    bottomColor: 'rgb( 40, 40, 40 )',
+    highlightColor: 'rgb( 245, 245, 245 )',
+    highlightColorStop: 0.3,  // {number} color stop for highlight, (0,1) exclusive range
+    stroke: 'black',
+    lineWidth: 1,
+    cornerRadius: 5,
+
+    // button options
+    hasButton: true, // {boolean} other button options are ignore if this is false
+    buttonType: 'toggle', // {string} 'toggle'|'momentary'
+    buttonColor: 'red',
+    buttonRadius: 22,
+    buttonTouchAreaDilation: 15,
+    buttonMouseAreaDilation: 0,
+    buttonRotation: 0, // {number} use this to adjust lighting on the button
+    buttonAccessibleLabel: '',
+    buttonAccessibleDescription: '',
+
+    // PhET-iO
+    tandem: Tandem.required
+  };
+  assert && Object.freeze( DEFAULT_OPTIONS );
+
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
    * @param {Object} [options]
@@ -114,39 +148,6 @@ define( function( require ) {
   }
 
   sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
-
-  var DEFAULT_OPTIONS = {
-
-    // {Property.<boolean>} Set this if you want to control enabled via your own Property.
-    // Otherwise use this.enabledProperty or the setter/getter for enabled.
-    enabledProperty: null,
-
-    // nozzle and body options
-    bodySize: new Dimension2( 110, 78 ),
-    nozzleSize: new Dimension2( 20, 60 ),
-    topColor: 'rgb( 170, 170, 170 )',
-    bottomColor: 'rgb( 40, 40, 40 )',
-    highlightColor: 'rgb( 245, 245, 245 )',
-    highlightColorStop: 0.3,  // {number} color stop for highlight, (0,1) exclusive range
-    stroke: 'black',
-    lineWidth: 1,
-    cornerRadius: 5,
-
-    // button options
-    hasButton: true, // {boolean} other button options are ignore if this is false
-    buttonType: 'toggle', // {string} 'toggle'|'momentary'
-    buttonColor: 'red',
-    buttonRadius: 22,
-    buttonTouchAreaDilation: 15,
-    buttonMouseAreaDilation: 0,
-    buttonRotation: 0, // {number} use this to adjust lighting on the button
-    buttonAccessibleLabel: '',
-    buttonAccessibleDescription: '',
-
-    // PhET-iO
-    tandem: Tandem.required
-  };
-  assert && Object.freeze( DEFAULT_OPTIONS );
 
   return inherit( Node, LaserPointerNode, {
 
