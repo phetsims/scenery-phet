@@ -42,7 +42,7 @@ define( function( require ) {
 
     // different default string depending on if there are multiple screens
     var introString = options.multiscreen ? sceneSummaryMultiScreenIntroString : sceneSummarySingleScreenIntroString;
-    var openingSummaryNode = new Node( { tagName: 'p', accessibleLabel: introString + sceneSummary } );
+    var openingSummaryNode = new Node( { tagName: 'p', innerContent: introString + sceneSummary } );
     this.addChild( openingSummaryNode );
 
     this.addChild( options.content );

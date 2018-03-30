@@ -49,7 +49,7 @@ define( function( require ) {
       playingProperty: null,
 
       // a11y
-      accessibleLabel: stepString,
+      innerContent: stepString,
       containerTagName: 'div',
       accessibleDescription: stepDescriptionString
     }, options );

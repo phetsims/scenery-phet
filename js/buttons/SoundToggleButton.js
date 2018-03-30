@@ -66,7 +66,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: soundToggleLabelString
+      innerContent: soundToggleLabelString
     }, options ) );
 
     var self = this;

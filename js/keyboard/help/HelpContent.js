@@ -86,7 +86,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'h2',
-      accessibleLabel: headingString
+      innerContent: headingString
     } );
 
     // place icons in labels in unique layout boxes for alignment
@@ -164,13 +164,19 @@ define( function( require ) {
       var labelBox = labelIconGroup.createBox( label );
       var iconBox = labelIconGroup.createBox( icon );
 
-      // add a11y to the icon
-      iconBox.tagName = options.a11yIconTagName;
-      iconBox.labelTagName = options.a11yIconLabelTagName;
-      iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
-      iconBox.prependLabels = options.a11yIconPrependLabels;
-
-      // Prevent blowing away a default container with "null"
+      // add a11y to the icon  Prevent blowing away a default with "null"
+      if( options.a11yIconTagName ){
+        iconBox.tagName = options.a11yIconTagName;
+      }
+      if( options.a11yIconLabelTagName ){
+        iconBox.labelTagName = options.a11yIconLabelTagName;
+      }
+      if( options.a11yIconAccessibleLabel ){
+        iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
+      }
+      if( options.a11yIconPrependLabels ){
+        iconBox.prependLabels = options.a11yIconPrependLabels;
+      }
       if( options.a11yIconContainerTagName ){
         iconBox.containerTagName = options.a11yIconContainerTagName;
       }
@@ -203,7 +209,7 @@ define( function( require ) {
 
         // a11y options to pass through to the entry for the whole list, by default, this is just another list item
         a11yIconTagName: 'li',
-        a11yIconAccessibleLabel: null,
+        a11yIconAccessibleLabel: ''
       }, options );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
@@ -236,7 +242,7 @@ define( function( require ) {
 
         // a11y
         tagName: options.a11yIconTagName,
-        accessibleLabel: options.a11yIconAccessibleLabel,
+        accessibleLabel: options.a11yIconAccessibleLabel
       } );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
