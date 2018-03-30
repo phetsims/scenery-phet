@@ -29,7 +29,7 @@ define( function( require ) {
     options = _.extend( {
       containerTagName: 'section',
       tagName: 'div',
-      accessibleLabel: label,
+      labelContent: label,
       labelTagName: 'h2',
       prependLabels: true
     }, options );

@@ -242,7 +242,7 @@ define( function( require ) {
 
         // a11y
         tagName: options.a11yIconTagName,
-        accessibleLabel: options.a11yIconAccessibleLabel
+        labelContent: options.a11yIconAccessibleLabel
       } );
 
       // make the label the same height as the icon list by aligning them in a box that matches height

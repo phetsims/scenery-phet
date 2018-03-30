@@ -116,7 +116,7 @@ define( function( require ) {
         tandem: options.tandem.createTandem( 'button' ),
 
         // a11y
-        accessibleLabel: options.buttonAccessibleLabel,
+        labelContent: options.buttonAccessibleLabel,
         accessibleDescription: options.buttonAccessibleDescription,
         prependLabels: true
       };
