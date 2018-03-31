@@ -51,7 +51,7 @@ define( function( require ) {
       // a11y
       innerContent: stepString,
       containerTagName: 'div',
-      accessibleDescription: stepDescriptionString
+      descriptionContent: stepDescriptionString
     }, options );
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',

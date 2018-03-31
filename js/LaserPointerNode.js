@@ -117,7 +117,7 @@ define( function( require ) {
 
         // a11y
         labelContent: options.buttonAccessibleLabel,
-        accessibleDescription: options.buttonAccessibleDescription,
+        descriptionContent: options.buttonAccessibleDescription,
         prependLabels: true
       };
 
