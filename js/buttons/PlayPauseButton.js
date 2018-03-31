@@ -73,7 +73,7 @@ define( function( require ) {
 
     // @private
     this.runningListener = function( running ) {
-      self.accessibleLabel = running ? pauseString : playString;
+      self.innerContent = running ? pauseString : playString;
       self.accessibleDescription = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
     runningProperty.link( this.runningListener );

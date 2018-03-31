@@ -172,7 +172,7 @@ define( function( require ) {
         iconBox.labelTagName = options.a11yIconLabelTagName;
       }
       if( options.a11yIconAccessibleLabel ){
-        iconBox.accessibleLabel = options.a11yIconAccessibleLabel;
+        iconBox.labelContent = options.a11yIconAccessibleLabel;
       }
       if( options.a11yIconPrependLabels ){
         iconBox.prependLabels = options.a11yIconPrependLabels;
