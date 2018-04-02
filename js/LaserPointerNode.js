@@ -19,7 +19,9 @@ define( function( require ) {
   var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Util = require( 'DOT/Util' );
 
   // constants
   var DEFAULT_OPTIONS = {
@@ -50,10 +52,25 @@ define( function( require ) {
     buttonAccessibleLabel: '',
     buttonAccessibleDescription: '',
 
+    // Glass options, see DEFAULT_GLASS_OPTIONS
+    hasGlass: false,
+    glassOptions: null, // {Object|null} to be filled in with defaults below, or overriden
+
     // PhET-iO
     tandem: Tandem.required
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
+
+  // Glass options, nested as discussed in https://github.com/phetsims/tasks/issues/730
+  var DEFAULT_GLASS_OPTIONS = {
+    mainColor: 'rgb(188,225,238)',
+    highlightColor: 'white',
+    shadowColor: 'white',
+    stroke: 'black',
+    heightProportion: 0.7, // The fraction of the nozzle height, between 0 (no height) and 1 (the nozzle height)
+    proportionStickingOut: 0.5 // The amount the glass "sticks out" between 0 (not at all) and 1 (hemisphere)
+  };
+  assert && Object.freeze( DEFAULT_GLASS_OPTIONS );
 
   /**
    * @param {Property.<boolean>} onProperty - is the laser on?
@@ -63,6 +80,8 @@ define( function( require ) {
   function LaserPointerNode( onProperty, options ) {
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
+
+    options.glassOptions = _.extend( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
 
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
@@ -127,6 +146,23 @@ define( function( require ) {
                     new RoundMomentaryButton( false, true, onProperty, buttonOptions );
 
       children.push( this.button );
+    }
+
+    // Add the glass, if any
+    if ( options.hasGlass ) {
+      var glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
+      var glassOptions = _.extend( {}, options.glassOptions, {
+
+        // The origin is at the output point of the nozzle, translate accordingly
+        centerX: Util.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
+
+        // Center vertically
+        centerY: 0
+      } );
+      var glassNode = new ShadedSphereNode( glassDiameter, glassOptions );
+
+      // Glass is behind everything else.
+      children.unshift( glassNode );
     }
 
     // add any children specified by the client

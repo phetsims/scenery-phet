@@ -499,7 +499,8 @@ define( function( require ) {
     var rightLaserNode = new LaserPointerNode( rightOnProperty, {
       enabledProperty: enabledProperty,
       left: layoutBounds.centerX + 20,
-      centerY: layoutBounds.centerY
+      centerY: layoutBounds.centerY,
+      hasGlass: true
     } );
 
     var leftBeamNode = new Rectangle( 0, 0, 1000, 40, {
