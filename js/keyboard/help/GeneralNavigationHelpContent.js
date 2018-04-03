@@ -55,7 +55,7 @@ define( function( require ) {
     var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
-      a11yIconAccessibleLabel: keyboardHelpDialogTabDescriptionString
+      a11yIconLabelContent: keyboardHelpDialogTabDescriptionString
     } );
 
     // 'move to previous item' content
@@ -63,14 +63,14 @@ define( function( require ) {
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
-      a11yIconAccessibleLabel: keyboardHelpDialogShiftTabDescriptionString
+      a11yIconLabelContent: keyboardHelpDialogShiftTabDescriptionString
     } );
 
     // 'exit a dialog' content
     var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
-      a11yIconAccessibleLabel: keyboardHelpDialogExitDialogDescriptionString
+      a11yIconLabelContent: keyboardHelpDialogExitDialogDescriptionString
     } );
 
     var content = [];
@@ -86,7 +86,7 @@ define( function( require ) {
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
-        a11yIconAccessibleLabel: keyboardHelpDialogGroupNavigationDescriptionString
+        a11yIconLabelContent: keyboardHelpDialogGroupNavigationDescriptionString
       } );
 
       content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];

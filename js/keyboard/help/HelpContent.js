@@ -154,7 +154,7 @@ define( function( require ) {
         a11yIconTagName: 'li',
         a11yIconLabelTagName: null,
         a11yIconContainerTagName: null,
-        a11yIconAccessibleLabel: null,
+        a11yIconLabelContent: null,
         a11yIconPrependLabels: false
       }, options );
       assert && assert( !options.children, 'children are not optional' );
@@ -171,8 +171,8 @@ define( function( require ) {
       if( options.a11yIconLabelTagName ){
         iconBox.labelTagName = options.a11yIconLabelTagName;
       }
-      if( options.a11yIconAccessibleLabel ){
-        iconBox.labelContent = options.a11yIconAccessibleLabel;
+      if( options.a11yIconLabelContent ){
+        iconBox.labelContent = options.a11yIconLabelContent;
       }
       if( options.a11yIconPrependLabels ){
         iconBox.prependLabels = options.a11yIconPrependLabels;
@@ -209,7 +209,7 @@ define( function( require ) {
 
         // a11y options to pass through to the entry for the whole list, by default, this is just another list item
         a11yIconTagName: 'li',
-        a11yIconAccessibleLabel: ''
+        a11yIconLabelContent: ''
       }, options );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
@@ -242,7 +242,7 @@ define( function( require ) {
 
         // a11y
         tagName: options.a11yIconTagName,
-        labelContent: options.a11yIconAccessibleLabel
+        labelContent: options.a11yIconLabelContent
       } );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
