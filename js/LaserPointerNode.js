@@ -49,8 +49,8 @@ define( function( require ) {
     buttonTouchAreaDilation: 15,
     buttonMouseAreaDilation: 0,
     buttonRotation: 0, // {number} use this to adjust lighting on the button
-    buttonAccessibleLabel: '',
-    buttonAccessibleDescription: '',
+    buttonLabelContent: '',
+    buttonDescriptionContent: '',
 
     // Glass options, see DEFAULT_GLASS_OPTIONS
     hasGlass: false,
@@ -135,8 +135,8 @@ define( function( require ) {
         tandem: options.tandem.createTandem( 'button' ),
 
         // a11y
-        labelContent: options.buttonAccessibleLabel,
-        descriptionContent: options.buttonAccessibleDescription,
+        labelContent: options.buttonLabelContent,
+        descriptionContent: options.buttonDescriptionContent,
         prependLabels: true
       };
 
