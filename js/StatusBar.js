@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -38,7 +37,7 @@ define( function( require ) {
     assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
 
     var backButton = new BackButton( { listener: options.backButtonListener } );
-    
+
     var backgroundHeight = _.max( [ backButton.height, messageNode.height, scoreDisplay.height ] ) + 2 * options.yMargin;
     var backgroundNode = new Rectangle(
       visibleBoundsProperty.get().minX,
@@ -46,7 +45,7 @@ define( function( require ) {
       visibleBoundsProperty.get().maxX - visibleBoundsProperty.get().minX,
       backgroundHeight, {
         fill: options.backgroundFill
-    } );
+      } );
 
     // layout
     backButton.left = backgroundNode.left + options.xMargin;
