@@ -31,7 +31,7 @@ define( function( require ) {
       yMargin: 10,
       backgroundFill: 'rgb( 49, 117, 202 )',
       spacing: 8,
-      alwaysInsideLayoutBounds: true // otherwise, moves with the edges of browser window
+      expandToFitBounds: true // expands to fit window width, otherwise stay inside initial layoutBounds
     }, options );
 
     assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
@@ -55,22 +55,22 @@ define( function( require ) {
     scoreDisplay.right = backgroundNode.right - options.xMargin;
     scoreDisplay.centerY = backgroundNode.centerY;
 
-    var boundsListener = function( bounds ) {
+    var visibleBoundsListener = function( bounds ) {
       backgroundNode.setRectX( bounds.minX );
       backgroundNode.setRectWidth( bounds.maxX - bounds.minX );
-      if ( !options.alwaysInsideLayoutBounds ) {
+      if ( options.expandToFitBounds ) {
         backButton.left = backgroundNode.left + options.xMargin;
         messageNode.left = backButton.right + options.spacing;
         scoreDisplay.right = backgroundNode.right - options.xMargin;
       }
     };
 
-    visibleBoundsProperty.link( boundsListener );
+    visibleBoundsProperty.link( visibleBoundsListener );
 
     // @private
     this.disposeStatusBar = function() {
       backButton.dispose();
-      visibleBoundsProperty.unlink( boundsListener );
+      visibleBoundsProperty.unlink( visibleBoundsListener );
     };
 
     options.children = [ backgroundNode, backButton, messageNode, scoreDisplay ];
@@ -84,7 +84,7 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      this.disposeStatusBar;
+      this.disposeStatusBar();
       Node.prototype.dispose.call( this );
     }
   } );
