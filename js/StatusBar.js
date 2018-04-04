@@ -10,6 +10,8 @@ define( function( require ) {
 
   // modules
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -52,8 +54,14 @@ define( function( require ) {
     backButton.centerY = backgroundNode.centerY;
     messageNode.left = backButton.right + options.spacing;
     messageNode.centerY = backgroundNode.centerY;
-    scoreDisplay.right = backgroundNode.right - options.xMargin;
-    scoreDisplay.centerY = backgroundNode.centerY;
+
+    // align scoreDisplay to the right side of the status bar
+    var scoreDisplayContainer = new VBox( {
+      right: backgroundNode.right - options.xMargin,
+      centerY: backgroundNode.centerY,
+      align: 'right',
+      children: [ scoreDisplay, new HStrut( 200 ) ]
+    } );
 
     var visibleBoundsListener = function( bounds ) {
       backgroundNode.setRectX( bounds.minX );
@@ -61,7 +69,7 @@ define( function( require ) {
       if ( options.expandToFitBounds ) {
         backButton.left = backgroundNode.left + options.xMargin;
         messageNode.left = backButton.right + options.spacing;
-        scoreDisplay.right = backgroundNode.right - options.xMargin;
+        scoreDisplayContainer.right = backgroundNode.right - options.xMargin;
       }
     };
 
@@ -73,7 +81,7 @@ define( function( require ) {
       visibleBoundsProperty.unlink( visibleBoundsListener );
     };
 
-    options.children = [ backgroundNode, backButton, messageNode, scoreDisplay ];
+    options.children = [ backgroundNode, backButton, messageNode, scoreDisplayContainer ];
 
     Node.call( this, options );
   }
