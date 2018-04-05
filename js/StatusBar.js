@@ -4,14 +4,13 @@
  * Status bar that runs along the top of a game
  *
  * @author Andrea Lin
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
 
   // modules
   var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -36,8 +35,6 @@ define( function( require ) {
       expandToFitBounds: true // expands to fit window width, otherwise stay inside initial layoutBounds
     }, options );
 
-    assert && assert( !options.children, 'ScoreDisplayNumber sets children' );
-
     var backButton = new BackButton( { listener: options.backButtonListener } );
 
     var backgroundHeight = _.max( [ backButton.height, messageNode.height, scoreDisplay.height ] ) + 2 * options.yMargin;
@@ -49,41 +46,51 @@ define( function( require ) {
         fill: options.backgroundFill
       } );
 
-    // layout
-    backButton.left = backgroundNode.left + options.xMargin;
-    backButton.centerY = backgroundNode.centerY;
-    messageNode.left = backButton.right + options.spacing;
-    messageNode.centerY = backgroundNode.centerY;
+    assert && assert( !options.children, 'StatusBar sets children' );
+    options.children = [ backgroundNode, backButton, messageNode, scoreDisplay ];
 
-    // align scoreDisplay to the right side of the status bar
-    var scoreDisplayContainer = new VBox( {
-      right: backgroundNode.right - options.xMargin,
-      centerY: backgroundNode.centerY,
-      align: 'right',
-      children: [ scoreDisplay, new HStrut( 200 ) ]
-    } );
+    Node.call( this, options );
 
+    // Update the messageNode layout when its bounds change.
+    var messageNodeUpdateLayout = function() {
+      messageNode.left = backButton.right + options.spacing;
+      messageNode.centerY = backgroundNode.centerY;
+    };
+    messageNode.on( 'bounds', messageNodeUpdateLayout );
+
+    // Update the scoreDisplay layout when its bounds change.
+    var scoreDisplayUpdateLayout = function() {
+      scoreDisplay.right = backgroundNode.right - options.xMargin;
+      scoreDisplay.centerY = backgroundNode.centerY;
+    };
+    scoreDisplay.on( 'bounds', scoreDisplayUpdateLayout );
+
+    // Adjust the bar width and (optionally) update the layout when the browser window width changes.
     var visibleBoundsListener = function( bounds ) {
       backgroundNode.setRectX( bounds.minX );
       backgroundNode.setRectWidth( bounds.maxX - bounds.minX );
       if ( options.expandToFitBounds ) {
         backButton.left = backgroundNode.left + options.xMargin;
-        messageNode.left = backButton.right + options.spacing;
-        scoreDisplayContainer.right = backgroundNode.right - options.xMargin;
+        backButton.centerY = backgroundNode.centerY;
+        messageNodeUpdateLayout();
+        scoreDisplayUpdateLayout();
       }
     };
-
     visibleBoundsProperty.link( visibleBoundsListener );
 
     // @private
     this.disposeStatusBar = function() {
       backButton.dispose();
-      visibleBoundsProperty.unlink( visibleBoundsListener );
+      if ( messageNode.hasListener( 'bounds', messageNodeUpdateLayout ) ) {
+        messageNode.off( 'bounds', messageNodeUpdateLayout );
+      }
+      if ( scoreDisplay.hasListener( 'bounds', scoreDisplayUpdateLayout ) ) {
+        scoreDisplay.off( 'bounds', scoreDisplayUpdateLayout );
+      }
+      if ( visibleBoundsProperty.hasListener( visibleBoundsListener ) ) {
+        visibleBoundsProperty.unlink( visibleBoundsListener );
+      }
     };
-
-    options.children = [ backgroundNode, backButton, messageNode, scoreDisplayContainer ];
-
-    Node.call( this, options );
   }
 
   vegas.register( 'StatusBar', StatusBar );
