@@ -40,7 +40,7 @@ define( function( require ) {
     var backgroundHeight = _.max( [ backButton.height, messageNode.height, scoreDisplay.height ] ) + 2 * options.yMargin;
     var backgroundNode = new Rectangle(
       visibleBoundsProperty.get().minX,
-      visibleBoundsProperty.minY,
+      visibleBoundsProperty.get().minY,
       visibleBoundsProperty.get().maxX - visibleBoundsProperty.get().minX,
       backgroundHeight, {
         fill: options.backgroundFill
@@ -67,14 +67,14 @@ define( function( require ) {
 
     // Adjust the bar width and (optionally) update the layout when the browser window width changes.
     var visibleBoundsListener = function( bounds ) {
-      backgroundNode.setRectX( bounds.minX );
-      backgroundNode.setRectWidth( bounds.maxX - bounds.minX );
       if ( options.expandToFitBounds ) {
-        backButton.left = backgroundNode.left + options.xMargin;
-        backButton.centerY = backgroundNode.centerY;
-        messageNodeUpdateLayout();
-        scoreDisplayUpdateLayout();
+        backgroundNode.setRectX( bounds.minX );
+        backgroundNode.setRectWidth( bounds.maxX - bounds.minX );
       }
+      backButton.left = backgroundNode.left + options.xMargin;
+      backButton.centerY = backgroundNode.centerY;
+      messageNodeUpdateLayout();
+      scoreDisplayUpdateLayout();
     };
     visibleBoundsProperty.link( visibleBoundsListener );
 
