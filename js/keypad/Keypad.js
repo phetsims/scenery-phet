@@ -45,6 +45,8 @@ define( function( require ) {
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
       ySpacing: 10,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
       buttonColor: DEFAULT_BUTTON_COLOR,
       buttonFont: DEFAULT_BUTTON_FONT,
 
@@ -164,6 +166,8 @@ define( function( require ) {
     var keyNode = new RectangularPushButton( {
       content: content,
       baseColor: options.buttonColor,
+      touchAreaXDilation: options.touchAreaXDilation,
+      touchAreaYDilation: options.touchAreaYDilation,
       minWidth: width,
       minHeight: height,
       xMargin: 5,
