@@ -13,6 +13,7 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
   var FAMILY = '"Times New Roman", Times, serif';
@@ -46,6 +47,21 @@ define( function( require ) {
   return inherit( Font, MathSymbolFont, {}, {
 
     // @public @static
-    FAMILY: FAMILY
+    FAMILY: FAMILY,
+
+    /**
+     * Converts a string to the markup needed to display that string with RichText,
+     * using the same family and style as MathSymbolFont.
+     * @param {string} text
+     * @returns {string}
+     * @public
+     * @static
+     */
+    getRichTextMarkup: function( text ) {
+      return StringUtils.fillIn( '<i><font face=\'{{face}}\'>{{text}}</font></i>', {
+        face: FAMILY,
+        text: text
+      } );
+    }
   } );
 } );
