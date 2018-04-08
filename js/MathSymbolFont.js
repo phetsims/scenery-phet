@@ -14,6 +14,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  // constants
+  var FAMILY = '"Times New Roman", Times, serif';
+
   /**
    * @param {Object|number|string} [options] number or string indicate the font size, otherwise same options as scenery.Font
    * @constructor
@@ -30,7 +33,7 @@ define( function( require ) {
     }
 
     assert && assert( !options.family, 'this type sets family' );
-    options.family = '"Times New Roman", Times, serif';
+    options.family = FAMILY;
 
     assert && assert( !options.style, 'this type sets style' );
     options.style = 'italic';
@@ -40,5 +43,9 @@ define( function( require ) {
 
   sceneryPhet.register( 'MathSymbolFont', MathSymbolFont );
 
-  return inherit( Font, MathSymbolFont );
+  return inherit( Font, MathSymbolFont, {}, {
+
+    // @public @static
+    FAMILY: FAMILY
+  } );
 } );
