@@ -136,6 +136,7 @@ define( function( require ) {
 
         // a11y
         labelContent: options.buttonLabelContent,
+        labelTagName: 'label',
         descriptionContent: options.buttonDescriptionContent
       };
 
