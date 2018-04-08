@@ -30,8 +30,7 @@ define( function( require ) {
       containerTagName: 'section',
       tagName: 'div',
       labelContent: label,
-      labelTagName: 'h2',
-      prependLabels: true
+      labelTagName: 'h2'
     }, options );
 
     Node.call( this, options );

@@ -155,7 +155,6 @@ define( function( require ) {
         a11yIconLabelTagName: null,
         a11yIconContainerTagName: null,
         a11yIconLabelContent: null,
-        a11yIconPrependLabels: false
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
@@ -173,9 +172,6 @@ define( function( require ) {
       }
       if( options.a11yIconLabelContent ){
         iconBox.labelContent = options.a11yIconLabelContent;
-      }
-      if( options.a11yIconPrependLabels ){
-        iconBox.prependLabels = options.a11yIconPrependLabels;
       }
       if( options.a11yIconContainerTagName ){
         iconBox.containerTagName = options.a11yIconContainerTagName;

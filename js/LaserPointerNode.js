@@ -136,8 +136,7 @@ define( function( require ) {
 
         // a11y
         labelContent: options.buttonLabelContent,
-        descriptionContent: options.buttonDescriptionContent,
-        prependLabels: true
+        descriptionContent: options.buttonDescriptionContent
       };
 
       // @private
