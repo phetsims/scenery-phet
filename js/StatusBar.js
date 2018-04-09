@@ -40,7 +40,9 @@ define( function( require ) {
       dynamicAlignment: true
     }, options );
 
-    var backButton = new BackButton( { listener: options.backButtonListener } );
+    var backButton = new BackButton( {
+      listener: options.backButtonListener
+    } );
 
     var backgroundHeight = _.max( [ backButton.height, messageNode.height, scoreDisplay.height ] ) + 2 * options.yMargin;
     var backgroundNode = new Rectangle(
