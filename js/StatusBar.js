@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Status bar that runs along the top of a game
+ * Status bar that runs along the top of a game.
+ * See specification in https://github.com/phetsims/vegas/issues/59.
  *
  * @author Andrea Lin
  * @author Chris Malley (PixelZoom, Inc.)
