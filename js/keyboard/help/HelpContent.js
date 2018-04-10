@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Contains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and an array of content with 
+ * Contains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and an array of content with
  * labels and icons. This type has many static functions for creating and laying out content that could be useful for
  * subtypes of this Node. Default values for spacing and fonts are also available through statics.
  *
@@ -60,7 +60,7 @@ define( function( require ) {
    *                                   label and icon have bounds so that each row of content is aligned as desired.
    *                                   See HelpContent.labelWithIcon and HelpContent.labelWithIconList for how this is
    *                                   done with AlignBox.
-   *                                   
+   *
    * @param {Object} [options]
    */
   function HelpContent( headingString, content, options ) {
@@ -163,7 +163,7 @@ define( function( require ) {
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
-      var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };
+      var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox, icon: labelBox };
       return content;
     },
 
@@ -179,7 +179,7 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node[]} icons
-     * @param {Object} [options]
+     * @param {Object} [options] - cannot pass in children
      *
      * @return {HBox}
      */
@@ -217,7 +217,7 @@ define( function( require ) {
 
       // place icons in a VBox, passing through optional spacing and a11y representation
       var iconsVBox = new VBox( _.extend( {
-        children: iconsWithOrText,
+        children: iconsWithOrText
       }, options ) );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
@@ -331,7 +331,7 @@ define( function( require ) {
 
     /**
      * An icon containing icons for the page up/down keys aligned horizontally.
-     * 
+     *
      * @param  {Object} [options]
      * @return {HBox}
      */
