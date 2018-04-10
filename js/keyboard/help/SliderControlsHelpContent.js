@@ -62,7 +62,9 @@ define( function( require ) {
     var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, {
-      a11yIconLabelContent: keyboardHelpDialogAdjustDefaultStepsString
+      iconOptions: {
+        innerContent: keyboardHelpDialogAdjustDefaultStepsString
+      }
     } );
 
     // 'move in smaller steps' content
@@ -74,7 +76,7 @@ define( function( require ) {
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
 
     var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], {
-      a11yIconLabelContent: keyboardHelpDialogAdjustSmallerStepsString
+      innerContent: keyboardHelpDialogAdjustSmallerStepsString
     } );
 
     // 'move in larger steps' content
@@ -86,21 +88,27 @@ define( function( require ) {
       spacing: HelpContent.DEFAULT_ICON_SPACING
     } );
     var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, {
-      a11yIconLabelContent: keyboardHelpDialogAdjustLargerStepsString
+      iconOptions: {
+        innerContent: keyboardHelpDialogAdjustLargerStepsString
+      }
     } );
 
     // 'move to minimum value' content
     var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, DEFAULT_LABEL_OPTIONS );
     var homeKeyNode = new HomeKeyNode();
     var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, {
-      a11yIconLabelContent: keyboardHelpDialogJumpToHomeString
+      iconOptions: {
+        innerContent: keyboardHelpDialogJumpToHomeString
+      }
     } );
 
     // 'move to maximum value' content
     var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, DEFAULT_LABEL_OPTIONS );
     var endKeyNode = new EndKeyNode();
     var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, {
-      a11yIconLabelContent: keyboardHelpDialogJumpToEndString
+      iconOptions: {
+        innerContent: keyboardHelpDialogJumpToEndString
+      }
     } );
 
     // assemble final content for HelpContent

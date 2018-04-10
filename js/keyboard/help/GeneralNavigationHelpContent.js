@@ -55,7 +55,9 @@ define( function( require ) {
     var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
-      a11yIconLabelContent: keyboardHelpDialogTabDescriptionString
+      iconOptions: {
+        innerContent: keyboardHelpDialogTabDescriptionString
+      }
     } );
 
     // 'move to previous item' content
@@ -63,14 +65,18 @@ define( function( require ) {
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
-      a11yIconLabelContent: keyboardHelpDialogShiftTabDescriptionString
+      iconOptions: {
+        innerContent: keyboardHelpDialogShiftTabDescriptionString
+      }
     } );
 
     // 'exit a dialog' content
     var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
-      a11yIconLabelContent: keyboardHelpDialogExitDialogDescriptionString
+      iconOptions: {
+        innerContent: keyboardHelpDialogExitDialogDescriptionString
+      }
     } );
 
     var content = [];
@@ -86,7 +92,9 @@ define( function( require ) {
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
-        a11yIconLabelContent: keyboardHelpDialogGroupNavigationDescriptionString
+        iconOptions: {
+          innerContent: keyboardHelpDialogGroupNavigationDescriptionString
+        }
       } );
 
       content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];

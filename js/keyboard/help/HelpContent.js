@@ -149,33 +149,18 @@ define( function( require ) {
         align: 'center',
         labelFirst: true,
         matchHorizontal: false,
-
-        // a11y options to pass through to the entry for the help content
-        a11yIconTagName: 'li',
-        a11yIconLabelTagName: null,
-        a11yIconContainerTagName: null,
-        a11yIconLabelContent: null,
+        iconOptions: null // specific options for the icon mostly to add a11y content, extended with defaults below
       }, options );
       assert && assert( !options.children, 'children are not optional' );
+
+      options.iconOptions = _.extend( {
+        tagName: 'li'
+      }, options.iconOptions );
 
       // make the label and icon the same height so that they will align when we assemble help content group
       var labelIconGroup = new AlignGroup( options );
       var labelBox = labelIconGroup.createBox( label );
-      var iconBox = labelIconGroup.createBox( icon );
-
-      // add a11y to the icon  Prevent blowing away a default with "null"
-      if( options.a11yIconTagName ){
-        iconBox.tagName = options.a11yIconTagName;
-      }
-      if( options.a11yIconLabelTagName ){
-        iconBox.labelTagName = options.a11yIconLabelTagName;
-      }
-      if( options.a11yIconLabelContent ){
-        iconBox.labelContent = options.a11yIconLabelContent;
-      }
-      if( options.a11yIconContainerTagName ){
-        iconBox.containerTagName = options.a11yIconContainerTagName;
-      }
+      var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
       var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox,  icon: labelBox };
@@ -200,13 +185,13 @@ define( function( require ) {
      */
     labelWithIconList: function( label, icons, options ) {
 
+      // all options apply to iconsVBox and are passed directly to it
       options = _.extend( {
-        verticalSpacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
-
-        // a11y options to pass through to the entry for the whole list, by default, this is just another list item
-        a11yIconTagName: 'li',
-        a11yIconLabelContent: ''
+        spacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
+        align: 'left',
+        tagName: 'li'
       }, options );
+      assert && assert( !options.children, 'labelWithIconList adds its own children' );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
@@ -230,16 +215,10 @@ define( function( require ) {
       }
       iconsWithOrText.push( icons[ icons.length - 1 ] );
 
-      // place icons in a VBox
-      var iconsVBox = new VBox( {
+      // place icons in a VBox, passing through optional spacing and a11y representation
+      var iconsVBox = new VBox( _.extend( {
         children: iconsWithOrText,
-        spacing: options.verticalSpacing,
-        align: 'left',
-
-        // a11y
-        tagName: options.a11yIconTagName,
-        labelContent: options.a11yIconLabelContent
-      } );
+      }, options ) );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
       var groupOptions = { yAlign: 'top' };
