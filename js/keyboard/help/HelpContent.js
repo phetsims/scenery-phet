@@ -140,7 +140,7 @@ define( function( require ) {
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node} icon
      * @param {Object} [options]
-     * @return {Object} - Object that looks like {label: <Node>, icon: <Node>}
+     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
     labelWithIcon: function( label, icon, options ) {
 
@@ -181,7 +181,7 @@ define( function( require ) {
      * @param {Node[]} icons
      * @param {Object} [options] - cannot pass in children
      *
-     * @return {HBox}
+     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
     labelWithIconList: function( label, icons, options ) {
 
