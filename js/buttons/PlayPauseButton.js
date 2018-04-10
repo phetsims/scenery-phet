@@ -71,12 +71,18 @@ define( function( require ) {
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, runningProperty, options );
 
-    // @private
-    this.runningListener = function( running ) {
+    var runningListener = function( running ) {
       self.innerContent = running ? pauseString : playString;
       self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
-    runningProperty.link( this.runningListener );
+    runningProperty.link( runningListener );
+
+    // @private
+    this.disposePlayPauseButton = function() {
+      if ( runningProperty.hasListener( runningListener ) ) {
+        runningProperty.unlink( runningListener );
+      }
+    };
   }
 
   sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );
@@ -85,9 +91,10 @@ define( function( require ) {
 
     /**
      * @public
+     * @override
      */
     dispose: function() {
-      this.runningProperty.unlink( this.runningListener );
+      this.disposePlayPauseButton();
       BooleanRoundToggleButton.prototype.dispose.call( this );
     }
   } );
