@@ -76,7 +76,9 @@ define( function( require ) {
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
 
     var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], {
-      innerContent: keyboardHelpDialogAdjustSmallerStepsString
+      iconsVBoxOptions: {
+        innerContent: keyboardHelpDialogAdjustSmallerStepsString
+      }
     } );
 
     // 'move in larger steps' content
