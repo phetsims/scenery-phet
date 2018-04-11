@@ -185,13 +185,16 @@ define( function( require ) {
      */
     labelWithIconList: function( label, icons, options ) {
 
-      // all options apply to iconsVBox and are passed directly to it
       options = _.extend( {
+        iconsVBoxOptions: null // options for the iconsVBox, extended below
+      }, options );
+      assert && assert( !options.children, 'labelWithIconList adds its own children' );
+
+      options.iconsVBoxOptions = _.extend( {
         spacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
         align: 'left',
         tagName: 'li'
-      }, options );
-      assert && assert( !options.children, 'labelWithIconList adds its own children' );
+      }, options.iconsVBoxOptions );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
@@ -218,7 +221,7 @@ define( function( require ) {
       // place icons in a VBox, passing through optional spacing and a11y representation
       var iconsVBox = new VBox( _.extend( {
         children: iconsWithOrText
-      }, options ) );
+      }, options.iconsVBoxOptions ) );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
       var groupOptions = { yAlign: 'top' };
