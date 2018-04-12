@@ -32,8 +32,6 @@ define( function( require ) {
     assert && assert( !options.content, 'InfoButton sets content' );
     options.content = new FontAwesomeNode( 'info_circle', {
       fill: options.iconFill
-      // maxWidth: zoomInButton.width - chromeBounds.width - 2 * iconPadding,
-      // maxHeight: zoomInButton.height - chromeBounds.height - 2 * iconPadding
     } );
 
     RoundPushButton.call( this, options );
