@@ -52,9 +52,12 @@ define( function( require ) {
     buttonLabelContent: '',
     buttonDescriptionContent: '',
 
-    // Glass options, see DEFAULT_GLASS_OPTIONS
+    // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
+    // It does not change the origin of the laser pointer node, which is at the center of the casing.  The glass is
+    // sometimes used to help cue the user that it is a non-laser light source.
+    // See https://github.com/phetsims/scenery-phet/issues/366
     hasGlass: false,
-    glassOptions: null, // {Object|null} to be filled in with defaults below, or overriden
+    glassOptions: null, // {Object|null} to be filled in with defaults below, or overriden, see DEFAULT_GLASS_OPTIONS
 
     // PhET-iO
     tandem: Tandem.required
