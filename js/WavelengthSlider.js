@@ -3,6 +3,7 @@
 /**
  * Slider that shows a spectrum of colors for selecting a wavelength.
  *
+ * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
