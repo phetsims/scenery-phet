@@ -1,7 +1,8 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * SpectrumNode displays a spectrum from one value to another.
+ * SpectrumNode displays a spectrum from one value to another.  The displayed colors are computed by a
+ * required valueToColor function.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
