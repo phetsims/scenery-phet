@@ -1,9 +1,10 @@
-// Copyright 2014-2017, University of Colorado Boulder
+// Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * AbstractSpectrumNode displays a rectangle of the visible spectrum.
+ * AbstractSpectrumNode displays a spectrum from one value to another.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

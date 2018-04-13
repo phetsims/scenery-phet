@@ -1,11 +1,10 @@
 // Copyright 2014-2017, University of Colorado Boulder
 
 /**
- * SpectrumNode displays a rectangle of the visible spectrum.
- *
- * TODO: Rename this to WavelengthSpectrumNode, and rename AbstractSpectrumNode to SpectrumNode
+ * WavelengthSpectrumNode displays a rectangle of the visible spectrum.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -22,7 +21,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function SpectrumNode( options ) {
+  function WavelengthSpectrumNode( options ) {
 
     options = _.extend( {
       minWavelength: VisibleColor.MIN_WAVELENGTH,
@@ -45,7 +44,7 @@ define( function( require ) {
     AbstractSpectrumNode.call( this, options );
   }
 
-  sceneryPhet.register( 'SpectrumNode', SpectrumNode );
+  sceneryPhet.register( 'WavelengthSpectrumNode', WavelengthSpectrumNode );
 
-  return inherit( AbstractSpectrumNode, SpectrumNode );
+  return inherit( AbstractSpectrumNode, WavelengthSpectrumNode );
 } );
