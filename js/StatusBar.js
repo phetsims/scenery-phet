@@ -96,12 +96,12 @@ define( function( require ) {
 
   vegas.register( 'StatusBar', StatusBar );
 
-  return inherit( Node, StatusBar, {
+  return inherit( GameBar, StatusBar, {
 
     // @public
     dispose: function() {
       this.disposeStatusBar();
-      Node.prototype.dispose.call( this );
+      GameBar.prototype.dispose.call( this );
     }
   } );
 } );
