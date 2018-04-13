@@ -21,11 +21,15 @@ define( function( require ) {
   var COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
   var SPEED_OF_LIGHT = 299792458; // The speed of light in a vacuum in meters/second
 
+  var VIOLET_WAVELENGTH = 380; // nanometers
+  var RED_WAVELENGTH = 780; // nanometers
   var VisibleColor = {
 
     // public constants
-    MIN_WAVELENGTH: 380,
-    MAX_WAVELENGTH: 780,
+    MIN_WAVELENGTH: VIOLET_WAVELENGTH, // in nanometers
+    MAX_WAVELENGTH: RED_WAVELENGTH, // in nanometers
+    MIN_FREQUENCY: SPEED_OF_LIGHT / RED_WAVELENGTH * 1E9, // in Hz
+    MAX_FREQUENCY: SPEED_OF_LIGHT / VIOLET_WAVELENGTH * 1E9, // in Hz
     WHITE_WAVELENGTH: 0,
 
     /**

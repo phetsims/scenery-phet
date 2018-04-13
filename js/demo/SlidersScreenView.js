@@ -24,7 +24,10 @@ define( function( require ) {
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
+  var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
 
   /**
    * @constructor
@@ -39,7 +42,9 @@ define( function( require ) {
        * {function(Bounds2): Node} getNode - creates the scene graph for the demo
        */
       { label: 'NumberControl', getNode: demoNumberControl },
-      { label: 'WavelengthSlider', getNode: demoWavelengthSlider }
+      { label: 'WavelengthSlider', getNode: demoWavelengthSlider },
+      { label: 'FrequencySlider', getNode: demoFrequencySlider },
+      { label: 'SpectrumSlider', getNode: demoSpectrumSlider }
     ], {
       selectedDemoLabel: sceneryPhetQueryParameters.slider
     } );
@@ -89,11 +94,11 @@ define( function( require ) {
     // NumberControl with alternate layout provided by the client
     var numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
       layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
-         return new HBox( {
-           spacing: 8,
-           resize: false, // prevent sliders from causing a resize when thumb is at min or max
-           children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
-         } );
+        return new HBox( {
+          spacing: 8,
+          resize: false, // prevent sliders from causing a resize when thumb is at min or max
+          children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
+        } );
       }
     }, numberControlOptions ) );
 
@@ -113,6 +118,22 @@ define( function( require ) {
     var wavelengthProperty = new Property( 500 );
     return new WavelengthSlider( wavelengthProperty, {
       center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for FrequencySlider
+  var demoFrequencySlider = function( layoutBounds ) {
+    var frequencyProperty = new Property( VisibleColor.MIN_FREQUENCY );
+    return new FrequencySlider( frequencyProperty, {
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for SpectrumSlider
+  var demoSpectrumSlider = function( layoutBounds ) {
+    return new SpectrumSlider( new Property( 0.5 ), {
+      center: layoutBounds.center,
+      valueToString: function( value ) {return value.toFixed( 2 );}
     } );
   };
 
