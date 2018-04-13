@@ -114,5 +114,11 @@
   },
   "keyboardHelpDialog.or": {
     "value": "or"
+  },
+  "speed.normal": {
+    "value": "Normal"
+  },
+  "speed.slow": {
+    "value": "Slow"
   }
 }
