@@ -17,9 +17,11 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var Property = require( 'AXON/Property' );
   var RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
+  var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
@@ -29,8 +31,10 @@ define( function( require ) {
   var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
   var StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var VStrut = require( 'SCENERY/nodes/VStrut' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   /**
@@ -83,8 +87,12 @@ define( function( require ) {
       listener: function() { console.log( 'InfoButton pressed' ); }
     } );
 
+    var refreshButton = new RefreshButton( {
+      listener: function() { console.log( 'RefreshButton pressed' ); }
+    } );
+
     // Push buttons
-    var pushButtons = new VBox( {
+    var pushButtons = new HBox( {
       children: [
         backButton,
         closeButton,
@@ -95,7 +103,8 @@ define( function( require ) {
         stepBackwardButton,
         stepForwardButton,
         zoomButton,
-        infoButton
+        infoButton,
+        refreshButton
       ],
       spacing: 10,
       align: 'center',
@@ -106,7 +115,7 @@ define( function( require ) {
     // Toggle buttons
 
     // Add button properties here, so that resetAllButton functions properly.
-    var buttonProperties = {
+    var toggleButtonProperties = {
       eyeOpenProperty: new Property( true ),
       playingProperty: new Property( true ),
       recordingProperty: new Property( true ),
@@ -114,33 +123,33 @@ define( function( require ) {
       timerEnabledProperty: new Property( true )
     };
 
-    var eyeButton = new EyeToggleButton( buttonProperties.eyeOpenProperty );
-    buttonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
+    var eyeButton = new EyeToggleButton( toggleButtonProperties.eyeOpenProperty );
+    toggleButtonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
       console.log( 'eyeOpen=' + eyeOpen );
     } );
 
-    var playPauseButton = new PlayPauseButton( buttonProperties.playingProperty );
-    buttonProperties.playingProperty.lazyLink( function( playing ) {
+    var playPauseButton = new PlayPauseButton( toggleButtonProperties.playingProperty );
+    toggleButtonProperties.playingProperty.lazyLink( function( playing ) {
       console.log( 'playing=' + playing );
     } );
 
-    var recordStopButton = new RecordStopButton( buttonProperties.recordingProperty );
-    buttonProperties.recordingProperty.lazyLink( function( recording ) {
+    var recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
+    toggleButtonProperties.recordingProperty.lazyLink( function( recording ) {
       console.log( 'recording=' + recording );
     } );
 
-    var soundToggleButton = new SoundToggleButton( buttonProperties.soundEnabledProperty );
-    buttonProperties.soundEnabledProperty.lazyLink( function( soundEnabled ) {
+    var soundToggleButton = new SoundToggleButton( toggleButtonProperties.soundEnabledProperty );
+    toggleButtonProperties.soundEnabledProperty.lazyLink( function( soundEnabled ) {
       console.log( 'soundEnabled=' + soundEnabled );
     } );
 
-    var timerToggleButton = new TimerToggleButton( buttonProperties.timerEnabledProperty );
-    buttonProperties.timerEnabledProperty.lazyLink( function( timerEnabled ) {
+    var timerToggleButton = new TimerToggleButton( toggleButtonProperties.timerEnabledProperty );
+    toggleButtonProperties.timerEnabledProperty.lazyLink( function( timerEnabled ) {
       console.log( 'timerEnabled=' + timerEnabled );
     } );
 
     // Toggle button
-    var toggleButtons = new VBox( {
+    var toggleButtons = new HBox( {
       children: [
         eyeButton,
         playPauseButton,
@@ -153,10 +162,16 @@ define( function( require ) {
       center: this.layoutBounds.center
     } );
 
-    this.addChild( new HBox( {
-      children: [ pushButtons, toggleButtons ],
-      spacing: 100,
-      align: 'top',
+    this.addChild( new VBox( {
+      align: 'left',
+      children: [
+        new Text( 'Push buttons:', { font: new PhetFont( 24 ) } ),
+        pushButtons,
+        new VStrut( 20 ),
+        new Text( 'Toggle buttons:', { font: new PhetFont( 24 ) } ),
+        toggleButtons
+      ],
+      spacing: 10,
       center: this.layoutBounds.center
     } ) );
 
@@ -164,10 +179,10 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
 
-        // reset each Property in buttonProperties
-        for ( var property in buttonProperties ) {
-          if ( buttonProperties.hasOwnProperty( property ) && ( buttonProperties[ property ] instanceof Property ) ) {
-            buttonProperties[ property ].reset();
+        // reset each Property in toggleButtonProperties
+        for ( var property in toggleButtonProperties ) {
+          if ( toggleButtonProperties.hasOwnProperty( property ) && ( toggleButtonProperties[ property ] instanceof Property ) ) {
+            toggleButtonProperties[ property ].reset();
           }
         }
       },
