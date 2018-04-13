@@ -33,7 +33,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param {Property.<number>} valueProperty - wavelength, in nm
+   * @param {Property.<number>} valueProperty
    * @param {Object} [options]
    * @constructor
    */
@@ -94,7 +94,7 @@ define( function( require ) {
 
     }, options );
 
-    // validate wavelengths
+    // validate values
     assert && assert( options.minValue < options.maxValue );
 
     Node.call( this );
@@ -210,15 +210,15 @@ define( function( require ) {
     var positionToValue = function( x ) {
       return Util.clamp( Util.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
     };
-    var valueToPosition = function( wavelength ) {
-      return Util.clamp( Util.linear( options.minValue, options.maxValue, 0, track.width, wavelength ), 0, track.width );
+    var valueToPosition = function( value ) {
+      return Util.clamp( Util.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
     };
 
     // click in the track to change the value, continue dragging if desired
     var handleTrackEvent = function( event ) {
       var x = thumb.globalToParentPoint( event.pointer.point ).x;
-      var wavelength = positionToValue( x );
-      valueProperty.set( wavelength );
+      var value = positionToValue( x );
+      valueProperty.set( value );
     };
 
     track.addInputListener( new SimpleDragHandler( {
@@ -272,23 +272,23 @@ define( function( require ) {
         minusButton.enabled = ( value > options.minValue );
       }
     };
-    var wavelengthListener = function( wavelength ) {
-      updateUI( wavelength );
+    var valueListener = function( value ) {
+      updateUI( value );
     };
-    valueProperty.link( wavelengthListener );
+    valueProperty.link( valueListener );
 
     /*
-     * The horizontal bounds of the wavelength control changes as the slider knob is dragged.
+     * The horizontal bounds of the value control changes as the slider knob is dragged.
      * To prevent this, we determine the extents of the control's bounds at min and max values,
      * then add an invisible horizontal strut.
      */
-    // determine bounds at min and max wavelength settings
+    // determine bounds at min and max values
     updateUI( options.minValue );
     var minX = this.left;
     updateUI( options.maxValue );
     var maxX = this.right;
 
-    // restore the wavelength
+    // restore the initial value
     updateUI( valueProperty.get() );
 
     // add a horizontal strut
@@ -299,11 +299,11 @@ define( function( require ) {
     this.mutate( options );
 
     // @private - called by dispose
-    this.disposeWavelengthSlider = function() {
+    this.disposeSpectrumSlider = function() {
       valueDisplay && valueDisplay.dispose();
       plusButton && plusButton.dispose();
       minusButton && minusButton.dispose();
-      valueProperty.unlink( wavelengthListener );
+      valueProperty.unlink( valueListener );
       self.disposeAccessibleSlider(); // dispose accessibility
     };
 
@@ -421,7 +421,7 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      this.disposeWavelengthSlider();
+      this.disposeSpectrumSlider();
       Node.prototype.dispose.call( this );
     }
   } );
