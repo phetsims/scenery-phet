@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AbstractSpectrumNode = require( 'SCENERY_PHET/AbstractSpectrumNode' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -99,7 +99,7 @@ define( function( require ) {
 
     Node.call( this );
 
-    var track = new AbstractSpectrumNode( {
+    var track = new SpectrumNode( {
       valueToColor: options.valueToColor,
       size: new Dimension2( options.trackWidth, options.trackHeight ),
       minValue: options.minValue,

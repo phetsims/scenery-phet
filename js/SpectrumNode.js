@@ -1,7 +1,7 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * AbstractSpectrumNode displays a spectrum from one value to another.
+ * SpectrumNode displays a spectrum from one value to another.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function AbstractSpectrumNode( options ) {
+  function SpectrumNode( options ) {
 
     options = _.extend( {
       size: new Dimension2( 150, 30 ),
@@ -55,7 +55,7 @@ define( function( require ) {
     this.setLocalBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
   }
 
-  sceneryPhet.register( 'AbstractSpectrumNode', AbstractSpectrumNode );
+  sceneryPhet.register( 'SpectrumNode', SpectrumNode );
 
-  return inherit( Image, AbstractSpectrumNode );
+  return inherit( Image, SpectrumNode );
 } );

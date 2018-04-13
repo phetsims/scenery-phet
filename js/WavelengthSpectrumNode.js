@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var AbstractSpectrumNode = require( 'SCENERY_PHET/AbstractSpectrumNode' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
 
   /**
    * Slider track that displays the visible spectrum of light.
@@ -41,10 +41,10 @@ define( function( require ) {
       return VisibleColor.wavelengthToColor( value );
     };
 
-    AbstractSpectrumNode.call( this, options );
+    SpectrumNode.call( this, options );
   }
 
   sceneryPhet.register( 'WavelengthSpectrumNode', WavelengthSpectrumNode );
 
-  return inherit( AbstractSpectrumNode, WavelengthSpectrumNode );
+  return inherit( SpectrumNode, WavelengthSpectrumNode );
 } );
