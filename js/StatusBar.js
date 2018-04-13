@@ -21,8 +21,7 @@ define( function( require ) {
    * @param {Bounds2} layoutBounds - static 'safe' bounds of the parent ScreenView
    * @param {Property.<Bounds2>} visibleBoundsProperty - dynamic bounds of the browser window
    * @param {Node} messageNode - to the right of the back button, typically Text
-   * @param {Node} scoreDisplay - intended to be one of the ScoreDisplay* nodes but can be any custom Node provided
-   * by the client
+   * @param {Node} scoreDisplay - intended to be one of the ScoreDisplay* nodes but can be any Node
    * @param {Object} [options]
    * @constructor
    */
