@@ -19,6 +19,7 @@ define( function( require ) {
 
   // constants
   var COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
+  var SPEED_OF_LIGHT = 299792458; // The speed of light in a vacuum in meters/second
 
   var VisibleColor = {
 
@@ -30,7 +31,7 @@ define( function( require ) {
     /**
      * Converts a wavelength to a visible color.
      *
-     * @param {number} wavelength will be rounded to the closest integer value
+     * @param {number} wavelength in nanometers will be rounded to the closest integer value
      * @param {Object} [options]
      * @returns {Color|null}
      */
@@ -61,13 +62,24 @@ define( function( require ) {
     },
 
     /**
-     * Converts a Color to its corresponding wavelength.
-     * Relies on a color lookup table that is initialized the first time
-     * that this method is called.  Color lookup is based on RGB component
-     * value; the alpha value is ignored.
+     * Converts a frequency (in Hz) to a visible color.
+     *
+     * @param {number} frequency - frequency in Hz
+     * @param {Object} [options]
+     * @returns {Color|null}
+     */
+    frequencyToColor: function( frequency, options ) {
+      var wavelengthInMeters = SPEED_OF_LIGHT / frequency;
+      var wavelengthInNanometers = wavelengthInMeters * 1E9;
+      return VisibleColor.wavelengthToColor( wavelengthInNanometers, options );
+    },
+
+    /**
+     * Converts a Color to its corresponding wavelength. Relies on a color lookup table that is initialized the first
+     * time that this method is called.  Color lookup is based on RGB component value; the alpha value is ignored.
      *
      * @param {Color|string} color - the color
-     * @returns {number} the wavelength
+     * @returns {number} the wavelength in nanometers
      */
     colorToWavelength: function( color ) {
 
@@ -98,7 +110,7 @@ define( function( require ) {
   sceneryPhet.register( 'VisibleColor', VisibleColor );
 
   /**
-   * Creates a table that is used to map wavelength to Color.
+   * Creates a table that is used to map wavelength in nanometers to Color.
    * @returns {Color[]}
    */
   var createColorTable = function() {
