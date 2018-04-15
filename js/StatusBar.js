@@ -12,8 +12,12 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var vegas = require( 'VEGAS/vegas' );
+
+  // constants
+  var DEFAULT_FONT = new PhetFont( 20 );
 
   /**
    * @param {number} barHeight
@@ -28,7 +32,7 @@ define( function( require ) {
 
     options = _.extend( {
       floatToTop: false, // true: float bar to top of visible bounds; false: bar at top of layoutBounds
-      barFill: 'rgb( 49, 117, 202 )', //TODO #66 what is a good default?
+      barFill: 'lightGray',
       barStroke: null
     }, options );
 
@@ -70,6 +74,10 @@ define( function( require ) {
       this.disposeStatusBar();
       Node.prototype.dispose.call( this );
     }
+  }, {
+
+    // Default font for things text that appears in the status bar subtypes
+    DEFAULT_FONT: DEFAULT_FONT
   } );
 } );
  
