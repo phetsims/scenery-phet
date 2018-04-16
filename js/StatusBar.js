@@ -37,7 +37,7 @@ define( function( require ) {
     }, options );
 
     // @protected (read-only) for layout in subtypes, size will be set by visibleBoundsListener
-    this.barNode = new Rectangle( 0, 0, 1, 1, {
+    this.barNode = new Rectangle( {
       fill: options.barFill,
       stroke: options.barStroke
     } );
