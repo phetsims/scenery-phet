@@ -87,17 +87,20 @@ define( function( require ) {
         {
           property: isSlowMotionProperty,
           value: false,
-          node: normalText
+          node: normalText,
+          tandemName: 'normal'
         }, {
           property: isSlowMotionProperty,
           value: true,
-          node: slowText
+          node: slowText,
+          tandemName: 'slowMotion'
         }
       ], _.extend( {
         radius: normalText.height / 2.2,
         spacing: 9,
         touchAreaXDilation: 10,
         maxWidth: 150,
+        tandem: options.tandem.createTandem( 'slowMotionRadioButtonGroup' ),
 
         radioButtonOptions: { xSpacing: 5 }
       }, options.radioButtonGroupOptions ) )
