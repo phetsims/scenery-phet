@@ -20,17 +20,17 @@ define( function( require ) {
   var DEFAULT_FONT = new PhetFont( 20 );
 
   /**
-   * @param {number} barHeight
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the parent ScreenView
    * @param {Object} [options]
    * @constructor
    */
-  function StatusBar( barHeight, layoutBounds, visibleBoundsProperty, options ) {
+  function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
     var self = this;
 
     options = _.extend( {
+      barHeight: 50,
       floatToTop: false, // true: float bar to top of visible bounds; false: bar at top of layoutBounds
       barFill: 'lightGray',
       barStroke: null
@@ -50,7 +50,7 @@ define( function( require ) {
     // Adjust the bar size and position
     var visibleBoundsListener = function( visibleBounds ) {
       var y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
-      self.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, barHeight );
+      self.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
     };
     visibleBoundsProperty.link( visibleBoundsListener );
 
