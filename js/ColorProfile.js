@@ -110,8 +110,15 @@ define( function( require ) {
 
     // receives iframe communication to set a color
     window.addEventListener( 'message', function( evt ) {
-      var data = JSON.parse( evt.data );
-      if ( data.type === 'setColor' ) {
+      var data;
+      try {
+        data = JSON.parse( evt.data );
+      }
+      catch ( e ) {
+        // We don't do anything with the caught value. If this happens, it is not JSON. This can happen with the
+        // LoL wrappers, see https://github.com/phetsims/joist/issues/484.
+      }
+      if ( data && data.type === 'setColor' ) {
         self[ data.name + 'Property' ].value = new Color( data.value );
       }
     } );
