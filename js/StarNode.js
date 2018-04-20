@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var Shape = require( 'KITE/Shape' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
 
   /**
@@ -25,7 +26,8 @@ define( function( require ) {
     options = _.extend( {
 
       //See StarShape for the other options, including:
-      // value
+      // value -- 0=empty, 1=full
+      value: 1, // We need to specify a default here for computation below
       // outerRadius
       // innerRadius
 
@@ -65,16 +67,27 @@ define( function( require ) {
     this.addChild( backgroundStar );
 
     // add the foreground star
-    var foregroundStar = new Path( new StarShape( options ), {
-      stroke: options.filledStroke,
-      fill: options.filledFill,
-      lineWidth: options.filledLineWidth,
-      lineJoin: options.filledLineJoin,
-      boundsMethod: 'none' // optimization for faster creation and usage
-    } );
-    foregroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
-    foregroundStar.shape = new StarShape( options );
-    this.addChild( foregroundStar );
+    if ( options.value !== 0 ) {
+      var foregroundStar = new Path( new StarShape( o2 ), {
+        stroke: options.filledStroke,
+        fill: options.filledFill,
+        lineWidth: options.filledLineWidth,
+        lineJoin: options.filledLineJoin,
+        boundsMethod: 'none' // optimization for faster creation and usage
+      } );
+      foregroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
+      foregroundStar.shape = new StarShape( o2 );
+
+      // Apply a clipArea instead of actually adjusting the star's shape. This is faster for startup (potentially
+      // important given the optimization documentation already in this file), and gives a cleaner appearance.
+      // See https://github.com/phetsims/area-model-common/issues/131.
+      if ( options.value !== 1 ) {
+        var unstrokedBounds = backgroundStarShape.bounds;
+        var overlySafeBounds = unstrokedBounds.dilated( options.filledLineWidth * 1.5 );
+        foregroundStar.clipArea = Shape.bounds( overlySafeBounds.withMaxX( unstrokedBounds.left + options.value * unstrokedBounds.width ) );
+      }
+      this.addChild( foregroundStar );
+    }
 
     this.mutate( options );
   }
