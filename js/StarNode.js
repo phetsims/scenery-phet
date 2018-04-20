@@ -27,7 +27,7 @@ define( function( require ) {
 
       //See StarShape for the other options, including:
       // value -- 0=empty, 1=full
-      value: 1, // We need to specify a default here for computation below
+      value: 1,
       // outerRadius
       // innerRadius
 
@@ -58,6 +58,7 @@ define( function( require ) {
     o2.value = 1;
     var backgroundStarShape = new StarShape( o2 );
     backgroundStar.setShape( backgroundStarShape );
+
     function getBounds() {
       return backgroundStarShape.bounds;
     }
