@@ -48,9 +48,8 @@ define( function( require ) {
       tandem: Tandem.required,
 
       // a11y
-      tagName: 'input',
-      inputType: 'button',
-      ariaLabel: resetAllButtonNameString,
+      tagName: 'button',
+      labelContent: resetAllButtonNameString,
 
       // We want to be able to make the ResetAllButton fully interoperable, which means opting in and passing that to
       // the button model.
