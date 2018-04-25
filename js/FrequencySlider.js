@@ -20,6 +20,9 @@ define( function( require ) {
   var frequencySliderPattern0Frequency1UnitsString = require( 'string!SCENERY_PHET/FrequencySlider.pattern_0frequency_1units' );
   var unitsTHzString = require( 'string!SCENERY_PHET/unitsTHz' );
 
+  // constants
+  var TERA = 1E12; // by default, the FrequencySlider uses TeraHz (THz), which is 1E12 Hz
+
   /**
    * @param {Property.<number>} frequencyProperty - frequency in Hz
    * @param {Object} [options]
@@ -35,11 +38,13 @@ define( function( require ) {
 
       // By default the values are displayed in tera Hz (THz)
       valueToString: function( value ) {
-        return StringUtils.format( frequencySliderPattern0Frequency1UnitsString, Util.toFixed( value / 1E12, 0 ), unitsTHzString );
+        return StringUtils.format( frequencySliderPattern0Frequency1UnitsString, Util.toFixed( value / TERA, 0 ), unitsTHzString );
       },
       valueToColor: function( value ) {
         return VisibleColor.frequencyToColor( value );
-      }
+      },
+
+      tweakerValueDelta: TERA // Since the value is shown in TeraHz
     }, options );
     assert && assert( options.minValue === undefined, 'minValue is supplied by FrequencySlider' );
     assert && assert( options.maxValue === undefined, 'maxValue is supplied by FrequencySlider' );

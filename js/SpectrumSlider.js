@@ -78,6 +78,7 @@ define( function( require ) {
 
       // tweakers
       tweakersVisible: true,
+      tweakerValueDelta: 1, // {number} the amount that value changes when a tweaker button is pressed
       tweakersXSpacing: 8, // {number} space between tweakers and track
       maxTweakersHeight: 30,
       tweakersTouchAreaXDilation: 7,
@@ -163,7 +164,7 @@ define( function( require ) {
     if ( options.tweakersVisible ) {
 
       plusButton = new ArrowButton( 'right', function() {
-        valueProperty.set( valueProperty.get() + 1 );
+        valueProperty.set( valueProperty.get() + options.tweakerValueDelta );
       }, {
         left: track.right + options.tweakersXSpacing,
         centerY: track.centerY,
@@ -172,7 +173,7 @@ define( function( require ) {
       } );
 
       minusButton = new ArrowButton( 'left', function() {
-        valueProperty.set( valueProperty.get() - 1 );
+        valueProperty.set( valueProperty.get() - options.tweakerValueDelta );
       }, {
         right: track.left - options.tweakersXSpacing,
         centerY: track.centerY,
