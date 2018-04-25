@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
   var ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
+  var DialogsScreenView = require( 'SCENERY_PHET/demo/DialogsScreenView' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
@@ -38,6 +39,7 @@ define( function( require ) {
   SimLauncher.launch( function() {
     new Sim( sceneryPhetTitleString, [
 
+      // Buttons
       new Screen(
         function() {return {};},
         function( model ) {return new ButtonsScreenView();},
@@ -48,6 +50,7 @@ define( function( require ) {
         }
       ),
 
+      // Sliders
       new Screen(
         function() {return {};},
         function( model ) {return new SlidersScreenView();},
@@ -58,6 +61,7 @@ define( function( require ) {
         }
       ),
 
+      // Components
       new Screen(
         function() {return {};},
         function( model ) {return new ComponentsScreenView();},
@@ -68,6 +72,18 @@ define( function( require ) {
         }
       ),
 
+      // Dialogs
+      new Screen(
+        function() {return {};},
+        function( model ) {return new DialogsScreenView();},
+        {
+          name: 'Dialogs',
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+          homeScreenIcon: createScreenIcon( 'white' )
+        }
+      ),
+
+      // Spring
       new Screen(
         function() {return {};},
         function( model ) {return new SpringScreenView();},
