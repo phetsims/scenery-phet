@@ -37,6 +37,7 @@ define( function( require ) {
 
     this.addChild( new VBox( {
       children: [ contextLossFailureButton ],
+      spacing: 20,
       center: this.layoutBounds.center
     } ) );
   }
