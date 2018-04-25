@@ -34,15 +34,16 @@ define( function( require ) {
     var contextLossFailureButton = new RectangularPushButton( {
       content: new Text( 'context loss failure', { font: BUTTON_LABEL_FONT } ),
       listener: function() {
-        contextLossFailureDialog = contextLossFailureDialog || new ContextLossFailureDialog( {
+        if ( !contextLossFailureDialog ) {
+          contextLossFailureDialog = new ContextLossFailureDialog( {
 
-          // So that we don't cause problems with automated testing.
-          // See https://github.com/phetsims/scenery-phet/issues/375
-          reloadButtonListener: function() {
-            console.log( 'Reload button pressed' );
-            contextLossFailureDialog.hide();
-          }
-        } );
+            // So that we don't cause problems with automated testing.
+            // See https://github.com/phetsims/scenery-phet/issues/375
+            reload: function() {
+              console.log( 'Reload' );
+            }
+          } );
+        }
         contextLossFailureDialog.show();
       }
     } );

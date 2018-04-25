@@ -30,15 +30,20 @@ define( function( require ) {
    */
   function ContextLossFailureDialog( options ) {
 
+    var self = this;
+    
     options = _.extend( {
 
       // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
       // See https://github.com/phetsims/scenery-phet/issues/375
-      reloadButtonListener: function() {
+      reload: function() {
         window.location.reload();
       }
 
     }, options );
+
+    // @private
+    this.reload = options.reload;
 
     Tandem.indicateUninstrumentedCode();
 
@@ -52,7 +57,7 @@ define( function( require ) {
     var button = new TextPushButton( webglWarningContextLossReloadString, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
-      listener: options.reloadButtonListener
+      listener: function() { self.hide(); }
     } );
 
     Dialog.call( this, new HBox( {
@@ -67,5 +72,17 @@ define( function( require ) {
 
   sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
 
-  return inherit( Dialog, ContextLossFailureDialog );
+  return inherit( Dialog, ContextLossFailureDialog, {
+
+    /**
+     * Perform reload (or provided callback) regardless of how the dialog is hidden.
+     * See https://github.com/phetsims/scenery-phet/issues/373.
+     * @public
+     * @override
+     */
+    hide: function() {
+      this.reload();
+      Dialog.prototype.hide.call( this );
+    }
+  } );
 } );
