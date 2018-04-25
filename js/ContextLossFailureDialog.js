@@ -50,8 +50,9 @@ define( function( require ) {
       children: [ warningSign, text, button ],
       spacing: 10
     } ), {
-      xMargin: 10,
-      yMargin: 10
+      // margins large enough to make space for close button, see https://github.com/phetsims/scenery-phet/issues/373
+      xMargin: 50,
+      yMargin: 30
     } );
   }
 
