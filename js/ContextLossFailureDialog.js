@@ -50,8 +50,6 @@ define( function( require ) {
       children: [ warningSign, text, button ],
       spacing: 10
     } ), {
-      modal: true,
-      hasCloseButton: false,
       xMargin: 10,
       yMargin: 10
     } );
