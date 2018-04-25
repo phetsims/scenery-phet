@@ -48,9 +48,6 @@ define( function( require ) {
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
-    // See https://github.com/phetsims/area-model-common/issues/5
-    assert && assert( !options.formatText, 'Deprecated, use formatValue instead' );
-
     options = _.extend( {
       cursor: 'pointer',
       color: new Color( 0, 0, 255 ), // {Color|string|Property.<Color|string>} color of arrows, and top/bottom gradient on pointer over
