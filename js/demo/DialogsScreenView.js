@@ -29,7 +29,7 @@ define( function( require ) {
     ScreenView.call( this );
 
     var contextLossFailureButton = new RectangularPushButton( {
-      content: new Text( 'content loss failure', { font: BUTTON_LABEL_FONT } ),
+      content: new Text( 'context loss failure', { font: BUTTON_LABEL_FONT } ),
       listener: function() {
         new ContextLossFailureDialog().show();
       }
