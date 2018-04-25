@@ -17,8 +17,7 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
-  var frequencySliderPattern0Frequency1UnitsString = require( 'string!SCENERY_PHET/FrequencySlider.pattern_0frequency_1units' );
-  var unitsTHzString = require( 'string!SCENERY_PHET/unitsTHz' );
+  var frequencyUnitsPatternString = require( 'string!SCENERY_PHET/frequencyUnitsPattern' );
 
   // constants
   var TERA = 1E12; // by default, the FrequencySlider uses TeraHz (THz), which is 1E12 Hz
@@ -38,7 +37,9 @@ define( function( require ) {
 
       // By default the values are displayed in tera Hz (THz)
       valueToString: function( value ) {
-        return StringUtils.format( frequencySliderPattern0Frequency1UnitsString, Util.toFixed( value / TERA, 0 ), unitsTHzString );
+        return StringUtils.fillIn( frequencyUnitsPatternString, {
+          frequency: Util.toFixed( value / TERA, 0 )
+        } );
       },
       valueToColor: function( value ) {
         return VisibleColor.frequencyToColor( value );

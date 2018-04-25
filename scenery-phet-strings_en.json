@@ -5,14 +5,11 @@
   "WavelengthSlider.pattern_0wavelength_1units": {
     "value": "{0} {1}"
   },
-  "FrequencySlider.pattern_0frequency_1units": {
-    "value": "{0} {1}"
+  "frequencyUnitsPattern": {
+    "value": "{{frequency}} THz"
   },
   "units_nm": {
     "value": "nm"
-  },
-  "unitsTHz": {
-    "value": "THz"
   },
   "shortCircuit": {
     "value": "Short circuit!"
