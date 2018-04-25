@@ -41,8 +41,8 @@ define( function( require ) {
         return VisibleColor.frequencyToColor( value );
       }
     }, options );
-    assert && assert( typeof options.minValue === 'undefined', 'minValue is supplied by FrequencySlider' );
-    assert && assert( typeof options.maxValue === 'undefined', 'maxValue is supplied by FrequencySlider' );
+    assert && assert( options.minValue === undefined, 'minValue is supplied by FrequencySlider' );
+    assert && assert( options.maxValue === undefined, 'maxValue is supplied by FrequencySlider' );
     options.minValue = options.minFrequency;
     options.maxValue = options.maxFrequency;
 

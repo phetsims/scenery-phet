@@ -40,8 +40,8 @@ define( function( require ) {
         return VisibleColor.wavelengthToColor( value );
       }
     }, options );
-    assert && assert( typeof options.minValue === 'undefined', 'minValue is supplied by WavelengthSlider' );
-    assert && assert( typeof options.maxValue === 'undefined', 'maxValue is supplied by WavelengthSlider' );
+    assert && assert( options.minValue === undefined, 'minValue is supplied by WavelengthSlider' );
+    assert && assert( options.maxValue === undefined, 'maxValue is supplied by WavelengthSlider' );
     options.minValue = options.minWavelength;
     options.maxValue = options.maxWavelength;
 
