@@ -28,10 +28,22 @@ define( function( require ) {
   function DialogsScreenView() {
     ScreenView.call( this );
 
+    // reuse one instance of the dialog
+    var contextLossFailureDialog = null;
+
     var contextLossFailureButton = new RectangularPushButton( {
       content: new Text( 'context loss failure', { font: BUTTON_LABEL_FONT } ),
       listener: function() {
-        new ContextLossFailureDialog().show();
+        contextLossFailureDialog = contextLossFailureDialog || new ContextLossFailureDialog( {
+
+          // So that we don't cause problems with automated testing.
+          // See https://github.com/phetsims/scenery-phet/issues/375
+          reloadButtonListener: function() {
+            console.log( 'Reload button pressed' );
+            contextLossFailureDialog.hide();
+          }
+        } );
+        contextLossFailureDialog.show();
       }
     } );
 

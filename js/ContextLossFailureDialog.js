@@ -28,7 +28,18 @@ define( function( require ) {
    *
    * @constructor
    */
-  function ContextLossFailureDialog() {
+  function ContextLossFailureDialog( options ) {
+
+    options = _.extend( {
+
+      // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
+      // See https://github.com/phetsims/scenery-phet/issues/375
+      reloadButtonListener: function() {
+        window.location.reload();
+      }
+
+    }, options );
+
     Tandem.indicateUninstrumentedCode();
 
     var warningSign = new FontAwesomeNode( 'warning_sign', {
@@ -41,9 +52,7 @@ define( function( require ) {
     var button = new TextPushButton( webglWarningContextLossReloadString, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
-      listener: function() {
-        window.location.reload();
-      }
+      listener: options.reloadButtonListener
     } );
 
     Dialog.call( this, new HBox( {
