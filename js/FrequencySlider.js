@@ -20,7 +20,7 @@ define( function( require ) {
   var frequencyUnitsPatternString = require( 'string!SCENERY_PHET/frequencyUnitsPattern' );
 
   // constants
-  var TERA = 1E12; // by default, the FrequencySlider uses TeraHz (THz), which is 1E12 Hz
+  var TERA = 1E12; // by default, the FrequencySlider uses terahertz (THz), which is 1E12 Hz
 
   /**
    * @param {Property.<number>} frequencyProperty - frequency in Hz
