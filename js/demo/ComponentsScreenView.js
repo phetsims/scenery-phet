@@ -63,6 +63,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -97,6 +98,7 @@ define( function( require ) {
       { label: 'RichText', getNode: demoRichText },
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
+      { label: 'TimerNode', getNode: demoTimerNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ], {
       comboBoxItemFont: new PhetFont( 12 ),
@@ -962,6 +964,14 @@ define( function( require ) {
       children: [ starNodeContainer, starSlider ],
       center: layoutBounds.center
     } );
+  };
+
+  // Creates a sample TimerNode
+  var demoTimerNode = function( layoutBounds ) {
+    var timerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
+      center: layoutBounds.center
+    } );
+    return timerNode;
   };
 
   // Creates a demo for PaperAirplaneNode
