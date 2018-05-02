@@ -86,6 +86,8 @@ define( function( require ) {
     this.addChild( burnerInterior );
     this.addChild( fireNode );
     this.addChild( iceNode );
+
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );

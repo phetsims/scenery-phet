@@ -32,8 +32,6 @@ define( function( require ) {
   var heatString = require( 'string!SCENERY_PHET/heat' );
 
   /**
-   * Constructor for a HeaterCoolerFront.
-   *
    * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
@@ -115,6 +113,8 @@ define( function( require ) {
 
     this.addChild( stoveBody );
     this.addChild( heatCoolSlider );
+
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );
