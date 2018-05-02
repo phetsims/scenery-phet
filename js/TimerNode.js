@@ -1,9 +1,11 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Timer Node.
+ * Shows a readout of the elapsed time, with play and pause buttons.  By default there are no units (which could be used
+ * if all of a simulations time units are in 'seconds'), or you can specify a selection of units to choose from.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Anton Ulyanov (Mlearner)
  */
 define( function( require ) {
@@ -35,31 +37,71 @@ define( function( require ) {
    */
   function TimerNode( secondsProperty, runningProperty, options ) {
     Tandem.indicateUninstrumentedCode();
-    options = _.extend( {
+    var timerNodeOptionDefaults = {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
-      touchAreaDilation: 10
-    }, options );
+      unitsChoices: [], // {string[]} The possible string values for units, or the empty array for a unitless display
+      units: null // {string|null} The currently selected value for units, or null for a unitless display
+    };
+    var supertypeOptionDefaults = {
+      touchAreaDilation: 10,
+      cursor: 'pointer'
+    };
+    options = _.extend( {}, supertypeOptionDefaults, timerNodeOptionDefaults, options );
 
-    Node.call( this, _.extend( { cursor: 'pointer' }, options ) );
+    // If only current units were provided, promote that to the only unitsChoices entry
+    if ( options.units && !options.unitChoices ) {
+      options.unitChoices = [ options.units ];
+    }
+
+    // If unitsChoices were provided, default to the first units.
+    if ( options.unitsChoices && !options.units ) {
+      options.units = options.unitsChoices[ 0 ];
+    }
+
+    if ( options.unitsChoices && options.units ) {
+      assert && assert( options.unitsChoices.indexOf( options.units ) >= 0, 'unitsChoices does not contain units' );
+    }
+
+    Node.call( this );
 
     /*---------------------------------------------------------------------------*
      * Readout text
      *----------------------------------------------------------------------------*/
+    var largeNumberText = new PhetFont( 20 );
     var bigReadoutText = new Text( timeToBigString( 0 ), {
-      font: new PhetFont( 20 )
+      font: largeNumberText
     } );
+    var smallFont = new PhetFont( 15 );
     var smallReadoutText = new Text( timeToSmallString( 0 ), {
-      font: new PhetFont( 15 ),
+      font: smallFont,
       left: bigReadoutText.right
     } );
+
+    // @private {Text[]} - one node for each supported units string
+    this.unitsTexts = options.unitsChoices.map( function( units ) {
+      return new Text( units, {
+        font: smallFont,
+        left: smallReadoutText.right + 4
+      } );
+    } );
+
+    // Perform layout with all children, then just show the selected units after layout complete.
+    this.unitsNode = new Node( {
+      children: this.unitsTexts
+    } );
+
     // aligns the baselines of the big and small text
     smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
     bigReadoutText.top = 0;
+    if ( this.unitsNode.children.length > 0 ) {
+      this.unitsNode.bottom = smallReadoutText.bottom;
+    }
     var readoutText = new Node( {
       children: [
         bigReadoutText,
-        smallReadoutText
+        smallReadoutText,
+        this.unitsNode
       ],
       pickable: false
     } );
@@ -89,6 +131,7 @@ define( function( require ) {
       .lineTo( halfPlayStroke * 1.5 + playOffset, playPauseHeight / 2 - halfPlayStroke - playOffset )
       .lineTo( halfPlayStroke * 1.5 + playOffset, -playPauseHeight / 2 + halfPlayStroke + playOffset )
       .close().getOffsetShape( -playOffset );
+
     // a stop symbol (square)
     var pauseShape = Shape.bounds( new Bounds2( 0, -playPauseHeight / 2, playPauseWidth, playPauseHeight / 2 ).eroded( playPauseWidth * 0.1 ) );
 
@@ -156,11 +199,20 @@ define( function( require ) {
      *----------------------------------------------------------------------------*/
     this.dragTarget = roundedRectangle;
 
+    // @private
     this.disposeTimerNode = function() {
       secondsProperty.unlink( updateTime );
       resetButton.dispose();
       playPauseButton.dispose();
     };
+
+    // Omit TimerNode specific options before passing along to parent.  See https://github.com/phetsims/tasks/issues/934
+    // for discussion of other ways to filter the options
+    this.mutate( _.omit( options, _.keys( timerNodeOptionDefaults ) ) );
+
+    if ( options.units ) {
+      this.setUnits( options.units );
+    }
   }
 
   sceneryPhet.register( 'TimerNode', TimerNode );
@@ -198,9 +250,24 @@ define( function( require ) {
   }
 
   return inherit( Node, TimerNode, {
-    // @public - Provide dispose() on the prototype for ease of subclassing.
+
+    /**
+     * Release resources when no longer be used.
+     * @public
+     */
     dispose: function() {
       this.disposeTimerNode();
+    },
+
+    /**
+     * Set the units for the readout.  Must be one of the units specified in unitsChoices in the constructor.
+     * @param {string|null} units
+     * @public
+     */
+    setUnits: function( units ) {
+      var unitsText = _.find( this.unitsTexts, function( unitsText ) {return unitsText.text === units;} );
+      assert && assert( unitsText, 'Units text not found for units: ' + units );
+      this.unitsNode.children = [ unitsText ];
     }
   } );
 } );

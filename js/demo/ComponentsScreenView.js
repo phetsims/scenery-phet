@@ -968,10 +968,43 @@ define( function( require ) {
 
   // Creates a sample TimerNode
   var demoTimerNode = function( layoutBounds ) {
-    var timerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
-      center: layoutBounds.center
+
+    // Create a TimerNode that doesn't show units (assumed to be seconds)
+    var noUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ) );
+
+    // Create a TimerNode that can show from a selection of units.
+    var unitsProperty = new Property( 's' );
+    var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
+      unitsChoices: [ 's', 'ms', 'fs' ],
+      units: 'ms'
     } );
-    return timerNode;
+    unitsProperty.link( function( units ) {
+      mutableUnitsTimerNode.setUnits( units );
+    } );
+    var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
+      { value: 's', node: new Text( 'seconds' ) },
+      { value: 'ms', node: new Text( 'milliseconds' ) },
+      { value: 'fs', node: new Text( 'femtoseconds' ) }
+    ], {
+      spacing: 5
+    } );
+
+    // Layout
+    return new VBox( {
+      align: 'left',
+      spacing: 20,
+      center: layoutBounds.center,
+      children: [
+        noUnitsTimerNode,
+        new HBox( {
+          spacing: 20,
+          children: [
+            mutableUnitsTimerNode,
+            unitsRadioButtonGroup
+          ]
+        } )
+      ]
+    } );
   };
 
   // Creates a demo for PaperAirplaneNode
