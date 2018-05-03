@@ -30,6 +30,7 @@ define( function( require ) {
     MAX_WAVELENGTH: RED_WAVELENGTH, // in nanometers
     MIN_FREQUENCY: SPEED_OF_LIGHT / RED_WAVELENGTH * 1E9, // in Hz
     MAX_FREQUENCY: SPEED_OF_LIGHT / VIOLET_WAVELENGTH * 1E9, // in Hz
+    SPEED_OF_LIGHT: SPEED_OF_LIGHT, // The speed of light in a vacuum in meters/second
     WHITE_WAVELENGTH: 0,
 
     /**

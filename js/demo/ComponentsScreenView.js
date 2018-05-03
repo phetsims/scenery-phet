@@ -63,6 +63,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -97,6 +98,7 @@ define( function( require ) {
       { label: 'RichText', getNode: demoRichText },
       { label: 'RulerNode', getNode: demoRulerNode },
       { label: 'StarNode', getNode: demoStarNode },
+      { label: 'TimerNode', getNode: demoTimerNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
     ], {
       comboBoxItemFont: new PhetFont( 12 ),
@@ -961,6 +963,47 @@ define( function( require ) {
     return new Node( {
       children: [ starNodeContainer, starSlider ],
       center: layoutBounds.center
+    } );
+  };
+
+  // Creates a sample TimerNode
+  var demoTimerNode = function( layoutBounds ) {
+
+    // Create a TimerNode that doesn't show units (assumed to be seconds)
+    var noUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ) );
+
+    // Create a TimerNode that can show from a selection of units.
+    var unitsProperty = new Property( 's' );
+    var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
+      unitsChoices: [ 's', 'ms', 'fs' ],
+      units: 'ms'
+    } );
+    unitsProperty.link( function( units ) {
+      mutableUnitsTimerNode.setUnits( units );
+    } );
+    var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
+      { value: 's', node: new Text( 'seconds' ) },
+      { value: 'ms', node: new Text( 'milliseconds' ) },
+      { value: 'fs', node: new Text( 'femtoseconds' ) }
+    ], {
+      spacing: 5
+    } );
+
+    // Layout
+    return new VBox( {
+      align: 'left',
+      spacing: 20,
+      center: layoutBounds.center,
+      children: [
+        noUnitsTimerNode,
+        new HBox( {
+          spacing: 20,
+          children: [
+            mutableUnitsTimerNode,
+            unitsRadioButtonGroup
+          ]
+        } )
+      ]
     } );
   };
 

@@ -29,7 +29,8 @@ define( function( require ) {
    * @param {Object} options
    */
   function SceneSummaryNode( sceneSummary, options ) {
-    assert && assert( sceneSummary && typeof sceneSummary === 'string', 'SceneSummaryNode must have a scene summary' );
+    assert && assert( ( sceneSummary && typeof sceneSummary === 'string' ) ||
+                      options.content, 'SceneSummaryNode must have a scene summary or content' );
 
     // options for accessibility, but others can be passed to Node call
     options = _.extend( {
