@@ -29,7 +29,6 @@ define( function( require ) {
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
 
   /**
-   *
    * @param {Property.<number>} secondsProperty
    * @param {Property.<boolean>} runningProperty
    * @param {Object} [options]
@@ -37,6 +36,7 @@ define( function( require ) {
    */
   function TimerNode( secondsProperty, runningProperty, options ) {
     Tandem.indicateUninstrumentedCode();
+    var self = this;
     var timerNodeOptionDefaults = {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
@@ -59,6 +59,9 @@ define( function( require ) {
       options.units = options.unitsChoices[ 0 ];
     }
 
+    // @private {string} - the selected units
+    this.units = options.units;
+
     if ( options.unitsChoices && options.units ) {
       assert && assert( options.unitsChoices.indexOf( options.units ) >= 0, 'unitsChoices does not contain units' );
     }
@@ -69,11 +72,11 @@ define( function( require ) {
      * Readout text
      *----------------------------------------------------------------------------*/
     var largeNumberText = new PhetFont( 20 );
-    var bigReadoutText = new Text( timeToBigString( 0 ), {
+    var bigReadoutText = new Text( this.timeToBigString( 0 ), {
       font: largeNumberText
     } );
     var smallFont = new PhetFont( 15 );
-    var smallReadoutText = new Text( timeToSmallString( 0 ), {
+    var smallReadoutText = new Text( this.timeToSmallString( 0 ), {
       font: smallFont,
       left: bigReadoutText.right
     } );
@@ -188,9 +191,14 @@ define( function( require ) {
      * Control logic
      *----------------------------------------------------------------------------*/
     var updateTime = function updateTime( value ) {
-      bigReadoutText.text = timeToBigString( value );
-      smallReadoutText.text = timeToSmallString( value );
+      bigReadoutText.text = self.timeToBigString( value );
+      smallReadoutText.text = self.timeToSmallString( value );
       resetButton.enabled = value > 0;
+
+      smallReadoutText.left = bigReadoutText.right;
+      if ( self.units ) {
+        self.unitsNode.left = smallReadoutText.right + 3;
+      }
     };
     secondsProperty.link( updateTime );
 
@@ -217,38 +225,6 @@ define( function( require ) {
 
   sceneryPhet.register( 'TimerNode', TimerNode );
 
-  // the full-sized minutes and seconds string
-  function timeToBigString( timeInSeconds ) {
-    // Round to the nearest centisecond (compatible with timeToSmallString).
-    // see https://github.com/phetsims/masses-and-springs/issues/156
-    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
-
-    var minutes = Math.floor( timeInSeconds / 60 ) % 60;
-    var seconds = Math.floor( timeInSeconds ) % 60;
-
-    if ( seconds < 10 ) {
-      seconds = '0' + seconds;
-    }
-    if ( minutes < 10 ) {
-      minutes = '0' + minutes;
-    }
-    return minutes + ':' + seconds;
-  }
-
-  // the smaller hundredths-of-a-second string
-  function timeToSmallString( timeInSeconds ) {
-    // Round to the nearest centisecond (compatible with timeToSmallString).
-    // see https://github.com/phetsims/masses-and-springs/issues/156
-    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
-
-    // Rounding after mod, in case there is floating-point error
-    var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
-    if ( centiseconds < 10 ) {
-      centiseconds = '0' + centiseconds;
-    }
-    return '.' + centiseconds;
-  }
-
   return inherit( Node, TimerNode, {
 
     /**
@@ -265,9 +241,48 @@ define( function( require ) {
      * @public
      */
     setUnits: function( units ) {
+      this.units = units;
       var unitsText = _.find( this.unitsTexts, function( unitsText ) {return unitsText.text === units;} );
       assert && assert( unitsText, 'Units text not found for units: ' + units );
       this.unitsNode.children = [ unitsText ];
+    },
+
+    // the full-sized minutes and seconds string
+    timeToBigString: function( timeInSeconds ) {
+      // Round to the nearest centisecond (compatible with timeToSmallString).
+      // see https://github.com/phetsims/masses-and-springs/issues/156
+      timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+
+      if ( this.units ) {
+        return Math.floor( timeInSeconds ) + '';
+      }
+      else {
+
+        var minutes = Math.floor( timeInSeconds / 60 ) % 60;
+        var seconds = Math.floor( timeInSeconds ) % 60;
+
+        if ( seconds < 10 ) {
+          seconds = '0' + seconds;
+        }
+        if ( minutes < 10 ) {
+          minutes = '0' + minutes;
+        }
+        return minutes + ':' + seconds;
+      }
+    },
+
+    // the smaller hundredths-of-a-second string
+    timeToSmallString: function( timeInSeconds ) {
+      // Round to the nearest centisecond (compatible with timeToSmallString).
+      // see https://github.com/phetsims/masses-and-springs/issues/156
+      timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+
+      // Rounding after mod, in case there is floating-point error
+      var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
+      if ( centiseconds < 10 ) {
+        centiseconds = '0' + centiseconds;
+      }
+      return '.' + centiseconds;
     }
   } );
 } );
