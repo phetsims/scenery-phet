@@ -253,6 +253,7 @@ define( function( require ) {
       // see https://github.com/phetsims/masses-and-springs/issues/156
       timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
 
+      // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
       if ( this.units ) {
         return Math.floor( timeInSeconds ) + '';
       }
