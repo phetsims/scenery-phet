@@ -164,7 +164,9 @@ define( function( require ) {
     if ( options.tweakersVisible ) {
 
       plusButton = new ArrowButton( 'right', function() {
-        valueProperty.set( valueProperty.get() + options.tweakerValueDelta );
+
+        // Increase the value, but keep it in range
+        valueProperty.set( Math.min( options.maxValue, valueProperty.get() + options.tweakerValueDelta ) );
       }, {
         left: track.right + options.tweakersXSpacing,
         centerY: track.centerY,
@@ -173,7 +175,9 @@ define( function( require ) {
       } );
 
       minusButton = new ArrowButton( 'left', function() {
-        valueProperty.set( valueProperty.get() - options.tweakerValueDelta );
+
+        // Decrease the value, but keep it in range
+        valueProperty.set( Math.max( options.minValue, valueProperty.get() - options.tweakerValueDelta ) );
       }, {
         right: track.left - options.tweakersXSpacing,
         centerY: track.centerY,
