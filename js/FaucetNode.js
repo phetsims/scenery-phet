@@ -24,6 +24,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
@@ -32,6 +33,7 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -285,6 +287,14 @@ define( function( require ) {
       // Subcomponents
       shooterNode.dispose();
     };
+
+    // mix accessible slider functionality into this node
+    this.initializeAccessibleSlider(
+      flowRateProperty,
+      new Property( new Range( 0, maxFlowRate ) ),
+      enabledProperty,
+      options
+    );
   }
 
   sceneryPhet.register( 'FaucetNode', FaucetNode );
@@ -361,7 +371,7 @@ define( function( require ) {
     }
   } );
 
-  return inherit( Node, FaucetNode, {
+  inherit( Node, FaucetNode, {
 
     // @public
     dispose: function() {
@@ -369,4 +379,9 @@ define( function( require ) {
       Node.prototype.dispose.call( this );
     }
   } );
+
+  // mix accessibility into this node
+  AccessibleSlider.mixInto( FaucetNode );
+
+  return FaucetNode;
 } );
