@@ -58,7 +58,7 @@ define( function( require ) {
     var pausePath = new Path( pauseIconShape, { fill: 'black' } );
 
     // put the play and pause symbols inside circles so they have the same bounds,
-    // otherwise ToggleNode will re-adjust their positions relative to each other
+    // otherwise BooleanToggleNode will re-adjust their positions relative to each other
     var playCircle = new Circle( options.radius );
     playPath.centerX = options.radius * 0.05; // move to right slightly since we don't want it exactly centered
     playPath.centerY = 0;
