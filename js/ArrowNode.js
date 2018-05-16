@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
+  var LineArrowNode = require( 'SCENERY_PHET/LineArrowNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -41,6 +42,8 @@ define( function( require ) {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
+      // TODO: Rename "useArrowShape"?
+      useArrowShape: true, // false will utilize lineArrowNode. See issue https://github.com/phetsims/scenery-phet/issues/165
       tandem: Tandem.optional
     }, options );
     this.options = options; // @private
@@ -68,7 +71,17 @@ define( function( require ) {
      */
     updateShapePoints: function() {
       var numberOfPoints = this.shapePoints.length;
-      this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
+      if ( this.options.useArrowShape ) {
+        this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
+      }
+      else {
+        // TODO: We don't need a fill option. Can this be better generalized?
+        this.options.fill = null;
+        this.shapePoints = LineArrowNode.getArrowPoints( this.tailX, this.tailY, this.tipX, this.tipY, this.options );
+
+        // TODO: Should we be calling updateShape() here? There is a if clause in setTailAndTip() to check if the number of points has changed that could be used.
+        this.updateShape();
+      }
       return this.shapePoints.length !== numberOfPoints;
     },
 
@@ -85,7 +98,9 @@ define( function( require ) {
         for ( var i = 1; i < this.shapePoints.length; i++ ) {
           shape.lineToPoint( this.shapePoints[ i ] );
         }
-        shape.close();
+        if ( this.options.useArrowShape ) {
+          shape.close();
+        }
       }
 
       this.shape = shape;
