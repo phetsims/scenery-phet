@@ -96,7 +96,6 @@ define( function( require ) {
 
     this.significantFigures = options.significantFigures; // @private
     this.unitsProperty = unitsProperty; // @private
-    this.isVisibleProperty = isVisibleProperty; // @private
     this._dragBounds = options.dragBounds; // @private
     this._modelViewTransform = options.modelViewTransform; // @private
     this.isTipDragBounded = options.isTipDragBounded; //@private
@@ -302,18 +301,23 @@ define( function( require ) {
       self.updatePosition( basePosition, tipPosition );
     } );
 
-    // @private
-    this.isVisiblePropertyObserver = function( isVisible ) {
+    var isVisiblePropertyObserver = function( isVisible ) {
       self.visible = isVisible;
     };
-    this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
+    isVisibleProperty.link( isVisiblePropertyObserver ); // must be unlinked in dispose
 
-    // @private set Text on on valueNode
-    this.unitsPropertyObserver = function() {
+    // set Text on on valueNode
+    var unitsPropertyObserver = function() {
       self.valueNode.setText( self.getText() );
     };
     // link change of units to the text
-    this.unitsProperty.link( this.unitsPropertyObserver ); // must be unlinked in dispose
+    unitsProperty.link( unitsPropertyObserver ); // must be unlinked in dispose
+
+    // @private
+    this.disposeMeasuringTapeNode = function() {
+      isVisibleProperty.unlink( isVisiblePropertyObserver );
+      unitsProperty.unlink( unitsPropertyObserver );
+    };
 
     this.mutate( options );
   }
@@ -336,8 +340,7 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
-      this.unitsProperty.unlink( this.unitsPropertyObserver );
+      this.disposeMeasuringTapeNode();
       Node.prototype.dispose.call( this );
     },
 
