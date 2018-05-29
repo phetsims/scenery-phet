@@ -12,6 +12,7 @@ define( function( require ) {
   var ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
   var ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
   var DialogsScreenView = require( 'SCENERY_PHET/demo/DialogsScreenView' );
+  var MemoryTestsScreenView = require( 'SCENERY_PHET/demo/MemoryTestsScreenView' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
@@ -91,6 +92,17 @@ define( function( require ) {
           name: 'Spring',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
           homeScreenIcon: createScreenIcon( 'blue' )
+        }
+      ),
+
+      // Memory Tests
+      new Screen(
+        function() {return {};},
+        function( model ) {return new MemoryTestsScreenView();},
+        {
+          name: 'Memory Tests',
+          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+          homeScreenIcon: createScreenIcon( 'purple' )
         }
       )
     ], simOptions ).start();
