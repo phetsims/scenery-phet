@@ -285,7 +285,13 @@ define( function( require ) {
       enabledProperty.unlink( enabledObserver );
 
       // Subcomponents
+      if ( shooterNode.hasInputListener( inputListener ) ) {
+        shooterNode.removeInputListener( inputListener );
+      }
       shooterNode.dispose();
+
+      // remove property
+      this.initializeAccessibleSlider = null;
     };
 
     // mix accessible slider functionality into this node

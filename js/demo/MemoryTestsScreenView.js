@@ -12,6 +12,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   function ComponentHolder( createFunction ) {
@@ -25,10 +26,14 @@ define( function( require ) {
   }
 
   var booleanProperty = new Property( false );
+  var numberProperty = new Property( 1 );
 
   var components = [
     new ComponentHolder( function() {
       return new MeasuringTapeNode( new Property( {name: 'cm', multiplier: 100 } ), booleanProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new FaucetNode( 1, numberProperty, booleanProperty );
     } )
   ];
 
