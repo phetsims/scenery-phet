@@ -53,7 +53,7 @@ define( function( require ) {
 
     var self = this;
 
-    // @public (read only) - sequence of key values entered by the user
+    // @public (read-only) - sequence of key values entered by the user
     this.valueStringProperty = options.valueStringProperty;
 
     // @private - when true, the next key press will clear valueStringProperty
