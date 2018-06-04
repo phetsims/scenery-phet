@@ -288,9 +288,15 @@ define( function( require ) {
     this.disposeFaucetNode = function() {
 
       // Properties
-      options.interactiveProperty.unlink( interactiveObserver );
-      flowRateProperty.unlink( flowRateObserver );
-      enabledProperty.unlink( enabledObserver );
+      if ( options.interactiveProperty.hasListener( interactiveObserver ) ) {
+        options.interactiveProperty.unlink( interactiveObserver );
+      }
+      if ( flowRateProperty.hasListener( flowRateObserver ) ) {
+        flowRateProperty.unlink( flowRateObserver );
+      }
+      if ( enabledProperty.hasListener( enabledObserver ) ) {
+        enabledProperty.unlink( enabledObserver );
+      }
 
       // Subcomponents
       if ( shooterNode.hasInputListener( inputListener ) ) {
@@ -362,7 +368,9 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeShooterNode = function() {
-      enabledProperty.unlink( enabledObserver );
+      if ( enabledProperty.hasListener( enabledObserver ) ) {
+        enabledProperty.unlink( enabledObserver );
+      }
     };
   }
 
