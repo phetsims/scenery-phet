@@ -146,8 +146,12 @@ define( function( require ) {
 
     // @private
     this.disposeGaugeNode = function() {
-      valueProperty.unlink( updateNeedle );
-      options.updateEnabledProperty.unlink( updateNeedle );
+      if ( valueProperty.hasListener( updateNeedle ) ) {
+        valueProperty.unlink( updateNeedle );
+      }
+      if ( options.updateEnabledProperty.hasListener( updateNeedle ) ) {
+        options.updateEnabledProperty.unlink( updateNeedle );
+      }
     };
   }
 
