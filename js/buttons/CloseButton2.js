@@ -24,8 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function CloseButton2( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       iconLength: 7,
       baseColor: 'transparent',
@@ -35,7 +33,7 @@ define( function( require ) {
       listener: null // {function} called when the button is pressed
     }, options );
 
-        // close button shape, an 'X'
+    // close button shape, an 'X'
     var closeButtonShape = new Shape()
       .moveTo( -options.iconLength, -options.iconLength )
       .lineTo( options.iconLength, options.iconLength )
