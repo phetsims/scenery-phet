@@ -13,6 +13,7 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
+  var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   function ComponentHolder( createFunction ) {
@@ -34,6 +35,9 @@ define( function( require ) {
     } ),
     new ComponentHolder( function() {
       return new FaucetNode( 1, numberProperty, booleanProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new GaugeNode( numberProperty, 'label', { min: 0, max: 1 } );
     } )
   ];
 
