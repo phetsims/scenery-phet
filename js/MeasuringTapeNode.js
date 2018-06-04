@@ -315,8 +315,12 @@ define( function( require ) {
 
     // @private
     this.disposeMeasuringTapeNode = function() {
-      isVisibleProperty.unlink( isVisiblePropertyObserver );
-      unitsProperty.unlink( unitsPropertyObserver );
+      if ( isVisibleProperty.hasListener( isVisiblePropertyObserver ) ) {
+        isVisibleProperty.unlink( isVisiblePropertyObserver );
+      }
+      if ( unitsProperty.hasListener( unitsPropertyObserver ) ) {
+        unitsProperty.unlink( unitsPropertyObserver );
+      }
     };
 
     this.mutate( options );
