@@ -4,7 +4,8 @@
  * Close button, red with a white 'X'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Andrea Lin (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -16,8 +17,6 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
-
 
   /**
    * @param {Object} [options] - see RectangularPushButton
