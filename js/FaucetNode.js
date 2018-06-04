@@ -276,6 +276,14 @@ define( function( require ) {
 
     self.mutate( options );
 
+    // mix accessible slider functionality into this node
+    this.initializeAccessibleSlider(
+      flowRateProperty,
+      new Property( new Range( 0, maxFlowRate ) ),
+      enabledProperty,
+      options
+    );
+
     // @private called by dispose
     this.disposeFaucetNode = function() {
 
@@ -290,17 +298,9 @@ define( function( require ) {
       }
       shooterNode.dispose();
 
-      // remove property
-      this.initializeAccessibleSlider = null;
+      self.disposeAccessibleSlider();
     };
 
-    // mix accessible slider functionality into this node
-    this.initializeAccessibleSlider(
-      flowRateProperty,
-      new Property( new Range( 0, maxFlowRate ) ),
-      enabledProperty,
-      options
-    );
   }
 
   sceneryPhet.register( 'FaucetNode', FaucetNode );
