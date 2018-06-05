@@ -60,6 +60,7 @@ define( function( require ) {
   sceneryPhet.register( 'LineArrowNode', LineArrowNode );
 
   return inherit( Node, LineArrowNode, {
+
     /**
      * Set the tail and tip locations to update the arrow shape.
      * @param {number} tailX
@@ -90,49 +91,6 @@ define( function( require ) {
         .moveToPoint( getPoint( length - headHeight, this.headWidth / 2 ) )
         .lineToPoint( getPoint( length, 0 ) )
         .lineToPoint( getPoint( length - headHeight, -this.headWidth / 2 ) );
-    }
-  }, {
-    /**
-     *
-     * @param tailX
-     * @param tailY
-     * @param tipX
-     * @param tipY
-     * @param options
-     * @returns {Array}
-     */
-    getArrowPoints: function( tailX, tailY, tipX, tipY, options ) {
-      var shapePoints = [];
-
-      var vector = new Vector2( tipX - tailX, tipY - tailY );
-      var xHatUnit = vector.normalized();
-      var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-      var length = vector.magnitude();
-
-      var getPoint = function( xHat, yHat ) {
-        var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
-        var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
-        return new Vector2( x, y );
-      };
-
-      var addPoint = function( point ) {
-        shapePoints.push( point );
-      };
-
-      // limit head height to tail length
-      var headHeight = Math.min( options.headHeight, 0.99 * length );
-
-      // TODO: Are these points correct? Would it be better to add a line segment for the tail?
-      //Points to create tail
-      addPoint( getPoint( tailX, tailY ) );
-      addPoint( getPoint( length, 0 ) );
-
-      // Points to create head
-      addPoint( getPoint( length - headHeight, options.headWidth / 2 ) );
-      addPoint( getPoint( length, 0 ) );
-      addPoint( getPoint( length - headHeight, -options.headWidth / 2 ) );
-
-      return shapePoints;
     }
   } );
 } );
