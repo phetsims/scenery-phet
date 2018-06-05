@@ -1,6 +1,5 @@
 // Copyright 2015, University of Colorado Boulder
 
-//TODO scenery-phet#165 reimplement as LineArrowShape and a Path subtype, move to scenery-phet
 /**
  * An arrow that is composed of 3 line segments: one for the tail, and 2 for a V-shaped head
  *
