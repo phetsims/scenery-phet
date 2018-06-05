@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
   var Color = require( 'SCENERY/util/Color' );
   var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
@@ -36,7 +37,8 @@ define( function( require ) {
       contentAppearanceStrategy: function( content, interactionStateProperty ) {
         function updateEnabled( state ) {
           if ( content ) {
-            var enabled = state !== 'disabled' && state !== 'disabled-pressed';
+            var enabled = state !== ButtonInteractionState.DISABLED &&
+                          state !== ButtonInteractionState.DISABLED_PRESSED;
 
             arrowPath.fill = enabled ? '#f05a28' : 'rgba(0,0,0,0.3)';
             trashPath.fill = enabled ? 'black' : 'rgba(0,0,0,0.3)';
