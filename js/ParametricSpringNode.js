@@ -83,6 +83,7 @@ define( function( require ) {
       // {string} method used to compute bounds for scenery.Path components, see Path.boundsMethod
       pathBoundsMethod: 'accurate',
 
+      // phet-io
       tandem: Tandem.optional
     }, options );
 
