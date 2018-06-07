@@ -83,7 +83,7 @@ define( function( require ) {
       // {string} method used to compute bounds for scenery.Path components, see Path.boundsMethod
       pathBoundsMethod: 'accurate',
 
-      tandem: Tandem.required
+      tandem: Tandem.optional
     }, options );
 
     var self = this;
