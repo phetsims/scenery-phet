@@ -58,7 +58,7 @@ define( function( require ) {
      * @static
      */
     getRichTextMarkup: function( text ) {
-      return StringUtils.fillIn( '<i><font face=\'{{face}}\'>{{text}}</font></i>', {
+      return StringUtils.fillIn( '<i><span style=\'font-family: {{face}};\'>{{text}}</span></i>', {
         face: FAMILY,
         text: text
       } );
