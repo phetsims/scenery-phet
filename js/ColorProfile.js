@@ -60,7 +60,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // phet-io modules
+  // ifphetio
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // constants

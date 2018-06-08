@@ -32,8 +32,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  
-  // phet-io modules
+
+  // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 

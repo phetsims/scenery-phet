@@ -13,7 +13,7 @@ define( function( require ) {
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // phet-io modules
+  // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 

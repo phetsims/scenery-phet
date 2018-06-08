@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // phet-io modules
+  // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );

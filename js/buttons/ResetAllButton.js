@@ -23,7 +23,7 @@ define( function( require ) {
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
-  // phet-io modules
+  // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // constants

@@ -27,7 +27,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // phet-io modules
+  // ifphetio
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
 
   /**
