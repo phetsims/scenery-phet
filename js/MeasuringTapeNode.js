@@ -62,7 +62,8 @@ define( function( require ) {
       // use this to omit the value and units displayed below the tape measure, useful with createIcon
       hasValue: true,
 
-      // bounds for the measuring tape (in model coordinate reference frame), default value is everything, effectively no bounds
+      // bounds for the measuring tape (in model coordinate reference frame), default value is everything,
+      // effectively no bounds
       dragBounds: Bounds2.EVERYTHING,
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
       modelViewTransform: ModelViewTransform2.createIdentity(),
@@ -107,7 +108,12 @@ define( function( require ) {
 
     this.tipToBaseDistance = ( this.basePositionProperty.value ).distance( this.tipPositionProperty.value ); // @private
 
-    var crosshairShape = new Shape().moveTo( -options.crosshairSize, 0 ).moveTo( -options.crosshairSize, 0 ).lineTo( options.crosshairSize, 0 ).moveTo( 0, -options.crosshairSize ).lineTo( 0, options.crosshairSize );
+    var crosshairShape = new Shape()
+      .moveTo( -options.crosshairSize, 0 )
+      .moveTo( -options.crosshairSize, 0 )
+      .lineTo( options.crosshairSize, 0 )
+      .moveTo( 0, -options.crosshairSize )
+      .lineTo( 0, options.crosshairSize );
 
     var baseCrosshair = new Path( crosshairShape, {
       stroke: options.crosshairColor,

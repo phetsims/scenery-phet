@@ -344,7 +344,14 @@ define( function( require ) {
     // stop
     var stopNode = new Image( stopImage );
 
-    Node.call( this, { children: [ shaftNode, stopNode, flangeNode, flangeDisabledNode, knobNode, knobDisabledNode ] } );
+    Node.call( this, { children: [
+      shaftNode,
+      stopNode,
+      flangeNode,
+      flangeDisabledNode,
+      knobNode,
+      knobDisabledNode
+    ] } );
 
     // layout, relative to shaft
     stopNode.x = shaftNode.x + 13;
