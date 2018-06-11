@@ -142,16 +142,35 @@ define( function( require ) {
     var maxFluidHeight = new Path( fluidClipArea ).height;
     //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
     var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
-    temperatureProperty.link( function( temp ) {
+
+    var temperaturePropertyObserver = function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
       tubeFluidNode.visible = ( fluidHeight > 0 );
       tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight + FLUID_OVERLAP );
-    } );
+    };
+
+    temperatureProperty.link( temperaturePropertyObserver );
 
     this.mutate( options );
+
+    this.disposeThermometerNode = function() {
+      if ( temperatureProperty.hasListener( temperaturePropertyObserver ) ) {
+        temperatureProperty.unlink( temperaturePropertyObserver ); 
+      }
+    };
   }
 
   sceneryPhet.register( 'ThermometerNode', ThermometerNode );
 
-  return inherit( Node, ThermometerNode );
+  return inherit( Node, ThermometerNode, {
+
+    /**
+     * Ensures that this node is subject to garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeThermometerNode();
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
