@@ -58,12 +58,29 @@ define( function( require ) {
 
     Node.call( this, _.extend( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
 
-    valueProperty.link( this.update.bind( this ) );
+    var valuePropertyObserver = this.update.bind( this );
+    valueProperty.link( valuePropertyObserver );
+
+    // @private
+    this.disposeScientificNotationNode = function() {
+      if( valueProperty.hasListener( valuePropertyObserver ) ) {
+        valueProperty.unlink( valuePropertyObserver );
+      }
+    };
+
   }
 
   sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
 
   return inherit( Node, ScientificNotationNode, {
+
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.disposeScientificNotationNode();
+      Node.prototype.dispose.call( this );
+    },
 
     /**
      * @param {number} value
