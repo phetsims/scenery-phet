@@ -153,6 +153,7 @@ define( function( require ) {
 
     this.mutate( options );
 
+    // @private
     this.disposeThermometerNode = function() {
       if ( temperatureProperty.hasListener( temperaturePropertyObserver ) ) {
         temperatureProperty.unlink( temperaturePropertyObserver ); 
