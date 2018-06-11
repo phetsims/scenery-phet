@@ -15,6 +15,7 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
 
   function ComponentHolder( createFunction ) {
@@ -42,6 +43,9 @@ define( function( require ) {
     } ),
     new ComponentHolder( function() {
       return new ThermometerNode( 0, 1, numberProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new ScientificNotationNode( numberProperty );
     } )
   ];
 
