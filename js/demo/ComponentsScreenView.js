@@ -55,6 +55,7 @@ define( function( require ) {
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
@@ -97,6 +98,7 @@ define( function( require ) {
       { label: 'ProbeNode', getNode: demoProbeNode },
       { label: 'RichText', getNode: demoRichText },
       { label: 'RulerNode', getNode: demoRulerNode },
+      { label: 'ScientificNotationNode', getNode: demoScientificNotationNode },
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'TimerNode', getNode: demoTimerNode },
       { label: 'ThermometerNode', getNode: demoTemperatureNode }
@@ -963,6 +965,21 @@ define( function( require ) {
     return new Node( {
       children: [ starNodeContainer, starSlider ],
       center: layoutBounds.center
+    } );
+  };
+
+  // Creates a sample ScientificNotationNode
+  var demoScientificNotationNode = function( layoutBounds ) {
+    var numberProperty = new Property( 1 );
+
+    var numberSlider = new HSlider( numberProperty, { min: 0, max: 100 } );
+
+    var scientificNotationNode = new ScientificNotationNode( numberProperty );
+
+    return new VBox( {
+      spacing: 20,
+      center: layoutBounds.center,
+      children: [ numberSlider , scientificNotationNode ]
     } );
   };
 
