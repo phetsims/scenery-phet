@@ -17,6 +17,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var Property = require( 'AXON/Property' );
@@ -91,6 +92,26 @@ define( function( require ) {
       listener: function() { console.log( 'RefreshButton pressed' ); }
     } );
 
+    var leftRightSpinnerProperty = new Property( 1 );
+    var leftEnabledProperty = new Property( true );
+    var rightEnabledProperty = new Property( true );
+
+    var leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty );
+
+    leftRightSpinnerProperty.lazyLink( function( value ) {
+      console.log( 'LeftRightSpinner: ' + value );
+      if ( value >= 10 ) {
+        rightEnabledProperty.set( false );
+      }
+      else if ( value <= 0 ) {
+        leftEnabledProperty.set( false );
+      }
+      else {
+        rightEnabledProperty.set( true );
+        leftEnabledProperty.set( true );
+      }
+    } );
+
     // Push buttons
     var pushButtons = new HBox( {
       children: [
@@ -104,7 +125,8 @@ define( function( require ) {
         stepForwardButton,
         zoomButton,
         infoButton,
-        refreshButton
+        refreshButton,
+        leftRightSpinner
       ],
       spacing: 10,
       align: 'center',
@@ -178,6 +200,10 @@ define( function( require ) {
     // Reset All button, in its usual lower-right position
     var resetAllButton = new ResetAllButton( {
       listener: function() {
+
+        leftRightSpinnerProperty.reset();
+        leftEnabledProperty.reset();
+        rightEnabledProperty.reset();
 
         // reset each Property in toggleButtonProperties
         for ( var property in toggleButtonProperties ) {
