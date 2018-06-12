@@ -48,7 +48,7 @@ define( function( require ) {
       touchAreaDilation: 10,
       xContentOffset: -3
     } );
-    leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
+    var leftEnabledPropertyLinkAttribute = leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
 
     var rightButton = new RoundPushButton( {
       radius: radius,
@@ -60,14 +60,34 @@ define( function( require ) {
       baseColor: '#7fb539',
       xContentOffset: +3
     } );
-    rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
+    var rightEnabledPropertyLinkAttribute = rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
 
     HBox.call( this, { spacing: 6, children: [ leftButton, rightButton ] } );
 
     this.mutate( options );
+
+    // @private
+    this.disposeLeftRightSpinner = function() {
+      if ( leftEnabledProperty.hasListener( leftEnabledPropertyLinkAttribute) ) {
+        leftEnabledProperty.unlinkAttribute( leftEnabledPropertyLinkAttribute );
+      }
+      if ( rightEnabledProperty.hasListener( rightEnabledPropertyLinkAttribute) ) {
+        rightEnabledProperty.unlinkAttribute( rightEnabledPropertyLinkAttribute );
+      }
+    };
   }
 
   sceneryPhet.register( 'LeftRightSpinner', LeftRightSpinner );
 
-  return inherit( HBox, LeftRightSpinner );
+  return inherit( HBox, LeftRightSpinner, {
+
+    /**
+     * Ensures that this node is subject to garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeLeftRightSpinner();
+      HBox.prototype.dispose.call( this );
+    }
+  } );
 } );
