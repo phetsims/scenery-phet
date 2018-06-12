@@ -126,7 +126,7 @@ define( function( require ) {
 
     // constrain the slider value to the provided range and the same delta as the arrow buttons
     options.constrainValue = options.constrainValue || function( value ) {
-      var newValue = Util.roundSymmetric( value / options.delta ) * options.delta;
+      var newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       return numberRange.constrainValue( newValue );
     };
 
@@ -172,7 +172,7 @@ define( function( require ) {
 
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - delta;
-      value = Util.roundSymmetric( value / delta ) * delta; // constrain to delta
+      value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
@@ -184,7 +184,7 @@ define( function( require ) {
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + delta;
-      value = Util.roundSymmetric( value / delta ) * delta; // constrain to delta
+      value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
