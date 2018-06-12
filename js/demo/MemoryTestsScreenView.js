@@ -8,14 +8,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
+  var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  var ScreenView = require( 'JOIST/ScreenView' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
 
   function ComponentHolder( createFunction ) {
@@ -46,6 +47,9 @@ define( function( require ) {
     } ),
     new ComponentHolder( function() {
       return new ScientificNotationNode( numberProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new LeftRightSpinner( numberProperty, booleanProperty, booleanProperty );
     } )
   ];
 
