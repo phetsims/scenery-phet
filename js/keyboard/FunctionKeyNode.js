@@ -28,7 +28,7 @@ define( function( require ) {
 
     options = _.extend( {
       minKeyWidth: 75, // in ScreenView coordinates, function key is usually longer than other keys
-      maxKeyWidth: 75,
+      maxKeyWidth: 75
     }, options );
 
     TextKeyNode.call( this, keyFnString, options );
