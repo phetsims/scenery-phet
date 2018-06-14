@@ -30,8 +30,10 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
+  var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
+  var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -88,6 +90,7 @@ define( function( require ) {
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
       { label: 'KeyNode', getNode: demoKeyNode },
+      { label: 'KitSelectionNode', getNode: demoKitSelectionNode },
       { label: 'HelpContent', getNode: demoHelpContent },
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
@@ -277,6 +280,16 @@ define( function( require ) {
     return new Node( {
       children: [ bounds, formulaNode ]
     } );
+  };
+
+  // Creates a demo for KitSelectionNode
+  var demoKitSelectionNode = function( layoutBounds ) {
+    var selectedKitProperty = new Property( 0 );
+    var kits = [
+      { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
+      { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
+    ] ;
+    return new KitSelectionNode( selectedKitProperty, kits, { center: layoutBounds.center } );
   };
 
   // Creates a demo for ProbeNode
