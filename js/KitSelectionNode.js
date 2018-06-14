@@ -114,9 +114,10 @@ define( function( require ) {
     }
 
     // Set up an observer to set visibility of the selected kit.
-    selectedKit.link( function( kit ) {
+    var selectedKitObserver = function( kit ) {
       self.scrollTo( kit );
-    } );
+    };
+    selectedKit.link( selectedKitObserver );
 
     // Set up the timer and function that will animate the carousel position.
     var motionVelocity = self.selectorSize.width / SLOT_CHANGE_TIME;
@@ -135,11 +136,29 @@ define( function( require ) {
 
     // Pass through any options intended for Node.
     self.mutate( options );
+
+    // @private
+    this.disposeKitSelectionNode = function() {
+      controlNode.dispose();
+      // self.kitLayer.dispose(); // TODO: is this necessary?
+      if ( selectedKit.hasListener( selectedKitObserver ) ) {
+        selectedKit.unlink( selectedKitObserver );
+      }
+    };
   }
 
   sceneryPhet.register( 'KitSelectionNode', KitSelectionNode );
 
   return inherit( Node, KitSelectionNode, {
+
+    /**
+     * Ensures that this node is subject to garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeKitSelectionNode();
+      Node.prototype.dispose.call( this );
+    },
 
     // @public scrolls to the {number} kitNumber
     scrollTo: function( kitNumber ) {

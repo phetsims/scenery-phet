@@ -87,18 +87,39 @@ define( function( require ) {
     this.addChild( previousKitButton );
 
     // Control button enabled state
-    selectedKitProperty.link( function( kitNum ) {
+    var selectedKitPropertyObserver = function( kitNum ) {
       nextKitButton.visible = ( kitNum < numKits - 1 );
       previousKitButton.visible = ( kitNum !== 0 );
-    } );
+    };
+    selectedKitProperty.link( selectedKitPropertyObserver );
 
     // Layout
     nextKitButton.left = previousKitButton.right + spaceBetweenControls;
 
     this.mutate( options );
+
+    // @private
+    this.disposeKitControlNodeSides = function() {
+      // TODO: buttons may still leak memory
+      nextKitButton.dispose();
+      previousKitButton.dispose();
+      if ( selectedKitProperty.hasListener( selectedKitPropertyObserver ) ) {
+        selectedKitProperty.unlink( selectedKitPropertyObserver );
+      }
+    };
   }
 
   sceneryPhet.register( 'KitControlNodeSides', KitControlNodeSides );
 
-  return inherit( Node, KitControlNodeSides );
+  return inherit( Node, KitControlNodeSides, {
+
+    /**
+     * Ensures that this node is subject to garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeKitControlNodeSides();
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
