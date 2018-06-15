@@ -22,7 +22,7 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var Vector2 =      require( 'DOT/Vector2' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
@@ -133,7 +133,7 @@ define( function( require ) {
      * Implements keyboard dragging when listener is attached to the node, public so listener is attached
      * with addAccessibleInputListener()
      * @public
-     * 
+     *
      * @param {DOMEvent} event
      */
     this.keydown = function( event ) {
@@ -153,7 +153,7 @@ define( function( require ) {
       // see https://github.com/phetsims/balloons-and-static-electricity/issues/384
       if ( platform.safari ) {
         if ( KeyboardUtil.isArrowKey( event.keyCode ) ) {
-          if ( self.keyInListDown( [ KeyboardUtil.KEY_RIGHT_ARROW, KeyboardUtil.KEY_LEFT_ARROW, KeyboardUtil.KEY_UP_ARROW, KeyboardUtil.KEY_DOWN_ARROW ] ) )  {
+          if ( self.keyInListDown( [ KeyboardUtil.KEY_RIGHT_ARROW, KeyboardUtil.KEY_LEFT_ARROW, KeyboardUtil.KEY_UP_ARROW, KeyboardUtil.KEY_DOWN_ARROW ] ) ) {
             self.reset();
             return;
           }
@@ -169,7 +169,7 @@ define( function( require ) {
 
       if ( self._start ) {
         if ( self.movementKeysDown ) {
-         self._start( event );
+          self._start( event );
         }
       }
 
@@ -254,7 +254,7 @@ define( function( require ) {
 
     /**
      * Step function for the drag handler. JavaScript does not natively handle multiple keydown events at once,
-     * so we need to track the state of the keyboard in an Object and manage dragging in this function. 
+     * so we need to track the state of the keyboard in an Object and manage dragging in this function.
      * In order for the drag handler to work.
      *
      * @private
@@ -345,7 +345,7 @@ define( function( require ) {
           this.draggingDisabled = true;
         }
         else {
-          this.draggingDisabled = false;  
+          this.draggingDisabled = false;
 
           // keys are no longer down, clear the group
           this.keyGroupDown = null;
@@ -388,7 +388,7 @@ define( function( require ) {
             if ( this._dragBounds ) {
               newPosition = this._dragBounds.closestPointTo( newPosition );
             }
-        
+
             // update the position if it is different
             if ( !newPosition.equals( this._locationProperty.get() ) ) {
               this._locationProperty.set( newPosition );
@@ -557,7 +557,7 @@ define( function( require ) {
 
     /**
      * Resets the timers and control variables for the press and hold functionality.
-     * 
+     *
      * @private
      */
     resetPressAndHold: function() {
