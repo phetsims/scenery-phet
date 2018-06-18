@@ -17,7 +17,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -59,6 +61,9 @@ define( function( require ) {
     } ),
     new ComponentHolder( function() {
       return new WavelengthSlider( waveLengthProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new NumberPicker( numberProperty, new Property( new Range( 0, 2 ) ) );
     } )/*,
     new ComponentHolder( function() {
       var kits = [
