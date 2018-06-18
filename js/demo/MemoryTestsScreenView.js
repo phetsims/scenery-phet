@@ -8,20 +8,21 @@ define( function( require ) {
   'use strict';
 
   // modules
+  // var HStrut = require( 'SCENERY/nodes/HStrut' ); // TODO: for KitSelectionNode
+  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' ); // TODO: for KitSelectionNode
+  // var PhetFont = require( 'SCENERY_PHET/PhetFont' ); // TODO: for KitSelectionNode
+  // var Text = require( 'SCENERY/nodes/Text' ); // TODO: for KitSelectionNode
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
-  // var HStrut = require( 'SCENERY/nodes/HStrut' ); // TODO: for KitSelectionNode
   var inherit = require( 'PHET_CORE/inherit' );
-  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' ); // TODO: for KitSelectionNode
   var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  // var PhetFont = require( 'SCENERY_PHET/PhetFont' ); // TODO: for KitSelectionNode
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  // var Text = require( 'SCENERY/nodes/Text' ); // TODO: for KitSelectionNode
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   function ComponentHolder( createFunction ) {
     var self = this;
@@ -35,6 +36,7 @@ define( function( require ) {
 
   var booleanProperty = new Property( false );
   var numberProperty = new Property( 1 );
+  var waveLengthProperty = new Property( 400 );
 
   var components = [
     new ComponentHolder( function() {
@@ -54,6 +56,9 @@ define( function( require ) {
     } ),
     new ComponentHolder( function() {
       return new LeftRightSpinner( numberProperty, booleanProperty, booleanProperty );
+    } ),
+    new ComponentHolder( function() {
+      return new WavelengthSlider( waveLengthProperty );
     } )/*,
     new ComponentHolder( function() {
       var kits = [
