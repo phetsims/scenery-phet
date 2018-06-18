@@ -141,7 +141,7 @@ define( function( require ) {
     // Temperature determines the height of the fluid in the tube
     var maxFluidHeight = new Path( fluidClipArea ).height;
     //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
-    ivar temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
+    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
 
     var temperaturePropertyObserver = function( temp ) {
       var fluidHeight = temperatureLinearFunction( temp );
@@ -156,7 +156,7 @@ define( function( require ) {
     // @private
     this.disposeThermometerNode = function() {
       if ( temperatureProperty.hasListener( temperaturePropertyObserver ) ) {
-        temperatureProperty.unlink( temperaturePropertyObserver ); 
+        temperatureProperty.unlink( temperaturePropertyObserver );
       }
     };
   }
