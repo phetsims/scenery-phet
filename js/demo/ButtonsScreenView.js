@@ -34,6 +34,7 @@ define( function( require ) {
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
+  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
@@ -112,6 +113,26 @@ define( function( require ) {
       }
     } );
 
+    var upDownSpinnerProperty = new Property( 1 );
+    var upEnabledProperty = new Property( true );
+    var downEnabledProperty = new Property( true );
+
+    var upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty );
+
+    upDownSpinnerProperty.lazyLink( function( value ) {
+      console.log( 'UpDownSpinner: ' + value );
+      if ( value >= 10 ) {
+        upEnabledProperty.set( false );
+      }
+      else if ( value <= 0 ) {
+        downEnabledProperty.set( false );
+      }
+      else {
+        upEnabledProperty.set( true );
+        downEnabledProperty.set( true );
+      }
+    } );
+
     // Push buttons
     var pushButtons = new HBox( {
       children: [
@@ -126,7 +147,8 @@ define( function( require ) {
         zoomButton,
         infoButton,
         refreshButton,
-        leftRightSpinner
+        leftRightSpinner,
+        upDownSpinner
       ],
       spacing: 10,
       align: 'center',
@@ -204,6 +226,9 @@ define( function( require ) {
         leftRightSpinnerProperty.reset();
         leftEnabledProperty.reset();
         rightEnabledProperty.reset();
+        upDownSpinnerProperty.reset();
+        upEnabledProperty.reset();
+        downEnabledProperty.reset();
 
         // reset each Property in toggleButtonProperties
         for ( var property in toggleButtonProperties ) {
