@@ -48,7 +48,7 @@ define( function( require ) {
       baseColor: '#fefd53',
       yContentOffset: -3
     } );
-    upEnabledProperty.linkAttribute( upButton, 'enabled' );
+    var upEnabledPropertyLinkAttribute = upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
     var downButton = new RoundPushButton( {
       content: downIcon,
@@ -60,14 +60,34 @@ define( function( require ) {
       baseColor: '#fefd53',
       yContentOffset: +3
     } );
-    downEnabledProperty.linkAttribute( downButton, 'enabled' );
+    var downEnabledPropertyLinkAttribute = downEnabledProperty.linkAttribute( downButton, 'enabled' );
 
     VBox.call( this, { spacing: 6, children: [ upButton, downButton ] } );
 
     this.mutate( options );
+
+    // @private
+    this.disposeUpDownSpinner = function() {
+      if ( upEnabledProperty.hasListener( upEnabledPropertyLinkAttribute) ) {
+        upEnabledProperty.unlinkAttribute( upEnabledPropertyLinkAttribute );
+      }
+      if ( downEnabledProperty.hasListener( downEnabledPropertyLinkAttribute) ) {
+        downEnabledProperty.unlinkAttribute( downEnabledPropertyLinkAttribute );
+      }
+    };
   }
 
   sceneryPhet.register( 'UpDownSpinner', UpDownSpinner );
 
-  return inherit( VBox, UpDownSpinner );
+  return inherit( VBox, UpDownSpinner, {
+
+    /**
+     * Ensures that this node is subject to garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeUpDownSpinner();
+      VBox.prototype.dispose.call( this );
+    }
+  } );
 } );
