@@ -38,7 +38,13 @@ define( function( require ) {
       // See https://github.com/phetsims/scenery-phet/issues/375
       reload: function() {
         window.location.reload();
-      }
+      },
+
+      // Dialog options
+      xSpacing: 30,
+      topMargin: 30,
+      bottomMargin: 30,
+      leftMargin: 30
 
     }, options );
 
@@ -63,7 +69,7 @@ define( function( require ) {
     Dialog.call( this, new HBox( {
       children: [ warningSign, text, button ],
       spacing: 10
-    } ) );
+    } ), options );
   }
 
   sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
