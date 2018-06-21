@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -67,18 +68,17 @@ define( function( require ) {
 
     var cornerRadius = options.cornerRadius;
 
-    // compute our colors
-    var baseColor = options.baseColor instanceof Color ? options.baseColor : new Color( options.baseColor );
-    var lighterColor = baseColor.colorUtilsBrighter( options.lightFactor + options.lighterFactor );
-    var lightColor = baseColor.colorUtilsBrighter( options.lightFactor );
-    var darkColor = baseColor.colorUtilsDarker( options.darkFactor );
-    var darkerColor = baseColor.colorUtilsDarker( options.darkFactor + options.darkerFactor );
+    // @private {Property.<Color>} - compute our colors
+    this.lighterPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor + options.lighterFactor } );
+    this.lightPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor } );
+    this.darkPaint = new PaintColorProperty( options.baseColor, { factor: options.darkFactor } );
+    this.darkerPaint = new PaintColorProperty( options.baseColor, { factor: options.darkFactor + options.darkerFactor } );
 
     // change colors based on orientation
-    var topColor = lightFromTop ? lighterColor : darkerColor;
-    var leftColor = lightFromLeft ? lightColor : darkColor;
-    var rightColor = lightFromLeft ? darkColor : lightColor;
-    var bottomColor = lightFromTop ? darkerColor : lighterColor;
+    var topColor = lightFromTop ? this.lighterPaint : this.darkerPaint;
+    var leftColor = lightFromLeft ? this.lightPaint : this.darkPaint;
+    var rightColor = lightFromLeft ? this.darkPaint : this.lightPaint;
+    var bottomColor = lightFromTop ? this.darkerPaint : this.lighterPaint;
 
     // how far our light and dark gradients will extend into the rectangle
     var lightOffset = options.lightOffset * cornerRadius;
@@ -96,8 +96,8 @@ define( function( require ) {
 
     horizontalNode.fill = new LinearGradient( horizontalNode.left, 0, horizontalNode.right, 0 )
       .addColorStop( 0, leftColor )
-      .addColorStop( leftOffset / verticalNode.width, baseColor )
-      .addColorStop( 1 - rightOffset / verticalNode.width, baseColor )
+      .addColorStop( leftOffset / verticalNode.width, options.baseColor )
+      .addColorStop( 1 - rightOffset / verticalNode.width, options.baseColor )
       .addColorStop( 1, rightColor );
 
     verticalNode.fill = new LinearGradient( 0, verticalNode.top, 0, verticalNode.bottom )
@@ -126,9 +126,9 @@ define( function( require ) {
       y: lightFromTop ? innerBounds.minY : innerBounds.maxY,
       rotation: lightCornerRotation,
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
-        .addColorStop( 0, baseColor )
-        .addColorStop( 1 - lightOffset / cornerRadius, baseColor )
-        .addColorStop( 1, lighterColor ),
+        .addColorStop( 0, options.baseColor )
+        .addColorStop( 1 - lightOffset / cornerRadius, options.baseColor )
+        .addColorStop( 1, this.lighterPaint ),
       pickable: false
     } );
 
@@ -138,9 +138,9 @@ define( function( require ) {
       y: lightFromTop ? innerBounds.maxY : innerBounds.minY,
       rotation: lightCornerRotation + Math.PI, // opposite direction from our light corner
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
-        .addColorStop( 0, baseColor )
-        .addColorStop( 1 - darkOffset / cornerRadius, baseColor )
-        .addColorStop( 1, darkerColor ),
+        .addColorStop( 0, options.baseColor )
+        .addColorStop( 1 - darkOffset / cornerRadius, options.baseColor )
+        .addColorStop( 1, this.darkerPaint ),
       pickable: false
     } );
 
@@ -161,6 +161,20 @@ define( function( require ) {
 
   sceneryPhet.register( 'ShadedRectangle', ShadedRectangle );
 
-  return inherit( Node, ShadedRectangle );
+  return inherit( Node, ShadedRectangle, {
+    /**
+     * Releases references.
+     * @public
+     * @override
+     */
+    dispose: function() {
+      this.lighterPaint.dispose();
+      this.lightPaint.dispose();
+      this.darkPaint.dispose();
+      this.darkerPaint.dispose();
+
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
 
