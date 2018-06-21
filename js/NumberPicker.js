@@ -22,6 +22,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -115,16 +116,13 @@ define( function( require ) {
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
     if ( options.pressedColor === undefined ) {
-      if ( options.color instanceof Property ) {
-        // @private {Property.<Color>}
-        this.pressedColorProperty = new DerivedProperty( [ options.color ], function( color ) {
-          return Color.toColor( color ).darkerColor();
-        } );
-        options.pressedColor = this.pressedColorProperty;
-      }
-      else {
-        options.pressedColor = Color.toColor( options.color ).darkerColor();
-      }
+      // @private {Property.<Color>}
+      this.colorProperty = new PaintColorProperty( options.color );
+
+      // No reference needs to be kept, since we dispose its dependency.
+      options.pressedColor = new DerivedProperty( [ this.colorProperty ], function( color ) {
+        return color.darkerColor();
+      } );
     }
 
     var self = this;
@@ -453,9 +451,7 @@ define( function( require ) {
 
     // @public Ensures that this node is eligible for GC.
     dispose: function() {
-      if ( this.pressedColorProperty ) {
-        this.pressedColorProperty.dispose();
-      }
+      this.colorProperty && this.colorProperty.dispose();
 
       this.upEnabledProperty.unlinkAll(); // Property is owned by this instance
       this.upEnabledProperty.dispose();
