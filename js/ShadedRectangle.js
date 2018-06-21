@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -75,10 +76,10 @@ define( function( require ) {
     this.darkerPaint = new PaintColorProperty( options.baseColor, { factor: options.darkFactor + options.darkerFactor } );
 
     // change colors based on orientation
-    var topColor = lightFromTop ? this.lighterPaint : this.darkerPaint;
-    var leftColor = lightFromLeft ? this.lightPaint : this.darkPaint;
-    var rightColor = lightFromLeft ? this.darkPaint : this.lightPaint;
-    var bottomColor = lightFromTop ? this.darkerPaint : this.lighterPaint;
+    var topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
+    var leftColorProperty = lightFromLeft ? this.lightPaint : this.darkPaint;
+    var rightColorProperty = lightFromLeft ? this.darkPaint : this.lightPaint;
+    var bottomColorProperty = lightFromTop ? this.darkerPaint : this.lighterPaint;
 
     // how far our light and dark gradients will extend into the rectangle
     var lightOffset = options.lightOffset * cornerRadius;
@@ -95,16 +96,20 @@ define( function( require ) {
     var verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
 
     horizontalNode.fill = new LinearGradient( horizontalNode.left, 0, horizontalNode.right, 0 )
-      .addColorStop( 0, leftColor )
+      .addColorStop( 0, leftColorProperty )
       .addColorStop( leftOffset / verticalNode.width, options.baseColor )
       .addColorStop( 1 - rightOffset / verticalNode.width, options.baseColor )
-      .addColorStop( 1, rightColor );
+      .addColorStop( 1, rightColorProperty );
 
     verticalNode.fill = new LinearGradient( 0, verticalNode.top, 0, verticalNode.bottom )
-      .addColorStop( 0, topColor )
-      .addColorStop( topOffset / verticalNode.height, topColor.withAlpha( 0 ) )
-      .addColorStop( 1 - bottomOffset / verticalNode.height, bottomColor.withAlpha( 0 ) )
-      .addColorStop( 1, bottomColor );
+      .addColorStop( 0, topColorProperty )
+      .addColorStop( topOffset / verticalNode.height, new DerivedProperty( [ topColorProperty ], function( color ) {
+        return color.withAlpha( 0 );
+      } ) )
+      .addColorStop( 1 - bottomOffset / verticalNode.height, new DerivedProperty( [ bottomColorProperty ], function( color ) {
+        return color.withAlpha( 0 );
+      } ) )
+      .addColorStop( 1, bottomColorProperty );
 
     // shape of our corner (in this case, top-right)
     var cornerShape = new Shape().moveTo( 0, 0 )
@@ -146,7 +151,9 @@ define( function( require ) {
 
     // the stroke around the outside
     var panelStroke = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {
-      stroke: rightColor.withAlpha( 0.4 )
+      stroke: new DerivedProperty( [ rightColorProperty ], function( color ) {
+        return color.withAlpha( 0.4 );
+      } )
     } );
 
     // layout
