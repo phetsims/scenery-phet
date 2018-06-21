@@ -12,9 +12,10 @@ define( function( require ) {
 
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -33,7 +34,14 @@ define( function( require ) {
       mouthStroke: 'black',
       headLineWidth: 1
     }, options );
-    options.headStroke = options.headStroke || Color.toColor( options.headFill ).darkerColor();
+
+    // @private {Property.<Color>}
+    this.headFillProperty = new PaintColorProperty( options.headFill );
+
+    // The derived property listens to our headFillProperty which will be disposed. We don't need to keep a reference.
+    options.headStroke = options.headStroke || new DerivedProperty( [ this.headFillProperty ], function( color ) {
+      return color.darkerColor();
+    } );
 
     Node.call( this );
 
@@ -97,6 +105,17 @@ define( function( require ) {
       this.smileMouth.visible = false;
       this.frownMouth.visible = true;
       return this; // allow chaining
+    },
+
+    /**
+     * Releases references.
+     * @public
+     * @override
+     */
+    dispose: function() {
+      this.headFillProperty.dispose();
+
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
