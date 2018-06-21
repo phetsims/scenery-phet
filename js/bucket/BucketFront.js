@@ -7,11 +7,11 @@ define( function( require ) {
   'use strict';
 
   // Includes
-  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -47,13 +47,17 @@ define( function( require ) {
 
     var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
-    var baseColor = new Color( bucket.baseColor );
+
+    // @private {Property.<Color>}
+    this.baseBrighter5 = new PaintColorProperty( bucket.baseColor, { factor: 0.5 } );
+    this.baseDarker5 = new PaintColorProperty( bucket.baseColor, { factor: -0.5 } );
+
     var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
       0,
       transformedShape.bounds.getMaxX(),
       0 );
-    frontGradient.addColorStop( 0, baseColor.colorUtilsBrighter( 0.5 ).toCSS() );
-    frontGradient.addColorStop( 1, baseColor.colorUtilsDarker( 0.5 ).toCSS() );
+    frontGradient.addColorStop( 0, this.baseBrighter5 );
+    frontGradient.addColorStop( 1, this.baseDarker5 );
     this.addChild( new Path( transformedShape, {
       fill: frontGradient
     } ) );
@@ -93,6 +97,10 @@ define( function( require ) {
 
     dispose: function() {
       this.labelNode && this.labelNode.dispose();
+
+      this.baseBrighter5.dispose();
+      this.baseDarker5.dispose();
+
       Node.prototype.dispose.call( this );
     }
   } );
