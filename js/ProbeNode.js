@@ -16,12 +16,13 @@ define( function( require ) {
 
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Ray2 = require( 'DOT/Ray2' );
@@ -103,8 +104,6 @@ define( function( require ) {
 
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 
-    var color = Color.toColor( options.color );
-
     // To improve readability
     var radius = options.radius;
 
@@ -171,18 +170,26 @@ define( function( require ) {
     var lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
     var gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
+    // @private {Property.<Color>}
+    this.brighter5 = new PaintColorProperty( options.color, { factor: 0.5 } );
+    this.brighter4 = new PaintColorProperty( options.color, { factor: 0.4 } );
+    this.brighter3 = new PaintColorProperty( options.color, { factor: 0.3 } );
+    this.brighter2 = new PaintColorProperty( options.color, { factor: 0.2 } );
+    this.darker2 = new PaintColorProperty( options.color, { factor: -0.2 } );
+    this.darker3 = new PaintColorProperty( options.color, { factor: -0.3 } );
+
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( 0.2 ) ) // highlight
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.2 ) ), // shadow
+        .addColorStop( 0.0, this.brighter2 ) // highlight
+        .addColorStop( 1.0, this.darker2 ), // shadow
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, color.colorUtilsBrightness( +0.5 ) ) // highlight
-        .addColorStop( 0.03, color.colorUtilsBrightness( +0.4 ) )
-        .addColorStop( 0.07, color.colorUtilsBrightness( +0.4 ) )
-        .addColorStop( 0.11, color.colorUtilsBrightness( +0.2 ) )
-        .addColorStop( 0.3, color.colorUtilsBrightness( +0.0 ) )
-        .addColorStop( 0.8, color.colorUtilsBrightness( -0.2 ) ) // shadows
-        .addColorStop( 1.0, color.colorUtilsBrightness( -0.3 ) ),
+        .addColorStop( 0.0, this.brighter5 ) // highlight
+        .addColorStop( 0.03, this.brighter4 )
+        .addColorStop( 0.07, this.brighter4 )
+        .addColorStop( 0.11, this.brighter2 )
+        .addColorStop( 0.3, options.color )
+        .addColorStop( 0.8, this.darker2 ) // shadows
+        .addColorStop( 1.0, this.darker3 ),
       lineWidth: 2
     } );
 
@@ -193,7 +200,9 @@ define( function( require ) {
       // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
       scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
       centerX: outerShapePath.centerX,
-      stroke: color.colorUtilsBrightness( +0.3 ).withAlpha( 0.5 ),
+      stroke: new DerivedProperty( [ this.brighter3 ], function( color ) {
+        return color.withAlpha( 0.5 );
+      } ),
       lineWidth: 1.2,
       y: 2 // Shift it down a bit to make the face look a bit more 3d
     } );
@@ -223,7 +232,23 @@ define( function( require ) {
 
   sceneryPhet.register( 'ProbeNode', ProbeNode );
 
-  return inherit( Node, ProbeNode, {},
+  return inherit( Node, ProbeNode, {
+    /**
+     * Releases references.
+     * @public
+     * @override
+     */
+    dispose: function() {
+      this.brighter5.dispose();
+      this.brighter4.dispose();
+      this.brighter3.dispose();
+      this.brighter2.dispose();
+      this.darker2.dispose();
+      this.darker3.dispose();
+
+      Node.prototype.dispose.call( this );
+    }
+  },
 
     // statics
     {
@@ -233,7 +258,7 @@ define( function( require ) {
       DEFAULT_OPTIONS: DEFAULT_OPTIONS,
 
       // Sensor types
-      // @public 
+      // @public
       crosshairs: crosshairs,
       glass: glass
     } );
