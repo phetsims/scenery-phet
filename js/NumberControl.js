@@ -14,7 +14,7 @@ define( function( require ) {
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
-  var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
@@ -23,6 +23,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -119,9 +120,16 @@ define( function( require ) {
       groupFocusHighlight: true
     }, options );
 
+
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
-      options.thumbFillHighlighted = Color.toColor( options.thumbFillEnabled ).brighterColor();
+      // @private {Property.<Color>}
+      this.thumbFillEnabledProperty = new PaintColorProperty( options.thumbFillEnabled );
+
+      // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
+      options.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillEnabledProperty ], function( color ) {
+        return color.brighterColor();
+      } );
     }
 
     // constrain the slider value to the provided range and the same delta as the arrow buttons
@@ -284,6 +292,8 @@ define( function( require ) {
       leftArrowButton.dispose();
       rightArrowButton.dispose();
       slider.dispose();
+
+      self.thumbFillEnabledProperty && self.thumbFillEnabledProperty.dispose();
 
       numberProperty.unlink( arrowEnabledListener );
       self.enabledProperty.unlink( enabledObserver );
