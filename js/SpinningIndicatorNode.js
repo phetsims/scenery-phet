@@ -17,6 +17,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -44,8 +45,8 @@ define( function( require ) {
     this.indicatorRotation = Math.PI * 2; // @private Current angle of rotation (starts at 2pi so our modulo opreation is safe below)
 
     // parse the colors (if necessary) so we can quickly interpolate between the two
-    this.activeColor = new Color( options.activeColor ); // @private
-    this.inactiveColor = new Color( options.inactiveColor ); // @private
+    this.activeColorProperty = new PaintColorProperty( options.activeColor ); // @private
+    this.inactiveColorProperty = new PaintColorProperty( options.inactiveColor ); // @private
 
     // @private the angle between each element
     this.angleDelta = 2 * Math.PI / options.elementQuantity;
@@ -98,15 +99,27 @@ define( function( require ) {
         }
 
         // Fill it with the interpolated color
-        var red = ratio * this.inactiveColor.red + ( 1 - ratio ) * this.activeColor.red;
-        var green = ratio * this.inactiveColor.green + ( 1 - ratio ) * this.activeColor.green;
-        var blue = ratio * this.inactiveColor.blue + ( 1 - ratio ) * this.activeColor.blue;
-        var alpha = ratio * this.inactiveColor.alpha + ( 1 - ratio ) * this.activeColor.alpha;
+        var red = ratio * this.inactiveColorProperty.value.red + ( 1 - ratio ) * this.activeColorProperty.value.red;
+        var green = ratio * this.inactiveColorProperty.value.green + ( 1 - ratio ) * this.activeColorProperty.value.green;
+        var blue = ratio * this.inactiveColorProperty.value.blue + ( 1 - ratio ) * this.activeColorProperty.value.blue;
+        var alpha = ratio * this.inactiveColorProperty.value.alpha + ( 1 - ratio ) * this.activeColorProperty.value.alpha;
         this.elements[i].fill = new Color( red, green, blue, alpha );
 
         // And rotate to the next element (in the opposite direction, so our motion is towards the head)
         angle -= this.angleDelta;
       }
+    },
+
+    /**
+     * Releases references.
+     * @public
+     * @override
+     */
+    dispose: function() {
+      this.activeColorProperty.dispose();
+      this.inactiveColorProperty.dispose();
+
+      Node.prototype.dispose.call( this );
     }
   }, {
     // @static Factory method for creating rectangular-shaped elements, sized to fit.
