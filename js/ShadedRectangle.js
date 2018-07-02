@@ -72,8 +72,8 @@ define( function( require ) {
     // @private {Property.<Color>} - compute our colors
     this.lighterPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor + options.lighterFactor } );
     this.lightPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor } );
-    this.darkPaint = new PaintColorProperty( options.baseColor, { factor: options.darkFactor } );
-    this.darkerPaint = new PaintColorProperty( options.baseColor, { factor: options.darkFactor + options.darkerFactor } );
+    this.darkPaint = new PaintColorProperty( options.baseColor, { factor: -options.darkFactor } );
+    this.darkerPaint = new PaintColorProperty( options.baseColor, { factor: -options.darkFactor - options.darkerFactor } );
 
     // change colors based on orientation
     var topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
