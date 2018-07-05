@@ -78,6 +78,8 @@ define( function( require ) {
         } );
       }
 
+      var oldText = this._text;
+
       // save the new text
       this._text = text;
 
@@ -105,6 +107,8 @@ define( function( require ) {
         align: this.options.align
       } );
       this.insertChild( index, this.textParent );
+
+      this.trigger2( 'text', oldText, text );
     },
     set text( value ) { this.setText( value ); }, // ES5 setter
 
