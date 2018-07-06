@@ -65,37 +65,39 @@ define( function( require ) {
      * @public
      */
     setText: function( text ) {
-      var oldText = this._text;
+      if ( text !== this._text ) {
+        var oldText = this._text;
 
-      // save the new text
-      this._text = text;
+        // save the new text
+        this._text = text;
 
-      // parse the text and create {Text[]}
-      var self = this;
-      var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
+        // parse the text and create {Text[]}
+        var self = this;
+        var textNodes = StringUtils.embeddedSplit( text, '\n' ).map( function( line ) {
 
-        // create a blank line between consecutive line breaks
-        if ( line.length === 0 ) { line = ' '; }
+          // create a blank line between consecutive line breaks
+          if ( line.length === 0 ) { line = ' '; }
 
-        return new Text( line, _.omit( self.options, 'align', 'maxWidth', 'tandem' ) );
-      } );
+          return new Text( line, _.omit( self.options, 'align', 'maxWidth', 'tandem' ) );
+        } );
 
-      // determine where the textParent was, so we can maintain rendering order
-      var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
+        // determine where the textParent was, so we can maintain rendering order
+        var index = this.textParent ? this.indexOfChild( this.textParent ) : 0;
 
-      // remove the old textParent
-      if ( this.textParent ) {
-        this.removeChild( this.textParent );
+        // remove the old textParent
+        if ( this.textParent ) {
+          this.removeChild( this.textParent );
+        }
+
+        // add the new textParent
+        this.textParent = new VBox( {
+          children: textNodes,
+          align: this.options.align
+        } );
+        this.insertChild( index, this.textParent );
+
+        this.trigger2( 'text', oldText, text );
       }
-
-      // add the new textParent
-      this.textParent = new VBox( {
-        children: textNodes,
-        align: this.options.align
-      } );
-      this.insertChild( index, this.textParent );
-
-      this.trigger2( 'text', oldText, text );
     },
     set text( value ) { this.setText( value ); }, // ES5 setter
 
