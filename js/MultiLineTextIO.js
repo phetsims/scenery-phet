@@ -53,6 +53,7 @@ define( function( require ) {
      */
     dispose: function() {
       this.disposeMultiLineTextIO();
+      NodeIO.prototype.dispose.call( this );
     }
 
   }, {
