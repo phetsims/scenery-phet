@@ -10,13 +10,14 @@ define( function( require ) {
 
   // modules
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
-  var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   /**
    * @param {MultiLineText} multiLineText
@@ -26,26 +27,34 @@ define( function( require ) {
   function MultiLineTextIO( multiLineText, phetioID ) {
     assert && assertInstanceOf( multiLineText, phet.sceneryPhet.MultiLineText );
     NodeIO.call( this, multiLineText, phetioID );
+
+    // this uses a sub Property adapter as described in https://github.com/phetsims/phet-io/issues/1326
+    var textProperty = new NodeProperty( multiLineText, 'text', 'text', {
+
+      // pick the following values from the parent Node
+      phetioReadOnly: multiLineText.phetioReadOnly,
+      phetioState: multiLineText.phetioState,
+      phetioType: PropertyIO( StringIO ),
+
+      tandem: multiLineText.tandem.createTandem( 'textProperty' ),
+      phetioInstanceDocumentation: 'Property for the displayed text.'
+    } );
+
+    // @private
+    this.disposeMultiLineTextIO = function() {
+      textProperty.dispose();
+    };
   }
 
   phetioInherit( NodeIO, 'MultiLineTextIO', MultiLineTextIO, {
-    setText: {
-      returnType: VoidIO,
-      parameterTypes: [ StringIO ],
-      implementation: function( text ) {
-        this.instance.text = text;
-      },
-      documentation: 'Set the text content'
-    },
 
-    getText: {
-      returnType: StringIO,
-      parameterTypes: [],
-      implementation: function() {
-        return this.instance.text;
-      },
-      documentation: 'Get the text content'
+    /**
+     * @public - called by PhetioObject when the wrapper is done
+     */
+    dispose: function() {
+      this.disposeMultiLineTextIO();
     }
+
   }, {
     documentation: 'The tandem IO type for the scenery phet\'s MultiLineText node',
     events: [ 'changed' ]

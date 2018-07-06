@@ -27,9 +27,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // ifphetio
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
-
   /**
    * @param {string} text
    * @param {Object} [options]
@@ -68,16 +65,6 @@ define( function( require ) {
      * @public
      */
     setText: function( text ) {
-
-      // Only trigger the changed event if there is a previous text stored. This must be called before the 'text' arg
-      // overwrites the old value of
-      if ( this.options.tandem.isSuppliedAndEnabled() && this.text ) {
-        phetioEvents.trigger( 'model', this.options.tandem.phetioID, MultiLineTextIO, 'changed', {
-          oldText: this.text,
-          newText: text
-        } );
-      }
-
       var oldText = this._text;
 
       // save the new text
