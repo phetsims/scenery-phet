@@ -57,8 +57,7 @@ define( function( require ) {
     }
 
   }, {
-    documentation: 'The tandem IO type for the scenery phet\'s MultiLineText node',
-    events: [ 'changed' ]
+    documentation: 'The tandem IO type for the scenery phet\'s MultiLineText node'
   } );
 
   sceneryPhet.register( 'MultiLineTextIO', MultiLineTextIO );
