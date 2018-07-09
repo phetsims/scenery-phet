@@ -34,7 +34,7 @@ define( function( require ) {
     Node.call( this );
 
     options = _.extend( {
-      // {Color|string} default base color
+      // {ColorDef} default base color
       baseColor: new Color( 80, 130, 230 ),
 
       // {number} how much lighter the "light" parts (top and left) are
