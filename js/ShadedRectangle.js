@@ -69,7 +69,7 @@ define( function( require ) {
 
     var cornerRadius = options.cornerRadius;
 
-    // @private {Property.<Color>} - compute our colors
+    // @private {Property.<Color>} - compute our colors (properly handle color-Property cases for baseColor)
     this.lighterPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor + options.lighterFactor } );
     this.lightPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor } );
     this.darkPaint = new PaintColorProperty( options.baseColor, { factor: -options.darkFactor } );
