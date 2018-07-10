@@ -302,10 +302,12 @@ define( function( require ) {
       }
     };
 
-    // link the positions of base and tip to the measuring tape to the scenery update function
-    Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ], function( basePosition, tipPosition ) {
-      self.updatePosition( basePosition, tipPosition );
-    } );
+    // link the positions of base and tip to the measuring tape to the scenery update function.
+    // Must be disposed.
+    var multilink = Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ],
+      function( basePosition, tipPosition ) {
+        self.updatePosition( basePosition, tipPosition );
+      } );
 
     var isVisiblePropertyObserver = function( isVisible ) {
       self.visible = isVisible;
@@ -321,6 +323,7 @@ define( function( require ) {
 
     // @private
     this.disposeMeasuringTapeNode = function() {
+      multilink.dispose();
       if ( isVisibleProperty.hasListener( isVisiblePropertyObserver ) ) {
         isVisibleProperty.unlink( isVisiblePropertyObserver );
       }
