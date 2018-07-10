@@ -320,7 +320,7 @@ define( function( require ) {
     } );
     downParent.addInputListener( this.downListener );
 
-    // enable/disable listeners: unlink unnecessary, properties are owned by this instance
+    // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
     this.upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
     this.downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
 
