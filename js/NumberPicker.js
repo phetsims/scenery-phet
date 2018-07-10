@@ -117,7 +117,7 @@ define( function( require ) {
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
     if ( options.pressedColor === undefined ) {
       // @private {Property.<Color>}
-      this.colorProperty = new PaintColorProperty( options.color );
+      this.colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
       // No reference needs to be kept, since we dispose its dependency.
       options.pressedColor = new DerivedProperty( [ this.colorProperty ], function( color ) {
@@ -385,6 +385,19 @@ define( function( require ) {
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberTweaker
     this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
     this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
+
+    // @private
+    this.disposeNumberPicker = function() {
+
+      this.colorProperty && this.colorProperty.dispose();
+      this.upEnabledProperty.dispose();
+      this.downEnabledProperty.dispose();
+
+      this.valueProperty.unlink( this.valueObserver );
+
+      // a11y mixin
+      this.disposeAccessibleNumberTweaker();
+    };
   }
 
   sceneryPhet.register( 'NumberPicker', NumberPicker );
@@ -451,19 +464,7 @@ define( function( require ) {
 
     // @public Ensures that this node is eligible for GC.
     dispose: function() {
-      this.colorProperty && this.colorProperty.dispose();
-
-      this.upEnabledProperty.unlinkAll(); // Property is owned by this instance
-      this.upEnabledProperty.dispose();
-
-      this.downEnabledProperty.unlinkAll(); // Property is owned by this instance
-      this.downEnabledProperty.dispose();
-
-      this.valueProperty.unlink( this.valueObserver );
-
-      // dispose a11y features
-      this.disposeAccessibleNumberTweaker();
-
+      this.disposeNumberPicker();
       Node.prototype.dispose.call( this );
     },
 
