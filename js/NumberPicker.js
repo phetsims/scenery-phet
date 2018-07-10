@@ -393,7 +393,9 @@ define( function( require ) {
       this.upEnabledProperty.dispose();
       this.downEnabledProperty.dispose();
 
-      this.valueProperty.unlink( this.valueObserver );
+      if ( this.valueProperty.hasListener( this.valueObserver ) ) {
+        this.valueProperty.unlink( this.valueObserver );
+      }
 
       // a11y mixin
       this.disposeAccessibleNumberTweaker();
