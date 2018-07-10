@@ -2,7 +2,7 @@
 
 /**
  *
- * A node that creates a "Scene Summary" accessible section in the pDOM. This type prevents duplicated code because
+ * A node that creates a "Scene Summary" accessible section in the PDOM. This type prevents duplicated code because
  * all scene summaries have the same label, structure, and intro sentence.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)

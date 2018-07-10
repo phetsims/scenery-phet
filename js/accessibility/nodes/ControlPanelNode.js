@@ -2,7 +2,7 @@
 
 /**
  *
- * A node that creates a "Play Area" accessible section in the pDOM.
+ * A node that creates a "Play Area" accessible section in the PDOM.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
