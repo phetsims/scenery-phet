@@ -49,8 +49,8 @@ define( function( require ) {
     var transformedShape = bucket.containerShape.transformed( scaleMatrix );
 
     // @private {Property.<Color>}
-    this.baseBrighter5 = new PaintColorProperty( bucket.baseColor, { factor: 0.5 } );
-    this.baseDarker5 = new PaintColorProperty( bucket.baseColor, { factor: -0.5 } );
+    this.baseBrighter5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
+    this.baseDarker5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
 
     var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
       0,

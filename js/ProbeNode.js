@@ -171,12 +171,12 @@ define( function( require ) {
     var gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
     // @private {Property.<Color>}
-    this.brighter5 = new PaintColorProperty( options.color, { factor: 0.5 } );
-    this.brighter4 = new PaintColorProperty( options.color, { factor: 0.4 } );
-    this.brighter3 = new PaintColorProperty( options.color, { factor: 0.3 } );
-    this.brighter2 = new PaintColorProperty( options.color, { factor: 0.2 } );
-    this.darker2 = new PaintColorProperty( options.color, { factor: -0.2 } );
-    this.darker3 = new PaintColorProperty( options.color, { factor: -0.3 } );
+    this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
+    this.brighter4 = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
+    this.brighter3 = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
+    this.brighter2 = new PaintColorProperty( options.color, { luminanceFactor: 0.2 } );
+    this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
+    this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
 
     var outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )

@@ -70,10 +70,10 @@ define( function( require ) {
     var cornerRadius = options.cornerRadius;
 
     // @private {Property.<Color>} - compute our colors (properly handle color-Property cases for baseColor)
-    this.lighterPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor + options.lighterFactor } );
-    this.lightPaint = new PaintColorProperty( options.baseColor, { factor: options.lightFactor } );
-    this.darkPaint = new PaintColorProperty( options.baseColor, { factor: -options.darkFactor } );
-    this.darkerPaint = new PaintColorProperty( options.baseColor, { factor: -options.darkFactor - options.darkerFactor } );
+    this.lighterPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor + options.lighterFactor } );
+    this.lightPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor } );
+    this.darkPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor } );
+    this.darkerPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor - options.darkerFactor } );
 
     // change colors based on orientation
     var topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
