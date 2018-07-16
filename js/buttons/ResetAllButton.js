@@ -47,12 +47,10 @@ define( function( require ) {
       arrowColor: 'white',
       tandem: Tandem.required,
 
-      // a11y
-      innerContent: resetAllButtonNameString,
+      phetioInstanceDocumentation: 'The orange, round button that can be used to restore the initial state',
 
-      // We want to be able to make the ResetAllButton fully interoperable, which means opting in and passing that to
-      // the button model.
-      phetioReadOnly: false
+      // a11y
+      innerContent: resetAllButtonNameString
     }, options );
 
     ResetButton.call( this, options );
