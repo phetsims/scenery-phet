@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleNumberTweaker = require( 'SUN/accessibility/AccessibleNumberTweaker' );
+  var AccessibleNumberSpinner = require( 'SUN/accessibility/AccessibleNumberSpinner' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -79,7 +79,7 @@ define( function( require ) {
       tandem: Tandem.required,
 
       // a11y
-      a11yPageValueDelta: 2, // {number} - change in value when using page up/page down, see AccessibleNumberTweaker
+      a11yPageValueDelta: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
 
       /**
        * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
@@ -378,11 +378,11 @@ define( function( require ) {
     );
 
     // initialize accessibility features - must reach into up function to get delta
-    this.initializeAccessibleNumberTweaker( valueProperty, rangeProperty, new Property( true ), _.extend( {
+    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, new Property( true ), _.extend( {
       a11yValueDelta: options.upFunction( valueProperty.get() ) - valueProperty.get()
     }, options ) );
 
-    // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberTweaker
+    // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
     this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
     this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
 
@@ -398,7 +398,7 @@ define( function( require ) {
       }
 
       // a11y mixin
-      this.disposeAccessibleNumberTweaker();
+      this.disposeAccessibleNumberSpinner();
     };
   }
 
@@ -479,7 +479,7 @@ define( function( require ) {
   } );
 
   // mix accessibility into NumberPicker
-  AccessibleNumberTweaker.mixInto( NumberPicker );
+  AccessibleNumberSpinner.mixInto( NumberPicker );
 
   return NumberPicker;
 } );
