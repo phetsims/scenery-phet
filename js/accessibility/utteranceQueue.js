@@ -215,13 +215,12 @@ define( function( require ) {
       Timer.setInterval( function() {
 
         // No-op function if the utteranceQueue is disabled
-          if ( !enabled ) {
-            return;
-          }
+        if ( !enabled ) {
+          return;
+        }
 
-          self.next();
-        }, this.interval
-      );
+        self.next();
+      }, this.interval );
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
