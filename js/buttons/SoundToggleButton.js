@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -21,6 +20,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Shape = require( 'KITE/Shape' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
   var WIDTH = 45;
@@ -81,7 +81,7 @@ define( function( require ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       var alertString = value ? simSoundOnString : simSoundOffString;
-      AriaHerald.announcePolite( alertString );
+      utteranceQueue.addToBack( alertString );
     };
     property.lazyLink( pressedListener );
     self.setAccessibleAttribute( 'aria-pressed', !property.get() );
