@@ -118,12 +118,12 @@ define( function( require ) {
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
 
         // phet-io event to the data stream
-        this.startEvent( 'model', 'announced', { utterance: nextUtterance.text } );
+        this.phetioStartEvent( 'model', 'announced', { utterance: nextUtterance.text } );
 
         // Pass the utterance text on to be set in the PDOM.
         AriaHerald.announcePolite( nextUtterance.text );
 
-        this.endEvent();
+        this.phetioEndEvent();
       }
     },
 

@@ -181,7 +181,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        self.startEvent( 'model', 'startTapToDispense', { flowRate: flowRate } );
+        self.phetioStartEvent( 'model', 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -190,11 +190,11 @@ define( function( require ) {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
-        self.endEvent();
+        self.phetioEndEvent();
       }
     };
     var endTapToDispense = function() {
-      self.startEvent( 'model', 'endTapToDispense', { flowRate: 0 } );
+      self.phetioStartEvent( 'model', 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -205,7 +205,7 @@ define( function( require ) {
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
-      self.endEvent();
+      self.phetioEndEvent();
     };
 
     var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
