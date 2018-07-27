@@ -37,7 +37,7 @@ define( function( require ) {
       phetioType: PropertyIO( StringIO ),
 
       tandem: multiLineText.tandem.createTandem( 'textProperty' ),
-      phetioInstanceDocumentation: 'Property for the displayed text.'
+      phetioInstanceDocumentation: 'Property for the displayed text'
     } );
 
     // @private
