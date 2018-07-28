@@ -679,7 +679,7 @@ define( function( require ) {
       new TextKeyNode( 'Hi' ),
       new TextKeyNode( 'Hello' ),
       new TextKeyNode( 'Ahoy\' Manatee' )
-    ] );
+    ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
 
     var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
     var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon(), 'Label with up down arrows' );

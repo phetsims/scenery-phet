@@ -144,7 +144,6 @@ define( function( require ) {
      * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
     labelWithIcon: function( label, icon, labelInnerContent, options ) {
-      assert && assert( typeof label.text === 'string' && label.text.length > 0, 'Label must have text content for the PDOM' );
 
       options = _.extend( {
         spacing: DEFAULT_LABEL_ICON_SPACING,
@@ -167,8 +166,7 @@ define( function( require ) {
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
       // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
-      var content = options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox, icon: labelBox };
-      return content;
+      return options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox, icon: labelBox };
     },
 
     /**
@@ -183,21 +181,24 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node[]} icons
+     * @param {string} labelInnerContent
      * @param {Object} [options] - cannot pass in children
      *
      * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
-    labelWithIconList: function( label, icons, options ) {
+    labelWithIconList: function( label, icons, labelInnerContent, options ) {
 
       options = _.extend( {
-        iconsVBoxOptions: null // options for the iconsVBox, extended below
+        iconsVBoxOptions: {} // options for the iconsVBox, extended below
       }, options );
       assert && assert( !options.children, 'labelWithIconList adds its own children' );
 
+      assert && assert( !options.iconsVBoxOptions.innerContent, 'should be specified as an argument' );
       options.iconsVBoxOptions = _.extend( {
         spacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
         align: 'left',
-        tagName: 'li'
+        tagName: 'li',
+        innerContent: labelInnerContent
       }, options.iconsVBoxOptions );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
