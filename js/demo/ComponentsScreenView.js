@@ -288,7 +288,7 @@ define( function( require ) {
     var kits = [
       { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
       { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
-    ] ;
+    ];
     return new KitSelectionNode( selectedKitProperty, kits, { center: layoutBounds.center } );
   };
 
@@ -674,16 +674,16 @@ define( function( require ) {
   // creates a demo for KeyNode
   var demoHelpContent = function( layoutBounds ) {
 
-    var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ) );
+    var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
     var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List: ' ), [
       new TextKeyNode( 'Hi' ),
       new TextKeyNode( 'Hello' ),
       new TextKeyNode( 'Ahoy\' Manatee' )
     ] );
 
-    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon() );
-    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon() );
-    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with left right arrows: ' ), HelpContent.leftRightArrowKeysRowIcon() );
+    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
+    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with left right arrows: ' ), HelpContent.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
 
     // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
     // in their own panel
@@ -992,7 +992,7 @@ define( function( require ) {
     return new VBox( {
       spacing: 20,
       center: layoutBounds.center,
-      children: [ numberSlider , scientificNotationNode ]
+      children: [ numberSlider, scientificNotationNode ]
     } );
   };
 

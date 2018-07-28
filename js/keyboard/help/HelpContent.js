@@ -137,24 +137,28 @@ define( function( require ) {
      * @public
      * @static
      *
-     * @param {Node} label - label for the icon, usually Text or RichText
+     * @param {Node} label - label for the icon, must have a text getter, usually Text or RichText
      * @param {Node} icon
+     * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
      * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
-    labelWithIcon: function( label, icon, options ) {
+    labelWithIcon: function( label, icon, labelInnerContent, options ) {
+      assert && assert( typeof label.text === 'string' && label.text.length > 0, 'Label must have text content for the PDOM' );
 
       options = _.extend( {
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
         labelFirst: true,
         matchHorizontal: false,
-        iconOptions: null // specific options for the icon mostly to add a11y content, extended with defaults below
+        iconOptions: {} // specific options for the icon mostly to add a11y content, extended with defaults below
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
+      assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
       options.iconOptions = _.extend( {
-        tagName: 'li'
+        tagName: 'li',
+        innerContent: labelInnerContent
       }, options.iconOptions );
 
       // make the label and icon the same height so that they will align when we assemble help content group

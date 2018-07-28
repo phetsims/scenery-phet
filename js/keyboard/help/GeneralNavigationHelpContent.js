@@ -54,30 +54,18 @@ define( function( require ) {
     // 'move to next item' content
     var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
-    var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogTabDescriptionString
-      }
-    } );
+    var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
 
     // 'move to previous item' content
     var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, labelOptions );
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
-    var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogShiftTabDescriptionString
-      }
-    } );
+    var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
 
     // 'exit a dialog' content
     var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
-    var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogExitDialogDescriptionString
-      }
-    } );
+    var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
     var content = [];
     if ( options.withGroupContent ) {
@@ -91,11 +79,7 @@ define( function( require ) {
       var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, {
-        iconOptions: {
-          innerContent: keyboardHelpDialogGroupNavigationDescriptionString
-        }
-      } );
+      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
 
       content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
     }

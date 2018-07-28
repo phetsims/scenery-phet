@@ -61,11 +61,7 @@ define( function( require ) {
     var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
-    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogAdjustDefaultStepsString
-      }
-    } );
+    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content
     var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
@@ -89,33 +85,21 @@ define( function( require ) {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: HelpContent.DEFAULT_ICON_SPACING
     } );
-    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogAdjustLargerStepsString
-      }
-    } );
+    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
     // 'move to minimum value' content
     var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, DEFAULT_LABEL_OPTIONS );
     var homeKeyNode = new HomeKeyNode();
-    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogJumpToHomeString
-      }
-    } );
+    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
     // 'move to maximum value' content
     var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, DEFAULT_LABEL_OPTIONS );
     var endKeyNode = new EndKeyNode();
-    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, {
-      iconOptions: {
-        innerContent: keyboardHelpDialogJumpToEndString
-      }
-    } );
+    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, keyboardHelpDialogJumpToEndString );
 
     // assemble final content for HelpContent
     var content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
-    
+
     HelpContent.call( this, options.headingString, content, options );
   }
 
