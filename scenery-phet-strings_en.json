@@ -106,6 +106,9 @@
   "keyboardHelpDialog.moveToPreviousItem": {
     "value": "Move to previous item"
   },
+  "keyboardHelpDialog.pressButtons": {
+    "value": "Press buttons"
+  },
   "keyboardHelpDialog.moveToPreviousItemOrGroup": {
     "value": "Move to previous item or group"
   },

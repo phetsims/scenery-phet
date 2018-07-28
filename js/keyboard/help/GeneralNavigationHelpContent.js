@@ -15,6 +15,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
 
   // stings
@@ -25,12 +26,14 @@ define( function( require ) {
   var keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
   var keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
   var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
+  var keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
 
   // a11y strings
-  var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescriptionString.value;
-  var keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescriptionString.value;
-  var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescriptionString.value;
-  var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescriptionString.value;
+  var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
+  var keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescription.value;
+  var keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
+  var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
+  var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
 
   /**
    * @constructor
@@ -62,6 +65,11 @@ define( function( require ) {
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
 
+    // 'press buttons' content
+    var pressButtonsText = new RichText( keyboardHelpDialogPressButtonsString, labelOptions );
+    var spaceIcon = new SpaceKeyNode();
+    var pressButtonsItemRow = HelpContent.labelWithIcon( pressButtonsText, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
+
     // 'exit a dialog' content
     var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
@@ -81,10 +89,10 @@ define( function( require ) {
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
       var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
 
-      content = [ moveToNextItemRow, moveToPreviousItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
+      content = [ moveToNextItemRow, moveToPreviousItemRow, pressButtonsItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
     }
     else {
-      content = [ moveToNextItemRow, moveToPreviousItemRow, exitADialogRow ];
+      content = [ moveToNextItemRow, moveToPreviousItemRow, pressButtonsItemRow, exitADialogRow ];
     }
 
     HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );

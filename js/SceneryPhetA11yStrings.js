@@ -63,16 +63,19 @@ define( function( require ) {
     },
 
     // help descriptions for general navigation
-    keyboardHelpDialogTabDescriptionString: {
+    keyboardHelpDialogTabDescription: {
       value: 'Move to next item with Tab key.'
     },
-    keyboardHelpDialogShiftTabDescriptionString: {
+    keyboardHelpDialogShiftTabDescription: {
       value: 'Move to previous item with Shift plus Tab key.'
     },
-    keyboardHelpDialogGroupNavigationDescriptionString: {
+    keyboardHelpDialogPressButtonsDescription: {
+      value: 'Press buttons with the space bar.'
+    },
+    keyboardHelpDialogGroupNavigationDescription: {
       value: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.'
     },
-    keyboardHelpDialogExitDialogDescriptionString: {
+    keyboardHelpDialogExitDialogDescription: {
       value: 'Exit a dialog with Escape key.'
     },
 
@@ -105,7 +108,7 @@ define( function( require ) {
     },
     pauseDescriptionString: {
       value: 'Pause what is happening in the Play Area'
-    }, 
+    },
     // StepButton
     stepString: {
       'value': 'Step'
