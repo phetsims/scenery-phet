@@ -25,6 +25,7 @@ define( function( require ) {
 
   /**
    * @constructor
+   * @deprecated
    * @param {string} sceneSummary - the text for the sim specific part of the intro paragraph
    * @param {Object} options
    */
