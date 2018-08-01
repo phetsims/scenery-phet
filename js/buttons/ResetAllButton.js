@@ -62,8 +62,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
       phetioInstanceDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
       phetioType: DerivedPropertyIO( BooleanIO ),
-      phetioState: options.phetioState,
-      phetioReadOnly: options.phetioReadOnly
+      phetioState: false // this is a transient property based on user interaction, should not be stored in the state
     } );
 
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
