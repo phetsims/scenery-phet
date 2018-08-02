@@ -15,7 +15,7 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
+  // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Property = require( 'AXON/Property' );
@@ -24,8 +24,8 @@ define( function( require ) {
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
+  // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   function ComponentHolder( createFunction ) {
     var self = this;
@@ -39,7 +39,7 @@ define( function( require ) {
 
   var booleanProperty = new Property( false );
   var numberProperty = new Property( 1 );
-  var waveLengthProperty = new Property( 400 );
+  // var waveLengthProperty = new Property( 400 );
 
   var components = [
     new ComponentHolder( function() {
@@ -58,17 +58,17 @@ define( function( require ) {
       return new ScientificNotationNode( numberProperty );
     } ),
     new ComponentHolder( function() {
-      return new LeftRightSpinner( numberProperty, booleanProperty, booleanProperty );
-    } ),
+      return new NumberPicker( numberProperty, new Property( new Range( 0, 2 ) ) );
+    } )/*,
     new ComponentHolder( function() {
       return new WavelengthSlider( waveLengthProperty );
-    } ),
+    } )
     new ComponentHolder( function() {
-      return new NumberPicker( numberProperty, new Property( new Range( 0, 2 ) ) );
-    } ),
+      return new LeftRightSpinner( numberProperty, booleanProperty, booleanProperty );
+    } )
     new ComponentHolder( function() {
       return new UpDownSpinner( numberProperty, booleanProperty, booleanProperty );
-    } )/*,
+    } ),
     new ComponentHolder( function() {
       var kits = [
         { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
