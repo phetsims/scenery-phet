@@ -85,8 +85,10 @@ define( function( require ) {
       tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
+
       tandem: Tandem.required,
-      phetioType: FaucetNodeIO
+      phetioType: FaucetNodeIO,
+      phetioEventType: 'user'
     }, options );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
@@ -181,7 +183,7 @@ define( function( require ) {
     var startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        self.phetioStartEvent( 'model', 'startTapToDispense', { flowRate: flowRate } );
+        self.phetioStartEvent( 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -194,7 +196,7 @@ define( function( require ) {
       }
     };
     var endTapToDispense = function() {
-      self.phetioStartEvent( 'model', 'endTapToDispense', { flowRate: 0 } );
+      self.phetioStartEvent( 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         Timer.clearTimeout( timeoutID );
@@ -344,14 +346,16 @@ define( function( require ) {
     // stop
     var stopNode = new Image( stopImage );
 
-    Node.call( this, { children: [
-      shaftNode,
-      stopNode,
-      flangeNode,
-      flangeDisabledNode,
-      knobNode,
-      knobDisabledNode
-    ] } );
+    Node.call( this, {
+      children: [
+        shaftNode,
+        stopNode,
+        flangeNode,
+        flangeDisabledNode,
+        knobNode,
+        knobDisabledNode
+      ]
+    } );
 
     // layout, relative to shaft
     stopNode.x = shaftNode.x + 13;

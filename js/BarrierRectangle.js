@@ -29,7 +29,8 @@ define( function( require ) {
       tandem: Tandem.required,
       phetioType: BarrierRectangleIO,
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
-      phetioState: false
+      phetioState: false,
+      phetioEventType: 'user'
     }, options );
 
     Plane.call( this );
@@ -40,7 +41,7 @@ define( function( require ) {
 
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        self.phetioStartEvent( 'user', 'fired' );
+        self.phetioStartEvent( 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
         self.phetioEndEvent();
