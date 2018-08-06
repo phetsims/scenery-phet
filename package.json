@@ -10,6 +10,7 @@
     "grunt": "~1.0.0"
   },
   "phet": {
+    "generatedUnitTests": true,
     "requirejsNamespace": "SCENERY_PHET",
     "preload": [
       "../sherpa/lib/katex-0.5.1-css-all.js",
