@@ -205,6 +205,7 @@ define( function( require ) {
     /*---------------------------------------------------------------------------*
      * Target for drag listeners
      *----------------------------------------------------------------------------*/
+    // @public (read-only) - Target for drag listeners
     this.dragTarget = roundedRectangle;
 
     // @private
