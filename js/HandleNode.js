@@ -25,8 +25,6 @@ define( function( require ) {
    */
   function HandleNode( options ) {
 
-    Node.call( this );
-
     options = _.extend( {
       gripFillBaseColor: new Color( 183, 184, 185 ), // base color of gradient on the grip
       gripStrokeColor: 'black', // stroke color of the grip
@@ -114,7 +112,6 @@ define( function( require ) {
         .addColorStop( 0.7, options.gripFillBaseColor )
         .addColorStop( 1.0, options.gripFillBaseColor.darkerColor( 0.6 ) )
     } );
-    this.addChild( gripPath );
 
     // handle attachment shape vars
     var attachmentShaftWidth = gripHeight * 0.35;
@@ -159,20 +156,21 @@ define( function( require ) {
     };
 
     // add handle left attachment
-    this.addChild( new Path( leftAttachmentShape, _.extend( {
+    var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
       right: gripPath.left + options.gripLineWidth
-    }, attachmentOptions ) ) );
+    }, attachmentOptions ) );
 
     // the right attachment shape is a mirror image of the left
     var rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
     // add handle right attachment
-    this.addChild( new Path( rightAttachmentShape, _.extend( {
+    var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
       left: gripPath.right - options.gripLineWidth
-    }, attachmentOptions ) ) );
+    }, attachmentOptions ) );
 
-    // pass options into supertype
-    this.mutate( options );
+    Node.call( this, _.extend( {
+      children: [ leftAttachmentPath, rightAttachmentPath, gripPath ]
+    }, options ) );
   }
 
   sceneryPhet.register( 'HandleNode', HandleNode );
