@@ -169,7 +169,7 @@ define( function( require ) {
 
     // handle left attachment
     var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
-      right: gripPath.left
+      right: gripPath.left + options.gripLineWidth
     }, attachmentOptions ) );
 
     // the right attachment shape is a mirror image of the left
@@ -177,7 +177,7 @@ define( function( require ) {
 
     // handle right attachment
     var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
-      left: gripPath.right
+      left: gripPath.right - options.gripLineWidth
     }, attachmentOptions ) );
 
     Node.call( this, _.extend( {
