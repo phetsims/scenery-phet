@@ -27,6 +27,7 @@ define( function( require ) {
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
+  var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
@@ -89,6 +90,7 @@ define( function( require ) {
       { label: 'EyeDropperNode', getNode: demoEyeDropperNode },
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
+      { label: 'HandleNode', getNode: demoHandleNode },
       { label: 'KeyNode', getNode: demoKeyNode },
       { label: 'KitSelectionNode', getNode: demoKitSelectionNode },
       { label: 'HelpContent', getNode: demoHelpContent },
@@ -279,6 +281,16 @@ define( function( require ) {
     } );
     return new Node( {
       children: [ bounds, formulaNode ]
+    } );
+  };
+
+  // Creates a demo for HandleNode
+  var demoHandleNode = function( layoutBounds ) {
+    var handleNode = new HandleNode( { scale: 4.0 } );
+
+    return new Node( {
+      children: [ handleNode ],
+      center: layoutBounds.center
     } );
   };
 
