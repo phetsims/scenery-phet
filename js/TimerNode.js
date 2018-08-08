@@ -40,8 +40,15 @@ define( function( require ) {
     var timerNodeOptionDefaults = {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
-      unitsChoices: [], // {string[]} The possible string values for units, or the empty array for a unitless display
-      units: null // {string|null} The currently selected value for units, or null for a unitless display
+
+      // The maximum value that can be shown by the TimerNode, so it can set up the size to accommodate
+      // the largest string
+      maxValue: 99.99,
+
+      // {null|Node} - optional node to show for the units.  Note that showing units changes the mode
+      // from mm:ss.mm to ss.mm units.  A ToggleNode works well here because it allocates the size of the
+      // largest child node
+      unitsNode: null
     };
     var supertypeOptionDefaults = {
       touchAreaDilation: 10,
@@ -49,78 +56,79 @@ define( function( require ) {
     };
     options = _.extend( {}, supertypeOptionDefaults, timerNodeOptionDefaults, options );
 
-    // If only current units were provided, promote that to the only unitsChoices entry
-    if ( options.units && !options.unitChoices ) {
-      options.unitChoices = [ options.units ];
-    }
+    var unitsNode = options.unitsNode;
 
-    // If unitsChoices were provided, default to the first units.
-    if ( options.unitsChoices && !options.units ) {
-      options.units = options.unitsChoices[ 0 ];
-    }
-
-    // @private {string} - the selected units
-    this.units = options.units;
-
-    if ( options.unitsChoices && options.units ) {
-      assert && assert( options.unitsChoices.indexOf( options.units ) >= 0, 'unitsChoices does not contain units' );
-    }
-
+    // @private {Node|null}
+    this.unitsNode = unitsNode;
     Node.call( this );
 
     /*---------------------------------------------------------------------------*
      * Readout text
      *----------------------------------------------------------------------------*/
     var largeNumberText = new PhetFont( 20 );
-    var bigReadoutText = new Text( this.timeToBigString( 0 ), {
-      font: largeNumberText
-    } );
+    var bigReadoutText = new Text( this.timeToBigString( 0 ), { font: largeNumberText } );
     var smallFont = new PhetFont( 15 );
-    var smallReadoutText = new Text( this.timeToSmallString( 0 ), {
-      font: smallFont,
-      left: bigReadoutText.right
-    } );
-
-    // @private {Text[]} - one node for each supported units string
-    this.unitsTexts = options.unitsChoices.map( function( units ) {
-      return new Text( units, {
-        font: smallFont,
-        left: smallReadoutText.right + 4
-      } );
-    } );
-
-    // Perform layout with all children, then just show the selected units after layout complete.
-    this.unitsNode = new Node( {
-      children: this.unitsTexts
-    } );
+    var smallReadoutText = new Text( this.timeToSmallString( 0 ), { font: smallFont } );
 
     // aligns the baselines of the big and small text
     smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
     bigReadoutText.top = 0;
-    if ( this.unitsNode.children.length > 0 ) {
-      this.unitsNode.bottom = smallReadoutText.bottom;
+    if ( unitsNode ) {
+      unitsNode.bottom = smallReadoutText.bottom - 1;
     }
-    var readoutText = new Node( {
-      children: [
-        bigReadoutText,
-        smallReadoutText,
-        this.unitsNode
-      ],
+    var children = [
+      bigReadoutText,
+      smallReadoutText
+    ];
+    if ( unitsNode ) {
+      children.push( unitsNode );
+    }
+
+    var readoutContainerNode = new Node( {
+      children: children,
       pickable: false
     } );
-    readoutText.centerX = 0;
+    readoutContainerNode.centerX = 0;
+
+    /*---------------------------------------------------------------------------*
+     * Control logic and initial layout
+     *----------------------------------------------------------------------------*/
+    var update = function( value ) {
+
+      // Update readouts
+      bigReadoutText.text = self.timeToBigString( value );
+      smallReadoutText.text = self.timeToSmallString( value );
+
+      // Update layout
+      smallReadoutText.left = bigReadoutText.right;
+      if ( unitsNode ) {
+        unitsNode.left = smallReadoutText.right + 3;
+      }
+      if ( textContainer ) {
+        textContainer.centerX = 0;
+      }
+      readoutContainerNode.centerX = 0;
+    };
+
+    // Initialize with max value so nothing needs to resize
+    update( options.maxValue );
 
     /*---------------------------------------------------------------------------*
      * Readout background
      *----------------------------------------------------------------------------*/
-    var textBackground = Rectangle.roundedBounds( readoutText.bounds.dilatedXY( 5, 2 ), 5, 5, {
+    var textContainer = Rectangle.roundedBounds( readoutContainerNode.bounds.dilatedXY( 5, 2 ), 5, 5, {
       fill: '#fff',
       stroke: 'rgba(0,0,0,0.5)',
-      pickable: false
+      pickable: false,
+      children: [ readoutContainerNode ],
+      centerX: 0
     } );
 
+    // Set initial values and layout
+    secondsProperty.link( update );
+
     var paddingBetweenItems = 6;
-    var minimumButtonWidth = ( textBackground.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
+    var minimumButtonWidth = ( textContainer.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
     /*---------------------------------------------------------------------------*
      * Buttons
@@ -164,43 +172,27 @@ define( function( require ) {
     /*---------------------------------------------------------------------------*
      * Layout
      *----------------------------------------------------------------------------*/
-    var container = new Node();
-    container.addChild( resetButton );
-    container.addChild( playPauseButton );
-    container.addChild( textBackground );
-    container.addChild( readoutText );
+    var contents = new Node();
+    contents.addChild( resetButton );
+    contents.addChild( playPauseButton );
+    contents.addChild( textContainer );
 
     resetButton.right = -paddingBetweenItems / 2;
     playPauseButton.left = paddingBetweenItems / 2;
-    resetButton.top = textBackground.bottom + paddingBetweenItems;
-    playPauseButton.top = textBackground.bottom + paddingBetweenItems;
+    resetButton.top = textContainer.bottom + paddingBetweenItems;
+    playPauseButton.top = textContainer.bottom + paddingBetweenItems;
 
     var panelPad = 8;
-    container.left = panelPad;
-    container.top = panelPad;
+    contents.left = panelPad;
+    contents.top = panelPad;
 
     /*---------------------------------------------------------------------------*
      * Panel background
      *----------------------------------------------------------------------------*/
-    var roundedRectangle = new ShadedRectangle( container.bounds.dilated( panelPad ) );
+    var roundedRectangle = new ShadedRectangle( contents.bounds.dilated( panelPad ) );
     roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
     this.addChild( roundedRectangle );
-    this.addChild( container );
-
-    /*---------------------------------------------------------------------------*
-     * Control logic
-     *----------------------------------------------------------------------------*/
-    var updateTime = function updateTime( value ) {
-      bigReadoutText.text = self.timeToBigString( value );
-      smallReadoutText.text = self.timeToSmallString( value );
-      resetButton.enabled = value > 0;
-
-      smallReadoutText.left = bigReadoutText.right;
-      if ( self.units ) {
-        self.unitsNode.left = smallReadoutText.right + 3;
-      }
-    };
-    secondsProperty.link( updateTime );
+    this.addChild( contents );
 
     /*---------------------------------------------------------------------------*
      * Target for drag listeners
@@ -208,9 +200,15 @@ define( function( require ) {
     // @public (read-only) - Target for drag listeners
     this.dragTarget = roundedRectangle;
 
+    var updateResetButtonEnabled = function( value ) {
+      resetButton.enabled = value > 0;
+    };
+    secondsProperty.link( updateResetButtonEnabled );
+
     // @private
     this.disposeTimerNode = function() {
-      secondsProperty.unlink( updateTime );
+      secondsProperty.unlink( update );
+      secondsProperty.unlink( updateResetButtonEnabled );
       resetButton.dispose();
       playPauseButton.dispose();
     };
@@ -218,10 +216,6 @@ define( function( require ) {
     // Omit TimerNode specific options before passing along to parent.  See https://github.com/phetsims/tasks/issues/934
     // for discussion of other ways to filter the options
     this.mutate( _.omit( options, _.keys( timerNodeOptionDefaults ) ) );
-
-    if ( options.units ) {
-      this.setUnits( options.units );
-    }
   }
 
   sceneryPhet.register( 'TimerNode', TimerNode );
@@ -236,18 +230,6 @@ define( function( require ) {
       this.disposeTimerNode();
     },
 
-    /**
-     * Set the units for the readout.  Must be one of the units specified in unitsChoices in the constructor.
-     * @param {string|null} units
-     * @public
-     */
-    setUnits: function( units ) {
-      this.units = units;
-      var unitsText = _.find( this.unitsTexts, function( unitsText ) {return unitsText.text === units;} );
-      assert && assert( unitsText, 'Units text not found for units: ' + units );
-      this.unitsNode.children = [ unitsText ];
-    },
-
     // the full-sized minutes and seconds string
     timeToBigString: function( timeInSeconds ) {
       // Round to the nearest centisecond (compatible with timeToSmallString).
@@ -255,7 +237,7 @@ define( function( require ) {
       timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
 
       // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
-      if ( this.units ) {
+      if ( this.unitsNode ) {
         return Math.floor( timeInSeconds ) + '';
       }
       else {

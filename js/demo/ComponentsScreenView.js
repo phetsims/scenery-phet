@@ -68,6 +68,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -1016,12 +1017,15 @@ define( function( require ) {
 
     // Create a TimerNode that can show from a selection of units.
     var unitsProperty = new Property( 's' );
-    var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
-      unitsChoices: [ 's', 'ms', 'fs' ],
-      units: 'ms'
+    var unitsNode = new ToggleNode( [
+      { value: 's', node: new Text( 's' ) },
+      { value: 'ms', node: new Text( 'ms' ) },
+      { value: 'fs', node: new Text( 'fs' ) }
+    ], unitsProperty, {
+      alignChildren: ToggleNode.LEFT
     } );
-    unitsProperty.link( function( units ) {
-      mutableUnitsTimerNode.setUnits( units );
+    var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
+      unitsNode: unitsNode
     } );
     var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
       { value: 's', node: new Text( 'seconds' ) },
