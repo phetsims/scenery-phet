@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * View for a handle node.
+ * Scenery node that shows a handle, which is made of two parts: the "grip" which is where you would grab it and the
+ * "attachment" which are elbow-shaped bars that attach the handle to another surface.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -19,6 +20,15 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
 
+  // constants
+  // grip shape vars
+  var GRIP_WIDTH = 100;
+  var GRIP_HEIGHT = 42;
+  var GRIP_CORNER_RADIUS = GRIP_WIDTH * 0.03;
+  var GRIP_END_PAD = GRIP_WIDTH * 0.03; // horizontal line between the edge of the grip and the cubic curves
+  var GRIP_SINGLE_FINGER_INDENT_DEPTH = GRIP_HEIGHT * 0.11;
+  var GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS * 2 - GRIP_END_PAD * 2 ) / 8;
+
   /**
    * @param {Object} [options]
    * @constructor
@@ -34,20 +44,12 @@ define( function( require ) {
       attachmentLineWidth: 3
     }, options );
 
-    // grip shape vars
-    var gripWidth = 100;
-    var gripHeight = 42;
-    var gripCornerRadius = gripWidth * 0.03;
-    var gripEndPad = gripWidth * 0.03; // horizontal line between the edge of the grip and the cubic curves
-    var gripSingleFingerIndentDepth = gripHeight * 0.11;
-    var gripSingleFingerIndentHalfWidth = ( gripWidth - gripCornerRadius * 2 - gripEndPad * 2 ) / 8;
-
     // control points for cubic curve shape on grip
     // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
-    var controlPoint1X = gripSingleFingerIndentHalfWidth / 2;
+    var controlPoint1X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 2;
     var controlPoint1Y = 0;
-    var controlPoint2X = gripSingleFingerIndentHalfWidth / 4;
-    var controlPoint2Y = gripSingleFingerIndentDepth;
+    var controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
+    var controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
 
     function addGripIndent( shape, sign ) {
 
@@ -57,25 +59,25 @@ define( function( require ) {
         sign * controlPoint1Y,
         sign * controlPoint2X,
         sign * controlPoint2Y,
-        sign * gripSingleFingerIndentHalfWidth,
-        sign * gripSingleFingerIndentDepth )
+        sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
+        sign * GRIP_SINGLE_FINGER_INDENT_DEPTH )
         .cubicCurveToRelative(
-          sign * ( gripSingleFingerIndentHalfWidth - controlPoint2X ),
+          sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint2X ),
           sign * -controlPoint1Y,
-          sign * ( gripSingleFingerIndentHalfWidth - controlPoint1X ),
+          sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint1X ),
           sign * -controlPoint2Y,
-          sign * gripSingleFingerIndentHalfWidth,
-          sign * -gripSingleFingerIndentDepth );
+          sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
+          sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
     }
 
     var gripShape = new Shape()
 
     // the shape begins on the left edge, middle y
     // this is the upper left corner before grip indents start
-      .moveTo( 0, gripHeight / 2 )
-      .lineTo( 0, gripCornerRadius )
-      .arc( gripCornerRadius, gripCornerRadius, gripCornerRadius, Math.PI, Math.PI * 1.5, false )
-      .lineToRelative( gripEndPad, 0 );
+      .moveTo( 0, GRIP_HEIGHT / 2 )
+      .lineTo( 0, GRIP_CORNER_RADIUS )
+      .arc( GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI, Math.PI * 1.5, false )
+      .lineToRelative( GRIP_END_PAD, 0 );
 
     // these are the top grip indents
     addGripIndent( gripShape, 1 );
@@ -84,11 +86,11 @@ define( function( require ) {
     addGripIndent( gripShape, 1 );
 
     // this is the whole right edge
-    gripShape.lineToRelative( gripEndPad, 0 )
-      .arc( gripWidth - gripCornerRadius, gripCornerRadius, gripCornerRadius, Math.PI * 1.5, 0, false )
-      .lineToRelative( 0, gripHeight - ( gripCornerRadius * 2 ) )
-      .arc( gripWidth - gripCornerRadius, gripHeight - gripCornerRadius, gripCornerRadius, 0, Math.PI / 2, false )
-      .lineToRelative( -gripEndPad, 0 );
+    gripShape.lineToRelative( GRIP_END_PAD, 0 )
+      .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI * 1.5, 0, false )
+      .lineToRelative( 0, GRIP_HEIGHT - ( GRIP_CORNER_RADIUS * 2 ) )
+      .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, 0, Math.PI / 2, false )
+      .lineToRelative( -GRIP_END_PAD, 0 );
 
     // these are the bottom grip indents
     addGripIndent( gripShape, -1 );
@@ -97,16 +99,16 @@ define( function( require ) {
     addGripIndent( gripShape, -1 );
 
     // this is the lower left hand corner
-    gripShape.lineToRelative( -gripEndPad, 0 )
-      .arc( gripCornerRadius, gripHeight - gripCornerRadius, gripCornerRadius, Math.PI / 2, Math.PI, false )
-      .lineTo( 0, gripHeight / 2 )
+    gripShape.lineToRelative( -GRIP_END_PAD, 0 )
+      .arc( GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI / 2, Math.PI, false )
+      .lineTo( 0, GRIP_HEIGHT / 2 )
       .close();
 
     // add handle grip shape
     var gripPath = new Path( gripShape, {
       lineWidth: options.gripLineWidth,
       stroke: options.gripStrokeColor,
-      fill: new LinearGradient( 0, 0, 0, gripHeight )
+      fill: new LinearGradient( 0, 0, 0, GRIP_HEIGHT )
         .addColorStop( 0, options.gripFillBaseColor )
         .addColorStop( 0.4, options.gripFillBaseColor.brighterColor( 0.5 ) )
         .addColorStop( 0.7, options.gripFillBaseColor )
@@ -114,8 +116,8 @@ define( function( require ) {
     } );
 
     // handle attachment shape vars
-    var attachmentShaftWidth = gripHeight * 0.35;
-    var attachmentHeight = gripHeight * 1.15;
+    var attachmentShaftWidth = GRIP_HEIGHT * 0.35;
+    var attachmentHeight = GRIP_HEIGHT * 1.15;
     var attachmentBaseNubWidth = attachmentShaftWidth * 0.4;
     var attachmentBaseNubHeight = attachmentHeight * 0.2;
     var attachmentMiddleHeight = attachmentHeight * 0.5;
