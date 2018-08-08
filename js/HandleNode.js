@@ -51,10 +51,15 @@ define( function( require ) {
     var controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
     var controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
 
+    /**
+     * Add an "up/down" combination to either the top or bottom of the grip.
+     * @param {Shape} shape - the shape to append to
+     * @param {number} sign - +1 for top side of grip, -1 for bottom side of grip
+     */
     function addGripIndent( shape, sign ) {
 
       // this is a grip indent
-      return shape.cubicCurveToRelative(
+      shape.cubicCurveToRelative(
         sign * controlPoint1X,
         sign * controlPoint1Y,
         sign * controlPoint2X,
@@ -70,10 +75,9 @@ define( function( require ) {
           sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
     }
 
-    var gripShape = new Shape()
-
     // the shape begins on the left edge, middle y
     // this is the upper left corner before grip indents start
+    var gripShape = new Shape()
       .moveTo( 0, GRIP_HEIGHT / 2 )
       .lineTo( 0, GRIP_CORNER_RADIUS )
       .arc( GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI, Math.PI * 1.5, false )
@@ -124,9 +128,13 @@ define( function( require ) {
     var attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
 
     var leftAttachmentShape = new Shape()
+
+    // Starts at bottom-left and proceeds clockwise
       .moveTo( 0, attachmentHeight )
       .lineToRelative( attachmentBaseNubWidth, -attachmentBaseNubHeight )
       .lineToRelative( 0, -attachmentMiddleHeight )
+
+      // The main arc at the top left of the attachment
       .arc(
         attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
         attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
@@ -136,6 +144,8 @@ define( function( require ) {
         false
       )
       .lineToRelative( 0, attachmentShaftWidth )
+
+      // This is the smaller arc on the underside of the attachment
       .arc(
         attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
         attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
@@ -157,17 +167,17 @@ define( function( require ) {
       top: gripPath.centerY - attachmentShaftWidth / 2
     };
 
-    // add handle left attachment
+    // handle left attachment
     var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
-      right: gripPath.left + options.gripLineWidth
+      right: gripPath.left
     }, attachmentOptions ) );
 
     // the right attachment shape is a mirror image of the left
     var rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
-    // add handle right attachment
+    // handle right attachment
     var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
-      left: gripPath.right - options.gripLineWidth
+      left: gripPath.right
     }, attachmentOptions ) );
 
     Node.call( this, _.extend( {
