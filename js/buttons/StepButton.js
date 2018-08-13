@@ -46,7 +46,7 @@ define( function( require ) {
       // {Property.<boolean>|null} is the sim playing? This is a convenience option.
       // If this Property is provided, it will disable the button while the sim is playing,
       // and you should avoid using the button's native 'enabled' property.
-      playingProperty: null,
+      isPlayingProperty: null,
 
       // a11y
       innerContent: stepString,
@@ -84,17 +84,17 @@ define( function( require ) {
     RoundPushButton.call( this, options );
 
     // Disable the button when the sim is playing
-    if ( options.playingProperty ) {
+    if ( options.isPlayingProperty ) {
       var self = this;
       var playingObserver = function( playing ) {
         self.enabled = !playing;
       };
-      options.playingProperty.link( playingObserver );
+      options.isPlayingProperty.link( playingObserver );
     }
 
     // @private
     this.disposeStepButton = function() {
-      options.playingProperty && options.playingProperty.unlink( playingObserver );
+      options.isPlayingProperty && options.isPlayingProperty.unlink( playingObserver );
     };
   }
 

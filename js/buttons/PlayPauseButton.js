@@ -29,11 +29,11 @@ define( function( require ) {
   var DEFAULT_RADIUS = 28;
 
   /**
-   * @param {Property.<boolean>} runningProperty property that represents whether the sim is paused or not
-   * @param {Object} [options] node options
+   * @param {Property.<boolean>} isPlayingProperty
+   * @param {Object} [options]
    * @constructor
    */
-  function PlayPauseButton( runningProperty, options ) {
+  function PlayPauseButton( isPlayingProperty, options ) {
     var self = this;
 
     options = _.extend( {
@@ -43,7 +43,7 @@ define( function( require ) {
       a11yPlayDescription: playDescriptionString
     }, options );
 
-    this.runningProperty = runningProperty; // @private
+    this.isPlayingProperty = isPlayingProperty; // @private
 
     // play and pause symbols are sized relative to the radius
     var triangleHeight = options.radius;
@@ -69,18 +69,18 @@ define( function( require ) {
     pausePath.centerY = 0;
     pausedCircle.addChild( pausePath );
 
-    BooleanRoundToggleButton.call( this, pausedCircle, playCircle, runningProperty, options );
+    BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
     var runningListener = function( running ) {
       self.innerContent = running ? pauseString : playString;
       self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
-    runningProperty.link( runningListener );
+    isPlayingProperty.link( runningListener );
 
     // @private
     this.disposePlayPauseButton = function() {
-      if ( runningProperty.hasListener( runningListener ) ) {
-        runningProperty.unlink( runningListener );
+      if ( isPlayingProperty.hasListener( runningListener ) ) {
+        isPlayingProperty.unlink( runningListener );
       }
     };
   }
