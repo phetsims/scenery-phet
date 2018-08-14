@@ -16,9 +16,9 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
-   * @param {Property.<Vector2>} position1Property
+   * @param {Property.<Vector2>} position1Property - connects to one object
    * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the position1
-   * @param {Property.<Vector2>} position2Property
+   * @param {Property.<Vector2>} position2Property - connects to another object
    * @param {Property.<Vector2>} normal2Property - defines the control point of the cubic curve, relative to the position2
    * @param {Object} [options]
    * @constructor
