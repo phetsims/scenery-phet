@@ -96,13 +96,15 @@ define( function( require ) {
           tandemName: 'slowMotion'
         }
       ], _.extend( {
-        radius: normalText.height / 2.2,
         spacing: 9,
         touchAreaXDilation: 10,
         maxWidth: 150,
         tandem: options.tandem.createTandem( 'slowMotionRadioButtonGroup' ),
 
-        radioButtonOptions: { xSpacing: 5 }
+        radioButtonOptions: {
+          xSpacing: 5,
+          radius: normalText.height / 2.2
+        }
       }, options.radioButtonGroupOptions ) )
     ];
 
