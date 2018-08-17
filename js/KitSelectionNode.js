@@ -140,7 +140,7 @@ define( function( require ) {
     // @private
     this.disposeKitSelectionNode = function() {
       controlNode.dispose();
-      // self.kitLayer.dispose(); // TODO: is this necessary?
+      self.kitLayer.dispose();
       if ( selectedKit.hasListener( selectedKitObserver ) ) {
         selectedKit.unlink( selectedKitObserver );
       }
