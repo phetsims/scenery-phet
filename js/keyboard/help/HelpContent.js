@@ -137,7 +137,7 @@ define( function( require ) {
      * @public
      * @static
      *
-     * @param {Node} label - label for the icon, must have a text getter, usually Text or RichText
+     * @param {Node} label - label for the icon
      * @param {Node} icon
      * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
@@ -181,7 +181,7 @@ define( function( require ) {
      *
      * @param {Node} label - label for the icon, usually Text or RichText
      * @param {Node[]} icons
-     * @param {string} labelInnerContent
+     * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
      * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
