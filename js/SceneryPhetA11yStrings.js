@@ -28,13 +28,6 @@ define( function( require ) {
       value: 'This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Panel. '
     },
 
-    // scene summary intro for a single screen sim (not sim specific),
-    // extra space at end for string concat with rest of the scene summary
-    // @deprecated, used in SceneSummaryNode
-    sceneSummarySingleScreenIntro: {
-      value: 'This is an interactive sim. It changes as you play with it. The sim has a Play Area and Control Panel. '
-    },
-
     // screen summary intro for a single screen sim (not sim specific),
     screenSummarySingleScreenIntroPattern: {
       value: '{{sim}} is an interactive sim. It changes as you play with it.'
