@@ -16,11 +16,8 @@ define( function( require ) {
   var SceneryPhetA11yStrings = {
 
     //------------------------------------------------------------------------
-    // A11y Section strings
+    // Sim Section strings
     //------------------------------------------------------------------------
-    sceneSummary: {
-      value: 'Scene Summary'
-    },
 
     // scene summary intro for a multiscreen sim (not sim specific),
     // extra space at end for string concat with rest of the scene summary
@@ -36,7 +33,6 @@ define( function( require ) {
     screenSummaryKeyboardShortcutsHint: {
       value: 'If needed, check out keyboard shortcuts under Sim Resources.'
     },
-
 
     playArea: {
       value: 'Play Area'
