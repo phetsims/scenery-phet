@@ -22,7 +22,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // a11y strings
-  var sceneSummaryMultiScreenIntroString = SceneryPhetA11yStrings.sceneSummaryMultiScreenIntro.value;
+  var screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
   var screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
   var screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
 
@@ -61,7 +61,7 @@ define( function( require ) {
     setIntroString: function( simName, numberOfScreens ) {
 
       // different default string depending on if there are multiple screens
-      this.openingSummaryNode.innerContent = numberOfScreens > 1 ? sceneSummaryMultiScreenIntroString :
+      this.openingSummaryNode.innerContent = numberOfScreens > 1 ? screenSummaryMultiScreenIntroString :
                                              StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, {
                                                sim: simName
                                              } );
