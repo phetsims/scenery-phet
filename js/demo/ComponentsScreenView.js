@@ -595,32 +595,43 @@ define( function( require ) {
 
     var probeNode = new ProbeNode( {
       cursor: 'pointer',
-      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } ),
-      drag: () => {}
+      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } )
     } );
+
+    // Allow dragging the probe
     probeNode.addInputListener( new DragListener( {
       translateNode: true
     } ) );
 
+    // Distance the wires stick out from the objects
     const NORMAL_DISTANCE = 25;
+
+    // Center the meter node before it has children
+    meterNode.center = layoutBounds.center;
 
     // Add the wire behind the probe.
     meterNode.addChild( new WireNode(
+      // Connect to the meter body at the left center
       new NodeProperty( backgroundNode, 'bounds', 'leftCenter' ),
       new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
+
+      // Connect to the probe at the center bottom
       new NodeProperty( probeNode, 'bounds', 'centerBottom' ),
       new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
         lineWidth: 3,
         stroke: 'black'
       }
     ) );
-    meterNode.center = layoutBounds.center;
+
+    // Connect the probe
     meterNode.addChild( probeNode );
 
+    // Specify how the probes drags relative to the MeterNode
     meterNode.alignProbesEmitter.addListener( function() {
       probeNode.center = backgroundNode.leftTop.plusXY( -50, -100 );
     } );
     meterNode.alignProbes();
+
     return meterNode;
   };
 
