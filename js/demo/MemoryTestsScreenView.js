@@ -10,12 +10,14 @@ define( function( require ) {
   // modules
   // var HStrut = require( 'SCENERY/nodes/HStrut' ); // TODO: for KitSelectionNode
   // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' ); // TODO: for KitSelectionNode
+  // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   // var PhetFont = require( 'SCENERY_PHET/PhetFont' ); // TODO: for KitSelectionNode
   // var Text = require( 'SCENERY/nodes/Text' ); // TODO: for KitSelectionNode
+  // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
+  // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var Property = require( 'AXON/Property' );
@@ -24,8 +26,6 @@ define( function( require ) {
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
-  // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   function ComponentHolder( createFunction ) {
     var self = this;

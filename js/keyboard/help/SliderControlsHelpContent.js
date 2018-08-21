@@ -17,8 +17,8 @@ define( function( require ) {
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   var RichText = require( 'SCENERY/nodes/RichText' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
   // strings
   var keyboardHelpDialogAdjustInLargerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInLargerSteps' );

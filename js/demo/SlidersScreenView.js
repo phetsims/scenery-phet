@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var Checkbox = require( 'SUN/Checkbox' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
+  var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -22,12 +23,11 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
-  var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
 
   /**
    * @constructor

@@ -12,8 +12,8 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
    * Slider track that displays the visible spectrum of light.

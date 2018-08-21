@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -28,6 +27,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
