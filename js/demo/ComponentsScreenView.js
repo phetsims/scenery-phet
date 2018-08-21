@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var Checkbox = require( 'SUN/Checkbox' );
@@ -21,6 +22,7 @@ define( function( require ) {
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var DragListener = require( 'SCENERY/listeners/DragListener' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
@@ -38,9 +40,11 @@ define( function( require ) {
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var MeterNode = require( 'SCENERY_PHET/MeterNode' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
@@ -59,6 +63,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
@@ -71,6 +76,7 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   /**
    * @constructor
@@ -98,6 +104,7 @@ define( function( require ) {
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
+      { label: 'MeterNode', getNode: demoMeterNode },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
@@ -576,6 +583,45 @@ define( function( require ) {
       basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
       tipPositionProperty: new Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
     } );
+  };
+
+  // Creates a demo for MeasuringTapeNode
+  var demoMeterNode = function( layoutBounds ) {
+
+    var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
+      cursor: 'pointer'
+    } );
+    var meterNode = new MeterNode( backgroundNode );
+
+    var probeNode = new ProbeNode( {
+      cursor: 'pointer',
+      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } ),
+      drag: () => {}
+    } );
+    probeNode.addInputListener( new DragListener( {
+      translateNode: true
+    } ) );
+
+    const NORMAL_DISTANCE = 25;
+
+    // Add the wire behind the probe.
+    meterNode.addChild( new WireNode(
+      new NodeProperty( backgroundNode, 'bounds', 'leftCenter' ),
+      new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
+      new NodeProperty( probeNode, 'bounds', 'centerBottom' ),
+      new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
+        lineWidth: 3,
+        stroke: 'black'
+      }
+    ) );
+    meterNode.center = layoutBounds.center;
+    meterNode.addChild( probeNode );
+
+    meterNode.alignProbesEmitter.addListener( function() {
+      probeNode.center = backgroundNode.leftTop.plusXY( -50, -100 );
+    } );
+    meterNode.alignProbes();
+    return meterNode;
   };
 
   // Creates a demo for NumberKeypad
