@@ -56,7 +56,10 @@ define( function( require ) {
 
     var controlNode;
     if ( options.selectorPosition === 'top' ) {
-      controlNode = new KitControlNodeTop( kits.length, selectedKit, { titleNode: options.titleNode, minButtonXSpace: 70 } );
+      controlNode = new KitControlNodeTop( kits.length, selectedKit, {
+        titleNode: options.titleNode,
+        minButtonXSpace: 70
+      } );
     }
     else if ( options.selectorPosition === 'sides' ) {
       controlNode = new KitControlNodeSides( kits.length, selectedKit, maxKitContentSize.width * 1.2 );
@@ -122,7 +125,7 @@ define( function( require ) {
     // Set up the timer and function that will animate the carousel position.
     var motionVelocity = self.selectorSize.width / SLOT_CHANGE_TIME;
     self.kitLayerTargetX = self.kitLayer.x;
-    Timer.addStepListener( function( dt ) {
+    var animateCarouselPosition = function( dt ) {
       if ( self.kitLayer.x !== self.kitLayerTargetX ) {
         var dx = dt * motionVelocity * ( self.kitLayerTargetX < self.kitLayer.x ? -1 : 1 );
         if ( Math.abs( self.kitLayer.x - self.kitLayerTargetX ) <= Math.abs( dx ) ) {
@@ -132,7 +135,8 @@ define( function( require ) {
           self.kitLayer.x += dx;
         }
       }
-    } );
+    };
+    Timer.addStepListener( animateCarouselPosition );
 
     // Pass through any options intended for Node.
     self.mutate( options );
@@ -141,6 +145,7 @@ define( function( require ) {
     this.disposeKitSelectionNode = function() {
       controlNode.dispose();
       self.kitLayer.dispose();
+      Timer.removeStepListener( animateCarouselPosition );
       if ( selectedKit.hasListener( selectedKitObserver ) ) {
         selectedKit.unlink( selectedKitObserver );
       }
