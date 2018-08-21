@@ -585,7 +585,12 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for MeasuringTapeNode
+  // Creates a demo for MeterNode.  This shows a draggable MeterNode with one draggable ProbeNode attached via a
+  // WireNode.  On the first drag of the meter body, the ProbeNode travels with the MeterNode body (as it would when
+  // dragging out of a toolbox).  On subsequent drags, the ProbeNode travels independently of the MeterNode body.
+  // This example does not exercise the dragging out of toolbox/dropping into toolbox functionality--it seems out of
+  // scope or too complex for this example and just includes a few lines of code that aren't tested here (but are
+  // exercised in Wave Interference).
   var demoMeterNode = function( layoutBounds ) {
 
     var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
