@@ -20,6 +20,7 @@ define( function( require ) {
   /**
    * @param {Node} backgroundNode - node that is shown for the main body
    * @param {Object} [options]
+   * @constructor
    */
   function MeterNode( backgroundNode, options ) {
 

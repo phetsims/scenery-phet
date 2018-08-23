@@ -616,6 +616,7 @@ define( function( require ) {
 
     // Add the wire behind the probe.
     meterNode.addChild( new WireNode(
+
       // Connect to the meter body at the left center
       new NodeProperty( backgroundNode, 'bounds', 'leftCenter' ),
       new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
