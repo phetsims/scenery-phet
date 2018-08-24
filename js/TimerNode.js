@@ -47,7 +47,7 @@ define( function( require ) {
 
       // {null|Node} - optional node to show for the units.  Note that showing units changes the mode
       // from mm:ss.mm to ss.mm units.  A ToggleNode works well here because it allocates the size of the
-      // largest child node
+      // largest child node so that nothing else needs to change size or layout when the unitsNode changes
       unitsNode: null
     };
     var supertypeOptionDefaults = {
@@ -76,10 +76,7 @@ define( function( require ) {
     if ( unitsNode ) {
       unitsNode.bottom = smallReadoutText.bottom - 1;
     }
-    var children = [
-      bigReadoutText,
-      smallReadoutText
-    ];
+    var children = [ bigReadoutText, smallReadoutText ];
     if ( unitsNode ) {
       children.push( unitsNode );
     }
