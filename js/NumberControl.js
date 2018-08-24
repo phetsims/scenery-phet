@@ -266,8 +266,10 @@ define( function( require ) {
     slider.focusHighlight.centerY = sliderFocusHighlightPosition.y;
 
     // a11y - click the left and right arrow buttons when shift keys are down, must be disposed
-    var rightButtonListener = function( button ) { self.shiftKeyDown && rightArrowButton.buttonModel.a11yClick(); };
-    var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.buttonModel.a11yClick(); };
+    var rightButtonListener = function() { self.shiftKeyDown && rightArrowButton.a11yClick(); };
+    var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };
+
+    // emitters defined in AccessibleSlider.js
     this.increasedEmitter.addListener( rightButtonListener );
     this.decreasedEmitter.addListener( leftButtonListener );
 
