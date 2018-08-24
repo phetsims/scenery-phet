@@ -46,8 +46,8 @@ define( function( require ) {
       maxValue: 99.99,
 
       // {null|Node} - optional node to show for the units.  Note that showing units changes the mode
-      // from mm:ss.mm to ss.mm units.  A ToggleNode works well here because it allocates the size of the
-      // largest child node so that nothing else needs to change size or layout when the unitsNode changes
+      // from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.  Initialize the TimerNode with
+      // the largest possible unitsNode to make sure the text panel is large enough. When its bounds change, the layout will update.
       unitsNode: null
     };
     var supertypeOptionDefaults = {
@@ -81,11 +81,11 @@ define( function( require ) {
       children.push( unitsNode );
     }
 
-    var readoutContainerNode = new Node( {
+    var readoutLayer = new Node( {
       children: children,
       pickable: false
     } );
-    readoutContainerNode.centerX = 0;
+    readoutLayer.centerX = 0;
 
     /*---------------------------------------------------------------------------*
      * Control logic and initial layout
@@ -96,28 +96,48 @@ define( function( require ) {
       bigReadoutText.text = self.timeToBigString( value );
       smallReadoutText.text = self.timeToSmallString( value );
 
-      // Update layout
-      smallReadoutText.left = bigReadoutText.right;
+      // Update layout - when unitsNode is shown, the text is right aligned.  Otherwise it is centered.
+      // TODO: Let's create two implementations of TimerReadoutNode, one with units and one without.  Then the TimerNode
+      // TODO: can just place whatever the node is in the top center.
       if ( unitsNode ) {
-        unitsNode.left = smallReadoutText.right + 3;
+        smallReadoutText.right = unitsNode.left - 3;
+        bigReadoutText.right = smallReadoutText.left;
       }
-      if ( textContainer ) {
-        textContainer.centerX = 0;
+      else {
+        smallReadoutText.left = bigReadoutText.right;
       }
-      readoutContainerNode.centerX = 0;
+
+      // Initial layout is called without readoutBackground (since it has not been sized yet).
+      if ( readoutBackground ) {
+        readoutBackground.centerX = 0;
+        if ( unitsNode ) {
+          var RIGHT_MARGIN = 4;
+          readoutLayer.right = readoutBackground.right - RIGHT_MARGIN;
+        }
+        else {
+          readoutLayer.center = readoutBackground.center;
+        }
+      }
     };
 
-    // Initialize with max value so nothing needs to resize
+    // If the unitsNode changes size, update the layout to accommodate the new size
+    if ( unitsNode ) {
+      var unitsNodeBoundsListener = function() {
+        update( secondsProperty.value );
+      };
+      unitsNode.on( 'bounds', unitsNodeBoundsListener );
+    }
+
+    // Initialize with max value so the text panel will have the max needed size.
     update( options.maxValue );
 
     /*---------------------------------------------------------------------------*
      * Readout background
      *----------------------------------------------------------------------------*/
-    var textContainer = Rectangle.roundedBounds( readoutContainerNode.bounds.dilatedXY( 5, 2 ), 5, 5, {
+    var readoutBackground = Rectangle.roundedBounds( readoutLayer.bounds.dilatedXY( 5, 2 ), 5, 5, {
       fill: '#fff',
       stroke: 'rgba(0,0,0,0.5)',
       pickable: false,
-      children: [ readoutContainerNode ],
       centerX: 0
     } );
 
@@ -125,7 +145,7 @@ define( function( require ) {
     secondsProperty.link( update );
 
     var paddingBetweenItems = 6;
-    var minimumButtonWidth = ( textContainer.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
+    var minimumButtonWidth = ( readoutBackground.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
     /*---------------------------------------------------------------------------*
      * Buttons
@@ -172,12 +192,13 @@ define( function( require ) {
     var contents = new Node();
     contents.addChild( resetButton );
     contents.addChild( playPauseButton );
-    contents.addChild( textContainer );
+    contents.addChild( readoutBackground );
+    contents.addChild( readoutLayer );
 
     resetButton.right = -paddingBetweenItems / 2;
     playPauseButton.left = paddingBetweenItems / 2;
-    resetButton.top = textContainer.bottom + paddingBetweenItems;
-    playPauseButton.top = textContainer.bottom + paddingBetweenItems;
+    resetButton.top = readoutBackground.bottom + paddingBetweenItems;
+    playPauseButton.top = readoutBackground.bottom + paddingBetweenItems;
 
     var panelPad = 8;
     contents.left = panelPad;
@@ -206,6 +227,7 @@ define( function( require ) {
     this.disposeTimerNode = function() {
       secondsProperty.unlink( update );
       secondsProperty.unlink( updateResetButtonEnabled );
+      unitsNode && unitsNode.off( unitsNodeBoundsListener );
       resetButton.dispose();
       playPauseButton.dispose();
     };
