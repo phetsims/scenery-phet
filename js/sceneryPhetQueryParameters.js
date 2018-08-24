@@ -29,6 +29,11 @@ define( function( require ) {
     component: {
       type: 'string',
       defaultValue: null
+    },
+
+    memoryTestCreationMax: {
+      type: 'number',
+      defaultValue: 10000
     }
   } );
 
