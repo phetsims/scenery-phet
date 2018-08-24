@@ -17,15 +17,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
 
   /**
@@ -36,116 +33,23 @@ define( function( require ) {
    */
   function TimerNode( secondsProperty, runningProperty, options ) {
     Tandem.indicateUninstrumentedCode();
-    var self = this;
-    var timerNodeOptionDefaults = {
-      iconColor: '#333',
-      buttonBaseColor: '#DFE0E1',
 
-      // The maximum value that can be shown by the TimerNode, so it can set up the size to accommodate
-      // the largest string
-      maxValue: 99.99,
-
-      // {null|Node} - optional node to show for the units.  Note that showing units changes the mode
-      // from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.  Initialize the TimerNode with
-      // the largest possible unitsNode to make sure the text panel is large enough. When its bounds change, the layout will update.
-      unitsNode: null
-    };
-    var supertypeOptionDefaults = {
+    options = _.extend( {
       touchAreaDilation: 10,
-      cursor: 'pointer'
-    };
-    options = _.extend( {}, supertypeOptionDefaults, timerNodeOptionDefaults, options );
+      cursor: 'pointer',
+      iconColor: '#333',
+      buttonBaseColor: '#DFE0E1'
+      // See also options that pass through to TimerReadoutNode
+    }, options );
 
-    var unitsNode = options.unitsNode;
-
-    // @private {Node|null}
-    this.unitsNode = unitsNode;
     Node.call( this );
 
-    /*---------------------------------------------------------------------------*
-     * Readout text
-     *----------------------------------------------------------------------------*/
-    var largeNumberText = new PhetFont( 20 );
-    var bigReadoutText = new Text( this.timeToBigString( 0 ), { font: largeNumberText } );
-    var smallFont = new PhetFont( 15 );
-    var smallReadoutText = new Text( this.timeToSmallString( 0 ), { font: smallFont } );
-
-    // aligns the baselines of the big and small text
-    smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
-    bigReadoutText.top = 0;
-    if ( unitsNode ) {
-      unitsNode.bottom = smallReadoutText.bottom - 1;
-    }
-    var children = [ bigReadoutText, smallReadoutText ];
-    if ( unitsNode ) {
-      children.push( unitsNode );
-    }
-
-    var readoutLayer = new Node( {
-      children: children,
-      pickable: false
-    } );
-    readoutLayer.centerX = 0;
-
-    /*---------------------------------------------------------------------------*
-     * Control logic and initial layout
-     *----------------------------------------------------------------------------*/
-    var update = function( value ) {
-
-      // Update readouts
-      bigReadoutText.text = self.timeToBigString( value );
-      smallReadoutText.text = self.timeToSmallString( value );
-
-      // Update layout - when unitsNode is shown, the text is right aligned.  Otherwise it is centered.
-      // TODO: Let's create two implementations of TimerReadoutNode, one with units and one without.  Then the TimerNode
-      // TODO: can just place whatever the node is in the top center.
-      if ( unitsNode ) {
-        smallReadoutText.right = unitsNode.left - 3;
-        bigReadoutText.right = smallReadoutText.left;
-      }
-      else {
-        smallReadoutText.left = bigReadoutText.right;
-      }
-
-      // Initial layout is called without readoutBackground (since it has not been sized yet).
-      if ( readoutBackground ) {
-        readoutBackground.centerX = 0;
-        if ( unitsNode ) {
-          var RIGHT_MARGIN = 4;
-          readoutLayer.right = readoutBackground.right - RIGHT_MARGIN;
-        }
-        else {
-          readoutLayer.center = readoutBackground.center;
-        }
-      }
-    };
-
-    // If the unitsNode changes size, update the layout to accommodate the new size
-    if ( unitsNode ) {
-      var unitsNodeBoundsListener = function() {
-        update( secondsProperty.value );
-      };
-      unitsNode.on( 'bounds', unitsNodeBoundsListener );
-    }
-
-    // Initialize with max value so the text panel will have the max needed size.
-    update( options.maxValue );
-
-    /*---------------------------------------------------------------------------*
-     * Readout background
-     *----------------------------------------------------------------------------*/
-    var readoutBackground = Rectangle.roundedBounds( readoutLayer.bounds.dilatedXY( 5, 2 ), 5, 5, {
-      fill: '#fff',
-      stroke: 'rgba(0,0,0,0.5)',
-      pickable: false,
-      centerX: 0
-    } );
-
-    // Set initial values and layout
-    secondsProperty.link( update );
+    // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
+    var timerReadoutNode = new TimerReadoutNode( secondsProperty, options );
+    timerReadoutNode.centerX = 0;
 
     var paddingBetweenItems = 6;
-    var minimumButtonWidth = ( readoutBackground.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
+    var minimumButtonWidth = ( timerReadoutNode.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
     /*---------------------------------------------------------------------------*
      * Buttons
@@ -192,13 +96,12 @@ define( function( require ) {
     var contents = new Node();
     contents.addChild( resetButton );
     contents.addChild( playPauseButton );
-    contents.addChild( readoutBackground );
-    contents.addChild( readoutLayer );
+    contents.addChild( timerReadoutNode );
 
     resetButton.right = -paddingBetweenItems / 2;
     playPauseButton.left = paddingBetweenItems / 2;
-    resetButton.top = readoutBackground.bottom + paddingBetweenItems;
-    playPauseButton.top = readoutBackground.bottom + paddingBetweenItems;
+    resetButton.top = timerReadoutNode.bottom + paddingBetweenItems;
+    playPauseButton.top = timerReadoutNode.bottom + paddingBetweenItems;
 
     var panelPad = 8;
     contents.left = panelPad;
@@ -210,6 +113,7 @@ define( function( require ) {
     var roundedRectangle = new ShadedRectangle( contents.bounds.dilated( panelPad ) );
     roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
     this.addChild( roundedRectangle );
+
     this.addChild( contents );
 
     /*---------------------------------------------------------------------------*
@@ -225,16 +129,13 @@ define( function( require ) {
 
     // @private
     this.disposeTimerNode = function() {
-      secondsProperty.unlink( update );
+      timerReadoutNode.dispose();
       secondsProperty.unlink( updateResetButtonEnabled );
-      unitsNode && unitsNode.off( unitsNodeBoundsListener );
       resetButton.dispose();
       playPauseButton.dispose();
     };
 
-    // Omit TimerNode specific options before passing along to parent.  See https://github.com/phetsims/tasks/issues/934
-    // for discussion of other ways to filter the options
-    this.mutate( _.omit( options, _.keys( timerNodeOptionDefaults ) ) );
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'TimerNode', TimerNode );
@@ -247,45 +148,6 @@ define( function( require ) {
      */
     dispose: function() {
       this.disposeTimerNode();
-    },
-
-    // the full-sized minutes and seconds string
-    timeToBigString: function( timeInSeconds ) {
-      // Round to the nearest centisecond (compatible with timeToSmallString).
-      // see https://github.com/phetsims/masses-and-springs/issues/156
-      timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
-
-      // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
-      if ( this.unitsNode ) {
-        return Math.floor( timeInSeconds ) + '';
-      }
-      else {
-
-        var minutes = Math.floor( timeInSeconds / 60 ) % 60;
-        var seconds = Math.floor( timeInSeconds ) % 60;
-
-        if ( seconds < 10 ) {
-          seconds = '0' + seconds;
-        }
-        if ( minutes < 10 ) {
-          minutes = '0' + minutes;
-        }
-        return minutes + ':' + seconds;
-      }
-    },
-
-    // the smaller hundredths-of-a-second string
-    timeToSmallString: function( timeInSeconds ) {
-      // Round to the nearest centisecond (compatible with timeToSmallString).
-      // see https://github.com/phetsims/masses-and-springs/issues/156
-      timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
-
-      // Rounding after mod, in case there is floating-point error
-      var centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
-      if ( centiseconds < 10 ) {
-        centiseconds = '0' + centiseconds;
-      }
-      return '.' + centiseconds;
     }
   } );
 } );
