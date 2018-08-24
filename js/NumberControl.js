@@ -256,7 +256,7 @@ define( function( require ) {
 
     // a11y - place the slider's focus highlight relative to the NumberControl, going through the global coordinate frame
     var sliderFocusHighlightPosition;
-    numberProperty.link( function( value ) {
+    numberProperty.link( function() {
       sliderFocusHighlightPosition = self.globalToLocalPoint( slider.localToGlobalPoint( slider.focusHighlight.center ) );
       slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
     } );
