@@ -1,4 +1,4 @@
-// Copyright 2016-2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * A drawer that opens/closes to show/hide its contents.
@@ -9,10 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Animation = require( 'TWIXT/Animation' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  var Easing = require( 'TWIXT/Easing' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var MoveTo = require( 'TWIXT/MoveTo' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
@@ -20,7 +21,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Node} contentsNode - contents of the drawer
@@ -62,7 +62,11 @@ define( function( require ) {
        * This can provide performance gains if your contentNode updates only while visible.
        */
       beforeOpen: function() { contentsNode.visible = true; }, // {function} called immediately before the drawer is opened
-      afterClose: function() { contentsNode.visible = false; } // {function} called immediately after the drawer is closed
+      afterClose: function() { contentsNode.visible = false; }, // {function} called immediately after the drawer is closed
+
+      // animation of the drawer opening and closing
+      animationDuration: 0.5, // seconds
+      stepper: 'manual' // {string} see Animation options.stepper
 
     }, options );
 
@@ -167,9 +171,9 @@ define( function( require ) {
     options.clipArea = Shape.bounds( drawerNode.bounds );
     Node.call( this, options );
 
-    var openLocation = new Vector2( drawerNode.x, 0 );
-    var closeLocation = new Vector2( drawerNode.x, ( options.handleLocation === 'top' ) ? backgroundNode.height : -backgroundNode.height );
-    drawerNode.translation = options.open ? openLocation : closeLocation;
+    var yOpen = 0;
+    var yClosed = ( options.handleLocation === 'top' ) ? backgroundNode.height : -backgroundNode.height;
+    drawerNode.y = options.open ? yOpen : yClosed;
 
     // click on the handle to toggle between open and closed
     handleNode.addInputListener( new DownUpListener( {
@@ -178,12 +182,12 @@ define( function( require ) {
       }
     } ) );
 
-    var animation = null; // {MoveTo} animation that opens/closes the drawer
+    var animation = null; // {Animation} animation that opens/closes the drawer
 
     // @public is the drawer open?
     this.openProperty = new Property( options.open );
 
-    // Animate opening and closing of the drawer.
+    // open/close the drawer
     var openObserver = function( open ) {
 
       // stop any animation that's in progress
@@ -193,21 +197,21 @@ define( function( require ) {
 
       if ( self._animationEnabled ) {
 
-        // animate open/closed
-        animation = new MoveTo( drawerNode, open ? openLocation : closeLocation, {
-          constantSpeed: false,
-          duration: 500,  // ms
-          onComplete: function() {
-            animation = null;
-            !open && options.afterClose && options.afterClose();
-          }
+        // Animate opening and closing of the drawer.
+        animation = new Animation( {
+          stepper: options.stepper,
+          duration: options.animationDuration,
+          easing: Easing.QUADRATIC_IN_OUT,
+          setValue: function( value ) { drawerNode.y = value; },
+          getValue: function() { return drawerNode.y; },
+          to: open ? yOpen : yClosed
         } );
-        animation.start( window.phet && window.phet.joist && window.phet.joist.elapsedTime );
+        animation.start();
       }
       else {
 
         // animation disabled, move immediately to new state
-        drawerNode.translation = open ? openLocation : closeLocation;
+        drawerNode.translation = open ? yOpen : yClosed;
         !open && options.afterClose && options.afterClose();
       }
     };

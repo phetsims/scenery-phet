@@ -1,4 +1,4 @@
-// Copyright 2014-2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * Demonstration of misc scenery-phet UI components.
@@ -221,6 +221,7 @@ define( function( require ) {
     } );
 
     var drawer = new Drawer( textNode, {
+      stepper: 'timer', // animation is controlled by the global phet-core Timer
       handleLocation: 'bottom',
       open: false,
       xMargin: 30,
