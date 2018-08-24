@@ -11,7 +11,6 @@ define( require => {
   // modules
   var fractionsCommon = require( 'FRACTIONS_COMMON/fractionsCommon' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntroConstants = require( 'FRACTIONS_COMMON/intro/IntroConstants' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -34,7 +33,7 @@ define( require => {
   function BeakerNode( numerator, denominator, options ) {
 
     options = _.extend( {
-      fullHeight: IntroConstants.BEAKER_HEIGHT,
+      fullHeight: BeakerNode.BEAKER_HEIGHT,
       xRadius: 40,
       yRadius: 12
     }, options );
@@ -120,5 +119,8 @@ define( require => {
 
   fractionsCommon.register( 'BeakerNode', BeakerNode );
 
-  return inherit( Node, BeakerNode );
+  return inherit( Node, BeakerNode, {}, {
+    // @public {number}
+    BEAKER_HEIGHT: 150
+  } );
 } );
