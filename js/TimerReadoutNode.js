@@ -67,6 +67,10 @@ define( require => {
        *----------------------------------------------------------------------------*/
       const updateText = value => {
 
+        // When the timer reaches the max value, it should get "stuck" at that value, like a real stopwatch,
+        // see https://github.com/phetsims/wave-interference/issues/94
+        value = Math.min( value, options.maxValue );
+
         // Update readouts
         bigReadoutText.text = timeToBigString( value, !!unitsNode );
         smallReadoutText.text = timeToSmallString( value );
