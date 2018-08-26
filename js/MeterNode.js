@@ -32,8 +32,8 @@ define( function( require ) {
     }, options );
     Node.call( this );
 
-    // @private {boolean} - true if the probes are being dragged with the wave detector tool
-    this.synchronizeProbeLocations = true;
+    // @private {boolean} - true if dragging the MeterNode also causes attached probes to translate
+    this.synchronizeProbeLocations = false;
 
     // @private {Node}
     this.backgroundNode = backgroundNode;
