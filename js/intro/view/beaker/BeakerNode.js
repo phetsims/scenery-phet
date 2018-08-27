@@ -50,26 +50,30 @@ define( require => {
         .addColorStop( 0.782, BEAKER_SHINE_COLOR )
         .addColorStop( 1, EMPTY_BEAKER_COLOR );
 
+      const centerTop = -options.fullHeight / 2;
+      const centerBottom = options.fullHeight / 2;
+      const centerLiquidY = centerBottom - height;
+
       const bucketFrontShape = new Shape()
-        .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
-        .ellipticalArc( 0, -options.fullHeight, xRadius, yRadius, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, false )
+        .ellipticalArc( 0, centerTop, xRadius, yRadius, 0, Math.PI, 0, true )
         .close();
       const bucketBackShape = new Shape()
-        .ellipticalArc( 0, -options.fullHeight, xRadius, yRadius, 0, Math.PI, 0, false )
-        .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, true )
+        .ellipticalArc( 0, centerTop, xRadius, yRadius, 0, Math.PI, 0, false )
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, true )
         .close();
       const bucketBottomShape = new Shape()
-        .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
       const waterTopShape = new Shape()
-        .ellipticalArc( 0, -height, xRadius, yRadius, 0, 0, Math.PI * 2, false )
+        .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, 0, Math.PI * 2, false )
         .close();
       const waterSideShape = new Shape()
-        .ellipticalArc( 0, -height, xRadius, yRadius, 0, Math.PI, 0, true )
-        .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
+        .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, false )
         .close();
 
       const ticksShape = new Shape();
-      let y = 0;
+      let y = centerBottom;
       for ( let i = 0; i < numTicks; i++ ) {
         y -= options.fullHeight / numTicks;
         ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.8 : 0.7 ), true );
@@ -118,9 +122,6 @@ define( require => {
           ] : [] )
         ]
       } );
-
-      // @public {Vector2}
-      this.midpointOffset = this.center;
 
       this.mutate( options );
     }
