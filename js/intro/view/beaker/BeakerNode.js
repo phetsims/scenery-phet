@@ -120,7 +120,7 @@ define( require => {
       } );
 
       // @public {Vector2}
-      this.midPointOffset = this.center;
+      this.midpointOffset = this.center;
 
       this.mutate( options );
     }
