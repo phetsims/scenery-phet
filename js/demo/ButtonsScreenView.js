@@ -161,7 +161,7 @@ define( function( require ) {
     // Add button properties here, so that resetAllButton functions properly.
     var toggleButtonProperties = {
       eyeOpenProperty: new Property( true ),
-      playingProperty: new Property( true ),
+      isPlayingProperty: new Property( true ),
       recordingProperty: new Property( true ),
       soundEnabledProperty: new Property( true ),
       timerEnabledProperty: new Property( true )

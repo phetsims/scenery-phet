@@ -75,7 +75,7 @@ define( function( require ) {
             tandem: options.tandem.createTandem( 'playPauseButton' )
           }, options.playPauseOptions ) ),
           new StepForwardButton( _.extend( {
-            playingProperty: isPlayingProperty,
+            isPlayingProperty: isPlayingProperty,
             listener: options.stepCallback,
             radius: 15,
             touchAreaDilation: 5,
