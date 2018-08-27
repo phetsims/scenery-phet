@@ -172,8 +172,8 @@ define( function( require ) {
       console.log( 'eyeOpen=' + eyeOpen );
     } );
 
-    var playPauseButton = new PlayPauseButton( toggleButtonProperties.playingProperty );
-    toggleButtonProperties.playingProperty.lazyLink( function( playing ) {
+    var playPauseButton = new PlayPauseButton( toggleButtonProperties.isPlayingProperty );
+    toggleButtonProperties.isPlayingProperty.lazyLink( function( playing ) {
       console.log( 'playing=' + playing );
     } );
 
