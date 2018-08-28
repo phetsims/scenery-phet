@@ -97,6 +97,9 @@
   "keyboardHelpDialog.generalNavigation": {
     "value": "General Navigation"
   },
+  "keyboardHelpDialog.basicActions": {
+    "value": "Basic Actions"
+  },
   "keyboardHelpDialog.moveToNextItem": {
     "value": "Move to next item"
   },

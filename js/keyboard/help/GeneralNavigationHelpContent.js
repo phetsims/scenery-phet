@@ -20,7 +20,7 @@ define( function( require ) {
 
   // stings
   var keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
-  var keyboardHelpDialogGeneralNavigationString = require( 'string!SCENERY_PHET/keyboardHelpDialog.generalNavigation' );
+  var keyboardHelpDialogBasicActionsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.basicActions' );
   var keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
   var keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
   var keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
@@ -95,7 +95,7 @@ define( function( require ) {
       content = [ moveToNextItemRow, moveToPreviousItemRow, pressButtonsItemRow, exitADialogRow ];
     }
 
-    HelpContent.call( this, keyboardHelpDialogGeneralNavigationString, content, options );
+    HelpContent.call( this, keyboardHelpDialogBasicActionsString, content, options );
   }
 
   sceneryPhet.register( 'GeneralNavigationHelpContent', GeneralNavigationHelpContent );
