@@ -32,7 +32,8 @@ define( function( require ) {
     }, options );
     Node.call( this );
 
-    // @private {boolean} - true if dragging the MeterNode also causes attached probes to translate
+    // @private {boolean} - true if dragging the MeterNode also causes attached probes to translate.
+    // This is accomplished by calling alignProbes() on drag start and each drag event.
     this.synchronizeProbeLocations = false;
 
     // @private {Node}
@@ -41,8 +42,17 @@ define( function( require ) {
     // @private
     this.backgroundDragListener = new DragListener( {
       translateNode: true,
+      start: function() {
+        if ( self.synchronizeProbeLocations ) {
+
+          // Align the probes when the drag begins.
+          self.alignProbes();
+        }
+      },
       drag: function() {
         if ( self.synchronizeProbeLocations ) {
+
+          // Align the probes each time the MeterNode translates, so they will stay in sync
           self.alignProbes();
         }
       },
@@ -66,7 +76,8 @@ define( function( require ) {
   inherit( Node, MeterNode, {
 
     /**
-     * Put the probes into their standard position relative to the graph body.
+     * Put the probes into their standard position relative to the graph body.  Clients can override this method
+     * or listen to the alignProbesEmitter.
      * @public
      */
     alignProbes: function() {
@@ -83,11 +94,16 @@ define( function( require ) {
     },
 
     /**
-     * Forward an event from the toolbox to start dragging the node in the play area.
+     * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
+     * to drag together with the MeterNode.  This is accomplished by calling this.alignProbes() at each drag event.
      * @param {Object} event
      */
     startDrag: function( event ) {
+
+      // Set the internal flag that indicates the probes should remain in alignment during the drag
       this.synchronizeProbeLocations = true;
+
+      // Forward the event to the drag listener
       this.backgroundDragListener.press( event, this.backgroundNode );
     }
   } );
