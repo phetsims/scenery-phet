@@ -211,7 +211,7 @@ define( function( require ) {
       else {
 
         // animation disabled, move immediately to new state
-        drawerNode.translation = open ? yOpen : yClosed;
+        drawerNode.y = open ? yOpen : yClosed;
         !open && options.afterClose && options.afterClose();
       }
     };
