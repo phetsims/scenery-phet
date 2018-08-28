@@ -36,7 +36,8 @@ define( function( require ) {
     // This is accomplished by calling alignProbes() on drag start and each drag event.
     this.synchronizeProbeLocations = false;
 
-    // @private {Node}
+    // @private {Node} - shows the background for the MeterNode.  Any attached probes or other supplemental nodes
+    // should not be children if the backgroundNode if they need to translate independently
     this.backgroundNode = backgroundNode;
 
     // @private
