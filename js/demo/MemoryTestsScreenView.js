@@ -8,21 +8,23 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var HStrut = require( 'SCENERY/nodes/HStrut' );
+  // var HStrut = require( 'SCENERY/nodes/HStrut' );
   // var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
-  var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
+  // var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  // var Text = require( 'SCENERY/nodes/Text' );
   // var ExpandCollapseButton = require( 'SUN/ExpandCollapseButton' );
   // var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   // var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   // var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   // var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
-  var Property = require( 'AXON/Property' );
+  // var Property = require( 'AXON/Property' );
   // var RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
   // var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
+  // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   // var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
@@ -42,7 +44,7 @@ define( function( require ) {
   }
 
   // var booleanProperty = new Property( false );
-  var numberProperty = new Property( 1 );
+  // var numberProperty = new Property( 1 );
   // var waveLengthProperty = new Property( 400 );
 
   var components = [
@@ -85,13 +87,19 @@ define( function( require ) {
     // new ComponentHolder( function() {
     //   return new RadioButtonGroupMember( booleanProperty, false );
     // } )
+    // new ComponentHolder( function() {
+    //   var kits = [
+    //     { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
+    //     { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
+    //   ];
+    //   return new KitSelectionNode( numberProperty, kits, { selectorPosition: 'top' } );
+    // } )
     new ComponentHolder( function() {
-      var kits = [
-        { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
-        { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
-      ];
-      return new KitSelectionNode( numberProperty, kits, { selectorPosition: 'top' } );
+      return new RewindButton();
     } )
+    // new ComponentHolder( function() {
+    //   return new SoundToggleButton( booleanProperty );
+    // } )
   ];
 
   /**
