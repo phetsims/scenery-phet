@@ -37,8 +37,8 @@ define( function( require ) {
     playArea: {
       value: 'Play Area'
     },
-    controlPanel: {
-      value: 'Control Panel'
+    controlArea: {
+      value: 'Control Area'
     },
 
     //------------------------------------------------------------------------

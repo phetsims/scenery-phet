@@ -16,21 +16,18 @@ define( function( require ) {
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
   // A11y strings
-  var controlPanelString = SceneryPhetA11yStrings.controlPanel.value;
+  var controlAreaString = SceneryPhetA11yStrings.controlArea.value;
 
   /**
    * @constructor
-   * @param {Object} options
+   * @param {Object} [options]
    */
-  function ControlPanelNode( options ) {
+  function ControlAreaNode( options ) {
 
-    // options for accessibility, but others can be passed to Node call
-    options = _.extend( options );
-
-    AccessibleSectionNode.call( this, controlPanelString, options );
+    AccessibleSectionNode.call( this, controlAreaString, options );
   }
 
-  sceneryPhet.register( 'ControlPanelNode', ControlPanelNode );
+  sceneryPhet.register( 'ControlAreaNode', ControlAreaNode );
 
-  return inherit( AccessibleSectionNode, ControlPanelNode );
+  return inherit( AccessibleSectionNode, ControlAreaNode );
 } );
