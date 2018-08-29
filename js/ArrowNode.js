@@ -4,7 +4,7 @@
  * A single- or double-headed arrow. This is a convenience class, most of the work is done in ArrowShape.
  *
  * @author John Blanco
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  * @author Aaron Davis
  * @author Sam Reid
  */

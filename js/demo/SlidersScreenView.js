@@ -6,7 +6,7 @@
  * Use the 'slider' query parameter to set the initial selection of the combo box.
  *
  * @author Sam Reid
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';

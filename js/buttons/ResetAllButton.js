@@ -5,7 +5,7 @@
  * Extends ResetButton, adding things that are specific to 'reset all'.
  *
  * @author John Blanco
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';

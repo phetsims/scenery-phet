@@ -3,7 +3,7 @@
 /**
  * Button for toggling 'recording' state on/off.
  *
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';

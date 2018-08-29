@@ -6,7 +6,7 @@
  * The array will have 0 points if the tail and tip are the same point.
  *
  * @author John Blanco
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  * @author Aaron Davis
  * @author Sam Reid
  */

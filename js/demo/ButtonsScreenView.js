@@ -4,7 +4,7 @@
  * Demonstration of scenery-phet buttons
  *
  * @author Sam Reid
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';

@@ -5,7 +5,7 @@
  * Drawn programmatically, does not use any image files.
  *
  * @author John Blanco
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';

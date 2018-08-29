@@ -4,7 +4,7 @@
  * Plus sign, created using scenery.Path because scenery.Text("+") cannot be accurately centered.
  * Origin at upper left.
  *
- * @author Chris Malley (PixelZoom, Inc)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
