@@ -18,8 +18,7 @@ define( require => {
 
   // constants
   const EMPTY_BEAKER_COLOR = FractionsCommonColorProfile.emptyBeakerProperty;
-  const WATER_SIDE_COLOR = FractionsCommonColorProfile.waterSideProperty;
-  const WATER_TOP_COLOR = FractionsCommonColorProfile.waterTopProperty;
+  const WATER_COLOR = FractionsCommonColorProfile.waterProperty;
   const BEAKER_SHINE_COLOR = FractionsCommonColorProfile.beakerShineProperty;
 
   class BeakerNode extends Node {
@@ -36,7 +35,10 @@ define( require => {
         // {number}
         fullHeight: BeakerNode.DEFAULT_BEAKER_HEIGHT,
         xRadius: 40,
-        yRadius: 12
+        yRadius: 12,
+
+        // {ColorDef} - If non-null, it will override the given color for the water
+        colorOverride: null
       }, options );
 
       const height = options.fullHeight * numerator / denominator;
@@ -79,6 +81,8 @@ define( require => {
         ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.8 : 0.7 ), true );
       }
 
+      const waterColor = options.colorOverride ? options.colorOverride : WATER_COLOR;
+
       const bucketFront = new Path( bucketFrontShape, {
         stroke: 'grey',
         fill: glassGradient
@@ -95,11 +99,11 @@ define( require => {
       } );
       const waterSide = new Path( waterSideShape, {
         stroke: 'black',
-        fill: WATER_SIDE_COLOR,
+        fill: waterColor,
         pickable: false
       } );
       const waterTop = new Path( waterTopShape, {
-        fill: WATER_TOP_COLOR,
+        fill: waterColor,
         pickable: false
       } );
       const ticks = new Path( ticksShape, {
