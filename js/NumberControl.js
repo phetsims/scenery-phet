@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * Control for changing a Property of type {number}.
@@ -18,7 +18,6 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
-  var HSliderIO = require( 'SUN/HSliderIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
@@ -27,6 +26,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var SliderIO = require( 'SUN/SliderIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -218,8 +218,8 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'slider' )
     } );
 
-    // Make sure HSlider gets created with the right IO Type
-    sliderOptions.phetioType = HSliderIO;
+    // Make sure Slider gets created with the right IO Type
+    sliderOptions.phetioType = SliderIO;
 
     var slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
