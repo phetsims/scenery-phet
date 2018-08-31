@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * Front of the HeaterCoolerNode.  It is independent from the HeaterCoolerBack so that one can easily layer objects
@@ -15,7 +15,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
-  var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -26,6 +25,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var VSlider = require( 'SUN/VSlider' );
 
   // strings
   var coolString = require( 'string!SCENERY_PHET/cool' );
@@ -71,7 +71,7 @@ define( function( require ) {
     } );
 
     // Create the label strings and scale them to support translations.
-    var titleOptions = { font: new PhetFont( 14 ), rotation: Math.PI / 2 };
+    var titleOptions = { font: new PhetFont( 14 ) };
     var heatTitle = new Text( heatString, titleOptions );
     var coolTitle = new Text( coolString, titleOptions );
     var titles = [ heatTitle, coolTitle ];
@@ -86,7 +86,7 @@ define( function( require ) {
 
     // Create the slider.
     assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
-    var heatCoolSlider = new HSlider( options.heatCoolAmountProperty, {
+    var heatCoolSlider = new VSlider( options.heatCoolAmountProperty, {
         min: options.coolEnabled ? -1 : 0,
         max: options.heatEnabled ? 1 : 0
       },
@@ -98,7 +98,6 @@ define( function( require ) {
         thumbSize: new Dimension2( 15, 30 ),
         majorTickLength: 15,
         minorTickLength: 12,
-        rotation: -Math.PI / 2,
         centerY: stoveBody.centerY,
         right: stoveBody.right - options.width / 8,
         endDrag: function() {

@@ -31,6 +31,7 @@ define( function( require ) {
   var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
   var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var HSlider = require( 'SUN/HSlider' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
@@ -98,6 +99,7 @@ define( function( require ) {
       { label: 'FaucetNode', getNode: demoFaucetNode },
       { label: 'FormulaNode', getNode: demoFormulaNode },
       { label: 'HandleNode', getNode: demoHandleNode },
+      { label: 'HeaterCoolerNode', getNode: demoHeaterCoolerNode },
       { label: 'KeyNode', getNode: demoKeyNode },
       { label: 'KitSelectionNode', getNode: demoKitSelectionNode },
       { label: 'HelpContent', getNode: demoHelpContent },
@@ -299,6 +301,13 @@ define( function( require ) {
 
     return new Node( {
       children: [ handleNode ],
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for HeaterCoolerNode
+  var demoHeaterCoolerNode = function( layoutBounds ) {
+    return new HeaterCoolerNode( {
       center: layoutBounds.center
     } );
   };
