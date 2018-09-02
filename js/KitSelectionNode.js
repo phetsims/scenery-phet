@@ -136,7 +136,7 @@ define( function( require ) {
         }
       }
     };
-    Timer.addStepListener( animateCarouselPosition );
+    Timer.addListener( animateCarouselPosition );
 
     // Pass through any options intended for Node.
     self.mutate( options );
@@ -145,7 +145,7 @@ define( function( require ) {
     this.disposeKitSelectionNode = function() {
       controlNode.dispose();
       self.kitLayer.dispose();
-      Timer.removeStepListener( animateCarouselPosition );
+      Timer.removeListener( animateCarouselPosition );
       if ( selectedKit.hasListener( selectedKitObserver ) ) {
         selectedKit.unlink( selectedKitObserver );
       }
