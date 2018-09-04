@@ -223,7 +223,7 @@ define( function( require ) {
     } );
 
     var drawer = new Drawer( textNode, {
-      stepper: 'timer', // animation is controlled by the global phet-core Timer
+      stepper: 'timer', // animation is controlled by the global phet-core timer
       handleLocation: 'bottom',
       open: false,
       xMargin: 30,

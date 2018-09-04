@@ -39,7 +39,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
 
   // images
   var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
@@ -187,8 +187,8 @@ define( function( require ) {
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
-        timeoutID = Timer.setTimeout( function() {
-          intervalID = Timer.setInterval( function() {
+        timeoutID = timer.setTimeout( function() {
+          intervalID = timer.setInterval( function() {
             endTapToDispense();
           }, options.tapToDispenseInterval );
         }, 0 );
@@ -199,11 +199,11 @@ define( function( require ) {
       self.phetioStartEvent( 'endTapToDispense', { flowRate: 0 } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
-        Timer.clearTimeout( timeoutID );
+        timer.clearTimeout( timeoutID );
         timeoutID = null;
       }
       if ( intervalID !== null ) {
-        Timer.clearInterval( intervalID );
+        timer.clearInterval( intervalID );
         intervalID = null;
       }
       tapToDispenseIsRunning = false;

@@ -19,7 +19,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
 
   // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds
@@ -136,7 +136,7 @@ define( function( require ) {
         }
       }
     };
-    Timer.addListener( animateCarouselPosition );
+    timer.addListener( animateCarouselPosition );
 
     // Pass through any options intended for Node.
     self.mutate( options );
@@ -145,7 +145,7 @@ define( function( require ) {
     this.disposeKitSelectionNode = function() {
       controlNode.dispose();
       self.kitLayer.dispose();
-      Timer.removeListener( animateCarouselPosition );
+      timer.removeListener( animateCarouselPosition );
       if ( selectedKit.hasListener( selectedKitObserver ) ) {
         selectedKit.unlink( selectedKitObserver );
       }

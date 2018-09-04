@@ -24,7 +24,7 @@ define( function( require ) {
   var PhetioObject = require( 'TANDEM/PhetioObject' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
@@ -105,7 +105,7 @@ define( function( require ) {
 
     /**
      * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
-     * returns false, no alert will be read. Called privately by Timer.setInterval
+     * returns false, no alert will be read. Called privately by timer.setInterval
      *
      * @private
      */
@@ -212,7 +212,7 @@ define( function( require ) {
       var self = this;
 
       // step the alert queue
-      Timer.setInterval( function() {
+      timer.setInterval( function() {
 
         // No-op function if the utteranceQueue is disabled
         if ( !enabled ) {

@@ -34,7 +34,7 @@ define( function( require ) {
 
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
 
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   var DEFAULT_WITH_CLEAR = true;
@@ -88,7 +88,7 @@ define( function( require ) {
 
     // after a small delay, remove this alert content from the DOM so that it cannot be found again - must occur
     // after a delay for screen reader to register the change in text content
-    Timer.setTimeout( function() { liveElement.textContent = ''; }, 200 );
+    timer.setTimeout( function() { liveElement.textContent = ''; }, 200 );
   }
 
   /**
