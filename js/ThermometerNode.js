@@ -35,6 +35,8 @@ define( function( require ) {
    * @constructor
    */
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
+    var self = this;
+
     options = _.extend( {
       bulbDiameter: 50,
       tubeWidth: 30,
@@ -45,6 +47,7 @@ define( function( require ) {
       majorTickLength: 15,
       minorTickLength: 7.5,
       glassThickness: 2, // space between the thermometer outline and the fluid inside it
+      zeroLevel: 'bulbCenter', // defines where level is at temperature zero - 'bulbCenter' or 'bulbTop'
 
       // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
       backgroundFill: null,
@@ -56,6 +59,9 @@ define( function( require ) {
     }, options );
 
     Node.call( this );
+
+    assert && assert( options.zeroLevel === 'bulbCenter' || options.zeroLevel === 'bulbTop',
+      'Invalid zeroLevel: ' + options.zeroLevel );
 
     // Create a shaded sphere to act as the bulb fluid
     var bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness; //TODO should this be options.lineWidth/2 ?
@@ -108,7 +114,7 @@ define( function( require ) {
     var fluidClipArea = new Shape()
       .moveTo( tubeFluidLeft, tubeFluidBottom + FLUID_OVERLAP )
       .arc( BULB_CENTER_X, straightTubeTop, tubeFluidRadius, Math.PI, 0 ) // round top
-      .lineTo( -tubeFluidLeft, tubeFluidBottom + FLUID_OVERLAP)
+      .lineTo( -tubeFluidLeft, tubeFluidBottom + FLUID_OVERLAP )
       .close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
@@ -141,12 +147,23 @@ define( function( require ) {
     // Temperature determines the height of the fluid in the tube
     var maxFluidHeight = new Path( fluidClipArea ).height;
     //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
-    var temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, 0, maxFluidHeight );
+
+    var minFluidHeight;
+    if ( options.zeroLevel === 'bulbCenter' ) {
+      minFluidHeight = 0;
+    }
+    else if ( options.zeroLevel === 'bulbTop' ) {
+      minFluidHeight = -tubeFluidBottom;
+    }
+    else {
+      throw new Error( 'Invalid zeroLevel: ' + options.zeroLevel );
+    }
+    this.temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, minFluidHeight, maxFluidHeight + minFluidHeight );
 
     var temperaturePropertyObserver = function( temp ) {
-      var fluidHeight = temperatureLinearFunction( temp );
+      var fluidHeight = self.temperatureToHeight( temp );
       tubeFluidNode.visible = ( fluidHeight > 0 );
-      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight, tubeFluidWidth, fluidHeight + FLUID_OVERLAP );
+      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight + minFluidHeight, tubeFluidWidth, fluidHeight + FLUID_OVERLAP );
     };
 
     temperatureProperty.link( temperaturePropertyObserver );
@@ -172,6 +189,14 @@ define( function( require ) {
     dispose: function() {
       this.disposeThermometerNode();
       Node.prototype.dispose.call( this );
+    },
+
+    /**
+     * Get height at temperature to allow accurate tick placement
+     * @public
+     */
+    temperatureToHeight: function( temp ) {
+      return this.temperatureLinearFunction( temp );
     }
   } );
 } );
