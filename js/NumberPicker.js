@@ -389,16 +389,16 @@ define( function( require ) {
     // @private
     this.disposeNumberPicker = function() {
 
-      this.colorProperty && this.colorProperty.dispose();
-      this.upEnabledProperty.dispose();
-      this.downEnabledProperty.dispose();
+      self.colorProperty && this.colorProperty.dispose();
+      self.upEnabledProperty.dispose();
+      self.downEnabledProperty.dispose();
 
-      if ( this.valueProperty.hasListener( this.valueObserver ) ) {
-        this.valueProperty.unlink( this.valueObserver );
+      if ( self.valueProperty.hasListener( self.valueObserver ) ) {
+        self.valueProperty.unlink( self.valueObserver );
       }
 
       // a11y mixin
-      this.disposeAccessibleNumberSpinner();
+      self.disposeAccessibleNumberSpinner();
     };
   }
 
