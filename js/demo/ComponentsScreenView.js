@@ -151,7 +151,7 @@ define( function( require ) {
       arrowNode.setDoubleHead( checked );
     } );
 
-    var checkbox = Checkbox.createTextCheckbox( 'Double head', { font: new PhetFont( 20 ) }, checkedProperty, {
+    var checkbox = new Checkbox( new Text( 'Double head', { font: new PhetFont( 20 ) } ), checkedProperty, {
       centerX: layoutBounds.centerX,
       top: arrowNode.bottom + 50
     } );
