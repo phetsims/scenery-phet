@@ -121,9 +121,7 @@ define( require => {
             waterTop
           ] : [] ),
           bucketFront,
-          ...( numerator > 0 ? [
-            ticks
-          ] : [] )
+          ticks
         ]
       } );
 
