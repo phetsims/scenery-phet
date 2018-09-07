@@ -606,7 +606,7 @@ define( function( require ) {
     var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
       cursor: 'pointer'
     } );
-    var meterNode = new MeterBodyNode( backgroundNode );
+    var meterNode = new MeterBodyNode( backgroundNode, new DragListener( { translateNode: true } ) );
 
     var probeNode = new ProbeNode( {
       cursor: 'pointer',
@@ -626,7 +626,6 @@ define( function( require ) {
 
     // Add the wire behind the probe.
     meterNode.addChild( new WireNode(
-
       // Connect to the meter body at the left center
       new NodeProperty( backgroundNode, 'bounds', 'leftCenter' ),
       new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
@@ -641,12 +640,6 @@ define( function( require ) {
 
     // Connect the probe
     meterNode.addChild( probeNode );
-
-    // Specify how the probes drags relative to the MeterBodyNode
-    meterNode.alignProbesEmitter.addListener( function() {
-      probeNode.center = backgroundNode.leftTop.plusXY( -50, -100 );
-    } );
-    meterNode.alignProbes();
 
     return meterNode;
   };

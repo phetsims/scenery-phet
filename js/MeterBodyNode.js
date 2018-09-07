@@ -11,79 +11,33 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Node} backgroundNode - node that is shown for the main body
+   * @param {DragListener} dragListener
    * @param {Object} [options]
    * @constructor
    */
-  function MeterBodyNode( backgroundNode, options ) {
-
-    var self = this;
-    options = _.extend( {
-
-      // This function is called when the a wave detector drag ends.  It can be used to drop it back into a toolbox.
-      end: function() {}
-    }, options );
+  function MeterBodyNode( backgroundNode, dragListener, options ) {
     Node.call( this );
-
-    // @private {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
-    // This is accomplished by calling alignProbes() on drag start and each drag event.
-    this.synchronizeProbeLocations = false;
 
     // @private {Node} - shows the background for the MeterBodyNode.  Any attached probes or other supplemental nodes
     // should not be children if the backgroundNode if they need to translate independently
     this.backgroundNode = backgroundNode;
 
     // @private
-    this.backgroundDragListener = new DragListener( {
-      translateNode: true,
-      start: function() {
-        if ( self.synchronizeProbeLocations ) {
-
-          // Align the probes when the drag begins.
-          self.alignProbes();
-        }
-      },
-      drag: function() {
-        if ( self.synchronizeProbeLocations ) {
-
-          // Align the probes each time the MeterBodyNode translates, so they will stay in sync
-          self.alignProbes();
-        }
-      },
-      end: function() {
-        options.end();
-        self.synchronizeProbeLocations = false;
-      }
-    } );
+    this.backgroundDragListener = dragListener;
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
-
-    // @public (listen-only) {Emitter}
-    this.alignProbesEmitter = new Emitter();
-
-    this.alignProbes();
 
     // Mutate after backgroundNode is added as a child
     this.mutate( options );
   }
 
   inherit( Node, MeterBodyNode, {
-
-    /**
-     * Put the probes into their standard position relative to the graph body.  Clients can override this method
-     * or listen to the alignProbesEmitter.
-     * @public
-     */
-    alignProbes: function() {
-      this.alignProbesEmitter.emit();
-    },
 
     /**
      * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode should
@@ -100,9 +54,6 @@ define( function( require ) {
      * @param {Object} event
      */
     startDrag: function( event ) {
-
-      // Set the internal flag that indicates the probes should remain in alignment during the drag
-      this.synchronizeProbeLocations = true;
 
       // Forward the event to the drag listener
       this.backgroundDragListener.press( event, this.backgroundNode );
