@@ -41,7 +41,7 @@ define( function( require ) {
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var MeterNode = require( 'SCENERY_PHET/MeterNode' );
+  var MeterBodyNode = require( 'SCENERY_PHET/MeterBodyNode' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -106,7 +106,7 @@ define( function( require ) {
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
-      { label: 'MeterNode', getNode: demoMeterNode },
+      { label: 'MeterBodyNode', getNode: demoMeterNode },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
@@ -595,9 +595,9 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for MeterNode.  This shows a draggable MeterNode with one draggable ProbeNode attached via a
-  // WireNode.  On the first drag of the meter body, the ProbeNode travels with the MeterNode body (as it would when
-  // dragging out of a toolbox).  On subsequent drags, the ProbeNode travels independently of the MeterNode body.
+  // Creates a demo for MeterBodyNode.  This shows a draggable MeterBodyNode with one draggable ProbeNode attached via a
+  // WireNode.  On the first drag of the meter body, the ProbeNode travels with the MeterBodyNode body (as it would when
+  // dragging out of a toolbox).  On subsequent drags, the ProbeNode travels independently of the MeterBodyNode body.
   // This example does not exercise the dragging out of toolbox/dropping into toolbox functionality--it seems out of
   // scope or too complex for this example and just includes a few lines of code that aren't tested here (but are
   // exercised in Wave Interference).
@@ -606,7 +606,7 @@ define( function( require ) {
     var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
       cursor: 'pointer'
     } );
-    var meterNode = new MeterNode( backgroundNode );
+    var meterNode = new MeterBodyNode( backgroundNode );
 
     var probeNode = new ProbeNode( {
       cursor: 'pointer',
@@ -642,7 +642,7 @@ define( function( require ) {
     // Connect the probe
     meterNode.addChild( probeNode );
 
-    // Specify how the probes drags relative to the MeterNode
+    // Specify how the probes drags relative to the MeterBodyNode
     meterNode.alignProbesEmitter.addListener( function() {
       probeNode.center = backgroundNode.leftTop.plusXY( -50, -100 );
     } );

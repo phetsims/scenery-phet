@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function MeterNode( backgroundNode, options ) {
+  function MeterBodyNode( backgroundNode, options ) {
 
     var self = this;
     options = _.extend( {
@@ -32,11 +32,11 @@ define( function( require ) {
     }, options );
     Node.call( this );
 
-    // @private {boolean} - true if dragging the MeterNode also causes attached probes to translate.
+    // @private {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
     // This is accomplished by calling alignProbes() on drag start and each drag event.
     this.synchronizeProbeLocations = false;
 
-    // @private {Node} - shows the background for the MeterNode.  Any attached probes or other supplemental nodes
+    // @private {Node} - shows the background for the MeterBodyNode.  Any attached probes or other supplemental nodes
     // should not be children if the backgroundNode if they need to translate independently
     this.backgroundNode = backgroundNode;
 
@@ -53,7 +53,7 @@ define( function( require ) {
       drag: function() {
         if ( self.synchronizeProbeLocations ) {
 
-          // Align the probes each time the MeterNode translates, so they will stay in sync
+          // Align the probes each time the MeterBodyNode translates, so they will stay in sync
           self.alignProbes();
         }
       },
@@ -74,7 +74,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  inherit( Node, MeterNode, {
+  inherit( Node, MeterBodyNode, {
 
     /**
      * Put the probes into their standard position relative to the graph body.  Clients can override this method
@@ -86,7 +86,7 @@ define( function( require ) {
     },
 
     /**
-     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterNode should
+     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode should
      * be dropped back in a toolbox.
      * @returns {Bounds2}
      */
@@ -96,7 +96,7 @@ define( function( require ) {
 
     /**
      * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
-     * to drag together with the MeterNode.  This is accomplished by calling this.alignProbes() at each drag event.
+     * to drag together with the MeterBodyNode.  This is accomplished by calling this.alignProbes() at each drag event.
      * @param {Object} event
      */
     startDrag: function( event ) {
@@ -109,5 +109,5 @@ define( function( require ) {
     }
   } );
 
-  return sceneryPhet.register( 'MeterNode', MeterNode );
+  return sceneryPhet.register( 'MeterBodyNode', MeterBodyNode );
 } );
