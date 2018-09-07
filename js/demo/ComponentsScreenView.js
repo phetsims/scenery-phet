@@ -602,7 +602,6 @@ define( function( require ) {
   // exercised in Wave Interference).
   var demoMeterWithProbe = function( layoutBounds ) {
 
-    var meterNode = new Node();
     var meterBodyNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
       cursor: 'pointer'
     } );
