@@ -41,7 +41,6 @@ define( function( require ) {
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var MeterBodyNode = require( 'SCENERY_PHET/MeterBodyNode' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -106,7 +105,7 @@ define( function( require ) {
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
-      { label: 'MeterBodyNode', getNode: demoMeterNode },
+      { label: 'MeterWithProbe', getNode: demoMeterWithProbe },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
@@ -601,16 +600,18 @@ define( function( require ) {
   // This example does not exercise the dragging out of toolbox/dropping into toolbox functionality--it seems out of
   // scope or too complex for this example and just includes a few lines of code that aren't tested here (but are
   // exercised in Wave Interference).
-  var demoMeterNode = function( layoutBounds ) {
+  var demoMeterWithProbe = function( layoutBounds ) {
 
-    var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
+    var meterNode = new Node();
+    var meterBodyNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
       cursor: 'pointer'
     } );
-    var meterNode = new MeterBodyNode( backgroundNode, new DragListener( { translateNode: true } ) );
+    meterBodyNode.addInputListener( new DragListener( { translateNode: true } ) );
 
     var probeNode = new ProbeNode( {
       cursor: 'pointer',
-      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } )
+      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } ),
+      translation: new Vector2( 200, 200 )
     } );
 
     // Allow dragging the probe
@@ -622,12 +623,12 @@ define( function( require ) {
     const NORMAL_DISTANCE = 25;
 
     // Center the meter node before it has children
-    meterNode.center = layoutBounds.center;
+    meterBodyNode.center = layoutBounds.center;
 
     // Add the wire behind the probe.
-    meterNode.addChild( new WireNode(
+    const wireNode = new WireNode(
       // Connect to the meter body at the left center
-      new NodeProperty( backgroundNode, 'bounds', 'leftCenter' ),
+      new NodeProperty( meterBodyNode, 'bounds', 'leftCenter' ),
       new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
 
       // Connect to the probe at the center bottom
@@ -636,12 +637,11 @@ define( function( require ) {
         lineWidth: 3,
         stroke: 'black'
       }
-    ) );
+    );
 
-    // Connect the probe
-    meterNode.addChild( probeNode );
-
-    return meterNode;
+    return new Node( {
+      children: [ meterBodyNode, wireNode, probeNode ]
+    } );
   };
 
   // Creates a demo for NumberKeypad
