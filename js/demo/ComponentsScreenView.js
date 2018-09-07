@@ -105,7 +105,6 @@ define( function( require ) {
       { label: 'Keypad', getNode: demoKeypad },
       { label: 'LaserPointerNode', getNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', getNode: demoMeasuringTapeNode },
-      { label: 'MeterWithProbe', getNode: demoMeterWithProbe },
       { label: 'NumberKeypad', getNode: demoNumberKeypad },
       { label: 'NumberPicker', getNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', getNode: demoPaperAirplaneNode },
@@ -115,7 +114,8 @@ define( function( require ) {
       { label: 'ScientificNotationNode', getNode: demoScientificNotationNode },
       { label: 'StarNode', getNode: demoStarNode },
       { label: 'TimerNode', getNode: demoTimerNode },
-      { label: 'ThermometerNode', getNode: demoTemperatureNode }
+      { label: 'ThermometerNode', getNode: demoTemperatureNode },
+      { label: 'WireNode', getNode: demoWireNode }
     ], {
       comboBoxItemFont: new PhetFont( 12 ),
       comboBoxItemYMargin: 3,
@@ -595,12 +595,8 @@ define( function( require ) {
   };
 
   // Creates a demo for MeterBodyNode.  This shows a draggable MeterBodyNode with one draggable ProbeNode attached via a
-  // WireNode.  On the first drag of the meter body, the ProbeNode travels with the MeterBodyNode body (as it would when
-  // dragging out of a toolbox).  On subsequent drags, the ProbeNode travels independently of the MeterBodyNode body.
-  // This example does not exercise the dragging out of toolbox/dropping into toolbox functionality--it seems out of
-  // scope or too complex for this example and just includes a few lines of code that aren't tested here (but are
-  // exercised in Wave Interference).
-  var demoMeterWithProbe = function( layoutBounds ) {
+  // WireNode.
+  var demoWireNode = function( layoutBounds ) {
 
     var meterBodyNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
       cursor: 'pointer'
