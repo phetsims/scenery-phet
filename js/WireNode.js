@@ -24,6 +24,11 @@ define( function( require ) {
    * @constructor
    */
   function WireNode( position1Property, normal1Property, position2Property, normal2Property, options ) {
+
+    options = _.extend( {
+      stroke: 'black'
+    }, options );
+
     var self = this;
     Path.call( this, null, options );
 
