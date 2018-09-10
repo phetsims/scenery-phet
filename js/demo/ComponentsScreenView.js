@@ -14,10 +14,10 @@ define( function( require ) {
   // modules
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var Checkbox = require( 'SUN/Checkbox' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
@@ -63,7 +63,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
@@ -594,48 +593,44 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for MeterBodyNode.  This shows a draggable MeterBodyNode with one draggable ProbeNode attached via a
-  // WireNode.
+  // Creates a demo for MeterBodyNode - two circles connected by a wire.
   var demoWireNode = function( layoutBounds ) {
 
-    var meterBodyNode = new ShadedRectangle( new Bounds2( 0, 0, 300, 200 ), {
+    var greenCircle = new Circle( 20, {
+      fill: 'green',
       cursor: 'pointer'
     } );
-    meterBodyNode.addInputListener( new DragListener( { translateNode: true } ) );
+    greenCircle.addInputListener( new DragListener( { translateNode: true } ) );
 
-    var probeNode = new ProbeNode( {
+    var redCircle = new Circle( 20, {
+      fill: 'red',
       cursor: 'pointer',
-      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'black' } ),
-      translation: new Vector2( 200, 200 )
+      center: greenCircle.center.plusXY( 200, 200 )
     } );
-
-    // Allow dragging the probe
-    probeNode.addInputListener( new DragListener( {
-      translateNode: true
-    } ) );
+    redCircle.addInputListener( new DragListener( { translateNode: true } ) );
 
     // Distance the wires stick out from the objects
-    const NORMAL_DISTANCE = 25;
-
-    // Center the meter node before it has children
-    meterBodyNode.center = layoutBounds.center;
+    const NORMAL_DISTANCE = 100;
 
     // Add the wire behind the probe.
     const wireNode = new WireNode(
-      // Connect to the meter body at the left center
-      new NodeProperty( meterBodyNode, 'bounds', 'leftCenter' ),
+
+      // Connect to the greenCircle at the center bottom
+      new NodeProperty( greenCircle, 'bounds', 'centerBottom' ),
+      new Property( new Vector2( 0, NORMAL_DISTANCE ) ),
+
+      // Connect to node2 at the left center
+      new NodeProperty( redCircle, 'bounds', 'leftCenter' ),
       new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
 
-      // Connect to the probe at the center bottom
-      new NodeProperty( probeNode, 'bounds', 'centerBottom' ),
-      new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
-        lineWidth: 3,
-        stroke: 'black'
+      {
+        lineWidth: 3
       }
     );
 
     return new Node( {
-      children: [ meterBodyNode, wireNode, probeNode ]
+      children: [ greenCircle, redCircle, wireNode ], // wireNode on top, so we can see it fully
+      center: layoutBounds.center
     } );
   };
 
