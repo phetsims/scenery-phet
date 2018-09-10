@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var ContextLossFailureDialog = require( 'SCENERY_PHET/ContextLossFailureDialog' );
-  var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -57,5 +56,5 @@ define( function( require ) {
 
   sceneryPhet.register( 'DialogsScreenView', DialogsScreenView );
 
-  return inherit( DemosScreenView, DialogsScreenView );
+  return inherit( ScreenView, DialogsScreenView );
 } );
