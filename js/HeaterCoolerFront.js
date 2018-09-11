@@ -76,8 +76,8 @@ define( function( require ) {
     var coolTitle = new Text( coolString, titleOptions );
     var titles = [ heatTitle, coolTitle ];
 
-    // Get the widest title by comparing their height since they are rotated.
-    var maxTitleWidth = Math.max( coolTitle.height, heatTitle.height );
+    // Scale the titles to fit within the bucket front if necessary
+    var maxTitleWidth = Math.max( coolTitle.width, heatTitle.width );
     if ( maxTitleWidth > bottomWidth / 2 ) {
       titles.forEach( function( title ) {
         title.scale( ( bottomWidth / 2 ) / maxTitleWidth );
