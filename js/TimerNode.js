@@ -32,14 +32,17 @@ define( function( require ) {
    * @constructor
    */
   function TimerNode( secondsProperty, runningProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
+
+      // See also options that pass through to TimerReadoutNode
       touchAreaDilation: 10,
       cursor: 'pointer',
       iconColor: '#333',
-      buttonBaseColor: '#DFE0E1'
-      // See also options that pass through to TimerReadoutNode
+      buttonBaseColor: '#DFE0E1',
+
+      // Tandem is required to make sure the buttons are instrumented
+      tandem: Tandem.required
     }, options );
 
     Node.call( this );
@@ -68,6 +71,7 @@ define( function( require ) {
     var pauseShape = Shape.bounds( new Bounds2( 0, -playPauseHeight / 2, playPauseWidth, playPauseHeight / 2 ).eroded( playPauseWidth * 0.1 ) );
 
     var resetButton = new RectangularPushButton( {
+      tandem: options.tandem.createTandem( 'resetButton' ),
       listener: function resetTimer() {
         runningProperty.set( false );
         secondsProperty.set( 0 );
@@ -86,6 +90,7 @@ define( function( require ) {
         fill: '#eef',
         lineWidth: halfPlayStroke * 2
       } ), runningProperty, {
+        tandem: options.tandem.createTandem( 'playPauseButton' ),
         baseColor: options.buttonBaseColor,
         minWidth: minimumButtonWidth
       } );

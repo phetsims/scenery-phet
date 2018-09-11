@@ -12,14 +12,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} size A size factor (it'll be a bit bigger)
    * @constructor
    */
   function UTurnArrowShape( size ) {
-    Tandem.indicateUninstrumentedCode();
     Shape.call( this );
 
     var strokeWidth = size * 0.3;
