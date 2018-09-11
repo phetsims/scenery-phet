@@ -118,7 +118,12 @@ define( function( require ) {
       .close();
 
     // Clip the top of the bulb so it's flat where it connects to the tube
-    var bulbFluidClipArea = Shape.rectangle( tubeFluidBottom, BULB_CENTER_Y - options.bulbDiameter / 2, options.bulbDiameter, options.bulbDiameter );
+    var bulbFluidClipArea = Shape.rectangle(
+      tubeFluidBottom,
+      BULB_CENTER_Y - options.bulbDiameter / 2,
+      options.bulbDiameter,
+      options.bulbDiameter
+    );
     bulbFluidNode.setClipArea( bulbFluidClipArea );
 
     // Gradient for fluid in tube
@@ -158,12 +163,24 @@ define( function( require ) {
     else {
       throw new Error( 'Invalid zeroLevel: ' + options.zeroLevel );
     }
-    this.temperatureLinearFunction = new LinearFunction( minTemperature, maxTemperature, minFluidHeight, maxFluidHeight + minFluidHeight );
+
+    // @private
+    this.temperatureLinearFunction = new LinearFunction(
+      minTemperature,
+      maxTemperature,
+      minFluidHeight,
+      maxFluidHeight + minFluidHeight
+    );
 
     var temperaturePropertyObserver = function( temp ) {
       var fluidHeight = self.temperatureToHeight( temp );
       tubeFluidNode.visible = ( fluidHeight > 0 );
-      tubeFluidNode.setRect( tubeFluidLeft, tubeFluidBottom - fluidHeight + minFluidHeight, tubeFluidWidth, fluidHeight + FLUID_OVERLAP );
+      tubeFluidNode.setRect(
+        tubeFluidLeft,
+        tubeFluidBottom - fluidHeight + minFluidHeight,
+        tubeFluidWidth,
+        fluidHeight + FLUID_OVERLAP
+      );
     };
 
     temperatureProperty.link( temperaturePropertyObserver );
