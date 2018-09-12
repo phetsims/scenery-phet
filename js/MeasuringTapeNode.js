@@ -172,9 +172,11 @@ define( function( require ) {
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
     this.addChild( this.baseImage ); // base of the measuring tape
+
+    // @private {Node} - parent that displays the text and its background
+    this.valueContainer = new Node( { children: [ this.valueBackgroundNode, this.valueNode ] } );
     if ( options.hasValue ) {
-      this.addChild( this.valueBackgroundNode );
-      this.addChild( this.valueNode );
+      this.addChild( this.valueContainer );
     }
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
@@ -338,6 +340,17 @@ define( function( require ) {
   sceneryPhet.register( 'MeasuringTapeNode', MeasuringTapeNode );
 
   return inherit( Node, MeasuringTapeNode, {
+
+    /**
+     * Shows/hides the text and its background.  Operates by removing/adding children so that Node.rasterized() can
+     * be used to create icons that are not off-center.
+     *
+     * @param {boolean} visible
+     * @public
+     */
+    setTextVisible: function( visible ) {
+      this.valueContainer.children = visible ? [ this.valueBackgroundNode, this.valueNode ] : [];
+    },
 
     /**
      * Resets the MeasuringTapeNode to its initial configuration
