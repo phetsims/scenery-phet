@@ -614,7 +614,6 @@ define( function( require ) {
 
     // Add the wire behind the probe.
     const wireNode = new WireNode(
-
       // Connect to the greenCircle at the center bottom
       new NodeProperty( greenCircle, 'bounds', 'centerBottom' ),
       new Property( new Vector2( 0, NORMAL_DISTANCE ) ),
@@ -1073,15 +1072,14 @@ define( function( require ) {
 
     // Create a TimerNode that can show from a selection of units.
     var unitsProperty = new Property( 's' );
-    var unitsNode = new ToggleNode( [
-      { value: 's', node: new Text( 's' ) },
-      { value: 'ms', node: new Text( 'ms' ) },
-      { value: 'fs', node: new Text( 'fs' ) }
-    ], unitsProperty, {
-      alignChildren: ToggleNode.LEFT
-    } );
+
+    // Initialize with longest possible string
+    var unitsNode = new Text( 'ms' );
     var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
       unitsNode: unitsNode
+    } );
+    unitsProperty.link( function( units ) {
+      unitsNode.text = units;
     } );
     var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
       { value: 's', node: new Text( 'seconds' ) },
