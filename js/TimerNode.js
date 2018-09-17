@@ -26,12 +26,12 @@ define( function( require ) {
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
 
   /**
-   * @param {Property.<number>} secondsProperty
+   * @param {Property.<number>} timeProperty
    * @param {Property.<boolean>} runningProperty
    * @param {Object} [options]
    * @constructor
    */
-  function TimerNode( secondsProperty, runningProperty, options ) {
+  function TimerNode( timeProperty, runningProperty, options ) {
 
     options = _.extend( {
 
@@ -48,7 +48,7 @@ define( function( require ) {
     Node.call( this );
 
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
-    var timerReadoutNode = new TimerReadoutNode( secondsProperty, options );
+    var timerReadoutNode = new TimerReadoutNode( timeProperty, options );
     timerReadoutNode.centerX = 0;
 
     var paddingBetweenItems = 6;
@@ -74,7 +74,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'resetButton' ),
       listener: function resetTimer() {
         runningProperty.set( false );
-        secondsProperty.set( 0 );
+        timeProperty.set( 0 );
       },
       content: new Path( resetAllShape, {
         fill: options.iconColor
@@ -130,12 +130,12 @@ define( function( require ) {
     var updateResetButtonEnabled = function( value ) {
       resetButton.enabled = value > 0;
     };
-    secondsProperty.link( updateResetButtonEnabled );
+    timeProperty.link( updateResetButtonEnabled );
 
     // @private
     this.disposeTimerNode = function() {
       timerReadoutNode.dispose();
-      secondsProperty.unlink( updateResetButtonEnabled );
+      timeProperty.unlink( updateResetButtonEnabled );
       resetButton.dispose();
       playPauseButton.dispose();
     };

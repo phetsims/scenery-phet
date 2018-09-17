@@ -19,10 +19,10 @@ define( require => {
   class TimerReadoutNode extends Rectangle {
 
     /**
-     * @param {Property.<Number>} secondsProperty
+     * @param {Property.<Number>} timeProperty
      * @param {Object} options
      */
-    constructor( secondsProperty, options ) {
+    constructor( timeProperty, options ) {
 
       options = _.extend( {
 
@@ -111,23 +111,23 @@ define( require => {
       };
 
       // Set initial values and layout
-      secondsProperty.link( updateText );
-      secondsProperty.link( updateTextLocation );
+      timeProperty.link( updateText );
+      timeProperty.link( updateTextLocation );
 
       let unitsNodeBoundsListener = null;
 
       // If the unitsNode changes size, update the layout to accommodate the new size
       if ( unitsNode ) {
         unitsNodeBoundsListener = function() {
-          updateText( secondsProperty.value );
+          updateText( timeProperty.value );
           updateTextLocation();
         };
         unitsNode.on( 'bounds', unitsNodeBoundsListener );
       }
 
       this.disposeTimerReadoutNode = () => {
-        secondsProperty.unlink( updateText );
-        secondsProperty.unlink( updateTextLocation );
+        timeProperty.unlink( updateText );
+        timeProperty.unlink( updateTextLocation );
         unitsNode && unitsNode.off( unitsNodeBoundsListener );
       };
     }
@@ -139,18 +139,20 @@ define( require => {
 
 
   // the full-sized minutes and seconds string
-  const timeToBigString = ( timeInSeconds, showUnits ) => {
+  const timeToBigString = ( time, showUnits ) => {
 
-    // Round to the nearest centisecond (compatible with timeToSmallString).
+    // Round to the nearest centi-part (if time is in seconds, this would be centiseconds), (compatible with timeToSmallString).
     // see https://github.com/phetsims/masses-and-springs/issues/156
-    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+    time = Util.roundSymmetric( time * 100 ) / 100;
 
     // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
     if ( showUnits ) {
-      return Math.floor( timeInSeconds ) + '';
+      return Math.floor( time ) + '';
     }
     else {
+      const timeInSeconds = time;
 
+      // If no units are provided, then we assume the time is in seconds, and should be shown in mm:ss.cs
       let minutes = Math.floor( timeInSeconds / 60 ) % 60;
       let seconds = Math.floor( timeInSeconds ) % 60;
 
@@ -165,18 +167,18 @@ define( require => {
   };
 
   // the smaller hundredths-of-a-second string
-  const timeToSmallString = timeInSeconds => {
+  const timeToSmallString = time => {
 
     // Round to the nearest centisecond (compatible with timeToSmallString).
     // see https://github.com/phetsims/masses-and-springs/issues/156
-    timeInSeconds = Util.roundSymmetric( timeInSeconds * 100 ) / 100;
+    time = Util.roundSymmetric( time * 100 ) / 100;
 
     // Rounding after mod, in case there is floating-point error
-    let centiseconds = Util.roundSymmetric( timeInSeconds % 1 * 100 );
-    if ( centiseconds < 10 ) {
-      centiseconds = '0' + centiseconds;
+    let centitime = Util.roundSymmetric( time % 1 * 100 );
+    if ( centitime < 10 ) {
+      centitime = '0' + centitime;
     }
-    return '.' + centiseconds;
+    return '.' + centitime;
   };
 
   return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
