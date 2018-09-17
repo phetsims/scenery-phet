@@ -72,7 +72,6 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
   var WireNode = require( 'SCENERY_PHET/WireNode' );
