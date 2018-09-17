@@ -22,20 +22,24 @@ define( function( require ) {
 
     options = _.extend( {
 
-      //Distance from the center to the tip of a star limb
+      // Distance from the center to the tip of a star limb
       outerRadius: 15,
 
-      //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-      innerRadius: 7.5
+      // Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
+      innerRadius: 7.5,
+
+      // Number of star points, must be an integer
+      numberStarPoints: 5
     }, options );
 
     Tandem.disallowTandem( options );
 
     Shape.call( this );
 
+    var iMax = 2 * options.numberStarPoints; // number of segments
     // start at the top and proceed clockwise
-    for ( var i = 0; i < 10; i++ ) {
-      var angle = i / 10 * Math.PI * 2 - Math.PI / 2;
+    for ( var i = 0; i < iMax; i++ ) {
+      var angle = i / iMax * Math.PI * 2 - Math.PI / 2;
       var radius = i % 2 === 0 ? options.outerRadius : options.innerRadius;
 
       this.lineTo(
