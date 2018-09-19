@@ -70,7 +70,7 @@ define( function( require ) {
       value: 'Move to previous item with Shift plus Tab key.'
     },
     keyboardHelpDialogPressButtonsDescription: {
-      value: 'Press buttons with the space bar.'
+      value: 'Press buttons with Space key.'
     },
     keyboardHelpDialogGroupNavigationDescription: {
       value: 'Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys.'
