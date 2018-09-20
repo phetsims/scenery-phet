@@ -36,10 +36,10 @@ define( function( require ) {
 
     Shape.call( this );
 
-    var iMax = 2 * options.numberStarPoints; // number of segments
+    var numSegments = 2 * options.numberStarPoints; // number of segments
     // start at the top and proceed clockwise
-    for ( var i = 0; i < iMax; i++ ) {
-      var angle = i / iMax * Math.PI * 2 - Math.PI / 2;
+    for ( var i = 0; i < numSegments; i++ ) {
+      var angle = i / numSegments * Math.PI * 2 - Math.PI / 2;
       var radius = i % 2 === 0 ? options.outerRadius : options.innerRadius;
 
       this.lineTo(
