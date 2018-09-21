@@ -71,10 +71,6 @@ define( function( require ) {
 
     var self = this;
 
-    // accessibility input listener - must be removed in dispose
-    var clickListener = { click: function( event ) { self.buttonModel.toggle(); } };
-    this.addAccessibleInputListener( clickListener );
-
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
     var pressedListener = function( value ) {
@@ -88,7 +84,6 @@ define( function( require ) {
 
     // @private - make eligible for garbage collection
     this.disposeSoundToggleButton = function() {
-      self.removeAccessibleInputListener( clickListener );
       property.unlink( pressedListener );
     };
   }
