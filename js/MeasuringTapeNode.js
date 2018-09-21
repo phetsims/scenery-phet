@@ -349,7 +349,7 @@ define( function( require ) {
      * @public
      */
     setTextVisible: function( visible ) {
-      this.valueContainer.children = visible ? [ this.valueBackgroundNode, this.valueNode ] : [];
+      this.valueContainer.visible = visible;
     },
 
     /**
