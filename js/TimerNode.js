@@ -40,6 +40,7 @@ define( function( require ) {
       cursor: 'pointer',
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
+      buttonSpacing: 6, // horizontal distance between the buttons
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required
@@ -51,8 +52,7 @@ define( function( require ) {
     var timerReadoutNode = new TimerReadoutNode( timeProperty, options );
     timerReadoutNode.centerX = 0;
 
-    var paddingBetweenItems = 6;
-    var minimumButtonWidth = ( timerReadoutNode.width - paddingBetweenItems ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
+    var minimumButtonWidth = ( timerReadoutNode.width - options.buttonSpacing ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
     /*---------------------------------------------------------------------------*
      * Buttons
@@ -103,10 +103,10 @@ define( function( require ) {
     contents.addChild( playPauseButton );
     contents.addChild( timerReadoutNode );
 
-    resetButton.right = -paddingBetweenItems / 2;
-    playPauseButton.left = paddingBetweenItems / 2;
-    resetButton.top = timerReadoutNode.bottom + paddingBetweenItems;
-    playPauseButton.top = timerReadoutNode.bottom + paddingBetweenItems;
+    resetButton.right = -options.buttonSpacing / 2;
+    playPauseButton.left = options.buttonSpacing / 2;
+    resetButton.top = timerReadoutNode.bottom + options.buttonSpacing;
+    playPauseButton.top = timerReadoutNode.bottom + options.buttonSpacing;
 
     var panelPad = 8;
     contents.left = panelPad;
