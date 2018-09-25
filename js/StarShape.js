@@ -20,6 +20,8 @@ define( function( require ) {
    */
   function StarShape( options ) {
 
+    var self = this;
+
     options = _.extend( {
 
       // Distance from the center to the tip of a star limb
@@ -37,16 +39,17 @@ define( function( require ) {
     Shape.call( this );
 
     var numSegments = 2 * options.numberStarPoints; // number of segments
+
     // start at the top and proceed clockwise
-    for ( var i = 0; i < numSegments; i++ ) {
+    _.times( numSegments, function( i ) {
       var angle = i / numSegments * Math.PI * 2 - Math.PI / 2;
       var radius = i % 2 === 0 ? options.outerRadius : options.innerRadius;
 
-      this.lineTo(
+      self.lineTo(
         radius * Math.cos( angle ),
         radius * Math.sin( angle )
       );
-    }
+    } );
     this.close();
     this.makeImmutable(); // So Paths won't need to add listeners
   }
