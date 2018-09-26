@@ -39,7 +39,7 @@ define( function( require ) {
         return this.instance.addToBack( textContent );
       },
       documentation: 'Add the utterance (string) to the end of the queue.',
-      canBeInvokedForReadOnlyInstances: false
+      invocableForReadOnlyInstances: false
     },
 
     addToFront: {
@@ -49,7 +49,7 @@ define( function( require ) {
         return this.instance.addToFront( textContent );
       },
       documentation: 'Add the utterance (string) to the beginning of the queue.',
-      canBeInvokedForReadOnlyInstances: false
+      invocableForReadOnlyInstances: false
     },
 
     setMuted: {
@@ -60,7 +60,7 @@ define( function( require ) {
       },
       documentation: 'Set whether the utteranceQueue will be muted or not. If muted, utterances still move through the ' +
                      'queue but will not be read by screen readers.',
-      canBeInvokedForReadOnlyInstances: false
+      invocableForReadOnlyInstances: false
     },
     getMuted: {
       returnType: BooleanIO,
@@ -79,7 +79,7 @@ define( function( require ) {
       },
       documentation: 'Set whether the utteranceQueue will be enabled or not. When enabled, Utterances cannot be added to ' +
                      'the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.',
-      canBeInvokedForReadOnlyInstances: false
+      invocableForReadOnlyInstances: false
     },
     getEnabled: {
       returnType: BooleanIO,
