@@ -111,8 +111,17 @@ define( function( require ) {
      */
     next: function() {
 
-      // get and remove the next item from the queue
-      var nextUtterance = queue.shift();
+      // find the next item to announce - generally the next item in the queue, unless it has a delay specified that
+      // is greater than the amount of time that the utterance has been sitting in the queue
+      var nextUtterance;
+      for ( var i = 0; i < queue.length; i++ ) {
+        var utterance = queue[ i ];
+        if ( utterance.timeInQueue > utterance.delayTime ) {
+          nextUtterance = utterance;
+          queue.splice( i, 1 );
+          break;
+        }
+      }
 
       // only speak the utterance if the Utterance predicate returns true
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
@@ -217,6 +226,10 @@ define( function( require ) {
         // No-op function if the utteranceQueue is disabled
         if ( !enabled ) {
           return;
+        }
+
+        for ( var i = 0 ; i < queue.length; i++ ) {
+          queue[ i ].timeInQueue += self.interval;
         }
 
         self.next();
