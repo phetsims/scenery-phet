@@ -31,13 +31,28 @@ define( function( require ) {
 
       // {number|string|null} - if more than one Utterance of the same typeId is added to the queue, only 
       // the older Utterance of the same typeId will be automatically removed
-      typeId: null
+      typeId: null,
+
+      // {number} - if provided, this utterance won't be spoken until it has been in the queue for at least this long.
+      // But beware! The queue will otherwise still prioritize items in FIFO, so the utterance could sit in the 
+      // queue for longer than this amount.
+      delayTime: 0
     }, options );
 
     // @public (read-only, scenery-phet-internal)
     this.predicate = options.predicate;
     this.text = text;
     this.typeId = options.typeId;
+
+    // @public {number} (scenery-phet-internal) - In ms, how long this utterance has been in the queue in ms. Useful
+    // for doing things like determining if an utterance is stale by time, or adding a delay before the utterance
+    // should be read.
+    this.timeInQueue = 0;
+
+    // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
+    // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the
+    // amount of time the utterance has been in the queue
+    this.delayTime = options.delayTime;
   }
 
   sceneryPhet.register( 'Utterance', Utterance );
