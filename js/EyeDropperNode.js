@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -84,11 +83,7 @@ define( function( require ) {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    var isPressedProperty = new BooleanProperty( false );
-    isPressedProperty.lazyLink( function( pressed ) {
-      self.dispensingProperty.value = pressed;
-    } );
-    var button = new RoundMomentaryButton( false, true, isPressedProperty, {
+    var button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
       tandem: options.tandem.createTandem( 'button' )
