@@ -85,6 +85,16 @@ define( function( require ) {
     },
 
     /**
+     * Conventience function to help with nullable values
+     * @param {undefined|null|Utterance|string} utterance
+     */
+    addToBackIfDefined: function( utterance ) {
+      if ( utterance !== null && utterance !== undefined ) {
+        this.addToBack( utterance );
+      }
+    },
+
+    /**
      * Add an utterance to the front of the queue to be read immediately.
      * @param {Utterance|string} utterance
      */
@@ -101,6 +111,17 @@ define( function( require ) {
         utterance = new Utterance( utterance );
       }
       queue.unshift( utterance );
+    },
+
+
+    /**
+     * Conventience function to help with nullable values
+     * @param {undefined|null|Utterance|string} utterance
+     */
+    addToFrontIfDefined: function( utterance ) {
+      if ( utterance !== null && utterance !== undefined ) {
+        this.addToFront( utterance );
+      }
     },
 
     /**
@@ -228,7 +249,7 @@ define( function( require ) {
           return;
         }
 
-        for ( var i = 0 ; i < queue.length; i++ ) {
+        for ( var i = 0; i < queue.length; i++ ) {
           queue[ i ].timeInQueue += self.interval;
         }
 
