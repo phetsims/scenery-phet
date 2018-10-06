@@ -10,8 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BarrierRectangleIO = require( 'SCENERY_PHET/BarrierRectangleIO' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var FireListener = require( 'SCENERY/listeners/FireListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -27,7 +26,7 @@ define( function( require ) {
 
     options = _.extend( {
       tandem: Tandem.required,
-      phetioType: BarrierRectangleIO,
+      phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioState: false,
       phetioEventType: 'user'
@@ -39,12 +38,11 @@ define( function( require ) {
       self.visible = numBarriers > 0;
     } );
 
-    this.addInputListener( new ButtonListener( {
+    this.addInputListener( new FireListener( {
+      tandem: options.tandem,
       fire: function( event ) {
-        self.phetioStartEvent( 'fired' );
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
-        self.phetioEndEvent();
       }
     } ) );
 
