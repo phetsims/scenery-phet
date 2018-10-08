@@ -39,6 +39,8 @@ define( require => {
 
       const unitsNode = options.unitsNode;
 
+      assert && assert( options.maxValue >= 0, 'TimerReadoutNode.maxValue should be non-negative' );
+
       /*---------------------------------------------------------------------------*
        * Readout text
        *----------------------------------------------------------------------------*/
