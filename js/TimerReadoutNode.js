@@ -30,10 +30,10 @@ define( require => {
         // the largest string
         maxValue: 99.99,
 
-        // {null|Node} - optional node to show for the units.  Note that showing units changes the mode
-        // from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.  Initialize the TimerNode with
-        // the largest possible unitsNode to make sure the text panel is large enough. When the unitsNode bounds change,
-        // the layout will update.
+        // {null|Node} - optional node to show for the units, most likely to be a Text or RichText.  Note that showing
+        // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
+        // Initialize the TimerNode with the largest possible unitsNode to make sure the text panel is large enough.
+        // When the unitsNode bounds change, the layout will update.
         unitsNode: null
       }, options );
 
