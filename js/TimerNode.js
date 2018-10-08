@@ -46,6 +46,8 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
+    assert && assert( options.buttonSpacing >= 0, 'Buttons cannot overlap' );
+
     Node.call( this );
 
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
