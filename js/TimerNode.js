@@ -41,12 +41,14 @@ define( function( require ) {
       iconColor: '#333',
       buttonBaseColor: '#DFE0E1',
       buttonSpacing: 6, // horizontal distance between the buttons
+      buttonTopMargin: 6, // space between the bottom of the readout and the top of the buttons
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required
     }, options );
 
     assert && assert( options.buttonSpacing >= 0, 'Buttons cannot overlap' );
+    assert && assert( options.buttonTopMargin >= 0, 'Buttons cannot overlap the readout' );
 
     Node.call( this );
 
@@ -107,8 +109,8 @@ define( function( require ) {
 
     resetButton.right = -options.buttonSpacing / 2;
     playPauseButton.left = options.buttonSpacing / 2;
-    resetButton.top = timerReadoutNode.bottom + options.buttonSpacing;
-    playPauseButton.top = timerReadoutNode.bottom + options.buttonSpacing;
+    resetButton.top = timerReadoutNode.bottom + options.buttonTopMargin;
+    playPauseButton.top = timerReadoutNode.bottom + options.buttonTopMargin;
 
     var panelPad = 8;
     contents.left = panelPad;
