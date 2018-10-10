@@ -12,8 +12,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var alertTypeId = 1;
-
   /**
    * An utterance to be handed off to the AlertQueue, which manages the order of accessibility alerts
    * read by a screen reader.
@@ -29,9 +27,11 @@ define( function( require ) {
       // with this utterance will not be announced by a screen reader
       predicate: function() { return true; },
 
-      // {number|string|null} - if more than one Utterance of the same typeId is added to the queue, only 
-      // the older Utterance of the same typeId will be automatically removed
-      typeId: null,
+      // {number|string|null} - Adds a signifier to the utterance that prevents too many alerts of the same type
+      // spamming the queue. If more than one Utterance of the same uniqueGroupId is added to the queue, all other
+      // Utterances of teh same type that were previously added will be removed. IF null, this feature is ignored and
+      // all will  be announced.
+      uniqueGroupId: null,
 
       // {number} - if provided, this utterance won't be spoken until it has been in the queue for at least this long.
       // But beware! The queue will otherwise still prioritize items in FIFO, so the utterance could sit in the 
@@ -42,7 +42,7 @@ define( function( require ) {
     // @public (read-only, scenery-phet-internal)
     this.predicate = options.predicate;
     this.text = text;
-    this.typeId = options.typeId;
+    this.uniqueGroupId = options.uniqueGroupId;
 
     // @public {number} (scenery-phet-internal) - In ms, how long this utterance has been in the queue in ms. Useful
     // for doing things like determining if an utterance is stale by time, or adding a delay before the utterance
@@ -57,16 +57,5 @@ define( function( require ) {
 
   sceneryPhet.register( 'Utterance', Utterance );
 
-  return inherit( Object, Utterance, {}, {
-
-    /**
-     * Get the next type for alerts - if an utterance is added to the queue that is the same
-     * type as others, it will replace them. Any string or number can be used, but using this
-     * makes things less error prone.
-     * @return {number}
-     */
-    getNextTypeId: function() {
-      return alertTypeId++;
-    }
-  } );
+  return inherit( Object, Utterance );
 } );

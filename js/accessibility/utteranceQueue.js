@@ -72,10 +72,10 @@ define( function( require ) {
 
       // if there are any other items in the queue of the same type, remove them immediately
       // because the new utterance is meant to replace them
-      if ( utterance.typeId ) {
+      if ( utterance.uniqueGroupId ) {
         for ( var i = queue.length - 1; i >= 0; i-- ) {
           var otherUtterance = queue[ i ];
-          if ( otherUtterance.typeId === utterance.typeId ) {
+          if ( otherUtterance.uniqueGroupId === utterance.uniqueGroupId ) {
             queue.splice( i, 1 );
           }
         }
