@@ -28,8 +28,8 @@ define( function( require ) {
       predicate: function() { return true; },
 
       // {number|string|null} - Adds a signifier to the utterance that prevents too many alerts of the same type
-      // spamming the queue. If more than one Utterance of the same uniqueGroupId is added to the queue, all other
-      // Utterances of teh same type that were previously added will be removed. IF null, this feature is ignored and
+      // spamming the queue. If more than one Utterance of the same uniqueGroupId is added to the queue, all others
+      // of the same type that were previously added will be removed. If null, this feature is ignored and
       // all will  be announced.
       uniqueGroupId: null,
 
