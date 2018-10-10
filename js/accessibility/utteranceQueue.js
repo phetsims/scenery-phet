@@ -70,6 +70,7 @@ define( function( require ) {
         utterance = new Utterance( utterance );
       }
 
+      // clear utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
       queue.push( utterance );
