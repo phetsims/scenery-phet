@@ -70,16 +70,7 @@ define( function( require ) {
         utterance = new Utterance( utterance );
       }
 
-      // if there are any other items in the queue of the same type, remove them immediately
-      // because the new utterance is meant to replace them
-      if ( utterance.uniqueGroupId ) {
-        for ( var i = queue.length - 1; i >= 0; i-- ) {
-          var otherUtterance = queue[ i ];
-          if ( otherUtterance.uniqueGroupId === utterance.uniqueGroupId ) {
-            queue.splice( i, 1 );
-          }
-        }
-      }
+      this.clearUtteranceGroup( utterance.uniqueGroupId );
 
       queue.push( utterance );
     },
@@ -110,6 +101,10 @@ define( function( require ) {
       if ( typeof utterance === 'string' ) {
         utterance = new Utterance( utterance );
       }
+
+      // remove any utterances of the same group as the one being added
+      this.clearUtteranceGroup( utterance.uniqueGroupId );
+
       queue.unshift( utterance );
     },
 
@@ -154,6 +149,27 @@ define( function( require ) {
         AriaHerald.announcePolite( nextUtterance.text );
 
         this.phetioEndEvent();
+      }
+    },
+
+    /**
+     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
+     * to support the behavior of uniqueGroupId. See Utterance.uniqueGroupId for description of this feature.
+     *
+     * @param {string|number|null} uniqueGroupId
+     * @private
+     */
+    clearUtteranceGroup: function( uniqueGroupId ) {
+
+      // if there are any other items in the queue of the same type, remove them immediately because the added
+      // utterance is meant to replace it
+      if ( uniqueGroupId ) {
+        for ( var i = queue.length - 1; i >= 0; i-- ) {
+          var otherUtterance = queue[ i ];
+          if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
+            queue.splice( i, 1 );
+          }
+        }
       }
     },
 
