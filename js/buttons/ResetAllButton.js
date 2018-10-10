@@ -72,7 +72,7 @@ define( function( require ) {
       utteranceQueue.enabled = !isFiring;
 
       !isFiring && utteranceQueue.addToBack( new Utterance( resetAllAlertString, {
-        typeId: 'resetAllButtonAlert'
+        uniqueGroupId: 'resetAllButtonAlert'
       } ) );
     } );
   }
