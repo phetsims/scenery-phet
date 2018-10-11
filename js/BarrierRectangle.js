@@ -39,7 +39,7 @@ define( function( require ) {
     } );
 
     this.addInputListener( new FireListener( {
-      tandem: options.tandem,
+      tandem: options.tandem.createTandem( 'inputListener' ),
       fire: function( event ) {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
