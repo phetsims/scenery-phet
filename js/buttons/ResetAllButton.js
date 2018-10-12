@@ -71,7 +71,8 @@ define( function( require ) {
     this.isFiringProperty.lazyLink( function( isFiring ) {
       utteranceQueue.enabled = !isFiring;
 
-      !isFiring && utteranceQueue.addToBack( new Utterance( resetAllAlertString, {
+      !isFiring && utteranceQueue.addToBack( new Utterance( {
+        alert: resetAllAlertString,
         uniqueGroupId: 'resetAllButtonAlert'
       } ) );
     } );

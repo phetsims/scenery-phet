@@ -67,7 +67,7 @@ define( function( require ) {
       }
 
       if ( typeof utterance === 'string' ) {
-        utterance = new Utterance( utterance );
+        utterance = new Utterance( { alert: utterance } );
       }
 
       // clear utterances of the same group as the one being added
@@ -100,24 +100,13 @@ define( function( require ) {
       }
 
       if ( typeof utterance === 'string' ) {
-        utterance = new Utterance( utterance );
+        utterance = new Utterance( { alert: utterance } );
       }
 
       // remove any utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
       queue.unshift( utterance );
-    },
-
-
-    /**
-     * Conventience function to help with nullable values
-     * @param {undefined|null|Utterance|string} utterance
-     */
-    addToFrontIfDefined: function( utterance ) {
-      if ( utterance !== null && utterance !== undefined ) {
-        this.addToFront( utterance );
-      }
     },
 
     /**
@@ -143,11 +132,15 @@ define( function( require ) {
       // only speak the utterance if the Utterance predicate returns true
       if ( nextUtterance && !muted && nextUtterance.predicate() ) {
 
+        // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
+        // should only be triggered on alert! See Utterance.alertText
+        var text = nextUtterance.getTextToAlert();
+
         // phet-io event to the data stream
-        this.phetioStartEvent( 'announced', { utterance: nextUtterance.text } );
+        this.phetioStartEvent( 'announced', { utterance: text } );
 
         // Pass the utterance text on to be set in the PDOM.
-        AriaHerald.announcePolite( nextUtterance.text );
+        AriaHerald.announcePolite( text );
 
         this.phetioEndEvent();
       }
@@ -258,8 +251,9 @@ define( function( require ) {
 
       var self = this;
 
-      // step the alert queue
-      timer.setInterval( function() {
+      // @private step the alert queue
+      // {function} wrapped function that can be removed with timer.clearInterval
+      this.currentInterval = timer.setInterval( function() {
 
         // No-op function if the utteranceQueue is disabled
         if ( !enabled ) {

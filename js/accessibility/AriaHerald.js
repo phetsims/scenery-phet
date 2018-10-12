@@ -91,6 +91,10 @@ define( function( require ) {
     timer.setTimeout( function() { liveElement.textContent = ''; }, 200 );
   }
 
+  // {function|null} - used in testing to get a callback whenever we get an alert.
+  // NOTE: for testing only, see UtteranceTests.js
+  var testingBackDoorCallback = null;
+
   /**
    * Static object that provides the functions for updating the aria-live regions for screen reader announcements.
    */
@@ -99,8 +103,11 @@ define( function( require ) {
     /**
      * Initialize AriaHerald to allow usage of its features. If not initialized, then it will no-op. This allows
      * AriaHerald to be disabled completely if a11y is not enabled.
+     * @param {function} [_testingBackDoorCallback] - used to get a callback whenever text is put on an aria live element
      */
-    initialize: function() {
+    initialize: function( _testingBackDoorCallback ) {
+      assert && assert( _testingBackDoorCallback === undefined || typeof _testingBackDoorCallback === 'function' );
+      testingBackDoorCallback = _testingBackDoorCallback;
       initialized = true;
     },
 
@@ -116,8 +123,11 @@ define( function( require ) {
       var element = ariaLiveElements[ elementIndex ];
       updateLiveElement( element, textContent, withClear );
 
+      // in addition to setting the alert on the aria-live attribute, call a listener with the alert text, as a backdoor for testing
+      testingBackDoorCallback && testingBackDoorCallback( textContent );
+
       // update index for next time
-      elementIndex =  ( elementIndex + 1 ) % ariaLiveElements.length;
+      elementIndex = ( elementIndex + 1 ) % ariaLiveElements.length;
     }
   };
 
