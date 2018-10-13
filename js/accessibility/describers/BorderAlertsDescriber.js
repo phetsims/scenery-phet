@@ -50,8 +50,6 @@ define( ( require ) => {
         topAlert: DEFAULT_TOP_BORDER_ALERT,
         bottomAlert: bottomBorderAlertString,
 
-        // Repeat a border alert if movement continues against that border, see https://github.com/phetsims/friction/issues/116#issuecomment-425501140
-        repeatBorderAlerts: false
       }, options );
 
       // @public - these keys should stay the same as keys from DirectionEnum
@@ -61,52 +59,17 @@ define( ( require ) => {
       this[ DirectionEnum.DOWN ] = new BorderAlert( options.bottomAlert );
 
       // @private
-      this.repeatBorderAlerts = options.repeatBorderAlerts;
       this.bounds = options.bounds; // The drag border
     }
 
-
     /**
-     * If we should be looking at the edge to see if we should be repeating border alerts
-     * @returns {boolean}
-     */
-    get isMonitoringEdge() {
-      return this[ DirectionEnum.LEFT ].monitoring ||
-             this[ DirectionEnum.RIGHT ].monitoring ||
-             this[ DirectionEnum.UP ].monitoring ||
-             this[ DirectionEnum.DOWN ].monitoring;
-    }
-
-    /**
-     * Returns the BorderAlert that we are monitoring.
-     * NOTE: if we are monitoring more than one (in corner), it will only return the first BorderAlert
-     * @returns {BorderAlert}
-     * @private
-     */
-    get alertWeAreMonitoring() {
-      if ( this[ DirectionEnum.LEFT ].monitoring ) {
-        return this[ DirectionEnum.LEFT ];
-      }
-      if ( this[ DirectionEnum.RIGHT ].monitoring ) {
-        return this[ DirectionEnum.RIGHT ];
-      }
-      if ( this[ DirectionEnum.UP ].monitoring ) {
-        return this[ DirectionEnum.UP ];
-      }
-      if ( this[ DirectionEnum.DOWN ].monitoring ) {
-        return this[ DirectionEnum.DOWN ];
-      }
-      assert && assert( false, 'you probably did not want to call this method right now' );
-    }
-
-
-    /**
-     * Based on a position and the border bounds, if the position is touching the bounds, then monitor that border for
-     * an alert on drag.
+     * Based on a position and the border bounds, if the position is touching the bounds, then alert that we are at border.
+     * By passing in an optional keyCode, you can prioritize that direction if you are at the corner.
+     * TODO: don't alert perpendicular direction if you are sliding against it.
      * @param {Vector2} position
      * @param {number} [keyCode]
      */
-    startBorderAlertMonitoring( position, keyCode ) {
+    alertAtBorder( position, keyCode ) {
       let alertDirection;
 
       let bordersTouching = [];
@@ -146,38 +109,14 @@ define( ( require ) => {
         alertDirection = bordersTouching[ 0 ];
       }
 
-      // Then we are potentially going to monitor/alert
+      // Then we are potentially going to alert
       if ( alertDirection ) {
         assert && assert( DirectionEnum.isRelativeDirection( alertDirection ), `unsupported direction: ${alertDirection}` );
         let borderAlert = this[ alertDirection ];
         assert && assert( borderAlert instanceof BorderAlert, 'sanity check' );
 
-        // set up monitoring if we are repeating the alert at the border
-        if ( this.repeatBorderAlerts ) {
-          borderAlert.monitoring = true;
-        }
-
-        // If not repeating alerts, then just alert a single time here since we won't be monitoring the drag for the alert
-        else {
-          borderAlert.alert();
-        }
+        borderAlert.alert();
       }
-
-      // stop all monitoring because we aren't touching any border
-      else {
-        this.stopMonitoring();
-      }
-    }
-
-    /**
-     * Stop monitoring all borders
-     * @private
-     */
-    stopMonitoring() {
-      this[ DirectionEnum.LEFT ].monitoring = false;
-      this[ DirectionEnum.RIGHT ].monitoring = false;
-      this[ DirectionEnum.UP ].monitoring = false;
-      this[ DirectionEnum.DOWN ].monitoring = false;
     }
 
     /**
@@ -185,32 +124,12 @@ define( ( require ) => {
      * @param {Vector2} location
      * @param {KeyboardEvent} [domEvent] - we don'tget this from a mouse drag listener
      */
-    startDrag( location, domEvent ) {
+    endDrag( location, domEvent ) {
       let keyCode;
       if ( domEvent ) {
         keyCode = domEvent.keyCode;
       }
-      this.startBorderAlertMonitoring( location, keyCode );
-    }
-
-    /**
-     * @public
-     */
-    drag() {
-      if ( this.isMonitoringEdge && this.repeatBorderAlerts ) {
-        let borderAlert = this.alertWeAreMonitoring;
-
-        if ( phet.joist.elapsedTime - borderAlert.lastAlerted > BORDER_ALERT_REPETITION_THRESHOLD ) {
-          borderAlert.alert();
-        }
-      }
-    }
-
-    /**
-     * @public
-     */
-    endDrag() {
-      this.stopMonitoring();
+      this.alertAtBorder( location, keyCode );
     }
 
     /**
@@ -247,9 +166,6 @@ define( ( require ) => {
       this._numberOfTimesAlerted = 0;
       this._alert = alert; // {string|null|Array.<string>}
       this._lastAlerted = null; // {null|number}
-
-      // @public - whether or not we are monitoring this border. If we are monitoring it, then it can be repeated while dragging
-      this.monitoring = false;
     }
 
     /**
@@ -271,12 +187,6 @@ define( ( require ) => {
       this._numberOfTimesAlerted++;
       this._lastAlerted = phet.joist.elapsedTime;
     }
-
-    /**
-     * @public
-     * @returns {null|number}
-     */
-    get lastAlerted() { return this._lastAlerted; }
 
     /**
      * @public

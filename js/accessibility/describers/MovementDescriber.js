@@ -4,6 +4,8 @@
  * A generic accessibility type that will alert positional alerts based on a locationProperty and bounds (see
  * BorderAlertsDescriber) encapsulating the draggable area.
  *
+ * General usage involves calling this endDrag() function from all dragListeners that you want this functionality to describe
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 define( require => {
@@ -93,19 +95,11 @@ define( require => {
       // @protected
       this.locationProperty = locationProperty;
       this.lastAlertedLocation = locationProperty.get(); // initial value of the locationProperty
-
-      locationProperty.lazyLink( ( newValue, oldValue ) => {
-
-        // whenever the value changes, potentially start monitoring
-        if ( !newValue.equals( oldValue ) ) {
-          this.borderAlertsDescriber.startBorderAlertMonitoring( newValue );
-        }
-      } );
     }
 
     /**
      * Simple alert for the Describer
-     * @param {string|Utterance}alertable
+     * @param {string|Utterance} alertable - anything that can be passed to UtteranceQueue
      */
     alert( alertable ) {
       utteranceQueue.addToBack( alertable );
@@ -113,6 +107,7 @@ define( require => {
     }
 
     /**
+     * Can be called with multiple directions, or just a single direction
      * @protected
      * @param {Array.<DirectionEnum>|DirectionEnum} directions
      */
@@ -136,10 +131,11 @@ define( require => {
      * Can be overridden. Easy to implement method with the following schema:
      * (1) get the current value of the location property, and make sure it has changed enough from the lastAlertedLocation
      * (2) get the directions from the difference,
-     * (3) alert those directions,
+     * (3) alert those directions by calling this.alertDirections or this.alert,
      * see friction/view/describers/BookMovementDescriber.
      *
-     * NOTE: This is called on drag end.
+     * NOTE: don't call UtteranceQueue from the subtype!!!
+     * NOTE: PhET a11y convention suggests that this should be called on drag end.
      *
      * @public
      */
@@ -202,27 +198,13 @@ define( require => {
 
     /**
      * @public
-     */
-    drag() {
-      this.borderAlertsDescriber.drag();
-    }
-
-    /**
-     * public
      * @param {window.Event} [domEvent]
      */
-    startDrag( domEvent ) {
-      this.borderAlertsDescriber.startDrag( this.locationProperty.get(), domEvent );
-    }
-
-    /**
-     * @public
-     */
-    endDrag() {
+    endDrag( domEvent ) {
 
       // better to have the movement alerts, then the alert about the border
       this.alertDirectionalMovement();
-      this.borderAlertsDescriber.endDrag();
+      this.borderAlertsDescriber.endDrag( this.locationProperty.get(), domEvent );
     }
 
     /**
