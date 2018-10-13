@@ -55,7 +55,7 @@ define( require => {
       assert && assert( typeof config.alert === 'string' || Array.isArray( config.alert ) );
       assert && assert( typeof config.loopAlerts === 'boolean' );
       assert && assert( typeof config.predicate === 'function' );
-      assert && assert( typeof config.uniqueGroupId === 'number' || config.uniqueGroupId === null );
+      assert && assert( typeof config.uniqueGroupId === 'string' || config.uniqueGroupId === null );
       assert && assert( typeof config.delayTime === 'number' );
       if ( config.loopAlerts ) {
         assert && assert( Array.isArray( config.alert ), 'if loopAlerts is provided, config.alert must be an array' );
