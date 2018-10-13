@@ -31,6 +31,10 @@ define( require => {
          */
         alert: null,
 
+        // if true, then the alert must be of type {Array}, and alerting will cycle through each alert, and then wrap back
+        // to the beginning when complete. The default behavior (loopAlerts:false) is to repeat the last alert in the array until reset.
+        loopAlerts: false,
+
         // @returns {boolean} - if predicate returns false, the alert content associated
         // with this utterance will not be announced by a screen reader
         predicate: function() { return true; },
@@ -49,10 +53,18 @@ define( require => {
 
       assert && assert( config.alert, 'alert is required' );
       assert && assert( typeof config.alert === 'string' || Array.isArray( config.alert ) );
+      assert && assert( typeof config.loopAlerts === 'boolean' );
+      assert && assert( typeof config.predicate === 'function' );
+      assert && assert( typeof config.uniqueGroupId === 'number' || config.uniqueGroupId === null );
+      assert && assert( typeof config.delayTime === 'number' );
+      if ( config.loopAlerts ) {
+        assert && assert( Array.isArray( config.alert ), 'if loopAlerts is provided, config.alert must be an array' );
+      }
 
       // @private
       this.alert = config.alert;
       this.numberOfTimesAlerted = 0; // keep track of the number of times alerted, this will dictate which alert to call.
+      this.loopAlerts = config.loopAlerts;
 
       // @public (read-only, scenery-phet-internal)
       this.predicate = config.predicate;
@@ -79,6 +91,9 @@ define( require => {
       let alert;
       if ( typeof this.alert === 'string' ) {
         alert = this.alert;
+      }
+      else if ( this.loopAlerts ) {
+        alert = this.alert[ this.numberOfTimesAlerted % this.alert.length ];
       }
       else {
         assert && assert( Array.isArray( this.alert ) ); // sanity check

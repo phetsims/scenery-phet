@@ -105,4 +105,42 @@ define( require => {
     alert4();
     testOrder( ', reset should start over' );
   } );
+
+
+  QUnit.test( 'Utterance loopAlerts', async assert => {
+
+    var alert = new Utterance( {
+      alert: [ '1', '2', '3' ],
+      loopAlerts: true
+    } );
+
+    let alert7 = () => {
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
+    };
+
+    let testOrder = ( messageSuffix ) => {
+
+      // newest at lowest index
+      assert.ok( alerts[ 6 ] === '1', 'Array order1' + messageSuffix );
+      assert.ok( alerts[ 5 ] === '2', 'Array order2' + messageSuffix );
+      assert.ok( alerts[ 4 ] === '3', 'Array order3' + messageSuffix );
+      assert.ok( alerts[ 3 ] === '1', 'Array order4' + messageSuffix );
+      assert.ok( alerts[ 2 ] === '2', 'Array order5' + messageSuffix );
+      assert.ok( alerts[ 1 ] === '3', 'Array order6' + messageSuffix );
+      assert.ok( alerts[ 0 ] === '1', 'Array order7' + messageSuffix );
+    };
+
+    alert7();
+    await timeout( sleepTiming * 7 );
+    testOrder( '' );
+    alert.reset();
+    alert7();
+    testOrder( ', reset should start over' );
+  } );
 } );
