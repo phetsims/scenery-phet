@@ -32,8 +32,8 @@ define( function( require ) {
   /**
    * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
    *
-   * @param {string} direction - one of DirectionEnum
-   * @return {Boolean}
+   * @param {DirectionEnum} direction - one of DirectionEnum
+   * @return {boolean}
    */
   DirectionEnum.isRelativeDirection = function( direction ) {
     assert && assert( DirectionEnum.hasOwnProperty( direction ) );
@@ -45,7 +45,8 @@ define( function( require ) {
 
   /**
    * If the direction is a complex diagonal direction, break it up into its composite pieces
-   * @returns {Array.<string>}
+   * @param {DirectionEnum} direction - one of DirectionEnum
+   * @returns {Array.<DirectionEnum>}
    */
   DirectionEnum.directionToRelativeDirections = function( direction ) {
     assert && assert( DirectionEnum.hasOwnProperty( direction ) );
@@ -54,6 +55,17 @@ define( function( require ) {
            direction === DirectionEnum.DOWN_LEFT ? [ DirectionEnum.DOWN, DirectionEnum.LEFT ] :
            direction === DirectionEnum.DOWN_RIGHT ? [ DirectionEnum.DOWN, DirectionEnum.RIGHT ] :
              [ DirectionEnum[ direction ] ]; // primary relative direction, so return a single item in the array
+  };
+
+  /**
+   * Convenience function if a horizontal direction
+   * @param {DirectionEnum} direction - one of DirectionEnum
+   * @returns {boolean}
+   */
+  DirectionEnum.isHorizontalDirection = function( direction ) {
+    assert && assert( DirectionEnum.hasOwnProperty( direction ) );
+    return direction === DirectionEnum.LEFT ||
+           direction === DirectionEnum.RIGHT;
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

@@ -12,11 +12,19 @@ define( require => {
   // modules
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Range = require( 'DOT/Range' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
+  // a11y strings
+  let downString = SceneryPhetA11yStrings.down.value;
+  let leftString = SceneryPhetA11yStrings.left.value;
+  let rightString = SceneryPhetA11yStrings.right.value;
+  let upString = SceneryPhetA11yStrings.up.value;
+
+  // constants
   // threshold for diagonal movement is +/- 15 degrees from diagonals
   let DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
@@ -36,6 +44,13 @@ define( require => {
   };
   let DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
+  let DEFAULT_MOVEMENT_ALERTS = {
+    LEFT: leftString,
+    RIGHT: rightString,
+    UP: upString,
+    DOWN: downString
+  };
+
   /**
    * @param {Object} [options]
    * @constructor
@@ -49,12 +64,7 @@ define( require => {
         borderAlertsOptions: null,
 
         // see DirectionEnum for allowed keys. Any missing keys will not be alerted. Use `{}` to omit movementAlerts
-        movementAlerts: {
-          LEFT: 'left',
-          RIGHT: 'right',
-          UP: 'up',
-          DOWN: 'down'
-        },
+        movementAlerts: DEFAULT_MOVEMENT_ALERTS,
 
         // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
         // i.e. UP_LEFT becomes "UP" and "LEFT"
@@ -69,6 +79,7 @@ define( require => {
         for ( let i = 0; i < movementAlertKeys.length; i++ ) {
           let key = movementAlertKeys[ i ];
           assert( DirectionEnum.keys.indexOf( key ) >= 0, `unexpected key: ${key}. Keys should be the same as those in DirectionEnum` );
+          assert( typeof options.movementAlerts[ key ] === 'string' || options.movementAlerts[ key ] instanceof Utterance );
         }
       }
 
@@ -93,19 +104,30 @@ define( require => {
     }
 
     /**
+     * Simple alert for the Describer
+     * @param {string|Utterance}alertable
+     */
+    alert( alertable ) {
+      utteranceQueue.addToBack( alertable );
+      this.lastAlertedLocation = this.locationProperty.get();
+    }
+
+    /**
      * @protected
-     * @param {Array.<string>}directions
+     * @param {Array.<DirectionEnum>|DirectionEnum} directions
      */
     alertDirections( directions ) {
+      if ( typeof directions === 'string' ) {
+        directions = [ directions ];
+      }
 
       // support if an instance doesn't want to alert in all directions
       directions.forEach( direction => {
-        utteranceQueue.addToBack( new Utterance( {
+        this.alert( new Utterance( {
           alert: this.movementAlerts[ direction ],
           uniqueGroupId: 'directionalMovement' + direction
         } ) );
       } );
-      this.lastAlertedLocation = this.locationProperty.get();
     }
 
     /**
@@ -143,7 +165,7 @@ define( require => {
      *
      * @param  {Vector2} pointA
      * @param  {Vector2} pointB
-     * @returns {Array.<string>} - contains one or two of the values in DirectionEnum, depending on whether or no you get
+     * @returns {Array.<DirectionEnum>} - contains one or two of the values in DirectionEnum, depending on whether or no you get
      *                            diagonal directions or their composite. See options.alertDiagonal for more info
      * @static
      */
@@ -205,6 +227,14 @@ define( require => {
      */
     reset() {
       this.borderAlertsDescriber.reset();
+    }
+
+    /**
+     * get the default movement alerts
+     * @returns {{LEFT: string, RIGHT: string, UP: string, DOWN: string}}
+     */
+    static getDefaultMovementAlerts() {
+      return _.extend( {}, DEFAULT_MOVEMENT_ALERTS ); // clone
     }
   }
 

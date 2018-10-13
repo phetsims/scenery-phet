@@ -12,11 +12,21 @@ define( ( require ) => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Util = require( 'DOT/Util' );
+  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+
+  // a11y strings
+  let leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
+  let rightBorderAlertString = SceneryPhetA11yStrings.rightBorderAlert.value;
+  let topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
+  let bottomBorderAlertString = SceneryPhetA11yStrings.bottomBorderAlert.value;
 
   // constants
   let BORDER_ALERT_REPETITION_THRESHOLD = 1000;  // in ms
+
+  let DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 
   /**
    * Responsible for alerting when the temperature increases
@@ -34,10 +44,10 @@ define( ( require ) => {
         // {string|null|Array.<string>} left, right, top, with values to alert if you reach that bound null if you don't want it alerted.
         // If an array of string, each alert in the array will be read each new time that alert occurs. The last alert in
         // the list will be read out each subsequent time if the alert occurs more than the number of items in the list.
-        leftAlert: 'At left edge',
-        rightAlert: 'At right edge',
-        topAlert: 'At top',
-        bottomAlert: 'At bottom',
+        leftAlert: leftBorderAlertString,
+        rightAlert: rightBorderAlertString,
+        topAlert: DEFAULT_TOP_BORDER_ALERT,
+        bottomAlert: bottomBorderAlertString,
 
         // Repeat a border alert if movement continues against that border, see https://github.com/phetsims/friction/issues/116#issuecomment-425501140
         repeatBorderAlerts: false
@@ -192,15 +202,24 @@ define( ( require ) => {
       this.top.reset();
       this.bottom.reset();
     }
+
+    /**
+     * Default top alert for the border alerts
+     * @returns {string}
+     */
+    static getDefaultTopAlert() {
+      return DEFAULT_TOP_BORDER_ALERT;
+    }
   }
 
 
   /**
    * Data structure type that holds structure about a single alert that happens at the border of a describer.
+   * @param alert {Utterance|string|Array.<string>|null}
    */
   class BorderAlert {
     constructor( alert ) {
-      assert && assert( Array.isArray( alert ) || alert === null || typeof alert === 'string' );
+      assert && assert( alert instanceof Utterance || Array.isArray( alert ) || alert === null || typeof alert === 'string' );
 
 
       // @private

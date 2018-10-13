@@ -115,6 +115,37 @@ define( function( require ) {
     },
     stepDescriptionString: {
       'value': 'Pause and resume stream with every press.'
+    },
+
+
+    //------------------------------------------------------------------------
+    // MovementDescriber strings
+    //------------------------------------------------------------------------
+
+    down: {
+      value: 'down'
+    },
+    left: {
+      value: 'left'
+    },
+    right: {
+      value: 'right'
+    },
+    up: {
+      value: 'up'
+    },
+
+    leftBorderAlert: {
+      value: 'At left edge'
+    },
+    rightBorderAlert: {
+      value: 'At right edge'
+    },
+    topBorderAlert: {
+      value: 'At top'
+    },
+    bottomBorderAlert: {
+      value: 'At bottom'
     }
   };
 
