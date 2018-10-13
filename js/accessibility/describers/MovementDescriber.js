@@ -209,17 +209,20 @@ define( require => {
 
     /**
      * public
+     * @param {window.Event} [domEvent]
      */
-    startDrag() {
-      this.borderAlertsDescriber.startDrag( this.locationProperty.get() );
+    startDrag( domEvent ) {
+      this.borderAlertsDescriber.startDrag( this.locationProperty.get(), domEvent );
     }
 
     /**
      * @public
      */
     endDrag() {
-      this.borderAlertsDescriber.endDrag();
+
+      // better to have the movement alerts, then the alert about the border
       this.alertDirectionalMovement();
+      this.borderAlertsDescriber.endDrag();
     }
 
     /**

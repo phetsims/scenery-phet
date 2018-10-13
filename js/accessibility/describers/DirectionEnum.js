@@ -11,9 +11,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var DirectionEnum = {
+  // It is important that the key and value are the same, so that either way you can access the values of the enum.
+  let DirectionEnum = {
     LEFT: 'LEFT',
     RIGHT: 'RIGHT',
     UP: 'UP',
@@ -66,6 +68,30 @@ define( function( require ) {
     assert && assert( DirectionEnum.hasOwnProperty( direction ) );
     return direction === DirectionEnum.LEFT ||
            direction === DirectionEnum.RIGHT;
+  };
+
+  /**
+   * Support for converting a keyCode to a direction. Arrow keys and WASD will return a primary relative direction.
+   * Return null if unrecognized keyCode is given.
+   * @param keyCode
+   * @returns {DirectionEnum|null}
+   */
+  DirectionEnum.keyCodeToDirection = function( keyCode ) {
+    assert && assert( typeof keyCode === 'number' );
+
+    if ( keyCode === KeyboardUtil.KEY_UP_ARROW || keyCode === KeyboardUtil.KEY_W ) {
+      return DirectionEnum.UP;
+    }
+    if ( keyCode === KeyboardUtil.KEY_LEFT_ARROW || keyCode === KeyboardUtil.KEY_A ) {
+      return DirectionEnum.LEFT;
+    }
+    if ( keyCode === KeyboardUtil.KEY_DOWN_ARROW || keyCode === KeyboardUtil.KEY_S ) {
+      return DirectionEnum.DOWN;
+    }
+    if ( keyCode === KeyboardUtil.KEY_RIGHT_ARROW || keyCode === KeyboardUtil.KEY_D ) {
+      return DirectionEnum.RIGHT;
+    }
+    return null;
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

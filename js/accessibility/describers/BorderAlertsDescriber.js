@@ -11,6 +11,7 @@ define( ( require ) => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Util = require( 'DOT/Util' );
@@ -53,14 +54,11 @@ define( ( require ) => {
         repeatBorderAlerts: false
       }, options );
 
-      // @public
-      this.left = new BorderAlert( options.leftAlert );
-      this.right = new BorderAlert( options.rightAlert );
-      this.top = new BorderAlert( options.topAlert );
-      this.bottom = new BorderAlert( options.bottomAlert );
-
-      // @private TODO: do these need an enum?
-      this.permittedBorders = [ 'left', 'right', 'top', 'bottom' ];
+      // @public - these keys should stay the same as keys from DirectionEnum
+      this[ DirectionEnum.LEFT ] = new BorderAlert( options.leftAlert );
+      this[ DirectionEnum.RIGHT ] = new BorderAlert( options.rightAlert );
+      this[ DirectionEnum.UP ] = new BorderAlert( options.topAlert );
+      this[ DirectionEnum.DOWN ] = new BorderAlert( options.bottomAlert );
 
       // @private
       this.repeatBorderAlerts = options.repeatBorderAlerts;
@@ -73,10 +71,10 @@ define( ( require ) => {
      * @returns {boolean}
      */
     get isMonitoringEdge() {
-      return this.left.monitoring ||
-             this.right.monitoring ||
-             this.top.monitoring ||
-             this.bottom.monitoring;
+      return this[ DirectionEnum.LEFT ].monitoring ||
+             this[ DirectionEnum.RIGHT ].monitoring ||
+             this[ DirectionEnum.UP ].monitoring ||
+             this[ DirectionEnum.DOWN ].monitoring;
     }
 
     /**
@@ -86,17 +84,17 @@ define( ( require ) => {
      * @private
      */
     get alertWeAreMonitoring() {
-      if ( this.left.monitoring ) {
-        return this.left;
+      if ( this[ DirectionEnum.LEFT ].monitoring ) {
+        return this[ DirectionEnum.LEFT ];
       }
-      if ( this.right.monitoring ) {
-        return this.right;
+      if ( this[ DirectionEnum.RIGHT ].monitoring ) {
+        return this[ DirectionEnum.RIGHT ];
       }
-      if ( this.top.monitoring ) {
-        return this.top;
+      if ( this[ DirectionEnum.UP ].monitoring ) {
+        return this[ DirectionEnum.UP ];
       }
-      if ( this.bottom.monitoring ) {
-        return this.bottom;
+      if ( this[ DirectionEnum.DOWN ].monitoring ) {
+        return this[ DirectionEnum.DOWN ];
       }
       assert && assert( false, 'you probably did not want to call this method right now' );
     }
@@ -106,35 +104,52 @@ define( ( require ) => {
      * Based on a position and the border bounds, if the position is touching the bounds, then monitor that border for
      * an alert on drag.
      * @param {Vector2} position
+     * @param {number} [keyCode]
      */
-    startBorderAlertMonitoring( position ) {
-      var alertDirection;
+    startBorderAlertMonitoring( position, keyCode ) {
+      let alertDirection;
+
+      let bordersTouching = [];
 
       // at left now, but wasn't last location
       if ( position.x === this.bounds.left ) {
-        alertDirection = 'left';
+        bordersTouching.push( DirectionEnum.LEFT );
       }
 
       // at right now, but wasn't last location
       if ( position.x === this.bounds.right ) {
-        alertDirection = 'right';
+        bordersTouching.push( DirectionEnum.RIGHT );
       }
 
       // at top now, but wasn't last location
       if ( position.y === this.bounds.top ) {
-        alertDirection = 'top';
+        bordersTouching.push( DirectionEnum.UP );
       }
 
       // at bottom now, but wasn't last location
       if ( position.y === this.bounds.bottom ) {
-        alertDirection = 'bottom';
+        bordersTouching.push( DirectionEnum.DOWN );
+      }
+
+      // corner case
+      if ( bordersTouching.length > 1 ) {
+        keyCode = keyCode || -1;
+        let possibleDirection = DirectionEnum.keyCodeToDirection( keyCode );
+
+        // if the keyCode matches a border direction, use that instead of another wall that we may also be touching
+        if ( possibleDirection && bordersTouching.indexOf( possibleDirection ) >= 0 ) {
+          alertDirection = possibleDirection;
+        }
+      }
+      // normal single border case
+      else if ( bordersTouching.length === 1 ) {
+        alertDirection = bordersTouching[ 0 ];
       }
 
       // Then we are potentially going to monitor/alert
       if ( alertDirection ) {
-        assert && assert( this.permittedBorders.indexOf( alertDirection ) >= 0 );
-
-        var borderAlert = this[ alertDirection ];
+        assert && assert( DirectionEnum.isRelativeDirection( alertDirection ), `unsupported direction: ${alertDirection}` );
+        let borderAlert = this[ alertDirection ];
         assert && assert( borderAlert instanceof BorderAlert, 'sanity check' );
 
         // set up monitoring if we are repeating the alert at the border
@@ -159,18 +174,23 @@ define( ( require ) => {
      * @private
      */
     stopMonitoring() {
-      this.left.monitoring = false;
-      this.right.monitoring = false;
-      this.top.monitoring = false;
-      this.bottom.monitoring = false;
+      this[ DirectionEnum.LEFT ].monitoring = false;
+      this[ DirectionEnum.RIGHT ].monitoring = false;
+      this[ DirectionEnum.UP ].monitoring = false;
+      this[ DirectionEnum.DOWN ].monitoring = false;
     }
 
     /**
      * @public
      * @param {Vector2} location
+     * @param {KeyboardEvent} [domEvent] - we don'tget this from a mouse drag listener
      */
-    startDrag( location ) {
-      this.startBorderAlertMonitoring( location );
+    startDrag( location, domEvent ) {
+      let keyCode;
+      if ( domEvent ) {
+        keyCode = domEvent.keyCode;
+      }
+      this.startBorderAlertMonitoring( location, keyCode );
     }
 
     /**
@@ -178,7 +198,7 @@ define( ( require ) => {
      */
     drag() {
       if ( this.isMonitoringEdge && this.repeatBorderAlerts ) {
-        var borderAlert = this.alertWeAreMonitoring;
+        let borderAlert = this.alertWeAreMonitoring;
 
         if ( phet.joist.elapsedTime - borderAlert.lastAlerted > BORDER_ALERT_REPETITION_THRESHOLD ) {
           borderAlert.alert();
@@ -197,10 +217,10 @@ define( ( require ) => {
      * @public
      */
     reset() {
-      this.left.reset();
-      this.right.reset();
-      this.top.reset();
-      this.bottom.reset();
+      this[ DirectionEnum.LEFT ].reset();
+      this[ DirectionEnum.RIGHT ].reset();
+      this[ DirectionEnum.UP ].reset();
+      this[ DirectionEnum.DOWN ].reset();
     }
 
     /**
@@ -238,7 +258,7 @@ define( ( require ) => {
      * @returns {string}
      */
     getAlert() {
-      var alert = this._alert;
+      let alert = this._alert;
       if ( Array.isArray( alert ) ) {
         let index = Util.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
         alert = alert[ index ];
