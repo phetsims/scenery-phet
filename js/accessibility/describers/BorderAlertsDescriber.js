@@ -24,9 +24,6 @@ define( ( require ) => {
   let topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
   let bottomBorderAlertString = SceneryPhetA11yStrings.bottomBorderAlert.value;
 
-  // constants
-  let BORDER_ALERT_REPETITION_THRESHOLD = 1000;  // in ms
-
   let DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 
   /**
@@ -48,8 +45,7 @@ define( ( require ) => {
         leftAlert: leftBorderAlertString,
         rightAlert: rightBorderAlertString,
         topAlert: DEFAULT_TOP_BORDER_ALERT,
-        bottomAlert: bottomBorderAlertString,
-
+        bottomAlert: bottomBorderAlertString
       }, options );
 
       // @public - these keys should stay the same as keys from DirectionEnum
