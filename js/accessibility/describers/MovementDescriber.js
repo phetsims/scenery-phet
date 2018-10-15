@@ -100,7 +100,7 @@ define( require => {
 
     /**
      * Simple alert for the Describer
-     * @param {string|Utterance} alertable - anything that can be passed to UtteranceQueue
+     * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
      */
     alert( alertable ) {
       assert && assert( AlertableDef.isAlertableDef( alertable ), 'trying to alert something that isn\'t alertable' );
