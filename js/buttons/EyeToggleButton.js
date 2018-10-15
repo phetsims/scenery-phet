@@ -22,7 +22,6 @@ define( function( require ) {
    * @constructor
    */
   function EyeToggleButton( eyeOpenProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = options || {};
 
