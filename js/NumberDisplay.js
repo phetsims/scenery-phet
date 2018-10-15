@@ -50,8 +50,8 @@ define( function( require ) {
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
 
-      // NumberDisplay instances that are subcomponents of the equations are not instrumented
-      tandem: Tandem.optional,
+      // phet-io
+      tandem: Tandem.optional, // optional because not all NumberDisplay instances require instrumentation
       phetioType: NumberDisplayIO
     }, options );
 
