@@ -254,17 +254,6 @@ define( function( require ) {
     // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
     this.focusHighlight = slider.focusHighlight;
 
-    // a11y - place the slider's focus highlight relative to the NumberControl, going through the global coordinate frame
-    var sliderFocusHighlightPosition;
-    numberProperty.link( function() {
-      sliderFocusHighlightPosition = self.globalToLocalPoint( slider.localToGlobalPoint( slider.focusHighlight.center ) );
-      slider.focusHighlight.centerX = sliderFocusHighlightPosition.x;
-    } );
-
-    // vertical position of focus highlight is set once so that it doesn't continue to change as we get the
-    // highlight's localToGlobalPoint
-    slider.focusHighlight.centerY = sliderFocusHighlightPosition.y;
-
     // a11y - click the left and right arrow buttons when shift keys are down, must be disposed
     var rightButtonListener = function() { self.shiftKeyDown && rightArrowButton.a11yClick(); };
     var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };

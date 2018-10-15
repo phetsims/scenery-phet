@@ -266,7 +266,6 @@ define( function( require ) {
       // positions
       var x = valueToPosition( value );
       thumb.centerX = x;
-      self.focusHighlight.centerX = thumb.centerX;
       if ( cursor ) { cursor.centerX = x; }
       if ( valueDisplay ) { valueDisplay.centerX = x; }
       // thumb color
