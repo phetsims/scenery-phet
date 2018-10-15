@@ -49,7 +49,9 @@ define( function( require ) {
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
-      tandem: Tandem.required,
+
+      // NumberDisplay instances that are subcomponents of the equations are not instrumented
+      tandem: Tandem.optional,
       phetioType: NumberDisplayIO
     }, options );
 
