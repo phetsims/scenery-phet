@@ -51,7 +51,7 @@ define( function( require ) {
       backgroundLineWidth: 1,
 
       // phet-io
-      tandem: Tandem.optional, // optional because not all NumberDisplay instances require instrumentation
+      tandem: Tandem.optional,
       phetioType: NumberDisplayIO
     }, options );
 
