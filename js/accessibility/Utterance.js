@@ -82,7 +82,7 @@ define( require => {
     }
 
     /**
-     * getter for the text to be alerted for this Utterance. This should only be called when the alert is about to occur
+     * Getter for the text to be alerted for this Utterance. This should only be called when the alert is about to occur
      * because Utterance updates the number of times it has alerted based on this function, see this.numberOfTimesAlerted
      * @returns {string}
      * @public
