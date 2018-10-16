@@ -312,6 +312,7 @@ define( function( require ) {
     };
 
     // mix accessible slider functionality into HSlider
+    options.roundToStepSize = true;
     var rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
     this.initializeAccessibleSlider( valueProperty, rangeProperty, new BooleanProperty( true ), options );
   }

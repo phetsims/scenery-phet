@@ -279,6 +279,7 @@ define( function( require ) {
     self.mutate( options );
 
     // mix accessible slider functionality into this node
+    options.roundToStepSize = true;
     this.initializeAccessibleSlider(
       flowRateProperty,
       new Property( new Range( 0, maxFlowRate ) ),
