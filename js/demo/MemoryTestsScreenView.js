@@ -17,17 +17,21 @@ define( function( require ) {
   // var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   // var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   // var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   // var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
-  // var Property = require( 'AXON/Property' );
+  var Property = require( 'AXON/Property' );
   // var RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
   // var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
-  // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  // var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
+  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  // var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  // var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   // var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  // var Text = require( 'SCENERY/nodes/Text' );
   // var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
   // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
@@ -43,7 +47,7 @@ define( function( require ) {
     };
   }
 
-  // var booleanProperty = new Property( false );
+  var booleanProperty = new Property( false );
   // var numberProperty = new Property( 1 );
   // var waveLengthProperty = new Property( 400 );
 
@@ -68,7 +72,7 @@ define( function( require ) {
     // } ),
     // new ComponentHolder( function() {
     //   return new WavelengthSlider( waveLengthProperty );
-    // } ) //,
+    // } )
     // new ComponentHolder( function() {
     //   return new LeftRightSpinner( numberProperty, booleanProperty, booleanProperty );
     // } )
@@ -92,14 +96,25 @@ define( function( require ) {
     //     { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
     //     { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
     //   ];
-    //   return new KitSelectionNode( numberProperty, kits, { selectorPosition: 'top' } );
+    //   return new KitSelectionNode( numberProperty, kits, { selectorPosition: 'sides' } );
+    // } )
+    // new ComponentHolder( function() {
+    //   return new RewindButton();
     // } )
     new ComponentHolder( function() {
-      return new RewindButton();
+      return new SoundToggleButton( booleanProperty );
     } )
     // new ComponentHolder( function() {
-    //   return new SoundToggleButton( booleanProperty );
+    //   return new RoundStickyToggleButton(
+    //     0,
+    //     1,
+    //     booleanProperty
+    //   );
     // } )
+    // new ComponentHolder( function() {
+    //   return new BooleanRectangularToggleButton( new Text( 'true' ), new Text( 'false' ), booleanProperty );
+    // } )
+
   ];
 
   /**
