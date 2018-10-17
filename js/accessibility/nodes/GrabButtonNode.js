@@ -41,6 +41,7 @@ define( require => {
         // {function} - called when the node is "grabbed" (when the grab button fires)
         onGrab: _.noop(),
 
+        // {function} - if you override this, make sure to handle the alert in the default onRelease
         onRelease: GrabButtonNode.onRelease,
 
         // filled in below
