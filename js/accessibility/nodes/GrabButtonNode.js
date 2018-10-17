@@ -33,6 +33,9 @@ define( require => {
         // A string that is filled in to the appropriate button label
         thingToGrab: defaultThingToGrabString,
 
+        // {function} - called when the node is "grabbed" (when the grab button fires)
+        onGrab: _.noop(),
+
         // filled in below
         grabButtonOptions: {},
 
@@ -42,7 +45,7 @@ define( require => {
       }, options );
 
       assert && assert( wrappedNode.accessibleContent, 'grab button must wrap a node with accessible content' );
-
+      assert && assert( typeof options.onGrab === 'function' );
       if ( wrappedNode.focusHighlight ) {
         assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.Path,
           'if provided, focusHighlight must be a path' );
@@ -110,6 +113,7 @@ define( require => {
           // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
           // it up immediately again
           if ( !guardKeyPress ) {
+            options.onGrab();
             wrappedNode.accessibleVisible = true;
             wrappedNode.focus();
           }
