@@ -37,8 +37,7 @@ define( require => {
         tagName: 'div'
       }, options );
 
-      assert && assert( wrappedNode.accessibleContent );
-      assert && assert( wrappedNode.parents.length === 0, 'wrappedNode should not have a parent, as the grab button is to be the parent.' );
+      assert && assert( wrappedNode.accessibleContent, 'grab button must wrap a node with accessible content' );
 
       if ( wrappedNode.focusHighlight ) {
         assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.Path,
@@ -84,6 +83,13 @@ define( require => {
       grabButtonFocusHighlight.center = wrappedNode.center;
       grabButton.focusHighlight = grabButtonFocusHighlight;
 
+      // if ever we update the wrappedNode's focusHighlight, then update the grab button's too to keep in syn.
+      let onHighlightChange = () => {
+        grabButtonFocusHighlight.setShape( wrappedNodeFocusHighlight.shape );
+      };
+      wrappedNode.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
+
+
       // update the grabButton's focusHighlight whenever the wrappedNode moves.
       const transformListener = () => {
         grabButtonFocusHighlight.center = wrappedNode.center;
@@ -114,9 +120,6 @@ define( require => {
        * to the "grab" button, and hiding the draggable balloon.
        */
       const a11yReleaseWrappedNode = () => {
-
-        // TODO: need a listener here?
-        // endDragListener();
 
         // focus the grab balloon button
         grabButton.focus();
@@ -157,7 +160,11 @@ define( require => {
         }
       } );
 
+      // pull the wrappedNode out of the grabButton's children so that they are on the same level of the PDOM.
+      this.accessibleOrder = [ grabButton, wrappedNode ];
+
       this.disposeGrabButtonNode = () => {
+        wrappedNode.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
         this.off( 'transform', transformListener );
       };
     }
