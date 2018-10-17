@@ -12,11 +12,15 @@ define( require => {
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
-  const grabPatternString = 'Grab {{thingToGrab}}';
-  const defaultThingToGrabString = 'Node';
+  const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
+  const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
+  const releasedString = SceneryPhetA11yStrings.released.value;
+
 
   /**
    *
@@ -26,6 +30,7 @@ define( require => {
    */
   class GrabButtonNode extends Node {
     constructor( wrappedNode, options ) {
+      super();
 
       options = _.extend( {
         cursor: 'pointer',
@@ -35,6 +40,8 @@ define( require => {
 
         // {function} - called when the node is "grabbed" (when the grab button fires)
         onGrab: _.noop(),
+
+        onRelease: GrabButtonNode.onRelease,
 
         // filled in below
         grabButtonOptions: {},
@@ -46,6 +53,7 @@ define( require => {
 
       assert && assert( wrappedNode.accessibleContent, 'grab button must wrap a node with accessible content' );
       assert && assert( typeof options.onGrab === 'function' );
+      assert && assert( typeof options.onRelease === 'function' );
       if ( wrappedNode.focusHighlight ) {
         assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.Path,
           'if provided, focusHighlight must be a path' );
@@ -65,8 +73,6 @@ define( require => {
         thingToGrab: options.thingToGrab
       } );
 
-      // super constructor
-      super( options );
 
       const grabButton = new Node( options.grabButtonOptions );
 
@@ -137,6 +143,9 @@ define( require => {
 
         // reset the key state of the drag handler by interrupting the drag
         wrappedNode.interruptInput();
+
+        // callback when node is "released"
+        options.onRelease();
       };
 
       // some keypresses can fire the grabButton's click from the same press that fires the event below, so guard against that.
@@ -174,8 +183,22 @@ define( require => {
         wrappedNode.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
         this.off( 'transform', transformListener );
       };
+
+      this.mutate( options );
     }
 
+
+    /**
+     * @public
+     */
+    static onRelease() {
+      utteranceQueue.addToBack( releasedString );
+    }
+
+    /**
+     * @override
+     * @public
+     */
     dispose() {
       this.disposeGrabButtonNode();
       super.dispose();

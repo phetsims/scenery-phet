@@ -146,7 +146,21 @@ define( function( require ) {
     },
     bottomBorderAlert: {
       value: 'At bottom'
+    },
+
+    //------------------------------------------------------------------------
+    // GrabButtonNode strings
+    //------------------------------------------------------------------------
+    grabPattern: {
+      value: 'Grab {{thingToGrab}}'
+    },
+    defaultThingToGrab: {
+      value: 'Node'
+    },
+    released: {
+      value: 'Released.'
     }
+
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
