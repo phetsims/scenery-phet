@@ -260,8 +260,8 @@ define( function( require ) {
     var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };
 
     // emitters defined in AccessibleSlider.js
-    this.increasedEmitter.addListener( rightButtonListener );
-    this.decreasedEmitter.addListener( leftButtonListener );
+    this.attemptedIncreaseEmitter.addListener( rightButtonListener );
+    this.attemptedDecreaseEmitter.addListener( leftButtonListener );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
@@ -276,8 +276,8 @@ define( function( require ) {
     this.disposeNumberControl = function() {
 
       // dispose accessibility features
-      self.increasedEmitter.removeListener( rightButtonListener );
-      self.decreasedEmitter.removeListener( leftButtonListener );
+      self.attemptedIncreaseEmitter.removeListener( rightButtonListener );
+      self.attemptedDecreaseEmitter.removeListener( leftButtonListener );
       self.disposeAccessibleSlider();
 
       numberDisplay.dispose();
