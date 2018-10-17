@@ -30,7 +30,11 @@ define( require => {
       options = _.extend( {
         cursor: 'pointer',
 
+        // A string that is filled in to the appropriate button label
         thingToGrab: defaultThingToGrabString,
+
+        // filled in below
+        grabButtonOptions: {},
 
         // a11y - this node will act as a container for more accessible content, its children will implement
         // most of the keyboard navigation
@@ -44,24 +48,24 @@ define( require => {
           'if provided, focusHighlight must be a path' );
       }
 
-      // super constructor
-      super( options );
-
-      const accessibleButtonLabel = StringUtils.fillIn( grabPatternString, {
-        thingToGrab: options.thingToGrab
-      } );
-
-      const grabButton = new Node( {
-        pickable: false, // TODO:???custom touch areas applied to parent
+      options.grabButtonOptions = _.extend( {
 
         // a11y
         containerTagName: 'div',
         tagName: 'button',
-        innerContent: accessibleButtonLabel,
         focusHighlightLayerable: true
-        // descriptionContent: grabBalloonHelpString, // TODO: description support
-        // appendDescription: true
+      }, options.grabButtonOptions );
+
+      assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
+
+      options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
+        thingToGrab: options.thingToGrab
       } );
+
+      // super constructor
+      super( options );
+
+      const grabButton = new Node( options.grabButtonOptions );
 
       // make sure that the grabButton actually has some width, so add the wrapped node to it
       this.addChild( grabButton );
@@ -148,7 +152,6 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-            guardKeyPress = event.keyCode === KeyboardUtil.KEY_SPACE;
             a11yReleaseWrappedNode();
           }
         },
