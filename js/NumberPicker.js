@@ -35,8 +35,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
 
   /**
    * @param {Property.<number>} valueProperty
