@@ -56,7 +56,7 @@ define( require => {
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
       if ( wrappedNode.focusHighlight ) {
-        assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.Path,
+        assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a path' );
       }
 
