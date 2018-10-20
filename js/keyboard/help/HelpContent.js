@@ -16,40 +16,49 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
-  var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
-  var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlusNode = require( 'SCENERY_PHET/PlusNode' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  const ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
+  const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
+  const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
+  const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var keyboardHelpDialogOrString = require( 'string!SCENERY_PHET/keyboardHelpDialog.or' );
+  const keyboardHelpDialogGrabOrReleaseHeadingPatternString = require( 'string!SCENERY_PHET/keyboardHelpDialog.grabOrReleaseHeadingPattern' );
+  const keyboardHelpDialogGrabOrReleaseLabelPatternString = require( 'string!SCENERY_PHET/keyboardHelpDialog.grabOrReleaseLabelPattern' );
+  const keyboardHelpDialogOrString = require( 'string!SCENERY_PHET/keyboardHelpDialog.or' );
+
+  // a11y strings
+  var grabOrReleaseDescriptionPatternString = SceneryPhetA11yStrings.grabOrReleaseDescriptionPattern.value;
 
   // constants
   // heading defaults
-  var DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
-  var DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
-  var DEFAULT_HEADING_MAX_WIDTH = 300; // i18n
+  const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
+  const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
+  const DEFAULT_HEADING_MAX_WIDTH = 300; // i18n
 
   // Content spacing and alignment
-  var DEFAULT_ALIGN = 'left'; // default alignment for the content and title
-  var DEFAULT_LABEL_ICON_SPACING = 20; // spacing between 
-  var DEFAULT_ICON_SPACING = 5;
-  var DEFAULT_VERTICAL_ICON_SPACING = 10;
-  var DEFAULT_LETTER_KEY_SPACING = 1;
+  const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
+  const DEFAULT_LABEL_ICON_SPACING = 20; // spacing between
+  const DEFAULT_ICON_SPACING = 5;
+  const DEFAULT_VERTICAL_ICON_SPACING = 10;
+  const DEFAULT_LETTER_KEY_SPACING = 1;
 
   // labels and keys
-  var DEFAULT_LABEL_FONT = new PhetFont( 12 );
-  var DEFAULT_TEXT_MAX_WIDTH = 175;
+  const DEFAULT_LABEL_FONT = new PhetFont( 12 );
+  const DEFAULT_TEXT_MAX_WIDTH = 175;
 
   /**
    * @constructor
@@ -128,7 +137,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'HelpContent', HelpContent );
 
-  return inherit( VBox, HelpContent, {}, {
+  inherit( VBox, HelpContent, {}, {
 
     /**
      * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
@@ -466,4 +475,46 @@ define( function( require ) {
     DEFAULT_TEXT_MAX_WIDTH: DEFAULT_TEXT_MAX_WIDTH,
     DEFAULT_VERTICAL_ICON_SPACING: DEFAULT_VERTICAL_ICON_SPACING
   } );
+
+  /**
+   * Convenience method to construct a help content for describing the grab button interaction
+   * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
+   * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
+   * @static
+   * @returns {HelpContent}
+   */
+  HelpContent.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase ) {
+
+    var heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
+      thing: thingAsTitle
+    } );
+
+    var labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
+      thing: thingAsLowerCase
+    } );
+
+    var descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
+      thing: thingAsLowerCase
+    } );
+
+    var label = new Text( labelString, {
+      font: HelpContent.DEFAULT_LABEL_FONT,
+      maxWidth: 225
+    } );
+
+    var spaceKeyNode = new SpaceKeyNode();
+    var enterKeyNode = new EnterKeyNode();
+    var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
+    var labelWithContent = HelpContent.labelWithIcon( label, icons, descriptionString, {
+      iconOptions: {
+        tagName: 'p' // it is the only item so it is a p rather than an li
+      }
+    } );
+
+    return new HelpContent( heading, [ labelWithContent ], {
+      a11yContentTagName: null // just a paragraph for this content, no list
+    } );
+  };
+
+  return HelpContent;
 } );

@@ -124,6 +124,12 @@
   "keyboardHelpDialog.or": {
     "value": "or"
   },
+  "keyboardHelpDialog.grabOrReleaseHeadingPattern": {
+    "value": "Grab or Release {{thing}}"
+  },
+  "keyboardHelpDialog.grabOrReleaseLabelPattern": {
+    "value": "Grab or release {{thing}}"
+  },
   "speed.normal": {
     "value": "Normal"
   },
