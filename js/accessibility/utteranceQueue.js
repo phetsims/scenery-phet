@@ -28,10 +28,14 @@ define( function( require ) {
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
-  // initialization is like utteranceQueue's constructor. No-ops all around if not initialized (cheers).
-  var initialized = false;
-
+  /**
+   * @constructor
+   */
   function utteranceQueue() {
+
+    // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
+    // initialized (cheers). See initialize()
+    this._initialized = false;
 
     // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
     this.queue = [];
@@ -67,7 +71,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !this._enabled || !initialized ) {
+      if ( !this._enabled || !this._initialized ) {
         return;
       }
 
@@ -100,7 +104,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !this._enabled || !initialized ) {
+      if ( !this._enabled || !this._initialized ) {
         return;
       }
 
@@ -278,7 +282,7 @@ define( function( require ) {
      * @public
      */
     initialize: function() {
-      initialized = true;
+      this._initialized = true;
 
       // begin stepping the queue by adding a callback
       this.setStepInterval( this._stepInterval );
