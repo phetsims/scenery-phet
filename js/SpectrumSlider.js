@@ -91,10 +91,7 @@ define( function( require ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: Tandem.required,
-
-      // a11y - should valueProperty round to the nearest interval of AccessibleSlider stepSize when using keyboard?
-      roundToStepSize: true
+      tandem: Tandem.required
 
     }, options );
 
