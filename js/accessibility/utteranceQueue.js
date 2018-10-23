@@ -28,12 +28,6 @@ define( function( require ) {
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
-  // whether or not Utterances moving through the queue are read by a screen reader
-  var muted = false;
-
-  // whether the UtterancesQueue is alerting, and if you can add/remove utterances
-  var enabled = true;
-
   // initialization is like utteranceQueue's constructor. No-ops all around if not initialized (cheers).
   var initialized = false;
 
@@ -49,6 +43,12 @@ define( function( require ) {
     // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
     // removed if necessary
     this._intervalCallback = null;
+
+    // whether or not Utterances moving through the queue are read by a screen reader
+    this._muted = false;
+
+    // whether the UtterancesQueue is alerting, and if you can add/remove utterances
+    this._enabled = true;
 
     PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
   }
@@ -67,7 +67,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !enabled || !initialized ) {
+      if ( !this._enabled || !initialized ) {
         return;
       }
 
@@ -100,7 +100,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !enabled || !initialized ) {
+      if ( !this._enabled || !initialized ) {
         return;
       }
 
@@ -135,7 +135,7 @@ define( function( require ) {
       }
 
       // only speak the utterance if the Utterance predicate returns true
-      if ( nextUtterance && !muted && nextUtterance.predicate() ) {
+      if ( nextUtterance && !this._muted && nextUtterance.predicate() ) {
 
         // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
         // should only be triggered on alert! See Utterance.alertText
@@ -189,7 +189,7 @@ define( function( require ) {
      * @param {boolean} isMuted
      */
     setMuted: function( isMuted ) {
-      muted = isMuted;
+      this._muted = isMuted;
     },
     set muted( isMuted ) { this.setMuted( isMuted ); },
 
@@ -199,7 +199,7 @@ define( function( require ) {
      * @public
      */
     getMuted: function() {
-      return muted;
+      return this._muted;
     },
     get muted() { return this.getMuted(); },
 
@@ -210,7 +210,7 @@ define( function( require ) {
      * @param {boolean} isEnabled
      */
     setEnabled: function( isEnabled ) {
-      enabled = isEnabled;
+      this._enabled = isEnabled;
     },
     set enabled( isEnabled ) { this.setEnabled( isEnabled ); },
 
@@ -220,7 +220,7 @@ define( function( require ) {
      * @public
      */
     getEnabled: function() {
-      return enabled;
+      return this._enabled;
     },
     get enabled() { return this.getEnabled(); },
 
@@ -260,7 +260,7 @@ define( function( require ) {
     stepQueue: function() {
 
       // No-op function if the utteranceQueue is disabled
-      if ( !enabled ) {
+      if ( !this._enabled ) {
         return;
       }
 
