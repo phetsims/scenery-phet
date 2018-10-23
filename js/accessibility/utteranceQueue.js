@@ -28,22 +28,31 @@ define( function( require ) {
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
-  // {Utterance} - array of utterances, spoken in first to last order
-  var queue = [];
-
-  // the interval for sending alerts to the screen reader, in milliseconds
-  var interval = 500;
-
-  // whether or not Utterances moving through the queue are read by a screen reader
-  var muted = false;
-
-  // whether the UtterancesQueue is alerting, and if you can add/remove utterances
-  var enabled = true;
-
-  // initialization is like utteranceQueue's constructor. No-ops all around if not initialized (cheers).
-  var initialized = false;
-
+  /**
+   * @constructor
+   */
   function utteranceQueue() {
+
+    // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
+    // initialized (cheers). See initialize()
+    this._initialized = false;
+
+    // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
+    this.queue = [];
+
+    // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
+    // setStepInterval
+    this._stepInterval = 500;
+
+    // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
+    // removed if necessary
+    this._intervalCallback = null;
+
+    // whether or not Utterances moving through the queue are read by a screen reader
+    this._muted = false;
+
+    // whether the UtterancesQueue is alerting, and if you can add/remove utterances
+    this._enabled = true;
 
     PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
   }
@@ -62,7 +71,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !enabled || !initialized ) {
+      if ( !this._enabled || !this._initialized ) {
         return;
       }
 
@@ -73,7 +82,7 @@ define( function( require ) {
       // clear utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
-      queue.push( utterance );
+      this.queue.push( utterance );
     },
 
     /**
@@ -95,7 +104,7 @@ define( function( require ) {
         'utterance queue only supports string or type Utterance.' );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !enabled || !initialized ) {
+      if ( !this._enabled || !this._initialized ) {
         return;
       }
 
@@ -106,7 +115,7 @@ define( function( require ) {
       // remove any utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
-      queue.unshift( utterance );
+      this.queue.unshift( utterance );
     },
 
     /**
@@ -120,17 +129,17 @@ define( function( require ) {
       // find the next item to announce - generally the next item in the queue, unless it has a delay specified that
       // is greater than the amount of time that the utterance has been sitting in the queue
       var nextUtterance;
-      for ( var i = 0; i < queue.length; i++ ) {
-        var utterance = queue[ i ];
+      for ( var i = 0; i < this.queue.length; i++ ) {
+        var utterance = this.queue[ i ];
         if ( utterance.timeInQueue > utterance.delayTime ) {
           nextUtterance = utterance;
-          queue.splice( i, 1 );
+          this.queue.splice( i, 1 );
           break;
         }
       }
 
       // only speak the utterance if the Utterance predicate returns true
-      if ( nextUtterance && !muted && nextUtterance.predicate() ) {
+      if ( nextUtterance && !this._muted && nextUtterance.predicate() ) {
 
         // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
         // should only be triggered on alert! See Utterance.alertText
@@ -158,10 +167,10 @@ define( function( require ) {
       // if there are any other items in the queue of the same type, remove them immediately because the added
       // utterance is meant to replace it
       if ( uniqueGroupId ) {
-        for ( var i = queue.length - 1; i >= 0; i-- ) {
-          var otherUtterance = queue[ i ];
+        for ( var i = this.queue.length - 1; i >= 0; i-- ) {
+          var otherUtterance = this.queue[ i ];
           if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
-            queue.splice( i, 1 );
+            this.queue.splice( i, 1 );
           }
         }
       }
@@ -174,7 +183,7 @@ define( function( require ) {
      * @public
      */
     clear: function() {
-      queue = [];
+      this.queue = [];
     },
 
     /**
@@ -184,7 +193,7 @@ define( function( require ) {
      * @param {boolean} isMuted
      */
     setMuted: function( isMuted ) {
-      muted = isMuted;
+      this._muted = isMuted;
     },
     set muted( isMuted ) { this.setMuted( isMuted ); },
 
@@ -194,7 +203,7 @@ define( function( require ) {
      * @public
      */
     getMuted: function() {
-      return muted;
+      return this._muted;
     },
     get muted() { return this.getMuted(); },
 
@@ -205,7 +214,7 @@ define( function( require ) {
      * @param {boolean} isEnabled
      */
     setEnabled: function( isEnabled ) {
-      enabled = isEnabled;
+      this._enabled = isEnabled;
     },
     set enabled( isEnabled ) { this.setEnabled( isEnabled ); },
 
@@ -215,7 +224,7 @@ define( function( require ) {
      * @public
      */
     getEnabled: function() {
-      return enabled;
+      return this._enabled;
     },
     get enabled() { return this.getEnabled(); },
 
@@ -225,20 +234,46 @@ define( function( require ) {
      * @public
      * @return {number}
      */
-    getInterval: function() {
-      return interval;
+    getStepInterval: function() {
+      return this._stepInterval;
     },
-    get interval() { return this.getInterval(); },
+    get interval() { return this.getStepInterval(); },
 
     /**
-     * Set the alert interval in milliseconds
+     * Set the alert interval in milliseconds by adding a new interval callback to the timer. Beware that this
+     * impacts the entire queue. Controlling timing of utterances is probably better managed by using options
+     * for an individual Utterance.
      * @public
+     * 
      * @param {number} alertInterval
      */
-    setInterval: function( alertInterval ) {
-      interval = alertInterval;
+    setStepInterval: function( alertInterval ) {
+      this._stepInterval = alertInterval;
+
+      // remove the previous callback if it was added
+      this._intervalCallback && timer.clearInterval( this._intervalCallback );
+
+      this._intervalCallback = timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
     },
-    set interval( alertInterval ) { this.setInterval( alertInterval ); },
+    set stepInterval( alertInterval ) { this.setStepInterval( alertInterval ); },
+
+    /**
+     * Step the queue, called by the timer.
+     * @private
+     */
+    stepQueue: function() {
+
+      // No-op function if the utteranceQueue is disabled
+      if ( !this._enabled ) {
+        return;
+      }
+
+      for ( var i = 0; i < this.queue.length; i++ ) {
+        this.queue[ i ].timeInQueue += this._stepInterval;
+      }
+
+      this.next();
+    },
 
     /**
      * Basically a constructor for the queue. Setup necessary processes for running the queue and register
@@ -247,25 +282,10 @@ define( function( require ) {
      * @public
      */
     initialize: function() {
-      initialized = true;
+      this._initialized = true;
 
-      var self = this;
-
-      // @private step the alert queue
-      // {function} wrapped function that can be removed with timer.clearInterval
-      this.currentInterval = timer.setInterval( function() {
-
-        // No-op function if the utteranceQueue is disabled
-        if ( !enabled ) {
-          return;
-        }
-
-        for ( var i = 0; i < queue.length; i++ ) {
-          queue[ i ].timeInQueue += self.interval;
-        }
-
-        self.next();
-      }, this.interval );
+      // begin stepping the queue by adding a callback
+      this.setStepInterval( this._stepInterval );
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {

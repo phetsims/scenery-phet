@@ -49,7 +49,7 @@ define( require => {
       utteranceQueue.initialize();
 
       // slightly slower than the interval that the utteranceQueue will wait so we don't have a race condition
-      sleepTiming = utteranceQueue.interval + 10;
+      sleepTiming = utteranceQueue.stepInterval + 10;
     },
     beforeEach: () => { alerts = []; }, // clear the alerts before each new test
     after: () => {

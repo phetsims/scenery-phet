@@ -117,7 +117,8 @@ define( function( require ) {
       phetioType: NumberControlIO,
 
       // a11y
-      groupFocusHighlight: true
+      groupFocusHighlight: true,
+      roundToStepSize: true
     }, options );
 
 
@@ -215,7 +216,6 @@ define( function( require ) {
       // where it makes no sense to call them startDrag and endDrag.
       startDrag: options.sliderStartCallback || options.startCallback,
       endDrag: options.sliderEndCallback || options.endCallback,
-      roundToStepSize: true,
       tandem: options.tandem.createTandem( 'slider' )
     } );
 
