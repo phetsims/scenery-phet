@@ -31,9 +31,6 @@ define( function( require ) {
   // {Utterance} - array of utterances, spoken in first to last order
   var queue = [];
 
-  // the interval for sending alerts to the screen reader, in milliseconds
-  var interval = 500;
-
   // whether or not Utterances moving through the queue are read by a screen reader
   var muted = false;
 
@@ -44,6 +41,14 @@ define( function( require ) {
   var initialized = false;
 
   function utteranceQueue() {
+
+    // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
+    // setStepInterval
+    this._stepInterval = 500;
+
+    // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
+    // removed if necessary
+    this._intervalCallback = null;
 
     PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
   }
@@ -225,20 +230,46 @@ define( function( require ) {
      * @public
      * @return {number}
      */
-    getInterval: function() {
-      return interval;
+    getStepInterval: function() {
+      return this._stepInterval;
     },
-    get interval() { return this.getInterval(); },
+    get interval() { return this.getStepInterval(); },
 
     /**
-     * Set the alert interval in milliseconds
+     * Set the alert interval in milliseconds by adding a new interval callback to the timer. Beware that this
+     * impacts the entire queue. Controlling timing of utterances is probably better managed by using options
+     * for an individual Utterance.
      * @public
+     * 
      * @param {number} alertInterval
      */
-    setInterval: function( alertInterval ) {
-      interval = alertInterval;
+    setStepInterval: function( alertInterval ) {
+      this._stepInterval = alertInterval;
+
+      // remove the previous callback if it was added
+      this._intervalCallback && timer.clearInterval( this._intervalCallback );
+
+      this._intervalCallback = timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
     },
-    set interval( alertInterval ) { this.setInterval( alertInterval ); },
+    set stepInterval( alertInterval ) { this.setStepInterval( alertInterval ); },
+
+    /**
+     * Step the queue, called by the timer.
+     * @private
+     */
+    stepQueue: function() {
+      
+      // No-op function if the utteranceQueue is disabled
+      if ( !enabled ) {
+        return;
+      }
+
+      for ( var i = 0; i < queue.length; i++ ) {
+        queue[ i ].timeInQueue += this._stepInterval;
+      }
+
+      this.next();
+    },
 
     /**
      * Basically a constructor for the queue. Setup necessary processes for running the queue and register
@@ -249,23 +280,8 @@ define( function( require ) {
     initialize: function() {
       initialized = true;
 
-      var self = this;
-
-      // @private step the alert queue
-      // {function} wrapped function that can be removed with timer.clearInterval
-      this.currentInterval = timer.setInterval( function() {
-
-        // No-op function if the utteranceQueue is disabled
-        if ( !enabled ) {
-          return;
-        }
-
-        for ( var i = 0; i < queue.length; i++ ) {
-          queue[ i ].timeInQueue += self.interval;
-        }
-
-        self.next();
-      }, this.interval );
+      // begin stepping the queue by adding a callback
+      this.setStepInterval( this._stepInterval );
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
