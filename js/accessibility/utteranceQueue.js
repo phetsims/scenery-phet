@@ -142,7 +142,7 @@ define( function( require ) {
       if ( nextUtterance && !this._muted && nextUtterance.predicate() ) {
 
         // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
-        // should only be triggered on alert! See Utterance.alertText
+        // should only be triggered on alert! See Utterance.getTextToAlert
         var text = nextUtterance.getTextToAlert();
 
         // phet-io event to the data stream
