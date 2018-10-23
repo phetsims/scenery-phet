@@ -237,7 +237,7 @@ define( function( require ) {
     getStepInterval: function() {
       return this._stepInterval;
     },
-    get interval() { return this.getStepInterval(); },
+    get stepInterval() { return this.getStepInterval(); },
 
     /**
      * Set the alert interval in milliseconds by adding a new interval callback to the timer. Beware that this
