@@ -28,9 +28,6 @@ define( function( require ) {
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
-  // {Utterance} - array of utterances, spoken in first to last order
-  var queue = [];
-
   // whether or not Utterances moving through the queue are read by a screen reader
   var muted = false;
 
@@ -41,6 +38,9 @@ define( function( require ) {
   var initialized = false;
 
   function utteranceQueue() {
+
+    // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
+    this.queue = [];
 
     // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
     // setStepInterval
@@ -78,7 +78,7 @@ define( function( require ) {
       // clear utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
-      queue.push( utterance );
+      this.queue.push( utterance );
     },
 
     /**
@@ -111,7 +111,7 @@ define( function( require ) {
       // remove any utterances of the same group as the one being added
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
-      queue.unshift( utterance );
+      this.queue.unshift( utterance );
     },
 
     /**
@@ -125,11 +125,11 @@ define( function( require ) {
       // find the next item to announce - generally the next item in the queue, unless it has a delay specified that
       // is greater than the amount of time that the utterance has been sitting in the queue
       var nextUtterance;
-      for ( var i = 0; i < queue.length; i++ ) {
-        var utterance = queue[ i ];
+      for ( var i = 0; i < this.queue.length; i++ ) {
+        var utterance = this.queue[ i ];
         if ( utterance.timeInQueue > utterance.delayTime ) {
           nextUtterance = utterance;
-          queue.splice( i, 1 );
+          this.queue.splice( i, 1 );
           break;
         }
       }
@@ -163,10 +163,10 @@ define( function( require ) {
       // if there are any other items in the queue of the same type, remove them immediately because the added
       // utterance is meant to replace it
       if ( uniqueGroupId ) {
-        for ( var i = queue.length - 1; i >= 0; i-- ) {
-          var otherUtterance = queue[ i ];
+        for ( var i = this.queue.length - 1; i >= 0; i-- ) {
+          var otherUtterance = this.queue[ i ];
           if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
-            queue.splice( i, 1 );
+            this.queue.splice( i, 1 );
           }
         }
       }
@@ -179,7 +179,7 @@ define( function( require ) {
      * @public
      */
     clear: function() {
-      queue = [];
+      this.queue = [];
     },
 
     /**
@@ -258,14 +258,14 @@ define( function( require ) {
      * @private
      */
     stepQueue: function() {
-      
+
       // No-op function if the utteranceQueue is disabled
       if ( !enabled ) {
         return;
       }
 
-      for ( var i = 0; i < queue.length; i++ ) {
-        queue[ i ].timeInQueue += this._stepInterval;
+      for ( var i = 0; i < this.queue.length; i++ ) {
+        this.queue[ i ].timeInQueue += this._stepInterval;
       }
 
       this.next();
