@@ -88,10 +88,7 @@ define( function( require ) {
 
       tandem: Tandem.required,
       phetioType: FaucetNodeIO,
-      phetioEventType: 'user',
-
-      // a11y - when using keyboard, flowRateProperty will round to nearest keyboardStep of AccessibleSlider
-      roundToStepSize: true
+      phetioEventType: 'user'
     }, options );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
