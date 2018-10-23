@@ -91,7 +91,10 @@ define( function( require ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: Tandem.required
+      tandem: Tandem.required,
+
+      // a11y - should valueProperty round to the nearest interval of AccessibleSlider stepSize when using keyboard?
+      roundToStepSize: true
 
     }, options );
 
@@ -312,7 +315,6 @@ define( function( require ) {
     };
 
     // mix accessible slider functionality into HSlider
-    options.roundToStepSize = true;
     var rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
     this.initializeAccessibleSlider( valueProperty, rangeProperty, new BooleanProperty( true ), options );
   }
