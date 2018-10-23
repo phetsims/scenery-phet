@@ -91,7 +91,7 @@ define( function( require ) {
     // create the heading
     var headingText = new Text( headingString, {
       font: options.headingFont,
-      maxWidth: DEFAULT_HEADING_MAX_WIDTH,
+      maxWidth: options.headingMaxWidth,
 
       // a11y
       tagName: 'h2',
@@ -131,7 +131,7 @@ define( function( require ) {
     VBox.call( this, {
       children: [ headingText, this.contentHBox ],
       align: options.align,
-      spacing: DEFAULT_HEADING_CONTENT_SPACING
+      spacing: options.headingContentSpacing
     } );
   }
 
