@@ -33,6 +33,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Emitter = require( 'AXON/Emitter' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const timer = require( 'PHET_CORE/timer' );
 
@@ -64,20 +65,29 @@ define( require => {
       // index of current aria-live element to use, updated every time an event triggers
       this.elementIndex = 0;
 
-      // {function|null} - used in testing to get a callback whenever we get an alert.
-      // NOTE: for testing only, see UtteranceTests.js
-      this.testingBackDoorCallback = null;
+      // @public {null|Emitter} - set in initialize method. Emit whenever we announce.
+      this.announcingEmitter = null;
     }
 
     /**
      * Initialize AriaHerald to allow usage of its features. If not initialized, then it will no-op. This allows
      * AriaHerald to be disabled completely if a11y is not enabled.
-     * @param {function} [_testingBackDoorCallback] - used to get a callback whenever text is put on an aria live element
      */
-    initialize( _testingBackDoorCallback ) {
-      assert && assert( _testingBackDoorCallback === undefined || typeof _testingBackDoorCallback === 'function' );
-      this.testingBackDoorCallback = _testingBackDoorCallback;
+    initialize() {
       this.initialized = true;
+
+      this.announcingEmitter = new Emitter( {
+        valueTypes: [ 'string', 'boolean' ]
+      } );
+
+      // no need to be removed, exists for the lifetime of the simulation.
+      this.announcingEmitter.addListener( ( textContent, withClear ) => {
+        const element = ariaLiveElements[ this.elementIndex ];
+        this.updateLiveElement( element, textContent, withClear );
+
+        // update index for next time
+        this.elementIndex = ( this.elementIndex + 1 ) % ariaLiveElements.length;
+      } );
     }
 
     /**
@@ -89,14 +99,9 @@ define( require => {
      * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
     announcePolite( textContent, withClear ) {
-      const element = ariaLiveElements[ this.elementIndex ];
-      this.updateLiveElement( element, textContent, withClear );
 
-      // in addition to setting the alert on the aria-live attribute, call a listener with the alert text, as a backdoor for testing
-      this.testingBackDoorCallback && this.testingBackDoorCallback( textContent );
-
-      // update index for next time
-      this.elementIndex = ( this.elementIndex + 1 ) % ariaLiveElements.length;
+      // or the default to support propper emitter typing
+      this.announcingEmitter.emit( textContent, withClear || DEFAULT_WITH_CLEAR );
     }
 
     /**

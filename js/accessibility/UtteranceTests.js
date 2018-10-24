@@ -40,8 +40,10 @@ define( require => {
         timer.emit1( 1 );
       }, 1 );
 
-      // keep track of all alerts being put on aria live elements so we can test against them.
-      AriaHerald.initialize( text => {
+      AriaHerald.initialize();
+
+      // whenever announcing, get a callback
+      AriaHerald.announcingEmitter.addListener( text => {
         alerts.unshift( text );
       } );
 
@@ -58,7 +60,7 @@ define( require => {
   } );
 
 
-  QUnit.test( 'Utterance(Queue) Testing', async assert => {
+  QUnit.test( 'UtteranceQueue Testing', async assert => {
 
     assert.ok( true, 'first test' );
 
