@@ -302,7 +302,5 @@ define( require => {
     }
   }
 
-  const utteranceQueue = new UtteranceQueue();
-
-  return sceneryPhet.register( 'utteranceQueue', utteranceQueue );
+  return sceneryPhet.register( 'utteranceQueue', new UtteranceQueue() );
 } );
