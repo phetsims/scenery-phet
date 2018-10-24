@@ -34,7 +34,9 @@ define( require => {
    */
   class UtteranceQueue extends PhetioObject {
     constructor() {
-      super(); // options will be provided in initialize (if it is ever called)
+
+      // options will be provided in initialize (if it is ever called)
+      super();
 
       // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
       // initialized (cheers). See initialize()
