@@ -19,7 +19,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
+  var AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetioObject = require( 'TANDEM/PhetioObject' );
@@ -30,9 +30,10 @@ define( function( require ) {
   var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
   /**
+   * Can't be called, used only for a singleton, see end of this file.
    * @constructor
    */
-  function utteranceQueue() {
+  function UtteranceQueue() {
 
     // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
     // initialized (cheers). See initialize()
@@ -297,9 +298,9 @@ define( function( require ) {
     }
   } );
 
-  var instance = new utteranceQueue();
+  var utteranceQueue = new UtteranceQueue();
 
-  sceneryPhet.register( 'utteranceQueue', instance );
+  sceneryPhet.register( 'utteranceQueue', utteranceQueue );
 
-  return instance;
+  return utteranceQueue;
 } );
