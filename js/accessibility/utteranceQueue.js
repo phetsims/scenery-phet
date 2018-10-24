@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * Manages a queue of Utterances that are read in order by a screen reader.  This queue typically reads
@@ -15,51 +15,49 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var timer = require( 'PHET_CORE/timer' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  var UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
+  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
+  const AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const timer = require( 'PHET_CORE/timer' );
+  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  const UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
   /**
    * Can't be called, used only for a singleton, see end of this file.
    * @constructor
    */
-  function UtteranceQueue() {
+  class UtteranceQueue extends PhetioObject {
+    constructor() {
+      super(); // options will be provided in initialize (if it is ever called)
 
-    // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
-    // initialized (cheers). See initialize()
-    this._initialized = false;
+      // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
+      // initialized (cheers). See initialize()
+      this._initialized = false;
 
-    // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
-    this.queue = [];
+      // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
+      this.queue = [];
 
-    // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
-    // setStepInterval
-    this._stepInterval = 500;
+      // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
+      // setStepInterval
+      this._stepInterval = 500;
 
-    // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
-    // removed if necessary
-    this._intervalCallback = null;
+      // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
+      // removed if necessary
+      this._intervalCallback = null;
 
-    // whether or not Utterances moving through the queue are read by a screen reader
-    this._muted = false;
+      // whether or not Utterances moving through the queue are read by a screen reader
+      this._muted = false;
 
-    // whether the UtterancesQueue is alerting, and if you can add/remove utterances
-    this._enabled = true;
+      // whether the UtterancesQueue is alerting, and if you can add/remove utterances
+      this._enabled = true;
+    }
 
-    PhetioObject.call( this ); // options will be provided in initialize (if it is ever called)
-  }
-
-  inherit( PhetioObject, utteranceQueue, {
 
     /**
      * Add an utterance ot the end of the queue.  If the utterance has a type of alert which
@@ -68,7 +66,7 @@ define( function( require ) {
      * @public
      * @param {AlertableDef} utterance
      */
-    addToBack: function( utterance ) {
+    addToBack( utterance ) {
       assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
       // No-op function if the utteranceQueue is disabled
@@ -84,25 +82,25 @@ define( function( require ) {
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
       this.queue.push( utterance );
-    },
+    }
 
     /**
      * Convenience function to help with nullable values. No-op if null or nothing is passed in
      * @param {null|AlertableDef} [utterance]
      */
-    addToBackIfDefined: function( utterance ) {
+    addToBackIfDefined( utterance ) {
       if ( utterance !== null && utterance !== undefined ) {
         assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
         this.addToBack( utterance );
       }
-    },
+    }
 
     /**
      * Add an utterance to the front of the queue to be read immediately.
      * @param {AlertableDef} utterance
      */
-    addToFront: function( utterance ) {
+    addToFront( utterance ) {
       assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
       // No-op function if the utteranceQueue is disabled
@@ -118,7 +116,7 @@ define( function( require ) {
       this.clearUtteranceGroup( utterance.uniqueGroupId );
 
       this.queue.unshift( utterance );
-    },
+    }
 
     /**
      * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
@@ -126,13 +124,13 @@ define( function( require ) {
      *
      * @private
      */
-    next: function() {
+    next() {
 
       // find the next item to announce - generally the next item in the queue, unless it has a delay specified that
       // is greater than the amount of time that the utterance has been sitting in the queue
-      var nextUtterance;
-      for ( var i = 0; i < this.queue.length; i++ ) {
-        var utterance = this.queue[ i ];
+      let nextUtterance;
+      for ( let i = 0; i < this.queue.length; i++ ) {
+        const utterance = this.queue[ i ];
         if ( utterance.timeInQueue > utterance.delayTime ) {
           nextUtterance = utterance;
           this.queue.splice( i, 1 );
@@ -145,7 +143,7 @@ define( function( require ) {
 
         // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
         // should only be triggered on alert! See Utterance.getTextToAlert
-        var text = nextUtterance.getTextToAlert();
+        const text = nextUtterance.getTextToAlert();
 
         // phet-io event to the data stream
         this.phetioStartEvent( 'announced', { utterance: text } );
@@ -155,7 +153,7 @@ define( function( require ) {
 
         this.phetioEndEvent();
       }
-    },
+    }
 
     /**
      * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
@@ -164,19 +162,19 @@ define( function( require ) {
      * @param {string|number|null} uniqueGroupId
      * @private
      */
-    clearUtteranceGroup: function( uniqueGroupId ) {
+    clearUtteranceGroup( uniqueGroupId ) {
 
       // if there are any other items in the queue of the same type, remove them immediately because the added
       // utterance is meant to replace it
       if ( uniqueGroupId ) {
-        for ( var i = this.queue.length - 1; i >= 0; i-- ) {
-          var otherUtterance = this.queue[ i ];
+        for ( let i = this.queue.length - 1; i >= 0; i-- ) {
+          const otherUtterance = this.queue[ i ];
           if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
             this.queue.splice( i, 1 );
           }
         }
       }
-    },
+    }
 
     /**
      * Clear the utteranceQueue of all Utterances, any Utterances remaining in the queue will
@@ -184,9 +182,9 @@ define( function( require ) {
      *
      * @public
      */
-    clear: function() {
+    clear() {
       this.queue = [];
-    },
+    }
 
     /**
      * Set whether or not the utterance queue is muted.  When muted, Utterances will still
@@ -194,20 +192,22 @@ define( function( require ) {
      *
      * @param {boolean} isMuted
      */
-    setMuted: function( isMuted ) {
+    setMuted( isMuted ) {
       this._muted = isMuted;
-    },
-    set muted( isMuted ) { this.setMuted( isMuted ); },
+    }
+
+    set muted( isMuted ) { this.setMuted( isMuted ); }
 
     /**
      * Get whether or not the utteranceQueue is muted.  When muted, Utterances will still
      * move through the queue, but nothing will be read by asistive technology.
      * @public
      */
-    getMuted: function() {
+    getMuted() {
       return this._muted;
-    },
-    get muted() { return this.getMuted(); },
+    }
+
+    get muted() { return this.getMuted(); }
 
     /**
      * Set whether or not the utterance queue is enabled.  When enabled, Utterances cannot be added to
@@ -215,20 +215,22 @@ define( function( require ) {
      *
      * @param {boolean} isEnabled
      */
-    setEnabled: function( isEnabled ) {
+    setEnabled( isEnabled ) {
       this._enabled = isEnabled;
-    },
-    set enabled( isEnabled ) { this.setEnabled( isEnabled ); },
+    }
+
+    set enabled( isEnabled ) { this.setEnabled( isEnabled ); }
 
     /**
      * Get whether or not the utterance queue is enabled.  When enabled, Utterances cannot be added to
      * the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.
      * @public
      */
-    getEnabled: function() {
+    getEnabled() {
       return this._enabled;
-    },
-    get enabled() { return this.getEnabled(); },
+    }
+
+    get enabled() { return this.getEnabled(); }
 
     /**
      * Get the interval that alerts are sent to the screen reader.
@@ -236,10 +238,11 @@ define( function( require ) {
      * @public
      * @return {number}
      */
-    getStepInterval: function() {
+    getStepInterval() {
       return this._stepInterval;
-    },
-    get stepInterval() { return this.getStepInterval(); },
+    }
+
+    get stepInterval() { return this.getStepInterval(); }
 
     /**
      * Set the alert interval in milliseconds by adding a new interval callback to the timer. Beware that this
@@ -249,33 +252,34 @@ define( function( require ) {
      *
      * @param {number} alertInterval
      */
-    setStepInterval: function( alertInterval ) {
+    setStepInterval( alertInterval ) {
       this._stepInterval = alertInterval;
 
       // remove the previous callback if it was added
       this._intervalCallback && timer.clearInterval( this._intervalCallback );
 
       this._intervalCallback = timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
-    },
-    set stepInterval( alertInterval ) { this.setStepInterval( alertInterval ); },
+    }
+
+    set stepInterval( alertInterval ) { this.setStepInterval( alertInterval ); }
 
     /**
      * Step the queue, called by the timer.
      * @private
      */
-    stepQueue: function() {
+    stepQueue() {
 
       // No-op function if the utteranceQueue is disabled
       if ( !this._enabled ) {
         return;
       }
 
-      for ( var i = 0; i < this.queue.length; i++ ) {
+      for ( let i = 0; i < this.queue.length; i++ ) {
         this.queue[ i ].timeInQueue += this._stepInterval;
       }
 
       this.next();
-    },
+    }
 
     /**
      * Basically a constructor for the queue. Setup necessary processes for running the queue and register
@@ -283,7 +287,7 @@ define( function( require ) {
      * will be no-ops. See type documentation above for NOTE.
      * @public
      */
-    initialize: function() {
+    initialize() {
       this._initialized = true;
 
       // begin stepping the queue by adding a callback
@@ -296,11 +300,9 @@ define( function( require ) {
         phetioState: false
       } );
     }
-  } );
+  }
 
-  var utteranceQueue = new UtteranceQueue();
+  const utteranceQueue = new UtteranceQueue();
 
-  sceneryPhet.register( 'utteranceQueue', utteranceQueue );
-
-  return utteranceQueue;
+  return sceneryPhet.register( 'utteranceQueue', utteranceQueue );
 } );
