@@ -20,7 +20,7 @@ define( require => {
 
   // modules
   const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
-  const AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  const ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   const PhetioObject = require( 'TANDEM/PhetioObject' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -151,7 +151,7 @@ define( require => {
         this.phetioStartEvent( 'announced', { utterance: text } );
 
         // Pass the utterance text on to be set in the PDOM.
-        AriaHerald.announcePolite( text );
+        ariaHerald.announcePolite( text );
 
         this.phetioEndEvent();
       }

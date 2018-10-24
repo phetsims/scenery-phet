@@ -21,8 +21,8 @@
  * Many aria-live and related attributes were tested, but none were well supported or particularly useful for PhET sims,
  * see https://github.com/phetsims/chipper/issues/472.
  *
- * NOTE: AriaHerald is just an Object, not a type, but it needs to be initialized before use as a singleton.
- * As of this writing (Nov 2017) this initialization occurs in Sim.js. Therefore if something uses AriaHerald
+ * NOTE: ariaHerald needs to be initialized before use as a singleton.
+ * As of this writing (Nov 2017) this initialization occurs in Sim.js. Therefore if something uses ariaHerald
  * before Sim.js has initialized this file, the result will be a silent no-op.
  *
  * @author Jesse Greenberg
@@ -136,5 +136,5 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'AriaHerald', new AriaHerald() );
+  return sceneryPhet.register( 'ariaHerald', new AriaHerald() );
 } );

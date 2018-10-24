@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  const ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   const timer = require( 'PHET_CORE/timer' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
@@ -40,10 +40,10 @@ define( require => {
         timer.emit1( 1 );
       }, 1 );
 
-      AriaHerald.initialize();
+      ariaHerald.initialize();
 
       // whenever announcing, get a callback
-      AriaHerald.announcingEmitter.addListener( text => {
+      ariaHerald.announcingEmitter.addListener( text => {
         alerts.unshift( text );
       } );
 
