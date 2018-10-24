@@ -28,6 +28,9 @@ define( require => {
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
+  // constants
+  const DEFAULT_STEP_INTERVAL = 500;
+
   /**
    * Can't be called, used only for a singleton, see end of this file.
    * @constructor
@@ -47,7 +50,7 @@ define( require => {
 
       // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
       // setStepInterval
-      this._stepInterval = 500;
+      this._stepInterval = DEFAULT_STEP_INTERVAL;
 
       // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
       // removed if necessary
