@@ -59,8 +59,6 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // ifphetio
   var StringIO = require( 'TANDEM/types/StringIO' );
 
   // constants

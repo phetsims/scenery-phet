@@ -22,8 +22,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-
-  // ifphetio
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
 
   // constants

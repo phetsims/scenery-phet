@@ -33,8 +33,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-
-  // ifphetio
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var StringIO = require( 'TANDEM/types/StringIO' );
 

@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
+  var VoidIO = require( 'TANDEM/types/VoidIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
-  var VoidIO = require( 'TANDEM/types/VoidIO' );
 
   /**
    * IO type for phet/scenery-phet's utteranceQueue
