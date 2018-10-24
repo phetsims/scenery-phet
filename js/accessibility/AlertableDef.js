@@ -15,14 +15,14 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
-  // constants
   var AlertableDef = {
 
     /**
      * Returns whether the parameter is considered to be a alertable, for use
      * in utteranceQueue.
      * @param  {*}  alertable
-     * @return {boolean}           
+     * @return {boolean}
+     * @public
      */
     isAlertableDef: function( alertable ) {
       var isAlertable = true;
@@ -44,8 +44,8 @@ define( function( require ) {
 
   /**
    * Check whether a single item is alertable.
-   * @param  {[type]}  alertable [description]
-   * @return {Boolean}           [description]
+   * @param  {*}  alertable
+   * @return {boolean} - returns true if the arg is an alertable item.
    */
   var isItemAlertable = function( alertable ) {
     return typeof alertable === 'string' ||

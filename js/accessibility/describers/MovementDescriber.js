@@ -12,7 +12,6 @@ define( require => {
   'use strict';
 
   // modules
-  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
   const Range = require( 'DOT/Range' );
@@ -103,7 +102,6 @@ define( require => {
      * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
      */
     alert( alertable ) {
-      assert && assert( AlertableDef.isAlertableDef( alertable ), 'trying to alert something that isn\'t alertable' );
       utteranceQueue.addToBack( alertable );
       this.lastAlertedLocation = this.locationProperty.get();
     }

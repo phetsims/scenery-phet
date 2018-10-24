@@ -19,6 +19,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetioObject = require( 'TANDEM/PhetioObject' );
@@ -64,11 +65,10 @@ define( function( require ) {
      * is already in the queue, the older alert will be immediately removed.
      *
      * @public
-     * @param {Utterance|string} utterance
+     * @param {AlertableDef} utterance
      */
     addToBack: function( utterance ) {
-      assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
-        'utterance queue only supports string or type Utterance.' );
+      assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
       // No-op function if the utteranceQueue is disabled
       if ( !this._enabled || !this._initialized ) {
@@ -86,22 +86,23 @@ define( function( require ) {
     },
 
     /**
-     * Conventience function to help with nullable values
-     * @param {undefined|null|Utterance|string} utterance
+     * Convenience function to help with nullable values. No-op if null or nothing is passed in
+     * @param {null|AlertableDef} [utterance]
      */
     addToBackIfDefined: function( utterance ) {
       if ( utterance !== null && utterance !== undefined ) {
+        assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
+
         this.addToBack( utterance );
       }
     },
 
     /**
      * Add an utterance to the front of the queue to be read immediately.
-     * @param {Utterance|string} utterance
+     * @param {AlertableDef} utterance
      */
     addToFront: function( utterance ) {
-      assert && assert( utterance instanceof Utterance || typeof utterance === 'string',
-        'utterance queue only supports string or type Utterance.' );
+      assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
       // No-op function if the utteranceQueue is disabled
       if ( !this._enabled || !this._initialized ) {
@@ -244,7 +245,7 @@ define( function( require ) {
      * impacts the entire queue. Controlling timing of utterances is probably better managed by using options
      * for an individual Utterance.
      * @public
-     * 
+     *
      * @param {number} alertInterval
      */
     setStepInterval: function( alertInterval ) {
