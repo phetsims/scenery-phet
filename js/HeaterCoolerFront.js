@@ -21,6 +21,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -86,11 +87,8 @@ define( function( require ) {
 
     // Create the slider.
     assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
-    var heatCoolSlider = new VSlider( options.heatCoolAmountProperty, {
-        min: options.coolEnabled ? -1 : 0,
-        max: options.heatEnabled ? 1 : 0
-      },
-      {
+    var heatCoolSlider = new VSlider( options.heatCoolAmountProperty,
+      new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
         trackSize: new Dimension2( options.width / 2, 10 ),
         trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
           .addColorStop( 0, '#0A00F0' )
