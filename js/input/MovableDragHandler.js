@@ -5,6 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
+ * @deprecated - please use DragListener for new code
  */
 define( function( require ) {
   'use strict';
