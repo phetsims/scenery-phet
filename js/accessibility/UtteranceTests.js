@@ -32,7 +32,7 @@ define( require => {
 
   var intervalID = null;
   QUnit.module( 'Utterance', {
-    before: () => {
+    before() {
 
       // step the timer, because utteranceQueue runs on timer
       intervalID = setInterval( () => {
@@ -52,13 +52,13 @@ define( require => {
       // slightly slower than the interval that the utteranceQueue will wait so we don't have a race condition
       sleepTiming = utteranceQueue.stepInterval + 10;
     },
-    beforeEach: () => {
+    beforeEach() {
 
       // clear the alerts before each new test
       alerts = [];
       utteranceQueue.clear();
     },
-    after: () => {
+    after() {
       clearInterval( intervalID );
     }
   } );
