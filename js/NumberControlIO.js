@@ -12,10 +12,10 @@ define( function( require ) {
   // modules
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var phetioInherit = require( 'TANDEM/phetioInherit' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
    * IO type for phet/scenery-phet's NumberControl class.
