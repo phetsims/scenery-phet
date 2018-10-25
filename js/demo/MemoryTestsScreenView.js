@@ -59,7 +59,7 @@ define( function( require ) {
     //   return new FaucetNode( 1, numberProperty, booleanProperty );
     // } ),
     // new ComponentHolder( function() {
-    //   return new GaugeNode( numberProperty, 'label', { min: 0, max: 1 } );
+    //   return new GaugeNode( numberProperty, 'label', new Range( 0, 1 ) );
     // } ),
     // new ComponentHolder( function() {
     //   return new ThermometerNode( 0, 1, numberProperty );

@@ -179,7 +179,7 @@ define( function( require ) {
     conductivityTesterNode.addInputListener( new MovableDragHandler( testerLocationProperty ) );
 
     // brightness slider
-    var brightnessSlider = new HSlider( brightnessProperty, { min: 0, max: 1 }, {
+    var brightnessSlider = new HSlider( brightnessProperty, new Range( 0, 1 ), {
       trackSize: new Dimension2( 200, 5 ),
       thumbSize: new Dimension2( 25, 45 ),
       thumbFillEnabled: 'orange',
@@ -1014,7 +1014,7 @@ define( function( require ) {
 
     var starValueProperty = new Property( 1 );
 
-    var starSlider = new HSlider( starValueProperty, { min: 0, max: 1 }, {
+    var starSlider = new HSlider( starValueProperty, new Range( 0, 1 ), {
       thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'yellow',
       thumbFillEnabled: 'rgb(220,220,0)',
@@ -1052,7 +1052,7 @@ define( function( require ) {
   var demoScientificNotationNode = function( layoutBounds ) {
     var numberProperty = new Property( 1 );
 
-    var numberSlider = new HSlider( numberProperty, { min: 0, max: 100 } );
+    var numberSlider = new HSlider( numberProperty, new Range( 0, 100 ) );
 
     var scientificNotationNode = new ScientificNotationNode( numberProperty );
 
@@ -1128,7 +1128,7 @@ define( function( require ) {
       backgroundFill: 'yellow'
     } );
 
-    var temperatureSlider = new HSlider( temperatureProperty, { min: 0, max: 100 }, {
+    var temperatureSlider = new HSlider( temperatureProperty, new Range( 0, 100 ), {
       trackSize: new Dimension2( 200, 5 ),
       thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'red',
