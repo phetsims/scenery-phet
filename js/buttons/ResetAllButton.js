@@ -69,10 +69,15 @@ define( function( require ) {
     this.isFiringProperty.lazyLink( function( isFiring ) {
       utteranceQueue.enabled = !isFiring;
 
-      !isFiring && utteranceQueue.addToBack( new Utterance( {
-        alert: resetAllAlertString,
-        uniqueGroupId: 'resetAllButtonAlert'
-      } ) );
+      if ( isFiring ) {
+        utteranceQueue.clear();
+      }
+      else {
+        utteranceQueue.addToBack( new Utterance( {
+          alert: resetAllAlertString,
+          uniqueGroupId: 'resetAllButtonAlert'
+        } ) );
+      }
     } );
   }
 
