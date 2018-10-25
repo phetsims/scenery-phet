@@ -18,6 +18,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -27,7 +28,7 @@ define( function( require ) {
   /**
    * @param {Property.<number>} valueProperty which is portrayed
    * @param {string} label label to display (scaled to fit if necessary)
-   * @param {Object} range contains min and max values that define the range
+   * @param {Range} range
    * @param {Object} [options]
    * @constructor
    */
@@ -57,6 +58,8 @@ define( function( require ) {
       updateEnabledProperty: new Property( true ),
       tandem: Tandem.required
     }, options );
+
+    assert && assert( range instanceof Range, 'range must be of type Range:' + range );
 
     Node.call( this );
 
