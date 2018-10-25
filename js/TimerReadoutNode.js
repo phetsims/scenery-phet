@@ -12,9 +12,9 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   class TimerReadoutNode extends Rectangle {
 

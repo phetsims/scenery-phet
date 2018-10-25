@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var AccessibleNumberSpinner = require( 'SUN/accessibility/AccessibleNumberSpinner' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -30,11 +31,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
 
   /**
    * @param {Property.<number>} valueProperty

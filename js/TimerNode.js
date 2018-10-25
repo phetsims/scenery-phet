@@ -20,9 +20,9 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
 
   /**

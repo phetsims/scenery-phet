@@ -58,8 +58,8 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var StringIO = require( 'TANDEM/types/StringIO' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var tandem = Tandem.rootTandem.createTandem( 'colorProfile' );

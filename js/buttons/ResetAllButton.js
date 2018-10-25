@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,7 +23,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button

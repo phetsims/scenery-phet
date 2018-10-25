@@ -11,10 +11,10 @@ define( function( require ) {
   // modules
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringIO = require( 'TANDEM/types/StringIO' );
   var VoidIO = require( 'TANDEM/types/VoidIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );

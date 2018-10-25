@@ -8,34 +8,33 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var HStrut = require( 'SCENERY/nodes/HStrut' );
-  // var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
-  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
-  // var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  // var Text = require( 'SCENERY/nodes/Text' );
+  // var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   // var ExpandCollapseButton = require( 'SUN/ExpandCollapseButton' );
   // var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   // var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  // var HStrut = require( 'SCENERY/nodes/HStrut' );
+  // var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
+  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
   // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   // var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   // var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
-  var Property = require( 'AXON/Property' );
+  // var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   // var RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
   // var Range = require( 'DOT/Range' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   // var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
-  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
-  // var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   // var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   // var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var ScreenView = require( 'JOIST/ScreenView' );
   // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   // var Text = require( 'SCENERY/nodes/Text' );
   // var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
   // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Property = require( 'AXON/Property' );
+  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  var ScreenView = require( 'JOIST/ScreenView' );
+  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
 
   function ComponentHolder( createFunction ) {
     var self = this;
