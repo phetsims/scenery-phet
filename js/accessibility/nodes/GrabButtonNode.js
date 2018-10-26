@@ -14,6 +14,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
@@ -47,6 +48,9 @@ define( require => {
         // filled in below
         grabButtonOptions: {},
 
+        // not passed to this node, but instead to the grabButton
+        tandem: Tandem.required,
+
         // a11y - this node will act as a container for more accessible content, its children will implement
         // most of the keyboard navigation
         tagName: 'div'
@@ -62,11 +66,16 @@ define( require => {
 
       options.grabButtonOptions = _.extend( {
 
+        tandem: options.tandem,
+
         // a11y
         containerTagName: 'div',
         tagName: 'button',
         focusHighlightLayerable: true
       }, options.grabButtonOptions );
+
+      // don't pass this to up to Node
+      delete options.tandem;
 
       assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
 
