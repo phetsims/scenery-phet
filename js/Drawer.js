@@ -21,6 +21,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var timer = require( 'PHET_CORE/timer' );
 
   /**
    * @param {Node} contentsNode - contents of the drawer
@@ -66,8 +67,7 @@ define( function( require ) {
 
       // animation of the drawer opening and closing
       animationDuration: 0.5, // seconds
-      stepper: 'manual' // {string} see Animation options.stepper
-
+      animationStepEmitter: timer // {Emitter|null} see Animation options.animationStepEmitter
     }, options );
 
     assert && assert( options.handleLocation === 'top' || options.handleLocation === 'bottom' );
@@ -199,7 +199,7 @@ define( function( require ) {
 
         // Animate opening and closing of the drawer.
         animation = new Animation( {
-          stepper: options.stepper,
+          animationStepEmitter: options.animationStepEmitter,
           duration: options.animationDuration,
           easing: Easing.QUADRATIC_IN_OUT,
           setValue: function( value ) { drawerNode.y = value; },
