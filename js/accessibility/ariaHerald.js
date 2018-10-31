@@ -49,13 +49,6 @@ define( require => {
   const politeElement4 = document.getElementById( 'polite-4' );
   const ariaLiveElements = [ politeElement1, politeElement2, politeElement3, politeElement4 ];
 
-  // verify that all elements are in the document
-  assert && assert( document.getElementById( 'aria-live-elements' ), 'No alert container element found in document' );
-  assert && assert( politeElement1, 'aria-live element 1 missing from document, all are required' );
-  assert && assert( politeElement2, 'aria-live element 2 missing from document, all are required' );
-  assert && assert( politeElement3, 'aria-live element 3 missing from document, all are required' );
-  assert && assert( politeElement4, 'aria-live element 4 missing from document, all are required' );
-
   class AriaHerald {
 
     constructor() {
@@ -74,6 +67,14 @@ define( require => {
      * AriaHerald to be disabled completely if a11y is not enabled.
      */
     initialize() {
+
+      // verify that all DOM elements with aria-live are in the document
+      assert && assert( document.getElementById( 'aria-live-elements' ), 'No alert container element found in document' );
+      assert && assert( politeElement1, 'aria-live element 1 missing from document, all are required' );
+      assert && assert( politeElement2, 'aria-live element 2 missing from document, all are required' );
+      assert && assert( politeElement3, 'aria-live element 3 missing from document, all are required' );
+      assert && assert( politeElement4, 'aria-live element 4 missing from document, all are required' );
+
       this.initialized = true;
 
       this.announcingEmitter = new Emitter( {
