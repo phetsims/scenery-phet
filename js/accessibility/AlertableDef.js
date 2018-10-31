@@ -18,8 +18,9 @@ define( function( require ) {
   var AlertableDef = {
 
     /**
-     * Returns whether the parameter is considered to be a alertable, for use
-     * in utteranceQueue.
+     * Returns whether the parameter is considered to be a alertable, for use in utteranceQueue. An item is alertable
+     * if it passes isItemAlertable, OR is an array of those items. See isItemAlertable for supported types of
+     * individual items. See utterance.js for documentation about why an array is beneficial.
      * @param  {*}  alertable
      * @return {boolean}
      * @public

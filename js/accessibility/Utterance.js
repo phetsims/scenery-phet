@@ -1,7 +1,9 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * An utterance to be provided to the AlertQueue.
+ * An utterance to be provided to the AlertQueue. An utterance can be one of AlertableDef or an array of items
+ * that conform to AlertableDef. If using an array, alertables in the array will be anounced in order (one at a time)
+ * each time this utterances is added to the utteranceQueue.
  *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
