@@ -67,7 +67,7 @@ define( function( require ) {
 
       // animation of the drawer opening and closing
       animationDuration: 0.5, // seconds
-      animationStepEmitter: timer // {Emitter|null} see Animation options.animationStepEmitter
+      stepEmitter: timer // {Emitter|null} see Animation options.stepEmitter
     }, options );
 
     assert && assert( options.handleLocation === 'top' || options.handleLocation === 'bottom' );
@@ -199,7 +199,7 @@ define( function( require ) {
 
         // Animate opening and closing of the drawer.
         animation = new Animation( {
-          animationStepEmitter: options.animationStepEmitter,
+          stepEmitter: options.stepEmitter,
           duration: options.animationDuration,
           easing: Easing.QUADRATIC_IN_OUT,
           setValue: function( value ) { drawerNode.y = value; },
