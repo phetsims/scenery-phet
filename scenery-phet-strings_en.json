@@ -53,6 +53,9 @@
   "key.end": {
     "value": "End"
   },
+  "key.toGrabOrRelease": {
+    "value": "to <b>Grab</b> or <b>Release</b>"
+  },
   "webglWarning.title": {
     "value": "Running with low graphics quality"
   },
