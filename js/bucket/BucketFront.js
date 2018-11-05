@@ -2,6 +2,8 @@
 
 /*
  * The front of a bucket (does not include the hole)
+ *
+ * @author Jonathan Olson
  */
 define( function( require ) {
   'use strict';

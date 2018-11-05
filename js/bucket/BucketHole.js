@@ -2,6 +2,8 @@
 
 /*
  * The hole of a bucket
+ *
+ * @author Jonathan Olson
  */
 define( function( require ) {
   'use strict';
