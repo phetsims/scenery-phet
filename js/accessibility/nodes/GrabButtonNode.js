@@ -76,7 +76,7 @@ define( require => {
       assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
       options.grabCueOptions = _.extend( {
         center: wrappedNode.center.minusXY( 0, 50 ),
-        visible: false
+        visible: false // starts out as invisible, and is reset that way too
       }, options.grabCueOptions );
 
       options.grabButtonOptions = _.extend( {
@@ -94,6 +94,7 @@ define( require => {
 
       assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
 
+      // @private
       this.numberOfGrabs = 0;
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
@@ -101,8 +102,9 @@ define( require => {
       } );
       const grabButton = new Node( options.grabButtonOptions );
 
-      const grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
-      grabButton.addChild( grabCueNode );
+      // @private
+      this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+      grabButton.addChild( this.grabCueNode );
 
       // make sure that the grabButton actually has some width, so add the wrapped node to it
       this.addChild( grabButton );
@@ -161,11 +163,11 @@ define( require => {
         // arrow function handles `this` properly
         focus: () => {
           if ( this.numberOfGrabs < options.grabsToCue ) {
-            grabCueNode.visible = true;
+            this.grabCueNode.visible = true;
           }
         },
         blur: () => {
-          grabCueNode.visible = false;
+          this.grabCueNode.visible = false;
         }
       } );
 
@@ -242,6 +244,15 @@ define( require => {
     dispose() {
       this.disposeGrabButtonNode();
       super.dispose();
+    }
+
+    /**
+     * Reset to initial state
+     * @public
+     */
+    reset() {
+      this.numberOfGrabs = 0;
+      this.grabCueNode.visible = false;
     }
   }
 
