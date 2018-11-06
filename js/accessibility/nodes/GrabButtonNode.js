@@ -16,12 +16,12 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Tandem = require( 'TANDEM/Tandem' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const SpaceToGrabReleaseNode = require( 'SCENERY_PHET/accessibility/nodes/SpaceToGrabReleaseNode' );
 
-  // constants
+  // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
   const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
-
 
   /**
    *
@@ -45,8 +45,11 @@ define( require => {
         // {function} - if you override this, make sure to handle the alert in the default onRelease
         onRelease: GrabButtonNode.onRelease,
 
-        // filled in below
+        // {Object} filled in below
         grabButtonOptions: {},
+
+        // {Object} - to pass in options to the cue
+        grabCueOptions: {},
 
         // not passed to this node, but instead to the grabButton
         tandem: Tandem.required,
@@ -63,6 +66,13 @@ define( require => {
         assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a path' );
       }
+
+      assert && assert( typeof options.grabCueOptions === 'object' );
+      assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
+      options.grabCueOptions = _.extend( {
+        center: wrappedNode.center.minusXY( 0, 50 ),
+        visible: false
+      }, options.grabCueOptions );
 
       options.grabButtonOptions = _.extend( {
 
@@ -83,8 +93,10 @@ define( require => {
         thingToGrab: options.thingToGrab
       } );
 
-
       const grabButton = new Node( options.grabButtonOptions );
+
+      const grabCueNode = new SpaceToGrabReleaseNode( options.grabCueOptions );
+      grabButton.addChild( grabCueNode );
 
       // make sure that the grabButton actually has some width, so add the wrapped node to it
       this.addChild( grabButton );
@@ -136,6 +148,14 @@ define( require => {
 
           // pick up the balloon on the next click event
           guardKeyPress = false;
+        },
+
+        // TODO: let's not do this everytime. Hide it after X "successful grabs"
+        focus() {
+          grabCueNode.visible = true;
+        },
+        blur() {
+          grabCueNode.visible = false;
         }
       } );
 
