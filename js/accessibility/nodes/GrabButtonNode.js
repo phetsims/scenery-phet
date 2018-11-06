@@ -51,6 +51,9 @@ define( require => {
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
 
+        // {number} - the number of times a user has to successfully grab the object before hiding the cue.
+        grabsToCue: 1,
+
         // not passed to this node, but instead to the grabButton
         tandem: Tandem.required,
 
@@ -66,6 +69,8 @@ define( require => {
         assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a path' );
       }
+
+      assert && assert( typeof options.grabsToCue === 'number' );
 
       assert && assert( typeof options.grabCueOptions === 'object' );
       assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
@@ -89,10 +94,11 @@ define( require => {
 
       assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
 
+      this.numberOfGrabs = 0;
+
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
-
       const grabButton = new Node( options.grabButtonOptions );
 
       const grabCueNode = new SpaceToGrabReleaseNode( options.grabCueOptions );
@@ -136,11 +142,13 @@ define( require => {
 
       // when the "Grab Balloon" button is pressed, focus the draggable node and set to dragged state
       grabButton.addAccessibleInputListener( {
-        click( event ) {
+        click: () => {
 
           // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
           // it up immediately again
           if ( !guardKeyPress ) {
+            this.numberOfGrabs++;
+
             options.onGrab();
             wrappedNode.accessibleVisible = true;
             wrappedNode.focus();
@@ -150,11 +158,13 @@ define( require => {
           guardKeyPress = false;
         },
 
-        // TODO: let's not do this everytime. Hide it after X "successful grabs"
-        focus() {
-          grabCueNode.visible = true;
+        // arrow function handles `this` properly
+        focus: () => {
+          if ( this.numberOfGrabs < options.grabsToCue ) {
+            grabCueNode.visible = true;
+          }
         },
-        blur() {
+        blur: () => {
           grabCueNode.visible = false;
         }
       } );
