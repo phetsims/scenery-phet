@@ -16,7 +16,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Tandem = require( 'TANDEM/Tandem' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  const SpaceToGrabReleaseNode = require( 'SCENERY_PHET/accessibility/nodes/SpaceToGrabReleaseNode' );
+  const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
@@ -101,7 +101,7 @@ define( require => {
       } );
       const grabButton = new Node( options.grabButtonOptions );
 
-      const grabCueNode = new SpaceToGrabReleaseNode( options.grabCueOptions );
+      const grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
       grabButton.addChild( grabCueNode );
 
       // make sure that the grabButton actually has some width, so add the wrapped node to it

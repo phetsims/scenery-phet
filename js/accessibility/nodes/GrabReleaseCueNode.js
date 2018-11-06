@@ -23,7 +23,7 @@ define( require => {
    * @param {Object} [options]
    * @constructor
    */
-  class SpaceToGrabReleaseNode extends Rectangle {
+  class GrabReleaseCueNode extends Rectangle {
     constructor( options ) {
 
       options = _.extend( {
@@ -51,5 +51,5 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'SpaceToGrabReleaseNode', SpaceToGrabReleaseNode );
+  return sceneryPhet.register( 'GrabReleaseCueNode', GrabReleaseCueNode );
 } );
