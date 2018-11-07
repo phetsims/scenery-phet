@@ -36,7 +36,7 @@ define( require => {
       }, options );
 
 
-      // Create the help content for the space key to pick up the balloon
+      // Create the help content for the space key to pick up the draggable item
       var spaceKeyNode = new SpaceKeyNode( { keyHeight: options.keyHeight, minKeyWidth: options.spaceKeyWidth } );
       var spaceLabelText = new RichText( keyToGrabOrReleaseString, { font: new PhetFont( 12 ) } );
       var spaceKeyHBox = new HBox( {
