@@ -40,6 +40,7 @@ define( require => {
       const unitsNode = options.unitsNode;
 
       assert && assert( options.maxValue >= 0, 'TimerReadoutNode.maxValue should be non-negative' );
+      assert && assert( options.maxValue < 1E21, 'TimerReadoutNode.maxValue should be less than 1E21' ); // see https://github.com/phetsims/capacitor-lab-basics/issues/244#issuecomment-433940629
 
       /*---------------------------------------------------------------------------*
        * Readout text
