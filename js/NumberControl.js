@@ -76,7 +76,7 @@ define( function( require ) {
       // value
       valueFont: new PhetFont( 12 ),
       valueAlign: 'right',
-      valueMaxWidth: null, // {null|string} maxWidth to use for value display, to constrain width for i18n
+      valueMaxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
       valueXMargin: 8,
       valueYMargin: 2,
       valueBackgroundStroke: 'lightGray',
