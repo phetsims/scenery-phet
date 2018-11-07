@@ -255,7 +255,8 @@ define( function( require ) {
     // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
     this.focusHighlight = slider.focusHighlight;
 
-    // a11y - click the left and right arrow buttons when shift keys are down, must be disposed
+    // a11y - click the left and right arrow buttons when shift keys are down so that the shift modifier behaves
+    // just like the tweaker buttons, must be disposed
     var rightButtonListener = function() { self.shiftKeyDown && rightArrowButton.a11yClick(); };
     var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };
 
