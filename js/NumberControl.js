@@ -77,6 +77,7 @@ define( function( require ) {
       valueFont: new PhetFont( 12 ),
       valueAlign: 'right',
       valueMaxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
+      valueMinBackgroundWidth: 0, // {number} min width for the value display's background
       valueXMargin: 8,
       valueYMargin: 2,
       valueBackgroundStroke: 'lightGray',
@@ -171,6 +172,7 @@ define( function( require ) {
       backgroundLineWidth: options.valueBackgroundLineWidth,
       cornerRadius: options.valueBackgroundCornerRadius,
       maxWidth: options.valueMaxWidth,
+      minBackgroundWidth: options.valueMinBackgroundWidth,
       tandem: options.tandem.createTandem( 'numberDisplay' )
     } );
 
