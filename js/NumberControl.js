@@ -322,8 +322,8 @@ define( function( require ) {
       'Use general callbacks like "startCallback" or specific callbacks like "sliderStartCallback" but not both.' );
 
     // Set here so that we can validate above based on falsey.
-    options.startCallback = options.startCallback || function() {};
-    options.endCallback = options.endCallback || function() {};
+    options.startCallback = options.startCallback || _.noop;
+    options.endCallback = options.endCallback || _.noop;
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );

@@ -28,8 +28,8 @@ define( function( require ) {
       enabled: true, // is this input listener enabled?
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this interval (milliseconds)
-      startCallback: function() {}, // called when the pointer is pressed
-      endCallback: function( inside ) {}, // called when the pointer is released, {boolean} inside indicates whether the pointer was inside
+      startCallback: _.noop, // {function()} called when the pointer is pressed
+      endCallback: _.noop, // {function(inside:boolean)} called when the pointer is released, {boolean} inside indicates whether the pointer was inside
       tandem: Tandem.optional
 
     }, options );
