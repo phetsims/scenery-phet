@@ -35,6 +35,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
+  // constants - factor out reusable IO types, see https://github.com/phetsims/unit-rates/issues/207
+  var DerivedBooleanPropertyIO = DerivedPropertyIO( BooleanIO );
+
   /**
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
@@ -140,13 +143,13 @@ define( function( require ) {
     // @private must be detached in dispose
     this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction, {
       tandem: options.tandem.createTandem( 'upEnabledProperty' ),
-      phetioType: DerivedPropertyIO( BooleanIO )
+      phetioType: DerivedBooleanPropertyIO
     } );
 
     // @private must be detached in dispose
     this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction, {
       tandem: options.tandem.createTandem( 'downEnabledProperty' ),
-      phetioType: DerivedPropertyIO( BooleanIO )
+      phetioType: DerivedBooleanPropertyIO
     } );
 
     //------------------------------------------------------------
