@@ -27,11 +27,10 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
+  var StringProperty = require( 'AXON/StringProperty' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -131,24 +130,22 @@ define( function( require ) {
 
     this.valueProperty = valueProperty; // @private must be unlinked in dispose
 
-    var upStateProperty = new Property( 'up', {
-      tandem: options.tandem.createTandem( 'upStateProperty' ),
-      phetioType: PropertyIO( StringIO )
+    var upStateProperty = new StringProperty( 'up', {
+      tandem: options.tandem.createTandem( 'upStateProperty' )
     } ); // up|down|over|out
-    var downStateProperty = new Property( 'up', {
-      tandem: options.tandem.createTandem( 'downStateProperty' ),
-      phetioType: PropertyIO( StringIO )
+    var downStateProperty = new StringProperty( 'up', {
+      tandem: options.tandem.createTandem( 'downStateProperty' )
     } ); // up|down|over|out
 
     // @private must be detached in dispose
     this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction, {
-      tandem: options.tandem.createTandem( 'upEnabledProperty'),
+      tandem: options.tandem.createTandem( 'upEnabledProperty' ),
       phetioType: DerivedPropertyIO( BooleanIO )
     } );
 
     // @private must be detached in dispose
     this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction, {
-      tandem: options.tandem.createTandem( 'downEnabledProperty'),
+      tandem: options.tandem.createTandem( 'downEnabledProperty' ),
       phetioType: DerivedPropertyIO( BooleanIO )
     } );
 
