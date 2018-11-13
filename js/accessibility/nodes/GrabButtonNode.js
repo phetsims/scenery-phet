@@ -9,6 +9,7 @@ define( require => {
   // modules
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -16,7 +17,6 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Tandem = require( 'TANDEM/Tandem' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
@@ -192,7 +192,7 @@ define( require => {
 
       // some keypresses can fire the grabButton's click from the same press that fires the event below, so guard against that.
       let guardKeyPress = false;
-      wrappedNode.addAccessibleInputListener( {
+      const wrappedNodeAccessibleInputListener = {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
@@ -216,12 +216,14 @@ define( require => {
           // the draggable node should no longer be focusable
           wrappedNode.accessibleVisible = false;
         }
-      } );
+      };
+      wrappedNode.addAccessibleInputListener( wrappedNodeAccessibleInputListener );
 
       // pull the wrappedNode out of the grabButton's children so that they are on the same level of the PDOM.
       this.accessibleOrder = [ grabButton, wrappedNode ];
 
       this.disposeGrabButtonNode = () => {
+        wrappedNode.removeAccessibleInputListener( wrappedNodeAccessibleInputListener );
         wrappedNode.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
         this.off( 'transform', transformListener );
       };
