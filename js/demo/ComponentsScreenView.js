@@ -1069,18 +1069,19 @@ define( function( require ) {
     var noUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ) );
 
     // Create a TimerNode that can show from a selection of units.
-    var unitsProperty = new Property( 's' );
+    var unitsProperty = new Property( 'ps' );
 
     // Initialize with longest possible string
-    var unitsNode = new Text( 'ms' );
+    var unitsNode = new Text( 'ms', { font: new PhetFont( 15 ) } );
     var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
-      unitsNode: unitsNode
+      unitsNode: unitsNode,
+      scale: 2
     } );
     unitsProperty.link( function( units ) {
       unitsNode.text = units;
     } );
     var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
-      { value: 's', node: new Text( 'seconds' ) },
+      { value: 'ps', node: new Text( 'picoseconds' ) },
       { value: 'ms', node: new Text( 'milliseconds' ) },
       { value: 'fs', node: new Text( 'femtoseconds' ) }
     ], {
