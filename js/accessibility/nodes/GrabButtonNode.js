@@ -45,8 +45,11 @@ define( require => {
         // {function} - if you override this, make sure to handle the alert in the default onRelease
         onRelease: GrabButtonNode.onRelease,
 
-        // {Object} filled in below
+        // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
         grabButtonOptions: {},
+
+        // {null|Node} -  additional cueing node who's visibility can be toggled.
+        supplementaryCueNode: null,
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -63,6 +66,7 @@ define( require => {
       }, options );
 
       assert && assert( wrappedNode.accessibleContent, 'grab button must wrap a node with accessible content' );
+      assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
       if ( wrappedNode.focusHighlight ) {
@@ -96,6 +100,10 @@ define( require => {
 
       // @private
       this.numberOfGrabs = 0;
+      this.supplementaryCueNode = options.supplementaryCueNode; // could be null
+      if ( this.supplementaryCueNode ) {
+        this.supplementaryCueNode.visible = false; // initialize it to invisible by default
+      }
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
@@ -134,6 +142,7 @@ define( require => {
 
 
       // update the grabButton's focusHighlight whenever the wrappedNode moves.
+      // TODO: this is super buggy and not general
       const transformListener = () => {
         grabButtonFocusHighlight.center = wrappedNode.center;
       };
@@ -164,10 +173,16 @@ define( require => {
         focus: () => {
           if ( this.numberOfGrabs < options.grabsToCue ) {
             this.grabCueNode.visible = true;
+            if ( this.supplementaryCueNode ) {
+              this.supplementaryCueNode.visible = true;
+            }
           }
         },
         blur: () => {
           this.grabCueNode.visible = false;
+          if ( this.supplementaryCueNode ) {
+            this.supplementaryCueNode.visible = false;
+          }
         }
       } );
 
@@ -254,6 +269,9 @@ define( require => {
      */
     reset() {
       this.numberOfGrabs = 0;
+      if ( this.supplementaryCueNode ) {
+        this.supplementaryCueNode.visible = false;
+      }
       this.grabCueNode.visible = false;
     }
   }
