@@ -16,6 +16,10 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
 
+  // constants
+  const DEFAULT_LARGE_FONT = new PhetFont( 20 );
+  const DEFAULT_SMALL_FONT = new PhetFont( 15 );
+
   class TimerReadoutNode extends Rectangle {
 
     /**
@@ -37,10 +41,10 @@ define( require => {
         unitsNode: null,
 
         // {Font} - shown for the numbers before the decimal
-        largeFont: new PhetFont( 20 ),
+        largeFont: DEFAULT_LARGE_FONT,
 
         // {Font} - shown for the numbers after the decimal
-        smallFont: new PhetFont( 15 )
+        smallFont: DEFAULT_SMALL_FONT
       }, options );
 
       const unitsNode = options.unitsNode;
@@ -187,6 +191,10 @@ define( require => {
     }
     return '.' + centitime;
   };
+
+  // Make the default fonts public, to inform creation of optional unitsNode
+  TimerReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
+  TimerReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
 
   return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
 } );
