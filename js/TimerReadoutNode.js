@@ -34,7 +34,13 @@ define( require => {
         // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
         // Initialize the TimerNode with the largest possible unitsNode to make sure the text panel is large enough.
         // When the unitsNode bounds change, the layout will update.
-        unitsNode: null
+        unitsNode: null,
+
+        // {Font} - shown for the numbers before the decimal
+        largeFont: new PhetFont( 20 ),
+
+        // {Font} - shown for the numbers after the decimal
+        smallFont: new PhetFont( 15 )
       }, options );
 
       const unitsNode = options.unitsNode;
@@ -45,10 +51,8 @@ define( require => {
       /*---------------------------------------------------------------------------*
        * Readout text
        *----------------------------------------------------------------------------*/
-      const largeNumberText = new PhetFont( 20 );
-      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: largeNumberText } );
-      const smallFont = new PhetFont( 15 );
-      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: smallFont } );
+      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: options.largeFont } );
+      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: options.smallFont } );
 
       // aligns the baselines of the big and small text
       smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
