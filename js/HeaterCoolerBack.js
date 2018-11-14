@@ -96,7 +96,7 @@ define( require => {
       // @public Dispose function used for GC
       this.disposeHeaterCoolerBack = function() {
         options.heatCoolAmountProperty.dispose();
-      }
+      };
     }
 
     /**
