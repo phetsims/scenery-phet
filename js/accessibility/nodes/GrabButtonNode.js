@@ -164,11 +164,6 @@ define( require => {
       };
       draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
-      // for focusHighlightLayerable
-      if ( childA11yDraggableNode.focusHighlightLayerable ) {
-        childA11yDraggableNode.addChild( childDraggableFocusHighlight );
-      }
-
       // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
       const grabButtonListener = {
         click: () => {
@@ -180,6 +175,14 @@ define( require => {
 
             options.onGrab();
             childA11yDraggableNode.accessibleVisible = true;
+
+            // TODO: so hacky!!!!
+            if ( childA11yDraggableNode.focusHighlightLayerable &&
+                 !draggableNodeFocusHighlight.parent.hasChild( childDraggableFocusHighlight ) ) {
+              assert && assert( draggableNodeFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                                    'node that is not in the scene graph?' );
+              draggableNodeFocusHighlight.parent.addChild( childDraggableFocusHighlight );
+            }
             childA11yDraggableNode.focus();
           }
 
@@ -260,6 +263,12 @@ define( require => {
 
         draggableNodeToGetA11yButton.removeAccessibleInputListener( grabButtonListener );
         draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
+
+        if ( childA11yDraggableNode.focusHighlightLayerable ) {
+          assert && assert( draggableNodeFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                                'node that is not in the scene graph?' );
+          draggableNodeFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
+        }
       };
 
       this.mutate( options );
