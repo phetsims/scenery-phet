@@ -29,7 +29,7 @@ define( require => {
          * Required. The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will
          * keep track of number of times that the Utterance has been alerted, and choose from the list "accordingly" see
          * loopingSchema for more details
-         * {string|Array.<string>}
+         * {AlertableDef}
          */
         alert: null,
 
@@ -64,7 +64,7 @@ define( require => {
       }
 
       // @private
-      this.alert = config.alert;
+      this._alert = config.alert;
       this.numberOfTimesAlerted = 0; // keep track of the number of times alerted, this will dictate which alert to call.
       this.loopAlerts = config.loopAlerts;
 
@@ -91,19 +91,28 @@ define( require => {
      */
     getTextToAlert() {
       let alert;
-      if ( typeof this.alert === 'string' ) {
-        alert = this.alert;
+      if ( typeof this._alert === 'string' ) {
+        alert = this._alert;
       }
       else if ( this.loopAlerts ) {
-        alert = this.alert[ this.numberOfTimesAlerted % this.alert.length ];
+        alert = this._alert[ this.numberOfTimesAlerted % this._alert.length ];
       }
       else {
-        assert && assert( Array.isArray( this.alert ) ); // sanity check
-        let currentAlertIndex = Math.min( this.numberOfTimesAlerted, this.alert.length - 1 );
-        alert = this.alert[ currentAlertIndex ];
+        assert && assert( Array.isArray( this._alert ) ); // sanity check
+        let currentAlertIndex = Math.min( this.numberOfTimesAlerted, this._alert.length - 1 );
+        alert = this._alert[ currentAlertIndex ];
       }
       this.numberOfTimesAlerted++;
       return alert;
+    }
+
+    /**
+     * Set the alert for the utterance
+     * @param {AlertableDef} alert
+     * @public
+     */
+    set alert( alert ) {
+      this._alert = alert;
     }
 
     /**
