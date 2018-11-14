@@ -53,7 +53,7 @@ define( require => {
         thumbTouchAreaXDilation: 11,
         thumbTouchAreaYDilation: 11,
         thumbMouseAreaXDilation: 0,
-        thumbMouseAreaYDilation: 0,
+        thumbMouseAreaYDilation: 0
       }, options );
 
       // @public

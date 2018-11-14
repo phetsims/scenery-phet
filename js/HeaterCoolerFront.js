@@ -57,7 +57,7 @@ define( require => {
         thumbTouchAreaXDilation: 11,
         thumbTouchAreaYDilation: 11,
         thumbMouseAreaXDilation: 0,
-        thumbMouseAreaYDilation: 0,
+        thumbMouseAreaYDilation: 0
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
