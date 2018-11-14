@@ -24,15 +24,11 @@ define( require => {
   const releasedString = SceneryPhetA11yStrings.released.value;
 
   /**
-   * TODO: There are three possible nodes to manipulate: draggableNodeToGetA11yButton, this, and child node. Do we need all three?
-   * TODO: rename to GrabDragInteractionNode???? https://github.com/phetsims/scenery-phet/issues/421
    * NOTE: if passing inthis class assumes
-   * @param {Node} wrappedNode
+   * @param {Node} parentButton - Node passed in that will be mutated with a11y options to have the grab functionality in the PDOM
    * @param  {Object} options
    */
   class A11yGrabDragNode extends Node {
-
-    // TODO: rename this horrid thinghttps://github.com/phetsims/scenery-phet/issues/421
     constructor( parentButton, options ) {
       super();
 
