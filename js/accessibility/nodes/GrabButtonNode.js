@@ -25,7 +25,7 @@ define( require => {
 
   /**
    * TODO: There are three possible nodes to manipulate: draggableNodeToGetA11yButton, this, and child node. Do we need all three?
-   *
+   * TODO: rename to GrabDragInteractionNode????
    * NOTE: if passing inthis class assumes
    * @param {Node} wrappedNode
    * @param  {Object} options
@@ -73,12 +73,14 @@ define( require => {
       }, options );
 
       assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
+      assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'GrabButtonNode adds supplementaryCueNode to focusHighlight' );
+
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
 
       if ( draggableNodeToGetA11yButton.focusHighlight ) {
         assert && assert( draggableNodeToGetA11yButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
-          'if provided, focusHighlight must be a path' );
+          'if provided, focusHighlight must be a Path' );
       }
 
       assert && assert( typeof options.grabsToCue === 'number' );
@@ -87,8 +89,7 @@ define( require => {
       assert && assert( typeof options.grabCueOptions === 'object' );
       assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
       options.grabCueOptions = _.extend( {
-        center: draggableNodeToGetA11yButton.center.minusXY( 0, 50 ),
-        visible: false // starts out as invisible, and is reset that way too
+        visible: true
       }, options.grabCueOptions );
 
 
@@ -121,7 +122,7 @@ define( require => {
       // TODO: this should be added as the focusHighlight?? Maybe with an options
       this.supplementaryCueNode = options.supplementaryCueNode; // could be null
       if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.visible = false; // initialize it to invisible by default
+        this.supplementaryCueNode.visible = true; // initialize it to invisible by default
       }
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
@@ -135,7 +136,6 @@ define( require => {
 
       // TODO: this should be part of the focusHighlight, removing for now.
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
-      // grabButton.addChild( this.grabCueNode );
 
       var childA11yDraggableNode = new Node( options.a11yDraggableNodeOptions );
 
@@ -150,6 +150,8 @@ define( require => {
         draggableNodeFocusHighlight = new FocusHighlightFromNode( draggableNodeToGetA11yButton );
       }
       draggableNodeToGetA11yButton.focusHighlight = draggableNodeFocusHighlight;
+      draggableNodeToGetA11yButton.focusHighlight.addChild( this.grabCueNode );
+      options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.addChild( this.supplementaryCueNode );
 
       // Make the grab button's focusHighlight in the spitting image of the draggableNodeToGetA11yButton's
       const childDraggableFocusHighlight = new FocusHighlightPath( draggableNodeFocusHighlight.shape, {
@@ -190,19 +192,13 @@ define( require => {
           guardKeyPress = false;
         },
 
-        // arrow function handles `this` properly
-        focus: () => {
-          if ( this.numberOfGrabs < options.grabsToCue ) {
-            this.grabCueNode.visible = true;
-            if ( this.supplementaryCueNode ) {
-              this.supplementaryCueNode.visible = true;
-            }
-          }
-        },
         blur: () => {
-          this.grabCueNode.visible = false;
-          if ( this.supplementaryCueNode ) {
-            this.supplementaryCueNode.visible = false;
+          if ( this.numberOfGrabs >= options.grabsToCue ) {
+
+            this.grabCueNode.visible = false;
+            if ( this.supplementaryCueNode ) {
+              this.supplementaryCueNode.visible = false;
+            }
           }
         }
       };
@@ -269,6 +265,10 @@ define( require => {
                                                                 'node that is not in the scene graph?' );
           draggableNodeFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
         }
+
+        // TODO: do we have to do this?
+        draggableNodeToGetA11yButton.focusHighlight.removeChild( this.grabCueNode );
+        options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.removeChild( this.supplementaryCueNode );
       };
 
       this.mutate( options );
@@ -298,9 +298,9 @@ define( require => {
     reset() {
       this.numberOfGrabs = 0;
       if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.visible = false;
+        this.supplementaryCueNode.visible = true;
       }
-      this.grabCueNode.visible = false;
+      this.grabCueNode.visible = true;
     }
   }
 
