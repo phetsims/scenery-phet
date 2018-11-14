@@ -102,7 +102,7 @@ define( require => {
     }
 
     static OPENING_HEIGHT_SCALE() {
-      return OPENING_HEIGHT_SCALE
+      return OPENING_HEIGHT_SCALE;
     }
   }
 
