@@ -16,6 +16,10 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
 
+  // constants
+  const DEFAULT_LARGE_FONT = new PhetFont( 20 );
+  const DEFAULT_SMALL_FONT = new PhetFont( 15 );
+
   class TimerReadoutNode extends Rectangle {
 
     /**
@@ -34,7 +38,13 @@ define( require => {
         // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
         // Initialize the TimerNode with the largest possible unitsNode to make sure the text panel is large enough.
         // When the unitsNode bounds change, the layout will update.
-        unitsNode: null
+        unitsNode: null,
+
+        // {Font} - shown for the numbers before the decimal
+        largeFont: DEFAULT_LARGE_FONT,
+
+        // {Font} - shown for the numbers after the decimal
+        smallFont: DEFAULT_SMALL_FONT
       }, options );
 
       const unitsNode = options.unitsNode;
@@ -45,10 +55,8 @@ define( require => {
       /*---------------------------------------------------------------------------*
        * Readout text
        *----------------------------------------------------------------------------*/
-      const largeNumberText = new PhetFont( 20 );
-      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: largeNumberText } );
-      const smallFont = new PhetFont( 15 );
-      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: smallFont } );
+      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: options.largeFont } );
+      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: options.smallFont } );
 
       // aligns the baselines of the big and small text
       smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
@@ -183,6 +191,10 @@ define( require => {
     }
     return '.' + centitime;
   };
+
+  // Make the default fonts public, to inform creation of optional unitsNode
+  TimerReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
+  TimerReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
 
   return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
 } );

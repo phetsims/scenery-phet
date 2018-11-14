@@ -89,6 +89,7 @@ define( function( require ) {
       .arc( BULB_CENTER_X, BULB_CENTER_Y, options.bulbDiameter / 2, bulbStartAngle, bulbEndAngle ) // bulb at bottom
       .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 ) // rounded top of tube
       .close();
+    
     // tick marks, from top down, alternating major and minor ticks
     var numberOfTicks = Math.floor( straightTubeHeight / options.tickSpacing ) + 1;
     for ( var i = 0; i < numberOfTicks; i++ ) {
