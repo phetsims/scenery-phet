@@ -56,8 +56,6 @@ define( require => {
 
       this.mutate( options );
     }
-
-
   }
 
   return sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
