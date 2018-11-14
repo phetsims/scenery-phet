@@ -139,6 +139,9 @@ define( require => {
 
       var childA11yDraggableNode = new Node( options.a11yDraggableNodeOptions );
 
+      // by default should be hidden until "grabbed" (grab button is pressed)
+      childA11yDraggableNode.accessibleVisible = false;
+
       this.addChild( childA11yDraggableNode );
 
       // Update the passed in node's focusHighlight to make it "dashed"
