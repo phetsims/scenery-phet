@@ -19,7 +19,6 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -30,6 +29,11 @@ define( require => {
   // strings
   const coolString = require( 'string!SCENERY_PHET/cool' );
   const heatString = require( 'string!SCENERY_PHET/heat' );
+
+  // constants
+  const DEFAULT_HEAT_COOL_AMOUNT_PROPERTY = new NumberProperty( 0, {
+    range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
+  } );
 
   class HeaterCoolerFront extends Node {
     /**
@@ -43,7 +47,7 @@ define( require => {
         baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off.
-        heatCoolAmountProperty: new Property( 0 ), // Property set through interaction with slider.  +1 for max heating, -1 for max cooling.
+        heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true // Can this node cool the environment?
       }, options );
@@ -106,6 +110,18 @@ define( require => {
       this.addChild( heatCoolSlider );
 
       this.mutate( options );
+
+      // @public Dispose function used for GC
+      this.disposeHeaterCoolerFront = function() {
+        options.heatCoolAmountProperty.dispose();
+      };
+    }
+
+    /**
+     * @public
+     */
+    dispose() {
+      this.disposeHeaterCoolerFront();
     }
   }
 
