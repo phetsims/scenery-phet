@@ -63,6 +63,8 @@ define( require => {
       // @public Dispose function used for GC
       this.disposeHeaterCoolerNode = function() {
         this.heatCoolAmountProperty.dispose();
+        heaterCoolerBack.dispose();
+        heaterCoolerFront.dispose();
       };
 
       this.mutate( options );
@@ -72,6 +74,7 @@ define( require => {
      * @public
      */
     dispose() {
+      Node.prototype.dispose.call( this );
       this.disposeHeaterCoolerNode();
     }
   }

@@ -17,6 +17,7 @@ define( require => {
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
@@ -110,18 +111,13 @@ define( require => {
       this.addChild( heatCoolSlider );
 
       this.mutate( options );
-
-      // @public Dispose function used for GC
-      this.disposeHeaterCoolerFront = function() {
-        options.heatCoolAmountProperty.dispose();
-      };
     }
 
     /**
      * @public
      */
     dispose() {
-      this.disposeHeaterCoolerFront();
+      Node.prototype.dispose.call( this );
     }
   }
 
