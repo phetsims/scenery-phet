@@ -33,7 +33,7 @@ define( require => {
   class GrabButtonNode extends Node {
 
     // TODO: rename this horrid thinghttps://github.com/phetsims/scenery-phet/issues/421
-    constructor( draggableNodeToGetA11yButton, options ) {
+    constructor( parentButton, options ) {
       super();
 
       options = _.extend( {
@@ -48,7 +48,7 @@ define( require => {
         // {function} - if you override this, make sure to handle the alert in the default onRelease
         onRelease: GrabButtonNode.onRelease,
 
-        // TODO: these are really just a11y options for "draggableNodeToGetA11yButton"
+        // TODO: these are really just a11y options for "parentButton"
         // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
         grabButtonOptions: {},
 
@@ -82,8 +82,8 @@ define( require => {
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
 
-      if ( draggableNodeToGetA11yButton.focusHighlight ) {
-        assert && assert( draggableNodeToGetA11yButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+      if ( parentButton.focusHighlight ) {
+        assert && assert( parentButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a Path' );
       }
 
@@ -136,7 +136,7 @@ define( require => {
       } );
 
       // Add options to draggable node to make it look like a button
-      draggableNodeToGetA11yButton.mutate( options.grabButtonOptions );
+      parentButton.mutate( options.grabButtonOptions );
 
       // TODO: this should be part of the focusHighlight, removing for now. https://github.com/phetsims/scenery-phet/issues/421
       // @private
@@ -148,28 +148,28 @@ define( require => {
       this.accessibleVisible = false;
 
       // Update the passed in node's focusHighlight to make it "dashed"
-      let draggableNodeFocusHighlight = draggableNodeToGetA11yButton.focusHighlight;
-      if ( !draggableNodeFocusHighlight ) {
-        draggableNodeFocusHighlight = new FocusHighlightFromNode( draggableNodeToGetA11yButton );
+      let parentButtonFocusHighlight = parentButton.focusHighlight;
+      if ( !parentButtonFocusHighlight ) {
+        parentButtonFocusHighlight = new FocusHighlightFromNode( parentButton );
       }
-      draggableNodeToGetA11yButton.focusHighlight = draggableNodeFocusHighlight;
+      parentButton.focusHighlight = parentButtonFocusHighlight;
 
       // TODO: support grabCueNode https://github.com/phetsims/scenery-phet/issues/421
-      // draggableNodeToGetA11yButton.focusHighlight.addChild( this.grabCueNode );
-      // options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.addChild( this.supplementaryCueNode );
+      // parentButton.focusHighlight.addChild( this.grabCueNode );
+      // options.supplementaryCueNode && parentButton.focusHighlight.addChild( this.supplementaryCueNode );
 
-      // Make the grab button's focusHighlight in the spitting image of the draggableNodeToGetA11yButton's
-      const childDraggableFocusHighlight = new FocusHighlightPath( draggableNodeFocusHighlight.shape, {
+      // Make the grab button's focusHighlight in the spitting image of the parentButton's
+      const childDraggableFocusHighlight = new FocusHighlightPath( parentButtonFocusHighlight.shape, {
         visible: false
       } );
       childDraggableFocusHighlight.makeDashed();
       this.focusHighlight = childDraggableFocusHighlight;
 
-      // if ever we update the draggableNodeToGetA11yButton's focusHighlight, then update the grab button's too to keep in syn.
+      // if ever we update the parentButton's focusHighlight, then update the grab button's too to keep in syn.
       let onHighlightChange = () => {
-        childDraggableFocusHighlight.setShape( draggableNodeFocusHighlight.shape );
+        childDraggableFocusHighlight.setShape( parentButtonFocusHighlight.shape );
       };
-      draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
+      parentButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
       // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
       const grabButtonListener = {
@@ -185,10 +185,10 @@ define( require => {
 
             // TODO: so hacky!!!! https://github.com/phetsims/scenery-phet/issues/421
             if ( this.focusHighlightLayerable &&
-                 !draggableNodeFocusHighlight.parent.hasChild( childDraggableFocusHighlight ) ) {
-              assert && assert( draggableNodeFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
-                                                                    'node that is not in the scene graph?' );
-              draggableNodeFocusHighlight.parent.addChild( childDraggableFocusHighlight );
+                 !parentButtonFocusHighlight.parent.hasChild( childDraggableFocusHighlight ) ) {
+              assert && assert( parentButtonFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                                   'node that is not in the scene graph?' );
+              parentButtonFocusHighlight.parent.addChild( childDraggableFocusHighlight );
             }
             this.focus();
           }
@@ -208,14 +208,14 @@ define( require => {
           }
         }
       };
-      draggableNodeToGetA11yButton.addAccessibleInputListener( grabButtonListener );
+      parentButton.addAccessibleInputListener( grabButtonListener );
 
       // Release the balloon after an accessible interaction, resetting  model Properties, returning focus
       // to the "grab" button, and hiding the draggable balloon.
       const a11yReleaseWrappedNode = () => {
 
         // focus the grab button again
-        draggableNodeToGetA11yButton.focus();
+        parentButton.focus();
 
         // the draggable node should no longer be discoverable in the parallel DOM
         this.accessibleVisible = false;
@@ -227,20 +227,20 @@ define( require => {
         options.onRelease();
       };
 
-      // some keypresses can fire the draggableNodeToGetA11yButton's click (the grab button) from the same press that fires the event below, so guard against that.
+      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
       let guardKeyPress = false;
       // TODO: handle guardKeyPress the other direction too. https://github.com/phetsims/scenery-phet/issues/421
       this.addAccessibleInputListener( {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
-        keydown( event ) {
+        keydown: ( event ) => {
           if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
             guardKeyPress = true;
             a11yReleaseWrappedNode();
           }
         },
-        keyup( event ) {
+        keyup: ( event ) => {
 
           // Release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
@@ -248,7 +248,9 @@ define( require => {
             a11yReleaseWrappedNode();
           }
         },
-        blur() {
+
+        // arrow function for this
+        blur: () => {
           // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are already interrupted on blur
 
           // the draggable node should no longer be focusable
@@ -258,23 +260,23 @@ define( require => {
       } );
 
       // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode) https://github.com/phetsims/scenery-phet/issues/421
-      // pull the this out of the draggableNodeToGetA11yButton's children so that they are on the same level of the PDOM.
-      // draggableNodeToGetA11yButton.accessibleOrder = [ draggableNodeToGetA11yButton, this ];
+      // pull the this out of the parentButton's children so that they are on the same level of the PDOM.
+      // parentButton.accessibleOrder = [ parentButton, this ];
 
       this.disposeGrabButtonNode = () => {
 
-        draggableNodeToGetA11yButton.removeAccessibleInputListener( grabButtonListener );
-        draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
+        parentButton.removeAccessibleInputListener( grabButtonListener );
+        parentButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
 
         if ( this.focusHighlightLayerable ) {
-          assert && assert( draggableNodeFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
-                                                                'node that is not in the scene graph?' );
-          draggableNodeFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
+          assert && assert( parentButtonFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                               'node that is not in the scene graph?' );
+          parentButtonFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
         }
 
         // TODO: do we have to do this?
-        // draggableNodeToGetA11yButton.focusHighlight.removeChild( this.grabCueNode );
-        // options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.removeChild( this.supplementaryCueNode );
+        // parentButton.focusHighlight.removeChild( this.grabCueNode );
+        // options.supplementaryCueNode && parentButton.focusHighlight.removeChild( this.supplementaryCueNode );
       };
 
       this.mutate( options );
