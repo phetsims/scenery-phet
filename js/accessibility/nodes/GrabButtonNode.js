@@ -171,13 +171,18 @@ define( require => {
       };
       parentButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
+
+      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
+      let guardKeyPressFromDraggable = false;
+
       // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
       const grabButtonListener = {
         click: () => {
 
-          // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
-          // it up immediately again
-          if ( !guardKeyPress ) {
+          // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
+          // and pick it up immediately again.
+          if ( !guardKeyPressFromDraggable ) {
+
             this.numberOfGrabs++;
 
             options.onGrab();
@@ -193,8 +198,8 @@ define( require => {
             this.focus();
           }
 
-          // pick up the balloon on the next click event
-          guardKeyPress = false;
+          // "grab" the draggable on the next click event
+          guardKeyPressFromDraggable = false;
         },
 
         blur: () => {
@@ -214,6 +219,11 @@ define( require => {
       // to the "grab" button, and hiding the draggable balloon.
       const a11yReleaseWrappedNode = () => {
 
+        // set a guard that will make sure that the click doesn't inappropriately bubble up to the parent listener
+        // (likely that is the parentButton)
+        // NOTE: we need this for spacebar also when "this" node is added as a child of the `parentButton`
+        guardKeyPressFromDraggable = true;
+
         // focus the grab button again
         parentButton.focus();
 
@@ -227,16 +237,12 @@ define( require => {
         options.onRelease();
       };
 
-      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
-      let guardKeyPress = false;
-      // TODO: handle guardKeyPress the other direction too. https://github.com/phetsims/scenery-phet/issues/421
       this.addAccessibleInputListener( {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
         keydown: ( event ) => {
           if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
-            guardKeyPress = true;
             a11yReleaseWrappedNode();
           }
         },
