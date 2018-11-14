@@ -50,7 +50,14 @@ define( require => {
         snapToZero: true, // controls whether the slider will snap to the off.
         heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
-        coolEnabled: true // Can this node cool the environment?
+        coolEnabled: true, // Can this node cool the environment?
+
+        // slider options
+        thumbSize: new Dimension2( 22, 45 ),
+        thumbTouchAreaXDilation: 11,
+        thumbTouchAreaYDilation: 11,
+        thumbMouseAreaXDilation: 0,
+        thumbMouseAreaYDilation: 0,
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
@@ -92,7 +99,11 @@ define( require => {
           trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
             .addColorStop( 0, '#0A00F0' )
             .addColorStop( 1, '#EF000F' ),
-          thumbSize: new Dimension2( 15, 30 ),
+          thumbSize: options.thumbSize,
+          thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
+          thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
+          thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
+          thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
           majorTickLength: 15,
           minorTickLength: 12,
           centerY: stoveBody.centerY,

@@ -15,6 +15,7 @@ define( require => {
 
   // modules
   const Color = require( 'SCENERY/util/Color' );
+  const Dimension2 = require( 'DOT/Dimension2' );
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -45,7 +46,14 @@ define( require => {
         snapToZero: true, // controls whether the slider will snap to the off through end drag.
         heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
-        coolEnabled: true // Can this node cool the environment?
+        coolEnabled: true, // Can this node cool the environment?
+
+        // slider options
+        thumbSize: new Dimension2( 22, 45 ),
+        thumbTouchAreaXDilation: 11,
+        thumbTouchAreaYDilation: 11,
+        thumbMouseAreaXDilation: 0,
+        thumbMouseAreaYDilation: 0,
       }, options );
 
       // @public
