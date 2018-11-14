@@ -92,6 +92,11 @@ define( require => {
       this.addChild( iceNode );
 
       this.mutate( options );
+
+      // @public Dispose function used for unlinking relevant properties
+      this.disposeHeaterCoolerBack = function() {
+        options.heatCoolAmountProperty.unlinkAll();
+      }
     }
 
     /**
@@ -103,6 +108,14 @@ define( require => {
      */
     getHeaterFrontPosition() {
       return new Vector2( this.leftTop.x, this.leftTop.y + this.width * OPENING_HEIGHT_SCALE / 2 );
+    }
+
+
+    /**
+     * @public
+     */
+    dispose() {
+      this.disposeHeaterCoolerBack();
     }
   }
 
