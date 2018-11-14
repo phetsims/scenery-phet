@@ -24,15 +24,11 @@ define( require => {
   const releasedString = SceneryPhetA11yStrings.released.value;
 
   /**
-   * TODO: There are three possible nodes to manipulate: draggableNodeToGetA11yButton, this, and child node. Do we need all three?
-   * TODO: rename to GrabDragInteractionNode???? https://github.com/phetsims/scenery-phet/issues/421
    * NOTE: if passing inthis class assumes
-   * @param {Node} wrappedNode
+   * @param {Node} parentButton - Node passed in that will be mutated with a11y options to have the grab functionality in the PDOM
    * @param  {Object} options
    */
-  class GrabButtonNode extends Node {
-
-    // TODO: rename this horrid thinghttps://github.com/phetsims/scenery-phet/issues/421
+  class A11yGrabDragNode extends Node {
     constructor( parentButton, options ) {
       super();
 
@@ -46,7 +42,7 @@ define( require => {
         onGrab: _.noop(),
 
         // {function} - if you override this, make sure to handle the alert in the default onRelease
-        onRelease: GrabButtonNode.onRelease,
+        onRelease: A11yGrabDragNode.onRelease,
 
         // TODO: these are really just a11y options for "parentButton"
         // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
@@ -77,7 +73,7 @@ define( require => {
       }, options );
 
       // assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
-      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'GrabButtonNode adds supplementaryCueNode to focusHighlight' );
+      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'A11yGrabDragNode adds supplementaryCueNode to focusHighlight' );
 
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
@@ -91,7 +87,7 @@ define( require => {
 
       assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
-      assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
+      assert && assert( options.grabCueOptions.visible === undefined, 'A11yGrabDragNode sets visibility of cue node' );
 
       // TODO: finish up, we need this? https://github.com/phetsims/scenery-phet/issues/421
       // options.grabCueOptions = _.extend( {
@@ -120,7 +116,7 @@ define( require => {
         focusHighlightLayerable: true
       }, options.grabButtonOptions );
 
-      assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
 
       // @private
       this.numberOfGrabs = 0;
@@ -171,13 +167,18 @@ define( require => {
       };
       parentButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
+
+      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
+      let guardKeyPressFromDraggable = false;
+
       // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
       const grabButtonListener = {
         click: () => {
 
-          // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
-          // it up immediately again
-          if ( !guardKeyPress ) {
+          // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
+          // and pick it up immediately again.
+          if ( !guardKeyPressFromDraggable ) {
+
             this.numberOfGrabs++;
 
             options.onGrab();
@@ -193,8 +194,8 @@ define( require => {
             this.focus();
           }
 
-          // pick up the balloon on the next click event
-          guardKeyPress = false;
+          // "grab" the draggable on the next click event
+          guardKeyPressFromDraggable = false;
         },
 
         blur: () => {
@@ -214,6 +215,11 @@ define( require => {
       // to the "grab" button, and hiding the draggable balloon.
       const a11yReleaseWrappedNode = () => {
 
+        // set a guard that will make sure that the click doesn't inappropriately bubble up to the parent listener
+        // (likely that is the parentButton)
+        // NOTE: we need this for spacebar also when "this" node is added as a child of the `parentButton`
+        guardKeyPressFromDraggable = true;
+
         // focus the grab button again
         parentButton.focus();
 
@@ -227,16 +233,12 @@ define( require => {
         options.onRelease();
       };
 
-      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
-      let guardKeyPress = false;
-      // TODO: handle guardKeyPress the other direction too. https://github.com/phetsims/scenery-phet/issues/421
       this.addAccessibleInputListener( {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
         keydown: ( event ) => {
           if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
-            guardKeyPress = true;
             a11yReleaseWrappedNode();
           }
         },
@@ -259,11 +261,11 @@ define( require => {
         }
       } );
 
-      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode) https://github.com/phetsims/scenery-phet/issues/421
+      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (A11yGrabDragNode) https://github.com/phetsims/scenery-phet/issues/421
       // pull the this out of the parentButton's children so that they are on the same level of the PDOM.
       // parentButton.accessibleOrder = [ parentButton, this ];
 
-      this.disposeGrabButtonNode = () => {
+      this.disposeA11yGrabDragNode = () => {
 
         parentButton.removeAccessibleInputListener( grabButtonListener );
         parentButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
@@ -295,7 +297,7 @@ define( require => {
      * @public
      */
     dispose() {
-      this.disposeGrabButtonNode();
+      this.disposeA11yGrabDragNode();
       super.dispose();
     }
 
@@ -314,6 +316,6 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'GrabButtonNode', GrabButtonNode );
+  return sceneryPhet.register( 'A11yGrabDragNode', A11yGrabDragNode );
 
 } );
