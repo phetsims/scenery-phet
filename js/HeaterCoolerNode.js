@@ -20,6 +20,7 @@ define( require => {
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -47,6 +48,10 @@ define( require => {
         heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true, // Can this node cool the environment?
+
+        // slider label options
+        labelFont: new PhetFont( 14 ),
+        labelMaxWidth: null,
 
         // slider options
         thumbSize: new Dimension2( 22, 45 ),

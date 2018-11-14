@@ -52,6 +52,10 @@ define( require => {
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true, // Can this node cool the environment?
 
+        // slider label options
+        labelFont: new PhetFont( 14 ),
+        labelMaxWidth: null,
+
         // slider options
         thumbSize: new Dimension2( 22, 45 ),
         thumbTouchAreaXDilation: 11,
@@ -78,7 +82,7 @@ define( require => {
       } );
 
       // Create the label strings and scale them to support translations.
-      let titleOptions = { font: new PhetFont( 14 ) };
+      let titleOptions = { font: options.labelFont, maxWidth: options.labelMaxWidth };
       let heatTitle = new Text( heatString, titleOptions );
       let coolTitle = new Text( coolString, titleOptions );
       let titles = [ heatTitle, coolTitle ];
