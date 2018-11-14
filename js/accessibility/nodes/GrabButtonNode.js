@@ -24,13 +24,16 @@ define( require => {
   const releasedString = SceneryPhetA11yStrings.released.value;
 
   /**
+   * TODO: There are three possible nodes to manipulate: draggableNodeToGetA11yButton, this, and child node. Do we need all three?
    *
    * NOTE: if passing inthis class assumes
    * @param {Node} wrappedNode
    * @param  {Object} options
    */
   class GrabButtonNode extends Node {
-    constructor( wrappedNode, options ) {
+
+    // TODO: rename this horrid thing
+    constructor( draggableNodeToGetA11yButton, options ) {
       super();
 
       options = _.extend( {
@@ -47,6 +50,10 @@ define( require => {
 
         // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
         grabButtonOptions: {},
+
+        // {Object} - Options for the child Node that will be the draggable component in the PDOM. This gets a11y
+        // related draggable listeners and such.
+        a11yDraggableNodeOptions: {},
 
         // {null|Node} -  additional cueing node who's visibility can be toggled.
         supplementaryCueNode: null,
@@ -65,27 +72,40 @@ define( require => {
         tagName: 'div'
       }, options );
 
-      assert && assert( wrappedNode.accessibleContent, 'grab button must wrap a node with accessible content' );
       assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
-      if ( wrappedNode.focusHighlight ) {
-        assert && assert( wrappedNode.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+
+      if ( draggableNodeToGetA11yButton.focusHighlight ) {
+        assert && assert( draggableNodeToGetA11yButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a path' );
       }
 
       assert && assert( typeof options.grabsToCue === 'number' );
 
+      assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
       assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
       options.grabCueOptions = _.extend( {
-        center: wrappedNode.center.minusXY( 0, 50 ),
+        center: draggableNodeToGetA11yButton.center.minusXY( 0, 50 ),
         visible: false // starts out as invisible, and is reset that way too
       }, options.grabCueOptions );
 
-      options.grabButtonOptions = _.extend( {
 
-        tandem: options.tandem,
+      options.a11yDraggableNodeOptions = _.extend( {
+
+        // a11y
+        tagName: 'div',
+        ariaRole: 'application',
+        focusable: true
+      }, options.a11yDraggableNodeOptions );
+
+
+      // TODO - maybe we don't need this to be an option
+      // TODO - provide a way to not do this if we don't want to (though do it by default).
+      // TODO: Likely if we don't have grabButtonOPtions, at the very least we will want to assert that options
+      // TODO: aren't trying to set these
+      options.grabButtonOptions = _.extend( {
 
         // a11y
         containerTagName: 'div',
@@ -93,13 +113,12 @@ define( require => {
         focusHighlightLayerable: true
       }, options.grabButtonOptions );
 
-      // don't pass this to up to Node
-      delete options.tandem;
-
       assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
 
       // @private
       this.numberOfGrabs = 0;
+
+      // TODO: this should be added as the focusHighlight?? Maybe with an options
       this.supplementaryCueNode = options.supplementaryCueNode; // could be null
       if ( this.supplementaryCueNode ) {
         this.supplementaryCueNode.visible = false; // initialize it to invisible by default
@@ -108,51 +127,47 @@ define( require => {
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
-      const grabButton = new Node( options.grabButtonOptions );
+
+      // Add options to draggable node to make it look like a button
+      draggableNodeToGetA11yButton.mutate( options.grabButtonOptions );
 
       // @private
+
+      // TODO: this should be part of the focusHighlight, removing for now.
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
-      grabButton.addChild( this.grabCueNode );
+      // grabButton.addChild( this.grabCueNode );
 
-      // make sure that the grabButton actually has some width, so add the wrapped node to it
-      this.addChild( grabButton );
-      grabButton.addChild( wrappedNode );
+      var childA11yDraggableNode = new Node( options.a11yDraggableNodeOptions );
 
-      // The wrapped node starts invisible in the PDOM
-      wrappedNode.accessibleVisible = false;
+      this.addChild( childA11yDraggableNode );
 
       // Update the passed in node's focusHighlight to make it "dashed"
-      let wrappedNodeFocusHighlight = wrappedNode.focusHighlight;
-      if ( !wrappedNodeFocusHighlight ) {
-        wrappedNodeFocusHighlight = new FocusHighlightFromNode( wrappedNode );
+      let draggableNodeFocusHighlight = draggableNodeToGetA11yButton.focusHighlight;
+      if ( !draggableNodeFocusHighlight ) {
+        draggableNodeFocusHighlight = new FocusHighlightFromNode( draggableNodeToGetA11yButton );
       }
-      wrappedNodeFocusHighlight.makeDashed();
-      wrappedNode.focusHighlight = wrappedNodeFocusHighlight;
+      draggableNodeToGetA11yButton.focusHighlight = draggableNodeFocusHighlight;
 
-      // Make the grab button's focusHighlight in the spitting image of the wrappedNode's
-      const grabButtonFocusHighlight = new FocusHighlightPath( wrappedNodeFocusHighlight.shape );
-      grabButtonFocusHighlight.center = wrappedNode.center;
-      grabButton.focusHighlight = grabButtonFocusHighlight;
+      // Make the grab button's focusHighlight in the spitting image of the draggableNodeToGetA11yButton's
+      const childDraggableFocusHighlight = new FocusHighlightPath( draggableNodeFocusHighlight.shape, {
+        visible: false
+      } );
+      childDraggableFocusHighlight.makeDashed();
+      childA11yDraggableNode.focusHighlight = childDraggableFocusHighlight;
 
-      // if ever we update the wrappedNode's focusHighlight, then update the grab button's too to keep in syn.
+      // if ever we update the draggableNodeToGetA11yButton's focusHighlight, then update the grab button's too to keep in syn.
       let onHighlightChange = () => {
-        grabButtonFocusHighlight.setShape( wrappedNodeFocusHighlight.shape );
+        childDraggableFocusHighlight.setShape( draggableNodeFocusHighlight.shape );
       };
-      wrappedNode.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
-
-
-      // update the grabButton's focusHighlight whenever the wrappedNode moves.
-      // TODO: this is super buggy and not general
-      const transformListener = () => {
-        grabButtonFocusHighlight.center = wrappedNode.center;
-      };
-      wrappedNode.on( 'transform', transformListener );
+      draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
       // for focusHighlightLayerable
-      grabButton.addChild( grabButtonFocusHighlight );
+      if ( childA11yDraggableNode.focusHighlightLayerable ) {
+        childA11yDraggableNode.addChild( childDraggableFocusHighlight );
+      }
 
-      // when the "Grab Balloon" button is pressed, focus the draggable node and set to dragged state
-      grabButton.addAccessibleInputListener( {
+      // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
+      const grabButtonListener = {
         click: () => {
 
           // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
@@ -161,8 +176,8 @@ define( require => {
             this.numberOfGrabs++;
 
             options.onGrab();
-            wrappedNode.accessibleVisible = true;
-            wrappedNode.focus();
+            childA11yDraggableNode.accessibleVisible = true;
+            childA11yDraggableNode.focus();
           }
 
           // pick up the balloon on the next click event
@@ -184,30 +199,30 @@ define( require => {
             this.supplementaryCueNode.visible = false;
           }
         }
-      } );
+      };
+      draggableNodeToGetA11yButton.addAccessibleInputListener( grabButtonListener );
 
-      /**
-       * Release the balloon after an accessible interaction, resetting  model Properties, returning focus
-       * to the "grab" button, and hiding the draggable balloon.
-       */
+      // Release the balloon after an accessible interaction, resetting  model Properties, returning focus
+      // to the "grab" button, and hiding the draggable balloon.
       const a11yReleaseWrappedNode = () => {
 
-        // focus the grab balloon button
-        grabButton.focus();
+        // focus the grab button again
+        draggableNodeToGetA11yButton.focus();
 
         // the draggable node should no longer be discoverable in the parallel DOM
-        wrappedNode.accessibleVisible = false;
+        childA11yDraggableNode.accessibleVisible = false;
 
         // reset the key state of the drag handler by interrupting the drag
-        wrappedNode.interruptInput();
+        childA11yDraggableNode.interruptInput();
 
         // callback when node is "released"
         options.onRelease();
       };
 
-      // some keypresses can fire the grabButton's click from the same press that fires the event below, so guard against that.
+      // some keypresses can fire the draggableNodeToGetA11yButton's click (the grab button) from the same press that fires the event below, so guard against that.
       let guardKeyPress = false;
-      const wrappedNodeAccessibleInputListener = {
+      // TODO: handle guardKeyPress the other direction too.
+      childA11yDraggableNode.addAccessibleInputListener( {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
@@ -229,18 +244,19 @@ define( require => {
           // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are already interrupted on blur
 
           // the draggable node should no longer be focusable
-          wrappedNode.accessibleVisible = false;
-        }
-      };
-      wrappedNode.addAccessibleInputListener( wrappedNodeAccessibleInputListener );
+          childA11yDraggableNode.accessibleVisible = false;
 
-      // pull the wrappedNode out of the grabButton's children so that they are on the same level of the PDOM.
-      this.accessibleOrder = [ grabButton, wrappedNode ];
+        }
+      } );
+
+      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode)
+      // pull the childA11yDraggableNode out of the draggableNodeToGetA11yButton's children so that they are on the same level of the PDOM.
+      // draggableNodeToGetA11yButton.accessibleOrder = [ draggableNodeToGetA11yButton, childA11yDraggableNode ];
 
       this.disposeGrabButtonNode = () => {
-        wrappedNode.removeAccessibleInputListener( wrappedNodeAccessibleInputListener );
-        wrappedNode.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
-        this.off( 'transform', transformListener );
+
+        draggableNodeToGetA11yButton.removeAccessibleInputListener( grabButtonListener );
+        draggableNodeToGetA11yButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
       };
 
       this.mutate( options );
