@@ -9,7 +9,7 @@ define( require => {
   // modules
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
+  // const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -25,14 +25,14 @@ define( require => {
 
   /**
    * TODO: There are three possible nodes to manipulate: draggableNodeToGetA11yButton, this, and child node. Do we need all three?
-   * TODO: rename to GrabDragInteractionNode????
+   * TODO: rename to GrabDragInteractionNode???? https://github.com/phetsims/scenery-phet/issues/421
    * NOTE: if passing inthis class assumes
    * @param {Node} wrappedNode
    * @param  {Object} options
    */
   class GrabButtonNode extends Node {
 
-    // TODO: rename this horrid thing
+    // TODO: rename this horrid thinghttps://github.com/phetsims/scenery-phet/issues/421
     constructor( draggableNodeToGetA11yButton, options ) {
       super();
 
@@ -55,8 +55,10 @@ define( require => {
         // related draggable listeners and such.
         a11yDraggableNodeOptions: {},
 
-        // {null|Node} -  additional cueing node who's visibility can be toggled.
-        supplementaryCueNode: null,
+
+        // TODO: why support this? shouldn't we just attach this to the focusHighlight passed in https://github.com/phetsims/scenery-phet/issues/421
+        // // {null|Node} -  additional cueing node who's visibility can be toggled.
+        // supplementaryCueNode: null,
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -72,8 +74,8 @@ define( require => {
         tagName: 'div'
       }, options );
 
-      assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
-      assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'GrabButtonNode adds supplementaryCueNode to focusHighlight' );
+      // assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
+      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'GrabButtonNode adds supplementaryCueNode to focusHighlight' );
 
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
@@ -88,9 +90,11 @@ define( require => {
       assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
       assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
-      options.grabCueOptions = _.extend( {
-        visible: true
-      }, options.grabCueOptions );
+
+      // TODO: finish up, we need this? https://github.com/phetsims/scenery-phet/issues/421
+      // options.grabCueOptions = _.extend( {
+      //   visible: true
+      // }, options.grabCueOptions );
 
 
       options.a11yDraggableNodeOptions = _.extend( {
@@ -102,7 +106,7 @@ define( require => {
       }, options.a11yDraggableNodeOptions );
 
 
-      // TODO - maybe we don't need this to be an option
+      // TODO - maybe we don't need this to be an option https://github.com/phetsims/scenery-phet/issues/421
       // TODO - provide a way to not do this if we don't want to (though do it by default).
       // TODO: Likely if we don't have grabButtonOPtions, at the very least we will want to assert that options
       // TODO: aren't trying to set these
@@ -119,11 +123,11 @@ define( require => {
       // @private
       this.numberOfGrabs = 0;
 
-      // TODO: this should be added as the focusHighlight?? Maybe with an options
-      this.supplementaryCueNode = options.supplementaryCueNode; // could be null
-      if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.visible = true; // initialize it to invisible by default
-      }
+      // // TODO: this should be added as the focusHighlight?? Maybe with an options, https://github.com/phetsims/scenery-phet/issues/421
+      // this.supplementaryCueNode = options.supplementaryCueNode; // could be null
+      // if ( this.supplementaryCueNode ) {
+      //   this.supplementaryCueNode.visible = true; // initialize it to invisible by default
+      // }
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
@@ -132,10 +136,9 @@ define( require => {
       // Add options to draggable node to make it look like a button
       draggableNodeToGetA11yButton.mutate( options.grabButtonOptions );
 
+      // TODO: this should be part of the focusHighlight, removing for now. https://github.com/phetsims/scenery-phet/issues/421
       // @private
-
-      // TODO: this should be part of the focusHighlight, removing for now.
-      this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+      // this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
 
       var childA11yDraggableNode = new Node( options.a11yDraggableNodeOptions );
 
@@ -150,8 +153,10 @@ define( require => {
         draggableNodeFocusHighlight = new FocusHighlightFromNode( draggableNodeToGetA11yButton );
       }
       draggableNodeToGetA11yButton.focusHighlight = draggableNodeFocusHighlight;
-      draggableNodeToGetA11yButton.focusHighlight.addChild( this.grabCueNode );
-      options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.addChild( this.supplementaryCueNode );
+
+      // TODO: support grabCueNode https://github.com/phetsims/scenery-phet/issues/421
+      // draggableNodeToGetA11yButton.focusHighlight.addChild( this.grabCueNode );
+      // options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.addChild( this.supplementaryCueNode );
 
       // Make the grab button's focusHighlight in the spitting image of the draggableNodeToGetA11yButton's
       const childDraggableFocusHighlight = new FocusHighlightPath( draggableNodeFocusHighlight.shape, {
@@ -178,7 +183,7 @@ define( require => {
             options.onGrab();
             childA11yDraggableNode.accessibleVisible = true;
 
-            // TODO: so hacky!!!!
+            // TODO: so hacky!!!! https://github.com/phetsims/scenery-phet/issues/421
             if ( childA11yDraggableNode.focusHighlightLayerable &&
                  !draggableNodeFocusHighlight.parent.hasChild( childDraggableFocusHighlight ) ) {
               assert && assert( draggableNodeFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
@@ -195,10 +200,11 @@ define( require => {
         blur: () => {
           if ( this.numberOfGrabs >= options.grabsToCue ) {
 
-            this.grabCueNode.visible = false;
-            if ( this.supplementaryCueNode ) {
-              this.supplementaryCueNode.visible = false;
-            }
+            // TODO: support cueing
+            // this.grabCueNode.visible = false;
+            // if ( this.supplementaryCueNode ) {
+            //   this.supplementaryCueNode.visible = false;
+            // }
           }
         }
       };
@@ -223,7 +229,7 @@ define( require => {
 
       // some keypresses can fire the draggableNodeToGetA11yButton's click (the grab button) from the same press that fires the event below, so guard against that.
       let guardKeyPress = false;
-      // TODO: handle guardKeyPress the other direction too.
+      // TODO: handle guardKeyPress the other direction too. https://github.com/phetsims/scenery-phet/issues/421
       childA11yDraggableNode.addAccessibleInputListener( {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
@@ -251,7 +257,7 @@ define( require => {
         }
       } );
 
-      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode)
+      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode) https://github.com/phetsims/scenery-phet/issues/421
       // pull the childA11yDraggableNode out of the draggableNodeToGetA11yButton's children so that they are on the same level of the PDOM.
       // draggableNodeToGetA11yButton.accessibleOrder = [ draggableNodeToGetA11yButton, childA11yDraggableNode ];
 
@@ -267,8 +273,8 @@ define( require => {
         }
 
         // TODO: do we have to do this?
-        draggableNodeToGetA11yButton.focusHighlight.removeChild( this.grabCueNode );
-        options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.removeChild( this.supplementaryCueNode );
+        // draggableNodeToGetA11yButton.focusHighlight.removeChild( this.grabCueNode );
+        // options.supplementaryCueNode && draggableNodeToGetA11yButton.focusHighlight.removeChild( this.supplementaryCueNode );
       };
 
       this.mutate( options );
@@ -297,10 +303,12 @@ define( require => {
      */
     reset() {
       this.numberOfGrabs = 0;
-      if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.visible = true;
-      }
-      this.grabCueNode.visible = true;
+
+      // TODO: support cueing
+      // if ( this.supplementaryCueNode ) {
+      //   this.supplementaryCueNode.visible = true;
+      // }
+      // this.grabCueNode.visible = true;
     }
   }
 
