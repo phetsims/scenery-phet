@@ -30,7 +30,7 @@ define( require => {
    * @param {Node} wrappedNode
    * @param  {Object} options
    */
-  class GrabButtonNode extends Node {
+  class A11yGrabDragNode extends Node {
 
     // TODO: rename this horrid thinghttps://github.com/phetsims/scenery-phet/issues/421
     constructor( parentButton, options ) {
@@ -46,7 +46,7 @@ define( require => {
         onGrab: _.noop(),
 
         // {function} - if you override this, make sure to handle the alert in the default onRelease
-        onRelease: GrabButtonNode.onRelease,
+        onRelease: A11yGrabDragNode.onRelease,
 
         // TODO: these are really just a11y options for "parentButton"
         // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
@@ -77,7 +77,7 @@ define( require => {
       }, options );
 
       // assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
-      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'GrabButtonNode adds supplementaryCueNode to focusHighlight' );
+      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'A11yGrabDragNode adds supplementaryCueNode to focusHighlight' );
 
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
@@ -91,7 +91,7 @@ define( require => {
 
       assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
-      assert && assert( options.grabCueOptions.visible === undefined, 'GrabButtonNode sets visibility of cue node' );
+      assert && assert( options.grabCueOptions.visible === undefined, 'A11yGrabDragNode sets visibility of cue node' );
 
       // TODO: finish up, we need this? https://github.com/phetsims/scenery-phet/issues/421
       // options.grabCueOptions = _.extend( {
@@ -120,7 +120,7 @@ define( require => {
         focusHighlightLayerable: true
       }, options.grabButtonOptions );
 
-      assert && assert( !options.grabButtonOptions.innerContent, 'GrabButtonNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
 
       // @private
       this.numberOfGrabs = 0;
@@ -265,11 +265,11 @@ define( require => {
         }
       } );
 
-      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (GrabButtonNode) https://github.com/phetsims/scenery-phet/issues/421
+      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (A11yGrabDragNode) https://github.com/phetsims/scenery-phet/issues/421
       // pull the this out of the parentButton's children so that they are on the same level of the PDOM.
       // parentButton.accessibleOrder = [ parentButton, this ];
 
-      this.disposeGrabButtonNode = () => {
+      this.disposeA11yGrabDragNode = () => {
 
         parentButton.removeAccessibleInputListener( grabButtonListener );
         parentButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
@@ -301,7 +301,7 @@ define( require => {
      * @public
      */
     dispose() {
-      this.disposeGrabButtonNode();
+      this.disposeA11yGrabDragNode();
       super.dispose();
     }
 
@@ -320,6 +320,6 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'GrabButtonNode', GrabButtonNode );
+  return sceneryPhet.register( 'A11yGrabDragNode', A11yGrabDragNode );
 
 } );

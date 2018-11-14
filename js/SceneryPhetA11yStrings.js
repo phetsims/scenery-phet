@@ -149,7 +149,7 @@ define( function( require ) {
     },
 
     //------------------------------------------------------------------------
-    // GrabButtonNode strings
+    // A11yGrabDragNode strings
     //------------------------------------------------------------------------
     grabPattern: {
       value: 'Grab {{thingToGrab}}'
