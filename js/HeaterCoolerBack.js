@@ -18,7 +18,8 @@ define( require => {
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
-  const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -31,6 +32,9 @@ define( require => {
   // constants
   // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
   const OPENING_HEIGHT_SCALE = 0.1;
+  const DEFAULT_HEAT_COOL_AMOUNT_PROPERTY = new NumberProperty( 0, {
+    range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
+  } );
 
   class HeaterCoolerBack extends Node {
 
@@ -48,7 +52,7 @@ define( require => {
         baseColor: new Color( 159, 182, 205 ), //  base color used for the stove body
         width: 120, // in screen coords, much of the rest of the size of the stove derives from this value
         snapToZero: true, // controls whether the slider will snap to the off.
-        heatCoolAmountProperty: new Property( 0 ), // Property set through interaction with slider.  +1 for max heating, -1 for max cooling.
+        heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true // Can this node cool the environment?
       }, options );
@@ -107,6 +111,5 @@ define( require => {
   HeaterCoolerBack.OPENING_HEIGHT_SCALE = OPENING_HEIGHT_SCALE;
 
   return sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );
-
 } );
 
