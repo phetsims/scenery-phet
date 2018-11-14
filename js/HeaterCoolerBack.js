@@ -100,11 +100,11 @@ define( require => {
     getHeaterFrontPosition() {
       return new Vector2( this.leftTop.x, this.leftTop.y + this.width * OPENING_HEIGHT_SCALE / 2 );
     }
-
-    static OPENING_HEIGHT_SCALE() {
-      return OPENING_HEIGHT_SCALE;
-    }
   }
+
+  // Shape of heater front depends on this value.
+  // @static
+  HeaterCoolerBack.OPENING_HEIGHT_SCALE = OPENING_HEIGHT_SCALE;
 
   return sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );
 

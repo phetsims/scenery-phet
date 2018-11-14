@@ -51,7 +51,7 @@ define( require => {
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
       // be made into options if needed.
       let height = options.width * 0.75;
-      let burnerOpeningHeight = options.width * HeaterCoolerBack.OPENING_HEIGHT_SCALE();
+      let burnerOpeningHeight = options.width * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
       let bottomWidth = options.width * 0.80;
 
       // Create the body of the stove.
