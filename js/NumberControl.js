@@ -118,8 +118,7 @@ define( function( require ) {
       phetioType: NumberControlIO,
 
       // a11y
-      groupFocusHighlight: true,
-      roundToStepSize: true
+      groupFocusHighlight: true
     }, options );
 
 
