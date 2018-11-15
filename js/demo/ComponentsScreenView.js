@@ -48,6 +48,7 @@ define( function( require ) {
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Panel = require( 'SUN/Panel' );
   var PaperAirplaneNode = require( 'SCENERY_PHET/PaperAirplaneNode' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -303,9 +304,37 @@ define( function( require ) {
 
   // Creates a demo for HeaterCoolerNode
   var demoHeaterCoolerNode = function( layoutBounds ) {
-    return new HeaterCoolerNode( {
-      center: layoutBounds.center
+
+    // CURRENTLY UNDER CONSTRUCTION. See https://github.com/phetsims/scenery-phet/issues/423
+    var heaterCoolerNode = new HeaterCoolerNode( {
+      center: layoutBounds.center,
+      heatCoolAmountProperty: new NumberProperty( 0 )
     } );
+    var heaterCoolerText = new Text( 'Heater Cooler', {
+      font: new PhetFont( 18 ),
+      center: heaterCoolerNode.center.plusXY( 0, heaterCoolerNode.height )
+    } );
+
+    var heaterNode = new HeaterCoolerNode( {
+      center: layoutBounds.center.plusXY( heaterCoolerNode.width * 1.5, 0 ),
+      coolEnabled: false
+    } );
+
+    var heaterText = new Text( 'Heater', {
+      font: new PhetFont( 18 ),
+      center: heaterNode.center.plusXY( 0, heaterNode.height )
+    } );
+
+    var coolerNode = new HeaterCoolerNode( {
+      center: layoutBounds.center.minusXY( heaterCoolerNode.width * 1.5, 0 ),
+      heatEnabled: false
+    } );
+    var coolerText = new Text( 'Cooler', {
+      font: new PhetFont( 18 ),
+      center: coolerNode.center.plusXY( 0, coolerNode.height )
+    } );
+
+    return new Node( { children: [ heaterCoolerNode, heaterNode, coolerNode, heaterCoolerText, heaterText, coolerText ] } );
   };
 
   // Creates a demo for KitSelectionNode
