@@ -30,9 +30,9 @@ define( require => {
 
       options = _.extend( {
 
-        // The maximum value that can be shown by the TimerNode, so it can set up the size to accommodate
-        // the largest string
-        maxValue: 99.99,
+        // The maximum value, in seconds, that can be shown by the TimerNode, so it can set up the size to accommodate
+        // the largest string. Default value is set to 99 minutes.
+        maxValue: 5940,
 
         // {null|Node} - optional node to show for the units, most likely to be a Text or RichText.  Note that showing
         // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
