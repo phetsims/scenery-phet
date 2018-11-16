@@ -23,9 +23,10 @@ define( function( require ) {
 
   // valid values for options.align
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
+  var NO_VALUE_STRING = '\u2014'; // em dash
 
   /**
-   * @param {Property.<number>} numberProperty
+   * @param {Property.<number|null>} numberProperty
    * @param {Range} numberRange
    * @param {Object} [options]
    * @constructor
@@ -92,7 +93,8 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       // update the value
-      self.valueNode.text = StringUtils.format( options.valuePattern, Util.toFixed( value, options.decimalPlaces ) );
+      var valueString = ( value === null ) ? NO_VALUE_STRING : Util.toFixed( value, options.decimalPlaces );
+      self.valueNode.text = StringUtils.format( options.valuePattern, valueString );
 
       // horizontally align value in background
       if ( options.align === 'center' ) {
