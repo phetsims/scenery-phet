@@ -23,7 +23,6 @@ define( function( require ) {
 
   // valid values for options.align
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
-  var NO_VALUE_STRING = '\u2014'; // em dash
 
   /**
    * @param {Property.<number|null>} numberProperty
@@ -51,6 +50,9 @@ define( function( require ) {
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
       minBackgroundWidth: 0,
+
+      // string that is displayed when numberProperty.value is null
+      noValueString: '\u2014', // em dash
 
       // phet-io
       tandem: Tandem.optional,
@@ -93,7 +95,7 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       // update the value
-      var valueString = ( value === null ) ? NO_VALUE_STRING : Util.toFixed( value, options.decimalPlaces );
+      var valueString = ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces );
       self.valueNode.text = StringUtils.format( options.valuePattern, valueString );
 
       // horizontally align value in background
