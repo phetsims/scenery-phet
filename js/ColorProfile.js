@@ -89,7 +89,7 @@ define( function( require ) {
         // Turn strings/hex to Color objects
         var colorMap = _.mapValues( colors[ key ], Color.toColor );
 
-        assert && assert( colorMap.hasOwnProperty( 'default' ), 'missing default color for ColorProfile: ' + key );
+        assert && assert( colorMap.hasOwnProperty( 'default' ), 'missing default color for key=' + key );
         assert && assert( key !== 'profileName',
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
