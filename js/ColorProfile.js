@@ -1,13 +1,14 @@
 // Copyright 2015-2018, University of Colorado Boulder
 
 /**
- * Abstract type for handling color profiles in simulations. Handles multiple color profiles (by string name), and controls color property values
- * based on the active color profile.
+ * Abstract type for handling color profiles in simulations. Handles multiple color profiles (by string name),
+ * and controls color property values based on the active color profile.
  *
- * It also contains hooks that allow synchronizing the colors over iframe communication, so that colors can be controlled by a color picker.
+ * It also contains hooks that allow synchronizing the colors over iframe communication, so that colors can be
+ * controlled by a color picker.
  *
- * ColorProfile will take an object map ({string} color name => {Object} profile map) and will create a {Property<Color>} for each, that will
- * change based on the color profile's profileNameProperty's current value.
+ * ColorProfile will take an object map ({string} color name => {Object} profile map) and will create a
+ * {Property<Color>} for each, that will change based on the color profile's profileNameProperty's current value.
  *
  * For example:
  *
@@ -33,18 +34,18 @@
  *
  * profile.profileNameProperty.value = 'projector';
  *
- * will set the ColorProfile to the 'projector' profile name, updating both of the color properties to their specified 'projector' colors
- * (converted to Scenery Color objects as necessary).
+ * will set the ColorProfile to the 'projector' profile name, updating both of the color properties to their specified
+ * 'projector' colors (converted to Scenery Color objects as necessary).
  *
- * NOTE: It is acceptable to omit a non-default profile key for colors, e.g. just { default: ... }. If a profile key is not present for the color,
- *       then the default will be used.
+ * NOTE: It is acceptable to omit a non-default profile key for colors, e.g. just { default: ... }. If a profile key
+ * is not present for the color, then the default will be used.
  *
  * NOTE: It is ideal to pass color properties directly to Scenery object fill/strokes, e.g.:
  *
  *   new Path( ..., { fill: profile.fishFillProperty } );
  *
- * NOTE: Generally a require.js module should be responsible for returning a singleton instance of ColorProfile for a simulation, e.g.
- *       GravityAndOrbitsColorProfile.
+ * NOTE: Generally a require.js module should be responsible for returning a singleton instance of ColorProfile for
+ * a simulation, e.g. GravityAndOrbitsColorProfile.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Aaron Davis
@@ -89,7 +90,8 @@ define( function( require ) {
         var colorMap = _.mapValues( colors[ key ], Color.toColor );
 
         assert && assert( colorMap.hasOwnProperty( 'default' ), 'missing default color for ColorProfile: ' + key );
-        assert && assert( key !== 'profileName', 'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
+        assert && assert( key !== 'profileName',
+          'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
         // Set the property on the color profile
         var property = self[ key + 'Property' ] = new Property( colorMap.default );
