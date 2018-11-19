@@ -2,7 +2,7 @@
 
 /**
  * Abstract type for handling color profiles in simulations. Handles multiple color profiles (by string name),
- * and controls color property values based on the active color profile.
+ * and controls color Property values based on the active color profile.
  *
  * It also contains hooks that allow synchronizing the colors over iframe communication, so that colors can be
  * controlled by a color picker.
@@ -34,13 +34,13 @@
  *
  * profile.profileNameProperty.value = 'projector';
  *
- * will set the ColorProfile to the 'projector' profile name, updating both of the color properties to their specified
+ * will set the ColorProfile to the 'projector' profile, updating both of the color properties to their specified
  * 'projector' colors (converted to Scenery Color objects as necessary).
  *
  * NOTE: It is acceptable to omit a non-default profile key for colors, e.g. just { default: ... }. If a profile key
  * is not present for the color, then the default will be used.
  *
- * NOTE: It is ideal to pass color properties directly to Scenery object fill/strokes, e.g.:
+ * NOTE: It is ideal to pass color Properties directly to Scenery object fill/strokes, e.g.:
  *
  *   new Path( ..., { fill: profile.fishFillProperty } );
  *
