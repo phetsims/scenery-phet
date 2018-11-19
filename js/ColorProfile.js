@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2015-2018, University of Colorado Boulder
 
 /**
  * Abstract type for handling color profiles in simulations. Handles multiple color profiles (by string name), and controls color property values

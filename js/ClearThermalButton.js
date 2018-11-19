@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * A button meant for conditionally being able to clear thermal energy from a system. Has a trash can with an arrow,

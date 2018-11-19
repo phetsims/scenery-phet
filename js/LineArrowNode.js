@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * An arrow that is composed of 3 line segments: one for the tail, and 2 for a V-shaped head

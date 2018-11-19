@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2016-2018, University of Colorado Boulder
 
 /**
  * A drawer that opens/closes to show/hide its contents.

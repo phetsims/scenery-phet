@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * Contains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and an array of content with

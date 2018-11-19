@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2015-2018, University of Colorado Boulder
 
 /**
  * A spinnable busy indicator, to indicate something behind the scenes is in progress (but with no indication of how

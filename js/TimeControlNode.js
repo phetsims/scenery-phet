@@ -1,4 +1,4 @@
-// Copyright 2017-2018, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * LayoutBox that combines the play/pause button and the stepforward button with slow-motion controls.
