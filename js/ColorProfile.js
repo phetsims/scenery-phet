@@ -11,7 +11,7 @@
  *
  * For example:
  *
- * var profile = new ColorProfile( {
+ * var profile = new ColorProfile( [ 'default', 'projector' ], {
  *   fishFill: {
  *     default: new Color( 0, 0, 0 ),
  *     projector: 'white'
@@ -20,7 +20,7 @@
  *     default: '#0f0'
  *     projector: Color.BLUE
  *   }
- * }, [ 'default', 'projector' ] );
+ * } );
  *
  * creates a ColorProfile object that now contains the three properties:
  * {
@@ -68,10 +68,10 @@ define( function( require ) {
    * @public
    * @constructor
    *
-   * @param {Object} colors - See documentation above
    * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
+   * @param {Object} colors - See documentation above
    */
-  function ColorProfile( colors, profileNames ) {
+  function ColorProfile( profileNames, colors ) {
     var self = this;
 
     // @public {Property.<string>}
