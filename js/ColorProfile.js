@@ -23,18 +23,18 @@
  *   }
  * } );
  *
- * creates a ColorProfile object that now contains the three properties:
+ * creates a ColorProfile object that now contains the three Properties:
  * {
  *   profileNameProperty: {Property.<string>} - initially 'default',
  *   fishFillProperty: {Property.<Color>} - initially the new Color( 0, 0, 0 ),
  *   fishStrokeProperty: {Property.<Color>} - initially #0f0 converted to a Color object
  * }
  *
- * The color properties will change whenever the profileName property changes, so:
+ * The color Properties will change whenever the profileName Property changes, so:
  *
  * profile.profileNameProperty.value = 'projector';
  *
- * will set the ColorProfile to the 'projector' profile, updating both of the color properties to their specified
+ * will set the ColorProfile to the 'projector' profile, updating both of the color Properties to their specified
  * 'projector' colors (converted to Scenery Color objects as necessary).
  *
  * NOTE: It is acceptable to omit a non-default profile key for colors, e.g. just { default: ... }. If a profile key
@@ -93,10 +93,10 @@ define( function( require ) {
         assert && assert( key !== 'profileName',
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
-        // Set the property on the color profile
+        // Set the Property on the color profile
         var property = self[ key + 'Property' ] = new Property( colorMap.default );
 
-        // Update our property on profile name changes
+        // Update our Property on profile name changes
         profileNameProperty.lazyLink( function( profileName ) {
           property.value = colorMap[ profileName ] || colorMap.default;
         } );
