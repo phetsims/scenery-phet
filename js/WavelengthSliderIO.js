@@ -13,6 +13,7 @@ define( function( require ) {
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,7 +25,7 @@ define( function( require ) {
    * @constructor
    */
   function WavelengthSliderIO( slider, phetioID ) {
-    assert && assertInstanceOf( slider, phet.sceneryPhet.WavelengthSlider );
+    assert && assertInstanceOf( slider, WavelengthSlider );
     NodeIO.call( this, slider, phetioID );
   }
 
