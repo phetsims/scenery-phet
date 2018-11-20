@@ -139,7 +139,7 @@ define( function( require ) {
         hexColor = '0' + hexColor;
       }
 
-      ( window.parent !== window.top ) && window.parent.postMessage( JSON.stringify( {
+      ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
         type: 'reportColor',
         name: key,
         value: '#' + hexColor
