@@ -27,10 +27,13 @@ define( require => {
   let upString = SceneryPhetA11yStrings.up.value;
 
   // constants
-  // threshold for diagonal movement is +/- 15 degrees from diagonals
+  // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
   let DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
   // mapping from alerting direction to the radian range that fills that space in the unit circle.
+  // The diagnal directions take up the middle third of each quadrant, such that each "outside" third is in the range for
+  // a relative (primary) direction. Therefore each diagonal direction is 1/9 of the Unit circle, and each primary direction
+  // is 2/9 of the unit circle.
   let DIRECTION_MAP = {
     UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),

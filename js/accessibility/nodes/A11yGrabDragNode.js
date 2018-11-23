@@ -9,7 +9,7 @@ define( require => {
   // modules
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  // const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
+  const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -134,9 +134,8 @@ define( require => {
       // Add options to draggable node to make it look like a button
       parentButton.mutate( options.grabButtonOptions );
 
-      // TODO: this should be part of the focusHighlight, removing for now. https://github.com/phetsims/scenery-phet/issues/421
       // @private
-      // this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+      this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
 
       this.mutate( options.a11yDraggableNodeOptions );
 
@@ -150,10 +149,6 @@ define( require => {
       }
       parentButton.focusHighlight = parentButtonFocusHighlight;
 
-      // TODO: support grabCueNode https://github.com/phetsims/scenery-phet/issues/421
-      // parentButton.focusHighlight.addChild( this.grabCueNode );
-      // options.supplementaryCueNode && parentButton.focusHighlight.addChild( this.supplementaryCueNode );
-
       // Make the grab button's focusHighlight in the spitting image of the parentButton's
       const childDraggableFocusHighlight = new FocusHighlightPath( parentButtonFocusHighlight.shape, {
         visible: false
@@ -166,6 +161,12 @@ define( require => {
         childDraggableFocusHighlight.setShape( parentButtonFocusHighlight.shape );
       };
       parentButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
+
+      // TODO: Likely we will need to monitor the parent for changes, and update accordingly, though for now it works in
+      // TODO: friction, see https://github.com/phetsims/scenery-phet/issues/421
+      this.grabCueNode.prependMatrix( parentButton.getMatrix() );
+      parentButton.focusHighlight.addChild( this.grabCueNode );
+      // options.supplementaryCueNode && parentButton.focusHighlight.addChild( this.supplementaryCueNode );
 
 
       // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
@@ -201,8 +202,7 @@ define( require => {
         blur: () => {
           if ( this.numberOfGrabs >= options.grabsToCue ) {
 
-            // TODO: support cueing
-            // this.grabCueNode.visible = false;
+            this.grabCueNode.visible = false;
             // if ( this.supplementaryCueNode ) {
             //   this.supplementaryCueNode.visible = false;
             // }
@@ -276,8 +276,7 @@ define( require => {
           parentButtonFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
         }
 
-        // TODO: do we have to do this?
-        // parentButton.focusHighlight.removeChild( this.grabCueNode );
+        parentButton.focusHighlight.removeChild( this.grabCueNode );
         // options.supplementaryCueNode && parentButton.focusHighlight.removeChild( this.supplementaryCueNode );
       };
 
@@ -308,11 +307,10 @@ define( require => {
     reset() {
       this.numberOfGrabs = 0;
 
-      // TODO: support cueing
       // if ( this.supplementaryCueNode ) {
       //   this.supplementaryCueNode.visible = true;
       // }
-      // this.grabCueNode.visible = true;
+      this.grabCueNode.visible = true;
     }
   }
 
