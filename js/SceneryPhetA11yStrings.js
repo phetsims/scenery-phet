@@ -161,7 +161,7 @@ define( function( require ) {
       value: 'Released.'
     },
     grabOrReleaseDescriptionPattern: {
-      value: 'Grab or release the {{thing}} with Space or Enter keys.'
+      value: 'Grab or release {{thing}} with Space or Enter keys.'
     }
 
   };
