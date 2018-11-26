@@ -28,6 +28,7 @@ define( function( require ) {
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
+  var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
   var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -96,6 +97,7 @@ define( function( require ) {
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
       { label: 'FormulaNode', createNode: demoFormulaNode },
+      { label: 'GaugeNode', createNode: demoGaugeNode },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'KeyNode', createNode: demoKeyNode },
@@ -289,6 +291,23 @@ define( function( require ) {
     } );
     return new Node( {
       children: [ bounds, formulaNode ]
+    } );
+  };
+
+  // Creates a demo for GaugeNode
+  var demoGaugeNode = function( layoutBounds ) {
+    var valueProperty = new Property( 50 );
+    var valueRange = new Range( 0, 100 );
+
+    var gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', valueRange );
+
+    return new VBox( {
+      spacing: 15,
+      children: [
+        gaugeNode,
+        NumberControl.withMinMaxTicks( 'Value:', valueProperty, valueRange )
+      ],
+      center: layoutBounds.center
     } );
   };
 
