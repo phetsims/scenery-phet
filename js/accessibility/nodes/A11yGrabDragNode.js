@@ -92,6 +92,7 @@ define( require => {
         assert && assert( options.supplementaryCueNode.visible === true, 'supplementaryCueNode should be visible' );
       }
 
+      // TODO: do we need this and options?
       options.a11yDraggableNodeOptions = _.extend( {
 
         // a11y
