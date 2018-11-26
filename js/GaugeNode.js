@@ -60,6 +60,10 @@ define( function( require ) {
     }, options );
 
     assert && assert( range instanceof Range, 'range must be of type Range:' + range );
+    assert && assert( options.numTicks * options.anglePerTick <= 2 * Math.PI,
+      'options.numTicks * options.anglePerTick must be <= 2 * Math.PI. numTicks: ' + options.numTicks +
+      ', anglePerTick: ' + options.anglePerTick
+    );
 
     Node.call( this );
 
