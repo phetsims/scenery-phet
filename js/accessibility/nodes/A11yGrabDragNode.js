@@ -56,7 +56,7 @@ define( require => {
 
         // TODO: why support this? shouldn't we just attach this to the focusHighlight passed in https://github.com/phetsims/scenery-phet/issues/421
         // // {null|Node} -  additional cueing node who's visibility can be toggled.
-        // supplementaryCueNode: null,
+        supplementaryCueNode: null,
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -72,9 +72,6 @@ define( require => {
         tagName: 'div'
       }, options );
 
-      // assert && assert( options.supplementaryCueNode instanceof Node || options.supplementaryCueNode === null );
-      // assert && assert( options.supplementaryCueNode === null || !options.supplementaryCueNode.parent, 'A11yGrabDragNode adds supplementaryCueNode to focusHighlight' );
-
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
 
@@ -87,13 +84,13 @@ define( require => {
 
       assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
-      assert && assert( options.grabCueOptions.visible === undefined, 'A11yGrabDragNode sets visibility of cue node' );
 
-      // TODO: finish up, we need this? https://github.com/phetsims/scenery-phet/issues/421
-      // options.grabCueOptions = _.extend( {
-      //   visible: true
-      // }, options.grabCueOptions );
-
+      assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
+      if ( options.supplementaryCueNode !== null ) {
+        assert && assert( options.supplementaryCueNode instanceof Node );
+        assert && assert( !options.supplementaryCueNode.parent, 'A11yGrabDragNode adds supplementaryCueNode to focusHighlight' );
+        assert && assert( options.supplementaryCueNode.visible === true, 'supplementaryCueNode should be visible' );
+      }
 
       options.a11yDraggableNodeOptions = _.extend( {
 
@@ -119,13 +116,8 @@ define( require => {
       assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
 
       // @private
-      this.numberOfGrabs = 0;
-
-      // // TODO: this should be added as the focusHighlight?? Maybe with an options, https://github.com/phetsims/scenery-phet/issues/421
-      // this.supplementaryCueNode = options.supplementaryCueNode; // could be null
-      // if ( this.supplementaryCueNode ) {
-      //   this.supplementaryCueNode.visible = true; // initialize it to invisible by default
-      // }
+      this.numberOfGrabs = 0; // {number}
+      this.supplementaryCueNode = options.supplementaryCueNode; // {Node|null}
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
@@ -166,8 +158,10 @@ define( require => {
       // TODO: friction, see https://github.com/phetsims/scenery-phet/issues/421
       this.grabCueNode.prependMatrix( parentButton.getMatrix() );
       parentButton.focusHighlight.addChild( this.grabCueNode );
-      // options.supplementaryCueNode && parentButton.focusHighlight.addChild( this.supplementaryCueNode );
-
+      if ( this.supplementaryCueNode ) {
+        this.supplementaryCueNode.prependMatrix( parentButton.getMatrix() );
+        parentButton.focusHighlight.addChild( this.supplementaryCueNode );
+      }
 
       // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
       let guardKeyPressFromDraggable = false;
@@ -203,9 +197,9 @@ define( require => {
           if ( this.numberOfGrabs >= options.grabsToCue ) {
 
             this.grabCueNode.visible = false;
-            // if ( this.supplementaryCueNode ) {
-            //   this.supplementaryCueNode.visible = false;
-            // }
+            if ( this.supplementaryCueNode ) {
+              this.supplementaryCueNode.visible = false;
+            }
           }
         }
       };
@@ -277,7 +271,7 @@ define( require => {
         }
 
         parentButton.focusHighlight.removeChild( this.grabCueNode );
-        // options.supplementaryCueNode && parentButton.focusHighlight.removeChild( this.supplementaryCueNode );
+        this.supplementaryCueNode && parentButton.focusHighlight.removeChild( this.supplementaryCueNode );
       };
 
       this.mutate( options );
@@ -307,10 +301,10 @@ define( require => {
     reset() {
       this.numberOfGrabs = 0;
 
-      // if ( this.supplementaryCueNode ) {
-      //   this.supplementaryCueNode.visible = true;
-      // }
       this.grabCueNode.visible = true;
+      if ( this.supplementaryCueNode ) {
+        this.supplementaryCueNode.visible = true;
+      }
     }
   }
 
