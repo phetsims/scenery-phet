@@ -33,6 +33,7 @@ define( function( require ) {
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -497,9 +498,10 @@ define( function( require ) {
       thing: thingAsLowerCase
     } );
 
-    var label = new Text( labelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: 225
+    var label = new RichText( labelString, {
+      font: DEFAULT_LABEL_FONT,
+      maxWidth: DEFAULT_TEXT_MAX_WIDTH,
+      lineWrap: DEFAULT_TEXT_MAX_WIDTH
     } );
 
     var spaceKeyNode = new SpaceKeyNode();
