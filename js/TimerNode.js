@@ -61,15 +61,14 @@ define( function( require ) {
     var timerReadoutNode = new TimerReadoutNode( timeProperty, options );
     timerReadoutNode.centerX = 0;
 
-    var minimumButtonWidth = ( timerReadoutNode.width - options.buttonSpacing ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
-
     // Buttons ----------------------------------------------------------------------------
 
-    var resetShape = new UTurnArrowShape( ICON_HEIGHT );
+    var resetPath = new Path( new UTurnArrowShape( ICON_HEIGHT ), {
+      fill: options.iconFill
+    } );
 
-    var playIconHeight = resetShape.bounds.height;
+    var playIconHeight = resetPath.height;
     var playIconWidth = 0.8 * playIconHeight;
-
     var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
       stroke: options.iconStroke,
       fill: options.iconFill
@@ -81,22 +80,18 @@ define( function( require ) {
     } );
 
     var playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
-      tandem: options.tandem.createTandem( 'playPauseButton' ),
       baseColor: options.buttonBaseColor,
-      minWidth: minimumButtonWidth
+      tandem: options.tandem.createTandem( 'playPauseButton' )
     } );
 
     var resetButton = new RectangularPushButton( {
-      tandem: options.tandem.createTandem( 'resetButton' ),
       listener: function resetTimer() {
         runningProperty.set( false );
         timeProperty.set( 0 );
       },
-      content: new Path( resetShape, {
-        fill: options.iconFill
-      } ),
+      content: resetPath,
       baseColor: options.buttonBaseColor,
-      minWidth: minimumButtonWidth
+      tandem: options.tandem.createTandem( 'resetButton' )
     } );
 
     // Layout ----------------------------------------------------------------------------
