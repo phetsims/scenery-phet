@@ -12,7 +12,9 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -24,7 +26,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
-  
+  var VBox = require( 'SCENERY/nodes/VBox' );
+
   // constants
   var ICON_HEIGHT = 10;
 
@@ -45,17 +48,17 @@ define( function( require ) {
       iconStroke: null,
       iconLineWidth: 1,
       buttonBaseColor: '#DFE0E1',
-      buttonSpacing: 6, // horizontal distance between the buttons
-      buttonTopMargin: 6, // space between the bottom of the readout and the top of the buttons
+      xSpacing: 6, // horizontal space between the buttons
+      ySpacing: 6, // vertical space between readout and buttons
+      xMargin: 8,
+      yMargin: 8,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required
     }, options );
 
-    assert && assert( options.buttonSpacing >= 0, 'Buttons cannot overlap' );
-    assert && assert( options.buttonTopMargin >= 0, 'Buttons cannot overlap the readout' );
-
-    Node.call( this );
+    assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
+    assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
     var timerReadoutNode = new TimerReadoutNode( timeProperty, options );
@@ -94,46 +97,45 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'resetButton' )
     } );
 
-    // Layout ----------------------------------------------------------------------------
+    var contents = new VBox( {
+      spacing: options.ySpacing,
+      children: [
+        timerReadoutNode,
+        new HBox( {
+          spacing: options.xSpacing,
+          children: [ resetButton, playPauseButton ]
+        } )
+      ]
+    } );
 
-    var contents = new Node();
-    contents.addChild( resetButton );
-    contents.addChild( playPauseButton );
-    contents.addChild( timerReadoutNode );
+    // Background panel ----------------------------------------------------------------------------
 
-    resetButton.right = -options.buttonSpacing / 2;
-    playPauseButton.left = options.buttonSpacing / 2;
-    resetButton.top = timerReadoutNode.bottom + options.buttonTopMargin;
-    playPauseButton.top = timerReadoutNode.bottom + options.buttonTopMargin;
+    var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
+      contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ) );
+    backgroundNode.touchArea = backgroundNode.localBounds.dilated( options.touchAreaDilation );
+    contents.center = backgroundNode.center;
 
-    var panelPad = 8;
-    contents.left = panelPad;
-    contents.top = panelPad;
+    assert && assert( !options.children, 'TimerNode sets children' );
+    options.children = [ backgroundNode, contents ];
 
-    // Panel background
-    var roundedRectangle = new ShadedRectangle( contents.bounds.dilated( panelPad ) );
-    roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
-    this.addChild( roundedRectangle );
-
-    this.addChild( contents );
+    Node.call( this, options );
 
     // @public (read-only) - Target for drag listeners
-    this.dragTarget = roundedRectangle;
+    this.dragTarget = backgroundNode;
 
-    var updateResetButtonEnabled = function( value ) {
+    // Disable the reset button when time is zero.
+    var timeListener = function( value ) {
       resetButton.enabled = value > 0;
     };
-    timeProperty.link( updateResetButtonEnabled );
+    timeProperty.link( timeListener );
 
     // @private
     this.disposeTimerNode = function() {
       timerReadoutNode.dispose();
-      timeProperty.unlink( updateResetButtonEnabled );
+      timeProperty.unlink( timeListener );
       resetButton.dispose();
       playPauseButton.dispose();
     };
-
-    this.mutate( options );
   }
 
   sceneryPhet.register( 'TimerNode', TimerNode );
