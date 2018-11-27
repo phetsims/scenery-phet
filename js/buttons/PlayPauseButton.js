@@ -6,7 +6,6 @@
  *
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
@@ -15,9 +14,10 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  var PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Shape = require( 'KITE/Shape' );
 
   // a11y strings
   var playString = SceneryPhetA11yStrings.playString.value;
@@ -45,17 +45,11 @@ define( function( require ) {
 
     this.isPlayingProperty = isPlayingProperty; // @private
 
-    // play and pause symbols are sized relative to the radius
-    var triangleHeight = options.radius;
-    var triangleWidth = options.radius * 0.8;
-    var barWidth = options.radius * 0.2;
-    var barHeight = triangleHeight;
-    var playPath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), { fill: 'black' } );
-
-    var pauseIconShape = new Shape()
-      .rect( 0, 0, barWidth, barHeight )
-      .rect( 2 * barWidth, 0, barWidth, barHeight );
-    var pausePath = new Path( pauseIconShape, { fill: 'black' } );
+    // play and pause icons are sized relative to the radius
+    var playHeight = options.radius;
+    var playWidth = options.radius * 0.8;
+    var playPath = new Path( new PlayIconShape( playWidth, playHeight ), { fill: 'black' } );
+    var pausePath = new Path( new PauseIconShape( 0.75 * playWidth, playHeight ), { fill: 'black' } );
 
     // put the play and pause symbols inside circles so they have the same bounds,
     // otherwise BooleanToggleNode will re-adjust their positions relative to each other

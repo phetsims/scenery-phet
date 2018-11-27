@@ -13,17 +13,20 @@ define( function( require ) {
 
   // modules
   var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  var PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
+  
+  // constants
+  var ICON_HEIGHT = 10;
 
   /**
    * @param {Property.<number>} timeProperty
@@ -38,7 +41,9 @@ define( function( require ) {
       // See also options that pass through to TimerReadoutNode
       touchAreaDilation: 10,
       cursor: 'pointer',
-      iconColor: '#333',
+      iconFill: 'black',
+      iconStroke: null,
+      iconLineWidth: 1,
       buttonBaseColor: '#DFE0E1',
       buttonSpacing: 6, // horizontal distance between the buttons
       buttonTopMargin: 6, // space between the bottom of the readout and the top of the buttons
@@ -58,22 +63,28 @@ define( function( require ) {
 
     var minimumButtonWidth = ( timerReadoutNode.width - options.buttonSpacing ) / 2 - 1; // -1 due to the stroke making it look mis-aligned
 
-    /*---------------------------------------------------------------------------*
-     * Buttons
-     *----------------------------------------------------------------------------*/
-    var resetAllShape = new UTurnArrowShape( 10 );
-    var playPauseHeight = resetAllShape.bounds.height;
-    var playPauseWidth = playPauseHeight;
-    var halfPlayStroke = 0.05 * playPauseWidth;
-    var playOffset = 0.15 * playPauseWidth;
-    var playShape = new Shape().moveTo( playPauseWidth - halfPlayStroke * 0.5 - playOffset, 0 )
-      .lineTo( halfPlayStroke * 1.5 + playOffset, playPauseHeight / 2 - halfPlayStroke - playOffset )
-      .lineTo( halfPlayStroke * 1.5 + playOffset, -playPauseHeight / 2 + halfPlayStroke + playOffset )
-      .close()
-      .getOffsetShape( -playOffset );
+    // Buttons ----------------------------------------------------------------------------
 
-    // a stop symbol (square)
-    var pauseShape = Shape.bounds( new Bounds2( 0, -playPauseHeight / 2, playPauseWidth, playPauseHeight / 2 ).eroded( playPauseWidth * 0.1 ) );
+    var resetShape = new UTurnArrowShape( ICON_HEIGHT );
+
+    var playIconHeight = resetShape.bounds.height;
+    var playIconWidth = 0.8 * playIconHeight;
+
+    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
+      stroke: options.iconStroke,
+      fill: options.iconFill
+    } );
+
+    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
+      stroke: options.iconStroke,
+      fill: options.iconFill
+    } );
+
+    var playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
+      tandem: options.tandem.createTandem( 'playPauseButton' ),
+      baseColor: options.buttonBaseColor,
+      minWidth: minimumButtonWidth
+    } );
 
     var resetButton = new RectangularPushButton( {
       tandem: options.tandem.createTandem( 'resetButton' ),
@@ -81,28 +92,15 @@ define( function( require ) {
         runningProperty.set( false );
         timeProperty.set( 0 );
       },
-      content: new Path( resetAllShape, {
-        fill: options.iconColor
+      content: new Path( resetShape, {
+        fill: options.iconFill
       } ),
       baseColor: options.buttonBaseColor,
       minWidth: minimumButtonWidth
     } );
 
-    var playPauseButton = new BooleanRectangularToggleButton(
-      new Path( pauseShape, { fill: options.iconColor } ),
-      new Path( playShape, {
-        stroke: options.iconColor,
-        fill: '#eef',
-        lineWidth: halfPlayStroke * 2
-      } ), runningProperty, {
-        tandem: options.tandem.createTandem( 'playPauseButton' ),
-        baseColor: options.buttonBaseColor,
-        minWidth: minimumButtonWidth
-      } );
+    // Layout ----------------------------------------------------------------------------
 
-    /*---------------------------------------------------------------------------*
-     * Layout
-     *----------------------------------------------------------------------------*/
     var contents = new Node();
     contents.addChild( resetButton );
     contents.addChild( playPauseButton );
@@ -117,18 +115,13 @@ define( function( require ) {
     contents.left = panelPad;
     contents.top = panelPad;
 
-    /*---------------------------------------------------------------------------*
-     * Panel background
-     *----------------------------------------------------------------------------*/
+    // Panel background
     var roundedRectangle = new ShadedRectangle( contents.bounds.dilated( panelPad ) );
     roundedRectangle.touchArea = roundedRectangle.localBounds.dilated( options.touchAreaDilation );
     this.addChild( roundedRectangle );
 
     this.addChild( contents );
 
-    /*---------------------------------------------------------------------------*
-     * Target for drag listeners
-     *----------------------------------------------------------------------------*/
     // @public (read-only) - Target for drag listeners
     this.dragTarget = roundedRectangle;
 
