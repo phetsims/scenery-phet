@@ -30,6 +30,16 @@ define( function( require ) {
 
   // constants
   var ICON_HEIGHT = 10;
+  var RESET_PATH_OPTIONS = {
+    fill: 'black'
+  };
+  var PLAY_PATH_OPTIONS = {
+    stroke: 'black',
+    fill: '#eef'
+  };
+  var PAUSE_PATH_OPTIONS = {
+    fill: 'black'
+  };
 
   /**
    * @param {Property.<number>} timeProperty
@@ -66,21 +76,13 @@ define( function( require ) {
 
     // Buttons ----------------------------------------------------------------------------
 
-    var resetPath = new Path( new UTurnArrowShape( ICON_HEIGHT ), {
-      fill: options.iconFill
-    } );
+    var resetPath = new Path( new UTurnArrowShape( ICON_HEIGHT ), RESET_PATH_OPTIONS );
 
     var playIconHeight = resetPath.height;
     var playIconWidth = 0.8 * playIconHeight;
-    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
-      stroke: options.iconStroke,
-      fill: options.iconFill
-    } );
+    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), PLAY_PATH_OPTIONS );
 
-    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
-      stroke: options.iconStroke,
-      fill: options.iconFill
-    } );
+    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), PAUSE_PATH_OPTIONS );
 
     var playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
       baseColor: options.buttonBaseColor,
