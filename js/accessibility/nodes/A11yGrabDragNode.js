@@ -30,7 +30,6 @@ define( require => {
    */
   class A11yGrabDragNode extends Node {
     constructor( parentButton, options ) {
-      super();
 
       options = _.extend( {
         cursor: 'pointer',
@@ -48,15 +47,12 @@ define( require => {
         // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
         grabButtonOptions: {},
 
-        // TODO: these are really just a11y options for "this" https://github.com/phetsims/scenery-phet/issues/421
-        // {Object} - Options for the child Node that will be the draggable component in the PDOM. This gets a11y
-        // related draggable listeners and such.
-        a11yDraggableNodeOptions: {},
+        // // {null|Node} - Optional node to cue the drag interaction once successfully updated.
+        dragCueNode: null,
 
-
-        // TODO: why support this? shouldn't we just attach this to the focusHighlight passed in https://github.com/phetsims/scenery-phet/issues/421
-        // // {null|Node} -  additional cueing node who's visibility can be toggled.
-        supplementaryCueNode: null,
+        // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
+        //              thus determining whether or not to show the dragCueNode.
+        successfulDrag: _.noop,
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -67,40 +63,28 @@ define( require => {
         // not passed to this node, but instead to the grabButton
         tandem: Tandem.required,
 
+        // general a11y options
         // a11y - this node will act as a container for more accessible content, its children will implement
         // most of the keyboard navigation
-        tagName: 'div'
+        tagName: 'div',
+        ariaRole: 'application',
+        focusable: true
       }, options );
-
-      assert && assert( typeof options.onGrab === 'function' );
-      assert && assert( typeof options.onRelease === 'function' );
 
       if ( parentButton.focusHighlight ) {
         assert && assert( parentButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a Path' );
       }
-
+      assert && assert( typeof options.onGrab === 'function' );
+      assert && assert( typeof options.onRelease === 'function' );
       assert && assert( typeof options.grabsToCue === 'number' );
-
-      assert && assert( typeof options.a11yDraggableNodeOptions === 'object' );
       assert && assert( typeof options.grabCueOptions === 'object' );
-
       assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
-      if ( options.supplementaryCueNode !== null ) {
-        assert && assert( options.supplementaryCueNode instanceof Node );
-        assert && assert( !options.supplementaryCueNode.parent, 'A11yGrabDragNode adds supplementaryCueNode to focusHighlight' );
-        assert && assert( options.supplementaryCueNode.visible === true, 'supplementaryCueNode should be visible' );
+      if ( options.dragCueNode !== null ) {
+        assert && assert( options.dragCueNode instanceof Node );
+        assert && assert( !options.dragCueNode.parent, 'A11yGrabDragNode adds dragCueNode to focusHighlight' );
+        assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
-
-      // TODO: do we need this and options?
-      options.a11yDraggableNodeOptions = _.extend( {
-
-        // a11y
-        tagName: 'div',
-        ariaRole: 'application',
-        focusable: true
-      }, options.a11yDraggableNodeOptions );
-
 
       // TODO - maybe we don't need this to be an option https://github.com/phetsims/scenery-phet/issues/421
       // TODO - provide a way to not do this if we don't want to (though do it by default).
@@ -111,14 +95,10 @@ define( require => {
         // a11y
         containerTagName: 'div',
         tagName: 'button',
-        focusHighlightLayerable: true
+        focusHighlightLayerable: true // TODO: is this really true? I don't think so
       }, options.grabButtonOptions );
 
       assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
-
-      // @private
-      this.numberOfGrabs = 0; // {number}
-      this.supplementaryCueNode = options.supplementaryCueNode; // {Node|null}
 
       options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
@@ -127,10 +107,13 @@ define( require => {
       // Add options to draggable node to make it look like a button
       parentButton.mutate( options.grabButtonOptions );
 
+      super( options );
+
       // @private
+      this.numberOfGrabs = 0; // {number}
+      this.dragCueNode = options.dragCueNode; // {Node|null}
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
 
-      this.mutate( options.a11yDraggableNodeOptions );
 
       // by default should be hidden until "grabbed" (grab button is pressed)
       this.accessibleVisible = false;
@@ -159,9 +142,9 @@ define( require => {
       // TODO: friction, see https://github.com/phetsims/scenery-phet/issues/421
       this.grabCueNode.prependMatrix( parentButton.getMatrix() );
       parentButton.focusHighlight.addChild( this.grabCueNode );
-      if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.prependMatrix( parentButton.getMatrix() );
-        parentButton.focusHighlight.addChild( this.supplementaryCueNode );
+      if ( this.dragCueNode ) {
+        this.dragCueNode.prependMatrix( parentButton.getMatrix() );
+        childDraggableFocusHighlight.addChild( this.dragCueNode );
       }
 
       // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
@@ -196,11 +179,7 @@ define( require => {
 
         blur: () => {
           if ( this.numberOfGrabs >= options.grabsToCue ) {
-
             this.grabCueNode.visible = false;
-            if ( this.supplementaryCueNode ) {
-              this.supplementaryCueNode.visible = false;
-            }
           }
         }
       };
@@ -244,6 +223,11 @@ define( require => {
           if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
             a11yReleaseWrappedNode();
           }
+
+          // if successfully dragged, then make the cue node invisible
+          if ( this.dragCueNode && options.successfulDrag() ) {
+            this.dragCueNode.visible = false;
+          }
         },
 
         // arrow function for this
@@ -253,6 +237,13 @@ define( require => {
           // the draggable node should no longer be focusable
           this.accessibleVisible = false;
 
+        },
+        focus: () => {
+
+          // if successfully dragged, then make the cue node invisible
+          if ( this.dragCueNode && options.successfulDrag() ) {
+            this.dragCueNode.visible = false;
+          }
         }
       } );
 
@@ -272,10 +263,8 @@ define( require => {
         }
 
         parentButton.focusHighlight.removeChild( this.grabCueNode );
-        this.supplementaryCueNode && parentButton.focusHighlight.removeChild( this.supplementaryCueNode );
+        this.dragCueNode && childDraggableFocusHighlight.focusHighlight.removeChild( this.dragCueNode );
       };
-
-      this.mutate( options );
     }
 
 
@@ -303,8 +292,8 @@ define( require => {
       this.numberOfGrabs = 0;
 
       this.grabCueNode.visible = true;
-      if ( this.supplementaryCueNode ) {
-        this.supplementaryCueNode.visible = true;
+      if ( this.dragCueNode ) {
+        this.dragCueNode.visible = true;
       }
     }
   }
