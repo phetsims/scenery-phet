@@ -76,9 +76,11 @@ define( require => {
 
       const ticksShape = new Shape();
       let y = centerBottom;
-      for ( let i = 0; i < numTicks; i++ ) {
+      for ( let i = 0; i < numTicks - 1; i++ ) {
         y -= options.fullHeight / numTicks;
-        ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.8 : 0.7 ), true );
+        const centralAngle = Math.PI * 0.83;
+        const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
+        ticksShape.ellipticalArc( 0, y, xRadius, yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
       }
 
       const waterColor = options.colorOverride ? options.colorOverride : WATER_COLOR;
