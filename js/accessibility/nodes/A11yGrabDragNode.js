@@ -15,7 +15,6 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const Tandem = require( 'TANDEM/Tandem' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // a11y strings
@@ -24,15 +23,14 @@ define( require => {
   const releasedString = SceneryPhetA11yStrings.released.value;
 
   /**
-   * NOTE: if passing inthis class assumes
+   * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
    * @param {Node} parentButton - Node passed in that will be mutated with a11y options to have the grab functionality in the PDOM
    * @param  {Object} options
    */
-  class A11yGrabDragNode extends Node {
-    constructor( parentButton, options ) {
+  class A11yGrabDragNode {
+    constructor( node, options ) {
 
       options = _.extend( {
-        cursor: 'pointer',
 
         // A string that is filled in to the appropriate button label
         thingToGrab: defaultThingToGrabString,
@@ -43,16 +41,8 @@ define( require => {
         // {function} - if you override this, make sure to handle the alert in the default onRelease
         onRelease: A11yGrabDragNode.onRelease,
 
-        // TODO: these are really just a11y options for "parentButton"
-        // {Object} - Node options passed to the actually <button> created for the PDOM, filled in below
+        // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
         grabButtonOptions: {},
-
-        // // {null|Node} - Optional node to cue the drag interaction once successfully updated.
-        dragCueNode: null,
-
-        // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
-        //              thus determining whether or not to show the dragCueNode.
-        successfulDrag: _.noop,
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -60,42 +50,50 @@ define( require => {
         // {number} - the number of times a user has to successfully grab the object before hiding the cue.
         grabsToCue: 1,
 
-        // not passed to this node, but instead to the grabButton
-        tandem: Tandem.required,
+        // {Object} - Node options passed to the draggable created for the PDOM, filled in with defaults below
+        dragDivOptions: {},
 
-        // general a11y options
-        // a11y - this node will act as a container for more accessible content, its children will implement
-        // most of the keyboard navigation
-        tagName: 'div',
-        ariaRole: 'application',
-        focusable: true
+        // // {null|Node} - Optional node to cue the drag interaction once successfully updated.
+        dragCueNode: null,
+
+        // {Function[]} - This type swaps the PDOM structure for a given node between a grabbable mode, and draggable one.
+        // We need to keep track of all listeners that need to be attached to each PDOM manifestation.
+        listenersForDrag: [],
+        listenersForGrab: [],
+
+        // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
+        //              thus determining whether or not to show the dragCueNode.
+        successfulDrag: _.noop
       }, options );
 
-      if ( parentButton.focusHighlight ) {
-        assert && assert( parentButton.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+      if ( node.focusHighlight ) {
+        assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a Path' );
       }
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
+      assert && assert( Array.isArray( options.listenersForDrag ) );
+      assert && assert( Array.isArray( options.listenersForGrab ) );
       assert && assert( typeof options.grabsToCue === 'number' );
-      assert && assert( typeof options.grabCueOptions === 'object' );
+      assert && assert( options.grabButtonOptions instanceof Object );
+      assert && assert( options.grabCueOptions instanceof Object );
       assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
+      assert && assert( options.dragDivOptions instanceof Object );
       if ( options.dragCueNode !== null ) {
         assert && assert( options.dragCueNode instanceof Node );
         assert && assert( !options.dragCueNode.parent, 'A11yGrabDragNode adds dragCueNode to focusHighlight' );
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
 
-      // TODO - maybe we don't need this to be an option https://github.com/phetsims/scenery-phet/issues/421
-      // TODO - provide a way to not do this if we don't want to (though do it by default).
-      // TODO: Likely if we don't have grabButtonOPtions, at the very least we will want to assert that options
-      // TODO: aren't trying to set these
-      options.grabButtonOptions = _.extend( {
+      options.dragDivOptions = _.extend( {
+        tagName: 'div',
+        ariaRole: 'application',
+        focusable: true
+      }, options.dragDivOptions );
 
-        // a11y
+      options.grabButtonOptions = _.extend( {
         containerTagName: 'div',
-        tagName: 'button',
-        focusHighlightLayerable: true // TODO: is this really true? I don't think so
+        tagName: 'button'
       }, options.grabButtonOptions );
 
       assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
@@ -104,50 +102,48 @@ define( require => {
         thingToGrab: options.thingToGrab
       } );
 
-      // Add options to draggable node to make it look like a button
-      parentButton.mutate( options.grabButtonOptions );
-
-      super( options );
+      // Initialize the node as a button to begin with
+      node.mutate( options.grabButtonOptions );
 
       // @private
+      this.grabbable = true; // if false, then instead it has draggable functionality
+      this.node = node;
+      this.grabButtonOptions = options.grabButtonOptions;
+      this.dragDivOptions = options.dragDivOptions;
       this.numberOfGrabs = 0; // {number}
+      this.grabsToCue = options.grabsToCue;
+      this.successfulDrag = options.successfulDrag;
       this.dragCueNode = options.dragCueNode; // {Node|null}
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
 
+      // @private - Take the focusHighlight from the node for the grab button interaction highlight.
+      this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
+      node.focusHighlight = this.grabFocusHighlight;
 
-      // by default should be hidden until "grabbed" (grab button is pressed)
-      this.accessibleVisible = false;
-
-      // Update the passed in node's focusHighlight to make it "dashed"
-      let parentButtonFocusHighlight = parentButton.focusHighlight;
-      if ( !parentButtonFocusHighlight ) {
-        parentButtonFocusHighlight = new FocusHighlightFromNode( parentButton );
-      }
-      parentButton.focusHighlight = parentButtonFocusHighlight;
-
-      // Make the grab button's focusHighlight in the spitting image of the parentButton's
-      const childDraggableFocusHighlight = new FocusHighlightPath( parentButtonFocusHighlight.shape, {
+      // @private - Make the draggable focusHighlight in the spitting image of the node's
+      this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, {
         visible: false
       } );
-      childDraggableFocusHighlight.makeDashed();
-      this.focusHighlight = childDraggableFocusHighlight;
 
-      // if ever we update the parentButton's focusHighlight, then update the grab button's too to keep in syn.
+      // Update the passed in node's focusHighlight to make it dashed for the "grabbed" mode
+      this.dragFocusHighlight.makeDashed();
+
+      // if ever we update the node's focusHighlight, then update the grab button's too to keep in syn.
       let onHighlightChange = () => {
-        childDraggableFocusHighlight.setShape( parentButtonFocusHighlight.shape );
+        this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
       };
-      parentButton.focusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
+      this.grabFocusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
-      // TODO: Likely we will need to monitor the parent for changes, and update accordingly, though for now it works in
-      // TODO: friction, see https://github.com/phetsims/scenery-phet/issues/421
-      this.grabCueNode.prependMatrix( parentButton.getMatrix() );
-      parentButton.focusHighlight.addChild( this.grabCueNode );
+      // TODO: Likely we will need to monitor the parent for changes, and update accordingly, though for now it works in friction, see https://github.com/phetsims/scenery-phet/issues/421
+      this.grabCueNode.prependMatrix( node.getMatrix() );
+      this.grabFocusHighlight.addChild( this.grabCueNode );
       if ( this.dragCueNode ) {
-        this.dragCueNode.prependMatrix( parentButton.getMatrix() );
-        childDraggableFocusHighlight.addChild( this.dragCueNode );
+        this.dragCueNode.prependMatrix( node.getMatrix() );
+        this.dragFocusHighlight.addChild( this.dragCueNode );
       }
 
-      // some keypresses can fire the parentButton's click (the grab button) from the same press that fires the event below, so guard against that.
+      // Some key presses can fire the node's click (the grab button) from the same press that fires the keydown from
+      // the draggable, so guard against that.
       let guardKeyPressFromDraggable = false;
 
       // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
@@ -157,20 +153,26 @@ define( require => {
           // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
           // and pick it up immediately again.
           if ( !guardKeyPressFromDraggable ) {
-
             this.numberOfGrabs++;
 
-            options.onGrab();
-            this.accessibleVisible = true;
+            this.turnToDraggable();
 
-            // TODO: so hacky!!!! https://github.com/phetsims/scenery-phet/issues/421
-            if ( this.focusHighlightLayerable &&
-                 !parentButtonFocusHighlight.parent.hasChild( childDraggableFocusHighlight ) ) {
-              assert && assert( parentButtonFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
-                                                                   'node that is not in the scene graph?' );
-              parentButtonFocusHighlight.parent.addChild( childDraggableFocusHighlight );
+            this.node.focus();
+
+            // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
+            // original focus highlight was added. By doing this on click, we make sure that the node's
+            // focusHighlight has been completely constructed (added to the scene graph) and can use its parent. But only
+            // do it once.
+            if ( node.focusHighlightLayerable ) {
+              assert && assert( this.grabFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                                'node that is not in the scene graph?' );
+              // If not yet added, do so now.
+              if ( !this.grabFocusHighlight.parent.hasChild( this.dragFocusHighlight ) ) {
+                this.grabFocusHighlight.parent.addChild( this.dragFocusHighlight );
+              }
             }
-            this.focus();
+
+            options.onGrab();
           }
 
           // "grab" the draggable on the next click event
@@ -183,36 +185,38 @@ define( require => {
           }
         }
       };
-      parentButton.addAccessibleInputListener( grabButtonListener );
+
+      // @private - keep track of all listeners to swap out grab/drag functionalities
+      this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
+      node.addAccessibleInputListener( grabButtonListener );
 
       // Release the balloon after an accessible interaction, resetting  model Properties, returning focus
       // to the "grab" button, and hiding the draggable balloon.
       const a11yReleaseWrappedNode = () => {
 
-        // set a guard that will make sure that the click doesn't inappropriately bubble up to the parent listener
-        // (likely that is the parentButton)
-        // NOTE: we need this for spacebar also when "this" node is added as a child of the `parentButton`
-        guardKeyPressFromDraggable = true;
-
-        // focus the grab button again
-        parentButton.focus();
-
-        // the draggable node should no longer be discoverable in the parallel DOM
-        this.accessibleVisible = false;
-
         // reset the key state of the drag handler by interrupting the drag
-        this.interruptInput();
+        node.interruptInput();
+
+        this.turnToGrabbable();
+
+        // refocus once reconstructed, TODO: this may not be necessary if scenery knows how to restore focus on tagName change
+        node.focus();
 
         // callback when node is "released"
         options.onRelease();
       };
 
-      this.addAccessibleInputListener( {
+      let dragDivListener = {
 
         // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
         keydown: ( event ) => {
           if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
+
+            // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
+            // "clicking" the grab button also on this key press.
+            guardKeyPressFromDraggable = true;
+
             a11yReleaseWrappedNode();
           }
         },
@@ -234,9 +238,7 @@ define( require => {
         blur: () => {
           // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are already interrupted on blur
 
-          // the draggable node should no longer be focusable
-          this.accessibleVisible = false;
-
+          this.turnToGrabbable();
         },
         focus: () => {
 
@@ -245,26 +247,136 @@ define( require => {
             this.dragCueNode.visible = false;
           }
         }
-      } );
+      };
 
-      // TODO: Handle what is best here, I think we may want to move button logic from the draggableNode an to "this" (A11yGrabDragNode) https://github.com/phetsims/scenery-phet/issues/421
-      // pull the this out of the parentButton's children so that they are on the same level of the PDOM.
-      // parentButton.accessibleOrder = [ parentButton, this ];
+      // @private
+      this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
+      // @private
       this.disposeA11yGrabDragNode = () => {
 
-        parentButton.removeAccessibleInputListener( grabButtonListener );
-        parentButton.focusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
-
-        if ( this.focusHighlightLayerable ) {
-          assert && assert( parentButtonFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
-                                                               'node that is not in the scene graph?' );
-          parentButtonFocusHighlight.parent.removeChild( childDraggableFocusHighlight );
+        // Remove listeners according to what mode we are in
+        if ( this.grabbable ) {
+          this.removeInputListeners( this.listenersForGrab );
+        }
+        else {
+          this.removeInputListeners( this.listenersForDrag );
         }
 
-        parentButton.focusHighlight.removeChild( this.grabCueNode );
-        this.dragCueNode && childDraggableFocusHighlight.focusHighlight.removeChild( this.dragCueNode );
+        this.grabFocusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
+
+        // Remove child if focusHighlightLayerable
+        if ( node.focusHighlightLayerable ) {
+          assert && assert( this.grabFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
+                                                            'node that is not in the scene graph?' );
+          this.grabFocusHighlight.parent.removeChild( this.dragFocusHighlight );
+        }
+
+        // remove cue references
+        this.grabFocusHighlight.removeChild( this.grabCueNode );
+        this.dragCueNode && this.dragFocusHighlight.focusHighlight.removeChild( this.dragCueNode );
       };
+    }
+
+    /**
+     * turn the node into a button, swap out listeners too
+     * @private
+     */
+    turnToGrabbable() {
+      this.grabbable = true;
+      this.baseInteractionUpdate( this.grabButtonOptions, this.listenersForDrag, this.listenersForGrab );
+    }
+
+    /**
+     * turn the node into a draggable, swap out listeners too
+     * @private
+     */
+    turnToDraggable() {
+      this.grabbable = false;
+
+      // turn this into a draggable in the node
+      this.baseInteractionUpdate( this.dragDivOptions, this.listenersForGrab, this.listenersForDrag );
+    }
+
+    /**
+     * Update the node to switch modalities between being draggable, and grabbable. This function holds code that should
+     * be called when switching in either direction.
+     * @private
+     */
+    baseInteractionUpdate( optionsToMutate, listenersToRemove, listenersToAdd ) {
+
+      // remove all previous listeners from the node
+      this.removeInputListeners( listenersToRemove );
+
+      // update the PDOM of the node
+      this.node.mutate( optionsToMutate );
+
+      this.addInputListeners( listenersToAdd );
+
+      this.updateFocusHighlights();
+      this.updateCues();
+    }
+
+    /**
+     * Update the focusHighlights according to if we are in grabbable or draggable mode
+     * No need to set visibility to true, because that will happen for us by FocusOverlay on focus.
+     *
+     * @private
+     */
+    updateFocusHighlights() {
+      if ( this.grabbable ) {
+        this.dragFocusHighlight.visible = false;
+        this.node.focusHighlight = this.grabFocusHighlight;
+      }
+      else {
+        this.grabFocusHighlight.visible = false;
+        this.node.focusHighlight = this.dragFocusHighlight;
+      }
+    }
+
+    /**
+     * Update the visiblity of the cues for both grabbable and draggable modes
+     * @private
+     */
+    updateCues() {
+
+      // only if there is a dragCueNode
+      if ( this.dragCueNode ) {
+
+        // Only visible if there hasn't yet been a successful drag
+        this.dragCueNode.visible = !this.successfulDrag();
+      }
+
+      this.grabCueNode.visible = this.numberOfGrabs < this.grabsToCue;
+    }
+
+    /**
+     * Add all listeners to node
+     * @private
+     * @param {Function[]}listeners
+     */
+    addInputListeners( listeners ) {
+      for ( let i = 0; i < listeners.length; i++ ) {
+        const listener = listeners[ i ];
+        if ( !this.node.hasAccessibleInputListener( listener ) ) {
+          this.node.addAccessibleInputListener( listener );
+        }
+      }
+    }
+
+
+    /**
+     * Remove all listeners from the node
+     * @param listeners
+     * @private
+     */
+    removeInputListeners( listeners ) {
+      for ( let i = 0; i < listeners.length; i++ ) {
+        const listener = listeners[ i ];
+        if ( this.node.hasAccessibleInputListener( listener ) ) {
+          this.node.removeAccessibleInputListener( listener );
+        }
+      }
     }
 
 
@@ -281,7 +393,6 @@ define( require => {
      */
     dispose() {
       this.disposeA11yGrabDragNode();
-      super.dispose();
     }
 
     /**
@@ -289,8 +400,9 @@ define( require => {
      * @public
      */
     reset() {
-      this.numberOfGrabs = 0;
 
+      this.turnToGrabbable();
+      this.numberOfGrabs = 0;
       this.grabCueNode.visible = true;
       if ( this.dragCueNode ) {
         this.dragCueNode.visible = true;
