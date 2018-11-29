@@ -28,6 +28,7 @@ define( function( require ) {
   var GRIP_END_PAD = GRIP_WIDTH * 0.03; // horizontal line between the edge of the grip and the cubic curves
   var GRIP_SINGLE_FINGER_INDENT_DEPTH = GRIP_HEIGHT * 0.11;
   var GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS * 2 - GRIP_END_PAD * 2 ) / 8;
+  var DEFAULT_GRIP_FILL_BASE_COLOR = new Color( 183, 184, 185 );
 
   /**
    * @param {Object} [options]
@@ -36,11 +37,11 @@ define( function( require ) {
   function HandleNode( options ) {
 
     options = _.extend( {
-      gripFillBaseColor: new Color( 183, 184, 185 ), // base color of gradient on the grip
-      gripStrokeColor: 'black', // stroke color of the grip
+      gripFillBaseColor: DEFAULT_GRIP_FILL_BASE_COLOR, // {Color|string} base color of gradient on the grip
+      gripStrokeColor: 'black', // {Color|string} stroke color of the grip
       gripLineWidth: 3,
-      attachmentFillColor: 'gray', // solid fill color for the attachments
-      attachmentStrokeColor: 'black', // stroke color of the attachments
+      attachmentFillColor: 'gray', // {Color|string} solid fill color for the attachments
+      attachmentStrokeColor: 'black', // {Color|string} stroke color of the attachments
       attachmentLineWidth: 3
     }, options );
 
@@ -109,14 +110,15 @@ define( function( require ) {
       .close();
 
     // add handle grip shape
+    var gradientBaseColor = Color.toColor( options.gripFillBaseColor );
     var gripPath = new Path( gripShape, {
       lineWidth: options.gripLineWidth,
       stroke: options.gripStrokeColor,
       fill: new LinearGradient( 0, 0, 0, GRIP_HEIGHT )
-        .addColorStop( 0, options.gripFillBaseColor )
-        .addColorStop( 0.4, options.gripFillBaseColor.brighterColor( 0.5 ) )
-        .addColorStop( 0.7, options.gripFillBaseColor )
-        .addColorStop( 1.0, options.gripFillBaseColor.darkerColor( 0.6 ) )
+        .addColorStop( 0, gradientBaseColor )
+        .addColorStop( 0.4, gradientBaseColor.brighterColor( 0.5 ) )
+        .addColorStop( 0.7, gradientBaseColor )
+        .addColorStop( 1.0, gradientBaseColor.darkerColor( 0.6 ) )
     } );
 
     // handle attachment shape vars
