@@ -86,6 +86,9 @@ define( function( require ) {
       closeOnRelease: true, // when the shooter is released, close the faucet
       interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
 
+      // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
+      rasterizeHorizontalPipeNode: false,
+
       tandem: Tandem.required,
       phetioType: FaucetNodeIO,
       phetioEventType: 'user'
@@ -107,6 +110,9 @@ define( function( require ) {
     var horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / horizontalPipeImage.width, 1 );
+    if ( options.rasterizeHorizontalPipeNode ) {
+      horizontalPipeNode = horizontalPipeNode.rasterized();
+    }
 
     // vertical pipe
     var verticalPipeNode = new Image( verticalPipeImage );
