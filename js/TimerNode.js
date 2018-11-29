@@ -28,19 +28,6 @@ define( function( require ) {
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // constants
-  var ICON_HEIGHT = 10;
-  var RESET_PATH_OPTIONS = {
-    fill: 'black'
-  };
-  var PLAY_PATH_OPTIONS = {
-    stroke: 'black',
-    fill: '#eef'
-  };
-  var PAUSE_PATH_OPTIONS = {
-    fill: 'black'
-  };
-
   /**
    * @param {Property.<number>} timeProperty
    * @param {Property.<boolean>} runningProperty
@@ -54,8 +41,8 @@ define( function( require ) {
       // See also options that pass through to TimerReadoutNode
       touchAreaDilation: 10,
       cursor: 'pointer',
+      iconHeight: 10,
       iconFill: 'black',
-      iconStroke: null,
       iconLineWidth: 1,
       buttonBaseColor: '#DFE0E1',
       xSpacing: 6, // horizontal space between the buttons
@@ -76,13 +63,19 @@ define( function( require ) {
 
     // Buttons ----------------------------------------------------------------------------
 
-    var resetPath = new Path( new UTurnArrowShape( ICON_HEIGHT ), RESET_PATH_OPTIONS );
+    var resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
+      fill: options.iconFill
+    } );
 
     var playIconHeight = resetPath.height;
     var playIconWidth = 0.8 * playIconHeight;
-    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), PLAY_PATH_OPTIONS );
+    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
+      fill: options.iconFill
+    } );
 
-    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), PAUSE_PATH_OPTIONS );
+    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
+      fill: options.iconFill
+    } );
 
     var playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
       baseColor: options.buttonBaseColor,
