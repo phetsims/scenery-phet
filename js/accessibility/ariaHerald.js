@@ -34,6 +34,7 @@ define( require => {
 
   // modules
   const Emitter = require( 'AXON/Emitter' );
+  const EmitterIO = require( 'AXON/EmitterIO' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const timer = require( 'PHET_CORE/timer' );
 
@@ -78,7 +79,7 @@ define( require => {
       this.initialized = true;
 
       this.announcingEmitter = new Emitter( {
-        valueTypes: [ 'string', 'boolean' ]
+        phetioType: EmitterIO( [ { type: 'string' }, { type: 'boolean' } ] )
       } );
 
       // no need to be removed, exists for the lifetime of the simulation.
