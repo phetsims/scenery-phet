@@ -64,7 +64,9 @@ define( require => {
       const children = [ bigReadoutText, smallReadoutText ];
 
       if ( unitsNode ) {
-        unitsNode.bottom = smallReadoutText.bottom - 1;
+
+        // Align the baseline of the text, see https://github.com/phetsims/scenery-phet/issues/425
+        unitsNode.y = smallReadoutText.y;
         children.push( unitsNode );
       }
 
