@@ -24,15 +24,11 @@ define( require => {
 
     /**
      * @param {Property.<Number>} timeProperty
-     * @param {Object} options
+     * @param {Object} config
      */
-    constructor( timeProperty, options ) {
+    constructor( timeProperty, config ) {
 
-      options = _.extend( {
-
-        // The maximum value, in seconds, that can be shown by the TimerNode, so it can set up the size to accommodate
-        // the largest string. Default value is set to 99 minutes.
-        maxValue: 5940,
+      config = _.extend( {
 
         // {null|Node} - optional node to show for the units, most likely to be a Text or RichText.  Note that showing
         // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
@@ -45,18 +41,19 @@ define( require => {
 
         // {Font} - shown for the numbers after the decimal
         smallFont: DEFAULT_SMALL_FONT
-      }, options );
+      }, config );
 
-      const unitsNode = options.unitsNode;
+      const unitsNode = config.unitsNode;
 
-      assert && assert( options.maxValue >= 0, 'TimerReadoutNode.maxValue should be non-negative' );
-      assert && assert( options.maxValue < 1E21, 'TimerReadoutNode.maxValue should be less than 1E21' ); // see https://github.com/phetsims/capacitor-lab-basics/issues/244#issuecomment-433940629
+      assert && assert( config.hasOwnProperty( 'maxValue' ), 'config.maxValue is required' );
+      assert && assert( config.maxValue >= 0, 'TimerReadoutNode.maxValue should be non-negative' );
+      assert && assert( config.maxValue < 1E21, 'TimerReadoutNode.maxValue should be less than 1E21' ); // see https://github.com/phetsims/capacitor-lab-basics/issues/244#issuecomment-433940629
 
       /*---------------------------------------------------------------------------*
        * Readout text
        *----------------------------------------------------------------------------*/
-      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: options.largeFont } );
-      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: options.smallFont } );
+      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: config.largeFont } );
+      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: config.smallFont } );
 
       // aligns the baselines of the big and small text
       smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
@@ -82,7 +79,7 @@ define( require => {
 
         // When the timer reaches the max value, it should get "stuck" at that value, like a real stopwatch,
         // see https://github.com/phetsims/wave-interference/issues/94
-        value = Math.min( value, options.maxValue );
+        value = Math.min( value, config.maxValue );
 
         // Update readouts
         bigReadoutText.text = timeToBigString( value, !!unitsNode );
@@ -99,7 +96,7 @@ define( require => {
       };
 
       // Initialize with max value so the text panel will have the max needed size.
-      updateText( options.maxValue );
+      updateText( config.maxValue );
 
       /*---------------------------------------------------------------------------*
        * Readout background

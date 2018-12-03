@@ -50,6 +50,10 @@ define( function( require ) {
       xMargin: 8,
       yMargin: 8,
 
+      // The maximum value, that can be shown by the TimerNode, so it can set up the size to accommodate the largest
+      // string. Default value is set to 99 minutes in seconds.
+      maxValue: 5940,
+
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required
     }, options );
@@ -119,8 +123,12 @@ define( function( require ) {
     this.dragTarget = backgroundNode;
 
     // Disable the reset button when time is zero.
-    var timeListener = function( value ) {
-      resetButton.enabled = value > 0;
+    var timeListener = function( time ) {
+      resetButton.enabled = time > 0;
+      playPauseButton.enabled = time < options.maxValue;
+      if ( time >= options.maxValue ) {
+        runningProperty.value = false;
+      }
     };
     timeProperty.link( timeListener );
 
