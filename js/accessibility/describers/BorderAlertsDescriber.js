@@ -160,8 +160,7 @@ define( ( require ) => {
       // @private
       // {number} - the number of times that alert has been alerted. It is assumed that every time you get an alert this is incremented
       this._numberOfTimesAlerted = 0;
-      this._alert = alert; // {string|null|Array.<string>}
-      this._lastAlerted = null; // {null|number}
+      this._alert = alert; // {AlertDef|null}
     }
 
     /**
@@ -181,15 +180,16 @@ define( ( require ) => {
     alert() {
       utteranceQueue.addToBackIfDefined( this.getAlert() );
       this._numberOfTimesAlerted++;
-      this._lastAlerted = phet.joist.elapsedTime;
     }
 
     /**
      * @public
      */
     reset() {
+
+      // If the alert is an Utterance, reset it
+      this._alert && this._alert.reset && this._alert.reset();
       this._numberOfTimesAlerted = 0;
-      this._lastAlerted = null;
     }
   }
 

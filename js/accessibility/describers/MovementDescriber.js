@@ -12,6 +12,7 @@ define( require => {
   'use strict';
 
   // modules
+  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
   const Range = require( 'DOT/Range' );
@@ -49,6 +50,12 @@ define( require => {
   };
   let DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
+  if ( assert ) {
+    DIRECTION_MAP_KEYS.forEach( direction => {
+      assert( DirectionEnum.keys.indexOf( direction ) >= 0, `unexpected direction: ${direction}. Keys should be the same as those in DirectionEnum` );
+    } );
+  }
+
   let DEFAULT_MOVEMENT_ALERTS = {
     LEFT: leftString,
     RIGHT: rightString,
@@ -68,7 +75,8 @@ define( require => {
         // see BorderAlertsDescriber
         borderAlertsOptions: null,
 
-        // see DirectionEnum for allowed keys. Any missing keys will not be alerted. Use `{}` to omit movementAlerts
+        // {Object.<DIRECTION, AlertableDef> see DirectionEnum for allowed keys. Any missing keys will not be alerted.
+        // Use `{}` to omit movementAlerts.
         movementAlerts: DEFAULT_MOVEMENT_ALERTS,
 
         // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
@@ -78,13 +86,15 @@ define( require => {
 
       assert && assert( options.movementAlerts instanceof Object );
       assert && assert( !Array.isArray( options.movementAlerts ) ); // should not be an Array
-      if ( assert ) {
-        const movementAlertKeys = Object.keys( options.movementAlerts );
 
-        for ( let i = 0; i < movementAlertKeys.length; i++ ) {
-          let key = movementAlertKeys[ i ];
+      // @private
+      this.movementAlertKeys = Object.keys( options.movementAlerts );
+      if ( assert ) {
+
+        for ( let i = 0; i < this.movementAlertKeys.length; i++ ) {
+          let key = this.movementAlertKeys[ i ];
           assert( DirectionEnum.keys.indexOf( key ) >= 0, `unexpected key: ${key}. Keys should be the same as those in DirectionEnum` );
-          assert( typeof options.movementAlerts[ key ] === 'string' || options.movementAlerts[ key ] instanceof Utterance );
+          assert( AlertableDef.isAlertableDef( options.movementAlerts[ key ] ) );
         }
       }
 
@@ -92,12 +102,16 @@ define( require => {
       this.movementAlerts = options.movementAlerts;
       this.alertDiagonal = options.alertDiagonal;
 
+      // @private
       // This sub-describer handles the logic for alerting when an item is on the edge of the movement space
       this.borderAlertsDescriber = new BorderAlertsDescriber( options.borderAlertsOptions );
 
+      // @private
+      this.initialFirstLocationProperty = locationProperty.get();
+
       // @protected
       this.locationProperty = locationProperty;
-      this.lastAlertedLocation = locationProperty.get(); // initial value of the locationProperty
+      this.lastAlertedLocation = this.initialFirstLocationProperty; // initial value of the locationProperty
     }
 
     /**
@@ -214,6 +228,14 @@ define( require => {
      * @public
      */
     reset() {
+      this.lastAlertedLocation = this.initialFirstLocationProperty;
+
+      // if any alerts are of type Utterance, reset them.
+      this.movementAlertKeys.forEach( direction => {
+        const alert = this.movementAlerts[ direction ];
+        alert && alert.reset && alert.reset();
+      } );
+
       this.borderAlertsDescriber.reset();
     }
 
