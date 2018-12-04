@@ -17,7 +17,6 @@ define( require => {
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
@@ -31,24 +30,20 @@ define( require => {
   const coolString = require( 'string!SCENERY_PHET/cool' );
   const heatString = require( 'string!SCENERY_PHET/heat' );
 
-  // constants
-  const DEFAULT_HEAT_COOL_AMOUNT_PROPERTY = new NumberProperty( 0, {
-    range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
-  } );
-
   class HeaterCoolerFront extends Node {
     /**
+     *
+     * @param {NumberProperty} [heatCoolAmountProperty] // +1 for max heating, -1 for max cooling
      * @param {Object} [options] that can be passed on to the underlying node
      * @constructor
      */
-    constructor( options ) {
+    constructor( heatCoolAmountProperty, options ) {
       super();
       Tandem.indicateUninstrumentedCode();
       options = _.extend( {
         baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off.
-        heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true, // Can this node cool the environment?
 
@@ -97,7 +92,7 @@ define( require => {
 
       // Create the slider.
       assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
-      let heatCoolSlider = new VSlider( options.heatCoolAmountProperty,
+      let heatCoolSlider = new VSlider( heatCoolAmountProperty,
         new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
           trackSize: new Dimension2( options.width / 2, 10 ),
           trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
@@ -114,7 +109,7 @@ define( require => {
           right: stoveBody.right - options.width / 8,
           endDrag: function() {
             if ( options.snapToZero ) {
-              options.heatCoolAmountProperty.set( 0 );
+              heatCoolAmountProperty.set( 0 );
             }
           }
         } );

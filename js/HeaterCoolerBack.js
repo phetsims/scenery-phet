@@ -18,8 +18,6 @@ define( require => {
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
-  const Range = require( 'DOT/Range' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -32,19 +30,17 @@ define( require => {
   // constants
   // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
   const OPENING_HEIGHT_SCALE = 0.1;
-  const DEFAULT_HEAT_COOL_AMOUNT_PROPERTY = new NumberProperty( 0, {
-    range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
-  } );
 
   class HeaterCoolerBack extends Node {
 
     /**
      * Constructor for a HeaterCoolerBack.
      *
+     * @param {NumberProperty} [heatCoolAmountProperty] // +1 for max heating, -1 for max cooling
      * @param {Object} [options] that can be passed on to the underlying node
      * @constructor
      */
-    constructor( options ) {
+    constructor( heatCoolAmountProperty, options ) {
       super();
       Tandem.indicateUninstrumentedCode();
 
@@ -52,7 +48,6 @@ define( require => {
         baseColor: new Color( 159, 182, 205 ), //  base color used for the stove body
         width: 120, // in screen coords, much of the rest of the size of the stove derives from this value
         snapToZero: true, // controls whether the slider will snap to the off.
-        heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true // Can this node cool the environment?
       }, options );
@@ -72,7 +67,7 @@ define( require => {
 
       let fireNode = new Image( fireImage, { centerX: burnerInterior.centerX, top: burnerInterior.bottom } );
       let iceNode = new Image( iceImage, { centerX: burnerInterior.centerX, top: burnerInterior.bottom } );
-      options.heatCoolAmountProperty.link( function( heat ) {
+      heatCoolAmountProperty.link( function( heat ) {
 
         // max heating and cooling is limited to +/- 1
         assert && assert( Math.abs( heat ) <= 1 );

@@ -323,37 +323,9 @@ define( function( require ) {
 
   // Creates a demo for HeaterCoolerNode
   var demoHeaterCoolerNode = function( layoutBounds ) {
-
-    // CURRENTLY UNDER CONSTRUCTION. See https://github.com/phetsims/scenery-phet/issues/423
-    var heaterCoolerNode = new HeaterCoolerNode( {
-      center: layoutBounds.center,
-      heatCoolAmountProperty: new NumberProperty( 0 )
-    } );
-    var heaterCoolerText = new Text( 'Heater Cooler', {
-      font: new PhetFont( 18 ),
-      center: heaterCoolerNode.center.plusXY( 0, heaterCoolerNode.height )
-    } );
-
-    var heaterNode = new HeaterCoolerNode( {
-      center: layoutBounds.center.plusXY( heaterCoolerNode.width * 1.5, 0 ),
-      coolEnabled: false
-    } );
-
-    var heaterText = new Text( 'Heater', {
-      font: new PhetFont( 18 ),
-      center: heaterNode.center.plusXY( 0, heaterNode.height )
-    } );
-
-    var coolerNode = new HeaterCoolerNode( {
-      center: layoutBounds.center.minusXY( heaterCoolerNode.width * 1.5, 0 ),
-      heatEnabled: false
-    } );
-    var coolerText = new Text( 'Cooler', {
-      font: new PhetFont( 18 ),
-      center: coolerNode.center.plusXY( 0, coolerNode.height )
-    } );
-
-    return new Node( { children: [ heaterCoolerNode, heaterNode, coolerNode, heaterCoolerText, heaterText, coolerText ] } );
+    return new HeaterCoolerNode( new NumberProperty( 0, {
+      range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
+    } ), { center: layoutBounds.center } );
   };
 
   // Creates a demo for KitSelectionNode
