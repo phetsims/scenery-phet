@@ -30,6 +30,9 @@ define( require => {
   const coolString = require( 'string!SCENERY_PHET/cool' );
   const heatString = require( 'string!SCENERY_PHET/heat' );
 
+  // constants
+  const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
+
   class HeaterCoolerFront extends Node {
     /**
      *
@@ -61,17 +64,20 @@ define( require => {
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
       // be made into options if needed.
-      let height = options.width * 0.75;
-      let burnerOpeningHeight = options.width * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
-      let bottomWidth = options.width * 0.80;
+      let height = DEFAULT_WIDTH * 0.75;
+      let burnerOpeningHeight = DEFAULT_WIDTH * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
+      let bottomWidth = DEFAULT_WIDTH * 0.80;
 
       // Create the body of the stove.
-      let stoveBodyShape = new Shape().ellipticalArc( options.width / 2, burnerOpeningHeight / 4, options.width / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false ).lineTo( ( options.width - bottomWidth ) / 2, height + burnerOpeningHeight / 2 ).ellipticalArc( options.width / 2, height + burnerOpeningHeight / 4, bottomWidth / 2, burnerOpeningHeight,
-        0, Math.PI, 0, true ).lineTo( options.width, burnerOpeningHeight / 2 );
+      let stoveBodyShape = new Shape()
+        .ellipticalArc( DEFAULT_WIDTH / 2, burnerOpeningHeight / 4, DEFAULT_WIDTH / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false )
+        .lineTo( ( DEFAULT_WIDTH - bottomWidth ) / 2, height + burnerOpeningHeight / 2 )
+        .ellipticalArc( DEFAULT_WIDTH / 2, height + burnerOpeningHeight / 4, bottomWidth / 2, burnerOpeningHeight,
+          0, Math.PI, 0, true ).lineTo( DEFAULT_WIDTH, burnerOpeningHeight / 2 );
 
       let stoveBody = new Path( stoveBodyShape, {
         stroke: 'black',
-        fill: new LinearGradient( 0, 0, options.width, 0 )
+        fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
           .addColorStop( 0, options.baseColor.brighterColor( 0.5 ) )
           .addColorStop( 1, options.baseColor.darkerColor( 0.5 ) )
       } );
@@ -94,8 +100,8 @@ define( require => {
       assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
       let heatCoolSlider = new VSlider( heatCoolAmountProperty,
         new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
-          trackSize: new Dimension2( options.width / 2, 10 ),
-          trackFillEnabled: new LinearGradient( 0, 0, options.width / 2, 0 )
+          trackSize: new Dimension2( DEFAULT_WIDTH / 2, 10 ),
+          trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
             .addColorStop( 0, '#0A00F0' )
             .addColorStop( 1, '#EF000F' ),
           thumbSize: options.thumbSize,
@@ -106,7 +112,7 @@ define( require => {
           majorTickLength: 15,
           minorTickLength: 12,
           centerY: stoveBody.centerY,
-          right: stoveBody.right - options.width / 8,
+          right: stoveBody.right - DEFAULT_WIDTH / 8,
           endDrag: function() {
             if ( options.snapToZero ) {
               heatCoolAmountProperty.set( 0 );

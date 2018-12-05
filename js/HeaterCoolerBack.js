@@ -30,6 +30,7 @@ define( require => {
   // constants
   // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
   const OPENING_HEIGHT_SCALE = 0.1;
+  const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 
   class HeaterCoolerBack extends Node {
 
@@ -46,34 +47,41 @@ define( require => {
 
       options = _.extend( {
         baseColor: new Color( 159, 182, 205 ), //  base color used for the stove body
-        width: 120, // in screen coords, much of the rest of the size of the stove derives from this value
         snapToZero: true, // controls whether the slider will snap to the off.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true // Can this node cool the environment?
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the desired stove width.
-      let burnerOpeningHeight = options.width * OPENING_HEIGHT_SCALE;
+      let burnerOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
 
       // Create the inside bowl of the burner, which is an ellipse.
       let burnerInteriorShape = new Shape()
-        .ellipse( options.width / 2, burnerOpeningHeight / 4, options.width / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false );
+        .ellipse( DEFAULT_WIDTH / 2, burnerOpeningHeight / 4, DEFAULT_WIDTH / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false );
       let burnerInterior = new Path( burnerInteriorShape, {
         stroke: 'black',
-        fill: new LinearGradient( 0, 0, options.width, 0 )
+        fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
           .addColorStop( 0, options.baseColor.darkerColor( 0.5 ) )
           .addColorStop( 1, options.baseColor.brighterColor( 0.5 ) )
       } );
 
-      let fireNode = new Image( fireImage, { centerX: burnerInterior.centerX, top: burnerInterior.bottom } );
-      let iceNode = new Image( iceImage, { centerX: burnerInterior.centerX, top: burnerInterior.bottom } );
+      let fireNode = new Image( fireImage, {
+        centerX: burnerInterior.centerX,
+        top: burnerInterior.bottom,
+        scale: DEFAULT_WIDTH / DEFAULT_WIDTH
+      } );
+      let iceNode = new Image( iceImage, {
+        centerX: burnerInterior.centerX,
+        top: burnerInterior.bottom,
+        scale: DEFAULT_WIDTH / DEFAULT_WIDTH
+      } );
       heatCoolAmountProperty.link( function( heat ) {
 
         // max heating and cooling is limited to +/- 1
         assert && assert( Math.abs( heat ) <= 1 );
 
         if ( heat > 0 ) {
-          fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heat * fireImage.height * 0.85 );
+          fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heat * fireImage.height * .85 );
         }
         else if ( heat < 0 ) {
           iceNode.setTranslation( ( burnerInterior.width - iceNode.width ) / 2, heat * iceImage.height * 0.85 );

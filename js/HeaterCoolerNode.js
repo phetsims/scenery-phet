@@ -37,7 +37,6 @@ define( require => {
 
       options = _.extend( {
         baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
-        width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off through end drag.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true, // Can this node cool the environment?
