@@ -19,25 +19,19 @@ define( require => {
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
-
-  // constants
-  const DEFAULT_HEAT_COOL_AMOUNT_PROPERTY = new NumberProperty( 0, {
-    range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
-  } );
 
   class HeaterCoolerNode extends Node {
     /**
      * Constructor for a HeaterCoolerNode.
      *
+     * @param {NumberProperty} [heatCoolAmountProperty] +1 for max heating, -1 for max cooling
      * @param {Object} [options] that can be passed on to the underlying node
      * @constructor
      */
-    constructor( options ) {
+    constructor( heatCoolAmountProperty, options ) {
       super();
       Tandem.indicateUninstrumentedCode();
 
@@ -45,7 +39,6 @@ define( require => {
         baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off through end drag.
-        heatCoolAmountProperty: DEFAULT_HEAT_COOL_AMOUNT_PROPERTY, // Property set through interaction with slider.
         heatEnabled: true, // Can this node heat the environment?
         coolEnabled: true, // Can this node cool the environment?
 
@@ -62,14 +55,14 @@ define( require => {
       }, options );
 
       // @public
-      this.heatCoolAmountProperty = options.heatCoolAmountProperty;
+      this.heatCoolAmountProperty = heatCoolAmountProperty;
 
       // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
-      let heaterCoolerBack = new HeaterCoolerBack( options );
+      let heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, options );
       this.addChild( heaterCoolerBack );
 
       // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
-      let heaterCoolerFront = new HeaterCoolerFront( options );
+      let heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, options );
       heaterCoolerFront.leftTop = heaterCoolerBack.getHeaterFrontPosition();
       this.addChild( heaterCoolerFront );
 
