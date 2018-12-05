@@ -188,10 +188,10 @@ define( require => {
 
       // @private - keep track of all listeners to swap out grab/drag functionalities
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
-      node.addAccessibleInputListener( grabButtonListener );
+      node.addInputListener( grabButtonListener );
 
-      // Release the balloon after an accessible interaction, resetting  model Properties, returning focus
-      // to the "grab" button, and hiding the draggable balloon.
+      // Release the draggable after an accessible interaction, resetting  model Properties, returning focus
+      // to the "grab" button, and hiding the draggable.
       const a11yReleaseWrappedNode = () => {
 
         // reset the key state of the drag handler by interrupting the drag
@@ -208,10 +208,10 @@ define( require => {
 
       let dragDivListener = {
 
-        // Release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
+        // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
         keydown: ( event ) => {
-          if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
+          if ( event.domEvent.keyCode === KeyboardUtil.KEY_ENTER ) {
 
             // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
             // "clicking" the grab button also on this key press.
@@ -222,9 +222,9 @@ define( require => {
         },
         keyup: ( event ) => {
 
-          // Release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
+          // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
-          if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
+          if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
             a11yReleaseWrappedNode();
           }
 
@@ -358,8 +358,8 @@ define( require => {
     addInputListeners( listeners ) {
       for ( let i = 0; i < listeners.length; i++ ) {
         const listener = listeners[ i ];
-        if ( !this.node.hasAccessibleInputListener( listener ) ) {
-          this.node.addAccessibleInputListener( listener );
+        if ( !this.node.hasInputListener( listener ) ) {
+          this.node.addInputListener( listener );
         }
       }
     }
@@ -373,8 +373,8 @@ define( require => {
     removeInputListeners( listeners ) {
       for ( let i = 0; i < listeners.length; i++ ) {
         const listener = listeners[ i ];
-        if ( this.node.hasAccessibleInputListener( listener ) ) {
-          this.node.removeAccessibleInputListener( listener );
+        if ( this.node.hasInputListener( listener ) ) {
+          this.node.removeInputListener( listener );
         }
       }
     }
