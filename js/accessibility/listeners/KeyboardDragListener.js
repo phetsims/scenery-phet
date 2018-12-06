@@ -2,7 +2,7 @@
 
 /**
  * A general type for keyboard dragging. Objects can be dragged in two dimensions with the arrow keys and with the WASD
- * keys. This can be added to a node through addAccessibleInputListener for accessibility, which is mixed into Nodes with
+ * keys. This can be added to a node through addInputListener for accessibility, which is mixed into Nodes with
  * the Accessibility trait.
  *
  * JavaScript does not natively handle multiple 'keydown' events at once, so we have a custom implementation that
@@ -58,13 +58,13 @@ define( function( require ) {
       // Usually most useful when paired with the locationProperty
       transform: null,
 
-      // {Function|null} - Called as start( event: {DOMEvent} ) when keyboard drag is started
+      // {Function|null} - Called as start( event: {Event} ) when keyboard drag is started
       start: null,
 
       // {Function|null} - Called as drag( viewDelta: {Vector2} ) during drag
       drag: null,
 
-      // {Function|null} - Called as end( event: {DOMEvent}, viewDelta: {Vector2} ) when keyboard drag ends
+      // {Function|null} - Called as end( event: {Event} ) when keyboard drag ends
       end: null, // called at the end of the dragging interaction
 
       // {number} - arrow keys must be pressed this long to begin movement set on interval below
@@ -131,32 +131,35 @@ define( function( require ) {
 
     /**
      * Implements keyboard dragging when listener is attached to the Node, public so listener is attached
-     * with addAccessibleInputListener()
+     * with addInputListener()
      *
      * Note that this event is assigned in the constructor, and not to the prototype. As of writing this,
-     * `Node.addAccessibleInputListener` only supports type properties as event listeners, and not the event keys as
+     * `Node.addInputListener` only supports type properties as event listeners, and not the event keys as
      * prototype methods. Please see https://github.com/phetsims/scenery/issues/851 for more information.
      * @public
-     * @param {DOMEvent} event
+     * @param {Event} event
      */
     this.keydown = function( event ) {
+      var domEvent = event.domEvent;
 
       // required to work with Safari and VoiceOver, otherwise arrow keys will move virtual cursor
-      if ( KeyboardUtil.isArrowKey( event.keyCode ) ) {
-        event.preventDefault();
+      if ( KeyboardUtil.isArrowKey( domEvent.keyCode ) ) {
+        domEvent.preventDefault();
       }
 
       // if the key is already down, don't do anything else (we don't want to create a new keystate object
       // for a key that is already being tracked and down, nor call startDrag every keydown event)
-      if ( self.keyInListDown( [ event.keyCode ] ) ) { return; }
+      if ( self.keyInListDown( [ domEvent.keyCode ] ) ) { return; }
 
       // Prevent a VoiceOver bug where pressing multiple arrow keys at once causes the AT to send the wrong keycodes
       // through the keyup event - as a workaround, we only allow one arrow key to be down at a time. If two are pressed
       // down, we immediately clear the keystate and return
       // see https://github.com/phetsims/balloons-and-static-electricity/issues/384
       if ( platform.safari ) {
-        if ( KeyboardUtil.isArrowKey( event.keyCode ) ) {
-          if ( self.keyInListDown( [ KeyboardUtil.KEY_RIGHT_ARROW, KeyboardUtil.KEY_LEFT_ARROW, KeyboardUtil.KEY_UP_ARROW, KeyboardUtil.KEY_DOWN_ARROW ] ) ) {
+        if ( KeyboardUtil.isArrowKey( domEvent.keyCode ) ) {
+          if ( self.keyInListDown( [
+            KeyboardUtil.KEY_RIGHT_ARROW, KeyboardUtil.KEY_LEFT_ARROW,
+            KeyboardUtil.KEY_UP_ARROW, KeyboardUtil.KEY_DOWN_ARROW ] ) ) {
             self.interrupt();
             return;
           }
@@ -166,7 +169,7 @@ define( function( require ) {
       // update the key state
       self.keyState.push( {
         keyDown: true,
-        keyCode: event.keyCode,
+        keyCode: domEvent.keyCode,
         timeDown: 0 // in ms
       } );
 
@@ -182,22 +185,24 @@ define( function( require ) {
     };
 
     /**
-     * Behavior for keyboard 'up' DOM event. Public so it can be attached with addAccessibleInputListener()
+     * Behavior for keyboard 'up' DOM event. Public so it can be attached with addInputListener()
      *
      * Note that this event is assigned in the constructor, and not to the prototype. As of writing this,
-     * `Node.addAccessibleInputListener` only supports type properties as event listeners, and not the event keys as
+     * `Node.addInputListener` only supports type properties as event listeners, and not the event keys as
      * prototype methods. Please see https://github.com/phetsims/scenery/issues/851 for more information.
      *
      * @public
-     * @param {DOMEvent} event
+     * @param {Event} event
      */
     this.keyup = function( event ) {
+      var domEvent = event.domEvent;
+
       var moveKeysDown = self.movementKeysDown;
 
       // if the shift key is down when we navigate to the object, add it to the keystate because it won't be added until
       // the next keydown event
-      if ( event.keyCode === KeyboardUtil.KEY_TAB ) {
-        if ( event.shiftKey ) {
+      if ( domEvent.keyCode === KeyboardUtil.KEY_TAB ) {
+        if ( domEvent.shiftKey ) {
 
           // add 'shift' to the keystate until it is released again
           self.keyState.push( {
@@ -209,7 +214,7 @@ define( function( require ) {
       }
 
       for ( var i = 0; i < self.keyState.length; i++ ) {
-        if ( event.keyCode === self.keyState[ i ].keyCode ) {
+        if ( domEvent.keyCode === self.keyState[ i ].keyCode ) {
           self.keyState.splice( i, 1 );
         }
       }
