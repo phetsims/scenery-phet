@@ -98,7 +98,9 @@ define( require => {
 
       // Create the slider.
       assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
-      let heatCoolSlider = new VSlider( heatCoolAmountProperty,
+
+      // @protected
+      this.heatCoolSlider = new VSlider( heatCoolAmountProperty,
         new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
           trackSize: new Dimension2( DEFAULT_WIDTH / 2, 10 ),
           trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
@@ -119,12 +121,12 @@ define( require => {
             }
           }
         } );
-      if ( options.heatEnabled ) { heatCoolSlider.addMajorTick( 1, heatTitle ); }
-      heatCoolSlider.addMinorTick( 0 );
-      if ( options.coolEnabled ) { heatCoolSlider.addMajorTick( -1, coolTitle ); }
+      if ( options.heatEnabled ) { this.heatCoolSlider.addMajorTick( 1, heatTitle ); }
+      this.heatCoolSlider.addMinorTick( 0 );
+      if ( options.coolEnabled ) { this.heatCoolSlider.addMajorTick( -1, coolTitle ); }
 
       this.addChild( stoveBody );
-      this.addChild( heatCoolSlider );
+      this.addChild( this.heatCoolSlider );
 
       this.mutate( options );
     }
