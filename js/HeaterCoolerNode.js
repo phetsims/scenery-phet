@@ -50,7 +50,9 @@ define( require => {
         thumbTouchAreaXDilation: 11,
         thumbTouchAreaYDilation: 11,
         thumbMouseAreaXDilation: 0,
-        thumbMouseAreaYDilation: 0
+        thumbMouseAreaYDilation: 0,
+        thumbFillEnabled: new Color( 195, 196, 197 ),
+        thumbFillHighlighted: new Color( 222, 222, 222 )
       }, options );
 
       // @public
