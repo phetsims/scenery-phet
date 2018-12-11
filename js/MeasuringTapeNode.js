@@ -306,7 +306,7 @@ define( function( require ) {
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
-    var multilink = Property.multilink( [ this.basePositionProperty, this.tipPositionProperty ],
+    var multilink = Property.multilink( [ this.basePositionProperty, this.tipPositionProperty, unitsProperty ],
       function( basePosition, tipPosition ) {
         self.updatePosition( basePosition, tipPosition );
       } );
