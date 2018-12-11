@@ -6,6 +6,7 @@
  *
  * @author Siddhartha Chinthapally (Actual Concepts) on 20-11-2014.
  * @author Jesse Greenberg
+ *
  */
 
 define( require => {

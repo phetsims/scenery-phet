@@ -8,17 +8,23 @@
  *
  * @author Siddhartha Chinthapally (Actual Concepts) on 20-11-2014.
  * @author Jesse Greenberg
+ * @author Denzell Barnett (PhET Interactive Sims)
+ * @author Chris Malley  (PixelZoom, Inc.)
  */
 
 define( require => {
   'use strict';
 
   // modules
+  const Color = require( 'SCENERY/util/Color' );
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
+
+  // const
+  const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   class HeaterCoolerNode extends Node {
     /**
@@ -33,31 +39,44 @@ define( require => {
       Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
-        backOptions: null,
-        frontOptions: null
+
+        // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
+        baseColor: new Color( DEFAULT_BASE_COLOR ),
+
+        // {*} options passed to HeaterCoolerFront
+        frontOptions: null,
+
+        // {*} options passed to HeaterCoolerBack
+        backOptions: null
       }, options );
 
       // @public
       this.heatCoolAmountProperty = heatCoolAmountProperty;
 
       // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
-      let heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, options.backOptions );
-      this.addChild( heaterCoolerBack );
+      assert && assert( !options.backOptions, 'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
+      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, _.extend( options.backOptions, {
+        baseColor: options.baseColor
+      } ) );
 
       // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
-      let heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, options.frontOptions );
-      heaterCoolerFront.leftTop = heaterCoolerBack.getHeaterFrontPosition();
-      this.addChild( heaterCoolerFront );
+      assert && assert( !options.frontOptions, 'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
+      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, _.extend( options.backOptions, {
+        baseColor: options.baseColor,
+        leftTop: heaterCoolerBack.getHeaterFrontPosition()
+      } ) );
+
+      assert && assert( !options.children, 'HeaterCoolerNode sets children' );
+      options.children = [ heaterCoolerBack, heaterCoolerFront ];
+
+      super.mutate( options );
 
       // @public Dispose function used for GC
       this.disposeHeaterCoolerNode = function() {
         heaterCoolerBack.dispose();
         heaterCoolerFront.dispose();
       };
-
-      this.mutate( options );
     }
-
     /**
      * @public
      * @override
@@ -67,6 +86,9 @@ define( require => {
       super.dispose();
     }
   }
+
+  // Used by HeaterCoolerFront and HeaterCoolerBack
+  HeaterCoolerNode.DEFAULT_BASE_COLOR = DEFAULT_BASE_COLOR;
 
   return sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
 } );
