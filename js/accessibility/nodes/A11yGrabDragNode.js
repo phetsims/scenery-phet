@@ -8,6 +8,13 @@
  * as well as the options to mutate the node by. By default the grabbable is a button with a parent div, and the
  * draggable is a focusable div with an "application" aria role.
  *
+ * NOTE: You cannot add a11y listeners directly to the node where it is constructed, instead see
+ * `options.listenersForGrab/Drag`. These will keep track of the listeners for each interaction mode, and
+ * will set them accordingly.
+ *
+ * There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
+ * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
+ *
  * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -51,7 +58,7 @@ define( require => {
         onRelease: _.noop(),
 
         // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
-        grabButtonOptions: {},
+        grabbableOptions: {},
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -60,7 +67,7 @@ define( require => {
         grabsToCue: 1,
 
         // {Object} - Node options passed to the draggable created for the PDOM, filled in with defaults below
-        dragDivOptions: {},
+        draggableOptions: {},
 
         // // {null|Node} - Optional node to cue the drag interaction once successfully updated.
         dragCueNode: null,
@@ -84,41 +91,41 @@ define( require => {
       assert && assert( Array.isArray( options.listenersForDrag ) );
       assert && assert( Array.isArray( options.listenersForGrab ) );
       assert && assert( typeof options.grabsToCue === 'number' );
-      assert && assert( options.grabButtonOptions instanceof Object );
+      assert && assert( options.grabbableOptions instanceof Object );
       assert && assert( options.grabCueOptions instanceof Object );
       assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
-      assert && assert( options.dragDivOptions instanceof Object );
+      assert && assert( options.draggableOptions instanceof Object );
       if ( options.dragCueNode !== null ) {
         assert && assert( options.dragCueNode instanceof Node );
         assert && assert( !options.dragCueNode.parent, 'A11yGrabDragNode adds dragCueNode to focusHighlight' );
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
 
-      options.dragDivOptions = _.extend( {
+      options.draggableOptions = _.extend( {
         tagName: 'div',
         ariaRole: 'application',
         focusable: true
-      }, options.dragDivOptions );
+      }, options.draggableOptions );
 
-      options.grabButtonOptions = _.extend( {
+      options.grabbableOptions = _.extend( {
         containerTagName: 'div',
         tagName: 'button'
-      }, options.grabButtonOptions );
+      }, options.grabbableOptions );
 
-      assert && assert( !options.grabButtonOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
 
-      options.grabButtonOptions.innerContent = StringUtils.fillIn( grabPatternString, {
+      options.grabbableOptions.innerContent = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
 
       // Initialize the node as a button to begin with
-      node.mutate( options.grabButtonOptions );
+      node.mutate( options.grabbableOptions );
 
       // @private
       this.grabbable = true; // if false, then instead it has draggable functionality
       this.node = node;
-      this.grabButtonOptions = options.grabButtonOptions;
-      this.dragDivOptions = options.dragDivOptions;
+      this.grabbableOptions = options.grabbableOptions;
+      this.draggableOptions = options.draggableOptions;
       this.numberOfGrabs = 0; // {number}
       this.grabsToCue = options.grabsToCue;
       this.successfulDrag = options.successfulDrag;
@@ -205,19 +212,6 @@ define( require => {
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
       node.addInputListener( grabButtonListener );
 
-      // Release the draggable after an accessible interaction, resetting  model Properties, returning focus
-      // to the "grab" button, and hiding the draggable.
-      const a11yReleaseWrappedNode = () => {
-
-        // reset the key state of the drag handler by interrupting the drag
-        node.interruptInput();
-
-        this.turnToGrabbable();
-
-        // refocus once reconstructed, TODO: this may not be necessary if scenery knows how to restore focus on tagName change
-        node.focus();
-      };
-
       let dragDivListener = {
 
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
@@ -229,7 +223,7 @@ define( require => {
             // "clicking" the grab button also on this key press.
             guardKeyPressFromDraggable = true;
 
-            a11yReleaseWrappedNode();
+            this.turnToGrabbable();
           }
         },
         keyup: ( event ) => {
@@ -237,7 +231,7 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-            a11yReleaseWrappedNode();
+            this.turnToGrabbable();
           }
 
           // if successfully dragged, then make the cue node invisible
@@ -248,7 +242,6 @@ define( require => {
 
         // arrow function for this
         blur: () => {
-
           this.turnToGrabbable();
         },
         focus: () => {
@@ -295,8 +288,12 @@ define( require => {
      */
     turnToGrabbable() {
       this.grabbable = true;
+
+      // interrupt prior input, reset the key state of the drag handler by interrupting the drag
+      this.node.interruptInput();
+
       this.onRelease();
-      this.baseInteractionUpdate( this.grabButtonOptions, this.listenersForDrag, this.listenersForGrab );
+      this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
     }
 
     /**
@@ -308,7 +305,7 @@ define( require => {
       this.onGrab();
 
       // turn this into a draggable in the node
-      this.baseInteractionUpdate( this.dragDivOptions, this.listenersForGrab, this.listenersForDrag );
+      this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrab, this.listenersForDrag );
     }
 
     /**
