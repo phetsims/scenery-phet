@@ -51,8 +51,8 @@ define( function( require ) {
       yMargin: 8,
 
       // The maximum value, that can be shown by the TimerNode, so it can set up the size to accommodate the largest
-      // string. Default value is set to 99 minutes in seconds.
-      maxValue: 5940,
+      // string. Default value is set to 59 minutes and 59 seconds.
+      maxValue: 3599.99,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required

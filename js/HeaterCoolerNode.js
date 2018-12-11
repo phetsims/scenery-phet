@@ -14,12 +14,9 @@ define( require => {
   'use strict';
 
   // modules
-  const Color = require( 'SCENERY/util/Color' );
-  const Dimension2 = require( 'DOT/Dimension2' );
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
 
@@ -36,34 +33,19 @@ define( require => {
       Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
-        baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
-        snapToZero: true, // controls whether the slider will snap to the off through end drag.
-        heatEnabled: true, // Can this node heat the environment?
-        coolEnabled: true, // Can this node cool the environment?
-
-        // slider label options
-        labelFont: new PhetFont( 14 ),
-        labelMaxWidth: null,
-
-        // slider options
-        thumbSize: new Dimension2( 22, 45 ),
-        thumbTouchAreaXDilation: 11,
-        thumbTouchAreaYDilation: 11,
-        thumbMouseAreaXDilation: 0,
-        thumbMouseAreaYDilation: 0,
-        thumbFillEnabled: new Color( 195, 196, 197 ),
-        thumbFillHighlighted: new Color( 222, 222, 222 )
+        backOptions: null,
+        frontOptions: null
       }, options );
 
       // @public
       this.heatCoolAmountProperty = heatCoolAmountProperty;
 
       // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
-      let heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, options );
+      let heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, options.backOptions );
       this.addChild( heaterCoolerBack );
 
       // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
-      let heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, options );
+      let heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, options.frontOptions );
       heaterCoolerFront.leftTop = heaterCoolerBack.getHeaterFrontPosition();
       this.addChild( heaterCoolerFront );
 

@@ -62,8 +62,8 @@ define( require => {
         thumbTouchAreaYDilation: 11,
         thumbMouseAreaXDilation: 0,
         thumbMouseAreaYDilation: 0,
-        thumbFillEnabled: new Color( 195, 196, 197 ),
-        thumbFillHighlighted: new Color( 222, 222, 222 )
+        thumbFillEnabled: '#c3c4c5', // {Color|string|null}
+        thumbFillHighlighted: '#dedede' // {Color|string|null}
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could

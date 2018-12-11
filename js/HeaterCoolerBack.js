@@ -46,10 +46,7 @@ define( require => {
       Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
-        baseColor: new Color( 159, 182, 205 ), //  base color used for the stove body
-        snapToZero: true, // controls whether the slider will snap to the off.
-        heatEnabled: true, // Can this node heat the environment?
-        coolEnabled: true // Can this node cool the environment?
+        baseColor: new Color( 159, 182, 205 ) //  base color used for the stove body
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the desired stove width.
