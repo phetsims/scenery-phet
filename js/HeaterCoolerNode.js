@@ -51,7 +51,6 @@ define( require => {
 
       // @public Dispose function used for GC
       this.disposeHeaterCoolerNode = function() {
-        this.heatCoolAmountProperty.dispose();
         heaterCoolerBack.dispose();
         heaterCoolerFront.dispose();
       };
