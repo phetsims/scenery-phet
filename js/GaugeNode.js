@@ -35,7 +35,7 @@ define( function( require ) {
   function GaugeNode( valueProperty, label, range, options ) {
     options = _.extend( {
       // Defaults
-      radius: 67,
+      radius: 100,
       backgroundFill: 'white',
       backgroundStroke: 'rgb( 85, 85, 85 )',
       backgroundLineWidth: 2,
