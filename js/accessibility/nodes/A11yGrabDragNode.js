@@ -205,19 +205,6 @@ define( require => {
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
       node.addInputListener( grabButtonListener );
 
-      // Release the draggable after an accessible interaction, resetting  model Properties, returning focus
-      // to the "grab" button, and hiding the draggable.
-      const a11yReleaseWrappedNode = () => {
-
-        // reset the key state of the drag handler by interrupting the drag
-        node.interruptInput();
-
-        this.turnToGrabbable();
-
-        // refocus once reconstructed, TODO: this may not be necessary if scenery knows how to restore focus on tagName change
-        node.focus();
-      };
-
       let dragDivListener = {
 
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
@@ -229,7 +216,7 @@ define( require => {
             // "clicking" the grab button also on this key press.
             guardKeyPressFromDraggable = true;
 
-            a11yReleaseWrappedNode();
+            this.turnToGrabbable();
           }
         },
         keyup: ( event ) => {
@@ -237,7 +224,7 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-            a11yReleaseWrappedNode();
+            this.turnToGrabbable();
           }
 
           // if successfully dragged, then make the cue node invisible
@@ -248,7 +235,6 @@ define( require => {
 
         // arrow function for this
         blur: () => {
-
           this.turnToGrabbable();
         },
         focus: () => {
@@ -295,6 +281,10 @@ define( require => {
      */
     turnToGrabbable() {
       this.grabbable = true;
+
+      // interrupt prior input, reset the key state of the drag handler by interrupting the drag
+      this.node.interruptInput();
+
       this.onRelease();
       this.baseInteractionUpdate( this.grabButtonOptions, this.listenersForDrag, this.listenersForGrab );
     }
