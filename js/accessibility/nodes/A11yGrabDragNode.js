@@ -1,7 +1,16 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * @author Michael Kauzmann
+ * The main interaction for grabbing and dragging an object. It works by taking in a Node to augment with the a11y
+ * interaction. In fact it works much like a mixin. In general, this type will mutate the accessible content of the
+ * passed in node (sometimes referred to "wrappedNode"), alternating between a grabbable object and a draggable object.
+ * To accomplish this there are options to be filled in that keeps track of the scenery inputListeners for each mode,
+ * as well as the options to mutate the node by. By default the grabbable is a button with a parent div, and the
+ * draggable is a focusable div with an "application" aria role.
+ *
+ * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
+ *
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';
@@ -22,12 +31,12 @@ define( require => {
   const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
-  /**
-   * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
-   * @param {Node} parentButton - Node passed in that will be mutated with a11y options to have the grab functionality in the PDOM
-   * @param  {Object} options
-   */
   class A11yGrabDragNode {
+
+    /**
+     * @param {Node} node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
+     * @param {Object} options
+     */
     constructor( node, options ) {
 
       options = _.extend( {
@@ -35,11 +44,11 @@ define( require => {
         // A string that is filled in to the appropriate button label
         thingToGrab: defaultThingToGrabString,
 
-        // {function} - called when the node is "grabbed" (when the grab button fires)
+        // {function} - called when the node is "grabbed" (when the grab button fires); button -> draggable
         onGrab: _.noop(),
 
-        // {function} - if you override this, make sure to handle the alert in the default onRelease
-        onRelease: A11yGrabDragNode.onRelease,
+        // {function} - called when the node is "released" (when the draggable is "let go"); draggable -> button
+        onRelease: _.noop(),
 
         // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
         grabButtonOptions: {},
@@ -116,6 +125,14 @@ define( require => {
       this.dragCueNode = options.dragCueNode; // {Node|null}
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
 
+      // @private - wrap the optional onRelease in logic that is needed for the core type.
+      this.onRelease = () => {
+        options.onRelease && options.onRelease();
+
+        utteranceQueue.addToBack( releasedString );
+      };
+      this.onGrab = options.onGrab; // @private
+
       // @private - Take the focusHighlight from the node for the grab button interaction highlight.
       this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
       node.focusHighlight = this.grabFocusHighlight;
@@ -171,8 +188,6 @@ define( require => {
                 this.grabFocusHighlight.parent.addChild( this.dragFocusHighlight );
               }
             }
-
-            options.onGrab();
           }
 
           // "grab" the draggable on the next click event
@@ -201,9 +216,6 @@ define( require => {
 
         // refocus once reconstructed, TODO: this may not be necessary if scenery knows how to restore focus on tagName change
         node.focus();
-
-        // callback when node is "released"
-        options.onRelease();
       };
 
       let dragDivListener = {
@@ -236,7 +248,6 @@ define( require => {
 
         // arrow function for this
         blur: () => {
-          // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are already interrupted on blur
 
           this.turnToGrabbable();
         },
@@ -284,6 +295,7 @@ define( require => {
      */
     turnToGrabbable() {
       this.grabbable = true;
+      this.onRelease();
       this.baseInteractionUpdate( this.grabButtonOptions, this.listenersForDrag, this.listenersForGrab );
     }
 
@@ -293,6 +305,7 @@ define( require => {
      */
     turnToDraggable() {
       this.grabbable = false;
+      this.onGrab();
 
       // turn this into a draggable in the node
       this.baseInteractionUpdate( this.dragDivOptions, this.listenersForGrab, this.listenersForDrag );
@@ -377,14 +390,6 @@ define( require => {
           this.node.removeInputListener( listener );
         }
       }
-    }
-
-
-    /**
-     * @public
-     */
-    static onRelease() {
-      utteranceQueue.addToBack( releasedString );
     }
 
     /**
