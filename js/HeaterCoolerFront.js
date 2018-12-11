@@ -136,13 +136,6 @@ define( require => {
 
       this.mutate( options );
     }
-
-    /**
-     * @public
-     */
-    dispose() {
-      Node.prototype.dispose.call( this );
-    }
   }
 
   return sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );

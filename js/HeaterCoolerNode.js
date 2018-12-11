@@ -60,10 +60,11 @@ define( require => {
 
     /**
      * @public
+     * @override
      */
     dispose() {
-      Node.prototype.dispose.call( this );
       this.disposeHeaterCoolerNode();
+      super.dispose();
     }
   }
 
