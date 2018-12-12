@@ -77,6 +77,7 @@ define( require => {
         heaterCoolerFront.dispose();
       };
     }
+    
     /**
      * @public
      * @override
