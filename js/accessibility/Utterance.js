@@ -20,7 +20,6 @@ define( require => {
      * An utterance to be handed off to the AlertQueue, which manages the order of accessibility alerts
      * read by a screen reader.
      *
-     * @param {string} text
      * @param {Object} config
      */
     constructor( config ) {
