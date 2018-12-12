@@ -21,39 +21,39 @@ define( function( require ) {
   /**
    * Slider track that displays the visible spectrum.
    *
-   * @param {Object} [options]
+   * @param {Object} config
    * @constructor
    */
-  function SpectrumNode( options ) {
+  function SpectrumNode( config ) {
 
-    options = _.extend( {
+    config = _.extend( {
       size: new Dimension2( 150, 30 ),
       minValue: 0,
       maxValue: 1,
-      valueToColor: null // {function} - required, maps value => Color
-    }, options );
+      valueToColor: null // {function} - @required, maps value => Color
+    }, config );
 
     // validate values
-    assert && assert( options.minValue < options.maxValue, 'min should be less than max' );
-    assert && assert( !!options.valueToColor, 'valueToColor is required' );
+    assert && assert( config.minValue < config.maxValue, 'min should be less than max' );
+    assert && assert( !!config.valueToColor, 'valueToColor is required' );
 
     // Draw the spectrum directly to a canvas, to improve performance.
     var canvas = document.createElement( 'canvas' );
     var context = canvas.getContext( '2d' );
-    canvas.width = options.size.width;
-    canvas.height = options.size.height;
+    canvas.width = config.size.width;
+    canvas.height = config.size.height;
 
     // map position to wavelength
-    for ( var i = 0; i < options.size.width; i++ ) {
-      var value = Util.clamp( Util.linear( 0, options.size.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
-      context.fillStyle = options.valueToColor( value ).toCSS();
-      context.fillRect( i, 0, 1, options.size.height );
+    for ( var i = 0; i < config.size.width; i++ ) {
+      var value = Util.clamp( Util.linear( 0, config.size.width, config.minValue, config.maxValue, i ), config.minValue, config.maxValue );
+      context.fillStyle = config.valueToColor( value ).toCSS();
+      context.fillRect( i, 0, 1, config.size.height );
     }
 
-    Image.call( this, canvas.toDataURL(), options );
+    Image.call( this, canvas.toDataURL(), config );
 
     // since the Image's bounds aren't immediately computed, we override it here
-    this.setLocalBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
+    this.setLocalBounds( new Bounds2( 0, 0, config.size.width, config.size.height ) );
   }
 
   sceneryPhet.register( 'SpectrumNode', SpectrumNode );
