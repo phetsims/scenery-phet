@@ -153,7 +153,7 @@ define( require => {
       this.dragFocusHighlight.makeDashed();
 
       // if ever we update the node's focusHighlight, then update the grab button's too to keep in syn.
-      let onHighlightChange = () => {
+      const onHighlightChange = () => {
         this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
       };
       this.grabFocusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
@@ -212,7 +212,7 @@ define( require => {
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
       node.addInputListener( grabButtonListener );
 
-      let dragDivListener = {
+      const dragDivListener = {
 
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button

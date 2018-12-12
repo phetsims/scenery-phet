@@ -14,7 +14,7 @@ define( require => {
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
-  var sleepTiming = null;
+  let sleepTiming = null;
 
   // helper es6 functions from  https://stackoverflow.com/questions/33289726/combination-of-async-function-await-settimeout/33292942
   function timeout( ms ) {
@@ -30,7 +30,7 @@ define( require => {
 
   var alerts = [];
 
-  var intervalID = null;
+  let intervalID = null;
   QUnit.module( 'Utterance', {
     before() {
 
@@ -67,12 +67,12 @@ define( require => {
 
     assert.ok( true, 'first test' );
 
-    let alert = 'hi';
-    utteranceQueue.addToBack( alert );
+    const myAlert = 'hi';
+    utteranceQueue.addToBack( myAlert );
 
 
     await sleep( () => {
-      assert.ok( alerts[ 0 ] === alert, 'basic utteranceQueue test' );
+      assert.ok( alerts[ 0 ] === myAlert, 'basic utteranceQueue test' );
     } );
 
     utteranceQueue.addToBack( 'alert' );
@@ -134,18 +134,18 @@ define( require => {
 
   QUnit.test( 'Utterance options', async assert => {
 
-    var alert = new Utterance( {
+    const alert = new Utterance( {
       alert: [ '1', '2', '3' ]
     } );
 
-    let alert4 = () => {
+    const alert4 = () => {
       utteranceQueue.addToBack( alert );
       utteranceQueue.addToBack( alert );
       utteranceQueue.addToBack( alert );
       utteranceQueue.addToBack( alert );
     };
 
-    let testOrder = ( messageSuffix ) => {
+    const testOrder = ( messageSuffix ) => {
 
       // newest at lowest index because of unshift
       assert.ok( alerts[ 3 ] === '1', 'Array order1' + messageSuffix );
@@ -165,12 +165,12 @@ define( require => {
 
   QUnit.test( 'Utterance loopAlerts', async assert => {
 
-    var alert = new Utterance( {
+    const alert = new Utterance( {
       alert: [ '1', '2', '3' ],
       loopAlerts: true
     } );
 
-    let alert7 = () => {
+    const alert7 = () => {
       utteranceQueue.addToBack( alert );
       utteranceQueue.addToBack( alert );
       utteranceQueue.addToBack( alert );
@@ -180,7 +180,7 @@ define( require => {
       utteranceQueue.addToBack( alert );
     };
 
-    let testOrder = ( messageSuffix ) => {
+    const testOrder = ( messageSuffix ) => {
 
       // newest at lowest index
       assert.ok( alerts[ 6 ] === '1', 'Array order1' + messageSuffix );

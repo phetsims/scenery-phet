@@ -50,24 +50,24 @@ define( require => {
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the desired stove width.
-      let burnerOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
+      const burnerOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
 
       // Create the inside bowl of the burner, which is an ellipse.
-      let burnerInteriorShape = new Shape()
+      const burnerInteriorShape = new Shape()
         .ellipse( DEFAULT_WIDTH / 2, burnerOpeningHeight / 4, DEFAULT_WIDTH / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false );
-      let burnerInterior = new Path( burnerInteriorShape, {
+      const burnerInterior = new Path( burnerInteriorShape, {
         stroke: 'black',
         fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
           .addColorStop( 0, options.baseColor.darkerColor( 0.5 ) )
           .addColorStop( 1, options.baseColor.brighterColor( 0.5 ) )
       } );
 
-      let fireNode = new Image( fireImage, {
+      const fireNode = new Image( fireImage, {
         centerX: burnerInterior.centerX,
         top: burnerInterior.bottom,
         scale: DEFAULT_WIDTH / DEFAULT_WIDTH
       } );
-      let iceNode = new Image( iceImage, {
+      const iceNode = new Image( iceImage, {
         centerX: burnerInterior.centerX,
         top: burnerInterior.bottom,
         scale: DEFAULT_WIDTH / DEFAULT_WIDTH

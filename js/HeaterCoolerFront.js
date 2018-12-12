@@ -69,18 +69,18 @@ define( require => {
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
       // be made into options if needed.
-      let height = DEFAULT_WIDTH * 0.75;
-      let burnerOpeningHeight = DEFAULT_WIDTH * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
-      let bottomWidth = DEFAULT_WIDTH * 0.80;
+      const height = DEFAULT_WIDTH * 0.75;
+      const burnerOpeningHeight = DEFAULT_WIDTH * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
+      const bottomWidth = DEFAULT_WIDTH * 0.80;
 
       // Create the body of the stove.
-      let stoveBodyShape = new Shape()
+      const stoveBodyShape = new Shape()
         .ellipticalArc( DEFAULT_WIDTH / 2, burnerOpeningHeight / 4, DEFAULT_WIDTH / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false )
         .lineTo( ( DEFAULT_WIDTH - bottomWidth ) / 2, height + burnerOpeningHeight / 2 )
         .ellipticalArc( DEFAULT_WIDTH / 2, height + burnerOpeningHeight / 4, bottomWidth / 2, burnerOpeningHeight,
           0, Math.PI, 0, true ).lineTo( DEFAULT_WIDTH, burnerOpeningHeight / 2 );
 
-      let stoveBody = new Path( stoveBodyShape, {
+      const stoveBody = new Path( stoveBodyShape, {
         stroke: 'black',
         fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
           .addColorStop( 0, options.baseColor.brighterColor( 0.5 ) )
@@ -88,13 +88,13 @@ define( require => {
       } );
 
       // Create the label strings and scale them to support translations.
-      let titleOptions = { font: options.labelFont, maxWidth: options.labelMaxWidth };
-      let heatTitle = new Text( options.heatLabel, titleOptions );
-      let coolTitle = new Text( options.coolLabel, titleOptions );
-      let titles = [ heatTitle, coolTitle ];
+      const titleOptions = { font: options.labelFont, maxWidth: options.labelMaxWidth };
+      const heatTitle = new Text( options.heatLabel, titleOptions );
+      const coolTitle = new Text( options.coolLabel, titleOptions );
+      const titles = [ heatTitle, coolTitle ];
 
       // Scale the titles to fit within the bucket front if necessary.
-      let maxTitleWidth = Math.max( coolTitle.width, heatTitle.width );
+      const maxTitleWidth = Math.max( coolTitle.width, heatTitle.width );
       if ( maxTitleWidth > bottomWidth / 2 ) {
         titles.forEach( function( title ) {
           title.scale( ( bottomWidth / 2 ) / maxTitleWidth );

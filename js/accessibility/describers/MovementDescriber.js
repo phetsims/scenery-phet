@@ -22,20 +22,20 @@ define( require => {
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // a11y strings
-  let downString = SceneryPhetA11yStrings.down.value;
-  let leftString = SceneryPhetA11yStrings.left.value;
-  let rightString = SceneryPhetA11yStrings.right.value;
-  let upString = SceneryPhetA11yStrings.up.value;
+  const downString = SceneryPhetA11yStrings.down.value;
+  const leftString = SceneryPhetA11yStrings.left.value;
+  const rightString = SceneryPhetA11yStrings.right.value;
+  const upString = SceneryPhetA11yStrings.up.value;
 
   // constants
   // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
-  let DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+  const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
   // mapping from alerting direction to the radian range that fills that space in the unit circle.
   // The diagnal directions take up the middle third of each quadrant, such that each "outside" third is in the range for
   // a relative (primary) direction. Therefore each diagonal direction is 1/9 of the Unit circle, and each primary direction
   // is 2/9 of the unit circle.
-  let DIRECTION_MAP = {
+  const DIRECTION_MAP = {
     UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -48,7 +48,7 @@ define( require => {
     UP_RIGHT: new Range( -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN_RIGHT: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD )
   };
-  let DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
+  const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
   if ( assert ) {
     DIRECTION_MAP_KEYS.forEach( direction => {
@@ -56,7 +56,7 @@ define( require => {
     } );
   }
 
-  let DEFAULT_MOVEMENT_ALERTS = {
+  const DEFAULT_MOVEMENT_ALERTS = {
     LEFT: leftString,
     RIGHT: rightString,
     UP: upString,
@@ -92,7 +92,7 @@ define( require => {
       if ( assert ) {
 
         for ( let i = 0; i < this.movementAlertKeys.length; i++ ) {
-          let key = this.movementAlertKeys[ i ];
+          const key = this.movementAlertKeys[ i ];
           assert( DirectionEnum.keys.indexOf( key ) >= 0, `unexpected key: ${key}. Keys should be the same as those in DirectionEnum` );
           assert( AlertableDef.isAlertableDef( options.movementAlerts[ key ] ) );
         }
@@ -158,10 +158,10 @@ define( require => {
      */
     alertDirectionalMovement() {
 
-      let newLocation = this.locationProperty.get();
+      const newLocation = this.locationProperty.get();
       if ( !newLocation.equals( this.lastAlertedLocation ) ) {
 
-        let directions = this.getDirections( newLocation, this.lastAlertedLocation );
+        const directions = this.getDirections( newLocation, this.lastAlertedLocation );
 
         // make sure that these alerts exist
         if ( assert ) {
@@ -185,9 +185,9 @@ define( require => {
     getDirections( pointA, pointB ) {
       let direction;
 
-      let dx = pointA.x - pointB.x;
-      let dy = pointA.y - pointB.y;
-      let angle = Math.atan2( dy, dx );
+      const dx = pointA.x - pointB.x;
+      const dy = pointA.y - pointB.y;
+      const angle = Math.atan2( dy, dx );
 
       // atan2 wraps around Math.PI, so special check for moving left from absolute value
       if ( DIRECTION_MAP.LEFT.contains( Math.abs( angle ) ) ) {
@@ -196,7 +196,7 @@ define( require => {
 
       // otherwise, angle will be in one of the ranges in DIRECTION_MAP
       for ( let i = 0; i < DIRECTION_MAP_KEYS.length; i++ ) {
-        let entry = DIRECTION_MAP[ DIRECTION_MAP_KEYS[ i ] ];
+        const entry = DIRECTION_MAP[ DIRECTION_MAP_KEYS[ i ] ];
         if ( entry.contains( angle ) ) {
           direction = DirectionEnum[ DIRECTION_MAP_KEYS[ i ] ];
           break;

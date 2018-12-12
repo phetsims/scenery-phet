@@ -15,7 +15,7 @@ define( function( require ) {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // It is important that the key and value are the same, so that either way you can access the values of the enum.
-  let DirectionEnum = {
+  const DirectionEnum = {
     LEFT: 'LEFT',
     RIGHT: 'RIGHT',
     UP: 'UP',

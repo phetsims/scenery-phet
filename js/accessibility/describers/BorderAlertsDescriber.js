@@ -19,12 +19,12 @@ define( ( require ) => {
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // a11y strings
-  let leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
-  let rightBorderAlertString = SceneryPhetA11yStrings.rightBorderAlert.value;
-  let topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
-  let bottomBorderAlertString = SceneryPhetA11yStrings.bottomBorderAlert.value;
+  const leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
+  const rightBorderAlertString = SceneryPhetA11yStrings.rightBorderAlert.value;
+  const topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
+  const bottomBorderAlertString = SceneryPhetA11yStrings.bottomBorderAlert.value;
 
-  let DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
+  const DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 
   /**
    * Responsible for alerting when the temperature increases
@@ -68,7 +68,7 @@ define( ( require ) => {
     alertAtBorder( position, keyCode ) {
       let alertDirection;
 
-      let bordersTouching = [];
+      const bordersTouching = [];
 
       // at left now, but wasn't last location
       if ( position.x === this.bounds.left ) {
@@ -93,7 +93,7 @@ define( ( require ) => {
       // corner case
       if ( bordersTouching.length > 1 ) {
         keyCode = keyCode || -1;
-        let possibleDirection = DirectionEnum.keyCodeToDirection( keyCode );
+        const possibleDirection = DirectionEnum.keyCodeToDirection( keyCode );
 
         // if the keyCode matches a border direction, use that instead of another wall that we may also be touching
         if ( possibleDirection && bordersTouching.indexOf( possibleDirection ) >= 0 ) {
@@ -108,7 +108,7 @@ define( ( require ) => {
       // Then we are potentially going to alert
       if ( alertDirection ) {
         assert && assert( DirectionEnum.isRelativeDirection( alertDirection ), `unsupported direction: ${alertDirection}` );
-        let borderAlert = this[ alertDirection ];
+        const borderAlert = this[ alertDirection ];
         assert && assert( borderAlert instanceof BorderAlert, 'sanity check' );
 
         borderAlert.alert();
@@ -171,7 +171,7 @@ define( ( require ) => {
     getAlert() {
       let alert = this._alert;
       if ( Array.isArray( alert ) ) {
-        let index = Util.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
+        const index = Util.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
         alert = alert[ index ];
       }
       return alert;
