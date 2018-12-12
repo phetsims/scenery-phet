@@ -1,6 +1,9 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
+ * An utterance to be handed off to the AlertQueue, which manages the order of accessibility alerts
+ * read by a screen reader.
+ *
  * An utterance to be provided to the AlertQueue. An utterance can be one of AlertableDef or an array of items
  * that conform to AlertableDef. If using an array, alertables in the array will be anounced in order (one at a time)
  * each time this utterances is added to the utteranceQueue.
@@ -17,19 +20,17 @@ define( require => {
   class Utterance {
 
     /**
-     * An utterance to be handed off to the AlertQueue, which manages the order of accessibility alerts
-     * read by a screen reader.
-     *
      * @param {Object} config
      */
     constructor( config ) {
       config = _.extend( {
 
         /**
-         * Required. The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will
+         * The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will
          * keep track of number of times that the Utterance has been alerted, and choose from the list "accordingly" see
          * loopingSchema for more details
          * {AlertableDef}
+         * @required
          */
         alert: null,
 
