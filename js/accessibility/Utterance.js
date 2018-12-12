@@ -12,7 +12,7 @@ define( require => {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * An utterance to be handed off to the AlertQueue, which manages the order of accessibility alerts
@@ -99,7 +99,7 @@ define( require => {
       }
       else {
         assert && assert( Array.isArray( this._alert ) ); // sanity check
-        let currentAlertIndex = Math.min( this.numberOfTimesAlerted, this._alert.length - 1 );
+        const currentAlertIndex = Math.min( this.numberOfTimesAlerted, this._alert.length - 1 );
         alert = this._alert[ currentAlertIndex ];
       }
       this.numberOfTimesAlerted++;
