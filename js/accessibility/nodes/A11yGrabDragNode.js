@@ -8,14 +8,20 @@
  * as well as the options to mutate the node by. By default the grabbable is a button with a parent div, and the
  * draggable is a focusable div with an "application" aria role.
  *
+ * As a note on terminology, mostly things are referred to by their current "interaction mode" which is either grabbable
+ * or draggable.
+ *
  * NOTE: You cannot add a11y listeners directly to the node where it is constructed, instead see
  * `options.listenersForGrab/Drag`. These will keep track of the listeners for each interaction mode, and
  * will set them accordingly.
  *
- * There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
+ * NOTE: There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
  * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
  *
  * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
+ *
+ * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have added the
+ * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this Type's constructor.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -45,17 +51,27 @@ define( require => {
      * @param {Object} options
      */
     constructor( node, options ) {
-
       options = _.extend( {
 
         // A string that is filled in to the appropriate button label
         thingToGrab: defaultThingToGrabString,
 
         // {function} - called when the node is "grabbed" (when the grab button fires); button -> draggable
-        onGrab: _.noop(),
+        onGrab: _.noop,
 
         // {function} - called when the node is "released" (when the draggable is "let go"); draggable -> button
-        onRelease: _.noop(),
+        onRelease: _.noop,
+
+        // {function} - similar to onRelease, but called whenever the interaction mode is set to "grab". Useful for adding
+        // accessible content for the interaction mode in a way that can't be achieved with options, like setting
+        // accessibleAttributes.
+        onGrabbable: _.noop,
+
+        // {function} - similar to onGrab, but called whenever the interaction mode is set to "drag". Useful for adding
+        // accessible content for the interaction mode in a way that can't be achieved with options, like setting
+        // accessibleAttributes.
+        onDraggable: _.noop,
+
 
         // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
         grabbableOptions: {},
@@ -82,12 +98,21 @@ define( require => {
         successfulDrag: _.noop
       }, options );
 
+      if ( node.focusHighlightLayerable ) {
+
+        assert && assert( node.focusHighlight,
+          'if focusHighlightLayerable, the highlight must be set to the node before constructing the grab/drag interaction.' );
+        assert && assert( node.focusHighlight.parent, 'if focusHighlightLayerable, the highlight must be added to the ' +
+                                                      'scene graph before grab/drag construction.' );
+      }
       if ( node.focusHighlight ) {
         assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
           'if provided, focusHighlight must be a Path' );
       }
       assert && assert( typeof options.onGrab === 'function' );
       assert && assert( typeof options.onRelease === 'function' );
+      assert && assert( typeof options.onGrabbable === 'function' );
+      assert && assert( typeof options.onDraggable === 'function' );
       assert && assert( Array.isArray( options.listenersForDrag ) );
       assert && assert( Array.isArray( options.listenersForGrab ) );
       assert && assert( typeof options.grabsToCue === 'number' );
@@ -123,9 +148,6 @@ define( require => {
       options.grabbableOptions.ariaLabel = accessibleNameString;
       options.grabbableOptions.innerContent = accessibleNameString;
 
-      // Initialize the node as a button to begin with
-      node.mutate( options.grabbableOptions );
-
       // @private
       this.grabbable = true; // if false, then instead it has draggable functionality
       this.node = node;
@@ -136,6 +158,8 @@ define( require => {
       this.successfulDrag = options.successfulDrag;
       this.dragCueNode = options.dragCueNode; // {Node|null}
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+      this.onGrabbable = options.onGrabbable;
+      this.onDraggable = options.onDraggable;
 
       // @private - wrap the optional onRelease in logic that is needed for the core type.
       this.onRelease = () => {
@@ -188,6 +212,8 @@ define( require => {
 
             this.node.focus();
 
+            this.onGrab();
+
             // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
             // original focus highlight was added. By doing this on click, we make sure that the node's
             // focusHighlight has been completely constructed (added to the scene graph) and can use its parent. But only
@@ -215,8 +241,13 @@ define( require => {
 
       // @private - keep track of all listeners to swap out grab/drag functionalities
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
-      node.addInputListener( grabButtonListener );
 
+      const releaseDraggable = () => {
+        this.turnToGrabbable();
+        this.onRelease();
+      };
+
+      // use arrow functions so that we can have the right "this" reference
       const dragDivListener = {
 
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
@@ -227,8 +258,7 @@ define( require => {
             // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
             // "clicking" the grab button also on this key press.
             guardKeyPressFromDraggable = true;
-
-            this.turnToGrabbable();
+            releaseDraggable();
           }
         },
         keyup: ( event ) => {
@@ -236,7 +266,8 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-            this.turnToGrabbable();
+            releaseDraggable();
+
           }
 
           // if successfully dragged, then make the cue node invisible
@@ -245,9 +276,9 @@ define( require => {
           }
         },
 
-        // arrow function for this
         blur: () => {
-          this.turnToGrabbable();
+          releaseDraggable();
+
         },
         focus: () => {
 
@@ -260,6 +291,10 @@ define( require => {
 
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
+
+
+      // Initialize the node as a grabbable (button) to begin with
+      this.turnToGrabbable();
 
       // @private
       this.disposeA11yGrabDragNode = () => {
@@ -297,7 +332,7 @@ define( require => {
       // interrupt prior input, reset the key state of the drag handler by interrupting the drag
       this.node.interruptInput();
 
-      this.onRelease();
+      this.onGrabbable();
       this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
     }
 
@@ -307,7 +342,7 @@ define( require => {
      */
     turnToDraggable() {
       this.grabbable = false;
-      this.onGrab();
+      this.onDraggable();
 
       // turn this into a draggable in the node
       this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrab, this.listenersForDrag );
