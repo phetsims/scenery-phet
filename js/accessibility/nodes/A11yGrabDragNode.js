@@ -109,14 +109,19 @@ define( require => {
 
       options.grabbableOptions = _.extend( {
         containerTagName: 'div',
+        ariaRole: null,
         tagName: 'button'
       }, options.grabbableOptions );
 
+      assert && assert( !options.grabbableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
       assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.ariaLabel, 'A11yGrabDragNode sets its own ariaLabel, see thingToGrab' );
 
-      options.grabbableOptions.innerContent = StringUtils.fillIn( grabPatternString, {
+      var accessibleNameString = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
+      options.grabbableOptions.ariaLabel = accessibleNameString;
+      options.grabbableOptions.innerContent = accessibleNameString;
 
       // Initialize the node as a button to begin with
       node.mutate( options.grabbableOptions );
