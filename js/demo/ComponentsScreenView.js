@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
@@ -24,6 +25,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
+  var Emitter = require( 'AXON/Emitter' );
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
@@ -70,6 +72,7 @@ define( function( require ) {
   var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
@@ -78,10 +81,14 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var WireNode = require( 'SCENERY_PHET/WireNode' );
 
+  // constants
+  var emitter = new Emitter(); // allow tests to wire up to step function // TODO: move to DemosScreenView
+
   /**
+   * @param {Object} [options]
    * @constructor
    */
-  function ComponentsScreenView() {
+  function ComponentsScreenView( options ) {
     DemosScreenView.call( this, [
 
       /**
@@ -117,11 +124,12 @@ define( function( require ) {
       { label: 'TimerNode', createNode: demoTimerNode },
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'WireNode', createNode: demoWireNode }
-    ], {
+    ], _.extend( {
       comboBoxItemFont: new PhetFont( 12 ),
       comboBoxItemYMargin: 3,
-      selectedDemoLabel: sceneryPhetQueryParameters.component
-    } );
+      selectedDemoLabel: sceneryPhetQueryParameters.component,
+      tandem: Tandem.required
+    }, options ) );
   }
 
   sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
@@ -628,10 +636,10 @@ define( function( require ) {
     redCircle.addInputListener( new DragListener( { translateNode: true } ) );
 
     // Distance the wires stick out from the objects
-    const NORMAL_DISTANCE = 100;
+    var NORMAL_DISTANCE = 100;
 
     // Add the wire behind the probe.
-    const wireNode = new WireNode(
+    var wireNode = new WireNode(
       // Connect to the greenCircle at the center bottom
       new NodeProperty( greenCircle, 'bounds', 'centerBottom' ),
       new Property( new Vector2( 0, NORMAL_DISTANCE ) ),
@@ -1083,10 +1091,25 @@ define( function( require ) {
   };
 
   // Creates a sample TimerNode
-  var demoTimerNode = function( layoutBounds ) {
+  var demoTimerNode = function( layoutBounds, options ) {
 
     // Create a TimerNode that doesn't show units (assumed to be seconds)
-    var noUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ) );
+    var isRunningProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'isRunningProperty' )
+    } );
+    var timeProperty = new NumberProperty( 12.34, {
+      tandem: options.tandem.createTandem( 'timeProperty' ),
+      phetioHighFrequency: true
+    } );
+    var timerNode = new TimerNode( timeProperty, isRunningProperty, {
+      tandem: options.tandem.createTandem( 'noUnitsTimerNode' )
+    } );
+    var timerNodeListener = function( dt ) {
+      if ( isRunningProperty.value ) {
+        timeProperty.value += dt;
+      }
+    };
+    emitter.addListener( timerNodeListener );
 
     // Create a TimerNode that can show from a selection of units.
     var unitsProperty = new Property( 'ps' );
@@ -1095,26 +1118,28 @@ define( function( require ) {
     var unitsNode = new Text( 'ms', { font: new PhetFont( 15 ) } );
     var mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
       unitsNode: unitsNode,
-      scale: 2
+      scale: 2,
+      tandem: options.tandem.createTandem( 'mutableUnitsTimerNode' )
     } );
     unitsProperty.link( function( units ) {
       unitsNode.text = units;
     } );
     var unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
-      { value: 'ps', node: new Text( 'picoseconds' ) },
-      { value: 'ms', node: new Text( 'milliseconds' ) },
-      { value: 'fs', node: new Text( 'femtoseconds' ) }
+      { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picoseconds' },
+      { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'milliseconds' },
+      { value: 'fs', node: new Text( 'femtoseconds' ), tandemName: 'femtoseconds' }
     ], {
-      spacing: 5
+      spacing: 5,
+      tandem: options.tandem.createTandem( 'unitsRadioButtonGroup' )
     } );
 
     // Layout
-    return new VBox( {
+    var vBox = new VBox( {
       align: 'left',
       spacing: 20,
       center: layoutBounds.center,
       children: [
-        noUnitsTimerNode,
+        timerNode,
         new HBox( {
           spacing: 20,
           children: [
@@ -1124,6 +1149,14 @@ define( function( require ) {
         } )
       ]
     } );
+
+    // Swap out the dispose function for one that also removes the Emitter listener
+    var demoDispose = vBox.dispose.bind( vBox );
+    vBox.dispose = function() {
+      emitter.removeListener( timerNodeListener );
+      demoDispose();
+    };
+    return vBox;
   };
 
   // Creates a demo for PaperAirplaneNode
@@ -1164,5 +1197,9 @@ define( function( require ) {
     } );
   };
 
-  return inherit( DemosScreenView, ComponentsScreenView );
+  return inherit( DemosScreenView, ComponentsScreenView, {
+    step: function( dt ) {
+      emitter.emit1( dt );
+    }
+  } );
 } );

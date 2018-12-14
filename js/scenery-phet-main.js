@@ -21,6 +21,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var SlidersScreenView = require( 'SCENERY_PHET/demo/SlidersScreenView' );
   var SpringScreenView = require( 'SCENERY_PHET/demo/SpringScreenView' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
@@ -38,6 +39,13 @@ define( function( require ) {
 
   // Create and start sim
   SimLauncher.launch( function() {
+
+    const buttonsScreenTandem = Tandem.rootTandem.createTandem( 'buttonsScreen' );
+    const slidersScreenTandem = Tandem.rootTandem.createTandem( 'slidersScreen' );
+    const componentsScreenTandem = Tandem.rootTandem.createTandem( 'componentsScreen' );
+    const dialogsScreenTandem = Tandem.rootTandem.createTandem( 'dialogsScreen' );
+    const springScreenTandem = Tandem.rootTandem.createTandem( 'springsScreen' );
+    const memoryTestsScreenTandem = Tandem.rootTandem.createTandem( 'memoryTestsScreen' );
     new Sim( sceneryPhetTitleString, [
 
       // Buttons
@@ -47,7 +55,8 @@ define( function( require ) {
         {
           name: 'Buttons',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'red' )
+          homeScreenIcon: createScreenIcon( 'red' ),
+          tandem: buttonsScreenTandem
         }
       ),
 
@@ -58,18 +67,23 @@ define( function( require ) {
         {
           name: 'Sliders',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'yellow' )
+          homeScreenIcon: createScreenIcon( 'yellow' ),
+          tandem: slidersScreenTandem
         }
       ),
 
       // Components
       new Screen(
         function() {return {};},
-        function( model ) {return new ComponentsScreenView();},
+        function( model ) {
+
+          return new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } );
+        },
         {
           name: 'Components',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'orange' )
+          homeScreenIcon: createScreenIcon( 'orange' ),
+          tandem: componentsScreenTandem
         }
       ),
 
@@ -80,7 +94,8 @@ define( function( require ) {
         {
           name: 'Dialogs',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'white' )
+          homeScreenIcon: createScreenIcon( 'white' ),
+          tandem: dialogsScreenTandem
         }
       ),
 
@@ -91,7 +106,8 @@ define( function( require ) {
         {
           name: 'Spring',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'blue' )
+          homeScreenIcon: createScreenIcon( 'blue' ),
+          tandem: springScreenTandem
         }
       ),
 
@@ -102,7 +118,8 @@ define( function( require ) {
         {
           name: 'Memory Tests',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'purple' )
+          homeScreenIcon: createScreenIcon( 'purple' ),
+          tandem: memoryTestsScreenTandem
         }
       )
     ], simOptions ).start();
