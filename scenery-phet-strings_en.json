@@ -138,5 +138,8 @@
   },
   "speed.slow": {
     "value": "Slow"
+  },
+  "symbol.resistivity": {
+    "value": "\u03C1"
   }
 }

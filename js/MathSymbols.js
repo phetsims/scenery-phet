@@ -18,7 +18,15 @@ define( function( require ) {
   // modules
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
+  // strings
+  var symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
+
   var MathSymbols = {
+
+    //==================================================================================================================
+    // Symbols in this section are universal and are NOT translatable.  A decision to promote any of these to
+    // translatable requires discussion with PhET team members and subject-matter experts.
+    //==================================================================================================================
 
     // binary operators
     PLUS: '+',
@@ -42,9 +50,19 @@ define( function( require ) {
     INFINITY: '\u221E',
     PI: '\u03c0',
     PLUS_MINUS: '\u00B1',
+
+    // Greek characters
     THETA: '\u03b8',
+
+    // universal units
     OHMS: '\u2126',
-    RHO: '\u03C1'
+
+    //==================================================================================================================
+    // Symbols in this section represent logical concepts and ARE translatable.
+    // See https://github.com/phetsims/resistance-in-a-wire/issues/187
+    //==================================================================================================================
+
+    RESISTIVITY: symbolResistivityString
   };
 
   sceneryPhet.register( 'MathSymbols', MathSymbols );
