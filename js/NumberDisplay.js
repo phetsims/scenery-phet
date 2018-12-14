@@ -54,6 +54,11 @@ define( function( require ) {
       // string that is displayed when numberProperty.value is null
       noValueString: '\u2014', // em dash
 
+      // map the value to another before displaying
+      // @param {number|null}
+      // @returns {number|null}
+      mapValue: function( value ) { return value; },
+
       // phet-io
       tandem: Tandem.optional,
       phetioType: NumberDisplayIO
@@ -95,8 +100,11 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       // update the value
-      var valueString = ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces );
+      var mappedValue = options.mapValue( value );
+      var valueString = ( mappedValue === null ) ? options.noValueString : Util.toFixed( mappedValue, options.decimalPlaces );
       self.valueNode.text = StringUtils.format( options.valuePattern, valueString );
+
+      assert && assert( self.valueNode.text.length <= widestString.length, 'mapped to value that is wider than the NumberDisplay background' );
 
       // horizontally align value in background
       if ( options.align === 'center' ) {
