@@ -23,7 +23,6 @@ define( function( require ) {
    * @constructor
    */
   function BackspaceIcon( options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       stroke: 'black',

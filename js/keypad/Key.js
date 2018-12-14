@@ -21,7 +21,6 @@ define( function( require ) {
    * @constructor
    */
   function Key( label, identifier, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       horizontalSpan: 1,
