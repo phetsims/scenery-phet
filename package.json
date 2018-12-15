@@ -25,5 +25,8 @@
       "phet",
       "adapted-from-phet"
     ]
+  },
+  "eslintConfig": {
+    "extends": "../chipper/eslint/.eslintrc.js"
   }
 }
