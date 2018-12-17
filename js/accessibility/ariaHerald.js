@@ -33,6 +33,7 @@ define( require => {
   'use strict';
 
   // modules
+  const AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   const Emitter = require( 'AXON/Emitter' );
   const EmitterIO = require( 'AXON/EmitterIO' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -130,7 +131,7 @@ define( require => {
       // clearing the old content allows repeated alerts
       if ( withClear ) { liveElement.textContent = ''; }
 
-      liveElement.textContent = textContent;
+      AccessibilityUtil.setTextContent( liveElement, textContent );
 
       // after a small delay, remove this alert content from the DOM so that it cannot be found again - must occur
       // after a delay for screen reader to register the change in text content
