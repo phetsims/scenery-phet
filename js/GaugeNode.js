@@ -69,6 +69,9 @@ define( function( require ) {
     }, options );
 
     options.numberDisplayOptions = _.extend( {
+      font: new PhetFont( 16 ),
+      backgroundStroke: 'black',
+      align: 'center',
       cornerRadius: 5
     }, options.numberDisplayOptions );
 
@@ -125,6 +128,8 @@ define( function( require ) {
     var updateNeedle = function() {
       if ( options.updateEnabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
+          assert && assert( valueProperty.get() >= 0, 'GaugeNode representing negative values indicates a logic error' );
+
           needle.visible = true;
           var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
 
