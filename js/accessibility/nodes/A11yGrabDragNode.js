@@ -168,7 +168,7 @@ define( require => {
       options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
       // @private
-      this.grabbable = true; // if false, then instead it has draggable functionality
+      this.grabbable = true; // If false, then instead this type is in the draggable interaction mode.
       this.node = node;
       this.grabbableOptions = options.grabbableOptions;
       this.draggableOptions = options.draggableOptions;
@@ -310,7 +310,6 @@ define( require => {
 
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
-
 
       // Initialize the node as a grabbable (button) to begin with
       this.turnToGrabbable();
