@@ -49,8 +49,10 @@ define( require => {
         uniqueGroupId: null,
 
         // {number} - if provided, this utterance won't be spoken until it has been in the queue for at least this long.
-        // But beware! The queue will otherwise still prioritize items in FIFO, so the utterance could sit in the
-        // queue for longer than this amount.
+        // Can be used in combination with uniqueGroupId so if an Utterance is being delayed and a new Utterance
+        // of the same uniqueGroupId is added to the queue, the delayed utterance will be removed immediately.
+        // But beware! The queue will otherwise still prioritize items in FIFO, so the utterance could sit in the queue
+        // for longer than this amount.
         delayTime: 0
       }, config );
 
