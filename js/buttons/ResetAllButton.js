@@ -75,7 +75,12 @@ define( function( require ) {
       else {
         utteranceQueue.addToBack( new Utterance( {
           alert: resetAllAlertString,
-          uniqueGroupId: 'resetAllButtonAlert'
+
+          // wait for the user to finish clicking the button before speaking the utterance, this is important if the
+          // user holds down "enter" on the button - but this is also kind of a workaround and we want a better
+          // way to handle this for all buttons, see https://github.com/phetsims/sun/issues/424
+          uniqueGroupId: 'resetAllButtonAlert',
+          delayTime: 500
         } ) );
       }
     } );
