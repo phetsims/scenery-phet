@@ -154,6 +154,9 @@ define( function( require ) {
     grabPattern: {
       value: 'Grab {{thingToGrab}}'
     },
+    movablePattern: {
+      value: 'Movable {{thingToGrab}}'
+    },
     defaultThingToGrab: {
       value: 'Node'
     },

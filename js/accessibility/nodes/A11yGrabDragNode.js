@@ -41,6 +41,7 @@ define( require => {
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
+  const movablePatternString = SceneryPhetA11yStrings.movablePattern.value;
   const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
@@ -126,6 +127,10 @@ define( require => {
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
 
+      assert && assert( !options.draggableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
+      assert && assert( !options.draggableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.draggableOptions.ariaLabel, 'A11yGrabDragNode sets its own ariaLabel, see thingToGrab' );
+
       options.draggableOptions = _.extend( {
         tagName: 'div',
         ariaRole: 'application',
@@ -135,6 +140,16 @@ define( require => {
         containerTagName: null
       }, options.draggableOptions );
 
+      // @private
+      this.draggableAccessibleName = StringUtils.fillIn( movablePatternString, {
+        thingToGrab: options.thingToGrab
+      } );
+      options.draggableOptions.innerContent = this.draggableAccessibleName;
+      options.draggableOptions.ariaLabel = this.draggableAccessibleName;
+
+      assert && assert( !options.grabbableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
+
       options.grabbableOptions = _.extend( {
         containerTagName: 'div',
         ariaRole: null,
@@ -143,16 +158,14 @@ define( require => {
         // to cancel out draggable
         focusable: null,
         accessibleName: null,
-        ariaLabel: null // since many use ariaLabel to set accessibleName
+        ariaLabel: null // also since many use ariaLabel to set accessibleName
       }, options.grabbableOptions );
 
-      assert && assert( !options.grabbableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
-      assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
-
-      var accessibleNameString = StringUtils.fillIn( grabPatternString, {
+      // @private
+      this.grabbableAccessibleName = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
-      options.grabbableOptions.innerContent = accessibleNameString;
+      options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
       // @private
       this.grabbable = true; // if false, then instead it has draggable functionality
@@ -338,6 +351,11 @@ define( require => {
       // interrupt prior input, reset the key state of the drag handler by interrupting the drag
       this.node.interruptInput();
 
+      // by default, the grabbable has no roledescription. Can be overwritten in `onGrabbable()`
+      if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
+        this.node.removeAccessibleAttribute( 'aria-roledescription' );
+      }
+
       this.onGrabbable();
       this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
     }
@@ -348,6 +366,10 @@ define( require => {
      */
     turnToDraggable() {
       this.grabbable = false;
+
+      // by default, the draggable has roledescription of the draggable accessible name. Can be overwritten in `onDraggable()`
+      this.node.setAccessibleAttribute( 'aria-roledescription', this.draggableAccessibleName );
+
       this.onDraggable();
 
       // turn this into a draggable in the node
