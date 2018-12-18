@@ -27,7 +27,7 @@ define( function( require ) {
 
     // screen summary intro for a single screen sim (not sim specific),
     screenSummarySingleScreenIntroPattern: {
-      value: '{{sim}} is an interactive sim. It changes as you play with it.'
+      value: '{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Panel. '
     },
     // screen summary intro for a single screen sim (not sim specific),
     screenSummaryKeyboardShortcutsHint: {
