@@ -129,23 +129,29 @@ define( require => {
       options.draggableOptions = _.extend( {
         tagName: 'div',
         ariaRole: 'application',
-        focusable: true
+        focusable: true,
+
+        // to cancel out grabbable
+        containerTagName: null
       }, options.draggableOptions );
 
       options.grabbableOptions = _.extend( {
         containerTagName: 'div',
         ariaRole: null,
-        tagName: 'button'
+        tagName: 'button',
+
+        // to cancel out draggable
+        focusable: null,
+        accessibleName: null,
+        ariaLabel: null // since many use ariaLabel to set accessibleName
       }, options.grabbableOptions );
 
       assert && assert( !options.grabbableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
       assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
-      assert && assert( !options.grabbableOptions.ariaLabel, 'A11yGrabDragNode sets its own ariaLabel, see thingToGrab' );
 
       var accessibleNameString = StringUtils.fillIn( grabPatternString, {
         thingToGrab: options.thingToGrab
       } );
-      options.grabbableOptions.ariaLabel = accessibleNameString;
       options.grabbableOptions.innerContent = accessibleNameString;
 
       // @private
