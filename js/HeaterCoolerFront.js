@@ -63,8 +63,8 @@ define( require => {
         thumbTouchAreaYDilation: 11,
         thumbMouseAreaXDilation: 0,
         thumbMouseAreaYDilation: 0,
-        thumbFillEnabled: '#c3c4c5', // {Color|string|null}
-        thumbFillHighlighted: '#dedede' // {Color|string|null}
+        thumbFillEnabled: '#ffffd9', // {Color|string|null}
+        thumbFillHighlighted: '#fffff2' // {Color|string|null}
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
@@ -112,12 +112,14 @@ define( require => {
             .addColorStop( 0, '#0A00F0' )
             .addColorStop( 1, '#EF000F' ),
           thumbSize: options.thumbSize,
+          thumbLineWidth: 1.4,
           thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
           thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
           thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
           thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
           thumbFillEnabled: options.thumbFillEnabled,
           thumbFillHighlighted: options.thumbFillHighlighted,
+          thumbCenterLineStroke: 'black',
           majorTickLength: 15,
           minorTickLength: 12,
           centerY: stoveBody.centerY,
