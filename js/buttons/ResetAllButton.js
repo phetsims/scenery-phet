@@ -76,10 +76,16 @@ define( function( require ) {
         utteranceQueue.addToBack( new Utterance( {
           alert: resetAllAlertString,
 
-          // wait for the user to finish clicking the button before speaking the utterance, this is important if the
-          // user holds down "enter" on the button - but this is also kind of a workaround and we want a better
-          // way to handle this for all buttons, see https://github.com/phetsims/sun/issues/424
+          // only one "Reset" alert should be in the queue at a time so the user doesn't get spammed with alerts
+          // relating to Reset if the button is pressed rapidly
           uniqueGroupId: 'resetAllButtonAlert',
+
+          // Wait this long in ms before announcing the alert so that old utterances with the same uniqueGroupId
+          // are removed before they can be anounced. This way only a single utterance for Reset is
+          // announced even if "enter" is held down to click the button every few milliseconds.
+          // TODO: This is a general problem that will come up for many buttons, see
+          // https://github.com/phetsims/sun/issues/424 - when that issue is resolved this line can potentially
+          // be removed
           delayTime: 500
         } ) );
       }
