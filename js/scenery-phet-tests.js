@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  require( 'SCENERY_PHET/accessibility/GrabDragInteractionTests' );
   require( 'SCENERY_PHET/MultiLineTextTests' );
   require( 'SCENERY_PHET/accessibility/UtteranceTests' );
 
