@@ -45,7 +45,7 @@ define( require => {
   const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
-  class A11yGrabDragNode {
+  class GrabDragInteraction {
 
     /**
      * @param {Node} node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
@@ -123,13 +123,13 @@ define( require => {
       assert && assert( options.draggableOptions instanceof Object );
       if ( options.dragCueNode !== null ) {
         assert && assert( options.dragCueNode instanceof Node );
-        assert && assert( !options.dragCueNode.parent, 'A11yGrabDragNode adds dragCueNode to focusHighlight' );
+        assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
 
-      assert && assert( !options.draggableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
-      assert && assert( !options.draggableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
-      assert && assert( !options.draggableOptions.ariaLabel, 'A11yGrabDragNode sets its own ariaLabel, see thingToGrab' );
+      assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see thingToGrab' );
+      assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.draggableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see thingToGrab' );
 
       options.draggableOptions = _.extend( {
         tagName: 'div',
@@ -147,8 +147,8 @@ define( require => {
       options.draggableOptions.innerContent = this.draggableAccessibleName;
       options.draggableOptions.ariaLabel = this.draggableAccessibleName;
 
-      assert && assert( !options.grabbableOptions.accessibleName, 'A11yGrabDragNode sets its own accessible name, see thingToGrab' );
-      assert && assert( !options.grabbableOptions.innerContent, 'A11yGrabDragNode sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see thingToGrab' );
 
       options.grabbableOptions = _.extend( {
         containerTagName: 'div',
@@ -479,6 +479,5 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'A11yGrabDragNode', A11yGrabDragNode );
-
+  return sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
 } );
