@@ -126,8 +126,7 @@ define( function( require ) {
     options.arrowButtonOptions = _.extend( {
       scale: options.arrowButtonScale,
       delta: options.delta
-    },
-    options.arrowButtonOptions );
+    }, options.arrowButtonOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
