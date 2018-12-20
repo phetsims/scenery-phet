@@ -112,14 +112,15 @@ define( function( require ) {
       // scale factor applied to the arrow buttons
       arrowButtonScale: 0.85,
 
+      // {*|null} options propagated to ArrowButton
+      arrowButtonOptions: null,
+
       // phet-io
       tandem: Tandem.required,
       phetioType: NumberControlIO,
 
       // a11y
-      groupFocusHighlight: true,
-
-      arrowButtonOptions: null
+      groupFocusHighlight: true
     }, options );
 
     options.arrowButtonOptions = _.extend( {
