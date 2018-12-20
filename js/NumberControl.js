@@ -50,7 +50,6 @@ define( function( require ) {
    * @constructor
    */
   function NumberControl( title, numberProperty, numberRange, options ) {
-
     options = _.extend( {
 
       // General Callbacks
@@ -117,9 +116,16 @@ define( function( require ) {
       phetioType: NumberControlIO,
 
       // a11y
-      groupFocusHighlight: true
+      groupFocusHighlight: true,
+
+      arrowButtonOptions: null
     }, options );
 
+    options.arrowButtonOptions = _.extend( {
+      scale: options.arrowButtonScale,
+      delta: options.delta
+    },
+    options.arrowButtonOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
@@ -149,7 +155,7 @@ define( function( require ) {
 
     var self = this;
 
-    var delta = options.delta; // to improve readability
+    var delta = options.arrowButtonOptions.delta; // to improve readability
 
     var titleNode = new Text( title, {
       font: options.titleFont,
@@ -173,11 +179,6 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'numberDisplay' )
     } );
 
-    var arrowButtonOptions = {
-      delta: options.delta,
-      scale: options.arrowButtonScale
-    };
-
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - delta;
       value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
@@ -188,7 +189,7 @@ define( function( require ) {
       startCallback: options.leftArrowStartCallback || options.startCallback,
       endCallback: options.leftArrowEndCallback || options.endCallback,
       focusable: false
-    }, arrowButtonOptions ) );
+    }, options.arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + delta;
@@ -200,7 +201,7 @@ define( function( require ) {
       startCallback: options.rightArrowStartCallback || options.startCallback,
       endCallback: options.rightArrowEndCallback || options.endCallback,
       focusable: false
-    }, arrowButtonOptions ) );
+    }, options.arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
