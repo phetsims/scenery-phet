@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ArrowButton = require( 'SUN/buttons/ArrowButton' );
@@ -149,6 +148,7 @@ define( function( require ) {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
+    assert && assert( options.arrowButtonOptions.tagName === undefined, 'NumberControl handles alternative input for arrow buttons' );
 
     // Make sure that general callbacks and specific callbacks aren't used in tandem.
     validateCallbacksAndSetDefault( options );
@@ -179,6 +179,10 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'numberDisplay' )
     } );
 
+    // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
+    // arrow buttons are not tab navigable
+    options.arrowButtonOptions.tagName = null;
+
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - delta;
       value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
@@ -187,8 +191,7 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'leftArrowButton' ),
       startCallback: options.leftArrowStartCallback || options.startCallback,
-      endCallback: options.leftArrowEndCallback || options.endCallback,
-      focusable: false
+      endCallback: options.leftArrowEndCallback || options.endCallback
     }, options.arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
@@ -199,8 +202,7 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'rightArrowButton' ),
       startCallback: options.rightArrowStartCallback || options.startCallback,
-      endCallback: options.rightArrowEndCallback || options.endCallback,
-      focusable: false
+      endCallback: options.rightArrowEndCallback || options.endCallback
     }, options.arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
@@ -219,6 +221,9 @@ define( function( require ) {
       roundToStepSize: true,
       tandem: options.tandem.createTandem( 'slider' )
     } );
+
+    // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
+    sliderOptions.shiftKeyboardStep = 0;
 
     // Make sure Slider gets created with the right IO Type
     sliderOptions.phetioType = SliderIO;
@@ -246,23 +251,14 @@ define( function( require ) {
     ];
     Node.call( this, options );
 
-    // a11y - the number control acts like a range input for a11y, pass slider options without tandem
-    var accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
-    this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
-
-    // a11y - shift keyboard step is zero, shift behavior handled by arrow buttons
-    this.shiftKeyboardStep = 0;
-
-    // a11y - NumberControl acts like a slider for keyboard interaction, include the HSlider thumb in the highlight
-    this.focusHighlight = slider.focusHighlight;
-
-    // a11y - click the left and right arrow buttons when shift keys are down, must be disposed
-    var rightButtonListener = function() { self.shiftKeyDown && rightArrowButton.a11yClick(); };
-    var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };
+    // a11y - click the left and right arrow buttons when shift keys are down so that the shift modifier behaves
+    // just like the tweaker buttons, must be disposed
+    var rightButtonListener = function() { slider.shiftKeyDown && rightArrowButton.a11yClick(); };
+    var leftButtonListener = function() { slider.shiftKeyDown && leftArrowButton.a11yClick(); };
 
     // emitters defined in AccessibleSlider.js
-    this.increasedEmitter.addListener( rightButtonListener );
-    this.decreasedEmitter.addListener( leftButtonListener );
+    slider.increasedEmitter.addListener( rightButtonListener );
+    slider.decreasedEmitter.addListener( leftButtonListener );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
@@ -277,9 +273,8 @@ define( function( require ) {
     this.disposeNumberControl = function() {
 
       // dispose accessibility features
-      self.increasedEmitter.removeListener( rightButtonListener );
-      self.decreasedEmitter.removeListener( leftButtonListener );
-      self.disposeAccessibleSlider();
+      slider.increasedEmitter.removeListener( rightButtonListener );
+      slider.decreasedEmitter.removeListener( leftButtonListener );
 
       numberDisplay.dispose();
       leftArrowButton.dispose();
@@ -537,9 +532,6 @@ define( function( require ) {
       };
     }
   } );
-
-  // mix accessibility features into NumberControl
-  AccessibleSlider.mixInto( NumberControl );
 
   return NumberControl;
 } );
