@@ -66,7 +66,7 @@ define( require => {
         leftTop: heaterCoolerBack.getHeaterFrontPosition()
       } ) );
 
-      // @public With this visibility annotation comes great power - use it wisely.
+      // @public (read-only) With this visibility annotation comes great power - use it wisely.
       // See https://github.com/phetsims/scenery-phet/issues/442
       this.slider = heaterCoolerFront.slider;
 
