@@ -105,6 +105,7 @@ define( require => {
       assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
 
       // @public With this visibility annotation comes great power - use it wisely.
+      // See https://github.com/phetsims/scenery-phet/issues/442
       this.slider = new VSlider( heatCoolAmountProperty,
         new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
           trackSize: new Dimension2( DEFAULT_WIDTH / 2, 10 ),
