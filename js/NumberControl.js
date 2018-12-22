@@ -274,8 +274,8 @@ define( function( require ) {
     this.disposeNumberControl = function() {
 
       // dispose accessibility features
-      self.attemptedIncreaseEmitter.removeListener( rightButtonListener );
-      self.attemptedDecreaseEmitter.removeListener( leftButtonListener );
+      slider.attemptedIncreaseEmitter.removeListener( rightButtonListener );
+      slider.attemptedDecreaseEmitter.removeListener( leftButtonListener );
 
       numberDisplay.dispose();
       leftArrowButton.dispose();
