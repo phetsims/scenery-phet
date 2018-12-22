@@ -276,7 +276,6 @@ define( function( require ) {
       // dispose accessibility features
       self.attemptedIncreaseEmitter.removeListener( rightButtonListener );
       self.attemptedDecreaseEmitter.removeListener( leftButtonListener );
-      self.disposeAccessibleSlider();
 
       numberDisplay.dispose();
       leftArrowButton.dispose();
