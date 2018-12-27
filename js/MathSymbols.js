@@ -19,6 +19,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
+  var symbolOhmsString = require( 'string!SCENERY_PHET/symbol.ohms' );
   var symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
 
   var MathSymbols = {
@@ -55,13 +56,13 @@ define( function( require ) {
     THETA: '\u03b8',
 
     // universal units
-    OHMS: '\u2126',
 
     //==================================================================================================================
     // Symbols in this section represent logical concepts and ARE translatable.
     // See https://github.com/phetsims/resistance-in-a-wire/issues/187
     //==================================================================================================================
 
+    OHMS: symbolOhmsString,
     RESISTIVITY: symbolResistivityString
   };
 
