@@ -145,7 +145,6 @@ define( function( require ) {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
     assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
-    assert && assert( options.arrowButtonOptions.tagName === undefined, 'NumberControl handles alternative input for arrow buttons' );
 
     // Make sure that general callbacks and specific callbacks aren't used in tandem.
     validateCallbacksAndSetDefault( options );
@@ -179,6 +178,8 @@ define( function( require ) {
 
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
+    assert && assert( options.arrowButtonOptions.tagName === undefined,
+      'NumberControl handles alternative input for arrow buttons' );
     options.arrowButtonOptions.tagName = null;
     
     var leftArrowButton = new ArrowButton( 'left', function() {
