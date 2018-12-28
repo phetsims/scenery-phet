@@ -107,9 +107,6 @@ define( function( require ) {
       // (see createLayoutFunction*) or create your own function.
       layoutFunction: NumberControl.createLayoutFunction1(),
 
-      // scale factor applied to the arrow buttons
-      arrowButtonScale: 0.85,
-
       // {*|null} options propagated to ArrowButton
       arrowButtonOptions: null,
 
@@ -121,9 +118,9 @@ define( function( require ) {
       groupFocusHighlight: true
     }, options );
 
+    // Defaults for ArrowButton
     options.arrowButtonOptions = _.extend( {
-      scale: options.arrowButtonScale,
-      delta: options.delta
+      scale: 0.85
     }, options.arrowButtonOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
@@ -155,7 +152,7 @@ define( function( require ) {
 
     var self = this;
 
-    var delta = options.arrowButtonOptions.delta; // to improve readability
+    var delta = options.delta; // to improve readability
 
     var titleNode = new Text( title, {
       font: options.titleFont,
