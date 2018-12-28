@@ -84,9 +84,8 @@ define( function( require ) {
       decimalPlaces: 0,
       useRichText: false,
 
-      // {string} Pattern used to format the value. Must contain '{0}'.
-      // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
-      valuePattern: '{0}',
+      // {string} See NumberDisplay.valuePattern for additional requirements
+      valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
 
       // arrow buttons
       delta: 1,

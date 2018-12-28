@@ -23,6 +23,9 @@ define( function( require ) {
 
   // valid values for options.align
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
+  var NUMBERED_PLACEHOLDER = '{0}';
+  var NAMED_PLACEHOLDER = '{{value}}';
+  var DEFAULT_VALUE_PATTERN = NAMED_PLACEHOLDER;
 
   /**
    * @param {Property.<number|null>} numberProperty
@@ -35,9 +38,9 @@ define( function( require ) {
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
 
-      /// {string} Pattern used to format the value. Must contain '{0}'.
-      // If you want units or other verbiage, add them to the pattern, e.g. '{0} L'
-      valuePattern: '{0}',
+      // {string} Pattern used to format the value. Must contain '{{value}}' or '{0}'.
+      // If you want units or other verbiage, add them to the pattern, e.g. '{{value}} L'
+      valuePattern: DEFAULT_VALUE_PATTERN,
       useRichText: false,
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
@@ -62,16 +65,24 @@ define( function( require ) {
     // validate options
     assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
 
+    // Support numbered (old-style) placeholders by replacing '{0}' with '{{value}}'.
+    // See https://github.com/phetsims/scenery-phet/issues/446
+    if ( options.valuePattern.indexOf( NUMBERED_PLACEHOLDER ) !== -1 ) {
+      options.valuePattern = StringUtils.format( options.valuePattern, NAMED_PLACEHOLDER );
+    }
+
     var self = this;
 
     // determine the widest value
     var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
     var maxString = Util.toFixed( numberRange.max, options.decimalPlaces );
-    var widestString = StringUtils.format( options.valuePattern, ( ( minString.length > maxString.length ) ? minString : maxString ) );
+    var longestString = StringUtils.fillIn( options.valuePattern, {
+      value: ( ( minString.length > maxString.length ) ? minString : maxString )
+    } );
 
     // value
     var Constructor = options.useRichText ? RichText : Text;
-    this.valueNode = new Constructor( widestString, {
+    this.valueNode = new Constructor( longestString, {
       font: options.font,
       fill: options.numberFill,
       maxWidth: options.numberMaxWidth,
@@ -95,8 +106,9 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       // update the value
-      var valueString = ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces );
-      self.valueNode.text = StringUtils.format( options.valuePattern, valueString );
+      self.valueNode.text = StringUtils.fillIn( options.valuePattern, {
+        value: ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces )
+      } );
 
       // horizontally align value in background
       if ( options.align === 'center' ) {
@@ -121,7 +133,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
 
-  return inherit( Node, NumberDisplay, {
+  inherit( Node, NumberDisplay, {
 
     // @public
     dispose: function() {
@@ -169,4 +181,9 @@ define( function( require ) {
     },
     set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
   } );
+
+  // @public @static
+  NumberDisplay.DEFAULT_VALUE_PATTERN = DEFAULT_VALUE_PATTERN;
+
+  return NumberDisplay;
 } );
