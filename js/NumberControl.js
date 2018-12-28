@@ -151,8 +151,6 @@ define( function( require ) {
 
     var self = this;
 
-    var delta = options.delta; // to improve readability
-
     var titleNode = new Text( title, {
       font: options.titleFont,
       maxWidth: options.titleMaxWidth,
@@ -183,8 +181,8 @@ define( function( require ) {
     options.arrowButtonOptions.tagName = null;
     
     var leftArrowButton = new ArrowButton( 'left', function() {
-      var value = numberProperty.get() - delta;
-      value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
+      var value = numberProperty.get() - options.delta;
+      value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
@@ -194,8 +192,8 @@ define( function( require ) {
     }, options.arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
-      var value = numberProperty.get() + delta;
-      value = Util.roundToInterval( value, delta ); // constrain to multiples of delta, see #384
+      var value = numberProperty.get() + options.delta;
+      value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
