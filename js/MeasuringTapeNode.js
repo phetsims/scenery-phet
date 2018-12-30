@@ -87,7 +87,7 @@ define( function( require ) {
       isTipDragBounded: false, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
-      tandem: Tandem.required
+      tandem: Tandem.optional
     }, options );
 
     Node.call( this );
@@ -183,7 +183,7 @@ define( function( require ) {
     var baseStartOffset;
 
     // @private
-    this.baseDragHandler = new SimpleDragHandler( {
+    this.baseDragHandler = options.interactive ? new SimpleDragHandler( {
       tandem: options.tandem.createTandem( 'baseDragHandler' ),
 
       allowTouchSnag: true,
@@ -227,7 +227,7 @@ define( function( require ) {
         self._isBaseUserControlledProperty.set( false );
         options.baseDragEnded();
       }
-    } );
+    } ) : null;
 
     options.interactive && this.baseImage.addInputListener( this.baseDragHandler );
 
@@ -538,7 +538,8 @@ define( function( require ) {
       // See documentation above!
       measuringTapeOptions = _.extend( {
         tipPositionProperty: new Property( new Vector2( 30, 0 ) ),
-        hasValue: false // no value below the tape
+        hasValue: false, // no value below the tape
+        interactive: false
       }, measuringTapeOptions, {
         pickable: false // MeasuringTapeNode has a drag handle, don't allow the user to interact with it
       } );
