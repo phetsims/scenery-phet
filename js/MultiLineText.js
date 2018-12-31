@@ -1,7 +1,7 @@
 // Copyright 2013-2018, University of Colorado Boulder
 
 /**
- * DO NOT USE IN NEW DEVELOPMENT. Please use SCENERY/nodes/RichText.
+ * DO NOT USE IN NEW DEVELOPMENT - see deprecation notice below
  *
  * MultiLine plain text, with alignment.
  * Lines are separated with the newline character '\n', which will be converted to '<br>'.
@@ -9,6 +9,7 @@
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
+ * @deprecated - this has been supplanted by SCENERY/nodes/RichText
  */
 define( require => {
   'use strict';
