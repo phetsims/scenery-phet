@@ -47,7 +47,7 @@ define( require => {
       Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
-        baseColor: DEFAULT_BASE_COLOR //  base color used for the stove body
+        baseColor: DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the desired stove width.

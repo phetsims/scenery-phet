@@ -53,17 +53,17 @@ define( require => {
         coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
 
         // slider label options
-        heatLabel: heatString,
-        coolLabel: coolString,
-        labelFont: new PhetFont( 14 ),
-        labelMaxWidth: null,
+        heatLabel: heatString, // {string} label for +1 end of slider
+        coolLabel: coolString, // {string} label for -1 end of slider
+        labelFont: new PhetFont( 14 ), // {Font}
+        labelMaxWidth: null, // {number|null}
 
         // slider options
-        thumbSize: new Dimension2( 22, 45 ),
-        thumbTouchAreaXDilation: 11,
-        thumbTouchAreaYDilation: 11,
-        thumbMouseAreaXDilation: 0,
-        thumbMouseAreaYDilation: 0,
+        thumbSize: new Dimension2( 22, 45 ), // {Dimension2}
+        thumbTouchAreaXDilation: 11, // {number}
+        thumbTouchAreaYDilation: 11, // {number}
+        thumbMouseAreaXDilation: 0, // {number}
+        thumbMouseAreaYDilation: 0, // {number}
         thumbFillEnabled: '#71edff', // {Color|string|null}
         thumbFillHighlighted: '#bff7ff' // {Color|string|null}
       }, options );
