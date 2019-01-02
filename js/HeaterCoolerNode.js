@@ -91,9 +91,6 @@ define( require => {
     }
   }
 
-  // Used by HeaterCoolerFront and HeaterCoolerBack
-  HeaterCoolerNode.DEFAULT_BASE_COLOR = DEFAULT_BASE_COLOR;
-
   return sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
 } );
 
