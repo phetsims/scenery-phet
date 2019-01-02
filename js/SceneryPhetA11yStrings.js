@@ -152,13 +152,13 @@ define( function( require ) {
     // A11yGrabDragNode strings
     //------------------------------------------------------------------------
     grabPattern: {
-      value: 'Grab {{thingToGrab}}'
+      value: 'Grab {{objectToGrab}}'
     },
     movablePattern: {
-      value: 'Movable {{thingToGrab}}'
+      value: 'Movable {{objectToGrab}}'
     },
-    defaultThingToGrab: {
-      value: 'Node'
+    defaultObjectToGrab: {
+      value: 'Object'
     },
     released: {
       value: 'Released.'

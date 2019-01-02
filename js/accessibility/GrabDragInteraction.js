@@ -42,7 +42,7 @@ define( require => {
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
   const movablePatternString = SceneryPhetA11yStrings.movablePattern.value;
-  const defaultThingToGrabString = SceneryPhetA11yStrings.defaultThingToGrab.value;
+  const defaultObjectToGrabString = SceneryPhetA11yStrings.defaultObjectToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
   class GrabDragInteraction {
@@ -55,7 +55,7 @@ define( require => {
       options = _.extend( {
 
         // A string that is filled in to the appropriate button label
-        thingToGrab: defaultThingToGrabString,
+        objectToGrabString: defaultObjectToGrabString,
 
         // {function} - called when the node is "grabbed" (when the grab button fires); button -> draggable
         onGrab: _.noop,
@@ -127,9 +127,9 @@ define( require => {
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
 
-      assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see thingToGrab' );
-      assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see thingToGrab' );
-      assert && assert( !options.draggableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see thingToGrab' );
+      assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
+      assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
+      assert && assert( !options.draggableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see objectToGrabString' );
 
       options.draggableOptions = _.extend( {
         tagName: 'div',
@@ -142,13 +142,13 @@ define( require => {
 
       // @private
       this.draggableAccessibleName = StringUtils.fillIn( movablePatternString, {
-        thingToGrab: options.thingToGrab
+        objectToGrab: options.objectToGrabString
       } );
       options.draggableOptions.innerContent = this.draggableAccessibleName;
       options.draggableOptions.ariaLabel = this.draggableAccessibleName;
 
-      assert && assert( !options.grabbableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see thingToGrab' );
-      assert && assert( !options.grabbableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see thingToGrab' );
+      assert && assert( !options.grabbableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
+      assert && assert( !options.grabbableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
 
       options.grabbableOptions = _.extend( {
         containerTagName: 'div',
@@ -163,7 +163,7 @@ define( require => {
 
       // @private
       this.grabbableAccessibleName = StringUtils.fillIn( grabPatternString, {
-        thingToGrab: options.thingToGrab
+        objectToGrab: options.objectToGrabString
       } );
       options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
