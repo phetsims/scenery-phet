@@ -41,7 +41,7 @@ define( require => {
       options = _.extend( {
 
         // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
-        baseColor: new Color( DEFAULT_BASE_COLOR ),
+        baseColor: DEFAULT_BASE_COLOR,
 
         // {*} options passed to HeaterCoolerFront
         frontOptions: null,

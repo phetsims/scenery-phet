@@ -33,6 +33,7 @@ define( require => {
 
   // constants
   const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
+  const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   class HeaterCoolerFront extends Node {
     /**
@@ -45,7 +46,7 @@ define( require => {
       super();
       Tandem.indicateUninstrumentedCode();
       options = _.extend( {
-        baseColor: new Color( 159, 182, 205 ), //  Base color used for the stove body.
+        baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off.
         heatEnabled: true, // Allows slider to reach positive values (corresponding to heating)
@@ -83,8 +84,8 @@ define( require => {
       const stoveBody = new Path( stoveBodyShape, {
         stroke: 'black',
         fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
-          .addColorStop( 0, options.baseColor.brighterColor( 0.5 ) )
-          .addColorStop( 1, options.baseColor.darkerColor( 0.5 ) )
+          .addColorStop( 0, Color.toColor( options.baseColor ).brighterColor( 0.5 ) )
+          .addColorStop( 1, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
       } );
 
       // Create the label strings and scale them to support translations.

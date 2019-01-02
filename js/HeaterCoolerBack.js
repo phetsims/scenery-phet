@@ -31,6 +31,7 @@ define( require => {
   // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
   const OPENING_HEIGHT_SCALE = 0.1;
   const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
+  const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   class HeaterCoolerBack extends Node {
 
@@ -46,7 +47,7 @@ define( require => {
       Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
-        baseColor: new Color( 159, 182, 205 ) //  base color used for the stove body
+        baseColor: DEFAULT_BASE_COLOR //  base color used for the stove body
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the desired stove width.
@@ -58,8 +59,8 @@ define( require => {
       const burnerInterior = new Path( burnerInteriorShape, {
         stroke: 'black',
         fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
-          .addColorStop( 0, options.baseColor.darkerColor( 0.5 ) )
-          .addColorStop( 1, options.baseColor.brighterColor( 0.5 ) )
+          .addColorStop( 0, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
+          .addColorStop( 1, Color.toColor( options.baseColor ).brighterColor( 0.5 ) )
       } );
 
       const fireNode = new Image( fireImage, {
