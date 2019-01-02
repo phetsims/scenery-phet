@@ -15,7 +15,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -25,7 +24,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Property.<number>} valueProperty which is portrayed
@@ -55,25 +53,11 @@ define( function( require ) {
       majorTickLineWidth: 2,
       minorTickLineWidth: 1,
 
-      // Whether or not to display the valueProperty in a NumberDisplay inside the GaugeNode. This is the default but
-      // the display can be shown later, see setNumberDisplayVisible()
-      numberDisplayVisible: false,
-
-      // options passed to the NumberDisplay, see NumberDisplay for full list of available options
-      numberDisplayOptions: {},
-
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
       updateEnabledProperty: new Property( true ),
       tandem: Tandem.required
     }, options );
-
-    options.numberDisplayOptions = _.extend( {
-      font: new PhetFont( 16 ),
-      backgroundStroke: 'black',
-      align: 'center',
-      cornerRadius: 5
-    }, options.numberDisplayOptions );
 
     assert && assert( range instanceof Range, 'range must be of type Range:' + range );
     assert && assert( options.numTicks * options.anglePerTick <= 2 * Math.PI,
@@ -83,24 +67,21 @@ define( function( require ) {
 
     Node.call( this );
 
+    // @public (read-only) {number}
+    this.radius = options.radius;
+
     var tandem = options.tandem;
 
-    this.addChild( new Circle( options.radius, {
+    this.addChild( new Circle( this.radius, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
       lineWidth: options.backgroundLineWidth
     } ) );
 
-    // @private {NumberDisplay} - display for the valueProperty, hidden by default
-    this.numberDisplay = new NumberDisplay( valueProperty, range, options.numberDisplayOptions );
-    this.addChild( this.numberDisplay );
-    this.numberDisplay.center = new Vector2( 0, options.radius / 2 );
-    this.setNumberDisplayVisible( options.numberDisplayVisible );
-
     var foregroundNode = new Node( { pickable: false, tandem: tandem.createTandem( 'foregroundNode' ) } );
     this.addChild( foregroundNode );
 
-    var needle = new Path( Shape.lineSegment( 0, 0, options.radius, 0 ), {
+    var needle = new Path( Shape.lineSegment( 0, 0, this.radius, 0 ), {
       stroke: 'red',
       lineWidth: 3
     } );
@@ -108,11 +89,11 @@ define( function( require ) {
 
     var labelNode = new Text( label, {
       font: new PhetFont( 20 ),
-      maxWidth: options.radius * options.maxLabelWidthScale,
+      maxWidth: this.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelNode' )
     } ).mutate( {
       centerX: 0,
-      centerY: -options.radius / 3
+      centerY: -this.radius / 3
     } );
     foregroundNode.addChild( labelNode );
 
@@ -157,10 +138,10 @@ define( function( require ) {
       var tickAngle = i * options.anglePerTick + startAngle;
 
       var tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
-      var x1 = ( options.radius - tickLength ) * Math.cos( tickAngle );
-      var y1 = ( options.radius - tickLength ) * Math.sin( tickAngle );
-      var x2 = options.radius * Math.cos( tickAngle );
-      var y2 = options.radius * Math.sin( tickAngle );
+      var x1 = ( this.radius - tickLength ) * Math.cos( tickAngle );
+      var y1 = ( this.radius - tickLength ) * Math.sin( tickAngle );
+      var x2 = this.radius * Math.cos( tickAngle );
+      var y2 = this.radius * Math.sin( tickAngle );
       if ( i % 2 === 0 ) {
         bigTicksShape.moveTo( x1, y1 );
         bigTicksShape.lineTo( x2, y2 );
@@ -181,7 +162,6 @@ define( function( require ) {
         valueProperty.unlink( updateNeedle );
       }
 
-      this.numberDisplay.dispose();
       if ( options.updateEnabledProperty.hasListener( updateNeedle ) ) {
         options.updateEnabledProperty.unlink( updateNeedle );
       }
@@ -196,32 +176,6 @@ define( function( require ) {
     dispose: function() {
       this.disposeGaugeNode();
       Node.prototype.dispose.call( this );
-    },
-
-    /**
-     * Set whether or not the number display inside this GaugeNode is visible.
-     * 
-     * @public
-     * @param {boolean} visible
-     */
-    setNumberDisplayVisible: function( visible ) {
-      if ( visible !== this._numberDisplayVisible ) {
-        this._numberDisplayVisible = visible;
-        this.numberDisplay.visible = visible;
-      }
-    },
-    set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); },
-
-    /**
-     * Get whether or not the number display inside this GaugeNode is visible.
-     * 
-     * @public
-     * @return {boolean}
-     */
-    getNumberDisplayVisible: function() {
-      return this._numberDisplayVisible;
-    },
-    get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
-
+    }
   } );
 } );
