@@ -48,7 +48,7 @@ define( require => {
       // @private {boolean}
       this._numberDisplayVisible = true;
 
-      // @private {NumberDisplay} - display for the valueProperty, hidden by default
+      // @private {NumberDisplay} - display for the valueProperty
       this.numberDisplay = new NumberDisplay( valueProperty, range, options.numberDisplayOptions );
       this.addChild( this.numberDisplay );
 
