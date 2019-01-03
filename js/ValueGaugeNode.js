@@ -41,7 +41,7 @@ define( require => {
         numberDisplayOptions: null
       }, options );
 
-      options.numberDisplayOptions = _.extend( NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
+      options.numberDisplayOptions = _.extend( {}, NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
 
       super( valueProperty, label, range, options );
 
