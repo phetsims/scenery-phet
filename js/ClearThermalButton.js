@@ -58,7 +58,6 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'arrowShape' ),
       headWidth: 12,
       tailWidth: 4
-      // TODO
     } );
 
     // @private {Path}
