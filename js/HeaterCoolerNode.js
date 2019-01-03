@@ -26,11 +26,10 @@ define( require => {
   const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   class HeaterCoolerNode extends Node {
+
     /**
-     * Constructor for a HeaterCoolerNode.
-     *
-     * @param {NumberProperty} [heatCoolAmountProperty] +1 for max heating, -1 for max cooling
-     * @param {Object} [options] that can be passed on to the underlying node
+     * @param {NumberProperty} heatCoolAmountProperty +1 for max heating, -1 for max cooling
+     * @param {Object} [options]
      * @constructor
      */
     constructor( heatCoolAmountProperty, options ) {
@@ -42,10 +41,10 @@ define( require => {
         // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
         baseColor: DEFAULT_BASE_COLOR,
 
-        // {*} options passed to HeaterCoolerFront
+        // {*|null} options passed to HeaterCoolerFront
         frontOptions: null,
 
-        // {*} options passed to HeaterCoolerBack
+        // {*|null} options passed to HeaterCoolerBack
         backOptions: null
       }, options );
 
