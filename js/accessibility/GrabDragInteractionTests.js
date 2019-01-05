@@ -34,7 +34,7 @@ define( require => {
     rootNode.addChild( a );
 
     const interaction = new GrabDragInteraction( a, {
-      objectToGrab: thingString
+      objectToGrabString: thingString
     } );
 
     const testDefaultGrabbable = () => {
