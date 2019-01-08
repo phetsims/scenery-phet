@@ -74,7 +74,7 @@ define( require => {
      * Get whether or not the number display inside this GaugeNode is visible.
      * 
      * @public
-     * @return {boolean}
+     * @returns {boolean}
      */
     getNumberDisplayVisible() {
       return this._numberDisplayVisible;

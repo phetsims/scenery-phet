@@ -35,7 +35,7 @@ define( function( require ) {
    * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
    *
    * @param {DirectionEnum} direction - one of DirectionEnum
-   * @return {boolean}
+   * @returns {boolean}
    */
   DirectionEnum.isRelativeDirection = function( direction ) {
     assert && assert( DirectionEnum.hasOwnProperty( direction ) );

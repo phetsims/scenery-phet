@@ -151,7 +151,7 @@ define( function( require ) {
      * @param {Node} icon
      * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
-     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
+     * @returns {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
     labelWithIcon: function( label, icon, labelInnerContent, options ) {
 
@@ -194,7 +194,7 @@ define( function( require ) {
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
-     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
+     * @returns {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
      */
     labelWithIconList: function( label, icons, labelInnerContent, options ) {
 
@@ -251,7 +251,7 @@ define( function( require ) {
      * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
      *
      * @param {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     arrowKeysRowIcon: function( options ) {
 
@@ -273,7 +273,7 @@ define( function( require ) {
      * An icon containing icons for the up and down arrow keys aligned horizontally.
      *
      * @param {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     upDownArrowKeysRowIcon: function( options ) {
       options = _.extend( {
@@ -292,7 +292,7 @@ define( function( require ) {
      * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
      *
      * @param {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     leftRightArrowKeysRowIcon: function( options ) {
       options = _.extend( {
@@ -311,7 +311,7 @@ define( function( require ) {
      * An icon containing icons for the up and down arrow keys aligned horizontally.
      *
      * @param {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     wasdRowIcon: function( options ) {
       options = _.extend( {
@@ -333,7 +333,7 @@ define( function( require ) {
      * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
      *
      * @param {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     arrowOrWasdKeysRowIcon: function( options ) {
       options = _.extend( {
@@ -351,7 +351,7 @@ define( function( require ) {
      * An icon containing icons for the page up/down keys aligned horizontally.
      *
      * @param  {Object} [options]
-     * @return {HBox}
+     * @returns {HBox}
      */
     pageUpPageDownRowIcon: function( options ) {
       options = _.extend( {
@@ -374,7 +374,7 @@ define( function( require ) {
      * @param {Node} icon - icon to right of 'shift +'
      * @param {Object} [options]
      *
-     * @return {HBox}
+     * @returns {HBox}
      */
     shiftPlusIcon: function( icon, options ) {
 
@@ -405,7 +405,7 @@ define( function( require ) {
      * @param {Node} iconB - to the right of 'or' text
      * @param {Object} [options]
      *
-     * @return {HBox}
+     * @returns {HBox}
      */
     iconOrIcon: function( iconA, iconB, options ) {
 
@@ -430,7 +430,7 @@ define( function( require ) {
      * @param {Node} iconB - to the right of '+' text
      * @param {Object} [options]
      *
-     * @return {HBox}
+     * @returns {HBox}
      */
     iconPlusIcon: function( iconA, iconB, options ) {
 

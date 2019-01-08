@@ -22,7 +22,7 @@ define( function( require ) {
      * if it passes isItemAlertable, OR is an array of those items. See isItemAlertable for supported types of
      * individual items. See utterance.js for documentation about why an array is beneficial.
      * @param  {*}  alertable
-     * @return {boolean}
+     * @returns {boolean}
      * @public
      */
     isAlertableDef: function( alertable ) {
@@ -46,7 +46,7 @@ define( function( require ) {
   /**
    * Check whether a single item is alertable.
    * @param  {*}  alertable
-   * @return {boolean} - returns true if the arg is an alertable item.
+   * @returns {boolean} - returns true if the arg is an alertable item.
    */
   var isItemAlertable = function( alertable ) {
     return typeof alertable === 'string' ||

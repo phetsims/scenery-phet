@@ -239,7 +239,7 @@ define( require => {
      * Get the interval that alerts are sent to the screen reader.
      *
      * @public
-     * @return {number}
+     * @returns {number}
      */
     getStepInterval() {
       return this._stepInterval;
