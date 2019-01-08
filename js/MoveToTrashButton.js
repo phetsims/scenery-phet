@@ -1,8 +1,7 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * A button meant for conditionally being able to clear thermal energy from a system. Has a trash can with an arrow,
- * and appears disabled if there is no thermal energy.
+ * A button whose icon means 'move to trash'. The arrow can be color-coded to the thing being deleted.
  *
  * @author Sam Reid
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
@@ -28,7 +27,7 @@ define( function( require ) {
    *
    * @param {Object} [options]
    */
-  function ClearThermalButton( options ) {
+  function MoveToTrashButton( options ) {
     options = _.extend( {
       baseColor: new Color( 230, 230, 240 ),
       disabledBaseColor: 'white',
@@ -76,7 +75,7 @@ define( function( require ) {
     RectangularPushButton.call( this, options );
   }
 
-  sceneryPhet.register( 'ClearThermalButton', ClearThermalButton );
+  sceneryPhet.register( 'MoveToTrashButton', MoveToTrashButton );
 
-  return inherit( RectangularPushButton, ClearThermalButton );
+  return inherit( RectangularPushButton, MoveToTrashButton );
 } );
