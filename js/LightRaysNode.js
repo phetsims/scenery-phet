@@ -50,11 +50,16 @@ define( function( require ) {
     options.stroke = options.raysStroke;
 
     this.bulbRadius = bulbRadius; //@private
-    
+
     // @private cherry pick options specific to this type, needed by prototype functions
     this.lightRaysNodeOptions = _.pick( options, _.keys( DEFAULT_OPTIONS ) );
 
-    Path.call( this, null, options );
+    Path.call( this, null );
+
+    // Ensures there are set bounds at initialization
+    this.setBrightness( 0 );
+
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'LightRaysNode', LightRaysNode );
@@ -74,6 +79,7 @@ define( function( require ) {
 
       // number of rays is a function of brightness
       var numberOfRays = ( brightness === 0 ) ? 0 : minRays + Math.round( brightness * ( maxRays - minRays ) );
+
       // ray length is a function of brightness
       var rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );
 
@@ -91,6 +97,7 @@ define( function( require ) {
       this.lineWidth = Util.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
 
       var shape = new Shape();
+
       // rays fill part of a circle, incrementing clockwise
       for ( var i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
         if ( i < numberOfRays ) {
@@ -106,6 +113,12 @@ define( function( require ) {
           // increment the angle
           angle += deltaAngle;
         }
+      }
+
+      // Set shape to an invisible circle to maintain local bounds if there aren't any rays.
+      this.setVisible( numberOfRays > 0 );
+      if ( numberOfRays === 0 ) {
+        shape.circle( 0, 0, this.bulbRadius );
       }
 
       // Set the shape of the path to the shape created above
