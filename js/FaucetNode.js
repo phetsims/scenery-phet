@@ -274,7 +274,7 @@ define( function( require ) {
 
     var enabledObserver = function( enabled ) {
       if ( !enabled && inputListener.dragging ) {
-        inputListener.endDrag();
+        inputListener.interrupt();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
         endTapToDispense();
