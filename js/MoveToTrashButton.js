@@ -29,6 +29,8 @@ define( function( require ) {
    */
   function MoveToTrashButton( options ) {
     options = _.extend( {
+
+      // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
       baseColor: new Color( 230, 230, 240 ),
       disabledBaseColor: 'white',
       cornerRadius: 6,
