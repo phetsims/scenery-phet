@@ -65,7 +65,9 @@ define( require => {
         thumbMouseAreaXDilation: 0, // {number}
         thumbMouseAreaYDilation: 0, // {number}
         thumbFillEnabled: '#71edff', // {Color|string|null}
-        thumbFillHighlighted: '#bff7ff' // {Color|string|null}
+        thumbFillHighlighted: '#bff7ff', // {Color|string|null}
+        startDrag: _.noop, // {function}
+        endDrag: _.noop // {function}
       }, options );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
@@ -126,10 +128,12 @@ define( require => {
           minorTickLength: 12,
           centerY: stoveBody.centerY,
           right: stoveBody.right - DEFAULT_WIDTH / 8,
-          endDrag: function() {
+          startDrag: options.startDrag,
+          endDrag: () => {
             if ( options.snapToZero ) {
               heatCoolAmountProperty.set( 0 );
             }
+            options.endDrag();
           }
         } );
       if ( options.heatEnabled ) { this.slider.addMajorTick( 1, heatTitle ); }
