@@ -32,6 +32,7 @@ define( function( require ) {
   var Enumeration = require( 'PHET_CORE/Enumeration' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
+  var FineCoarseSpinner = require( 'SCENERY_PHET/FineCoarseSpinner' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
@@ -109,6 +110,7 @@ define( function( require ) {
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
+      { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
       { label: 'HandleNode', createNode: demoHandleNode },
@@ -359,6 +361,18 @@ define( function( require ) {
 
     return new Node( {
       children: [ faucetNode, faucetEnabledCheckbox ],
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for FineCoarseSpinner
+  var demoFineCoarseSpinner = function( layoutBounds ) {
+
+    var numberProperty = new NumberProperty( 0, {
+      range: new Range( 0, 100 )
+    } );
+
+    return new FineCoarseSpinner( numberProperty, {
       center: layoutBounds.center
     } );
   };
