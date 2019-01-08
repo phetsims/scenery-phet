@@ -18,6 +18,7 @@ define( function( require ) {
   var InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
+  var MoveToTrashButton = require( 'SCENERY_PHET/MoveToTrashButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var Property = require( 'AXON/Property' );
@@ -133,6 +134,10 @@ define( function( require ) {
       }
     } );
 
+    var moveToTrashButton = new MoveToTrashButton( {
+      scale: 2
+    } );
+
     // Push buttons
     var pushButtons = new HBox( {
       children: [
@@ -148,7 +153,8 @@ define( function( require ) {
         infoButton,
         refreshButton,
         leftRightSpinner,
-        upDownSpinner
+        upDownSpinner,
+        moveToTrashButton
       ],
       spacing: 10,
       align: 'center',

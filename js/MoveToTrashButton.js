@@ -17,10 +17,14 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // constants
+  var DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
 
   /**
    * @constructor
@@ -33,27 +37,32 @@ define( function( require ) {
       // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
       baseColor: new Color( 230, 230, 240 ),
       disabledBaseColor: 'white',
+      arrowColor: PhetColorScheme.HEAT_THERMAL_ENERGY,
       cornerRadius: 6,
       buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
-      contentAppearanceStrategy: function( content, interactionStateProperty ) {
-        function updateEnabled( state ) {
-          if ( content ) {
-            var enabled = state !== ButtonInteractionState.DISABLED &&
-                          state !== ButtonInteractionState.DISABLED_PRESSED;
-
-            arrowPath.fill = enabled ? '#f05a28' : 'rgba(0,0,0,0.3)';
-            trashPath.fill = enabled ? 'black' : 'rgba(0,0,0,0.3)';
-          }
-        }
-        interactionStateProperty.link( updateEnabled );
-        this.dispose = function() {
-          interactionStateProperty.unlink( updateEnabled );
-        };
-      },
       xMargin: 7,
       yMargin: 3,
       tandem: Tandem.required
     }, options );
+
+    assert && assert( !options.contentAppearanceStrategy, 'MoveToTrashButton sets contentAppearanceStrategy' );
+    options.contentAppearanceStrategy = function( content, interactionStateProperty ) {
+
+      function updateEnabled( state ) {
+        if ( content ) {
+          var enabled = state !== ButtonInteractionState.DISABLED &&
+                        state !== ButtonInteractionState.DISABLED_PRESSED;
+
+          arrowPath.fill = enabled ? options.arrowColor : DISABLED_COLOR;
+          trashPath.fill = enabled ? 'black' : DISABLED_COLOR;
+        }
+      }
+
+      interactionStateProperty.link( updateEnabled );
+      this.dispose = function() {
+        interactionStateProperty.unlink( updateEnabled );
+      };
+    };
 
     var arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
       tandem: options.tandem.createTandem( 'arrowShape' ),
