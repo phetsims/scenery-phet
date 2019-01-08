@@ -144,5 +144,8 @@
   },
   "symbol.resistivity": {
     "value": "\u03C1"
+  },
+  "comboBoxDisplay.valueUnits": {
+    "value": "{{value}} {{units}}"
   }
 }

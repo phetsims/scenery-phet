@@ -19,7 +19,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
-  const valueUnitsString = require( 'string!GAS_PROPERTIES/valueUnits' );
+  const comboBoxDisplayValueUnitsString = require( 'string!SCENERY_PHET/comboBoxDisplay.valueUnits' );
 
   class ComboBoxDisplay extends ComboBox {
 
@@ -78,7 +78,7 @@ define( require => {
 
         const itemNode = new NumberDisplay( item.numberProperty, item.range || item.numberProperty.range,
           _.extend( {}, options.numberDisplayOptions, item.numberDisplayOptions, {
-            valuePattern: StringUtils.fillIn( valueUnitsString, { units: item.units } )
+            valuePattern: StringUtils.fillIn( comboBoxDisplayValueUnitsString, { units: item.units } )
           } ) );
 
         // Don't allow the NumberDisplay to grow, since it's in a ComboBox
