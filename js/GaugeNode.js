@@ -26,8 +26,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param {Property.<number>} valueProperty which is portrayed
-   * @param {string} label label to display (scaled to fit if necessary)
+   * @param {Property.<number>} valueProperty - the portrayed value
+   * @param {string} label - label to display (scaled to fit if necessary)
    * @param {Range} range
    * @param {Object} [options]
    * @constructor
@@ -39,15 +39,13 @@ define( function( require ) {
       backgroundFill: 'white',
       backgroundStroke: 'rgb( 85, 85, 85 )',
       backgroundLineWidth: 2,
-      anglePerTick: Math.PI * 2 / 4 / 8,
+      maxLabelWidthScale: 1.3, // {number} defines max width of the label, relative to the radius
 
-      // defines max width of the label, relative to the radius
-      maxLabelWidthScale: 1.3,
+      // 10 ticks each on the right side and left side, plus one in the center
+      numberOfTicks: 21,
 
-      // 8 ticks goes to 9 o'clock (on the left side), and two more ticks appear below that mark.
-      // The ticks are duplicated for the right side, and one tick appears in the middle at the top
-      numTicks: ( 8 + 2 ) * 2 + 1,
-
+      // the top half of the gauge, plus PI/8 extended below the top half on each side
+      span: Math.PI + Math.PI / 4, // {number} the visible span of the gauge value range, in radians
       majorTickLength: 10,
       minorTickLength: 5,
       majorTickLineWidth: 2,
@@ -59,17 +57,15 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
-    assert && assert( range instanceof Range, 'range must be of type Range:' + range );
-    assert && assert( options.numTicks * options.anglePerTick <= 2 * Math.PI,
-      'options.numTicks * options.anglePerTick must be <= 2 * Math.PI. numTicks: ' + options.numTicks +
-      ', anglePerTick: ' + options.anglePerTick
-    );
+    assert && assert( range instanceof Range, 'range must be of type Range: ' + range );
+    assert && assert( options.span <= 2 * Math.PI, 'options.span must be <= 2 * Math.PI: ' + options.span );
 
     Node.call( this );
 
     // @public (read-only) {number}
     this.radius = options.radius;
 
+    var anglePerTick = options.span / options.numberOfTicks;
     var tandem = options.tandem;
 
     this.addChild( new Circle( this.radius, {
@@ -100,7 +96,7 @@ define( function( require ) {
     var pin = new Circle( 2, { fill: 'black' } );
     foregroundNode.addChild( pin );
 
-    var totalAngle = ( options.numTicks - 1 ) * options.anglePerTick;
+    var totalAngle = ( options.numberOfTicks - 1 ) * anglePerTick;
     var startAngle = -1 / 2 * Math.PI - totalAngle / 2;
     var endAngle = startAngle + totalAngle;
 
@@ -134,8 +130,8 @@ define( function( require ) {
     var smallTicksShape = new Shape();
 
     // Add the tick marks
-    for ( var i = 0; i < options.numTicks; i++ ) {
-      var tickAngle = i * options.anglePerTick + startAngle;
+    for ( var i = 0; i < options.numberOfTicks; i++ ) {
+      var tickAngle = i * anglePerTick + startAngle;
 
       var tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
       var x1 = ( this.radius - tickLength ) * Math.cos( tickAngle );
