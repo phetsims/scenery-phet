@@ -134,17 +134,6 @@ define( function( require ) {
 
   sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
 
-  // Creates a demo for BracketNode
-  var demoBracketNode = function( layoutBounds ) {
-    return new BracketNode( {
-      orientation: 'left',
-      bracketTipLocation: 0.75,
-      labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
-      spacing: 10,
-      center: layoutBounds.center
-    } );
-  };
-
   // Creates a demo for ArrowNode
   var demoArrowNode = function( layoutBounds ) {
 
@@ -170,6 +159,17 @@ define( function( require ) {
       ]
     } );
 
+  };
+
+  // Creates a demo for BracketNode
+  var demoBracketNode = function( layoutBounds ) {
+    return new BracketNode( {
+      orientation: 'left',
+      bracketTipLocation: 0.75,
+      labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
+      spacing: 10,
+      center: layoutBounds.center
+    } );
   };
 
   // Creates a demo for ConductivityTesterNode
