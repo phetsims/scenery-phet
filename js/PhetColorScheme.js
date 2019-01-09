@@ -6,7 +6,7 @@
  * These should all be instances of scenery.Color, since {Color} can typically be used anywhere but {string} cannot.
  * 
  * This is based on the google doc here:
- * http://spreadsheets.google.com/ccc?key=0Ajw3oS4YmCBqdDZzYUhlMksxZ0lfUHZ3bXUzM0JNU3c&hl=en&pli=1#gid=0
+ * https://docs.google.com/spreadsheets/d/1mNsOWSbcoO-Ox2evxJij5Lix4HTZbXKbFgMlPe9W-u0/edit#gid=0
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
