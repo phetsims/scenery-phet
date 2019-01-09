@@ -32,6 +32,7 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function MoveToTrashButton( options ) {
+
     options = _.extend( {
 
       // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
@@ -64,14 +65,14 @@ define( function( require ) {
       };
     };
 
+    var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
+
     var arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
       tandem: options.tandem.createTandem( 'arrowShape' ),
       headWidth: 12,
       tailWidth: 4
     } );
 
-    // @private {Path}
-    var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
     var arrowPath = new Path( arrowShape, {
       tandem: options.tandem.createTandem( 'arrowPath' ),
       bottom: trashPath.top,
