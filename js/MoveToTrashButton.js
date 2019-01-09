@@ -1,7 +1,8 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * A button whose icon means 'move to trash'. The arrow can be color-coded to the thing being deleted.
+ * A button whose icon means 'move to trash'.
+ * The arrow can be color-coded to the thing being deleted by setting options.arrowColor.
  *
  * @author Sam Reid
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
