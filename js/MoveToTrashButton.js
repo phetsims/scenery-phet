@@ -17,7 +17,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -37,7 +36,7 @@ define( function( require ) {
       // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
       baseColor: new Color( 230, 230, 240 ),
       disabledBaseColor: 'white',
-      arrowColor: PhetColorScheme.HEAT_THERMAL_ENERGY,
+      arrowColor: 'black',
       cornerRadius: 6,
       buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
       xMargin: 7,
