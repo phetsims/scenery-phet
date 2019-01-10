@@ -179,7 +179,7 @@ define( function( require ) {
     assert && assert( options.arrowButtonOptions.tagName === undefined,
       'NumberControl handles alternative input for arrow buttons' );
     options.arrowButtonOptions.tagName = null;
-    
+
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - options.delta;
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
@@ -199,7 +199,7 @@ define( function( require ) {
     }, _.extend( {
       tandem: options.tandem.createTandem( 'rightArrowButton' ),
       startCallback: options.rightArrowStartCallback || options.startCallback,
-      endCallback: options.rightArrowEndCallback || options.endCallback      
+      endCallback: options.rightArrowEndCallback || options.endCallback
     }, options.arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
@@ -220,7 +220,7 @@ define( function( require ) {
 
     // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
     sliderOptions.shiftKeyboardStep = 0;
-    
+
     // Make sure Slider gets created with the right IO Type
     sliderOptions.phetioType = SliderIO;
 
@@ -255,6 +255,11 @@ define( function( require ) {
     // emitters defined in AccessibleSlider.js
     slider.attemptedIncreaseEmitter.addListener( rightButtonListener );
     slider.attemptedDecreaseEmitter.addListener( leftButtonListener );
+
+    // @public - expose setter for aria-valuetext for the slider
+    this.setAriaValueText = function( text ) {
+      slider.ariaValueText = text;
+    };
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
