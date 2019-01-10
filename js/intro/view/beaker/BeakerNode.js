@@ -129,15 +129,10 @@ define( require => {
 
       this.mutate( options );
     }
-
-    /**
-     * The normal height of a beaker.
-     * @public
-     *
-     * @returns {number}
-     */
-    static get DEFAULT_BEAKER_HEIGHT() { return 150; }
   }
+
+  // @public {number} - The normal height of a beaker
+  BeakerNode.DEFAULT_BEAKER_HEIGHT = 150;
 
   return fractionsCommon.register( 'BeakerNode', BeakerNode );
 } );
