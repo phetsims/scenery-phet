@@ -23,21 +23,20 @@ define( function( require ) {
   var DARK_GREEN = new Color( 0, 200, 0 );
   var RED_COLORBLIND = new Color( 255, 85, 0 ); // looks good in colorblind tests, typically used in place of 'red'
   var GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
-  var TAN_ORANGE = new Color( 236, 153, 55 );
   var PHET_LOGO_BLUE = new Color( 106, 206, 245 ); // the color of the blue in the PhET logo
   var PHET_LOGO_YELLOW = new Color( 254, 225, 5 ); // the color of the yellow in the PhET logo
 
   var PhetColorScheme = {
     ACCELERATION: Color.GREEN,
-    APPLIED_FORCE: TAN_ORANGE,
+    APPLIED_FORCE: new Color( 236, 153, 55 ),
     BUTTON_YELLOW: PHET_LOGO_YELLOW,
     ELASTIC_POTENTIAL_ENERGY: new Color( 0, 204, 255 ),
     FRICTION_FORCE: RED_COLORBLIND,
     GRAVITATIONAL_FORCE: new Color( 50, 130, 215 ),
-    GRAVITATIONAL_POTENTIAL_ENERGY: Color.BLUE, // formerly POTENTIAL_ENERGY in Java implementation
+    GRAVITATIONAL_POTENTIAL_ENERGY: new Color(  55, 130, 215 ),
     HEAT_THERMAL_ENERGY: RED_COLORBLIND,
     IMAGINARY_PART: new Color( 153, 51, 102 ),
-    KINETIC_ENERGY: Color.GREEN,
+    KINETIC_ENERGY: new Color( 30, 200, 45 ),
     NET_WORK: DARK_GREEN,
     NORMAL_FORCE: new Color( 255, 235, 0 ),
     PHET_LOGO_BLUE: PHET_LOGO_BLUE,
@@ -47,7 +46,7 @@ define( function( require ) {
     RED_COLORBLIND: RED_COLORBLIND,
     RESET_ALL_BUTTON_BASE_COLOR: new Color( 247, 151, 34 ),
     GREEN_COLORBLIND: GREEN_COLORBLIND,
-    TOTAL_ENERGY: TAN_ORANGE,
+    TOTAL_ENERGY: new Color( 180, 180, 0 ),
     TOTAL_FORCE: DARK_GREEN,
     VELOCITY: RED_COLORBLIND,
     WALL_FORCE: new Color( 153, 51, 0 )
