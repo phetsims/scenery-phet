@@ -41,13 +41,9 @@ define( require => {
         numberDisplayOptions: null, // {*|null} propagated to all NumberDisplay subcomponents
 
         // ComboBox options
-        itemHighlightFill: 'rgba( 255, 0, 0, 0.1 )',
+        highlightFill: 'rgba( 255, 0, 0, 0.1 )',
         align: 'right',
-        buttonXMargin: 5,
-        buttonYMargin: 2,
-        buttonCornerRadius: 5,
-        itemXMargin: 2,
-        itemYMargin: 2,
+        cornerRadius: 5,
         buttonLineWidth: 0.4
 
       }, options );
