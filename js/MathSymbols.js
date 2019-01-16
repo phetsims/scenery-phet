@@ -55,13 +55,12 @@ define( function( require ) {
     // Greek characters
     THETA: '\u03b8',
 
-    // universal units
-
     //==================================================================================================================
     // Symbols in this section represent logical concepts and ARE translatable.
     // See https://github.com/phetsims/resistance-in-a-wire/issues/187
     //==================================================================================================================
 
+    // universal units
     OHMS: symbolOhmsString,
     RESISTIVITY: symbolResistivityString
   };
