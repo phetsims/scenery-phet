@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberDisplayIO = require( 'SCENERY_PHET/NumberDisplayIO' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -55,7 +56,7 @@ define( function( require ) {
       minBackgroundWidth: 0,
 
       // string that is displayed when numberProperty.value is null
-      noValueString: '\u2014', // em dash
+      noValueString: MathSymbols.NO_VALUE,
 
       // phet-io
       tandem: Tandem.optional,

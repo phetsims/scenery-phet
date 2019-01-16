@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -38,7 +39,7 @@ define( function( require ) {
       exponentXSpacing: 2, // space to left of exponent
       exponentYOffset: 0, // offset of exponent's center from cap line
       capHeightScale: 0.75, // fudge factor for computing cap height, compensates for inaccuracy of Text.height
-      nullValueString: '-' // if the value is null, display this string
+      nullValueString: MathSymbols.NO_VALUE // if the value is null, display this string
     }, options );
     this.options = options; // @private
 
@@ -97,7 +98,7 @@ define( function( require ) {
       if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
 
       if ( value === null ) {
-        // show '-'
+        // no value
         this.mantissaNode.text = options.nullValueString;
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );

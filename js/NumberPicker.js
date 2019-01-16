@@ -22,6 +22,7 @@ define( function( require ) {
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -62,7 +63,7 @@ define( function( require ) {
       downFunction: function( value ) { return value - 1; },
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this frequency (milliseconds),
-      noValueString: '-', // string to display if valueProperty.get is null or undefined
+      noValueString: MathSymbols.NO_VALUE, // string to display if valueProperty.get is null or undefined
       align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
       touchAreaXDilation: 10,
       touchAreaYDilation: 10,

@@ -55,6 +55,9 @@ define( function( require ) {
     // Greek characters
     THETA: '\u03b8',
 
+    // Used to symbolize 'no value', e.g. on a meter that is not reading anything
+    NO_VALUE: '\u2014', // em dash
+
     //==================================================================================================================
     // Symbols in this section represent logical concepts and ARE translatable.
     // See https://github.com/phetsims/resistance-in-a-wire/issues/187
