@@ -55,7 +55,8 @@ define( function( require ) {
     // Greek characters
     THETA: '\u03b8',
 
-    // Used to symbolize 'no value', e.g. on a meter that is not reading anything
+    // Used to symbolize 'no value', e.g. on a meter that is not reading anything.
+    // See https://github.com/phetsims/scenery-phet/issues/431
     NO_VALUE: '\u2014', // em dash
 
     //==================================================================================================================
