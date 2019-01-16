@@ -41,10 +41,7 @@ define( require => {
         numberDisplayOptions: null, // {*|null} propagated to all NumberDisplay subcomponents
 
         // ComboBox options
-        highlightFill: 'rgba( 255, 0, 0, 0.1 )',
-        align: 'right',
-        cornerRadius: 5,
-        buttonLineWidth: 0.4
+        align: 'right' // we typically want numbers to be right aligned
 
       }, options );
 

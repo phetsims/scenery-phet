@@ -243,6 +243,8 @@ define( function( require ) {
     var listParent = new Node();
 
     var display = new ComboBoxDisplay( items, unitsProperty, listParent, {
+      xMargin: 10,
+      yMargin: 8,
       numberDisplayOptions: { font: font }
     } );
 
