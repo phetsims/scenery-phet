@@ -486,14 +486,17 @@ define( function( require ) {
    */
   HelpContent.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase ) {
 
+    // the visible heading string
     var heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
       thing: thingAsTitle
     } );
 
+    // the visible label string
     var labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
       thing: thingAsLowerCase
     } );
 
+    // the string for the PDOM
     var descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
       thing: thingAsLowerCase
     } );
