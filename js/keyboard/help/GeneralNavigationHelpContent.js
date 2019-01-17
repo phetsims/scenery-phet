@@ -35,6 +35,12 @@ define( function( require ) {
   var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
 
+  // constants
+  var DEFAULT_LABEL_OPTIONS = {
+    font: HelpContent.DEFAULT_LABEL_FONT,
+    maxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
+  };
+
   /**
    * @constructor
    * @param {Object} options
@@ -45,33 +51,31 @@ define( function( require ) {
       withGroupContent: false, // if true, the help content will include information about how to interact with groups
 
       verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
-      labelFont: HelpContent.DEFAULT_LABEL_FONT,
-      labelMaxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
+
+      // passed to label Text
+      labelOptions: null
     }, options );
 
-    var labelOptions = {
-      font: options.labelFont,
-      maxWidth: options.labelMaxWidth
-    };
+    options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
 
     // 'move to next item' content
-    var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, labelOptions );
+    var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, options.labelOptions );
     var moveToNextItemIcon = new TabKeyNode();
     var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
 
     // 'move to previous item' content
-    var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, labelOptions );
+    var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, options.labelOptions );
     var tabIcon = new TabKeyNode();
     var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
     var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
 
     // 'press buttons' content
-    var pressButtonsText = new RichText( keyboardHelpDialogPressButtonsString, labelOptions );
+    var pressButtonsText = new RichText( keyboardHelpDialogPressButtonsString, options.labelOptions );
     var spaceIcon = new SpaceKeyNode();
     var pressButtonsItemRow = HelpContent.labelWithIcon( pressButtonsText, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
 
     // 'exit a dialog' content
-    var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, labelOptions );
+    var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, options.labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
@@ -83,7 +87,7 @@ define( function( require ) {
       moveToNextItemText.setText( keyboardHelpDialogMoveToNextItemOrGroupString );
       moveToPreviousItemText.setText( keyboardHelpDialogMoveToPreviousItemOrGroupString );
 
-      var moveBetweenItemsInAGroupText = new RichText( keyboardHelpDialogMoveBetweenItemsInAGroupString, labelOptions );
+      var moveBetweenItemsInAGroupText = new RichText( keyboardHelpDialogMoveBetweenItemsInAGroupString, options.labelOptions );
       var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );

@@ -53,18 +53,23 @@ define( function( require ) {
       headingString: keyboardHelpDialogSliderControlsString,
 
       // icon options
-      verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
+      verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
+
+      // options passed to the label Text
+      labelOptions: null
     }, options );
 
+    options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
+
     // 'Move sliders' content
-    var adjustSliderText = new RichText( keyboardHelpDialogAdjustSliderString, DEFAULT_LABEL_OPTIONS );
+    var adjustSliderText = new RichText( keyboardHelpDialogAdjustSliderString, options.labelOptions );
     var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content
-    var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, options.labelOptions );
     var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
 
@@ -74,7 +79,7 @@ define( function( require ) {
     var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
     // 'move in larger steps' content
-    var adjustInLargerStepsText = new RichText( keyboardHelpDialogAdjustInLargerStepsString, DEFAULT_LABEL_OPTIONS );
+    var adjustInLargerStepsText = new RichText( keyboardHelpDialogAdjustInLargerStepsString, options.labelOptions );
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
     var pageUpPageDownIcon = new HBox( {
@@ -84,12 +89,12 @@ define( function( require ) {
     var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
     // 'move to minimum value' content
-    var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, options.labelOptions );
     var homeKeyNode = new HomeKeyNode();
     var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
     // 'move to maximum value' content
-    var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, DEFAULT_LABEL_OPTIONS );
+    var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, options.labelOptions );
     var endKeyNode = new EndKeyNode();
     var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, keyboardHelpDialogJumpToEndString );
 
