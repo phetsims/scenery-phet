@@ -78,7 +78,7 @@ define( function( require ) {
       var maxRayLength = this.lightRaysNodeOptions.maxRayLength;
 
       // number of rays is a function of brightness
-      var numberOfRays = ( brightness === 0 ) ? 0 : minRays + Math.round( brightness * ( maxRays - minRays ) );
+      var numberOfRays = ( brightness === 0 ) ? 0 : minRays + Util.roundSymmetric( brightness * ( maxRays - minRays ) );
 
       // ray length is a function of brightness
       var rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );

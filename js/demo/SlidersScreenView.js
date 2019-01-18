@@ -28,6 +28,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var Util = require( 'DOT/Util' );
 
   /**
    * @constructor
@@ -133,7 +134,7 @@ define( function( require ) {
   var demoSpectrumSlider = function( layoutBounds ) {
     return new SpectrumSlider( new Property( 0.5 ), {
       center: layoutBounds.center,
-      valueToString: function( value ) {return value.toFixed( 2 );}
+      valueToString: function( value ) {return Util.toFixed( value, 2 );}
     } );
   };
 

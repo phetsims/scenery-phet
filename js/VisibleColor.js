@@ -179,9 +179,9 @@ define( function( require ) {
       else {
         intensity = 1;
       }
-      var red = Math.round( 255 * ( intensity * r ) );
-      var green = Math.round( 255 * ( intensity * g ) );
-      var blue = Math.round( 255 * ( intensity * b ) );
+      var red = Util.roundSymmetric( 255 * ( intensity * r ) );
+      var green = Util.roundSymmetric( 255 * ( intensity * g ) );
+      var blue = Util.roundSymmetric( 255 * ( intensity * b ) );
       var alpha = 1;
 
       // Add the color to the lookup array.
