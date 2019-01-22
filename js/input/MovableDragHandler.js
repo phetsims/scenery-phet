@@ -94,7 +94,8 @@ define( function( require ) {
       allowTouchSnag: options.allowTouchSnag,
       start: this.movableDragHandlerStart,
       drag: this.movableDragHandlerDrag,
-      end: this.movableDragHandlerEnd
+      end: this.movableDragHandlerEnd,
+      attach: options.attach || false
     } );
   }
 
