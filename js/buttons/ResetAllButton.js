@@ -27,10 +27,8 @@ define( function( require ) {
   // constants
   var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button
 
-  // strings
-  var resetAllButtonNameString = require( 'string!SCENERY_PHET/ResetAllButton.name' );
-
   // a11y strings - not translatable
+  var resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
   var resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
 
   /**

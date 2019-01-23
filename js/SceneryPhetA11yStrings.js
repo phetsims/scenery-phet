@@ -48,6 +48,9 @@ define( function( require ) {
     soundToggleLabelString: {
       value: 'Mute Sound'
     },
+    resetAllLabelString: {
+      value: 'Reset All'
+    },
 
     // SoundToggleButton alerts
     simSoundOnString: {

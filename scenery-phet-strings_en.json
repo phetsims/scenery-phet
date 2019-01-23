@@ -71,14 +71,6 @@
   "webglWarning.ie11StencilBody": {
     "value": "Update Internet Explorer by installing recommended Windows Update patches."
   },
-  "ResetAllButton.name": {
-    "value": "Reset All",
-    "visible": false
-  },
-  "SoundToggleButton.name": {
-    "value": "Toggle Sound",
-    "visible": false
-  },
   "keyboardHelpDialog.sliderControls": {
     "value": "Slider Controls"
   },
