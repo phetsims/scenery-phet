@@ -69,11 +69,11 @@ define( function( require ) {
    * @constructor
    *
    * @param {string} headingString - the translatable label for this content
-   * @param {Array.<HelpContentRow>} content -  icons and labels are each placed in their own
-   *                                            VBox, and these layout boxes are aligned horizontally. It is assumed that each
-   *                                            label and icon have bounds so that each row of content is aligned as desired.
-   *                                            See HelpContent.labelWithIcon and HelpContent.labelWithIconList for how this is
-   *                                            done with AlignBox.
+   * @param {Array.<HelpContentRow>} content -  icons and labels are each placed in their own VBox, and these layout
+   *                                            boxes are aligned horizontally. It is assumed that label and icon have
+   *                                            identical bounds so that each row of content can be aligned by
+   *                                            HelpContent. Static functions in this file use AlignGroup to acheive
+   *                                            this. For examples, see labelWithIcon() and labelWithIconList().
    * @param {Object} [options]
    */
   function HelpContent( headingString, content, options ) {
@@ -538,33 +538,27 @@ define( function( require ) {
 
 
   /**
-   * Inner class POJO for keeping track of
-   * TODO: doc
+   * A row of HelpContent, containing the label, icon, and text. Many of the static functions of HelpContent
+   * will return a HelpContentRow. The label and icon are often grouped in an AlignGroup for easy positioning
+   * in HelpContent. This cannot be done in HelpContent directly because different labels and icons will have
+   * varying layout. For instance, see labelWithIcon vs labelWithIconList.
    */
   class HelpContentRow {
 
     /**
-     * @param {Text|RichText} text - must be a child of the "label" Node
+     * @param {Text|RichText} text - must be a child of the "label" Node, HelpContent
      * @param {Node} label
      * @param {Node} icon
      */
     constructor( text, label, icon ) {
-
-
-      assert && assert( text instanceof Text || text instanceof RichText,
-        'unsupported label type: ' + text );
-
-      // assert && assert( label.hasChild( text ) )
+      assert && assert( text instanceof Text || text instanceof RichText, 'unsupported label type: ' + text );
 
       // @public (read-only)
       this.label = label;
       this.icon = icon;
       this.text = text;
     }
-
   }
 
   return HelpContent;
-
-
 } );
