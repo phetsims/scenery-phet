@@ -35,6 +35,11 @@ define( function( require ) {
   var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
 
+  // constants
+  var DEFAULT_LABEL_OPTIONS = {
+    font: HelpContent.DEFAULT_LABEL_FONT
+  };
+
   /**
    * @constructor
    * @param {Object} options
@@ -44,9 +49,8 @@ define( function( require ) {
     options = _.extend( {
       withGroupContent: false, // if true, the help content will include information about how to interact with groups
 
-      verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
-      labelFont: HelpContent.DEFAULT_LABEL_FONT,
-      labelMaxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
+      // passed to RichText label
+      labelOptions: null
     }, options );
 
     var labelOptions = {

@@ -37,8 +37,7 @@ define( function( require ) {
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {
-    font: HelpContent.DEFAULT_LABEL_FONT,
-    maxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
+    font: HelpContent.DEFAULT_LABEL_FONT
   };
 
   /**
@@ -52,8 +51,8 @@ define( function( require ) {
       // heading string for this content
       headingString: keyboardHelpDialogSliderControlsString,
 
-      // icon options
-      verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
+      // options passed to the label Text
+      labelOptions: null
     }, options );
 
     // 'Move sliders' content

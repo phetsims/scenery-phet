@@ -48,7 +48,10 @@ define( function( require ) {
   // heading defaults
   const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
   const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
-  const DEFAULT_HEADING_MAX_WIDTH = 300; // i18n
+
+  // ratio 250:175 based on the old default maxWidth values between the heading and the labels
+  // see https://github.com/phetsims/friction/issues/158
+  const HEADING_MAX_WIDTH_SCALAR = 1.43;
 
   // Content spacing and alignment
   const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
@@ -65,12 +68,11 @@ define( function( require ) {
    * @constructor
    *
    * @param {string} headingString - the translatable label for this content
-   * @param {Array.<Object>} content - {label: <Node>, icon: <Node> }, icons and labels are each placed in their own
-   *                                   VBox, and these layout boxes are aligned horizontally. It is assumed that each
-   *                                   label and icon have bounds so that each row of content is aligned as desired.
-   *                                   See HelpContent.labelWithIcon and HelpContent.labelWithIconList for how this is
-   *                                   done with AlignBox.
-   *
+   * @param {Array.<HelpContentRow>} content -  icons and labels are each placed in their own
+   *                                            VBox, and these layout boxes are aligned horizontally. It is assumed that each
+   *                                            label and icon have bounds so that each row of content is aligned as desired.
+   *                                            See HelpContent.labelWithIcon and HelpContent.labelWithIconList for how this is
+   *                                            done with AlignBox.
    * @param {Object} [options]
    */
   function HelpContent( headingString, content, options ) {
@@ -80,7 +82,10 @@ define( function( require ) {
       // heading options
       headingContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
       headingFont: DEFAULT_HEADING_FONT,
-      headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
+
+      // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
+      // of the HelpContent.
+      baseLabelMaxWidth: DEFAULT_TEXT_MAX_WIDTH,
 
       // VBox options
       align: DEFAULT_ALIGN,
@@ -92,7 +97,7 @@ define( function( require ) {
     // create the heading
     var headingText = new Text( headingString, {
       font: options.headingFont,
-      maxWidth: options.headingMaxWidth,
+      maxWidth: options.baseLabelMaxWidth * HEADING_MAX_WIDTH_SCALAR, // based off of the label max width
 
       // a11y
       tagName: 'h2',
@@ -103,8 +108,15 @@ define( function( require ) {
     var icons = [];
     var labels = [];
     for ( var i = 0; i < content.length; i++ ) {
-      icons.push( content[ i ].icon );
-      labels.push( content[ i ].label );
+      const helpContentRow = content[ i ];
+
+      assert && assert( helpContentRow.text.maxWidth === null,
+        'HelpContent sets maxWidth for children' );
+
+      helpContentRow.text.maxWidth = options.baseLabelMaxWidth;
+
+      icons.push( helpContentRow.icon );
+      labels.push( helpContentRow.label );
     }
 
     var vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
@@ -147,36 +159,37 @@ define( function( require ) {
      * @public
      * @static
      *
-     * @param {Node} label - label for the icon
+     * @param {Text|RichText} label - label for the icon
      * @param {Node} icon
-     * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
+     * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
-     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
+     * @returns {HelpContentRow} - so HelpContent can layout content groups
      */
     labelWithIcon: function( label, icon, labelInnerContent, options ) {
 
       options = _.extend( {
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
-        labelFirst: true,
         matchHorizontal: false,
         iconOptions: {} // specific options for the icon mostly to add a11y content, extended with defaults below
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
-      options.iconOptions = _.extend( {
-        tagName: 'li',
-        innerContent: labelInnerContent
-      }, options.iconOptions );
+
+      if ( labelInnerContent ) {
+        assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
+        options.iconOptions = _.extend( {
+          tagName: 'li',
+          innerContent: labelInnerContent
+        }, options.iconOptions );
+      }
 
       // make the label and icon the same height so that they will align when we assemble help content group
       var labelIconGroup = new AlignGroup( options );
       var labelBox = labelIconGroup.createBox( label );
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
-      // options.children = options.labelFirst ? [ label, icon ] : [ icon, label ];
-      return options.labelFirst ? { label: labelBox, icon: iconBox } : { label: iconBox, icon: labelBox };
+      return new HelpContentRow( label, labelBox, iconBox );
     },
 
     /**
@@ -194,7 +207,7 @@ define( function( require ) {
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
-     * @return {Object} - Object {label: <Node>, icon: <Node>} so HelpContent can layout content groups
+     * @returns {HelpContentRow} -  so HelpContent can layout content groups
      */
     labelWithIconList: function( label, icons, labelInnerContent, options ) {
 
@@ -244,7 +257,7 @@ define( function( require ) {
       var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
       var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-      return { label: labelWithHeightBox, icon: iconsBox };
+      return new HelpContentRow( label, labelWithHeightBox, iconsBox );
     },
 
     /**
@@ -456,7 +469,7 @@ define( function( require ) {
      * stacked vertically in a Dialog. Loops through  contentArray and finds the max x value of the left edge
      * of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
      *
-     * @param {[].HelpContent} contentArray
+     * @param {HelpContent[]} contentArray
      */
     alignHelpContentIcons: function( contentArray ) {
 
@@ -481,10 +494,17 @@ define( function( require ) {
    * Convenience method to construct a help content for describing the grab button interaction
    * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
    * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
+   * @param {Object} [options]
    * @static
    * @returns {HelpContent}
    */
-  HelpContent.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase ) {
+  HelpContent.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase, options ) {
+
+    options = _.extend( {
+
+      // just a paragraph for this content, no list
+      a11yContentTagName: null
+    }, options );
 
     var heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
       thing: thingAsTitle
@@ -499,24 +519,50 @@ define( function( require ) {
     } );
 
     var label = new RichText( labelString, {
-      font: DEFAULT_LABEL_FONT,
-      maxWidth: DEFAULT_TEXT_MAX_WIDTH,
-      lineWrap: DEFAULT_TEXT_MAX_WIDTH
+      font: DEFAULT_LABEL_FONT
     } );
 
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContent = HelpContent.labelWithIcon( label, icons, descriptionString, {
+    var labelWithContentRow = HelpContent.labelWithIcon( label, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
     } );
 
-    return new HelpContent( heading, [ labelWithContent ], {
-      a11yContentTagName: null // just a paragraph for this content, no list
-    } );
+    return new HelpContent( heading, [ labelWithContentRow ], options );
   };
 
+
+  /**
+   * Inner class POJO for keeping track of
+   * TODO: doc
+   */
+  class HelpContentRow {
+
+    /**
+     * @param {Text|RichText} text - must be a child of the "label" Node
+     * @param {Node} label
+     * @param {Node} icon
+     */
+    constructor( text, label, icon ) {
+
+
+      assert && assert( text instanceof Text || text instanceof RichText,
+        'unsupported label type: ' + text );
+
+      // assert && assert( label.hasChild( text ) )
+
+      // @public (read-only)
+      this.label = label;
+      this.icon = icon;
+      this.text = text;
+    }
+
+  }
+
   return HelpContent;
+
+
 } );

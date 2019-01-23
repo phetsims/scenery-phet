@@ -31,7 +31,7 @@ define( function( require ) {
       // text options
       font: new PhetFont( { size: 12 } ),
       fill: 'black',
-      textMaxWidth: 50,
+      textMaxWidth: 35, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
 
       // by default, key should tightly surround the text, with a bit more horizontal space
       xPadding: 8
