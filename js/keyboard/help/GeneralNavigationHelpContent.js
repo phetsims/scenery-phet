@@ -37,8 +37,7 @@ define( function( require ) {
 
   // constants
   var DEFAULT_LABEL_OPTIONS = {
-    font: HelpContent.DEFAULT_LABEL_FONT,
-    maxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
+    font: HelpContent.DEFAULT_LABEL_FONT
   };
 
   /**
@@ -50,9 +49,7 @@ define( function( require ) {
     options = _.extend( {
       withGroupContent: false, // if true, the help content will include information about how to interact with groups
 
-      verticalIconSpacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING,
-
-      // passed to label Text
+      // passed to RichText label
       labelOptions: null
     }, options );
 
