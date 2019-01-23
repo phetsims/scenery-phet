@@ -110,9 +110,7 @@ define( function( require ) {
     for ( var i = 0; i < content.length; i++ ) {
       const helpContentRow = content[ i ];
 
-      assert && assert( helpContentRow.text.maxWidth === null,
-        'HelpContent sets maxWidth for children' );
-
+      assert && assert( helpContentRow.text.maxWidth === null, 'HelpContent sets maxWidth for children' );
       helpContentRow.text.maxWidth = options.baseLabelMaxWidth;
 
       icons.push( helpContentRow.icon );

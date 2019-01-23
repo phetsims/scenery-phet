@@ -44,10 +44,6 @@ define( require => {
         options.range = valueProperty.range;
       }
 
-      options.numberDisplayOptions = _.extend( {
-        tandem: options.tandem.createTandem( 'numberDisplay' )
-      }, options.numberDisplayOptions );
-
       // So we know whether we can dispose of the enabledProperty and its tandem
       var ownsEnabledProperty = !options.enabledProperty;
 
@@ -60,6 +56,14 @@ define( require => {
       assert && assert( options.deltaCoarse > 0, 'invalid deltaCoarse: ' + options.deltaCoarse );
       assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.numberOfArrows === undefined,
         'FineCoarseSpinner sets arrowButtonOptions.numberOfArrows' );
+      assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.tandem === undefined,
+        'FineCoarseSpinner sets arrowButtonOptions.tandem' );
+      assert && assert( !options.numberDisplayOptions || options.numberDisplayOptions.tandem === undefined,
+        'FineCoarseSpinner sets numberDisplayOptions.tandem' );
+
+      options.numberDisplayOptions = _.extend( {
+        tandem: options.tandem.createTandem( 'numberDisplay' )
+      }, options.numberDisplayOptions );
 
       // options for the 'fine' arrow buttons, which show 1 arrow
       const fineButtonOptions = _.extend( {
@@ -83,13 +87,13 @@ define( require => {
       // <
       const leftFineButton = new ArrowButton( 'left', function() {
         valueProperty.value = valueProperty.value - options.deltaFine;
-      }, _.extend( { tandem: options.tandem.createTandem( 'leftFineButton' ) }, fineButtonOptions ) );
+      }, _.extend( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'leftFineButton' ) } ) );
 
       // <<
       const leftCoarseButton = new ArrowButton( 'left', function() {
         const delta = Math.min( options.deltaCoarse, valueProperty.value - options.range.min );
         valueProperty.value = valueProperty.value - delta;
-      }, _.extend( { tandem: options.tandem.createTandem( 'leftCoarseButton' ) }, coarseButtonOptions ) );
+      }, _.extend( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'leftCoarseButton' ) } ) );
 
       // [ value ]
       const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
@@ -97,13 +101,13 @@ define( require => {
       // >
       const rightFineButton = new ArrowButton( 'right', function() {
         valueProperty.value = valueProperty.value + options.deltaFine;
-      }, _.extend( { tandem: options.tandem.createTandem( 'rightFineButton' ) }, fineButtonOptions ) );
+      }, _.extend( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'rightFineButton' ) } ) );
 
       // >>
       const rightCoarseButton = new ArrowButton( 'right', function() {
         const delta = Math.min( options.deltaCoarse, options.range.max - valueProperty.value );
         valueProperty.value = valueProperty.value + delta;
-      }, _.extend( { tandem: options.tandem.createTandem( 'rightCoarseButton' ) }, coarseButtonOptions ) );
+      }, _.extend( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'rightCoarseButton' ) } ) );
 
       // <  <<  [ value ]  >>  >
       const layoutBox = new HBox( {
