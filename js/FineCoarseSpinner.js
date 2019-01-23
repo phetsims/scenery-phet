@@ -148,6 +148,7 @@ define( require => {
         }
 
         // unregister tandems
+        numberDisplay.dispose();
         leftFineButton.dispose();
         leftCoarseButton.dispose();
         rightFineButton.dispose();
