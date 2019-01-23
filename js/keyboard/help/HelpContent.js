@@ -51,7 +51,6 @@ define( function( require ) {
 
   // ratio 250:175 based on the old default maxWidth values between the heading and the labels
   // see https://github.com/phetsims/friction/issues/158
-  const HEADING_MAX_WIDTH_SCALAR = 1.43;
 
   // Content spacing and alignment
   const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
@@ -63,6 +62,8 @@ define( function( require ) {
   // labels and keys
   const DEFAULT_LABEL_FONT = new PhetFont( 12 );
   const DEFAULT_TEXT_MAX_WIDTH = 175;
+  const OR_TEXT_MAX_WIDTH = 12;
+  const DEFAULT_HEADING_MAX_WIDTH = 250;
 
   /**
    * @constructor
@@ -82,6 +83,7 @@ define( function( require ) {
       // heading options
       headingContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
       headingFont: DEFAULT_HEADING_FONT,
+      headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
       // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
       // of the HelpContent.
@@ -97,7 +99,7 @@ define( function( require ) {
     // create the heading
     var headingText = new Text( headingString, {
       font: options.headingFont,
-      maxWidth: options.baseLabelMaxWidth * HEADING_MAX_WIDTH_SCALAR, // based off of the label max width
+      maxWidth: options.headingMaxWidth,
 
       // a11y
       tagName: 'h2',
@@ -235,7 +237,7 @@ define( function( require ) {
       for ( var i = 0; i < icons.length - 1; i++ ) {
         var orText = new Text( keyboardHelpDialogOrString, {
           font: DEFAULT_LABEL_FONT,
-          maxWidth: DEFAULT_TEXT_MAX_WIDTH / 10
+          maxWidth: OR_TEXT_MAX_WIDTH
         } );
 
         // place orText with the icon in an HBox
@@ -429,7 +431,7 @@ define( function( require ) {
 
       var orText = new Text( keyboardHelpDialogOrString, {
         font: DEFAULT_LABEL_FONT,
-        maxWidth: DEFAULT_TEXT_MAX_WIDTH / 10
+        maxWidth: OR_TEXT_MAX_WIDTH
       } );
 
       options.children = [ iconA, orText, iconB ];
