@@ -239,6 +239,9 @@ define( function( require ) {
 
       allowTouchSnag: true,
 
+      // Don't allow the pointer to swipe-to-snag other things while dragging
+      attach: true,
+
       start: function( event, trail ) {
         self._isTipUserControlledProperty.set( true );
         var location = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
