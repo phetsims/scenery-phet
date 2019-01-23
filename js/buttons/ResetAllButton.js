@@ -25,7 +25,7 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
-  var RESET_ALL_BUTTON_RADIUS = 24; // derived from the image files that were originally used for this button
+  var RESET_ALL_BUTTON_RADIUS = 20.8;
 
   // a11y strings - not translatable
   var resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
@@ -39,6 +39,7 @@ define( function( require ) {
 
     options = _.extend( {
       radius: RESET_ALL_BUTTON_RADIUS,
+      touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
       tandem: Tandem.required,
