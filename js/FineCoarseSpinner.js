@@ -54,7 +54,13 @@ define( require => {
       const fineButtonOptions = _.extend( {
         numberOfArrows: 1,
         arrowWidth: 12, // width of base
-        arrowHeight: 14 // from tip to base
+        arrowHeight: 14, // from tip to base
+
+        // pointer areas
+        touchAreaXDilation: 3,
+        touchAreaYDilation: 3,
+        mouseAreaXDilation: 0,
+        mouseAreaYDilation: 0
       }, options.arrowButtonOptions );
 
       // options for the 'coarse' arrow buttons, which show 2 arrows
