@@ -17,6 +17,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   class FineCoarseSpinner extends Node {
 
@@ -34,7 +35,8 @@ define( require => {
         deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
         spacing: 10, // {number} horizontal space between subcomponents
         enabledProperty: null, // {BooleanProperty|null} is this control enabled?
-        disabledOpacity: 0.5 // {number} opacity used to make the control look disabled
+        disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
+        tandem: Tandem.required
       }, options );
 
       if ( !options.range ) {
@@ -42,8 +44,17 @@ define( require => {
         options.range = valueProperty.range;
       }
 
+      options.numberDisplayOptions = _.extend( {
+        tandem: options.tandem.createTandem( 'numberDisplay' )
+      }, options.numberDisplayOptions );
+
+      // So we know whether we can dispose of the enabledProperty and its tandem
+      var ownsEnabledProperty = !options.enabledProperty;
+
       // Provide a default if not specified
-      options.enabledProperty = options.enabledProperty || new BooleanProperty( true );
+      options.enabledProperty = options.enabledProperty || new BooleanProperty( true, {
+        tandem: options.tandem.createTandem( 'enabledProperty' )
+      } );
 
       assert && assert( options.deltaFine > 0, 'invalid deltaFine: ' + options.deltaFine );
       assert && assert( options.deltaCoarse > 0, 'invalid deltaCoarse: ' + options.deltaCoarse );
@@ -72,13 +83,13 @@ define( require => {
       // <
       const leftFineButton = new ArrowButton( 'left', function() {
         valueProperty.value = valueProperty.value - options.deltaFine;
-      }, fineButtonOptions );
+      }, _.extend( { tandem: options.tandem.createTandem( 'leftFineButton' ) }, fineButtonOptions ) );
 
       // <<
       const leftCoarseButton = new ArrowButton( 'left', function() {
         const delta = Math.min( options.deltaCoarse, valueProperty.value - options.range.min );
         valueProperty.value = valueProperty.value - delta;
-      }, coarseButtonOptions );
+      }, _.extend( { tandem: options.tandem.createTandem( 'leftCoarseButton' ) }, coarseButtonOptions ) );
 
       // [ value ]
       const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
@@ -86,13 +97,13 @@ define( require => {
       // >
       const rightFineButton = new ArrowButton( 'right', function() {
         valueProperty.value = valueProperty.value + options.deltaFine;
-      }, fineButtonOptions );
+      }, _.extend( { tandem: options.tandem.createTandem( 'rightFineButton' ) }, fineButtonOptions ) );
 
       // >>
       const rightCoarseButton = new ArrowButton( 'right', function() {
         const delta = Math.min( options.deltaCoarse, options.range.max - valueProperty.value );
         valueProperty.value = valueProperty.value + delta;
-      }, coarseButtonOptions );
+      }, _.extend( { tandem: options.tandem.createTandem( 'rightCoarseButton' ) }, coarseButtonOptions ) );
 
       // <  <<  [ value ]  >>  >
       const layoutBox = new HBox( {
@@ -129,7 +140,19 @@ define( require => {
       // @private
       this.disposeFineCoarseSpinner = () => {
         valueProperty.unlink( valuePropertyListener );
-        this.enabledProperty.unlink( enabledObserver );
+        if ( ownsEnabledProperty ) {
+          this.enabledProperty.dispose();
+        }
+        else {
+          this.enabledProperty.unlink( enabledObserver );
+        }
+
+        // unregister tandems
+        numberDisplay.dispose();
+        leftFineButton.dispose();
+        leftCoarseButton.dispose();
+        rightFineButton.dispose();
+        rightCoarseButton.dispose();
       };
     }
 
