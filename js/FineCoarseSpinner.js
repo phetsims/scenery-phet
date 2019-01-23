@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
@@ -31,13 +32,18 @@ define( require => {
         arrowButtonOptions: null, // {*|null} options propagated to all ArrowButton subcomponents
         deltaFine: 1, // {number} amount to increment/decrement when the 'fine' tweakers are pressed
         deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
-        spacing: 10 // {number} horizontal space between subcomponents
+        spacing: 10, // {number} horizontal space between subcomponents
+        enabledProperty: null, // {BooleanProperty|null} is this control enabled?
+        disabledOpacity: 0.5 // {number} opacity used to make the control look disabled
       }, options );
 
       if ( !options.range ) {
         assert && assert( valueProperty.range, 'valueProperty.range or options.range must be provided' );
         options.range = valueProperty.range;
       }
+
+      // Provide a default if not specified
+      options.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
       assert && assert( options.deltaFine > 0, 'invalid deltaFine: ' + options.deltaFine );
       assert && assert( options.deltaCoarse > 0, 'invalid deltaCoarse: ' + options.deltaCoarse );
@@ -94,6 +100,15 @@ define( require => {
 
       super( options );
 
+      // @public
+      this.enabledProperty = options.enabledProperty;
+      const enabledObserver = enabled => {
+        this.interruptSubtreeInput(); // interrupt interaction
+        this.pickable = enabled;
+        this.opacity = enabled ? 1.0 : options.disabledOpacity;
+      };
+      this.enabledProperty.link( enabledObserver );
+
       // Disable the buttons when the value is at min or max of the range
       const valuePropertyListener = value => {
 
@@ -108,6 +123,7 @@ define( require => {
       // @private
       this.disposeFineCoarseSpinner = () => {
         valueProperty.unlink( valuePropertyListener );
+        this.enabledProperty.unlink( enabledObserver );
       };
     }
 
@@ -116,6 +132,24 @@ define( require => {
       this.disposeFineCoarseSpinner();
       super.dispose();
     }
+
+    /**
+     * Sets whether this Node is enabled or disabled.
+     * @param {boolean} enabled
+     * @public
+     */
+    setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
+
+    set enabled( value ) { this.setEnabled( value ); }
+
+    /**
+     * Gets whether this Node is enabled or disabled.
+     * @returns {boolean}
+     * @public
+     */
+    getEnabled() { return this.enabledProperty.get(); }
+
+    get enabled() { return this.getEnabled(); }
   }
 
   return sceneryPhet.register( 'FineCoarseSpinner', FineCoarseSpinner );

@@ -368,13 +368,25 @@ define( function( require ) {
   };
 
   // Creates a demo for FineCoarseSpinner
-  var demoFineCoarseSpinner = function( layoutBounds ) {
+  const demoFineCoarseSpinner = function( layoutBounds ) {
 
-    var numberProperty = new NumberProperty( 0, {
+    const numberProperty = new NumberProperty( 0, {
       range: new Range( 0, 100 )
     } );
 
-    return new FineCoarseSpinner( numberProperty, {
+    const enabledProperty = new BooleanProperty( true );
+
+    const spinner = new FineCoarseSpinner( numberProperty, {
+      enabledProperty: enabledProperty
+    } );
+
+    const checkbox = new Checkbox( new Text( 'enabled', {
+      font: new PhetFont( 20 )
+    } ), enabledProperty );
+
+    return new VBox( {
+      spacing: 60,
+      children: [ spinner, checkbox ],
       center: layoutBounds.center
     } );
   };
