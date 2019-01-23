@@ -61,6 +61,10 @@ define( require => {
       assert && assert( !options.numberDisplayOptions || options.numberDisplayOptions.tandem === undefined,
         'FineCoarseSpinner sets numberDisplayOptions.tandem' );
 
+      options.numberDisplayOptions = _.extend( {
+        tandem: options.tandem.createTandem( 'numberDisplay' )
+      }, options.numberDisplayOptions );
+
       // options for the 'fine' arrow buttons, which show 1 arrow
       const fineButtonOptions = _.extend( {
         numberOfArrows: 1,
@@ -92,7 +96,6 @@ define( require => {
       }, _.extend( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'leftCoarseButton' ) } ) );
 
       // [ value ]
-      options.numberDisplayOptions.tandem = options.tandem.createTandem( 'numberDisplay' );
       const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
 
       // >
