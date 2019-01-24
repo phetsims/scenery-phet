@@ -892,9 +892,9 @@ define( function( require ) {
       new TextKeyNode( 'Ahoy\' Manatee' )
     ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
 
-    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with arrows: ' ), HelpContent.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
-    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with up down arrows: ' ), HelpContent.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
-    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( new Text( 'Label with left right arrows: ' ), HelpContent.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
+    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with arrows:', HelpContent.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
+    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with up down arrows:', HelpContent.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with left right arrows:', HelpContent.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
 
     // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
     // in their own panel
