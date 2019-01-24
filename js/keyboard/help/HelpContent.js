@@ -56,10 +56,10 @@ define( function( require ) {
   const DEFAULT_VERTICAL_ICON_SPACING = 10;
   const DEFAULT_LETTER_KEY_SPACING = 1;
 
-  // labels and keys
-  const DEFAULT_LABEL_FONT = new PhetFont( 12 );
-  const DEFAULT_TEXT_MAX_WIDTH = 175;
+  // text fonts and max widths
+  const LABEL_FONT = new PhetFont( 12 );
   const OR_TEXT_MAX_WIDTH = 12;
+  const DEFAULT_LABEL_MAX_WIDTH = 175;
   const DEFAULT_HEADING_MAX_WIDTH = 250;
 
   /**
@@ -84,7 +84,7 @@ define( function( require ) {
 
       // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
       // of the HelpContent.
-      labelMaxWidth: DEFAULT_TEXT_MAX_WIDTH,
+      labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
 
       // VBox options
       align: DEFAULT_ALIGN,
@@ -176,7 +176,7 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      var labelText = new RichText( labelString, { font: DEFAULT_LABEL_FONT } );
+      var labelText = new RichText( labelString, { font: LABEL_FONT } );
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
@@ -227,7 +227,7 @@ define( function( require ) {
         innerContent: labelInnerContent
       }, options.iconsVBoxOptions );
 
-      var labelText = new RichText( labelString, { font: DEFAULT_LABEL_FONT } );
+      var labelText = new RichText( labelString, { font: LABEL_FONT } );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
@@ -239,7 +239,7 @@ define( function( require ) {
       var iconsWithOrText = [];
       for ( var i = 0; i < icons.length - 1; i++ ) {
         var orText = new Text( keyboardHelpDialogOrString, {
-          font: DEFAULT_LABEL_FONT,
+          font: LABEL_FONT,
           maxWidth: OR_TEXT_MAX_WIDTH
         } );
 
@@ -433,7 +433,7 @@ define( function( require ) {
       assert && assert( !options.children );
 
       var orText = new Text( keyboardHelpDialogOrString, {
-        font: DEFAULT_LABEL_FONT,
+        font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );
 
