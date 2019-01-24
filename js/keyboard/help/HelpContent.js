@@ -49,9 +49,6 @@ define( function( require ) {
   const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
   const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
-  // ratio 250:175 based on the old default maxWidth values between the heading and the labels
-  // see https://github.com/phetsims/friction/issues/158
-
   // Content spacing and alignment
   const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
   const DEFAULT_LABEL_ICON_SPACING = 20; // spacing between
@@ -87,7 +84,7 @@ define( function( require ) {
 
       // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
       // of the HelpContent.
-      baseLabelMaxWidth: DEFAULT_TEXT_MAX_WIDTH,
+      labelMaxWidth: DEFAULT_TEXT_MAX_WIDTH,
 
       // VBox options
       align: DEFAULT_ALIGN,
@@ -113,7 +110,7 @@ define( function( require ) {
       const helpContentRow = content[ i ];
 
       assert && assert( helpContentRow.text.maxWidth === null, 'HelpContent sets maxWidth for children' );
-      helpContentRow.text.maxWidth = options.baseLabelMaxWidth;
+      helpContentRow.text.maxWidth = options.labelMaxWidth;
 
       icons.push( helpContentRow.icon );
       labels.push( helpContentRow.label );
