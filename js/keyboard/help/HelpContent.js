@@ -197,21 +197,22 @@ define( function( require ) {
     /**
      * Create a label with a list of icons. The icons will be vertically aligned, each separated by 'or' text. The
      * label will be vertically centered with the first item in the list of icons. To vertically align the label
-     * with the first icon, AlignGroup is used to match their heights. Finally, an AlignGroup is used to make the label
-     * content match height with the icon content. When assembled, the label with icon list will look like:
+     * with the first icon, AlignGroup is used. Finally, an AlignGroup is used to make the label
+     * content match height with the entire icon list. When assembled, the label with icon list will look like:
      *
      * This is the label: Icon1 or
      *                    Icon2 or
      *                    Icon3
      *
-     * @param {Node} label - label for the icon, usually Text or RichText
+     * @param {string} string - string for the visible label RichText
      * @param {Node[]} icons
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
      * @returns {HelpContentRow} -  so HelpContent can layout content groups
      */
-    labelWithIconList: function( label, icons, labelInnerContent, options ) {
+    labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
+      assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
       options = _.extend( {
         iconsVBoxOptions: {} // options for the iconsVBox, extended below
@@ -226,13 +227,15 @@ define( function( require ) {
         innerContent: labelInnerContent
       }, options.iconsVBoxOptions );
 
+      var labelText = new RichText( labelString, { font: DEFAULT_LABEL_FONT } );
+
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
       var labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
       labelFirstIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
-      var labelBox = labelFirstIconGroup.createBox( label );
+      var labelBox = labelFirstIconGroup.createBox( labelText );
 
-      // for each of the icons (excluding the last one,  add a vertically aligned 'or' text to the right
+      // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
       var iconsWithOrText = [];
       for ( var i = 0; i < icons.length - 1; i++ ) {
         var orText = new Text( keyboardHelpDialogOrString, {
@@ -259,7 +262,7 @@ define( function( require ) {
       var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
       var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-      return new HelpContentRow( label, labelWithHeightBox, iconsBox );
+      return new HelpContentRow( labelText, labelWithHeightBox, iconsBox );
     },
 
     /**
