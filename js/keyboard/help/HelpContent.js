@@ -543,6 +543,9 @@ define( function( require ) {
    * will return a HelpContentRow. The label and icon are often grouped in an AlignGroup for easy positioning
    * in HelpContent. This cannot be done in HelpContent directly because different labels and icons will have
    * varying layout. For instance, see labelWithIcon vs labelWithIconList.
+   *
+   * Includes a reference to the Text because HelpContent will constrain the width of all text in its
+   * HelpContentRows for i18n.
    */
   class HelpContentRow {
 
