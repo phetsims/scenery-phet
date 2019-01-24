@@ -34,11 +34,6 @@ define( function( require ) {
   var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
 
-  // constants
-  var DEFAULT_LABEL_OPTIONS = {
-    font: HelpContent.DEFAULT_LABEL_FONT
-  };
-
   /**
    * @constructor
    * @param {Object} options
@@ -46,13 +41,8 @@ define( function( require ) {
   function GeneralNavigationHelpContent( options ) {
 
     options = _.extend( {
-      withGroupContent: false, // if true, the help content will include information about how to interact with groups
-
-      // passed to RichText label
-      labelOptions: null
+      withGroupContent: false // if true, the help content will include information about how to interact with groups
     }, options );
-
-    options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
 
     // 'press buttons' content
     var spaceIcon = new SpaceKeyNode();

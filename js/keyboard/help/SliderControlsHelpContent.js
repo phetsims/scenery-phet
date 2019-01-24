@@ -34,11 +34,6 @@ define( function( require ) {
   var keyboardHelpDialogAdjustDefaultStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustDefaultStepsString.value;
   var keyboardHelpDialogAdjustSmallerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustSmallerStepsString.value;
 
-  // constants
-  var DEFAULT_LABEL_OPTIONS = {
-    font: HelpContent.DEFAULT_LABEL_FONT
-  };
-
   /**
    * @constructor
    * @param {Object} options
@@ -48,13 +43,8 @@ define( function( require ) {
     options = _.extend( {
 
       // heading string for this content
-      headingString: keyboardHelpDialogSliderControlsString,
-
-      // options passed to the label Text
-      labelOptions: null
+      headingString: keyboardHelpDialogSliderControlsString
     }, options );
-
-    options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
 
     // 'Move sliders' content
     var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
