@@ -39,6 +39,8 @@ define( function( require ) {
 
     options = _.extend( {
       radius: RESET_ALL_BUTTON_RADIUS,
+
+      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
