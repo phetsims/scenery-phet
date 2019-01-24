@@ -49,9 +49,6 @@ define( function( require ) {
   const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
   const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
-  // ratio 250:175 based on the old default maxWidth values between the heading and the labels
-  // see https://github.com/phetsims/friction/issues/158
-
   // Content spacing and alignment
   const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
   const DEFAULT_LABEL_ICON_SPACING = 20; // spacing between
@@ -59,10 +56,10 @@ define( function( require ) {
   const DEFAULT_VERTICAL_ICON_SPACING = 10;
   const DEFAULT_LETTER_KEY_SPACING = 1;
 
-  // labels and keys
-  const DEFAULT_LABEL_FONT = new PhetFont( 12 );
-  const DEFAULT_TEXT_MAX_WIDTH = 175;
+  // text fonts and max widths
+  const LABEL_FONT = new PhetFont( 12 );
   const OR_TEXT_MAX_WIDTH = 12;
+  const DEFAULT_LABEL_MAX_WIDTH = 175;
   const DEFAULT_HEADING_MAX_WIDTH = 250;
 
   /**
@@ -87,7 +84,7 @@ define( function( require ) {
 
       // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
       // of the HelpContent.
-      baseLabelMaxWidth: DEFAULT_TEXT_MAX_WIDTH,
+      labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
 
       // VBox options
       align: DEFAULT_ALIGN,
@@ -113,7 +110,7 @@ define( function( require ) {
       const helpContentRow = content[ i ];
 
       assert && assert( helpContentRow.text.maxWidth === null, 'HelpContent sets maxWidth for children' );
-      helpContentRow.text.maxWidth = options.baseLabelMaxWidth;
+      helpContentRow.text.maxWidth = options.labelMaxWidth;
 
       icons.push( helpContentRow.icon );
       labels.push( helpContentRow.label );
@@ -154,27 +151,32 @@ define( function( require ) {
 
     /**
      * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
-     * to give the label and icon identical heights when laying out the content in a Dialog. Optionally, the icon can
-     * be ordered before the label, see labelFirst option.
+     * to give the label and icon identical dimensions for easy layout in HelpContent.
      * @public
      * @static
      *
-     * @param {Text|RichText} label - label for the icon
+     * @param {string} labelString - string for the label Text
      * @param {Node} icon
      * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
      * @returns {HelpContentRow} - so HelpContent can layout content groups
      */
-    labelWithIcon: function( label, icon, labelInnerContent, options ) {
+    labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
+      assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
       options = _.extend( {
+
+        // options passed for layout, passed to AlignGroup
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
         matchHorizontal: false,
-        iconOptions: {} // specific options for the icon mostly to add a11y content, extended with defaults below
+
+        // options for the AlignBox surrounding the icon
+        iconOptions: {}
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
+      var labelText = new RichText( labelString, { font: LABEL_FONT } );
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
@@ -186,30 +188,31 @@ define( function( require ) {
 
       // make the label and icon the same height so that they will align when we assemble help content group
       var labelIconGroup = new AlignGroup( options );
-      var labelBox = labelIconGroup.createBox( label );
+      var labelBox = labelIconGroup.createBox( labelText );
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
-      return new HelpContentRow( label, labelBox, iconBox );
+      return new HelpContentRow( labelText, labelBox, iconBox );
     },
 
     /**
      * Create a label with a list of icons. The icons will be vertically aligned, each separated by 'or' text. The
      * label will be vertically centered with the first item in the list of icons. To vertically align the label
-     * with the first icon, AlignGroup is used to match their heights. Finally, an AlignGroup is used to make the label
-     * content match height with the icon content. When assembled, the label with icon list will look like:
+     * with the first icon, AlignGroup is used. Finally, an AlignGroup is used to make the label
+     * content match height with the entire icon list. When assembled, the label with icon list will look like:
      *
      * This is the label: Icon1 or
      *                    Icon2 or
      *                    Icon3
      *
-     * @param {Node} label - label for the icon, usually Text or RichText
+     * @param {string} string - string for the visible label RichText
      * @param {Node[]} icons
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
      * @returns {HelpContentRow} -  so HelpContent can layout content groups
      */
-    labelWithIconList: function( label, icons, labelInnerContent, options ) {
+    labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
+      assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
       options = _.extend( {
         iconsVBoxOptions: {} // options for the iconsVBox, extended below
@@ -224,17 +227,19 @@ define( function( require ) {
         innerContent: labelInnerContent
       }, options.iconsVBoxOptions );
 
+      var labelText = new RichText( labelString, { font: LABEL_FONT } );
+
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
       var labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
       labelFirstIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
-      var labelBox = labelFirstIconGroup.createBox( label );
+      var labelBox = labelFirstIconGroup.createBox( labelText );
 
-      // for each of the icons (excluding the last one,  add a vertically aligned 'or' text to the right
+      // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
       var iconsWithOrText = [];
       for ( var i = 0; i < icons.length - 1; i++ ) {
         var orText = new Text( keyboardHelpDialogOrString, {
-          font: DEFAULT_LABEL_FONT,
+          font: LABEL_FONT,
           maxWidth: OR_TEXT_MAX_WIDTH
         } );
 
@@ -257,7 +262,7 @@ define( function( require ) {
       var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
       var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-      return new HelpContentRow( label, labelWithHeightBox, iconsBox );
+      return new HelpContentRow( labelText, labelWithHeightBox, iconsBox );
     },
 
     /**
@@ -428,7 +433,7 @@ define( function( require ) {
       assert && assert( !options.children );
 
       var orText = new Text( keyboardHelpDialogOrString, {
-        font: DEFAULT_LABEL_FONT,
+        font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );
 
@@ -482,11 +487,10 @@ define( function( require ) {
       } );
     },
 
-    // static defaults fonts for content
+    // @static - defaults for layout in subtypes
     DEFAULT_ICON_SPACING: DEFAULT_ICON_SPACING,
     DEFAULT_LABEL_ICON_SPACING: DEFAULT_LABEL_ICON_SPACING,
-    DEFAULT_LABEL_FONT: DEFAULT_LABEL_FONT,
-    DEFAULT_TEXT_MAX_WIDTH: DEFAULT_TEXT_MAX_WIDTH,
+    DEFAULT_LETTER_KEY_SPACING: DEFAULT_LETTER_KEY_SPACING,
     DEFAULT_VERTICAL_ICON_SPACING: DEFAULT_VERTICAL_ICON_SPACING
   } );
 
@@ -521,14 +525,10 @@ define( function( require ) {
       thing: thingAsLowerCase
     } );
 
-    var label = new RichText( labelString, {
-      font: DEFAULT_LABEL_FONT
-    } );
-
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContentRow = HelpContent.labelWithIcon( label, icons, descriptionString, {
+    var labelWithContentRow = HelpContent.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
@@ -543,6 +543,9 @@ define( function( require ) {
    * will return a HelpContentRow. The label and icon are often grouped in an AlignGroup for easy positioning
    * in HelpContent. This cannot be done in HelpContent directly because different labels and icons will have
    * varying layout. For instance, see labelWithIcon vs labelWithIconList.
+   *
+   * Includes a reference to the Text because HelpContent will constrain the width of all text in its
+   * HelpContentRows for i18n.
    */
   class HelpContentRow {
 

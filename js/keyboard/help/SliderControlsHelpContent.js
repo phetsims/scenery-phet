@@ -16,7 +16,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   var PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
@@ -35,11 +34,6 @@ define( function( require ) {
   var keyboardHelpDialogAdjustDefaultStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustDefaultStepsString.value;
   var keyboardHelpDialogAdjustSmallerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustSmallerStepsString.value;
 
-  // constants
-  var DEFAULT_LABEL_OPTIONS = {
-    font: HelpContent.DEFAULT_LABEL_FONT
-  };
-
   /**
    * @constructor
    * @param {Object} options
@@ -49,50 +43,40 @@ define( function( require ) {
     options = _.extend( {
 
       // heading string for this content
-      headingString: keyboardHelpDialogSliderControlsString,
-
-      // options passed to the label Text
-      labelOptions: null
+      headingString: keyboardHelpDialogSliderControlsString
     }, options );
 
-    options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
-
     // 'Move sliders' content
-    var adjustSliderText = new RichText( keyboardHelpDialogAdjustSliderString, options.labelOptions );
     var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
     var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
-    var adjustSliderRow = HelpContent.labelWithIcon( adjustSliderText, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
+    var adjustSliderRow = HelpContent.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content
-    var adjustInSmallerStepsText = new RichText( keyboardHelpDialogAdjustInSmallerStepsString, options.labelOptions );
     var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
     var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
 
     var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
     var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
 
-    var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( adjustInSmallerStepsText, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
+    var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
     // 'move in larger steps' content
-    var adjustInLargerStepsText = new RichText( keyboardHelpDialogAdjustInLargerStepsString, options.labelOptions );
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
     var pageUpPageDownIcon = new HBox( {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: HelpContent.DEFAULT_ICON_SPACING
     } );
-    var adjustInLargerStepsRow = HelpContent.labelWithIcon( adjustInLargerStepsText, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
+    var adjustInLargerStepsRow = HelpContent.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
     // 'move to minimum value' content
-    var jumpToMinimumText = new RichText( keyboardHelpDialogJumpToMinimumString, options.labelOptions );
     var homeKeyNode = new HomeKeyNode();
-    var jumpToMinimumRow = HelpContent.labelWithIcon( jumpToMinimumText, homeKeyNode, keyboardHelpDialogJumpToHomeString );
+    var jumpToMinimumRow = HelpContent.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
     // 'move to maximum value' content
-    var jumpToMaximumText = new RichText( keyboardHelpDialogJumpToMaximumString, options.labelOptions );
     var endKeyNode = new EndKeyNode();
-    var jumpToMaximumRow = HelpContent.labelWithIcon( jumpToMaximumText, endKeyNode, keyboardHelpDialogJumpToEndString );
+    var jumpToMaximumRow = HelpContent.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
 
     // assemble final content for HelpContent
     var content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
