@@ -12,7 +12,6 @@ define( function( require ) {
   var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
@@ -55,47 +54,51 @@ define( function( require ) {
 
     options.labelOptions = _.extend( DEFAULT_LABEL_OPTIONS, options.labelOptions );
 
-    // 'move to next item' content
-    var moveToNextItemText = new RichText( keyboardHelpDialogMoveToNextItemString, options.labelOptions );
-    var moveToNextItemIcon = new TabKeyNode();
-    var moveToNextItemRow = HelpContent.labelWithIcon( moveToNextItemText, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
-
-    // 'move to previous item' content
-    var moveToPreviousItemText = new RichText( keyboardHelpDialogMoveToPreviousItemString, options.labelOptions );
-    var tabIcon = new TabKeyNode();
-    var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
-    var moveToPreviousItemRow = HelpContent.labelWithIcon( moveToPreviousItemText, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
-
     // 'press buttons' content
-    var pressButtonsText = new RichText( keyboardHelpDialogPressButtonsString, options.labelOptions );
     var spaceIcon = new SpaceKeyNode();
-    var pressButtonsItemRow = HelpContent.labelWithIcon( pressButtonsText, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
+    var pressButtonsItemRow = HelpContent.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
 
     // 'exit a dialog' content
-    var exitADialogText = new RichText( keyboardHelpDialogExitADialogString, options.labelOptions );
     var exitADialogIcon = new EscapeKeyNode();
-    var exitADialogRow = HelpContent.labelWithIcon( exitADialogText, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
+    var exitADialogRow = HelpContent.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
-    var content = [];
+    var content = [ pressButtonsItemRow, exitADialogRow ];   
+
+    var nextItemString;
+    var previousItemString;
     if ( options.withGroupContent ) {
+
+      nextItemString = keyboardHelpDialogMoveToNextItemOrGroupString;
+      previousItemString = keyboardHelpDialogMoveToPreviousItemOrGroupString;
 
       // if the general navigation section includes help content includes groups, modify some text and add another
       // section to describe how to navigate groups
-      moveToNextItemText.setText( keyboardHelpDialogMoveToNextItemOrGroupString );
-      moveToPreviousItemText.setText( keyboardHelpDialogMoveToPreviousItemOrGroupString );
-
-      var moveBetweenItemsInAGroupText = new RichText( keyboardHelpDialogMoveBetweenItemsInAGroupString, options.labelOptions );
       var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( moveBetweenItemsInAGroupText, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
+      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
 
-      content = [ moveToNextItemRow, moveToPreviousItemRow, pressButtonsItemRow, moveBetweenItemsInAGroupRow, exitADialogRow ];
+      // the "group" content row row comes just before the "exite a dialog" row
+      content.splice( content.indexOf( exitADialogRow ), 0, moveBetweenItemsInAGroupRow );   
     }
     else {
-      content = [ moveToNextItemRow, moveToPreviousItemRow, pressButtonsItemRow, exitADialogRow ];
+      nextItemString = keyboardHelpDialogMoveToNextItemString;
+      previousItemString = keyboardHelpDialogMoveToPreviousItemString;
     }
 
+    // 'move to next item' content
+    var moveToNextItemIcon = new TabKeyNode();
+    var moveToNextItemRow = HelpContent.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
+
+    // 'move to previous item' content
+    var tabIcon = new TabKeyNode();
+    var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
+    var moveToPreviousItemRow = HelpContent.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
+
+    // move to next/previous items are at the beginning of the content
+    content.unshift( moveToNextItemRow, moveToPreviousItemRow );
+
+    // order the rows of content
     HelpContent.call( this, keyboardHelpDialogBasicActionsString, content, options );
   }
 

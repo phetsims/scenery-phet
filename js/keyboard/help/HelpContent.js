@@ -151,27 +151,32 @@ define( function( require ) {
 
     /**
      * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
-     * to give the label and icon identical heights when laying out the content in a Dialog. Optionally, the icon can
-     * be ordered before the label, see labelFirst option.
+     * to give the label and icon identical dimensions for easy layout in HelpContent.
      * @public
      * @static
      *
-     * @param {Text|RichText} label - label for the icon
+     * @param {string} labelString - string for the label Text
      * @param {Node} icon
      * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
      * @returns {HelpContentRow} - so HelpContent can layout content groups
      */
     labelWithIcon: function( label, icon, labelInnerContent, options ) {
+      assert && assert( typeof label === 'string', 'labelWithIcon creates Text label from string.' );
 
       options = _.extend( {
+
+        // options passed for layout, passed to AlignGroup
         spacing: DEFAULT_LABEL_ICON_SPACING,
         align: 'center',
         matchHorizontal: false,
-        iconOptions: {} // specific options for the icon mostly to add a11y content, extended with defaults below
+
+        // options for the AlignBox surrounding the icon
+        iconOptions: {}
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
+      var labelText = new RichText( label, { font: DEFAULT_LABEL_FONT } );
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
@@ -183,10 +188,10 @@ define( function( require ) {
 
       // make the label and icon the same height so that they will align when we assemble help content group
       var labelIconGroup = new AlignGroup( options );
-      var labelBox = labelIconGroup.createBox( label );
+      var labelBox = labelIconGroup.createBox( labelText );
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
-      return new HelpContentRow( label, labelBox, iconBox );
+      return new HelpContentRow( labelText, labelBox, iconBox );
     },
 
     /**
@@ -518,14 +523,10 @@ define( function( require ) {
       thing: thingAsLowerCase
     } );
 
-    var label = new RichText( labelString, {
-      font: DEFAULT_LABEL_FONT
-    } );
-
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContentRow = HelpContent.labelWithIcon( label, icons, descriptionString, {
+    var labelWithContentRow = HelpContent.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
