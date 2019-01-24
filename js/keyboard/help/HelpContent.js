@@ -161,8 +161,8 @@ define( function( require ) {
      * @param {Object} [options]
      * @returns {HelpContentRow} - so HelpContent can layout content groups
      */
-    labelWithIcon: function( label, icon, labelInnerContent, options ) {
-      assert && assert( typeof label === 'string', 'labelWithIcon creates Text label from string.' );
+    labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
+      assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
       options = _.extend( {
 
@@ -176,7 +176,7 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      var labelText = new RichText( label, { font: DEFAULT_LABEL_FONT } );
+      var labelText = new RichText( labelString, { font: DEFAULT_LABEL_FONT } );
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
