@@ -885,7 +885,7 @@ define( function( require ) {
   // creates a demo for KeyNode
   var demoHelpContent = function( layoutBounds ) {
 
-    var labelWithIcon = HelpContent.labelWithIcon( new Text( 'Label With Icon: ' ), new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
+    var labelWithIcon = HelpContent.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
     var labelWithIconList = HelpContent.labelWithIconList( new Text( 'Label With Icon List: ' ), [
       new TextKeyNode( 'Hi' ),
       new TextKeyNode( 'Hello' ),
