@@ -47,6 +47,7 @@ define( function( require ) {
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
    * @param {Object} [options]
+   * @mixes AccessibleSlider
    * @constructor
    */
   function NumberControl( title, numberProperty, numberRange, options ) {

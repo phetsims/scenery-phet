@@ -35,6 +35,7 @@ define( function( require ) {
   /**
    * @param {Property.<number>} valueProperty
    * @param {Object} [options]
+   * @mixes AccessibleSlider
    * @constructor
    */
   function SpectrumSlider( valueProperty, options ) {

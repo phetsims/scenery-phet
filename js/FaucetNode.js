@@ -71,6 +71,7 @@ define( function( require ) {
    * @param {Property.<number>} flowRateProperty
    * @param {Property.<boolean>} enabledProperty
    * @param {Object} [options]
+   * @mixes AccessibleSlider
    * @constructor
    */
   function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
