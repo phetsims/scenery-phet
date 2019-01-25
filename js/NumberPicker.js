@@ -46,6 +46,7 @@ define( function( require ) {
    *                                           NumberPicker can iterate through all possible values and compute the
    *                                           bounds of the labels.
    * @param {Object} [options]
+   * @mixes AccessibleNumberSpinner
    * @constructor
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {
