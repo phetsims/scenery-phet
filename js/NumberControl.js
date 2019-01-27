@@ -92,13 +92,6 @@ define( function( require ) {
       // arrow buttons
       delta: 1,
 
-      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
-      // all HSlider options may be used. These are the ones that NumberControl overrides:
-      trackSize: new Dimension2( 180, 3 ),
-      thumbSize: new Dimension2( 17, 34 ),
-      majorTickLength: 20,
-      minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
-
       // other slider options that are specific to NumberControl
       majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
       minorTickSpacing: 0, // zero indicates no minor ticks
@@ -112,6 +105,12 @@ define( function( require ) {
       // {*|null} options propagated to ArrowButton
       arrowButtonOptions: null,
 
+      // {*|null} options propagated to HSlider
+      sliderOptions: null,
+
+      // {*|null} options propagated to NumberDisplay
+      numberDisplayOptions: null,
+
       // phet-io
       tandem: Tandem.required,
       phetioType: NumberControlIO,
@@ -124,6 +123,22 @@ define( function( require ) {
     options.arrowButtonOptions = _.extend( {
       scale: 0.85
     }, options.arrowButtonOptions );
+
+    // Defaults for HSlider
+    options.sliderOptions = _.extend ( {
+
+      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
+      // all HSlider options may be used. These are the ones that NumberControl overrides:
+      trackSize: new Dimension2( 180, 3 ),
+      thumbSize: new Dimension2( 17, 34 ),
+      majorTickLength: 20,
+      minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
+    }, options.sliderOptions );
+
+    // Defaults for NumberDisplay
+    options.numberDisplayOptions = _.extend( {
+
+    }. options.numberDisplayOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
@@ -311,6 +326,15 @@ define( function( require ) {
   function validateCallbacksAndSetDefault( options ) {
 
     var normalCallbacksPresent = !!( options.startCallback || options.endCallback );
+    var callbackKeySet = new Set( [ 'startDrag', 'endDrag', 'startCallback', 'endCallback' ] );
+    var intersection = null;
+    var specificCallbacksPresent = false;
+
+    if ( options.arrowButtonOptions ) {
+      var arrowSet = new Set( Object.keys( options.arrowButtonOptions ) );
+      intersection = new Set( [ ...callbackKeySet ].filter( x => arrowSet.has( x ) ) );
+      specificCallbacksPresent = intersection.size > 0;
+    }
 
     var specificCallbacksPresent = false;
     SPECIFIC_COMPONENT_CALLBACK_OPTIONS.forEach( function( callbackOption ) {
