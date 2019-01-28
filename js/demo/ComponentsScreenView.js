@@ -783,25 +783,26 @@ define( function( require ) {
 
     const range = new Range( 0, 1000 );
 
+    // Options for both NumberDisplay instances
     const numberDisplayOptions = {
       valuePattern: '{{value}} K',
       align: 'right'
     };
 
-    // To demonstrate numeric value display
-    const property = new NumberProperty( 1 );
-    const numberDisplay1 = new NumberDisplay( property, range, numberDisplayOptions );
-    const slider = new HSlider( property, range );
-
     // To demonstrate 'no value' options
-    const numberDisplay2 = new NumberDisplay( new Property( null ), range, _.extend( {}, numberDisplayOptions, {
+    const noValueDisplay = new NumberDisplay( new Property( null ), range, _.extend( {}, numberDisplayOptions, {
       noValueAlign: 'center',
       noValuePattern: '{{value}}'
     } ) );
 
+    // To demonstrate numeric value display
+    const property = new NumberProperty( 1 );
+    const numberDisplay = new NumberDisplay( property, range, numberDisplayOptions );
+    const slider = new HSlider( property, range );
+
     return new VBox( {
       spacing: 40,
-      children: [ numberDisplay1, numberDisplay2, slider ],
+      children: [ noValueDisplay, numberDisplay, slider ],
       center: layoutBounds.center
     } );
   };
