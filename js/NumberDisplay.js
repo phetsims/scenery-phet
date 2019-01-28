@@ -56,7 +56,7 @@ define( function( require ) {
       minBackgroundWidth: 0,
 
       // string that is displayed when numberProperty.value is null
-      noValueString: MathSymbols.NO_VALUE,
+      noValueString: MathSymbols.NO_VALUE, // {string} default is the PhET standard, do no override lightly.
       noValueAlign: null, // {string|null} see ALIGN_VALUES. If null, defaults to options.align
       noValuePattern: null, // {string|null} If null, defaults to options.valuePattern
 
