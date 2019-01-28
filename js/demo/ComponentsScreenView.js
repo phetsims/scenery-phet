@@ -558,9 +558,15 @@ define( function( require ) {
 
     // Geometry controls
     var numberControlOptions = {
-      titleFont: new PhetFont( 14 ),
-      valueFont: new PhetFont( 14 ),
-      trackSize: new Dimension2( 150, 3 )
+      titleNodeOptions: {
+        font: new PhetFont( 14 )
+      },
+      numberDisplayOptions: {
+        font: new PhetFont( 14 )
+      },
+      sliderOptions: {
+        trackSize: new Dimension2( 150, 3 )
+      }
     };
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
@@ -598,17 +604,26 @@ define( function( require ) {
     multiplierProperty.link( function( multiplier ) {
       lightAngleProperty.value = ( multiplier * Math.PI );
     } );
-    var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new Range( 0, 2 ),
-      _.extend( {
-        valuePattern: '{0} \u03c0',
-        decimalPlaces: 2,
-        delta: 0.05,
-        majorTicks: [
-          { value: 0, label: new Text( '0', tickLabelOptions ) },
-          { value: 1, label: new Text( '\u03c0', tickLabelOptions ) },
-          { value: 2, label: new Text( '2\u03c0', tickLabelOptions ) }
-        ]
-      }, numberControlOptions ) );
+
+    // construct nested options object from base numberControlsOptions
+    var lightAngleNumberControlOptions = _.extend( {
+      delta: 0.05
+    }, numberControlOptions );
+
+    lightAngleNumberControlOptions.numberDisplayOptions = _.extend( {
+      valuePattern: '{0} \u03c0',
+      decimalPlaces: 2
+    }, numberControlOptions.numberDisplayOptions );
+
+    lightAngleNumberControlOptions.sliderOptions = _.extend( {
+      majorTicks: [
+        { value: 0, label: new Text( '0', tickLabelOptions ) },
+        { value: 1, label: new Text( '\u03c0', tickLabelOptions ) },
+        { value: 2, label: new Text( '2\u03c0', tickLabelOptions ) }
+      ]
+    }, numberControlOptions.sliderOptions );
+
+    var lightAngleControl = new NumberControl( 'Light Angle:', multiplierProperty, new Range( 0, 2 ), lightAngleNumberControlOptions );
 
     // Control at right side of play area
     demoParent.addChild( new VBox( {

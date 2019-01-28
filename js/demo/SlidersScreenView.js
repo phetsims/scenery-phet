@@ -65,15 +65,21 @@ define( function( require ) {
     // options shared by all NumberControls
     var numberControlOptions = {
       enabledProperty: enabledProperty,
-      titleFont: new PhetFont( 20 ),
-      valueFont: new PhetFont( 20 ),
-      valuePattern: '{0} lbs',
-      majorTicks: [
-        { value: weightRange.min, label: new Text( weightRange.min, { font: new PhetFont( 20 ) } ) },
-        { value: weightRange.getCenter(), label: new Text( weightRange.getCenter(), { font: new PhetFont( 20 ) } ) },
-        { value: weightRange.max, label: new Text( weightRange.max, { font: new PhetFont( 20 ) } ) }
-      ],
-      minorTickSpacing: 50
+      titleNodeOptions: {
+        font: new PhetFont( 20 )
+      },
+      numberDisplayOptions: {
+        font: new PhetFont( 20 ),
+        valuePattern: '{0} lbs'
+      },
+      sliderOptions: {
+        majorTicks: [
+          { value: weightRange.min, label: new Text( weightRange.min, { font: new PhetFont( 20 ) } ) },
+          { value: weightRange.getCenter(), label: new Text( weightRange.getCenter(), { font: new PhetFont( 20 ) } ) },
+          { value: weightRange.max, label: new Text( weightRange.max, { font: new PhetFont( 20 ) } ) }
+        ],
+        minorTickSpacing: 50
+      }
     };
 
     // NumberControl with default layout

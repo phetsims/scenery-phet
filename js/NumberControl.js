@@ -34,12 +34,12 @@ define( function( require ) {
 
   // constants
   var SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
-    'sliderStartCallback',
-    'sliderEndCallback',
-    'leftArrowStartCallback',
-    'leftArrowEndCallback',
-    'rightArrowStartCallback',
-    'rightArrowEndCallback'
+    'startDrag',
+    'endDrag',
+    'leftStart',
+    'leftEnd',
+    'rightStart',
+    'rightEnd'
   ];
 
   /**
@@ -56,45 +56,10 @@ define( function( require ) {
       // General Callbacks
       startCallback: null, // called when interaction begins, default value set in validateCallbacksAndSetDefault()
       endCallback: null, // called when interaction ends, default value set in validateCallbacksAndSetDefault()
-
-      // Specific callbacks for each component
-      sliderStartCallback: null, // called when dragging starts on the slider
-      sliderEndCallback: null, // called when dragging ends on the slider
-      leftArrowStartCallback: null, // called when left arrow is pressed
-      leftArrowEndCallback: null, // called when left arrow is released
-      rightArrowStartCallback: null, // called when right arrow is pressed
-      rightArrowEndCallback: null, // called when right arrow is released
+      delta: 1,
 
       enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-
-      // title
-      titleFont: new PhetFont( 12 ),
-      titleMaxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
-      titleFill: 'black',
-
-      // value
-      valueFont: new PhetFont( 12 ),
-      valueAlign: 'right',
-      valueMaxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
-      valueMinBackgroundWidth: 0, // {number} min width for the value display's background
-      valueXMargin: 8,
-      valueYMargin: 2,
-      valueBackgroundStroke: 'lightGray',
-      valueBackgroundLineWidth: 1,
-      valueBackgroundCornerRadius: 0,
-      decimalPlaces: 0,
-      useRichText: false,
-
-      // {string} See NumberDisplay.valuePattern for additional requirements
-      valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
-
-      // arrow buttons
-      delta: 1,
-
-      // other slider options that are specific to NumberControl
-      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
-      minorTickSpacing: 0, // zero indicates no minor ticks
 
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
@@ -111,6 +76,9 @@ define( function( require ) {
       // {*|null} options propagated to NumberDisplay
       numberDisplayOptions: null,
 
+      // {*|null} options propagated to the title Text node
+      titleNodeOptions: null,
+
       // phet-io
       tandem: Tandem.required,
       phetioType: NumberControlIO,
@@ -118,44 +86,6 @@ define( function( require ) {
       // a11y
       groupFocusHighlight: true
     }, options );
-
-    // Defaults for ArrowButton
-    options.arrowButtonOptions = _.extend( {
-      scale: 0.85
-    }, options.arrowButtonOptions );
-
-    // Defaults for HSlider
-    options.sliderOptions = _.extend ( {
-
-      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
-      // all HSlider options may be used. These are the ones that NumberControl overrides:
-      trackSize: new Dimension2( 180, 3 ),
-      thumbSize: new Dimension2( 17, 34 ),
-      majorTickLength: 20,
-      minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
-    }, options.sliderOptions );
-
-    // Defaults for NumberDisplay
-    options.numberDisplayOptions = _.extend( {
-
-    }. options.numberDisplayOptions );
-
-    // highlight color for thumb defaults to a brighter version of the thumb color
-    if ( options.thumbFillEnabled && !options.thumbFillHighlighted ) {
-      // @private {Property.<Color>}
-      this.thumbFillEnabledProperty = new PaintColorProperty( options.thumbFillEnabled );
-
-      // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
-      options.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillEnabledProperty ], function( color ) {
-        return color.brighterColor();
-      } );
-    }
-
-    // constrain the slider value to the provided range and the same delta as the arrow buttons
-    options.constrainValue = options.constrainValue || function( value ) {
-      var newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      return numberRange.constrainValue( newValue );
-    };
 
     // validate options
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
@@ -168,47 +98,105 @@ define( function( require ) {
     // Make sure that general callbacks and specific callbacks aren't used in tandem.
     validateCallbacksAndSetDefault( options );
 
-    var self = this;
+    // Defaults for ArrowButton
+    var arrowButtonOptions = _.extend( {
+      scale: 0.85,
 
-    var titleNode = new Text( title, {
-      font: options.titleFont,
-      maxWidth: options.titleMaxWidth,
-      fill: options.titleFill,
-      tandem: options.tandem.createTandem( 'titleNode' )
-    } );
-
-    var numberDisplay = new NumberDisplay( numberProperty, numberRange, {
-      useRichText: options.useRichText,
-      valuePattern: options.valuePattern,
-      font: options.valueFont,
-      align: options.valueAlign,
-      decimalPlaces: options.decimalPlaces,
-      xMargin: options.valueXMargin,
-      yMargin: options.valueYMargin,
-      backgroundStroke: options.valueBackgroundStroke,
-      backgroundLineWidth: options.valueBackgroundLineWidth,
-      cornerRadius: options.valueBackgroundCornerRadius,
-      maxWidth: options.valueMaxWidth,
-      minBackgroundWidth: options.valueMinBackgroundWidth,
-      tandem: options.tandem.createTandem( 'numberDisplay' )
-    } );
+      // callbacks
+      leftStart: options.startCallback, // called when left arrow is pressed
+      leftEnd: options.endCallback, // called when left arrow is released
+      rightStart: options.startCallback, // called when right arrow is pressed
+      rightEnd: options.endCallback // called when right arrow is released
+    }, options.arrowButtonOptions );
 
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
-    assert && assert( options.arrowButtonOptions.tagName === undefined,
+    assert && assert( arrowButtonOptions.tagName === undefined,
       'NumberControl handles alternative input for arrow buttons' );
-    options.arrowButtonOptions.tagName = null;
+    arrowButtonOptions.tagName = null;
 
+    // Defaults for HSlider
+    var sliderOptions = _.extend ( {
+
+      startDrag: options.startCallback, // called when dragging starts on the slider
+      endDrag: options.endCallback, // called when dragging ends on the slider
+
+      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
+      // all HSlider options may be used. These are the ones that NumberControl overrides:
+      trackSize: new Dimension2( 180, 3 ),
+      thumbSize: new Dimension2( 17, 34 ),
+      majorTickLength: 20,
+      minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
+
+      // options.enabledProperty is used in both NumberControl and its HSlider
+      enabledProperty: options.enabledProperty,
+
+      // other slider options that are specific to NumberControl
+      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
+      minorTickSpacing: 0, // zero indicates no minor ticks
+
+      // phet-io
+      tandem: options.tandem.createTandem( 'slider' )
+    }, options.sliderOptions );
+
+    // Defaults for NumberDisplay
+    var numberDisplayOptions = _.extend( {
+      // value
+      font: new PhetFont( 12 ),
+      align: 'right',
+      valueMaxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
+      valueMinBackgroundWidth: 0, // {number} min width for the value display's background
+      xMargin: 8,
+      yMargin: 2,
+      backgroundStroke: 'lightGray',
+      backgroundLineWidth: 1,
+      cornerRadius: 0,
+      decimalPlaces: 0,
+      useRichText: false,
+
+      // {string} See NumberDisplay.valuePattern for additional requirements
+      valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
+      tandem: options.tandem.createTandem( 'numberDisplay' )
+    }, options.numberDisplayOptions );
+
+    var titleNodeOptions = _.extend( {
+      font: new PhetFont( 12 ),
+      maxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
+      fill: 'black',
+      tandem: options.tandem.createTandem( 'titleNode' )
+    }, options.titleNodeOptions );
+
+    // highlight color for thumb defaults to a brighter version of the thumb color
+    if ( sliderOptions.thumbFillEnabled && !sliderOptions.thumbFillHighlighted ) {
+      // @private {Property.<Color>}
+      this.thumbFillEnabledProperty = new PaintColorProperty( sliderOptions.thumbFillEnabled );
+
+      // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
+      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillEnabledProperty ], function( color ) {
+        return color.brighterColor();
+      } );
+    }
+    // constrain the slider value to the provided range and the same delta as the arrow buttons
+    sliderOptions.constrainValue = sliderOptions.constrainValue || function( value ) {
+      var newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+      return numberRange.constrainValue( newValue );
+    };
+
+    var self = this;
+
+    var titleNode = new Text( title, titleNodeOptions );
+
+    var numberDisplay = new NumberDisplay( numberProperty, numberRange, numberDisplayOptions );
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - options.delta;
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem.createTandem( 'leftArrowButton' ),
-      startCallback: options.leftArrowStartCallback || options.startCallback,
-      endCallback: options.leftArrowEndCallback || options.endCallback
-    }, options.arrowButtonOptions ) );
+      startCallback: arrowButtonOptions.leftStart,
+      endCallback: arrowButtonOptions.leftEnd,
+      tandem: options.tandem.createTandem( 'leftArrowButton' )
+    }, arrowButtonOptions ) );
 
     var rightArrowButton = new ArrowButton( 'right', function() {
       var value = numberProperty.get() + options.delta;
@@ -216,26 +204,16 @@ define( function( require ) {
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      tandem: options.tandem.createTandem( 'rightArrowButton' ),
-      startCallback: options.rightArrowStartCallback || options.startCallback,
-      endCallback: options.rightArrowEndCallback || options.endCallback
-    }, options.arrowButtonOptions ) );
+      startCallback: arrowButtonOptions.rightStart,
+      endCallback: arrowButtonOptions.rightEnd,
+      tandem: options.tandem.createTandem( 'rightArrowButton' )
+    }, arrowButtonOptions ) );
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
       rightArrowButton.enabled = ( value < numberRange.max );
     };
     numberProperty.link( arrowEnabledListener );
-
-    // prevent supertype options from being passed, see https://github.com/phetsims/scenery-phet/issues/255
-    var sliderOptions = _.extend( _.omit( options, Node.prototype._mutatorKeys ), {
-
-      // Use these more general callback options, because the same callbacks apply to the arrow buttons,
-      // where it makes no sense to call them startDrag and endDrag.
-      startDrag: options.sliderStartCallback || options.startCallback,
-      endDrag: options.sliderEndCallback || options.endCallback,
-      tandem: options.tandem.createTandem( 'slider' )
-    } );
 
     // NumberControl uses the AccessibleSlider trait, so don't include any accessibility on the slider
     sliderOptions.isAccessible = false;
@@ -249,18 +227,18 @@ define( function( require ) {
     var slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
     // major ticks
-    var majorTicks = options.majorTicks;
+    var majorTicks = sliderOptions.majorTicks;
     for ( var i = 0; i < majorTicks.length; i++ ) {
       slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
 
     // minor ticks, exclude values where we already have major ticks
-    if ( options.minorTickSpacing > 0 ) {
+    if ( sliderOptions.minorTickSpacing > 0 ) {
       for ( var minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
         if ( !_.find( majorTicks, function( majorTick ) { return majorTick.value === minorTickValue; } ) ) {
           slider.addMinorTick( minorTickValue );
         }
-        minorTickValue += options.minorTickSpacing;
+        minorTickValue += sliderOptions.minorTickSpacing;
       }
     }
 
@@ -324,33 +302,41 @@ define( function( require ) {
    * @param {Object} options
    */
   function validateCallbacksAndSetDefault( options ) {
-
     var normalCallbacksPresent = !!( options.startCallback || options.endCallback );
-    var callbackKeySet = new Set( [ 'startDrag', 'endDrag', 'startCallback', 'endCallback' ] );
-    var intersection = null;
     var specificCallbacksPresent = false;
+    var arrowCallbacksPresent = false;
+    var sliderCallbacksPresent = false;
 
     if ( options.arrowButtonOptions ) {
-      var arrowSet = new Set( Object.keys( options.arrowButtonOptions ) );
-      intersection = new Set( [ ...callbackKeySet ].filter( x => arrowSet.has( x ) ) );
-      specificCallbacksPresent = intersection.size > 0;
+      arrowCallbacksPresent = callbackKeysInOptions( options.arrowButtonOptions );
     }
 
-    var specificCallbacksPresent = false;
-    SPECIFIC_COMPONENT_CALLBACK_OPTIONS.forEach( function( callbackOption ) {
-      if ( options[ callbackOption ] ) {
-        assert && assert( typeof options[ callbackOption ] === 'function', 'callback must be a function' );
-        specificCallbacksPresent = true;
-      }
-    } );
+    if ( options.sliderOptions ) {
+      sliderCallbacksPresent = callbackKeysInOptions( options.sliderOptions );
+    }
+
+    specificCallbacksPresent = arrowCallbacksPresent || sliderCallbacksPresent;
 
     // only general or component specific callbacks are supported
-    assert && assert( ( !normalCallbacksPresent && !specificCallbacksPresent ) || ( normalCallbacksPresent !== specificCallbacksPresent ),
-      'Use general callbacks like "startCallback" or specific callbacks like "sliderStartCallback" but not both.' );
+      assert && assert( !( normalCallbacksPresent && specificCallbacksPresent ),
+        'Use general callbacks like "startCallback" or specific callbacks like "sliderOptions.startDrag" but not both.' );
 
     // Set here so that we can validate above based on falsey.
     options.startCallback = options.startCallback || _.noop;
     options.endCallback = options.endCallback || _.noop;
+  }
+
+  /**
+   * Check for an intersection between the array of callback option keys and those
+   * passed in the options object.
+   *
+   * @param {Object} options
+   * @returns {boolean}
+   */
+  function callbackKeysInOptions( options ) {
+    var optionKeys = Object.keys( options );
+    var intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => optionKeys.includes( x ) );
+    return intersection.length > 0;
   }
 
   sceneryPhet.register( 'NumberControl', NumberControl );
@@ -389,10 +375,11 @@ define( function( require ) {
         tickLabelFont: new PhetFont( 12 )
       }, options );
 
-      options.majorTicks = [
-        { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
-        { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
-      ];
+      options.sliderOptions = _.extend( {
+        majorTicks: [
+          { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
+          { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
+      ] }, options.sliderOptions );
 
       return new NumberControl( label, property, range, options );
     },
