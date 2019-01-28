@@ -53,6 +53,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   var NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -121,6 +122,7 @@ define( function( require ) {
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
+      { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
       { label: 'NumberPicker', createNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
@@ -772,6 +774,34 @@ define( function( require ) {
 
     return new Node( {
       children: [ greenCircle, redCircle, wireNode ], // wireNode on top, so we can see it fully
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for NumberDisplay
+  const demoNumberDisplay = function( layoutBounds ) {
+
+    const range = new Range( 0, 1000 );
+
+    const numberDisplayOptions = {
+      valuePattern: '{{value}} K',
+      align: 'right'
+    };
+
+    // To demonstrate numeric value display
+    const property = new NumberProperty( 1 );
+    const numberDisplay1 = new NumberDisplay( property, range, numberDisplayOptions );
+    const slider = new HSlider( property, range );
+
+    // To demonstrate 'no value' options
+    const numberDisplay2 = new NumberDisplay( new Property( null ), range, _.extend( {}, numberDisplayOptions, {
+      noValueAlign: 'center',
+      noValuePattern: '{{value}}'
+    } ) );
+
+    return new VBox( {
+      spacing: 40,
+      children: [ numberDisplay1, numberDisplay2, slider ],
       center: layoutBounds.center
     } );
   };

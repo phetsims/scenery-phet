@@ -22,7 +22,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
-  // valid values for options.align
+  // valid values for options.align and options.noValueAlign
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
   var NUMBERED_PLACEHOLDER = '{0}';
   var NAMED_PLACEHOLDER = '{{value}}';
@@ -57,14 +57,25 @@ define( function( require ) {
 
       // string that is displayed when numberProperty.value is null
       noValueString: MathSymbols.NO_VALUE,
+      noValueAlign: null, // {string|null} see ALIGN_VALUES. If null, defaults to options.align
+      noValuePattern: null, // {string|null} If null, defaults to options.valuePattern
 
       // phet-io
       tandem: Tandem.optional,
       phetioType: NumberDisplayIO
     }, options );
 
+    // Set defaults
+    if ( !options.noValueAlign ) {
+      options.noValueAlign = options.align;
+    }
+    if ( !options.noValuePattern ) {
+      options.noValuePattern = options.valuePattern;
+    }
+
     // validate options
     assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
+    assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
 
     // Support numbered (old-style) placeholders by replacing '{0}' with '{{value}}'.
     // See https://github.com/phetsims/scenery-phet/issues/446
@@ -106,16 +117,20 @@ define( function( require ) {
     // display the value
     var numberObserver = function( value ) {
 
+      const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
+      const stringValue = ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces );
+      const align = ( value === null ) ? options.noValueAlign : options.align;
+
       // update the value
-      self.valueNode.text = StringUtils.fillIn( options.valuePattern, {
-        value: ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces )
+      self.valueNode.text = StringUtils.fillIn( valuePattern, {
+        value: stringValue
       } );
 
       // horizontally align value in background
-      if ( options.align === 'center' ) {
+      if ( align === 'center' ) {
         self.valueNode.centerX = self.backgroundNode.centerX;
       }
-      else if ( options.align === 'left' ) {
+      else if ( align === 'left' ) {
         self.valueNode.left = self.backgroundNode.left + options.xMargin;
       }
       else { // right
