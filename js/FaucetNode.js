@@ -32,6 +32,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -92,7 +93,7 @@ define( function( require ) {
 
       tandem: Tandem.required,
       phetioType: FaucetNodeIO,
-      phetioEventType: 'user'
+      phetioEventType: PhetioObject.EventType.USER
     }, options );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );

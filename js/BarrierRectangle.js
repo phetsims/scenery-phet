@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var FireListener = require( 'SCENERY/listeners/FireListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -29,7 +30,7 @@ define( function( require ) {
       phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioState: false,
-      phetioEventType: 'user'
+      phetioEventType: PhetioObject.EventType.USER
     }, options );
 
     Plane.call( this );
