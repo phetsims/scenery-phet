@@ -201,5 +201,8 @@ define( function( require ) {
   // @public @static
   NumberDisplay.DEFAULT_VALUE_PATTERN = DEFAULT_VALUE_PATTERN;
 
+  // @public @static Use this only if you need to change some other placeholder to NAMED_PLACEHOLDER.
+  NumberDisplay.NAMED_PLACEHOLDER = NAMED_PLACEHOLDER;
+
   return NumberDisplay;
 } );
