@@ -105,7 +105,9 @@ define( function( require ) {
       else {
         assert && assert( false, 'This type of Key is not supported Number Keypad' );
       }
-      this.validateAndUpdate( newArray );
+
+      // Validate and update the keys
+      this.validate( newArray ) && this.update( newArray );
     },
 
     /**

@@ -91,32 +91,62 @@ define( function( require ) {
      * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
      * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
      * @protected
+     *
+     * @returns boolean
      */
-    validateAndUpdate: function( proposedKeys ) {
+    validateKeys: function( proposedKeys ) {
 
       // if alternative validation is provided it is called here
       if ( this.alternativeValidator ) {
-        if ( this.alternativeValidator( proposedKeys ) ) {
-          this.accumulatedKeysProperty.set( proposedKeys );
-        }
+        return this.alternativeValidator( proposedKeys );
       }
       else {
-
-        // default validation for the accumulator
-        if ( this.defaultValidator( proposedKeys ) ) {
+        if ( this.additionalValidator ) {
 
           // if additional validation is provided it is called here
-          if ( this.additionalValidator ) {
-            if ( this.additionalValidator( proposedKeys ) ) {
-              this.accumulatedKeysProperty.set( proposedKeys );
-            }
-          }
-          else {
-            this.accumulatedKeysProperty.set( proposedKeys );
-          }
+          return this.defaultValidator( proposedKeys ) && this.additionalValidator( proposedKeys );
+        }
+        else {
+          // default validation for the accumulator
+          return this.defaultValidator( proposedKeys );
         }
       }
+
     },
+    /**
+     * update the property that represents the accumulated keys
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys
+     * @protected
+     */
+    updateKeys: function( proposedKeys ) {
+      this.accumulatedKeysProperty.set( proposedKeys );
+    },
+    // TODO: Remove after changes are complete. See https://github.com/phetsims/scenery-phet/issues/283
+    // validateAndUpdate: function( proposedKeys ) {
+    //
+    //   // if alternative validation is provided it is called here
+    //   if ( this.alternativeValidator ) {
+    //     if ( this.alternativeValidator( proposedKeys ) ) {
+    //       this.accumulatedKeysProperty.set( proposedKeys );
+    //     }
+    //   }
+    //   else {
+    //
+    //     // default validation for the accumulator
+    //     if ( this.defaultValidator( proposedKeys ) ) {
+    //
+    //       // if additional validation is provided it is called here
+    //       if ( this.additionalValidator ) {
+    //         if ( this.additionalValidator( proposedKeys ) ) {
+    //           this.accumulatedKeysProperty.set( proposedKeys );
+    //         }
+    //       }
+    //       else {
+    //         this.accumulatedKeysProperty.set( proposedKeys );
+    //       }
+    //     }
+    //   }
+    // },
 
     /**
      * default validation, must be overridden in sub-types
@@ -161,7 +191,7 @@ define( function( require ) {
      * Cleans up references.
      * @public
      */
-    dispose: function(){
+    dispose: function() {
       this.accumulatedKeysProperty.dispose();
     }
   } );
