@@ -19,22 +19,27 @@ define( function( require ) {
   // var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   // var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
   // var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  // var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
+  // var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   // var RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
   // var Range = require( 'DOT/Range' );
   // var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
   // var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  // var RoundButtonView = require( 'SUN/buttons/RoundButtonView' );
   // var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
   // var Text = require( 'SCENERY/nodes/Text' );
   // var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
   // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
   // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+
+  // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
 
   function ComponentHolder( createFunction ) {
     var self = this;
@@ -46,7 +51,7 @@ define( function( require ) {
     };
   }
 
-  var booleanProperty = new Property( false );
+  var booleanProperty = new BooleanProperty( false );
   // var numberProperty = new Property( 1 );
   // var waveLengthProperty = new Property( 400 );
 
@@ -100,8 +105,13 @@ define( function( require ) {
     // new ComponentHolder( function() {
     //   return new RewindButton();
     // } )
+    // new ComponentHolder( function() {
+    //   var pushButtonModel = new PushButtonModel();
+    //   var pushButtonInteractionStateProperty = new PushButtonInteractionStateProperty( pushButtonModel );
+    //   return new RoundButtonView( pushButtonModel, pushButtonInteractionStateProperty );
+    // } ),
     new ComponentHolder( function() {
-      return new SoundToggleButton( booleanProperty );
+      return new TimerToggleButton( booleanProperty );
     } )
     // new ComponentHolder( function() {
     //   return new RoundStickyToggleButton(
