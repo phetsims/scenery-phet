@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
-  const timer = require( 'PHET_CORE/timer' );
+  const timer = require( 'AXON/timer' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
