@@ -36,7 +36,7 @@ define( require => {
   const AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   const Emitter = require( 'AXON/Emitter' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const timer = require( 'PHET_CORE/timer' );
+  const timer = require( 'AXON/timer' );
 
   // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
   const DEFAULT_WITH_CLEAR = true;

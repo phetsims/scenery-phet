@@ -24,7 +24,7 @@ define( require => {
   const PhetioObject = require( 'TANDEM/PhetioObject' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const timer = require( 'PHET_CORE/timer' );
+  const timer = require( 'AXON/timer' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 

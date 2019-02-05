@@ -49,7 +49,8 @@ define( function( require ) {
     TOTAL_ENERGY: new Color( 180, 180, 0 ),
     TOTAL_FORCE: DARK_GREEN,
     VELOCITY: RED_COLORBLIND,
-    WALL_FORCE: new Color( 153, 51, 0 )
+    WALL_FORCE: new Color( 153, 51, 0 ),
+    SCREEN_ICON_FRAME: '#dddddd'
   };
 
   sceneryPhet.register( 'PhetColorScheme', PhetColorScheme );
