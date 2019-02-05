@@ -204,5 +204,8 @@ define( function( require ) {
   // @public @static Use this only if you need to change some other placeholder to NAMED_PLACEHOLDER.
   NumberDisplay.NAMED_PLACEHOLDER = NAMED_PLACEHOLDER;
 
+  // @public @static Use this only if you're creating a valuePattern using StringUtils.format
+  NumberDisplay.NUMBERED_PLACEHOLDER = NUMBERED_PLACEHOLDER;
+
   return NumberDisplay;
 } );
