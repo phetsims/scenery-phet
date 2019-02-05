@@ -24,9 +24,6 @@ define( function( require ) {
 
   // valid values for options.align and options.noValueAlign
   var ALIGN_VALUES = [ 'center', 'left', 'right' ];
-  var NUMBERED_PLACEHOLDER = '{0}';
-  var NAMED_PLACEHOLDER = '{{value}}';
-  var DEFAULT_VALUE_PATTERN = NAMED_PLACEHOLDER;
 
   /**
    * @param {Property.<number|null>} numberProperty
@@ -41,7 +38,7 @@ define( function( require ) {
 
       // {string} Pattern used to format the value. Must contain '{{value}}' or '{0}'.
       // If you want units or other verbiage, add them to the pattern, e.g. '{{value}} L'
-      valuePattern: DEFAULT_VALUE_PATTERN,
+      valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
       useRichText: false,
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
@@ -79,8 +76,8 @@ define( function( require ) {
 
     // Support numbered (old-style) placeholders by replacing '{0}' with '{{value}}'.
     // See https://github.com/phetsims/scenery-phet/issues/446
-    if ( options.valuePattern.indexOf( NUMBERED_PLACEHOLDER ) !== -1 ) {
-      options.valuePattern = StringUtils.format( options.valuePattern, NAMED_PLACEHOLDER );
+    if ( options.valuePattern.indexOf( NumberDisplay.NUMBERED_PLACEHOLDER ) !== -1 ) {
+      options.valuePattern = StringUtils.format( options.valuePattern, NumberDisplay.NAMED_PLACEHOLDER );
     }
 
     var self = this;
@@ -198,14 +195,24 @@ define( function( require ) {
     set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
   } );
 
+  /**
+   * Use this only if you need to change some other placeholder to NAMED_PLACEHOLDER. E.g.:
+   * valueFormat: StringUtils.fillIn( '{{voltage}} V', { voltage: NumberDisplay.NAMED_PLACEHOLDER } );
+   * @public
+   * @static
+   */
+  NumberDisplay.NAMED_PLACEHOLDER = '{{value}}';
+
+  /**
+   * Use this only if you're creating options.valueFormat, and are stuck with using StringUtils.format. E.g.:
+   * valueFormat: StringUtils.format( '{0} {1}', NumberDisplay.NUMBERED_PLACEHOLDER, 'V' );
+   * @public
+   * @static
+   */
+  NumberDisplay.NUMBERED_PLACEHOLDER = '{0}';
+
   // @public @static
-  NumberDisplay.DEFAULT_VALUE_PATTERN = DEFAULT_VALUE_PATTERN;
-
-  // @public @static Use this only if you need to change some other placeholder to NAMED_PLACEHOLDER.
-  NumberDisplay.NAMED_PLACEHOLDER = NAMED_PLACEHOLDER;
-
-  // @public @static Use this only if you're creating a valuePattern using StringUtils.format
-  NumberDisplay.NUMBERED_PLACEHOLDER = NUMBERED_PLACEHOLDER;
+  NumberDisplay.DEFAULT_VALUE_PATTERN = NumberDisplay.NAMED_PLACEHOLDER;
 
   return NumberDisplay;
 } );
