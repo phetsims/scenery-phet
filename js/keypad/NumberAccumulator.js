@@ -107,7 +107,7 @@ define( function( require ) {
       }
 
       // Validate and update the keys
-      this.validate( newArray ) && this.update( newArray );
+      this.validateKeys( newArray ) && this.updateKeys( newArray );
     },
 
     /**
