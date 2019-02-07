@@ -156,6 +156,8 @@ define( function( require ) {
 
       // {string} See NumberDisplay.valuePattern for additional requirements
       valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
+
+      // phet-io
       tandem: options.tandem.createTandem( 'numberDisplay' )
     }, options.numberDisplayOptions );
 
