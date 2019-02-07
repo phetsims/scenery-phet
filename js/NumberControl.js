@@ -46,7 +46,7 @@ define( function( require ) {
    * @param {string} title
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
-   * @param {Object} [options]
+   * @param {Object} [options] - subcomponent objects: sliderOptions, numberDisplayOptions, arrowButtonOptions, titleNodeOptions
    * @mixes AccessibleSlider
    * @constructor
    */
@@ -143,16 +143,7 @@ define( function( require ) {
     var numberDisplayOptions = _.extend( {
       // value
       font: new PhetFont( 12 ),
-      align: 'right',
-      valueMaxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
-      valueMinBackgroundWidth: 0, // {number} min width for the value display's background
-      xMargin: 8,
-      yMargin: 2,
-      backgroundStroke: 'lightGray',
-      backgroundLineWidth: 1,
-      cornerRadius: 0,
-      decimalPlaces: 0,
-      useRichText: false,
+      maxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
 
       // phet-io
       tandem: options.tandem.createTandem( 'numberDisplay' )
@@ -186,6 +177,7 @@ define( function( require ) {
     var titleNode = new Text( title, titleNodeOptions );
 
     var numberDisplay = new NumberDisplay( numberProperty, numberRange, numberDisplayOptions );
+
     var leftArrowButton = new ArrowButton( 'left', function() {
       var value = numberProperty.get() - options.delta;
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
