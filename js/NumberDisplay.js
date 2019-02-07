@@ -18,6 +18,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var SunConstants = require( 'SUN/SunConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -36,9 +37,9 @@ define( function( require ) {
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
 
-      // {string} Pattern used to format the value. Must contain '{{value}}' or '{0}'.
-      // If you want units or other verbiage, add them to the pattern, e.g. '{{value}} L'
-      valuePattern: NumberDisplay.NAMED_PLACEHOLDER,
+      // {string} Pattern used to format the value.
+      // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
+      valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
       useRichText: false,
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
@@ -62,23 +63,27 @@ define( function( require ) {
       phetioType: NumberDisplayIO
     }, options );
 
-    // Set defaults
+    // Set default alignments and validate
+    assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
     if ( !options.noValueAlign ) {
       options.noValueAlign = options.align;
     }
+    assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
+
+    // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
+    // See https://github.com/phetsims/scenery-phet/issues/446
+    if ( options.valuePattern.indexOf( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) !== -1 ) {
+      options.valuePattern = StringUtils.format( options.valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
+    }
+    assert && assert( options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+      'missing value placeholder in options.valuePattern: ' + options.valuePattern );
+
+    // Set default and validate
     if ( !options.noValuePattern ) {
       options.noValuePattern = options.valuePattern;
     }
-
-    // validate options
-    assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
-    assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
-
-    // Support numbered (old-style) placeholders by replacing '{0}' with '{{value}}'.
-    // See https://github.com/phetsims/scenery-phet/issues/446
-    if ( options.valuePattern.indexOf( NumberDisplay.NUMBERED_PLACEHOLDER ) !== -1 ) {
-      options.valuePattern = StringUtils.format( options.valuePattern, NumberDisplay.NAMED_PLACEHOLDER );
-    }
+    assert && assert( options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+      'missing value placeholder in options.noValuePattern: ' + options.noValuePattern );
 
     var self = this;
 
@@ -146,7 +151,7 @@ define( function( require ) {
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
 
-  inherit( Node, NumberDisplay, {
+  return inherit( Node, NumberDisplay, {
 
     // @public
     dispose: function() {
@@ -194,22 +199,4 @@ define( function( require ) {
     },
     set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
   } );
-
-  /**
-   * Use this only if you need to change some other placeholder to NAMED_PLACEHOLDER. E.g.:
-   * valueFormat: StringUtils.fillIn( '{{voltage}} V', { voltage: NumberDisplay.NAMED_PLACEHOLDER } );
-   * @public
-   * @static
-   */
-  NumberDisplay.NAMED_PLACEHOLDER = '{{value}}';
-
-  /**
-   * Use this only if you're creating options.valueFormat, and are stuck with using StringUtils.format. E.g.:
-   * valueFormat: StringUtils.format( '{0} {1}', NumberDisplay.NUMBERED_PLACEHOLDER, 'V' );
-   * @public
-   * @static
-   */
-  NumberDisplay.NUMBERED_PLACEHOLDER = '{0}';
-
-  return NumberDisplay;
 } );
