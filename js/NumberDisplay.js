@@ -38,7 +38,7 @@ define( function( require ) {
 
       // {string} Pattern used to format the value. Must contain '{{value}}' or '{0}'.
       // If you want units or other verbiage, add them to the pattern, e.g. '{{value}} L'
-      valuePattern: NumberDisplay.DEFAULT_VALUE_PATTERN,
+      valuePattern: NumberDisplay.NAMED_PLACEHOLDER,
       useRichText: false,
       font: new PhetFont( 20 ),
       decimalPlaces: 0,
@@ -210,9 +210,6 @@ define( function( require ) {
    * @static
    */
   NumberDisplay.NUMBERED_PLACEHOLDER = '{0}';
-
-  // @public @static
-  NumberDisplay.DEFAULT_VALUE_PATTERN = NumberDisplay.NAMED_PLACEHOLDER;
 
   return NumberDisplay;
 } );
