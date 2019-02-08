@@ -96,22 +96,22 @@ define( function( require ) {
      */
     validateKeys: function( proposedKeys ) {
 
-      // if alternative validation is provided it is called here
+      let valid = true;
+
+      // alternativeValidator overrides defaultValidator
       if ( this.alternativeValidator ) {
-        return this.alternativeValidator( proposedKeys );
+        valid = this.alternativeValidator( proposedKeys );
       }
       else {
-        if ( this.additionalValidator ) {
-
-          // if additional validation is provided it is called here
-          return this.defaultValidator( proposedKeys ) && this.additionalValidator( proposedKeys );
-        }
-        else {
-          // default validation for the accumulator
-          return this.defaultValidator( proposedKeys );
-        }
+        valid = this.defaultValidator( proposedKeys );
       }
 
+      // If additional validation is provided, do it here.
+      if ( valid && this.additionalValidator ) {
+        valid = this.additionalValidator( proposedKeys );
+      }
+
+      return valid;
     },
     /**
      * update the property that represents the accumulated keys
