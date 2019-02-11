@@ -69,6 +69,8 @@ define( function( require ) {
       );
     };
 
+    AbstractKeyAccumulator.call( this, this.defaultValidator, options );
+
     // @public (read-only) - string representation of the keys entered by the user
     this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ) {
       return self.keysToString( accumulatedKeys );
@@ -79,7 +81,6 @@ define( function( require ) {
       return self.stringToInteger( stringValue );
     } );
 
-    AbstractKeyAccumulator.call( this, this.defaultValidator, options );
   }
 
   sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
