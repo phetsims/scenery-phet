@@ -26,21 +26,11 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // a function that, if non-null, is used instead of the default validation function to validate the user input
-      // type spec: alternativeValidator(Array.<KeyID>) { return true/false }
-      alternativeValidator: null,
-
       // a function that, if non-null, is used in addition to the default validation function to validate the user input
       // type spec: additionalValidator(Array.<KeyID>) { return true/false }
       additionalValidator: null
 
     }, options );
-
-    // option validation
-    assert && assert(
-      !( this.additionalValidator && this.alternativeValidator ),
-      'Cannot provide additional and alternative validation simultaneously'
-    );
 
     // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
     this.accumulatedKeysProperty = new Property( [] );
@@ -50,9 +40,6 @@ define( function( require ) {
 
     // @private {function|null}
     this.additionalValidator = options.additionalValidator;
-
-    // @private {function|null}
-    this.alternativeValidator = options.alternativeValidator;
 
     // @protected {function}
     this.defaultValidator = defaultValidator;
@@ -78,7 +65,9 @@ define( function( require ) {
     setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
       this._clearOnNextKeyPress = clearOnNextKeyPress;
     },
-    set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
+    set clearOnNextKeyPress( value ) {
+      this.setClearOnNextKeyPress( value );
+    },
 
     /**
      * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
@@ -89,7 +78,9 @@ define( function( require ) {
     getClearOnNextKeyPress: function() {
       return this._clearOnNextKeyPress;
     },
-    get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); },
+    get clearOnNextKeyPress() {
+      return this.getClearOnNextKeyPress();
+    },
 
     /**
      * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
@@ -100,17 +91,10 @@ define( function( require ) {
      */
     validateKeys: function( proposedKeys ) {
 
-      let valid = true;
+      // default validation
+      var valid = this.defaultValidator( proposedKeys );
 
-      // alternativeValidator overrides defaultValidator
-      if ( this.alternativeValidator ) {
-        valid = this.alternativeValidator( proposedKeys );
-      }
-      else {
-        valid = this.defaultValidator( proposedKeys );
-      }
-
-      // If additional validation is provided, do it here.
+      // If provided additional (optional) validation.
       if ( valid && this.additionalValidator ) {
         valid = this.additionalValidator( proposedKeys );
       }
