@@ -215,6 +215,14 @@ define( function( require ) {
      */
     temperatureToHeight: function( temp ) {
       return this.temperatureLinearFunction( temp );
+    },
+
+    /**
+     * Get temperature at height to allow temperature thumb mapping
+     * @public
+     */
+    heightToTemperature: function( height ) {
+      return this.temperatureLinearFunction.inverse( height );
     }
   } );
 } );
