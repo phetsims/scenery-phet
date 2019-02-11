@@ -17,10 +17,11 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
+   * @param {function} defaultValidator
    * @param {Object} [options]
    * @constructor
    */
-  function AbstractKeyAccumulator( options ) {
+  function AbstractKeyAccumulator( defaultValidator, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
@@ -51,7 +52,10 @@ define( function( require ) {
     this.additionalValidator = options.additionalValidator;
 
     // @private {function|null}
-    this.alternativeValidator = options.alternativeValidator; // @private
+    this.alternativeValidator = options.alternativeValidator;
+
+    // @protected {function}
+    this.defaultValidator = defaultValidator;
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -147,17 +151,6 @@ define( function( require ) {
     //     }
     //   }
     // },
-
-    /**
-     * default validation, must be overridden in sub-types
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys to be validated
-     * @returns {boolean}
-     * @protected
-     * @abstract
-     */
-    defaultValidator: function( proposedKeys ) {
-      throw new Error( 'abstract function must be implemented by subtypes' );
-    },
 
     /**
      * Called by the key accumulator when this key is pressed.
