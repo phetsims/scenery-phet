@@ -8,7 +8,7 @@
  * controlled by a color picker.
  *
  * ColorProfile will take an object map ({string} color name => {Object} profile map) and will create a
- * {Property<Color>} for each, that will change based on the color profile's profileNameProperty's current value.
+ * {Property.<Color>} for each, that will change based on the color profile's profileNameProperty's current value.
  *
  * For example:
  *

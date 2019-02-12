@@ -17,29 +17,20 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
+   * @param {function} defaultValidator
    * @param {Object} [options]
    * @constructor
    */
-  function AbstractKeyAccumulator( options ) {
+  function AbstractKeyAccumulator( defaultValidator, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
-
-      // a function that, if non-null, is used instead of the default validation function to validate the user input
-      // type spec: alternativeValidator(Array.<KeyID>) { return true/false }
-      alternativeValidator: null,
 
       // a function that, if non-null, is used in addition to the default validation function to validate the user input
       // type spec: additionalValidator(Array.<KeyID>) { return true/false }
       additionalValidator: null
 
     }, options );
-
-    // option validation
-    assert && assert(
-      !( this.additionalValidator && this.alternativeValidator ),
-      'Cannot provide additional and alternative validation simultaneously'
-    );
 
     // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
     this.accumulatedKeysProperty = new Property( [] );
@@ -50,8 +41,8 @@ define( function( require ) {
     // @private {function|null}
     this.additionalValidator = options.additionalValidator;
 
-    // @private {function|null}
-    this.alternativeValidator = options.alternativeValidator; // @private
+    // @protected {function}
+    this.defaultValidator = defaultValidator;
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -74,7 +65,9 @@ define( function( require ) {
     setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
       this._clearOnNextKeyPress = clearOnNextKeyPress;
     },
-    set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); },
+    set clearOnNextKeyPress( value ) {
+      this.setClearOnNextKeyPress( value );
+    },
 
     /**
      * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
@@ -85,7 +78,9 @@ define( function( require ) {
     getClearOnNextKeyPress: function() {
       return this._clearOnNextKeyPress;
     },
-    get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); },
+    get clearOnNextKeyPress() {
+      return this.getClearOnNextKeyPress();
+    },
 
     /**
      * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
@@ -96,22 +91,15 @@ define( function( require ) {
      */
     validateKeys: function( proposedKeys ) {
 
-      // if alternative validation is provided it is called here
-      if ( this.alternativeValidator ) {
-        return this.alternativeValidator( proposedKeys );
-      }
-      else {
-        if ( this.additionalValidator ) {
+      // default validation
+      var valid = this.defaultValidator( proposedKeys );
 
-          // if additional validation is provided it is called here
-          return this.defaultValidator( proposedKeys ) && this.additionalValidator( proposedKeys );
-        }
-        else {
-          // default validation for the accumulator
-          return this.defaultValidator( proposedKeys );
-        }
+      // If provided additional (optional) validation.
+      if ( valid && this.additionalValidator ) {
+        valid = this.additionalValidator( proposedKeys );
       }
 
+      return valid;
     },
     /**
      * update the property that represents the accumulated keys
@@ -147,17 +135,6 @@ define( function( require ) {
     //     }
     //   }
     // },
-
-    /**
-     * default validation, must be overridden in sub-types
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys to be validated
-     * @returns {boolean}
-     * @protected
-     * @abstract
-     */
-    defaultValidator: function( proposedKeys ) {
-      throw new Error( 'abstract function must be implemented by subtypes' );
-    },
 
     /**
      * Called by the key accumulator when this key is pressed.

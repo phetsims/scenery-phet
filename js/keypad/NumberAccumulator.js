@@ -43,18 +43,33 @@ define( function( require ) {
 
     // range check the options
     assert && assert(
-      options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
+    options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
       'maxDigits out of range: ' + options.maxDigits
     );
     assert && assert(
-      options.maxDigitsRightOfMantissa >= 0 && options.maxDigitsRightOfMantissa <= options.maxDigits,
+    options.maxDigitsRightOfMantissa >= 0 && options.maxDigitsRightOfMantissa <= options.maxDigits,
       'maxDigitsRightOfMantissa is out of range: ' + options.maxDigitsRightOfMantissa
     );
 
-    AbstractKeyAccumulator.call( this, options );
-
     this.maxDigitsRightOfMantissa = options.maxDigitsRightOfMantissa; // @private
     this.maxDigits = options.maxDigits; // @private
+
+    /**
+     * validate a proposed set of keys
+     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
+     * @returns {boolean}
+     * @protected
+     * @override
+     */
+    this.defaultValidator = function( proposedKeys ) {
+      return ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits
+               && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits
+               && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
+               && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa
+      );
+    };
+
+    AbstractKeyAccumulator.call( this, this.defaultValidator, options );
 
     // @public (read-only) - string representation of the keys entered by the user
     this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ) {
@@ -65,6 +80,7 @@ define( function( require ) {
     this.valueProperty = new DerivedProperty( [ this.stringProperty ], function( stringValue ) {
       return self.stringToInteger( stringValue );
     } );
+
   }
 
   sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
@@ -122,21 +138,6 @@ define( function( require ) {
     },
 
     /**
-     * validate a proposed set of keys
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
-     * @returns {boolean}
-     * @protected
-     * @override
-     */
-    defaultValidator: function( proposedKeys ) {
-      return ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits
-               && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits
-               && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
-               && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa
-      );
-    },
-
-    /**
      * Converts a set of keys to a string.
      * @param {Array.<KeyID>} keys
      * @returns {string}
@@ -160,7 +161,7 @@ define( function( require ) {
           returnValue = returnValue + DECIMAL_CHAR;
         }
         else {
-          
+
           // the plus/minus key should be first if present
           assert && assert( this.isDigit( keys[ i ] ), 'unexpected key type' );
           returnValue = returnValue + keys[ i ];
@@ -282,7 +283,7 @@ define( function( require ) {
      * Cleans up references.
      * @public
      */
-    dispose: function(){
+    dispose: function() {
       this.valueProperty.dispose();
       this.stringProperty.dispose();
       AbstractKeyAccumulator.prototype.dispose.call( this );
