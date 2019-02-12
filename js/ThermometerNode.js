@@ -174,7 +174,7 @@ define( function( require ) {
     );
 
     var temperaturePropertyObserver = function( temp ) {
-      var fluidHeight = self.temperatureToHeight( temp );
+      var fluidHeight = self.temperatureToYPos( temp );
       tubeFluidNode.visible = ( fluidHeight > 0 );
       tubeFluidNode.setRect(
         tubeFluidLeft,
@@ -210,19 +210,21 @@ define( function( require ) {
     },
 
     /**
-     * Get height at temperature to allow accurate tick placement
+     * Get y position at temperature to allow accurate tick placement
+     * @param {number} temp - temperature at which to find y position
      * @public
      */
-    temperatureToHeight: function( temp ) {
+    temperatureToYPos: function( temp ) {
       return this.temperatureLinearFunction( temp );
     },
 
     /**
-     * Get temperature at height to allow temperature thumb mapping
+     * Get temperature at y position to allow temperature thumb mapping
+     * @param {number} y - y position on thermometer node
      * @public
      */
-    heightToTemperature: function( height ) {
-      return this.temperatureLinearFunction.inverse( height );
+    yPosToTemperature: function( y ) {
+      return this.temperatureLinearFunction.inverse( y );
     }
   } );
 } );
