@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * A type of spinner UI component that supports 'fine' and 'coarse' changes to a numeric value.

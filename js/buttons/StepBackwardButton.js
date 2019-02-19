@@ -21,8 +21,12 @@ define( function( require ) {
   function StepBackwardButton( options ) {
     Tandem.indicateUninstrumentedCode();
 
-    assert && assert( !options.direction, 'options.direction must be omitted for StepBackwardButton' );
-    StepButton.call( this, _.extend( { direction: 'backward' }, options ) );
+    options = options || {};
+
+    assert && assert( !options.direction, 'StepBackwardButton sets direction' );
+    options.direction = 'backward';
+
+    StepButton.call( this, options );
   }
 
   sceneryPhet.register( 'StepBackwardButton', StepBackwardButton );
