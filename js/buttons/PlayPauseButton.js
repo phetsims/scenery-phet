@@ -65,16 +65,16 @@ define( function( require ) {
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
-    var runningListener = function( running ) {
+    var isPlayingListener = function( running ) {
       self.innerContent = running ? pauseString : playString;
       self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
-    isPlayingProperty.link( runningListener );
+    isPlayingProperty.link( isPlayingListener );
 
     // @private
     this.disposePlayPauseButton = function() {
-      if ( isPlayingProperty.hasListener( runningListener ) ) {
-        isPlayingProperty.unlink( runningListener );
+      if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
+        isPlayingProperty.unlink( isPlayingListener );
       }
     };
   }
