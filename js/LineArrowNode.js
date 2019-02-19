@@ -77,7 +77,7 @@ define( function( require ) {
       var vector = new Vector2( tipX - tailX, tipY - tailY );
       var xHatUnit = vector.normalized();
       var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-      var length = vector.magnitude();
+      var length = vector.magnitude;
       var getPoint = function( xHat, yHat ) {
         var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
         var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;

@@ -96,7 +96,7 @@ define( function( require ) {
         var vector = new Vector2( tipX - tailX, tipY - tailY );
         var xHatUnit = vector.normalized();
         var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-        var length = vector.magnitude();
+        var length = vector.magnitude;
 
         // scale down the head if head is dynamic.
         var headWidth = options.headWidth;
