@@ -20,8 +20,12 @@ define( function( require ) {
    */
   function StepForwardButton( options ) {
 
+    options = options || {};
+
     assert && assert( !options.direction, 'options.direction must be omitted for StepForwardButton' );
-    StepButton.call( this, _.extend( { direction: 'forward' }, options ) );
+    options.direction = 'forward';
+
+    StepButton.call( this, options );
   }
 
   sceneryPhet.register( 'StepForwardButton', StepForwardButton );
