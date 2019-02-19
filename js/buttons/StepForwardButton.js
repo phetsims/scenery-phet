@@ -22,7 +22,7 @@ define( function( require ) {
 
     options = options || {};
 
-    assert && assert( !options.direction, 'options.direction must be omitted for StepForwardButton' );
+    assert && assert( !options.direction, 'StepForwardButton sets direction' );
     options.direction = 'forward';
 
     StepButton.call( this, options );
