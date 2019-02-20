@@ -19,7 +19,6 @@ define( function( require ) {
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
@@ -53,8 +52,6 @@ define( function( require ) {
     }, options );
 
     ResetButton.call( this, options );
-
-    this.focusHighlight = new Shape().circle( 0, 0, options.radius + 5 );
 
     // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
     this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
