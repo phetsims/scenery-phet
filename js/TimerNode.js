@@ -50,8 +50,11 @@ define( function( require ) {
       xMargin: 8,
       yMargin: 8,
 
-      // The maximum value, that can be shown by the TimerNode, so it can set up the size to accommodate the largest
-      // string. Default value is set to 59 minutes and 59 seconds.
+      // {number} the maximum time value, in seconds. The timer will stop when this value is reached.
+      // When set to display time in minutes and seconds (the default for TimerReadoutNode),
+      // the largest quantity that TimerNode can display is minutes, and the smallest is 1/100 second.
+      // So the default maxValue is 59 minutes, 59.99 seconds, which is 1/100 second short of 1 hour.
+      // See https://github.com/phetsims/masses-and-springs-basics/issues/36
       maxValue: 3599.99,
 
       // Tandem is required to make sure the buttons are instrumented
