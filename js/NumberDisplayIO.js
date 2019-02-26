@@ -14,9 +14,6 @@ define( function( require ) {
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/scenery-phet's NumberDisplay class.
    * @param {NumberDisplay} numberControl
@@ -24,11 +21,11 @@ define( function( require ) {
    * @constructor
    */
   function NumberDisplayIO( numberControl, phetioID ) {
-    assert && assertInstanceOf( numberControl, phet.sceneryPhet.NumberDisplay );
     NodeIO.call( this, numberControl, phetioID );
   }
 
   phetioInherit( NodeIO, 'NumberControlIO', NumberDisplayIO, {}, {
+    validator: { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay },
     documentation: 'A numeric readout with a background'
   } );
 

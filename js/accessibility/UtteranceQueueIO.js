@@ -16,9 +16,6 @@ define( function( require ) {
   var StringIO = require( 'TANDEM/types/StringIO' );
   var VoidIO = require( 'TANDEM/types/VoidIO' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/scenery-phet's utteranceQueue
    * @param {Object} utteranceQueue
@@ -26,7 +23,6 @@ define( function( require ) {
    * @constructor
    */
   function UtteranceQueueIO( utteranceQueue, phetioID ) {
-    assert && assertInstanceOf( utteranceQueue, Object );
     ObjectIO.call( this, utteranceQueue, phetioID );
   }
 
@@ -92,7 +88,8 @@ define( function( require ) {
     }
   }, {
     documentation: 'Manages a queue of Utterances that are read in order by a screen reader.',
-    events: [ 'announced' ]
+    events: [ 'announced' ],
+    validator: { valueType: Object }
   } );
 
   sceneryPhet.register( 'UtteranceQueueIO', UtteranceQueueIO );

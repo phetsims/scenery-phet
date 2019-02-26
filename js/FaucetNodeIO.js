@@ -14,20 +14,17 @@ define( function( require ) {
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * @param {FaucetNode} faucetNode
    * @param {string} phetioID
    * @constructor
    */
   function FaucetNodeIO( faucetNode, phetioID ) {
-    assert && assertInstanceOf( faucetNode, phet.sceneryPhet.FaucetNode );
     NodeIO.call( this, faucetNode, phetioID );
   }
 
   phetioInherit( NodeIO, 'FaucetNodeIO', FaucetNodeIO, {}, {
+    validator: { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode },
     documentation: 'Faucet that emits fluid, typically user-controllable',
     events: [ 'startTapToDispense', 'endTapToDispense' ]
   } );

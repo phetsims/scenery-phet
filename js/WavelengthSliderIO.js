@@ -15,9 +15,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/scenery-phet's WavelengthSlider class.
    * @param {WavelengthSlider} slider
@@ -25,12 +22,12 @@ define( function( require ) {
    * @constructor
    */
   function WavelengthSliderIO( slider, phetioID ) {
-    assert && assertInstanceOf( slider, WavelengthSlider );
     NodeIO.call( this, slider, phetioID );
   }
 
   phetioInherit( NodeIO, 'WavelengthSliderIO', WavelengthSliderIO, {}, {
-    documentation: 'A slider that shows wavelengths for selection'
+    documentation: 'A slider that shows wavelengths for selection',
+    validator: { valueType: WavelengthSlider }
   } );
 
   sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
