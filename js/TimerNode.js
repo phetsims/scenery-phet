@@ -90,7 +90,7 @@ define( function( require ) {
 
       // {Font} - shown for the numbers after the decimal
       smallFont: DEFAULT_SMALL_FONT,
-      maxValue: options.maxValue,
+      maxValue: options.maxValue
     }, options.timerReadoutNodeOptions );
 
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
