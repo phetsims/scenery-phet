@@ -19,6 +19,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -27,6 +28,18 @@ define( function( require ) {
   var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+
+  // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
+  // https://github.com/phetsims/wave-interference/issues/239
+  var FONT_FAMILY = '"Lucida Console", Arial';
+  var DEFAULT_LARGE_FONT = new PhetFont( {
+    size: 20,
+    family: FONT_FAMILY
+  } );
+  var DEFAULT_SMALL_FONT = new PhetFont( {
+    size: 15,
+    family: FONT_FAMILY
+  } );
 
   /**
    * @param {Property.<number>} timeProperty
@@ -64,9 +77,24 @@ define( function( require ) {
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
     assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
+    options.timerReadoutNodeOptions = _.extend( {
+
+      // {null|Node} - optional node to show for the units, most likely to be a Text or RichText.  Note that showing
+      // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
+      // Initialize the TimerNode with the largest possible unitsNode to make sure the text panel is large enough.
+      // When the unitsNode bounds change, the layout will update.
+      unitsNode: null,
+
+      // {Font} - shown for the numbers before the decimal
+      largeFont: DEFAULT_LARGE_FONT,
+
+      // {Font} - shown for the numbers after the decimal
+      smallFont: DEFAULT_SMALL_FONT,
+      maxValue: options.maxValue,
+    }, options.timerReadoutNodeOptions );
+
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
-    var timerReadoutNode = new TimerReadoutNode( timeProperty, options );
-    timerReadoutNode.centerX = 0;
+    var timerReadoutNode = new TimerReadoutNode( timeProperty, options.timerReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
 
@@ -156,5 +184,10 @@ define( function( require ) {
       this.disposeTimerNode();
       Node.prototype.dispose.call( this );
     }
+  }, {
+    //statics
+    // Make the default fonts public, to inform creation of optional unitsNode
+    DEFAULT_LARGE_FONT: DEFAULT_LARGE_FONT,
+    DEFAULT_SMALL_FONT: DEFAULT_SMALL_FONT
   } );
 } );

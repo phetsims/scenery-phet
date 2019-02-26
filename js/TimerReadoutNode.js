@@ -10,25 +10,10 @@ define( require => {
 
   // modules
   const Node = require( 'SCENERY/nodes/Node' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
-
-  // constants
-
-  // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
-  // https://github.com/phetsims/wave-interference/issues/239
-  const FONT_FAMILY = '"Lucida Console", Arial';
-  const DEFAULT_LARGE_FONT = new PhetFont( {
-    size: 20,
-    family: FONT_FAMILY
-  } );
-  const DEFAULT_SMALL_FONT = new PhetFont( {
-    size: 15,
-    family: FONT_FAMILY
-  } );
 
   class TimerReadoutNode extends Rectangle {
 
@@ -37,21 +22,6 @@ define( require => {
      * @param {Object} config
      */
     constructor( timeProperty, config ) {
-
-      config = _.extend( {
-
-        // {null|Node} - optional node to show for the units, most likely to be a Text or RichText.  Note that showing
-        // units changes the mode from mm:ss.mm to ss.mm units and changes from center aligned to right aligned.
-        // Initialize the TimerNode with the largest possible unitsNode to make sure the text panel is large enough.
-        // When the unitsNode bounds change, the layout will update.
-        unitsNode: null,
-
-        // {Font} - shown for the numbers before the decimal
-        largeFont: DEFAULT_LARGE_FONT,
-
-        // {Font} - shown for the numbers after the decimal
-        smallFont: DEFAULT_SMALL_FONT
-      }, config );
 
       const unitsNode = config.unitsNode;
 
@@ -200,10 +170,6 @@ define( require => {
     }
     return '.' + centitime;
   };
-
-  // Make the default fonts public, to inform creation of optional unitsNode
-  TimerReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
-  TimerReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
 
   return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
 } );
