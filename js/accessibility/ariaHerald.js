@@ -79,7 +79,7 @@ define( require => {
       this.initialized = true;
 
       this.announcingEmitter = new Emitter( {
-        argumentTypes: [ { valueType: 'string' }, { valueType: 'boolean' } ]
+        validators: [ { valueType: 'string' }, { valueType: 'boolean' } ]
       } );
 
       // no need to be removed, exists for the lifetime of the simulation.
