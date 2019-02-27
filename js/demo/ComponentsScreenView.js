@@ -89,7 +89,7 @@ define( function( require ) {
   var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // constants
-  var emitter = new Emitter(); // allow tests to wire up to step function // TODO: move to DemosScreenView
+  var emitter = new Emitter( { validationEnabled: false } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
 
   /**
    * @param {Object} [options]
@@ -1362,7 +1362,7 @@ define( function( require ) {
 
   return inherit( DemosScreenView, ComponentsScreenView, {
     step: function( dt ) {
-      emitter.emit1( dt );
+      emitter.emit( dt );
     }
   } );
 } );

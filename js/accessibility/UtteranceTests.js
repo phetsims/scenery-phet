@@ -36,7 +36,7 @@ define( require => {
 
       // step the timer, because utteranceQueue runs on timer
       intervalID = setInterval( () => {
-        timer.emit1( 1 / 100 ); // step timer in seconds, every millisecond
+        timer.emit( 1 / 100 ); // step timer in seconds, every millisecond
       }, 10 );
 
       ariaHerald.initialize();
