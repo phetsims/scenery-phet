@@ -75,14 +75,16 @@ define( function( require ) {
     if ( options.valuePattern.indexOf( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) !== -1 ) {
       options.valuePattern = StringUtils.format( options.valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
     }
-    assert && assert( options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+    assert && assert( !!phet.chipper.queryParameters.stringTest ||
+                      options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
       'missing value placeholder in options.valuePattern: ' + options.valuePattern );
 
     // Set default and validate
     if ( !options.noValuePattern ) {
       options.noValuePattern = options.valuePattern;
     }
-    assert && assert( options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+    assert && assert( !!phet.chipper.queryParameters.stringTest ||
+                      options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
       'missing value placeholder in options.noValuePattern: ' + options.noValuePattern );
 
     var self = this;
