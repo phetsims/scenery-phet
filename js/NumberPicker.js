@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var AccessibleNumberSpinner = require( 'SUN/accessibility/AccessibleNumberSpinner' );
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -27,6 +28,7 @@ define( function( require ) {
   var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -78,11 +80,6 @@ define( function( require ) {
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
 
-      tandem: Tandem.required,
-
-      // a11y
-      a11yPageValueDelta: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
-
       /**
        * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
        * to the same value depending on external state, it is recommended to rebuild the NumberPicker when that state
@@ -113,7 +110,21 @@ define( function( require ) {
        */
       downEnabledFunction: function( value, range ) {
         return ( value !== null && value !== undefined && value > range.min );
-      }
+      },
+
+      // {BooleanProperty|null} if null, a default BooleanProperty is created
+      enabledProperty: null,
+
+      // Opacity used to indicate disabled, [0,1] exclusive
+      disabledOpacity: 0.3,
+
+      // phet-io
+      tandem: Tandem.required,
+      phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
+
+      // a11y
+      a11yPageValueDelta: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
+
     }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
@@ -126,6 +137,9 @@ define( function( require ) {
         return color.darkerColor();
       } );
     }
+
+    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
+      `invalid disabledOpacity: ${options.disabledOpacity}` );
 
     var self = this;
     Node.call( this );
@@ -153,6 +167,17 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'downEnabledProperty' ),
       phetioType: DerivedBooleanPropertyIO
     } );
+
+    // @private
+    this.enabledProperty = options.enabledProperty;
+    var ownsEnabledProperty = !this.enabledProperty;
+    if ( !this.enabledProperty ) {
+      this.enabledProperty = new BooleanProperty( true, {
+        tandem: options.tandem.createTandem( 'enabledProperty' ),
+        phetioReadOnly: options.phetioReadOnly,
+        phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.'
+      } );
+    }
 
     //------------------------------------------------------------
     // Nodes
@@ -386,6 +411,14 @@ define( function( require ) {
     this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
     this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
 
+    var enabledListener = function( enabled ) {
+      self.interruptSubtreeInput(); // cancel interaction that may be in progress
+      self.pickable = enabled;
+      self.cursor = enabled ? options.cursor : 'default';
+      self.opacity = enabled ? 1 : options.disabledOpacity;
+    };
+    self.enabledProperty.link( enabledListener );
+
     // @private
     this.disposeNumberPicker = function() {
 
@@ -395,6 +428,13 @@ define( function( require ) {
 
       if ( self.valueProperty.hasListener( self.valueObserver ) ) {
         self.valueProperty.unlink( self.valueObserver );
+      }
+
+      if ( ownsEnabledProperty ) {
+        self.enabledProperty.dispose();
+      }
+      else {
+        self.enabledProperty.unlink( enabledListener );
       }
 
       // a11y mixin
@@ -475,7 +515,23 @@ define( function( require ) {
       this.upListener.setEnabled( visible );
       this.downListener.setEnabled( visible );
       this.upArrow.visible = this.downArrow.visible = visible;
-    }
+    },
+
+    /**
+     * Sets whether the picker is enabled.
+     * @param {boolean} enabled
+     * @public
+     */
+    setEnabled: function( enabled ) { this.enabledProperty.value = enabled; },
+    set enabled( value ) { this.setEnabled( value ); },
+
+    /**
+     * Is the picker enabled?
+     * @returns {boolean}
+     * @public
+     */
+    getEnabled: function() { return this.enabledProperty.value; },
+    get enabled() { return this.getEnabled(); }
   } );
 
   // mix accessibility into NumberPicker
