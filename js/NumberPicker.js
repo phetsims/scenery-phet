@@ -419,7 +419,7 @@ define( function( require ) {
       if ( ownsEnabledProperty ) {
         self.enabledProperty.dispose();
       }
-      else {
+      else if ( self.enabledProperty.hasListener( enabledListener ) ) {
         self.enabledProperty.unlink( enabledListener );
       }
 
