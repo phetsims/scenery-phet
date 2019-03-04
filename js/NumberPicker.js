@@ -12,12 +12,10 @@ define( function( require ) {
 
   // modules
   var AccessibleNumberSpinner = require( 'SUN/accessibility/AccessibleNumberSpinner' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
@@ -37,9 +35,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-
-  // constants - factor out reusable IO types, see https://github.com/phetsims/unit-rates/issues/207
-  var DerivedBooleanPropertyIO = DerivedPropertyIO( BooleanIO );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -152,24 +147,14 @@ define( function( require ) {
 
     this.valueProperty = valueProperty; // @private must be unlinked in dispose
 
-    var upStateProperty = new StringProperty( 'up', {
-      tandem: options.tandem.createTandem( 'upStateProperty' )
-    } ); // up|down|over|out
-    var downStateProperty = new StringProperty( 'up', {
-      tandem: options.tandem.createTandem( 'downStateProperty' )
-    } ); // up|down|over|out
+    var upStateProperty = new StringProperty( 'up' ); // up|down|over|out
+    var downStateProperty = new StringProperty( 'up' ); // up|down|over|out
 
     // @private must be detached in dispose
-    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction, {
-      tandem: options.tandem.createTandem( 'upEnabledProperty' ),
-      phetioType: DerivedBooleanPropertyIO
-    } );
+    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
     // @private must be detached in dispose
-    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction, {
-      tandem: options.tandem.createTandem( 'downEnabledProperty' ),
-      phetioType: DerivedBooleanPropertyIO
-    } );
+    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
