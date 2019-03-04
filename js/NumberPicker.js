@@ -115,6 +115,9 @@ define( function( require ) {
       // {BooleanProperty|null} if null, a default BooleanProperty is created
       enabledProperty: null,
 
+      // {*|null} options passed to enabledProperty constructor, ignored if enabledProperty is provided
+      enabledPropertyOptions: null,
+
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: 0.3,
 
@@ -172,11 +175,11 @@ define( function( require ) {
     this.enabledProperty = options.enabledProperty;
     var ownsEnabledProperty = !this.enabledProperty;
     if ( !this.enabledProperty ) {
-      this.enabledProperty = new BooleanProperty( true, {
+      this.enabledProperty = new BooleanProperty( true, _.extend( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioReadOnly: options.phetioReadOnly,
         phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.'
-      } );
+      }, options.enabledPropertyOptions ) );
     }
 
     //------------------------------------------------------------
