@@ -126,12 +126,12 @@ define( function( require ) {
     }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
+    var colorProperty = null;
     if ( options.pressedColor === undefined ) {
-      // @private {Property.<Color>}
-      this.colorProperty = new PaintColorProperty( options.color ); // dispose required!
+      colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
       // No reference needs to be kept, since we dispose its dependency.
-      options.pressedColor = new DerivedProperty( [ this.colorProperty ], function( color ) {
+      options.pressedColor = new DerivedProperty( [ colorProperty ], function( color ) {
         return color.darkerColor();
       } );
     }
@@ -145,16 +145,14 @@ define( function( require ) {
     //------------------------------------------------------------
     // Properties
 
-    this.valueProperty = valueProperty; // @private must be unlinked in dispose
-
     var upStateProperty = new StringProperty( 'up' ); // up|down|over|out
     var downStateProperty = new StringProperty( 'up' ); // up|down|over|out
 
-    // @private must be detached in dispose
-    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
+    // must be disposed
+    var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
-    // @private must be detached in dispose
-    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
+    // must be disposed
+    var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
@@ -334,11 +332,11 @@ define( function( require ) {
     downParent.addInputListener( this.downListener );
 
     // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    this.upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
-    this.downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
+    upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
+    downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
 
-    // @private Update text to match the value
-    this.valueObserver = function( value ) {
+    // Update text to match the value
+    var valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -360,15 +358,15 @@ define( function( require ) {
       }
       valueNode.centerY = backgroundHeight / 2;
     };
-    this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
+    valueProperty.link( valueObserver ); // must be unlinked in dispose
 
     // @private update colors for 'up' components
-    Property.multilink( [ upStateProperty, this.upEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ upStateProperty, upEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, upBackground, self.upArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for 'down' components
-    Property.multilink( [ downStateProperty, this.downEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ downStateProperty, downEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, downBackground, self.downArrow, backgroundColors, arrowColors );
     } );
 
@@ -410,12 +408,12 @@ define( function( require ) {
     // @private
     this.disposeNumberPicker = function() {
 
-      self.colorProperty && this.colorProperty.dispose();
-      self.upEnabledProperty.dispose();
-      self.downEnabledProperty.dispose();
+      colorProperty && colorProperty.dispose();
+      upEnabledProperty.dispose();
+      downEnabledProperty.dispose();
 
-      if ( self.valueProperty.hasListener( self.valueObserver ) ) {
-        self.valueProperty.unlink( self.valueObserver );
+      if ( valueProperty.hasListener( valueObserver ) ) {
+        valueProperty.unlink( valueObserver );
       }
 
       if ( ownsEnabledProperty ) {
