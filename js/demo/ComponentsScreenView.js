@@ -283,7 +283,7 @@ define( function( require ) {
     var brightnessSlider = new HSlider( brightnessProperty, new Range( 0, 1 ), {
       trackSize: new Dimension2( 200, 5 ),
       thumbSize: new Dimension2( 25, 45 ),
-      thumbFillEnabled: 'orange',
+      thumbFill: 'orange',
       thumbFillHighlighted: 'rgb( 255, 210, 0 )',
       thumbCenterLineStroke: 'black',
       centerX: conductivityTesterNode.centerX,
@@ -1207,7 +1207,7 @@ define( function( require ) {
     var starSlider = new HSlider( starValueProperty, new Range( 0, 1 ), {
       thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'yellow',
-      thumbFillEnabled: 'rgb(220,220,0)',
+      thumbFill: 'rgb(220,220,0)',
       thumbCenterLineStroke: 'black'
     } );
 
@@ -1348,7 +1348,7 @@ define( function( require ) {
       trackSize: new Dimension2( 200, 5 ),
       thumbSize: new Dimension2( 25, 50 ),
       thumbFillHighlighted: 'red',
-      thumbFillEnabled: 'rgb(158,35,32)'
+      thumbFill: 'rgb(158,35,32)'
     } );
     temperatureSlider.rotation = -Math.PI / 2;
     temperatureSlider.right = thermometer.left - 50;

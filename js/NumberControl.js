@@ -157,12 +157,12 @@ define( function( require ) {
     }, options.titleNodeOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
-    if ( sliderOptions.thumbFillEnabled && !sliderOptions.thumbFillHighlighted ) {
+    if ( sliderOptions.thumbFill && !sliderOptions.thumbFillHighlighted ) {
       // @private {Property.<Color>}
-      this.thumbFillEnabledProperty = new PaintColorProperty( sliderOptions.thumbFillEnabled );
+      this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
-      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillEnabledProperty ], function( color ) {
+      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], function( color ) {
         return color.brighterColor();
       } );
     }
@@ -275,7 +275,7 @@ define( function( require ) {
       rightArrowButton.dispose();
       slider.dispose();
 
-      self.thumbFillEnabledProperty && self.thumbFillEnabledProperty.dispose();
+      self.thumbFillProperty && self.thumbFillProperty.dispose();
 
       numberProperty.unlink( arrowEnabledListener );
       self.enabledProperty.unlink( enabledObserver );

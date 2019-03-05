@@ -64,7 +64,7 @@ define( require => {
         thumbTouchAreaYDilation: 11, // {number}
         thumbMouseAreaXDilation: 0, // {number}
         thumbMouseAreaYDilation: 0, // {number}
-        thumbFillEnabled: '#71edff', // {Color|string|null}
+        thumbFill: '#71edff', // {Color|string|null}
         thumbFillHighlighted: '#bff7ff' // {Color|string|null}
       }, options );
 
@@ -119,7 +119,7 @@ define( require => {
           thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
           thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
           thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
-          thumbFillEnabled: options.thumbFillEnabled,
+          thumbFill: options.thumbFill,
           thumbFillHighlighted: options.thumbFillHighlighted,
           thumbCenterLineStroke: 'black',
           majorTickLength: 15,

@@ -59,7 +59,7 @@ define( function( require ) {
         decimalPlaces: 0
       },
       sliderOptions: {
-        thumbFillEnabled: 'black',
+        thumbFill: 'black',
         minorTickSpacing: 1
       }
     } );
@@ -72,7 +72,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 10,
-        thumbFillEnabled: 'black'
+        thumbFill: 'black'
       }
     } );
     var radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
@@ -84,7 +84,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 5,
-        thumbFillEnabled: 'green'
+        thumbFill: 'green'
       }
     } );
     var aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
@@ -96,7 +96,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 0.5,
-        thumbFillEnabled: 'black'
+        thumbFill: 'black'
       }
     } );
     assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
@@ -109,7 +109,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 1,
-        thumbFillEnabled: 'black',
+        thumbFill: 'black',
         majorTicks: [
           { value: ranges.phaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
           { value: ranges.phaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
@@ -127,7 +127,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 1,
-        thumbFillEnabled: 'black',
+        thumbFill: 'black',
         majorTicks: [
           { value: ranges.deltaPhaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
           { value: ranges.deltaPhaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
@@ -145,7 +145,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 1,
-        thumbFillEnabled: 'green'
+        thumbFill: 'green'
       }
     } );
     var xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
@@ -157,7 +157,7 @@ define( function( require ) {
       },
       sliderOptions: {
         minorTickSpacing: 0.5,
-        thumbFillEnabled: 'green'
+        thumbFill: 'green'
       }
     } );
 
