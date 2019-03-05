@@ -143,11 +143,15 @@ define( require => {
 
       // @private
       this.disposeFineCoarseSpinner = () => {
-        valueProperty.unlink( valuePropertyListener );
+
+        if ( valueProperty.hasListener( valuePropertyListener ) ) {
+          valueProperty.unlink( valuePropertyListener );
+        }
+        
         if ( ownsEnabledProperty ) {
           this.enabledProperty.dispose();
         }
-        else {
+        else if ( this.enabledProperty.hasListener( enabledObserver ) ) {
           this.enabledProperty.unlink( enabledObserver );
         }
 

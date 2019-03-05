@@ -12,12 +12,10 @@ define( function( require ) {
 
   // modules
   var AccessibleNumberSpinner = require( 'SUN/accessibility/AccessibleNumberSpinner' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FireOnHoldInputListener = require( 'SCENERY_PHET/buttons/FireOnHoldInputListener' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
@@ -37,9 +35,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-
-  // constants - factor out reusable IO types, see https://github.com/phetsims/unit-rates/issues/207
-  var DerivedBooleanPropertyIO = DerivedPropertyIO( BooleanIO );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -115,6 +110,9 @@ define( function( require ) {
       // {BooleanProperty|null} if null, a default BooleanProperty is created
       enabledProperty: null,
 
+      // {*|null} options passed to enabledProperty constructor, ignored if enabledProperty is provided
+      enabledPropertyOptions: null,
+
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: 0.3,
 
@@ -128,12 +126,12 @@ define( function( require ) {
     }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
+    var colorProperty = null;
     if ( options.pressedColor === undefined ) {
-      // @private {Property.<Color>}
-      this.colorProperty = new PaintColorProperty( options.color ); // dispose required!
+      colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
       // No reference needs to be kept, since we dispose its dependency.
-      options.pressedColor = new DerivedProperty( [ this.colorProperty ], function( color ) {
+      options.pressedColor = new DerivedProperty( [ colorProperty ], function( color ) {
         return color.darkerColor();
       } );
     }
@@ -147,36 +145,24 @@ define( function( require ) {
     //------------------------------------------------------------
     // Properties
 
-    this.valueProperty = valueProperty; // @private must be unlinked in dispose
+    var upStateProperty = new StringProperty( 'up' ); // up|down|over|out
+    var downStateProperty = new StringProperty( 'up' ); // up|down|over|out
 
-    var upStateProperty = new StringProperty( 'up', {
-      tandem: options.tandem.createTandem( 'upStateProperty' )
-    } ); // up|down|over|out
-    var downStateProperty = new StringProperty( 'up', {
-      tandem: options.tandem.createTandem( 'downStateProperty' )
-    } ); // up|down|over|out
+    // must be disposed
+    var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
-    // @private must be detached in dispose
-    this.upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction, {
-      tandem: options.tandem.createTandem( 'upEnabledProperty' ),
-      phetioType: DerivedBooleanPropertyIO
-    } );
-
-    // @private must be detached in dispose
-    this.downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction, {
-      tandem: options.tandem.createTandem( 'downEnabledProperty' ),
-      phetioType: DerivedBooleanPropertyIO
-    } );
+    // must be disposed
+    var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
     var ownsEnabledProperty = !this.enabledProperty;
     if ( !this.enabledProperty ) {
-      this.enabledProperty = new BooleanProperty( true, {
+      this.enabledProperty = new BooleanProperty( true, _.extend( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioReadOnly: options.phetioReadOnly,
         phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.'
-      } );
+      }, options.enabledPropertyOptions ) );
     }
 
     //------------------------------------------------------------
@@ -346,11 +332,11 @@ define( function( require ) {
     downParent.addInputListener( this.downListener );
 
     // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    this.upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
-    this.downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
+    upEnabledProperty.link( function( enabled ) { self.upListener.enabled = enabled; } );
+    downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
 
-    // @private Update text to match the value
-    this.valueObserver = function( value ) {
+    // Update text to match the value
+    var valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -372,15 +358,15 @@ define( function( require ) {
       }
       valueNode.centerY = backgroundHeight / 2;
     };
-    this.valueProperty.link( this.valueObserver ); // must be unlinked in dispose
+    valueProperty.link( valueObserver ); // must be unlinked in dispose
 
     // @private update colors for 'up' components
-    Property.multilink( [ upStateProperty, this.upEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ upStateProperty, upEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, upBackground, self.upArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for 'down' components
-    Property.multilink( [ downStateProperty, this.downEnabledProperty ], function( state, enabled ) {
+    Property.multilink( [ downStateProperty, downEnabledProperty ], function( state, enabled ) {
       updateColors( state, enabled, downBackground, self.downArrow, backgroundColors, arrowColors );
     } );
 
@@ -422,18 +408,18 @@ define( function( require ) {
     // @private
     this.disposeNumberPicker = function() {
 
-      self.colorProperty && this.colorProperty.dispose();
-      self.upEnabledProperty.dispose();
-      self.downEnabledProperty.dispose();
+      colorProperty && colorProperty.dispose();
+      upEnabledProperty.dispose();
+      downEnabledProperty.dispose();
 
-      if ( self.valueProperty.hasListener( self.valueObserver ) ) {
-        self.valueProperty.unlink( self.valueObserver );
+      if ( valueProperty.hasListener( valueObserver ) ) {
+        valueProperty.unlink( valueObserver );
       }
 
       if ( ownsEnabledProperty ) {
         self.enabledProperty.dispose();
       }
-      else {
+      else if ( self.enabledProperty.hasListener( enabledListener ) ) {
         self.enabledProperty.unlink( enabledListener );
       }
 
