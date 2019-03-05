@@ -35,13 +35,14 @@ define( function( require ) {
 
     Plane.call( this );
 
-    modalNodeStack.lengthProperty.link( function( numBarriers ) {
-      self.visible = numBarriers > 0;
-    } );
+    const lengthListener = function( numberOfBarriers ) {
+      self.visible = numberOfBarriers > 0;
+    };
+    modalNodeStack.lengthProperty.link( lengthListener );
 
     this.addInputListener( new FireListener( {
       tandem: options.tandem.createTandem( 'inputListener' ),
-      fire: function( event ) {
+      fire: function() {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
       }
@@ -49,7 +50,7 @@ define( function( require ) {
 
     // @private
     this.disposeBarrierRectangle = function() {
-      modalNodeStack.lengthProperty.unlink();
+      modalNodeStack.lengthProperty.unlink( lengthListener );
     };
 
     this.mutate( options );
