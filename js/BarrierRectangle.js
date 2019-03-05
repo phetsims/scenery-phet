@@ -27,7 +27,7 @@ define( require => {
         phetioEventType: PhetioObject.EventType.USER
       }, options );
 
-      super();
+      super( options );
 
       const lengthListener = numberOfBarriers => {
         this.visible = numberOfBarriers > 0;
@@ -46,8 +46,6 @@ define( require => {
       this.disposeBarrierRectangle = () => {
         modalNodeStack.lengthProperty.unlink( lengthListener );
       };
-
-      this.mutate( options );
     }
 
     /**
