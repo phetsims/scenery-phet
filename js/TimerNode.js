@@ -70,12 +70,17 @@ define( function( require ) {
       // See https://github.com/phetsims/masses-and-springs-basics/issues/36
       maxValue: 3599.99,
 
+      // options propagated to TimerReadoutNode
+      timerReadoutNodeOptions: null,
+
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.required
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
     assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
+    assert && assert( !options.timerReadoutNodeOptions || options.timerReadoutNodeOptions.maxValue === undefined,
+      'TimerNode sets maxValue' );
 
     options.timerReadoutNodeOptions = _.extend( {
 
