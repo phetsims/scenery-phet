@@ -10,41 +10,65 @@ define( require => {
 
   // modules
   const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
 
+  // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
+  // https://github.com/phetsims/wave-interference/issues/239
+  var FONT_FAMILY = '"Lucida Console", Arial';
+  var DEFAULT_LARGE_FONT = new PhetFont( {
+    size: 20,
+    family: FONT_FAMILY
+  } );
+  var DEFAULT_SMALL_FONT = new PhetFont( {
+    size: 15,
+    family: FONT_FAMILY
+  } );
+
   class TimerReadoutNode extends Rectangle {
 
     /**
      * @param {Property.<Number>} timeProperty
-     * @param {Object} config
+     * @param {Object} options
      */
-    constructor( timeProperty, config ) {
+    constructor( timeProperty, options ) {
 
-      const unitsNode = config.unitsNode;
+      options = _.extend( {
+        unitsNode: null, // {Node|null} optional units, placed to the right of the time value
+        largeFont: DEFAULT_LARGE_FONT, // {Font} for larger numbers in the time value
+        smallFont: DEFAULT_SMALL_FONT, // {Font} for smaller numbers in the time value
 
-      assert && assert( config.hasOwnProperty( 'maxValue' ), 'config.maxValue is required' );
-      assert && assert( config.maxValue >= 0, 'TimerReadoutNode.maxValue should be non-negative' );
-      assert && assert( config.maxValue < 1E21, 'TimerReadoutNode.maxValue should be less than 1E21' ); // see https://github.com/phetsims/capacitor-lab-basics/issues/244#issuecomment-433940629
+        // {number} the maximum time value, in seconds. The timer will stop when this value is reached.
+        // When set to display time in minutes and seconds (the default for TimerReadoutNode),
+        // the largest quantity that TimerNode can display is minutes, and the smallest is 1/100 second.
+        // So the default maxValue is 59 minutes, 59.99 seconds, which is 1/100 second short of 1 hour.
+        // See https://github.com/phetsims/masses-and-springs-basics/issues/36
+        maxValue: 3599.99
+      }, options );
+
+      assert && assert( options.maxValue > 0 && options.maxValue < 1E21,
+        'invalid maxValue: ' + options.maxValue );
 
       /*---------------------------------------------------------------------------*
        * Readout text
        *----------------------------------------------------------------------------*/
-      const bigReadoutText = new Text( timeToBigString( 0, !!unitsNode ), { font: config.largeFont } );
-      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: config.smallFont } );
+
+      const bigReadoutText = new Text( timeToBigString( 0, !!options.unitsNode ), { font: options.largeFont } );
+      const smallReadoutText = new Text( timeToSmallString( 0 ), { font: options.smallFont } );
 
       // aligns the baselines of the big and small text
       smallReadoutText.bottom = smallReadoutText.bounds.maxY - bigReadoutText.bounds.minY;
       bigReadoutText.top = 0;
       const children = [ bigReadoutText, smallReadoutText ];
 
-      if ( unitsNode ) {
+      if ( options.unitsNode ) {
 
         // Align the baseline of the text, see https://github.com/phetsims/scenery-phet/issues/425
-        unitsNode.y = smallReadoutText.y;
-        children.push( unitsNode );
+        options.unitsNode.y = smallReadoutText.y;
+        children.push( options.unitsNode );
       }
 
       const readoutLayer = new Node( {
@@ -59,15 +83,15 @@ define( require => {
 
         // When the timer reaches the max value, it should get "stuck" at that value, like a real stopwatch,
         // see https://github.com/phetsims/wave-interference/issues/94
-        value = Math.min( value, config.maxValue );
+        value = Math.min( value, options.maxValue );
 
         // Update readouts
-        bigReadoutText.text = timeToBigString( value, !!unitsNode );
+        bigReadoutText.text = timeToBigString( value, !!options.unitsNode );
         smallReadoutText.text = timeToSmallString( value );
 
         // Update layout - when unitsNode is shown, the text is right aligned.  Otherwise it is centered.
-        if ( unitsNode ) {
-          smallReadoutText.right = unitsNode.left - 3;
+        if ( options.unitsNode ) {
+          smallReadoutText.right = options.unitsNode.left - 3;
           bigReadoutText.right = smallReadoutText.left;
         }
         else {
@@ -76,7 +100,7 @@ define( require => {
       };
 
       // Initialize with max value so the text panel will have the max needed size.
-      updateText( config.maxValue );
+      updateText( options.maxValue );
 
       /*---------------------------------------------------------------------------*
        * Readout background
@@ -91,7 +115,7 @@ define( require => {
       } );
 
       const updateTextLocation = () => {
-        if ( unitsNode ) {
+        if ( options.unitsNode ) {
           const RIGHT_MARGIN = 4;
           readoutLayer.right = parentBounds.right - RIGHT_MARGIN;
         }
@@ -107,18 +131,18 @@ define( require => {
       let unitsNodeBoundsListener = null;
 
       // If the unitsNode changes size, update the layout to accommodate the new size
-      if ( unitsNode ) {
+      if ( options.unitsNode ) {
         unitsNodeBoundsListener = function() {
           updateText( timeProperty.value );
           updateTextLocation();
         };
-        unitsNode.on( 'bounds', unitsNodeBoundsListener );
+        options.unitsNode.on( 'bounds', unitsNodeBoundsListener );
       }
 
       this.disposeTimerReadoutNode = () => {
         timeProperty.unlink( updateText );
         timeProperty.unlink( updateTextLocation );
-        unitsNode && unitsNode.off( unitsNodeBoundsListener );
+        options.unitsNode && options.unitsNode.off( unitsNodeBoundsListener );
       };
     }
 
@@ -127,6 +151,10 @@ define( require => {
     }
   }
 
+  //statics
+  // Make the default fonts public, to inform creation of optional unitsNode
+  TimerReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
+  TimerReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
 
   // the full-sized minutes and seconds string
   const timeToBigString = ( time, showUnits ) => {
