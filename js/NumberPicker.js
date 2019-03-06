@@ -389,7 +389,7 @@ define( function( require ) {
     );
 
     // initialize accessibility features - must reach into up function to get delta
-    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, new Property( true ), _.extend( {
+    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, _.extend( {
       a11yValueDelta: options.upFunction( valueProperty.get() ) - valueProperty.get()
     }, options ) );
 
