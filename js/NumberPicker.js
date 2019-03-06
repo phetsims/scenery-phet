@@ -157,7 +157,7 @@ define( function( require ) {
     // @private
     this.enabledProperty = options.enabledProperty;
     var ownsEnabledProperty = !this.enabledProperty;
-    if ( !this.enabledProperty ) {
+    if ( ownsEnabledProperty ) {
       this.enabledProperty = new BooleanProperty( true, _.extend( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioReadOnly: options.phetioReadOnly,
