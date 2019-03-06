@@ -50,8 +50,7 @@ define( require => {
         maxValue: DEFAULT_MAX_VALUE
       }, options );
 
-      assert && assert( options.maxValue > 0 && options.maxValue < 1E21,
-        'invalid maxValue: ' + options.maxValue );
+      assert && assert( options.maxValue > 0 && options.maxValue < 1E21, 'invalid maxValue: ' + options.maxValue );
 
       /*---------------------------------------------------------------------------*
        * Readout text
