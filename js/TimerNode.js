@@ -51,7 +51,7 @@ define( function( require ) {
       yMargin: 8,
 
       // {number} the maximum time value, in seconds. See TimerReadoutNode options.maxValue
-      maxValue: 3599.99,
+      maxValue: TimerReadoutNode.DEFAULT_MAX_VALUE,
 
       // options propagated to TimerReadoutNode
       timerReadoutNodeOptions: null,

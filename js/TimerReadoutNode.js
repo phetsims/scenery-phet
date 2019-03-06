@@ -27,6 +27,7 @@ define( require => {
     size: 15,
     family: FONT_FAMILY
   } );
+  var DEFAULT_MAX_VALUE = 3599.99;
 
   class TimerReadoutNode extends Rectangle {
 
@@ -46,7 +47,7 @@ define( require => {
         // the largest quantity that TimerNode can display is minutes, and the smallest is 1/100 second.
         // So the default maxValue is 59 minutes, 59.99 seconds, which is 1/100 second short of 1 hour.
         // See https://github.com/phetsims/masses-and-springs-basics/issues/36
-        maxValue: 3599.99
+        maxValue: DEFAULT_MAX_VALUE
       }, options );
 
       assert && assert( options.maxValue > 0 && options.maxValue < 1E21,
@@ -198,6 +199,9 @@ define( require => {
     }
     return '.' + centitime;
   };
+
+  // @public {number} - the default value for max time
+  TimerReadoutNode.DEFAULT_MAX_VALUE = DEFAULT_MAX_VALUE;
 
   return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
 } );
