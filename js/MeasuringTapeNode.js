@@ -33,6 +33,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // images
   var measuringTapeImage = require( 'image!SCENERY_PHET/measuringTape.png' );
@@ -54,10 +55,10 @@ define( function( require ) {
 
     options = _.extend( {
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
-      basePositionProperty: new Property( new Vector2( 0, 0 ) ),
+      basePositionProperty: new Vector2Property( new Vector2( 0, 0 ) ),
 
       // tip Position in model coordinate reference frame (center position of the tip)
-      tipPositionProperty: new Property( new Vector2( 1, 0 ) ),
+      tipPositionProperty: new Vector2Property( new Vector2( 1, 0 ) ),
 
       // use this to omit the value and units displayed below the tape measure, useful with createIcon
       hasValue: true,
@@ -540,7 +541,7 @@ define( function( require ) {
 
       // See documentation above!
       measuringTapeOptions = _.extend( {
-        tipPositionProperty: new Property( new Vector2( 30, 0 ) ),
+        tipPositionProperty: new Vector2Property( new Vector2( 30, 0 ) ),
         hasValue: false, // no value below the tape
         interactive: false
       }, measuringTapeOptions, {

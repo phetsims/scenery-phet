@@ -31,6 +31,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // images
   var batteryImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
@@ -372,9 +373,9 @@ define( function( require ) {
 
     return new ConductivityTesterNode(
       new Property( brightness ),
-      new Property( new Vector2( 0, 0 ) ),
-      new Property( new Vector2( positiveProbeXOffset, bothProbesYOffset ) ),
-      new Property( new Vector2( negativeProbeXOffset, bothProbesYOffset ) ),
+      new Vector2Property( new Vector2( 0, 0 ) ),
+      new Vector2Property( new Vector2( positiveProbeXOffset, bothProbesYOffset ) ),
+      new Vector2Property( new Vector2( negativeProbeXOffset, bothProbesYOffset ) ),
       options
     );
   };

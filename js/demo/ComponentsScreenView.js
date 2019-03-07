@@ -85,6 +85,7 @@ define( function( require ) {
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
   var VSlider = require( 'SUN/VSlider' );
   var WireNode = require( 'SCENERY_PHET/WireNode' );
 
@@ -266,9 +267,9 @@ define( function( require ) {
   var demoConductivityTesterNode = function( layoutBounds ) {
 
     var brightnessProperty = new Property( 0 ); // 0-1
-    var testerLocationProperty = new Property( new Vector2( 0, 0 ) );
-    var positiveProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x + 140, testerLocationProperty.get().y + 100 ) );
-    var negativeProbeLocationProperty = new Property( new Vector2( testerLocationProperty.get().x - 40, testerLocationProperty.get().y + 100 ) );
+    var testerLocationProperty = new Vector2Property( new Vector2( 0, 0 ) );
+    var positiveProbeLocationProperty = new Vector2Property( new Vector2( testerLocationProperty.get().x + 140, testerLocationProperty.get().y + 100 ) );
+    var negativeProbeLocationProperty = new Vector2Property( new Vector2( testerLocationProperty.get().x - 40, testerLocationProperty.get().y + 100 ) );
 
     var conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
       testerLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, {
@@ -748,8 +749,8 @@ define( function( require ) {
       textBackgroundYMargin: 3,
       textBackgroundCornerRadius: 5,
       dragBounds: layoutBounds,
-      basePositionProperty: new Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
-      tipPositionProperty: new Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
+      basePositionProperty: new Vector2Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
+      tipPositionProperty: new Vector2Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
     } );
   };
 
@@ -776,13 +777,11 @@ define( function( require ) {
     var wireNode = new WireNode(
       // Connect to the greenCircle at the center bottom
       new NodeProperty( greenCircle, 'bounds', 'centerBottom' ),
-      new Property( new Vector2( 0, NORMAL_DISTANCE ) ),
+      new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ),
 
       // Connect to node2 at the left center
       new NodeProperty( redCircle, 'bounds', 'leftCenter' ),
-      new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
-
-      {
+      new Vector2Property( new Vector2( -NORMAL_DISTANCE, 0 ) ), {
         lineWidth: 3
       }
     );
