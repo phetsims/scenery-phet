@@ -49,38 +49,7 @@ define( function( require ) {
 
     assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
 
-    // control points for cubic curve shape on grip
-    // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
-    var controlPoint1X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 2;
-    var controlPoint1Y = 0;
-    var controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
-    var controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
-
-    /**
-     * Add an "up/down" combination to either the top or bottom of the grip.
-     * @param {Shape} shape - the shape to append to
-     * @param {number} sign - +1 for top side of grip, -1 for bottom side of grip
-     */
-    function addGripIndent( shape, sign ) {
-
-      // this is a grip indent
-      shape.cubicCurveToRelative(
-        sign * controlPoint1X,
-        sign * controlPoint1Y,
-        sign * controlPoint2X,
-        sign * controlPoint2Y,
-        sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
-        sign * GRIP_SINGLE_FINGER_INDENT_DEPTH )
-        .cubicCurveToRelative(
-          sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint2X ),
-          sign * -controlPoint1Y,
-          sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint1X ),
-          sign * -controlPoint2Y,
-          sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
-          sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
-    }
-
-    // the shape begins on the left edge, middle y
+    // the grip shape begins on the left edge, middle y
     // this is the upper left corner before grip indents start
     var gripShape = new Shape()
       .moveTo( 0, GRIP_HEIGHT / 2 )
@@ -205,6 +174,37 @@ define( function( require ) {
   }
 
   sceneryPhet.register( 'HandleNode', HandleNode );
+
+  /**
+   * Add an "up/down" combination to either the top or bottom of the grip.
+   * @param {Shape} shape - the shape to append to
+   * @param {number} sign - +1 for top side of grip, -1 for bottom side of grip
+   */
+  function addGripIndent( shape, sign ) {
+
+    // control points for cubic curve shape on grip
+    // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
+    var controlPoint1X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 2;
+    var controlPoint1Y = 0;
+    var controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
+    var controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
+
+    // this is a grip indent
+    shape.cubicCurveToRelative(
+      sign * controlPoint1X,
+      sign * controlPoint1Y,
+      sign * controlPoint2X,
+      sign * controlPoint2Y,
+      sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
+      sign * GRIP_SINGLE_FINGER_INDENT_DEPTH )
+      .cubicCurveToRelative(
+        sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint2X ),
+        sign * -controlPoint1Y,
+        sign * ( GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH - controlPoint1X ),
+        sign * -controlPoint2Y,
+        sign * GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH,
+        sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
+  }
 
   return inherit( Node, HandleNode );
 } );
