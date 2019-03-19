@@ -42,8 +42,12 @@ define( function( require ) {
       gripLineWidth: 3,
       attachmentFill: 'gray', // {Color|string} solid fill color for the attachments
       attachmentStroke: 'black', // {Color|string} stroke color of the attachments
-      attachmentLineWidth: 3
+      attachmentLineWidth: 3,
+      hasLeftAttachment: true,
+      hasRightAttachment: true
     }, options );
+
+    assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
 
     // control points for cubic curve shape on grip
     // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
@@ -121,6 +125,11 @@ define( function( require ) {
         .addColorStop( 1.0, gradientBaseColor.darkerColor( 0.6 ) )
     } );
 
+    assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
+    options = _.extend( {
+      children: [ gripPath ]
+    }, options );
+
     // handle attachment shape vars
     var attachmentShaftWidth = GRIP_HEIGHT * 0.35;
     var attachmentHeight = GRIP_HEIGHT * 1.15;
@@ -128,6 +137,14 @@ define( function( require ) {
     var attachmentBaseNubHeight = attachmentHeight * 0.2;
     var attachmentMiddleHeight = attachmentHeight * 0.5;
     var attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
+
+    var attachmentOptions = {
+      fill: options.attachmentFill,
+      stroke: options.attachmentStroke,
+      lineWidth: options.attachmentLineWidth,
+      lineJoin: 'round',
+      top: gripPath.centerY - attachmentShaftWidth / 2
+    };
 
     var leftAttachmentShape = new Shape()
 
@@ -161,30 +178,30 @@ define( function( require ) {
       .lineToRelative( -attachmentShaftWidth - ( attachmentBaseNubWidth * 2 ), 0 )
       .close();
 
-    var attachmentOptions = {
-      fill: options.attachmentFill,
-      stroke: options.attachmentStroke,
-      lineWidth: options.attachmentLineWidth,
-      lineJoin: 'round',
-      top: gripPath.centerY - attachmentShaftWidth / 2
-    };
+    // left attachment
+    if ( options.hasLeftAttachment ) {
 
-    // handle left attachment
-    var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
-      right: gripPath.left + options.gripLineWidth
-    }, attachmentOptions ) );
+      var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
+        right: gripPath.left + options.gripLineWidth
+      }, attachmentOptions ) );
 
-    // the right attachment shape is a mirror image of the left
-    var rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
+      options.children.unshift( leftAttachmentPath ); // prepend so that attachment is behind grip
+    }
 
-    // handle right attachment
-    var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
-      left: gripPath.right - options.gripLineWidth
-    }, attachmentOptions ) );
+    // right attachment, a mirror image of the left
+    if ( options.hasRightAttachment ) {
 
-    Node.call( this, _.extend( {
-      children: [ leftAttachmentPath, rightAttachmentPath, gripPath ]
-    }, options ) );
+      var rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
+
+      // handle right attachment
+      var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
+        left: gripPath.right - options.gripLineWidth
+      }, attachmentOptions ) );
+
+      options.children.unshift( rightAttachmentPath );  // prepend so that attachment is behind grip
+    }
+
+    Node.call( this, options );
   }
 
   sceneryPhet.register( 'HandleNode', HandleNode );
