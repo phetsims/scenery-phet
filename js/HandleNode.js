@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Scenery node that shows a handle, which is made of two parts: the "grip" which is where you would grab it and the
@@ -11,166 +11,169 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
 
   // constants
   // grip shape vars
-  var GRIP_WIDTH = 100;
-  var GRIP_HEIGHT = 42;
-  var GRIP_CORNER_RADIUS = GRIP_WIDTH * 0.03;
-  var GRIP_END_PAD = GRIP_WIDTH * 0.03; // horizontal line between the edge of the grip and the cubic curves
-  var GRIP_SINGLE_FINGER_INDENT_DEPTH = GRIP_HEIGHT * 0.11;
-  var GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS * 2 - GRIP_END_PAD * 2 ) / 8;
-  var DEFAULT_GRIP_BASE_COLOR = new Color( 183, 184, 185 );
+  const GRIP_WIDTH = 100;
+  const GRIP_HEIGHT = 42;
+  const GRIP_CORNER_RADIUS = GRIP_WIDTH * 0.03;
+  const GRIP_END_PAD = GRIP_WIDTH * 0.03; // horizontal line between the edge of the grip and the cubic curves
+  const GRIP_SINGLE_FINGER_INDENT_DEPTH = GRIP_HEIGHT * 0.11;
+  const GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS * 2 - GRIP_END_PAD * 2 ) / 8;
+  const DEFAULT_GRIP_BASE_COLOR = new Color( 183, 184, 185 );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
-  function HandleNode( options ) {
+  class HandleNode extends Node {
 
-    options = _.extend( {
-      gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {Color|string} base color of gradient on the grip
-      gripStroke: 'black', // {Color|string} stroke color of the grip
-      gripLineWidth: 3,
-      attachmentFill: 'gray', // {Color|string} solid fill color for the attachments
-      attachmentStroke: 'black', // {Color|string} stroke color of the attachments
-      attachmentLineWidth: 3,
-      hasLeftAttachment: true,
-      hasRightAttachment: true
-    }, options );
+    constructor( options ) {
 
-    assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
+      options = _.extend( {
+        gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {Color|string} base color of gradient on the grip
+        gripStroke: 'black', // {Color|string} stroke color of the grip
+        gripLineWidth: 3,
+        attachmentFill: 'gray', // {Color|string} solid fill color for the attachments
+        attachmentStroke: 'black', // {Color|string} stroke color of the attachments
+        attachmentLineWidth: 3,
+        hasLeftAttachment: true,
+        hasRightAttachment: true
+      }, options );
 
-    // the grip shape begins on the left edge, middle y
-    // this is the upper left corner before grip indents start
-    var gripShape = new Shape()
-      .moveTo( 0, GRIP_HEIGHT / 2 )
-      .lineTo( 0, GRIP_CORNER_RADIUS )
-      .arc( GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI, Math.PI * 1.5, false )
-      .lineToRelative( GRIP_END_PAD, 0 );
+      assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
 
-    // these are the top grip indents
-    addGripIndent( gripShape, 1 );
-    addGripIndent( gripShape, 1 );
-    addGripIndent( gripShape, 1 );
-    addGripIndent( gripShape, 1 );
+      // the grip shape begins on the left edge, middle y
+      // this is the upper left corner before grip indents start
+      const gripShape = new Shape()
+        .moveTo( 0, GRIP_HEIGHT / 2 )
+        .lineTo( 0, GRIP_CORNER_RADIUS )
+        .arc( GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI, Math.PI * 1.5, false )
+        .lineToRelative( GRIP_END_PAD, 0 );
 
-    // this is the whole right edge
-    gripShape.lineToRelative( GRIP_END_PAD, 0 )
-      .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI * 1.5, 0, false )
-      .lineToRelative( 0, GRIP_HEIGHT - ( GRIP_CORNER_RADIUS * 2 ) )
-      .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, 0, Math.PI / 2, false )
-      .lineToRelative( -GRIP_END_PAD, 0 );
+      // these are the top grip indents
+      addGripIndent( gripShape, 1 );
+      addGripIndent( gripShape, 1 );
+      addGripIndent( gripShape, 1 );
+      addGripIndent( gripShape, 1 );
 
-    // these are the bottom grip indents
-    addGripIndent( gripShape, -1 );
-    addGripIndent( gripShape, -1 );
-    addGripIndent( gripShape, -1 );
-    addGripIndent( gripShape, -1 );
+      // this is the whole right edge
+      gripShape.lineToRelative( GRIP_END_PAD, 0 )
+        .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI * 1.5, 0, false )
+        .lineToRelative( 0, GRIP_HEIGHT - ( GRIP_CORNER_RADIUS * 2 ) )
+        .arc( GRIP_WIDTH - GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, 0, Math.PI / 2, false )
+        .lineToRelative( -GRIP_END_PAD, 0 );
 
-    // this is the lower left hand corner
-    gripShape.lineToRelative( -GRIP_END_PAD, 0 )
-      .arc( GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI / 2, Math.PI, false )
-      .lineTo( 0, GRIP_HEIGHT / 2 )
-      .close();
+      // these are the bottom grip indents
+      addGripIndent( gripShape, -1 );
+      addGripIndent( gripShape, -1 );
+      addGripIndent( gripShape, -1 );
+      addGripIndent( gripShape, -1 );
 
-    // add handle grip shape
-    var gradientBaseColor = Color.toColor( options.gripBaseColor );
-    var gripPath = new Path( gripShape, {
-      lineWidth: options.gripLineWidth,
-      stroke: options.gripStroke,
-      fill: new LinearGradient( 0, 0, 0, GRIP_HEIGHT )
-        .addColorStop( 0, gradientBaseColor )
-        .addColorStop( 0.4, gradientBaseColor.brighterColor( 0.5 ) )
-        .addColorStop( 0.7, gradientBaseColor )
-        .addColorStop( 1.0, gradientBaseColor.darkerColor( 0.6 ) )
-    } );
+      // this is the lower left hand corner
+      gripShape.lineToRelative( -GRIP_END_PAD, 0 )
+        .arc( GRIP_CORNER_RADIUS, GRIP_HEIGHT - GRIP_CORNER_RADIUS, GRIP_CORNER_RADIUS, Math.PI / 2, Math.PI, false )
+        .lineTo( 0, GRIP_HEIGHT / 2 )
+        .close();
 
-    assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
-    options = _.extend( {
-      children: [ gripPath ]
-    }, options );
+      // add handle grip shape
+      const gradientBaseColor = Color.toColor( options.gripBaseColor );
+      const gripPath = new Path( gripShape, {
+        lineWidth: options.gripLineWidth,
+        stroke: options.gripStroke,
+        fill: new LinearGradient( 0, 0, 0, GRIP_HEIGHT )
+          .addColorStop( 0, gradientBaseColor )
+          .addColorStop( 0.4, gradientBaseColor.brighterColor( 0.5 ) )
+          .addColorStop( 0.7, gradientBaseColor )
+          .addColorStop( 1.0, gradientBaseColor.darkerColor( 0.6 ) )
+      } );
 
-    // handle attachment shape vars
-    var attachmentShaftWidth = GRIP_HEIGHT * 0.35;
-    var attachmentHeight = GRIP_HEIGHT * 1.15;
-    var attachmentBaseNubWidth = attachmentShaftWidth * 0.4;
-    var attachmentBaseNubHeight = attachmentHeight * 0.2;
-    var attachmentMiddleHeight = attachmentHeight * 0.5;
-    var attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
+      assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
+      options = _.extend( {
+        children: [ gripPath ]
+      }, options );
 
-    var attachmentOptions = {
-      fill: options.attachmentFill,
-      stroke: options.attachmentStroke,
-      lineWidth: options.attachmentLineWidth,
-      lineJoin: 'round',
-      top: gripPath.centerY - attachmentShaftWidth / 2
-    };
+      // handle attachment shape vars
+      const attachmentShaftWidth = GRIP_HEIGHT * 0.35;
+      const attachmentHeight = GRIP_HEIGHT * 1.15;
+      const attachmentBaseNubWidth = attachmentShaftWidth * 0.4;
+      const attachmentBaseNubHeight = attachmentHeight * 0.2;
+      const attachmentMiddleHeight = attachmentHeight * 0.5;
+      const attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
 
-    var leftAttachmentShape = new Shape()
+      const attachmentOptions = {
+        fill: options.attachmentFill,
+        stroke: options.attachmentStroke,
+        lineWidth: options.attachmentLineWidth,
+        lineJoin: 'round',
+        top: gripPath.centerY - attachmentShaftWidth / 2
+      };
 
-    // Starts at bottom-left and proceeds clockwise
-      .moveTo( 0, attachmentHeight )
-      .lineToRelative( attachmentBaseNubWidth, -attachmentBaseNubHeight )
-      .lineToRelative( 0, -attachmentMiddleHeight )
+      const leftAttachmentShape = new Shape()
 
-      // The main arc at the top left of the attachment
-      .arc(
-        attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
-        attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
-        attachmentShaftWidth + attachmentSmallArcRadius,
-        Math.PI,
-        Math.PI * 1.5,
-        false
-      )
-      .lineToRelative( 0, attachmentShaftWidth )
+      // Starts at bottom-left and proceeds clockwise
+        .moveTo( 0, attachmentHeight )
+        .lineToRelative( attachmentBaseNubWidth, -attachmentBaseNubHeight )
+        .lineToRelative( 0, -attachmentMiddleHeight )
 
-      // This is the smaller arc on the underside of the attachment
-      .arc(
-        attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
-        attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
-        attachmentSmallArcRadius,
-        Math.PI * 1.5,
-        Math.PI,
-        true
-      )
-      .lineToRelative( 0, attachmentMiddleHeight )
-      .lineToRelative( attachmentBaseNubWidth, attachmentBaseNubHeight )
-      .lineToRelative( -attachmentShaftWidth - ( attachmentBaseNubWidth * 2 ), 0 )
-      .close();
+        // The main arc at the top left of the attachment
+        .arc(
+          attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
+          attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
+          attachmentShaftWidth + attachmentSmallArcRadius,
+          Math.PI,
+          Math.PI * 1.5,
+          false
+        )
+        .lineToRelative( 0, attachmentShaftWidth )
 
-    // left attachment
-    if ( options.hasLeftAttachment ) {
+        // This is the smaller arc on the underside of the attachment
+        .arc(
+          attachmentShaftWidth + attachmentBaseNubWidth + attachmentSmallArcRadius,
+          attachmentHeight - attachmentBaseNubHeight - attachmentMiddleHeight,
+          attachmentSmallArcRadius,
+          Math.PI * 1.5,
+          Math.PI,
+          true
+        )
+        .lineToRelative( 0, attachmentMiddleHeight )
+        .lineToRelative( attachmentBaseNubWidth, attachmentBaseNubHeight )
+        .lineToRelative( -attachmentShaftWidth - ( attachmentBaseNubWidth * 2 ), 0 )
+        .close();
 
-      var leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
-        right: gripPath.left + options.gripLineWidth
-      }, attachmentOptions ) );
+      // left attachment
+      if ( options.hasLeftAttachment ) {
 
-      options.children.unshift( leftAttachmentPath ); // prepend so that attachment is behind grip
+        const leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
+          right: gripPath.left + options.gripLineWidth
+        }, attachmentOptions ) );
+
+        options.children.unshift( leftAttachmentPath ); // prepend so that attachment is behind grip
+      }
+
+      // right attachment, a mirror image of the left
+      if ( options.hasRightAttachment ) {
+
+        const rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
+
+        // handle right attachment
+        const rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
+          left: gripPath.right - options.gripLineWidth
+        }, attachmentOptions ) );
+
+        options.children.unshift( rightAttachmentPath );  // prepend so that attachment is behind grip
+      }
+
+      super( options );
     }
-
-    // right attachment, a mirror image of the left
-    if ( options.hasRightAttachment ) {
-
-      var rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
-
-      // handle right attachment
-      var rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
-        left: gripPath.right - options.gripLineWidth
-      }, attachmentOptions ) );
-
-      options.children.unshift( rightAttachmentPath );  // prepend so that attachment is behind grip
-    }
-
-    Node.call( this, options );
   }
 
   sceneryPhet.register( 'HandleNode', HandleNode );
@@ -184,10 +187,10 @@ define( function( require ) {
 
     // control points for cubic curve shape on grip
     // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
-    var controlPoint1X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 2;
-    var controlPoint1Y = 0;
-    var controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
-    var controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
+    const controlPoint1X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 2;
+    const controlPoint1Y = 0;
+    const controlPoint2X = GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH / 4;
+    const controlPoint2Y = GRIP_SINGLE_FINGER_INDENT_DEPTH;
 
     // this is a grip indent
     shape.cubicCurveToRelative(
@@ -206,5 +209,5 @@ define( function( require ) {
         sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
   }
 
-  return inherit( Node, HandleNode );
+  return HandleNode;
 } );
