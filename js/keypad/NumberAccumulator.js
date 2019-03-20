@@ -62,14 +62,16 @@ define( function( require ) {
      * @override
      */
     this.defaultValidator = function( proposedKeys ) {
-      return ( this.getNumberOfDigits( proposedKeys ) <= this.maxDigits
-               && !( this.getNumberOfDigits( proposedKeys ) === this.maxDigits
-               && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
-               && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= this.maxDigitsRightOfMantissa
-      );
+      return self.getNumberOfDigits( proposedKeys ) <= self.maxDigits
+             && !( self.getNumberOfDigits( proposedKeys ) === self.maxDigits
+             && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
+             && self.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= self.maxDigitsRightOfMantissa
     };
 
-    AbstractKeyAccumulator.call( this, this.defaultValidator, options );
+    // Validators to be passed into AbstractKeyAccumulator
+    var validators = [ this.defaultValidator ];
+
+    AbstractKeyAccumulator.call( this, validators, options );
 
     // @public (read-only) - string representation of the keys entered by the user
     this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ) {

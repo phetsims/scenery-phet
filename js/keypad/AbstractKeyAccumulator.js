@@ -17,11 +17,11 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * @param {function} defaultValidator
+   * @param {Array.<function>} validators
    * @param {Object} [options]
    * @constructor
    */
-  function AbstractKeyAccumulator( defaultValidator, options ) {
+  function AbstractKeyAccumulator( validators, options ) {
     Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
@@ -42,7 +42,7 @@ define( function( require ) {
     this.additionalValidator = options.additionalValidator;
 
     // @protected {function}
-    this.defaultValidator = defaultValidator;
+    this.validators = validators;
   }
 
   sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
@@ -91,14 +91,13 @@ define( function( require ) {
      */
     validateKeys: function( proposedKeys ) {
 
-      // default validation
-      var valid = this.defaultValidator( proposedKeys );
+      // Ensures that proposedKeys exist before validation
+      var valid = !!proposedKeys;
 
-      // If provided additional (optional) validation.
-      if ( valid && this.additionalValidator ) {
-        valid = this.additionalValidator( proposedKeys );
-      }
-
+      // If any validator returns false then the proposedKey is not valid
+      this.validators.forEach( function( validator ) {
+        valid = valid && validator( proposedKeys );
+      } );
       return valid;
     },
     /**
