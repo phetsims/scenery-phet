@@ -65,7 +65,7 @@ define( function( require ) {
       return self.getNumberOfDigits( proposedKeys ) <= self.maxDigits
              && !( self.getNumberOfDigits( proposedKeys ) === self.maxDigits
              && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
-             && self.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= self.maxDigitsRightOfMantissa
+             && self.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= self.maxDigitsRightOfMantissa;
     };
 
     // Validators to be passed into AbstractKeyAccumulator
