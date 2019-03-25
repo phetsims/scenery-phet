@@ -34,9 +34,6 @@ define( function( require ) {
    */
   function GaugeNode( valueProperty, label, range, options ) {
 
-    // flag if options.updateEnabledProperty is provided so we know how to correctly dispose it
-    var updateEnabledPropertySupplied = options && options.hasOwnProperty( 'updateEnabledProperty' );
-
     options = _.extend( {
       // Defaults
       radius: 100,
@@ -55,9 +52,6 @@ define( function( require ) {
       majorTickLineWidth: 2,
       minorTickLineWidth: 1,
 
-      // Determines whether the gauge will be updated when the value changes.
-      // Use this to (for example) disable updates while a gauge is not visible.
-      updateEnabledProperty: new BooleanProperty( true ),
       tandem: Tandem.required
     }, options );
 
@@ -68,6 +62,14 @@ define( function( require ) {
 
     // @public (read-only) {number}
     this.radius = options.radius;
+
+    var ownsEnabledProperty = !options.enabledProperty;
+
+    if ( ownsEnabledProperty ) {
+      // Determines whether the gauge will be updated when the value changes. Use this to (for example) disable updates
+      // while a gauge is not visible.
+      options.enabledProperty = new BooleanProperty( true );
+    }
 
     var anglePerTick = options.span / options.numberOfTicks;
     var tandem = options.tandem;
@@ -107,7 +109,7 @@ define( function( require ) {
     var scratchMatrix = new Matrix3();
 
     var updateNeedle = function() {
-      if ( options.updateEnabledProperty.get() ) {
+      if ( options.enabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
           assert && assert( valueProperty.get() >= 0, 'GaugeNode representing negative values indicates a logic error' );
 
@@ -128,7 +130,7 @@ define( function( require ) {
     };
 
     valueProperty.link( updateNeedle );
-    options.updateEnabledProperty.link( updateNeedle );
+    options.enabledProperty.link( updateNeedle );
 
     // Render all of the ticks into two layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
@@ -164,11 +166,11 @@ define( function( require ) {
         valueProperty.unlink( updateNeedle );
       }
 
-      if ( updateEnabledPropertySupplied && options.updateEnabledProperty.hasListener( updateNeedle ) ) {
-        options.updateEnabledProperty.unlink( updateNeedle );
+      if ( ownsEnabledProperty ) {
+        options.enabledProperty.dispose();
       }
-      else {
-        options.updateEnabledProperty.dispose();
+      else if ( options.enabledProperty.hasListener( updateNeedle ) ) {
+        options.enabledProperty.unlink( updateNeedle );
       }
 
       // de-register phet-io tandems
