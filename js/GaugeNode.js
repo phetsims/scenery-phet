@@ -33,6 +33,10 @@ define( function( require ) {
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
+
+    // flag if options.updateEnabledProperty is provided so we know how to correctly dispose it
+    var updateEnabledPropertySupplied = options && options.hasOwnProperty( 'updateEnabledProperty' );
+
     options = _.extend( {
       // Defaults
       radius: 100,
@@ -160,8 +164,11 @@ define( function( require ) {
         valueProperty.unlink( updateNeedle );
       }
 
-      if ( options.updateEnabledProperty.hasListener( updateNeedle ) ) {
+      if ( updateEnabledPropertySupplied && options.updateEnabledProperty.hasListener( updateNeedle ) ) {
         options.updateEnabledProperty.unlink( updateNeedle );
+      }
+      else {
+        options.updateEnabledProperty.dispose();
       }
     };
   }
