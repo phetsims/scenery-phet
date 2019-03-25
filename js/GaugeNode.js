@@ -108,7 +108,7 @@ define( function( require ) {
           assert && assert( valueProperty.get() >= 0, 'GaugeNode representing negative values indicates a logic error' );
 
           needle.visible = true;
-          var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, Math.abs( valueProperty.get() ) );
+          var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, valueProperty.get() );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );
