@@ -425,15 +425,16 @@ define( function( require ) {
   // Creates a demo for GaugeNode
   var demoGaugeNode = function( layoutBounds ) {
     var valueProperty = new Property( 50 );
-    var valueRange = new Range( 0, 100 );
+    var gaugeValueRange = new Range( 0, 100 );
+    var sliderValueRange = gaugeValueRange;
 
-    var gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', valueRange );
+    var gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', gaugeValueRange );
 
     return new VBox( {
       spacing: 15,
       children: [
         gaugeNode,
-        NumberControl.withMinMaxTicks( 'Value:', valueProperty, valueRange )
+        NumberControl.withMinMaxTicks( 'Value:', valueProperty, sliderValueRange )
       ],
       center: layoutBounds.center
     } );
