@@ -28,7 +28,7 @@ define( function( require ) {
   /**
    * @param {Property.<number>} valueProperty - the portrayed value
    * @param {string} label - label to display (scaled to fit if necessary)
-   * @param {Range} range
+   * @param {Range} range - range of portrayable values. valueProperty is clamped to be within this range
    * @param {Object} [options]
    * @constructor
    */
@@ -107,11 +107,13 @@ define( function( require ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
           assert && assert( valueProperty.get() >= 0, 'GaugeNode representing negative values indicates a logic error' );
 
-          needle.visible = true;
+          // clamp value to valid range and map it to an angle
+          valueProperty.value = Util.clamp( valueProperty.get(), range.min, range.max );
           var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, valueProperty.get() );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );
+          needle.visible = true;
         }
         else {
 
