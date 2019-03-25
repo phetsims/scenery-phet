@@ -17,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Range = require( 'DOT/Range' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
@@ -57,7 +57,7 @@ define( function( require ) {
 
       // Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
-      updateEnabledProperty: new Property( true ),
+      updateEnabledProperty: new BooleanProperty( true ),
       tandem: Tandem.required
     }, options );
 
