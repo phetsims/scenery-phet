@@ -170,6 +170,10 @@ define( function( require ) {
       else {
         options.updateEnabledProperty.dispose();
       }
+
+      // de-register phet-io tandems
+      foregroundNode.dispose();
+      labelNode.dispose();
     };
   }
 
