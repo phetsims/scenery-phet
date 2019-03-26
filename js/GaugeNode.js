@@ -111,11 +111,10 @@ define( function( require ) {
     var updateNeedle = function() {
       if ( options.enabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
-          assert && assert( valueProperty.get() >= 0, 'GaugeNode representing negative values indicates a logic error' );
 
           // clamp value to valid range and map it to an angle
-          valueProperty.value = Util.clamp( valueProperty.get(), range.min, range.max );
-          var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, valueProperty.get() );
+          var clampedValue = Util.clamp( valueProperty.get(), range.min, range.max );
+          var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, clampedValue );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );
