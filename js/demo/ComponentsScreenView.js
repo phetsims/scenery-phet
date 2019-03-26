@@ -424,9 +424,9 @@ define( function( require ) {
 
   // Creates a demo for GaugeNode
   var demoGaugeNode = function( layoutBounds ) {
-    var valueProperty = new Property( 50 );
-    var gaugeValueRange = new Range( 0, 100 );
-    var sliderValueRange = gaugeValueRange;
+    var valueProperty = new Property( 0 );
+    var gaugeValueRange = new Range( -100, 100 );
+    var sliderValueRange = new Range( gaugeValueRange.min - 20, gaugeValueRange.max + 20 );
 
     var gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', gaugeValueRange );
 
