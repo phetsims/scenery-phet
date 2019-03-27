@@ -1,9 +1,12 @@
 // Copyright 2017-2019, University of Colorado Boulder
 
 /**
- * Contains help content for a KeyboardHelpDialog.  Takes a heading string for Text, and an array of content with
- * labels and icons. This type has many static functions for creating and laying out content that could be useful for
- * subtypes of this Node. Default values for spacing and fonts are also available through statics.
+ * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple HelpContents are
+ * assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label
+ * and an array of content for rows of labels and icons.
+ * 
+ * This type has many static functions for creating and laying out rows of content.
+ * Default values for spacing and fonts are also available through statics if necessary.
  *
  * Help content is aligned with two groups. Text labels are aligned in one VBox, icons are aligned in another. To
  * structure the accessible content, we chose to instrument a11y on the icons in the help content. To label content
@@ -66,7 +69,7 @@ define( function( require ) {
    * @constructor
    *
    * @param {string} headingString - the translatable label for this content
-   * @param {Array.<HelpContentRow>} content -  icons and labels are each placed in their own VBox, and these layout
+   * @param {Array.<f>} content -  icons and labels are each placed in their own VBox, and these layout
    *                                            boxes are aligned horizontally. It is assumed that label and icon have
    *                                            identical bounds so that each row of content can be aligned by
    *                                            HelpContent. Static functions in this file use AlignGroup to acheive
