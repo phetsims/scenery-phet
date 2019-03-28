@@ -32,6 +32,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var StringProperty = require( 'AXON/StringProperty' );
+  var SunConstants = require( 'SUN/SunConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -114,7 +115,7 @@ define( function( require ) {
       enabledPropertyOptions: null,
 
       // Opacity used to indicate disabled, [0,1] exclusive
-      disabledOpacity: 0.3,
+      disabledOpacity: SunConstants.DISABLED_OPACITY,
 
       // phet-io
       tandem: Tandem.required,
