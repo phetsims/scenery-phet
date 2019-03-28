@@ -69,10 +69,11 @@ define( function( require ) {
     // @public (read-only) {number}
     this.radius = options.radius;
 
+    // Whether enabledProperty was provided by the client (false) or created by GaugeNode (true)
     var ownsEnabledProperty = !options.enabledProperty;
-    if ( ownsEnabledProperty ) {
-      options.enabledProperty = new BooleanProperty( true );
-    }
+
+    // @public enabled/disables updates of the needle
+    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
     var anglePerTick = options.span / options.numberOfTicks;
     var tandem = options.tandem;
@@ -114,8 +115,8 @@ define( function( require ) {
 
     var scratchMatrix = new Matrix3();
 
-    var updateNeedle = function() {
-      if ( options.enabledProperty.get() ) {
+    var updateNeedle = () => {
+      if ( this.enabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
 
           // clamp value to valid range and map it to an angle
@@ -135,7 +136,7 @@ define( function( require ) {
     };
 
     valueProperty.link( updateNeedle );
-    options.enabledProperty.link( updateNeedle );
+    this.enabledProperty.link( updateNeedle );
 
     // Render all of the ticks into Shapes layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
@@ -166,16 +167,16 @@ define( function( require ) {
     this.mutate( options );
 
     // @private
-    this.disposeGaugeNode = function() {
+    this.disposeGaugeNode = () => {
       if ( valueProperty.hasListener( updateNeedle ) ) {
         valueProperty.unlink( updateNeedle );
       }
 
       if ( ownsEnabledProperty ) {
-        options.enabledProperty.dispose();
+        this.enabledProperty.dispose();
       }
       else if ( options.enabledProperty.hasListener( updateNeedle ) ) {
-        options.enabledProperty.unlink( updateNeedle );
+        this.enabledProperty.unlink( updateNeedle );
       }
 
       // de-register phet-io tandems
