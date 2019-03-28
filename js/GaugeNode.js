@@ -26,15 +26,16 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param {Property.<number>} valueProperty - the portrayed value
-   * @param {string} label - label to display (scaled to fit if necessary)
-   * @param {Range} range - range of portrayable values. valueProperty is clamped to be within this range
+   * @param {Property.<number>} valueProperty
+   * @param {string} label - label to display, scaled to fit if necessary
+   * @param {Range} range - range of the needle. If valueProperty exceeds this range, the needle will stop at min or max.
    * @param {Object} [options]
    * @constructor
    */
   function GaugeNode( valueProperty, label, range, options ) {
 
     options = _.extend( {
+
       // Defaults
       radius: 100,
       backgroundFill: 'white',
@@ -52,6 +53,11 @@ define( function( require ) {
       majorTickLineWidth: 2,
       minorTickLineWidth: 1,
 
+      // {BooleanProperty|null} Determines whether the gauge will be updated when the value changes.
+      // Use this to (for example) disable updates while a gauge is not visible.
+      // If null, BooleanProperty(true) will be created.
+      enabledProperty: null,
+
       tandem: Tandem.required
     }, options );
 
@@ -64,10 +70,7 @@ define( function( require ) {
     this.radius = options.radius;
 
     var ownsEnabledProperty = !options.enabledProperty;
-
     if ( ownsEnabledProperty ) {
-      // Determines whether the gauge will be updated when the value changes. Use this to (for example) disable updates
-      // while a gauge is not visible.
       options.enabledProperty = new BooleanProperty( true );
     }
 
