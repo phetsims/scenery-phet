@@ -83,7 +83,10 @@ define( function( require ) {
       lineWidth: options.backgroundLineWidth
     } ) );
 
-    var foregroundNode = new Node( { pickable: false, tandem: tandem.createTandem( 'foregroundNode' ) } );
+    var foregroundNode = new Node( {
+      pickable: false,
+      tandem: tandem.createTandem( 'foregroundNode' )
+    } );
     this.addChild( foregroundNode );
 
     var needle = new Path( Shape.lineSegment( 0, 0, this.radius, 0 ), {
