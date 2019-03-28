@@ -128,7 +128,7 @@ define( function( require ) {
         }
         else {
 
-          // Hide the needle if there is no value number value to portray.
+          // Hide the needle if there is no number value.
           needle.visible = false;
         }
       }
@@ -137,7 +137,7 @@ define( function( require ) {
     valueProperty.link( updateNeedle );
     options.enabledProperty.link( updateNeedle );
 
-    // Render all of the ticks into two layers (since they have different strokes)
+    // Render all of the ticks into Shapes layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
     var bigTicksShape = new Shape();
     var smallTicksShape = new Shape();
