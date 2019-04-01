@@ -128,9 +128,6 @@ define( function( require ) {
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
 
-      // options.enabledProperty is used in both NumberControl and its HSlider
-      enabledProperty: options.enabledProperty,
-
       // other slider options that are specific to NumberControl
       majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
       minorTickSpacing: 0, // zero indicates no minor ticks
