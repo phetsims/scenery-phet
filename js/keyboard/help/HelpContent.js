@@ -207,7 +207,7 @@ define( function( require ) {
      *                    Icon2 or
      *                    Icon3
      *
-     * @param {string} string - string for the visible label RichText
+     * @param {string} labelString - string for the visible label RichText
      * @param {Node[]} icons
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
