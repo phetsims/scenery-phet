@@ -473,20 +473,20 @@ define( function( require ) {
     },
 
     /**
-     * Vertically align icons for a number of different HelpContents. Useful when two KeyboardHelpSection sections are
-     * stacked vertically in a Dialog. Loops through  contentArray and finds the max x value of the left edge
-     * of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
+     * Vertically align icons for a number of different KeyboardHelpSections. Useful when two KeyboardHelpSection
+     * sections are stacked vertically in a Dialog. Loops through sectionArray and finds the max x value of the left
+     * edge of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
      *
-     * @param {KeyboardHelpSection[]} contentArray
+     * @param {KeyboardHelpSection[]} sectionArray
      */
-    alignHelpContentIcons: function( contentArray ) {
+    alignHelpSectionIcons: function( sectionArray ) {
 
       // left edge of icons farthest to the right in the array of KeyboardHelpSection
-      var maxLeftEdge = _.maxBy( contentArray, function( content ) { return content.iconVBox.left; } ).iconVBox.left;
+      var maxLeftEdge = _.maxBy( sectionArray, function( content ) { return content.iconVBox.left; } ).iconVBox.left;
 
       // adjust the spacing of all content HBoxes so that they align
-      contentArray.forEach( function( content ) {
-        content.contentHBox.spacing = content.contentHBox.spacing + maxLeftEdge - content.iconVBox.left;
+      sectionArray.forEach( function( section ) {
+        section.contentHBox.spacing = section.contentHBox.spacing + maxLeftEdge - section.iconVBox.left;
       } );
     },
 
