@@ -505,7 +505,7 @@ define( function( require ) {
    * @static
    * @returns {KeyboardHelpSection}
    */
-  KeyboardHelpSection.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase, options ) {
+  KeyboardHelpSection.getGrabReleaseHelpSection = function( thingAsTitle, thingAsLowerCase, options ) {
 
     options = _.extend( {
 
