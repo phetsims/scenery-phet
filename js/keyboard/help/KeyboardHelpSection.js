@@ -8,10 +8,10 @@
  * This type has many static functions for creating and laying out rows of content.
  * Default values for spacing and fonts are also available through statics if necessary.
  *
- * Help content is aligned with two groups. Text labels are aligned in one VBox, icons are aligned in another. To
- * structure the accessible content, we chose to instrument a11y on the icons in the help content. To label content
+ * Help sections are aligned with two groups. Text labels are aligned in one VBox, icons are aligned in another. To
+ * structure the accessible content, we chose to instrument a11y on the icons in the section. To label content
  * in your own KeyboardHelpSection, instrument the icons not the label Text so a11y content is placed correctly in the DOM.
- * Help content is generally a list of items, so each icon has a  tagName of 'li' be default.
+ * KeyboardHelpSections are generally a list of items, so each icon has a  tagName of 'li' be default.
  *
  * @author Jesse Greenberg
  */
@@ -110,13 +110,13 @@ define( function( require ) {
     var icons = [];
     var labels = [];
     for ( var i = 0; i < content.length; i++ ) {
-      const helpContentRow = content[ i ];
+      const helpSectionRow = content[ i ];
 
-      assert && assert( helpContentRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
-      helpContentRow.text.maxWidth = options.labelMaxWidth;
+      assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
+      helpSectionRow.text.maxWidth = options.labelMaxWidth;
 
-      icons.push( helpContentRow.icon );
-      labels.push( helpContentRow.label );
+      icons.push( helpSectionRow.icon );
+      labels.push( helpSectionRow.label );
     }
 
     var vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
@@ -162,7 +162,7 @@ define( function( require ) {
      * @param {Node} icon
      * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
-     * @returns {HelpContentRow} - so KeyboardHelpSection can layout content groups
+     * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
      */
     labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -189,12 +189,12 @@ define( function( require ) {
         }, options.iconOptions );
       }
 
-      // make the label and icon the same height so that they will align when we assemble help content group
+      // make the label and icon the same height so that they will align when we assemble help section group
       var labelIconGroup = new AlignGroup( options );
       var labelBox = labelIconGroup.createBox( labelText );
       var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
-      return new HelpContentRow( labelText, labelBox, iconBox );
+      return new HelpSectionRow( labelText, labelBox, iconBox );
     },
 
     /**
@@ -212,7 +212,7 @@ define( function( require ) {
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
-     * @returns {HelpContentRow} -  so KeyboardHelpSection can layout content groups
+     * @returns {HelpSectionRow} -  so KeyboardHelpSection can layout content groups
      */
     labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -265,7 +265,7 @@ define( function( require ) {
       var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
       var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-      return new HelpContentRow( labelText, labelWithHeightBox, iconsBox );
+      return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
     },
 
     /**
@@ -498,7 +498,7 @@ define( function( require ) {
   } );
 
   /**
-   * Convenience method to construct a help content for describing the grab button interaction
+   * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
    * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
    * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
    * @param {Object} [options]
@@ -543,14 +543,14 @@ define( function( require ) {
 
   /**
    * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
-   * will return a HelpContentRow. The label and icon are often grouped in an AlignGroup for easy positioning
+   * will return a HelpSectionRow. The label and icon are often grouped in an AlignGroup for easy positioning
    * in KeyboardHelpSection. This cannot be done in KeyboardHelpSection directly because different labels and icons will have
    * varying layout. For instance, see labelWithIcon vs labelWithIconList.
    *
    * Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
-   * HelpContentRows for i18n.
+   * HelpSectionRows for i18n.
    */
-  class HelpContentRow {
+  class HelpSectionRow {
 
     /**
      * @param {Text|RichText} text - must be a child of the "label" Node, KeyboardHelpSection
