@@ -35,7 +35,7 @@ define( function( require ) {
   var FineCoarseSpinner = require( 'SCENERY_PHET/FineCoarseSpinner' );
   var FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
-  var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
+  var GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
   var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
@@ -963,8 +963,8 @@ define( function( require ) {
         new Panel( new SliderControlsHelpContent() ),
         new VBox( {
           children: [
-            new Panel( new GeneralNavigationHelpContent() ),
-            new Panel( new GeneralNavigationHelpContent( { withGroupContent: true } ) )
+            new Panel( new GeneralKeyboardHelpSection() ),
+            new Panel( new GeneralKeyboardHelpSection( { withGroupContent: true } ) )
           ],
           spacing: 10
         } )

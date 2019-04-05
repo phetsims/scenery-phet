@@ -38,7 +38,7 @@ define( function( require ) {
    * @constructor
    * @param {Object} options
    */
-  function GeneralNavigationHelpContent( options ) {
+  function GeneralKeyboardHelpSection( options ) {
 
     options = _.extend( {
       withGroupContent: false // if true, the help content will include information about how to interact with groups
@@ -92,7 +92,7 @@ define( function( require ) {
     KeyboardHelpSection.call( this, keyboardHelpDialogBasicActionsString, content, options );
   }
 
-  sceneryPhet.register( 'GeneralNavigationHelpContent', GeneralNavigationHelpContent );
+  sceneryPhet.register( 'GeneralKeyboardHelpSection', GeneralKeyboardHelpSection );
 
-  return inherit( KeyboardHelpSection, GeneralNavigationHelpContent, {} );
+  return inherit( KeyboardHelpSection, GeneralKeyboardHelpSection, {} );
 } );
