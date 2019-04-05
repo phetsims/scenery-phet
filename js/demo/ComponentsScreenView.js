@@ -74,7 +74,7 @@ define( function( require ) {
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
-  var SliderControlsHelpContent = require( 'SCENERY_PHET/keyboard/help/SliderControlsHelpContent' );
+  var SliderKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/SliderKeyboardHelpSection' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
@@ -960,7 +960,7 @@ define( function( require ) {
         ) ),
 
         // Individual help content subtypes
-        new Panel( new SliderControlsHelpContent() ),
+        new Panel( new SliderKeyboardHelpSection() ),
         new VBox( {
           children: [
             new Panel( new GeneralKeyboardHelpSection() ),

@@ -38,7 +38,7 @@ define( function( require ) {
    * @constructor
    * @param {Object} options
    */
-  function SliderControlsHelpContent( options ) {
+  function SliderKeyboardHelpSection( options ) {
 
     options = _.extend( {
 
@@ -84,7 +84,7 @@ define( function( require ) {
     KeyboardHelpSection.call( this, options.headingString, content, options );
   }
 
-  sceneryPhet.register( 'SliderControlsHelpContent', SliderControlsHelpContent );
+  sceneryPhet.register( 'SliderKeyboardHelpSection', SliderKeyboardHelpSection );
 
-  return inherit( KeyboardHelpSection, SliderControlsHelpContent );
+  return inherit( KeyboardHelpSection, SliderKeyboardHelpSection );
 } );
