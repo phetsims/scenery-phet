@@ -39,7 +39,7 @@ define( function( require ) {
   var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var HSlider = require( 'SUN/HSlider' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -119,7 +119,7 @@ define( function( require ) {
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'KeyNode', createNode: demoKeyNode },
       { label: 'KitSelectionNode', createNode: demoKitSelectionNode },
-      { label: 'HelpContent', createNode: demoHelpContent },
+      { label: 'KeyboardHelpContent', createNode: demoHelpContent },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
@@ -931,25 +931,25 @@ define( function( require ) {
   // creates a demo for KeyNode
   var demoHelpContent = function( layoutBounds ) {
 
-    var labelWithIcon = HelpContent.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
-    var labelWithIconList = HelpContent.labelWithIconList( 'Label With Icon List:', [
+    var labelWithIcon = KeyboardHelpSection.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
+    var labelWithIconList = KeyboardHelpSection.labelWithIconList( 'Label With Icon List:', [
       new TextKeyNode( 'Hi' ),
       new TextKeyNode( 'Hello' ),
       new TextKeyNode( 'Ahoy\' Manatee' )
     ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
 
-    var labelWithArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with arrows:', HelpContent.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
-    var labelWithUpDownArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with up down arrows:', HelpContent.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
-    var labelWithLeftRightArrowKeysRowIcon = HelpContent.labelWithIcon( 'Label with left right arrows:', HelpContent.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
+    var labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:', KeyboardHelpSection.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
+    var labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:', KeyboardHelpSection.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+    var labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:', KeyboardHelpSection.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
 
-    // Display all of the Help Contents. A custom one for the above components, and HelpContent subtypes as well, each
+    // Display all of the Help Contents. A custom one for the above components, and KeyboardHelpSection subtypes as well, each
     // in their own panel
     return new HBox( {
 
       children: [
 
         // Custom Help Content Panel
-        new Panel( new HelpContent( 'Custom Help Content',
+        new Panel( new KeyboardHelpSection( 'Custom Help Content',
           [
             labelWithIcon,
             labelWithIconList,

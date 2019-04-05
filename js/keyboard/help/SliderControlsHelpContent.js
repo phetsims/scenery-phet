@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var EndKeyNode = require( 'SCENERY_PHET/keyboard/EndKeyNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
@@ -47,44 +47,44 @@ define( function( require ) {
     }, options );
 
     // 'Move sliders' content
-    var adjustSliderLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
-    var adjustSliderUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
-    var adjustSliderIcon = HelpContent.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
-    var adjustSliderRow = HelpContent.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
+    var adjustSliderLeftRightIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
+    var adjustSliderUpDownIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+    var adjustSliderIcon = KeyboardHelpSection.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
+    var adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content
-    var smallStepsLeftRightIcon = HelpContent.leftRightArrowKeysRowIcon();
-    var smallStepsUpDownIcon = HelpContent.upDownArrowKeysRowIcon();
+    var smallStepsLeftRightIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
+    var smallStepsUpDownIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
 
-    var shiftPlusLeftRightIcon = HelpContent.shiftPlusIcon( smallStepsLeftRightIcon );
-    var shiftPlusUpDownIcon = HelpContent.shiftPlusIcon( smallStepsUpDownIcon );
+    var shiftPlusLeftRightIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsLeftRightIcon );
+    var shiftPlusUpDownIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsUpDownIcon );
 
-    var adjustSliderInSmallerStepsRow = HelpContent.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
+    var adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
     // 'move in larger steps' content
     var pageUpKeyNode = new PageUpKeyNode();
     var pageDownKeyNode = new PageDownKeyNode();
     var pageUpPageDownIcon = new HBox( {
       children: [ pageUpKeyNode, pageDownKeyNode ],
-      spacing: HelpContent.DEFAULT_ICON_SPACING
+      spacing: KeyboardHelpSection.DEFAULT_ICON_SPACING
     } );
-    var adjustInLargerStepsRow = HelpContent.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
+    var adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
     // 'move to minimum value' content
     var homeKeyNode = new HomeKeyNode();
-    var jumpToMinimumRow = HelpContent.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
+    var jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
     // 'move to maximum value' content
     var endKeyNode = new EndKeyNode();
-    var jumpToMaximumRow = HelpContent.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
+    var jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
 
-    // assemble final content for HelpContent
+    // assemble final content for KeyboardHelpSection
     var content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
 
-    HelpContent.call( this, options.headingString, content, options );
+    KeyboardHelpSection.call( this, options.headingString, content, options );
   }
 
   sceneryPhet.register( 'SliderControlsHelpContent', SliderControlsHelpContent );
 
-  return inherit( HelpContent, SliderControlsHelpContent );
+  return inherit( KeyboardHelpSection, SliderControlsHelpContent );
 } );

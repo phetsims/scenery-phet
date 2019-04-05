@@ -10,7 +10,7 @@
  *
  * Help content is aligned with two groups. Text labels are aligned in one VBox, icons are aligned in another. To
  * structure the accessible content, we chose to instrument a11y on the icons in the help content. To label content
- * in your own HelpContent, instrument the icons not the label Text so a11y content is placed correctly in the DOM.
+ * in your own KeyboardHelpSection, instrument the icons not the label Text so a11y content is placed correctly in the DOM.
  * Help content is generally a list of items, so each icon has a  tagName of 'li' be default.
  *
  * @author Jesse Greenberg
@@ -72,11 +72,11 @@ define( function( require ) {
    * @param {Array.<f>} content -  icons and labels are each placed in their own VBox, and these layout
    *                                            boxes are aligned horizontally. It is assumed that label and icon have
    *                                            identical bounds so that each row of content can be aligned by
-   *                                            HelpContent. Static functions in this file use AlignGroup to acheive
+   *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
    *                                            this. For examples, see labelWithIcon() and labelWithIconList().
    * @param {Object} [options]
    */
-  function HelpContent( headingString, content, options ) {
+  function KeyboardHelpSection( headingString, content, options ) {
 
     options = _.extend( {
 
@@ -85,8 +85,8 @@ define( function( require ) {
       headingFont: DEFAULT_HEADING_FONT,
       headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
 
-      // {number} The max width for all labels in the HelpContent. Used as the base sizing to layout the rest
-      // of the HelpContent.
+      // {number} The max width for all labels in the KeyboardHelpSection. Used as the base sizing to layout the rest
+      // of the KeyboardHelpSection.
       labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
 
       // VBox options
@@ -112,7 +112,7 @@ define( function( require ) {
     for ( var i = 0; i < content.length; i++ ) {
       const helpContentRow = content[ i ];
 
-      assert && assert( helpContentRow.text.maxWidth === null, 'HelpContent sets maxWidth for children' );
+      assert && assert( helpContentRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
       helpContentRow.text.maxWidth = options.labelMaxWidth;
 
       icons.push( helpContentRow.icon );
@@ -148,13 +148,13 @@ define( function( require ) {
     } );
   }
 
-  sceneryPhet.register( 'HelpContent', HelpContent );
+  sceneryPhet.register( 'KeyboardHelpSection', KeyboardHelpSection );
 
-  inherit( VBox, HelpContent, {}, {
+  inherit( VBox, KeyboardHelpSection, {}, {
 
     /**
      * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
-     * to give the label and icon identical dimensions for easy layout in HelpContent.
+     * to give the label and icon identical dimensions for easy layout in KeyboardHelpSection.
      * @public
      * @static
      *
@@ -162,7 +162,7 @@ define( function( require ) {
      * @param {Node} icon
      * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
      * @param {Object} [options]
-     * @returns {HelpContentRow} - so HelpContent can layout content groups
+     * @returns {HelpContentRow} - so KeyboardHelpSection can layout content groups
      */
     labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -212,7 +212,7 @@ define( function( require ) {
      * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
      * @param {Object} [options] - cannot pass in children
      *
-     * @returns {HelpContentRow} -  so HelpContent can layout content groups
+     * @returns {HelpContentRow} -  so KeyboardHelpSection can layout content groups
      */
     labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -362,10 +362,10 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var arrowKeys = HelpContent.arrowKeysRowIcon();
-      var wasdKeys = HelpContent.wasdRowIcon();
+      var arrowKeys = KeyboardHelpSection.arrowKeysRowIcon();
+      var wasdKeys = KeyboardHelpSection.wasdRowIcon();
 
-      return HelpContent.iconOrIcon( arrowKeys, wasdKeys, options );
+      return KeyboardHelpSection.iconOrIcon( arrowKeys, wasdKeys, options );
     },
 
     /**
@@ -473,15 +473,15 @@ define( function( require ) {
     },
 
     /**
-     * Vertically align icons for a number of different HelpContents. Useful when two HelpContent sections are
+     * Vertically align icons for a number of different HelpContents. Useful when two KeyboardHelpSection sections are
      * stacked vertically in a Dialog. Loops through  contentArray and finds the max x value of the left edge
      * of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
      *
-     * @param {HelpContent[]} contentArray
+     * @param {KeyboardHelpSection[]} contentArray
      */
     alignHelpContentIcons: function( contentArray ) {
 
-      // left edge of icons farthest to the right in the array of HelpContent
+      // left edge of icons farthest to the right in the array of KeyboardHelpSection
       var maxLeftEdge = _.maxBy( contentArray, function( content ) { return content.iconVBox.left; } ).iconVBox.left;
 
       // adjust the spacing of all content HBoxes so that they align
@@ -503,9 +503,9 @@ define( function( require ) {
    * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
    * @param {Object} [options]
    * @static
-   * @returns {HelpContent}
+   * @returns {KeyboardHelpSection}
    */
-  HelpContent.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase, options ) {
+  KeyboardHelpSection.getGrabReleaseHelpContent = function( thingAsTitle, thingAsLowerCase, options ) {
 
     options = _.extend( {
 
@@ -530,30 +530,30 @@ define( function( require ) {
 
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
-    var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContentRow = HelpContent.labelWithIcon( labelString, icons, descriptionString, {
+    var icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
+    var labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
     } );
 
-    return new HelpContent( heading, [ labelWithContentRow ], options );
+    return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
   };
 
 
   /**
-   * A row of HelpContent, containing the label, icon, and text. Many of the static functions of HelpContent
+   * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
    * will return a HelpContentRow. The label and icon are often grouped in an AlignGroup for easy positioning
-   * in HelpContent. This cannot be done in HelpContent directly because different labels and icons will have
+   * in KeyboardHelpSection. This cannot be done in KeyboardHelpSection directly because different labels and icons will have
    * varying layout. For instance, see labelWithIcon vs labelWithIconList.
    *
-   * Includes a reference to the Text because HelpContent will constrain the width of all text in its
+   * Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
    * HelpContentRows for i18n.
    */
   class HelpContentRow {
 
     /**
-     * @param {Text|RichText} text - must be a child of the "label" Node, HelpContent
+     * @param {Text|RichText} text - must be a child of the "label" Node, KeyboardHelpSection
      * @param {Node} label
      * @param {Node} icon
      */
@@ -567,5 +567,5 @@ define( function( require ) {
     }
   }
 
-  return HelpContent;
+  return KeyboardHelpSection;
 } );

@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
@@ -46,11 +46,11 @@ define( function( require ) {
 
     // 'press buttons' content
     var spaceIcon = new SpaceKeyNode();
-    var pressButtonsItemRow = HelpContent.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
+    var pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
 
     // 'exit a dialog' content
     var exitADialogIcon = new EscapeKeyNode();
-    var exitADialogRow = HelpContent.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
+    var exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
     var content = [ pressButtonsItemRow, exitADialogRow ];   
 
@@ -63,10 +63,10 @@ define( function( require ) {
 
       // if the general navigation section includes help content includes groups, modify some text and add another
       // section to describe how to navigate groups
-      var leftRightArrowsIcon = HelpContent.leftRightArrowKeysRowIcon();
-      var upDownArrowsIcon = HelpContent.upDownArrowKeysRowIcon();
-      var leftRightOrUpDownIcon = HelpContent.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = HelpContent.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
+      var leftRightArrowsIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
+      var upDownArrowsIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+      var leftRightOrUpDownIcon = KeyboardHelpSection.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
+      var moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
 
       // the "group" content row row comes just before the "exite a dialog" row
       content.splice( content.indexOf( exitADialogRow ), 0, moveBetweenItemsInAGroupRow );   
@@ -78,21 +78,21 @@ define( function( require ) {
 
     // 'move to next item' content
     var moveToNextItemIcon = new TabKeyNode();
-    var moveToNextItemRow = HelpContent.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
+    var moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
 
     // 'move to previous item' content
     var tabIcon = new TabKeyNode();
-    var moveToPreviousItemIcon = HelpContent.shiftPlusIcon( tabIcon );
-    var moveToPreviousItemRow = HelpContent.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
+    var moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
+    var moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
 
     // move to next/previous items are at the beginning of the content
     content.unshift( moveToNextItemRow, moveToPreviousItemRow );
 
     // order the rows of content
-    HelpContent.call( this, keyboardHelpDialogBasicActionsString, content, options );
+    KeyboardHelpSection.call( this, keyboardHelpDialogBasicActionsString, content, options );
   }
 
   sceneryPhet.register( 'GeneralNavigationHelpContent', GeneralNavigationHelpContent );
 
-  return inherit( HelpContent, GeneralNavigationHelpContent, {} );
+  return inherit( KeyboardHelpSection, GeneralNavigationHelpContent, {} );
 } );
