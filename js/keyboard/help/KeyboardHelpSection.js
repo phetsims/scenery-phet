@@ -1,9 +1,9 @@
 // Copyright 2017-2019, University of Colorado Boulder
 
 /**
- * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple HelpContents are
- * assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label
- * and an array of content for rows of labels and icons.
+ * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSecctions
+ * are assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label and
+ * an array of contents for rows of labels and icons.
  * 
  * This type has many static functions for creating and laying out rows of content.
  * Default values for spacing and fonts are also available through statics if necessary.
@@ -482,9 +482,9 @@ define( function( require ) {
     alignHelpSectionIcons: function( sectionArray ) {
 
       // left edge of icons farthest to the right in the array of KeyboardHelpSection
-      var maxLeftEdge = _.maxBy( sectionArray, function( content ) { return content.iconVBox.left; } ).iconVBox.left;
+      var maxLeftEdge = _.maxBy( sectionArray, function( section ) { return section.iconVBox.left; } ).iconVBox.left;
 
-      // adjust the spacing of all content HBoxes so that they align
+      // adjust the spacing of all section HBoxes so that they align
       sectionArray.forEach( function( section ) {
         section.contentHBox.spacing = section.contentHBox.spacing + maxLeftEdge - section.iconVBox.left;
       } );
@@ -509,7 +509,7 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // just a paragraph for this content, no list
+      // just a paragraph for this section, no list
       a11yContentTagName: null
     }, options );
 
