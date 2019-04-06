@@ -29,13 +29,14 @@ define( require => {
         spacing: 30
       }, options );
 
-      const hBox = new HBox( {
-        children: [ leftNode, rightNode ],
-        spacing: options.spacing
-      } );
-
       assert && assert( options.align === undefined, 'TwoColumnKeyboardHelpContent sets column alignment' );
       options.align = 'top';
+
+      const hBox = new HBox( {
+        children: [ leftNode, rightNode ],
+        spacing: options.spacing,
+        align: 'top'
+      } );
 
       assert && assert( !options.children, 'TwoColumnKeyboardHelpContent sets children' );
       options.children = [ hBox ];
