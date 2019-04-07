@@ -30,7 +30,7 @@ define( function( require ) {
 
         // {null|*} - options passed to the GeneralKeyboardHelpSection
         generalSectionOptions: null
-      } );
+      }, options );
 
       const sliderHelpSection = new SliderKeyboardHelpSection( options.sliderSectionOptions );
       const generalNavigationHelpSection = new GeneralKeyboardHelpSection( options.generalSectionOptions);
