@@ -14,8 +14,7 @@
     "requirejsNamespace": "SCENERY_PHET",
     "preload": [
       "../sherpa/lib/katex-0.5.1-css-all.js",
-      "../sherpa/lib/katex-0.5.1.min.js",
-      "../sherpa/lib/Tween-r12.js"
+      "../sherpa/lib/katex-0.5.1.min.js"
     ],
     "phetLibs": [
       "twixt"
