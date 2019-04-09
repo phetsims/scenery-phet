@@ -37,7 +37,7 @@ define( require => {
       super();
 
       // @private {boolean} initialization is like utteranceQueue's constructor. No-ops all around if not
-      // initialized (cheers). See initialize()
+      // initialized (cheers). See initialize();
       this._initialized = false;
 
       // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
@@ -76,7 +76,7 @@ define( require => {
       }
 
       // clear utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance.uniqueGroupId );
+      this.clearUtteranceGroup( utterance );
 
       this.queue.push( utterance );
     }
@@ -110,7 +110,7 @@ define( require => {
       }
 
       // remove any utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance.uniqueGroupId );
+      this.clearUtteranceGroup( utterance );
 
       this.queue.unshift( utterance );
     }
@@ -128,7 +128,12 @@ define( require => {
       let nextUtterance;
       for ( let i = 0; i < this.queue.length; i++ ) {
         const utterance = this.queue[ i ];
-        if ( utterance.timeInQueue > utterance.delayTime ) {
+
+        const alertStable = utterance.alertStable;
+        const utteranceStabilized = utterance.stableTime > utterance.alertStableDelay;
+        const alertAtMinFrequency = utterance.timeInQueue > utterance.alertMinimumFrequency;
+
+        if ( !alertStable || utteranceStabilized || alertAtMinFrequency ) {
           nextUtterance = utterance;
           this.queue.splice( i, 1 );
           break;
@@ -156,14 +161,20 @@ define( require => {
      * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
      * to support the behavior of uniqueGroupId. See Utterance.uniqueGroupId for description of this feature.
      *
-     * @param {string|number|null} uniqueGroupId
+     * @param {number} uniqueGroupId
      * @private
      */
-    clearUtteranceGroup( uniqueGroupId ) {
+    clearUtteranceGroup( utterance ) {
 
-      // if there are any other items in the queue of the same type, remove them immediately because the added
-      // utterance is meant to replace it
-      if ( uniqueGroupId ) {
+      if ( utterance.alertStable ) {
+
+        // reset the time watching utterance stability since it has been added to the queue
+        utterance.stableTime = 0;
+
+        const uniqueGroupId = utterance.uniqueGroupId;
+
+        // if there are any other items in the queue of the same type, remove them immediately because the added
+        // utterance is meant to replace it
         for ( let i = this.queue.length - 1; i >= 0; i-- ) {
           const otherUtterance = this.queue[ i ];
           if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
@@ -253,6 +264,7 @@ define( require => {
 
       for ( let i = 0; i < this.queue.length; i++ ) {
         this.queue[ i ].timeInQueue += this._stepInterval;
+        this.queue[ i ].stableTime += this._stepInterval;
       }
 
       this.next();

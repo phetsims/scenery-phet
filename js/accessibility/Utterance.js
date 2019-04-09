@@ -8,6 +8,14 @@
  * that conform to AlertableDef. If using an array, alertables in the array will be anounced in order (one at a time)
  * each time this utterances is added to the utteranceQueue.
  *
+ * A single Utterance can be added to the utteranceQueue multiple times. This may be so that a
+ * number of alerts associated with the utterance get read in order (see alert in config). Or it
+ * may be that changes are being alerted rapidly from the same source. An Utterance is considered
+ * "unstable" if it is being added rapidly to the utteranceQueue. By default, utterances are only
+ * announced when they are "stable", and stop getting added to the queue. This will prevent 
+ * a large number of alerts from the same interaction from spamming the user. See related options
+ * alertStable, alertStableDelay, and alertMinimumFrequency.
+ *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -16,6 +24,10 @@ define( require => {
 
   // modules
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+
+  // will be a unique identifier for instance of Utterance to assist with grouping of utterances
+  // in the utteranceQueue
+  let instanceCount = 0;
 
   class Utterance {
 
@@ -42,26 +54,27 @@ define( require => {
         // with this utterance will not be announced by a screen reader
         predicate: function() { return true; },
 
-        // {number|string|null} - Adds a signifier to the utterance that prevents too many alerts of the same type
-        // spamming the queue. If more than one Utterance of the same uniqueGroupId is added to the queue, all others
-        // of the same type that were previously added will be removed. If null, this feature is ignored and
-        // all will  be announced.
-        uniqueGroupId: null,
+        // {boolean} - if true, the alert will not be spoken until this utterance stops being added to the
+        // utteranceQueue for stableDelay time, or if alertMinimumFrequency time has passed while this 
+        // utterance has continuously changed (if it is specified).
+        alertStable: true,
 
-        // {number} - if provided, this utterance won't be spoken until it has been in the queue for at least this long.
-        // Can be used in combination with uniqueGroupId so if an Utterance is being delayed and a new Utterance
-        // of the same uniqueGroupId is added to the queue, the delayed utterance will be removed immediately.
-        // But beware! The queue will otherwise still prioritize items in FIFO, so the utterance could sit in the queue
-        // for longer than this amount.
-        delayTime: 0
+        // {number} - in ms, how long to wait before the utterance is considered "stable" and stops being
+        // added to the queue, at which point it will be spoken if alertStable is true. Note that the alert will
+        // be in the queue for at least this long or longer (depending on interval of utteranceQueue)
+        alertStableDelay: 500,
+
+        // {null|number} - if specified, the utterance will be spoken at least this frequently in ms
+        // even if the utterance is continuously added to the queue and never becomes stable
+        alertMinimumFrequency: null
       }, config );
 
       assert && assert( config.alert, 'alert is required' );
       assert && assert( typeof config.alert === 'string' || Array.isArray( config.alert ) );
       assert && assert( typeof config.loopAlerts === 'boolean' );
       assert && assert( typeof config.predicate === 'function' );
-      assert && assert( typeof config.uniqueGroupId === 'string' || config.uniqueGroupId === null );
-      assert && assert( typeof config.delayTime === 'number' );
+      assert && assert( typeof config.alertStable === 'boolean' );
+      assert && assert( typeof config.alertStableDelay === 'number' );
       if ( config.loopAlerts ) {
         assert && assert( Array.isArray( config.alert ), 'if loopAlerts is provided, config.alert must be an array' );
       }
@@ -73,17 +86,29 @@ define( require => {
 
       // @public (read-only, scenery-phet-internal)
       this.predicate = config.predicate;
-      this.uniqueGroupId = config.uniqueGroupId;
 
-      // @public {number} (scenery-phet-internal) - In ms, how long this utterance has been in the queue in ms. Useful
-      // for doing things like determining if an utterance is stale by time, or adding a delay before the utterance
-      // should be read.
+      // @public {number} (scenery-phet-internal) - In ms, how long this utterance has been in the queue. The
+      // same Utterance can be in the queue more than once (for utterance looping or while the utterance stabilizes),
+      // in this case the time will be since the first time the utterance was added to the queue.
       this.timeInQueue = 0;
+
+      // @public (scenery-phet-internal) {number}  - in ms, how long this utterance has been "stable", which
+      // is the amount of time since this utterance has been added to the utteranceQueue
+      this.stableTime = 0;
+
+      // @public {boolean} - whether or not the utteranceQueue will wait alertStableDelay amount
+      // of time before alerting this utterance to wait for the same utterance to stop reaching
+      // the queue
+      this.alertStable = config.alertStable;
+
+      // @public (read-only, scenery-phet-internal) {number} - assign this utterance to a unique id so that
+      // we can suppress duplicates of this utterance in the utteranceQueue if alertStable is true
+      this.uniqueGroupId = instanceCount++;
 
       // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
       // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the
       // amount of time the utterance has been in the queue
-      this.delayTime = config.delayTime;
+      this.alertStableDelay = config.alertStableDelay;
     }
 
     /**

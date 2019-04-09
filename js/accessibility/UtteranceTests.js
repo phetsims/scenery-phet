@@ -63,28 +63,31 @@ define( require => {
     }
   } );
 
-  QUnit.test( 'UtteranceQueue Testing', async assert => {
+  QUnit.test( 'Basic Utterance testing', async assert => {
 
-    assert.ok( true, 'first test' );
-
-    const myAlert = 'hi';
+    // for this test, we just want to verify that the alert makes it through to ariaHerald
+    const alertContent = 'hi';
+    const myAlert = new Utterance( {
+      alert: alertContent,
+      alertStable: false
+    } );
     utteranceQueue.addToBack( myAlert );
 
-
     await sleep( () => {
-      assert.ok( alerts[ 0 ] === myAlert, 'basic utteranceQueue test' );
+      assert.ok( alerts[ 0 ] === alertContent, 'first alert made it to ariaHerald' );
     } );
 
     utteranceQueue.addToBack( 'alert' );
     await sleep( () => {
-      assert.ok( alerts[ 0 ] === 'alert', 'basic utteranceQueue test2' );
+      assert.ok( alerts[ 0 ] === alertContent, 'second alert made it to ariaHerald' );
     } );
   } );
 
   QUnit.test( 'Utterance options', async assert => {
 
     const alert = new Utterance( {
-      alert: [ '1', '2', '3' ]
+      alert: [ '1', '2', '3' ],
+      alertStable: false
     } );
 
     const alert4 = () => {
@@ -116,7 +119,8 @@ define( require => {
 
     const alert = new Utterance( {
       alert: [ '1', '2', '3' ],
-      loopAlerts: true
+      loopAlerts: true,
+      alertStable: false
     } );
 
     const alert7 = () => {
