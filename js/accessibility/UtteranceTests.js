@@ -81,57 +81,6 @@ define( require => {
     } );
   } );
 
-  QUnit.test( 'UtteranceQueue interval', async assert => {
-
-    const defaultInterval = utteranceQueue.stepInterval;
-
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    await timeout( defaultInterval * 4 + 10 );
-
-    assert.ok( alerts.length === 4, 'all alerts should have been alerted' );
-
-    // clear the alerts, new test
-    alerts = [];
-
-    utteranceQueue.stepInterval = 20;
-
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-    await timeout( 82 ); // a bit longer than 20x4
-    assert.ok( alerts.length === 4, 'all alerts should have been alerted faster' );
-
-
-    // clear alerts, new test
-    alerts = [];
-    utteranceQueue.stepInterval = 2000;
-
-    utteranceQueue.addToBack( 'hi' );
-    utteranceQueue.addToBack( 'hi' );
-
-    assert.ok( alerts.length !== 2, 'both alerts should not have alerted immediately.' );
-
-
-    // clear alerts, new test
-    alerts = [];
-    utteranceQueue.stepInterval = 200;
-
-    const numberOfAlerts = 10;
-    for ( let i = 0; i < numberOfAlerts; i++ ) {
-      utteranceQueue.addToBack( 'hi' );
-    }
-
-    for ( let i = 0; i < numberOfAlerts; i++ ) {
-
-      await timeout( utteranceQueue.stepInterval + 1 );
-      assert.ok( alerts.length === i + 1, 'Alerts should be alerted in the proper interval' );
-    }
-  } );
-
   QUnit.test( 'Utterance options', async assert => {
 
     const alert = new Utterance( {

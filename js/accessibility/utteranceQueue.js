@@ -28,9 +28,6 @@ define( require => {
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   const UtteranceQueueIO = require( 'SCENERY_PHET/accessibility/UtteranceQueueIO' );
 
-  // constants
-  const DEFAULT_STEP_INTERVAL = 500;
-
   /**
    * Can't be called, used only for a singleton, see end of this file.
    * @constructor
@@ -46,13 +43,10 @@ define( require => {
       // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
       this.queue = [];
 
-      // @private {number} the interval for sending alerts to the screen reader, in milliseconds - can be set with
-      // setStepInterval
-      this._stepInterval = DEFAULT_STEP_INTERVAL;
-
-      // @private {null|function} - callback added to the timer to step the queue, reference kept so listener can be
-      // removed if necessary
-      this._intervalCallback = null;
+      // @private {number} the interval for sending alerts to the screen reader, in milliseconds
+      // this value is relatively arbitrary, but it was discovered that spacing alerts at an
+      // interval forced screen readers to read things in FIFO order
+      this._stepInterval = 500;
 
       // whether or not Utterances moving through the queue are read by a screen reader
       this._muted = false;
@@ -244,27 +238,7 @@ define( require => {
     getStepInterval() {
       return this._stepInterval;
     }
-
     get stepInterval() { return this.getStepInterval(); }
-
-    /**
-     * Set the alert interval in milliseconds by adding a new interval callback to the timer. Beware that this
-     * impacts the entire queue. Controlling timing of utterances is probably better managed by using options
-     * for an individual Utterance.
-     * @public
-     *
-     * @param {number} alertInterval
-     */
-    setStepInterval( alertInterval ) {
-      this._stepInterval = alertInterval;
-
-      // remove the previous callback if it was added
-      this._intervalCallback && timer.clearInterval( this._intervalCallback );
-
-      this._intervalCallback = timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
-    }
-
-    set stepInterval( alertInterval ) { this.setStepInterval( alertInterval ); }
 
     /**
      * Step the queue, called by the timer.
@@ -293,8 +267,8 @@ define( require => {
     initialize() {
       this._initialized = true;
 
-      // begin stepping the queue by adding a callback
-      this.setStepInterval( this._stepInterval );
+      // begin stepping the queue
+      timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
