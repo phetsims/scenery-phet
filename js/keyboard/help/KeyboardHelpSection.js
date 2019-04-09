@@ -69,7 +69,7 @@ define( function( require ) {
    * @constructor
    *
    * @param {string} headingString - the translatable label for this content
-   * @param {Array.<f>} content -  icons and labels are each placed in their own VBox, and these layout
+   * @param {Array.<HelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
    *                                            boxes are aligned horizontally. It is assumed that label and icon have
    *                                            identical bounds so that each row of content can be aligned by
    *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
