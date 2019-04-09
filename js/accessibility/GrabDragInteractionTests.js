@@ -73,5 +73,7 @@ define( require => {
     a.accessibleInstances[ 0 ].peer.primarySibling.blur();
 
     testDefaultGrabbable();
+
+    display.detachEvents();
   } );
 } );
