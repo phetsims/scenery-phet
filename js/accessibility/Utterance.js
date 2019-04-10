@@ -9,12 +9,12 @@
  * each time this utterances is added to the utteranceQueue.
  *
  * A single Utterance can be added to the utteranceQueue multiple times. This may be so that a
- * number of alerts associated with the utterance get read in order (see alert in config). Or it
+ * number of alerts associated with the utterance get read in order (see alert in options). Or it
  * may be that changes are being alerted rapidly from the same source. An Utterance is considered
  * "unstable" if it is being added rapidly to the utteranceQueue. By default, utterances are only
  * announced when they are "stable", and stop getting added to the queue. This will prevent 
  * a large number of alerts from the same interaction from spamming the user. See related options
- * alertStable, alertStableDelay, and alertMinimumFrequency.
+ * alertStable, alertStableDelay, and alertMaximumDelay.
  *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -32,17 +32,16 @@ define( require => {
   class Utterance {
 
     /**
-     * @param {Object} config
+     * @param {Object} options
      */
-    constructor( config ) {
-      config = _.extend( {
+    constructor( options ) {
+      options = _.extend( {
 
         /**
          * The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will
          * keep track of number of times that the Utterance has been alerted, and choose from the list "accordingly" see
          * loopingSchema for more details
          * {AlertableDef}
-         * @required
          */
         alert: null,
 
@@ -55,7 +54,7 @@ define( require => {
         predicate: function() { return true; },
 
         // {boolean} - if true, the alert will not be spoken until this utterance stops being added to the
-        // utteranceQueue for stableDelay time, or if alertMinimumFrequency time has passed while this 
+        // utteranceQueue for stableDelay time, or if alertMaximumDelay time has passed while this 
         // utterance has continuously changed (if it is specified).
         alertStable: true,
 
@@ -64,28 +63,30 @@ define( require => {
         // be in the queue for at least this long or longer (depending on interval of utteranceQueue)
         alertStableDelay: 500,
 
-        // {null|number} - if specified, the utterance will be spoken at least this frequently in ms
-        // even if the utterance is continuously added to the queue and never becomes stable
-        alertMinimumFrequency: null
-      }, config );
+        // {number} - if specified, the utterance will be spoken at least this frequently in ms
+        // even if the utterance is continuously added to the queue and never becomes "stable"
+        alertMaximumDelay: Number.MAX_VALUE
+      }, options );
 
-      assert && assert( config.alert, 'alert is required' );
-      assert && assert( typeof config.alert === 'string' || Array.isArray( config.alert ) );
-      assert && assert( typeof config.loopAlerts === 'boolean' );
-      assert && assert( typeof config.predicate === 'function' );
-      assert && assert( typeof config.alertStable === 'boolean' );
-      assert && assert( typeof config.alertStableDelay === 'number' );
-      if ( config.loopAlerts ) {
-        assert && assert( Array.isArray( config.alert ), 'if loopAlerts is provided, config.alert must be an array' );
+      assert && assert( typeof options.loopAlerts === 'boolean' );
+      assert && assert( typeof options.predicate === 'function' );
+      assert && assert( typeof options.alertStable === 'boolean' );
+      assert && assert( typeof options.alertStableDelay === 'number' );
+      assert && assert( typeof options.alertMaximumDelay === 'number' );
+      if ( options.loopAlerts ) {
+        assert && assert( Array.isArray( options.alert ), 'if loopAlerts is provided, options.alert must be an array' );
+      }
+      if ( options.alert ) {
+        assert && assert( typeof options.alert === 'string' || Array.isArray( options.alert ) );
       }
 
       // @private
-      this._alert = config.alert;
+      this._alert = options.alert;
       this.numberOfTimesAlerted = 0; // keep track of the number of times alerted, this will dictate which alert to call.
-      this.loopAlerts = config.loopAlerts;
+      this.loopAlerts = options.loopAlerts;
 
       // @public (read-only, scenery-phet-internal)
-      this.predicate = config.predicate;
+      this.predicate = options.predicate;
 
       // @public {number} (scenery-phet-internal) - In ms, how long this utterance has been in the queue. The
       // same Utterance can be in the queue more than once (for utterance looping or while the utterance stabilizes),
@@ -99,7 +100,7 @@ define( require => {
       // @public {boolean} - whether or not the utteranceQueue will wait alertStableDelay amount
       // of time before alerting this utterance to wait for the same utterance to stop reaching
       // the queue
-      this.alertStable = config.alertStable;
+      this.alertStable = options.alertStable;
 
       // @public (read-only, scenery-phet-internal) {number} - assign this utterance to a unique id so that
       // we can suppress duplicates of this utterance in the utteranceQueue if alertStable is true
@@ -108,7 +109,12 @@ define( require => {
       // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
       // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the
       // amount of time the utterance has been in the queue
-      this.alertStableDelay = config.alertStableDelay;
+      this.alertStableDelay = options.alertStableDelay;
+
+      // @public {scenery-phet-internal, read-only} {number}- in ms, the maximum amount of time that should
+      // pass before this alert should be spoken, even if the utterance is rapidly added to the queue
+      // and is not quite "stable"
+      this.alertMaximumDelay = options.alertMaximumDelay;
     }
 
     /**

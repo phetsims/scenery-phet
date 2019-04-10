@@ -152,4 +152,24 @@ define( require => {
     alert7();
     testOrder( ', reset should start over' );
   } );
+
+  QUnit.test( 'alertStable tests', async assert => {
+    const highFrequencyUtterance = new Utterance( { alert: 'Rapidly Changing' } );
+
+    const numAlerts = 4;
+
+    // add the utterance to the back many times, by default they should collapse
+    for ( let i = 0; i < numAlerts; i++) {
+      utteranceQueue.addToBack( highFrequencyUtterance );
+    }
+    assert.ok( utteranceQueue.queue.length === 1, 'utterances should collapse by default after addToBack' );
+
+    for ( let i = 0; i < numAlerts; i++ ) {
+      utteranceQueue.addToFront( highFrequencyUtterance );
+    }
+    assert.ok( utteranceQueue.queue.length === 1, 'utterances should collapse by default after addToFront' );
+
+    await timeout( sleepTiming * 4 );
+    assert.ok( alerts.length === 1, ' we only heard one alert after they became stable' );
+  } );
 } );
