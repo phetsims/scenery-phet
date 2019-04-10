@@ -131,11 +131,18 @@ define( require => {
 
         const alertStable = utterance.alertStable;
         const utteranceStabilized = utterance.stableTime > utterance.alertStableDelay;
-        const alertAtMinFrequency = utterance.timeInQueue > utterance.alertMinimumFrequency;
+        const alertMaximumDelay = utterance.timeInQueue > utterance.alertMaximumDelay;
 
-        if ( !alertStable || utteranceStabilized || alertAtMinFrequency ) {
+        if ( !alertStable || utteranceStabilized || alertMaximumDelay ) {
           nextUtterance = utterance;
           this.queue.splice( i, 1 );
+
+          // if waiting for stability but we hit the alertMaximimumDelay, reset time for this
+          // utterance in queue
+          if ( nextUtterance.alertStable ) {
+            nextUtterance.timeInQueue = 0;
+          }
+
           break;
         }
       }

@@ -14,7 +14,7 @@
  * "unstable" if it is being added rapidly to the utteranceQueue. By default, utterances are only
  * announced when they are "stable", and stop getting added to the queue. This will prevent 
  * a large number of alerts from the same interaction from spamming the user. See related options
- * alertStable, alertStableDelay, and alertMinimumFrequency.
+ * alertStable, alertStableDelay, and alertMaximumDelay.
  *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -55,7 +55,7 @@ define( require => {
         predicate: function() { return true; },
 
         // {boolean} - if true, the alert will not be spoken until this utterance stops being added to the
-        // utteranceQueue for stableDelay time, or if alertMinimumFrequency time has passed while this 
+        // utteranceQueue for stableDelay time, or if alertMaximumDelay time has passed while this 
         // utterance has continuously changed (if it is specified).
         alertStable: true,
 
@@ -64,9 +64,9 @@ define( require => {
         // be in the queue for at least this long or longer (depending on interval of utteranceQueue)
         alertStableDelay: 500,
 
-        // {null|number} - if specified, the utterance will be spoken at least this frequently in ms
-        // even if the utterance is continuously added to the queue and never becomes stable
-        alertMinimumFrequency: null
+        // {number} - if specified, the utterance will be spoken at least this frequently in ms
+        // even if the utterance is continuously added to the queue and never becomes "stable"
+        alertMaximumDelay: Number.MAX_VALUE
       }, config );
 
       assert && assert( config.alert, 'alert is required' );
@@ -75,6 +75,7 @@ define( require => {
       assert && assert( typeof config.predicate === 'function' );
       assert && assert( typeof config.alertStable === 'boolean' );
       assert && assert( typeof config.alertStableDelay === 'number' );
+      assert && assert( typeof config.alertMaximumDelay === 'number' );
       if ( config.loopAlerts ) {
         assert && assert( Array.isArray( config.alert ), 'if loopAlerts is provided, config.alert must be an array' );
       }
@@ -109,6 +110,11 @@ define( require => {
       // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the
       // amount of time the utterance has been in the queue
       this.alertStableDelay = config.alertStableDelay;
+
+      // @public {scenery-phet-internal, read-only} {number}- in ms, the maximum amount of time that should
+      // pass before this alert should be spoken, even if the utterance is rapidly added to the queue
+      // and is not quite "stable"
+      this.alertMaximumDelay = config.alertMaximumDelay;
     }
 
     /**
