@@ -166,9 +166,9 @@ define( require => {
 
     /**
      * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
-     * to support the behavior of uniqueGroupId. See Utterance.uniqueGroupId for description of this feature.
+     * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
      *
-     * @param {number} uniqueGroupId
+     * @param {number} uniqueId
      * @private
      */
     clearUtteranceGroup( utterance ) {
@@ -178,13 +178,13 @@ define( require => {
         // reset the time watching utterance stability since it has been added to the queue
         utterance.stableTime = 0;
 
-        const uniqueGroupId = utterance.uniqueGroupId;
+        const uniqueId = utterance.uniqueId;
 
         // if there are any other items in the queue of the same type, remove them immediately because the added
         // utterance is meant to replace it
         for ( let i = this.queue.length - 1; i >= 0; i-- ) {
           const otherUtterance = this.queue[ i ];
-          if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
+          if ( otherUtterance.uniqueId === uniqueId ) {
             this.queue.splice( i, 1 );
           }
         }
