@@ -38,14 +38,19 @@ define( function( require ) {
     constructor( options ) {
 
       options = _.extend( {
+
+        // options for the grip
         gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {Color|string} base color of gradient on the grip
-        gripStroke: 'black', // {Color|string} stroke color of the grip
+        gripStroke: 'black', // {ColorDef} stroke color of the grip
         gripLineWidth: 3,
-        attachmentFill: 'gray', // {Color|string} solid fill color for the attachments
-        attachmentStroke: 'black', // {Color|string} stroke color of the attachments
+
+        // options for the attachment(s)
+        attachmentFill: 'gray', // {ColorDef} solid fill color for the attachments
+        attachmentStroke: 'black', // {ColorDef} stroke color of the attachments
         attachmentLineWidth: 3,
         hasLeftAttachment: true,
         hasRightAttachment: true
+
       }, options );
 
       assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
