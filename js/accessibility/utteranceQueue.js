@@ -75,8 +75,8 @@ define( require => {
         utterance = new Utterance( { alert: utterance } );
       }
 
-      // clear utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance );
+      // clear any utterances if they are duplicates of the one being added
+      this.clearUtterances( utterance );
 
       this.queue.push( utterance );
     }
@@ -109,8 +109,8 @@ define( require => {
         utterance = new Utterance( { alert: utterance } );
       }
 
-      // remove any utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance );
+      // remove any utterances if they are duplicates of the one being added
+      this.clearUtterances( utterance );
 
       this.queue.unshift( utterance );
     }
@@ -165,13 +165,13 @@ define( require => {
     }
 
     /**
-     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
+     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances duplicates
      * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
      *
      * @param {number} uniqueId
      * @private
      */
-    clearUtteranceGroup( utterance ) {
+    clearUtterances( utterance ) {
 
       if ( utterance.alertStable ) {
 
