@@ -15,12 +15,13 @@ define( function( require ) {
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
 
   // constants
-  // grip shape vars
+  // grip shape
   const GRIP_WIDTH = 100;
   const GRIP_HEIGHT = 42;
   const GRIP_CORNER_RADIUS = GRIP_WIDTH * 0.03;
@@ -40,7 +41,7 @@ define( function( require ) {
       options = _.extend( {
 
         // options for the grip
-        gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {Color|string} base color of gradient on the grip
+        gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {ColorDef} base color of gradient on the grip
         gripStroke: 'black', // {ColorDef} stroke color of the grip
         gripLineWidth: 3,
 
@@ -88,16 +89,20 @@ define( function( require ) {
         .lineTo( 0, GRIP_HEIGHT / 2 )
         .close();
 
+      // Use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+      const gripBaseColorProperty = new PaintColorProperty( options.gripBaseColor );
+      const brighterColorProperty = new PaintColorProperty( gripBaseColorProperty, { luminanceFactor: 0.95 } );
+      const darkerColorProperty = new PaintColorProperty( gripBaseColorProperty, { luminanceFactor: -0.35 } );
+
       // add handle grip shape
-      const gradientBaseColor = Color.toColor( options.gripBaseColor );
       const gripPath = new Path( gripShape, {
         lineWidth: options.gripLineWidth,
         stroke: options.gripStroke,
         fill: new LinearGradient( 0, 0, 0, GRIP_HEIGHT )
-          .addColorStop( 0, gradientBaseColor )
-          .addColorStop( 0.4, gradientBaseColor.brighterColor( 0.5 ) )
-          .addColorStop( 0.7, gradientBaseColor )
-          .addColorStop( 1.0, gradientBaseColor.darkerColor( 0.6 ) )
+          .addColorStop( 0, gripBaseColorProperty )
+          .addColorStop( 0.4, brighterColorProperty )
+          .addColorStop( 0.7, gripBaseColorProperty )
+          .addColorStop( 1.0, darkerColorProperty )
       } );
 
       assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
@@ -177,10 +182,24 @@ define( function( require ) {
       }
 
       super( options );
+
+      // @private
+      this.disposeHandleNode = () => {
+        gripBaseColorProperty.dispose();
+        brighterColorProperty.dispose();
+        darkerColorProperty.dispose();
+      }
     }
   }
 
-  sceneryPhet.register( 'HandleNode', HandleNode );
+  sceneryPhet.register( 'HandleNode', HandleNode, {
+
+    // @public
+    dispose() {
+      this.disposeHandleNode();
+      HandleNode.prototype.dispose.call( this );
+    }
+  } );
 
   /**
    * Add an "up/down" combination to either the top or bottom of the grip.
