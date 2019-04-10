@@ -106,6 +106,10 @@ define( require => {
       // This sub-describer handles the logic for alerting when an item is on the edge of the movement space
       this.borderAlertsDescriber = new BorderAlertsDescriber( options.borderAlertsOptions );
 
+      // @private {Utterance} - single utterance to describe direction changes so that when this
+      // happens frequently only the last change is announced
+      this.directionChangeUtterance = new Utterance();
+
       // @private
       this.initialFirstLocationProperty = locationProperty.get();
 
@@ -135,10 +139,8 @@ define( require => {
 
       // support if an instance doesn't want to alert in all directions
       directions.forEach( direction => {
-        this.alert( new Utterance( {
-          alert: this.movementAlerts[ direction ],
-          uniqueGroupId: 'directionalMovement' + direction
-        } ) );
+        this.directionChangeUtterance.alert = this.movementAlerts[ direction ];
+        this.alert( this.directionChangeUtterance );
       } );
     }
 
