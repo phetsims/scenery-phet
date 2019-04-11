@@ -104,7 +104,7 @@ define( require => {
 
       // @public (read-only, scenery-phet-internal) {number} - assign this utterance to a unique id so that
       // we can suppress duplicates of this utterance in the utteranceQueue if alertStable is true
-      this.uniqueGroupId = instanceCount++;
+      this.uniqueId = instanceCount++;
 
       // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
       // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the

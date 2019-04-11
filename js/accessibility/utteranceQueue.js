@@ -75,8 +75,8 @@ define( require => {
         utterance = new Utterance( { alert: utterance } );
       }
 
-      // clear utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance );
+      // clear any utterances if they are duplicates of the one being added
+      this.clearUtterances( utterance );
 
       this.queue.push( utterance );
     }
@@ -109,8 +109,8 @@ define( require => {
         utterance = new Utterance( { alert: utterance } );
       }
 
-      // remove any utterances of the same group as the one being added
-      this.clearUtteranceGroup( utterance );
+      // remove any utterances if they are duplicates of the one being added
+      this.clearUtterances( utterance );
 
       this.queue.unshift( utterance );
     }
@@ -165,26 +165,26 @@ define( require => {
     }
 
     /**
-     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances of the specified group
-     * to support the behavior of uniqueGroupId. See Utterance.uniqueGroupId for description of this feature.
+     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances duplicates
+     * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
      *
-     * @param {number} uniqueGroupId
+     * @param {number} uniqueId
      * @private
      */
-    clearUtteranceGroup( utterance ) {
+    clearUtterances( utterance ) {
 
       if ( utterance.alertStable ) {
 
         // reset the time watching utterance stability since it has been added to the queue
         utterance.stableTime = 0;
 
-        const uniqueGroupId = utterance.uniqueGroupId;
+        const uniqueId = utterance.uniqueId;
 
         // if there are any other items in the queue of the same type, remove them immediately because the added
         // utterance is meant to replace it
         for ( let i = this.queue.length - 1; i >= 0; i-- ) {
           const otherUtterance = this.queue[ i ];
-          if ( otherUtterance.uniqueGroupId === uniqueGroupId ) {
+          if ( otherUtterance.uniqueId === uniqueId ) {
             this.queue.splice( i, 1 );
           }
         }

@@ -29,7 +29,10 @@ define( function( require ) {
         sliderSectionOptions: null,
 
         // {null|*} - options passed to the GeneralKeyboardHelpSection
-        generalSectionOptions: null
+        generalSectionOptions: null,
+
+        // i18n, a bit shorter than default so general and slider sections fits side by side
+        labelMaxWidth: 160
       }, options );
 
       const sliderHelpSection = new SliderKeyboardHelpSection( options.sliderSectionOptions );
