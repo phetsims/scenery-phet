@@ -188,7 +188,7 @@ define( function( require ) {
         gripBaseColorProperty.dispose();
         brighterColorProperty.dispose();
         darkerColorProperty.dispose();
-      }
+      };
     }
   }
 
