@@ -102,12 +102,24 @@ define( function( require ) {
     var arrowButtonOptions = _.extend( {
       scale: 0.85,
 
+      touchAreaXDilation: 3.5,
+      touchAreaYDilation: 7,
+      mouseAreaXDilation: 0,
+      mouseAreaYDilation: 0,
+
       // callbacks
       leftStart: options.startCallback, // called when left arrow is pressed
       leftEnd: options.endCallback, // called when left arrow is released
       rightStart: options.startCallback, // called when right arrow is pressed
       rightEnd: options.endCallback // called when right arrow is released
     }, options.arrowButtonOptions );
+
+    // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
+    // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
+    // And do not propagate those options to ArrowButton instances.
+    const pointerAreaOptionNames = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
+    const arrowButtonPointerAreaOptions = _.pick( arrowButtonOptions, pointerAreaOptionNames );
+    arrowButtonOptions = _.omit( arrowButtonOptions, pointerAreaOptionNames );
 
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
@@ -196,6 +208,22 @@ define( function( require ) {
       endCallback: arrowButtonOptions.rightEnd,
       tandem: options.tandem.createTandem( 'rightArrowButton' )
     }, arrowButtonOptions ) );
+
+    // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+    leftArrowButton.touchArea = leftArrowButton.localBounds
+      .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+      .shiftedX( -arrowButtonPointerAreaOptions.touchAreaXDilation );
+    rightArrowButton.touchArea = rightArrowButton.localBounds
+      .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+      .shiftedX( arrowButtonPointerAreaOptions.touchAreaXDilation );
+
+    // arrow button mouseAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+    leftArrowButton.mouseArea = leftArrowButton.localBounds
+      .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+      .shiftedX( -arrowButtonPointerAreaOptions.mouseAreaXDilation );
+    rightArrowButton.mouseArea = rightArrowButton.localBounds
+      .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+      .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
     var arrowEnabledListener = function( value ) {
       leftArrowButton.enabled = ( value > numberRange.min );
