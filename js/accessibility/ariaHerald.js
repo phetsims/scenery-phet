@@ -130,11 +130,22 @@ define( require => {
       // clearing the old content allows repeated alerts
       if ( withClear ) { liveElement.textContent = ''; }
 
-      AccessibilityUtil.setTextContent( liveElement, textContent );
+      // element must be visible for alerts to be spoken
+      liveElement.hidden = false;
 
-      // after a small delay, remove this alert content from the DOM so that it cannot be found again - must occur
-      // after a delay for screen reader to register the change in text content
-      timer.setTimeout( () => { liveElement.textContent = ''; }, 200 );
+      // must be done asynchronously from setting hidden above or else the screen reader
+      // will fail to read the content
+      timer.setTimeout( () => {
+        AccessibilityUtil.setTextContent( liveElement, textContent );
+
+        // Hide the content so that it cant be read with the virtual cursor. Must be done
+        // behind a delay,  setting hidden too quickly will prevent the screen reader from
+        // speaking the alert at all. Using `hidden` rather than setting textContent works better
+        // than clearing textContent on mobile VO, see https://github.com/phetsims/scenery-phet/issues/490
+        timer.setTimeout( () => {
+          liveElement.hidden = true;
+        }, 200 );
+      }, 200 );
     }
   }
 
