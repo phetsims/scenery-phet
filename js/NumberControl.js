@@ -137,6 +137,7 @@ define( function( require ) {
       // all HSlider options may be used. These are the ones that NumberControl overrides:
       trackSize: new Dimension2( 180, 3 ),
       thumbSize: new Dimension2( 17, 34 ),
+      thumbTouchAreaXDilation: 6,
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
 
