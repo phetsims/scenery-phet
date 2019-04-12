@@ -148,8 +148,6 @@ define( function( require ) {
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
-    var outline = createShape().close();
-
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     var lightAngle = options.lightAngle;
 
@@ -221,6 +219,7 @@ define( function( require ) {
     );
 
     // Allow the client to override mouse and touch area, but fall back to the outline
+    var outline = createShape().close();
     options.mouseArea = options.mouseArea || outline;
     options.touchArea = options.touchArea || outline;
 
