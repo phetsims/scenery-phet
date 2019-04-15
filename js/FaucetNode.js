@@ -393,8 +393,6 @@ define( function( require ) {
     };
   }
 
-  sceneryPhet.register( 'FaucetNode.ShooterNode', ShooterNode );
-
   inherit( Node, ShooterNode, {
 
     // @public

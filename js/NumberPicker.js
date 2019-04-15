@@ -446,8 +446,6 @@ define( function( require ) {
     } );
   }
 
-  sceneryPhet.register( 'NumberPicker.ButtonStateListener', ButtonStateListener );
-
   inherit( ButtonListener, ButtonStateListener );
 
   // creates a vertical gradient

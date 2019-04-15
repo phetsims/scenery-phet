@@ -307,8 +307,6 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  sceneryPhet.register( 'ConductivityTesterNode.ProbeNode', ProbeNode );
-
   inherit( Node, ProbeNode );
 
   /**
@@ -337,8 +335,6 @@ define( function( require ) {
 
     this.mutate( options );
   }
-
-  sceneryPhet.register( 'ConductivityTesterNode.WireNode', WireNode );
 
   inherit( Path, WireNode, {
 

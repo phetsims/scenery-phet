@@ -367,8 +367,6 @@ define( function( require ) {
     Path.call( this, shape, options );
   }
 
-  sceneryPhet.register( 'SpectrumSlider.Thumb', Thumb );
-
   inherit( Path, Thumb );
 
   /**
@@ -395,8 +393,6 @@ define( function( require ) {
     };
   }
 
-  sceneryPhet.register( 'SpectrumSlider.ValueDisplay', ValueDisplay );
-
   inherit( Text, ValueDisplay, {
 
     dispose: function() {
@@ -417,8 +413,6 @@ define( function( require ) {
   function Cursor( width, height, options ) {
     Rectangle.call( this, -width / 2, 0, width, height, options );
   }
-
-  sceneryPhet.register( 'SpectrumSlider.Cursor', Cursor );
 
   inherit( Rectangle, Cursor );
 
