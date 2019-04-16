@@ -102,6 +102,8 @@ define( function( require ) {
     var arrowButtonOptions = _.extend( {
       scale: 0.85,
 
+      // Values chosen to match previous behavior, see https://github.com/phetsims/scenery-phet/issues/489.
+      // touchAreaXDilation is 1/2 of its original value because touchArea is shifted.
       touchAreaXDilation: 3.5,
       touchAreaYDilation: 7,
       mouseAreaXDilation: 0,
