@@ -48,13 +48,14 @@
       '../sherpa/lib/TextEncoderLite-3c9f6f0.js',
       '../tandem/js/PhetioIDUtils.js',
       '../sherpa/lib/katex-0.5.1-css-all.js',
-      '../sherpa/lib/katex-0.5.1.min.js',
-      '../sherpa/lib/Tween-r12.js'
+      '../sherpa/lib/katex-0.5.1.min.js'
     ];
 
     if ( brand === 'phet-io' ) {
       preloads = preloads.concat( [
-        '../phet-io/js/phet-io-initialize-globals.js'
+        '../phet-io/js/phet-io-initialize-globals.js',
+        '../scenery-phet/js/phet-io/scenery-phet-phet-io-elements-baseline.js',
+        '../scenery-phet/js/phet-io/scenery-phet-phet-io-elements-overrides.js'
       ] );
     }
 
