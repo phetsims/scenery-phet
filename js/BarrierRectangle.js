@@ -23,8 +23,10 @@ define( require => {
         tandem: Tandem.required,
         phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
         phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
-        phetioState: false,
-        phetioEventType: PhetioObject.EventType.USER
+        phetioEventType: PhetioObject.EventType.USER,
+        phetioComponentOptions: {
+          phetioState: false
+        }
       }, options );
 
       super( options );
