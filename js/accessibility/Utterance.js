@@ -12,7 +12,7 @@
  * number of alerts associated with the utterance get read in order (see alert in options). Or it
  * may be that changes are being alerted rapidly from the same source. An Utterance is considered
  * "unstable" if it is being added rapidly to the utteranceQueue. By default, utterances are only
- * announced when they are "stable", and stop getting added to the queue. This will prevent 
+ * announced when they are "stable", and stop getting added to the queue. This will prevent
  * a large number of alerts from the same interaction from spamming the user. See related options
  * alertStable, alertStableDelay, and alertMaximumDelay.
  *
@@ -41,11 +41,11 @@ define( require => {
          * The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will
          * keep track of number of times that the Utterance has been alerted, and choose from the list "accordingly" see
          * loopingSchema for more details
-         * {AlertableDef}
+         * {string|Array.<string>}
          */
         alert: null,
 
-        // if true, then the alert must be of type {Array}, and alerting will cycle through each alert, and then wrap back
+        // if true, then the alert must be of type {Array.<string>}, and alerting will cycle through each alert, and then wrap back
         // to the beginning when complete. The default behavior (loopAlerts:false) is to repeat the last alert in the array until reset.
         loopAlerts: false,
 
@@ -73,12 +73,9 @@ define( require => {
       assert && assert( typeof options.alertStable === 'boolean' );
       assert && assert( typeof options.alertStableDelay === 'number' );
       assert && assert( typeof options.alertMaximumDelay === 'number' );
-      if ( options.loopAlerts ) {
-        assert && assert( Array.isArray( options.alert ), 'if loopAlerts is provided, options.alert must be an array' );
-      }
-      if ( options.alert ) {
-        assert && assert( typeof options.alert === 'string' || Array.isArray( options.alert ) );
-      }
+      assert && options.alert && assert( typeof options.alert === 'string' || Array.isArray( options.alert ) );
+      assert && options.alert && options.loopAlerts && assert( Array.isArray( options.alert ),
+        'if loopAlerts is provided, options.alert must be an array' );
 
       // @private
       this._alert = options.alert;
@@ -94,7 +91,7 @@ define( require => {
       this.timeInQueue = 0;
 
       // @public (scenery-phet-internal) {number}  - in ms, how long this utterance has been "stable", which
-      // is the amount of time since this utterance has been added to the utteranceQueue
+      // is the amount of time since this utterance has been added to the utteranceQueue.
       this.stableTime = 0;
 
       // @public {boolean} - whether or not the utteranceQueue will wait alertStableDelay amount
@@ -103,7 +100,7 @@ define( require => {
       this.alertStable = options.alertStable;
 
       // @public (read-only, scenery-phet-internal) {number} - assign this utterance to a unique id so that
-      // we can suppress duplicates of this utterance in the utteranceQueue if alertStable is true
+      // we can suppress duplicates of this utterance in the utteranceQueue. Only supported if `alertStable` is true.
       this.uniqueId = instanceCount++;
 
       // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
@@ -121,7 +118,7 @@ define( require => {
      * Getter for the text to be alerted for this Utterance. This should only be called when the alert is about to occur
      * because Utterance updates the number of times it has alerted based on this function, see this.numberOfTimesAlerted
      * @returns {string}
-     * @public
+     * @public (UtteranceQueue only)
      */
     getTextToAlert() {
       let alert;
@@ -142,11 +139,19 @@ define( require => {
 
     /**
      * Set the alert for the utterance
-     * @param {AlertableDef} alert
+     * @param {string|Array.<string>} alert
      * @public
      */
     set alert( alert ) {
       this._alert = alert;
+    }
+
+    /**
+     * @public
+     * @returns {null|string|Array.<string>}
+     */
+    get alert() {
+      return this._alert;
     }
 
     /**

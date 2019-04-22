@@ -41,7 +41,7 @@ define( require => {
 
       ariaHerald.initialize();
 
-      // whenever announcing, get a callback
+      // whenever announcing, get a callback and populate the alerts array
       ariaHerald.announcingEmitter.addListener( text => {
         alerts.unshift( text );
       } );
@@ -153,13 +153,13 @@ define( require => {
     testOrder( ', reset should start over' );
   } );
 
-  QUnit.test( 'alertStable tests', async assert => {
+  QUnit.test( 'alertStable and alertStableDelay tests', async assert => {
     const highFrequencyUtterance = new Utterance( { alert: 'Rapidly Changing' } );
 
     const numAlerts = 4;
 
     // add the utterance to the back many times, by default they should collapse
-    for ( let i = 0; i < numAlerts; i++) {
+    for ( let i = 0; i < numAlerts; i++ ) {
       utteranceQueue.addToBack( highFrequencyUtterance );
     }
     assert.ok( utteranceQueue.queue.length === 1, 'utterances should collapse by default after addToBack' );
@@ -171,5 +171,31 @@ define( require => {
 
     await timeout( sleepTiming * 4 );
     assert.ok( alerts.length === 1, ' we only heard one alert after they became stable' );
+
+
+    /////////////////////////////////////////
+
+    alerts = [];
+    const myUtterance = new Utterance( {
+      alert: 'hi',
+      alertStable: true,
+      alertStableDelay: 1100
+    } );
+
+    for ( let i = 0; i < 100; i++ ) {
+      utteranceQueue.addToBack( myUtterance );
+    }
+
+    assert.ok( utteranceQueue.queue.length === 1, 'same Utterance should override in queue' );
+    await timeout( sleepTiming );
+
+    assert.ok( myUtterance.stableTime >= utteranceQueue._stepInterval );
+
+    assert.ok( utteranceQueue.queue.length === 1, 'Alert still in queue after waiting less than alertStableDelay but more than stepInterval.' );
+    await timeout( sleepTiming * 2 );
+
+    assert.ok( utteranceQueue.queue.length === 0, 'Utterance alerted after alertStableDelay time passed' );
+    assert.ok( alerts.length === 1, 'utterance ended up in alerts list' );
+    assert.ok( alerts[ 0 ] === myUtterance.alert, 'utterance text matches that which is expected' );
   } );
 } );

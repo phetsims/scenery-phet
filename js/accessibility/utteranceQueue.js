@@ -40,7 +40,7 @@ define( require => {
       // initialized (cheers). See initialize();
       this._initialized = false;
 
-      // @private {Array.<Utterance>} - array of Utterances, spoken in first to last order
+      // @public (tests) {Array.<Utterance>} - array of Utterances, spoken in first to last order
       this.queue = [];
 
       // @private {number} the interval for sending alerts to the screen reader, in milliseconds
@@ -76,7 +76,7 @@ define( require => {
       }
 
       // clear any utterances if they are duplicates of the one being added
-      this.clearUtterances( utterance );
+      this.clearUtterance( utterance );
 
       this.queue.push( utterance );
     }
@@ -110,7 +110,7 @@ define( require => {
       }
 
       // remove any utterances if they are duplicates of the one being added
-      this.clearUtterances( utterance );
+      this.clearUtterance( utterance );
 
       this.queue.unshift( utterance );
     }
@@ -165,13 +165,13 @@ define( require => {
     }
 
     /**
-     * Called by addToFront and addToBack, do not call this. Clears the queue of all utterances duplicates
+     * Called by addToFront and addToBack, do not call this. Clears the queue of all duplicates of the provided Utterance
      * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
      *
-     * @param {number} uniqueId
+     * @param {Utterance} utterance
      * @private
      */
-    clearUtterances( utterance ) {
+    clearUtterance( utterance ) {
 
       if ( utterance.alertStable ) {
 
@@ -256,6 +256,7 @@ define( require => {
     getStepInterval() {
       return this._stepInterval;
     }
+
     get stepInterval() { return this.getStepInterval(); }
 
     /**
