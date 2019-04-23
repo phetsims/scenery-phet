@@ -144,8 +144,8 @@ define( require => {
         // than clearing textContent on mobile VO, see https://github.com/phetsims/scenery-phet/issues/490
         timer.setTimeout( () => {
           liveElement.hidden = true;
-        }, 200 );
-      }, 200 );
+        }, 0 );
+      }, 0 );
     }
   }
 

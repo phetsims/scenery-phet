@@ -59,9 +59,10 @@ define( require => {
         alertStable: true,
 
         // {number} - in ms, how long to wait before the utterance is considered "stable" and stops being
-        // added to the queue, at which point it will be spoken if alertStable is true. Note that the alert will
-        // be in the queue for at least this long or longer (depending on interval of utteranceQueue)
-        alertStableDelay: 500,
+        // added to the queue, at which point it will be spoken if alertStable is true. Default value chosen because
+        // it sounds nice in most usages of Utterance with alertStable, see
+        // https://github.com/phetsims/scenery-phet/issues/491
+        alertStableDelay: 200,
 
         // {number} - if specified, the utterance will be spoken at least this frequently in ms
         // even if the utterance is continuously added to the queue and never becomes "stable"

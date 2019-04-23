@@ -3,7 +3,7 @@
 /**
  * Manages a queue of Utterances that are read in order by a screen reader.  This queue typically reads
  * things in a first-in-first-out manner, but it is possible to send an alert directly to the front of
- * the queue.  Items in the queue are sent to the screen reader front to back with a certain delay interval.
+ * the queue.  Items in the queue are sent to the screen reader front to back, driven by AXON/timer.
  *
  * Screen readers are inconsistent in the way that they order alerts, some use last-in-first-out order,
  * others use first-in-first-out order, others just read the last alert that was provided. This queue
@@ -42,11 +42,6 @@ define( require => {
 
       // @public (tests) {Array.<Utterance>} - array of Utterances, spoken in first to last order
       this.queue = [];
-
-      // @private {number} the interval for sending alerts to the screen reader, in milliseconds
-      // this value is relatively arbitrary, but it was discovered that spacing alerts at an
-      // interval forced screen readers to read things in FIFO order
-      this._stepInterval = 500;
 
       // whether or not Utterances moving through the queue are read by a screen reader
       this._muted = false;
@@ -117,7 +112,7 @@ define( require => {
 
     /**
      * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
-     * returns false, no alert will be read. Called privately by timer.setInterval
+     * returns false, no alert will be read. Called privately by timer.
      *
      * @private
      */
@@ -248,31 +243,23 @@ define( require => {
     get enabled() { return this.getEnabled(); }
 
     /**
-     * Get the interval that alerts are sent to the screen reader.
-     *
-     * @public
-     * @returns {number}
-     */
-    getStepInterval() {
-      return this._stepInterval;
-    }
-
-    get stepInterval() { return this.getStepInterval(); }
-
-    /**
      * Step the queue, called by the timer.
+     *
+     * @param {number} dt - time since last step, in seconds
      * @private
      */
-    stepQueue() {
+    stepQueue( dt ) {
 
       // No-op function if the utteranceQueue is disabled
       if ( !this._enabled ) {
         return;
       }
 
+      dt *= 1000; // convert to ms
+
       for ( let i = 0; i < this.queue.length; i++ ) {
-        this.queue[ i ].timeInQueue += this._stepInterval;
-        this.queue[ i ].stableTime += this._stepInterval;
+        this.queue[ i ].timeInQueue += dt;
+        this.queue[ i ].stableTime += dt;
       }
 
       this.next();
@@ -288,7 +275,7 @@ define( require => {
       this._initialized = true;
 
       // begin stepping the queue
-      timer.setInterval( this.stepQueue.bind( this ), this._stepInterval );
+      timer.addListener( this.stepQueue.bind( this ) );
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {

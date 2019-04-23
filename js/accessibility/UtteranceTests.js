@@ -34,10 +34,13 @@ define( require => {
   QUnit.module( 'Utterance', {
     before() {
 
+      // timer step in seconds, stepped every 10 millisecond
+      const timerInterval = 1 / 3;
+
       // step the timer, because utteranceQueue runs on timer
       intervalID = setInterval( () => {
-        timer.emit( 1 / 100 ); // step timer in seconds, every millisecond
-      }, 10 );
+        timer.emit( timerInterval ); // step timer in seconds, every millisecond
+      }, timerInterval * 1000 );
 
       ariaHerald.initialize();
 
@@ -50,7 +53,7 @@ define( require => {
       utteranceQueue.initialize();
 
       // slightly slower than the interval that the utteranceQueue will wait so we don't have a race condition
-      sleepTiming = utteranceQueue.stepInterval + 10;
+      sleepTiming = timerInterval * 1000 * 1.1;
     },
     beforeEach() {
 
@@ -79,7 +82,7 @@ define( require => {
 
     utteranceQueue.addToBack( 'alert' );
     await sleep( () => {
-      assert.ok( alerts[ 0 ] === alertContent, 'second alert made it to ariaHerald' );
+      assert.ok( alerts[ 0 ] === 'alert', 'second alert made it to ariaHerald' );
     } );
   } );
 
@@ -176,10 +179,11 @@ define( require => {
     /////////////////////////////////////////
 
     alerts = [];
+    const stableDelay = 1100;
     const myUtterance = new Utterance( {
       alert: 'hi',
       alertStable: true,
-      alertStableDelay: 1100
+      alertStableDelay: stableDelay
     } );
 
     for ( let i = 0; i < 100; i++ ) {
@@ -189,10 +193,10 @@ define( require => {
     assert.ok( utteranceQueue.queue.length === 1, 'same Utterance should override in queue' );
     await timeout( sleepTiming );
 
-    assert.ok( myUtterance.stableTime >= utteranceQueue._stepInterval );
+    assert.ok( myUtterance.stableTime >= myUtterance.timeInQueue, 'utterance should be in queue for at least stableDelay' );
 
     assert.ok( utteranceQueue.queue.length === 1, 'Alert still in queue after waiting less than alertStableDelay but more than stepInterval.' );
-    await timeout( sleepTiming * 2 );
+    await timeout( stableDelay );
 
     assert.ok( utteranceQueue.queue.length === 0, 'Utterance alerted after alertStableDelay time passed' );
     assert.ok( alerts.length === 1, 'utterance ended up in alerts list' );
