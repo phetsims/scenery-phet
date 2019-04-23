@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
@@ -20,7 +21,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
