@@ -139,12 +139,14 @@ define( require => {
         AccessibilityUtil.setTextContent( liveElement, textContent );
 
         // Hide the content so that it cant be read with the virtual cursor. Must be done
-        // behind a delay,  setting hidden too quickly will prevent the screen reader from
-        // speaking the alert at all. Using `hidden` rather than setting textContent works better
-        // than clearing textContent on mobile VO, see https://github.com/phetsims/scenery-phet/issues/490
+        // behind at least 200 ms delay or else alerts may be missed by NVDA, see
+        // https://github.com/phetsims/scenery-phet/issues/491
         timer.setTimeout( () => {
+
+          // Using `hidden` rather than clearing textContent works better on mobile VO,
+          // see https://github.com/phetsims/scenery-phet/issues/490
           liveElement.hidden = true;
-        }, 0 );
+        }, 200 );
       }, 0 );
     }
   }
