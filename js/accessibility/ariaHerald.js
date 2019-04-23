@@ -38,9 +38,6 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const timer = require( 'AXON/timer' );
 
-  // by default, clear old text so sequential updates with identical text are announced, see updateLiveElement()
-  const DEFAULT_WITH_CLEAR = true;
-
   // DOM elements which will receive the updated content. By having four elements and cycling through each one, we
   // can get around a VoiceOver bug where a new alert would interrupt the previous alert if it wasn't finished
   // speaking, see https://github.com/phetsims/scenery-phet/issues/362
@@ -79,13 +76,13 @@ define( require => {
       this.initialized = true;
 
       this.announcingEmitter = new Emitter( {
-        validators: [ { valueType: 'string' }, { valueType: 'boolean' } ]
+        validators: [ { valueType: 'string' } ]
       } );
 
       // no need to be removed, exists for the lifetime of the simulation.
-      this.announcingEmitter.addListener( ( textContent, withClear ) => {
+      this.announcingEmitter.addListener( ( textContent ) => {
         const element = ariaLiveElements[ this.elementIndex ];
-        this.updateLiveElement( element, textContent, withClear );
+        this.updateLiveElement( element, textContent );
 
         // update index for next time
         this.elementIndex = ( this.elementIndex + 1 ) % ariaLiveElements.length;
@@ -98,37 +95,30 @@ define( require => {
      * @public
      *
      * @param {string} textContent - the polite content to announce
-     * @param {boolean} [withClear] - optional, whether or not to remove the old content from the alert before updating
      */
-    announcePolite( textContent, withClear ) {
+    announcePolite( textContent ) {
 
       // or the default to support propper emitter typing
-      this.announcingEmitter.emit( textContent, withClear || DEFAULT_WITH_CLEAR );
+      this.announcingEmitter.emit( textContent );
     }
 
     /**
      * Update an element with the 'aria-live' attribute by setting its text content.
-     * If using withClear, old element text content will be explicitly removed before new text content is set.  This will
-     * allow sequential alerts with identical text content to be announced multiple times in a row, which some screen
-     * readers might have prevented.
      *
      * @param {HTMLElement} liveElement - the HTML element that will send the alert to the assistive technology
      * @param {string} textContent - the content to be announced
-     * @param {boolean} [withClear] - optional, whether or not to remove the old text content before updating the element
      * @private
      */
-    updateLiveElement( liveElement, textContent, withClear ) {
+    updateLiveElement( liveElement, textContent ) {
 
       // no-op if not initialized
       if ( !this.initialized ) {
         return;
       }
 
-      withClear = ( withClear === undefined ) ? DEFAULT_WITH_CLEAR : withClear;
-      assert && assert( typeof withClear === 'boolean', 'withClear must be of type boolean' );
-
-      // clearing the old content allows repeated alerts
-      if ( withClear ) { liveElement.textContent = ''; }
+      // fully clear the old textContent so that sequential alerts with identical text will be announced, which
+      // some screen readers might have prevented
+      liveElement.textContent = '';
 
       // element must be visible for alerts to be spoken
       liveElement.hidden = false;
