@@ -20,7 +20,7 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
@@ -64,7 +64,7 @@ define( function( require ) {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
-    var resetUtterance = new Utterance( { alert: resetAllAlertString } );
+    var resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     this.isFiringProperty.lazyLink( function( isFiring ) {
       utteranceQueue.enabled = !isFiring;
 
