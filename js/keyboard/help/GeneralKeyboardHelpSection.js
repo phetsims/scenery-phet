@@ -26,7 +26,7 @@ define( function( require ) {
   var keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
   var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
   var keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
-  var keyboardHelpDialogToggleCheckboxString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
+  var keyboardHelpDialogToggleCheckboxesString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
 
   // a11y strings
   var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
@@ -81,7 +81,7 @@ define( function( require ) {
     }
 
     if ( options.withCheckboxContent ) {
-      content.push( KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxString, new SpaceKeyNode(),
+      content.push( KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, new SpaceKeyNode(),
         toggleCheckboxesDescriptionString ) );
     }
 
