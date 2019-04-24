@@ -116,6 +116,9 @@
   "keyboardHelpDialog.exitADialog": {
     "value": "Exit a dialog"
   },
+  "keyboardHelpDialog.toggleCheckboxes": {
+    "value": "Toggle checkboxes"
+  },
   "keyboardHelpDialog.or": {
     "value": "or"
   },

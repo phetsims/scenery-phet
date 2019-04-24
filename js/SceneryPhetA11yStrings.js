@@ -81,6 +81,9 @@ define( function( require ) {
     keyboardHelpDialogExitDialogDescription: {
       value: 'Exit a dialog with Escape key.'
     },
+    toggleCheckboxesDescription: {
+      value: 'Toggle checkboxes with Space key.'
+    },
 
     // help descriptions for sliders
     keyboardHelpDialogAdjustDefaultStepsString: {

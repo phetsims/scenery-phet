@@ -26,6 +26,7 @@ define( function( require ) {
   var keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
   var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
   var keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
+  var keyboardHelpDialogToggleCheckboxString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
 
   // a11y strings
   var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
@@ -33,6 +34,7 @@ define( function( require ) {
   var keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
   var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
+  var toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
 
   /**
    * @constructor
@@ -41,7 +43,8 @@ define( function( require ) {
   function GeneralKeyboardHelpSection( options ) {
 
     options = _.extend( {
-      withGroupContent: false // if true, the help content will include information about how to interact with groups
+      withGroupContent: false, // if true, the help content will include information about how to interact with groups
+      withCheckboxContent: false // if true, the help content will include information about how to interact with checkboxes
     }, options );
 
     // 'press buttons' content
@@ -52,7 +55,7 @@ define( function( require ) {
     var exitADialogIcon = new EscapeKeyNode();
     var exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
-    var content = [ pressButtonsItemRow, exitADialogRow ];   
+    var content = [ pressButtonsItemRow, exitADialogRow ];
 
     var nextItemString;
     var previousItemString;
@@ -66,14 +69,20 @@ define( function( require ) {
       var leftRightArrowsIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
       var upDownArrowsIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
       var leftRightOrUpDownIcon = KeyboardHelpSection.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString, leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
+      var moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
+        leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
 
       // the "group" content row row comes just before the "exite a dialog" row
-      content.splice( content.indexOf( exitADialogRow ), 0, moveBetweenItemsInAGroupRow );   
+      content.splice( content.indexOf( exitADialogRow ), 0, moveBetweenItemsInAGroupRow );
     }
     else {
       nextItemString = keyboardHelpDialogMoveToNextItemString;
       previousItemString = keyboardHelpDialogMoveToPreviousItemString;
+    }
+
+    if ( options.withCheckboxContent ) {
+      content.push( KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxString, new SpaceKeyNode(),
+        toggleCheckboxesDescriptionString ) );
     }
 
     // 'move to next item' content
