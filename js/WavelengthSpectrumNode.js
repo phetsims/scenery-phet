@@ -27,7 +27,7 @@ define( function( require ) {
     options = _.extend( {
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
-      tandem: Tandem.required
+      tandem: Tandem.optional
     }, options );
 
     // validation
