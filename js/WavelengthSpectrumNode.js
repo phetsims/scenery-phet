@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
@@ -25,7 +26,8 @@ define( function( require ) {
 
     options = _.extend( {
       minWavelength: VisibleColor.MIN_WAVELENGTH,
-      maxWavelength: VisibleColor.MAX_WAVELENGTH
+      maxWavelength: VisibleColor.MAX_WAVELENGTH,
+      tandem: Tandem.required
     }, options );
 
     // validation
