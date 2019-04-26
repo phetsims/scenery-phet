@@ -247,23 +247,25 @@ define( require => {
    *
    * @param {number} width - the width of the base
    * @param {number} height - the height of the base
-   * @param {PaintColorProperty} baseFillColorProperty
+   * @param {ColorDef} fill
+   * @returns {Node}
+   * @private
    */
-  function createPumpBaseNode( width, height, baseFillColorProperty ) {
+  function createPumpBaseNode( width, height, fill ) {
 
     // 3D effect is being used, so most of the height makes up the surface
     const topOfBaseHeight = height * 0.7;
     const halfOfBaseWidth = width / 2;
 
-    const baseFillBrighterColorProperty = new PaintColorProperty( baseFillColorProperty, { luminanceFactor: 0.05 } );
-    const baseFillDarkerColorProperty = new PaintColorProperty( baseFillColorProperty, { luminanceFactor: -0.2 } );
-    const baseFillDarkestColorProperty = new PaintColorProperty( baseFillColorProperty, { luminanceFactor: -0.4 } );
+    const baseFillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.05 } );
+    const baseFillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
+    const baseFillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
 
     // rounded rectangle that is the top of the base
     const topOfBaseNode = new Rectangle( -halfOfBaseWidth, -topOfBaseHeight / 2, width, topOfBaseHeight, 20, 20, {
       fill: new LinearGradient( -halfOfBaseWidth, 0, halfOfBaseWidth, 0 )
         .addColorStop( 0, baseFillBrighterColorProperty )
-        .addColorStop( 0.5, baseFillColorProperty )
+        .addColorStop( 0.5, fill )
         .addColorStop( 1, baseFillDarkerColorProperty )
     } );
 
@@ -296,20 +298,22 @@ define( require => {
    * Creates half of the opening at the top of the pump body. Passing in -1 for the sign creates the back half, and
    * passing in 1 creates the front.
    *
-   * @param pumpBodyWidth
-   * @param sign
-   * @param fill
-   * @param stroke
+   * @param {number} width
+   * @param {number} sign
+   * @param {ColorDef} fill
+   * @param {ColorDef} stroke
+   * @returns {Path}
+   * @private
    */
-  function createBodyTopHalfNode( pumpBodyWidth, sign, fill, stroke ) {
+  function createBodyTopHalfNode( width, sign, fill, stroke ) {
     const bodyTopShape = new Shape()
       .moveTo( 0, 0 )
       .cubicCurveTo(
         0,
-        sign * pumpBodyWidth * SHAFT_OPENING_TILT_FACTOR,
-        pumpBodyWidth,
-        sign * pumpBodyWidth * SHAFT_OPENING_TILT_FACTOR,
-        pumpBodyWidth,
+        sign * width * SHAFT_OPENING_TILT_FACTOR,
+        width,
+        sign * width * SHAFT_OPENING_TILT_FACTOR,
+        width,
         0
       );
 
@@ -322,20 +326,22 @@ define( require => {
   /**
    * Creates a hose connector. The hose has one on each of its ends.
    *
-   * @param {number} hoseConnectorWidth
-   * @param {number} hoseConnectorHeight
-   * @param {PaintColorProperty} fillColorProperty
+   * @param {number} width
+   * @param {number} height
+   * @param {ColorDef} fill
+   * @returns {Rectangle}
+   * @private
    */
-  function createHoseConnectorNode( hoseConnectorWidth, hoseConnectorHeight, fillColorProperty ) {
+  function createHoseConnectorNode( width, height, fill ) {
 
-    const fillBrighterColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: 0.1 } );
-    const fillDarkerColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: -0.2 } );
-    const fillDarkestColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: -0.4 } );
+    const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
+    const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
+    const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
 
-    return new Rectangle( 0, 0, hoseConnectorWidth, hoseConnectorHeight, 2, 2, {
-      fill: new LinearGradient( 0, 0, 0, hoseConnectorHeight )
+    return new Rectangle( 0, 0, width, height, 2, 2, {
+      fill: new LinearGradient( 0, 0, 0, height )
         .addColorStop( 0, fillDarkerColorProperty )
-        .addColorStop( 0.3, fillColorProperty )
+        .addColorStop( 0.3, fill )
         .addColorStop( 0.35, fillBrighterColorProperty )
         .addColorStop( 0.4, fillBrighterColorProperty )
         .addColorStop( 1, fillDarkestColorProperty )
@@ -345,11 +351,13 @@ define( require => {
   /**
    * Creates the cone, which connects the pump base to the pump body.
    *
-   * @param {number} pumpBodyWidth - the width of the pump body (and therefore the width of the top of the cone)
-   * @param {number} height - the height of the cone
-   * @param {PaintColorProperty} fillColorProperty
+   * @param {number} pumpBodyWidth - the width of the pump body (not quite as wide as the top of the cone)
+   * @param {number} height
+   * @param {ColorDef} fill
+   * @returns {Path}
+   * @private
    */
-  function createConeNode( pumpBodyWidth, height, fillColorProperty ) {
+  function createConeNode( pumpBodyWidth, height, fill ) {
     const coneTopWidth = pumpBodyWidth * 1.2;
     const coneTopRadiusY = 3;
     const coneTopRadiusX = coneTopWidth / 2;
@@ -368,16 +376,16 @@ define( require => {
       .lineTo( coneTopRadiusX, 0 ); // line to upper right corner of shape
 
     // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
-    const fillBrighterColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: 0.1 } );
-    const fillDarkerColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: -0.4 } );
-    const fillDarkestColorProperty = new PaintColorProperty( fillColorProperty, { luminanceFactor: -0.5 } );
+    const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
+    const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
+    const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.5 } );
 
     const coneGradient = new LinearGradient( -coneBottomWidth / 2, 0, coneBottomWidth / 2, 0 )
       .addColorStop( 0, fillDarkerColorProperty )
-      .addColorStop( 0.3, fillColorProperty )
+      .addColorStop( 0.3, fill )
       .addColorStop( 0.35, fillBrighterColorProperty )
       .addColorStop( 0.45, fillBrighterColorProperty )
-      .addColorStop( 0.5, fillColorProperty )
+      .addColorStop( 0.5, fill )
       .addColorStop( 1, fillDarkestColorProperty );
 
     return new Path( coneShape, {
@@ -388,7 +396,9 @@ define( require => {
   /**
    * Create the handle of the pump. This is the node that the user will interact with in order to use the pump.
    *
-   * @param fill
+   * @param {ColorDef} fill
+   * @returns {Path}
+   * @private
    */
   function createPumpHandleNode( fill ) {
 
@@ -475,10 +485,10 @@ define( require => {
     /**
      * Adds a color stop to the given gradient at
      *
-     * @param gradient - the gradient being appended to
-     * @param deltaDistance - the distance of this added color stop
-     * @param totalDistance - the total width of the gradient
-     * @param color - the color of this color stop
+     * @param {LinearGradient} gradient - the gradient being appended to
+     * @param {number} deltaDistance - the distance of this added color stop
+     * @param {number} totalDistance - the total width of the gradient
+     * @param {ColorDef} color - the color of this color stop
      */
     const addRelativeColorStop = ( gradient, deltaDistance, totalDistance, color ) => {
       const newPosition = handleGradientPosition + deltaDistance;
@@ -535,14 +545,14 @@ define( require => {
 
     /**
      *
-     * @param numberProperty
-     * @param rangeProperty
-     * @param enabledProperty
-     * @param minHandleYOffset
-     * @param maxHandleYOffset
-     * @param pumpHandleNode
-     * @param pumpShaftNode
-     * @param numberOfParticlesPerPumpAction
+     * @param {NumberProperty} numberProperty
+     * @param {Property.<Range>} rangeProperty
+     * @param {BooleanProperty} enabledProperty
+     * @param {number} minHandleYOffset
+     * @param {number} maxHandleYOffset
+     * @param {Path} pumpHandleNode
+     * @param {Rectangle} pumpShaftNode
+     * @param {number} numberOfParticlesPerPumpAction
      */
     constructor( numberProperty,
                  rangeProperty,
@@ -560,8 +570,7 @@ define( require => {
       let lastHandlePosition = null;
       let pumpingDistanceAccumulation = 0;
 
-      // How far the pump shaft needs to travel before the pump releases a particle. -1 is added to account for minor drag
-      // listener and floating-point errors.
+      // How far the pump shaft needs to travel before the pump releases a particle.
       const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) / numberOfParticlesPerPumpAction;
 
       super( {
