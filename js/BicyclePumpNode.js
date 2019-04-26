@@ -34,7 +34,6 @@ define( require => {
   const PUMP_SHAFT_WIDTH_PROPORTION = PUMP_BODY_WIDTH_PROPORTION * 0.25;
   const PUMP_SHAFT_HEIGHT_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION;
   const PUMP_HANDLE_HEIGHT_PROPORTION = 0.05;
-  const PUMP_HANDLE_INIT_VERT_POS_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION * 1.1;
   const CONE_HEIGHT_PROPORTION = 0.09;
   const HOSE_CONNECTOR_HEIGHT_PROPORTION = 0.04;
   const HOSE_CONNECTOR_WIDTH_PROPORTION = 0.05;
@@ -187,10 +186,7 @@ define( require => {
       const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
       pumpHandleNode.touchArea = pumpHandleNode.localBounds.dilatedXY( 100, 100 );
       pumpHandleNode.scale( pumpHandleHeight / pumpHandleNode.height );
-      pumpHandleNode.setTranslation(
-        0,
-        -( ( height * PUMP_HANDLE_INIT_VERT_POS_PROPORTION ) + pumpHandleNode.height )
-      );
+      pumpHandleNode.bottom = pumpBodyNode.top - 18;
 
       // sizing for the pump shaft
       const pumpShaftWidth = width * PUMP_SHAFT_WIDTH_PROPORTION;
@@ -210,7 +206,7 @@ define( require => {
       pumpShaftNode.top = pumpHandleNode.bottom;
 
       const maxHandleYOffset = pumpHandleNode.centerY;
-      const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * height / 2 );
+      const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
       pumpHandleNode.addInputListener(
         new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
