@@ -119,6 +119,16 @@ define( function( require ) {
     },
 
     /**
+     * Sets the tip location.
+     * @param {number} tipX
+     * @param {number} tipY
+     * @public
+     */
+    setTip( tipX, tipY ) {
+      this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
+    },
+
+    /**
      * @public
      * @param {number} tailWidth
      */
