@@ -130,7 +130,7 @@ define( function( require ) {
     arrowButtonOptions.tagName = null;
 
     // Defaults for HSlider
-    var sliderOptions = _.extend ( {
+    var sliderOptions = _.extend( {
 
       startDrag: options.startCallback, // called when dragging starts on the slider
       endDrag: options.endCallback, // called when dragging ends on the slider
@@ -337,8 +337,8 @@ define( function( require ) {
     specificCallbacksPresent = arrowCallbacksPresent || sliderCallbacksPresent;
 
     // only general or component specific callbacks are supported
-      assert && assert( !( normalCallbacksPresent && specificCallbacksPresent ),
-        'Use general callbacks like "startCallback" or specific callbacks like "sliderOptions.startDrag" but not both.' );
+    assert && assert( !( normalCallbacksPresent && specificCallbacksPresent ),
+      'Use general callbacks like "startCallback" or specific callbacks like "sliderOptions.startDrag" but not both.' );
 
     // Set here so that we can validate above based on falsey.
     options.startCallback = options.startCallback || _.noop;
@@ -354,7 +354,7 @@ define( function( require ) {
    */
   function callbackKeysInOptions( options ) {
     var optionKeys = Object.keys( options );
-    var intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => optionKeys.includes( x ) );
+    var intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
     return intersection.length > 0;
   }
 
@@ -398,7 +398,8 @@ define( function( require ) {
         majorTicks: [
           { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
           { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
-      ] }, options.sliderOptions );
+        ]
+      }, options.sliderOptions );
 
       return new NumberControl( label, property, range, options );
     },
