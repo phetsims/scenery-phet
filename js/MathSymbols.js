@@ -12,7 +12,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
@@ -69,8 +69,6 @@ define( function( require ) {
     RESISTIVITY: symbolResistivityString
   };
 
-  sceneryPhet.register( 'MathSymbols', MathSymbols );
-
-  return MathSymbols;
+  return sceneryPhet.register( 'MathSymbols', MathSymbols );
 } );
  
