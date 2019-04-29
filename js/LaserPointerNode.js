@@ -49,7 +49,7 @@ define( function( require ) {
     buttonTouchAreaDilation: 15,
     buttonMouseAreaDilation: 0,
     buttonRotation: 0, // {number} use this to adjust lighting on the button
-    buttonLabelContent: '',
+    buttonAccessibleName: '',
     buttonDescriptionContent: '',
 
     // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
@@ -138,7 +138,7 @@ define( function( require ) {
         tandem: options.tandem.createTandem( 'button' ),
 
         // a11y
-        labelContent: options.buttonLabelContent,
+        labelContent: options.buttonAccessibleName,
         labelTagName: 'label',
         descriptionContent: options.buttonDescriptionContent
       };
