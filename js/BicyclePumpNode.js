@@ -587,9 +587,10 @@ define( require => {
       let handlePosition = null;
       let pumpingDistanceAccumulation = 0;
 
-      // How far the pump shaft needs to travel before the pump releases a particle.
+      // How far the pump shaft needs to travel before the pump releases a particle. The subtracted constant was
+      // empirically determined to ensure that numberOfParticlesPerPumpAction is correct
       const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) /
-                                                   numberOfParticlesPerPumpAction;
+                                                   numberOfParticlesPerPumpAction - 0.01;
 
       super( {
         drag: ( event, listener ) => {
