@@ -106,14 +106,14 @@ define( require => {
       const bodyFillDarkerColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: -0.2 } );
 
       // create the body of the pump
-      const pumpBodyNode = new Rectangle( 0, 0, pumpBodyWidth, pumpBodyHeight, 0, 0, {
+      this.pumpBodyNode = new Rectangle( 0, 0, pumpBodyWidth, pumpBodyHeight, 0, 0, {
         fill: new LinearGradient( 0, 0, pumpBodyWidth, 0 )
           .addColorStop( 0, bodyFillBrighterColorProperty )
           .addColorStop( 0.4, bodyFillColorProperty )
           .addColorStop( 0.7, bodyFillDarkerColorProperty )
       } );
-      pumpBodyNode.centerX = coneNode.centerX;
-      pumpBodyNode.bottom = coneNode.top + 18;
+      this.pumpBodyNode.centerX = coneNode.centerX;
+      this.pumpBodyNode.bottom = coneNode.top + 18;
 
       // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
       const bodyTopFillColorProperty = new PaintColorProperty( options.bodyTopFill );
@@ -121,12 +121,12 @@ define( require => {
 
       // create the back part of the top of the body
       const bodyTopBackNode = createBodyTopHalfNode( pumpBodyWidth, -1, bodyTopFillColorProperty, bodyTopStrokeColorProperty );
-      bodyTopBackNode.centerX = pumpBodyNode.centerX;
-      bodyTopBackNode.bottom = pumpBodyNode.top;
+      bodyTopBackNode.centerX = this.pumpBodyNode.centerX;
+      bodyTopBackNode.bottom = this.pumpBodyNode.top;
 
       // create the front part of the top of the body
       const bodyTopFrontNode = createBodyTopHalfNode( pumpBodyWidth, 1, bodyTopFillColorProperty, bodyTopStrokeColorProperty );
-      bodyTopFrontNode.centerX = pumpBodyNode.centerX;
+      bodyTopFrontNode.centerX = this.pumpBodyNode.centerX;
       bodyTopFrontNode.top = bodyTopBackNode.bottom - 0.4; // tweak slightly to prevent pump body from showing through
 
       // create the bottom cap on the body
@@ -144,8 +144,8 @@ define( require => {
         {
           width: pumpBodyWidth * 0.6,
           height: pumpBodyHeight * 0.7,
-          centerX: pumpBodyNode.centerX,
-          centerY: ( pumpBodyNode.top + coneNode.top ) / 2,
+          centerX: this.pumpBodyNode.centerX,
+          centerY: ( this.pumpBodyNode.top + coneNode.top ) / 2,
           numSegments: 36,
           backgroundColor: options.indicatorBackgroundFill,
           fullyLitIndicatorColor: options.indicatorRemainingFill,
@@ -153,40 +153,38 @@ define( require => {
         }
       );
 
+      // whether the hose should be attached to the left or right side of the pump cone
+      const hoseAttachedOnRight = options.hoseAttachmentOffset.x > 0;
+      const hoseConnectorWidth = width * HOSE_CONNECTOR_WIDTH_PROPORTION;
+      const hoseConnectorHeight = height * HOSE_CONNECTOR_HEIGHT_PROPORTION;
+
       // create the hose
       const hoseNode = new Path( new Shape()
-        .moveTo( 0, BODY_TO_HOSE_ATTACH_POINT_Y )
-        .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ), BODY_TO_HOSE_ATTACH_POINT_Y,
+        .moveTo( hoseAttachedOnRight ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X,
+          BODY_TO_HOSE_ATTACH_POINT_Y )
+        .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ),
+          BODY_TO_HOSE_ATTACH_POINT_Y,
           0, options.hoseAttachmentOffset.y,
-          options.hoseAttachmentOffset.x, options.hoseAttachmentOffset.y ), {
+          options.hoseAttachmentOffset.x - ( hoseAttachedOnRight ? hoseConnectorWidth : -hoseConnectorWidth ),
+          options.hoseAttachmentOffset.y ), {
         lineWidth: 4,
         stroke: options.hoseFill
       } );
 
-      const hoseConnectorWidth = width * HOSE_CONNECTOR_WIDTH_PROPORTION;
-      const hoseConnectorHeight = height * HOSE_CONNECTOR_HEIGHT_PROPORTION;
-
       // create the external hose connector, which connects the hose to an external point
       const externalHoseConnector = createHoseConnectorNode( hoseConnectorWidth, hoseConnectorHeight, baseFillColorProperty );
       externalHoseConnector.setTranslation(
-        options.hoseAttachmentOffset.x - externalHoseConnector.width,
+        hoseAttachedOnRight ? options.hoseAttachmentOffset.x - externalHoseConnector.width : options.hoseAttachmentOffset.x,
         options.hoseAttachmentOffset.y - externalHoseConnector.height / 2
       );
 
       // create the local hose connector, which connects the hose to the cone
       const localHoseConnector = createHoseConnectorNode( hoseConnectorWidth, hoseConnectorHeight, baseFillColorProperty );
-      const localHoseOffsetX = options.hoseAttachmentOffset.x > 0 ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X;
+      const localHoseOffsetX = hoseAttachedOnRight ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X;
       localHoseConnector.setTranslation(
         localHoseOffsetX - hoseConnectorWidth / 2,
         BODY_TO_HOSE_ATTACH_POINT_Y - localHoseConnector.height / 2
       );
-
-      // create the handle of the pump
-      const pumpHandleNode = createPumpHandleNode( options.handleFill );
-      const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
-      pumpHandleNode.touchArea = pumpHandleNode.localBounds.dilatedXY( 100, 100 );
-      pumpHandleNode.scale( pumpHandleHeight / pumpHandleNode.height );
-      pumpHandleNode.bottom = pumpBodyNode.top - 18;
 
       // sizing for the pump shaft
       const pumpShaftWidth = width * PUMP_SHAFT_WIDTH_PROPORTION;
@@ -197,30 +195,37 @@ define( require => {
       const shaftStrokeColorProperty = new PaintColorProperty( shaftFillColorProperty, { luminanceFactor: -0.38 } );
 
       // create the pump shaft, which is the part below the handle and inside the body
-      const pumpShaftNode = new Rectangle( 0, 0, pumpShaftWidth, pumpShaftHeight, {
+      this.pumpShaftNode = new Rectangle( 0, 0, pumpShaftWidth, pumpShaftHeight, {
         fill: shaftFillColorProperty,
         stroke: shaftStrokeColorProperty,
         pickable: false
       } );
-      pumpShaftNode.x = -pumpShaftWidth / 2;
-      pumpShaftNode.top = pumpHandleNode.bottom;
+      this.pumpShaftNode.x = -pumpShaftWidth / 2;
 
-      const maxHandleYOffset = pumpHandleNode.centerY;
+      // create the handle of the pump
+      this.pumpHandleNode = createPumpHandleNode( options.handleFill );
+      const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
+      this.pumpHandleNode.touchArea = this.pumpHandleNode.localBounds.dilatedXY( 100, 100 );
+      this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
+      this.setPumpHandleToInitialPosition();
+
+      // define the allowed range for the pump handle's movement
+      const maxHandleYOffset = this.pumpHandleNode.centerY;
       const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-      pumpHandleNode.addInputListener(
-        new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
-          minHandleYOffset, maxHandleYOffset, pumpHandleNode, pumpShaftNode, options.numberOfParticlesPerPumpAction )
-      );
+      // create and add a drag listener to the handle
+      this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
+        minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.numberOfParticlesPerPumpAction );
+      this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
 
       // add the pieces with the correct layering
       this.addChild( hoseNode );
       this.addChild( pumpBaseNode );
       this.addChild( bodyTopBackNode );
       this.addChild( bodyBottomCapNode );
-      this.addChild( pumpShaftNode );
-      this.addChild( pumpHandleNode );
-      this.addChild( pumpBodyNode );
+      this.addChild( this.pumpShaftNode );
+      this.addChild( this.pumpHandleNode );
+      this.addChild( this.pumpBodyNode );
       this.addChild( remainingCapacityIndicator );
       this.addChild( bodyTopFrontNode );
       this.addChild( coneNode );
@@ -229,16 +234,31 @@ define( require => {
     }
 
     /**
+     * Sets handle and shaft to their initial position
+     */
+    setPumpHandleToInitialPosition() {
+      this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
+      this.pumpShaftNode.top = this.pumpHandleNode.bottom;
+    }
+
+    /**
+     * @public
+     */
+    reset() {
+      this.setPumpHandleToInitialPosition();
+      this.handleNodeDragListener.reset();
+    }
+
+    /**
      * This function sets the position of this whole node by translating itself so that the external end of the hose
      * is at the provided screen coordinates.
      *
-     * @param {number} x
-     * @param {number} y
+     * @param {Vector2} position
      * @public
      */
-    setHoseAttachmentPosition( x, y ) {
-      this.x = x - this.hoseAttachmentOffset.x;
-      this.y = y - this.hoseAttachmentOffset.y;
+    setHoseAttachmentPosition( position ) {
+      this.x = position.x - this.hoseAttachmentOffset.x;
+      this.y = position.y - this.hoseAttachmentOffset.y;
     }
   }
 
@@ -257,6 +277,7 @@ define( require => {
     const topOfBaseHeight = height * 0.7;
     const halfOfBaseWidth = width / 2;
 
+    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
     const baseFillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.05 } );
     const baseFillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
     const baseFillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -334,6 +355,7 @@ define( require => {
    */
   function createHoseConnectorNode( width, height, fill ) {
 
+    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
     const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
     const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
     const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -402,15 +424,14 @@ define( require => {
    */
   function createPumpHandleNode( fill ) {
 
+    // empirically determined constants
     const centerSectionWidth = 35;
     const centerCurveWidth = 14;
     const centerCurveHeight = 8;
-
+    const numberOfGripBumps = 4;
     const gripSingleBumpWidth = 16;
     const gripSingleBumpHalfWidth = gripSingleBumpWidth / 2;
     const gripInterBumpWidth = gripSingleBumpWidth * 0.31;
-    const numberOfGripBumps = 4;
-
     const gripEndHeight = 23;
 
     // start the handle from the center bottom, drawing around counterclockwise
@@ -567,11 +588,12 @@ define( require => {
       assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
       let handlePosition = null;
-      let lastHandlePosition = null;
       let pumpingDistanceAccumulation = 0;
 
-      // How far the pump shaft needs to travel before the pump releases a particle.
-      const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) / numberOfParticlesPerPumpAction;
+      // How far the pump shaft needs to travel before the pump releases a particle. The subtracted constant was
+      // empirically determined to ensure that numberOfParticlesPerPumpAction is correct
+      const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) /
+                                                   numberOfParticlesPerPumpAction - 0.01;
 
       super( {
         drag: ( event, listener ) => {
@@ -582,8 +604,8 @@ define( require => {
           pumpHandleNode.centerY = handlePosition;
           pumpShaftNode.top = pumpHandleNode.bottom;
 
-          if ( lastHandlePosition !== null ) {
-            const travelDistance = handlePosition - lastHandlePosition;
+          if ( this.lastHandlePosition !== null ) {
+            const travelDistance = handlePosition - this.lastHandlePosition;
             if ( travelDistance > 0 ) {
 
               // This motion is in the downward direction, so add its distance to the pumping distance.
@@ -602,9 +624,15 @@ define( require => {
             }
           }
 
-          lastHandlePosition = handlePosition;
+          this.lastHandlePosition = handlePosition;
         }
       } );
+
+      this.lastHandlePosition = null;
+    }
+
+    reset() {
+      this.lastHandlePosition = null;
     }
   }
 
