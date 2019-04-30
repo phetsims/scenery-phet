@@ -232,13 +232,12 @@ define( require => {
      * This function sets the position of this whole node by translating itself so that the external end of the hose
      * is at the provided screen coordinates.
      *
-     * @param {number} x
-     * @param {number} y
+     * @param {Vector2} position
      * @public
      */
-    setHoseAttachmentPosition( x, y ) {
-      this.x = x - this.hoseAttachmentOffset.x;
-      this.y = y - this.hoseAttachmentOffset.y;
+    setHoseAttachmentPosition( position ) {
+      this.x = position.x - this.hoseAttachmentOffset.x;
+      this.y = position.y - this.hoseAttachmentOffset.y;
     }
   }
 
