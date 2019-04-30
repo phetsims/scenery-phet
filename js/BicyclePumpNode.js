@@ -153,29 +153,33 @@ define( require => {
         }
       );
 
+      // whether the hose should be attached to the left or right side of the pump cone
+      const hoseAttachedOnRight = options.hoseAttachmentOffset.x > 0;
+      const hoseConnectorWidth = width * HOSE_CONNECTOR_WIDTH_PROPORTION;
+      const hoseConnectorHeight = height * HOSE_CONNECTOR_HEIGHT_PROPORTION;
+
       // create the hose
       const hoseNode = new Path( new Shape()
         .moveTo( 0, BODY_TO_HOSE_ATTACH_POINT_Y )
-        .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ), BODY_TO_HOSE_ATTACH_POINT_Y,
+        .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ),
+          BODY_TO_HOSE_ATTACH_POINT_Y,
           0, options.hoseAttachmentOffset.y,
-          options.hoseAttachmentOffset.x, options.hoseAttachmentOffset.y ), {
+          options.hoseAttachmentOffset.x - ( hoseAttachedOnRight ? hoseConnectorWidth : -hoseConnectorWidth ),
+          options.hoseAttachmentOffset.y ), {
         lineWidth: 4,
         stroke: options.hoseFill
       } );
 
-      const hoseConnectorWidth = width * HOSE_CONNECTOR_WIDTH_PROPORTION;
-      const hoseConnectorHeight = height * HOSE_CONNECTOR_HEIGHT_PROPORTION;
-
       // create the external hose connector, which connects the hose to an external point
       const externalHoseConnector = createHoseConnectorNode( hoseConnectorWidth, hoseConnectorHeight, baseFillColorProperty );
       externalHoseConnector.setTranslation(
-        options.hoseAttachmentOffset.x - externalHoseConnector.width,
+        hoseAttachedOnRight ? options.hoseAttachmentOffset.x - externalHoseConnector.width : options.hoseAttachmentOffset.x,
         options.hoseAttachmentOffset.y - externalHoseConnector.height / 2
       );
 
       // create the local hose connector, which connects the hose to the cone
       const localHoseConnector = createHoseConnectorNode( hoseConnectorWidth, hoseConnectorHeight, baseFillColorProperty );
-      const localHoseOffsetX = options.hoseAttachmentOffset.x > 0 ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X;
+      const localHoseOffsetX = hoseAttachedOnRight ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X;
       localHoseConnector.setTranslation(
         localHoseOffsetX - hoseConnectorWidth / 2,
         BODY_TO_HOSE_ATTACH_POINT_Y - localHoseConnector.height / 2
