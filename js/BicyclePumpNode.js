@@ -207,11 +207,13 @@ define( require => {
       const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
       this.pumpHandleNode.touchArea = this.pumpHandleNode.localBounds.dilatedXY( 100, 100 );
       this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
-      this.setPumpHandleInitialPosition();
+      this.setPumpHandleToInitialPosition();
 
+      // define the allowed range for the pump handle's movement
       const maxHandleYOffset = this.pumpHandleNode.centerY;
       const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
+      // create and add a drag listener to the handle
       this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
         minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.numberOfParticlesPerPumpAction );
       this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
@@ -232,9 +234,9 @@ define( require => {
     }
 
     /**
-     * Sets the initial position for the handle and shaft
+     * Sets handle and shaft to their initial position
      */
-    setPumpHandleInitialPosition() {
+    setPumpHandleToInitialPosition() {
       this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
       this.pumpShaftNode.top = this.pumpHandleNode.bottom;
     }
@@ -243,7 +245,7 @@ define( require => {
      * @public
      */
     reset() {
-      this.setPumpHandleInitialPosition();
+      this.setPumpHandleToInitialPosition();
       this.handleNodeDragListener.reset();
     }
 
@@ -275,6 +277,7 @@ define( require => {
     const topOfBaseHeight = height * 0.7;
     const halfOfBaseWidth = width / 2;
 
+    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
     const baseFillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.05 } );
     const baseFillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
     const baseFillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -352,6 +355,7 @@ define( require => {
    */
   function createHoseConnectorNode( width, height, fill ) {
 
+    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
     const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
     const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
     const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -420,15 +424,14 @@ define( require => {
    */
   function createPumpHandleNode( fill ) {
 
+    // empirically determined constants
     const centerSectionWidth = 35;
     const centerCurveWidth = 14;
     const centerCurveHeight = 8;
-
+    const numberOfGripBumps = 4;
     const gripSingleBumpWidth = 16;
     const gripSingleBumpHalfWidth = gripSingleBumpWidth / 2;
     const gripInterBumpWidth = gripSingleBumpWidth * 0.31;
-    const numberOfGripBumps = 4;
-
     const gripEndHeight = 23;
 
     // start the handle from the center bottom, drawing around counterclockwise
