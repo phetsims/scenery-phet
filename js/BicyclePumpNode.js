@@ -160,7 +160,8 @@ define( require => {
 
       // create the hose
       const hoseNode = new Path( new Shape()
-        .moveTo( 0, BODY_TO_HOSE_ATTACH_POINT_Y )
+        .moveTo( hoseAttachedOnRight ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X,
+          BODY_TO_HOSE_ATTACH_POINT_Y )
         .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ),
           BODY_TO_HOSE_ATTACH_POINT_Y,
           0, options.hoseAttachmentOffset.y,
