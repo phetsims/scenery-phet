@@ -52,17 +52,19 @@ define( require => {
       this.heatCoolAmountProperty = heatCoolAmountProperty;
 
       // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
-      assert && assert( !options.backOptions, 'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
-      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, _.extend( options.backOptions, {
+      assert && assert( !options.backOptions || !options.backOptions.baseColor,
+        'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
+      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, _.extend( {
         baseColor: options.baseColor
-      } ) );
+      }, options.backOptions ) );
 
       // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
-      assert && assert( !options.frontOptions, 'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
-      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, _.extend( options.backOptions, {
+      assert && assert( !options.frontOptions || !options.frontOptions.baseColor,
+        'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
+      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, _.extend( {
         baseColor: options.baseColor,
         leftTop: heaterCoolerBack.getHeaterFrontPosition()
-      } ) );
+      }, options.frontOptions ) );
 
       // @public (read-only) With this visibility annotation comes great power - use it wisely.
       // See https://github.com/phetsims/scenery-phet/issues/442
