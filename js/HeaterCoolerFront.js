@@ -44,7 +44,9 @@ define( require => {
      */
     constructor( heatCoolAmountProperty, options ) {
       super();
+
       Tandem.indicateUninstrumentedCode();
+
       options = _.extend( {
         baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
@@ -53,10 +55,10 @@ define( require => {
         coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
 
         // slider label options
-        heatLabel: heatString, // {string} label for +1 end of slider
-        coolLabel: coolString, // {string} label for -1 end of slider
+        heatString: heatString, // {string} label for +1 end of slider
+        coolString: coolString, // {string} label for -1 end of slider
         labelFont: new PhetFont( 14 ), // {Font}
-        labelMaxWidth: null, // {number|null}
+        labelMaxWidth: 35, // {number} maxWidth of the Heat and Cool labels, determined empirically
 
         // slider options
         thumbSize: new Dimension2( 22, 45 ), // {Dimension2}
@@ -67,6 +69,8 @@ define( require => {
         thumbFill: '#71edff', // {Color|string|null}
         thumbFillHighlighted: '#bff7ff' // {Color|string|null}
       }, options );
+
+      assert && assert( options.heatEnabled || options.coolEnabled, 'Either heat or cool must be enabled.' );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
       // be made into options if needed.
@@ -88,23 +92,7 @@ define( require => {
           .addColorStop( 1, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
       } );
 
-      // Create the label strings and scale them to support translations.
-      const titleOptions = { font: options.labelFont, maxWidth: options.labelMaxWidth };
-      const heatTitle = new Text( options.heatLabel, titleOptions );
-      const coolTitle = new Text( options.coolLabel, titleOptions );
-      const titles = [ heatTitle, coolTitle ];
-
-      // Scale the titles to fit within the bucket front if necessary.
-      const maxTitleWidth = Math.max( coolTitle.width, heatTitle.width );
-      if ( maxTitleWidth > bottomWidth / 2 ) {
-        titles.forEach( function( title ) {
-          title.scale( ( bottomWidth / 2 ) / maxTitleWidth );
-        } );
-      }
-
       // Create the slider.
-      assert && assert( ( options.coolEnabled || options.heatEnabled ), 'Either heating or cooling must be enabled.' );
-
       // @public (read-only) With this visibility annotation comes great power - use it wisely.
       // See https://github.com/phetsims/scenery-phet/issues/442
       this.slider = new VSlider( heatCoolAmountProperty,
@@ -132,9 +120,15 @@ define( require => {
             }
           }
         } );
-      if ( options.heatEnabled ) { this.slider.addMajorTick( 1, heatTitle ); }
+
+      // Create the tick labels.
+      const labelOptions = {
+        font: options.labelFont,
+        maxWidth: options.labelMaxWidth
+      };
+      if ( options.heatEnabled ) { this.slider.addMajorTick( 1, new Text( options.heatString, labelOptions ) ); }
       this.slider.addMinorTick( 0 );
-      if ( options.coolEnabled ) { this.slider.addMajorTick( -1, coolTitle ); }
+      if ( options.coolEnabled ) { this.slider.addMajorTick( -1, new Text( options.coolString, labelOptions ) ); }
 
       this.addChild( stoveBody );
       this.addChild( this.slider );
