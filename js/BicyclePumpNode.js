@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -241,6 +242,11 @@ define( require => {
       this.addChild( coneNode );
       this.addChild( externalHoseConnector );
       this.addChild( localHoseConnector );
+
+      // With ?dev query parameter, place a red dot at the origin.
+      if ( phet.chipper.queryParameters.dev ) {
+        this.addChild( new Circle( 2, { fill: 'red' } ) );
+      }
     }
 
     /**
