@@ -265,18 +265,6 @@ define( require => {
       this.setPumpHandleToInitialPosition();
       this.handleNodeDragListener.reset();
     }
-
-    /**
-     * This function sets the position of this whole node by translating itself so that the external end of the hose
-     * is at the provided screen coordinates.
-     *
-     * @param {Vector2} position
-     * @public
-     */
-    setHoseAttachmentPosition( position ) {
-      this.x = position.x - this.hoseAttachmentOffset.x;
-      this.y = position.y - this.hoseAttachmentOffset.y;
-    }
   }
 
   /**
