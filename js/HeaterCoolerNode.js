@@ -11,7 +11,6 @@
  * @author Denzell Barnett (PhET Interactive Sims)
  * @author Chris Malley  (PixelZoom, Inc.)
  */
-
 define( require => {
   'use strict';
 
