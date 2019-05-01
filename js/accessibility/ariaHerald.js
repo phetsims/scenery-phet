@@ -136,7 +136,7 @@ define( require => {
           // Using `hidden` rather than clearing textContent works better on mobile VO,
           // see https://github.com/phetsims/scenery-phet/issues/490
           liveElement.hidden = true;
-        }, 100 );
+        }, 200 );
       }, 0 );
     }
   }
