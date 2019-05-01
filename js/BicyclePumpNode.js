@@ -70,7 +70,7 @@ define( require => {
         // {number} number of particles released by the pump during one pumping action
         numberOfParticlesPerPumpAction: 10,
 
-        // {Vector2} where the hose will attach externally relative to the center of the pump
+        // {Vector2} where the hose will attach externally relative to the origin of the pump
         hoseAttachmentOffset: new Vector2( 100, 100 ),
 
         // {BooleanProperty} Determines whether the pump will be updated when its number changes. If the pump's range
