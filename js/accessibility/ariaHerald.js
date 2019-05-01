@@ -129,7 +129,7 @@ define( require => {
         AccessibilityUtil.setTextContent( liveElement, textContent );
 
         // Hide the content so that it cant be read with the virtual cursor. Must be done
-        // behind at least 200 ms delay or else alerts may be missed by NVDA, see
+        // behind at least 200 ms delay or else alerts may be missed by NVDA and VoiceOver, see
         // https://github.com/phetsims/scenery-phet/issues/491
         timer.setTimeout( () => {
 
