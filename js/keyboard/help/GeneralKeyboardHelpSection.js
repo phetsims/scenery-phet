@@ -1,107 +1,116 @@
 // Copyright 2017-2019, University of Colorado Boulder
 
 /**
- * General help information for how to navigation a simulation with a keyboard.
+ * General help information for how to navigation a simulation with a keyboard. In general, this file supports a fair
+ * number of options, like displaying group content, or shortcuts for checkbox interaction. The algorithm this type
+ * implements set all the optional potential rows as null, and then fills them in if the options is provided. Then at the
+ * end anything that is null is filtered out.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
-  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
-  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
+  const EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
+  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
+  const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
 
   // stings
-  var keyboardHelpDialogBasicActionsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.basicActions' );
-  var keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
-  var keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
-  var keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
-  var keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
-  var keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
-  var keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
-  var keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
-  var keyboardHelpDialogToggleCheckboxesString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
+  const keyboardHelpDialogBasicActionsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.basicActions' );
+  const keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
+  const keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
+  const keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
+  const keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
+  const keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
+  const keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
+  const keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
+  const keyboardHelpDialogToggleCheckboxesString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
 
   // a11y strings
-  var keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
-  var keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescription.value;
-  var keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
-  var keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
-  var keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
-  var toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
+  const keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
+  const keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescription.value;
+  const keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
+  const keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
+  const keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
+  const toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
 
-  /**
-   * @constructor
-   * @param {Object} options
-   */
-  function GeneralKeyboardHelpSection( options ) {
+  class GeneralKeyboardHelpSection extends KeyboardHelpSection {
 
-    options = _.extend( {
-      withGroupContent: false, // if true, the help content will include information about how to interact with groups
-      withCheckboxContent: false // if true, the help content will include information about how to interact with checkboxes
-    }, options );
+    /**
+     * @param {Object} options
+     */
+    constructor( options ) {
 
-    // 'press buttons' content
-    var spaceIcon = new SpaceKeyNode();
-    var pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
+      options = _.extend( {
+        withGroupContent: false, // if true, the help content will include information about how to interact with groups
+        withCheckboxContent: false // if true, the help content will include information about how to interact with checkboxes
+      }, options );
 
-    // 'exit a dialog' content
-    var exitADialogIcon = new EscapeKeyNode();
-    var exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
+      // 'press buttons' content
+      const spaceIcon = new SpaceKeyNode();
+      const pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
 
-    var content = [ pressButtonsItemRow, exitADialogRow ];
+      // 'exit a dialog' content
+      const exitADialogIcon = new EscapeKeyNode();
+      const exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
 
-    var nextItemString;
-    var previousItemString;
-    if ( options.withGroupContent ) {
+      // 'toggle checkboxes' content
+      let toggleCheckboxes = null;
+      if ( options.withCheckboxContent ) {
+        toggleCheckboxes = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, new SpaceKeyNode(),
+          toggleCheckboxesDescriptionString );
+      }
 
-      nextItemString = keyboardHelpDialogMoveToNextItemOrGroupString;
-      previousItemString = keyboardHelpDialogMoveToPreviousItemOrGroupString;
+      // these strings differ if there is group content present
+      let nextItemString;
+      let previousItemString;
+      let moveBetweenItemsInAGroupRow = null;
+      if ( options.withGroupContent ) {
 
-      // if the general navigation section includes help content includes groups, modify some text and add another
-      // section to describe how to navigate groups
-      var leftRightArrowsIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
-      var upDownArrowsIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
-      var leftRightOrUpDownIcon = KeyboardHelpSection.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      var moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
-        leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
+        nextItemString = keyboardHelpDialogMoveToNextItemOrGroupString;
+        previousItemString = keyboardHelpDialogMoveToPreviousItemOrGroupString;
 
-      // the "group" content row row comes just before the "exite a dialog" row
-      content.splice( content.indexOf( exitADialogRow ), 0, moveBetweenItemsInAGroupRow );
+        // if the general navigation section includes help content includes groups, modify some text and add another
+        // section to describe how to navigate groups
+        const leftRightArrowsIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
+        const upDownArrowsIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+        const leftRightOrUpDownIcon = KeyboardHelpSection.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
+        moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
+          leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
+      }
+      else {
+        nextItemString = keyboardHelpDialogMoveToNextItemString;
+        previousItemString = keyboardHelpDialogMoveToPreviousItemString;
+      }
+
+      // 'move to next item' content
+      const moveToNextItemIcon = new TabKeyNode();
+      const moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
+
+      // 'move to previous item' content
+      const tabIcon = new TabKeyNode();
+      const moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
+      const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
+
+
+      const content = [
+        moveToNextItemRow,
+        moveToPreviousItemRow,
+        pressButtonsItemRow,
+        toggleCheckboxes,
+        moveBetweenItemsInAGroupRow,
+        exitADialogRow
+      ].filter( row => row !== null ); // If any optional rows are null, omit them.
+
+      // order the rows of content
+      super( keyboardHelpDialogBasicActionsString, content, options );
     }
-    else {
-      nextItemString = keyboardHelpDialogMoveToNextItemString;
-      previousItemString = keyboardHelpDialogMoveToPreviousItemString;
-    }
-
-    if ( options.withCheckboxContent ) {
-      content.push( KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, new SpaceKeyNode(),
-        toggleCheckboxesDescriptionString ) );
-    }
-
-    // 'move to next item' content
-    var moveToNextItemIcon = new TabKeyNode();
-    var moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
-
-    // 'move to previous item' content
-    var tabIcon = new TabKeyNode();
-    var moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
-    var moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
-
-    // move to next/previous items are at the beginning of the content
-    content.unshift( moveToNextItemRow, moveToPreviousItemRow );
-
-    // order the rows of content
-    KeyboardHelpSection.call( this, keyboardHelpDialogBasicActionsString, content, options );
   }
 
-  sceneryPhet.register( 'GeneralKeyboardHelpSection', GeneralKeyboardHelpSection );
-
-  return inherit( KeyboardHelpSection, GeneralKeyboardHelpSection, {} );
+  return sceneryPhet.register( 'GeneralKeyboardHelpSection', GeneralKeyboardHelpSection );
 } );
