@@ -112,7 +112,7 @@ define( require => {
       const bodyFillBrighterColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: 0.2 } );
       const bodyFillDarkerColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: -0.2 } );
 
-      // create the body of the pump
+      // @private create the body of the pump
       this.pumpBodyNode = new Rectangle( 0, 0, pumpBodyWidth, pumpBodyHeight, 0, 0, {
         fill: new LinearGradient( 0, 0, pumpBodyWidth, 0 )
           .addColorStop( 0, bodyFillBrighterColorProperty )
@@ -201,7 +201,7 @@ define( require => {
       const shaftFillColorProperty = new PaintColorProperty( options.shaftFill );
       const shaftStrokeColorProperty = new PaintColorProperty( shaftFillColorProperty, { luminanceFactor: -0.38 } );
 
-      // create the pump shaft, which is the part below the handle and inside the body
+      // @private create the pump shaft, which is the part below the handle and inside the body
       this.pumpShaftNode = new Rectangle( 0, 0, pumpShaftWidth, pumpShaftHeight, {
         fill: shaftFillColorProperty,
         stroke: shaftStrokeColorProperty,
@@ -209,7 +209,7 @@ define( require => {
       } );
       this.pumpShaftNode.x = -pumpShaftWidth / 2;
 
-      // create the handle of the pump
+      // @private create the handle of the pump
       this.pumpHandleNode = createPumpHandleNode( options.handleFill );
       const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
       this.pumpHandleNode.touchArea =
@@ -223,7 +223,7 @@ define( require => {
       const maxHandleYOffset = this.pumpHandleNode.centerY;
       const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-      // create and add a drag listener to the handle
+      // @rpivate create and add a drag listener to the handle
       this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
         minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.numberOfParticlesPerPumpAction );
       this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
@@ -245,6 +245,7 @@ define( require => {
 
     /**
      * Sets handle and shaft to their initial position
+     * @private
      */
     setPumpHandleToInitialPosition() {
       this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
