@@ -74,7 +74,14 @@ define( require => {
 
         // {BooleanProperty} Determines whether the pump will be updated when its number changes. If the pump's range
         // changes, the pumps indicator will update regardless of enabledProperty.
-        enabledProperty: new BooleanProperty( true )
+        enabledProperty: new BooleanProperty( true ),
+
+        // pointer areas
+        handleTouchAreaXDilation: 15,
+        handleTouchAreaYDilation: 15,
+        handleMouseAreaXDilation: 0,
+        handleMouseAreaYDilation: 0
+
       }, options );
 
       const width = options.width;
@@ -205,7 +212,10 @@ define( require => {
       // create the handle of the pump
       this.pumpHandleNode = createPumpHandleNode( options.handleFill );
       const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
-      this.pumpHandleNode.touchArea = this.pumpHandleNode.localBounds.dilatedXY( 100, 100 );
+      this.pumpHandleNode.touchArea =
+        this.pumpHandleNode.localBounds.dilatedXY( options.handleTouchAreaXDilation, options.handleTouchAreaYDilation );
+      this.pumpHandleNode.mouseArea =
+        this.pumpHandleNode.localBounds.dilatedXY( options.handleMouseAreaXDilation, options.handleMouseAreaYDilation );
       this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
       this.setPumpHandleToInitialPosition();
 
