@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -69,12 +70,19 @@ define( require => {
         // {number} number of particles released by the pump during one pumping action
         numberOfParticlesPerPumpAction: 10,
 
-        // {Vector2} where the hose will attach externally relative to the center of the pump
+        // {Vector2} where the hose will attach externally relative to the origin of the pump
         hoseAttachmentOffset: new Vector2( 100, 100 ),
 
         // {BooleanProperty} Determines whether the pump will be updated when its number changes. If the pump's range
         // changes, the pumps indicator will update regardless of enabledProperty.
-        enabledProperty: new BooleanProperty( true )
+        enabledProperty: new BooleanProperty( true ),
+
+        // pointer areas
+        handleTouchAreaXDilation: 15,
+        handleTouchAreaYDilation: 15,
+        handleMouseAreaXDilation: 0,
+        handleMouseAreaYDilation: 0
+
       }, options );
 
       const width = options.width;
@@ -105,7 +113,7 @@ define( require => {
       const bodyFillBrighterColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: 0.2 } );
       const bodyFillDarkerColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: -0.2 } );
 
-      // create the body of the pump
+      // @private create the body of the pump
       this.pumpBodyNode = new Rectangle( 0, 0, pumpBodyWidth, pumpBodyHeight, 0, 0, {
         fill: new LinearGradient( 0, 0, pumpBodyWidth, 0 )
           .addColorStop( 0, bodyFillBrighterColorProperty )
@@ -194,7 +202,7 @@ define( require => {
       const shaftFillColorProperty = new PaintColorProperty( options.shaftFill );
       const shaftStrokeColorProperty = new PaintColorProperty( shaftFillColorProperty, { luminanceFactor: -0.38 } );
 
-      // create the pump shaft, which is the part below the handle and inside the body
+      // @private create the pump shaft, which is the part below the handle and inside the body
       this.pumpShaftNode = new Rectangle( 0, 0, pumpShaftWidth, pumpShaftHeight, {
         fill: shaftFillColorProperty,
         stroke: shaftStrokeColorProperty,
@@ -202,10 +210,13 @@ define( require => {
       } );
       this.pumpShaftNode.x = -pumpShaftWidth / 2;
 
-      // create the handle of the pump
+      // @private create the handle of the pump
       this.pumpHandleNode = createPumpHandleNode( options.handleFill );
       const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
-      this.pumpHandleNode.touchArea = this.pumpHandleNode.localBounds.dilatedXY( 100, 100 );
+      this.pumpHandleNode.touchArea =
+        this.pumpHandleNode.localBounds.dilatedXY( options.handleTouchAreaXDilation, options.handleTouchAreaYDilation );
+      this.pumpHandleNode.mouseArea =
+        this.pumpHandleNode.localBounds.dilatedXY( options.handleMouseAreaXDilation, options.handleMouseAreaYDilation );
       this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
       this.setPumpHandleToInitialPosition();
 
@@ -213,7 +224,7 @@ define( require => {
       const maxHandleYOffset = this.pumpHandleNode.centerY;
       const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-      // create and add a drag listener to the handle
+      // @rpivate create and add a drag listener to the handle
       this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
         minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.numberOfParticlesPerPumpAction );
       this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
@@ -231,10 +242,16 @@ define( require => {
       this.addChild( coneNode );
       this.addChild( externalHoseConnector );
       this.addChild( localHoseConnector );
+
+      // With ?dev query parameter, place a red dot at the origin.
+      if ( phet.chipper.queryParameters.dev ) {
+        this.addChild( new Circle( 2, { fill: 'red' } ) );
+      }
     }
 
     /**
      * Sets handle and shaft to their initial position
+     * @private
      */
     setPumpHandleToInitialPosition() {
       this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
@@ -247,18 +264,6 @@ define( require => {
     reset() {
       this.setPumpHandleToInitialPosition();
       this.handleNodeDragListener.reset();
-    }
-
-    /**
-     * This function sets the position of this whole node by translating itself so that the external end of the hose
-     * is at the provided screen coordinates.
-     *
-     * @param {Vector2} position
-     * @public
-     */
-    setHoseAttachmentPosition( position ) {
-      this.x = position.x - this.hoseAttachmentOffset.x;
-      this.y = position.y - this.hoseAttachmentOffset.y;
     }
   }
 
