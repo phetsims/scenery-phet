@@ -66,6 +66,7 @@ define( require => {
         indicatorRemainingFill: '#999999',
         hoseFill: '#b3b3b3',
         baseFill: '#aaaaaa', // this color is also used for the cone shape and hose connectors
+        hoseCurviness: 1, // {number} - greater value = curvy hose, smaller value = straighter hose
 
         // {number} number of particles released by the pump during one pumping action
         numberOfParticlesPerPumpAction: 10,
@@ -170,7 +171,7 @@ define( require => {
       const hoseNode = new Path( new Shape()
         .moveTo( hoseAttachedOnRight ? BODY_TO_HOSE_ATTACH_POINT_X : -BODY_TO_HOSE_ATTACH_POINT_X,
           BODY_TO_HOSE_ATTACH_POINT_Y )
-        .cubicCurveTo( 1.5 * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ),
+        .cubicCurveTo( options.hoseCurviness * ( options.hoseAttachmentOffset.x - BODY_TO_HOSE_ATTACH_POINT_X ),
           BODY_TO_HOSE_ATTACH_POINT_Y,
           0, options.hoseAttachmentOffset.y,
           options.hoseAttachmentOffset.x - ( hoseAttachedOnRight ? hoseConnectorWidth : -hoseConnectorWidth ),
@@ -230,7 +231,6 @@ define( require => {
       this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
 
       // add the pieces with the correct layering
-      this.addChild( hoseNode );
       this.addChild( pumpBaseNode );
       this.addChild( bodyTopBackNode );
       this.addChild( bodyBottomCapNode );
@@ -240,6 +240,7 @@ define( require => {
       this.addChild( remainingCapacityIndicator );
       this.addChild( bodyTopFrontNode );
       this.addChild( coneNode );
+      this.addChild( hoseNode );
       this.addChild( externalHoseConnector );
       this.addChild( localHoseConnector );
 
