@@ -636,7 +636,7 @@ define( require => {
               }
             }
 
-            // This motion is in the upward direction
+            // This motion is in the upward direction or the motion has stopped
             else {
               if ( !options.addParticlesOneAtATime ) {
                 numberProperty.value += Util.roundSymmetric( pumpingDistanceAccumulation / pumpingDistanceRequiredToAddParticle );
