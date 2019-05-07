@@ -68,9 +68,6 @@ define( require => {
         baseFill: '#aaaaaa', // this color is also used for the cone shape and hose connectors
         hoseCurviness: 1, // {number} - greater value = curvy hose, smaller value = straighter hose
 
-        // {number} number of particles released by the pump during one pumping action
-        numberOfParticlesPerPumpAction: 10,
-
         // {Vector2} where the hose will attach externally relative to the origin of the pump
         hoseAttachmentOffset: new Vector2( 100, 100 ),
 
@@ -82,9 +79,20 @@ define( require => {
         handleTouchAreaXDilation: 15,
         handleTouchAreaYDilation: 15,
         handleMouseAreaXDilation: 0,
-        handleMouseAreaYDilation: 0
+        handleMouseAreaYDilation: 0,
+        dragListenerOptions: null // filled in below
 
       }, options );
+
+      // options to be passed on to the drag listener
+      options.dragListenerOptions = _.extend( {
+
+        // {number} number of particles released by the pump during one pumping action
+        numberOfParticlesPerPumpAction: 10,
+
+        // {boolean} if false, particles are added as a batch at the end of each pumping motion
+        addParticlesOneAtATime: true
+      }, options.dragListenerOptions );
 
       const width = options.width;
       const height = options.height;
@@ -227,7 +235,7 @@ define( require => {
 
       // @rpivate create and add a drag listener to the handle
       this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
-        minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.numberOfParticlesPerPumpAction );
+        minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.dragListenerOptions );
       this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
 
       // add the pieces with the correct layering
@@ -579,7 +587,7 @@ define( require => {
      * @param {number} maxHandleYOffset
      * @param {Path} pumpHandleNode
      * @param {Rectangle} pumpShaftNode
-     * @param {number} numberOfParticlesPerPumpAction
+     * @param {Object} [options]
      */
     constructor( numberProperty,
                  rangeProperty,
@@ -588,7 +596,7 @@ define( require => {
                  maxHandleYOffset,
                  pumpHandleNode,
                  pumpShaftNode,
-                 numberOfParticlesPerPumpAction
+                 options
     ) {
 
       assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
@@ -599,9 +607,9 @@ define( require => {
       // How far the pump shaft needs to travel before the pump releases a particle. The subtracted constant was
       // empirically determined to ensure that numberOfParticlesPerPumpAction is correct
       const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) /
-                                                   numberOfParticlesPerPumpAction - 0.01;
+                                                   options.numberOfParticlesPerPumpAction - 0.01;
 
-      super( {
+      super( _.extend( {
         drag: ( event, listener ) => {
 
           // update the handle and shaft position based on the user's pointer position
@@ -616,23 +624,30 @@ define( require => {
 
               // This motion is in the downward direction, so add its distance to the pumping distance.
               pumpingDistanceAccumulation += travelDistance;
-              while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
+              if ( options.addParticlesOneAtATime ) {
+                while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
-                // inject a particle
-                if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
-                  numberProperty.value++;
+                  // inject a particle
+                  if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
+                    numberProperty.value++;
+                  }
+                  pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
                 }
-                pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
               }
             }
+
+            // This motion is in the upward direction
             else {
+              if ( !options.addParticlesOneAtATime ) {
+                numberProperty.value += Util.roundSymmetric( pumpingDistanceAccumulation / pumpingDistanceRequiredToAddParticle );
+              }
               pumpingDistanceAccumulation = 0;
             }
           }
 
           this.lastHandlePosition = handlePosition;
         }
-      } );
+      }, options ) );
 
       this.lastHandlePosition = null;
     }
