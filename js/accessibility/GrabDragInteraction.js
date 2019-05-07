@@ -134,7 +134,6 @@ define( require => {
       options.draggableOptions = _.extend( {
         tagName: 'div',
         ariaRole: 'application',
-        focusable: true,
 
         // to cancel out grabbable
         containerTagName: null
@@ -155,8 +154,6 @@ define( require => {
         ariaRole: null,
         tagName: 'button',
 
-        // to cancel out draggable
-        focusable: null,
         accessibleName: null,
         ariaLabel: null // also since many use ariaLabel to set accessibleName
       }, options.grabbableOptions );
@@ -179,6 +176,9 @@ define( require => {
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
       this.onGrabbable = options.onGrabbable;
       this.onDraggable = options.onDraggable;
+
+      // for both grabbing and dragging, the node with this interaction must be focusable
+      this.node.focusable = true;
 
       // @private - wrap the optional onRelease in logic that is needed for the core type.
       this.onRelease = () => {
@@ -387,6 +387,7 @@ define( require => {
 
       // update the PDOM of the node
       this.node.mutate( optionsToMutate );
+      assert && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
       this.addInputListeners( listenersToAdd );
 
