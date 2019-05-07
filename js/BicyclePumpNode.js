@@ -40,7 +40,7 @@ define( require => {
   const HOSE_CONNECTOR_WIDTH_PROPORTION = 0.05;
   const SHAFT_OPENING_TILT_FACTOR = 0.33;
   const BODY_TO_HOSE_ATTACH_POINT_X = 13;
-  const BODY_TO_HOSE_ATTACH_POINT_Y = -15;
+  const BODY_TO_HOSE_ATTACH_POINT_Y = -26;
 
   class BicyclePumpNode extends Node {
 
@@ -326,6 +326,10 @@ define( require => {
         .addColorStop( 1, baseFillDarkestColorProperty )
     } );
 
+    pumpEdgeNode.centerY = -pumpEdgeNode.height / 2;
+
+    // 0.6 determined empirically for best positioning
+    topOfBaseNode.bottom = pumpEdgeNode.bottom - pumpBaseEdgeHeight / 2 + 0.6;
     return new Node( { children: [ pumpEdgeNode, topOfBaseNode ] } );
   }
 
