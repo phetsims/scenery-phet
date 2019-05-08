@@ -80,19 +80,9 @@ define( require => {
         handleTouchAreaYDilation: 15,
         handleMouseAreaXDilation: 0,
         handleMouseAreaYDilation: 0,
-        dragListenerOptions: null // filled in below
+        dragListenerOptions: null // see HandleNodeDragListener
 
       }, options );
-
-      // options to be passed on to the drag listener
-      options.dragListenerOptions = _.extend( {
-
-        // {number} number of particles released by the pump during one pumping action
-        numberOfParticlesPerPumpAction: 10,
-
-        // {boolean} if false, particles are added as a batch at the end of each pumping motion
-        addParticlesOneAtATime: true
-      }, options.dragListenerOptions );
 
       const width = options.width;
       const height = options.height;
@@ -605,6 +595,14 @@ define( require => {
 
       assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
+      options = _.extend( {
+        // {number} number of particles released by the pump during one pumping action
+        numberOfParticlesPerPumpAction: 10,
+
+        // {boolean} if false, particles are added as a batch at the end of each pumping motion
+        addParticlesOneAtATime: true
+      }, options );
+
       let handlePosition = null;
       let pumpingDistanceAccumulation = 0;
 
@@ -622,31 +620,36 @@ define( require => {
           pumpHandleNode.centerY = handlePosition;
           pumpShaftNode.top = pumpHandleNode.bottom;
 
+          let numberOfBatchParticles = 0; // number of particles to add all at once
+
           if ( this.lastHandlePosition !== null ) {
             const travelDistance = handlePosition - this.lastHandlePosition;
             if ( travelDistance > 0 ) {
 
               // This motion is in the downward direction, so add its distance to the pumping distance.
               pumpingDistanceAccumulation += travelDistance;
-              if ( options.addParticlesOneAtATime ) {
-                while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
+              while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
-                  // inject a particle
-                  if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
+                // add a particle
+                if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
+                  if ( options.addParticlesOneAtATime ) {
                     numberProperty.value++;
                   }
-                  pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
+                  else {
+                    numberOfBatchParticles++;
+                  }
                 }
+                pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
               }
             }
-
-            // This motion is in the upward direction or the motion has stopped
             else {
-              if ( !options.addParticlesOneAtATime ) {
-                numberProperty.value += Util.roundSymmetric( pumpingDistanceAccumulation / pumpingDistanceRequiredToAddParticle );
-              }
               pumpingDistanceAccumulation = 0;
             }
+          }
+
+          // Add particles in one batch.
+          if ( !options.addParticlesOneAtATime ) {
+            numberProperty.value += numberOfBatchParticles;
           }
 
           this.lastHandlePosition = handlePosition;
