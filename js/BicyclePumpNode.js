@@ -80,6 +80,7 @@ define( require => {
         handleTouchAreaYDilation: 15,
         handleMouseAreaXDilation: 0,
         handleMouseAreaYDilation: 0,
+        
         dragListenerOptions: null // see HandleNodeDragListener
 
       }, options );
