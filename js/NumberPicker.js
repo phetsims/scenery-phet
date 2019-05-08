@@ -122,7 +122,7 @@ define( function( require ) {
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
 
       // a11y
-      a11yPageValueDelta: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
+      pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
 
     }, options );
 
@@ -391,7 +391,7 @@ define( function( require ) {
 
     // initialize accessibility features - must reach into up function to get delta
     this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, _.extend( {
-      a11yValueDelta: options.upFunction( valueProperty.get() ) - valueProperty.get()
+      keyboardStep: options.upFunction( valueProperty.get() ) - valueProperty.get()
     }, options ) );
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
