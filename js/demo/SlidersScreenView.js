@@ -139,6 +139,7 @@ define( function( require ) {
   // Creates a demo for SpectrumSlider
   var demoSpectrumSlider = function( layoutBounds ) {
     return new SpectrumSlider( new Property( 0.5 ), {
+      tweakerValueDelta: 0.01,
       center: layoutBounds.center,
       valueToString: function( value ) {return Util.toFixed( value, 2 );}
     } );
