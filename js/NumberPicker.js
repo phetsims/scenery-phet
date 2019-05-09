@@ -390,8 +390,11 @@ define( function( require ) {
     );
 
     // initialize accessibility features - must reach into up function to get delta
+    // both normal arrow and shift arrow keys use delta produced with up function
+    const keyboardStep = options.upFunction( valueProperty.get() ) - valueProperty.get();
     this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, _.extend( {
-      keyboardStep: options.upFunction( valueProperty.get() ) - valueProperty.get()
+      keyboardStep: keyboardStep,
+      shiftKeyboardStep: keyboardStep
     }, options ) );
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
