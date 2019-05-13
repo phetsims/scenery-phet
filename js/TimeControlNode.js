@@ -83,14 +83,12 @@ define( function( require ) {
           }, options.stepOptions ) )
         ]
       }, options.playStepBoxOptions ) ),
-      new VerticalAquaRadioButtonGroup( [
+      new VerticalAquaRadioButtonGroup( isSlowMotionProperty, [
         {
-          property: isSlowMotionProperty,
           value: false,
           node: normalText,
           tandemName: 'normal'
         }, {
-          property: isSlowMotionProperty,
           value: true,
           node: slowText,
           tandemName: 'slowMotion'
