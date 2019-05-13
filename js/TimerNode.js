@@ -44,6 +44,7 @@ define( function( require ) {
       iconHeight: 10,
       iconFill: 'black',
       iconLineWidth: 1,
+      backgroundBaseColor: 'rgb(  80, 130, 230  )',
       buttonBaseColor: '#DFE0E1',
       xSpacing: 6, // horizontal space between the buttons
       ySpacing: 6, // vertical space between readout and buttons
@@ -117,7 +118,9 @@ define( function( require ) {
     // Background panel ----------------------------------------------------------------------------
 
     var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
-      contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ) );
+      contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
+      baseColor: options.backgroundBaseColor
+    } );
     backgroundNode.touchArea = backgroundNode.localBounds.dilated( options.touchAreaDilation );
     contents.center = backgroundNode.center;
 
