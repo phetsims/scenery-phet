@@ -1,115 +1,177 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * LayoutBox that combines the play/pause button and the stepforward button with slow-motion controls.
+ * Combines the Play/Pause button and the Step button with optional speed controls.
  *
  * @author Denzell Barnett (PhET Interactive Simulations)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
+  const SunConstants = require( 'SUN/SunConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
 
   // strings
-  var speedNormalString = require( 'string!SCENERY_PHET/speed.normal' );
-  var speedSlowString = require( 'string!SCENERY_PHET/speed.slow' );
+  const speedNormalString = require( 'string!SCENERY_PHET/speed.normal' );
+  const speedSlowString = require( 'string!SCENERY_PHET/speed.slow' );
 
-  /**
-   * @constructor
-   *
-   * @param {Property.<boolean>} isPlayingProperty
-   * @param {Property.<boolean>} isSlowMotionProperty
-   * @param {Object} [options]
-   */
-  function TimeControlNode( isPlayingProperty, isSlowMotionProperty, options ) {
+  class TimeControlNode extends Node {
 
-    options = _.extend( {
-      stepCallback: null, // {function|null} - If provided, called when the step button is pressed
-      tandem: Tandem.required, // {Tandem}
+    /**
+     * @param {BooleanProperty} isPlayingProperty
+     * @param {Object} [options]
+     */
+    constructor( isPlayingProperty, options ) {
 
-      // LayoutBox options
-      spacing: 40,
-      orientation: 'horizontal',
+      options = _.extend( {
 
-      // Options for the PlayPauseButton
-      playPauseOptions: null,
+        // Optional {BooleanProperty}, if provided 'Normal' and 'Slow' radio buttons are added.
+        isSlowMotionProperty: null,
 
-      // Options for the StepForwardButton
-      stepOptions: null,
+        // {BooleanProperty}
+        enabledProperty: null,
 
-      // Options for the normal/slow text labels
-      labelOptions: null,
+        // Spacing options
+        playPauseStepXSpacing: 10, // horizontal space between Play/Pause and Step buttons
+        buttonsXSpacing: 40, // horizontal space between push buttons and radio buttons
 
-      // Options for the RadioButtonGroup
-      radioButtonGroupOptions: null,
+        // Options for the PlayPauseButton
+        playPauseOptions: null,
 
-      // Options for the layout box holding the play/pause and step buttons
-      playStepBoxOptions: null
-    }, options );
+        // Options for the StepForwardButton
+        stepOptions: null,
 
-    options.labelOptions = _.extend( {
-      font: new PhetFont( 14 )
-    }, options.labelOptions );
+        // Options for the Normal/Slow text labels
+        labelOptions: null,
 
-    var normalText = new Text( speedNormalString, options.labelOptions );
-    var slowText = new Text( speedSlowString, options.labelOptions );
+        // Options for radio buttons
+        radioButtonOptions: null,
 
-    options.children = [
-      new LayoutBox( _.extend( {
-        orientation: 'horizontal',
-        spacing: 10,
-        children: [
-          new PlayPauseButton( isPlayingProperty, _.extend( {
-            radius: 20,
-            touchAreaDilation: 5,
-            tandem: options.tandem.createTandem( 'playPauseButton' )
-          }, options.playPauseOptions ) ),
-          new StepForwardButton( _.extend( {
-            isPlayingProperty: isPlayingProperty,
-            listener: options.stepCallback,
-            radius: 15,
-            touchAreaDilation: 5,
-            tandem: options.tandem.createTandem( 'stepForwardButton' )
-          }, options.stepOptions ) )
-        ]
-      }, options.playStepBoxOptions ) ),
-      new VerticalAquaRadioButtonGroup( isSlowMotionProperty, [
-        {
-          value: false,
-          node: normalText,
-          tandemName: 'normal'
-        }, {
-          value: true,
-          node: slowText,
-          tandemName: 'slowMotion'
-        }
-      ], _.extend( {
-        spacing: 9,
-        touchAreaXDilation: 10,
-        maxWidth: 150,
-        tandem: options.tandem.createTandem( 'slowMotionRadioButtonGroup' ),
+        // Options for the radio button group
+        radioButtonGroupOptions: null,
 
-        radioButtonOptions: {
+        // phet-io
+        tandem: Tandem.required // {Tandem}
+
+      }, options );
+
+      const playPauseButton = new PlayPauseButton( isPlayingProperty, _.extend( {
+        radius: 20,
+        touchAreaDilation: 5,
+        tandem: options.tandem.createTandem( 'playPauseButton' )
+      }, options.playPauseOptions ) );
+
+      const stepButton = new StepForwardButton( _.extend( {
+        isPlayingProperty: isPlayingProperty,
+        radius: 15,
+        touchAreaDilation: 5,
+        tandem: options.tandem.createTandem( 'stepForwardButton' )
+      }, options.stepOptions ) );
+
+      // Play/Pause and Step buttons
+      const pushButtonGroup = new HBox( {
+        spacing: options.playPauseStepXSpacing,
+        children: [ playPauseButton, stepButton ]
+      } );
+
+      const children = [];
+
+      // Optional Normal/Slow radio button group
+      let radioButtonGroup = null;
+      if ( options.isSlowMotionProperty ) {
+
+        const labelOptions = _.extend( {
+          font: new PhetFont( 14 )
+        }, options.labelOptions );
+
+        const normalText = new Text( speedNormalString, labelOptions );
+        const slowText = new Text( speedSlowString, labelOptions );
+
+        const radioButtonOptions = _.extend( {
           xSpacing: 5,
           radius: normalText.height / 2.2
-        }
-      }, options.radioButtonGroupOptions ) )
-    ];
+        }, options.radioButtonOptions );
 
-    LayoutBox.call( this, options );
+        const radioButtonGroupOptions = _.extend( {
+          radioButtonOptions: radioButtonOptions,
+          spacing: 9,
+          touchAreaXDilation: 10,
+          maxWidth: 150,
+          tandem: options.tandem.createTandem( 'speedRadioButtonGroup' )
+        }, options.radioButtonGroupOptions );
+
+        radioButtonGroup = new VerticalAquaRadioButtonGroup( options.isSlowMotionProperty, [
+          { value: false, node: normalText, tandemName: 'normal' },
+          { value: true, node: slowText, tandemName: 'slow' }
+        ], radioButtonGroupOptions );
+
+        children.push( new HBox( {
+          spacing: options.buttonsXSpacing,
+          children: [ pushButtonGroup, radioButtonGroup ]
+        } ) );
+      }
+      else {
+        children.push( pushButtonGroup );
+      }
+
+      assert && assert( !options.children, 'TimeControlNode sets children' );
+      options = _.extend( {
+        children: children
+      }, options );
+
+      super( options );
+
+      // So we know whether we can dispose of the enabledProperty and its tandem
+      const ownsEnabledProperty = !options.enabledProperty;
+
+      // @public
+      this.enabledProperty = options.enabledProperty || new BooleanProperty( true, {
+        tandem: options.tandem.createTandem( 'enabledProperty' )
+      } );
+
+      const enabledListener = ( enabled ) => {
+        this.pickable = enabled;
+        this.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
+      };
+      this.enabledProperty.link( enabledListener );
+
+      // @private
+      this.disposeTimeControlNode = () => {
+
+        playPauseButton.dispose();
+        stepButton.dispose();
+        radioButtonGroup && radioButtonGroup.dispose();
+
+        if ( ownsEnabledProperty ) {
+          this.enabledProperty.dispose();
+        }
+        else if ( this.enabledProperty.hasListener( enabledListener ) ) {
+          this.enabledProperty.unlink( enabledListener );
+        }
+      };
+    }
+
+    /**
+     * @public
+     * @override
+     */
+    dispose() {
+      this.disposeTimeControlNode();
+      super.dispose();
+    }
   }
 
-  sceneryPhet.register( 'TimeControlNode', TimeControlNode );
-
-  return inherit( LayoutBox, TimeControlNode );
+  return sceneryPhet.register( 'TimeControlNode', TimeControlNode );
 } );
