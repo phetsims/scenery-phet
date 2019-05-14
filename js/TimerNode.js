@@ -39,7 +39,6 @@ define( function( require ) {
     options = _.extend( {
 
       // See also options that pass through to TimerReadoutNode
-      touchAreaDilation: 10,
       cursor: 'pointer',
       iconHeight: 10,
       iconFill: 'black',
@@ -121,7 +120,6 @@ define( function( require ) {
       contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
       baseColor: options.backgroundBaseColor
     } );
-    backgroundNode.touchArea = backgroundNode.localBounds.dilated( options.touchAreaDilation );
     contents.center = backgroundNode.center;
 
     assert && assert( !options.children, 'TimerNode sets children' );
