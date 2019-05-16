@@ -68,6 +68,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -199,8 +200,18 @@ define( function( require ) {
       displayNode.text = numberOfParticles;
     } );
 
+    var resetButton = new ResetButton( {
+      listener: () => {
+        numberOfParticlesProperty.reset();
+        bicyclePumpNode.reset();
+      },
+      scale: 0.75,
+      centerX: bicyclePumpNode.x,
+      top: bicyclePumpNode.bottom + 20
+    });
+
     return new Node( {
-      children: [ bicyclePumpNode, displayNode ],
+      children: [ bicyclePumpNode, displayNode, resetButton ],
       center: layoutBounds.center
     } );
   };
