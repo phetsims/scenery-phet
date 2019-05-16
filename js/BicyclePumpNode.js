@@ -90,7 +90,7 @@ define( require => {
 
       super( options );
 
-      // @private
+      // @public (read-only)
       this.hoseAttachmentOffset = options.hoseAttachmentOffset;
 
       // create the base of the pump
