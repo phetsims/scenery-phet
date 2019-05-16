@@ -652,6 +652,9 @@ define( require => {
           if ( !options.addParticlesOneAtATime ) {
             numberProperty.value += numberOfBatchParticles;
           }
+          else {
+            assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
+          }
 
           this.lastHandlePosition = handlePosition;
         }
