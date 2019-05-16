@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var ContextLossFailureDialog = require( 'SCENERY_PHET/ContextLossFailureDialog' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var OopsDialog = require( 'SCENERY_PHET/OopsDialog' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -19,7 +20,9 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var BUTTON_LABEL_FONT = new PhetFont( 20 );
+  var BUTTON_OPTIONS = {
+    font: new PhetFont( 20 )
+  };
 
   /**
    * @constructor
@@ -29,9 +32,8 @@ define( function( require ) {
 
     // reuse one instance of the dialog
     var contextLossFailureDialog = null;
-
     var contextLossFailureButton = new RectangularPushButton( {
-      content: new Text( 'context loss failure', { font: BUTTON_LABEL_FONT } ),
+      content: new Text( 'ContextLossFailureDialog', BUTTON_OPTIONS ),
       listener: function() {
         if ( !contextLossFailureDialog ) {
           contextLossFailureDialog = new ContextLossFailureDialog( {
@@ -47,8 +49,22 @@ define( function( require ) {
       }
     } );
 
+    var oopsDialog = null;
+    var oopsButton = new RectangularPushButton( {
+      content: new Text( 'OopsDialog', BUTTON_OPTIONS ),
+      listener: () => {
+        if ( !oopsDialog ) {
+          oopsDialog = new OopsDialog( 'Oops!<br><br>You really shouldn\'t have done that.' );
+        }
+        oopsDialog.show();
+      }
+    });
+
     this.addChild( new VBox( {
-      children: [ contextLossFailureButton ],
+      children: [
+        contextLossFailureButton,
+        oopsButton
+      ],
       spacing: 20,
       center: this.layoutBounds.center
     } ) );
