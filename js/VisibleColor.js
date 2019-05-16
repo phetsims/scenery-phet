@@ -44,7 +44,8 @@ define( function( require ) {
 
       options = _.extend( {
         irColor: null, // {Color|string|null} color to use for IR wavelengths
-        uvColor: null  // {Color|string|null} color to use for UV wavelengths
+        uvColor: null,  // {Color|string|null} color to use for UV wavelengths
+        reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
       }, options );
 
       var color = null;
@@ -58,8 +59,8 @@ define( function( require ) {
         color = Color.toColor( options.uvColor );
       }
       else { // lookup visible color
-        assert && assert( COLOR_TABLE );
-        color = COLOR_TABLE[ Util.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
+        const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
+        color = colorTable[ Util.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
       }
 
       assert && assert( color, 'color not found for wavelength ' + wavelength );
@@ -80,13 +81,32 @@ define( function( require ) {
     },
 
     /**
+     * Determines which color table to use based on the options.  This assumes options have been filled in by the call
+     * site, hence uses config instead of options.
+     * @param {boolean} reduceIntensityAtExtrema
+     * @returns {Color[]} the color table
+     * @private
+     */
+    getColorTable: function( reduceIntensityAtExtrema ) {
+      const colorTable = reduceIntensityAtExtrema ? REDUCED_INTENSITY_COLOR_TABLE : FULL_INTENSITY_COLOR_TABLE;
+      assert && assert( colorTable, 'color table should be defined' );
+      return colorTable;
+    },
+
+    /**
      * Converts a Color to its corresponding wavelength. Relies on a color lookup table that is initialized the first
      * time that this method is called.  Color lookup is based on RGB component value; the alpha value is ignored.
      *
      * @param {Color|string} color - the color
+     * @param {Object} [options]
      * @returns {number} the wavelength in nanometers
+     * @public
      */
-    colorToWavelength: function( color ) {
+    colorToWavelength: function( color, options ) {
+
+      options = _.extend( {
+        reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
+      }, options );
 
       color = Color.toColor( color );
 
@@ -96,11 +116,11 @@ define( function( require ) {
         wavelength = VisibleColor.WHITE_WAVELENGTH;
       }
       else {
-        assert && assert( COLOR_TABLE );
-        for ( var i = 0; i < COLOR_TABLE.length; i++ ) {
-          if ( Math.abs( color.getRed() - COLOR_TABLE[ i ].getRed() ) < COLOR_MATCH_DELTA &&
-               Math.abs( color.getGreen() - COLOR_TABLE[ i ].getGreen() ) < COLOR_MATCH_DELTA &&
-               Math.abs( color.getBlue() - COLOR_TABLE[ i ].getBlue() ) < COLOR_MATCH_DELTA ) {
+        const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
+        for ( var i = 0; i < colorTable.length; i++ ) {
+          if ( Math.abs( color.getRed() - colorTable[ i ].getRed() ) < COLOR_MATCH_DELTA &&
+               Math.abs( color.getGreen() - colorTable[ i ].getGreen() ) < COLOR_MATCH_DELTA &&
+               Math.abs( color.getBlue() - colorTable[ i ].getBlue() ) < COLOR_MATCH_DELTA ) {
             wavelength = VisibleColor.MIN_WAVELENGTH + i;
             break;
           }
@@ -116,9 +136,10 @@ define( function( require ) {
 
   /**
    * Creates a table that is used to map wavelength in nanometers to Color.
+   * @param {boolean} reduceIntensityAtExtrema - whether the intensity should be reduced and high and low wavelength
    * @returns {Color[]}
    */
-  var createColorTable = function() {
+  var createColorTable = function( reduceIntensityAtExtrema ) {
 
     var colorTable = [];
 
@@ -170,10 +191,10 @@ define( function( require ) {
 
       // Let the intensity fall off near the vision limits.
       var intensity;
-      if ( wavelength > 645 ) {
+      if ( reduceIntensityAtExtrema && wavelength > 645 ) {
         intensity = 0.3 + 0.7 * ( 780 - wavelength ) / ( 780 - 645 );
       }
-      else if ( wavelength < 420 ) {
+      else if ( reduceIntensityAtExtrema && wavelength < 420 ) {
         intensity = 0.3 + 0.7 * ( wavelength - 380 ) / ( 420 - 380 );
       }
       else {
@@ -191,8 +212,9 @@ define( function( require ) {
     return colorTable;
   };
 
-  // Eagerly create the color table.
-  var COLOR_TABLE = createColorTable();
+  // Eagerly create the color tables.
+  const REDUCED_INTENSITY_COLOR_TABLE = createColorTable( true );
+  const FULL_INTENSITY_COLOR_TABLE = createColorTable( false );
 
   return VisibleColor;
 } );
