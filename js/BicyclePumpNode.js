@@ -632,7 +632,7 @@ define( require => {
               while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
                 // add a particle
-                if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
+                if ( enabledProperty.value && numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
                   if ( options.addParticlesOneAtATime ) {
                     numberProperty.value++;
                   }
