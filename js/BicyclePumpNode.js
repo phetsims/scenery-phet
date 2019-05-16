@@ -90,7 +90,7 @@ define( require => {
 
       super( options );
 
-      // @private
+      // @public (read-only)
       this.hoseAttachmentOffset = options.hoseAttachmentOffset;
 
       // create the base of the pump
@@ -632,7 +632,7 @@ define( require => {
               while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
                 // add a particle
-                if ( rangeProperty.value.max - numberProperty.value > 0 && enabledProperty.get() ) {
+                if ( enabledProperty.value && numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
                   if ( options.addParticlesOneAtATime ) {
                     numberProperty.value++;
                   }
@@ -651,6 +651,9 @@ define( require => {
           // Add particles in one batch.
           if ( !options.addParticlesOneAtATime ) {
             numberProperty.value += numberOfBatchParticles;
+          }
+          else {
+            assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
           }
 
           this.lastHandlePosition = handlePosition;

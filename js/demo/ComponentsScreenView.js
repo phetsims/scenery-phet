@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var BicyclePumpNode = require( 'SCENERY_PHET/BicyclePumpNode' );
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
@@ -67,6 +68,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -106,6 +108,7 @@ define( function( require ) {
        * {function(Bounds2): Node} createNode - creates the scene graph for the demo
        */
       { label: 'ArrowNode', createNode: demoArrowNode },
+      { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
       { label: 'BracketNode', createNode: demoBracketNode },
       { label: 'ComboBoxDisplay', createNode: demoComboBoxDisplay },
       { label: 'ConductivityTesterNode', createNode: demoConductivityTesterNode },
@@ -170,6 +173,47 @@ define( function( require ) {
       ]
     } );
 
+  };
+
+  // Creates a demo for BicyclePumpNode
+  var demoBicyclePumpNode = function( layoutBounds ) {
+
+    var numberOfParticlesProperty = new NumberProperty( 0, {
+      numberType: 'Integer',
+      range: new Range( 0, 100 )
+    } );
+
+    var rangeProperty = new Property( numberOfParticlesProperty.range );
+
+    var bicyclePumpNode = new BicyclePumpNode( numberOfParticlesProperty, rangeProperty, {
+      hoseAttachmentOffset: new Vector2( 100, -100 )
+    } );
+
+    // Displays the number of particles, positioned next to the hose output
+    var displayNode = new Text( numberOfParticlesProperty.value, {
+      font: new PhetFont( 24 ),
+      left: bicyclePumpNode.x + bicyclePumpNode.hoseAttachmentOffset.x + 20,
+      centerY: bicyclePumpNode.y + bicyclePumpNode.hoseAttachmentOffset.y
+    } );
+
+    numberOfParticlesProperty.link( numberOfParticles => {
+      displayNode.text = numberOfParticles;
+    } );
+
+    var resetButton = new ResetButton( {
+      listener: () => {
+        numberOfParticlesProperty.reset();
+        bicyclePumpNode.reset();
+      },
+      scale: 0.75,
+      centerX: bicyclePumpNode.x,
+      top: bicyclePumpNode.bottom + 20
+    });
+
+    return new Node( {
+      children: [ bicyclePumpNode, displayNode, resetButton ],
+      center: layoutBounds.center
+    } );
   };
 
   // Creates a demo for BracketNode
