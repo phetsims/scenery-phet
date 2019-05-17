@@ -23,6 +23,11 @@ define( function( require ) {
 
   var VIOLET_WAVELENGTH = 380; // nanometers
   var RED_WAVELENGTH = 780; // nanometers
+
+  // Create the color tables on demand, since they take up 282kb per table or so
+  let REDUCED_INTENSITY_COLOR_TABLE = null;
+  let FULL_INTENSITY_COLOR_TABLE = null;
+
   var VisibleColor = {
 
     // public constants
@@ -88,9 +93,18 @@ define( function( require ) {
      * @private
      */
     getColorTable: function( reduceIntensityAtExtrema ) {
-      const colorTable = reduceIntensityAtExtrema ? REDUCED_INTENSITY_COLOR_TABLE : FULL_INTENSITY_COLOR_TABLE;
-      assert && assert( colorTable, 'color table should be defined' );
-      return colorTable;
+      if ( reduceIntensityAtExtrema ) {
+
+        // cache for future use
+        REDUCED_INTENSITY_COLOR_TABLE = REDUCED_INTENSITY_COLOR_TABLE || createColorTable( true );
+        return REDUCED_INTENSITY_COLOR_TABLE;
+      }
+      else {
+
+        // cache for future use
+        FULL_INTENSITY_COLOR_TABLE = FULL_INTENSITY_COLOR_TABLE || createColorTable( false );
+        return FULL_INTENSITY_COLOR_TABLE;
+      }
     },
 
     /**
@@ -211,10 +225,6 @@ define( function( require ) {
 
     return colorTable;
   };
-
-  // Eagerly create the color tables.
-  const REDUCED_INTENSITY_COLOR_TABLE = createColorTable( true );
-  const FULL_INTENSITY_COLOR_TABLE = createColorTable( false );
 
   return VisibleColor;
 } );
