@@ -38,7 +38,7 @@ define( function( require ) {
       const sliderHelpSection = new SliderKeyboardHelpSection( options.sliderSectionOptions );
       const generalNavigationHelpSection = new GeneralKeyboardHelpSection( options.generalSectionOptions);
 
-      super( sliderHelpSection, generalNavigationHelpSection, options );
+      super( [ sliderHelpSection ], [ generalNavigationHelpSection ], options );
     }
   }
 
