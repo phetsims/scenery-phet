@@ -18,8 +18,8 @@ define( require => {
   class TwoColumnKeyboardHelpContent extends Node {
 
     /**
-     * @param {[].<Node>} leftNode
-     * @param {[].<Node>} rightNode
+     * @param {[].<Node>} leftSections
+     * @param {[].<Node>} rightSections
      * @param {Object} options
      */
     constructor( leftSections, rightSections, options ) {
