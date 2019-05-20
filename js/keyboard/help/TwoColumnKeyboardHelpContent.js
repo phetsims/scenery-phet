@@ -25,8 +25,8 @@ define( require => {
 
       options = _.extend( {
 
-        // determined by inspection, but may need to be adjusted depending on content
-        spacing: 30
+        // spacing between the left and right columns of the help content
+        columnSpacing: 30
       }, options );
 
       assert && assert( options.align === undefined, 'TwoColumnKeyboardHelpContent sets column alignment' );
@@ -34,7 +34,7 @@ define( require => {
 
       const hBox = new HBox( {
         children: [ leftNode, rightNode ],
-        spacing: options.spacing,
+        spacing: options.columnSpacing,
         align: 'top'
       } );
 
