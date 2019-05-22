@@ -42,7 +42,13 @@ define( function( require ) {
         minValue: 0,
 
         // {number} max value to be mapped to Color via valueToColor
-        maxValue: 1
+        maxValue: 1,
+
+        // {ColorDef|null} optional stroke around the bounds of this Node
+        stroke: null,
+
+        // {number} line width for optional stroke
+        lineWidth: 1
       }, options );
 
       // validate option values
@@ -58,23 +64,34 @@ define( function( require ) {
       this.valueToColor = options.valueToColor;
       this.minValue = options.minValue;
       this.maxValue = options.maxValue;
+      this.stroke = options.stroke;
+      this.lineWidth = options.lineWidth;
 
       // Mutate options after setCanvasBounds, or transform options will fail because the Node has no bounds.
       this.mutate( options );
     }
 
     /**
-     * Draws the spectrum.  Call invalidatePaint if you need this to be called explicitly.
+     * Call invalidatePaint if you need this to be called explicitly.
      * @param {CanvasRenderingContext2D} context
      * @public
      * @override
      */
     paintCanvas( context ) {
+
+      // draw the spectrum
       for ( let i = 0; i < this.size.width; i++ ) {
         let value = Util.linear( 0, this.size.width, this.minValue, this.maxValue, i );
         value = Util.clamp( value, this.minValue, this.maxValue );
         context.fillStyle = this.valueToColor( value ).toCSS();
         context.fillRect( i, 0, 1, this.size.height );
+      }
+
+      // optional stroke the bounds
+      if ( this.stroke ) {
+        context.lineWidth = this.lineWidth;
+        context.strokeStyle = this.stroke;
+        context.strokeRect( 0, 0, this.size.width, this.size.height );
       }
     }
   }

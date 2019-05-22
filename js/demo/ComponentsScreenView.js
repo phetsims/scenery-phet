@@ -1248,6 +1248,8 @@ define( function( require ) {
   // Creates a demo for SpectrumNode
   var demoSpectrumNode = function( layoutBounds ) {
     return new SpectrumNode( {
+      stroke: 'black',
+      lineWidth: 3,
       center: layoutBounds.center
     } );
   };
