@@ -20,7 +20,7 @@ define( function( require ) {
 
   // constants
   const DEFAULT_SIZE = new Dimension2( 150, 30 );
-  const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // black to white
+  const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // grayscale spectrum
 
   class SpectrumNode extends CanvasNode {
 
