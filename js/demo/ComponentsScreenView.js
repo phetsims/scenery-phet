@@ -77,6 +77,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   var SliderKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/SliderKeyboardHelpSection' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
@@ -134,6 +135,7 @@ define( function( require ) {
       { label: 'RichText', createNode: demoRichText },
       { label: 'RulerNode', createNode: demoRulerNode },
       { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
+      { label: 'SpectrumNode', createNode: demoSpectrumNode },
       { label: 'StarNode', createNode: demoStarNode },
       { label: 'TimerNode', createNode: demoTimerNode },
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
@@ -208,7 +210,7 @@ define( function( require ) {
       scale: 0.75,
       centerX: bicyclePumpNode.x,
       top: bicyclePumpNode.bottom + 20
-    });
+    } );
 
     return new Node( {
       children: [ bicyclePumpNode, displayNode, resetButton ],
@@ -1239,6 +1241,13 @@ define( function( require ) {
     return new RulerNode( rulerLength, 0.15 * rulerLength, majorTickWidth, majorTickLabels, 'm', {
       insetsWidth: 25,
       minorTicksPerMajorTick: 4,
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for SpectrumNode
+  var demoSpectrumNode = function( layoutBounds ) {
+    return new SpectrumNode( {
       center: layoutBounds.center
     } );
   };
