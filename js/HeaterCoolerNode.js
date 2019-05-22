@@ -27,7 +27,7 @@ define( require => {
   class HeaterCoolerNode extends Node {
 
     /**
-     * @param {NumberProperty} heatCoolAmountProperty +1 for max heating, -1 for max cooling
+     * @param {NumberProperty} heatCoolAmountProperty +1 for max heating, -1 for max cooling, 0 for no change
      * @param {Object} [options]
      * @constructor
      */
