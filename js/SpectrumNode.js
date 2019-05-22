@@ -1,4 +1,4 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2014-2019, University of Colorado Boulder
 
 /**
  * SpectrumNode displays a spectrum from one value to another.  The displayed colors are computed by a
@@ -12,13 +12,17 @@ define( function( require ) {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const Color = require( 'SCENERY/util/Color' );
   const Dimension2 = require( 'DOT/Dimension2' );
-  const Image = require( 'SCENERY/nodes/Image' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
 
+  // constants
+  const DEFAULT_SIZE = new Dimension2( 150, 30 );
+  const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // black to white
 
-  class SpectrumNode extends Image {
+  class SpectrumNode extends CanvasNode {
 
     /**
      * @param {Object} [options]
@@ -27,33 +31,51 @@ define( function( require ) {
     constructor( options ) {
 
       options = _.extend( {
-        size: new Dimension2( 150, 30 ),
+
+        // {Dimension2} desired size of the Node. Actual size will be set to integer values via Math.ceil for Canvas
+        size: DEFAULT_SIZE,
+
+        // {function(number): Color} maps value to Color
+        valueToColor: DEFAULT_VALUE_TO_COLOR,
+
+        // {number} min value to be mapped to Color via valueToColor
         minValue: 0,
-        maxValue: 1,
-        valueToColor: null // {function} - @required, maps value => Color
+
+        // {number} max value to be mapped to Color via valueToColor
+        maxValue: 1
       }, options );
 
-      // validate values
-      assert && assert( options.minValue < options.maxValue, 'min should be less than max' );
-      assert && assert( !!options.valueToColor, 'valueToColor is required' );
+      // validate option values
+      assert && assert( options.minValue < options.maxValue, 'minValue should be < maxValue' );
 
-      // Draw the spectrum directly to a canvas, to improve performance.
-      const canvas = document.createElement( 'canvas' );
-      const context = canvas.getContext( '2d' );
-      canvas.width = options.size.width;
-      canvas.height = options.size.height;
+      super();
 
-      // map position to wavelength
-      for ( let i = 0; i < options.size.width; i++ ) {
-        const value = Util.clamp( Util.linear( 0, options.size.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
-        context.fillStyle = options.valueToColor( value ).toCSS();
-        context.fillRect( i, 0, 1, options.size.height );
+      // Size the canvas
+      this.setCanvasBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
+
+      // @private
+      this.size = options.size;
+      this.valueToColor = options.valueToColor;
+      this.minValue = options.minValue;
+      this.maxValue = options.maxValue;
+
+      // Mutate options after setCanvasBounds, or transform options will fail because the Node has no bounds.
+      this.mutate( options );
+    }
+
+    /**
+     * Draws the spectrum.  Call invalidatePaint if you need this to be called explicitly.
+     * @param {CanvasRenderingContext2D} context
+     * @public
+     * @override
+     */
+    paintCanvas( context ) {
+      for ( let i = 0; i < this.size.width; i++ ) {
+        let value = Util.linear( 0, this.size.width, this.minValue, this.maxValue, i );
+        value = Util.clamp( value, this.minValue, this.maxValue );
+        context.fillStyle = this.valueToColor( value ).toCSS();
+        context.fillRect( i, 0, 1, this.size.height );
       }
-
-      super( canvas.toDataURL(), options );
-
-      // since the Image's bounds aren't immediately computed, we override it here
-      this.setLocalBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
     }
   }
 
