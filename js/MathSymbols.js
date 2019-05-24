@@ -45,6 +45,8 @@ define( require => {
     NOT_EQUAL_TO: '\u2260',
     GREATER_THAN: '>',
     LESS_THAN: '<',
+    LESS_THAN_OR_EQUAL: '\u2264',
+    GREATER_THAN_OR_EQUAL: '\u2265',
 
     // other math symbols
     PERCENT: '%',
