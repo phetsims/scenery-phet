@@ -15,6 +15,7 @@ define( function( require ) {
   const Color = require( 'SCENERY/util/Color' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Image = require( 'SCENERY/nodes/Image' );
+  const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
 
@@ -22,7 +23,7 @@ define( function( require ) {
   const DEFAULT_SIZE = new Dimension2( 150, 30 );
   const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // grayscale spectrum
 
-  class SpectrumNode extends Image {
+  class SpectrumNode extends Node {
 
     /**
      * @param {Object} [options]
@@ -32,7 +33,7 @@ define( function( require ) {
 
       options = _.extend( {
 
-        // {Dimension2} desired size of the Node. Actual size will be set to integer values via Math.ceil
+        // {Dimension2} dimensions of the spectrum
         size: DEFAULT_SIZE,
 
         // {function(number): Color} maps value to Color
@@ -52,9 +53,9 @@ define( function( require ) {
       const canvas = document.createElement( 'canvas' );
       const context = canvas.getContext( '2d' );
 
-      // Size the canvas, width and height must be integers.
-      canvas.width = Math.ceil( options.size.width );
-      canvas.height = Math.ceil( options.size.height );
+      // Size the canvas a bit larger, using integer width and height, as required by canvas.
+      canvas.width = 1.1 * Math.ceil( options.size.width );
+      canvas.height = 1.1 * Math.ceil( options.size.height );
 
       // Draw the spectrum.
       for ( let i = 0; i < canvas.width; i++ ) {
@@ -63,10 +64,18 @@ define( function( require ) {
         context.fillRect( i, 0, 1, canvas.height );
       }
 
-      super( canvas.toDataURL(), options );
+      const image = new Image( canvas.toDataURL() );
 
-      // Since the Image's bounds aren't immediately computed, we set them here.
-      this.setLocalBounds( new Bounds2( 0, 0, canvas.width, canvas.height ) );
+      // Since the Image's bounds aren't immediately computed, set them here.
+      image.setLocalBounds( new Bounds2( 0, 0, canvas.width, canvas.height ) );
+
+      // Scale the Image to match the requested options.size
+      image.setScaleMagnitude( options.size.width / canvas.width, options.size.height / canvas.height );
+
+      assert && assert( !options.children, 'SpectrumNode sets options' );
+      options.children = [ image ];
+
+      super( options );
     }
   }
 
