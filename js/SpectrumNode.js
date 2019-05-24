@@ -12,9 +12,9 @@ define( function( require ) {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
-  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Color = require( 'SCENERY/util/Color' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const Image = require( 'SCENERY/nodes/Image' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
 
@@ -22,7 +22,7 @@ define( function( require ) {
   const DEFAULT_SIZE = new Dimension2( 150, 30 );
   const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // grayscale spectrum
 
-  class SpectrumNode extends CanvasNode {
+  class SpectrumNode extends Image {
 
     /**
      * @param {Object} [options]
@@ -32,7 +32,7 @@ define( function( require ) {
 
       options = _.extend( {
 
-        // {Dimension2} desired size of the Node. Actual size will be set to integer values via Math.ceil for Canvas
+        // {Dimension2} desired size of the Node. Actual size will be set to integer values via Math.ceil
         size: DEFAULT_SIZE,
 
         // {function(number): Color} maps value to Color
@@ -42,57 +42,31 @@ define( function( require ) {
         minValue: 0,
 
         // {number} max value to be mapped to Color via valueToColor
-        maxValue: 1,
-
-        // {ColorDef|null} optional stroke around the bounds of this Node
-        stroke: null,
-
-        // {number} line width for optional stroke
-        lineWidth: 1
+        maxValue: 1
       }, options );
 
       // validate option values
       assert && assert( options.minValue < options.maxValue, 'minValue should be < maxValue' );
 
-      super();
+      // Draw the spectrum directly to a canvas, to improve performance.
+      const canvas = document.createElement( 'canvas' );
+      const context = canvas.getContext( '2d' );
 
-      // Size the canvas
-      this.setCanvasBounds( new Bounds2( 0, 0, options.size.width, options.size.height ) );
+      // Size the canvas, width and height must be integers.
+      canvas.width = Math.ceil( options.size.width );
+      canvas.height = Math.ceil( options.size.height );
 
-      // @private
-      this.size = options.size;
-      this.valueToColor = options.valueToColor;
-      this.minValue = options.minValue;
-      this.maxValue = options.maxValue;
-      this.stroke = options.stroke;
-      this.lineWidth = options.lineWidth;
-
-      // Mutate options after setCanvasBounds, or transform options will fail because the Node has no bounds.
-      this.mutate( options );
-    }
-
-    /**
-     * Call invalidatePaint if you need this to be called explicitly.
-     * @param {CanvasRenderingContext2D} context
-     * @public
-     * @override
-     */
-    paintCanvas( context ) {
-
-      // draw the spectrum
-      for ( let i = 0; i < this.size.width; i++ ) {
-        let value = Util.linear( 0, this.size.width, this.minValue, this.maxValue, i );
-        value = Util.clamp( value, this.minValue, this.maxValue );
-        context.fillStyle = this.valueToColor( value ).toCSS();
-        context.fillRect( i, 0, 1, this.size.height );
+      // Draw the spectrum.
+      for ( let i = 0; i < canvas.width; i++ ) {
+        const value = Util.clamp( Util.linear( 0, canvas.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
+        context.fillStyle = options.valueToColor( value ).toCSS();
+        context.fillRect( i, 0, 1, canvas.height );
       }
 
-      // optional stroke the bounds
-      if ( this.stroke ) {
-        context.lineWidth = this.lineWidth;
-        context.strokeStyle = this.stroke;
-        context.strokeRect( 0, 0, this.size.width, this.size.height );
-      }
+      super( canvas.toDataURL(), options );
+
+      // Since the Image's bounds aren't immediately computed, we set them here.
+      this.setLocalBounds( new Bounds2( 0, 0, canvas.width, canvas.height ) );
     }
   }
 
