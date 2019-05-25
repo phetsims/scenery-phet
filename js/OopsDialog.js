@@ -26,28 +26,37 @@ define( function( require ) {
     /**
      * @param {string} messageString - supports RichText formatting
      */
-    constructor( messageString ) {
+    constructor( messageString, options ) {
 
-      const messageNode = new RichText( messageString, {
+      options = _.extend( {
+
+        // nested options
+        richTextOptions: null,
+        imageOptions: null,
+
+        // Dialog options
+        topMargin: 20,
+        bottomMargin: 20,
+        rightMargin: 20
+
+      }, options );
+
+      const messageNode = new RichText( messageString, _.extend( {
         font: new PhetFont( 20 ),
         maxWidth: 600,
         maxHeight: 400
-      } );
+      }, options.richTextOptions ) );
 
-      const phetGirlNode = new Image( phetGirlWaggingFingerImage, {
+      const phetGirlNode = new Image( phetGirlWaggingFingerImage, _.extend( {
         maxHeight: 132 // determined empirically
-      } );
+      }, options.imageOptions ) );
 
       const content = new HBox( {
         spacing: 20,
         children: [ messageNode, phetGirlNode ]
       } );
 
-      super( content, {
-        topMargin: 20,
-        bottomMargin: 20,
-        rightMargin: 20
-      } );
+      super( content, options );
     }
   }
 
