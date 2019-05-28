@@ -66,11 +66,13 @@ define( require => {
         top: burnerInterior.bottom,
         scale: DEFAULT_WIDTH / DEFAULT_WIDTH
       } );
+
       const iceNode = new Image( iceImage, {
         centerX: burnerInterior.centerX,
         top: burnerInterior.bottom,
         scale: DEFAULT_WIDTH / DEFAULT_WIDTH
       } );
+
       heatCoolAmountProperty.link( function( heatCoolAmount ) {
 
         // max heating and cooling is limited to +/- 1
