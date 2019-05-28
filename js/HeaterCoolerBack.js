@@ -71,19 +71,19 @@ define( require => {
         top: burnerInterior.bottom,
         scale: DEFAULT_WIDTH / DEFAULT_WIDTH
       } );
-      heatCoolAmountProperty.link( function( heat ) {
+      heatCoolAmountProperty.link( function( heatCoolAmount ) {
 
         // max heating and cooling is limited to +/- 1
-        assert && assert( Math.abs( heat ) <= 1 );
+        assert && assert( Math.abs( heatCoolAmount ) <= 1 );
 
-        if ( heat > 0 ) {
-          fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heat * fireImage.height * .85 );
+        if ( heatCoolAmount > 0 ) {
+          fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * .85 );
         }
-        else if ( heat < 0 ) {
-          iceNode.setTranslation( ( burnerInterior.width - iceNode.width ) / 2, heat * iceImage.height * 0.85 );
+        else if ( heatCoolAmount < 0 ) {
+          iceNode.setTranslation( ( burnerInterior.width - iceNode.width ) / 2, heatCoolAmount * iceImage.height * 0.85 );
         }
-        iceNode.setVisible( heat < 0 );
-        fireNode.setVisible( heat > 0 );
+        iceNode.setVisible( heatCoolAmount < 0 );
+        fireNode.setVisible( heatCoolAmount > 0 );
       } );
 
       this.addChild( burnerInterior );
