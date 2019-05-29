@@ -43,15 +43,19 @@ define( function( require ) {
       backgroundLineWidth: 2,
       maxLabelWidthScale: 1.3, // {number} defines max width of the label, relative to the radius
 
-      // 10 ticks each on the right side and left side, plus one in the center
-      numberOfTicks: 21,
-
-      // the top half of the gauge, plus PI/8 extended below the top half on each side
-      span: Math.PI + Math.PI / 4, // {number} the visible span of the gauge value range, in radians
+      // ticks
+      numberOfTicks: 21, // 10 ticks each on the right side and left side, plus one in the center
+      majorTickStroke: 'gray',
+      minorTickStroke: 'gray',
       majorTickLength: 10,
       minorTickLength: 5,
       majorTickLineWidth: 2,
       minorTickLineWidth: 1,
+
+      // the top half of the gauge, plus PI/8 extended below the top half on each side
+      span: Math.PI + Math.PI / 4, // {number} the visible span of the gauge value range, in radians
+
+      needleLineWidth: 3,
 
       // {BooleanProperty|null} Determines whether the gauge will be updated when the value changes.
       // Use this to (for example) disable updates while a gauge is not visible.
@@ -92,7 +96,7 @@ define( function( require ) {
 
     var needle = new Path( Shape.lineSegment( 0, 0, this.radius, 0 ), {
       stroke: 'red',
-      lineWidth: 3
+      lineWidth: options.needleLineWidth
     } );
     foregroundNode.addChild( needle );
 
@@ -162,8 +166,17 @@ define( function( require ) {
       }
     }
 
-    foregroundNode.addChild( new Path( bigTicksShape, { stroke: 'gray', lineWidth: options.majorTickLineWidth } ) );
-    foregroundNode.addChild( new Path( smallTicksShape, { stroke: 'gray', lineWidth: options.minorTickLineWidth } ) );
+    foregroundNode.addChild( new Path( bigTicksShape, {
+      stroke: options.majorTickStroke,
+      lineWidth: options.majorTickLineWidth
+    } ) );
+    foregroundNode.addChild( new Path( smallTicksShape, {
+      stroke: options.minorTickStroke,
+      lineWidth: options.minorTickLineWidth
+    } ) );
+
+    needle.moveToFront();
+    
     this.mutate( options );
 
     // @private
