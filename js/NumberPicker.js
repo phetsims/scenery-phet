@@ -120,11 +120,14 @@ define( function( require ) {
       // phet-io
       tandem: Tandem.required,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
+      phetioComponentOptions: null, // filled in below with PhetioObject.mergePhetioComponentOptions()
 
       // a11y
       pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
 
     }, options );
+
+    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
     var colorProperty = null;
@@ -162,7 +165,8 @@ define( function( require ) {
       this.enabledProperty = new BooleanProperty( true, _.extend( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioReadOnly: options.phetioReadOnly,
-        phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.'
+        phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.',
+        phetioFeatured: true
       }, options.enabledPropertyOptions ) );
     }
 
