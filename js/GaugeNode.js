@@ -98,7 +98,6 @@ define( function( require ) {
       stroke: 'red',
       lineWidth: options.needleLineWidth
     } );
-    foregroundNode.addChild( needle );
 
     var labelNode = new Text( label, {
       font: new PhetFont( 20 ),
@@ -175,7 +174,8 @@ define( function( require ) {
       lineWidth: options.minorTickLineWidth
     } ) );
 
-    needle.moveToFront();
+    // Add needle last, so it's on top of ticks. See https://github.com/phetsims/scenery-phet/issues/502
+    foregroundNode.addChild( needle );
     
     this.mutate( options );
 
