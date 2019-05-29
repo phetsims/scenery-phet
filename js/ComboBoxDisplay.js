@@ -62,10 +62,10 @@ define( require => {
       const comboBoxItems = [];
       items.forEach( item => {
 
-        assert && assert( item.choice, 'missing item.choice' );
+        assert && assert( item.choice !== undefined, 'missing item.choice' );
         assert && assert( item.numberProperty, 'missing item.numberProperty' );
         assert && assert( item.range || item.numberProperty.range, 'range or numberProperty.range must be provided' );
-        assert && assert( item.units, 'missing item.units' );
+        assert && assert( item.units !== undefined, 'missing item.units' );
         assert && assert( !item.numberDisplayOptions || !item.numberDisplayOptions.valuePattern,
           'ComboBoxDisplay sets item.numberDisplayOptions.valuePattern' );
 
