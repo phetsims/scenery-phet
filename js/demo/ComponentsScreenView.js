@@ -24,13 +24,11 @@ define( function( require ) {
   var ComboBoxDisplay = require( 'SCENERY_PHET/ComboBoxDisplay' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
   var Emitter = require( 'AXON/Emitter' );
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
-  var Enumeration = require( 'PHET_CORE/Enumeration' );
   var EyeDropperNode = require( 'SCENERY_PHET/EyeDropperNode' );
   var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   var FineCoarseSpinner = require( 'SCENERY_PHET/FineCoarseSpinner' );
@@ -79,7 +77,7 @@ define( function( require ) {
   var SliderKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/SliderKeyboardHelpSection' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var StarNode = require( 'SCENERY_PHET/StarNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var StringProperty = require( 'AXON/StringProperty' );
   var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -229,78 +227,38 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for ComboBoxDisplay
+  // Creates a demo for ComboBoxDisplay that exercises layout functionality.
+  // See https://github.com/phetsims/scenery-phet/issues/482
   var demoComboBoxDisplay = function( layoutBounds ) {
 
-    // range of temperature in Kelvin
-    var kelvinRange = new Range( 0, 100 );
-
-    // temperature in Kelvin
-    var kelvinProperty = new NumberProperty( 0, {
-      range: kelvinRange
-    } );
-
-    /**
-     * Converts Kelvin to degrees Celsius
-     * @param {number} kelvin
-     * @returns {number}
-     */
-    function kelvinToCelsius( kelvin ) { return kelvin - 273.15; }
-
-    // temperature in degrees Celsius
-    var celsiusProperty = new DerivedProperty( [ kelvinProperty ], kelvin => kelvinToCelsius( kelvin ) );
-
-    // compute Celsius range, since celsiusProperty is derived
-    var celsiusRange = new Range( kelvinToCelsius( kelvinRange.min ), kelvinToCelsius( kelvinRange.max ) );
-
-    // font used by all UI components
-    var font = new PhetFont( 20 );
-
-    // temperature units
-    var kelvinUnitsString = 'K';
-    var celsiusUnitsString = '\u00b0C';
-
-    // slider to control temperature in Kelvin
-    var kSlider = new VSlider( kelvinProperty, kelvinRange );
-
-    // ticks on at ends of the slider
-    var tickPattern = '{{value}} {{units}}';
-    var maxTickString = StringUtils.fillIn( tickPattern, {
-      value: kelvinRange.max,
-      units: kelvinUnitsString
-    } );
-    var minTickString = StringUtils.fillIn( tickPattern, {
-      value: kelvinRange.min,
-      units: kelvinUnitsString
-    } );
-    kSlider.addMajorTick( kelvinRange.max, new Text( maxTickString, { font: font } ) );
-    kSlider.addMajorTick( kelvinRange.min, new Text( minTickString, { font: font } ) );
-
-    // determines which units are shown by the ComboBoxDisplay
-    var Units = new Enumeration( [ 'KELVIN', 'CELSIUS' ] );
-    var unitsProperty = new Property( Units.KELVIN, {
-      validValues: Units.VALUES
-    } );
+    var valueProperty = new NumberProperty( 0 ); // value to be displayed
+    var choiceProperty = new StringProperty( 'cats' );  // selected choice in the combo box
+    var displayRange = new Range( 0, 10 );
+    var sliderRange = new Range( 0, 1000 ); // larger than display range, to verify that display scales
 
     // items in the ComboBoxDisplay
     var items = [
-      { choice: Units.KELVIN, numberProperty: kelvinProperty, units: kelvinUnitsString },
-      { choice: Units.CELSIUS, numberProperty: celsiusProperty, range: celsiusRange, units: celsiusUnitsString }
+      { choice: 'cats', numberProperty: valueProperty, range: displayRange, units: 'cats' },
+      { choice: 'dogs', numberProperty: valueProperty, range: displayRange, units: 'dogs' }
     ];
 
     // parent for the ComboBoxDisplay's popup list
     var listParent = new Node();
 
-    var display = new ComboBoxDisplay( items, unitsProperty, listParent, {
+    // ComboBoxDisplay
+    var display = new ComboBoxDisplay( items, choiceProperty, listParent, {
       xMargin: 10,
       yMargin: 8,
-      numberDisplayOptions: { font: font }
+      numberDisplayOptions: { font: new PhetFont( 20 ) }
     } );
 
-    // VSlider to left of ComboBoxDisplay
+    // Slider
+    var slider = new VSlider( valueProperty, sliderRange );
+
+    // Slider to left of display
     var hBox = new HBox( {
       spacing: 25,
-      children: [ kSlider, display ],
+      children: [ slider, display ],
       center: layoutBounds.center
     } );
 
