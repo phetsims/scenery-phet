@@ -249,6 +249,7 @@ define( function( require ) {
     var display = new ComboBoxDisplay( items, choiceProperty, listParent, {
       xMargin: 10,
       yMargin: 8,
+      highlightFill: 'rgb( 255, 200, 200 )', // pink
       numberDisplayOptions: { font: new PhetFont( 20 ) }
     } );
 
