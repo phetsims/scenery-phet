@@ -331,6 +331,8 @@ define( function( require ) {
    */
   function ShooterNode( enabledProperty, options ) {
 
+    var self = this;
+
     options = _.extend( {
       knobScale: 1
     }, options );
@@ -377,6 +379,7 @@ define( function( require ) {
 
     var enabledObserver = function( enabled ) {
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
+      self.pickable = enabled;
       knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
       knobNode.visible = enabled;
       knobDisabledNode.visible = !enabled;
