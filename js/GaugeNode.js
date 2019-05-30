@@ -94,7 +94,7 @@ define( function( require ) {
     } );
     this.addChild( foregroundNode );
 
-    var needle = new Path( Shape.lineSegment( 0, 0, this.radius, 0 ), {
+    var needle = new Path( Shape.lineSegment( 0, 0, this.radius - options.majorTickLength / 2, 0 ), {
       stroke: 'red',
       lineWidth: options.needleLineWidth
     } );
