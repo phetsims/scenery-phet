@@ -61,18 +61,12 @@ define( require => {
     addToBack( utterance ) {
       assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
-      // No-op function if the utteranceQueue is disabled
-      if ( !this._enabled || !this._initialized ) {
+      // No-op if the utteranceQueue is disabled
+      if ( !this.initializedAndEnabled ) {
         return;
       }
 
-      if ( typeof utterance === 'string' ) {
-        utterance = new Utterance( { alert: utterance } );
-      }
-
-      // clear any utterances if they are duplicates of the one being added
-      this.clearUtterance( utterance );
-
+      utterance = this.prepareUtterance( utterance );
       this.queue.push( utterance );
     }
 
@@ -96,18 +90,38 @@ define( require => {
       assert && assert( AlertableDef.isAlertableDef( utterance ), 'trying to alert something that isn\'t alertable: ' + utterance );
 
       // No-op function if the utteranceQueue is disabled
-      if ( !this._enabled || !this._initialized ) {
+      if ( !this.initializedAndEnabled ) {
         return;
       }
 
+      utterance = this.prepareUtterance( utterance );
+      this.queue.unshift( utterance );
+    }
+
+    /**
+     * Create an Utterance for the queue in case of string and clears the queue of duplicate utterances.
+     *
+     * @param {AlertableDef} utterance
+     * @returns {Utterance}
+     */
+    prepareUtterance( utterance ) {
       if ( typeof utterance === 'string' ) {
         utterance = new Utterance( { alert: utterance } );
       }
 
       // remove any utterances if they are duplicates of the one being added
       this.clearUtterance( utterance );
+      return utterance;
+    }
 
-      this.queue.unshift( utterance );
+    /**
+     * Returns true if the utternceQueue is running and moving through Utterances.
+     * @public
+     *
+     * @returns {boolean}
+     */
+    get initializedAndEnabled() {
+      return this._enabled && this._initialized; 
     }
 
     /**
@@ -160,7 +174,7 @@ define( require => {
     }
 
     /**
-     * Called by addToFront and addToBack, do not call this. Clears the queue of all duplicates of the provided Utterance
+     * Called before Utterance is added to queue. Clears the queue of all duplicates of the provided Utterance
      * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
      *
      * @param {Utterance} utterance
