@@ -125,6 +125,17 @@ define( require => {
     }
 
     /**
+     * Returns true if the utteranceQueue is not muted and the Utterance passes its predicate function.
+     * @private
+     *
+     * @param {Utterance} utterance
+     * @returns {boolean}
+     */
+    canAlertUtterance( utterance ) {
+      return !this._muted && utterance.predicate();
+    }
+
+    /**
      * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
      * returns false, no alert will be read. Called privately by timer.
      *
@@ -157,7 +168,7 @@ define( require => {
       }
 
       // only speak the utterance if the Utterance predicate returns true
-      if ( nextUtterance && !this._muted && nextUtterance.predicate() ) {
+      if ( nextUtterance && this.canAlertUtterance( nextUtterance ) ) {
 
         // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
         // should only be triggered on alert! See Utterance.getTextToAlert
