@@ -86,6 +86,10 @@ define( function( require ) {
     var button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
+      listenerOptions: {
+        // We want to be able to drag the dropper WHILE dispensing, see https://github.com/phetsims/ph-scale/issues/86
+        attach: false
+      },
       tandem: options.tandem.createTandem( 'button' )
     } );
     var enabledObserver = function( enabled ) { button.enabled = enabled; };
