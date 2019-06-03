@@ -16,19 +16,23 @@ define( function( require ) {
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
   var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
+  var SpectrumThumb = require( 'SCENERY_PHET/SpectrumThumb' );
+  var SpectrumTrack = require( 'SCENERY_PHET/SpectrumTrack' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var Util = require( 'DOT/Util' );
 
   /**
    * @constructor
@@ -45,7 +49,9 @@ define( function( require ) {
       { label: 'NumberControl', createNode: demoNumberControl },
       { label: 'WavelengthSlider', createNode: demoWavelengthSlider },
       { label: 'FrequencySlider', createNode: demoFrequencySlider },
-      { label: 'SpectrumSlider', createNode: demoSpectrumSlider }
+      { label: 'SpectrumSlider', createNode: demoSpectrumSlider },
+      { label: 'SliderWithSpectrumTrack', createNode: demoSliderWithSpectrum },
+      { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
     ], {
       selectedDemoLabel: sceneryPhetQueryParameters.slider
     } );
@@ -142,6 +148,48 @@ define( function( require ) {
       tweakerValueDelta: 0.01,
       center: layoutBounds.center,
       valueToString: function( value ) {return Util.toFixed( value, 2 );}
+    } );
+  };
+
+  /**
+   * Creates a HSlider that uses a SpectrumTrack and SpectrumThumb.
+   * @param layoutBounds
+   */
+  const demoSliderWithSpectrum = layoutBounds => {
+    const property = new Property( 380 );
+    const wavelengthToColor = VisibleColor.wavelengthToColor;
+    return new HSlider( property, new Range( 380, 780 ), {
+      center: layoutBounds.center,
+      trackNode: new SpectrumTrack( property, { minValue: 380, maxValue: 780, valueToColor: wavelengthToColor } ),
+      thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
+    } );
+  };
+
+  /**
+   * Creates a NumberControl that uses SpectrumTrack and SpectrumThumb.
+   * @param layoutBounds
+   */
+  const demoNumberControlWithSpectrum = layoutBounds => {
+    const property = new Property( 380 );
+    const wavelengthToColor = VisibleColor.wavelengthToColor;
+
+    // NumberControl with default layout
+    return new NumberControl( '', property, new Range( 380, 780 ), {
+      titleNodeOptions: {
+        font: new PhetFont( 14 )
+      },
+      numberDisplayOptions: {
+        font: new PhetFont( 14 ),
+        valuePattern: '{0} nm'
+      },
+      sliderOptions: {
+        trackNode: new SpectrumTrack( property, { minValue: 380, maxValue: 780, valueToColor: wavelengthToColor } ),
+        thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
+      },
+      center: layoutBounds.center,
+      layoutFunction: NumberControl.createLayoutFunction3( {
+        alignTitle: 'left'
+      } )
     } );
   };
 

@@ -137,9 +137,6 @@ define( function( require ) {
 
       // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
       // all HSlider options may be used. These are the ones that NumberControl overrides:
-      trackSize: new Dimension2( 180, 3 ),
-      thumbSize: new Dimension2( 17, 34 ),
-      thumbTouchAreaXDilation: 6,
       majorTickLength: 20,
       minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
 
@@ -150,6 +147,21 @@ define( function( require ) {
       // phet-io
       tandem: options.tandem.createTandem( 'slider' )
     }, options.sliderOptions );
+
+    // Slider options for track (if not specified as trackNode)
+    if ( !options.sliderOptions.trackNode ) {
+      sliderOptions = _.extend( {
+        trackSize: new Dimension2( 180, 3 )
+      }, sliderOptions );
+    }
+
+    // Slider options for thumb (if not specified as thumbNode)
+    if ( !options.sliderOptions.thumbNode ) {
+      sliderOptions = _.extend( {
+        thumbSize: new Dimension2( 17, 34 ),
+        thumbTouchAreaXDilation: 6
+      }, sliderOptions );
+    }
 
     // Defaults for NumberDisplay
     var numberDisplayOptions = _.extend( {

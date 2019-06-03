@@ -79,5 +79,11 @@ define( function( require ) {
     }
   }
 
+  /**
+   * @static
+   * @public
+   */
+  SpectrumNode.DEFAULT_VALUE_TO_COLOR = DEFAULT_VALUE_TO_COLOR;
+
   return sceneryPhet.register( 'SpectrumNode', SpectrumNode );
 } );
