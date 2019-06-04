@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var ContextLossFailureDialog = require( 'SCENERY_PHET/ContextLossFailureDialog' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var OopsDialog = require( 'SCENERY_PHET/OopsDialog' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -18,6 +19,9 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+
+  // images
+  const batteryDCellImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
 
   // constants
   var BUTTON_OPTIONS = {
@@ -54,7 +58,9 @@ define( function( require ) {
       content: new Text( 'OopsDialog', BUTTON_OPTIONS ),
       listener: () => {
         if ( !oopsDialog ) {
-          oopsDialog = new OopsDialog( 'Oops!<br><br>You really shouldn\'t have done that.' );
+          oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
+            iconNode: new Image( batteryDCellImage, { rotation: -Math.PI / 2 } )
+          } );
         }
         oopsDialog.show();
       }

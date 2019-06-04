@@ -31,9 +31,13 @@ define( function( require ) {
 
       options = _.extend( {
 
+        // {Node|null} optional icon that will be placed to the right of the image.
+        // If this is null, then a PhET Girl image is used.
+        // If provided, the caller is responsible for all aspects of the icon, including scale.
+        iconNode: null,
+
         // nested options
         richTextOptions: null,
-        imageOptions: null,
 
         // Dialog options
         topMargin: 20,
@@ -48,13 +52,13 @@ define( function( require ) {
         maxHeight: 400
       }, options.richTextOptions ) );
 
-      const phetGirlNode = new Image( phetGirlWaggingFingerImage, _.extend( {
+      const iconNode = options.iconNode || new Image( phetGirlWaggingFingerImage, {
         maxHeight: 132 // determined empirically
-      }, options.imageOptions ) );
+      } );
 
       const content = new HBox( {
         spacing: 20,
-        children: [ messageNode, phetGirlNode ]
+        children: [ messageNode, iconNode ]
       } );
 
       super( content, options );
