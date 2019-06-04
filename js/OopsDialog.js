@@ -25,6 +25,7 @@ define( function( require ) {
 
     /**
      * @param {string} messageString - supports RichText formatting
+     * @param {Object} [options]
      */
     constructor( messageString, options ) {
 
