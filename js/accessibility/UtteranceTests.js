@@ -72,7 +72,7 @@ define( require => {
     const alertContent = 'hi';
     const myAlert = new Utterance( {
       alert: alertContent,
-      alertStable: false
+      alertStableDelay: 0 // alert as fast as possible
     } );
     utteranceQueue.addToBack( myAlert );
 
@@ -90,14 +90,14 @@ define( require => {
 
     const alert = new Utterance( {
       alert: [ '1', '2', '3' ],
-      alertStable: false
+      alertStableDelay: 0 // alert as fast as possible, we want to hear the utterance every time it is added to the queue
     } );
 
-    const alert4 = () => {
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
+    const alert4 = async () => {
+      for( let i = 0; i < 4;  i++ ) {
+        utteranceQueue.addToBack( alert );
+        await timeout( sleepTiming );
+      }
     };
 
     const testOrder = ( messageSuffix ) => {
@@ -109,11 +109,10 @@ define( require => {
       assert.ok( alerts[ 0 ] === '3', 'Array order4' + messageSuffix );
     };
 
-    alert4();
-    await timeout( sleepTiming * 4 );
+    await alert4();
     testOrder( '' );
     alert.reset();
-    alert4();
+    await alert4();
     testOrder( ', reset should start over' );
   } );
 
@@ -123,17 +122,14 @@ define( require => {
     const alert = new Utterance( {
       alert: [ '1', '2', '3' ],
       loopAlerts: true,
-      alertStable: false
+      alertStableDelay: 0 // we want to hear the utterance every time it is added to the queue
     } );
 
-    const alert7 = () => {
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
-      utteranceQueue.addToBack( alert );
+    const alert7 = async () => {
+      for ( let i = 0; i < 7; i++ ) {
+        utteranceQueue.addToBack( alert );
+        await timeout( sleepTiming );
+      }
     };
 
     const testOrder = ( messageSuffix ) => {
@@ -148,11 +144,10 @@ define( require => {
       assert.ok( alerts[ 0 ] === '1', 'Array order7' + messageSuffix );
     };
 
-    alert7();
-    await timeout( sleepTiming * 7 );
+    await alert7();
     testOrder( '' );
     alert.reset();
-    alert7();
+    await alert7();
     testOrder( ', reset should start over' );
   } );
 
@@ -182,7 +177,6 @@ define( require => {
     const stableDelay = 1100;
     const myUtterance = new Utterance( {
       alert: 'hi',
-      alertStable: true,
       alertStableDelay: stableDelay
     } );
 

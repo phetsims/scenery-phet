@@ -30,10 +30,6 @@ define( require => {
         alertStableDelay: 1000
       }, options );
 
-      // wait until this Utterance related to activation stops being added to the queue to be spoken
-      assert && assert( options.alertStable === undefined, 'ActivationUtterance sets alertStable' );
-      options.alertStable = true;
-
       super( options );
     }
   }

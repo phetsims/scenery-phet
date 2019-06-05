@@ -13,8 +13,8 @@
  * may be that changes are being alerted rapidly from the same source. An Utterance is considered
  * "unstable" if it is being added rapidly to the utteranceQueue. By default, utterances are only
  * announced when they are "stable", and stop getting added to the queue. This will prevent
- * a large number of alerts from the same interaction from spamming the user. See related options
- * alertStable, alertStableDelay, and alertMaximumDelay.
+ * a large number of alerts from the same interaction from spamming the user. See related options alertStableDelay,
+ * and alertMaximumDelay.
  *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -24,10 +24,6 @@ define( require => {
 
   // modules
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-
-  // will be a unique identifier for instance of Utterance to assist with grouping of utterances
-  // in the utteranceQueue
-  let instanceCount = 0;
 
   class Utterance {
 
@@ -53,15 +49,10 @@ define( require => {
         // with this utterance will not be announced by a screen reader
         predicate: function() { return true; },
 
-        // {boolean} - if true, the alert will not be spoken until this utterance stops being added to the
-        // utteranceQueue for stableDelay time, or if alertMaximumDelay time has passed while this 
-        // utterance has continuously changed (if it is specified).
-        alertStable: true,
-
         // {number} - in ms, how long to wait before the utterance is considered "stable" and stops being
-        // added to the queue, at which point it will be spoken if alertStable is true. Default value chosen because
-        // it sounds nice in most usages of Utterance with alertStable, see
-        // https://github.com/phetsims/scenery-phet/issues/491
+        // added to the queue, at which point it will be spoken. Default value chosen because
+        // it sounds nice in most usages of Utterance with alertStableDelay. If you want to hear the utterance as fast
+        // as possible, reduce this delay to 0. See https://github.com/phetsims/scenery-phet/issues/491
         alertStableDelay: 200,
 
         // {number} - if specified, the utterance will be spoken at least this frequently in ms
@@ -71,7 +62,6 @@ define( require => {
 
       assert && assert( typeof options.loopAlerts === 'boolean' );
       assert && assert( typeof options.predicate === 'function' );
-      assert && assert( typeof options.alertStable === 'boolean' );
       assert && assert( typeof options.alertStableDelay === 'number' );
       assert && assert( typeof options.alertMaximumDelay === 'number' );
       assert && options.alert && assert( typeof options.alert === 'string' || Array.isArray( options.alert ) );
@@ -94,15 +84,6 @@ define( require => {
       // @public (scenery-phet-internal) {number}  - in ms, how long this utterance has been "stable", which
       // is the amount of time since this utterance has been added to the utteranceQueue.
       this.stableTime = 0;
-
-      // @public {boolean} - whether or not the utteranceQueue will wait alertStableDelay amount
-      // of time before alerting this utterance to wait for the same utterance to stop reaching
-      // the queue
-      this.alertStable = options.alertStable;
-
-      // @public (read-only, scenery-phet-internal) {number} - assign this utterance to a unique id so that
-      // we can suppress duplicates of this utterance in the utteranceQueue. Only supported if `alertStable` is true.
-      this.uniqueId = instanceCount++;
 
       // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
       // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the

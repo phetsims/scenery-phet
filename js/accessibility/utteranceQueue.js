@@ -109,8 +109,13 @@ define( require => {
         utterance = new Utterance( { alert: utterance } );
       }
 
-      // remove any utterances if they are duplicates of the one being added
-      this.clearUtterance( utterance );
+      // if there are any other items in the queue of the same type, remove them immediately because the added
+      // utterance is meant to replace it
+      _.remove( this.queue, currentUtterance => currentUtterance === utterance );
+
+      // reset the time watching utterance stability since it has been added to the queue
+      utterance.stableTime = 0;
+
       return utterance;
     }
 
@@ -136,79 +141,31 @@ define( require => {
     }
 
     /**
-     * Move to the next item in the queue. Checks the Utterance predicate first, if predicate
-     * returns false, no alert will be read. Called privately by timer.
-     *
+     * Get the next utterance to alert if one is ready and "stable". If there are no utterances or no utterance is
+     * ready to be spoken, will return null.
      * @private
+     * 
+     * @returns {null|Utterance} 
      */
-    next() {
+    getNextUtterance() {
 
       // find the next item to announce - generally the next item in the queue, unless it has a delay specified that
       // is greater than the amount of time that the utterance has been sitting in the queue
-      let nextUtterance;
+      let nextUtterance = null;
       for ( let i = 0; i < this.queue.length; i++ ) {
         const utterance = this.queue[ i ];
 
-        const alertStable = utterance.alertStable;
-        const utteranceStabilized = utterance.stableTime > utterance.alertStableDelay;
-        const alertMaximumDelay = utterance.timeInQueue > utterance.alertMaximumDelay;
-
-        if ( !alertStable || utteranceStabilized || alertMaximumDelay ) {
+        // if we have waited long enough for the utterance to become "stable" or the utterance has been in the queue
+        // for longer than the maximum delay override, it will be spoken
+        if ( utterance.stableTime > utterance.alertStableDelay || utterance.timeInQueue > utterance.alertMaximumDelay ) {
           nextUtterance = utterance;
           this.queue.splice( i, 1 );
-
-          // if waiting for stability but we hit the alertMaximimumDelay, reset time for this
-          // utterance in queue
-          if ( nextUtterance.alertStable ) {
-            nextUtterance.timeInQueue = 0;
-          }
 
           break;
         }
       }
 
-      // only speak the utterance if the Utterance predicate returns true
-      if ( nextUtterance && this.canAlertUtterance( nextUtterance ) ) {
-
-        // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
-        // should only be triggered on alert! See Utterance.getTextToAlert
-        const text = nextUtterance.getTextToAlert();
-
-        // phet-io event to the data stream
-        this.phetioStartEvent( 'announced', { utterance: text } );
-
-        // Pass the utterance text on to be set in the PDOM.
-        ariaHerald.announcePolite( text );
-
-        this.phetioEndEvent();
-      }
-    }
-
-    /**
-     * Called before Utterance is added to queue. Clears the queue of all duplicates of the provided Utterance
-     * to support the behavior of alertStable. See Utterance.uniqueId for description of this feature.
-     *
-     * @param {Utterance} utterance
-     * @private
-     */
-    clearUtterance( utterance ) {
-
-      if ( utterance.alertStable ) {
-
-        // reset the time watching utterance stability since it has been added to the queue
-        utterance.stableTime = 0;
-
-        const uniqueId = utterance.uniqueId;
-
-        // if there are any other items in the queue of the same type, remove them immediately because the added
-        // utterance is meant to replace it
-        for ( let i = this.queue.length - 1; i >= 0; i-- ) {
-          const otherUtterance = this.queue[ i ];
-          if ( otherUtterance.uniqueId === uniqueId ) {
-            this.queue.splice( i, 1 );
-          }
-        }
-      }
+      return nextUtterance;
     }
 
     /**
@@ -287,7 +244,26 @@ define( require => {
         this.queue[ i ].stableTime += dt;
       }
 
-      this.next();
+      const nextUtterance = this.getNextUtterance();
+
+      // only speak the utterance if the Utterance predicate returns true
+      if ( nextUtterance && this.canAlertUtterance( nextUtterance ) ) {
+
+        // just get the text of the Utterance once! This is because getting it triggers updates in the Utterance that
+        // should only be triggered on alert! See Utterance.getTextToAlert
+        const text = nextUtterance.getTextToAlert();
+
+        // phet-io event to the data stream
+        this.phetioStartEvent( 'announced', { utterance: text } );
+
+        // Pass the utterance text on to be set in the PDOM.
+        ariaHerald.announcePolite( text );
+
+        // after speaking the utterance, reset time in queue for the next time it gets added back in
+        nextUtterance.timeInQueue = 0;
+
+        this.phetioEndEvent();
+      }
     }
 
     /**

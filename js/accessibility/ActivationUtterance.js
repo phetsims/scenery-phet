@@ -32,10 +32,6 @@ define( require => {
 
       assert && assert( options.alertStableDelay >= 500, 'Utterance will likely be duplicated if activated with key press and hold' );
 
-      // wait until this Utterance related to activation stops being added to the queue to be spoken
-      assert && assert( options.alertStable === undefined, 'ActivationUtterance sets alertStable' );
-      options.alertStable = true;
-
       super( options );
     }
   }
