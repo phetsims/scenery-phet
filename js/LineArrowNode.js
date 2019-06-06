@@ -32,6 +32,7 @@ define( function( require ) {
       headWidth: 10,
       headLineWidth: 1,
       tailLineWidth: 1,
+      tailLineDash: [],
       doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
       stroke: 'black'
     }, options );
@@ -42,7 +43,8 @@ define( function( require ) {
     // @private
     this.tailNode = new Path( null, {
       stroke: options.stroke,
-      lineWidth: options.tailLineWidth
+      lineWidth: options.tailLineWidth,
+      lineDash: options.tailLineDash
     } );
 
     // @private
