@@ -12,10 +12,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var BicyclePumpNode = require( 'SCENERY_PHET/BicyclePumpNode' );
   var ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var BicyclePumpNode = require( 'SCENERY_PHET/BicyclePumpNode' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var BracketNode = require( 'SCENERY_PHET/BracketNode' );
   var CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   var Checkbox = require( 'SUN/Checkbox' );
@@ -24,6 +24,7 @@ define( function( require ) {
   var ComboBoxDisplay = require( 'SCENERY_PHET/ComboBoxDisplay' );
   var ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var Drawer = require( 'SCENERY_PHET/Drawer' );
@@ -38,10 +39,10 @@ define( function( require ) {
   var HandleNode = require( 'SCENERY_PHET/HandleNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
-  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var HSlider = require( 'SUN/HSlider' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
   var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -231,15 +232,16 @@ define( function( require ) {
   // See https://github.com/phetsims/scenery-phet/issues/482
   var demoComboBoxDisplay = function( layoutBounds ) {
 
-    var valueProperty = new NumberProperty( 0 ); // value to be displayed
+    var numberOfDogsProperty = new NumberProperty( 0 ); // value to be displayed for dogs
+    var numberOfCatsProperty = new DerivedProperty( [ numberOfDogsProperty ], () => numberOfDogsProperty.value * 20 );
     var choiceProperty = new StringProperty( 'cats' );  // selected choice in the combo box
-    var displayRange = new Range( 0, 10 );
+    var displayRange = new Range( 0, 1000 );
     var sliderRange = new Range( 0, 1000 ); // larger than display range, to verify that display scales
 
     // items in the ComboBoxDisplay
     var items = [
-      { choice: 'cats', numberProperty: valueProperty, range: displayRange, units: 'cats' },
-      { choice: 'dogs', numberProperty: valueProperty, range: displayRange, units: 'dogs' }
+      { choice: 'cats', numberProperty: numberOfCatsProperty, range: displayRange, units: 'cats' },
+      { choice: 'dogs', numberProperty: numberOfDogsProperty, range: displayRange, units: 'dogs' }
     ];
 
     // parent for the ComboBoxDisplay's popup list
@@ -254,17 +256,20 @@ define( function( require ) {
     } );
 
     // Slider
-    var slider = new VSlider( valueProperty, sliderRange );
+    var slider = new VSlider( numberOfDogsProperty, sliderRange );
 
     // Slider to left of display
     var hBox = new HBox( {
       spacing: 25,
-      children: [ slider, display ],
-      center: layoutBounds.center
+      children: [ slider, display ]
     } );
 
     return new Node( {
-      children: [ hBox, listParent ]
+      children: [ new VBox( {
+        children: [ new Text( 'There are twice as many cats as dogs in the world.' ), hBox ],
+        spacing: 20,
+        center: layoutBounds.center
+      } ), listParent ]
     } );
   };
 
