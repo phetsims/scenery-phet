@@ -34,8 +34,6 @@ define( function( require ) {
       numberStarPoints: 5
     }, options );
 
-    Tandem.disallowTandem( options );
-
     Shape.call( this );
 
     var numSegments = 2 * options.numberStarPoints; // number of segments

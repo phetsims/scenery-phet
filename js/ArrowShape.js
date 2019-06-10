@@ -41,8 +41,6 @@ define( function( require ) {
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
 
-    Tandem.disallowTandem( options );
-
     var self = this;
     Shape.call( this );
 
