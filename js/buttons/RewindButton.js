@@ -16,15 +16,12 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options] - see RoundPushButton
    * @constructor
    */
   function RewindButton( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = options || {};
 
     var scale = 0.75;

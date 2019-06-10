@@ -23,7 +23,6 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
-  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const VSlider = require( 'SUN/VSlider' );
 
@@ -44,8 +43,6 @@ define( require => {
      */
     constructor( heatCoolAmountProperty, options ) {
       super();
-
-      Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
         baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.

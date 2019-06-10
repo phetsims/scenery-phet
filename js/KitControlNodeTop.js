@@ -20,7 +20,6 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} numKits
@@ -29,8 +28,6 @@ define( function( require ) {
    * @constructor
    */
   function KitControlNodeTop( numKits, selectedKitProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     Node.call( this );
     options = _.extend(
       {

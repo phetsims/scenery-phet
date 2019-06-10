@@ -14,15 +14,12 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function PaperAirplaneNode( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       fill: PhetColorScheme.PHET_LOGO_YELLOW
     }, options );

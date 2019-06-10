@@ -18,7 +18,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**
@@ -26,8 +25,6 @@ define( function( require ) {
    * @constructor
    */
   function NumberEntryControl( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     Node.call( this );
     var self = this;
     options = _.extend( {

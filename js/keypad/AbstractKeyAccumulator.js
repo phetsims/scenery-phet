@@ -14,7 +14,6 @@ define( function( require ) {
   var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Array.<function>} validators
@@ -22,8 +21,6 @@ define( function( require ) {
    * @constructor
    */
   function AbstractKeyAccumulator( validators, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
 
       // a function that, if non-null, is used in addition to the default validation function to validate the user input

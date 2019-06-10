@@ -20,7 +20,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var timer = require( 'AXON/timer' );
 
   /**
@@ -29,8 +28,6 @@ define( function( require ) {
    * @constructor
    */
   function Drawer( contentsNode, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
 
       size: null, // {Dimension2|null} !null: contents sized to fit in container, null: container sized to fit contents

@@ -23,7 +23,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -35,8 +34,6 @@ define( function( require ) {
    * @constructor
    */
   function NumberKeypad( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       buttonFont: new PhetFont( { size: 20 } ),
       minButtonWidth: 35,

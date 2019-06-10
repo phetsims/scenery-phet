@@ -20,7 +20,6 @@ define( require => {
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
-  const Tandem = require( 'TANDEM/Tandem' );
   const Vector2 = require( 'DOT/Vector2' );
 
   //images
@@ -42,7 +41,6 @@ define( require => {
      */
     constructor( heatCoolAmountProperty, options ) {
       super();
-      Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
         baseColor: DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner

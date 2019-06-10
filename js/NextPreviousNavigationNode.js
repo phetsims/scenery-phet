@@ -18,7 +18,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var arrowPadding = 8;
@@ -36,8 +35,6 @@ define( function( require ) {
    * @param {Object} nodeOptions  Passed to the Node constructor
    */
   function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
-    Tandem.indicateUninstrumentedCode();
-
     var self = this;
 
     // @public

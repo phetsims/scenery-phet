@@ -16,7 +16,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -25,8 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function FaceWithPointsNode( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       spacing: 2, // space between face and points
 

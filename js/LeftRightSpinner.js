@@ -17,7 +17,6 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    *
@@ -28,8 +27,6 @@ define( function( require ) {
    * @constructor
    */
   function LeftRightSpinner( valueProperty, leftEnabledProperty, rightEnabledProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     var shapeWidth = 26;
     var leftShape = new Shape().moveTo( 0, 0 ).lineTo( -10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
     var rightShape = new Shape().moveTo( 0, 0 ).lineTo( 10, shapeWidth / 2 ).lineTo( 0, shapeWidth );

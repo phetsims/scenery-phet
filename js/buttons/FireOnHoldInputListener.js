@@ -14,24 +14,19 @@ define( function( require ) {
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function FireOnHoldInputListener( options ) {
-    // Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       listener: null, // {function} convenience for adding 1 listener
       enabled: true, // is this input listener enabled?
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this interval (milliseconds)
       startCallback: _.noop, // {function()} called when the pointer is pressed
-      endCallback: _.noop, // {function(inside:boolean)} called when the pointer is released, {boolean} inside indicates whether the pointer was inside
-      tandem: Tandem.optional
-
+      endCallback: _.noop // {function(inside:boolean)} called when the pointer is released, {boolean} inside indicates whether the pointer was inside
     }, options );
 
     this._enabled = options.enabled; // @private

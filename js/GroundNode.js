@@ -15,7 +15,6 @@ define( function( require ) {
   var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} x
@@ -27,7 +26,6 @@ define( function( require ) {
    * @constructor
    */
   function GroundNode( x, y, width, height, gradientEndDepth, options ) {
-    Tandem.indicateUninstrumentedCode();
     options = _.extend(
       {
         topColor: new Color( 144, 199, 86 ),

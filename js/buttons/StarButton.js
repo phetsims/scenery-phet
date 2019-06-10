@@ -15,15 +15,12 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StarButton( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       xMargin: 8.134152255572697, //Match the size of the star button to the refresh buttons, since they often appear together.  see https://github.com/phetsims/scenery-phet/issues/44
       baseColor: PhetColorScheme.BUTTON_YELLOW

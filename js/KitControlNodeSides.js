@@ -22,7 +22,6 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );
@@ -35,8 +34,6 @@ define( function( require ) {
    * @constructor
    */
   function KitControlNodeSides( numKits, selectedKitProperty, spaceBetweenControls, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     Node.call( this );
     options = _.extend(
       {

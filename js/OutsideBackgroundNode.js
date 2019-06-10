@@ -19,7 +19,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SkyNode = require( 'SCENERY_PHET/SkyNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {number} centerX
@@ -31,8 +30,6 @@ define( function( require ) {
    * @constructor
    */
   function OutsideBackgroundNode( centerX, centerY, width, skyHeight, groundDepth, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     Node.call( this );
 
     options = _.extend(

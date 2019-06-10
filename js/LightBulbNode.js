@@ -14,7 +14,6 @@ define( function( require ) {
   var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Util = require( 'DOT/Util' );
 
   // images
@@ -27,8 +26,6 @@ define( function( require ) {
    * @constructor
    */
   function LightBulbNode( brightnessProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       bulbImageScale: 0.33
 

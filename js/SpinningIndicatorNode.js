@@ -20,14 +20,12 @@ define( function( require ) {
   var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} options
    * @constructor
    */
   function SpinningIndicatorNode( options ) {
-    Tandem.indicateUninstrumentedCode();
 
     // default options
     options = _.extend( {

@@ -15,7 +15,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
@@ -25,8 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function ScientificNotationNode( valueProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       fill: 'black',
       font: new PhetFont( 20 ),

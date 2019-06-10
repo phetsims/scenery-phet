@@ -18,7 +18,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var timer = require( 'AXON/timer' );
 
   // constants
@@ -31,8 +30,6 @@ define( function( require ) {
    * @constructor
    */
   function KitSelectionNode( selectedKit, kits, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     Node.call( this );
     var self = this;
 

@@ -19,7 +19,6 @@ define( require => {
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Tandem = require( 'TANDEM/Tandem' );
 
   // const
   const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
@@ -33,7 +32,6 @@ define( require => {
      */
     constructor( heatCoolAmountProperty, options ) {
       super();
-      Tandem.indicateUninstrumentedCode();
 
       options = _.extend( {
 

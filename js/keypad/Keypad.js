@@ -20,7 +20,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
@@ -38,8 +37,6 @@ define( function( require ) {
    * @constructor
    */
   function Keypad( layout, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,

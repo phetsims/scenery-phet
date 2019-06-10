@@ -12,15 +12,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function StepBackwardButton( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = options || {};
 
     assert && assert( !options.direction, 'StepBackwardButton sets direction' );

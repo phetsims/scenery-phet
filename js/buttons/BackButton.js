@@ -17,15 +17,12 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function BackButton( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
 
       // Default margin values were set up to make this button match the size of the refresh button, since these

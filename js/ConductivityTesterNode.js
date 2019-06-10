@@ -27,7 +27,6 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -52,8 +51,6 @@ define( function( require ) {
    * @constructor
    */
   function ConductivityTesterNode( brightnessProperty, locationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     var self = this;
 
     options = _.extend( {

@@ -21,7 +21,6 @@ define( function( require ) {
   var DOM = require( 'SCENERY/nodes/DOM' );
   var inherit = require( 'PHET_CORE/inherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @constructor
@@ -29,8 +28,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function FormulaNode( formula, options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       // Defaults
       displayMode: true // If false, it will render with the 'inline math' mode which is vertically constrained more.

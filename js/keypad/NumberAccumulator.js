@@ -17,7 +17,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var NEGATIVE_CHAR = '\u2212';
@@ -33,8 +32,6 @@ define( function( require ) {
    * @constructor
    */
   function NumberAccumulator( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     var self = this;
     options = _.extend( {
       maxDigitsRightOfMantissa: 0,

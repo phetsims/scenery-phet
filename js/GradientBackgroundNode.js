@@ -15,7 +15,6 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    *
@@ -30,7 +29,6 @@ define( function( require ) {
    * @constructor
    */
   function GradientBackgroundNode( x, y, width, height, color1, color2, y1, y2 ) {
-    Tandem.indicateUninstrumentedCode();
     var centerX = x + width / 2;
     var gradient = new LinearGradient( centerX, y1, centerX, y2 );
     gradient.addColorStop( 0, color1 );

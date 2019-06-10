@@ -16,15 +16,12 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options] - see RectangularPushButton
    * @constructor
    */
   function CloseButton( options ) {
-    Tandem.indicateUninstrumentedCode();
-
     options = _.extend( {
       iconLength: 8, // {number} length of the 'X' icon, whose bounds are square
       iconLineWidth: 2.5, // {number} lineWidth for the 'X' icon

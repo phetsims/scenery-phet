@@ -16,7 +16,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -28,8 +27,6 @@ define( function( require ) {
    * @constructor
    */
   function IE11StencilWarningNode() {
-    Tandem.indicateUninstrumentedCode();
-
     HBox.call( this, _.extend( {
       children: [
         new FontAwesomeNode( 'warning_sign', {

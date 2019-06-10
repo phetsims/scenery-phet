@@ -16,7 +16,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
 
@@ -50,8 +49,6 @@ define( function( require ) {
 
     // @private
     this.reload = options.reload;
-
-    Tandem.indicateUninstrumentedCode();
 
     var warningSign = new FontAwesomeNode( 'warning_sign', {
       fill: '#E87600', // "safety orange", according to Wikipedia
