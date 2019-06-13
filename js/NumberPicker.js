@@ -127,8 +127,6 @@ define( function( require ) {
 
     }, options );
 
-    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
-
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
     var colorProperty = null;
     if ( options.pressedColor === undefined ) {
