@@ -14,7 +14,6 @@ define( function( require ) {
   // modules
   var Checkbox = require( 'SUN/Checkbox' );
   var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
-  var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -48,7 +47,6 @@ define( function( require ) {
        */
       { label: 'NumberControl', createNode: demoNumberControl },
       { label: 'WavelengthSlider', createNode: demoWavelengthSlider },
-      { label: 'FrequencySlider', createNode: demoFrequencySlider },
       { label: 'SpectrumSlider', createNode: demoSpectrumSlider },
       { label: 'SliderWithSpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
@@ -130,14 +128,6 @@ define( function( require ) {
   var demoWavelengthSlider = function( layoutBounds ) {
     var wavelengthProperty = new Property( 500 );
     return new WavelengthSlider( wavelengthProperty, {
-      center: layoutBounds.center
-    } );
-  };
-
-  // Creates a demo for FrequencySlider
-  var demoFrequencySlider = function( layoutBounds ) {
-    var frequencyProperty = new Property( VisibleColor.MIN_FREQUENCY );
-    return new FrequencySlider( frequencyProperty, {
       center: layoutBounds.center
     } );
   };

@@ -2,7 +2,7 @@
 
 /**
  * SpectrumSlider is a slider-like control used for choosing a value that corresponds to a displayed color.
- * It is a parent type for WavelengthSlider and FrequencySlider.
+ * It is a parent type for WavelengthSlider.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
