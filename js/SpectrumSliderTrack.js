@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SliderTrack = require( 'SUN/SliderTrack' );
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
@@ -27,12 +28,19 @@ define( require => {
         valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
       }, options );
 
-      super( new SpectrumNode( {
+      const spectrumNode = new SpectrumNode( {
         minValue: range.min,
         maxValue: range.max,
         size: options.size,
         valueToColor: options.valueToColor
-      } ), property, range, options );
+      } );
+
+      // Show a thin black stroke around the border
+      spectrumNode.addChild( new Rectangle( 0, 0, spectrumNode.width, spectrumNode.height, {
+        stroke: 'black',
+        lineWidth: 1
+      } ) );
+      super( spectrumNode, property, range, options );
     }
   }
 
