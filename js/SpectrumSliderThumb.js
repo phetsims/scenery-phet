@@ -16,7 +16,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
 
-  class SpectrumThumb extends Path {
+  class SpectrumSliderThumb extends Path {
 
     /**
      * The slider thumb, origin at top center.
@@ -82,7 +82,7 @@ define( require => {
       property.link( listener );
 
       // @private
-      this.disposeSpectrumThumb = () => property.unlink( listener );
+      this.disposeSpectrumSliderThumb = () => property.unlink( listener );
     }
 
     /**
@@ -99,10 +99,10 @@ define( require => {
      * @public
      */
     dispose() {
-      this.disposeSpectrumThumb();
+      this.disposeSpectrumSliderThumb();
       super.dispose();
     }
   }
 
-  return sceneryPhet.register( 'SpectrumThumb', SpectrumThumb );
+  return sceneryPhet.register( 'SpectrumSliderThumb', SpectrumSliderThumb );
 } );

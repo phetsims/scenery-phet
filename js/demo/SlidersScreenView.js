@@ -26,8 +26,8 @@ define( function( require ) {
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
   var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
-  var SpectrumThumb = require( 'SCENERY_PHET/SpectrumThumb' );
-  var SpectrumTrack = require( 'SCENERY_PHET/SpectrumTrack' );
+  var SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
+  var SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -50,7 +50,7 @@ define( function( require ) {
       { label: 'WavelengthSlider', createNode: demoWavelengthSlider },
       { label: 'FrequencySlider', createNode: demoFrequencySlider },
       { label: 'SpectrumSlider', createNode: demoSpectrumSlider },
-      { label: 'SliderWithSpectrumTrack', createNode: demoSliderWithSpectrum },
+      { label: 'SliderWithSpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
     ], {
       selectedDemoLabel: sceneryPhetQueryParameters.slider
@@ -152,7 +152,7 @@ define( function( require ) {
   };
 
   /**
-   * Creates a HSlider that uses a SpectrumTrack and SpectrumThumb.
+   * Creates a HSlider that uses a SpectrumSliderTrack and SpectrumSliderThumb.
    * @param layoutBounds
    */
   const demoSliderWithSpectrum = layoutBounds => {
@@ -161,13 +161,13 @@ define( function( require ) {
     const range = new Range( 380, 780 );
     return new HSlider( property, range, {
       center: layoutBounds.center,
-      trackNode: new SpectrumTrack( property, range, { valueToColor: wavelengthToColor } ),
-      thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
+      trackNode: new SpectrumSliderTrack( property, range, { valueToColor: wavelengthToColor } ),
+      thumbNode: new SpectrumSliderThumb( property, { valueToColor: wavelengthToColor } )
     } );
   };
 
   /**
-   * Creates a NumberControl that uses SpectrumTrack and SpectrumThumb.
+   * Creates a NumberControl that uses SpectrumSliderTrack and SpectrumSliderThumb.
    * @param layoutBounds
    */
   const demoNumberControlWithSpectrum = layoutBounds => {
@@ -185,8 +185,8 @@ define( function( require ) {
         valuePattern: '{0} nm'
       },
       sliderOptions: {
-        trackNode: new SpectrumTrack( property, range, { valueToColor: wavelengthToColor } ),
-        thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
+        trackNode: new SpectrumSliderTrack( property, range, { valueToColor: wavelengthToColor } ),
+        thumbNode: new SpectrumSliderThumb( property, { valueToColor: wavelengthToColor } )
       },
       center: layoutBounds.center,
       layoutFunction: NumberControl.createLayoutFunction3( {

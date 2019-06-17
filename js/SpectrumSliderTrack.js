@@ -14,7 +14,7 @@ define( require => {
   const SliderTrack = require( 'SUN/SliderTrack' );
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
 
-  class SpectrumTrack extends SliderTrack {
+  class SpectrumSliderTrack extends SliderTrack {
 
     /**
      * @param {Property.<number>} property
@@ -36,5 +36,5 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'SpectrumTrack', SpectrumTrack );
+  return sceneryPhet.register( 'SpectrumSliderTrack', SpectrumSliderTrack );
 } );
