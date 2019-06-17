@@ -158,9 +158,10 @@ define( function( require ) {
   const demoSliderWithSpectrum = layoutBounds => {
     const property = new Property( 380 );
     const wavelengthToColor = VisibleColor.wavelengthToColor;
-    return new HSlider( property, new Range( 380, 780 ), {
+    const range = new Range( 380, 780 );
+    return new HSlider( property, range, {
       center: layoutBounds.center,
-      trackNode: new SpectrumTrack( property, { minValue: 380, maxValue: 780, valueToColor: wavelengthToColor } ),
+      trackNode: new SpectrumTrack( property, range, { valueToColor: wavelengthToColor } ),
       thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
     } );
   };
@@ -174,7 +175,8 @@ define( function( require ) {
     const wavelengthToColor = VisibleColor.wavelengthToColor;
 
     // NumberControl with default layout
-    return new NumberControl( '', property, new Range( 380, 780 ), {
+    const range = new Range( 380, 780 );
+    return new NumberControl( '', property, range, {
       titleNodeOptions: {
         font: new PhetFont( 14 )
       },
@@ -183,7 +185,7 @@ define( function( require ) {
         valuePattern: '{0} nm'
       },
       sliderOptions: {
-        trackNode: new SpectrumTrack( property, { minValue: 380, maxValue: 780, valueToColor: wavelengthToColor } ),
+        trackNode: new SpectrumTrack( property, range, { valueToColor: wavelengthToColor } ),
         thumbNode: new SpectrumThumb( property, { valueToColor: wavelengthToColor } )
       },
       center: layoutBounds.center,

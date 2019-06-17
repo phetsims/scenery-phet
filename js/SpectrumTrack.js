@@ -18,33 +18,21 @@ define( require => {
 
     /**
      * @param {Property.<number>} property
+     * @param {Range} range
      * @param {Object} [options]
      */
-    constructor( property, options ) {
+    constructor( property, range, options ) {
       options = _.extend( {
         size: new Dimension2( 150, 30 ),
-        valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR, // Defaults to a black to white gradient
-        minValue: 0,
-        maxValue: 1
+        valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
       }, options );
 
       super( new SpectrumNode( {
-        minValue: options.minValue,
-        maxValue: options.maxValue,
+        minValue: range.min,
+        maxValue: range.max,
         size: options.size,
         valueToColor: options.valueToColor
-      } ), property, options );
-    }
-
-    /**
-     * no-op like in the parent class.  Not supported, but also not an error.  Will hopefully be
-     * improved in https://github.com/phetsims/scenery-phet/issues/506
-     *
-     * @param {number} minX - x value for the min position of the enabled range of the track
-     * @param {number} maxX - x value for the max position of the enabled range of the track
-     * @public
-     */
-    updateEnabledTrackWidth( minX, maxX ) {
+      } ), property, range, options );
     }
   }
 
