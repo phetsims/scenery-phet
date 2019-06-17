@@ -23,22 +23,28 @@ define( require => {
     constructor( property, options ) {
       options = _.extend( {
         size: new Dimension2( 150, 30 ),
-
-        // Defaults to a black to white gradient
-        valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR,
+        valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR, // Defaults to a black to white gradient
         minValue: 0,
         maxValue: 1
       }, options );
-      super( property, options );
-      this.addChild( new SpectrumNode( {
+
+      super( new SpectrumNode( {
         minValue: options.minValue,
         maxValue: options.maxValue,
         size: options.size,
-        pickable: false, // so events pass through to the SliderTrack
         valueToColor: options.valueToColor
-      } ) );
+      } ), property, options );
+    }
 
-      this.mutate( options );
+    /**
+     * no-op like in the parent class.  Not supported, but also not an error.  Will hopefully be
+     * improved in https://github.com/phetsims/scenery-phet/issues/506
+     *
+     * @param {number} minX - x value for the min position of the enabled range of the track
+     * @param {number} maxX - x value for the max position of the enabled range of the track
+     * @public
+     */
+    updateEnabledTrackWidth( minX, maxX ) {
     }
   }
 
