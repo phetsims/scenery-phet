@@ -24,6 +24,14 @@ define( require => {
 
   // modules
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const validate = require( 'AXON/validate' );
+
+  // constants
+  // {string|Array.<string>}
+  const ALERT_VALIDATOR = {
+    isValidValue: v => typeof v === 'string' ||
+                       ( Array.isArray( v ) && _.every( v, item => typeof item === 'string' ) )
+  };
 
   class Utterance {
 
@@ -125,6 +133,8 @@ define( require => {
      * @public
      */
     set alert( alert ) {
+      validate( alert, ALERT_VALIDATOR );
+
       this._alert = alert;
     }
 
