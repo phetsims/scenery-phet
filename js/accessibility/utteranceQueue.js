@@ -169,6 +169,17 @@ define( require => {
     }
 
     /**
+     * Returns true if the utterances is in this queue.
+     * @public
+     * 
+     * @param   {Utterance} utterance
+     * @returns {boolean}          
+     */
+    hasUtterance( utterance ) {
+      return _.includes( this.queue, utterance );
+    }
+
+    /**
      * Clear the utteranceQueue of all Utterances, any Utterances remaining in the queue will
      * not be announced by the screen reader.
      *

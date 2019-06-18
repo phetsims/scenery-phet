@@ -85,9 +85,9 @@ define( require => {
       // is the amount of time since this utterance has been added to the utteranceQueue.
       this.stableTime = 0;
 
-      // @public {number} (scenery-phet-internal) - In ms, how long the utterance should remain in the queue before it
-      // is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less than the
-      // amount of time the utterance has been in the queue
+      // @public (read-only, scenery-phet-internal) {number} - In ms, how long the utterance should remain in the queue
+      // before it is read. The queue is cleared in FIFO order, but utterances are skipped until the delay time is less
+      // than the amount of time the utterance has been in the queue
       this.alertStableDelay = options.alertStableDelay;
 
       // @public {scenery-phet-internal, read-only} {number}- in ms, the maximum amount of time that should
@@ -137,10 +137,32 @@ define( require => {
     }
 
     /**
+     * Set the alertStableDelay time, see alertStableDelay option for more information.
+     *
+     * BEWARE! Why does the delay time need to be changed during the lifetime of an Utterance? It did for
+     * https://github.com/phetsims/gravity-force-lab-basics/issues/146, but does it for you? Be sure there is good
+     * reason changing this value.
+     * @param {number} delay
+     */
+    setAlertStableDelay( delay ) {
+      this.alertStableDelay = delay;
+    }
+
+    /**
+     * Reset variables that track instance variables related to time.
+     * @returns {}
+     */
+    resetTimingVariables() {
+      this.timeInQueue = 0;
+      this.stableTime = 0;
+    }
+
+    /**
      * @public
      */
     reset() {
       this.numberOfTimesAlerted = 0;
+      this.resetTimingVariables();
     }
   }
 
