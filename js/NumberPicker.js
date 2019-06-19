@@ -411,6 +411,10 @@ define( function( require ) {
     };
     self.enabledProperty.link( enabledListener );
 
+    this.addLinkedElement( valueProperty, {
+      tandem: options.tandem.createTandem( 'valueProperty' )
+    } );
+
     // @private
     this.disposeNumberPicker = function() {
 
