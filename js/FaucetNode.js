@@ -25,6 +25,7 @@ define( function( require ) {
 
   // modules
   var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
+  var AccessibleValueHandler = require( 'SUN/accessibility/AccessibleValueHandler' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
@@ -125,12 +126,6 @@ define( function( require ) {
     // other nodes
     var spoutNode = new Image( spoutImage );
     var bodyNode = new Image( bodyImage );
-
-    // flow rate control is visible only when the faucet is interactive
-    var interactiveObserver = function( interactive ) {
-      shooterNode.visible = trackNode.visible = interactive;
-    };
-    options.interactiveProperty.link( interactiveObserver );
 
     var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
@@ -294,6 +289,15 @@ define( function( require ) {
       options
     );
 
+    // flow rate control is visible only when the faucet is interactive
+    var interactiveObserver = function( interactive ) {
+      shooterNode.visible = trackNode.visible = interactive;
+
+      // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after initializeAccessibleSlider()
+      self.tagName = interactive ? AccessibleValueHandler.DEFAULT_TAG_NAME : null;
+    };
+    options.interactiveProperty.link( interactiveObserver );
+
     // @private called by dispose
     this.disposeFaucetNode = function() {
 
@@ -316,7 +320,6 @@ define( function( require ) {
 
       self.disposeAccessibleSlider();
     };
-
   }
 
   sceneryPhet.register( 'FaucetNode', FaucetNode );
