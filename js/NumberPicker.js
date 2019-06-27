@@ -124,7 +124,6 @@ define( function( require ) {
 
       // a11y
       pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
-
     }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
@@ -140,6 +139,8 @@ define( function( require ) {
 
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
       `invalid disabledOpacity: ${options.disabledOpacity}` );
+
+    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     var self = this;
     Node.call( this );
@@ -166,6 +167,9 @@ define( function( require ) {
         phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.',
         phetioFeatured: true
       }, options.enabledPropertyOptions ) );
+    }
+    else {
+      assert && assert( this.enabledProperty.phetioFeatured, 'provided enabledProperty must be phetioFeatured' );
     }
 
     //------------------------------------------------------------
