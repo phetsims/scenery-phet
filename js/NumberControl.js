@@ -149,6 +149,12 @@ define( require => {
       majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
       minorTickSpacing: 0, // zero indicates no minor ticks
 
+      // constrain the slider value to the provided range and the same delta as the arrow buttons
+      constrainValue: value => {
+        const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        return numberRange.constrainValue( newValue );
+      },
+
       // phet-io
       tandem: options.tandem.createTandem( 'slider' )
     }, options.sliderOptions );
@@ -185,6 +191,15 @@ define( require => {
       phetioType: SliderIO
     }, sliderOptions );
 
+    // highlight color for thumb defaults to a brighter version of the thumb color
+    if ( sliderOptions.thumbFill && !sliderOptions.thumbFillHighlighted ) {
+
+      // @private {Property.<Color>}
+      this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
+
+      // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
+      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
+    }
 
     // Defaults for NumberDisplay
     const numberDisplayOptions = _.extend( {
@@ -202,21 +217,6 @@ define( require => {
       fill: 'black',
       tandem: options.tandem.createTandem( 'titleNode' )
     }, options.titleNodeOptions );
-
-    // highlight color for thumb defaults to a brighter version of the thumb color
-    if ( sliderOptions.thumbFill && !sliderOptions.thumbFillHighlighted ) {
-
-      // @private {Property.<Color>}
-      this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
-
-      // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
-      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
-    }
-    // constrain the slider value to the provided range and the same delta as the arrow buttons
-    sliderOptions.constrainValue = sliderOptions.constrainValue || ( value => {
-      const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      return numberRange.constrainValue( newValue );
-    } );
 
     const titleNode = new Text( title, titleNodeOptions );
 
@@ -284,9 +284,12 @@ define( require => {
       }
     }
 
+    assert && assert( !options.hasOwnProperty( 'children' ),
+      'NumberControl sets its own children via options.layoutFunction' );
     options.children = [
       options.layoutFunction( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
     ];
+
     Node.call( this, options );
 
     // a11y - the number control acts like a range input for a11y, pass slider options without tandem
