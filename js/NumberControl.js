@@ -6,34 +6,34 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
-  var AlignBox = require( 'SCENERY/nodes/AlignBox' );
-  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var HSlider = require( 'SUN/HSlider' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
-  var NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
-  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SliderIO = require( 'SUN/SliderIO' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
+  const AlignBox = require( 'SCENERY/nodes/AlignBox' );
+  const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  const ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const HSlider = require( 'SUN/HSlider' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
+  const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
+  const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SliderIO = require( 'SUN/SliderIO' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
+  const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
     'startDrag',
     'endDrag',
     'leftStart',
@@ -91,7 +91,8 @@ define( function( require ) {
     // validate options
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
-    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1, 'invalid disabledOpacity: ' + options.disabledOpacity );
+    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
+      `invalid disabledOpacity: ${options.disabledOpacity}` );
     assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
     assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
     assert && assert( options.isAccessible === undefined, 'NumberControl sets isAccessible for Slider' );
@@ -101,7 +102,7 @@ define( function( require ) {
     validateCallbacksAndSetDefault( options );
 
     // Defaults for ArrowButton
-    var arrowButtonOptions = _.extend( {
+    let arrowButtonOptions = _.extend( {
       scale: 0.85,
 
       // Values chosen to match previous behavior, see https://github.com/phetsims/scenery-phet/issues/489.
@@ -131,7 +132,7 @@ define( function( require ) {
     arrowButtonOptions.tagName = null;
 
     // Defaults for HSlider
-    var sliderOptions = _.extend( {
+    let sliderOptions = _.extend( {
 
       startDrag: options.startCallback, // called when dragging starts on the slider
       endDrag: options.endCallback, // called when dragging ends on the slider
@@ -165,7 +166,7 @@ define( function( require ) {
     }
 
     // Defaults for NumberDisplay
-    var numberDisplayOptions = _.extend( {
+    const numberDisplayOptions = _.extend( {
       // value
       font: new PhetFont( 12 ),
       maxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
@@ -174,7 +175,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'numberDisplay' )
     }, options.numberDisplayOptions );
 
-    var titleNodeOptions = _.extend( {
+    const titleNodeOptions = _.extend( {
       font: new PhetFont( 12 ),
       maxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
       fill: 'black',
@@ -187,24 +188,20 @@ define( function( require ) {
       this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
-      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], function( color ) {
-        return color.brighterColor();
-      } );
+      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
     }
     // constrain the slider value to the provided range and the same delta as the arrow buttons
-    sliderOptions.constrainValue = sliderOptions.constrainValue || function( value ) {
-      var newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+    sliderOptions.constrainValue = sliderOptions.constrainValue || ( value => {
+      const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       return numberRange.constrainValue( newValue );
-    };
+    } );
 
-    var self = this;
+    const titleNode = new Text( title, titleNodeOptions );
 
-    var titleNode = new Text( title, titleNodeOptions );
+    const numberDisplay = new NumberDisplay( numberProperty, numberRange, numberDisplayOptions );
 
-    var numberDisplay = new NumberDisplay( numberProperty, numberRange, numberDisplayOptions );
-
-    var leftArrowButton = new ArrowButton( 'left', function() {
-      var value = numberProperty.get() - options.delta;
+    const leftArrowButton = new ArrowButton( 'left', () => {
+      let value = numberProperty.get() - options.delta;
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
@@ -214,8 +211,8 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'leftArrowButton' )
     }, arrowButtonOptions ) );
 
-    var rightArrowButton = new ArrowButton( 'right', function() {
-      var value = numberProperty.get() + options.delta;
+    const rightArrowButton = new ArrowButton( 'right', () => {
+      let value = numberProperty.get() + options.delta;
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
@@ -241,7 +238,7 @@ define( function( require ) {
       .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
       .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
-    var arrowEnabledListener = function( value ) {
+    const arrowEnabledListener = value => {
       leftArrowButton.enabled = ( value > numberRange.min );
       rightArrowButton.enabled = ( value < numberRange.max );
     };
@@ -256,18 +253,18 @@ define( function( require ) {
     // Make sure Slider gets created with the right IO Type
     sliderOptions.phetioType = SliderIO;
 
-    var slider = new HSlider( numberProperty, numberRange, sliderOptions );
+    const slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
     // major ticks
-    var majorTicks = sliderOptions.majorTicks;
-    for ( var i = 0; i < majorTicks.length; i++ ) {
+    const majorTicks = sliderOptions.majorTicks;
+    for ( let i = 0; i < majorTicks.length; i++ ) {
       slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
 
     // minor ticks, exclude values where we already have major ticks
     if ( sliderOptions.minorTickSpacing > 0 ) {
-      for ( var minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
-        if ( !_.find( majorTicks, function( majorTick ) { return majorTick.value === minorTickValue; } ) ) {
+      for ( let minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
+        if ( !_.find( majorTicks, majorTick => majorTick.value === minorTickValue ) ) {
           slider.addMinorTick( minorTickValue );
         }
         minorTickValue += sliderOptions.minorTickSpacing;
@@ -280,7 +277,7 @@ define( function( require ) {
     Node.call( this, options );
 
     // a11y - the number control acts like a range input for a11y, pass slider options without tandem
-    var accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
+    const accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
     this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
 
     // a11y - the focus highlight for NumberControl should surround the Slider's thumb
@@ -288,8 +285,8 @@ define( function( require ) {
 
     // a11y - click the left and right arrow buttons when shift keys are down so that the shift modifier behaves
     // just like the tweaker buttons, must be disposed
-    var rightButtonListener = function() { self.shiftKeyDown && rightArrowButton.a11yClick(); };
-    var leftButtonListener = function() { self.shiftKeyDown && leftArrowButton.a11yClick(); };
+    const rightButtonListener = () => { this.shiftKeyDown && rightArrowButton.a11yClick(); };
+    const leftButtonListener = () => { this.shiftKeyDown && leftArrowButton.a11yClick(); };
 
     // emitters defined in AccessibleSlider.js
     this.attemptedIncreaseEmitter.addListener( rightButtonListener );
@@ -297,29 +294,29 @@ define( function( require ) {
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
-    var enabledObserver = function( enabled ) {
-      self.pickable = enabled;
-      self.opacity = enabled ? 1.0 : options.disabledOpacity;
-      //TODO if !enabled, cancel any interaction that is in progress, see scenery#218
+    const enabledObserver = enabled => {
+      this.pickable = enabled;
+      this.opacity = enabled ? 1.0 : options.disabledOpacity;
+      // TODO if !enabled, cancel any interaction that is in progress, see scenery#218
     };
     this.enabledProperty.link( enabledObserver );
 
     // @private
-    this.disposeNumberControl = function() {
+    this.disposeNumberControl = () => {
 
       // dispose accessibility features
-      self.attemptedIncreaseEmitter.removeListener( rightButtonListener );
-      self.attemptedDecreaseEmitter.removeListener( leftButtonListener );
+      this.attemptedIncreaseEmitter.removeListener( rightButtonListener );
+      this.attemptedDecreaseEmitter.removeListener( leftButtonListener );
 
       numberDisplay.dispose();
       leftArrowButton.dispose();
       rightArrowButton.dispose();
       slider.dispose();
 
-      self.thumbFillProperty && self.thumbFillProperty.dispose();
+      this.thumbFillProperty && this.thumbFillProperty.dispose();
 
       numberProperty.unlink( arrowEnabledListener );
-      self.enabledProperty.unlink( enabledObserver );
+      this.enabledProperty.unlink( enabledObserver );
     };
   }
 
@@ -334,10 +331,10 @@ define( function( require ) {
    * @param {Object} options
    */
   function validateCallbacksAndSetDefault( options ) {
-    var normalCallbacksPresent = !!( options.startCallback || options.endCallback );
-    var specificCallbacksPresent = false;
-    var arrowCallbacksPresent = false;
-    var sliderCallbacksPresent = false;
+    const normalCallbacksPresent = !!( options.startCallback || options.endCallback );
+    let specificCallbacksPresent = false;
+    let arrowCallbacksPresent = false;
+    let sliderCallbacksPresent = false;
 
     if ( options.arrowButtonOptions ) {
       arrowCallbacksPresent = callbackKeysInOptions( options.arrowButtonOptions );
@@ -366,8 +363,8 @@ define( function( require ) {
    * @returns {boolean}
    */
   function callbackKeysInOptions( options ) {
-    var optionKeys = Object.keys( options );
-    var intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
+    const optionKeys = Object.keys( options );
+    const intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
     return intersection.length > 0;
   }
 
@@ -438,7 +435,7 @@ define( function( require ) {
         ySpacing: 5 // {number} vertical spacing between rows
       }, options );
 
-      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+      return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
         return new VBox( {
           align: options.align,
           spacing: options.ySpacing,
@@ -477,7 +474,7 @@ define( function( require ) {
         ySpacing: 5 // {number} vertical spacing between rows
       }, options );
 
-      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+      return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
         return new VBox( {
           align: options.align,
           spacing: options.ySpacing,
@@ -516,7 +513,7 @@ define( function( require ) {
         ySpacing: 5 // {number} vertical spacing between rows
       }, options );
 
-      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
+      return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
         return new VBox( {
           spacing: options.ySpacing,
           resize: false, // prevent slider from causing a resize when thumb is at min or max
@@ -554,8 +551,8 @@ define( function( require ) {
         hasReadoutProperty: null,
         createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
       }, options );
-      return function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
-        var bottomBox = new HBox( {
+      return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+        const bottomBox = new HBox( {
           resize: false, // prevent slider from causing resize?
           spacing: 5,
           children: options.excludeTweakers ? [ slider ] : [
@@ -564,23 +561,21 @@ define( function( require ) {
             rightArrowButton
           ]
         } );
-        var bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
+        const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
 
-        var group = new AlignGroup( { matchHorizontal: false } );
-        var titleBox = new AlignBox( titleNode, {
+        const group = new AlignGroup( { matchHorizontal: false } );
+        const titleBox = new AlignBox( titleNode, {
           group: group
         } );
-        var numberBox = new AlignBox( numberDisplay, {
+        const numberBox = new AlignBox( numberDisplay, {
           group: group
         } );
         titleBox.bottom = numberBox.bottom = bottomContent.top - options.verticalSpacing;
         titleBox.left = bottomContent.left - options.sliderPadding;
         numberBox.right = bottomContent.right + options.sliderPadding;
-        var node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
+        const node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
         if ( options.hasReadoutProperty ) {
-          options.hasReadoutProperty.link( function( hasReadout ) {
-            numberBox.visible = hasReadout;
-          } );
+          options.hasReadoutProperty.link( hasReadout => { numberBox.visible = hasReadout; } );
         }
         return node;
       };
