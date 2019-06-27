@@ -93,9 +93,12 @@ define( require => {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
       `invalid disabledOpacity: ${options.disabledOpacity}` );
-    assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
-    assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
-    assert && assert( options.isAccessible === undefined, 'NumberControl sets isAccessible for Slider' );
+    assert && assert( !options.shiftKeyboardStep,
+      'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
+    assert && assert( !options.shiftKeyboardStep,
+      'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
+    assert && options.sliderOptions && assert( options.isAccessible === undefined,
+      'NumberControl sets isAccessible for Slider' );
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem.
@@ -165,6 +168,24 @@ define( require => {
       }, sliderOptions );
     }
 
+    assert && assert( !sliderOptions.hasOwnProperty( 'isAccessible' ), 'NumberControl sets isAccessible' );
+    assert && assert( !sliderOptions.hasOwnProperty( 'shiftKeyboardStep' ), 'NumberControl sets shiftKeyboardStep' );
+    assert && assert( !sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
+
+    // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
+    sliderOptions = _.extend( {
+
+      // NumberControl uses the AccessibleSlider trait, so don't include any accessibility on the slider
+      isAccessible: false,
+
+      // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
+      shiftKeyboardStep: 0,
+
+      // Make sure Slider gets created with the right IO Type
+      phetioType: SliderIO
+    }, sliderOptions );
+
+
     // Defaults for NumberDisplay
     const numberDisplayOptions = _.extend( {
       // value
@@ -184,6 +205,7 @@ define( require => {
 
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( sliderOptions.thumbFill && !sliderOptions.thumbFillHighlighted ) {
+
       // @private {Property.<Color>}
       this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
 
@@ -243,15 +265,6 @@ define( require => {
       rightArrowButton.enabled = ( value < numberRange.max );
     };
     numberProperty.link( arrowEnabledListener );
-
-    // NumberControl uses the AccessibleSlider trait, so don't include any accessibility on the slider
-    sliderOptions.isAccessible = false;
-
-    // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
-    sliderOptions.shiftKeyboardStep = 0;
-
-    // Make sure Slider gets created with the right IO Type
-    sliderOptions.phetioType = SliderIO;
 
     const slider = new HSlider( numberProperty, numberRange, sliderOptions );
 
@@ -328,23 +341,24 @@ define( require => {
    *
    * This function mutates the options by initializing general callbacks from null (in the extend call) to a no-op
    * function.
+   *
+   * Only general or specific callbacks are allowed, but not both.
    * @param {Object} options
    */
   function validateCallbacksAndSetDefault( options ) {
     const normalCallbacksPresent = !!( options.startCallback || options.endCallback );
-    let specificCallbacksPresent = false;
     let arrowCallbacksPresent = false;
     let sliderCallbacksPresent = false;
 
     if ( options.arrowButtonOptions ) {
-      arrowCallbacksPresent = callbackKeysInOptions( options.arrowButtonOptions );
+      arrowCallbacksPresent = specificCallbackKeysInOptions( options.arrowButtonOptions );
     }
 
     if ( options.sliderOptions ) {
-      sliderCallbacksPresent = callbackKeysInOptions( options.sliderOptions );
+      sliderCallbacksPresent = specificCallbackKeysInOptions( options.sliderOptions );
     }
 
-    specificCallbacksPresent = arrowCallbacksPresent || sliderCallbacksPresent;
+    const specificCallbacksPresent = arrowCallbacksPresent || sliderCallbacksPresent;
 
     // only general or component specific callbacks are supported
     assert && assert( !( normalCallbacksPresent && specificCallbacksPresent ),
@@ -357,12 +371,13 @@ define( require => {
 
   /**
    * Check for an intersection between the array of callback option keys and those
-   * passed in the options object.
+   * passed in the options object. These callback options are only the specific component callbacks, not the general
+   * start/end that are called for every component's interaction
    *
    * @param {Object} options
    * @returns {boolean}
    */
-  function callbackKeysInOptions( options ) {
+  function specificCallbackKeysInOptions( options ) {
     const optionKeys = Object.keys( options );
     const intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
     return intersection.length > 0;
