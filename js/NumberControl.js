@@ -41,6 +41,7 @@ define( function( require ) {
     'rightStart',
     'rightEnd'
   ];
+  const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
 
   /**
    * @param {string} title
@@ -95,7 +96,8 @@ define( function( require ) {
     assert && assert( !options.shiftKeyboardStep, 'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
     assert && assert( options.isAccessible === undefined, 'NumberControl sets isAccessible for Slider' );
 
-    // Make sure that general callbacks and specific callbacks aren't used in tandem.
+    // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
+    // used in tandem.
     validateCallbacksAndSetDefault( options );
 
     // Defaults for ArrowButton
@@ -119,9 +121,8 @@ define( function( require ) {
     // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
     // And do not propagate those options to ArrowButton instances.
-    const pointerAreaOptionNames = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
-    const arrowButtonPointerAreaOptions = _.pick( arrowButtonOptions, pointerAreaOptionNames );
-    arrowButtonOptions = _.omit( arrowButtonOptions, pointerAreaOptionNames );
+    const arrowButtonPointerAreaOptions = _.pick( arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
+    arrowButtonOptions = _.omit( arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
 
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
