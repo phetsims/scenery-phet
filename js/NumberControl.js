@@ -42,6 +42,7 @@ define( require => {
     'rightEnd'
   ];
   const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
+  const DEFAULT_CALLBACK = _.noop;
 
   /**
    * @param {string} title
@@ -55,8 +56,8 @@ define( require => {
     options = _.extend( {
 
       // General Callbacks
-      startCallback: null, // called when interaction begins, default value set in validateCallbacksAndSetDefault()
-      endCallback: null, // called when interaction ends, default value set in validateCallbacksAndSetDefault()
+      startCallback: DEFAULT_CALLBACK, // called when interaction begins, default value set in validateCallbacks()
+      endCallback: DEFAULT_CALLBACK, // called when interaction ends, default value set in validateCallbacks()
       delta: 1,
 
       enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
@@ -102,7 +103,7 @@ define( require => {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem.
-    validateCallbacksAndSetDefault( options );
+    validateCallbacks( options );
 
     // Defaults for ArrowButton
     let arrowButtonOptions = _.extend( {
@@ -348,8 +349,9 @@ define( require => {
    * Only general or specific callbacks are allowed, but not both.
    * @param {Object} options
    */
-  function validateCallbacksAndSetDefault( options ) {
-    const normalCallbacksPresent = !!( options.startCallback || options.endCallback );
+  function validateCallbacks( options ) {
+    const normalCallbacksPresent = !!( options.startCallback !== DEFAULT_CALLBACK ||
+                                       options.endCallback !== DEFAULT_CALLBACK );
     let arrowCallbacksPresent = false;
     let sliderCallbacksPresent = false;
 
@@ -366,10 +368,6 @@ define( require => {
     // only general or component specific callbacks are supported
     assert && assert( !( normalCallbacksPresent && specificCallbacksPresent ),
       'Use general callbacks like "startCallback" or specific callbacks like "sliderOptions.startDrag" but not both.' );
-
-    // Set here so that we can validate above based on falsey.
-    options.startCallback = options.startCallback || _.noop;
-    options.endCallback = options.endCallback || _.noop;
   }
 
   /**
