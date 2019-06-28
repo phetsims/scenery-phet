@@ -19,6 +19,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
@@ -42,22 +43,32 @@ define( require => {
     'rightEnd'
   ];
   const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
-  const DEFAULT_CALLBACK = _.noop;
 
   /**
    * @param {string} title
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
-   * @param {Object} [options] - subcomponent objects: sliderOptions, numberDisplayOptions, arrowButtonOptions, titleNodeOptions
+   * @param {Object} [options] - subcomponent options objects:
+   *                               sliderOptions,
+   *                               numberDisplayOptions,
+   *                               arrowButtonOptions,
+   *                               titleNodeOptions
    * @mixes AccessibleSlider
    * @constructor
    */
   function NumberControl( title, numberProperty, numberRange, options ) {
+
+    // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
+    // used in tandem. This must be called before defaults are set.
+    validateCallbacks( options || {} );
+
+    // Extend NumberControl options before merging nested optiosn because some nested defaults use these options.
     options = _.extend( {
 
       // General Callbacks
-      startCallback: DEFAULT_CALLBACK, // called when interaction begins, default value set in validateCallbacks()
-      endCallback: DEFAULT_CALLBACK, // called when interaction ends, default value set in validateCallbacks()
+      startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()
+      endCallback: _.noop, // called when interaction ends, default value set in validateCallbacks()
+
       delta: 1,
 
       enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
@@ -69,24 +80,75 @@ define( require => {
       // (see createLayoutFunction*) or create your own function.
       layoutFunction: NumberControl.createLayoutFunction1(),
 
-      // {*|null} options propagated to ArrowButton
-      arrowButtonOptions: null,
-
-      // {*|null} options propagated to HSlider
-      sliderOptions: null,
-
-      // {*|null} options propagated to NumberDisplay
-      numberDisplayOptions: null,
-
-      // {*|null} options propagated to the title Text node
-      titleNodeOptions: null,
-
       // phet-io
       tandem: Tandem.required,
       phetioType: NumberControlIO,
 
       // a11y
       groupFocusHighlight: true
+    } );
+
+    // Merge all nested options in one block.
+    options = merge( {
+
+      // Options propagated to ArrowButton
+      arrowButtonOptions: {
+        scale: 0.85,
+
+        // Values chosen to match previous behavior, see https://github.com/phetsims/scenery-phet/issues/489.
+        // touchAreaXDilation is 1/2 of its original value because touchArea is shifted.
+        touchAreaXDilation: 3.5,
+        touchAreaYDilation: 7,
+        mouseAreaXDilation: 0,
+        mouseAreaYDilation: 0,
+
+        // callbacks
+        leftStart: options.startCallback, // called when left arrow is pressed
+        leftEnd: options.endCallback, // called when left arrow is released
+        rightStart: options.startCallback, // called when right arrow is pressed
+        rightEnd: options.endCallback // called when right arrow is released
+      },
+
+      // Options propagated to HSlider
+      sliderOptions: {
+        startDrag: options.startCallback, // called when dragging starts on the slider
+        endDrag: options.endCallback, // called when dragging ends on the slider
+
+        // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
+        // all HSlider options may be used. These are the ones that NumberControl overrides:
+        majorTickLength: 20,
+        minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
+
+        // other slider options that are specific to NumberControl
+        majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
+        minorTickSpacing: 0, // zero indicates no minor ticks
+
+        // constrain the slider value to the provided range and the same delta as the arrow buttons
+        constrainValue: value => {
+          const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+          return numberRange.constrainValue( newValue );
+        },
+
+        // phet-io
+        tandem: options.tandem.createTandem( 'slider' )
+      },
+
+      // Options propagated to NumberDisplay
+      numberDisplayOptions: {
+        font: new PhetFont( 12 ),
+        maxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
+
+        // phet-io
+        tandem: options.tandem.createTandem( 'numberDisplay' )
+      },
+
+      // Options propagated to the title Text Node
+      titleNodeOptions: {
+        font: new PhetFont( 12 ),
+        maxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
+        fill: 'black',
+        tandem: options.tandem.createTandem( 'titleNode' )
+      }
     }, options );
 
     // validate options
@@ -101,86 +163,39 @@ define( require => {
     assert && options.sliderOptions && assert( options.isAccessible === undefined,
       'NumberControl sets isAccessible for Slider' );
 
-    // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
-    // used in tandem.
-    validateCallbacks( options );
-
-    // Defaults for ArrowButton
-    let arrowButtonOptions = _.extend( {
-      scale: 0.85,
-
-      // Values chosen to match previous behavior, see https://github.com/phetsims/scenery-phet/issues/489.
-      // touchAreaXDilation is 1/2 of its original value because touchArea is shifted.
-      touchAreaXDilation: 3.5,
-      touchAreaYDilation: 7,
-      mouseAreaXDilation: 0,
-      mouseAreaYDilation: 0,
-
-      // callbacks
-      leftStart: options.startCallback, // called when left arrow is pressed
-      leftEnd: options.endCallback, // called when left arrow is released
-      rightStart: options.startCallback, // called when right arrow is pressed
-      rightEnd: options.endCallback // called when right arrow is released
-    }, options.arrowButtonOptions );
-
     // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
     // And do not propagate those options to ArrowButton instances.
-    const arrowButtonPointerAreaOptions = _.pick( arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
-    arrowButtonOptions = _.omit( arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
+    const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
+    options.arrowButtonOptions = _.omit( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
 
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
-    assert && assert( arrowButtonOptions.tagName === undefined,
+    assert && assert( options.arrowButtonOptions.tagName === undefined,
       'NumberControl handles alternative input for arrow buttons' );
-    arrowButtonOptions.tagName = null;
-
-    // Defaults for HSlider
-    let sliderOptions = _.extend( {
-
-      startDrag: options.startCallback, // called when dragging starts on the slider
-      endDrag: options.endCallback, // called when dragging ends on the slider
-
-      // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
-      // all HSlider options may be used. These are the ones that NumberControl overrides:
-      majorTickLength: 20,
-      minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
-
-      // other slider options that are specific to NumberControl
-      majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
-      minorTickSpacing: 0, // zero indicates no minor ticks
-
-      // constrain the slider value to the provided range and the same delta as the arrow buttons
-      constrainValue: value => {
-        const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-        return numberRange.constrainValue( newValue );
-      },
-
-      // phet-io
-      tandem: options.tandem.createTandem( 'slider' )
-    }, options.sliderOptions );
+    options.arrowButtonOptions.tagName = null;
 
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
-      sliderOptions = _.extend( {
+      options.sliderOptions = _.extend( {
         trackSize: new Dimension2( 180, 3 )
-      }, sliderOptions );
+      }, options.sliderOptions );
     }
 
-    // Slider options for thumb (if not specified as thumbNode)
+    // Slider options for thumb (if n ot specified as thumbNode)
     if ( !options.sliderOptions.thumbNode ) {
-      sliderOptions = _.extend( {
+      options.sliderOptions = _.extend( {
         thumbSize: new Dimension2( 17, 34 ),
         thumbTouchAreaXDilation: 6
-      }, sliderOptions );
+      }, options.sliderOptions );
     }
 
-    assert && assert( !sliderOptions.hasOwnProperty( 'isAccessible' ), 'NumberControl sets isAccessible' );
-    assert && assert( !sliderOptions.hasOwnProperty( 'shiftKeyboardStep' ), 'NumberControl sets shiftKeyboardStep' );
-    assert && assert( !sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
+    assert && assert( !options.sliderOptions.hasOwnProperty( 'isAccessible' ), 'NumberControl sets isAccessible' );
+    assert && assert( !options.sliderOptions.hasOwnProperty( 'shiftKeyboardStep' ), 'NumberControl sets shiftKeyboardStep' );
+    assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
-    sliderOptions = _.extend( {
+    options.sliderOptions = _.extend( {
 
       // NumberControl uses the AccessibleSlider trait, so don't include any accessibility on the slider
       isAccessible: false,
@@ -190,38 +205,21 @@ define( require => {
 
       // Make sure Slider gets created with the right IO Type
       phetioType: SliderIO
-    }, sliderOptions );
+    }, options.sliderOptions );
 
     // highlight color for thumb defaults to a brighter version of the thumb color
-    if ( sliderOptions.thumbFill && !sliderOptions.thumbFillHighlighted ) {
+    if ( options.sliderOptions.thumbFill && !options.sliderOptions.thumbFillHighlighted ) {
 
       // @private {Property.<Color>}
-      this.thumbFillProperty = new PaintColorProperty( sliderOptions.thumbFill );
+      this.thumbFillProperty = new PaintColorProperty( options.sliderOptions.thumbFill );
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
-      sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
+      options.sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
     }
 
-    // Defaults for NumberDisplay
-    const numberDisplayOptions = _.extend( {
-      // value
-      font: new PhetFont( 12 ),
-      maxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
+    const titleNode = new Text( title, options.titleNodeOptions );
 
-      // phet-io
-      tandem: options.tandem.createTandem( 'numberDisplay' )
-    }, options.numberDisplayOptions );
-
-    const titleNodeOptions = _.extend( {
-      font: new PhetFont( 12 ),
-      maxWidth: null, // {null|string} maxWidth to use for title, to constrain width for i18n
-      fill: 'black',
-      tandem: options.tandem.createTandem( 'titleNode' )
-    }, options.titleNodeOptions );
-
-    const titleNode = new Text( title, titleNodeOptions );
-
-    const numberDisplay = new NumberDisplay( numberProperty, numberRange, numberDisplayOptions );
+    const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
     const leftArrowButton = new ArrowButton( 'left', () => {
       let value = numberProperty.get() - options.delta;
@@ -229,10 +227,10 @@ define( require => {
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      startCallback: arrowButtonOptions.leftStart,
-      endCallback: arrowButtonOptions.leftEnd,
+      startCallback: options.arrowButtonOptions.leftStart,
+      endCallback: options.arrowButtonOptions.leftEnd,
       tandem: options.tandem.createTandem( 'leftArrowButton' )
-    }, arrowButtonOptions ) );
+    }, options.arrowButtonOptions ) );
 
     const rightArrowButton = new ArrowButton( 'right', () => {
       let value = numberProperty.get() + options.delta;
@@ -240,10 +238,10 @@ define( require => {
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
     }, _.extend( {
-      startCallback: arrowButtonOptions.rightStart,
-      endCallback: arrowButtonOptions.rightEnd,
+      startCallback: options.arrowButtonOptions.rightStart,
+      endCallback: options.arrowButtonOptions.rightEnd,
       tandem: options.tandem.createTandem( 'rightArrowButton' )
-    }, arrowButtonOptions ) );
+    }, options.arrowButtonOptions ) );
 
     // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
     leftArrowButton.touchArea = leftArrowButton.localBounds
@@ -267,21 +265,21 @@ define( require => {
     };
     numberProperty.link( arrowEnabledListener );
 
-    const slider = new HSlider( numberProperty, numberRange, sliderOptions );
+    const slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
     // major ticks
-    const majorTicks = sliderOptions.majorTicks;
+    const majorTicks = options.sliderOptions.majorTicks;
     for ( let i = 0; i < majorTicks.length; i++ ) {
       slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
 
     // minor ticks, exclude values where we already have major ticks
-    if ( sliderOptions.minorTickSpacing > 0 ) {
+    if ( options.sliderOptions.minorTickSpacing > 0 ) {
       for ( let minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
         if ( !_.find( majorTicks, majorTick => majorTick.value === minorTickValue ) ) {
           slider.addMinorTick( minorTickValue );
         }
-        minorTickValue += sliderOptions.minorTickSpacing;
+        minorTickValue += options.sliderOptions.minorTickSpacing;
       }
     }
 
@@ -294,7 +292,7 @@ define( require => {
     Node.call( this, options );
 
     // a11y - the number control acts like a range input for a11y, pass slider options without tandem
-    const accessibleSliderOptions = _.omit( sliderOptions, [ 'tandem' ] );
+    const accessibleSliderOptions = _.omit( options.sliderOptions, [ 'tandem' ] );
     this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
 
     // a11y - the focus highlight for NumberControl should surround the Slider's thumb
@@ -350,8 +348,8 @@ define( require => {
    * @param {Object} options
    */
   function validateCallbacks( options ) {
-    const normalCallbacksPresent = !!( options.startCallback !== DEFAULT_CALLBACK ||
-                                       options.endCallback !== DEFAULT_CALLBACK );
+    const normalCallbacksPresent = !!( options.startCallback ||
+                                       options.endCallback );
     let arrowCallbacksPresent = false;
     let sliderCallbacksPresent = false;
 
