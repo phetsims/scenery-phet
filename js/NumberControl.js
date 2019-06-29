@@ -86,7 +86,7 @@ define( require => {
 
       // a11y
       groupFocusHighlight: true
-    } );
+    }, options );
 
     // Merge all nested options in one block.
     options = merge( {
