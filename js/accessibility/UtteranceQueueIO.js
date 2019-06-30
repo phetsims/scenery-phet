@@ -32,7 +32,7 @@ define( function( require ) {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
       implementation: function( textContent ) {
-        return this.instance.addToBack( textContent );
+        return this.phetioObject.addToBack( textContent );
       },
       documentation: 'Add the utterance (string) to the end of the queue.',
       invocableForReadOnlyElements: false
@@ -42,7 +42,7 @@ define( function( require ) {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
       implementation: function( textContent ) {
-        return this.instance.addToFront( textContent );
+        return this.phetioObject.addToFront( textContent );
       },
       documentation: 'Add the utterance (string) to the beginning of the queue.',
       invocableForReadOnlyElements: false
@@ -52,7 +52,7 @@ define( function( require ) {
       returnType: VoidIO,
       parameterTypes: [ BooleanIO ],
       implementation: function( muted ) {
-        this.instance.muted( muted );
+        this.phetioObject.muted( muted );
       },
       documentation: 'Set whether the utteranceQueue will be muted or not. If muted, utterances still move through the ' +
                      'queue but will not be read by screen readers.',
@@ -62,7 +62,7 @@ define( function( require ) {
       returnType: BooleanIO,
       parameterTypes: [ VoidIO ],
       implementation: function() {
-        return this.instance.muted();
+        return this.phetioObject.muted();
       },
       documentation: 'Get whether the utteranceQueue is muted. If muted, utterances still move through the ' +
                      'queue but will not be read by screen readers.'
@@ -71,7 +71,7 @@ define( function( require ) {
       returnType: VoidIO,
       parameterTypes: [ BooleanIO ],
       implementation: function( enabled ) {
-        this.instance.enabled( enabled );
+        this.phetioObject.enabled( enabled );
       },
       documentation: 'Set whether the utteranceQueue will be enabled or not. When enabled, Utterances cannot be added to ' +
                      'the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.',
@@ -81,7 +81,7 @@ define( function( require ) {
       returnType: BooleanIO,
       parameterTypes: [ VoidIO ],
       implementation: function() {
-        return this.instance.enabled();
+        return this.phetioObject.enabled();
       },
       documentation: 'Get whether the utteranceQueue is enabled. When enabled, Utterances cannot be added to ' +
                      'the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.'
