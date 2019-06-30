@@ -5,7 +5,7 @@
  * Demos are selected from a combo box, and are instantiated on demand.
  * Use the 'slider' query parameter to set the initial selection of the combo box.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
@@ -24,14 +24,12 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
-  var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
   var SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
   var SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var WavelengthNumberControl = require( 'SCENERY_PHET/WavelengthNumberControl' );
 
   /**
    * @constructor
@@ -46,8 +44,7 @@ define( function( require ) {
        * {function(Bounds2): Node} createNode - creates the scene graph for the demo
        */
       { label: 'NumberControl', createNode: demoNumberControl },
-      { label: 'WavelengthSlider', createNode: demoWavelengthSlider },
-      { label: 'SpectrumSlider', createNode: demoSpectrumSlider },
+      { label: 'WavelengthNumberControl', createNode: demoWavelengthSlider },
       { label: 'SliderWithSpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
     ], {
@@ -124,20 +121,11 @@ define( function( require ) {
     } );
   };
 
-  // Creates a demo for WavelengthSlider
+  // Creates a demo for WavelengthNumberControl
   var demoWavelengthSlider = function( layoutBounds ) {
     var wavelengthProperty = new Property( 500 );
-    return new WavelengthSlider( wavelengthProperty, {
+    return new WavelengthNumberControl( wavelengthProperty, {
       center: layoutBounds.center
-    } );
-  };
-
-  // Creates a demo for SpectrumSlider
-  var demoSpectrumSlider = function( layoutBounds ) {
-    return new SpectrumSlider( new Property( 0.5 ), {
-      tweakerValueDelta: 0.01,
-      center: layoutBounds.center,
-      valueToString: function( value ) {return Util.toFixed( value, 2 );}
     } );
   };
 

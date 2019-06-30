@@ -142,5 +142,11 @@
   },
   "comboBoxDisplay.valueUnits": {
     "value": "{{value}} {{units}}"
+  },
+  "wavelengthNMValuePattern": {
+    "value": "{0} nm"
+  },
+  "wavelength": {
+    "value": "Wavelength"
   }
 }
