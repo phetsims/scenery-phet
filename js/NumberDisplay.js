@@ -42,12 +42,17 @@ define( function( require ) {
       valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
       useRichText: false,
       font: new PhetFont( 20 ),
+
+      // {number|null} the number of decimal places to show. If null, the full value is displayed.
+      // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
+      // See https://github.com/phetsims/scenery-phet/issues/511
       decimalPlaces: 0,
+
       xMargin: 8,
       yMargin: 2,
       cornerRadius: 0,
       numberFill: 'black',
-      numberMaxWidth: 200,
+      numberMaxWidth: null, // {number|null} if null, then it will be computed
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
@@ -90,8 +95,8 @@ define( function( require ) {
     var self = this;
 
     // determine the widest value
-    var minString = Util.toFixed( numberRange.min, options.decimalPlaces );
-    var maxString = Util.toFixed( numberRange.max, options.decimalPlaces );
+    var minString = valueToString( numberRange.min, options.decimalPlaces, options.noValueString );
+    var maxString = valueToString( numberRange.max, options.decimalPlaces, options.noValueString );
     var longestString = StringUtils.fillIn( options.valuePattern, {
       value: ( ( minString.length > maxString.length ) ? minString : maxString )
     } );
@@ -105,6 +110,14 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'valueNode' )
     } );
 
+    // maxWidth for valueNode
+    if ( options.numberMaxWidth === null ) {
+      this.valueNode.maxWidth = this.valueNode.width;
+    }
+    else {
+      this.valueNode.maxWidth = options.numberMaxWidth;
+    }
+
     var backgroundWidth = Math.max( options.minBackgroundWidth, this.valueNode.width + 2 * options.xMargin );
 
     // @private background
@@ -114,7 +127,6 @@ define( function( require ) {
       stroke: options.backgroundStroke,
       lineWidth: options.backgroundLineWidth
     } );
-    this.valueNode.centerY = this.backgroundNode.centerY;
 
     options.children = [ this.backgroundNode, this.valueNode ];
 
@@ -122,7 +134,7 @@ define( function( require ) {
     var numberObserver = function( value ) {
 
       const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
-      const stringValue = ( value === null ) ? options.noValueString : Util.toFixed( value, options.decimalPlaces );
+      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString );
       const align = ( value === null ) ? options.noValueAlign : options.align;
 
       // update the value
@@ -140,6 +152,7 @@ define( function( require ) {
       else { // right
         self.valueNode.right = self.backgroundNode.right - options.xMargin;
       }
+      self.valueNode.centerY = self.backgroundNode.centerY;
     };
     numberProperty.link( numberObserver );
 
@@ -152,6 +165,26 @@ define( function( require ) {
   }
 
   sceneryPhet.register( 'NumberDisplay', NumberDisplay );
+
+  /**
+   * Converts a numeric value to a string.
+   * @param {number} value
+   * @param {number|null} decimalPlaces - if null, use the full value
+   * @param {string} noValueString
+   * @returns {*|string}
+   */
+  function valueToString( value, decimalPlaces, noValueString ) {
+    let stringValue = noValueString;
+    if ( value !== null ) {
+      if ( decimalPlaces === null ) {
+        stringValue = '' + value;
+      }
+      else {
+        stringValue = Util.toFixed( value, decimalPlaces );
+      }
+    }
+    return stringValue;
+  }
 
   return inherit( Node, NumberDisplay, {
 
