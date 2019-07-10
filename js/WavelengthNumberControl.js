@@ -23,9 +23,6 @@ define( require => {
   const wavelengthNMValuePatternString = require( 'string!SCENERY_PHET/wavelengthNMValuePattern' );
   const wavelengthString = require( 'string!SCENERY_PHET/wavelength' );
 
-  // constants
-  const RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ); // in nm
-
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength, in nm
    * @param {Object} [options]
@@ -41,12 +38,13 @@ define( require => {
 
       options = _.extend( {
         trackHeight: 20, // in view coordinates
-        title: wavelengthString
+        title: wavelengthString,
+        range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ) // in nm
       }, options );
 
       const trackHeight = options.trackHeight;
 
-      super( options.title, property, RANGE, merge( {
+      super( options.title, property, options.range, merge( {
         arrowButtonOptions: {
           scale: trackHeight * 0.0315 // roughly the height of the track
         },
@@ -60,7 +58,7 @@ define( require => {
           maxWidth: 120
         },
         sliderOptions: {
-          trackNode: new SpectrumSliderTrack( property, RANGE, {
+          trackNode: new SpectrumSliderTrack( property, options.range, {
             valueToColor: VisibleColor.wavelengthToColor,
             size: new Dimension2( 160, trackHeight )
           } ),
