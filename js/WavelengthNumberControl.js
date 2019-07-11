@@ -1,4 +1,4 @@
-// Copyright 2013-2018, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * NumberControl that shows a spectrum of colors for selecting a wavelength.

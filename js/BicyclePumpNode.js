@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * This is a graphical representation of a bicycle pump. A user can move the handle up and down.

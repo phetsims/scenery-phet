@@ -1,4 +1,4 @@
-// Copyright 2015-2018, University of Colorado Boulder
+// Copyright 2015-2019, University of Colorado Boulder
 
 /**
  * Failure message displayed when a WebGL context loss is experienced and we can't recover. Offers a button to reload

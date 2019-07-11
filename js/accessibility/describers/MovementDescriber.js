@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * A generic accessibility type that will alert positional alerts based on a locationProperty and bounds (see
