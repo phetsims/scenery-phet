@@ -23,6 +23,9 @@ define( require => {
   const wavelengthNMValuePatternString = require( 'string!SCENERY_PHET/wavelengthNMValuePattern' );
   const wavelengthString = require( 'string!SCENERY_PHET/wavelength' );
 
+  // constants
+  const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength, in nm
    * @param {Object} [options]
@@ -39,7 +42,7 @@ define( require => {
       options = _.extend( {
         trackHeight: 20, // in view coordinates
         title: wavelengthString,
-        range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ) // in nm
+        range: DEFAULT_RANGE // in nm
       }, options );
 
       const trackHeight = options.trackHeight;
