@@ -48,9 +48,6 @@ define( require => {
       const trackHeight = options.trackHeight;
 
       super( options.title, property, options.range, merge( {
-        arrowButtonOptions: {
-          scale: trackHeight * 0.0315 // roughly the height of the track
-        },
         titleNodeOptions: {
           font: new PhetFont( 15 ),
           maxWidth: 175

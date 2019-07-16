@@ -88,12 +88,14 @@ define( require => {
       groupFocusHighlight: true
     }, options );
 
+    // If the arrow button scale is not provided, the arrow button height will match the number display height
+    const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
+
     // Merge all nested options in one block.
     options = merge( {
 
       // Options propagated to ArrowButton
       arrowButtonOptions: {
-        scale: 0.85,
 
         // Values chosen to match previous behavior, see https://github.com/phetsims/scenery-phet/issues/489.
         // touchAreaXDilation is 1/2 of its original value because touchArea is shifted.
@@ -242,6 +244,17 @@ define( require => {
       endCallback: options.arrowButtonOptions.rightEnd,
       tandem: options.tandem.createTandem( 'rightArrowButton' )
     }, options.arrowButtonOptions ) );
+
+    // By default, scale the ArrowButtons to have the same height as the NumberDisplay.
+    if ( !arrowButtonScaleProvided ) {
+
+      // Remove the current button scaling so we can determine the desired final scale factor
+      leftArrowButton.setScaleMagnitude( 1 );
+      const arrowButtonsScale = numberDisplay.height / leftArrowButton.height;
+
+      leftArrowButton.setScaleMagnitude( arrowButtonsScale );
+      rightArrowButton.setScaleMagnitude( arrowButtonsScale );
+    }
 
     // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
     leftArrowButton.touchArea = leftArrowButton.localBounds
