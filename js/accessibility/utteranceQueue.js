@@ -126,7 +126,7 @@ define( require => {
      * @returns {boolean}
      */
     get initializedAndEnabled() {
-      return this._enabled && this._initialized; 
+      return this._enabled && this._initialized;
     }
 
     /**
@@ -144,8 +144,8 @@ define( require => {
      * Get the next utterance to alert if one is ready and "stable". If there are no utterances or no utterance is
      * ready to be spoken, will return null.
      * @private
-     * 
-     * @returns {null|Utterance} 
+     *
+     * @returns {null|Utterance}
      */
     getNextUtterance() {
 
@@ -171,9 +171,9 @@ define( require => {
     /**
      * Returns true if the utterances is in this queue.
      * @public
-     * 
+     *
      * @param   {Utterance} utterance
-     * @returns {boolean}          
+     * @returns {boolean}
      */
     hasUtterance( utterance ) {
       return _.includes( this.queue, utterance );
@@ -291,7 +291,7 @@ define( require => {
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
-        tandem: Tandem.rootTandem.createTandem( 'utteranceQueue' ),
+        tandem: Tandem.globalTandem.createTandem( 'utteranceQueue' ),
         phetioType: UtteranceQueueIO,
         phetioState: false
       } );
