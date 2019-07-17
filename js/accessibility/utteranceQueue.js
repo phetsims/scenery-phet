@@ -291,7 +291,7 @@ define( require => {
 
       // TODO: can this be moved to the constructor?
       this.initializePhetioObject( {}, {
-        tandem: Tandem.globalTandem.createTandem( 'utteranceQueue' ),
+        tandem: Tandem.generalTandem.createTandem( 'utteranceQueue' ),
         phetioType: UtteranceQueueIO,
         phetioState: false
       } );
