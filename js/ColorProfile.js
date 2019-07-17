@@ -63,7 +63,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var tandem = Tandem.rootTandem.createTandem( 'colorProfile' );
+  var tandem = Tandem.globalTandem.createTandem( 'colorProfile' );
 
   /**
    * @public
@@ -114,7 +114,7 @@ define( function( require ) {
       try {
         data = JSON.parse( evt.data );
       }
-      catch ( e ) {
+      catch( e ) {
         // We don't do anything with the caught value. If this happens, it is not JSON. This can happen with the
         // LoL wrappers, see https://github.com/phetsims/joist/issues/484.
       }
