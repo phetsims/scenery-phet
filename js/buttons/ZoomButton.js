@@ -9,17 +9,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var MinusNode = require( 'SCENERY_PHET/MinusNode' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PlusNode = require( 'SCENERY_PHET/PlusNode' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const MinusNode = require( 'SCENERY_PHET/MinusNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
@@ -67,6 +68,9 @@ define( function( require ) {
     options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
 
     RectangularPushButton.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ZoomButton', this );
   }
 
   sceneryPhet.register( 'ZoomButton', ZoomButton );

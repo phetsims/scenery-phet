@@ -15,6 +15,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Circle = require( 'SCENERY/nodes/Circle' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
@@ -80,7 +81,7 @@ define( require => {
         handleTouchAreaYDilation: 15,
         handleMouseAreaXDilation: 0,
         handleMouseAreaYDilation: 0,
-        
+
         dragListenerOptions: null // see HandleNodeDragListener
 
       }, options );
@@ -247,6 +248,9 @@ define( require => {
       if ( phet.chipper.queryParameters.dev ) {
         this.addChild( new Circle( 2, { fill: 'red' } ) );
       }
+
+      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
     }
 
     /**

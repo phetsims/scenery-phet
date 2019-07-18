@@ -16,18 +16,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // string
-  var DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
+  const DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
 
   /**
    * @param {Object} [options]
@@ -155,6 +156,9 @@ define( function( require ) {
     } );
 
     this.mutate( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberKeypad', this );
   }
 
   sceneryPhet.register( 'NumberKeypad', NumberKeypad );

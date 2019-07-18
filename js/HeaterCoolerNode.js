@@ -17,6 +17,7 @@ define( require => {
   // modules
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -77,6 +78,9 @@ define( require => {
         heaterCoolerBack.dispose();
         heaterCoolerFront.dispose();
       };
+
+      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HeaterCoolerNode', this );
     }
     
     /**

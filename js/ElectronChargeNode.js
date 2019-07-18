@@ -9,12 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var RADIUS = 10;
@@ -54,6 +55,9 @@ define( function( require ) {
       } )
     ];
     Node.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ElectronChargeNode', this );
   }
 
   sceneryPhet.register( 'ElectronChargeNode', ElectronChargeNode );

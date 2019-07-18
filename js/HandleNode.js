@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   const Color = require( 'SCENERY/util/Color' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -189,6 +190,9 @@ define( function( require ) {
         brighterColorProperty.dispose();
         darkerColorProperty.dispose();
       };
+
+      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HandleNode', this );
     }
   }
 

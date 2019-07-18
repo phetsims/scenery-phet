@@ -19,6 +19,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControlIO = require( 'SCENERY_PHET/NumberControlIO' );
@@ -346,6 +347,9 @@ define( require => {
       numberProperty.unlink( arrowEnabledListener );
       this.enabledProperty.unlink( enabledObserver );
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberControl', this );
   }
 
   /**

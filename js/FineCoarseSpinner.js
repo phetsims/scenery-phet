@@ -14,6 +14,7 @@ define( require => {
   const ArrowButton = require( 'SUN/buttons/ArrowButton' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -162,6 +163,9 @@ define( require => {
         rightFineButton.dispose();
         rightCoarseButton.dispose();
       };
+
+      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FineCoarseSpinner', this );
     }
 
     // @public

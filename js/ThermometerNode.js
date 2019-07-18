@@ -11,21 +11,22 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
-  var Shape = require( 'KITE/Shape' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const LinearFunction = require( 'DOT/LinearFunction' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  const Shape = require( 'KITE/Shape' );
 
   // constants
-  var FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
+  const FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
   // center of the bulb is at (0,0), let the client code move to the correct position
-  var BULB_CENTER_X = 0;
-  var BULB_CENTER_Y = 0;
+  const BULB_CENTER_X = 0;
+  const BULB_CENTER_Y = 0;
 
   /**
    * @param {number} minTemperature
@@ -208,6 +209,9 @@ define( function( require ) {
         temperatureProperty.unlink( temperaturePropertyObserver );
       }
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ThermometerNode', this );
   }
 
   sceneryPhet.register( 'ThermometerNode', ThermometerNode );

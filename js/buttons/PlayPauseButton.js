@@ -10,23 +10,24 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
-  var PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  const PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
   // a11y strings
-  var playString = SceneryPhetA11yStrings.playString.value;
-  var pauseString = SceneryPhetA11yStrings.pauseString.value;
-  var playDescriptionString = SceneryPhetA11yStrings.playDescriptionString.value;
-  var pauseDescriptionString = SceneryPhetA11yStrings.pauseDescriptionString.value;
+  const playString = SceneryPhetA11yStrings.playString.value;
+  const pauseString = SceneryPhetA11yStrings.pauseString.value;
+  const playDescriptionString = SceneryPhetA11yStrings.playDescriptionString.value;
+  const pauseDescriptionString = SceneryPhetA11yStrings.pauseDescriptionString.value;
 
   // constants
-  var DEFAULT_RADIUS = 28;
+  const DEFAULT_RADIUS = 28;
 
   /**
    * @param {Property.<boolean>} isPlayingProperty
@@ -77,6 +78,9 @@ define( function( require ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayPauseButton', this );
   }
 
   sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );

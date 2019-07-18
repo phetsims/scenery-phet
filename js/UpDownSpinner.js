@@ -11,12 +11,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    *
@@ -72,6 +73,9 @@ define( function( require ) {
         downEnabledProperty.unlinkAttribute( downEnabledPropertyLinkAttribute );
       }
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'UpDownSpinner', this );
   }
 
   sceneryPhet.register( 'UpDownSpinner', UpDownSpinner );

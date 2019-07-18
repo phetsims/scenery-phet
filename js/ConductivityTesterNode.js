@@ -11,36 +11,37 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LightBulbNode = require( 'SCENERY_PHET/LightBulbNode' );
-  var MinusNode = require( 'SCENERY_PHET/MinusNode' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlusNode = require( 'SCENERY_PHET/PlusNode' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Vector2Property = require( 'DOT/Vector2Property' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const LightBulbNode = require( 'SCENERY_PHET/LightBulbNode' );
+  const MinusNode = require( 'SCENERY_PHET/MinusNode' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
 
   // images
-  var batteryImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
+  const batteryImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
 
   // strings
-  var shortCircuitString = require( 'string!SCENERY_PHET/shortCircuit' );
+  const shortCircuitString = require( 'string!SCENERY_PHET/shortCircuit' );
 
   // constants
-  var SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
-  var SHOW_PROBE_ORIGIN = false; // draws a red circle at the origin of probes, for debugging
+  const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
+  const SHOW_PROBE_ORIGIN = false; // draws a red circle at the origin of probes, for debugging
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
@@ -210,7 +211,7 @@ define( function( require ) {
     // @private update negative wire if end point was changed
     this.negativeProbeObserver = function( negativeProbeLocation ) {
       negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbeLocation.x ) - options.modelViewTransform.modelToViewX( self.locationProperty.get().x );
-      negativeProbe.bottom =  options.modelViewTransform.modelToViewY( negativeProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.locationProperty.get().y );
+      negativeProbe.bottom = options.modelViewTransform.modelToViewY( negativeProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.locationProperty.get().y );
       negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
     this.negativeProbeLocationProperty = negativeProbeLocationProperty; // @private
@@ -218,6 +219,9 @@ define( function( require ) {
 
     // Since locationProperty determines translation, avoid options related to translation!
     this.mutate( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ConductivityTesterNode', this );
   }
 
   sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
@@ -344,8 +348,8 @@ define( function( require ) {
       var controlPointYOffset = this.controlPointOffset.y;
 
       this.setShape( new Shape()
-          .moveTo( startX, startY )
-          .cubicCurveTo( startX + controlPointXOffset, startY, endX, endY + controlPointYOffset, endX, endY )
+        .moveTo( startX, startY )
+        .cubicCurveTo( startX + controlPointXOffset, startY, endX, endY + controlPointYOffset, endX, endY )
       );
     }
   } );

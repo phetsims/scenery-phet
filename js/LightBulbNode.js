@@ -9,16 +9,17 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Util = require( 'DOT/Util' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Util = require( 'DOT/Util' );
 
   // images
-  var offImage = require( 'mipmap!SCENERY_PHET/light-bulb-off.png' );
-  var onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
+  const offImage = require( 'mipmap!SCENERY_PHET/light-bulb-off.png' );
+  const onImage = require( 'mipmap!SCENERY_PHET/light-bulb-on.png' );
 
   /**
    * @param {Property.<number>} brightnessProperty 0 (off) to 1 (full brightness)
@@ -60,6 +61,9 @@ define( function( require ) {
     self.brightnessObserver = function( brightness ) { self.update(); }; // @private
     self.brightnessProperty = brightnessProperty; // @private
     self.brightnessProperty.link( this.brightnessObserver );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LightBulbNode', this );
   }
 
   sceneryPhet.register( 'LightBulbNode', LightBulbNode );

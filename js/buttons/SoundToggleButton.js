@@ -11,27 +11,28 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Shape = require( 'KITE/Shape' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const Shape = require( 'KITE/Shape' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
-  var WIDTH = 45;
-  var HEIGHT = 45;
-  var MARGIN = 4;
-  var X_WIDTH = WIDTH * 0.25; // Empirically determined.
+  const WIDTH = 45;
+  const HEIGHT = 45;
+  const MARGIN = 4;
+  const X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
   // a11y strings
-  var soundToggleLabelString = SceneryPhetA11yStrings.soundToggleLabelString.value;
-  var simSoundOnString = SceneryPhetA11yStrings.simSoundOnString.value;
-  var simSoundOffString = SceneryPhetA11yStrings.simSoundOffString.value;
+  const soundToggleLabelString = SceneryPhetA11yStrings.soundToggleLabelString.value;
+  const simSoundOnString = SceneryPhetA11yStrings.simSoundOnString.value;
+  const simSoundOffString = SceneryPhetA11yStrings.simSoundOffString.value;
 
   /**
    *
@@ -86,6 +87,9 @@ define( function( require ) {
     this.disposeSoundToggleButton = function() {
       property.unlink( pressedListener );
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SoundToggleButton', this );
   }
 
   sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );

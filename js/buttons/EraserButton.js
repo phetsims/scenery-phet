@@ -9,14 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
-  var eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
+  const eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
 
   /**
    * @param {Object} [options]
@@ -34,6 +35,9 @@ define( function( require ) {
     options.content.scale( options.iconWidth / options.content.width );
 
     RectangularPushButton.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EraserButton', this );
   }
 
   sceneryPhet.register( 'EraserButton', EraserButton );

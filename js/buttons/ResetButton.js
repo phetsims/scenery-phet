@@ -11,13 +11,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var ResetShape = require( 'SCENERY_PHET/ResetShape' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const ResetShape = require( 'SCENERY_PHET/ResetShape' );
+  const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} [options]
@@ -52,6 +53,9 @@ define( function( require ) {
     options.content = resetIcon;
 
     RoundPushButton.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ResetButton', this );
   }
 
   sceneryPhet.register( 'ResetButton', ResetButton );

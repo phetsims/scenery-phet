@@ -15,24 +15,25 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var EllipticalArc = require( 'KITE/segments/EllipticalArc' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var Ray2 = require( 'DOT/Ray2' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const EllipticalArc = require( 'KITE/segments/EllipticalArc' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const Ray2 = require( 'DOT/Ray2' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // Glass is one of the probe types, shows a shiny reflective interior in the central circle
-  var glass = function( options ) {
-    var GLASS_DEFAULTS = {
+  const glass = function( options ) {
+    const GLASS_DEFAULTS = {
       centerColor: 'white',
       middleColor: '#E6F5FF', // light blue
       edgeColor: '#C2E7FF'    // slightly darker blue, like glass
@@ -49,7 +50,7 @@ define( function( require ) {
   };
 
   // Crosshairs can be shown in the central circle
-  var crosshairs = function( options ) {
+  const crosshairs = function( options ) {
     var CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
       lineWidth: 3,
@@ -227,6 +228,9 @@ define( function( require ) {
     options.children = children.concat( options.children || [] );
 
     Node.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
   }
 
   sceneryPhet.register( 'ProbeNode', ProbeNode );

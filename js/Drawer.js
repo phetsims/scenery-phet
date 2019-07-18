@@ -9,18 +9,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Animation = require( 'TWIXT/Animation' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var DownUpListener = require( 'SCENERY/input/DownUpListener' );
-  var Easing = require( 'TWIXT/Easing' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var timer = require( 'AXON/timer' );
+  const Animation = require( 'TWIXT/Animation' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  const Easing = require( 'TWIXT/Easing' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const timer = require( 'AXON/timer' );
 
   /**
    * @param {Node} contentsNode - contents of the drawer
@@ -220,6 +221,9 @@ define( function( require ) {
       self.openProperty.dispose(); // will fail if clients haven't removed observers
       self.openProperty = null;
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'Drawer', this );
   }
 
   sceneryPhet.register( 'Drawer', Drawer );

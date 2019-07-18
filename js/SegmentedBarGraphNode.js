@@ -10,6 +10,7 @@ define( require => {
   'use strict';
 
   // modules
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -75,6 +76,9 @@ define( require => {
       } );
 
       this.mutate( options );
+
+      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SegmentedBarGraphNode', this );
     }
   }
 

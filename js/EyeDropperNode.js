@@ -9,31 +9,32 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // images
-  var backgroundImage = require( 'image!SCENERY_PHET/eye_dropper_background.png' );
-  var foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
+  const backgroundImage = require( 'image!SCENERY_PHET/eye_dropper_background.png' );
+  const foregroundImage = require( 'image!SCENERY_PHET/eye_dropper_foreground.png' );
 
   // constants
-  var DEBUG_ORIGIN = false; // if true, put a red dot at the dropper's origin (bottom center)
+  const DEBUG_ORIGIN = false; // if true, put a red dot at the dropper's origin (bottom center)
 
   // constants specific to the image files
-  var TIP_WIDTH = 15;
-  var TIP_HEIGHT = 4;
-  var GLASS_WIDTH = 46;
-  var GLASS_MAX_Y = -18; // relative to bottom center
-  var GLASS_MIN_Y = -124; // relative to bottom center
-  var BUTTON_CENTER_Y_OFFSET = 32; // y-offset of button's center in dropper image file
+  const TIP_WIDTH = 15;
+  const TIP_HEIGHT = 4;
+  const GLASS_WIDTH = 46;
+  const GLASS_MAX_Y = -18; // relative to bottom center
+  const GLASS_MIN_Y = -124; // relative to bottom center
+  const BUTTON_CENTER_Y_OFFSET = 32; // y-offset of button's center in dropper image file
 
   /**
    * @param {Object} [options]
@@ -120,6 +121,9 @@ define( function( require ) {
       self.enabledProperty.unlink( enabledObserver );
       self.emptyProperty.unlink( emptyObserver );
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeDropperNode', this );
   }
 
   sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );

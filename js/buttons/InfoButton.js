@@ -9,10 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]
@@ -35,6 +36,9 @@ define( function( require ) {
     } );
 
     RoundPushButton.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'InfoButton', this );
   }
 
   sceneryPhet.register( 'InfoButton', InfoButton );

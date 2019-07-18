@@ -10,21 +10,22 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
-  var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Util = require( 'DOT/Util' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const RoundMomentaryButton = require( 'SUN/buttons/RoundMomentaryButton' );
+  const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Util = require( 'DOT/Util' );
 
   // constants
-  var DEFAULT_OPTIONS = {
+  const DEFAULT_OPTIONS = {
 
     // {Property.<boolean>} Set this if you want to control enabled via your own Property.
     // Otherwise use this.enabledProperty or the setter/getter for enabled.
@@ -65,7 +66,7 @@ define( function( require ) {
   assert && Object.freeze( DEFAULT_OPTIONS );
 
   // Glass options, nested as discussed in https://github.com/phetsims/tasks/issues/730
-  var DEFAULT_GLASS_OPTIONS = {
+  const DEFAULT_GLASS_OPTIONS = {
     mainColor: 'rgb(188,225,238)',
     highlightColor: 'white',
     shadowColor: 'white',
@@ -183,6 +184,9 @@ define( function( require ) {
       self.button && self.button.dispose();
       self.enabledProperty.unlink( enabledObserver );
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
   }
 
   sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );

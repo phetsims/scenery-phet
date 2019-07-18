@@ -24,48 +24,49 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
-  var AccessibleValueHandler = require( 'SUN/accessibility/AccessibleValueHandler' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var EventType = require( 'TANDEM/EventType' );
-  var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var timer = require( 'AXON/timer' );
+  const AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
+  const AccessibleValueHandler = require( 'SUN/accessibility/AccessibleValueHandler' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const EventType = require( 'TANDEM/EventType' );
+  const FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const LinearFunction = require( 'DOT/LinearFunction' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const timer = require( 'AXON/timer' );
 
   // images
-  var bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
-  var flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
-  var flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
-  var horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
-  var knobDisabledImage = require( 'image!SCENERY_PHET/faucet_knob_disabled.png' );
-  var knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
-  var shaftImage = require( 'image!SCENERY_PHET/faucet_shaft.png' );
-  var spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
-  var stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
-  var trackImage = require( 'image!SCENERY_PHET/faucet_track.png' );
-  var verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
+  const bodyImage = require( 'image!SCENERY_PHET/faucet_body.png' );
+  const flangeDisabledImage = require( 'image!SCENERY_PHET/faucet_flange_disabled.png' );
+  const flangeImage = require( 'image!SCENERY_PHET/faucet_flange.png' );
+  const horizontalPipeImage = require( 'image!SCENERY_PHET/faucet_horizontal_pipe.png' );
+  const knobDisabledImage = require( 'image!SCENERY_PHET/faucet_knob_disabled.png' );
+  const knobImage = require( 'image!SCENERY_PHET/faucet_knob.png' );
+  const shaftImage = require( 'image!SCENERY_PHET/faucet_shaft.png' );
+  const spoutImage = require( 'image!SCENERY_PHET/faucet_spout.png' );
+  const stopImage = require( 'image!SCENERY_PHET/faucet_stop.png' );
+  const trackImage = require( 'image!SCENERY_PHET/faucet_track.png' );
+  const verticalPipeImage = require( 'image!SCENERY_PHET/faucet_vertical_pipe.png' );
 
   // constants
-  var DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
-  var SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
-  var HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
-  var VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
-  var SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in trackImage
-  var SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
-  var SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in trackImage
-  var SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
-  var TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
+  const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
+  const SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
+  const HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
+  const VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
+  const SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in trackImage
+  const SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
+  const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in trackImage
+  const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
+  const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
 
   /**
    *
@@ -320,6 +321,9 @@ define( function( require ) {
 
       self.disposeAccessibleSlider();
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FaucetNode', this );
   }
 
   sceneryPhet.register( 'FaucetNode', FaucetNode );

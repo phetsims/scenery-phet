@@ -9,12 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const BooleanRoundToggleButton = require( 'SUN/buttons/BooleanRoundToggleButton' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<boolean>} recordingProperty - true: recording, false: not recording
@@ -38,6 +39,9 @@ define( function( require ) {
     } );
 
     BooleanRoundToggleButton.call( this, stopIcon, recordIcon, recordingProperty, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RecordStopButton', this );
   }
 
   sceneryPhet.register( 'RecordStopButton', RecordStopButton );

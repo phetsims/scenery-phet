@@ -11,20 +11,21 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
-  var Color = require( 'SCENERY/util/Color' );
-  var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
+  const Color = require( 'SCENERY/util/Color' );
+  const CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
+  const DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
 
   /**
    * @constructor
@@ -85,6 +86,9 @@ define( function( require ) {
     } );
 
     RectangularPushButton.call( this, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'MoveToTrashButton', this );
   }
 
   sceneryPhet.register( 'MoveToTrashButton', MoveToTrashButton );

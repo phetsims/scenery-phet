@@ -12,21 +12,22 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
-  var PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
-  var UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  const PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
+  const UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @param {Property.<number>} timeProperty
@@ -147,6 +148,9 @@ define( function( require ) {
       resetButton.dispose();
       playPauseButton.dispose();
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimerNode', this );
   }
 
   sceneryPhet.register( 'TimerNode', TimerNode );

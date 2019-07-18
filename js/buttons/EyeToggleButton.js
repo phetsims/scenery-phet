@@ -9,11 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RectangularToggleButton = require( 'SUN/buttons/RectangularToggleButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RectangularToggleButton = require( 'SUN/buttons/RectangularToggleButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Property.<boolean>} eyeOpenProperty - true: eye is open; false: eye is closed
@@ -49,6 +50,9 @@ define( function( require ) {
     this.disposeEyeToggleButton = function() {
       eyeOpenProperty.unlink( eyeOpenObserver );
     };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeToggleButton', this );
   }
 
   sceneryPhet.register( 'EyeToggleButton', EyeToggleButton );
