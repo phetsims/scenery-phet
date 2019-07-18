@@ -143,8 +143,7 @@ define( function( require ) {
     }
 
     // tick marks, from bottom up, alternating major and minor ticks
-    var numberOfTicks = Math.ceil( straightTubeHeight / options.tickSpacing );
-    for ( var i = 0; i < numberOfTicks; i++ ) {
+    for ( var i = 0; i * options.tickSpacing + offset <= straightTubeHeight; i++ ) {
       outlineShape.moveTo(
         straightTubeLeft,
         tubeFluidBottom - ( i * options.tickSpacing ) - offset
