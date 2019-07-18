@@ -28,12 +28,12 @@ define( function( require ) {
   var AccessibleValueHandler = require( 'SUN/accessibility/AccessibleValueHandler' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var EventType = require( 'TANDEM/EventType' );
   var FaucetNodeIO = require( 'SCENERY_PHET/FaucetNodeIO' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -94,7 +94,7 @@ define( function( require ) {
 
       tandem: Tandem.required,
       phetioType: FaucetNodeIO,
-      phetioEventType: PhetioObject.EventType.USER
+      phetioEventType: EventType.USER
     }, options );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );

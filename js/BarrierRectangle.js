@@ -10,8 +10,8 @@ define( require => {
   'use strict';
 
   // modules
+  var EventType = require( 'TANDEM/EventType' );
   var FireListener = require( 'SCENERY/listeners/FireListener' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -23,7 +23,7 @@ define( require => {
         tandem: Tandem.required,
         phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
         phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
-        phetioEventType: PhetioObject.EventType.USER,
+        phetioEventType: EventType.USER,
         phetioComponentOptions: {
           phetioState: false
         }
