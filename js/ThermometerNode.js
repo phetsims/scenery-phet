@@ -44,6 +44,7 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'black',
       tickSpacing: 15,
+      tickSpacingTemperature: null,
       majorTickLength: 15,
       minorTickLength: 7.5,
       glassThickness: 2, // space between the thermometer outline and the fluid inside it
@@ -90,13 +91,6 @@ define( function( require ) {
       .arc( BULB_CENTER_X, straightTubeTop, tubeTopRadius, Math.PI, 0 ) // rounded top of tube
       .close();
 
-    // tick marks, from top down, alternating major and minor ticks
-    var numberOfTicks = Math.floor( straightTubeHeight / options.tickSpacing ) + 1;
-    for ( var i = 0; i < numberOfTicks; i++ ) {
-      outlineShape.moveTo( straightTubeLeft, straightTubeTop + ( i * options.tickSpacing ) );
-      outlineShape.horizontalLineTo( straightTubeLeft + ( ( i % 2 === 0 ) ? options.majorTickLength : options.minorTickLength ) );
-    }
-
     var outlineNode = new Path( outlineShape, {
       stroke: options.outlineStroke,
       lineWidth: options.lineWidth
@@ -139,6 +133,26 @@ define( function( require ) {
       fill: tubeFluidGradient,
       clipArea: fluidClipArea
     } );
+
+    // override tick spacing options when using tickSpacingTemperature
+    var offset = options.tickSpacing;
+    if ( options.tickSpacingTemperature !== null ) {
+      var scaleTempY = ( options.tubeHeight + options.lineWidth ) / ( maxTemperature - minTemperature );
+      offset = ( options.tickSpacingTemperature - ( minTemperature % options.tickSpacingTemperature ) ) * scaleTempY;
+      options.tickSpacing = options.tickSpacingTemperature * scaleTempY;
+    }
+
+    // tick marks, from bottom up, alternating major and minor ticks
+    var numberOfTicks = Math.ceil( straightTubeHeight / options.tickSpacing );
+    for ( var i = 0; i < numberOfTicks; i++ ) {
+      outlineShape.moveTo(
+        straightTubeLeft,
+        tubeFluidBottom - ( i * options.tickSpacing ) - offset
+      );
+      outlineShape.horizontalLineTo(
+        straightTubeLeft + ( ( i % 2 === 0 ) ? options.minorTickLength : options.majorTickLength )
+      );
+    }
 
     // Background inside the tube
     if ( options.backgroundFill ) {
