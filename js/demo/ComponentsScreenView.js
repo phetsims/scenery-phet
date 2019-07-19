@@ -92,7 +92,7 @@ define( function( require ) {
   var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // constants
-  var emitter = new Emitter( { validationEnabled: false } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
+  var emitter = new Emitter( { validators: [ { valueType: 'number' } ] } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
 
   /**
    * @param {Object} [options]
