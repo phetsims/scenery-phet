@@ -75,10 +75,13 @@ define( function( require ) {
   function ColorProfile( profileNames, colors ) {
     var self = this;
 
+    // @public (read-only)
+    this.profileNames = profileNames;
+
     // @public {Property.<string>}
     // The current profile name. Change this Property's value to change which profile is currently active.
     // 'default' will use all default colors, and 'projector' is a common color profile that is also used.
-    var profileNameProperty = this.profileNameProperty = new Property( 'default', {
+    var profileNameProperty = this.profileNameProperty = new Property( ColorProfile.DEFAULT_COLOR_PROFILE_NAME, {
       tandem: tandem.createTandem( 'profileNameProperty' ),
       phetioType: PropertyIO( StringIO ),
       validValues: profileNames
@@ -89,7 +92,8 @@ define( function( require ) {
         // Turn strings/hex to Color objects
         var colorMap = _.mapValues( colors[ key ], Color.toColor );
 
-        assert && assert( colorMap.hasOwnProperty( 'default' ), 'missing default color for key=' + key );
+        assert && assert( colorMap.hasOwnProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ),
+          `missing default color for key=${key}` );
         assert && assert( key !== 'profileName',
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
@@ -126,6 +130,12 @@ define( function( require ) {
 
   sceneryPhet.register( 'ColorProfile', ColorProfile );
 
+  // @public (read-only) the default profile required by all ColorProfile instances
+  ColorProfile.DEFAULT_COLOR_PROFILE_NAME = 'default';
+
+  // @public (read-only) a common profile that appears in sims that have 'Projector Mode' feature
+  ColorProfile.PROJECTOR_COLOR_PROFILE_NAME = 'projector';
+
   return inherit( Object, ColorProfile, {
     /**
      * Sends color change events as iframe messages, so that a container can be notified (and possibly update color pickers).
@@ -144,6 +154,15 @@ define( function( require ) {
         name: key,
         value: '#' + hexColor
       } ), '*' );
+    },
+
+    /**
+     * Does this ColorProfile has the specified color profile?
+     * @param {string} profileName
+     * @returns {boolean}
+     */
+    hasProfile( profileName ) {
+      return ( this.profileNames.indexOf( profileName ) !== -1 );
     }
   } );
 } );
