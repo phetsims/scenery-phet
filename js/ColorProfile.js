@@ -57,9 +57,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
+  var StringProperty = require( 'AXON/StringProperty' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
@@ -80,10 +79,8 @@ define( function( require ) {
 
     // @public {Property.<string>}
     // The current profile name. Change this Property's value to change which profile is currently active.
-    // 'default' will use all default colors, and 'projector' is a common color profile that is also used.
-    var profileNameProperty = this.profileNameProperty = new Property( ColorProfile.DEFAULT_COLOR_PROFILE_NAME, {
+    this.profileNameProperty = new StringProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME, {
       tandem: tandem.createTandem( 'profileNameProperty' ),
-      phetioType: PropertyIO( StringIO ),
       validValues: profileNames
     } );
 
@@ -101,7 +98,7 @@ define( function( require ) {
         var property = self[ key + 'Property' ] = new Property( colorMap.default );
 
         // Update our Property on profile name changes
-        profileNameProperty.lazyLink( function( profileName ) {
+        self.profileNameProperty.lazyLink( function( profileName ) {
           property.value = colorMap[ profileName ] || colorMap.default;
         } );
 
