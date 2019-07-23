@@ -24,6 +24,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SegmentedBarGraphNode = require( 'SCENERY_PHET/SegmentedBarGraphNode' );
   const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
 
@@ -82,7 +83,10 @@ define( require => {
         handleMouseAreaXDilation: 0,
         handleMouseAreaYDilation: 0,
 
-        dragListenerOptions: null // see HandleNodeDragListener
+        dragListenerOptions: null, // see HandleDragListener
+
+        // phet-io
+        tandem: Tandem.required
 
       }, options );
 
@@ -225,10 +229,13 @@ define( require => {
       const maxHandleYOffset = this.pumpHandleNode.centerY;
       const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-      // @rpivate create and add a drag listener to the handle
-      this.handleNodeDragListener = new HandleNodeDragListener( numberProperty, rangeProperty, options.enabledProperty,
-        minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, options.dragListenerOptions );
-      this.pumpHandleNode.addInputListener( this.handleNodeDragListener );
+      // @private create and add a drag listener to the handle
+      this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, options.enabledProperty,
+        minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
+        _.extend( {
+          tandem: options.tandem.createTandem( 'handleDragListener')
+        }, options.dragListenerOptions ) );
+      this.pumpHandleNode.addInputListener( this.handleDragListener );
 
       // add the pieces with the correct layering
       this.addChild( pumpBaseNode );
@@ -267,7 +274,16 @@ define( require => {
      */
     reset() {
       this.setPumpHandleToInitialPosition();
-      this.handleNodeDragListener.reset();
+      this.handleDragListener.reset();
+    }
+
+    /**
+     * @public
+     * @override
+     */
+    dispose() {
+      this.handleDragListener.dispose(); // to unregister tandem
+      super.dispose();
     }
   }
 
@@ -575,7 +591,7 @@ define( require => {
   /**
    * Drag listener for the pump's handle.
    */
-  class HandleNodeDragListener extends DragListener {
+  class HandleDragListener extends DragListener {
 
     /**
      *
