@@ -57,6 +57,7 @@ define( function( require ) {
      * filled in later on during initialization.
      * @param {string} simName
      * @param {number} numberOfScreens
+     * @public
      */
     setIntroString: function( simName, numberOfScreens ) {
 
