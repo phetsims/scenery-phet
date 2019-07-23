@@ -45,7 +45,7 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'black',
       tickSpacing: 15,
-      tickSpacingTemperature: null,
+      tickSpacingTemperature: null, // {number} overrides tickSpacing to space ticks by units of temperature
       majorTickLength: 15,
       minorTickLength: 7.5,
       glassThickness: 2, // space between the thermometer outline and the fluid inside it
@@ -136,21 +136,24 @@ define( function( require ) {
     } );
 
     // override tick spacing options when using tickSpacingTemperature
-    var offset = options.tickSpacing;
+    var offset = options.tickSpacing; // distance between location of minTemp and first tick
+    var minorOffset = 0; // bool (as number) indicating where first minor tick is placed
     if ( options.tickSpacingTemperature !== null ) {
       var scaleTempY = ( options.tubeHeight + options.lineWidth ) / ( maxTemperature - minTemperature );
-      offset = ( options.tickSpacingTemperature - ( minTemperature % options.tickSpacingTemperature ) ) * scaleTempY;
+      var offsetTemp = options.tickSpacingTemperature - ( minTemperature % options.tickSpacingTemperature );
+      offset = offsetTemp * scaleTempY;
+      minorOffset = ( ( minTemperature + offsetTemp ) % ( options.tickSpacingTemperature * 2 ) ) % 2;
       options.tickSpacing = options.tickSpacingTemperature * scaleTempY;
     }
 
     // tick marks, from bottom up, alternating major and minor ticks
-    for ( var i = 0; i * options.tickSpacing + offset <= straightTubeHeight; i++ ) {
+    for ( var i = 0; i * options.tickSpacing + offset <= options.tubeHeight - ( tubeTopRadius / 3 ); i++ ) {
       outlineShape.moveTo(
         straightTubeLeft,
         tubeFluidBottom - ( i * options.tickSpacing ) - offset
       );
       outlineShape.horizontalLineTo(
-        straightTubeLeft + ( ( i % 2 === 0 ) ? options.minorTickLength : options.majorTickLength )
+        straightTubeLeft + ( ( i % 2 === minorOffset ) ? options.minorTickLength : options.majorTickLength )
       );
     }
 
