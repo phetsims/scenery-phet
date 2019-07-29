@@ -77,15 +77,22 @@ define( function( require ) {
     // @public (read-only)
     this.profileNames = profileNames;
 
+    // Query parameter may override the default profile name.
+    const initialProfileName = phet.chipper.queryParameters.colorProfile || ColorProfile.DEFAULT_COLOR_PROFILE_NAME;
+    if ( profileNames.indexOf( initialProfileName ) === -1 ) {
+      throw new Error( `invalid colorProfile: ${initialProfileName}` );
+    }
+
     // @public {Property.<string>}
     // The current profile name. Change this Property's value to change which profile is currently active.
-    this.profileNameProperty = new StringProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME, {
+    this.profileNameProperty = new StringProperty( initialProfileName, {
       tandem: tandem.createTandem( 'profileNameProperty' ),
       validValues: profileNames
     } );
 
     Object.keys( colors ).sort().forEach( function( key ) {
       if ( colors.hasOwnProperty( key ) ) {
+
         // Turn strings/hex to Color objects
         var colorMap = _.mapValues( colors[ key ], Color.toColor );
 
@@ -94,16 +101,19 @@ define( function( require ) {
         assert && assert( key !== 'profileName',
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
-        // Set the Property on the color profile
-        var property = self[ key + 'Property' ] = new Property( colorMap.default );
+        // Use the requested initial profile, fallback to default.
+        var initialColor = colorMap[ initialProfileName] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
 
-        // Update our Property on profile name changes
+        // Create a Property for the color
+        var colorProperty = self[ key + 'Property' ] = new Property( initialColor );
+
+        // Update the Property on profile name changes
         self.profileNameProperty.lazyLink( function( profileName ) {
-          property.value = colorMap[ profileName ] || colorMap.default;
+          colorProperty.value = colorMap[ profileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
         } );
 
         // Communicate color changes to the iframe
-        property.link( function( color ) {
+        colorProperty.link( function( color ) {
           self.reportColor( key );
         } );
       }
