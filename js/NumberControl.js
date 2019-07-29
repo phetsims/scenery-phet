@@ -4,6 +4,12 @@
  * Control for changing a Property of type {number}.
  * Consists of a labeled value, slider and arrow buttons.
  *
+ * Though NumberControl is a composite Type built of multiple interactive components, its accessible user interface is a
+ * slider. This is implemented by turning off the accessible representation of the child slider, and adding the
+ * AccessibleSlider mixin directly to this composite Node. To pass accessible options to this type, do so through
+ * `options.sliderOptions`, which are passed to the initializeAccessibleSlider call which mixes in those options to THIS,
+ * parent, Node.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
@@ -159,6 +165,8 @@ define( require => {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
       `invalid disabledOpacity: ${options.disabledOpacity}` );
+    assert && assert( !options.tagName,
+      'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
     // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
