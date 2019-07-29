@@ -578,7 +578,8 @@ define( function( require ) {
       },
       sliderOptions: {
         trackSize: new Dimension2( 150, 3 )
-      }
+      },
+      containerTagName: 'div'
     };
     demoParent.addChild( new VBox( {
       resize: false, // Don't readjust the size when the slider knob moves all the way to the right
