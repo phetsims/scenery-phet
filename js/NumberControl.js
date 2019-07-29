@@ -159,12 +159,6 @@ define( require => {
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
       `invalid disabledOpacity: ${options.disabledOpacity}` );
-    assert && assert( !options.shiftKeyboardStep,
-      'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
-    assert && assert( !options.shiftKeyboardStep,
-      'shift keyboard stop handled by arrow buttons, do not use with NumberControl' );
-    assert && options.sliderOptions && assert( options.isAccessible === undefined,
-      'NumberControl sets isAccessible for Slider' );
 
     // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
@@ -431,16 +425,15 @@ define( require => {
      */
     withMinMaxTicks: function( label, property, range, options ) {
 
-      options = _.extend( {
-        tickLabelFont: new PhetFont( 12 )
+      options = merge( {
+        tickLabelFont: new PhetFont( 12 ),
+        sliderOptions: {
+          majorTicks: [
+            { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
+            { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
+          ]
+        }
       }, options );
-
-      options.sliderOptions = _.extend( {
-        majorTicks: [
-          { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
-          { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
-        ]
-      }, options.sliderOptions );
 
       return new NumberControl( label, property, range, options );
     },
