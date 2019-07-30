@@ -434,14 +434,15 @@ define( require => {
     withMinMaxTicks: function( label, property, range, options ) {
 
       options = merge( {
-        tickLabelFont: new PhetFont( 12 ),
-        sliderOptions: {
-          majorTicks: [
-            { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
-            { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
-          ]
-        }
+        tickLabelFont: new PhetFont( 12 )
       }, options );
+
+      options.sliderOptions = _.extend( {
+        majorTicks: [
+          { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
+          { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
+        ]
+      }, options.sliderOptions );
 
       return new NumberControl( label, property, range, options );
     },
