@@ -4,7 +4,7 @@
  * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSecctions
  * are assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label and
  * an array of contents for rows of labels and icons.
- * 
+ *
  * This type has many static functions for creating and laying out rows of content.
  * Default values for spacing and fonts are also available through statics if necessary.
  *
@@ -340,7 +340,6 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      // 'W' is a wider character than the others, give it less horizontal padding
       var wKeyNode = new LetterKeyNode( 'W' );
       var aKeyNode = new LetterKeyNode( 'A' );
       var sKeyNode = new LetterKeyNode( 'S' );
@@ -470,6 +469,24 @@ define( function( require ) {
 
       options.children = [ iconA, plusIconNode, iconB ];
       return new HBox( options );
+    },
+
+    /**
+     * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
+     * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
+     *
+     * @param {string} keyString - the letter name that will come after 'j'
+     * @param {string} labelString - visual label
+     * @param {string} labelInnerContent - PDOM description
+     * @returns {HBox}
+     */
+    createJumpKeyRow: function( keyString, labelString, labelInnerContent ) {
+
+      const jKey = new LetterKeyNode( 'J' );
+      const otherKey = new LetterKeyNode( keyString );
+
+      const jPlusOtherKey = KeyboardHelpSection.iconPlusIcon( jKey, otherKey );
+      return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, labelInnerContent );
     },
 
     /**
