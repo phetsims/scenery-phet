@@ -4,19 +4,12 @@
  * Control for changing a Property of type {number}.
  * Consists of a labeled value, slider and arrow buttons.
  *
- * Though NumberControl is a composite Type built of multiple interactive components, its accessible user interface is a
- * slider. This is implemented by turning off the accessible representation of the child slider, and adding the
- * AccessibleSlider mixin directly to this composite Node. To pass accessible options to this type, do so through
- * `options.sliderOptions`, which are passed to the initializeAccessibleSlider call which mixes in those options to THIS,
- * parent, Node.
- *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
   'use strict';
 
   // modules
-  const AccessibleSlider = require( 'SUN/accessibility/AccessibleSlider' );
   const AlignBox = require( 'SCENERY/nodes/AlignBox' );
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   const ArrowButton = require( 'SUN/buttons/ArrowButton' );
@@ -60,7 +53,6 @@ define( require => {
    *                               numberDisplayOptions,
    *                               arrowButtonOptions,
    *                               titleNodeOptions
-   * @mixes AccessibleSlider
    * @constructor
    */
   function NumberControl( title, numberProperty, numberRange, options ) {
@@ -195,15 +187,11 @@ define( require => {
       }, options.sliderOptions );
     }
 
-    assert && assert( !options.sliderOptions.hasOwnProperty( 'isAccessible' ), 'NumberControl sets isAccessible' );
     assert && assert( !options.sliderOptions.hasOwnProperty( 'shiftKeyboardStep' ), 'NumberControl sets shiftKeyboardStep' );
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
     options.sliderOptions = _.extend( {
-
-      // NumberControl uses the AccessibleSlider trait, so don't include any accessibility on the slider
-      isAccessible: false,
 
       // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
       shiftKeyboardStep: 0,
@@ -281,19 +269,20 @@ define( require => {
     };
     numberProperty.link( arrowEnabledListener );
 
-    const slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
+    // @public {HSlider} - for access to AccessibleValueHandler API
+    this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
     // major ticks
     const majorTicks = options.sliderOptions.majorTicks;
     for ( let i = 0; i < majorTicks.length; i++ ) {
-      slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
+      this.slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
 
     // minor ticks, exclude values where we already have major ticks
     if ( options.sliderOptions.minorTickSpacing > 0 ) {
       for ( let minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
         if ( !_.find( majorTicks, majorTick => majorTick.value === minorTickValue ) ) {
-          slider.addMinorTick( minorTickValue );
+          this.slider.addMinorTick( minorTickValue );
         }
         minorTickValue += options.sliderOptions.minorTickSpacing;
       }
@@ -302,26 +291,18 @@ define( require => {
     assert && assert( !options.hasOwnProperty( 'children' ),
       'NumberControl sets its own children via options.layoutFunction' );
     options.children = [
-      options.layoutFunction( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
+      options.layoutFunction( titleNode, numberDisplay, this.slider, leftArrowButton, rightArrowButton )
     ];
 
     Node.call( this, options );
 
-    // a11y - the number control acts like a range input for a11y, pass slider options without tandem
-    const accessibleSliderOptions = _.omit( options.sliderOptions, [ 'tandem' ] );
-    this.initializeAccessibleSlider( numberProperty, slider.enabledRangeProperty, slider.enabledProperty, accessibleSliderOptions );
-
-    // a11y - the focus highlight for NumberControl should surround the Slider's thumb
-    this.focusHighlight = slider.focusHighlight;
-
     // a11y - click the left and right arrow buttons when shift keys are down so that the shift modifier behaves
     // just like the tweaker buttons, must be disposed
-    const rightButtonListener = () => { this.shiftKeyDown && rightArrowButton.a11yClick(); };
-    const leftButtonListener = () => { this.shiftKeyDown && leftArrowButton.a11yClick(); };
+    const rightButtonListener = () => { this.slider.shiftKeyDown && rightArrowButton.a11yClick(); };
+    const leftButtonListener = () => { this.slider.shiftKeyDown && leftArrowButton.a11yClick(); };
 
-    // emitters defined in AccessibleSlider.js
-    this.attemptedIncreaseEmitter.addListener( rightButtonListener );
-    this.attemptedDecreaseEmitter.addListener( leftButtonListener );
+    this.slider.attemptedIncreaseEmitter.addListener( rightButtonListener );
+    this.slider.attemptedDecreaseEmitter.addListener( leftButtonListener );
 
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
@@ -336,13 +317,13 @@ define( require => {
     this.disposeNumberControl = () => {
 
       // dispose accessibility features
-      this.attemptedIncreaseEmitter.removeListener( rightButtonListener );
-      this.attemptedDecreaseEmitter.removeListener( leftButtonListener );
+      this.slider.attemptedIncreaseEmitter.removeListener( rightButtonListener );
+      this.slider.attemptedDecreaseEmitter.removeListener( leftButtonListener );
 
       numberDisplay.dispose();
       leftArrowButton.dispose();
       rightArrowButton.dispose();
-      slider.dispose();
+      this.slider.dispose();
 
       this.thumbFillProperty && this.thumbFillProperty.dispose();
 
@@ -614,9 +595,6 @@ define( require => {
       };
     }
   } );
-
-  // mix accessibility features into NumberControl
-  AccessibleSlider.mixInto( NumberControl );
 
   return NumberControl;
 } );
