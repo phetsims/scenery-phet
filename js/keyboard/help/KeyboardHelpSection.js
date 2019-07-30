@@ -340,6 +340,7 @@ define( function( require ) {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
+      // These are not translated because they map directly to specific key codes.
       var wKeyNode = new LetterKeyNode( 'W' );
       var aKeyNode = new LetterKeyNode( 'A' );
       var sKeyNode = new LetterKeyNode( 'S' );
@@ -475,13 +476,14 @@ define( function( require ) {
      * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
      * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
      *
-     * @param {string} keyString - the letter name that will come after 'j'
+     * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
      * @param {string} labelString - visual label
      * @param {string} labelInnerContent - PDOM description
      * @returns {HBox}
      */
     createJumpKeyRow: function( keyString, labelString, labelInnerContent ) {
 
+      // Not translated because it maps directly to a specific key code.
       const jKey = new LetterKeyNode( 'J' );
       const otherKey = new LetterKeyNode( keyString );
 
