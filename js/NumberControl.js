@@ -4,6 +4,9 @@
  * Control for changing a Property of type {number}.
  * Consists of a labeled value, slider and arrow buttons.
  *
+ * Number Control provides accessible content exclusively through the slider, please pass accessibility related
+ * customizations through options to the slider.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
@@ -169,7 +172,8 @@ define( require => {
     // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
     assert && assert( options.arrowButtonOptions.tagName === undefined,
-      'NumberControl handles alternative input for arrow buttons' );
+      'NumberControl\'s accessible content is just the slider, do not set accessible content on the buttons. Instead ' +
+      'set a11y through options.sliderOptions.' );
     options.arrowButtonOptions.tagName = null;
 
     // Slider options for track (if not specified as trackNode)
@@ -269,7 +273,7 @@ define( require => {
     };
     numberProperty.link( arrowEnabledListener );
 
-    // @public {HSlider} - for access to AccessibleValueHandler API
+    // @public {HSlider} - for access to accessibility API
     this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
     // major ticks
