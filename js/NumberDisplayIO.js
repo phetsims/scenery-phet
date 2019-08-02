@@ -24,7 +24,7 @@ define( function( require ) {
     NodeIO.call( this, numberControl, phetioID );
   }
 
-  phetioInherit( NodeIO, 'NumberControlIO', NumberDisplayIO, {}, {
+  phetioInherit( NodeIO, 'NumberDisplayIO', NumberDisplayIO, {}, {
     validator: { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay },
     documentation: 'A numeric readout with a background'
   } );
