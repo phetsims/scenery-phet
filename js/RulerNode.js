@@ -81,8 +81,7 @@ define( function( require ) {
     var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
-      lineWidth: options.backgroundLineWidth,
-      tandem: options.tandem.createTandem( 'backgroundNode' )
+      lineWidth: options.backgroundLineWidth
     } );
     this.addChild( backgroundNode );
 
@@ -105,8 +104,6 @@ define( function( require ) {
     var unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
     this.addChild( unitsLabel );
 
-    var majorTickLabelsGroupTandem = options.tandem.createGroupTandem( 'majorTickLabels' );
-
     for ( var i = 0; i < numberOfTicks; i++ ) {
 
       if ( i % ( options.minorTicksPerMajorTick + 1 ) === 0 ) {  // assumes that the first (leftmost) tick is a major tick
@@ -119,8 +116,7 @@ define( function( require ) {
           font: options.majorTickFont,
           centerX: x,
           centerY: backgroundNode.centerY,
-          pickable: false,
-          tandem: majorTickLabelsGroupTandem.createNextTandem()
+          pickable: false
         } );
 
         // Only add a major tick at leftmost or rightmost end if the insetsWidth is nonzero
@@ -182,16 +178,14 @@ define( function( require ) {
     this.addChild( new Path( majorTickLinesShape, {
       stroke: options.majorTickStroke,
       lineWidth: options.majorTickLineWidth,
-      pickable: false,
-      tandem: options.tandem.createTandem( 'majorTickLinesNode' )
+      pickable: false
     } ) );
 
     // Minor tick lines
     this.addChild( new Path( minorTickLinesShape, {
       stroke: options.minorTickStroke,
       lineWidth: options.minorTickLineWidth,
-      pickable: false,
-      tandem: options.tandem.createTandem( 'minorTickLinesNode' )
+      pickable: false
     } ) );
 
     this.mutate( options );
