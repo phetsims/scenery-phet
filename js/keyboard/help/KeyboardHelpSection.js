@@ -291,22 +291,35 @@ define( function( require ) {
     },
 
     /**
+     * An icon containing the icons two arrow keys,  aligned horizontally.
+     *
+     * @param {string} firstKeyName
+     * @param {string} secondKeyName
+     * @param {Object} [options]
+     * @returns {HBox}
+     * @private
+     */
+    createTwoArrowKeysIcon: function( firstKeyName, secondKeyName, options ) {
+      options = _.extend( {
+        spacing: DEFAULT_LETTER_KEY_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      var upArrowKeyNode = new ArrowKeyNode( firstKeyName );
+      var rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
+
+      options.children = [ upArrowKeyNode, rightArrowKeyNode ];
+      return new HBox( options );
+    },
+
+    /**
      * An icon containing icons for the up and down arrow keys aligned horizontally.
      *
      * @param {Object} [options]
      * @returns {HBox}
      */
     upDownArrowKeysRowIcon: function( options ) {
-      options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      var upArrowKeyNode = new ArrowKeyNode( 'up' );
-      var downArrowKeyNode = new ArrowKeyNode( 'down' );
-
-      options.children = [ upArrowKeyNode, downArrowKeyNode ];
-      return new HBox( options );
+      return KeyboardHelpSection.createTwoArrowKeysIcon( 'up', 'down', options );
     },
 
     /**
@@ -316,16 +329,7 @@ define( function( require ) {
      * @returns {HBox}
      */
     leftRightArrowKeysRowIcon: function( options ) {
-      options = _.extend( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      var upArrowKeyNode = new ArrowKeyNode( 'left' );
-      var downArrowKeyNode = new ArrowKeyNode( 'right' );
-
-      options.children = [ upArrowKeyNode, downArrowKeyNode ];
-      return new HBox( options );
+      return KeyboardHelpSection.createTwoArrowKeysIcon( 'left', 'right', options );
     },
 
     /**

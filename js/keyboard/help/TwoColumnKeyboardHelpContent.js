@@ -3,7 +3,7 @@
 /**
  * An HBox with content for a KeyboardHelpDialog. Most KeyboardHelpDialogs have two columns of
  * content, each with one or more KeyboardHelpSection.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( require => {
@@ -20,10 +20,10 @@ define( require => {
     /**
      * @param {[].<Node>} leftSections
      * @param {[].<Node>} rightSections
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( leftSections, rightSections, options ) {
-      assert && assert( Array.isArray( leftSections) && Array.isArray( rightSections ), 'sections must be passed in as arrays' );
+      assert && assert( Array.isArray( leftSections ) && Array.isArray( rightSections ), 'sections must be passed in as arrays' );
 
       options = _.extend( {
 

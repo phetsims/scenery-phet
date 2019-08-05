@@ -148,5 +148,11 @@
   },
   "wavelength": {
     "value": "Wavelength"
+  },
+  "rulerCapitalized": {
+    "value": "Ruler"
+  },
+  "ruler": {
+    "value": "Ruler"
   }
 }
