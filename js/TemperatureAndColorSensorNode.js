@@ -110,7 +110,7 @@ define( require => {
      * @returns {Vector2}
      */
     getColorIndicatorBounds() {
-      return this.colorIndicator.bounds;
+      return this.colorIndicatorNode.bounds;
     }
 
     get colorIndicatorBounds() { return this.getColorIndicatorBounds(); }
