@@ -12,7 +12,6 @@ define( require => {
   'use strict';
 
   // modules
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -33,8 +32,6 @@ define( require => {
       super();
 
       options = merge( {
-        draggable: false,
-        dragBounds: Bounds2.EVERYTHING,
         horizontalSpace: 3, // horizontal spacing between color indicator and thermometer
         bottomOffset: 5, // vertical difference between bottom of color indicator and thermometer
         thermometerNodeOptions: {
