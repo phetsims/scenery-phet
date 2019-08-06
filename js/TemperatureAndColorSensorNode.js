@@ -83,6 +83,8 @@ define( require => {
     /**
      * Allows for the arrow node's fill color to be changed publicly
      * @public
+     *
+     * @param {Color} color
      */
     changeColor( color ) {
       this.colorIndicatorNode.fill = color;
@@ -92,7 +94,7 @@ define( require => {
      * Returns bounds for thermomemeter node
      * @public
      *
-     * @returns {Vector2}
+     * @returns {Bounds2}
      */
     getThermometerBounds() {
       return this.thermometerNode.bounds;
@@ -104,7 +106,7 @@ define( require => {
      * Returns bounds for color indicator arrow node
      * @public
      *
-     * @returns {Vector2}
+     * @returns {Bounds2}
      */
     getColorIndicatorBounds() {
       return this.colorIndicatorNode.bounds;
