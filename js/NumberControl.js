@@ -572,15 +572,22 @@ define( require => {
     createLayoutFunction4: function( options ) {
       options = _.extend( {
         excludeTweakers: false,
+
+        // adds additional horizontal space between title and NumberDisplay
         sliderPadding: 0,
+
+        // vertical spacing between slider and title/NumberDisplay
         verticalSpacing: 5,
+
+        // spacing between slider and arrow buttons
+        arrowButtonSpacing: 5,
         hasReadoutProperty: null,
         createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
       }, options );
       return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
         const bottomBox = new HBox( {
           resize: false, // prevent slider from causing resize?
-          spacing: 5,
+          spacing: options.arrowButtonSpacing,
           children: options.excludeTweakers ? [ slider ] : [
             leftArrowButton,
             slider,
