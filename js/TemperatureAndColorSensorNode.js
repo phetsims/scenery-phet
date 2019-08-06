@@ -41,7 +41,7 @@ define( require => {
           tickSpacingTemperature: 25,
           majorTickLength: 10,
           minorTickLength: 5,
-          backgroundFill: new Color( 256, 256, 256, 0.67 ),
+          backgroundFill: new Color( 256, 256, 256, 0.67 )
         },
         colorIndicatorOptions: {
           fill: new Color( 0, 0, 0, 0 ),
