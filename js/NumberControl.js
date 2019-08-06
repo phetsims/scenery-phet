@@ -240,12 +240,14 @@ define( require => {
       tandem: options.tandem.createTandem( 'rightArrowButton' )
     }, options.arrowButtonOptions ) );
 
-    // By default, scale the ArrowButtons to have the same height as the NumberDisplay.
+    // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
+    // the NumberDisplay's maxWidth (if any)
     if ( !arrowButtonScaleProvided ) {
 
       // Remove the current button scaling so we can determine the desired final scale factor
       leftArrowButton.setScaleMagnitude( 1 );
-      const arrowButtonsScale = numberDisplay.height / leftArrowButton.height;
+      const numberDisplayHeight = numberDisplay.localBounds.height; // ignores maxWidth, if any
+      const arrowButtonsScale = numberDisplayHeight / leftArrowButton.height;
 
       leftArrowButton.setScaleMagnitude( arrowButtonsScale );
       rightArrowButton.setScaleMagnitude( arrowButtonsScale );
