@@ -246,7 +246,13 @@ define( require => {
 
       // Remove the current button scaling so we can determine the desired final scale factor
       leftArrowButton.setScaleMagnitude( 1 );
-      const numberDisplayHeight = numberDisplay.localBounds.height; // ignores maxWidth, if any
+
+      // Set the tweaker button height to match the height of the numberDisplay. Lengthy text can shrink a numberDisplay
+      // with maxWidth--if we match the scaled height of the numberDisplay the arrow buttons would shrink too, as
+      // depicted in https://github.com/phetsims/scenery-phet/issues/513#issuecomment-517897850
+      // Instead, to keep the tweaker buttons a uniform and reasonable size, we match their height to the unscaled
+      // height of the numberDisplay (ignores maxWidth and scale).
+      const numberDisplayHeight = numberDisplay.localBounds.height;
       const arrowButtonsScale = numberDisplayHeight / leftArrowButton.height;
 
       leftArrowButton.setScaleMagnitude( arrowButtonsScale );
