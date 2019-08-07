@@ -70,8 +70,9 @@ define( function( require ) {
     } );
 
     // sound generation
+    let resetAllSoundClip;
     if ( options.soundInfo ) {
-      const resetAllSoundClip = new SoundClip( options.soundInfo, { initialOutputLevel: 0.7 } );
+      resetAllSoundClip = new SoundClip( options.soundInfo, { initialOutputLevel: 0.7 } );
       soundManager.addSoundGenerator( resetAllSoundClip );
 
       // play the sound when fired
@@ -104,7 +105,7 @@ define( function( require ) {
         resetAllSoundClip.dispose();
       }
       isFiringProperty.dispose();
-    }
+    };
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
