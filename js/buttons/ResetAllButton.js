@@ -20,11 +20,16 @@ define( function( require ) {
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  var SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
+  var soundManager = require( 'TAMBO/soundManager' );
   var Tandem = require( 'TANDEM/Tandem' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 20.8;
+
+  // sounds
+  const resetAllSound = require( 'sound!TAMBO/reset-all.mp3' );
 
   // a11y strings - not translatable
   var resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
@@ -47,6 +52,9 @@ define( function( require ) {
 
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
 
+      // sound, supply an alternative if desired or set to null for no sound
+      soundInfo: resetAllSound,
+
       // a11y
       innerContent: resetAllButtonNameString
     }, options );
@@ -54,18 +62,31 @@ define( function( require ) {
     ResetButton.call( this, options );
 
     // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
-    this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
+    var isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
       tandem: options.tandem.createTandem( 'isFiringProperty' ),
       phetioDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
       phetioType: DerivedPropertyIO( BooleanIO ),
       phetioState: false // this is a transient property based on user interaction, should not be stored in the state
     } );
 
+    // sound generation
+    if ( options.soundInfo ) {
+      const resetAllSoundClip = new SoundClip( options.soundInfo, { initialOutputLevel: 0.7 } );
+      soundManager.addSoundGenerator( resetAllSoundClip );
+
+      // play the sound when fired
+      isFiringProperty.lazyLink( function( isFiring ) {
+        if ( isFiring ) {
+          resetAllSoundClip.play();
+        }
+      } );
+    }
+
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
     var resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
-    this.isFiringProperty.lazyLink( function( isFiring ) {
+    isFiringProperty.lazyLink( function( isFiring ) {
       utteranceQueue.enabled = !isFiring;
 
       if ( isFiring ) {
@@ -75,6 +96,15 @@ define( function( require ) {
         utteranceQueue.addToBack( resetUtterance );
       }
     } );
+
+    // @private - dispose function
+    this.disposeResetAllButton = function() {
+      if ( options.soundInfo ) {
+        soundManager.removeSoundGenerator( resetAllSoundClip );
+        resetAllSoundClip.dispose();
+      }
+      isFiringProperty.dispose();
+    }
   }
 
   sceneryPhet.register( 'ResetAllButton', ResetAllButton );
@@ -86,9 +116,7 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-
-      this.isFiringProperty.dispose();
-
+      this.disposeResetAllButton();
       ResetButton.prototype.dispose.call( this );
     }
   } );
