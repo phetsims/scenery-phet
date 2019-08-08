@@ -108,7 +108,8 @@ define( function( require ) {
       font: options.font,
       fill: options.numberFill,
       maxWidth: options.numberMaxWidth,
-      tandem: options.tandem.createTandem( 'valueNode' )
+      phetioReadOnly: true,
+      tandem: options.tandem.createTandem( 'valueText' )
     } );
 
     // maxWidth for valueNode
