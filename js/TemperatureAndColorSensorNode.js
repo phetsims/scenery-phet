@@ -23,12 +23,11 @@ define( require => {
   class TemperatureAndColorSensorNode extends Node {
 
     /**
-     * @param {number} minTemperature
-     * @param {number} maxTemperature
+     * @param {Range} minTemperature
      * @param {Property.<number>} temperatureProperty
      * @param {Object} [options]
      */
-    constructor( minTemperature, maxTemperature, temperatureProperty, options ) {
+    constructor( temperatureRange, temperatureProperty, options ) {
       super();
 
       options = merge( {
@@ -67,8 +66,8 @@ define( require => {
 
       // @private {ThermometerNode}
       this.thermometerNode = new ThermometerNode(
-        minTemperature,
-        maxTemperature,
+        temperatureRange.min,
+        temperatureRange.max,
         temperatureProperty,
         _.extend( options.thermometerNodeOptions, {
           left: this.colorIndicatorNode.right + options.horizontalSpace,
