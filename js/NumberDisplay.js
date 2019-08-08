@@ -28,11 +28,12 @@ define( function( require ) {
 
   /**
    * @param {Property.<number|null>} numberProperty
-   * @param {Range} numberRange
+   * @param {Range} displayRange - this range, with options.decimals applied, is used to determine the display width.
+   *                               It is unrelated to the range of numberProperty.
    * @param {Object} [options]
    * @constructor
    */
-  function NumberDisplay( numberProperty, numberRange, options ) {
+  function NumberDisplay( numberProperty, displayRange, options ) {
 
     options = _.extend( {
       align: 'right', // see ALIGN_VALUES
@@ -95,8 +96,8 @@ define( function( require ) {
     var self = this;
 
     // determine the widest value
-    var minString = valueToString( numberRange.min, options.decimalPlaces, options.noValueString );
-    var maxString = valueToString( numberRange.max, options.decimalPlaces, options.noValueString );
+    var minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString );
+    var maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString );
     var longestString = StringUtils.fillIn( options.valuePattern, {
       value: ( ( minString.length > maxString.length ) ? minString : maxString )
     } );
