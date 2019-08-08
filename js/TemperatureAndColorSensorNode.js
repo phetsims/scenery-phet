@@ -23,11 +23,12 @@ define( require => {
   class TemperatureAndColorSensorNode extends Node {
 
     /**
-     * @param {Range} minTemperature
+     * @param {Range} temperatureRange
      * @param {Property.<number>} temperatureProperty
+     * @param {Property.<Color>} colorProperty
      * @param {Object} [options]
      */
-    constructor( temperatureRange, temperatureProperty, options ) {
+    constructor( temperatureRange, temperatureProperty, colorProperty, options ) {
       super();
 
       options = merge( {
@@ -62,6 +63,7 @@ define( require => {
 
       // @private {Path}
       this.colorIndicatorNode = new Path( triangleShape, options.colorIndicatorOptions );
+      colorProperty.link( color => { this.colorIndicatorNode.fill = color; } );
       this.addChild( this.colorIndicatorNode );
 
       // @private {ThermometerNode}
@@ -77,16 +79,6 @@ define( require => {
       this.addChild( this.thermometerNode );
 
       this.mutate( options );
-    }
-
-    /**
-     * Allows for the arrow node's fill color to be changed publicly
-     * @public
-     *
-     * @param {Color} color
-     */
-    changeColor( color ) {
-      this.colorIndicatorNode.fill = color;
     }
 
     /**
