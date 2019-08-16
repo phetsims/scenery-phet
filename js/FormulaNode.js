@@ -54,7 +54,7 @@ define( function( require ) {
 
     /**
      * @override - We need to have a fairly custom bounds measurement method, since it's a block-level element
-     * @returns {*|Shape|Bounds2}
+     * @returns {Bounds2}
      */
     calculateDOMBounds: function() {
       // Grab a particular child node for measurement, since it's an inline element and contains everything graphical.
