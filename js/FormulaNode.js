@@ -180,7 +180,13 @@ define( function( require ) {
     // @private - Updates the displayed formula and its bounds.
     updateFormula: function() {
       katex.render( this._formula, this._span, {
-        displayMode: this._displayMode
+        displayMode: this._displayMode,
+        strict: errorCode => {
+          if ( _.includes( [ 'unknownSymbol', 'unicodeTextInMathMode' ], errorCode ) ) {
+            return 'ignore';
+          }
+          return 'error';
+        }
       } );
 
       // recompute bounds
