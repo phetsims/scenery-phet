@@ -5,8 +5,8 @@
  *
  * IMPORTANT: Using this will require including the KaTeX preloads, and may require generation of a custom bundle for
  * the simulation. Currently two preloads will be needed, one for the CSS/font-files, and one for the JS, e.g.:
- * - katex-0.5.1-css-all.js
- * - katex-0.5.1.min.js
+ * - katex-0.11.0-css-all.js
+ * - katex-0.11.0.min.js
  *
  * IMPORTANT: See packageKatexCSS.js for more information, particularly about generating a particular customized preload
  * file that includes only the font-files needed.
