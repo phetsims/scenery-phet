@@ -1,7 +1,7 @@
 // Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * Checkbox for showing/hiding grid lines for the graph.
+ * Checkbox for showing/hiding grid lines for a graph.
  * See https://github.com/phetsims/graphing-lines/issues/91.
  *
  * @author Chris Malley (PixelZoom, Inc.)
