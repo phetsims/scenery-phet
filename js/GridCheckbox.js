@@ -37,6 +37,16 @@ define( require => {
 
       const iconSize = options.gridSize;
 
+      // The grid shape looks approximately like this:
+      //
+      //      |   |   |
+      //   ---|---|---|---
+      //      |   |   |
+      //   ---|---|---|---
+      //      |   |   |
+      //   ---|---|---|---
+      //      |   |   |
+      //
       const iconShape = new Shape()
         .moveTo( iconSize / 4, 0 )
         .lineTo( iconSize / 4, iconSize )
