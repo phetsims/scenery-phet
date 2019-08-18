@@ -20,7 +20,6 @@ define( function( require ) {
     /**
      * @param {Property.<boolean>} property
      * @param {Object} [options]
-     * @constructor
      */
     constructor( property, options ) {
 
