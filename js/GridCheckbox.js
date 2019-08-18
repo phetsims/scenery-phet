@@ -26,7 +26,7 @@ define( require => {
       options = _.extend( {
 
         // options for the grid icon
-        gridSize: 30,
+        gridSize: 30, // {number} square grid with this width and height
         gridStroke: 'rgb( 100, 100, 100 )',
         gridLineWidth: 1,
 
