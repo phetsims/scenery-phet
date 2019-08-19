@@ -34,6 +34,7 @@ define( function( require ) {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearFunction = require( 'DOT/LinearFunction' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
@@ -79,9 +80,8 @@ define( function( require ) {
    */
   function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
 
-    options = _.extend( {
+    options = merge( {
       scale: 1,
-      knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
       horizontalPipeLength: SPOUT_OUTPUT_CENTER_X, // distance between left edge of horizontal pipe and spout's center
       verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
       tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
@@ -92,6 +92,17 @@ define( function( require ) {
 
       // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
       rasterizeHorizontalPipeNode: false,
+
+      // options for the nested type ShooterNode
+      shooterOptions: {
+        knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
+
+        // pointer area dilation
+        touchAreaXDilation: 0,
+        touchAreaYDilation: 0,
+        mouseAreaXDilation: 0,
+        mouseAreaYDilation: 0
+      },
 
       tandem: Tandem.required,
       phetioType: FaucetNodeIO,
@@ -104,7 +115,7 @@ define( function( require ) {
     Node.call( this );
 
     // shooter
-    var shooterNode = new ShooterNode( enabledProperty, { knobScale: options.knobScale } );
+    var shooterNode = new ShooterNode( enabledProperty, options.shooterOptions );
 
     // track that the shooter moves in
     var trackNode = new Image( trackImage );
@@ -333,23 +344,27 @@ define( function( require ) {
    * It's a relatively complicated node, so it's encapsulated in this nested type.
    *
    * @param {Property.<boolean>} enabledProperty
-   * @param {Object} [options] - optional configuration, see constructor
+   * @param {Object} config - see FaucetNode constructor for client options
    * @constructor
    */
-  function ShooterNode( enabledProperty, options ) {
+  function ShooterNode( enabledProperty, config ) {
 
     var self = this;
-
-    options = _.extend( {
-      knobScale: 1
-    }, options );
 
     // knob
     var knobNode = new Image( knobImage );
     var dx = 0.5 * knobNode.width;
     var dy = 0.5 * knobNode.height;
-    knobNode.touchArea = Shape.rectangle( -dx, -dy, knobNode.width + dx + dx, knobNode.height + dy + dy ); // before scaling!
-    knobNode.scale( options.knobScale );
+    var dxTouch = dx + config.touchAreaXDilation;
+    var dyTouch = dy + config.touchAreaYDilation;
+    var dxMouse = dx + config.mouseAreaXDilation;
+    var dyMouse = dy + config.mouseAreaYDilation;
+
+    // set pointer areas before scaling
+    knobNode.touchArea = Shape.rectangle( -dxTouch, -dyTouch, knobNode.width + 2 * dxTouch, knobNode.height + 2 * dyTouch );
+    knobNode.mouseArea = Shape.rectangle( -dxMouse, -dyMouse, knobNode.width + 2 * dxMouse, knobNode.height + 2 * dyMouse );
+
+    knobNode.scale( config.knobScale );
     var knobDisabledNode = new Image( knobDisabledImage );
     knobDisabledNode.scale( knobNode.getScaleVector() );
 
