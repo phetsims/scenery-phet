@@ -58,7 +58,7 @@ define( function( require ) {
     this.addInputListener( {
       up: function() {
         var phetWindow = window.open( 'http://windowsupdate.microsoft.com/', '_blank' );
-        phetWindow.focus();
+        phetWindow && phetWindow.focus();
       }
     } );
   }
