@@ -98,8 +98,8 @@ define( function( require ) {
         knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
 
         // pointer area dilation
-        touchAreaXDilation: 0,
-        touchAreaYDilation: 0,
+        touchAreaXDilation: 37,
+        touchAreaYDilation: 60,
         mouseAreaXDilation: 0,
         mouseAreaYDilation: 0
       },
@@ -353,16 +353,10 @@ define( function( require ) {
 
     // knob
     var knobNode = new Image( knobImage );
-    var dx = 0.5 * knobNode.width;
-    var dy = 0.5 * knobNode.height;
-    var dxTouch = dx + config.touchAreaXDilation;
-    var dyTouch = dy + config.touchAreaYDilation;
-    var dxMouse = dx + config.mouseAreaXDilation;
-    var dyMouse = dy + config.mouseAreaYDilation;
 
     // set pointer areas before scaling
-    knobNode.touchArea = Shape.rectangle( -dxTouch, -dyTouch, knobNode.width + 2 * dxTouch, knobNode.height + 2 * dyTouch );
-    knobNode.mouseArea = Shape.rectangle( -dxMouse, -dyMouse, knobNode.width + 2 * dxMouse, knobNode.height + 2 * dyMouse );
+    knobNode.touchArea = knobNode.localBounds.dilatedXY( config.touchAreaXDilation, config.touchAreaYDilation );
+    knobNode.mouseArea = knobNode.localBounds.dilatedXY( config.mouseAreaXDilation, config.mouseAreaYDilation );
 
     knobNode.scale( config.knobScale );
     var knobDisabledNode = new Image( knobDisabledImage );
