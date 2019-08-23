@@ -37,6 +37,7 @@ define( function( require ) {
 
     // default options
     options = _.extend( {
+
       // body of the ruler
       backgroundFill: 'rgb(236, 225, 113)',
       backgroundStroke: 'black',
@@ -142,12 +143,11 @@ define( function( require ) {
           unitsLabel.y = majorTickLabelNode.y;
         }
         else if ( majorTickIndex > options.unitsMajorTickIndex && unitsLabelMaxWidth === Number.POSITIVE_INFINITY && majorTickLabelNode.width > 0 ) {
+
           // make sure the units label fits between the tick mark labels
-          if ( unitsLabel.right > ( majorTickLabelNode.left - options.unitsSpacing ) ) {
-            unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabel.left;
-            assert && assert( unitsLabelMaxWidth > 0, 'space for units label is negative or zero' );
-            unitsLabel.maxWidth = unitsLabelMaxWidth;
-          }
+          unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabel.left;
+          assert && assert( unitsLabelMaxWidth > 0, 'space for units label is negative or zero' );
+          unitsLabel.maxWidth = unitsLabelMaxWidth;
         }
 
         majorTickIndex++;
