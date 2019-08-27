@@ -75,6 +75,7 @@ define( function( require ) {
       textBackgroundXMargin: 4,
       textBackgroundYMargin: 2,
       textBackgroundCornerRadius: 2,
+      textMaxWidth: 200,
       textFont: new PhetFont( { size: 16, weight: 'bold' } ), // font for the measurement text
       baseScale: 0.8, // control the size of the measuring tape Image (the base)
       lineColor: 'gray', // color of the tapeline itself
@@ -147,7 +148,8 @@ define( function( require ) {
     // @private
     this.valueNode = new Text( self.getText(), {
       font: options.textFont,
-      fill: options.textColor
+      fill: options.textColor,
+      maxWidth: options.textMaxWidth
     } );
 
     // @private
