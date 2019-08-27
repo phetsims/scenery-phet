@@ -86,7 +86,7 @@ define( function( require ) {
       crosshairLineWidth: 2, // linewidth of the crosshairs
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
-      isTipDragBounded: false, // is the tip subject to dragBounds
+      isTipDragBounded: true, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       tandem: Tandem.optional
