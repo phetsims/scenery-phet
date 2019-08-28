@@ -27,6 +27,7 @@ define( require => {
      * @param {Property.<number>} temperatureProperty
      * @param {Property.<Color>} colorProperty
      * @param {Object} [options]
+     * @public
      */
     constructor( temperatureRange, temperatureProperty, colorProperty, options ) {
       super();
@@ -52,8 +53,8 @@ define( require => {
         }
       }, options );
 
-      // Add the triangle that will display the sensed color.  The leftmost point of this triangle will correspond to the
-      // position of the sensor in the model.
+      // Add the triangle that will display the sensed color.  The leftmost point of this triangle will correspond to
+      // the position of the sensor in the model.
       const triangleShape = new Shape();
       const s = options.colorIndicatorOptions.sideLength;
       triangleShape.moveTo( 0, 0 )
@@ -82,27 +83,23 @@ define( require => {
     }
 
     /**
-     * Returns bounds for thermomemeter node
-     * @public
-     *
+     * returns bounds for thermometer node
      * @returns {Bounds2}
+     * @public
      */
     getThermometerBounds() {
       return this.thermometerNode.bounds;
     }
-
     get thermometerBounds() { return this.getThermometerBounds(); }
 
     /**
      * Returns bounds for color indicator arrow node
-     * @public
-     *
      * @returns {Bounds2}
+     * @public
      */
     getColorIndicatorBounds() {
       return this.colorIndicatorNode.bounds;
     }
-
     get colorIndicatorBounds() { return this.getColorIndicatorBounds(); }
   }
 
