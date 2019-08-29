@@ -367,7 +367,12 @@ define( function( require ) {
     var fluidRateProperty = new Property( 0 );
     var faucetEnabledProperty = new Property( true );
 
-    var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty );
+    var faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
+      shooterOptions: {
+        touchAreaXDilation: 37,
+        touchAreaYDilation: 60
+      }
+    } );
 
     var faucetEnabledCheckbox = new Checkbox( new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), faucetEnabledProperty, {
       left: faucetNode.left,

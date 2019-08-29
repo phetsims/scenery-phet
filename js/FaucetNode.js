@@ -97,8 +97,8 @@ define( function( require ) {
         knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
 
         // pointer area dilation
-        touchAreaXDilation: 37,
-        touchAreaYDilation: 60,
+        touchAreaXDilation: 0,
+        touchAreaYDilation: 0,
         mouseAreaXDilation: 0,
         mouseAreaYDilation: 0
       },
