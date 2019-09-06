@@ -11,23 +11,13 @@ define( function( require ) {
   // modules
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var StringIO = require( 'TANDEM/types/StringIO' );
   var VoidIO = require( 'TANDEM/types/VoidIO' );
 
-  /**
-   * IO type for phet/scenery-phet's utteranceQueue
-   * @param {Object} utteranceQueue
-   * @param {string} phetioID
-   * @constructor
-   */
-  function UtteranceQueueIO( utteranceQueue, phetioID ) {
-    ObjectIO.call( this, utteranceQueue, phetioID );
-  }
+  class UtteranceQueueIO extends ObjectIO {}
 
-  phetioInherit( ObjectIO, 'UtteranceQueueIO', UtteranceQueueIO, {
-
+  UtteranceQueueIO.methods = {
     addToBack: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
@@ -86,14 +76,13 @@ define( function( require ) {
       documentation: 'Get whether the utteranceQueue is enabled. When enabled, Utterances cannot be added to ' +
                      'the queue, and the Queue cannot be cleared. Also nothing will be sent to assistive technology.'
     }
-  }, {
-    documentation: 'Manages a queue of Utterances that are read in order by a screen reader.',
-    events: [ 'announced' ],
-    validator: { valueType: Object }
-  } );
+  };
 
-  sceneryPhet.register( 'UtteranceQueueIO', UtteranceQueueIO );
+  UtteranceQueueIO.documentation = 'Manages a queue of Utterances that are read in order by a screen reader.';
+  UtteranceQueueIO.events = [ 'announced' ];
+  UtteranceQueueIO.validator = { valueType: Object };
+  UtteranceQueueIO.typeName = 'UtteranceQueueIO';
+  ObjectIO.validateSubtype( UtteranceQueueIO );
 
-  return UtteranceQueueIO;
+  return sceneryPhet.register( 'UtteranceQueueIO', UtteranceQueueIO );
 } );
-

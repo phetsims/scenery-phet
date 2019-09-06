@@ -10,26 +10,16 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  /**
-   * IO type for phet/scenery-phet's NumberDisplay class.
-   * @param {NumberDisplay} numberControl
-   * @param {string} phetioID
-   * @constructor
-   */
-  function NumberDisplayIO( numberControl, phetioID ) {
-    NodeIO.call( this, numberControl, phetioID );
-  }
+  class NumberDisplayIO extends NodeIO {}
 
-  phetioInherit( NodeIO, 'NumberDisplayIO', NumberDisplayIO, {}, {
-    validator: { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay },
-    documentation: 'A numeric readout with a background'
-  } );
+  NumberDisplayIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay };
+  NumberDisplayIO.documentation = 'A numeric readout with a background';
+  NumberDisplayIO.typeName = 'NumberDisplayIO';
+  ObjectIO.validateSubtype( NumberDisplayIO );
 
-  sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
-
-  return NumberDisplayIO;
+  return sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
 } );

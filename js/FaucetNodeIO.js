@@ -10,27 +10,18 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  /**
-   * @param {FaucetNode} faucetNode
-   * @param {string} phetioID
-   * @constructor
-   */
-  function FaucetNodeIO( faucetNode, phetioID ) {
-    NodeIO.call( this, faucetNode, phetioID );
-  }
+  class FaucetNodeIO extends NodeIO {}
 
-  phetioInherit( NodeIO, 'FaucetNodeIO', FaucetNodeIO, {}, {
-    validator: { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode },
-    documentation: 'Faucet that emits fluid, typically user-controllable',
-    events: [ 'startTapToDispense', 'endTapToDispense' ]
-  } );
+  FaucetNodeIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode };
+  FaucetNodeIO.documentation = 'Faucet that emits fluid, typically user-controllable';
+  FaucetNodeIO.events = [ 'startTapToDispense', 'endTapToDispense' ];
+  FaucetNodeIO.typeName = 'FaucetNodeIO';
+  ObjectIO.validateSubtype( FaucetNodeIO );
 
-  sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
-
-  return FaucetNodeIO;
+  return sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
 } );
 
