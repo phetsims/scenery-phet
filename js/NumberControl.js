@@ -540,12 +540,13 @@ define( require => {
       }, options );
 
       return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
-        return new VBox( {
+        const titleAlignBox = new AlignBox( titleNode, { leftMargin: options.titleLeftIndent } );
+        const vBox = new VBox( {
           spacing: options.ySpacing,
           resize: false, // prevent slider from causing a resize when thumb is at min or max
           align: options.alignTitle,
           children: [
-            new AlignBox( titleNode, { leftMargin: options.titleLeftIndent } ),
+            titleAlignBox,
             new VBox( {
               spacing: options.ySpacing,
               resize: false, // prevent slider from causing a resize when thumb is at min or max
@@ -560,6 +561,14 @@ define( require => {
             } )
           ]
         } );
+
+        // When the text of the title changes and it should be centered, recenter the text.
+        titleAlignBox.on( 'bounds', () => {
+          if ( options.alignTitle === 'center' ) {
+            titleAlignBox.centerX = vBox.centerX;
+          }
+        } );
+        return vBox;
       };
     },
 
