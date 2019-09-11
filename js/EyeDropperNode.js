@@ -136,15 +136,15 @@ define( function( require ) {
       Node.prototype.dispose.call( this );
     },
 
-    set dispensing( value ) { this.dispensingProperty = value; },
+    set dispensing( value ) { this.dispensingProperty.value = value; },
 
     get dispensing() { return this.dispensingProperty.value; },
 
-    set enabled( value ) { this.enabledProperty = value; },
+    set enabled( value ) { this.enabledProperty.value = value; },
 
     get enabled() { return this.enabledProperty.value; },
 
-    set empty( value ) { this.emptyProperty = value; },
+    set empty( value ) { this.emptyProperty.value = value; },
 
     get empty() { return this.emptyProperty.value; },
 
