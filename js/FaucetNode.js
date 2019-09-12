@@ -324,7 +324,6 @@ define( function( require ) {
       }
 
       // Subcomponents
-      shooterNode.removeInputListener( inputListener );
       inputListener.dispose();
       shooterNode.dispose();
 
