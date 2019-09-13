@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Puts a Node on a rectangular background, dynamically sized to fit the Node.
@@ -25,7 +25,6 @@ define( require => {
 
       options = merge( {
         backgroundOptions: {
-
           fill: 'white',
           opacity: 0.75
         },
