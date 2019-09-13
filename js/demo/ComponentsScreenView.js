@@ -898,8 +898,8 @@ define( function( require ) {
 
     // example letter keys, portion of a typical keyboard
     var topRowKeyStrings = [ 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\' ];
-    var middleRowKeyStrings = [ 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '\:', '\"' ];
-    var bottomRowKeyStrings = [ 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '\'', '.', '\/' ];
+    var middleRowKeyStrings = [ 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"' ];
+    var bottomRowKeyStrings = [ 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '\'', '.', '/' ];
 
     // arrays that hold key nodes for each row of a keyboard - each row starts with an additional multi-character key
     var topKeyNodes = [ new TabKeyNode() ];

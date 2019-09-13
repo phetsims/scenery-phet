@@ -17,6 +17,7 @@ define( function( require ) {
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var ResetAllButtonIO = require( 'SCENERY_PHET/buttons/ResetAllButtonIO' );
   var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
   var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
@@ -43,9 +44,10 @@ define( function( require ) {
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      tandem: Tandem.required,
 
+      tandem: Tandem.required,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
+      phetioType: ResetAllButtonIO,
 
       // a11y
       innerContent: resetAllButtonNameString

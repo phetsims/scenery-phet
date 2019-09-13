@@ -324,9 +324,7 @@ define( function( require ) {
       }
 
       // Subcomponents
-      if ( shooterNode.hasInputListener( inputListener ) ) {
-        shooterNode.removeInputListener( inputListener );
-      }
+      inputListener.dispose();
       shooterNode.dispose();
 
       self.disposeAccessibleSlider();
