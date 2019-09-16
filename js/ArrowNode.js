@@ -42,16 +42,27 @@ define( function( require ) {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
+
+      // phet-io
       tandem: Tandem.optional
     }, options );
-    this.options = options; // @private
-
-    Path.call( this, null );
-    this.shapePoints = [];
-    this.setTailAndTip( tailX, tailY, tipX, tipY );
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
+
+    Path.call( this, null );
+
+    // @private
+    this.options = options;
+    this.shapePoints = []; // {Vector2[]}
+
+    // @public {read-only}
+    this.tailX = tailX;
+    this.tailY = tailY;
+    this.tipX = tipX;
+    this.tipY = tipY;
+
+    this.setTailAndTip( tailX, tailY, tipX, tipY );
 
     this.mutate( options );
 
@@ -65,7 +76,6 @@ define( function( require ) {
 
     /**
      * Update the internal shapePoints array which is used to populate the points in the Shape instance.
-     *
      * @private
      * @returns {boolean} true if the number of points in the array has changed, which would require building a new
      *                    shape instance.
@@ -73,7 +83,7 @@ define( function( require ) {
     updateShapePoints: function() {
       var numberOfPoints = this.shapePoints.length;
       this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
-      return this.shapePoints.length !== numberOfPoints;
+      return ( this.shapePoints.length !== numberOfPoints );
     },
 
     /**
@@ -82,11 +92,11 @@ define( function( require ) {
      */
     updateShape: function() {
 
-      var shape = new Shape();
+      const shape = new Shape();
 
       if ( this.shapePoints.length > 1 ) {
         shape.moveToPoint( this.shapePoints[ 0 ] );
-        for ( var i = 1; i < this.shapePoints.length; i++ ) {
+        for ( let i = 1; i < this.shapePoints.length; i++ ) {
           shape.lineToPoint( this.shapePoints[ i ] );
         }
         shape.close();
@@ -96,21 +106,25 @@ define( function( require ) {
     },
 
     /**
-     * Set the tail and tip locations to update the arrow shape.  If the tail and tip are at the same point, the arrow
-     * is not shown.
+     * Sets the tail and tip locations to update the arrow shape.
+     * If the tail and tip are at the same point, the arrow is not shown.
      * @public
+     * @param {number} tailX
+     * @param {number} tailY
+     * @param {number} tipX
+     * @param {number} tipY
      */
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
 
-      this.tailX = tailX; // @public {read-only}
-      this.tailY = tailY; // @public {read-only}
-      this.tipX = tipX; // @public {read-only}
-      this.tipY = tipY; // @public {read-only}
+      this.tailX = tailX;
+      this.tailY = tailY;
+      this.tipX = tipX;
+      this.tipY = tipY;
 
-      var numberOfPointsChanged = this.updateShapePoints();
+      const numberOfPointsChanged = this.updateShapePoints();
 
-      // This bit of logic is to improve performance for the case where the Shape instance can be reused (if the number
-      // of points in the array is the same)
+      // This bit of logic is to improve performance for the case where the Shape instance can be reused
+      // (if the number of points in the array is the same).
       if ( !this.shape || numberOfPointsChanged ) {
         this.updateShape();
       }
@@ -122,16 +136,27 @@ define( function( require ) {
     },
 
     /**
+     * Sets the tail location.
+     * @param {number} tailX
+     * @param {number} tailY
+     * @public
+     */
+    setTail: function( tailX, tailY ) {
+      this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
+    },
+
+    /**
      * Sets the tip location.
      * @param {number} tipX
      * @param {number} tipY
      * @public
      */
-    setTip( tipX, tipY ) {
+    setTip: function( tipX, tipY ) {
       this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
     },
 
     /**
+     * Sets the tail width.
      * @public
      * @param {number} tailWidth
      */
@@ -142,8 +167,9 @@ define( function( require ) {
     },
 
     /**
-     * @public - set whether the arrow has one triangle or two
-     * @param {number} doubleHead
+     * Sets whether the arrow has one or two heads.
+     * @public
+     * @param {boolean} doubleHead
      */
     setDoubleHead: function( doubleHead ) {
       this.options.doubleHead = doubleHead;
