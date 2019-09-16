@@ -14,10 +14,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {number} tailX
@@ -39,16 +39,16 @@ define( function( require ) {
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
 
-    var self = this;
+    const self = this;
     Shape.call( this );
 
     if ( tipX !== tailX || tipY !== tailY ) {
 
-      var points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
+      const points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
 
       // Describe the shape
       this.moveTo( points[ 0 ].x, points[ 0 ].y );
-      var tail = _.tail( points );
+      const tail = _.tail( points );
       _.each( tail, function( element ) {
         self.lineTo( element.x, element.y );
       } );
@@ -90,15 +90,15 @@ define( function( require ) {
       else {
 
         // The shape of the arrow will populate the shapePoints array
-        var vector = new Vector2( tipX - tailX, tipY - tailY );
-        var xHatUnit = vector.normalized();
-        var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-        var length = vector.magnitude;
+        const vector = new Vector2( tipX - tailX, tipY - tailY );
+        const xHatUnit = vector.normalized();
+        const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
+        const length = vector.magnitude;
 
         // scale down the head if head is dynamic.
-        var headWidth = options.headWidth;
-        var headHeight = options.headHeight;
-        var tailWidth = options.tailWidth;
+        let headWidth = options.headWidth;
+        let headHeight = options.headHeight;
+        let tailWidth = options.tailWidth;
         if ( options.isHeadDynamic ) {
           if ( length < options.headHeight / options.fractionalHeadHeight ) {
             headHeight = length * options.fractionalHeadHeight;
@@ -117,12 +117,11 @@ define( function( require ) {
           headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
         }
 
-        var index = 0;
-
         // Set up a coordinate frame that goes from the tail of the arrow to the tip.
-        var addPoint = function( xHat, yHat ) {
-          var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
-          var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
+        let index = 0;
+        const addPoint = function( xHat, yHat ) {
+          const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
+          const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
           if ( shapePoints[ index ] ) {
             shapePoints[ index ].x = x;
             shapePoints[ index ].y = y;
