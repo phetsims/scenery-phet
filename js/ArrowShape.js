@@ -62,7 +62,8 @@ define( function( require ) {
   return inherit( Shape, ArrowShape, {}, {
 
     /**
-     * This method is static so it can be used in ArrowShape as well as in ArrowNode.
+     * This method is static so it can be used in ArrowShape as well as in ArrowNode.  If the tail and tip are at the
+     * same location, there are no points and the arrow will not be shown.
      * @param {number} tailX
      * @param {number} tailY
      * @param {number} tipX
@@ -72,7 +73,7 @@ define( function( require ) {
      *                                  Tested this implementation vs the old one by creating hundreds of arrows and
      *                                  saw significant performance gains.
      * @param {Object} [options]
-     * @returns {Array}
+     * @returns {Vector2[]}
      * @static
      * @public
      */

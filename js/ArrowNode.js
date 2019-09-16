@@ -96,12 +96,11 @@ define( function( require ) {
     },
 
     /**
-     * Set the tail and tip locations to update the arrow shape
+     * Set the tail and tip locations to update the arrow shape.  If the tail and tip are at the same point, the arrow
+     * is not shown.
      * @public
      */
     setTailAndTip: function( tailX, tailY, tipX, tipY ) {
-
-      // assert && assert( !(tailX === tipX && tailY === tipY), 'arrow should have different tail and tip' );
 
       this.tailX = tailX; // @public {read-only}
       this.tailY = tailY; // @public {read-only}
