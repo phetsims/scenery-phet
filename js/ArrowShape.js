@@ -111,14 +111,16 @@ define( function( require ) {
             // nothing to do; headHeight is already large enough, and previously computed values will be correct.
           }
         }
-
-        // otherwise, just make sure that head height is less than arrow length
         else {
+
+          // otherwise, just make sure that head height is less than arrow length
           headHeight = Math.min( options.headHeight, options.doubleHead ? 0.35 * length : 0.99 * length );
         }
 
-        // Set up a coordinate frame that goes from the tail of the arrow to the tip.
+        // Index into shapePoints, incremented each time addPoint is called.
         let index = 0;
+
+        // Set up a coordinate frame that goes from the tail of the arrow to the tip.
         const addPoint = function( xHat, yHat ) {
           const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
           const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
@@ -158,6 +160,7 @@ define( function( require ) {
           shapePoints.length = index;
         }
       }
+
       return shapePoints;
     }
   } );
