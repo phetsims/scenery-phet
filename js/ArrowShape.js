@@ -33,9 +33,9 @@ define( function( require ) {
       tailWidth: 5,
       headWidth: 10,
       headHeight: 10,
-      doubleHead: false,
-      isHeadDynamic: false,
-      scaleTailToo: false,
+      doubleHead: false, // determines whether the arrow has a head at both ends of the tail
+      isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
+      scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
       fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
     }, options );
 
@@ -83,32 +83,34 @@ define( function( require ) {
         shapePoints = [];
       }
 
-      // if arrow has no length, it should have no points so that we don't attempt to draw anything
       if ( tipX === tailX && tipY === tailY ) {
+
+        // if arrow has no length, it should have no points so that we don't attempt to draw anything
         shapePoints.length = 0;
       }
       else {
 
-        // The shape of the arrow will populate the shapePoints array
+        // create a vector representation of the arrow
         const vector = new Vector2( tipX - tailX, tipY - tailY );
-        const xHatUnit = vector.normalized();
-        const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
         const length = vector.magnitude;
 
-        // scale down the head if head is dynamic.
+        // start with the dimensions specified in options
         let headWidth = options.headWidth;
         let headHeight = options.headHeight;
         let tailWidth = options.tailWidth;
+
+        // handle scaling of the head and tail
         if ( options.isHeadDynamic ) {
+
+          // scale down the head height, if it's dynamic
           if ( length < options.headHeight / options.fractionalHeadHeight ) {
             headHeight = length * options.fractionalHeadHeight;
             if ( options.scaleTailToo ) {
+
+              // also scale down head width and tail width
               tailWidth = options.tailWidth * headHeight / options.headHeight;
               headWidth = options.headWidth * headHeight / options.headHeight;
             }
-          }
-          else {
-            // nothing to do; headHeight is already large enough, and previously computed values will be correct.
           }
         }
         else {
@@ -121,6 +123,10 @@ define( function( require ) {
         let index = 0;
 
         // Set up a coordinate frame that goes from the tail of the arrow to the tip.
+        const xHatUnit = vector.normalized();
+        const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
+
+        // Function to add a point to shapePoints
         const addPoint = function( xHat, yHat ) {
           const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
           const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
