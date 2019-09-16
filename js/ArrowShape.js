@@ -20,7 +20,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
-   *
    * @param {number} tailX
    * @param {number} tailY
    * @param {number} tipX
