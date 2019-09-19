@@ -31,10 +31,10 @@ define( require => {
       size: new Dimension2( 15, 10 )
     }, options );
 
-    var iconShape = new Shape();
+    const iconShape = new Shape();
 
     // the outline, tip points left, described clockwise from the tip
-    var tipWidth = options.size.width / 3;
+    const tipWidth = options.size.width / 3;
     iconShape.moveTo( 0, tipWidth )
       .lineTo( tipWidth, 0 )
       .lineTo( options.size.width, 0 )
@@ -43,10 +43,10 @@ define( require => {
       .close();
 
     // the x in the middle, multipliers determined empirically
-    var left = 0.47 * options.size.width;
-    var right = 0.73 * options.size.width;
-    var top = 0.3 * options.size.height;
-    var bottom = 0.7 * options.size.height;
+    const left = 0.47 * options.size.width;
+    const right = 0.73 * options.size.width;
+    const top = 0.3 * options.size.height;
+    const bottom = 0.7 * options.size.height;
     iconShape.moveTo( left, top )
       .lineTo( right, bottom )
       .moveTo( right, top )

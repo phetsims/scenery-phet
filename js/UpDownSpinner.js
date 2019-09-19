@@ -28,15 +28,15 @@ define( require => {
    * @constructor
    */
   function UpDownSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
-    var shapeWidth = 26;
-    var upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );
-    var downShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, 10 ).lineTo( shapeWidth, 0 );
+    const shapeWidth = 26;
+    const upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );
+    const downShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, 10 ).lineTo( shapeWidth, 0 );
 
-    var upIcon = new Path( upShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
-    var downIcon = new Path( downShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    const upIcon = new Path( upShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    const downIcon = new Path( downShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
 
-    var radius = 20;
-    var upButton = new RoundPushButton( {
+    const radius = 20;
+    const upButton = new RoundPushButton( {
       content: upIcon,
       listener: function() {
         valueProperty.set( valueProperty.get() + 1 );
@@ -46,9 +46,9 @@ define( require => {
       baseColor: '#fefd53',
       yContentOffset: -3
     } );
-    var upEnabledPropertyLinkAttribute = upEnabledProperty.linkAttribute( upButton, 'enabled' );
+    const upEnabledPropertyLinkAttribute = upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
-    var downButton = new RoundPushButton( {
+    const downButton = new RoundPushButton( {
       content: downIcon,
       listener: function() {
         valueProperty.set( valueProperty.get() - 1 );
@@ -58,7 +58,7 @@ define( require => {
       baseColor: '#fefd53',
       yContentOffset: +3
     } );
-    var downEnabledPropertyLinkAttribute = downEnabledProperty.linkAttribute( downButton, 'enabled' );
+    const downEnabledPropertyLinkAttribute = downEnabledProperty.linkAttribute( downButton, 'enabled' );
 
     VBox.call( this, { spacing: 6, children: [ upButton, downButton ] } );
 

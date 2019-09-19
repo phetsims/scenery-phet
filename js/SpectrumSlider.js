@@ -41,7 +41,7 @@ define( require => {
    */
   function SpectrumSlider( valueProperty, options ) {
 
-    var self = this;
+    const self = this;
 
     // options that are specific to this type
     options = _.extend( {
@@ -102,7 +102,7 @@ define( require => {
 
     Node.call( this );
 
-    var track = new SpectrumNode( {
+    const track = new SpectrumNode( {
       valueToColor: options.valueToColor,
       size: new Dimension2( options.trackWidth, options.trackHeight ),
       minValue: options.minValue,
@@ -118,13 +118,13 @@ define( require => {
      * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
      * without affecting the track's bounds.
      */
-    var trackBorder = new Rectangle( 0, 0, track.width, track.height, {
+    const trackBorder = new Rectangle( 0, 0, track.width, track.height, {
       stroke: options.trackBorderStroke,
       lineWidth: 1,
       pickable: false
     } );
 
-    var valueDisplay;
+    let valueDisplay;
     if ( options.valueVisible ) {
       valueDisplay = new ValueDisplay( valueProperty, options.valueToString, {
         font: options.valueFont,
@@ -133,7 +133,7 @@ define( require => {
       } );
     }
 
-    var cursor;
+    let cursor;
     if ( options.cursorVisible ) {
       cursor = new Cursor( 3, track.height, {
         stroke: options.cursorStroke,
@@ -141,7 +141,7 @@ define( require => {
       } );
     }
 
-    var thumb = new Thumb( options.thumbWidth, options.thumbHeight, {
+    const thumb = new Thumb( options.thumbWidth, options.thumbHeight, {
       cursor: 'pointer',
       top: track.bottom
     } );
@@ -161,8 +161,8 @@ define( require => {
     }
 
     // tweaker buttons for single-unit increments
-    var plusButton;
-    var minusButton;
+    let plusButton;
+    let minusButton;
     if ( options.tweakersVisible ) {
 
       plusButton = new ArrowButton( 'right', function() {
@@ -214,17 +214,17 @@ define( require => {
     minusButton && this.addChild( minusButton );
 
     // transforms between position and value
-    var positionToValue = function( x ) {
+    const positionToValue = function( x ) {
       return Util.clamp( Util.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
     };
-    var valueToPosition = function( value ) {
+    const valueToPosition = function( value ) {
       return Util.clamp( Util.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
     };
 
     // click in the track to change the value, continue dragging if desired
-    var handleTrackEvent = function( event ) {
-      var x = thumb.globalToParentPoint( event.pointer.point ).x;
-      var value = positionToValue( x );
+    const handleTrackEvent = function( event ) {
+      const x = thumb.globalToParentPoint( event.pointer.point ).x;
+      const value = positionToValue( x );
       valueProperty.set( value );
     };
 
@@ -242,7 +242,7 @@ define( require => {
     } ) );
 
     // thumb drag handler
-    var clickXOffset = 0; // x-offset between initial click and thumb's origin
+    let clickXOffset = 0; // x-offset between initial click and thumb's origin
     thumb.addInputListener( new SimpleDragHandler( {
 
       tandem: options.tandem.createTandem( 'thumbInputListener' ),
@@ -254,8 +254,8 @@ define( require => {
       },
 
       drag: function( event ) {
-        var x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
-        var value = positionToValue( x );
+        const x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
+        const value = positionToValue( x );
         valueProperty.set( value );
       }
     } ) );
@@ -264,9 +264,9 @@ define( require => {
     this.focusHighlight = new FocusHighlightFromNode( thumb );
 
     // sync with model
-    var updateUI = function( value ) {
+    const updateUI = function( value ) {
       // positions
-      var x = valueToPosition( value );
+      const x = valueToPosition( value );
       thumb.centerX = x;
       if ( cursor ) { cursor.centerX = x; }
       if ( valueDisplay ) { valueDisplay.centerX = x; }
@@ -278,7 +278,7 @@ define( require => {
         minusButton.enabled = ( value > options.minValue );
       }
     };
-    var valueListener = function( value ) {
+    const valueListener = function( value ) {
       updateUI( value );
     };
     valueProperty.link( valueListener );
@@ -290,15 +290,15 @@ define( require => {
      */
     // determine bounds at min and max values
     updateUI( options.minValue );
-    var minX = this.left;
+    const minX = this.left;
     updateUI( options.maxValue );
-    var maxX = this.right;
+    const maxX = this.right;
 
     // restore the initial value
     updateUI( valueProperty.get() );
 
     // add a horizontal strut
-    var strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
+    const strut = new Rectangle( minX, 0, maxX - minX, 1, { pickable: false } );
     this.addChild( strut );
     strut.moveToBack();
 
@@ -314,7 +314,7 @@ define( require => {
     };
 
     // mix accessible slider functionality into HSlider
-    var rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
+    const rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
     this.initializeAccessibleSlider( valueProperty, rangeProperty, new BooleanProperty( true ), options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -340,18 +340,18 @@ define( require => {
     }, options );
 
     // Set the radius of the arcs based on the height or width, whichever is smaller.
-    var radiusScale = 0.15;
-    var radius = ( width < height ) ? radiusScale * width : radiusScale * height;
+    const radiusScale = 0.15;
+    const radius = ( width < height ) ? radiusScale * width : radiusScale * height;
 
     // Calculate some parameters of the upper triangles of the thumb for getting arc offsets.
-    var hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
-    var angle = Math.acos( width * 0.5 / hypotenuse );
-    var heightOffset = radius * Math.sin( angle );
+    const hypotenuse = Math.sqrt( Math.pow( 0.5 * width, 2 ) + Math.pow( 0.3 * height, 2 ) );
+    const angle = Math.acos( width * 0.5 / hypotenuse );
+    const heightOffset = radius * Math.sin( angle );
 
     // Draw the thumb shape starting at the right upper corner of the pentagon below the arc,
     // this way we can get the arc coordinates for the arc in this corner from the other side,
     // which will be easier to calculate arcing from bottom to top.
-    var shape = new Shape()
+    const shape = new Shape()
       .moveTo( 0.5 * width, 0.3 * height + heightOffset )
       .lineTo( 0.5 * width, height - radius )
       .arc( 0.5 * width - radius, height - radius, radius, 0, Math.PI / 2 )
@@ -361,7 +361,7 @@ define( require => {
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
     // Save the coordinates for the point above the left side arc, for use on the other side.
-    var sideArcPoint = shape.getLastPoint();
+    const sideArcPoint = shape.getLastPoint();
 
     shape.lineTo( 0, 0 )
       .lineTo( -sideArcPoint.x, sideArcPoint.y )
@@ -385,8 +385,8 @@ define( require => {
 
     Text.call( this, '?', options );
 
-    var self = this;
-    var valueObserver = function( value ) {
+    const self = this;
+    const valueObserver = function( value ) {
       self.text = valueToString( value );
     };
     valueProperty.link( valueObserver );

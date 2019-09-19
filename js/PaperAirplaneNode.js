@@ -27,9 +27,9 @@ define( require => {
     // Define the shape, from the points in the PhET Logo AI file, see https://github.com/phetsims/scenery-phet/issues/75
     // The bounds offset were determined by getting bodyShape.bounds.minX, bodyShape.bounds.minY, and the shape
     // is adjusted to have top/left at (0,0)
-    var dx = 221.92;
-    var dy = 114.975;
-    var bodyShape = new Shape()
+    const dx = 221.92;
+    const dy = 114.975;
+    const bodyShape = new Shape()
       .moveTo( 221.92 - dx, 131.225 - dy )
       .lineTo( 234.307 - dx, 135.705 - dy )
       .lineTo( 250.253 - dx, 122.428 - dy )

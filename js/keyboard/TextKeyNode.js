@@ -39,7 +39,7 @@ define( require => {
     }, options );
 
     // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
-    var textNode = new RichText( string, { font: options.font, fill: options.fill, maxWidth: options.textMaxWidth } );
+    const textNode = new RichText( string, { font: options.font, fill: options.fill, maxWidth: options.textMaxWidth } );
 
     KeyNode.call( this, textNode, options );
   }

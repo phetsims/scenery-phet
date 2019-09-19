@@ -22,7 +22,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
-  var DEFAULT_FONT = new PhetFont( 18 );
+  const DEFAULT_FONT = new PhetFont( 18 );
 
   /**
    * @param {number} rulerWidth  distance between left-most and right-most tick, insets will be added to this
@@ -79,7 +79,7 @@ define( require => {
     Node.call( this );
 
     // background
-    var backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
+    const backgroundNode = new Rectangle( 0, 0, rulerWidth + ( 2 * options.insetsWidth ), rulerHeight, {
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
       lineWidth: options.backgroundLineWidth
@@ -87,33 +87,33 @@ define( require => {
     this.addChild( backgroundNode );
 
     // Lay out tick marks from left to right
-    var minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
-    var numberOfTicks = Math.floor( rulerWidth / minorTickWidth ) + 1;
-    var x = options.insetsWidth;
-    var majorTickIndex = 0;
+    const minorTickWidth = majorTickWidth / ( options.minorTicksPerMajorTick + 1 );
+    const numberOfTicks = Math.floor( rulerWidth / minorTickWidth ) + 1;
+    let x = options.insetsWidth;
+    let majorTickIndex = 0;
 
     // Minimize number of nodes by using one path for each type of tick line
-    var majorTickLinesShape = new Shape();
-    var minorTickLinesShape = new Shape();
+    const majorTickLinesShape = new Shape();
+    const minorTickLinesShape = new Shape();
 
     // Units label, which is positioned and (if necessary) scaled later
-    var unitsLabel = new Text( units, {
+    const unitsLabel = new Text( units, {
       font: options.unitsFont,
       pickable: false,
       tandem: options.tandem.createTandem( 'unitsLabel' )
     } );
-    var unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
+    let unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
     this.addChild( unitsLabel );
 
-    for ( var i = 0; i < numberOfTicks; i++ ) {
+    for ( let i = 0; i < numberOfTicks; i++ ) {
 
       if ( i % ( options.minorTicksPerMajorTick + 1 ) === 0 ) {  // assumes that the first (leftmost) tick is a major tick
 
         // Major tick
 
         // Create the tick label regardless of whether we add it, since it's required to layout the units label
-        var majorTickLabel = majorTickLabels[ majorTickIndex ];
-        var majorTickLabelNode = new Text( majorTickLabel, {
+        const majorTickLabel = majorTickLabels[ majorTickIndex ];
+        const majorTickLabelNode = new Text( majorTickLabel, {
           font: options.majorTickFont,
           centerX: x,
           centerY: backgroundNode.centerY,

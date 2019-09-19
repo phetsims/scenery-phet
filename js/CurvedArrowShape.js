@@ -28,13 +28,13 @@ define( require => {
    * @param distance
    * @returns {Vector2}
    */
-  var computePerpendicularPoint = function( x1, y1, x2, y2, distance ) {
-    var dx = x1 - x2;
-    var dy = y1 - y2;
-    var r = Math.sqrt( dx * dx + dy * dy );
+  const computePerpendicularPoint = function( x1, y1, x2, y2, distance ) {
+    const dx = x1 - x2;
+    const dy = y1 - y2;
+    const r = Math.sqrt( dx * dx + dy * dy );
     // midpoint + distance * unitVector
-    var x = ( x1 + x2 ) / 2 + ( distance * dy / r );
-    var y = ( y1 + y2 ) / 2 - ( distance * dx / r );
+    const x = ( x1 + x2 ) / 2 + ( distance * dy / r );
+    const y = ( y1 + y2 ) / 2 - ( distance * dx / r );
     return new Vector2( x, y );
   };
 
@@ -56,10 +56,10 @@ define( require => {
     Shape.call( this );
 
     // Points that define the base of an arrow head. 'inner' is closer to the center of the circle, 'outer' is farther away.
-    var baseInnerX;
-    var baseInnerY;
-    var baseOuterX;
-    var baseOuterY;
+    let baseInnerX;
+    let baseInnerY;
+    let baseOuterX;
+    let baseOuterY;
 
     // optional head at startAngle
     if ( options.doubleHead ) {
@@ -71,7 +71,7 @@ define( require => {
       baseOuterY = Math.sin( startAngle ) * ( radius + options.headWidth / 2 );
 
       // tip of the arrow head at startAngle
-      var startTip = computePerpendicularPoint( baseOuterX, baseOuterY, baseInnerX, baseInnerY, options.headHeight );
+      const startTip = computePerpendicularPoint( baseOuterX, baseOuterY, baseInnerX, baseInnerY, options.headHeight );
 
       // head at startAngle
       this.moveTo( baseInnerX, baseInnerY )
@@ -89,7 +89,7 @@ define( require => {
     baseOuterY = Math.sin( endAngle ) * ( radius + options.headWidth / 2 );
 
     // tip of the arrow head at endAngle
-    var endTip = computePerpendicularPoint( baseInnerX, baseInnerY, baseOuterX, baseOuterY, options.headHeight );
+    const endTip = computePerpendicularPoint( baseInnerX, baseInnerY, baseOuterX, baseOuterY, options.headHeight );
 
     // arrow head at endAngle
     this.lineTo( baseOuterX, baseOuterY )

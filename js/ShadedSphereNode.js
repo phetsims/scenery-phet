@@ -38,9 +38,9 @@ define( require => {
     assert && assert( options.highlightYOffset >= -1 && options.highlightYOffset <= 1,
       'highlightYOffset out of range: ' + options.highlightYOffset );
 
-    var radius = diameter / 2;
-    var highlightX = radius * options.highlightXOffset;
-    var highlightY = radius * options.highlightYOffset;
+    const radius = diameter / 2;
+    const highlightX = radius * options.highlightXOffset;
+    const highlightY = radius * options.highlightYOffset;
     options.fill = new RadialGradient( highlightX, highlightY, 0, highlightX, highlightY, diameter )
       .addColorStop( 0, options.highlightColor )
       .addColorStop( options.highlightDiameter / diameter, options.mainColor )

@@ -18,7 +18,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var NUMBER_OF_SIDES = 8;
+  const NUMBER_OF_SIDES = 8;
 
   /**
    * @param {Object} options

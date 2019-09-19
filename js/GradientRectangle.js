@@ -134,11 +134,11 @@ define( require => {
      * @private
      */
     invalidateGradients() {
-      var linearGradient = new LinearGradient( 0, 0, 1, 0 )
+      const linearGradient = new LinearGradient( 0, 0, 1, 0 )
         .addColorStop( this._extension, this._fillProperty )
         .addColorStop( 1, this._borderProperty );
 
-      var radialGradient = new RadialGradient( 0, 0, 0, 0, 0, 1 )
+      const radialGradient = new RadialGradient( 0, 0, 0, 0, 0, 1 )
         .addColorStop( this._extension, this._fillProperty )
         .addColorStop( 1, this._borderProperty );
 

@@ -28,7 +28,7 @@ define( require => {
     return fn( ...args );
   }
 
-  var alerts = [];
+  let alerts = [];
 
   let intervalID = null;
   QUnit.module( 'Utterance', {

@@ -26,7 +26,7 @@ define( require => {
     ScreenView.call( this );
 
     // A 200-unit vertical "wall", for comparison with the spring size
-    var wallNode = new Rectangle( 0, 0, 25, 200, {
+    const wallNode = new Rectangle( 0, 0, 25, 200, {
       fill: 'rgb( 180, 180, 180 )',
       stroke: 'black',
       left: 20,
@@ -34,7 +34,7 @@ define( require => {
     } );
 
     // Ranges for the various properties of ParametricSpringNode
-    var ranges = {
+    const ranges = {
       loopsRange: new RangeWithValue( 4, 15, 10 ),
       radiusRange: new RangeWithValue( 5, 70, 10 ),
       aspectRatioRange: new RangeWithValue( 0.5, 10, 4 ),
@@ -46,7 +46,7 @@ define( require => {
     };
 
     // spring
-    var springNode = new ParametricSpringNode( {
+    const springNode = new ParametricSpringNode( {
 
       // initial values for Properties
       loops: ranges.loopsRange.defaultValue,
@@ -69,7 +69,7 @@ define( require => {
     } );
 
     // control panel, scaled to fit across the bottom
-    var controls = new SpringControls( ranges, springNode );
+    const controls = new SpringControls( ranges, springNode );
     controls.setScaleMagnitude( Math.min( 1, this.layoutBounds.width / controls.width ) );
     controls.bottom = this.layoutBounds.bottom;
     controls.centerX = this.layoutBounds.centerX;

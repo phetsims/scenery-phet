@@ -45,7 +45,7 @@ define( require => {
   const keyboardHelpDialogOrString = require( 'string!SCENERY_PHET/keyboardHelpDialog.or' );
 
   // a11y strings
-  var grabOrReleaseDescriptionPatternString = SceneryPhetA11yStrings.grabOrReleaseDescriptionPattern.value;
+  const grabOrReleaseDescriptionPatternString = SceneryPhetA11yStrings.grabOrReleaseDescriptionPattern.value;
 
   // constants
   // heading defaults
@@ -97,7 +97,7 @@ define( require => {
     }, options );
 
     // create the heading
-    var headingText = new Text( headingString, {
+    const headingText = new Text( headingString, {
       font: options.headingFont,
       maxWidth: options.headingMaxWidth,
 
@@ -107,9 +107,9 @@ define( require => {
     } );
 
     // place icons in labels in unique layout boxes for alignment
-    var icons = [];
-    var labels = [];
-    for ( var i = 0; i < content.length; i++ ) {
+    const icons = [];
+    const labels = [];
+    for ( let i = 0; i < content.length; i++ ) {
       const helpSectionRow = content[ i ];
 
       assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
@@ -119,7 +119,7 @@ define( require => {
       labels.push( helpSectionRow.label );
     }
 
-    var vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
+    const vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
 
     // @private - to adjust spacing if necessary for alignment
     this.labelVBox = new VBox( _.extend( {
@@ -179,7 +179,7 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children are not optional' );
 
-      var labelText = new RichText( labelString, { font: LABEL_FONT } );
+      const labelText = new RichText( labelString, { font: LABEL_FONT } );
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
@@ -190,9 +190,9 @@ define( require => {
       }
 
       // make the label and icon the same height so that they will align when we assemble help section group
-      var labelIconGroup = new AlignGroup( options );
-      var labelBox = labelIconGroup.createBox( labelText );
-      var iconBox = labelIconGroup.createBox( icon, options.iconOptions );
+      const labelIconGroup = new AlignGroup( options );
+      const labelBox = labelIconGroup.createBox( labelText );
+      const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
       return new HelpSectionRow( labelText, labelBox, iconBox );
     },
@@ -230,18 +230,18 @@ define( require => {
         innerContent: labelInnerContent
       }, options.iconsVBoxOptions );
 
-      var labelText = new RichText( labelString, { font: LABEL_FONT } );
+      const labelText = new RichText( labelString, { font: LABEL_FONT } );
 
       // horizontally align the label with the first item in the list of icons, guarantees that the label and first
       // icon have identical heights
-      var labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
+      const labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
       labelFirstIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
-      var labelBox = labelFirstIconGroup.createBox( labelText );
+      const labelBox = labelFirstIconGroup.createBox( labelText );
 
       // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
-      var iconsWithOrText = [];
-      for ( var i = 0; i < icons.length - 1; i++ ) {
-        var orText = new Text( keyboardHelpDialogOrString, {
+      const iconsWithOrText = [];
+      for ( let i = 0; i < icons.length - 1; i++ ) {
+        const orText = new Text( keyboardHelpDialogOrString, {
           font: LABEL_FONT,
           maxWidth: OR_TEXT_MAX_WIDTH
         } );
@@ -255,15 +255,15 @@ define( require => {
       iconsWithOrText.push( icons[ icons.length - 1 ] );
 
       // place icons in a VBox, passing through optional spacing and a11y representation
-      var iconsVBox = new VBox( _.extend( {
+      const iconsVBox = new VBox( _.extend( {
         children: iconsWithOrText
       }, options.iconsVBoxOptions ) );
 
       // make the label the same height as the icon list by aligning them in a box that matches height
-      var groupOptions = { yAlign: 'top' };
-      var labelIconListGroup = new AlignGroup( { matchHorizontal: false } );
-      var iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
-      var labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
+      const groupOptions = { yAlign: 'top' };
+      const labelIconListGroup = new AlignGroup( { matchHorizontal: false } );
+      const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
+      const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
       return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
     },
@@ -281,10 +281,10 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var upArrowKeyNode = new ArrowKeyNode( 'up' );
-      var leftArrowKeyNode = new ArrowKeyNode( 'left' );
-      var downArrowKeyNode = new ArrowKeyNode( 'down' );
-      var rightArowKeyNode = new ArrowKeyNode( 'right' );
+      const upArrowKeyNode = new ArrowKeyNode( 'up' );
+      const leftArrowKeyNode = new ArrowKeyNode( 'left' );
+      const downArrowKeyNode = new ArrowKeyNode( 'down' );
+      const rightArowKeyNode = new ArrowKeyNode( 'right' );
 
       options.children = [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
       return new HBox( options );
@@ -305,8 +305,8 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var upArrowKeyNode = new ArrowKeyNode( firstKeyName );
-      var rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
+      const upArrowKeyNode = new ArrowKeyNode( firstKeyName );
+      const rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
 
       options.children = [ upArrowKeyNode, rightArrowKeyNode ];
       return new HBox( options );
@@ -345,10 +345,10 @@ define( require => {
       assert && assert( !options.children, 'children cannot be passed to options' );
 
       // These are not translated because they map directly to specific key codes.
-      var wKeyNode = new LetterKeyNode( 'W' );
-      var aKeyNode = new LetterKeyNode( 'A' );
-      var sKeyNode = new LetterKeyNode( 'S' );
-      var dKeyNode = new LetterKeyNode( 'D' );
+      const wKeyNode = new LetterKeyNode( 'W' );
+      const aKeyNode = new LetterKeyNode( 'A' );
+      const sKeyNode = new LetterKeyNode( 'S' );
+      const dKeyNode = new LetterKeyNode( 'D' );
 
       options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
       return new HBox( options );
@@ -366,8 +366,8 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var arrowKeys = KeyboardHelpSection.arrowKeysRowIcon();
-      var wasdKeys = KeyboardHelpSection.wasdRowIcon();
+      const arrowKeys = KeyboardHelpSection.arrowKeysRowIcon();
+      const wasdKeys = KeyboardHelpSection.wasdRowIcon();
 
       return KeyboardHelpSection.iconOrIcon( arrowKeys, wasdKeys, options );
     },
@@ -384,8 +384,8 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      var pageUpKeyNode = new PageUpKeyNode();
-      var pageDownKeyNode = new PageDownKeyNode();
+      const pageUpKeyNode = new PageUpKeyNode();
+      const pageDownKeyNode = new PageDownKeyNode();
 
       options.children = [ pageUpKeyNode, pageDownKeyNode ];
 
@@ -412,10 +412,10 @@ define( require => {
       assert && assert( !options.children );
 
       // shift key icon
-      var shiftKeyIcon = new ShiftKeyNode();
+      const shiftKeyIcon = new ShiftKeyNode();
 
       // plus icon
-      var plusIconNode = new PlusNode( {
+      const plusIconNode = new PlusNode( {
         size: options.plusIconSize
       } );
 
@@ -439,7 +439,7 @@ define( require => {
       }, options );
       assert && assert( !options.children );
 
-      var orText = new Text( keyboardHelpDialogOrString, {
+      const orText = new Text( keyboardHelpDialogOrString, {
         font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );
@@ -468,7 +468,7 @@ define( require => {
       assert && assert( !options.children );
 
       // plus icon
-      var plusIconNode = new PlusNode( {
+      const plusIconNode = new PlusNode( {
         size: options.plusIconSize
       } );
 
@@ -505,7 +505,7 @@ define( require => {
     alignHelpSectionIcons: function( sectionArray ) {
 
       // left edge of icons farthest to the right in the array of KeyboardHelpSection
-      var maxLeftEdge = _.maxBy( sectionArray, function( section ) { return section.iconVBox.left; } ).iconVBox.left;
+      const maxLeftEdge = _.maxBy( sectionArray, function( section ) { return section.iconVBox.left; } ).iconVBox.left;
 
       // adjust the spacing of all section HBoxes so that they align
       sectionArray.forEach( function( section ) {
@@ -537,24 +537,24 @@ define( require => {
     }, options );
 
     // the visible heading string
-    var heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
+    const heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
       thing: thingAsTitle
     } );
 
     // the visible label string
-    var labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
+    const labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
       thing: thingAsLowerCase
     } );
 
     // the string for the PDOM
-    var descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
+    const descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
       thing: thingAsLowerCase
     } );
 
-    var spaceKeyNode = new SpaceKeyNode();
-    var enterKeyNode = new EnterKeyNode();
-    var icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
+    const spaceKeyNode = new SpaceKeyNode();
+    const enterKeyNode = new EnterKeyNode();
+    const icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
+    const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }

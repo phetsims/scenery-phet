@@ -21,7 +21,7 @@ define( require => {
   const timer = require( 'AXON/timer' );
 
   // constants
-  var SLOT_CHANGE_TIME = 0.35; // In seconds
+  const SLOT_CHANGE_TIME = 0.35; // In seconds
 
   /**
    * @param {Property.<number>} selectedKit
@@ -31,7 +31,7 @@ define( require => {
    */
   function KitSelectionNode( selectedKit, kits, options ) {
     Node.call( this );
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       titleNode: null,
@@ -42,8 +42,8 @@ define( require => {
     self.selectedKit = selectedKit;
 
     // Determine the max size of all the kit contents for layout purposes.
-    var maxKitContentSize = new Dimension2( 0, 0 );
-    var maxKitTitleSize = new Dimension2( 0, 0 );
+    const maxKitContentSize = new Dimension2( 0, 0 );
+    const maxKitTitleSize = new Dimension2( 0, 0 );
     kits.forEach( function( kit ) {
       maxKitContentSize.width = Math.max( maxKitContentSize.width, kit.content.width );
       maxKitContentSize.height = Math.max( maxKitContentSize.height, kit.content.height );
@@ -51,7 +51,7 @@ define( require => {
       maxKitTitleSize.height = Math.max( maxKitTitleSize.height, kit.title.height );
     } );
 
-    var controlNode;
+    let controlNode;
     if ( options.selectorPosition === 'top' ) {
       controlNode = new KitControlNodeTop( kits.length, selectedKit, {
         titleNode: options.titleNode,
@@ -76,7 +76,7 @@ define( require => {
     self.kitLayer = new Node();
 
     // Add the kits to the kit layer, spacing them out so they don't overlap.
-    var x = 0;
+    let x = 0;
     kits.forEach( function( kit ) {
       // Put the title centered at the top and the content node centered in the
       // available space beneath.
@@ -114,17 +114,17 @@ define( require => {
     }
 
     // Set up an observer to set visibility of the selected kit.
-    var selectedKitObserver = function( kit ) {
+    const selectedKitObserver = function( kit ) {
       self.scrollTo( kit );
     };
     selectedKit.link( selectedKitObserver );
 
     // Set up the timer and function that will animate the carousel position.
-    var motionVelocity = self.selectorSize.width / SLOT_CHANGE_TIME;
+    const motionVelocity = self.selectorSize.width / SLOT_CHANGE_TIME;
     self.kitLayerTargetX = self.kitLayer.x;
-    var animateCarouselPosition = function( dt ) {
+    const animateCarouselPosition = function( dt ) {
       if ( self.kitLayer.x !== self.kitLayerTargetX ) {
-        var dx = dt * motionVelocity * ( self.kitLayerTargetX < self.kitLayer.x ? -1 : 1 );
+        const dx = dt * motionVelocity * ( self.kitLayerTargetX < self.kitLayer.x ? -1 : 1 );
         if ( Math.abs( self.kitLayer.x - self.kitLayerTargetX ) <= Math.abs( dx ) ) {
           self.kitLayer.x = self.kitLayerTargetX;
         }

@@ -52,7 +52,7 @@ define( require => {
 
       function updateEnabled( state ) {
         if ( content ) {
-          var enabled = state !== ButtonInteractionState.DISABLED &&
+          const enabled = state !== ButtonInteractionState.DISABLED &&
                         state !== ButtonInteractionState.DISABLED_PRESSED;
 
           arrowPath.fill = enabled ? options.arrowColor : DISABLED_COLOR;
@@ -68,7 +68,7 @@ define( require => {
 
     var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
 
-    var arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
+    const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
       tandem: options.tandem.createTandem( 'arrowShape' ),
       headWidth: 12,
       tailWidth: 4

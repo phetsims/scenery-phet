@@ -52,7 +52,7 @@ define( require => {
    * @constructor
    */
   function MeasuringTapeNode( unitsProperty, isVisibleProperty, options ) {
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
@@ -111,24 +111,24 @@ define( require => {
 
     this.tipToBaseDistance = ( this.basePositionProperty.value ).distance( this.tipPositionProperty.value ); // @private
 
-    var crosshairShape = new Shape()
+    const crosshairShape = new Shape()
       .moveTo( -options.crosshairSize, 0 )
       .moveTo( -options.crosshairSize, 0 )
       .lineTo( options.crosshairSize, 0 )
       .moveTo( 0, -options.crosshairSize )
       .lineTo( 0, options.crosshairSize );
 
-    var baseCrosshair = new Path( crosshairShape, {
+    const baseCrosshair = new Path( crosshairShape, {
       stroke: options.crosshairColor,
       lineWidth: options.crosshairLineWidth
     } );
 
-    var tipCrosshair = new Path( crosshairShape, {
+    const tipCrosshair = new Path( crosshairShape, {
       stroke: options.crosshairColor,
       lineWidth: options.crosshairLineWidth
     } );
 
-    var tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
+    const tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
     // @private
     this.baseImage = new Image( measuringTapeImage, {
@@ -137,13 +137,13 @@ define( require => {
     } );
 
     // create tapeline (running from one crosshair to the other)
-    var tapeLine = new Line( this.basePositionProperty.value, this.tipPositionProperty.value, {
+    const tapeLine = new Line( this.basePositionProperty.value, this.tipPositionProperty.value, {
       stroke: options.lineColor,
       lineWidth: options.tapeLineWidth
     } );
 
     // add tipCrosshair and tipCircle to the tip
-    var tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
+    const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     // @private
     this.valueNode = new Text( self.getText(), {
@@ -159,9 +159,9 @@ define( require => {
     } );
 
     // Resizes the value background and centers it on the value
-    var updateValueBackgroundNode = function() {
-      var valueBackgroundWidth = self.valueNode.width + ( 2 * options.textBackgroundXMargin );
-      var valueBackgroundHeight = self.valueNode.height + ( 2 * options.textBackgroundYMargin );
+    const updateValueBackgroundNode = function() {
+      const valueBackgroundWidth = self.valueNode.width + ( 2 * options.textBackgroundXMargin );
+      const valueBackgroundHeight = self.valueNode.height + ( 2 * options.textBackgroundYMargin );
       self.valueBackgroundNode.setRect( 0, 0, valueBackgroundWidth, valueBackgroundHeight );
       self.valueBackgroundNode.center = self.valueNode.center;
     };
@@ -184,7 +184,7 @@ define( require => {
     }
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
-    var baseStartOffset;
+    let baseStartOffset;
 
     // @private
     this.baseDragHandler = options.interactive ? new SimpleDragHandler( {
@@ -197,17 +197,17 @@ define( require => {
 
       start: function( event, trail ) {
         self._isBaseUserControlledProperty.set( true );
-        var location = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
+        const location = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
         baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
-        var unconstrainedBaseLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
-        var constrainedBaseLocation = self._dragBounds.closestPointTo( unconstrainedBaseLocation );
+        const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
+        const unconstrainedBaseLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
+        const constrainedBaseLocation = self._dragBounds.closestPointTo( unconstrainedBaseLocation );
 
         // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
-        var translationDelta = constrainedBaseLocation.minus( self.basePositionProperty.value ); // in model reference frame
+        const translationDelta = constrainedBaseLocation.minus( self.basePositionProperty.value ); // in model reference frame
 
         // translation of the basePosition (subject to the constraining drag bounds)
         self.basePositionProperty.set( constrainedBaseLocation );
@@ -215,9 +215,9 @@ define( require => {
         // translate the position of the tip if it is not being dragged
         // when the user is not holding onto the tip, dragging the body will also drag the tip
         if ( !self._isTipUserControlled ) {
-          var unconstrainedTipLocation = translationDelta.add( self.tipPositionProperty.value );
+          const unconstrainedTipLocation = translationDelta.add( self.tipPositionProperty.value );
           if ( options.isTipDragBounded ) {
-            var constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
+            const constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
             // translation of the tipPosition (subject to the constraining drag bounds)
             self.tipPositionProperty.set( constrainedTipLocation );
           }
@@ -235,7 +235,7 @@ define( require => {
 
     options.interactive && this.baseImage.addInputListener( this.baseDragHandler );
 
-    var tipStartOffset;
+    let tipStartOffset;
 
     // init drag and drop for tip
     options.interactive && tip.addInputListener( new SimpleDragHandler( {
@@ -248,16 +248,16 @@ define( require => {
 
       start: function( event, trail ) {
         self._isTipUserControlledProperty.set( true );
-        var location = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
+        const location = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
         tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
       },
 
       drag: function( event ) {
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
-        var unconstrainedTipLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
+        const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
+        const unconstrainedTipLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
-          var constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
+          const constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
           // translation of the tipPosition (subject to the constraining drag bounds)
           self.tipPositionProperty.set( constrainedTipLocation );
         }
@@ -279,13 +279,13 @@ define( require => {
      * @private
      */
     this.updatePosition = function( basePosition, tipPosition ) {
-      var viewTipPosition = self._modelViewTransform.modelToViewPosition( tipPosition );
-      var viewBasePosition = self._modelViewTransform.modelToViewPosition( basePosition );
+      const viewTipPosition = self._modelViewTransform.modelToViewPosition( tipPosition );
+      const viewBasePosition = self._modelViewTransform.modelToViewPosition( basePosition );
 
       // calculate the orientation and change of orientation of the Measuring tape
-      var oldAngle = self.baseImage.getRotation();
-      var angle = Math.atan2( viewTipPosition.y - viewBasePosition.y, viewTipPosition.x - viewBasePosition.x );
-      var deltaAngle = angle - oldAngle;
+      const oldAngle = self.baseImage.getRotation();
+      const angle = Math.atan2( viewTipPosition.y - viewBasePosition.y, viewTipPosition.x - viewBasePosition.x );
+      const deltaAngle = angle - oldAngle;
 
       // set position of the tip and the base crosshair
       baseCrosshair.center = viewBasePosition;
@@ -316,18 +316,18 @@ define( require => {
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
-    var multilink = Property.multilink( [ this.basePositionProperty, this.tipPositionProperty, unitsProperty ],
+    const multilink = Property.multilink( [ this.basePositionProperty, this.tipPositionProperty, unitsProperty ],
       function( basePosition, tipPosition ) {
         self.updatePosition( basePosition, tipPosition );
       } );
 
-    var isVisiblePropertyObserver = function( isVisible ) {
+    const isVisiblePropertyObserver = function( isVisible ) {
       self.visible = isVisible;
     };
     isVisibleProperty.link( isVisiblePropertyObserver ); // must be unlinked in dispose
 
     // set Text on on valueNode
-    var unitsPropertyObserver = function() {
+    const unitsPropertyObserver = function() {
       self.valueNode.setText( self.getText() );
     };
     // link change of units to the text
@@ -555,13 +555,13 @@ define( require => {
       } );
 
       // Create an actual measuring tape.
-      var measuringTape = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), new Property( true ),
+      const measuringTape = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), new Property( true ),
         measuringTapeOptions );
 
       // Create the icon, with measuringTape as its initial child.  This child will be replaced once the image becomes
       // available in the callback to toImage (see below). Since toImage happens asynchronously, this ensures that
       // the icon has initial bounds that will match the icon once the image is available.
-      var measuringTapeIcon = new Node( { children: [ measuringTape ] } );
+      const measuringTapeIcon = new Node( { children: [ measuringTape ] } );
 
       // Convert measuringTape to an image, and make it the child of measuringTapeIcon.
       measuringTape.toImage( function( image ) {

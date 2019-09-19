@@ -88,7 +88,7 @@ define( require => {
       tandem: Tandem.optional
     }, options );
 
-    var self = this;
+    const self = this;
 
     // @public
     this.loopsProperty = new NumberProperty( options.loops, {
@@ -127,13 +127,13 @@ define( require => {
     } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
-    var pathOptions = {
+    const pathOptions = {
       boundsMethod: options.pathBoundsMethod,
       lineCap: 'round',
       lineJoin: 'round'
     };
-    var frontPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
-    var backPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
+    const frontPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
+    const backPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
 
     // Update the line width
     this.lineWidthProperty.link( function( lineWidth ) {
@@ -141,9 +141,9 @@ define( require => {
     } );
 
     // Mutate these to improve performance
-    var springPoints = []; // {Vector2[]} points in the spring (includes the horizontal ends)
-    var frontShape; // {Shape}
-    var backShape; // {Shape}
+    const springPoints = []; // {Vector2[]} points in the spring (includes the horizontal ends)
+    let frontShape; // {Shape}
+    let backShape; // {Shape}
 
     // Changes to these properties require new points (Vector2) and Shapes, because they change
     // the number of points and/or how the points are allocated to frontShape and backShape.
@@ -159,27 +159,27 @@ define( require => {
         backShape = new Shape();
 
         // Values of other properties, to improve readability
-        var radius = self.radiusProperty.get();
-        var xScale = self.xScaleProperty.get();
+        const radius = self.radiusProperty.get();
+        const xScale = self.xScaleProperty.get();
 
         // compute the points for the coil
-        var coilPoints = []; // {Vector2[]}
-        var numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
-        var index;
+        const coilPoints = []; // {Vector2[]}
+        const numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
+        let index;
         for ( index = 0; index < numberOfCoilPoints; index++ ) {
-          var coilX = computeCoilX( index, radius, pointsPerLoop, phase, xScale, options.leftEndLength );
-          var coilY = computeCoilY( index, radius, pointsPerLoop, phase, deltaPhase, aspectRatio );
+          const coilX = computeCoilX( index, radius, pointsPerLoop, phase, xScale, options.leftEndLength );
+          const coilY = computeCoilY( index, radius, pointsPerLoop, phase, deltaPhase, aspectRatio );
           coilPoints.push( new Vector2( coilX, coilY ) );
         }
 
-        var p; // {Vector2} reusable point, hoisted explicitly
-        var wasFront = true; // was the previous point on the front path?
+        let p; // {Vector2} reusable point, hoisted explicitly
+        let wasFront = true; // was the previous point on the front path?
 
         // Add points to Shapes
         for ( index = 0; index < numberOfCoilPoints; index++ ) {
 
           // is the current point on the front path?
-          var isFront = ( ( 2 * Math.PI * index / pointsPerLoop + phase + deltaPhase ) % ( 2 * Math.PI ) > Math.PI );
+          const isFront = ( ( 2 * Math.PI * index / pointsPerLoop + phase + deltaPhase ) % ( 2 * Math.PI ) > Math.PI );
 
           // horizontal line at left end
           if ( index === 0 ) {
@@ -216,7 +216,7 @@ define( require => {
         }
 
         // horizontal line at right end
-        var lastCoilPoint = coilPoints[ numberOfCoilPoints - 1 ];
+        const lastCoilPoint = coilPoints[ numberOfCoilPoints - 1 ];
         p = new Vector2( lastCoilPoint.x + options.rightEndLength, lastCoilPoint.y );
         springPoints.push( p );
         if ( wasFront ) {
@@ -238,30 +238,30 @@ define( require => {
       function( radius, xScale ) {
 
         // Values of other properties, to improve readability
-        var loops = self.loopsProperty.get();
-        var pointsPerLoop = self.pointsPerLoopProperty.get();
-        var aspectRatio = self.aspectRatioProperty.get();
-        var phase = self.phaseProperty.get();
-        var deltaPhase = self.deltaPhaseProperty.get();
+        const loops = self.loopsProperty.get();
+        const pointsPerLoop = self.pointsPerLoopProperty.get();
+        const aspectRatio = self.aspectRatioProperty.get();
+        const phase = self.phaseProperty.get();
+        const deltaPhase = self.deltaPhaseProperty.get();
 
         // number of points in the coil
-        var numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
+        const numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
         assert && assert( numberOfCoilPoints === springPoints.length - 2,
           'unexpected number of coil points: ' + numberOfCoilPoints + ', expected ' + ( springPoints.length - 2 ) ); // -2 for horizontal ends
 
         // mutate the coil points
-        for ( var index = 0; index < numberOfCoilPoints; index++ ) {
-          var coilX = computeCoilX( index, radius, pointsPerLoop, phase, xScale, options.leftEndLength );
-          var coilY = computeCoilY( index, radius, pointsPerLoop, phase, deltaPhase, aspectRatio );
+        for ( let index = 0; index < numberOfCoilPoints; index++ ) {
+          const coilX = computeCoilX( index, radius, pointsPerLoop, phase, xScale, options.leftEndLength );
+          const coilY = computeCoilY( index, radius, pointsPerLoop, phase, deltaPhase, aspectRatio );
           springPoints[ index + 1 ].setXY( coilX, coilY );
         }
 
         // mutate horizontal line at left end
-        var firstCoilPoint = springPoints[ 1 ];
+        const firstCoilPoint = springPoints[ 1 ];
         springPoints[ 0 ].setXY( 0, firstCoilPoint.y );
 
         // mutate horizontal line at right end
-        var lastCoilPoint = springPoints[ springPoints.length - 2 ];
+        const lastCoilPoint = springPoints[ springPoints.length - 2 ];
         springPoints[ springPoints.length - 1 ].setXY( lastCoilPoint.x + options.rightEndLength, lastCoilPoint.y );
 
         // Tell shapes that their points have changed.
@@ -273,7 +273,7 @@ define( require => {
     Property.multilink( [ this.radiusProperty, this.aspectRatioProperty ],
       function( radius, aspectRatio ) {
 
-        var yRadius = radius * aspectRatio;
+        const yRadius = radius * aspectRatio;
 
         frontPath.stroke = new LinearGradient( 0, -yRadius, 0, yRadius )
           .addColorStop( 0, options.middleColor )

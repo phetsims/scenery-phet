@@ -57,14 +57,14 @@ define( require => {
   // Creates a demo for NumberControl
   var demoNumberControl = function( layoutBounds ) {
 
-    var weightRange = new RangeWithValue( 0, 300, 100 );
+    const weightRange = new RangeWithValue( 0, 300, 100 );
 
     // all NumberControls will be synchronized with these Properties
-    var weightProperty = new Property( weightRange.defaultValue );
-    var enabledProperty = new Property( true );
+    const weightProperty = new Property( weightRange.defaultValue );
+    const enabledProperty = new Property( true );
 
     // options shared by all NumberControls
-    var numberControlOptions = {
+    const numberControlOptions = {
       enabledProperty: enabledProperty,
       titleNodeOptions: {
         font: new PhetFont( 20 )
@@ -84,23 +84,23 @@ define( require => {
     };
 
     // NumberControl with default layout
-    var numberControl1 = new NumberControl( 'Weight:', weightProperty, weightRange, numberControlOptions );
+    const numberControl1 = new NumberControl( 'Weight:', weightProperty, weightRange, numberControlOptions );
 
     // NumberControl with a predefined alternate layout
-    var numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
+    const numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
       _.extend( {
         layoutFunction: NumberControl.createLayoutFunction2()
       }, numberControlOptions ) );
 
     // NumberControl with options provided for a predefined alternate layout
-    var numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+    const numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
       layoutFunction: NumberControl.createLayoutFunction3( {
         alignTitle: 'left'
       } )
     }, numberControlOptions ) );
 
     // NumberControl with alternate layout provided by the client
-    var numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+    const numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
       layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
         return new HBox( {
           spacing: 8,
@@ -111,7 +111,7 @@ define( require => {
     }, numberControlOptions ) );
 
     // Checkbox that will disable all NumberControls
-    var enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+    const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
 
     return new VBox( {
       spacing: 30,
@@ -123,7 +123,7 @@ define( require => {
 
   // Creates a demo for WavelengthNumberControl
   var demoWavelengthSlider = function( layoutBounds ) {
-    var wavelengthProperty = new Property( 500 );
+    const wavelengthProperty = new Property( 500 );
     return new WavelengthNumberControl( wavelengthProperty, {
       center: layoutBounds.center
     } );

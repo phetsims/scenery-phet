@@ -16,7 +16,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
-  var FAMILY = '"Times New Roman", Times, serif';
+  const FAMILY = '"Times New Roman", Times, serif';
 
   /**
    * @param {Object|number|string} [options] number or string indicate the font size, otherwise same options as scenery.Font

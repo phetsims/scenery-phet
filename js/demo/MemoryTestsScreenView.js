@@ -42,7 +42,7 @@ define( require => {
   // const SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
 
   function ComponentHolder( createFunction ) {
-    var self = this;
+    const self = this;
     this.dispose = function() {
       self.instance.dispose();
     };
@@ -51,11 +51,11 @@ define( require => {
     };
   }
 
-  var booleanProperty = new BooleanProperty( false );
+  const booleanProperty = new BooleanProperty( false );
   // var numberProperty = new Property( 1 );
   // var waveLengthProperty = new Property( 400 );
 
-  var components = [
+  const components = [
     // new ComponentHolder( function() {
     //   return new MeasuringTapeNode( new Property( {name: 'cm', multiplier: 100 } ), booleanProperty );
     // } ),
@@ -142,8 +142,8 @@ define( require => {
     step: function() {
 
       if ( this.numTests < this.maxNumTests ) {
-        for ( var i = 0; i < components.length; i++ ) {
-          var holder = components[ i ];
+        for ( let i = 0; i < components.length; i++ ) {
+          const holder = components[ i ];
 
           // dispose first, then create and add at the end of the loop so components will be visible on the screen during
           // animation.

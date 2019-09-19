@@ -17,11 +17,11 @@ define( require => {
   const Util = require( 'DOT/Util' );
 
   // constants, these are specific to bulb images
-  var RAYS_START_ANGLE = 3 * Math.PI / 4;
-  var RAYS_ARC_ANGLE = 3 * Math.PI / 2;
+  const RAYS_START_ANGLE = 3 * Math.PI / 4;
+  const RAYS_ARC_ANGLE = 3 * Math.PI / 2;
 
   // default options, do not modify!
-  var DEFAULT_OPTIONS = Object.freeze( {
+  const DEFAULT_OPTIONS = Object.freeze( {
     raysStroke: 'yellow',
     minRays: 8,
     maxRays: 60,
@@ -72,22 +72,22 @@ define( require => {
       assert && assert( brightness >= 0 && brightness <= 1 );
 
       // local vars to improve readability
-      var minRays = this.lightRaysNodeOptions.minRays;
-      var maxRays = this.lightRaysNodeOptions.maxRays;
-      var minRayLength = this.lightRaysNodeOptions.minRayLength;
-      var maxRayLength = this.lightRaysNodeOptions.maxRayLength;
+      const minRays = this.lightRaysNodeOptions.minRays;
+      const maxRays = this.lightRaysNodeOptions.maxRays;
+      const minRayLength = this.lightRaysNodeOptions.minRayLength;
+      const maxRayLength = this.lightRaysNodeOptions.maxRayLength;
 
       // number of rays is a function of brightness
-      var numberOfRays = ( brightness === 0 ) ? 0 : minRays + Util.roundSymmetric( brightness * ( maxRays - minRays ) );
+      const numberOfRays = ( brightness === 0 ) ? 0 : minRays + Util.roundSymmetric( brightness * ( maxRays - minRays ) );
 
       // ray length is a function of brightness
-      var rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );
+      const rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );
 
-      var angle = RAYS_START_ANGLE;
-      var deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
+      let angle = RAYS_START_ANGLE;
+      const deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
       // The ray line width is a linear function within the allowed range
-      var lineWidth = Util.linear(
+      const lineWidth = Util.linear(
         0.3 * maxRayLength,
         0.6 * maxRayLength,
         this.lightRaysNodeOptions.shortRayLineWidth,
@@ -96,7 +96,7 @@ define( require => {
       );
       this.lineWidth = Util.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
 
-      var shape = new Shape();
+      const shape = new Shape();
 
       // rays fill part of a circle, incrementing clockwise
       for ( var i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {

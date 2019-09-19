@@ -43,14 +43,14 @@ define( require => {
   function SoundToggleButton( property, options ) {
 
     // 'on' icon is a font-awesome icon
-    var soundOnNode = new FontAwesomeNode( 'volume_up' );
-    var contentScale = (WIDTH - (2 * MARGIN)) / soundOnNode.width;
+    const soundOnNode = new FontAwesomeNode( 'volume_up' );
+    const contentScale = (WIDTH - (2 * MARGIN)) / soundOnNode.width;
     soundOnNode.scale( contentScale );
 
     // 'off' icon is a font-awesome icon, with an 'x' added to the right.
-    var soundOffNode = new Node();
+    const soundOffNode = new Node();
     soundOffNode.addChild( new FontAwesomeNode( 'volume_off', { scale: contentScale } ) );
-    var soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ), {
+    const soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ), {
       stroke: 'black',
       lineWidth: 3,
       right: soundOnNode.width, // position the 'x' so that both icons have the same width, see scenery-phet#329
@@ -70,14 +70,14 @@ define( require => {
       innerContent: soundToggleLabelString
     }, options ) );
 
-    var self = this;
+    const self = this;
 
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
-    var pressedListener = function( value ) {
+    const pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
-      var alertString = value ? simSoundOnString : simSoundOffString;
+      const alertString = value ? simSoundOnString : simSoundOffString;
       utteranceQueue.addToBack( alertString );
     };
     property.lazyLink( pressedListener );

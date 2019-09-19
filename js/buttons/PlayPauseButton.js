@@ -35,7 +35,7 @@ define( require => {
    * @constructor
    */
   function PlayPauseButton( isPlayingProperty, options ) {
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       radius: DEFAULT_RADIUS,
@@ -47,26 +47,26 @@ define( require => {
     this.isPlayingProperty = isPlayingProperty; // @private
 
     // play and pause icons are sized relative to the radius
-    var playHeight = options.radius;
-    var playWidth = options.radius * 0.8;
-    var playPath = new Path( new PlayIconShape( playWidth, playHeight ), { fill: 'black' } );
-    var pausePath = new Path( new PauseIconShape( 0.75 * playWidth, playHeight ), { fill: 'black' } );
+    const playHeight = options.radius;
+    const playWidth = options.radius * 0.8;
+    const playPath = new Path( new PlayIconShape( playWidth, playHeight ), { fill: 'black' } );
+    const pausePath = new Path( new PauseIconShape( 0.75 * playWidth, playHeight ), { fill: 'black' } );
 
     // put the play and pause symbols inside circles so they have the same bounds,
     // otherwise BooleanToggleNode will re-adjust their positions relative to each other
-    var playCircle = new Circle( options.radius );
+    const playCircle = new Circle( options.radius );
     playPath.centerX = options.radius * 0.05; // move to right slightly since we don't want it exactly centered
     playPath.centerY = 0;
     playCircle.addChild( playPath );
 
-    var pausedCircle = new Circle( options.radius );
+    const pausedCircle = new Circle( options.radius );
     pausePath.centerX = 0;
     pausePath.centerY = 0;
     pausedCircle.addChild( pausePath );
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
-    var isPlayingListener = function( running ) {
+    const isPlayingListener = function( running ) {
       self.innerContent = running ? pauseString : playString;
       self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };

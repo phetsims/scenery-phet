@@ -26,8 +26,8 @@ define( require => {
     options = options || {};
 
     // icons
-    var eyeOpenNode = new FontAwesomeNode( 'eye_open' );
-    var eyeCloseNode = new FontAwesomeNode( 'eye_close', {
+    const eyeOpenNode = new FontAwesomeNode( 'eye_open' );
+    const eyeCloseNode = new FontAwesomeNode( 'eye_close', {
       center: eyeOpenNode.center
     } );
 
@@ -38,7 +38,7 @@ define( require => {
     } );
 
     // toggle which icon is shown
-    var eyeOpenObserver = function( eyeOpen ) {
+    const eyeOpenObserver = function( eyeOpen ) {
       eyeOpenNode.visible = eyeOpen;
       eyeCloseNode.visible = !eyeOpen;
     };

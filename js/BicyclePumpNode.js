@@ -143,7 +143,7 @@ define( require => {
       bodyTopFrontNode.top = bodyTopBackNode.bottom - 0.4; // tweak slightly to prevent pump body from showing through
 
       // create the bottom cap on the body
-      var bodyBottomCapNode = new Path( new Shape()
+      const bodyBottomCapNode = new Path( new Shape()
         .ellipse( 0, 0, bodyTopFrontNode.width * 0.55, 3, 0, 0, true ), {
         fill: new PaintColorProperty( baseFillColorProperty, { luminanceFactor: -0.3 } ),
         centerX: bodyTopFrontNode.centerX,

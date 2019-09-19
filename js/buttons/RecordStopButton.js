@@ -27,13 +27,13 @@ define( require => {
       radius: 30
     }, options );
 
-    var squareLength = 0.75 * options.radius;
+    const squareLength = 0.75 * options.radius;
 
     // stop icon, a black square
-    var stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, { fill: 'black' } );
+    const stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, { fill: 'black' } );
 
     // record icon, a red circle
-    var recordIcon = new Circle( 0.6 * squareLength, {
+    const recordIcon = new Circle( 0.6 * squareLength, {
       fill: PhetColorScheme.RED_COLORBLIND,
       center: stopIcon.center
     } );

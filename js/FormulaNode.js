@@ -58,7 +58,7 @@ define( require => {
      */
     calculateDOMBounds: function() {
       // Grab a particular child node for measurement, since it's an inline element and contains everything graphical.
-      var htmlList = this._span.getElementsByClassName( 'katex-html' );
+      const htmlList = this._span.getElementsByClassName( 'katex-html' );
 
       // Empty if we have no formula yet
       if ( htmlList.length === 0 ) {
@@ -66,7 +66,7 @@ define( require => {
       }
 
       // Our element from the list
-      var element = htmlList[ 0 ];
+      const element = htmlList[ 0 ];
 
       // offsetLeft is always 0 once in place, and this seems like the best way to measure the change both before AND
       // after it's been added to the DOM.

@@ -29,7 +29,7 @@ define( require => {
    */
   function ContextLossFailureDialog( options ) {
 
-    var self = this;
+    const self = this;
     
     options = _.extend( {
 
@@ -50,14 +50,14 @@ define( require => {
     // @private
     this.reload = options.reload;
 
-    var warningSign = new FontAwesomeNode( 'warning_sign', {
+    const warningSign = new FontAwesomeNode( 'warning_sign', {
       fill: '#E87600', // "safety orange", according to Wikipedia
       scale: 0.6
     } );
 
-    var text = new Text( webglWarningContextLossFailureString, { font: new PhetFont( 12 ) } );
+    const text = new Text( webglWarningContextLossFailureString, { font: new PhetFont( 12 ) } );
 
-    var button = new TextPushButton( webglWarningContextLossReloadString, {
+    const button = new TextPushButton( webglWarningContextLossReloadString, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
       listener: function() { self.hide(); }

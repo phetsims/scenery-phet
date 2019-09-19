@@ -95,11 +95,11 @@ define( require => {
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
       'invalid buttonType: ' + options.buttonType );
 
-    var self = this;
-    var children = [];
+    const self = this;
+    const children = [];
 
     // the narrow part that the light will come out of
-    var nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
+    const nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
       cornerRadius: options.cornerRadius,
       fill: new LinearGradient( 0, 0, 0, options.nozzleSize.height )
         .addColorStop( 0, options.topColor )
@@ -113,7 +113,7 @@ define( require => {
     children.push( nozzleNode );
 
     // the main body of the laser pointer
-    var bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
+    const bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
       cornerRadius: options.cornerRadius,
       fill: new LinearGradient( 0, 0, 0, options.bodySize.height )
         .addColorStop( 0, options.topColor )
@@ -129,7 +129,7 @@ define( require => {
     // the optional button that controls whether the laser is on or off
     if ( options.hasButton ) {
 
-      var buttonOptions = {
+      const buttonOptions = {
         radius: options.buttonRadius,
         touchAreaDilation: options.buttonTouchAreaDilation,
         mouseAreaDilation: options.buttonMouseAreaDilation,
@@ -154,8 +154,8 @@ define( require => {
 
     // Add the glass, if any
     if ( options.hasGlass ) {
-      var glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
-      var glassOptions = _.extend( {}, options.glassOptions, {
+      const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
+      const glassOptions = _.extend( {}, options.glassOptions, {
 
         // The origin is at the output point of the nozzle, translate accordingly
         centerX: Util.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
@@ -163,7 +163,7 @@ define( require => {
         // Center vertically
         centerY: 0
       } );
-      var glassNode = new ShadedSphereNode( glassDiameter, glassOptions );
+      const glassNode = new ShadedSphereNode( glassDiameter, glassOptions );
 
       // Glass is behind everything else.
       children.unshift( glassNode );
@@ -174,7 +174,7 @@ define( require => {
     Node.call( this, options );
 
     // enables and disables the button
-    var enabledObserver = function( enabled ) {
+    const enabledObserver = function( enabled ) {
       self.button && ( self.button.enabled = enabled );
     };
     this.enabledProperty.link( enabledObserver );

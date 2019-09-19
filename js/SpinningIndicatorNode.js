@@ -51,9 +51,9 @@ define( require => {
 
     // @private create and add all of the elements
     this.elements = [];
-    var angle = 0;
-    for ( var i = 0; i < options.elementQuantity; i++ ) {
-      var element = options.elementFactory( this.options );
+    let angle = 0;
+    for ( let i = 0; i < options.elementQuantity; i++ ) {
+      const element = options.elementFactory( this.options );
 
       // push the element to the outside of the circle
       element.right = options.indicatorSize / 2;
@@ -82,10 +82,10 @@ define( require => {
       this.indicatorRotation += dt * 10.0 * this.options.indicatorSpeed;
 
       // update each element
-      var angle = this.indicatorRotation;
-      for ( var i = 0; i < this.elements.length; i++ ) {
+      let angle = this.indicatorRotation;
+      for ( let i = 0; i < this.elements.length; i++ ) {
         // a number from 0 (active head) to 1 (inactive tail).
-        var ratio = Math.pow( ( angle / ( 2 * Math.PI ) ) % 1, 0.5 );
+        let ratio = Math.pow( ( angle / ( 2 * Math.PI ) ) % 1, 0.5 );
 
         // Smoother transition, mapping our ratio from [0,0.2] => [1,0] and [0.2,1] => [0,1].
         // Otherwise, elements can instantly switch from one color to the other, which is visually displeasing.
@@ -97,10 +97,10 @@ define( require => {
         }
 
         // Fill it with the interpolated color
-        var red = ratio * this.inactiveColorProperty.value.red + ( 1 - ratio ) * this.activeColorProperty.value.red;
-        var green = ratio * this.inactiveColorProperty.value.green + ( 1 - ratio ) * this.activeColorProperty.value.green;
-        var blue = ratio * this.inactiveColorProperty.value.blue + ( 1 - ratio ) * this.activeColorProperty.value.blue;
-        var alpha = ratio * this.inactiveColorProperty.value.alpha + ( 1 - ratio ) * this.activeColorProperty.value.alpha;
+        const red = ratio * this.inactiveColorProperty.value.red + ( 1 - ratio ) * this.activeColorProperty.value.red;
+        const green = ratio * this.inactiveColorProperty.value.green + ( 1 - ratio ) * this.activeColorProperty.value.green;
+        const blue = ratio * this.inactiveColorProperty.value.blue + ( 1 - ratio ) * this.activeColorProperty.value.blue;
+        const alpha = ratio * this.inactiveColorProperty.value.alpha + ( 1 - ratio ) * this.activeColorProperty.value.alpha;
         this.elements[i].fill = new Color( red, green, blue, alpha );
 
         // And rotate to the next element (in the opposite direction, so our motion is towards the head)

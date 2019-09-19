@@ -18,16 +18,16 @@ define( require => {
 
   // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
   // https://github.com/phetsims/wave-interference/issues/239
-  var FONT_FAMILY = '"Lucida Console", Arial';
-  var DEFAULT_LARGE_FONT = new PhetFont( {
+  const FONT_FAMILY = '"Lucida Console", Arial';
+  const DEFAULT_LARGE_FONT = new PhetFont( {
     size: 20,
     family: FONT_FAMILY
   } );
-  var DEFAULT_SMALL_FONT = new PhetFont( {
+  const DEFAULT_SMALL_FONT = new PhetFont( {
     size: 15,
     family: FONT_FAMILY
   } );
-  var DEFAULT_MAX_VALUE = 3599.99;
+  const DEFAULT_MAX_VALUE = 3599.99;
 
   class TimerReadoutNode extends Rectangle {
 

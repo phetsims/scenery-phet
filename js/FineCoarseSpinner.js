@@ -46,7 +46,7 @@ define( require => {
       }
 
       // So we know whether we can dispose of the enabledProperty and its tandem
-      var ownsEnabledProperty = !options.enabledProperty;
+      const ownsEnabledProperty = !options.enabledProperty;
 
       // Provide a default if not specified
       options.enabledProperty = options.enabledProperty || new BooleanProperty( true, {

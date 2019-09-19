@@ -25,21 +25,21 @@ define( require => {
   function RewindButton( options ) {
     options = options || {};
 
-    var scale = 0.75;
-    var vscale = 1.15;
-    var barWidth = 6 * scale;
-    var barHeight = 18 * scale * vscale;
+    const scale = 0.75;
+    const vscale = 1.15;
+    const barWidth = 6 * scale;
+    const barHeight = 18 * scale * vscale;
 
-    var triangleWidth = 14 * scale;
-    var triangleHeight = 18 * scale * vscale;
+    const triangleWidth = 14 * scale;
+    const triangleHeight = 18 * scale * vscale;
 
-    var barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
-    var trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+    const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
+    const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
       fill: 'black',
       stroke: '#bbbbbb',
       lineWidth: 1
     } );
-    var trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+    const trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
       fill: 'black',
       stroke: '#bbbbbb',
       lineWidth: 1

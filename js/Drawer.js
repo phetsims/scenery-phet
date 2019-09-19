@@ -73,62 +73,62 @@ define( require => {
     this.contentsNode = contentsNode; // @public (read-only)
     this._animationEnabled = options.animationEnabled; // @private
 
-    var self = this;
+    const self = this;
 
     // size of contents, adjusted for margins
-    var CONTENTS_WIDTH = contentsNode.width + ( 2 * options.xMargin );
-    var CONTENTS_HEIGHT = contentsNode.height + ( 2 * options.yMargin );
+    const CONTENTS_WIDTH = contentsNode.width + ( 2 * options.xMargin );
+    const CONTENTS_HEIGHT = contentsNode.height + ( 2 * options.yMargin );
 
     // size of container
-    var CONTAINER_WIDTH = options.size ? options.size.width : CONTENTS_WIDTH;
-    var CONTAINER_HEIGHT = options.size ? options.size.height : CONTENTS_HEIGHT;
+    const CONTAINER_WIDTH = options.size ? options.size.width : CONTENTS_WIDTH;
+    const CONTAINER_HEIGHT = options.size ? options.size.height : CONTENTS_HEIGHT;
 
     // background
-    var backgroundNode = new Rectangle( 0, 0, CONTAINER_WIDTH, CONTAINER_HEIGHT, {
+    const backgroundNode = new Rectangle( 0, 0, CONTAINER_WIDTH, CONTAINER_HEIGHT, {
       fill: 'white',
       cornerRadius: options.cornerRadius
     } );
 
     // border
-    var borderNode = new Rectangle( 0, 0, CONTAINER_WIDTH, CONTAINER_HEIGHT, {
+    const borderNode = new Rectangle( 0, 0, CONTAINER_WIDTH, CONTAINER_HEIGHT, {
       stroke: 'black',
       cornerRadius: options.cornerRadius
     } );
 
     // scale contents to fit the container
     if ( options.size ) {
-      var scale = Math.min( 1, Math.min( CONTAINER_WIDTH / CONTENTS_WIDTH, CONTAINER_HEIGHT / CONTENTS_HEIGHT ) );
+      const scale = Math.min( 1, Math.min( CONTAINER_WIDTH / CONTENTS_WIDTH, CONTAINER_HEIGHT / CONTENTS_HEIGHT ) );
       contentsNode.setScaleMagnitude( scale );
     }
 
     // handle, rectangle with top or bottom corners rounded, the other corners square
-    var HANDLE_RADII = ( options.handleLocation === 'top' ) ? {
+    const HANDLE_RADII = ( options.handleLocation === 'top' ) ? {
       topLeft: options.handleCornerRadius,
       topRight: options.handleCornerRadius
     } : {
       bottomLeft: options.handleCornerRadius,
       bottomRight: options.handleCornerRadius
     };
-    var handleShape = Shape.roundedRectangleWithRadii( 0, 0, options.handleSize.width, options.handleSize.height, HANDLE_RADII );
-    var handleNode = new Path( handleShape, {
+    const handleShape = Shape.roundedRectangleWithRadii( 0, 0, options.handleSize.width, options.handleSize.height, HANDLE_RADII );
+    const handleNode = new Path( handleShape, {
       cursor: 'pointer',
       fill: options.handleFill,
       stroke: 'black'
     } );
 
     // grippy dots on the handle
-    var grippyDotsShape = new Shape();
-    var grippyX = 0;
-    var grippyY = 0;
-    for ( var row = 0; row < options.grippyDotRows; row++ ) {
-      for ( var column = 0; column < options.grippyDotColumns; column++ ) {
+    const grippyDotsShape = new Shape();
+    let grippyX = 0;
+    let grippyY = 0;
+    for ( let row = 0; row < options.grippyDotRows; row++ ) {
+      for ( let column = 0; column < options.grippyDotColumns; column++ ) {
         grippyX = column * options.grippyDotXSpacing;
         grippyY = row * options.grippyDotYSpacing;
         grippyDotsShape.moveTo( grippyX, grippyY );
         grippyDotsShape.arc( grippyX, grippyY, options.grippyDotRadius, 0, 2 * Math.PI );
       }
     }
-    var grippyDotsNode = new Path( grippyDotsShape, {
+    const grippyDotsNode = new Path( grippyDotsShape, {
       fill: options.grippyDotColor,
       center: handleNode.center
     } );
@@ -136,11 +136,11 @@ define( require => {
 
     // handle pointerArea
     if ( options.handleTouchAreaXDilation !== 0 || options.handleTouchAreaYDilation !== 0 ) {
-      var touchAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleTouchAreaYDilation : options.handleTouchAreaYDilation;
+      const touchAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleTouchAreaYDilation : options.handleTouchAreaYDilation;
       handleNode.touchArea = handleNode.localBounds.dilatedXY( options.handleTouchAreaXDilation, options.handleTouchAreaYDilation ).shiftedY( touchAreaShiftY );
     }
     if ( options.handleMouseAreaXDilation !== 0 || options.handleMouseAreaYDilation !== 0 ) {
-      var mouseAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleMouseAreaYDilation : options.handleMouseAreaYDilation;
+      const mouseAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleMouseAreaYDilation : options.handleMouseAreaYDilation;
       handleNode.mouseArea = handleNode.localBounds.dilatedXY( options.handleMouseAreaXDilation, options.handleMouseAreaYDilation ).shiftedY( mouseAreaShiftY );
     }
 
@@ -159,7 +159,7 @@ define( require => {
     contentsNode.center = backgroundNode.center;
 
     // put all of the moving pieces together
-    var drawerNode = new Node( {
+    const drawerNode = new Node( {
       children: [ handleNode, backgroundNode, contentsNode, borderNode ]
     } );
 
@@ -169,8 +169,8 @@ define( require => {
     options.clipArea = Shape.bounds( drawerNode.bounds );
     Node.call( this, options );
 
-    var yOpen = 0;
-    var yClosed = ( options.handleLocation === 'top' ) ? backgroundNode.height : -backgroundNode.height;
+    const yOpen = 0;
+    const yClosed = ( options.handleLocation === 'top' ) ? backgroundNode.height : -backgroundNode.height;
     drawerNode.y = options.open ? yOpen : yClosed;
 
     // click on the handle to toggle between open and closed
@@ -180,13 +180,13 @@ define( require => {
       }
     } ) );
 
-    var animation = null; // {Animation} animation that opens/closes the drawer
+    let animation = null; // {Animation} animation that opens/closes the drawer
 
     // @public is the drawer open?
     this.openProperty = new Property( options.open );
 
     // open/close the drawer
-    var openObserver = function( open ) {
+    const openObserver = function( open ) {
 
       // stop any animation that's in progress
       animation && animation.stop();
@@ -247,7 +247,7 @@ define( require => {
       }, options );
 
       // set the drawer to it's initial open/closed state, with or without animation
-      var saveAnimationEnabled = this.animationEnabled;
+      const saveAnimationEnabled = this.animationEnabled;
       this.animationEnabled = options.animationEnabled;
       this.openProperty.reset();
       this.animationEnabled = saveAnimationEnabled;

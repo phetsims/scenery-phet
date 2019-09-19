@@ -49,7 +49,7 @@ define( require => {
       validateKey: validateMaxDigits( { maxDigits: 8 } )
     }, options );
 
-    var self = this;
+    const self = this;
 
     // @public (read-only) - sequence of key values entered by the user
     this.valueStringProperty = options.valueStringProperty;
@@ -58,7 +58,7 @@ define( require => {
     this._clearOnNextKeyPress = false;
 
     // options for keys
-    var keyOptions = {
+    const keyOptions = {
       minWidth: options.minButtonWidth,
       minHeight: options.minButtonHeight,
       baseColor: options.keyColor,
@@ -66,9 +66,9 @@ define( require => {
     };
 
     // create the backspace key
-    var backspaceIcon = new BackspaceIcon();
+    const backspaceIcon = new BackspaceIcon();
     backspaceIcon.scale( Math.min( options.minButtonWidth / backspaceIcon.width * 0.7, ( options.minButtonHeight * 0.65 ) / backspaceIcon.height ) );
-    var backspaceKey = new RectangularPushButton( {
+    const backspaceKey = new RectangularPushButton( {
       content: backspaceIcon,
       minWidth: keyOptions.minWidth,
       minHeight: keyOptions.minHeight,
@@ -92,7 +92,7 @@ define( require => {
      * Called when a key is pressed.
      * @param {string} keyString - string associated with the key that was pressed
      */
-    var keyCallback = function( keyString ) {
+    const keyCallback = function( keyString ) {
 
       // If set to clear the value on the next key press, clear the existing string.
       if ( self._clearOnNextKeyPress ) {
@@ -105,7 +105,7 @@ define( require => {
     };
 
     // create the bottom row of keys, which can vary based on options
-    var bottomRowChildren = [];
+    const bottomRowChildren = [];
     if ( options.decimalPointKey ) {
 
       // add a decimal point key plus a normal width zero key
@@ -115,7 +115,7 @@ define( require => {
     else {
 
       // add a double-width zero key instead of the decimal point key
-      var doubleRowButtonKeySpec = _.extend( {}, keyOptions, { minWidth: keyOptions.minWidth * 2 + options.xSpacing } );
+      const doubleRowButtonKeySpec = _.extend( {}, keyOptions, { minWidth: keyOptions.minWidth * 2 + options.xSpacing } );
       bottomRowChildren.push( createKey( '0', keyCallback, doubleRowButtonKeySpec ) );
     }
     bottomRowChildren.push( backspaceKey );
@@ -204,10 +204,10 @@ define( require => {
      */
     return function( keyString, valueString ) {
 
-      var hasDecimalPoint = valueString.indexOf( DECIMAL_POINT ) !== -1;
-      var numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
+      const hasDecimalPoint = valueString.indexOf( DECIMAL_POINT ) !== -1;
+      const numberOfDigits = hasDecimalPoint ? valueString.length - 1 : valueString.length;
 
-      var newValueString;
+      let newValueString;
       if ( valueString === '0' && keyString === '0' ) {
 
         // ignore multiple leading zeros

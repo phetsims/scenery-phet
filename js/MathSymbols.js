@@ -22,7 +22,7 @@ define( require => {
   const symbolOhmsString = require( 'string!SCENERY_PHET/symbol.ohms' );
   const symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
 
-  var MathSymbols = {
+  const MathSymbols = {
 
     //==================================================================================================================
     // Symbols in this section are universal and are NOT translatable.  A decision to promote any of these to

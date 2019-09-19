@@ -20,7 +20,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   // constants
-  var arrowPadding = 8;
+  const arrowPadding = 8;
 
   /**
    * @param {Node} centerNode
@@ -35,7 +35,7 @@ define( require => {
    * @param {Object} nodeOptions  Passed to the Node constructor
    */
   function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
-    var self = this;
+    const self = this;
 
     // @public
     this.hasNextProperty = new Property( false );
@@ -55,20 +55,20 @@ define( require => {
       }
     }, selfOptions );
 
-    var arrowWidth = selfOptions.arrowWidth;
-    var arrowHeight = selfOptions.arrowHeight;
+    const arrowWidth = selfOptions.arrowWidth;
+    const arrowHeight = selfOptions.arrowHeight;
 
     /*---------------------------------------------------------------------------*
      * previous
      *----------------------------------------------------------------------------*/
 
     // triangle pointing to the left
-    var previousShape = new Shape().moveTo( 0, arrowHeight / 2 )
+    const previousShape = new Shape().moveTo( 0, arrowHeight / 2 )
       .lineTo( arrowWidth, 0 )
       .lineTo( arrowWidth, arrowHeight )
       .close();
 
-    var previousKitNode = new Path( previousShape, {
+    const previousKitNode = new Path( previousShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
       cursor: 'pointer', // TODO: buttonListener adds this maybe?
@@ -98,12 +98,12 @@ define( require => {
      *----------------------------------------------------------------------------*/
 
     // triangle pointing to the right
-    var nextShape = new Shape().moveTo( arrowWidth, arrowHeight / 2 )
+    const nextShape = new Shape().moveTo( arrowWidth, arrowHeight / 2 )
       .lineTo( 0, 0 )
       .lineTo( 0, arrowHeight )
       .close();
 
-    var nextKitNode = new Path( nextShape, {
+    const nextKitNode = new Path( nextShape, {
       fill: selfOptions.arrowColor,
       stroke: selfOptions.arrowStrokeColor,
       cursor: 'pointer', // TODO: buttonListener adds this maybe?
@@ -126,7 +126,7 @@ define( require => {
      * positioning
      *----------------------------------------------------------------------------*/
 
-    var maxHeight = Math.max( arrowHeight, centerNode.height );
+    const maxHeight = Math.max( arrowHeight, centerNode.height );
 
     previousKitNode.centerY = maxHeight / 2;
     centerNode.centerY = maxHeight / 2;

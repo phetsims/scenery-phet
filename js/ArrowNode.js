@@ -81,7 +81,7 @@ define( require => {
      *                    shape instance.
      */
     updateShapePoints: function() {
-      var numberOfPoints = this.shapePoints.length;
+      const numberOfPoints = this.shapePoints.length;
       this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
       return ( this.shapePoints.length !== numberOfPoints );
     },

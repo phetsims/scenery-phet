@@ -41,7 +41,7 @@ define( require => {
       interval: options.timerInterval
     } );
 
-    var self = this;
+    const self = this;
     DownUpListener.call( this, {
 
       // Pointer down, start the timer.

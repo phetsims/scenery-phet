@@ -38,8 +38,8 @@ define( require => {
         minButtonXSpace: 30
       }, options );
 
-    var baseColor = new Color( 255, 204, 0 );
-    var commonButtonOptions = {
+    const baseColor = new Color( 255, 204, 0 );
+    const commonButtonOptions = {
       radius: 12,
       touchAreaRadius: 20,
       baseColor: baseColor,
@@ -47,31 +47,31 @@ define( require => {
       yMargin: 3
     };
 
-    var iconOptions = { stroke: 'black', lineWidth: 3, lineCap: 'round' };
-    var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( 5, 5 ).lineTo( 0, 10 ), iconOptions );
-    var previousIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( -5, 5 ).lineTo( 0, 10 ), iconOptions );
+    const iconOptions = { stroke: 'black', lineWidth: 3, lineCap: 'round' };
+    const nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( 5, 5 ).lineTo( 0, 10 ), iconOptions );
+    const previousIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( -5, 5 ).lineTo( 0, 10 ), iconOptions );
 
-    var nextKitButton = new RoundPushButton( _.extend( {
+    const nextKitButton = new RoundPushButton( _.extend( {
       listener: function() { selectedKitProperty.value = selectedKitProperty.value + 1; },
       content: nextIcon
     }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RoundPushButton( _.extend( {
+    const previousKitButton = new RoundPushButton( _.extend( {
       listener: function() { selectedKitProperty.value = selectedKitProperty.value - 1; },
       content: previousIcon
     }, commonButtonOptions ) );
     this.addChild( previousKitButton );
 
     // Control button enabled state
-    var selectedKitPropertyObserver = function( kitNum ) {
+    const selectedKitPropertyObserver = function( kitNum ) {
       nextKitButton.enabled = ( kitNum < numKits - 1 );
       previousKitButton.enabled = ( kitNum !== 0 );
     };
     selectedKitProperty.link( selectedKitPropertyObserver );
 
     // Layout
-    var interButtonXSpace = Math.max( options.minButtonXSpace, 2 * options.inset + ( options.titleNode === null ? 0 : options.titleNode.width ) );
+    const interButtonXSpace = Math.max( options.minButtonXSpace, 2 * options.inset + ( options.titleNode === null ? 0 : options.titleNode.width ) );
     nextKitButton.left = previousKitButton.right + interButtonXSpace;
     if ( options.titleNode !== null ) {
       this.addChild( options.titleNode, { centerX: ( previousKitButton.centerX + nextKitButton.centerX ) / 2 } );

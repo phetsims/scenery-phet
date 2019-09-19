@@ -33,7 +33,7 @@ define( require => {
       // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
     }, options );
 
-    var self = this;
+    const self = this;
 
     // @private
     self.onNode = new Image( onImage, {
@@ -42,15 +42,15 @@ define( require => {
       bottom: 0
     } ); // @private
 
-    var offNode = new Image( offImage, {
+    const offNode = new Image( offImage, {
       scale: options.bulbImageScale,
       centerX: self.onNode.centerX,
       bottom: self.onNode.bottom
     } );
 
     // rays
-    var bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
-    var rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
+    const bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
+    const rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
     rayOptions.x = this.onNode.centerX;
     rayOptions.y = offNode.top + bulbRadius;
     self.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
@@ -79,7 +79,7 @@ define( require => {
     // @private
     update: function() {
       if ( this.visible ) {
-        var brightness = this.brightnessProperty.value;
+        const brightness = this.brightnessProperty.value;
         assert && assert( brightness >= 0 && brightness <= 1 );
         this.onNode.visible = ( brightness > 0 );
         if ( this.onNode.visible ) {
@@ -91,7 +91,7 @@ define( require => {
 
     // @override update when this node becomes visible
     setVisible: function( visible ) {
-      var wasVisible = this.visible;
+      const wasVisible = this.visible;
       Node.prototype.setVisible.call( this, visible );
       if ( !wasVisible && visible ) {
         this.update();

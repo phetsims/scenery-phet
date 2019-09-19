@@ -20,13 +20,13 @@ define( require => {
 
 
   // Colors that are used for one or more things in the color scheme.
-  var DARK_GREEN = new Color( 0, 200, 0 );
-  var RED_COLORBLIND = new Color( 255, 85, 0 ); // looks good in colorblind tests, typically used in place of 'red'
-  var GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
-  var PHET_LOGO_BLUE = new Color( 106, 206, 245 ); // the color of the blue in the PhET logo
-  var PHET_LOGO_YELLOW = new Color( 254, 225, 5 ); // the color of the yellow in the PhET logo
+  const DARK_GREEN = new Color( 0, 200, 0 );
+  const RED_COLORBLIND = new Color( 255, 85, 0 ); // looks good in colorblind tests, typically used in place of 'red'
+  const GREEN_COLORBLIND = new Color( 0, 135, 0 ); // looks good in colorblind tests when used alongside RED_COLORBLIND
+  const PHET_LOGO_BLUE = new Color( 106, 206, 245 ); // the color of the blue in the PhET logo
+  const PHET_LOGO_YELLOW = new Color( 254, 225, 5 ); // the color of the yellow in the PhET logo
 
-  var PhetColorScheme = {
+  const PhetColorScheme = {
     ACCELERATION: Color.GREEN,
     APPLIED_FORCE: new Color( 236, 153, 55 ),
     BUTTON_YELLOW: PHET_LOGO_YELLOW,

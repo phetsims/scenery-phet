@@ -32,8 +32,8 @@ define( require => {
   function StepButton( options ) {
 
     // these options are used in computation of other default options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
-    var DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
+    const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
+    const DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
 
     options = _.extend( {
       direction: DIRECTION, // {string} 'forward'|'backward'
@@ -59,21 +59,21 @@ define( require => {
       'unsupported direction: ' + options.direction );
 
     // step icon is sized relative to the radius
-    var BAR_WIDTH = options.radius * 0.15;
-    var BAR_HEIGHT = options.radius * 0.9;
-    var TRIANGLE_WIDTH = options.radius * 0.65;
-    var TRIANGLE_HEIGHT = BAR_HEIGHT;
+    const BAR_WIDTH = options.radius * 0.15;
+    const BAR_HEIGHT = options.radius * 0.9;
+    const TRIANGLE_WIDTH = options.radius * 0.65;
+    const TRIANGLE_HEIGHT = BAR_HEIGHT;
 
     // icon, in 'forward' orientation
-    var barPath = new Rectangle( 0, 0, BAR_WIDTH, BAR_HEIGHT, { fill: options.iconFill } );
-    var trianglePath = new Path( new Shape()
+    const barPath = new Rectangle( 0, 0, BAR_WIDTH, BAR_HEIGHT, { fill: options.iconFill } );
+    const trianglePath = new Path( new Shape()
       .moveTo( 0, TRIANGLE_HEIGHT / 2 )
       .lineTo( TRIANGLE_WIDTH, 0 )
       .lineTo( 0, -TRIANGLE_HEIGHT / 2 )
       .close(), {
       fill: options.iconFill
     } );
-    var stepIcon = new HBox( {
+    const stepIcon = new HBox( {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
       rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
@@ -86,7 +86,7 @@ define( require => {
 
     // Disable the button when the sim is playing
     if ( options.isPlayingProperty ) {
-      var self = this;
+      const self = this;
       var playingObserver = function( playing ) {
         self.enabled = !playing;
       };

@@ -80,18 +80,18 @@ define( require => {
       this.tailNode.shape = Shape.lineSegment( tailX, tailY, tipX, tipY );
 
       // Set up a coordinate frame that goes from tail to tip.
-      var vector = new Vector2( tipX - tailX, tipY - tailY );
-      var xHatUnit = vector.normalized();
-      var yHatUnit = xHatUnit.rotated( Math.PI / 2 );
-      var length = vector.magnitude;
-      var getPoint = function( xHat, yHat ) {
-        var x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
-        var y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
+      const vector = new Vector2( tipX - tailX, tipY - tailY );
+      const xHatUnit = vector.normalized();
+      const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
+      const length = vector.magnitude;
+      const getPoint = function( xHat, yHat ) {
+        const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
+        const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
         return new Vector2( x, y );
       };
 
       // limit head height to tail length
-      var headHeight = Math.min( this.headHeight, 0.99 * length );
+      const headHeight = Math.min( this.headHeight, 0.99 * length );
 
       this.headNode.shape = new Shape()
         .moveToPoint( getPoint( length - headHeight, this.headWidth / 2 ) )

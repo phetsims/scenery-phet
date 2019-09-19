@@ -110,18 +110,18 @@ define( require => {
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
-    var self = this;
+    const self = this;
     Node.call( this );
 
     // shooter
-    var shooterNode = new ShooterNode( enabledProperty, options.shooterOptions );
+    const shooterNode = new ShooterNode( enabledProperty, options.shooterOptions );
 
     // track that the shooter moves in
-    var trackNode = new Image( trackImage );
+    const trackNode = new Image( trackImage );
 
     // horizontal pipe, tiled horizontally
-    var horizontalPipeNode = new Image( horizontalPipeImage );
-    var horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
+    let horizontalPipeNode = new Image( horizontalPipeImage );
+    const horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / horizontalPipeImage.width, 1 );
     if ( options.rasterizeHorizontalPipeNode ) {
@@ -129,16 +129,16 @@ define( require => {
     }
 
     // vertical pipe
-    var verticalPipeNode = new Image( verticalPipeImage );
-    var verticalPipeNodeHeight = options.verticalPipeLength + ( 2 * VERTICAL_PIPE_Y_OVERLAP );
+    const verticalPipeNode = new Image( verticalPipeImage );
+    const verticalPipeNodeHeight = options.verticalPipeLength + ( 2 * VERTICAL_PIPE_Y_OVERLAP );
     assert && assert( verticalPipeNodeHeight > 0 );
     verticalPipeNode.setScaleMagnitude( 1, verticalPipeNodeHeight / verticalPipeNode.height );
 
     // other nodes
-    var spoutNode = new Image( spoutImage );
-    var bodyNode = new Image( bodyImage );
+    const spoutNode = new Image( spoutImage );
+    const bodyNode = new Image( bodyImage );
 
-    var shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
+    const shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
 
@@ -187,16 +187,16 @@ define( require => {
     }
 
     // x-offset relative to left edge of bodyNode
-    var offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
+    const offsetToFlowRate = new LinearFunction( SHOOTER_MIN_X_OFFSET, SHOOTER_MAX_X_OFFSET, 0, maxFlowRate, true /* clamp */ );
 
     // tap-to-dispense feature
-    var tapToDispenseIsArmed = false; // should we do tap-to-dispense when the pointer is released?
-    var tapToDispenseIsRunning = false; // is tap-to-dispense in progress?
-    var timeoutID = null;
-    var intervalID = null;
-    var startTapToDispense = function() {
+    let tapToDispenseIsArmed = false; // should we do tap-to-dispense when the pointer is released?
+    let tapToDispenseIsRunning = false; // is tap-to-dispense in progress?
+    let timeoutID = null;
+    let intervalID = null;
+    const startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
-        var flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
+        const flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
         self.phetioStartEvent( 'startTapToDispense', { flowRate: flowRate } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
@@ -224,8 +224,8 @@ define( require => {
       self.phetioEndEvent();
     };
 
-    var startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
-    var inputListener = new SimpleDragHandler( {
+    let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
+    const inputListener = new SimpleDragHandler( {
 
       allowTouchSnag: true,
 
@@ -250,8 +250,8 @@ define( require => {
         if ( enabledProperty.get() ) {
 
           // offsetToFlowRate is relative to bodyNode.left, so account for it
-          var xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
-          var flowRate = offsetToFlowRate( xOffset );
+          const xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
+          const flowRate = offsetToFlowRate( xOffset );
 
           flowRateProperty.set( flowRate );
         }
@@ -275,12 +275,12 @@ define( require => {
     } );
     shooterNode.addInputListener( inputListener );
 
-    var flowRateObserver = function( flowRate ) {
+    const flowRateObserver = function( flowRate ) {
       shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
     };
     flowRateProperty.link( flowRateObserver );
 
-    var enabledObserver = function( enabled ) {
+    const enabledObserver = function( enabled ) {
       if ( !enabled && inputListener.dragging ) {
         inputListener.interrupt();
       }
@@ -301,7 +301,7 @@ define( require => {
     );
 
     // flow rate control is visible only when the faucet is interactive
-    var interactiveObserver = function( interactive ) {
+    const interactiveObserver = function( interactive ) {
       shooterNode.visible = trackNode.visible = interactive;
 
       // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after initializeAccessibleSlider()
@@ -346,28 +346,28 @@ define( require => {
    */
   function ShooterNode( enabledProperty, config ) {
 
-    var self = this;
+    const self = this;
 
     // knob
-    var knobNode = new Image( knobImage );
+    const knobNode = new Image( knobImage );
 
     // set pointer areas before scaling
     knobNode.touchArea = knobNode.localBounds.dilatedXY( config.touchAreaXDilation, config.touchAreaYDilation );
     knobNode.mouseArea = knobNode.localBounds.dilatedXY( config.mouseAreaXDilation, config.mouseAreaYDilation );
 
     knobNode.scale( config.knobScale );
-    var knobDisabledNode = new Image( knobDisabledImage );
+    const knobDisabledNode = new Image( knobDisabledImage );
     knobDisabledNode.scale( knobNode.getScaleVector() );
 
     // shaft
-    var shaftNode = new Image( shaftImage );
+    const shaftNode = new Image( shaftImage );
 
     // flange
-    var flangeNode = new Image( flangeImage );
-    var flangeDisabledNode = new Image( flangeDisabledImage );
+    const flangeNode = new Image( flangeImage );
+    const flangeDisabledNode = new Image( flangeDisabledImage );
 
     // stop
-    var stopNode = new Image( stopImage );
+    const stopNode = new Image( stopImage );
 
     Node.call( this, {
       children: [
@@ -390,7 +390,7 @@ define( require => {
     knobNode.centerY = flangeNode.centerY;
     knobDisabledNode.translation = knobNode.translation;
 
-    var enabledObserver = function( enabled ) {
+    const enabledObserver = function( enabled ) {
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
       self.pickable = enabled;
       knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';

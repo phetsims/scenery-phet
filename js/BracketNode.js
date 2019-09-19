@@ -41,7 +41,7 @@ define( require => {
     Node.call( this );
 
     // compute tip location
-    var tipX;
+    let tipX;
     if ( options.orientation === 'down' || options.orientation === 'left' ) {
        tipX = options.bracketTipLocation * options.bracketLength;
     }
@@ -52,7 +52,7 @@ define( require => {
     assert && assert( tipX < options.bracketLength - ( options.bracketEndRadius + options.bracketTipRadius ) );
 
     // bracket shape, created for 'down' orientation, left-to-right
-    var bracketShape = new Shape()
+    const bracketShape = new Shape()
       // left end curves up
       .arc( options.bracketEndRadius, 0, options.bracketEndRadius, Math.PI, 0.5 * Math.PI, true )
       .lineTo( tipX - options.bracketTipRadius, options.bracketEndRadius )
@@ -64,7 +64,7 @@ define( require => {
       .arc( options.bracketLength - options.bracketEndRadius, 0, options.bracketEndRadius, 0.5 * Math.PI, 0, true );
 
     // bracket node
-    var bracketNode = new Path( bracketShape, {
+    const bracketNode = new Path( bracketShape, {
       stroke: options.bracketStroke,
       lineWidth: options.bracketLineWidth
     } );

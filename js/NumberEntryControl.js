@@ -26,7 +26,7 @@ define( require => {
    */
   function NumberEntryControl( options ) {
     Node.call( this );
-    var self = this;
+    const self = this;
     options = _.extend( {
       maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
       readoutFont: new PhetFont( 20 )
@@ -39,9 +39,9 @@ define( require => {
     this.addChild( this.keypad );
 
     // Add the number readout background.
-    var testString = new Text( '', { font: options.readoutFont } );
+    const testString = new Text( '', { font: options.readoutFont } );
     _.times( options.maxDigits, function() { testString.text = testString.text + '9'; } );
-    var readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
+    const readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
       fill: 'white',
       stroke: '#777777',
       lineWidth: 1.5,
@@ -50,7 +50,7 @@ define( require => {
     this.addChild( readoutBackground );
 
     // Add the digits.
-    var digits = new Text( '', { font: options.readoutFont } );
+    const digits = new Text( '', { font: options.readoutFont } );
     this.addChild( digits );
     this.value = 0; // @private
     this.keypad.valueStringProperty.link( function( valueString ) {

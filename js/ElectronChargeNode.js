@@ -18,7 +18,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  var RADIUS = 10;
+  const RADIUS = 10;
 
   /**
    * @constructor

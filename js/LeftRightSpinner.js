@@ -28,15 +28,15 @@ define( require => {
    * @constructor
    */
   function LeftRightSpinner( valueProperty, leftEnabledProperty, rightEnabledProperty, options ) {
-    var shapeWidth = 26;
-    var leftShape = new Shape().moveTo( 0, 0 ).lineTo( -10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
-    var rightShape = new Shape().moveTo( 0, 0 ).lineTo( 10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
+    const shapeWidth = 26;
+    const leftShape = new Shape().moveTo( 0, 0 ).lineTo( -10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
+    const rightShape = new Shape().moveTo( 0, 0 ).lineTo( 10, shapeWidth / 2 ).lineTo( 0, shapeWidth );
 
-    var leftIcon = new Path( leftShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
-    var rightIcon = new Path( rightShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    const leftIcon = new Path( leftShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    const rightIcon = new Path( rightShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
 
-    var radius = 20;
-    var leftButton = new RoundPushButton( {
+    const radius = 20;
+    const leftButton = new RoundPushButton( {
       content: leftIcon,
       listener: function() {
         valueProperty.set( valueProperty.get() - 1 );
@@ -46,9 +46,9 @@ define( require => {
       touchAreaDilation: 10,
       xContentOffset: -3
     } );
-    var leftEnabledPropertyLinkAttribute = leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
+    const leftEnabledPropertyLinkAttribute = leftEnabledProperty.linkAttribute( leftButton, 'enabled' );
 
-    var rightButton = new RoundPushButton( {
+    const rightButton = new RoundPushButton( {
       radius: radius,
       listener: function() {
         valueProperty.set( valueProperty.get() + 1 );
@@ -58,7 +58,7 @@ define( require => {
       baseColor: '#7fb539',
       xContentOffset: +3
     } );
-    var rightEnabledPropertyLinkAttribute = rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
+    const rightEnabledPropertyLinkAttribute = rightEnabledProperty.linkAttribute( rightButton, 'enabled' );
 
     HBox.call( this, { spacing: 6, children: [ leftButton, rightButton ] } );
 

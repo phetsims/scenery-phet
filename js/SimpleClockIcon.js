@@ -27,7 +27,7 @@ define( require => {
     options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
     this.addChild( new Circle( radius, options ) );
     this.addChild( new Circle( radius * 0.15, { fill: options.stroke } ) );
-    var lineOptionsForClockHands = {
+    const lineOptionsForClockHands = {
       stroke: options.stroke,
       lineWidth: options.lineWidth,
       lineCap: 'round',

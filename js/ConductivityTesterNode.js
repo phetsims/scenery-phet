@@ -52,7 +52,7 @@ define( require => {
    * @constructor
    */
   function ConductivityTesterNode( brightnessProperty, locationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       modelViewTransform: ModelViewTransform2.createIdentity(),
@@ -97,20 +97,20 @@ define( require => {
     } );
 
     // battery
-    var battery = new Image( batteryImage, {
+    const battery = new Image( batteryImage, {
       scale: options.batteryImageScale,
       left: options.bulbToBatteryWireLength,
       centerY: 0
     } );
 
     // wire from bulb base to battery
-    var bulbBatteryWire = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.bulbToBatteryWireLength, 0 ), {
+    const bulbBatteryWire = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.bulbToBatteryWireLength, 0 ), {
       stroke: options.wireStroke,
       lineWidth: options.wireLineWidth
     } );
 
     // apparatus (bulb + battery), origin at bottom center of bulb's base
-    var apparatusNode = new Node( {
+    const apparatusNode = new Node( {
       children: [
         bulbBatteryWire,
         battery,
@@ -123,7 +123,7 @@ define( require => {
     }
 
     // wire from battery terminal to positive probe
-    var positiveWire = new WireNode(
+    const positiveWire = new WireNode(
       battery.getGlobalBounds().right,
       battery.getGlobalBounds().centerY,
       options.modelViewTransform.modelToViewX( positiveProbeLocationProperty.get().x ) - options.modelViewTransform.modelToViewX( locationProperty.get().x ),
@@ -132,7 +132,7 @@ define( require => {
     );
 
     // wire from base of bulb (origin) to negative probe
-    var negativeWire = new WireNode(
+    const negativeWire = new WireNode(
       -5, -5, // specific to bulb image file
       options.modelViewTransform.modelToViewX( negativeProbeLocationProperty.get().x ) - options.modelViewTransform.modelToViewX( locationProperty.get().x ),
       options.modelViewTransform.modelToViewY( negativeProbeLocationProperty.get().y ) - options.modelViewTransform.modelToViewY( locationProperty.get().y ) - options.probeSize.height,
@@ -140,8 +140,8 @@ define( require => {
     );
 
     // drag handler for probes
-    var clickYOffset = 0;
-    var probeDragHandler = new SimpleDragHandler( {
+    let clickYOffset = 0;
+    const probeDragHandler = new SimpleDragHandler( {
 
       start: function( e ) {
         clickYOffset = e.currentTarget.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
@@ -150,26 +150,26 @@ define( require => {
       // probes move together
       drag: function( e ) {
         // do dragging in view coordinate frame
-        var locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
-        var yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - clickYOffset;
+        const locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
+        let yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - clickYOffset;
         if ( options.probeDragYRange ) {
           yView = Util.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
         }
         // convert to model coordinate frame
-        var yModel = options.modelViewTransform.viewToModelY( yView );
+        const yModel = options.modelViewTransform.viewToModelY( yView );
         positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x, yModel ) );
         negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x, yModel ) );
       }
     } );
 
     // probes
-    var positiveProbe = new ProbeNode( new PlusNode( { fill: options.positiveLabelFill } ), {
+    const positiveProbe = new ProbeNode( new PlusNode( { fill: options.positiveLabelFill } ), {
       size: options.probeSize,
       fill: options.positiveProbeFill,
       stroke: options.positiveProbeStroke,
       lineWidth: options.probeLineWidth
     } );
-    var negativeProbe = new ProbeNode( new MinusNode( { fill: options.negativeLabelFill } ), {
+    const negativeProbe = new ProbeNode( new MinusNode( { fill: options.negativeLabelFill } ), {
       size: options.probeSize,
       fill: options.negativeProbeFill,
       stroke: options.negativeProbeStroke,
@@ -190,8 +190,8 @@ define( require => {
       self.translation = options.modelViewTransform.modelToViewPosition( location );
       // probes move with the tester
       if ( oldLocation ) {
-        var dx = location.x - oldLocation.x;
-        var dy = location.y - oldLocation.y;
+        const dx = location.x - oldLocation.x;
+        const dy = location.y - oldLocation.y;
         positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x + dx, positiveProbeLocationProperty.get().y + dy ) );
         negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x + dx, negativeProbeLocationProperty.get().y + dy ) );
       }
@@ -284,7 +284,7 @@ define( require => {
     Node.call( this );
 
     // plate
-    var plateNode = new Rectangle( -options.size.width / 2, -options.size.height, options.size.width, options.size.height, {
+    const plateNode = new Rectangle( -options.size.width / 2, -options.size.height, options.size.width, options.size.height, {
       fill: options.fill,
       stroke: options.stroke,
       lineWidth: options.lineWidth
@@ -342,10 +342,10 @@ define( require => {
     // @private Sets the end point coordinates, the point attached to the probe.
     setEndPoint: function( endX, endY ) {
 
-      var startX = this.startPoint.x;
-      var startY = this.startPoint.y;
-      var controlPointXOffset = this.controlPointOffset.x;
-      var controlPointYOffset = this.controlPointOffset.y;
+      const startX = this.startPoint.x;
+      const startY = this.startPoint.y;
+      const controlPointXOffset = this.controlPointOffset.x;
+      const controlPointYOffset = this.controlPointOffset.y;
 
       this.setShape( new Shape()
         .moveTo( startX, startY )

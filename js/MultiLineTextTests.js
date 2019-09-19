@@ -17,7 +17,7 @@ define( require => {
 
   QUnit.test( 'Test setText', function( assert ) {
     //assert.equal( p.changedEmitter.listeners.length, 2, 'should have removed an item' );
-    var multiLineText = new MultiLineText( 'test' );
+    const multiLineText = new MultiLineText( 'test' );
     assert.ok( true, 'constructed a MultiLineText' );
     multiLineText.setText( 'tes' );
     multiLineText.setText( 't\ne' );

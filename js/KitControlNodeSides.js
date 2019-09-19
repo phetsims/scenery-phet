@@ -24,7 +24,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   // constants
-  var DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );
+  const DEFAULT_BASE_COLOR = new Color( 'rgba( 109, 89, 205, 0.5 )' );
 
   /**
    * @param {number} numKits
@@ -49,7 +49,7 @@ define( require => {
         yPadding: 5
       }, options );
 
-    var commonButtonOptions = {
+    const commonButtonOptions = {
       stroke: options.buttonStroke,
       lineWidth: options.buttonLineWidth,
       baseColor: options.buttonBaseColor,
@@ -61,11 +61,11 @@ define( require => {
     };
 
     // Create the icons that signify previous and next.
-    var iconOptions = { stroke: options.arrowStroke, lineWidth: options.arrowLineWidth, lineCap: 'round' };
-    var nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
-    var previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
+    const iconOptions = { stroke: options.arrowStroke, lineWidth: options.arrowLineWidth, lineCap: 'round' };
+    const nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
+    const previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
 
-    var nextKitButton = new RectangularPushButton( _.extend( {
+    const nextKitButton = new RectangularPushButton( _.extend( {
       content: nextIcon,
       baseColor: new Color( 'black' ),
       listener: function() {
@@ -74,7 +74,7 @@ define( require => {
     }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    var previousKitButton = new RectangularPushButton( _.extend( {
+    const previousKitButton = new RectangularPushButton( _.extend( {
       content: previousIcon,
       baseColor: 'orange',
       listener: function() {
@@ -84,7 +84,7 @@ define( require => {
     this.addChild( previousKitButton );
 
     // Control button enabled state
-    var selectedKitPropertyObserver = function( kitNum ) {
+    const selectedKitPropertyObserver = function( kitNum ) {
       nextKitButton.visible = ( kitNum < numKits - 1 );
       previousKitButton.visible = ( kitNum !== 0 );
     };

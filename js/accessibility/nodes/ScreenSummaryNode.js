@@ -22,9 +22,9 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // a11y strings
-  var screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
-  var screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
-  var screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
+  const screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
+  const screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
+  const screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
 
   /**
    * @constructor
@@ -36,7 +36,7 @@ define( require => {
     // @private
     this.openingSummaryNode = new Node( { tagName: 'p' } );
 
-    var keyboardShortcutsHint = new Node( {
+    const keyboardShortcutsHint = new Node( {
       tagName: 'p',
       innerContent: screenSummaryKeyboardShortcutsHintString
     } );

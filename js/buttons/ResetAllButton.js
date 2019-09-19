@@ -25,11 +25,11 @@ define( require => {
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
-  var RESET_ALL_BUTTON_RADIUS = 20.8;
+  const RESET_ALL_BUTTON_RADIUS = 20.8;
 
   // a11y strings - not translatable
-  var resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
-  var resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
+  const resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
+  const resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
 
   /**
    * @param {Object} [options]
@@ -66,7 +66,7 @@ define( require => {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
-    var resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
+    const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     this.isFiringProperty.lazyLink( function( isFiring ) {
       utteranceQueue.enabled = !isFiring;
 

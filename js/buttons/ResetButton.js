@@ -27,7 +27,7 @@ define( require => {
   function ResetButton( options ) {
 
     // radius is used in computation of defaults for other options
-    var BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 24;
+    const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 24;
 
     options = _.extend( {
       radius: BUTTON_RADIUS,
@@ -45,8 +45,8 @@ define( require => {
     }, options );
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235
-    var resetIcon = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
-    var reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, -1 ) ) );
+    const resetIcon = new Path( new ResetShape( options.radius ), { fill: options.arrowColor } );
+    const reflectedIcon = new Path( resetIcon.shape.transformed( Matrix3.scaling( -1, -1 ) ) );
     resetIcon.localBounds = resetIcon.localBounds.union( reflectedIcon.localBounds );
 
     assert && assert( !options.content, 'content is not customizable' );

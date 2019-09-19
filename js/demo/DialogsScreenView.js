@@ -24,7 +24,7 @@ define( require => {
   const batteryDCellImage = require( 'image!SCENERY_PHET/battery-D-cell.png' );
 
   // constants
-  var BUTTON_OPTIONS = {
+  const BUTTON_OPTIONS = {
     font: new PhetFont( 20 )
   };
 
@@ -35,8 +35,8 @@ define( require => {
     ScreenView.call( this );
 
     // reuse one instance of the dialog
-    var contextLossFailureDialog = null;
-    var contextLossFailureButton = new RectangularPushButton( {
+    let contextLossFailureDialog = null;
+    const contextLossFailureButton = new RectangularPushButton( {
       content: new Text( 'ContextLossFailureDialog', BUTTON_OPTIONS ),
       listener: function() {
         if ( !contextLossFailureDialog ) {
@@ -53,8 +53,8 @@ define( require => {
       }
     } );
 
-    var oopsDialog = null;
-    var oopsButton = new RectangularPushButton( {
+    let oopsDialog = null;
+    const oopsButton = new RectangularPushButton( {
       content: new Text( 'OopsDialog', BUTTON_OPTIONS ),
       listener: () => {
         if ( !oopsDialog ) {

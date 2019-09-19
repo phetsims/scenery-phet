@@ -28,9 +28,9 @@ define( require => {
     }, options );
 
     // + shape, starting from top left and moving clockwise
-    var c1 = ( options.size.width / 2 ) - ( options.size.height / 2 );
-    var c2 = ( options.size.width / 2 ) + ( options.size.height / 2 );
-    var shape = new Shape()
+    const c1 = ( options.size.width / 2 ) - ( options.size.height / 2 );
+    const c2 = ( options.size.width / 2 ) + ( options.size.height / 2 );
+    const shape = new Shape()
       .moveTo( c1, 0 )
       .lineTo( c2, 0 )
       .lineTo( c2, c1 )

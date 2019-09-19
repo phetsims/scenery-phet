@@ -75,13 +75,13 @@ define( require => {
     this.radius = options.radius;
 
     // Whether enabledProperty was provided by the client (false) or created by GaugeNode (true)
-    var ownsEnabledProperty = !options.enabledProperty;
+    const ownsEnabledProperty = !options.enabledProperty;
 
     // @public enabled/disables updates of the needle
     this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
-    var anglePerTick = options.span / options.numberOfTicks;
-    var tandem = options.tandem;
+    const anglePerTick = options.span / options.numberOfTicks;
+    const tandem = options.tandem;
 
     this.addChild( new Circle( this.radius, {
       fill: options.backgroundFill,
@@ -89,18 +89,18 @@ define( require => {
       lineWidth: options.backgroundLineWidth
     } ) );
 
-    var foregroundNode = new Node( {
+    const foregroundNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'foregroundNode' )
     } );
     this.addChild( foregroundNode );
 
-    var needle = new Path( Shape.lineSegment( 0, 0, this.radius - options.majorTickLength / 2, 0 ), {
+    const needle = new Path( Shape.lineSegment( 0, 0, this.radius - options.majorTickLength / 2, 0 ), {
       stroke: 'red',
       lineWidth: options.needleLineWidth
     } );
 
-    var labelNode = new Text( label, {
+    const labelNode = new Text( label, {
       font: new PhetFont( 20 ),
       maxWidth: this.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelNode' )
@@ -110,22 +110,22 @@ define( require => {
     } );
     foregroundNode.addChild( labelNode );
 
-    var pin = new Circle( 2, { fill: 'black' } );
+    const pin = new Circle( 2, { fill: 'black' } );
     foregroundNode.addChild( pin );
 
-    var totalAngle = ( options.numberOfTicks - 1 ) * anglePerTick;
-    var startAngle = -1 / 2 * Math.PI - totalAngle / 2;
-    var endAngle = startAngle + totalAngle;
+    const totalAngle = ( options.numberOfTicks - 1 ) * anglePerTick;
+    const startAngle = -1 / 2 * Math.PI - totalAngle / 2;
+    const endAngle = startAngle + totalAngle;
 
-    var scratchMatrix = new Matrix3();
+    const scratchMatrix = new Matrix3();
 
-    var updateNeedle = () => {
+    const updateNeedle = () => {
       if ( this.enabledProperty.get() ) {
         if ( typeof( valueProperty.get() ) === 'number' ) {
 
           // clamp value to valid range and map it to an angle
-          var clampedValue = Util.clamp( valueProperty.get(), range.min, range.max );
-          var needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, clampedValue );
+          const clampedValue = Util.clamp( valueProperty.get(), range.min, range.max );
+          const needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, clampedValue );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );
@@ -144,18 +144,18 @@ define( require => {
 
     // Render all of the ticks into Shapes layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
-    var bigTicksShape = new Shape();
-    var smallTicksShape = new Shape();
+    const bigTicksShape = new Shape();
+    const smallTicksShape = new Shape();
 
     // Add the tick marks
-    for ( var i = 0; i < options.numberOfTicks; i++ ) {
-      var tickAngle = i * anglePerTick + startAngle;
+    for ( let i = 0; i < options.numberOfTicks; i++ ) {
+      const tickAngle = i * anglePerTick + startAngle;
 
-      var tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
-      var x1 = ( this.radius - tickLength ) * Math.cos( tickAngle );
-      var y1 = ( this.radius - tickLength ) * Math.sin( tickAngle );
-      var x2 = this.radius * Math.cos( tickAngle );
-      var y2 = this.radius * Math.sin( tickAngle );
+      const tickLength = i % 2 === 0 ? options.majorTickLength : options.minorTickLength;
+      const x1 = ( this.radius - tickLength ) * Math.cos( tickAngle );
+      const y1 = ( this.radius - tickLength ) * Math.sin( tickAngle );
+      const x2 = this.radius * Math.cos( tickAngle );
+      const y2 = this.radius * Math.sin( tickAngle );
       if ( i % 2 === 0 ) {
         bigTicksShape.moveTo( x1, y1 );
         bigTicksShape.lineTo( x2, y2 );

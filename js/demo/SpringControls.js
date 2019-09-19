@@ -22,18 +22,18 @@ define( require => {
   const VSeparator = require( 'SUN/VSeparator' );
 
   // strings - no need for i18n since this is a developer-only demo
-  var aspectRatioString = 'aspect ratio:';
-  var deltaPhaseString = 'delta phase:';
-  var lineWidthString = 'line width:';
-  var loopsString = 'loops:';
-  var phaseString = 'phase:';
-  var pointsPerLoopString = 'points per loop:';
-  var radiusString = 'radius:';
-  var xScaleString = 'x scale:';
+  const aspectRatioString = 'aspect ratio:';
+  const deltaPhaseString = 'delta phase:';
+  const lineWidthString = 'line width:';
+  const loopsString = 'loops:';
+  const phaseString = 'phase:';
+  const pointsPerLoopString = 'points per loop:';
+  const radiusString = 'radius:';
+  const xScaleString = 'x scale:';
 
   // constants
-  var CONTROL_FONT = new PhetFont( 18 );
-  var TICK_LABEL_FONT = new PhetFont( 14 );
+  const CONTROL_FONT = new PhetFont( 18 );
+  const TICK_LABEL_FONT = new PhetFont( 14 );
 
   /**
    * @param {Object} ranges - a hash of dot.Range
@@ -51,7 +51,7 @@ define( require => {
     }, options );
 
     // controls, options tweaked empirically to match ranges
-    var loopsControl = NumberControl.withMinMaxTicks( loopsString, springNode.loopsProperty, ranges.loopsRange, {
+    const loopsControl = NumberControl.withMinMaxTicks( loopsString, springNode.loopsProperty, ranges.loopsRange, {
       delta: 1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -63,7 +63,7 @@ define( require => {
         minorTickSpacing: 1
       }
     } );
-    var pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, springNode.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
+    const pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, springNode.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
       delta: 1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -75,7 +75,7 @@ define( require => {
         thumbFill: 'black'
       }
     } );
-    var radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
+    const radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
       delta: 1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -87,7 +87,7 @@ define( require => {
         thumbFill: 'green'
       }
     } );
-    var aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
+    const aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
       delta: 0.1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -100,7 +100,7 @@ define( require => {
       }
     } );
     assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
-    var phaseControl = new NumberControl( phaseString, springNode.phaseProperty, ranges.phaseRange, {
+    const phaseControl = new NumberControl( phaseString, springNode.phaseProperty, ranges.phaseRange, {
       delta: 0.1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -118,7 +118,7 @@ define( require => {
       }
     } );
     assert && assert( ranges.deltaPhaseRange.min === 0 && ranges.deltaPhaseRange.max === 2 * Math.PI );
-    var deltaPhaseControl = new NumberControl( deltaPhaseString, springNode.deltaPhaseProperty, ranges.deltaPhaseRange, {
+    const deltaPhaseControl = new NumberControl( deltaPhaseString, springNode.deltaPhaseProperty, ranges.deltaPhaseRange, {
       delta: 0.1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -136,7 +136,7 @@ define( require => {
       }
     } );
 
-    var lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, springNode.lineWidthProperty, ranges.lineWidthRange, {
+    const lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, springNode.lineWidthProperty, ranges.lineWidthRange, {
       delta: 0.1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -148,7 +148,7 @@ define( require => {
         thumbFill: 'green'
       }
     } );
-    var xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
+    const xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
       delta: 0.1,
       titleNodeOptions: { font: CONTROL_FONT },
       numberDisplayOptions: {
@@ -162,9 +162,9 @@ define( require => {
     } );
 
     // layout
-    var xSpacing = 25;
-    var ySpacing = 30;
-    var content = new HBox( {
+    const xSpacing = 25;
+    const ySpacing = 30;
+    const content = new HBox( {
       children: [
         new VBox( { children: [ loopsControl, pointsPerLoopControl ], spacing: ySpacing } ),
         new VBox( { children: [ radiusControl, aspectRatioControl ], spacing: ySpacing } ),

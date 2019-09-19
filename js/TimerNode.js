@@ -71,30 +71,30 @@ define( require => {
     options.timerReadoutNodeOptions.maxValue = options.maxValue;
 
     // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
-    var timerReadoutNode = new TimerReadoutNode( timeProperty, options.timerReadoutNodeOptions );
+    const timerReadoutNode = new TimerReadoutNode( timeProperty, options.timerReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
 
-    var resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
+    const resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
       fill: options.iconFill
     } );
 
-    var playIconHeight = resetPath.height;
-    var playIconWidth = 0.8 * playIconHeight;
-    var playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
+    const playIconHeight = resetPath.height;
+    const playIconWidth = 0.8 * playIconHeight;
+    const playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
       fill: options.iconFill
     } );
 
-    var pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
+    const pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
       fill: options.iconFill
     } );
 
-    var playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
+    const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
       baseColor: options.buttonBaseColor,
       tandem: options.tandem.createTandem( 'playPauseButton' )
     } );
 
-    var resetButton = new RectangularPushButton( {
+    const resetButton = new RectangularPushButton( {
       listener: function resetTimer() {
         runningProperty.set( false );
         timeProperty.set( 0 );
@@ -104,7 +104,7 @@ define( require => {
       tandem: options.tandem.createTandem( 'resetButton' )
     } );
 
-    var contents = new VBox( {
+    const contents = new VBox( {
       spacing: options.ySpacing,
       children: [
         timerReadoutNode,
@@ -117,7 +117,7 @@ define( require => {
 
     // Background panel ----------------------------------------------------------------------------
 
-    var backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
+    const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
       contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
       baseColor: options.backgroundBaseColor
     } );
@@ -132,7 +132,7 @@ define( require => {
     this.dragTarget = backgroundNode;
 
     // Disable the reset button when time is zero.
-    var timeListener = function( time ) {
+    const timeListener = function( time ) {
       resetButton.enabled = time > 0;
       playPauseButton.enabled = time < options.maxValue;
       if ( time >= options.maxValue ) {

@@ -11,7 +11,7 @@ define( require => {
   // modules
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var sceneryPhetQueryParameters = QueryStringMachine.getAll( {
+  const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
 
     // background color of the screens
     backgroundColor: {

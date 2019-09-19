@@ -19,7 +19,7 @@ define( require => {
    */
   function StarShape( options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
 
@@ -35,12 +35,12 @@ define( require => {
 
     Shape.call( this );
 
-    var numSegments = 2 * options.numberStarPoints; // number of segments
+    const numSegments = 2 * options.numberStarPoints; // number of segments
 
     // start at the top and proceed clockwise
     _.times( numSegments, function( i ) {
-      var angle = i / numSegments * Math.PI * 2 - Math.PI / 2;
-      var radius = i % 2 === 0 ? options.outerRadius : options.innerRadius;
+      const angle = i / numSegments * Math.PI * 2 - Math.PI / 2;
+      const radius = i % 2 === 0 ? options.outerRadius : options.innerRadius;
 
       self.lineTo(
         radius * Math.cos( angle ),

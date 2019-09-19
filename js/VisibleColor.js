@@ -18,11 +18,11 @@ define( require => {
   const Util = require( 'DOT/Util' );
 
   // constants
-  var COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
-  var SPEED_OF_LIGHT = 299792458; // The speed of light in a vacuum in meters/second
+  const COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
+  const SPEED_OF_LIGHT = 299792458; // The speed of light in a vacuum in meters/second
 
-  var VIOLET_WAVELENGTH = 380; // nanometers
-  var RED_WAVELENGTH = 780; // nanometers
+  const VIOLET_WAVELENGTH = 380; // nanometers
+  const RED_WAVELENGTH = 780; // nanometers
 
   // Create the color tables on demand, since they take up 282kb per table or so
   let REDUCED_INTENSITY_COLOR_TABLE = null;
@@ -53,7 +53,7 @@ define( require => {
         reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
       }, options );
 
-      var color = null;
+      let color = null;
       if ( wavelength === VisibleColor.WHITE_WAVELENGTH ) { // white light
         color = Color.WHITE;
       }
@@ -80,8 +80,8 @@ define( require => {
      * @returns {Color|null}
      */
     frequencyToColor: function( frequency, options ) {
-      var wavelengthInMeters = SPEED_OF_LIGHT / frequency;
-      var wavelengthInNanometers = wavelengthInMeters * 1E9;
+      const wavelengthInMeters = SPEED_OF_LIGHT / frequency;
+      const wavelengthInNanometers = wavelengthInMeters * 1E9;
       return VisibleColor.wavelengthToColor( wavelengthInNanometers, options );
     },
 
@@ -124,14 +124,14 @@ define( require => {
 
       color = Color.toColor( color );
 
-      var wavelength = -1;
+      let wavelength = -1;
 
       if ( color.equals( Color.WHITE ) ) {
         wavelength = VisibleColor.WHITE_WAVELENGTH;
       }
       else {
         const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
-        for ( var i = 0; i < colorTable.length; i++ ) {
+        for ( let i = 0; i < colorTable.length; i++ ) {
           if ( Math.abs( color.getRed() - colorTable[ i ].getRed() ) < COLOR_MATCH_DELTA &&
                Math.abs( color.getGreen() - colorTable[ i ].getGreen() ) < COLOR_MATCH_DELTA &&
                Math.abs( color.getBlue() - colorTable[ i ].getBlue() ) < COLOR_MATCH_DELTA ) {
@@ -155,17 +155,17 @@ define( require => {
    */
   var createColorTable = function( reduceIntensityAtExtrema ) {
 
-    var colorTable = [];
+    const colorTable = [];
 
     // Allocate the lookup table
-    var numWavelengths = Math.floor( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH + 1 );
+    const numWavelengths = Math.floor( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH + 1 );
 
     // Populate the lookup table
-    var wavelength;
-    var r;
-    var g;
-    var b;
-    for ( var i = 0; i < numWavelengths; i++ ) {
+    let wavelength;
+    let r;
+    let g;
+    let b;
+    for ( let i = 0; i < numWavelengths; i++ ) {
 
       // Create the RGB component values.
       wavelength = VisibleColor.MIN_WAVELENGTH + i;
@@ -214,10 +214,10 @@ define( require => {
       else {
         intensity = 1;
       }
-      var red = Util.roundSymmetric( 255 * ( intensity * r ) );
-      var green = Util.roundSymmetric( 255 * ( intensity * g ) );
-      var blue = Util.roundSymmetric( 255 * ( intensity * b ) );
-      var alpha = 1;
+      const red = Util.roundSymmetric( 255 * ( intensity * r ) );
+      const green = Util.roundSymmetric( 255 * ( intensity * g ) );
+      const blue = Util.roundSymmetric( 255 * ( intensity * b ) );
+      const alpha = 1;
 
       // Add the color to the lookup array.
       colorTable[ i ] = new Color( red, green, blue, alpha );

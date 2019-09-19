@@ -20,14 +20,14 @@ define( require => {
   function UTurnArrowShape( size ) {
     Shape.call( this );
 
-    var strokeWidth = size * 0.3;
-    var strokeOffset = strokeWidth / 2;
-    var mainWidth = size * 0.6;
-    var mainHeight = size;
-    var headWidth = size * 0.5;
-    var headHeight = size * 0.75;
-    var halfHeadWidth = headWidth / 2;
-    var halfHeadHeight = headHeight / 2;
+    const strokeWidth = size * 0.3;
+    const strokeOffset = strokeWidth / 2;
+    const mainWidth = size * 0.6;
+    const mainHeight = size;
+    const headWidth = size * 0.5;
+    const headHeight = size * 0.75;
+    const halfHeadWidth = headWidth / 2;
+    const halfHeadHeight = headHeight / 2;
 
     // starts adjacent to the arrowhead on the top, going clockwise
     this.moveTo( halfHeadWidth, -strokeOffset );

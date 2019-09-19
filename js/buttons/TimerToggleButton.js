@@ -19,10 +19,10 @@ define( require => {
   const SimpleClockIcon = require( 'SCENERY_PHET/SimpleClockIcon' );
 
   // constants
-  var WIDTH = 45;
-  var HEIGHT = 45;
-  var MARGIN = 4;
-  var X_STROKE_WIDTH = 6;
+  const WIDTH = 45;
+  const HEIGHT = 45;
+  const MARGIN = 4;
+  const X_STROKE_WIDTH = 6;
 
   /**
    * @param {Property.<boolean>} timerRunningProperty
@@ -32,15 +32,15 @@ define( require => {
   function TimerToggleButton( timerRunningProperty, options ) {
 
     // Create the node that represents the timer being on.
-    var clockRadius = WIDTH * 0.35;
-    var timerOnNode = new SimpleClockIcon( clockRadius );
+    const clockRadius = WIDTH * 0.35;
+    const timerOnNode = new SimpleClockIcon( clockRadius );
 
     // Create the node that represents the timer being off.
-    var timerOffNode = new Node();
-    var timerOffNodeBackground = new SimpleClockIcon( clockRadius, { opacity: 0.8 } );
+    const timerOffNode = new Node();
+    const timerOffNodeBackground = new SimpleClockIcon( clockRadius, { opacity: 0.8 } );
     timerOffNode.addChild( timerOffNodeBackground );
-    var xNode = new Shape();
-    var xNodeWidth = timerOffNode.width * 0.8;
+    const xNode = new Shape();
+    const xNodeWidth = timerOffNode.width * 0.8;
     xNode.moveTo( 0, 0 );
     xNode.lineTo( xNodeWidth, xNodeWidth );
     xNode.moveTo( 0, xNodeWidth );

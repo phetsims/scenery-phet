@@ -13,7 +13,7 @@ define( require => {
 
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var SceneryPhetA11yStrings = {
+  const SceneryPhetA11yStrings = {
 
     //------------------------------------------------------------------------
     // Sim Section strings
@@ -176,7 +176,7 @@ define( require => {
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
-    for ( var key in SceneryPhetA11yStrings ) {
+    for ( const key in SceneryPhetA11yStrings ) {
       SceneryPhetA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
     }
   }

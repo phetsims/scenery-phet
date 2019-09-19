@@ -29,7 +29,7 @@ define( require => {
       stroke: 'black'
     }, options );
 
-    var self = this;
+    const self = this;
     Path.call( this, null, options );
 
     // @private

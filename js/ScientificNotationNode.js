@@ -41,11 +41,11 @@ define( require => {
     }, options );
     this.options = options; // @private
 
-    var textOptions = { font: options.font, fill: options.fill };
+    const textOptions = { font: options.font, fill: options.fill };
     this.valueProperty = valueProperty; // @public
 
     // must be recomputed if font changes!
-    var tmpText = new Text( ' ', textOptions );
+    const tmpText = new Text( ' ', textOptions );
     this.mantissaXSpacing = tmpText.width; // @private width of space between mantissa and 'x 10'
     this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private cap line offset from baseline
 
@@ -57,7 +57,7 @@ define( require => {
 
     Node.call( this, _.extend( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
 
-    var valuePropertyObserver = this.update.bind( this );
+    const valuePropertyObserver = this.update.bind( this );
     valueProperty.link( valuePropertyObserver );
 
     // @private
@@ -89,7 +89,7 @@ define( require => {
      */
     update: function( value ) {
 
-      var options = this.options;
+      const options = this.options;
 
       //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
       // start will all nodes included
@@ -110,9 +110,9 @@ define( require => {
         this.removeChild( this.exponentNode );
       }
       else {
-        var scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-        var mantissaNumber = Util.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
-        var exponentNumber = parseInt( scientificNotation.exponent, 10 );
+        const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
+        const mantissaNumber = Util.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+        const exponentNumber = parseInt( scientificNotation.exponent, 10 );
 
         if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
           // show '0 x 10^E' as '0'
@@ -156,8 +156,8 @@ define( require => {
         exponent: null // specific exponent to use
       }, options );
 
-      var mantissa;
-      var exponent;
+      let mantissa;
+      let exponent;
       if ( value === 0 ) {
         mantissa = 0;
         exponent = 1;
@@ -169,10 +169,10 @@ define( require => {
       else {
         // Convert to a string in exponential notation (eg 2e+2).
         // Request an additional decimal place, because toExponential uses toFixed, which doesn't round the same on all platforms.
-        var exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
+        const exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
 
         // Break into mantissa and exponent tokens.
-        var tokens = exponentialString.toLowerCase().split( 'e' );
+        const tokens = exponentialString.toLowerCase().split( 'e' );
 
         // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
         mantissa = Util.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );

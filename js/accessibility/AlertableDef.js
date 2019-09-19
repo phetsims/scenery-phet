@@ -15,7 +15,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
-  var AlertableDef = {
+  const AlertableDef = {
 
     /**
      * Returns whether the parameter is considered to be a alertable, for use in utteranceQueue. An item is alertable
@@ -26,11 +26,11 @@ define( require => {
      * @public
      */
     isAlertableDef: function( alertable ) {
-      var isAlertable = true;
+      let isAlertable = true;
 
       // if array, check each item individually
       if ( Array.isArray( alertable ) ) {
-        for ( var i = 0; i < alertable.length; i++ ) {
+        for ( let i = 0; i < alertable.length; i++ ) {
           isAlertable = isItemAlertable( alertable[ i ] );
           if ( !isAlertable ) { break; }
         }

@@ -47,14 +47,14 @@ define( require => {
     // @public (a11y)
     this.bucket = bucket;
 
-    var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
-    var transformedShape = bucket.containerShape.transformed( scaleMatrix );
+    const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
+    const transformedShape = bucket.containerShape.transformed( scaleMatrix );
 
     // @private {Property.<Color>}
     this.baseBrighter5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
     this.baseDarker5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
 
-    var frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
+    const frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
       0,
       transformedShape.bounds.getMaxX(),
       0 );

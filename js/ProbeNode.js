@@ -51,7 +51,7 @@ define( require => {
 
   // Crosshairs can be shown in the central circle
   const crosshairs = function( options ) {
-    var CROSSHAIRS_DEFAULTS = {
+    const CROSSHAIRS_DEFAULTS = {
       stroke: 'black',
       lineWidth: 3,
 
@@ -61,7 +61,7 @@ define( require => {
     options = _.extend( CROSSHAIRS_DEFAULTS, options );
     return function( radius ) {
 
-      var lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
+      const lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
       return new Node( {
         children: [
           new Line( -radius, 0, -options.intersectionRadius, 0, lineOptions ),
@@ -73,7 +73,7 @@ define( require => {
   };
 
   // constants
-  var DEFAULT_OPTIONS = {
+  const DEFAULT_OPTIONS = {
     radius: 50,
     innerRadius: 35,
     handleWidth: 50,
@@ -106,24 +106,24 @@ define( require => {
     options = _.extend( {}, DEFAULT_OPTIONS, options );
 
     // To improve readability
-    var radius = options.radius;
+    const radius = options.radius;
 
     // the top of the handle, below the circle at the top of the sensor
-    var handleBottom = radius + options.handleHeight;
+    const handleBottom = radius + options.handleHeight;
 
     // The shape of the outer body, circular at top with a handle at the bottom
-    var arcExtent = 0.8;
-    var handleWidth = options.handleWidth;
-    var innerRadius = Math.min( options.innerRadius, options.radius );
-    var cornerRadius = options.handleCornerRadius;
+    const arcExtent = 0.8;
+    const handleWidth = options.handleWidth;
+    const innerRadius = Math.min( options.innerRadius, options.radius );
+    const cornerRadius = options.handleCornerRadius;
 
-    var neckCornerRadius = 10;
+    const neckCornerRadius = 10;
 
     // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
     // Note: This elliptical arc must match the ellipticalArc call below
-    var ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false ).start;
+    const ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * (1 - arcExtent), false ).start;
 
-    var createShape = function() {
+    const createShape = function() {
       return new Shape()
 
       // start in the bottom center
@@ -144,30 +144,30 @@ define( require => {
         .lineTo( 0, handleBottom );
     };
 
-    var sensorShape = createShape()
+    const sensorShape = createShape()
       .moveTo( innerRadius, 0 )
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
 
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
-    var lightAngle = options.lightAngle;
+    const lightAngle = options.lightAngle;
 
-    var center = sensorShape.bounds.center;
-    var v1 = Vector2.createPolar( 1, lightAngle );
-    var intersections = sensorShape.intersection( new Ray2( center, v1 ) );
-
-    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
-    var lastIntersection = intersections[ intersections.length - 1 ];
-    var lastIntersectionPoint = lastIntersection ? lastIntersection.point : Vector2.ZERO;
-    var gradientSource = lastIntersectionPoint.plus( v1.timesScalar( 1 ) );
-
-    var v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
-    var intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
+    const center = sensorShape.bounds.center;
+    const v1 = Vector2.createPolar( 1, lightAngle );
+    const intersections = sensorShape.intersection( new Ray2( center, v1 ) );
 
     // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
-    var lastIntersection2 = intersections2[ intersections2.length - 1 ];
-    var lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
-    var gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
+    const lastIntersection = intersections[ intersections.length - 1 ];
+    const lastIntersectionPoint = lastIntersection ? lastIntersection.point : Vector2.ZERO;
+    const gradientSource = lastIntersectionPoint.plus( v1.timesScalar( 1 ) );
+
+    const v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
+    const intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
+
+    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
+    const lastIntersection2 = intersections2[ intersections2.length - 1 ];
+    const lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
+    const gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
     // @private {Property.<Color>}
     this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
@@ -177,7 +177,7 @@ define( require => {
     this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
     this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
 
-    var outerShapePath = new Path( sensorShape, {
+    const outerShapePath = new Path( sensorShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, this.brighter2 ) // highlight
         .addColorStop( 1.0, this.darker2 ), // shadow
@@ -193,7 +193,7 @@ define( require => {
     } );
 
     // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
-    var innerPath = new Path( sensorShape, {
+    const innerPath = new Path( sensorShape, {
       fill: options.color,
 
       // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
@@ -206,7 +206,7 @@ define( require => {
       y: 2 // Shift it down a bit to make the face look a bit more 3d
     } );
 
-    var children = [];
+    const children = [];
 
     if ( options.sensorTypeFunction ) {
       children.push( options.sensorTypeFunction( radius ) );
@@ -220,7 +220,7 @@ define( require => {
     );
 
     // Allow the client to override mouse and touch area, but fall back to the outline
-    var outline = createShape().close();
+    const outline = createShape().close();
     options.mouseArea = options.mouseArea || outline;
     options.touchArea = options.touchArea || outline;
 

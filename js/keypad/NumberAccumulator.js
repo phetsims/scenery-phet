@@ -19,20 +19,20 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  var NEGATIVE_CHAR = '\u2212';
-  var DECIMAL_CHAR = '.';
+  const NEGATIVE_CHAR = '\u2212';
+  const DECIMAL_CHAR = '.';
 
   // Define the maximum integer that can be handled.  The portion with the explicit numeric value is necessary for IE11
   // support, see https://github.com/phetsims/scenery-phet/issues/332.
-  var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
-  var MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
+  const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+  const MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
 
   /**
    * @param {Object} [options]
    * @constructor
    */
   function NumberAccumulator( options ) {
-    var self = this;
+    const self = this;
     options = _.extend( {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS
@@ -66,7 +66,7 @@ define( require => {
     };
 
     // Validators to be passed into AbstractKeyAccumulator
-    var validators = [ this.defaultValidator ];
+    const validators = [ this.defaultValidator ];
 
     AbstractKeyAccumulator.call( this, validators, options );
 
@@ -93,7 +93,7 @@ define( require => {
      * @override
      */
     handleKeyPressed: function( keyIdentifier ) {
-      var newArray = this.handleClearOnNextKeyPress( keyIdentifier );
+      const newArray = this.handleClearOnNextKeyPress( keyIdentifier );
       if ( this.isDigit( keyIdentifier ) ) {
         this.removeLeadingZero( newArray );
         newArray.push( keyIdentifier );
@@ -144,8 +144,8 @@ define( require => {
      */
     keysToString: function( keys ) {
 
-      var returnValue = '';
-      var i = 0;
+      let returnValue = '';
+      let i = 0;
 
       // the plus/minus key (if present) will be first key, and indicates that the number is negative
       if ( keys.length > 0 && keys[ i ] === KeyID.PLUS_MINUS ) {
@@ -177,7 +177,7 @@ define( require => {
      * @private
      */
     stringToInteger: function( stringValue ) {
-      var returnValue = null;
+      let returnValue = null;
 
       // if stringValue contains something other than just a minus sign...
       if ( stringValue.length > 0
@@ -201,8 +201,8 @@ define( require => {
      * @private
      */
     getNumberOfDigitsLeftOfMantissa: function( keys ) {
-      var numberOfDigits = 0;
-      for ( var i = 0; i < keys.length; i++ ) {
+      let numberOfDigits = 0;
+      for ( let i = 0; i < keys.length; i++ ) {
         if ( this.isDigit( keys[ i ] ) ) {
           numberOfDigits++;
         }
@@ -221,10 +221,10 @@ define( require => {
      * @private
      */
     getNumberOfDigitsRightOfMantissa: function( keys ) {
-      var decimalKeyIndex = keys.indexOf( KeyID.DECIMAL );
-      var numberOfDigits = 0;
+      const decimalKeyIndex = keys.indexOf( KeyID.DECIMAL );
+      let numberOfDigits = 0;
       if ( decimalKeyIndex >= 0 ) {
-        for ( var i = decimalKeyIndex; i < keys.length; i++ ) {
+        for ( let i = decimalKeyIndex; i < keys.length; i++ ) {
           if ( this.isDigit( keys[ i ] ) ) {
             numberOfDigits++;
           }
@@ -240,8 +240,8 @@ define( require => {
      * @private
      */
     getNumberOfDigits: function( keys ) {
-      var numberOfDigits = 0;
-      for ( var i = 0; i < keys.length; i++ ) {
+      let numberOfDigits = 0;
+      for ( let i = 0; i < keys.length; i++ ) {
         if ( this.isDigit( keys[ i ] ) ) {
           numberOfDigits++;
         }

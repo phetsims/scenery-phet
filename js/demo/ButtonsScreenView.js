@@ -50,55 +50,55 @@ define( require => {
     //------------------------------------------------------------------------------------------------------
     // Push buttons
 
-    var backButton = new BackButton( {
+    const backButton = new BackButton( {
       listener: function() { console.log( 'BackButton pressed' ); }
     } );
 
-    var closeButton = new CloseButton( {
+    const closeButton = new CloseButton( {
       listener: function() { console.log( 'CloseButton pressed' ); }
     } );
 
-    var eraserButton = new EraserButton( {
+    const eraserButton = new EraserButton( {
       listener: function() { console.log( 'EraserButton pressed' ); }
     } );
 
-    var resetButton = new ResetButton( {
+    const resetButton = new ResetButton( {
       listener: function() { console.log( 'ResetButton pressed' ); }
     } );
 
-    var rewindButton = new RewindButton( {
+    const rewindButton = new RewindButton( {
       listener: function() { console.log( 'RewindButton pressed' ); }
     } );
 
-    var starButton = new StarButton( {
+    const starButton = new StarButton( {
       listener: function() { console.log( 'StarButton pressed' ); }
     } );
 
-    var stepBackwardButton = new StepBackwardButton( {
+    const stepBackwardButton = new StepBackwardButton( {
       listener: function() { console.log( 'StepBackwardButton pressed' ); }
     } );
 
-    var stepForwardButton = new StepForwardButton( {
+    const stepForwardButton = new StepForwardButton( {
       listener: function() { console.log( 'StepForwardButton pressed' ); }
     } );
 
-    var zoomButton = new ZoomButton( {
+    const zoomButton = new ZoomButton( {
       listener: function() { console.log( 'ZoomButton pressed' ); }
     } );
 
-    var infoButton = new InfoButton( {
+    const infoButton = new InfoButton( {
       listener: function() { console.log( 'InfoButton pressed' ); }
     } );
 
-    var refreshButton = new RefreshButton( {
+    const refreshButton = new RefreshButton( {
       listener: function() { console.log( 'RefreshButton pressed' ); }
     } );
 
-    var leftRightSpinnerProperty = new Property( 1 );
-    var leftEnabledProperty = new Property( true );
-    var rightEnabledProperty = new Property( true );
+    const leftRightSpinnerProperty = new Property( 1 );
+    const leftEnabledProperty = new Property( true );
+    const rightEnabledProperty = new Property( true );
 
-    var leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty );
+    const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty );
 
     leftRightSpinnerProperty.lazyLink( function( value ) {
       console.log( 'LeftRightSpinner: ' + value );
@@ -114,11 +114,11 @@ define( require => {
       }
     } );
 
-    var upDownSpinnerProperty = new Property( 1 );
-    var upEnabledProperty = new Property( true );
-    var downEnabledProperty = new Property( true );
+    const upDownSpinnerProperty = new Property( 1 );
+    const upEnabledProperty = new Property( true );
+    const downEnabledProperty = new Property( true );
 
-    var upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty );
+    const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty );
 
     upDownSpinnerProperty.lazyLink( function( value ) {
       console.log( 'UpDownSpinner: ' + value );
@@ -134,12 +134,12 @@ define( require => {
       }
     } );
 
-    var moveToTrashButton = new MoveToTrashButton( {
+    const moveToTrashButton = new MoveToTrashButton( {
       scale: 2
     } );
 
     // Push buttons
-    var pushButtons = new HBox( {
+    const pushButtons = new HBox( {
       children: [
         backButton,
         closeButton,
@@ -165,7 +165,7 @@ define( require => {
     // Toggle buttons
 
     // Add button properties here, so that resetAllButton functions properly.
-    var toggleButtonProperties = {
+    const toggleButtonProperties = {
       eyeOpenProperty: new Property( true ),
       isPlayingProperty: new Property( true ),
       recordingProperty: new Property( true ),
@@ -173,33 +173,33 @@ define( require => {
       timerEnabledProperty: new Property( true )
     };
 
-    var eyeButton = new EyeToggleButton( toggleButtonProperties.eyeOpenProperty );
+    const eyeButton = new EyeToggleButton( toggleButtonProperties.eyeOpenProperty );
     toggleButtonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
       console.log( 'eyeOpen=' + eyeOpen );
     } );
 
-    var playPauseButton = new PlayPauseButton( toggleButtonProperties.isPlayingProperty );
+    const playPauseButton = new PlayPauseButton( toggleButtonProperties.isPlayingProperty );
     toggleButtonProperties.isPlayingProperty.lazyLink( function( playing ) {
       console.log( 'playing=' + playing );
     } );
 
-    var recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
+    const recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
     toggleButtonProperties.recordingProperty.lazyLink( function( recording ) {
       console.log( 'recording=' + recording );
     } );
 
-    var soundToggleButton = new SoundToggleButton( toggleButtonProperties.soundEnabledProperty );
+    const soundToggleButton = new SoundToggleButton( toggleButtonProperties.soundEnabledProperty );
     toggleButtonProperties.soundEnabledProperty.lazyLink( function( soundEnabled ) {
       console.log( 'soundEnabled=' + soundEnabled );
     } );
 
-    var timerToggleButton = new TimerToggleButton( toggleButtonProperties.timerEnabledProperty );
+    const timerToggleButton = new TimerToggleButton( toggleButtonProperties.timerEnabledProperty );
     toggleButtonProperties.timerEnabledProperty.lazyLink( function( timerEnabled ) {
       console.log( 'timerEnabled=' + timerEnabled );
     } );
 
     // Toggle button
-    var toggleButtons = new HBox( {
+    const toggleButtons = new HBox( {
       children: [
         eyeButton,
         playPauseButton,
@@ -226,7 +226,7 @@ define( require => {
     } ) );
 
     // Reset All button, in its usual lower-right position
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
 
         leftRightSpinnerProperty.reset();
@@ -237,7 +237,7 @@ define( require => {
         downEnabledProperty.reset();
 
         // reset each Property in toggleButtonProperties
-        for ( var property in toggleButtonProperties ) {
+        for ( const property in toggleButtonProperties ) {
           if ( toggleButtonProperties.hasOwnProperty( property ) && ( toggleButtonProperties[ property ] instanceof Property ) ) {
             toggleButtonProperties[ property ].reset();
           }

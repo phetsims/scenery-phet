@@ -89,7 +89,7 @@ define( require => {
     validateKeys: function( proposedKeys ) {
 
       // Ensures that proposedKeys exist before validation
-      var valid = !!proposedKeys;
+      let valid = !!proposedKeys;
 
       // If any validator returns false then the proposedKey is not valid
       this.validators.forEach( function( validator ) {
@@ -149,7 +149,7 @@ define( require => {
      * @private
      */
     handleClearOnNextKeyPress: function( keyIdentifier ) {
-      var proposedArray;
+      let proposedArray;
       if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
         proposedArray = _.clone( this.accumulatedKeysProperty.get() );
       }

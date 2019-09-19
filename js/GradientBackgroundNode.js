@@ -29,8 +29,8 @@ define( require => {
    * @constructor
    */
   function GradientBackgroundNode( x, y, width, height, color1, color2, y1, y2 ) {
-    var centerX = x + width / 2;
-    var gradient = new LinearGradient( centerX, y1, centerX, y2 );
+    const centerX = x + width / 2;
+    const gradient = new LinearGradient( centerX, y1, centerX, y2 );
     gradient.addColorStop( 0, color1 );
     gradient.addColorStop( 1, color2 );
     Rectangle.call( this, x, y, width, height, 0, 0, { fill: gradient } );

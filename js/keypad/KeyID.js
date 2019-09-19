@@ -13,7 +13,7 @@ define( require => {
   // modules
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  var KeyID = {
+  const KeyID = {
     ZERO: '0',
     ONE: '1',
     TWO: '2',

@@ -47,16 +47,16 @@ define( require => {
     Node.call( this );
 
     // add the gray star behind the filled star, so it will look like it fills in
-    var backgroundStar = new Path( null, {
+    const backgroundStar = new Path( null, {
       stroke: options.emptyStroke,
       fill: options.emptyFill,
       lineWidth: options.emptyLineWidth,
       lineJoin: options.emptyLineJoin,
       boundsMethod: 'none' // optimization for faster creation and usage
     } );
-    var o2 = _.clone( options );
+    const o2 = _.clone( options );
     o2.value = 1;
-    var backgroundStarShape = new StarShape( o2 );
+    const backgroundStarShape = new StarShape( o2 );
     backgroundStar.setShape( backgroundStarShape );
 
     function getBounds() {
@@ -69,7 +69,7 @@ define( require => {
 
     // add the foreground star
     if ( options.value !== 0 ) {
-      var foregroundStar = new Path( new StarShape( o2 ), {
+      const foregroundStar = new Path( new StarShape( o2 ), {
         stroke: options.filledStroke,
         fill: options.filledFill,
         lineWidth: options.filledLineWidth,
@@ -83,8 +83,8 @@ define( require => {
       // important given the optimization documentation already in this file), and gives a cleaner appearance.
       // See https://github.com/phetsims/area-model-common/issues/131.
       if ( options.value !== 1 ) {
-        var unstrokedBounds = backgroundStarShape.bounds;
-        var overlySafeBounds = unstrokedBounds.dilated( options.filledLineWidth * 1.5 );
+        const unstrokedBounds = backgroundStarShape.bounds;
+        const overlySafeBounds = unstrokedBounds.dilated( options.filledLineWidth * 1.5 );
         foregroundStar.clipArea = Shape.bounds( overlySafeBounds.withMaxX( unstrokedBounds.left + options.value * unstrokedBounds.width ) );
       }
       this.addChild( foregroundStar );

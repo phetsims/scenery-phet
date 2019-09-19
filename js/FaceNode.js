@@ -54,7 +54,7 @@ define( require => {
     } ) );
 
     // Add the eyes.
-    var eyeDiameter = headDiameter * 0.075;
+    const eyeDiameter = headDiameter * 0.075;
     this.addChild( new Circle( eyeDiameter, {
       fill: options.eyeFill,
       centerX: -headDiameter * 0.2,
@@ -67,7 +67,7 @@ define( require => {
     } ) );
 
     // Add the mouths.
-    var mouthLineWidth = headDiameter * 0.05;
+    const mouthLineWidth = headDiameter * 0.05;
 
     // @private
     this.smileMouth = new Path( new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ), {

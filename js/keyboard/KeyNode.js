@@ -24,7 +24,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // default options for the KeyNode, all widths, offsets, and height values are in the ScreenView coordinate frame
-  var DEFAULT_OPTIONS = {
+  const DEFAULT_OPTIONS = {
 
     // color and styling
     keyFill: 'white',
@@ -72,25 +72,25 @@ define( require => {
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
     // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
-    var heightScalar = 1;
-    var availableHeightForKeyIcon = options.keyHeight - options.yPadding; // adjust for the vertical margin
+    let heightScalar = 1;
+    const availableHeightForKeyIcon = options.keyHeight - options.yPadding; // adjust for the vertical margin
     if ( keyIcon.height > availableHeightForKeyIcon ) {
       heightScalar = availableHeightForKeyIcon / keyIcon.height;
     }
 
     // Add the scale to a new node based on the height, with keyIcon as a child so that we don't mutate the parameter node.
-    var scaleNode = new Node( { children: [ keyIcon ], scale: heightScalar } );
+    let scaleNode = new Node( { children: [ keyIcon ], scale: heightScalar } );
 
     // Set the keyWidth to either be the minimum, or the width of the icon + padding, which ever is larger.
-    var keyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.xPadding );
+    let keyWidth = Math.max( options.minKeyWidth, scaleNode.width + options.xPadding );
 
     // Make the width the same as the height by scaling down the icon if necessary
     if ( options.forceSquareKey ) {
 
       // If we are forcing square, we may have to scale the node down to fit
-      var availableWidthForKeyIcon = options.minKeyWidth - options.xPadding; // adjust for the horizontal margin
+      const availableWidthForKeyIcon = options.minKeyWidth - options.xPadding; // adjust for the horizontal margin
 
-      var widthScalar = 1;
+      let widthScalar = 1;
       if ( keyIcon.width > availableWidthForKeyIcon ) {
         widthScalar = availableWidthForKeyIcon / keyIcon.width;
       }
@@ -103,7 +103,7 @@ define( require => {
 
     // place content in an align box so that the key surrounding the icon has minimum bounds calculated above
     // with support for margins
-    var content = new AlignBox( scaleNode, {
+    const content = new AlignBox( scaleNode, {
       alignBounds: new Bounds2( 0, 0, keyWidth, options.keyHeight ),
       xAlign: options.xAlign,
       yAlign: options.yAlign,

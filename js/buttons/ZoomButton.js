@@ -38,8 +38,8 @@ define( require => {
     }, options );
 
     // the magnifying glass
-    var glassLineWidth = 0.25 * options.radius;
-    var glassNode = new Circle( options.radius, {
+    const glassLineWidth = 0.25 * options.radius;
+    const glassNode = new Circle( options.radius, {
       fill: options.magnifyingGlassFill,
       stroke: options.magnifyingGlassStroke,
       lineWidth: glassLineWidth,
@@ -47,8 +47,8 @@ define( require => {
     } );
 
     // handle at lower-left of glass, at a 45-degree angle
-    var outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
-    var handleNode = new Line(
+    const outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
+    const handleNode = new Line(
       outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
       options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ), {
         stroke: options.magnifyingGlassStroke,
@@ -57,13 +57,13 @@ define( require => {
       } );
 
     // plus or minus sign in middle of magnifying glass
-    var signOptions = {
+    const signOptions = {
       size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
       centerX: glassNode.centerX,
       centerY: glassNode.centerY,
       tandem: options.tandem.createTandem( 'signNode' )
     };
-    var signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
+    const signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
     options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
 

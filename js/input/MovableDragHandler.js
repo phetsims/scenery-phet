@@ -25,7 +25,7 @@ define( require => {
    */
   function MovableDragHandler( locationProperty, options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
@@ -46,7 +46,7 @@ define( require => {
     this._dragBounds = options.dragBounds.copy(); // @private
     this._modelViewTransform = options.modelViewTransform; // @private
 
-    var startOffset; // where the drag started relative to locationProperty, in parent view coordinates
+    let startOffset; // where the drag started relative to locationProperty, in parent view coordinates
 
     // @private - note where the drag started
     this.movableDragHandlerStart = function( event, trail ) {
@@ -54,7 +54,7 @@ define( require => {
       options.startDrag( event );
 
       // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-      var location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
+      const location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
       if ( options.targetNode ) {
         startOffset = options.targetNode.globalToParentPoint( event.pointer.point );
       }
@@ -67,7 +67,7 @@ define( require => {
 
     // @private - change the location, adjust for starting offset, constrain to drag bounds
     this.movableDragHandlerDrag = function( event, trail ) {
-      var parentPoint;
+      let parentPoint;
       if ( options.targetNode ) {
         parentPoint = options.targetNode.globalToParentPoint( event.pointer.point );
       }
@@ -76,7 +76,7 @@ define( require => {
         parentPoint = trail.globalToLocalPoint( event.pointer.point );
       }
       parentPoint = parentPoint.minus( startOffset );
-      var location = self._modelViewTransform.viewToModelPosition( parentPoint );
+      let location = self._modelViewTransform.viewToModelPosition( parentPoint );
       location = self._dragBounds.closestPointTo( location );
 
       locationProperty.set( location );

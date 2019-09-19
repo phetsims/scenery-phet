@@ -128,7 +128,7 @@ define( require => {
     }, options );
 
     // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
-    var colorProperty = null;
+    let colorProperty = null;
     if ( options.pressedColor === undefined ) {
       colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
@@ -143,24 +143,24 @@ define( require => {
 
     PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
-    var self = this;
+    const self = this;
     Node.call( this );
 
     //------------------------------------------------------------
     // Properties
 
-    var upStateProperty = new StringProperty( 'up' ); // up|down|over|out
-    var downStateProperty = new StringProperty( 'up' ); // up|down|over|out
+    const upStateProperty = new StringProperty( 'up' ); // up|down|over|out
+    const downStateProperty = new StringProperty( 'up' ); // up|down|over|out
 
     // must be disposed
-    var upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
+    const upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
     // must be disposed
-    var downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
+    const downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
-    var ownsEnabledProperty = !this.enabledProperty;
+    const ownsEnabledProperty = !this.enabledProperty;
     if ( ownsEnabledProperty ) {
       this.enabledProperty = new BooleanProperty( true, _.extend( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
@@ -177,19 +177,19 @@ define( require => {
     // Nodes
 
     // displays the value
-    var valueNode = new Text( '', { font: options.font, pickable: false } );
+    const valueNode = new Text( '', { font: options.font, pickable: false } );
 
     // compute max width of text based on the width of all possible values.
     // See https://github.com/phetsims/area-model-common/issues/5
     // TODO: Recalculate maximum width on range changes, see https://github.com/phetsims/scenery-phet/issues/306
-    var currentSampleValue = rangeProperty.get().min;
-    var sampleValues = [];
+    let currentSampleValue = rangeProperty.get().min;
+    const sampleValues = [];
     while ( currentSampleValue <= rangeProperty.get().max ) {
       sampleValues.push( currentSampleValue );
       currentSampleValue = options.upFunction( currentSampleValue );
       assert && assert( sampleValues.length < 500000, 'Don\'t infinite loop here' );
     }
-    var maxWidth = Math.max.apply( null, sampleValues.map( function( value ) {
+    let maxWidth = Math.max.apply( null, sampleValues.map( function( value ) {
       valueNode.text = options.formatValue( value );
       return valueNode.width;
     } ) );
@@ -199,16 +199,16 @@ define( require => {
     }
 
     // compute shape of the background behind the numeric value
-    var backgroundWidth = maxWidth + ( 2 * options.xMargin );
-    var backgroundHeight = valueNode.height + ( 2 * options.yMargin );
-    var backgroundOverlap = 1;
-    var backgroundCornerRadius = options.cornerRadius;
+    const backgroundWidth = maxWidth + ( 2 * options.xMargin );
+    const backgroundHeight = valueNode.height + ( 2 * options.yMargin );
+    const backgroundOverlap = 1;
+    const backgroundCornerRadius = options.cornerRadius;
 
     // Apply the max-width AFTER computing the backgroundHeight, so it doesn't shrink vertically
     valueNode.maxWidth = maxWidth;
 
     // top half of the background, for 'up'. Shape computed starting at upper-left, going clockwise.
-    var upBackground = new Path( new Shape()
+    const upBackground = new Path( new Shape()
       .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
       .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
@@ -216,7 +216,7 @@ define( require => {
       .close(), { pickable: false } );
 
     // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
-    var downBackground = new Path( new Shape()
+    const downBackground = new Path( new Shape()
       .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
       .lineTo( 0, backgroundHeight / 2 )
@@ -224,23 +224,23 @@ define( require => {
       .close(), { pickable: false } );
 
     // separate rectangle for stroke around value background
-    var strokedBackground = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, backgroundCornerRadius, backgroundCornerRadius, {
+    const strokedBackground = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, backgroundCornerRadius, backgroundCornerRadius, {
       pickable: false,
       stroke: options.backgroundStroke,
       lineWidth: options.backgroundLineWidth
     } );
 
     // compute size of arrows
-    var arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, options.arrowHeight );
+    const arrowButtonSize = new Dimension2( 0.5 * backgroundWidth, options.arrowHeight );
 
-    var arrowOptions = {
+    const arrowOptions = {
       stroke: options.arrowStroke,
       lineWidth: options.arrowLineWidth,
       pickable: false
     };
 
     // 'up' arrow
-    var upArrowShape = new Shape()
+    const upArrowShape = new Shape()
       .moveTo( arrowButtonSize.width / 2, 0 )
       .lineTo( arrowButtonSize.width, arrowButtonSize.height )
       .lineTo( 0, arrowButtonSize.height )
@@ -250,7 +250,7 @@ define( require => {
     this.upArrow.bottom = upBackground.top - options.arrowYSpacing;
 
     // 'down' arrow
-    var downArrowShape = new Shape()
+    const downArrowShape = new Shape()
       .moveTo( arrowButtonSize.width / 2, arrowButtonSize.height )
       .lineTo( 0, 0 )
       .lineTo( arrowButtonSize.width, 0 )
@@ -260,9 +260,9 @@ define( require => {
     this.downArrow.top = downBackground.bottom + options.arrowYSpacing;
 
     // parents for 'up' and 'down' components
-    var upParent = new Node( { children: [ upBackground, this.upArrow ] } );
+    const upParent = new Node( { children: [ upBackground, this.upArrow ] } );
     upParent.addChild( new Rectangle( upParent.localBounds ) ); // invisible overlay
-    var downParent = new Node( { children: [ downBackground, this.downArrow ] } );
+    const downParent = new Node( { children: [ downBackground, this.downArrow ] } );
     downParent.addChild( new Rectangle( downParent.localBounds ) ); // invisible overlay
 
     // rendering order
@@ -294,7 +294,7 @@ define( require => {
     // Colors
 
     // arrow colors
-    var arrowColors = {
+    const arrowColors = {
       up: options.color,
       over: options.color,
       down: options.pressedColor,
@@ -303,9 +303,9 @@ define( require => {
     };
 
     // background colors
-    var highlightGradient = createVerticalGradient( options.color, options.backgroundColor, options.color, backgroundHeight );
-    var pressedGradient = createVerticalGradient( options.pressedColor, options.backgroundColor, options.pressedColor, backgroundHeight );
-    var backgroundColors = {
+    const highlightGradient = createVerticalGradient( options.color, options.backgroundColor, options.color, backgroundHeight );
+    const pressedGradient = createVerticalGradient( options.pressedColor, options.backgroundColor, options.pressedColor, backgroundHeight );
+    const backgroundColors = {
       up: options.backgroundColor,
       over: highlightGradient,
       down: pressedGradient,
@@ -344,7 +344,7 @@ define( require => {
     downEnabledProperty.link( function( enabled ) { self.downListener.enabled = enabled; } );
 
     // Update text to match the value
-    var valueObserver = function( value ) {
+    const valueObserver = function( value ) {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -381,7 +381,7 @@ define( require => {
     this.mutate( options );
 
     // Dilate based on consistent technique which brings into account transform of this node.
-    var focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
+    const focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
 
     // a11y - custom focus highlight that matches rounded background behind the numeric value
     this.focusHighlight = new FocusHighlightPath( Shape.roundedRectangleWithRadii(
@@ -408,7 +408,7 @@ define( require => {
     this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
     this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
 
-    var enabledListener = function( enabled ) {
+    const enabledListener = function( enabled ) {
       self.interruptSubtreeInput(); // cancel interaction that may be in progress
       self.pickable = enabled;
       self.cursor = enabled ? options.cursor : 'default';

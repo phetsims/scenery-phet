@@ -34,7 +34,7 @@ define( require => {
 
     }, options );
 
-    var arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
+    const arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
       tailWidth: 8,
       headWidth: 18,
       headHeight: 15

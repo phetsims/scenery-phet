@@ -54,7 +54,7 @@ define( require => {
       tandem: Tandem.required
     }, options );
 
-    var self = this;
+    const self = this;
 
     // @public
     this.dispensingProperty = options.dispensingProperty;
@@ -76,15 +76,15 @@ define( require => {
     } );
 
     // images, origin moved to bottom center
-    var foreground = new Image( foregroundImage );
-    var background = new Image( backgroundImage );
+    const foreground = new Image( foregroundImage );
+    const background = new Image( backgroundImage );
     foreground.x = -foreground.width / 2;
     foreground.y = -foreground.height;
     background.x = -background.width / 2;
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    var button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
+    const button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
       baseColor: 'red',
       radius: 18,
       listenerOptions: {
@@ -93,14 +93,14 @@ define( require => {
       },
       tandem: options.tandem.createTandem( 'button' )
     } );
-    var enabledObserver = function( enabled ) { button.enabled = enabled; };
+    const enabledObserver = function( enabled ) { button.enabled = enabled; };
     this.enabledProperty.link( enabledObserver );
     button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
     button.centerX = foreground.centerX;
     button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
 
     // make the background visible only when the dropper is empty
-    var emptyObserver = function( empty ) {
+    const emptyObserver = function( empty ) {
       self.fluidNode.visible = !empty;
       background.visible = empty;
     };

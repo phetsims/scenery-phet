@@ -62,7 +62,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var tandem = Tandem.globalTandem.createTandem( 'colorProfile' );
+  const tandem = Tandem.globalTandem.createTandem( 'colorProfile' );
 
   /**
    * @public
@@ -72,7 +72,7 @@ define( require => {
    * @param {Object} colors - See documentation above
    */
   function ColorProfile( profileNames, colors ) {
-    var self = this;
+    const self = this;
 
     // @public (read-only)
     this.profileNames = profileNames;
@@ -94,7 +94,7 @@ define( require => {
       if ( colors.hasOwnProperty( key ) ) {
 
         // Turn strings/hex to Color objects
-        var colorMap = _.mapValues( colors[ key ], Color.toColor );
+        const colorMap = _.mapValues( colors[ key ], Color.toColor );
 
         assert && assert( colorMap.hasOwnProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ),
           `missing default color for key=${key}` );
@@ -102,10 +102,10 @@ define( require => {
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
         // Use the requested initial profile, fallback to default.
-        var initialColor = colorMap[ initialProfileName] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
+        const initialColor = colorMap[ initialProfileName] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
 
         // Create a Property for the color
-        var colorProperty = self[ key + 'Property' ] = new Property( initialColor );
+        const colorProperty = self[ key + 'Property' ] = new Property( initialColor );
 
         // Update the Property on profile name changes
         self.profileNameProperty.lazyLink( function( profileName ) {
@@ -121,7 +121,7 @@ define( require => {
 
     // receives iframe communication to set a color
     window.addEventListener( 'message', function( evt ) {
-      var data;
+      let data;
       try {
         data = JSON.parse( evt.data );
       }
@@ -151,7 +151,7 @@ define( require => {
      * @param {string} key - The color name that was changed
      */
     reportColor: function( key ) {
-      var hexColor = this[ key + 'Property' ].value.toNumber().toString( 16 );
+      let hexColor = this[ key + 'Property' ].value.toNumber().toString( 16 );
       while ( hexColor.length < 6 ) {
         hexColor = '0' + hexColor;
       }

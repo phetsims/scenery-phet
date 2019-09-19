@@ -64,10 +64,10 @@ define( require => {
     assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
     assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
 
-    var lightFromLeft = options.lightSource.indexOf( 'left' ) >= 0;
-    var lightFromTop = options.lightSource.indexOf( 'Top' ) >= 0;
+    const lightFromLeft = options.lightSource.indexOf( 'left' ) >= 0;
+    const lightFromTop = options.lightSource.indexOf( 'Top' ) >= 0;
 
-    var cornerRadius = options.cornerRadius;
+    const cornerRadius = options.cornerRadius;
 
     // @private {Property.<Color>} - compute our colors (properly handle color-Property cases for baseColor)
     this.lighterPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor + options.lighterFactor } );
@@ -76,24 +76,24 @@ define( require => {
     this.darkerPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor - options.darkerFactor } );
 
     // change colors based on orientation
-    var topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
-    var leftColorProperty = lightFromLeft ? this.lightPaint : this.darkPaint;
-    var rightColorProperty = lightFromLeft ? this.darkPaint : this.lightPaint;
-    var bottomColorProperty = lightFromTop ? this.darkerPaint : this.lighterPaint;
+    const topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
+    const leftColorProperty = lightFromLeft ? this.lightPaint : this.darkPaint;
+    const rightColorProperty = lightFromLeft ? this.darkPaint : this.lightPaint;
+    const bottomColorProperty = lightFromTop ? this.darkerPaint : this.lighterPaint;
 
     // how far our light and dark gradients will extend into the rectangle
-    var lightOffset = options.lightOffset * cornerRadius;
-    var darkOffset = options.darkOffset * cornerRadius;
+    const lightOffset = options.lightOffset * cornerRadius;
+    const darkOffset = options.darkOffset * cornerRadius;
 
     // change offsets based on orientation
-    var topOffset = lightFromTop ? lightOffset : darkOffset;
-    var leftOffset = lightFromLeft ? lightOffset : darkOffset;
-    var rightOffset = lightFromLeft ? darkOffset : lightOffset;
-    var bottomOffset = lightFromTop ? darkOffset : lightOffset;
+    const topOffset = lightFromTop ? lightOffset : darkOffset;
+    const leftOffset = lightFromLeft ? lightOffset : darkOffset;
+    const rightOffset = lightFromLeft ? darkOffset : lightOffset;
+    const bottomOffset = lightFromTop ? darkOffset : lightOffset;
 
     // we layer two gradients on top of each other as the base (using the same rounded rectangle shape)
-    var horizontalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
-    var verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
+    const horizontalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
+    const verticalNode = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, { pickable: false } );
 
     horizontalNode.fill = new LinearGradient( horizontalNode.left, 0, horizontalNode.right, 0 )
       .addColorStop( 0, leftColorProperty )
@@ -112,21 +112,21 @@ define( require => {
       .addColorStop( 1, bottomColorProperty );
 
     // shape of our corner (in this case, top-right)
-    var cornerShape = new Shape().moveTo( 0, 0 )
+    const cornerShape = new Shape().moveTo( 0, 0 )
       .arc( 0, 0, cornerRadius, -Math.PI / 2, 0, false )
       .close();
     // rotation needed to move the cornerShape into the proper orientation as the light corner (Math.PI more for dark corner)
-    var lightCornerRotation = {
+    const lightCornerRotation = {
       leftTop:     -Math.PI / 2,
       rightTop: 0,
       rightBottom: Math.PI / 2,
       leftBottom: Math.PI
     }[ options.lightSource ];
 
-    var innerBounds = rectBounds.eroded( cornerRadius );
+    const innerBounds = rectBounds.eroded( cornerRadius );
 
     // since both the top and left are "lighter", we have a rounded gradient along that corner
-    var lightCorner = new Path( cornerShape, {
+    const lightCorner = new Path( cornerShape, {
       x: lightFromLeft ? innerBounds.minX : innerBounds.maxX,
       y: lightFromTop ? innerBounds.minY : innerBounds.maxY,
       rotation: lightCornerRotation,
@@ -138,7 +138,7 @@ define( require => {
     } );
 
     // since both the bottom and right are "darker", we have a rounded gradient along that corner
-    var darkCorner = new Path( cornerShape, {
+    const darkCorner = new Path( cornerShape, {
       x: lightFromLeft ? innerBounds.maxX : innerBounds.minX,
       y: lightFromTop ? innerBounds.maxY : innerBounds.minY,
       rotation: lightCornerRotation + Math.PI, // opposite direction from our light corner
@@ -150,7 +150,7 @@ define( require => {
     } );
 
     // the stroke around the outside
-    var panelStroke = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {
+    const panelStroke = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {
       stroke: new DerivedProperty( [ rightColorProperty ], function( color ) {
         return color.withAlpha( 0.4 );
       } )

@@ -26,14 +26,14 @@ define( require => {
   // strings
   const sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
-  var simOptions = {
+  const simOptions = {
     credits: {
       leadDesign: 'PhET'
     }
   };
 
   // Creates a rectangle filled with a specified color
-  var createScreenIcon = function( color ) {
+  const createScreenIcon = function( color ) {
     return new Rectangle( 0, 0, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height, { fill: color } );
   };
 

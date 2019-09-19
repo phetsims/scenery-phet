@@ -23,12 +23,12 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
-  var DEFAULT_BUTTON_WIDTH = 35;
-  var DEFAULT_BUTTON_HEIGHT = 35;
-  var DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
-  var DEFAULT_BUTTON_COLOR = 'white';
-  var PLUS_CHAR = '\u002b';
-  var MINUS_CHAR = '\u2212';
+  const DEFAULT_BUTTON_WIDTH = 35;
+  const DEFAULT_BUTTON_HEIGHT = 35;
+  const DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
+  const DEFAULT_BUTTON_COLOR = 'white';
+  const PLUS_CHAR = '\u002b';
+  const MINUS_CHAR = '\u2212';
 
   /**
    * @param {Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
@@ -53,7 +53,7 @@ define( require => {
     }, options );
 
     Node.call( this );
-    var self = this;
+    const self = this;
 
     // @private {function}
     this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( options );
@@ -71,10 +71,10 @@ define( require => {
     this.buttonNodes = [];
 
     // determine number of rows and columns from the input layout
-    var numRows = layout.length;
-    var numColumns = 0;
-    var row;
-    var column;
+    let numRows = layout.length;
+    let numColumns = 0;
+    let row;
+    let column;
 
     for ( row = 0; row < numRows; row++ ) {
       if ( layout[ row ].length > numColumns ) {
@@ -83,7 +83,7 @@ define( require => {
     }
 
     // check last row to see if any button has vertical span more than 1
-    var maxVerticalSpan = 1;
+    let maxVerticalSpan = 1;
     for ( column = 0; column < layout[ numRows - 1 ].length; column++ ) {
       if ( layout[ numRows - 1 ][ column ] && layout[ numRows - 1 ][ column ].verticalSpan > maxVerticalSpan ) {
         maxVerticalSpan = layout[ numRows - 1 ][ column ].verticalSpan;
@@ -92,7 +92,7 @@ define( require => {
     numRows += maxVerticalSpan - 1;
 
     // 2D grid to check for the overlap
-    var occupiedLayoutGrid = [];
+    const occupiedLayoutGrid = [];
 
     for ( row = 0; row < numRows; row++ ) {
       occupiedLayoutGrid[ row ] = [];
@@ -102,18 +102,18 @@ define( require => {
     }
 
     // interpret the layout specification
-    var x;
-    var y;
+    let x;
+    let y;
     for ( row = 0; row < layout.length; row++ ) {
-      var startRow = row;
+      const startRow = row;
       for ( column = 0; column < layout[ row ].length; column++ ) {
-        var button = layout[ row ][ column ];
+        const button = layout[ row ][ column ];
         if ( button ) {
-          var startColumn = column +
+          const startColumn = column +
                             ( column > 0 && layout[ row ][ column - 1 ] ?
                               layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
-          var verticalSpan = button.verticalSpan;
-          var horizontalSpan = button.horizontalSpan;
+          const verticalSpan = button.verticalSpan;
+          const horizontalSpan = button.horizontalSpan;
 
           // check for overlap between the buttons
           for ( x = startRow; x < ( startRow + verticalSpan ); x++ ) {
@@ -124,9 +124,9 @@ define( require => {
           }
 
           // create and add the buttons
-          var buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
-          var buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-          var buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
+          const buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
+          const buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
+          const buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
           buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
           buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
           self.buttonNodes.push( buttonNode );
@@ -157,10 +157,10 @@ define( require => {
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
-    var content = ( keyObject.label instanceof Node ) ? keyObject.label :
+    const content = ( keyObject.label instanceof Node ) ? keyObject.label :
                   new Text( keyObject.label, { font: options.buttonFont } );
 
-    var keyNode = new RectangularPushButton( {
+    const keyNode = new RectangularPushButton( {
       content: content,
       baseColor: options.buttonColor,
       touchAreaXDilation: options.touchAreaXDilation,

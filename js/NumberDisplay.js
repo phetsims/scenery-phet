@@ -24,7 +24,7 @@ define( require => {
   const Util = require( 'DOT/Util' );
 
   // valid values for options.align and options.noValueAlign
-  var ALIGN_VALUES = [ 'center', 'left', 'right' ];
+  const ALIGN_VALUES = [ 'center', 'left', 'right' ];
 
   /**
    * @param {Property.<number|null>} numberProperty
@@ -93,17 +93,17 @@ define( require => {
                       options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
       'missing value placeholder in options.noValuePattern: ' + options.noValuePattern );
 
-    var self = this;
+    const self = this;
 
     // determine the widest value
-    var minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString );
-    var maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString );
-    var longestString = StringUtils.fillIn( options.valuePattern, {
+    const minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString );
+    const maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString );
+    const longestString = StringUtils.fillIn( options.valuePattern, {
       value: ( ( minString.length > maxString.length ) ? minString : maxString )
     } );
 
     // value
-    var Constructor = options.useRichText ? RichText : Text;
+    const Constructor = options.useRichText ? RichText : Text;
     this.valueNode = new Constructor( longestString, {
       font: options.font,
       fill: options.numberFill,
@@ -120,7 +120,7 @@ define( require => {
       this.valueNode.maxWidth = options.numberMaxWidth;
     }
 
-    var backgroundWidth = Math.max( options.minBackgroundWidth, this.valueNode.width + 2 * options.xMargin );
+    const backgroundWidth = Math.max( options.minBackgroundWidth, this.valueNode.width + 2 * options.xMargin );
 
     // @private background
     this.backgroundNode = new Rectangle( 0, 0, backgroundWidth, this.valueNode.height + 2 * options.yMargin, {
@@ -133,7 +133,7 @@ define( require => {
     options.children = [ this.backgroundNode, this.valueNode ];
 
     // display the value
-    var numberObserver = function( value ) {
+    const numberObserver = function( value ) {
 
       const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
       const stringValue = valueToString( value, options.decimalPlaces, options.noValueString );

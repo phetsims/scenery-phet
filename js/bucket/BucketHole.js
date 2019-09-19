@@ -25,9 +25,9 @@ define( require => {
 
     Node.call( this, options );
 
-    var scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
-    var transformedShape = bucket.holeShape.transformed( scaleMatrix );
-    var gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
+    const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
+    const transformedShape = bucket.holeShape.transformed( scaleMatrix );
+    const gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
     gradientPaint.addColorStop( 0, 'black' );
     gradientPaint.addColorStop( 1, '#c0c0c0' );
 

@@ -19,7 +19,7 @@ define( require => {
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
   // A11y strings
-  var playAreaString = SceneryPhetA11yStrings.playArea.value;
+  const playAreaString = SceneryPhetA11yStrings.playArea.value;
 
   /**
    * @constructor
