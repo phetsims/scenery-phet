@@ -271,7 +271,7 @@ define( require => {
 
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
-        keydown: ( event ) => {
+        keydown: event => {
           if ( event.domEvent.keyCode === KeyboardUtil.KEY_ENTER ) {
 
             // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
@@ -280,7 +280,7 @@ define( require => {
             releaseDraggable();
           }
         },
-        keyup: ( event ) => {
+        keyup: event => {
 
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners

@@ -6,7 +6,7 @@
  * border alert will be repeated for as long as the moving object is dragged against that bound, see repeatBorderAlerts.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( ( require ) => {
+define( require => {
   'use strict';
 
   // modules

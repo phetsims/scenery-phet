@@ -100,7 +100,7 @@ define( require => {
       }
     };
 
-    const testOrder = ( messageSuffix ) => {
+    const testOrder = messageSuffix => {
 
       // newest at lowest index because of unshift
       assert.ok( alerts[ 3 ] === '1', 'Array order1' + messageSuffix );
@@ -132,7 +132,7 @@ define( require => {
       }
     };
 
-    const testOrder = ( messageSuffix ) => {
+    const testOrder = messageSuffix => {
 
       // newest at lowest index
       assert.ok( alerts[ 6 ] === '1', 'Array order1' + messageSuffix );

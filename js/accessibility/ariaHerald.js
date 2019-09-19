@@ -80,7 +80,7 @@ define( require => {
       } );
 
       // no need to be removed, exists for the lifetime of the simulation.
-      this.announcingEmitter.addListener( ( textContent ) => {
+      this.announcingEmitter.addListener( textContent => {
         const element = ariaLiveElements[ this.elementIndex ];
         this.updateLiveElement( element, textContent );
 

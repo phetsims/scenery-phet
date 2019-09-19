@@ -141,7 +141,7 @@ define( function( require ) {
         tandem: options.tandem.createTandem( 'enabledProperty' )
       } );
 
-      const enabledListener = ( enabled ) => {
+      const enabledListener = enabled => {
         this.pickable = enabled;
         this.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
       };
