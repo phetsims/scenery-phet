@@ -17,7 +17,7 @@ define( require => {
   const vegas = require( 'VEGAS/vegas' );
 
   // constants
-  var DEFAULT_FONT = new PhetFont( 20 );
+  const DEFAULT_FONT = new PhetFont( 20 );
 
   /**
    * @param {Bounds2} layoutBounds
@@ -27,7 +27,7 @@ define( require => {
    */
   function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       barHeight: 50,
@@ -62,10 +62,10 @@ define( require => {
 
     Node.call( this, options );
 
-    var visibleBoundsListener = function( visibleBounds ) {
+    const visibleBoundsListener = function( visibleBounds ) {
 
       // resize the bar
-      var y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
+      const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
       self.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
 
       // update layout of things on the bar
@@ -99,8 +99,8 @@ define( require => {
      * @protected
      */
     updateLayout: function() {
-      var leftEdge = ( ( this.dynamicAlignment ) ? this.barNode.left : this.layoutBounds.minX ) + this.xMargin;
-      var rightEdge = ( ( this.dynamicAlignment ) ? this.barNode.right : this.layoutBounds.maxX ) - this.xMargin;
+      const leftEdge = ( ( this.dynamicAlignment ) ? this.barNode.left : this.layoutBounds.minX ) + this.xMargin;
+      const rightEdge = ( ( this.dynamicAlignment ) ? this.barNode.right : this.layoutBounds.maxX ) - this.xMargin;
       this.updateLayoutProtected( leftEdge, rightEdge, this.barNode.centerY );
     },
 
