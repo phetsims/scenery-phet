@@ -5,16 +5,16 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var balancingAct = require( 'BALANCING_ACT/balancingAct' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const balancingAct = require( 'BALANCING_ACT/balancingAct' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @param modelViewTransform
