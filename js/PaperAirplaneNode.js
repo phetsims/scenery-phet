@@ -5,15 +5,15 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
 
   /**
    * @param {Object} [options]

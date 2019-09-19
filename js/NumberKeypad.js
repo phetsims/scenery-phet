@@ -12,7 +12,7 @@
  * While there are no plans to go back and replace existing usages, new implementations should use Keypad.js.
  * See https://github.com/phetsims/scenery-phet/issues/283 for the history of this. -jbphet, Aug 2017
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules

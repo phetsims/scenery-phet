@@ -9,14 +9,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
   // A11y strings
   var playAreaString = SceneryPhetA11yStrings.playArea.value;

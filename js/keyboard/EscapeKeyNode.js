@@ -6,16 +6,16 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings
-  var keyEscString = require( 'string!SCENERY_PHET/key.esc' );
+  const keyEscString = require( 'string!SCENERY_PHET/key.esc' );
 
   /**
    * Constructor.

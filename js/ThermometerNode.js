@@ -7,7 +7,7 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules

@@ -10,15 +10,15 @@
  * @author John Blanco
  * @author Sam Reid
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var GroundNode = require( 'SCENERY_PHET/GroundNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SkyNode = require( 'SCENERY_PHET/SkyNode' );
+  const GroundNode = require( 'SCENERY_PHET/GroundNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SkyNode = require( 'SCENERY_PHET/SkyNode' );
 
   /**
    * @param {number} centerX

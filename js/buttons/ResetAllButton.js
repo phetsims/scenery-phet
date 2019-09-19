@@ -7,22 +7,22 @@
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var ResetAllButtonIO = require( 'SCENERY_PHET/buttons/ResetAllButtonIO' );
-  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
+  const BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const ResetAllButtonIO = require( 'SCENERY_PHET/buttons/ResetAllButtonIO' );
+  const ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
   var RESET_ALL_BUTTON_RADIUS = 20.8;

@@ -6,15 +6,15 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
 
   // constants
   var DEFAULT_ARROW_HEIGHT = 10;

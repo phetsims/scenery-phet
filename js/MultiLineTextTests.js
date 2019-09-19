@@ -7,11 +7,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
+  const MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
 
   QUnit.module( 'MultiLineText' );
 

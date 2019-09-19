@@ -6,12 +6,12 @@
  * @author Aadish Gupta
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Node|string} label - node or string that will appear on the key

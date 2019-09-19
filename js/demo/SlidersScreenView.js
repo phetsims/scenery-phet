@@ -8,28 +8,28 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Checkbox = require( 'SUN/Checkbox' );
-  var DemosScreenView = require( 'SUN/demo/DemosScreenView' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var HSlider = require( 'SUN/HSlider' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
-  var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
-  var SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
-  var SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var WavelengthNumberControl = require( 'SCENERY_PHET/WavelengthNumberControl' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const DemosScreenView = require( 'SUN/demo/DemosScreenView' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const HSlider = require( 'SUN/HSlider' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
+  const RangeWithValue = require( 'DOT/RangeWithValue' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
+  const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const WavelengthNumberControl = require( 'SCENERY_PHET/WavelengthNumberControl' );
 
   /**
    * @constructor

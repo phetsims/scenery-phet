@@ -15,9 +15,9 @@ define( require => {
   'use strict';
 
   // modules
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   class MultiLineText extends RichText {
 

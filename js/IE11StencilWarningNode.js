@@ -7,22 +7,22 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var openPopup = require( 'PHET_CORE/openPopup' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const openPopup = require( 'PHET_CORE/openPopup' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var webglWarningIe11StencilBodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
-  var webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
+  const webglWarningIe11StencilBodyString = require( 'string!SCENERY_PHET/webglWarning.ie11StencilBody' );
+  const webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
 
   /**
    * @constructor

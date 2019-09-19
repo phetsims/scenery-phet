@@ -8,12 +8,12 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
   var AlertableDef = {
 

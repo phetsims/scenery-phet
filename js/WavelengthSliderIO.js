@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
+  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
   const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   class WavelengthSliderIO extends NodeIO {}
 

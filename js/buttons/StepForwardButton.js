@@ -6,13 +6,13 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
 
   /**
    * @param {Object} [options]

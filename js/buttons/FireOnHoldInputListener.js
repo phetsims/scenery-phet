@@ -6,14 +6,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var CallbackTimer = require( 'SUN/CallbackTimer' );
-  var DownUpListener = require( 'SCENERY/input/DownUpListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const CallbackTimer = require( 'SUN/CallbackTimer' );
+  const DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Object} [options]

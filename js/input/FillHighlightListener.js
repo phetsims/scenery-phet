@@ -5,14 +5,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Property = require( 'AXON/Property' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {Color|string} normalFill

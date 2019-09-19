@@ -7,15 +7,15 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * Constructor.

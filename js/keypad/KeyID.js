@@ -7,11 +7,11 @@
  * @author Aadish Gupta
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   var KeyID = {
     ZERO: '0',

@@ -6,13 +6,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
   const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   class NumberControlIO extends NodeIO {}
 

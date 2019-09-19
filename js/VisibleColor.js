@@ -9,13 +9,13 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Util = require( 'DOT/Util' );
+  const Color = require( 'SCENERY/util/Color' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Util = require( 'DOT/Util' );
 
   // constants
   var COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.

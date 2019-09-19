@@ -6,39 +6,39 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
-  var CloseButton = require( 'SCENERY_PHET/buttons/CloseButton' );
-  var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
-  var EyeToggleButton = require( 'SCENERY_PHET/buttons/EyeToggleButton' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
-  var MoveToTrashButton = require( 'SCENERY_PHET/MoveToTrashButton' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var Property = require( 'AXON/Property' );
-  var RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
-  var RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
-  var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
-  var StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
-  var StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
-  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
-  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
-  var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
+  const BackButton = require( 'SCENERY_PHET/buttons/BackButton' );
+  const CloseButton = require( 'SCENERY_PHET/buttons/CloseButton' );
+  const EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
+  const EyeToggleButton = require( 'SCENERY_PHET/buttons/EyeToggleButton' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const InfoButton = require( 'SCENERY_PHET/buttons/InfoButton' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
+  const MoveToTrashButton = require( 'SCENERY_PHET/MoveToTrashButton' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  const Property = require( 'AXON/Property' );
+  const RecordStopButton = require( 'SCENERY_PHET/buttons/RecordStopButton' );
+  const RefreshButton = require( 'SCENERY_PHET/buttons/RefreshButton' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
+  const RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  const StarButton = require( 'SCENERY_PHET/buttons/StarButton' );
+  const StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
+  const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
+  const UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VStrut = require( 'SCENERY/nodes/VStrut' );
+  const ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   /**
    * @constructor

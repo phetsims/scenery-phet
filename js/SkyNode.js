@@ -6,14 +6,14 @@
  * @author John Blanco
  * @author Sam Reid
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Color = require( 'SCENERY/util/Color' );
+  const GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @param {number} x

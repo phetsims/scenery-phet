@@ -5,26 +5,26 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
-  var ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
-  var DialogsScreenView = require( 'SCENERY_PHET/demo/DialogsScreenView' );
-  var MemoryTestsScreenView = require( 'SCENERY_PHET/demo/MemoryTestsScreenView' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
-  var Screen = require( 'JOIST/Screen' );
-  var Sim = require( 'JOIST/Sim' );
-  var SimLauncher = require( 'JOIST/SimLauncher' );
-  var SlidersScreenView = require( 'SCENERY_PHET/demo/SlidersScreenView' );
-  var SpringScreenView = require( 'SCENERY_PHET/demo/SpringScreenView' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
+  const ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
+  const DialogsScreenView = require( 'SCENERY_PHET/demo/DialogsScreenView' );
+  const MemoryTestsScreenView = require( 'SCENERY_PHET/demo/MemoryTestsScreenView' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  const Screen = require( 'JOIST/Screen' );
+  const Sim = require( 'JOIST/Sim' );
+  const SimLauncher = require( 'JOIST/SimLauncher' );
+  const SlidersScreenView = require( 'SCENERY_PHET/demo/SlidersScreenView' );
+  const SpringScreenView = require( 'SCENERY_PHET/demo/SpringScreenView' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
-  var sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
+  const sceneryPhetTitleString = require( 'string!SCENERY_PHET/scenery-phet.title' );
 
   var simOptions = {
     credits: {

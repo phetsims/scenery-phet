@@ -7,18 +7,18 @@
  * @author Sam Reid
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
-  var KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Shape = require( 'KITE/Shape' );
-  var timer = require( 'AXON/timer' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
+  const KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
+  const timer = require( 'AXON/timer' );
 
   // constants
   var SLOT_CHANGE_TIME = 0.35; // In seconds

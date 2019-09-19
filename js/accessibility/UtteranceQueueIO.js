@@ -5,15 +5,15 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
-  var VoidIO = require( 'TANDEM/types/VoidIO' );
+  const BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StringIO = require( 'TANDEM/types/StringIO' );
+  const VoidIO = require( 'TANDEM/types/VoidIO' );
 
   class UtteranceQueueIO extends ObjectIO {}
 

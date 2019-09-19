@@ -10,11 +10,11 @@ define( require => {
   'use strict';
 
   // modules
-  var EventType = require( 'TANDEM/EventType' );
-  var FireListener = require( 'SCENERY/listeners/FireListener' );
-  var Plane = require( 'SCENERY/nodes/Plane' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const EventType = require( 'TANDEM/EventType' );
+  const FireListener = require( 'SCENERY/listeners/FireListener' );
+  const Plane = require( 'SCENERY/nodes/Plane' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   class BarrierRectangle extends Plane {
     constructor( modalNodeStack, options ) {

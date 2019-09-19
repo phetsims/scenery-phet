@@ -11,12 +11,12 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Color = require( 'SCENERY/util/Color' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
 
   // Colors that are used for one or more things in the color scheme.

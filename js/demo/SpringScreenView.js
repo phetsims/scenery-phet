@@ -5,18 +5,18 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
-  var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ParametricSpringNode = require( 'SCENERY_PHET/ParametricSpringNode' );
+  const RangeWithValue = require( 'DOT/RangeWithValue' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const SpringControls = require( 'SCENERY_PHET/demo/SpringControls' );
 
   /**
    * @constructor

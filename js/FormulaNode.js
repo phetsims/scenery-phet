@@ -14,14 +14,14 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Saurabh Totey
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var DOM = require( 'SCENERY/nodes/DOM' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const DOM = require( 'SCENERY/nodes/DOM' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
    * @constructor

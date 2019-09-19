@@ -8,10 +8,10 @@
  *
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   var SceneryPhetA11yStrings = {
 

@@ -11,7 +11,7 @@
  * @author Aaron Davis (PhET Interactive Simulations)
  * @author Martin Veillette (Berea College)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules

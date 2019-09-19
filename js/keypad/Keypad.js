@@ -7,20 +7,20 @@
  * @author John Blanco
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Key = require( 'SCENERY_PHET/keypad/Key' );
-  var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const BackspaceIcon = require( 'SCENERY_PHET/BackspaceIcon' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Key = require( 'SCENERY_PHET/keypad/Key' );
+  const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var DEFAULT_BUTTON_WIDTH = 35;

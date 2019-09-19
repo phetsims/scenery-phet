@@ -16,11 +16,11 @@ define( require => {
   'use strict';
 
   // modules
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // strings
-  var symbolOhmsString = require( 'string!SCENERY_PHET/symbol.ohms' );
-  var symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
+  const symbolOhmsString = require( 'string!SCENERY_PHET/symbol.ohms' );
+  const symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
 
   var MathSymbols = {
 

@@ -6,20 +6,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Util = require( 'DOT/Util' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Util = require( 'DOT/Util' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
-  var unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
-  var wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
+  const unitsNmString = require( 'string!SCENERY_PHET/units_nm' );
+  const wavelengthSliderPattern0Wavelength1UnitsString = require( 'string!SCENERY_PHET/WavelengthSlider.pattern_0wavelength_1units' );
 
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength, in nm

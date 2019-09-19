@@ -4,42 +4,42 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  // var BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  // var ExpandCollapseButton = require( 'SUN/ExpandCollapseButton' );
-  // var FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
-  // var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
-  // var HStrut = require( 'SCENERY/nodes/HStrut' );
-  // var KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
-  // var KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
-  // var LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
-  // var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  // var NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
-  // var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  // var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
-  // var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  // var RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
-  // var Range = require( 'DOT/Range' );
-  // var RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
-  // var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
-  // var RoundButtonView = require( 'SUN/buttons/RoundButtonView' );
-  // var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
-  // var Text = require( 'SCENERY/nodes/Text' );
-  // var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  var TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
-  // var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
-  // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
-  var ScreenView = require( 'JOIST/ScreenView' );
+  // const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
+  // const ExpandCollapseButton = require( 'SUN/ExpandCollapseButton' );
+  // const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
+  // const GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
+  // const HStrut = require( 'SCENERY/nodes/HStrut' );
+  // const KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
+  // const KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
+  // const LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
+  // const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  // const NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
+  // const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  // const PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
+  // const PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
+  // const RadioButtonGroupMember = require( 'SUN/buttons/RadioButtonGroupMember' );
+  // const Range = require( 'DOT/Range' );
+  // const RewindButton = require( 'SCENERY_PHET/buttons/RewindButton' );
+  // const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  // const RoundButtonView = require( 'SUN/buttons/RoundButtonView' );
+  // const ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  // const SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  // const Text = require( 'SCENERY/nodes/Text' );
+  // const ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  const TimerToggleButton = require( 'SCENERY_PHET/buttons/TimerToggleButton' );
+  // const UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
+  // const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const sceneryPhetQueryParameters = require( 'SCENERY_PHET/sceneryPhetQueryParameters' );
+  const ScreenView = require( 'JOIST/ScreenView' );
 
-  // var SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
+  // const SoundToggleButton = require( 'SCENERY_PHET/buttons/SoundToggleButton' );
 
   function ComponentHolder( createFunction ) {
     var self = this;

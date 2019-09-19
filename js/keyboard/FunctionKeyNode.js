@@ -8,16 +8,16 @@
  * @author Michael Barlow
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
   // strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
-  var keyFnString = require( 'string!SCENERY_PHET/key.fn' );
+  const keyFnString = require( 'string!SCENERY_PHET/key.fn' );
 
   /**
    * Constructor.

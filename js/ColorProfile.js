@@ -50,16 +50,16 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Aaron Davis
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StringProperty = require( 'AXON/StringProperty' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Property = require( 'AXON/Property' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StringProperty = require( 'AXON/StringProperty' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var tandem = Tandem.globalTandem.createTandem( 'colorProfile' );

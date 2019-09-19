@@ -8,15 +8,15 @@
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
   var NEGATIVE_CHAR = '\u2212';

@@ -6,14 +6,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Font = require( 'SCENERY/util/Font' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Font = require( 'SCENERY/util/Font' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
   var FAMILY = '"Times New Roman", Times, serif';
