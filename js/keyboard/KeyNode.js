@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2019, University of Colorado Boulder
 
 /**
  * A node that looks like a keyboard key.  Has a shadow rectangle under the key icon with a slight offset so that it

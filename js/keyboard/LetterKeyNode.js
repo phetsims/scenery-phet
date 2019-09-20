@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2019, University of Colorado Boulder
 
 /**
  * Node that looks like a keyboard key with a single letter. By default, a letter key is square, with a bit less
