@@ -23,6 +23,10 @@
  * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have added the
  * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this Type's constructor.
  *
+ * NOTE: positioning the grab "cue" node: transforming the Node adding the grab/drag interaction after running this code
+ * will not update the layout of the grabCueNode. This is because it is a child of the focus highlight. As a result,
+ * currently you must correctly position node before the cue node is created.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 define( require => {
