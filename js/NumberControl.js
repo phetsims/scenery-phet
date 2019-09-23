@@ -567,6 +567,12 @@ define( require => {
           if ( options.alignTitle === 'center' ) {
             titleAlignBox.centerX = vBox.centerX;
           }
+          else if ( options.alignTitle === 'left' ) {
+            titleAlignBox.left = vBox.left;
+          }
+          else if ( options.alignTitle === 'right' ) {
+            titleAlignBox.right = vBox.right;
+          }
         } );
         return vBox;
       };
