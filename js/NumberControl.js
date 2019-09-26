@@ -64,7 +64,7 @@ define( require => {
     // used in tandem. This must be called before defaults are set.
     validateCallbacks( options || {} );
 
-    // Extend NumberControl options before merging nested optiosn because some nested defaults use these options.
+    // Extend NumberControl options before merging nested options because some nested defaults use these options.
     options = _.extend( {
 
       // General Callbacks
@@ -561,7 +561,7 @@ define( require => {
           ]
         } );
 
-        // When the text of the title changes recompute the alginment between the title and content
+        // When the text of the title changes recompute the alignment between the title and content
         titleNode.on( 'bounds', () => {
           titleAndContentVBox.updateLayout();
         } );
