@@ -24,27 +24,30 @@ define( require => {
     constructor( node, options ) {
 
       options = merge( {
+        xMargin: 2, // set the x margin between the Node content and background edge
+        yMargin: 2, // set the y margin between the Node content and background edge
+
+        // Options passed to the background Rectangle
         backgroundOptions: {
           fill: 'white',
           opacity: 0.75
-        },
-        xMargin: 2,
-        yMargin: 2
+        }
       }, options );
 
-      // translucent rectangle
-      const rectangle = new Rectangle( 0, 0, 1, 1, options.backgroundOptions );
+      super();
+
+      // @public (read-only) {Rectangle} - translucent rectangle
+      this.background = new Rectangle( 0, 0, 1, 1, options.backgroundOptions );
 
       // size the rectangle to fit the node
-      node.on( 'bounds', function() {
-        rectangle.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
-        node.center = rectangle.center;
+      node.on( 'bounds', () => {
+        this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
+        node.center = this.background.center;
       } );
 
       assert && assert( !options.children, 'BackgroundNode sets children' );
-      options.children = [ rectangle, node ];
-
-      super( options );
+      options.children = [ this.background, node ];
+      this.mutate( options );
     }
   }
 
