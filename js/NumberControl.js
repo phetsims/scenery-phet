@@ -534,7 +534,7 @@ define( require => {
       options = _.extend( {
         alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
         alignNumber: 'center', // {string} horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
-        titleLeftIndent: 0, // {number|null}  if provided, add an HStrut on the left of the title to push the title to the right
+        titleLeftIndent: 0, // {number|null}  if provided, indent the title on the left to push the title to the right
         xSpacing: 5, // {number} horizontal spacing between arrow buttons and slider
         ySpacing: 5 // {number} vertical spacing between rows
       }, options );
