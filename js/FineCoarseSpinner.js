@@ -148,7 +148,7 @@ define( require => {
         if ( valueProperty.hasListener( valuePropertyListener ) ) {
           valueProperty.unlink( valuePropertyListener );
         }
-        
+
         if ( ownsEnabledProperty ) {
           this.enabledProperty.dispose();
         }
@@ -194,4 +194,4 @@ define( require => {
   }
 
   return sceneryPhet.register( 'FineCoarseSpinner', FineCoarseSpinner );
-} ); 
+} );
