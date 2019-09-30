@@ -61,6 +61,8 @@ define( require => {
     // See https://github.com/phetsims/scenery-phet/issues/431
     NO_VALUE: '\u2014', // em dash
 
+    DEGREES: '\u00B0',
+
     //==================================================================================================================
     // Symbols in this section represent logical concepts and ARE translatable.
     // See https://github.com/phetsims/resistance-in-a-wire/issues/187
