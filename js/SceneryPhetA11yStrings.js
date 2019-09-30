@@ -22,12 +22,12 @@ define( require => {
     // screen summary intro for a multiscreen sim (not sim specific),
     // extra space at end for string concat with rest of the screen summary
     screenSummaryMultiScreenIntro: {
-      value: 'This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Area. '
+      value: 'This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Area.'
     },
 
     // screen summary intro for a single screen sim (not sim specific),
     screenSummarySingleScreenIntroPattern: {
-      value: '{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area. '
+      value: '{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area.'
     },
     // screen summary intro for a single screen sim (not sim specific),
     screenSummaryKeyboardShortcutsHint: {
