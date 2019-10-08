@@ -110,8 +110,9 @@ define( require => {
     // No disposal required because the capacitor is persistent
     Property.multilink( [
       capacitor.plateSizeProperty,
-      capacitor.plateSeparationProperty,
-      capacitor.plateVoltageProperty
+      capacitor.plateSeparationProperty, // TODO: Is this needed?
+      capacitor.plateVoltageProperty,  // TODO: Is this needed?
+      capacitor.plateChargeProperty // TODO: why was this not needed by CLB
     ], function() {
       if ( self.isVisible() ) {
         self.invalidatePaint();

@@ -30,7 +30,7 @@ define( require => {
    * @param {Property.<boolean>} electricFieldVisibleProperty
    * @param {Tandem} tandem
    */
-  function CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem ) {
+  function CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem, options ) {
 
     Node.call( this, { tandem: tandem } );
     const self = this; // extend scope for nested callbacks
@@ -65,6 +65,8 @@ define( require => {
     electricFieldVisibleProperty.link( function( visible ) {
       eFieldNode.setVisible( visible );
     } );
+
+    this.mutate( options );
   }
 
   sceneryPhet.register( 'CapacitorNode', CapacitorNode );
