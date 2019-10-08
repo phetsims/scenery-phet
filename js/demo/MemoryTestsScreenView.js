@@ -153,7 +153,6 @@ define( require => {
           holder.create();
           this.addChild( holder.instance );
         }
-        console.log( 'create' );
         this.numTests++;
       }
     }
