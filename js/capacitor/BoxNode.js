@@ -29,7 +29,7 @@ define( require => {
     /**
      * @constructor
      *
-     * @param {CLModelViewTransform3} modelViewTransform
+     * @param {CLBModelViewTransform3} modelViewTransform
      * @param {Color} color
      * @param {Bounds3} size
      */
