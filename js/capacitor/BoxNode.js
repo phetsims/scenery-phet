@@ -27,8 +27,6 @@ define( require => {
   class BoxNode extends Node {
 
     /**
-     * @constructor
-     *
      * @param {CLBModelViewTransform3} modelViewTransform
      * @param {Color} color
      * @param {Bounds3} size

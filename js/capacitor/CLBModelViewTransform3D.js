@@ -35,8 +35,6 @@ define( require => {
   class CLBModelViewTransform3D {
 
     /**
-     * @constructor
-     *
      * @param {Object} [options]
      */
     constructor( options ) {

@@ -20,9 +20,8 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   class BoxShapeCreator {
+
     /**
-     * @constructor
-     *
      * @param {CLBModelViewTransform3D} modelViewTransform
      */
     constructor( modelViewTransform ) {
