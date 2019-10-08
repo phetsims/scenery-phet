@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * TODO: Documentation
+ * Constants related to CapacitorNode and its corresponding model.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -5,11 +5,11 @@
  * right side.  The top and right-side faces are foreshortened to give the illusion of distance between front and back
  * planes. Origin is at the center of the top face.
  *
+ * Moved from capacitor-lab-basics/js/common/view/BoxNode.js on Oct 7, 2019
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
- *
- * Moved from capacitor-lab-basics/js/common/view/BoxNode.js on Oct 7, 2019
  */
 define( require => {
   'use strict';

@@ -3,10 +3,10 @@
 /**
  * Portion of the plate charge area facing the vacuum gap
  *
+ * Moved from capacitor-lab-basics/js/common/view/VacuumPlateChargeNode.js on Oct 7, 2019
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
- *
- * Moved from capacitor-lab-basics/js/common/view/VacuumPlateChargeNode.js on Oct 7, 2019
  */
 define( require => {
   'use strict';
