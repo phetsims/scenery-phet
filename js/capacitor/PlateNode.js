@@ -17,43 +17,38 @@ define( require => {
   const BoxNode = require( 'SCENERY_PHET/capacitor/BoxNode' );
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const Color = require( 'SCENERY/util/Color' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const VacuumPlateChargeNode = require( 'SCENERY_PHET/capacitor/VacuumPlateChargeNode' );
 
   // constants
   const PLATE_COLOR = new Color( 245, 245, 245 );  // capacitor plates
 
-  /**
-   * @constructor
-   *
-   * @param {Capacitor} capacitor
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
-   * @param {number} maxPlateCharge
-   */
-  function PlateNode( capacitor, modelViewTransform, polarity, maxPlateCharge ) {
+  class PlateNode extends BoxNode {
 
-    BoxNode.call( this, modelViewTransform, PLATE_COLOR, capacitor.plateSizeProperty.value );
+    /**
+     * @param {Capacitor} capacitor
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
+     * @param {number} maxPlateCharge
+     */
+    constructor( capacitor, modelViewTransform, polarity, maxPlateCharge ) {
 
-    // @private {CLBModelViewTransform3D}
-    this.modelViewTransform = modelViewTransform;
+      super( modelViewTransform, PLATE_COLOR, capacitor.plateSizeProperty.value );
 
-    // Charges restricted to the largest possible top face on a capacitor plate.  Bounds needed for canvas.
-    const canvasBounds = this.getMaxBoxNodeBounds();
+      // @private {CLBModelViewTransform3D}
+      this.modelViewTransform = modelViewTransform;
 
-    // @private {VacuumPlateChargeNode}
-    this.vacuumPlateChargeNode = new VacuumPlateChargeNode( capacitor, modelViewTransform, {
-      polarity: polarity,
-      maxPlateCharge: maxPlateCharge,
-      canvasBounds: canvasBounds
-    } );
-    this.addChild( this.vacuumPlateChargeNode );
-  }
+      // Charges restricted to the largest possible top face on a capacitor plate.  Bounds needed for canvas.
+      const canvasBounds = this.getMaxBoxNodeBounds();
 
-  sceneryPhet.register( 'PlateNode', PlateNode );
-
-  return inherit( BoxNode, PlateNode, {
+      // @private {VacuumPlateChargeNode}
+      this.vacuumPlateChargeNode = new VacuumPlateChargeNode( capacitor, modelViewTransform, {
+        polarity: polarity,
+        maxPlateCharge: maxPlateCharge,
+        canvasBounds: canvasBounds
+      } );
+      this.addChild( this.vacuumPlateChargeNode );
+    }
 
     /**
      * Make the charges on this plate visible.
@@ -61,9 +56,9 @@ define( require => {
      *
      * @param {boolean} visible
      */
-    setChargeVisible: function( visible ) {
+    setChargeVisible( visible ) {
       this.vacuumPlateChargeNode.visible = visible;
-    },
+    }
 
     /**
      * Get bounds for a plate with maximum width.  Useful for layout and bounds calculations.
@@ -71,7 +66,7 @@ define( require => {
      *
      * @returns {Bounds3}
      */
-    getMaxBoxNodeBounds: function() {
+    getMaxBoxNodeBounds() {
       const maxWidthBoxNode = new BoxNode(
         this.modelViewTransform,
         PLATE_COLOR,
@@ -82,8 +77,8 @@ define( require => {
       );
       return maxWidthBoxNode.bounds;
     }
-  }, {
 
+    // TODO: These may not be helping too much
     /**
      * Factory methods to create top and bottom PlateNode instances.
      * @public
@@ -94,12 +89,14 @@ define( require => {
      *
      * @returns {PlateNode}
      */
-    createTopPlateNode: function( capacitor, modelViewTransform, maxPlateCharge ) {
+    static createTopPlateNode( capacitor, modelViewTransform, maxPlateCharge ) {
       return new PlateNode( capacitor, modelViewTransform, CapacitorConstants.POLARITY.POSITIVE, maxPlateCharge );
-    },
-    createBottomPlateNode: function( capacitor, modelViewTransform, maxPlateCharge ) {
+    }
+
+    static createBottomPlateNode( capacitor, modelViewTransform, maxPlateCharge ) {
       return new PlateNode( capacitor, modelViewTransform, CapacitorConstants.POLARITY.NEGATIVE, maxPlateCharge );
     }
-  } );
-} );
+  }
 
+  return sceneryPhet.register( 'PlateNode', PlateNode );
+} );
