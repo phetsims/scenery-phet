@@ -15,69 +15,64 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const EFieldNode = require( 'SCENERY_PHET/capacitor/EFieldNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PlateNode = require( 'SCENERY_PHET/capacitor/PlateNode' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  /**
-   * @constructor
-   *
-   * @param {ParallelCircuit} circuit
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   * @param {Property.<boolean>} plateChargeVisibleProperty
-   * @param {Property.<boolean>} electricFieldVisibleProperty
-   * @param {Tandem} tandem
-   */
-  function CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem, options ) {
+  class CapacitorNode extends Node {
 
-    Node.call( this, { tandem: tandem } );
-    const self = this; // extend scope for nested callbacks
+    /**
+     * @param {ParallelCircuit} circuit
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {Property.<boolean>} plateChargeVisibleProperty
+     * @param {Property.<boolean>} electricFieldVisibleProperty
+     * @param {Tandem} tandem
+     */
+    constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem, options ) {
 
-    // @private
-    this.capacitor = circuit.capacitor;
-    this.modelViewTransform = modelViewTransform;
+      super( { tandem: tandem } ); // TODO: Move tandem to options
+      const self = this; // extend scope for nested callbacks
 
-    // @private {PlateNode}
-    this.topPlateNode = PlateNode.createTopPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
-    this.bottomPlateNode = PlateNode.createBottomPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
+      // @private
+      this.capacitor = circuit.capacitor;
+      this.modelViewTransform = modelViewTransform;
 
-    const eFieldNode = new EFieldNode( this.capacitor, modelViewTransform, circuit.maxEffectiveEField, this.getPlatesBounds() );
+      // @private {PlateNode}
+      this.topPlateNode = PlateNode.createTopPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
+      this.bottomPlateNode = PlateNode.createBottomPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
 
-    // rendering order
-    this.addChild( this.bottomPlateNode );
-    this.addChild( eFieldNode );
-    this.addChild( this.topPlateNode );
+      const eFieldNode = new EFieldNode( this.capacitor, modelViewTransform, circuit.maxEffectiveEField, this.getPlatesBounds() );
 
-    Property.multilink( [
-      this.capacitor.plateSizeProperty,
-      this.capacitor.plateSeparationProperty
-    ], function() {
-      self.updateGeometry();
-    } );
+      // rendering order
+      this.addChild( this.bottomPlateNode );
+      this.addChild( eFieldNode );
+      this.addChild( this.topPlateNode );
 
-    plateChargeVisibleProperty.link( function( visible ) {
-      self.topPlateNode.setChargeVisible( visible );
-      self.bottomPlateNode.setChargeVisible( visible );
-    } );
+      Property.multilink( [
+        this.capacitor.plateSizeProperty,
+        this.capacitor.plateSeparationProperty
+      ], function() {
+        self.updateGeometry();
+      } );
 
-    electricFieldVisibleProperty.link( function( visible ) {
-      eFieldNode.setVisible( visible );
-    } );
+      plateChargeVisibleProperty.link( function( visible ) {
+        self.topPlateNode.setChargeVisible( visible );
+        self.bottomPlateNode.setChargeVisible( visible );
+      } );
 
-    this.mutate( options );
-  }
+      electricFieldVisibleProperty.link( function( visible ) {
+        eFieldNode.setVisible( visible );
+      } );
 
-  sceneryPhet.register( 'CapacitorNode', CapacitorNode );
-
-  return inherit( Node, CapacitorNode, {
+      this.mutate( options );
+    }
 
     /**
      * Update the geometry of the capacitor plates.
      * @public
      */
-    updateGeometry: function() {
+    updateGeometry() {
       // geometry
       this.topPlateNode.setBoxSize( this.capacitor.plateSizeProperty.value );
       this.bottomPlateNode.setBoxSize( this.capacitor.plateSizeProperty.value );
@@ -90,7 +85,7 @@ define( require => {
 
       y = this.capacitor.plateSeparationProperty.value / 2;
       this.bottomPlateNode.center = this.modelViewTransform.modelToViewDeltaXYZ( x, y, z );
-    },
+    }
 
     /**
      * Get the bound of the capacitor from the plates.  Allows for bounds to be passed into the canvas node before the
@@ -99,12 +94,14 @@ define( require => {
      *
      * @returns {Bounds2}
      */
-    getPlatesBounds: function() {
+    getPlatesBounds() {
       return new Bounds2(
         this.topPlateNode.left,
         this.topPlateNode.top,
         this.bottomPlateNode.right,
         this.bottomPlateNode.bottom );
     }
-  } );
+  }
+
+  return sceneryPhet.register( 'CapacitorNode', CapacitorNode );
 } );

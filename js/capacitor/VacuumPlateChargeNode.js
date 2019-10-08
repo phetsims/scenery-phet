@@ -11,24 +11,19 @@
 define( require => {
   'use strict';
 
-  const inherit = require( 'PHET_CORE/inherit' );
   const PlateChargeNode = require( 'SCENERY_PHET/capacitor/PlateChargeNode' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  /**
-   * @constructor
-   *
-   * @param {Capacitor} capacitor
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   * @param {Object} [options] - See options for PlateChargeNode
-   */
-  function VacuumPlateChargeNode( capacitor, modelViewTransform, options ) {
-    PlateChargeNode.call( this, capacitor, modelViewTransform, options );
-  }
+  class VacuumPlateChargeNode extends PlateChargeNode {
 
-  sceneryPhet.register( 'VacuumPlateChargeNode', VacuumPlateChargeNode );
-
-  return inherit( PlateChargeNode, VacuumPlateChargeNode, {
+    /**
+     * @param {Capacitor} capacitor
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {Object} [options] - See options for PlateChargeNode
+     */
+    constructor( capacitor, modelViewTransform, options ) {
+      super( capacitor, modelViewTransform, options );
+    }
 
     /**
      * Get plate charge from capacitor in the model
@@ -36,10 +31,9 @@ define( require => {
      *
      * @returns {number} charge
      */
-    getPlateCharge: function() {
+    getPlateCharge() {
       return this.capacitor.plateChargeProperty.value;
-    },
-
+    }
 
     /**
      * Gets the x offset (relative to the plate origin) of the portion of the plate that is facing the vacuum gap
@@ -47,9 +41,9 @@ define( require => {
      *
      * @returns {number} offset
      */
-    getContactXOrigin: function() {
+    getContactXOrigin() {
       return -this.capacitor.plateSizeProperty.value.width / 2;
-    },
+    }
 
     /**
      * Gets the width of the portion of the plate that is in contact with air.
@@ -57,8 +51,10 @@ define( require => {
      *
      * @returns {number}
      */
-    getContactWidth: function() {
+    getContactWidth() {
       return this.capacitor.plateSizeProperty.value.width;
     }
-  } );
+  }
+
+  return sceneryPhet.register( 'VacuumPlateChargeNode', VacuumPlateChargeNode );
 } );

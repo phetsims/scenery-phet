@@ -16,25 +16,21 @@ define( require => {
 
   // modules
   const CLBModelViewTransform3D = require( 'SCENERY_PHET/capacitor/CLBModelViewTransform3D' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
 
-  /**
-   * @constructor
-   *
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   */
-  function BoxShapeCreator( modelViewTransform ) {
-    assert && assert( modelViewTransform instanceof CLBModelViewTransform3D );
+  class BoxShapeCreator {
+    /**
+     * @constructor
+     *
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     */
+    constructor( modelViewTransform ) {
+      assert && assert( modelViewTransform instanceof CLBModelViewTransform3D );
 
-    // @public {CLBModelViewTransform3D}
-    this.modelViewTransform = modelViewTransform;
-  }
-
-  sceneryPhet.register( 'BoxShapeCreator', BoxShapeCreator );
-
-  return inherit( Object, BoxShapeCreator, {
+      // @public {CLBModelViewTransform3D}
+      this.modelViewTransform = modelViewTransform;
+    }
 
     /**
      * Top face is a parallelogram.
@@ -53,7 +49,7 @@ define( require => {
      * @param {number} depth
      * @returns {Shape}
      */
-    createTopFace: function( x, y, z, width, height, depth ) {
+    createTopFace( x, y, z, width, height, depth ) {
       // points
       const p0 = this.modelViewTransform.modelToViewXYZ( x - ( width / 2 ), y, z + ( depth / 2 ) );
       const p1 = this.modelViewTransform.modelToViewXYZ( x + ( width / 2 ), y, z + ( depth / 2 ) );
@@ -62,7 +58,7 @@ define( require => {
 
       // shape
       return this.createFace( p0, p1, p2, p3 );
-    },
+    }
 
     /**
      * Create the top face of the Box with a Bounds3 object.
@@ -71,9 +67,9 @@ define( require => {
      * @param {Bounds3} bounds
      * @returns {Shape}
      */
-    createTopFaceBounds3: function( bounds ) {
+    createTopFaceBounds3( bounds ) {
       return this.createTopFace( bounds.minX, bounds.minY, bounds.minZ, bounds.width, bounds.height, bounds.depth );
-    },
+    }
 
     /**
      * Front face is a rectangle.
@@ -92,7 +88,7 @@ define( require => {
      * @param {number} depth
      * @returns {Shape}
      */
-    createFrontFace: function( x, y, z, width, height, depth ) {
+    createFrontFace( x, y, z, width, height, depth ) {
       // points
       const p0 = this.modelViewTransform.modelToViewXYZ( x - ( width / 2 ), y, z - ( depth / 2 ) );
       const p1 = this.modelViewTransform.modelToViewXYZ( x + ( width / 2 ), y, z - ( depth / 2 ) );
@@ -100,7 +96,7 @@ define( require => {
       const p3 = this.modelViewTransform.modelToViewXYZ( x - ( width / 2 ), y + height, z - ( depth / 2 ) );
       // shape
       return this.createFace( p0, p1, p2, p3 );
-    },
+    }
 
     /**
      * Create the front face of the box with a Bounds3 object.
@@ -109,9 +105,9 @@ define( require => {
      * @param {Bounds3} bounds
      * @returns {Shape}
      */
-    createFrontFaceBounds3: function( bounds ) {
+    createFrontFaceBounds3( bounds ) {
       return this.createFrontFace( bounds.minX, bounds.minY, bounds.minZ, bounds.width, bounds.height, bounds.depth );
-    },
+    }
 
     /**
      * Right-side face is a parallelogram.
@@ -136,7 +132,7 @@ define( require => {
      * @param {number} depth
      * @returns {Shape}
      */
-    createRightSideFace: function( x, y, z, width, height, depth ) {
+    createRightSideFace( x, y, z, width, height, depth ) {
       // points
       const p0 = this.modelViewTransform.modelToViewXYZ( x + ( width / 2 ), y, z - ( depth / 2 ) );
       const p1 = this.modelViewTransform.modelToViewXYZ( x + ( width / 2 ), y, z + ( depth / 2 ) );
@@ -144,7 +140,7 @@ define( require => {
       const p3 = this.modelViewTransform.modelToViewXYZ( x + ( width / 2 ), y + height, z - ( depth / 2 ) );
       // path
       return this.createFace( p0, p1, p2, p3 );
-    },
+    }
 
     /**
      * Create the right face of the box with a Bounds3 object.
@@ -153,9 +149,9 @@ define( require => {
      * @param {Bounds3} bounds
      * @returns {Shape}
      */
-    createRightSideFaceBounds3: function( bounds ) {
+    createRightSideFaceBounds3( bounds ) {
       return this.createRightSideFace( bounds.minX, bounds.minY, bounds.minZ, bounds.width, bounds.height, bounds.depth );
-    },
+    }
 
     /**
      * A complete box, relative to a specific origin.
@@ -169,12 +165,12 @@ define( require => {
      * @param {number} depth
      * @returns {Shape}
      */
-    createBoxShape: function( x, y, z, width, height, depth ) {
+    createBoxShape( x, y, z, width, height, depth ) {
       const topShape = this.createTopFace( x, y, z, width, height, depth );
       const frontShape = this.createFrontFace( x, y, z, width, height, depth );
       const sideShape = this.createRightSideFace( x, y, z, width, height, depth );
       return Shape.union( [ topShape, frontShape, sideShape ] );
-    },
+    }
 
     /**
      * Returns whether the box would contain the given 2d point
@@ -189,12 +185,12 @@ define( require => {
      * @param {Vector2} point
      * @returns {boolean}
      */
-    boxShapeContainsPoint: function( x, y, z, width, height, depth, point ) {
+    boxShapeContainsPoint( x, y, z, width, height, depth, point ) {
       const topShape = this.createTopFace( x, y, z, width, height, depth );
       const frontShape = this.createFrontFace( x, y, z, width, height, depth );
       const sideShape = this.createRightSideFace( x, y, z, width, height, depth );
       return topShape.containsPoint( point ) || frontShape.containsPoint( point ) || sideShape.containsPoint( point );
-    },
+    }
 
     /**
      * A face is defined by 4 points, specified in view coordinates.
@@ -202,7 +198,7 @@ define( require => {
      *
      * @returns {Shape}
      */
-    createFace: function( p0, p1, p2, p3 ) {
+    createFace( p0, p1, p2, p3 ) {
       return new Shape()
         .moveToPoint( p0 )
         .lineToPoint( p1 )
@@ -210,5 +206,7 @@ define( require => {
         .lineToPoint( p3 )
         .close();
     }
-  } );
+  }
+
+  return sceneryPhet.register( 'BoxShapeCreator', BoxShapeCreator );
 } );

@@ -9,6 +9,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Sam Reid  (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  *
  * Moved from capacitor-lab-basics/js/common/view/PlateChargeNode.js on Oct 7, 2019
@@ -19,8 +20,7 @@ define( require => {
   // modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
-  const IGridSizeStrategy = require( 'SCENERY_PHET/capacitor/IGridSizeStrategy' );
-  const inherit = require( 'PHET_CORE/inherit' );
+  const Dimension2 = require( 'DOT/Dimension2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Property = require( 'AXON/Property' );
@@ -64,91 +64,132 @@ define( require => {
     context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
   }
 
-  /**
-   * @constructor
-   *
-   * @param {Capacitor} capacitor
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   * @param {Object} options
-   */
-  function PlateChargeNode( capacitor, modelViewTransform, options ) {
+  class PlateChargeNode extends CanvasNode {
 
-    options = _.extend( {
-      // {string} - 'POSITIVE' or 'NEGATIVE'
-      polarity: CapacitorConstants.POLARITY.POSITIVE,
-      maxPlateCharge: Infinity,
-      opacity: 1.0,
-      canvasBounds: null // Bounds2|null
-    }, options );
+    /**
+     * @param {Capacitor} capacitor
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {Object} options
+     */
+    constructor( capacitor, modelViewTransform, options ) {
 
-    CanvasNode.call( this, {
-      canvasBounds: options.canvasBounds
-    } );
-    const self = this; // extend scope for nested callbacks
+      options = _.extend( {
+        // {string} - 'POSITIVE' or 'NEGATIVE'
+        polarity: CapacitorConstants.POLARITY.POSITIVE,
+        maxPlateCharge: Infinity,
+        opacity: 1.0,
+        canvasBounds: null // Bounds2|null
+      }, options );
 
-    // @private {Capacitor}
-    this.capacitor = capacitor;
+      super( { canvasBounds: options.canvasBounds } );
+      const self = this; // extend scope for nested callbacks
 
-    // @private {CLBModelViewTransform3D}
-    this.modelViewTransform = modelViewTransform;
+      // @private {Capacitor}
+      this.capacitor = capacitor;
 
-    // @private {string} - 'POSITIVE' or 'NEGATIVE'
-    this.polarity = options.polarity;
+      // @private {CLBModelViewTransform3D}
+      this.modelViewTransform = modelViewTransform;
 
-    // @private {number}
-    this.maxPlateCharge = options.maxPlateCharge;
+      // @private {string} - 'POSITIVE' or 'NEGATIVE'
+      this.polarity = options.polarity;
 
-    // @private {IGridSizeStrategy}
-    this.gridSizeStrategy = IGridSizeStrategy.createStrategy();
+      // @private {number}
+      this.maxPlateCharge = options.maxPlateCharge;
 
-    // @private {number}
-    this.opacity = options.opacity;
+      // @private {number}
+      this.opacity = options.opacity;
 
-    this.parentNode = new Node(); // @private parent node for charges
-    this.addChild( this.parentNode );
+      this.parentNode = new Node(); // @private parent node for charges
+      this.addChild( this.parentNode );
 
-    // No disposal required because the capacitor is persistent
-    Property.multilink( [
-      capacitor.plateSizeProperty,
-      capacitor.plateSeparationProperty, // TODO: Is this needed?
-      capacitor.plateVoltageProperty,  // TODO: Is this needed?
-      capacitor.plateChargeProperty // TODO: why was this not needed by CLB
-    ], function() {
-      if ( self.isVisible() ) {
-        self.invalidatePaint();
+      // No disposal required because the capacitor is persistent
+      Property.multilink( [
+        capacitor.plateSizeProperty,
+        capacitor.plateSeparationProperty, // TODO: Is this needed?
+        capacitor.plateVoltageProperty,  // TODO: Is this needed?
+        capacitor.plateChargeProperty // TODO: why was this not needed by CLB
+      ], function() {
+        if ( self.isVisible() ) {
+          self.invalidatePaint();
+        }
+      } );
+    }
+
+    /**
+     * Strategy developed by Sam Reid, here's how he described it:
+     * The main change is to use rounding instead of clamping to get the rows and columns.
+     * Also, for one row or column, it should be exact (similar to the intent of the ModifiedCCKGridSizeStrategy subclass).
+     * It looks like it exhibits better (though understandably imperfect) behavior in the problem cases.
+     * Also, as opposed to the previous versions, the visible number of objects can exceed the specified numberOfObjects.
+     * This may be the best we can do if we are showing a rectangular grid of charges.  We could get the count exactly
+     * right if we show some (or one) of the columns having different numbers of charges than the others, but then
+     * it may look nonuniform (and would require more extensive changes to the sim).
+     *
+     * @param {number} numberOfObjects [description]
+     * @param {number} width
+     * @param {number} height
+     * @returns {Dimension2}
+     * @private
+     */
+    getGridSize( numberOfObjects, width, height ) {
+      let columns = 0;
+      let rows = 0;
+      if ( numberOfObjects > 0 ) {
+
+        const alpha = Math.sqrt( numberOfObjects / width / height );
+        columns = Util.roundSymmetric( width * alpha );
+
+        // compute rows 2 ways, choose the best fit
+        const rows1 = Util.roundSymmetric( height * alpha );
+        const rows2 = Util.roundSymmetric( numberOfObjects / columns );
+        if ( rows1 !== rows2 ) {
+          const error1 = Math.abs( numberOfObjects - ( rows1 * columns ) );
+          const error2 = Math.abs( numberOfObjects - ( rows2 * columns ) );
+          rows = ( error1 < error2 ) ? rows1 : rows2;
+        }
+        else {
+          rows = rows1;
+        }
+
+        // handle boundary cases
+        if ( columns === 0 ) {
+          columns = 1;
+          rows = numberOfObjects;
+        }
+        else if ( rows === 0 ) {
+          rows = 1;
+          columns = numberOfObjects;
+        }
       }
-    } );
-  }
-
-  sceneryPhet.register( 'PlateChargeNode', PlateChargeNode );
-
-  return inherit( CanvasNode, PlateChargeNode, {
+      assert && assert( columns >= 0 && rows >= 0, 'There must be at least 1 column or 1 row of charges.' );
+      return new Dimension2( columns, rows );
+    }
 
     /**
      * Charge on the portion of the plate that this node handles.
      * @public
      */
-    getPlateCharge: function() {
+    getPlateCharge() {
       assert && assert( false, 'getPlateCharge function should be implemented in descendant classes.' );
-    },
+    }
 
     /**
      * X offset of the portion of the plate that this node handles.
      * This is relative to the plate's origin, and specified in model coordinates.
      * @public
      */
-    getContactXOrigin: function() {
+    getContactXOrigin() {
       assert && assert( false, 'getContactXOrigin must be overridden  in descendant classes. ' );
-    },
+    }
 
     /**
      * Width of the portion of the plate that this node handles.
      * Specified in model coordinates.
      * @public
      */
-    getContactWidth: function() {
+    getContactWidth() {
       assert && assert( false, 'getContactWidth should be overridden in descendant classes.' );
-    },
+    }
 
     /**
      * Returns true if plate is positively charged
@@ -156,10 +197,10 @@ define( require => {
      * @returns {Boolean}
      * @public
      */
-    isPositivelyCharged: function() {
+    isPositivelyCharged() {
       return ( this.getPlateCharge() >= 0 && this.polarity === CapacitorConstants.POLARITY.POSITIVE ) ||
              ( this.getPlateCharge() < 0 && this.polarity === CapacitorConstants.POLARITY.NEGATIVE );
-    },
+    }
 
     /**
      * Update the node when it becomes visible.
@@ -168,12 +209,12 @@ define( require => {
      * @public
      * @override
      */
-    setVisible: function( visible ) {
-      CanvasNode.prototype.setVisible.call( this, visible );
+    setVisible( visible ) {
+      super.setVisible( visible );
       if ( visible ) {
         this.invalidatePaint();
       }
-    },
+    }
 
     /**
      * Updates the view to match the model.  Charges are arranged in a grid.
@@ -181,7 +222,7 @@ define( require => {
      * @param {CanvasRenderingContext2D} context
      * @public
      */
-    paintCanvas: function( context ) {
+    paintCanvas( context ) {
 
       const plateCharge = this.getPlateCharge();
       const numberOfCharges = this.getNumberOfCharges( plateCharge, this.maxPlateCharge );
@@ -194,7 +235,7 @@ define( require => {
         const gridDepth = this.capacitor.plateSizeProperty.value.depth - ( 2 * zMargin );
 
         // grid dimensions
-        const gridSize = this.gridSizeStrategy.getGridSize( numberOfCharges, gridWidth, gridDepth );
+        const gridSize = this.getGridSize( numberOfCharges, gridWidth, gridDepth );
         const rows = gridSize.height;
         const columns = gridSize.width;
 
@@ -226,7 +267,7 @@ define( require => {
           }
         }
       }
-    },
+    }
 
     /**
      * Computes number of charges, linearly proportional to plate charge.  If plate charge is less than half of an
@@ -237,7 +278,7 @@ define( require => {
      * @param {number} maxPlateCharge
      * @returns {number}
      */
-    getNumberOfCharges: function( plateCharge, maxPlateCharge ) {
+    getNumberOfCharges( plateCharge, maxPlateCharge ) {
       const absCharge = Math.abs( plateCharge );
       let numberOfCharges = Util.toFixedNumber( CapacitorConstants.NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
       if ( absCharge > 0 && numberOfCharges < CapacitorConstants.NUMBER_OF_PLATE_CHARGES.min ) {
@@ -245,6 +286,7 @@ define( require => {
       }
       return numberOfCharges;
     }
+  }
 
-  } );
+  return sceneryPhet.register( 'PlateChargeNode', PlateChargeNode );
 } );

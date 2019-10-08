@@ -15,8 +15,6 @@ define( require => {
   //modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Dimension2 = require( 'DOT/Dimension2' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -72,52 +70,46 @@ define( require => {
     }
   }
 
-  /**
-   * @constructor
-   *
-   * @param {Capacitor} capacitor
-   * @param {CLBModelViewTransform3D} modelViewTransform
-   * @param {number} maxEffectiveEField
-   * @param {Bounds2} canvasBounds
-   */
-  function EFieldNode( capacitor, modelViewTransform, maxEffectiveEField, canvasBounds ) {
+  class EFieldNode extends CanvasNode {
 
-    CanvasNode.call( this, {
-      canvasBounds: canvasBounds
-    } );
-    const self = this;
+    /**
+     * @param {Capacitor} capacitor
+     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {number} maxEffectiveEField
+     * @param {Bounds2} canvasBounds
+     */
+    constructor( capacitor, modelViewTransform, maxEffectiveEField, canvasBounds ) {
 
-    // @private
-    this.capacitor = capacitor;
-    this.modelViewTransform = modelViewTransform;
-    this.maxEffectiveEField = maxEffectiveEField;
+      super( { canvasBounds: canvasBounds } );
+      const self = this;
 
-    Property.multilink( [
-      capacitor.plateSizeProperty,
-      capacitor.plateSeparationProperty,
-      capacitor.plateVoltageProperty
-    ], function() {
-      if ( self.isVisible() ) {
-        self.invalidatePaint();
-      }
-    } );
-  }
+      // @private
+      this.capacitor = capacitor;
+      this.modelViewTransform = modelViewTransform;
+      this.maxEffectiveEField = maxEffectiveEField;
 
-  sceneryPhet.register( 'EFieldNode', EFieldNode );
-
-  return inherit( CanvasNode, EFieldNode, {
+      Property.multilink( [
+        capacitor.plateSizeProperty,
+        capacitor.plateSeparationProperty,
+        capacitor.plateVoltageProperty
+      ], function() {
+        if ( self.isVisible() ) {
+          self.invalidatePaint();
+        }
+      } );
+    }
 
     /**
      * Update the node when it becomes visible.  Overrides setVisible in Node.
      * @public
      * @override
      */
-    setVisible: function( visible ) {
-      Node.prototype.setVisible.call( this, visible );
+    setVisible( visible ) {
+      super.setVisible( visible );
       if ( visible ) {
         this.invalidatePaint();
       }
-    },
+    }
 
     /**
      * Rendering function
@@ -125,7 +117,7 @@ define( require => {
      *
      * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( context ) {
+    paintCanvas( context ) {
 
       // compute density (spacing) of field lines
       const effectiveEField = this.capacitor.getEffectiveEField();
@@ -175,7 +167,7 @@ define( require => {
         context.fill();
         context.stroke();
       }
-    },
+    }
 
     /**
      * Gets the spacing of E-field lines. Higher E-field results in higher density,
@@ -185,7 +177,7 @@ define( require => {
      * @param {number} effectiveEField
      * @returns {number} spacing, in model coordinates
      */
-    getLineSpacing: function( effectiveEField ) {
+    getLineSpacing( effectiveEField ) {
       if ( effectiveEField === 0 ) {
         return 0;
       }
@@ -194,6 +186,7 @@ define( require => {
         return SPACING_CONSTANT / Math.sqrt( Math.abs( effectiveEField ) );
       }
     }
+  }
 
-  } );
+  return sceneryPhet.register( 'EFieldNode', EFieldNode );
 } );
