@@ -39,14 +39,14 @@ define( require => {
    * @param {Vector2} location - center location of the charge in view space
    * @param {CanvasRenderingContext2D} context - context for the canvas methods
    */
-  function addPositiveCharge( location, context ) {
+  const addPositiveCharge = ( location, context ) => {
     const chargeWidth = CapacitorConstants.NEGATIVE_CHARGE_SIZE.width;
     const chargeHeight = CapacitorConstants.NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = POSITIVE_CHARGE_COLOR;
     context.fillRect( location.x - chargeWidth / 2, location.y - chargeHeight / 2, chargeWidth, chargeHeight );
     context.fillRect( location.x - chargeHeight / 2, location.y - chargeWidth / 2, chargeHeight, chargeWidth );
-  }
+  };
 
   /**
    * Draw a negative charge with canvas.  'Minus' sign is painted with a single
@@ -56,13 +56,13 @@ define( require => {
    * @param {Vector2} location
    * @param {CanvasRenderingContext2D} context
    */
-  function addNegativeCharge( location, context ) {
+  const addNegativeCharge = ( location, context ) => {
     const chargeWidth = CapacitorConstants.NEGATIVE_CHARGE_SIZE.width;
     const chargeHeight = CapacitorConstants.NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = NEGATIVE_CHARGE_COLOR;
     context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
-  }
+  };
 
   class PlateChargeNode extends CanvasNode {
 
@@ -108,7 +108,7 @@ define( require => {
         capacitor.plateSeparationProperty, // TODO: Is this needed?
         capacitor.plateVoltageProperty,  // TODO: Is this needed?
         capacitor.plateChargeProperty // TODO: why was this not needed by CLB
-      ], function() {
+      ], () => {
         if ( self.isVisible() ) {
           self.invalidatePaint();
         }
@@ -170,7 +170,7 @@ define( require => {
      * @public
      */
     getPlateCharge() {
-      assert && assert( false, 'getPlateCharge function should be implemented in descendant classes.' );
+      assert && assert( false, 'getPlateCharge should be implemented in descendant classes.' );
     }
 
     /**

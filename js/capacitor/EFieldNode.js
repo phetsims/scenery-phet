@@ -36,7 +36,7 @@ define( require => {
    * @param {string} direction
    * @param {CanvasRenderingContext2D} context
    */
-  function drawEFieldLine( position, length, direction, context ) {
+  const drawEFieldLine = ( position, length, direction, context ) => {
 
     // line, origin at center
     context.moveTo( position.x, position.y - length / 2 - 3 );
@@ -68,7 +68,7 @@ define( require => {
     else {
       assert && assert( false, 'EFieldLine must be of orientation UP or DOWN' );
     }
-  }
+  };
 
   class EFieldNode extends CanvasNode {
 
@@ -92,7 +92,7 @@ define( require => {
         capacitor.plateSizeProperty,
         capacitor.plateSeparationProperty,
         capacitor.plateVoltageProperty
-      ], function() {
+      ], () => {
         if ( self.isVisible() ) {
           self.invalidatePaint();
         }
@@ -112,7 +112,7 @@ define( require => {
     }
 
     /**
-     * Rendering function
+     * Rendering
      * @public
      *
      * @param {CanvasRenderingContext2D} context

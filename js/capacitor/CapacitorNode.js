@@ -52,18 +52,14 @@ define( require => {
       Property.multilink( [
         this.capacitor.plateSizeProperty,
         this.capacitor.plateSeparationProperty
-      ], function() {
-        self.updateGeometry();
-      } );
+      ], () => self.updateGeometry() );
 
-      plateChargeVisibleProperty.link( function( visible ) {
+      plateChargeVisibleProperty.link( visible => {
         self.topPlateNode.setChargeVisible( visible );
         self.bottomPlateNode.setChargeVisible( visible );
       } );
 
-      electricFieldVisibleProperty.link( function( visible ) {
-        eFieldNode.setVisible( visible );
-      } );
+      electricFieldVisibleProperty.link( visible => eFieldNode.setVisible( visible ) );
 
       this.mutate( options );
     }
