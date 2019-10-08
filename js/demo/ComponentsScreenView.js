@@ -259,11 +259,8 @@ define( require => {
         new NumberControl( 'separation', circuit.capacitor.plateSeparationProperty, new Range( 0, 0.01 ), {
           delta: 0.0001
         } ),
-        new NumberControl( 'charge', circuit.capacitor.plateChargeProperty, new Range( 0, ( 4.426999999999999e-13 ) * 1.5 ), {
+        new NumberControl( 'charge', circuit.capacitor.plateChargeProperty, new Range( -( 4.426999999999999e-13 ) * 1.5, ( 4.426999999999999e-13 ) * 1.5 ), {
           delta: 4.426999999999999e-13 / 30
-        } ),
-        new NumberControl( 'voltage', circuit.capacitor.plateVoltageProperty, new Range( 0, 1.5 ), {
-          delta: 0.1
         } )
       ]
     } );
