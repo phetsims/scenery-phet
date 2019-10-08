@@ -254,6 +254,9 @@ define( require => {
     const plateChargeVisibleProperty = new BooleanProperty( true );
     const electricFieldVisibleProperty = new BooleanProperty( true );
 
+    const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty,
+      Tandem.optional );
+
     const controls = new VBox( {
       children: [
         new NumberControl( 'separation', circuit.capacitor.plateSeparationProperty, new Range( 0, 0.01 ), {
@@ -269,8 +272,7 @@ define( require => {
       spacing: 20,
       resize: false,
       children: [
-        new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty,
-          Tandem.optional ),
+        capacitorNode,
         controls
       ],
       center: layoutBounds.center
