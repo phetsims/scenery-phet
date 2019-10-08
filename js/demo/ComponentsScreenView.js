@@ -16,10 +16,14 @@ define( require => {
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const BicyclePumpNode = require( 'SCENERY_PHET/BicyclePumpNode' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Bounds3 = require( 'DOT/Bounds3' );
   const BracketNode = require( 'SCENERY_PHET/BracketNode' );
+  const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
+  const CapacitorNode = require( 'SCENERY_PHET/capacitor/CapacitorNode' );
   const CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   const Checkbox = require( 'SUN/Checkbox' );
   const Circle = require( 'SCENERY/nodes/Circle' );
+  const CLBModelViewTransform3D = require( 'SCENERY_PHET/capacitor/CLBModelViewTransform3D' );
   const Color = require( 'SCENERY/util/Color' );
   const ComboBoxDisplay = require( 'SCENERY_PHET/ComboBoxDisplay' );
   const ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
@@ -110,6 +114,7 @@ define( require => {
       { label: 'ArrowNode', createNode: demoArrowNode },
       { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
       { label: 'BracketNode', createNode: demoBracketNode },
+      { label: 'CapacitorNode', createNode: demoCapacitorNode },
       { label: 'ComboBoxDisplay', createNode: demoComboBoxDisplay },
       { label: 'ConductivityTesterNode', createNode: demoConductivityTesterNode },
       { label: 'Drawer', createNode: demoDrawer },
@@ -224,6 +229,50 @@ define( require => {
       bracketTipLocation: 0.75,
       labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
       spacing: 10,
+      center: layoutBounds.center
+    } );
+  };
+
+  // Creates a demo for BracketNode
+  const demoCapacitorNode = function( layoutBounds ) {
+    const plateBounds = new Bounds3( 0, 0, 0, 0.01414213562373095, CapacitorConstants.PLATE_HEIGHT, 0.01414213562373095 );
+
+    // TODO: OK to use a mock object like this, or should we create a model type
+    const circuit = {
+      maxPlateCharge: 2.6562e-12,
+      capacitor: {
+        plateSizeProperty: new Property( plateBounds ),
+        plateSeparationProperty: new NumberProperty( 0.006 ),
+        plateVoltageProperty: new NumberProperty( 1.5 ),
+        plateChargeProperty: new NumberProperty( 4.426999999999999e-13 / 10 * 4 ),
+        getEffectiveEField() {
+          return 0;
+        }
+      }
+    };
+    const modelViewTransform = new CLBModelViewTransform3D();
+    const plateChargeVisibleProperty = new BooleanProperty( true );
+    const electricFieldVisibleProperty = new BooleanProperty( true );
+
+    const controls = new VBox( {
+      children: [
+        new NumberControl( 'separation', circuit.capacitor.plateSeparationProperty, new Range( 0, 0.01 ), {
+          delta: 0.0001
+        } ),
+        new NumberControl( 'charge', circuit.capacitor.plateChargeProperty, new Range( -( 4.426999999999999e-13 ) * 1.5, ( 4.426999999999999e-13 ) * 1.5 ), {
+          delta: 4.426999999999999e-13 / 30
+        } )
+      ]
+    } );
+
+    return new VBox( {
+      spacing: 20,
+      resize: false,
+      children: [
+        new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty,
+          Tandem.optional ),
+        controls
+      ],
       center: layoutBounds.center
     } );
   };

@@ -1,4 +1,4 @@
-// Copyright 2015-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Provides the transforms between model and view 3D-coordinate systems. In both coordinate systems, +x is to the right,
@@ -11,17 +11,16 @@
  * | /
  * +-------> +x
  *
+ * Moved from capacitor-lab-basics/js/common/model/CLBModelViewTransform3D.js on Oct 7, 2019
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
- *
- * Moved from capacitor-lab-basics/js/common/model/CLBModelViewTransform3D.js on Oct 7, 2019
  */
 define( require => {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -33,32 +32,28 @@ define( require => {
   const scratchVector2 = new Vector2( 0, 0 );
   const scratchVector3 = new Vector3( 0, 0, 0 );
 
-  /**
-   * @constructor
-   *
-   * @param {Object} [options]
-   */
-  function CLBModelViewTransform3D( options ) {
+  class CLBModelViewTransform3D {
 
-    options = _.extend( {
-      scale: 12000, // scale for mapping from model to view (x and y scale are identical)
-      pitch: 30 * Math.PI / 180, // rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
-      yaw: -45 * Math.PI / 180 // rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
-    }, options );
+    /**
+     * @param {Object} [options]
+     */
+    constructor( options ) {
 
-    // @private {ModelViewTransform2}
-    this.modelToViewTransform2D = new ModelViewTransform2( Matrix3.scaling( options.scale ) );
+      options = _.extend( {
+        scale: 12000, // scale for mapping from model to view (x and y scale are identical)
+        pitch: 30 * Math.PI / 180, // rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
+        yaw: -45 * Math.PI / 180 // rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
+      }, options );
 
-    // @private {number}
-    this.pitch = options.pitch;
+      // @private {ModelViewTransform2}
+      this.modelToViewTransform2D = new ModelViewTransform2( Matrix3.scaling( options.scale ) );
 
-    // @public {number} (read-only)
-    this.yaw = options.yaw;
-  }
+      // @private {number}
+      this.pitch = options.pitch;
 
-  sceneryPhet.register( 'CLBModelViewTransform3D', CLBModelViewTransform3D );
-
-  return inherit( Object, CLBModelViewTransform3D, {
+      // @public {number} (read-only)
+      this.yaw = options.yaw;
+    }
 
     //----------------------------------------------------------------------------
     // Model-to-view transforms
@@ -71,14 +66,14 @@ define( require => {
      * @param {Vector3} modelPoint
      * @returns {Vector3}
      */
-    modelToViewPosition: function( modelPoint ) {
+    modelToViewPosition( modelPoint ) {
 
       assert && assert( modelPoint instanceof Vector3,
         'modelPoint must be of type Vector3. Received ' + modelPoint );
 
       scratchVector2.setPolar( modelPoint.z * Math.sin( this.pitch ), this.yaw ).add( modelPoint );
       return this.modelToViewTransform2D.transformPosition2( scratchVector2 );
-    },
+    }
 
     /**
      * Maps a point from 3D model coordinates to 2D view coordinates.
@@ -89,9 +84,9 @@ define( require => {
      * @param {number} z
      * @returns {Vector2}
      */
-    modelToViewXYZ: function( x, y, z ) {
+    modelToViewXYZ( x, y, z ) {
       return this.modelToViewPosition( scratchVector3.setXYZ( x, y, z ) );
-    },
+    }
 
     /**
      * Maps a delta from 3D model coordinates to 2D view coordinates.
@@ -100,10 +95,10 @@ define( require => {
      * @param {Vector3} delta
      * @returns {Vector2}
      */
-    modelToViewDelta: function( delta ) {
+    modelToViewDelta( delta ) {
       const origin = this.modelToViewPosition( scratchVector3.setXYZ( 0, 0, 0 ) );
       return this.modelToViewPosition( delta ).minus( origin );
-    },
+    }
 
     /**
      * Maps a delta from 3D model coordinates to 2D view coordinates.
@@ -114,9 +109,9 @@ define( require => {
      * @param {number} zDelta
      * @returns {Vector2}
      */
-    modelToViewDeltaXYZ: function( xDelta, yDelta, zDelta ) {
+    modelToViewDeltaXYZ( xDelta, yDelta, zDelta ) {
       return this.modelToViewDelta( new Vector3( xDelta, yDelta, zDelta ) );
-    },
+    }
 
     /**
      * Model shapes are all in the 2D xy plane, and have no depth.
@@ -125,9 +120,9 @@ define( require => {
      * @param {Shape} modelShape
      * @returns {Shape}
      */
-    modelToViewShape: function( modelShape ) {
+    modelToViewShape( modelShape ) {
       return this.modelToViewTransform2D.transformShape( modelShape );
-    },
+    }
 
     /**
      * Bounds are all in the 2D xy plane, and have no depth.
@@ -136,9 +131,9 @@ define( require => {
      * @param  {Bounds2} modelBounds
      * @returns {Bounds2}
      */
-    modelToViewBounds: function( modelBounds ) {
+    modelToViewBounds( modelBounds ) {
       return this.modelToViewTransform2D.transformBounds2( modelBounds );
-    },
+    }
 
     //----------------------------------------------------------------------------
     // View-to-model transforms
@@ -152,9 +147,9 @@ define( require => {
      * @param {Vector2} pView
      * @returns {Vector3}
      */
-    viewToModelPosition: function( pView ) {
+    viewToModelPosition( pView ) {
       return this.modelToViewTransform2D.inversePosition2( pView ).toVector3();
-    },
+    }
 
     /**
      * Maps a point from 2D view coordinates to 3D model coordinates. The z coordinate will be zero.
@@ -164,9 +159,9 @@ define( require => {
      * @param {number} y
      * @returns {Vector3}
      */
-    viewToModelXY: function( x, y ) {
+    viewToModelXY( x, y ) {
       return this.viewToModelPosition( scratchVector2.setXY( x, y ) );
-    },
+    }
 
     /**
      * Maps a delta from 2D view coordinates to 3D model coordinates. The z coordinate will be zero.
@@ -175,11 +170,11 @@ define( require => {
      * @param {Vector2} delta
      * @returns {Vector3}
      */
-    viewToModelDelta: function( delta ) {
+    viewToModelDelta( delta ) {
       const origin = this.viewToModelPosition( scratchVector2.setXY( 0, 0 ) );
 
       return this.viewToModelPosition( delta ).minus( origin );
-    },
+    }
 
     /**
      * Maps a delta from 2D view coordinates to 3D model coordinates. The z coordinate will be zero.
@@ -189,9 +184,9 @@ define( require => {
      * @param {number} yDelta
      * @returns {Vector3}
      */
-    viewToModelDeltaXY: function( xDelta, yDelta ) {
+    viewToModelDeltaXY( xDelta, yDelta ) {
       return this.viewToModelDelta( new Vector2( xDelta, yDelta ) );
-    },
+    }
 
     /**
      * Model shapes are all in the 2D xy plane, and have no depth.
@@ -200,9 +195,9 @@ define( require => {
      * @param {Shape} viewShape
      * @returns {Shape}
      */
-    viewToModelShape: function( viewShape ) {
+    viewToModelShape( viewShape ) {
       return this.modelToViewTransform2D.inverseShape( viewShape );
-    },
+    }
 
     /**
      * Transforms 2D view bounds to 2D model bounds since bounds have no depth.
@@ -211,8 +206,10 @@ define( require => {
      * @param {Bounds2} viewBounds
      * @returns {Bounds2}
      */
-    viewToModelBounds: function( viewBounds ) {
+    viewToModelBounds( viewBounds ) {
       return this.modelToViewTransform2D.inverseBounds2( viewBounds );
     }
-  } );
+  }
+
+  return sceneryPhet.register( 'CLBModelViewTransform3D', CLBModelViewTransform3D );
 } );
