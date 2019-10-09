@@ -290,14 +290,23 @@ define( require => {
       .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
       .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
+    // @public {HSlider} - for access to accessibility API
+    this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
+
+    // Disable the arrow buttons if the slider currently has focus
     const arrowEnabledListener = value => {
-      leftArrowButton.enabled = ( value > numberRange.min );
-      rightArrowButton.enabled = ( value < numberRange.max );
+      leftArrowButton.enabled = ( value > numberRange.min && !this.slider.isFocused() );
+      rightArrowButton.enabled = ( value < numberRange.max && !this.slider.isFocused() );
     };
     numberProperty.link( arrowEnabledListener );
 
-    // @public {HSlider} - for access to accessibility API
-    this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
+    this.slider.addInputListener( {
+      focus: () => {
+        leftArrowButton.enabled = false;
+        rightArrowButton.enabled = false;
+      },
+      blur: () => arrowEnabledListener( numberProperty.value ) // recompute if the arrow buttons should be enabled
+    } );
 
     // major ticks
     const majorTicks = options.sliderOptions.majorTicks;
