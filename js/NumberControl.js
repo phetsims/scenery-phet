@@ -93,6 +93,12 @@ define( require => {
     // If the arrow button scale is not provided, the arrow button height will match the number display height
     const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
 
+    // By default, constrain to multiples of delta, see #384
+    const defaultConstrainValue = value => {
+      const newValue = Util.roundToInterval( value, options.delta );
+      return numberRange.constrainValue( newValue );
+    };
+
     // Merge all nested options in one block.
     options = merge( {
 
@@ -128,10 +134,7 @@ define( require => {
         minorTickSpacing: 0, // zero indicates no minor ticks
 
         // constrain the slider value to the provided range and the same delta as the arrow buttons
-        constrainValue: value => {
-          const newValue = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-          return numberRange.constrainValue( newValue );
-        },
+        constrainValue: defaultConstrainValue,
 
         // phet-io
         tandem: options.tandem.createTandem( 'slider' )
@@ -197,8 +200,8 @@ define( require => {
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
     options.sliderOptions = _.extend( {
 
-      // a11y - shiftKeyboardStep is handled by clicking the arrow buttons
-      shiftKeyboardStep: 0,
+      // a11y - shiftKeyboardStep should be the same as clicking the arrow buttons
+      shiftKeyboardStep: options.delta,
 
       // Make sure Slider gets created with the right IO Type
       phetioType: SliderIO
@@ -212,6 +215,18 @@ define( require => {
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
       options.sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
+    }
+
+    // Support shift key stepping based on the arrow key delta, but that may be more minute than constrainValue allows
+    // for the slider.
+    if ( options.sliderOptions.constrainValue ) {
+      const oldConstrainValue = options.sliderOptions.constrainValue;
+      options.sliderOptions.constrainValue = value => {
+        if ( this.slider.getShiftKeyDown() ) {
+          return defaultConstrainValue( value );
+        }
+        return oldConstrainValue( value );
+      };
     }
 
     const titleNode = new Text( title, options.titleNodeOptions );
@@ -308,14 +323,6 @@ define( require => {
 
     Node.call( this, options );
 
-    // a11y - click the left and right arrow buttons when shift keys are down so that the shift modifier behaves
-    // just like the tweaker buttons, must be disposed
-    const rightButtonListener = () => { this.slider.shiftKeyDown && rightArrowButton.a11yClick(); };
-    const leftButtonListener = () => { this.slider.shiftKeyDown && leftArrowButton.a11yClick(); };
-
-    this.slider.attemptedIncreaseEmitter.addListener( rightButtonListener );
-    this.slider.attemptedDecreaseEmitter.addListener( leftButtonListener );
-
     // enabled/disable this control
     this.enabledProperty = options.enabledProperty; // @public
     const enabledObserver = enabled => {
@@ -327,11 +334,6 @@ define( require => {
 
     // @private
     this.disposeNumberControl = () => {
-
-      // dispose accessibility features
-      this.slider.attemptedIncreaseEmitter.removeListener( rightButtonListener );
-      this.slider.attemptedDecreaseEmitter.removeListener( leftButtonListener );
-
       numberDisplay.dispose();
       leftArrowButton.dispose();
       rightArrowButton.dispose();
