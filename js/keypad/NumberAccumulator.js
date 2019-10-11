@@ -14,9 +14,14 @@ define( require => {
   // modules
   const AbstractKeyAccumulator = require( 'SCENERY_PHET/keypad/AbstractKeyAccumulator' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const NullableIO = require( 'TANDEM/types/NullableIO' );
+  const NumberIO = require( 'TANDEM/types/NumberIO' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const StringIO = require( 'TANDEM/types/StringIO' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   const NEGATIVE_CHAR = '\u2212';
@@ -35,7 +40,8 @@ define( require => {
     const self = this;
     options = _.extend( {
       maxDigitsRightOfMantissa: 0,
-      maxDigits: MAX_DIGITS
+      maxDigits: MAX_DIGITS,
+      tandem: Tandem.required
     }, options );
 
     // range check the options
@@ -71,13 +77,19 @@ define( require => {
     AbstractKeyAccumulator.call( this, validators, options );
 
     // @public (read-only) - string representation of the keys entered by the user
-    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], function( accumulatedKeys ) {
+    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
       return self.keysToString( accumulatedKeys );
+    }, {
+      tandem: options.tandem.createTandem( 'stringProperty' ),
+      phetioType: DerivedPropertyIO( StringIO )
     } );
 
     // @public (read-only) - numerical value of the keys entered by the user
-    this.valueProperty = new DerivedProperty( [ this.stringProperty ], function( stringValue ) {
+    this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {
       return self.stringToInteger( stringValue );
+    }, {
+      tandem: options.tandem.createTandem( 'valueProperty' ),
+      phetioType: DerivedPropertyIO( NullableIO( NumberIO ) )
     } );
 
   }
@@ -173,7 +185,7 @@ define( require => {
     /**
      * Converts a string representation to a number.
      * @param {string} stringValue
-     * @returns {number}
+     * @returns {number|null}
      * @private
      */
     stringToInteger: function( stringValue ) {

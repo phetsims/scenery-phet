@@ -15,11 +15,13 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const Key = require( 'SCENERY_PHET/keypad/Key' );
   const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberAccumulator = require( 'SCENERY_PHET/keypad/NumberAccumulator' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
@@ -37,7 +39,7 @@ define( require => {
    * @constructor
    */
   function Keypad( layout, options ) {
-    options = _.extend( {
+    options = merge( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
@@ -49,14 +51,17 @@ define( require => {
 
       // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implementations
       // for examples
-      accumulator: null
+      accumulator: null,
+      tandem: Tandem.required
     }, options );
 
     Node.call( this );
     const self = this;
 
     // @private {function}
-    this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( options );
+    this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( merge( {
+      tandem: options.tandem.createTandem( 'numberAccumulator' )
+    }, _.omit( options, 'tandem' ) ) );
 
     // @public {Property.<Array.<KeyID>>} (read-only) - array of the keys that have been accumulated
     this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty;
@@ -110,8 +115,8 @@ define( require => {
         const button = layout[ row ][ column ];
         if ( button ) {
           const startColumn = column +
-                            ( column > 0 && layout[ row ][ column - 1 ] ?
-                              layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
+                              ( column > 0 && layout[ row ][ column - 1 ] ?
+                                layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
           const verticalSpan = button.verticalSpan;
           const horizontalSpan = button.horizontalSpan;
 
@@ -126,7 +131,7 @@ define( require => {
           // create and add the buttons
           const buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
           const buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-          const buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options );
+          const buttonNode = createKeyNode( button, self.keyAccumulator, buttonWidth, buttonHeight, options.tandem, options );
           buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
           buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
           self.buttonNodes.push( buttonNode );
@@ -148,17 +153,18 @@ define( require => {
    * @param {number} width
    * @param {number} height
    * @param {Object} [options]
+   * @param {Tandem} keyPadTandem
    * @returns {RectangularPushButton} keyNode
    */
-  function createKeyNode( keyObject, keyAccumulator, width, height, options ) {
+    function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
       buttonColor: 'white',
       buttonFont: DEFAULT_BUTTON_FONT
     }, options );
 
     const content = ( keyObject.label instanceof Node ) ? keyObject.label :
-                  new Text( keyObject.label, { font: options.buttonFont } );
+                    new Text( keyObject.label, { font: options.buttonFont } );
 
     const keyNode = new RectangularPushButton( {
       content: content,
@@ -171,7 +177,8 @@ define( require => {
       yMargin: 5,
       listener: function() {
         keyAccumulator.handleKeyPressed( keyObject.identifier );
-      }
+      },
+      tandem: keyPadTandem.createTandem( `${keyObject.identifier}Button` )
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
     return keyNode;
