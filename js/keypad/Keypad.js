@@ -156,7 +156,7 @@ define( require => {
    * @param {Tandem} keyPadTandem
    * @returns {RectangularPushButton} keyNode
    */
-  function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
+    function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
 
     options = merge( {
       buttonColor: 'white',
