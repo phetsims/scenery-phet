@@ -64,6 +64,7 @@ define( require => {
     context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
   };
 
+  // TODO: This class seems never used directly
   class PlateChargeNode extends CanvasNode {
 
     /**
@@ -72,6 +73,8 @@ define( require => {
      * @param {Object} options
      */
     constructor( capacitor, modelViewTransform, options ) {
+
+      console.log( 'hello' );
 
       options = _.extend( {
         // {string} - 'POSITIVE' or 'NEGATIVE'
@@ -116,15 +119,6 @@ define( require => {
     }
 
     /**
-     * Strategy developed by Sam Reid, here's how he described it:
-     * The main change is to use rounding instead of clamping to get the rows and columns.
-     * Also, for one row or column, it should be exact (similar to the intent of the ModifiedCCKGridSizeStrategy subclass).
-     * It looks like it exhibits better (though understandably imperfect) behavior in the problem cases.
-     * Also, as opposed to the previous versions, the visible number of objects can exceed the specified numberOfObjects.
-     * This may be the best we can do if we are showing a rectangular grid of charges.  We could get the count exactly
-     * right if we show some (or one) of the columns having different numbers of charges than the others, but then
-     * it may look nonuniform (and would require more extensive changes to the sim).
-     *
      * @param {number} numberOfObjects [description]
      * @param {number} width
      * @param {number} height
@@ -164,31 +158,34 @@ define( require => {
       assert && assert( columns >= 0 && rows >= 0, 'There must be at least 1 column or 1 row of charges.' );
       return new Dimension2( columns, rows );
     }
-
     /**
-     * Charge on the portion of the plate that this node handles.
+     * Get plate charge from capacitor in the model
      * @public
+     *
+     * @returns {number} charge
      */
     getPlateCharge() {
-      assert && assert( false, 'getPlateCharge should be implemented in descendant classes.' );
+      return this.capacitor.plateChargeProperty.value;
     }
 
     /**
-     * X offset of the portion of the plate that this node handles.
-     * This is relative to the plate's origin, and specified in model coordinates.
+     * Gets the x offset (relative to the plate origin) of the portion of the plate that is facing the vacuum gap
      * @public
+     *
+     * @returns {number} offset
      */
     getContactXOrigin() {
-      assert && assert( false, 'getContactXOrigin must be overridden  in descendant classes. ' );
+      return -this.capacitor.plateSizeProperty.value.width / 2;
     }
 
     /**
-     * Width of the portion of the plate that this node handles.
-     * Specified in model coordinates.
+     * Gets the width of the portion of the plate that is in contact with air.
      * @public
+     *
+     * @returns {number}
      */
     getContactWidth() {
-      assert && assert( false, 'getContactWidth should be overridden in descendant classes.' );
+      return this.capacitor.plateSizeProperty.value.width;
     }
 
     /**

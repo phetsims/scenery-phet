@@ -17,8 +17,8 @@ define( require => {
   const BoxNode = require( 'SCENERY_PHET/capacitor/BoxNode' );
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const Color = require( 'SCENERY/util/Color' );
+  const PlateChargeNode = require( 'SCENERY_PHET/capacitor/PlateChargeNode' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const VacuumPlateChargeNode = require( 'SCENERY_PHET/capacitor/VacuumPlateChargeNode' );
 
   // constants
   const PLATE_COLOR = new Color( 245, 245, 245 );  // capacitor plates
@@ -42,7 +42,7 @@ define( require => {
       const canvasBounds = this.getMaxBoxNodeBounds();
 
       // @private {VacuumPlateChargeNode}
-      this.vacuumPlateChargeNode = new VacuumPlateChargeNode( capacitor, modelViewTransform, {
+      this.vacuumPlateChargeNode = new PlateChargeNode( capacitor, modelViewTransform, {
         polarity: polarity,
         maxPlateCharge: maxPlateCharge,
         canvasBounds: canvasBounds

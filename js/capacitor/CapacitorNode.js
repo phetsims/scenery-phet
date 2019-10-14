@@ -66,21 +66,23 @@ define( require => {
 
     /**
      * Update the geometry of the capacitor plates.
-     * @public
+     * @private
      */
     updateGeometry() {
+
       // geometry
       this.topPlateNode.setBoxSize( this.capacitor.plateSizeProperty.value );
       this.bottomPlateNode.setBoxSize( this.capacitor.plateSizeProperty.value );
 
       // layout nodes
       const x = 0;
-      let y = -( this.capacitor.plateSeparationProperty.value / 2 ) - this.capacitor.plateSizeProperty.value.height;
       const z = 0;
-      this.topPlateNode.center = this.modelViewTransform.modelToViewDeltaXYZ( x, y, z );
 
-      y = this.capacitor.plateSeparationProperty.value / 2;
-      this.bottomPlateNode.center = this.modelViewTransform.modelToViewDeltaXYZ( x, y, z );
+      const topPlateY = -this.capacitor.plateSeparationProperty.value / 2 - this.capacitor.plateSizeProperty.value.height;
+      this.topPlateNode.center = this.modelViewTransform.modelToViewDeltaXYZ( x, topPlateY, z );
+
+      const bottomPlateY = this.capacitor.plateSeparationProperty.value / 2;
+      this.bottomPlateNode.center = this.modelViewTransform.modelToViewDeltaXYZ( x, bottomPlateY, z );
     }
 
     /**

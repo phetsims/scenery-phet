@@ -172,26 +172,6 @@ define( require => {
     }
 
     /**
-     * Returns whether the box would contain the given 2d point
-     * @public
-     *
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
-     * @param {number} width
-     * @param {number} height
-     * @param {number} depth
-     * @param {Vector2} point
-     * @returns {boolean}
-     */
-    boxShapeContainsPoint( x, y, z, width, height, depth, point ) {
-      const topShape = this.createTopFace( x, y, z, width, height, depth );
-      const frontShape = this.createFrontFace( x, y, z, width, height, depth );
-      const sideShape = this.createRightSideFace( x, y, z, width, height, depth );
-      return topShape.containsPoint( point ) || frontShape.containsPoint( point ) || sideShape.containsPoint( point );
-    }
-
-    /**
      * A face is defined by 4 points, specified in view coordinates.
      * @public
      *

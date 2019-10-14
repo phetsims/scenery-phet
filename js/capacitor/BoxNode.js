@@ -30,8 +30,9 @@ define( require => {
      * @param {CLBModelViewTransform3} modelViewTransform
      * @param {Color} color
      * @param {Bounds3} size
+     * @param {Object} options
      */
-    constructor( modelViewTransform, color, size ) {
+    constructor( modelViewTransform, color, size, options ) {
 
       super();
 
@@ -43,21 +44,21 @@ define( require => {
 
       // @private {Path}
       this.topNode = new Path( this.shapeCreator.createTopFaceBounds3( size ), {
-        fill: this.getTopColor( color ),
+        fill: color,
         lineWidth: LINE_WIDTH,
         stroke: STROKE
       } );
 
       // @private {Path}
       this.frontNode = new Path( this.shapeCreator.createFrontFaceBounds3( size ), {
-        fill: this.getFrontColor( color ),
+        fill: color.darkerColor(),
         lineWidth: LINE_WIDTH,
         stroke: STROKE
       } );
 
       // @private {Path}
       this.rightSideNode = new Path( this.shapeCreator.createRightSideFaceBounds3( size ), {
-        fill: this.getSideColor( color ),
+        fill: color.darkerColor().darkerColor(),
         lineWidth: LINE_WIDTH,
         stroke: STROKE
       } );
@@ -66,38 +67,8 @@ define( require => {
       this.addChild( this.topNode );
       this.addChild( this.frontNode );
       this.addChild( this.rightSideNode );
-    }
 
-    /**
-     * Get color for the top of the capacitor.  Top color is the base color.
-     * @public
-     *
-     * @returns {Color}
-     */
-    getTopColor( baseColor ) {
-      return baseColor;
-    }
-
-    /**
-     * Get the color for the front of the capacitor.  Front color is one shade darker
-     * @public
-     *
-     * @param {Color} baseColor
-     * @returns {Color}
-     */
-    getFrontColor( baseColor ) {
-      return baseColor.darkerColor();
-    }
-
-    /**
-     * Get the color for the side of the capacitor.  Side color is two shade darker.
-     * @public
-     *
-     * @param {Color} baseColor
-     * @returns {Color}
-     */
-    getSideColor( baseColor ) {
-      return baseColor.darkerColor().darkerColor();
+      this.mutate( options );
     }
 
     /**
@@ -112,9 +83,8 @@ define( require => {
 
     /**
      * Set the size of this box.
-     * @public
-     *
      * @param {Bounds3} size
+     * @public
      */
     setBoxSize( size ) {
       if ( !size.equals( this.size ) ) {
