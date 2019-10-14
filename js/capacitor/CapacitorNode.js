@@ -24,7 +24,7 @@ define( require => {
 
     /**
      * @param {ParallelCircuit} circuit
-     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {Property.<boolean>} plateChargeVisibleProperty
      * @param {Property.<boolean>} electricFieldVisibleProperty
      * @param {Tandem} tandem

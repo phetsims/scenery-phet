@@ -15,19 +15,19 @@ define( require => {
   'use strict';
 
   // modules
-  const CLBModelViewTransform3D = require( 'SCENERY_PHET/capacitor/CLBModelViewTransform3D' );
+  const YawPitchModelViewTransform3 = require( 'SCENERY_PHET/capacitor/YawPitchModelViewTransform3' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
 
   class BoxShapeCreator {
 
     /**
-     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {YawPitchModelViewTransform3} modelViewTransform
      */
     constructor( modelViewTransform ) {
-      assert && assert( modelViewTransform instanceof CLBModelViewTransform3D );
+      assert && assert( modelViewTransform instanceof YawPitchModelViewTransform3 );
 
-      // @public {CLBModelViewTransform3D}
+      // @public {YawPitchModelViewTransform3}
       this.modelViewTransform = modelViewTransform;
     }
 

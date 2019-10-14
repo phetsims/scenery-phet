@@ -23,7 +23,7 @@ define( require => {
   const CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   const Checkbox = require( 'SUN/Checkbox' );
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const CLBModelViewTransform3D = require( 'SCENERY_PHET/capacitor/CLBModelViewTransform3D' );
+  const YawPitchModelViewTransform3 = require( 'SCENERY_PHET/capacitor/YawPitchModelViewTransform3' );
   const Color = require( 'SCENERY/util/Color' );
   const ComboBoxDisplay = require( 'SCENERY_PHET/ComboBoxDisplay' );
   const ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
@@ -250,7 +250,7 @@ define( require => {
         }
       }
     };
-    const modelViewTransform = new CLBModelViewTransform3D();
+    const modelViewTransform = new YawPitchModelViewTransform3();
     const plateChargeVisibleProperty = new BooleanProperty( true );
     const electricFieldVisibleProperty = new BooleanProperty( true );
 

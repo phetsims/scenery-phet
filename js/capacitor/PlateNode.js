@@ -27,7 +27,7 @@ define( require => {
 
     /**
      * @param {Capacitor} capacitor
-     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
      * @param {number} maxPlateCharge
      */
@@ -35,7 +35,7 @@ define( require => {
 
       super( modelViewTransform, PLATE_COLOR, capacitor.plateSizeProperty.value );
 
-      // @private {CLBModelViewTransform3D}
+      // @private {YawPitchModelViewTransform3}
       this.modelViewTransform = modelViewTransform;
 
       // Charges restricted to the largest possible top face on a capacitor plate.  Bounds needed for canvas.
@@ -84,7 +84,7 @@ define( require => {
      * @public
      *
      * @param {Capacitor} capacitor
-     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {number} maxPlateCharge
      *
      * @returns {PlateNode}

@@ -32,7 +32,7 @@ define( require => {
   const scratchVector2 = new Vector2( 0, 0 );
   const scratchVector3 = new Vector3( 0, 0, 0 );
 
-  class CLBModelViewTransform3D {
+  class YawPitchModelViewTransform3 {
 
     /**
      * @param {Object} [options]
@@ -211,5 +211,5 @@ define( require => {
     }
   }
 
-  return sceneryPhet.register( 'CLBModelViewTransform3D', CLBModelViewTransform3D );
+  return sceneryPhet.register( 'YawPitchModelViewTransform3', YawPitchModelViewTransform3 );
 } );

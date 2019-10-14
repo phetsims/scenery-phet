@@ -74,7 +74,7 @@ define( require => {
 
     /**
      * @param {Capacitor} capacitor
-     * @param {CLBModelViewTransform3D} modelViewTransform
+     * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {number} maxEffectiveEField
      * @param {Bounds2} canvasBounds
      */
