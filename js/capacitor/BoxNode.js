@@ -21,47 +21,45 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // constants
-  const LINE_WIDTH = 1;
-  const STROKE = 'black';
+  const PATH_OPTIONS = {
+    lineWidth: 1,
+    stroke: 'black'
+  };
 
   class BoxNode extends Node {
 
     /**
-     * @param {CLBModelViewTransform3} modelViewTransform
+     * @param {YawPitchModelViewTransform3} transform
      * @param {Color} color
      * @param {Bounds3} size
      * @param {Object} options
      */
-    constructor( modelViewTransform, color, size, options ) {
+    constructor( transform, color, size, options ) {
 
       super();
 
       // @private {BoxShapeCreator}
-      this.shapeCreator = new BoxShapeCreator( modelViewTransform );
+      this.shapeCreator = new BoxShapeCreator( transform );
+
+      // @private {Path}
+      this.topNode = new Path( null, _.extend( {
+        fill: color
+      }, PATH_OPTIONS ) );
+
+      // @private {Path}
+      this.frontNode = new Path( null, _.extend( {
+        fill: color.darkerColor()
+      }, PATH_OPTIONS ) );
+
+      // @private {Path}
+      this.rightSideNode = new Path( null, _.extend( {
+        fill: color.darkerColor().darkerColor()
+      }, PATH_OPTIONS ) );
 
       // @private {Bounds3}
-      this.size = size;
+      this.size = null;
 
-      // @private {Path}
-      this.topNode = new Path( this.shapeCreator.createTopFaceBounds3( size ), {
-        fill: color,
-        lineWidth: LINE_WIDTH,
-        stroke: STROKE
-      } );
-
-      // @private {Path}
-      this.frontNode = new Path( this.shapeCreator.createFrontFaceBounds3( size ), {
-        fill: color.darkerColor(),
-        lineWidth: LINE_WIDTH,
-        stroke: STROKE
-      } );
-
-      // @private {Path}
-      this.rightSideNode = new Path( this.shapeCreator.createRightSideFaceBounds3( size ), {
-        fill: color.darkerColor().darkerColor(),
-        lineWidth: LINE_WIDTH,
-        stroke: STROKE
-      } );
+      this.setBoxSize( size );
 
       // rendering order
       this.addChild( this.topNode );
@@ -72,24 +70,16 @@ define( require => {
     }
 
     /**
-     * Set shapes from size property
-     * @public
-     */
-    updateShapes() {
-      this.topNode.shape = this.shapeCreator.createTopFaceBounds3( this.size );
-      this.frontNode.shape = this.shapeCreator.createFrontFaceBounds3( this.size );
-      this.rightSideNode.shape = this.shapeCreator.createRightSideFaceBounds3( this.size );
-    }
-
-    /**
      * Set the size of this box.
      * @param {Bounds3} size
      * @public
      */
     setBoxSize( size ) {
-      if ( !size.equals( this.size ) ) {
+      if ( this.size === null || !size.equals( this.size ) ) {
         this.size = size;
-        this.updateShapes();
+        this.topNode.shape = this.shapeCreator.createTopFaceBounds3( this.size );
+        this.frontNode.shape = this.shapeCreator.createFrontFaceBounds3( this.size );
+        this.rightSideNode.shape = this.shapeCreator.createRightSideFaceBounds3( this.size );
       }
     }
   }

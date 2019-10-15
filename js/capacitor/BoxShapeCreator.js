@@ -22,13 +22,13 @@ define( require => {
   class BoxShapeCreator {
 
     /**
-     * @param {YawPitchModelViewTransform3} modelViewTransform
+     * @param {YawPitchModelViewTransform3} transform
      */
-    constructor( modelViewTransform ) {
-      assert && assert( modelViewTransform instanceof YawPitchModelViewTransform3 );
+    constructor( transform ) {
+      assert && assert( transform instanceof YawPitchModelViewTransform3 );
 
       // @public {YawPitchModelViewTransform3}
-      this.modelViewTransform = modelViewTransform;
+      this.modelViewTransform = transform;
     }
 
     /**
