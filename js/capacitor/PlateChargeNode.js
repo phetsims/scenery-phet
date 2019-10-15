@@ -24,12 +24,15 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
 
   // constants
   const POSITIVE_CHARGE_COLOR = PhetColorScheme.RED_COLORBLIND.computeCSS(); // CSS passed into context fillStyle
   const NEGATIVE_CHARGE_COLOR = 'blue';
+  const NUMBER_OF_PLATE_CHARGES = new Range( 1, 625 );
+  const NEGATIVE_CHARGE_SIZE = new Dimension2( 7, 2 );
 
   /**
    * Draw a positive charge with canvas.  'Plus' sign is painted with two
@@ -40,8 +43,8 @@ define( require => {
    * @param {CanvasRenderingContext2D} context - context for the canvas methods
    */
   const addPositiveCharge = ( location, context ) => {
-    const chargeWidth = CapacitorConstants.NEGATIVE_CHARGE_SIZE.width;
-    const chargeHeight = CapacitorConstants.NEGATIVE_CHARGE_SIZE.height;
+    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
+    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = POSITIVE_CHARGE_COLOR;
     context.fillRect( location.x - chargeWidth / 2, location.y - chargeHeight / 2, chargeWidth, chargeHeight );
@@ -57,8 +60,8 @@ define( require => {
    * @param {CanvasRenderingContext2D} context
    */
   const addNegativeCharge = ( location, context ) => {
-    const chargeWidth = CapacitorConstants.NEGATIVE_CHARGE_SIZE.width;
-    const chargeHeight = CapacitorConstants.NEGATIVE_CHARGE_SIZE.height;
+    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
+    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = NEGATIVE_CHARGE_COLOR;
     context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
@@ -225,7 +228,7 @@ define( require => {
 
       if ( numberOfCharges > 0 ) {
 
-        const zMargin = this.modelViewTransform.viewToModelDeltaXY( CapacitorConstants.NEGATIVE_CHARGE_SIZE.width, 0 ).x;
+        const zMargin = this.modelViewTransform.viewToModelDeltaXY( NEGATIVE_CHARGE_SIZE.width, 0 ).x;
 
         const gridWidth = this.getContactWidth(); // contact between plate and vacuum gap
         const gridDepth = this.capacitor.plateSizeProperty.value.depth - ( 2 * zMargin );
@@ -276,9 +279,9 @@ define( require => {
      */
     getNumberOfCharges( plateCharge, maxPlateCharge ) {
       const absCharge = Math.abs( plateCharge );
-      let numberOfCharges = Util.toFixedNumber( CapacitorConstants.NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
-      if ( absCharge > 0 && numberOfCharges < CapacitorConstants.NUMBER_OF_PLATE_CHARGES.min ) {
-        numberOfCharges = CapacitorConstants.NUMBER_OF_PLATE_CHARGES.min;
+      let numberOfCharges = Util.toFixedNumber( NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
+      if ( absCharge > 0 && numberOfCharges < NUMBER_OF_PLATE_CHARGES.min ) {
+        numberOfCharges = NUMBER_OF_PLATE_CHARGES.min;
       }
       return numberOfCharges;
     }
