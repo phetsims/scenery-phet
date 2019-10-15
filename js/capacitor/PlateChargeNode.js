@@ -74,8 +74,6 @@ define( require => {
      */
     constructor( capacitor, modelViewTransform, options ) {
 
-      console.log( 'hello' );
-
       options = _.extend( {
         // {string} - 'POSITIVE' or 'NEGATIVE'
         polarity: CapacitorConstants.POLARITY.POSITIVE,
@@ -158,6 +156,7 @@ define( require => {
       assert && assert( columns >= 0 && rows >= 0, 'There must be at least 1 column or 1 row of charges.' );
       return new Dimension2( columns, rows );
     }
+
     /**
      * Get plate charge from capacitor in the model
      * @public
