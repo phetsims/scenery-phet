@@ -11,6 +11,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const proportionPlayground = require( 'PROPORTION_PLAYGROUND/proportionPlayground' );
   const Shape = require( 'KITE/Shape' );
@@ -36,7 +37,7 @@ define( require => {
     assert && assert( Side.isSide( side ), 'Side should be Side.LEFT or Side.RIGHT' );
 
     // defaults
-    options = _.extend( {
+    options = merge( {
       stroke: 'black',
       lineWidth: 1
     }, options );
