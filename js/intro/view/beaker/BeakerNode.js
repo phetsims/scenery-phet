@@ -12,6 +12,7 @@ define( require => {
   const fractionsCommon = require( 'FRACTIONS_COMMON/fractionsCommon' );
   const FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
@@ -31,7 +32,7 @@ define( require => {
       assert && assert( typeof numerator === 'number' && numerator >= 0 && numerator % 1 === 0 );
       assert && assert( typeof denominator === 'number' && denominator >= 1 && denominator % 1 === 0 );
 
-      options = _.extend( {
+      options = merge( {
         // {number}
         fullHeight: BeakerNode.DEFAULT_BEAKER_HEIGHT,
         xRadius: 40,
