@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
@@ -26,7 +27,7 @@ define( require => {
    */
   function FunctionKeyNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
       minKeyWidth: 75, // in ScreenView coordinates, function key is usually longer than other keys
       maxKeyWidth: 75
     }, options );

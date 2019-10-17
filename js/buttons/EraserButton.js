@@ -12,6 +12,7 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -25,7 +26,7 @@ define( require => {
    */
   function EraserButton( options ) {
 
-    options = _.extend( {
+    options = merge( {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
     }, options );

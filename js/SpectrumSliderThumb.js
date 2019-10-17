@@ -10,6 +10,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -26,7 +27,7 @@ define( require => {
      */
     constructor( property, options ) {
 
-      options = _.extend( {
+      options = merge( {
         width: 35,
         height: 45,
         stroke: 'black',

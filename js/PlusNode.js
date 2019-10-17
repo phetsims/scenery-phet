@@ -12,6 +12,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -22,7 +23,7 @@ define( require => {
    */
   function PlusNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
       size: new Dimension2( 20, 5 ), // width of the plus sign, height of the horizontal line in plus sign
       fill: 'black'
     }, options );

@@ -12,6 +12,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -26,7 +27,7 @@ define( require => {
   function ElectronChargeNode( options ) {
 
     // No options supported yet
-    options = _.extend( {
+    options = merge( {
 
       // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
       sphereOpacity: 1,

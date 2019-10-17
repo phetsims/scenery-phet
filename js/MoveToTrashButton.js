@@ -17,6 +17,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
@@ -34,7 +35,7 @@ define( require => {
    */
   function MoveToTrashButton( options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
       baseColor: new Color( 230, 230, 240 ),

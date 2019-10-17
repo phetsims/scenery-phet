@@ -9,6 +9,7 @@ define( require => {
 
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RichText = require( 'SCENERY/nodes/RichText' );
@@ -26,7 +27,7 @@ define( require => {
   class GrabReleaseCueNode extends Rectangle {
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         fill: 'white',
         stroke: 'black',

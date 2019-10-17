@@ -12,6 +12,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const merge = require( 'PHET_CORE/merge' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -21,7 +22,7 @@ define( require => {
    * @constructor
    */
   function AbstractKeyAccumulator( validators, options ) {
-    options = _.extend( {
+    options = merge( {
 
       // a function that, if non-null, is used in addition to the default validation function to validate the user input
       // type spec: additionalValidator(Array.<KeyID>) { return true/false }

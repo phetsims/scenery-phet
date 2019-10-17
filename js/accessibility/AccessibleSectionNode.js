@@ -14,6 +14,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -26,7 +27,7 @@ define( require => {
     assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
 
     // options for accessibility, but others can be passed to Node call
-    options = _.extend( {
+    options = merge( {
       containerTagName: 'section',
       tagName: 'div',
       labelContent: label,

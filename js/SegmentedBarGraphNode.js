@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -24,7 +25,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( numberProperty, rangeProperty, options ) {
-      options = _.extend( {
+      options = merge( {
         width: 10,
         height: 100,
         numSegments: 10,

@@ -37,6 +37,7 @@ define( require => {
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
@@ -56,7 +57,7 @@ define( require => {
      * @param {Object} options
      */
     constructor( node, options ) {
-      options = _.extend( {
+      options = merge( {
 
         // A string that is filled in to the appropriate button label
         objectToGrabString: defaultObjectToGrabString,
@@ -135,7 +136,7 @@ define( require => {
       assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
       assert && assert( !options.draggableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see objectToGrabString' );
 
-      options.draggableOptions = _.extend( {
+      options.draggableOptions = merge( {
         tagName: 'div',
         ariaRole: 'application',
 
@@ -153,7 +154,7 @@ define( require => {
       assert && assert( !options.grabbableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
       assert && assert( !options.grabbableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
 
-      options.grabbableOptions = _.extend( {
+      options.grabbableOptions = merge( {
         containerTagName: 'div',
         ariaRole: null,
         tagName: 'button',

@@ -11,6 +11,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberDisplayIO = require( 'SCENERY_PHET/NumberDisplayIO' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -35,7 +36,7 @@ define( require => {
    */
   function NumberDisplay( numberProperty, displayRange, options ) {
 
-    options = _.extend( {
+    options = merge( {
       align: 'right', // see ALIGN_VALUES
 
       // {string} Pattern used to format the value.

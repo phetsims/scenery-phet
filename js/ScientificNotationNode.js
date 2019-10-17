@@ -13,6 +13,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -25,7 +26,7 @@ define( require => {
    * @constructor
    */
   function ScientificNotationNode( valueProperty, options ) {
-    options = _.extend( {
+    options = merge( {
       fill: 'black',
       font: new PhetFont( 20 ),
       exponent: null,
@@ -52,10 +53,10 @@ define( require => {
     // scenery.Text nodes
     this.mantissaNode = new Text( '?', textOptions );
     this.timesTenNode = new Text( '?', textOptions );
-    this.exponentNode = new Text( '?', _.extend( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
+    this.exponentNode = new Text( '?', merge( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
     this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
 
-    Node.call( this, _.extend( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
+    Node.call( this, merge( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
 
     const valuePropertyObserver = this.update.bind( this );
     valueProperty.link( valuePropertyObserver );
@@ -151,7 +152,7 @@ define( require => {
      */
     toScientificNotation: function( value, options ) {
 
-      options = _.extend( {
+      options = merge( {
         mantissaDecimalPlaces: 1,
         exponent: null // specific exponent to use
       }, options );

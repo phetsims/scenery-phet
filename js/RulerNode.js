@@ -12,6 +12,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -36,7 +37,7 @@ define( require => {
   function RulerNode( rulerWidth, rulerHeight, majorTickWidth, majorTickLabels, units, options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
 
       // body of the ruler
       backgroundFill: 'rgb(236, 225, 113)',

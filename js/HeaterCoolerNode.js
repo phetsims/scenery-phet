@@ -18,6 +18,7 @@ define( require => {
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -34,7 +35,7 @@ define( require => {
     constructor( heatCoolAmountProperty, options ) {
       super();
 
-      options = _.extend( {
+      options = merge( {
 
         // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
         baseColor: DEFAULT_BASE_COLOR,
@@ -52,14 +53,14 @@ define( require => {
       // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
       assert && assert( !options.backOptions || !options.backOptions.baseColor,
         'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
-      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, _.extend( {
+      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, merge( {
         baseColor: options.baseColor
       }, options.backOptions ) );
 
       // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
       assert && assert( !options.frontOptions || !options.frontOptions.baseColor,
         'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
-      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, _.extend( {
+      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
         baseColor: options.baseColor,
         leftTop: heaterCoolerBack.getHeaterFrontPosition()
       }, options.frontOptions ) );

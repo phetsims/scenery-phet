@@ -12,6 +12,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -21,7 +22,7 @@ define( require => {
    */
   function InfoButton( options ) {
 
-    options = _.extend( {
+    options = merge( {
       minXMargin: 10,
       minYMargin: 10,
       touchAreaXDilation: 10,

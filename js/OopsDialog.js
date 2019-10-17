@@ -12,11 +12,12 @@ define( require => {
 
   // modules
   const Dialog = require( 'SUN/Dialog' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RichText = require( 'SCENERY/nodes/RichText' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // images
   const phetGirlWaggingFingerImage = require( 'image!SCENERY_PHET/phet-girl-wagging-finger.png' );
@@ -29,7 +30,7 @@ define( require => {
      */
     constructor( messageString, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {Node|null} optional icon that will be placed to the right of the image.
         // If this is null, then a PhET Girl image is used.
@@ -46,7 +47,7 @@ define( require => {
 
       }, options );
 
-      const messageNode = new RichText( messageString, _.extend( {
+      const messageNode = new RichText( messageString, merge( {
         font: new PhetFont( 20 ),
         maxWidth: 600,
         maxHeight: 400

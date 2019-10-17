@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
@@ -23,7 +24,7 @@ define( require => {
    */
   function LetterKeyNode( string, options ) {
 
-    options = _.extend( {
+    options = merge( {
       xPadding: 5,
       forceSquareKey: true
     }, options );

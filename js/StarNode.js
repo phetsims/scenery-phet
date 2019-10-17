@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -23,7 +24,7 @@ define( require => {
    */
   function StarNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       //See StarShape for the other options, including:
       // value -- 0=empty, 1=full

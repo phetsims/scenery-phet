@@ -16,6 +16,7 @@ define( require => {
 
   // modules
   const BoxShapeCreator = require( 'SCENERY_PHET/capacitor/BoxShapeCreator' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -42,17 +43,17 @@ define( require => {
       this.shapeCreator = new BoxShapeCreator( transform );
 
       // @private {Path}
-      this.topNode = new Path( null, _.extend( {
+      this.topNode = new Path( null, merge( {
         fill: color
       }, PATH_OPTIONS ) );
 
       // @private {Path}
-      this.frontNode = new Path( null, _.extend( {
+      this.frontNode = new Path( null, merge( {
         fill: color.darkerColor()
       }, PATH_OPTIONS ) );
 
       // @private {Path}
-      this.rightSideNode = new Path( null, _.extend( {
+      this.rightSideNode = new Path( null, merge( {
         fill: color.darkerColor().darkerColor()
       }, PATH_OPTIONS ) );
 

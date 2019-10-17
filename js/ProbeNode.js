@@ -22,6 +22,7 @@ define( require => {
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Line = require( 'SCENERY/nodes/Line' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -38,7 +39,7 @@ define( require => {
       middleColor: '#E6F5FF', // light blue
       edgeColor: '#C2E7FF'    // slightly darker blue, like glass
     };
-    options = _.extend( GLASS_DEFAULTS, options );
+    options = merge( GLASS_DEFAULTS, options );
     return function( radius ) {
       return new Circle( radius, {
         fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
@@ -58,7 +59,7 @@ define( require => {
       // The amount of blank space visible at the intersection of the 2 crosshairs lines
       intersectionRadius: 8
     };
-    options = _.extend( CROSSHAIRS_DEFAULTS, options );
+    options = merge( CROSSHAIRS_DEFAULTS, options );
     return function( radius ) {
 
       const lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
@@ -103,7 +104,7 @@ define( require => {
    */
   function ProbeNode( options ) {
 
-    options = _.extend( {}, DEFAULT_OPTIONS, options );
+    options = merge( {}, DEFAULT_OPTIONS, options );
 
     // To improve readability
     const radius = options.radius;

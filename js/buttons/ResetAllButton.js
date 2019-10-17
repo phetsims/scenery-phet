@@ -16,6 +16,7 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const ResetAllButtonIO = require( 'SCENERY_PHET/buttons/ResetAllButtonIO' );
   const ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
@@ -37,7 +38,7 @@ define( require => {
    */
   function ResetAllButton( options ) {
 
-    options = _.extend( {
+    options = merge( {
       radius: RESET_ALL_BUTTON_RADIUS,
 
       // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly

@@ -17,6 +17,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
@@ -88,19 +89,19 @@ define( require => {
 
     // NumberControl with a predefined alternate layout
     const numberControl2 = new NumberControl( 'Weight:', weightProperty, weightRange,
-      _.extend( {
+      merge( {
         layoutFunction: NumberControl.createLayoutFunction2()
       }, numberControlOptions ) );
 
     // NumberControl with options provided for a predefined alternate layout
-    const numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+    const numberControl3 = new NumberControl( 'Weight:', weightProperty, weightRange, merge( {
       layoutFunction: NumberControl.createLayoutFunction3( {
         alignTitle: 'left'
       } )
     }, numberControlOptions ) );
 
     // NumberControl with alternate layout provided by the client
-    const numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, _.extend( {
+    const numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, merge( {
       layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
         return new HBox( {
           spacing: 8,

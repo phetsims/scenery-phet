@@ -13,6 +13,7 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
@@ -35,7 +36,7 @@ define( require => {
      */
     constructor( isPlayingProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // Optional {BooleanProperty}, if provided 'Normal' and 'Slow' radio buttons are added.
         isSlowMotionProperty: null,
@@ -67,13 +68,13 @@ define( require => {
 
       }, options );
 
-      const playPauseButton = new PlayPauseButton( isPlayingProperty, _.extend( {
+      const playPauseButton = new PlayPauseButton( isPlayingProperty, merge( {
         radius: 20,
         touchAreaDilation: 5,
         tandem: options.tandem.createTandem( 'playPauseButton' )
       }, options.playPauseOptions ) );
 
-      const stepButton = new StepForwardButton( _.extend( {
+      const stepButton = new StepForwardButton( merge( {
         isPlayingProperty: isPlayingProperty,
         radius: 15,
         touchAreaDilation: 5,
@@ -92,19 +93,19 @@ define( require => {
       let radioButtonGroup = null;
       if ( options.isSlowMotionProperty ) {
 
-        const labelOptions = _.extend( {
+        const labelOptions = merge( {
           font: new PhetFont( 14 )
         }, options.labelOptions );
 
         const normalText = new Text( speedNormalString, labelOptions );
         const slowText = new Text( speedSlowString, labelOptions );
 
-        const radioButtonOptions = _.extend( {
+        const radioButtonOptions = merge( {
           xSpacing: 5,
           radius: normalText.height / 2.2
         }, options.radioButtonOptions );
 
-        const radioButtonGroupOptions = _.extend( {
+        const radioButtonGroupOptions = merge( {
           radioButtonOptions: radioButtonOptions,
           spacing: 9,
           touchAreaXDilation: 10,
@@ -127,7 +128,7 @@ define( require => {
       }
 
       assert && assert( !options.children, 'TimeControlNode sets children' );
-      options = _.extend( {
+      options = merge( {
         children: children
       }, options );
 

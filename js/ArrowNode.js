@@ -15,6 +15,7 @@ define( require => {
   const ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -31,7 +32,7 @@ define( require => {
   function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
       headHeight: 10,
       headWidth: 10,
       tailWidth: 5,

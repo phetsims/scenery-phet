@@ -11,9 +11,10 @@ define( require => {
   // modules
   const EndKeyNode = require( 'SCENERY_PHET/keyboard/EndKeyNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const merge = require( 'PHET_CORE/merge' );
   const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -40,7 +41,7 @@ define( require => {
    */
   function SliderKeyboardHelpSection( options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // heading string for this content
       headingString: keyboardHelpDialogSliderControlsString

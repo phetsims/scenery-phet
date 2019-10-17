@@ -13,6 +13,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -23,7 +24,7 @@ define( require => {
    */
   function BackspaceIcon( options ) {
 
-    options = _.extend( {
+    options = merge( {
       stroke: 'black',
       lineWidth: 1,
       lineJoin: 'round',

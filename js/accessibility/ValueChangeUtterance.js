@@ -13,6 +13,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
@@ -23,7 +24,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {number} - in ms, prevents VoiceOver from reading changes too frequently or interrupting the alert to read
         // aria-valuetext changes under typical user settings

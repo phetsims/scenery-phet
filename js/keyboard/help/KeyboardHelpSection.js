@@ -26,17 +26,18 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PlusNode = require( 'SCENERY_PHET/PlusNode' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const RichText = require( 'SCENERY/nodes/RichText' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -78,7 +79,7 @@ define( require => {
    */
   function KeyboardHelpSection( headingString, content, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // heading options
       headingContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
@@ -122,12 +123,12 @@ define( require => {
     const vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
 
     // @private - to adjust spacing if necessary for alignment
-    this.labelVBox = new VBox( _.extend( {
+    this.labelVBox = new VBox( merge( {
       children: labels
     }, vBoxOptions ) );
 
     // @private - parent for all icons, instance variable to adjust spacing if necessary
-    this.iconVBox = new VBox( _.extend( {
+    this.iconVBox = new VBox( merge( {
       children: icons,
 
       // a11y
@@ -167,7 +168,7 @@ define( require => {
     labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
-      options = _.extend( {
+      options = merge( {
 
         // options passed for layout, passed to AlignGroup
         spacing: DEFAULT_LABEL_ICON_SPACING,
@@ -183,7 +184,7 @@ define( require => {
 
       if ( labelInnerContent ) {
         assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
-        options.iconOptions = _.extend( {
+        options.iconOptions = merge( {
           tagName: 'li',
           innerContent: labelInnerContent
         }, options.iconOptions );
@@ -217,13 +218,13 @@ define( require => {
     labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
       assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
-      options = _.extend( {
+      options = merge( {
         iconsVBoxOptions: {} // options for the iconsVBox, extended below
       }, options );
       assert && assert( !options.children, 'labelWithIconList adds its own children' );
 
       assert && assert( !options.iconsVBoxOptions.innerContent, 'should be specified as an argument' );
-      options.iconsVBoxOptions = _.extend( {
+      options.iconsVBoxOptions = merge( {
         spacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
         align: 'left',
         tagName: 'li',
@@ -255,7 +256,7 @@ define( require => {
       iconsWithOrText.push( icons[ icons.length - 1 ] );
 
       // place icons in a VBox, passing through optional spacing and a11y representation
-      const iconsVBox = new VBox( _.extend( {
+      const iconsVBox = new VBox( merge( {
         children: iconsWithOrText
       }, options.iconsVBoxOptions ) );
 
@@ -276,7 +277,7 @@ define( require => {
      */
     arrowKeysRowIcon: function( options ) {
 
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
@@ -300,7 +301,7 @@ define( require => {
      * @private
      */
     createTwoArrowKeysIcon: function( firstKeyName, secondKeyName, options ) {
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
@@ -339,7 +340,7 @@ define( require => {
      * @returns {HBox}
      */
     wasdRowIcon: function( options ) {
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
@@ -361,7 +362,7 @@ define( require => {
      * @returns {HBox}
      */
     arrowOrWasdKeysRowIcon: function( options ) {
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_ICON_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
@@ -379,7 +380,7 @@ define( require => {
      * @returns {HBox}
      */
     pageUpPageDownRowIcon: function( options ) {
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_ICON_SPACING
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
@@ -403,7 +404,7 @@ define( require => {
      */
     shiftPlusIcon: function( icon, options ) {
 
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_ICON_SPACING,
 
         // plus icon
@@ -434,7 +435,7 @@ define( require => {
      */
     iconOrIcon: function( iconA, iconB, options ) {
 
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_ICON_SPACING
       }, options );
       assert && assert( !options.children );
@@ -459,7 +460,7 @@ define( require => {
      */
     iconPlusIcon: function( iconA, iconB, options ) {
 
-      options = _.extend( {
+      options = merge( {
         spacing: DEFAULT_ICON_SPACING,
 
         // plus icon
@@ -530,7 +531,7 @@ define( require => {
    */
   KeyboardHelpSection.getGrabReleaseHelpSection = function( thingAsTitle, thingAsLowerCase, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // just a paragraph for this section, no list
       a11yContentTagName: null

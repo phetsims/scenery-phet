@@ -21,6 +21,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const DOM = require( 'SCENERY/nodes/DOM' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
@@ -29,7 +30,7 @@ define( require => {
    * @param {Object} [options]
    */
   function FormulaNode( formula, options ) {
-    options = _.extend( {
+    options = merge( {
       // Defaults
       displayMode: true // If false, it will render with the 'inline math' mode which is vertically constrained more.
     }, options );

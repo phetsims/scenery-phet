@@ -13,6 +13,7 @@ define( require => {
   const ButtonListener = require( 'SCENERY/input/ButtonListener' );
   const Color = require( 'SCENERY/util/Color' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
@@ -43,7 +44,7 @@ define( require => {
 
     Node.call( this );
 
-    selfOptions = _.extend( {
+    selfOptions = merge( {
       arrowColor: Color.YELLOW,
       arrowStrokeColor: Color.BLACK,
       arrowWidth: 14,

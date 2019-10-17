@@ -13,6 +13,7 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
@@ -42,7 +43,7 @@ define( require => {
    */
   function EyeDropperNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
       cursor: 'pointer',
       dispensingProperty: new Property( false ), // is the dropper dispensing?
       enabledProperty: new Property( true ), // is the button enabled?

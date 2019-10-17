@@ -15,6 +15,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
   const KitControlNodeTop = require( 'SCENERY_PHET/KitControlNodeTop' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -33,7 +34,7 @@ define( require => {
     Node.call( this );
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       titleNode: null,
       selectorPosition: 'sides' // Valid values are 'sides' and 'top'
     }, options );

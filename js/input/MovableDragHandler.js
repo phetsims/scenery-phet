@@ -13,6 +13,7 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -27,7 +28,7 @@ define( require => {
 
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground

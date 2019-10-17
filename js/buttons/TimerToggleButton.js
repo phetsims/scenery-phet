@@ -11,6 +11,7 @@ define( require => {
   // modules
   const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -54,7 +55,7 @@ define( require => {
       centerY: timerOffNode.height / 2
     } ) );
 
-    BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, _.extend( {
+    BooleanRectangularToggleButton.call( this, timerOnNode, timerOffNode, timerRunningProperty, merge( {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,

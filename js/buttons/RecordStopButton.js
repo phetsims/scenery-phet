@@ -13,6 +13,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -23,7 +24,7 @@ define( require => {
    * @constructor
    */
   function RecordStopButton( recordingProperty, options ) {
-    options = _.extend( {
+    options = merge( {
       radius: 30
     }, options );
 

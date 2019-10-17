@@ -14,6 +14,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -83,9 +84,9 @@ define( require => {
    */
   function LaserPointerNode( onProperty, options ) {
 
-    options = _.extend( {}, DEFAULT_OPTIONS, options );
+    options = merge( {}, DEFAULT_OPTIONS, options );
 
-    options.glassOptions = _.extend( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
+    options.glassOptions = merge( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
 
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
@@ -155,7 +156,7 @@ define( require => {
     // Add the glass, if any
     if ( options.hasGlass ) {
       const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
-      const glassOptions = _.extend( {}, options.glassOptions, {
+      const glassOptions = merge( {}, options.glassOptions, {
 
         // The origin is at the output point of the nozzle, translate accordingly
         centerX: Util.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),

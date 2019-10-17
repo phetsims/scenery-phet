@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -22,7 +23,7 @@ define( require => {
    * @constructor
    */
   function CloseButton( options ) {
-    options = _.extend( {
+    options = merge( {
       iconLength: 8, // {number} length of the 'X' icon, whose bounds are square
       iconLineWidth: 2.5, // {number} lineWidth for the 'X' icon
       xMargin: 4, // {number} x margin around the icon

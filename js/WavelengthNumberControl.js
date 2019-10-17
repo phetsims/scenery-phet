@@ -39,7 +39,7 @@ define( require => {
      */
     constructor( property, options ) {
 
-      options = _.extend( {
+      options = merge( {
         trackHeight: 20, // in view coordinates
         title: wavelengthString,
         range: DEFAULT_RANGE // in nm

@@ -26,10 +26,6 @@ define( require => {
    * @param {Object} options
    */
   function PlayAreaNode( options ) {
-
-    // options for accessibility, but others can be passed to Node call
-    options = _.extend( options );
-
     AccessibleSectionNode.call( this, playAreaString, options );
   }
 

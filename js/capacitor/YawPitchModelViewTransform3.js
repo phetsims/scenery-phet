@@ -22,6 +22,7 @@ define( require => {
 
   // modules
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -39,7 +40,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
         scale: 12000, // scale for mapping from model to view (x and y scale are identical)
         pitch: 30 * Math.PI / 180, // rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
         yaw: -45 * Math.PI / 180 // rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)

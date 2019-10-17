@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -21,7 +22,7 @@ define( require => {
    * @constructor
    */
   function ShadowText( text, options ) {
-    options = _.extend( {
+    options = merge( {
       font: new PhetFont( 24 ),
       fill: 'lightGray',
       stroke: null,

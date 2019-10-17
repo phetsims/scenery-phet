@@ -15,6 +15,7 @@ define( require => {
   // modules
   const EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
@@ -46,7 +47,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
         withGroupContent: false, // if true, the help content will include information about how to interact with groups
         withCheckboxContent: false // if true, the help content will include information about how to interact with checkboxes
       }, options );

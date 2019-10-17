@@ -15,6 +15,7 @@ define( require => {
   const Easing = require( 'TWIXT/Easing' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
@@ -29,7 +30,7 @@ define( require => {
    * @constructor
    */
   function Drawer( contentsNode, options ) {
-    options = _.extend( {
+    options = merge( {
 
       size: null, // {Dimension2|null} !null: contents sized to fit in container, null: container sized to fit contents
       cornerRadius: 0,
@@ -242,7 +243,7 @@ define( require => {
      */
     reset: function( options ) {
 
-      options = _.extend( {
+      options = merge( {
         animationEnabled: this.animationEnabled
       }, options );
 

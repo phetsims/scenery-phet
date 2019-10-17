@@ -72,7 +72,7 @@ define( require => {
         temperatureRange.min,
         temperatureRange.max,
         temperatureProperty,
-        _.extend( options.thermometerNodeOptions, {
+        merge( options.thermometerNodeOptions, {
           left: this.colorIndicatorNode.right + options.horizontalSpace,
           bottom: this.colorIndicatorNode.bottom + options.bottomOffset
         } )

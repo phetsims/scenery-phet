@@ -12,6 +12,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -37,7 +38,7 @@ define( require => {
 
     assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
 
-    options = _.extend( {
+    options = merge( {
 
       // options for the arrow
       arrowFill: 'black',

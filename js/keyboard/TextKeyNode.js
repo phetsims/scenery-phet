@@ -13,6 +13,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -26,7 +27,7 @@ define( require => {
   function TextKeyNode( string, options ) {
 
     // margins, width, and height in ScreenView coordinates
-    options = _.extend( {
+    options = merge( {
 
       // text options
       font: new PhetFont( { size: 12 } ),

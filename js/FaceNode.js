@@ -15,6 +15,7 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -29,7 +30,7 @@ define( require => {
   function FaceNode( headDiameter, options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
       headFill: 'yellow',
       eyeFill: 'black',
       mouthStroke: 'black',

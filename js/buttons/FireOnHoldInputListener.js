@@ -13,6 +13,7 @@ define( require => {
   const CallbackTimer = require( 'SUN/CallbackTimer' );
   const DownUpListener = require( 'SCENERY/input/DownUpListener' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
@@ -20,7 +21,7 @@ define( require => {
    * @constructor
    */
   function FireOnHoldInputListener( options ) {
-    options = _.extend( {
+    options = merge( {
       listener: null, // {function} convenience for adding 1 listener
       enabled: true, // is this input listener enabled?
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)

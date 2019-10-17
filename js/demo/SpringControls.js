@@ -13,6 +13,7 @@ define( require => {
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Panel = require( 'SUN/Panel' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -43,7 +44,7 @@ define( require => {
    */
   function SpringControls( ranges, springNode, options ) {
 
-    options = _.extend( {
+    options = merge( {
       fill: 'rgb( 243, 243, 243 )',
       stroke: 'rgb( 125, 125, 125 )',
       xMargin: 20,

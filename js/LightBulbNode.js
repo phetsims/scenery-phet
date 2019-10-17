@@ -13,6 +13,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LightRaysNode = require( 'SCENERY_PHET/LightRaysNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
@@ -27,7 +28,7 @@ define( require => {
    * @constructor
    */
   function LightBulbNode( brightnessProperty, options ) {
-    options = _.extend( {
+    options = merge( {
       bulbImageScale: 0.33
 
       // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in

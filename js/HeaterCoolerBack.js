@@ -16,6 +16,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -42,7 +43,7 @@ define( require => {
     constructor( heatCoolAmountProperty, options ) {
       super();
 
-      options = _.extend( {
+      options = merge( {
         baseColor: DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner
       }, options );
 

@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const VBox = require( 'SCENERY/nodes/VBox' );
@@ -25,7 +26,7 @@ define( require => {
     constructor( leftSections, rightSections, options ) {
       assert && assert( Array.isArray( leftSections ) && Array.isArray( rightSections ), 'sections must be passed in as arrays' );
 
-      options = _.extend( {
+      options = merge( {
 
         // spacing between the left and right columns of the help content
         columnSpacing: 30,
@@ -41,8 +42,8 @@ define( require => {
         align: 'left',
         spacing: options.sectionSpacing
       };
-      const leftColumn = new VBox( _.extend( {}, columnOptions, { children: leftSections } ) );
-      const rightColumn = new VBox( _.extend( {}, columnOptions, { children: rightSections } ) );
+      const leftColumn = new VBox( merge( {}, columnOptions, { children: leftSections } ) );
+      const rightColumn = new VBox( merge( {}, columnOptions, { children: rightSections } ) );
 
       const hBox = new HBox( {
         children: [ leftColumn, rightColumn ],

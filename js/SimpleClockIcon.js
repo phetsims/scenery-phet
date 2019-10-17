@@ -13,6 +13,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -24,7 +25,7 @@ define( require => {
   function SimpleClockIcon( radius, options ) {
 
     Node.call( this );
-    options = _.extend( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
+    options = merge( { fill: 'white', stroke: 'black', lineWidth: 2 }, options );
     this.addChild( new Circle( radius, options ) );
     this.addChild( new Circle( radius * 0.15, { fill: options.stroke } ) );
     const lineOptionsForClockHands = {

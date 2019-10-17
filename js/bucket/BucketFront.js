@@ -12,6 +12,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -28,7 +29,7 @@ define( require => {
    */
   function BucketFront( bucket, modelViewTransform, options ) {
 
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.required,
       cursor: 'pointer'
     }, options );

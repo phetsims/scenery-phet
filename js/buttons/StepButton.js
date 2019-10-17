@@ -14,6 +14,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -35,7 +36,7 @@ define( require => {
     const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
     const DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
 
-    options = _.extend( {
+    options = merge( {
       direction: DIRECTION, // {string} 'forward'|'backward'
       radius: BUTTON_RADIUS,
       fireOnHold: true,

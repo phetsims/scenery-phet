@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -37,7 +38,7 @@ define( require => {
      */
     constructor( timeProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
         unitsNode: null, // {Node|null} optional units, placed to the right of the time value
         largeFont: DEFAULT_LARGE_FONT, // {Font} for larger numbers in the time value
         smallFont: DEFAULT_SMALL_FONT, // {Font} for smaller numbers in the time value

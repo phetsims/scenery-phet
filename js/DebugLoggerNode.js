@@ -18,8 +18,9 @@ define( require => {
 
   // modules
   const Color = require( 'SCENERY/util/Color' );
-  const RichText = require( 'SCENERY/nodes/RichText' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Vector2 = require( 'DOT/Vector2' );
 
@@ -37,7 +38,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
         left: DEFAULT_POSITION.x,
         top: DEFAULT_POSITION.y,
         numMessagesToDisplay: DEFAULT_NUM_MESSAGES,

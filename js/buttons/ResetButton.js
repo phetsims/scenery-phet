@@ -14,6 +14,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const ResetShape = require( 'SCENERY_PHET/ResetShape' );
   const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -29,7 +30,7 @@ define( require => {
     // radius is used in computation of defaults for other options
     const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 24;
 
-    options = _.extend( {
+    options = merge( {
       radius: BUTTON_RADIUS,
       minXMargin: BUTTON_RADIUS * 0.2,
       baseColor: 'white',

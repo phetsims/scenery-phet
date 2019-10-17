@@ -15,6 +15,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -28,7 +29,7 @@ define( require => {
      */
     constructor( valueProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
         range: null, // {Range|null} if null, valueProperty.range must exist
         numberDisplayOptions: null, // {*|null} options propagated to the NumberDisplay subcomponent
         arrowButtonOptions: null, // {*|null} options propagated to all ArrowButton subcomponents
@@ -62,12 +63,12 @@ define( require => {
       assert && assert( !options.numberDisplayOptions || options.numberDisplayOptions.tandem === undefined,
         'FineCoarseSpinner sets numberDisplayOptions.tandem' );
 
-      options.numberDisplayOptions = _.extend( {
+      options.numberDisplayOptions = merge( {
         tandem: options.tandem.createTandem( 'numberDisplay' )
       }, options.numberDisplayOptions );
 
       // options for the 'fine' arrow buttons, which show 1 arrow
-      const fineButtonOptions = _.extend( {
+      const fineButtonOptions = merge( {
         numberOfArrows: 1,
         arrowWidth: 12, // width of base
         arrowHeight: 14, // from tip to base
@@ -80,7 +81,7 @@ define( require => {
       }, options.arrowButtonOptions );
 
       // options for the 'coarse' arrow buttons, which show 2 arrows
-      const coarseButtonOptions = _.extend( {}, fineButtonOptions, {
+      const coarseButtonOptions = merge( {}, fineButtonOptions, {
         numberOfArrows: 2,
         arrowSpacing: -0.5 * fineButtonOptions.arrowHeight // arrows overlap
       } );
@@ -88,13 +89,13 @@ define( require => {
       // <
       const leftFineButton = new ArrowButton( 'left', function() {
         valueProperty.value = valueProperty.value - options.deltaFine;
-      }, _.extend( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'leftFineButton' ) } ) );
+      }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'leftFineButton' ) } ) );
 
       // <<
       const leftCoarseButton = new ArrowButton( 'left', function() {
         const delta = Math.min( options.deltaCoarse, valueProperty.value - options.range.min );
         valueProperty.value = valueProperty.value - delta;
-      }, _.extend( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'leftCoarseButton' ) } ) );
+      }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'leftCoarseButton' ) } ) );
 
       // [ value ]
       const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
@@ -102,13 +103,13 @@ define( require => {
       // >
       const rightFineButton = new ArrowButton( 'right', function() {
         valueProperty.value = valueProperty.value + options.deltaFine;
-      }, _.extend( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'rightFineButton' ) } ) );
+      }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'rightFineButton' ) } ) );
 
       // >>
       const rightCoarseButton = new ArrowButton( 'right', function() {
         const delta = Math.min( options.deltaCoarse, options.range.max - valueProperty.value );
         valueProperty.value = valueProperty.value + delta;
-      }, _.extend( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'rightCoarseButton' ) } ) );
+      }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'rightCoarseButton' ) } ) );
 
       // <  <<  [ value ]  >>  >
       const layoutBox = new HBox( {

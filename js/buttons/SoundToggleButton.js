@@ -15,6 +15,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -58,7 +59,7 @@ define( require => {
     } );
     soundOffNode.addChild( soundOffX );
 
-    BooleanRectangularToggleButton.call( this, soundOnNode, soundOffNode, property, _.extend( {
+    BooleanRectangularToggleButton.call( this, soundOnNode, soundOffNode, property, merge( {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,

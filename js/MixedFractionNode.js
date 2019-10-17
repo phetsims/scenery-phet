@@ -12,10 +12,11 @@ define( require => {
   // modules
   const AlignBox = require( 'SCENERY/nodes/AlignBox' );
   const Bounds2 = require( 'DOT/Bounds2' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -28,7 +29,7 @@ define( require => {
         spacing: 5
       } );
 
-      options = _.extend( {
+      options = merge( {
         // {number|null} - Main values for the fraction (can also be changed with setters). The spot will be empty if
         // null is the given value.
         whole: null,

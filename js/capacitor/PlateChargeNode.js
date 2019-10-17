@@ -21,6 +21,7 @@ define( require => {
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Property = require( 'AXON/Property' );
@@ -77,7 +78,7 @@ define( require => {
      */
     constructor( capacitor, modelViewTransform, options ) {
 
-      options = _.extend( {
+      options = merge( {
         // {string} - 'POSITIVE' or 'NEGATIVE'
         polarity: CapacitorConstants.POLARITY.POSITIVE,
         maxPlateCharge: Infinity,

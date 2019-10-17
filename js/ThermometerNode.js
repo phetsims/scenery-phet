@@ -15,6 +15,7 @@ define( require => {
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearFunction = require( 'DOT/LinearFunction' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -38,7 +39,7 @@ define( require => {
   function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 100,

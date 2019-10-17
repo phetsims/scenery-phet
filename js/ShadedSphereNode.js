@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -21,7 +22,7 @@ define( require => {
    */
   function ShadedSphereNode( diameter, options ) {
 
-    options = _.extend( {
+    options = merge( {
       mainColor: 'gray',
       highlightColor: 'white',
       shadowColor: 'black',

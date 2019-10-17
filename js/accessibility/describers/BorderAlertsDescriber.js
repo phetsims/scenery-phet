@@ -12,6 +12,7 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Util = require( 'DOT/Util' );
@@ -34,7 +35,7 @@ define( require => {
   class BorderAlertsDescriber {
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {Bounds2} - The bounds that makes the border we alert when against
         bounds: new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ),

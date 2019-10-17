@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
+  const merge = require( 'PHET_CORE/merge' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SliderTrack = require( 'SUN/SliderTrack' );
@@ -23,7 +24,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( property, range, options ) {
-      options = _.extend( {
+      options = merge( {
         size: new Dimension2( 150, 30 ),
         valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
       }, options );

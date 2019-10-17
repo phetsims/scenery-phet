@@ -25,6 +25,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -44,7 +45,7 @@ define( require => {
    */
   function ParametricSpringNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // {Color|string} colors used for the gradient strokes. middleColor is the dominant color.
       frontColor: 'lightGray',
@@ -132,8 +133,8 @@ define( require => {
       lineCap: 'round',
       lineJoin: 'round'
     };
-    const frontPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
-    const backPath = new Path( null, _.extend( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
+    const frontPath = new Path( null, merge( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
+    const backPath = new Path( null, merge( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
 
     // Update the line width
     this.lineWidthProperty.link( function( lineWidth ) {

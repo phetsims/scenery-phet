@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -20,7 +21,7 @@ define( require => {
    * @constructor
    */
   function PaperAirplaneNode( options ) {
-    options = _.extend( {
+    options = merge( {
       fill: PhetColorScheme.PHET_LOGO_YELLOW
     }, options );
 

@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -46,7 +47,7 @@ define( require => {
    * @constructor
    */
   function CurvedArrowShape( radius, startAngle, endAngle, options ) {
-    options = _.extend( {
+    options = merge( {
       doubleHead: false, // false = single head at endAngle, true = heads at startAngle and endAngle
       headWidth: 10,
       headHeight: 10,

@@ -21,6 +21,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -54,7 +55,7 @@ define( require => {
   function MeasuringTapeNode( unitsProperty, isVisibleProperty, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
       basePositionProperty: new Vector2Property( new Vector2( 0, 0 ) ),
 
@@ -546,7 +547,7 @@ define( require => {
     createIcon: function( measuringTapeOptions ) {
 
       // See documentation above!
-      measuringTapeOptions = _.extend( {
+      measuringTapeOptions = merge( {
         tipPositionProperty: new Vector2Property( new Vector2( 30, 0 ) ),
         hasValue: false, // no value below the tape
         interactive: false

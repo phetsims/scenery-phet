@@ -14,6 +14,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const openPopup = require( 'PHET_CORE/openPopup' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -28,7 +29,7 @@ define( require => {
    * @constructor
    */
   function IE11StencilWarningNode() {
-    HBox.call( this, _.extend( {
+    HBox.call( this, merge( {
       children: [
         new FontAwesomeNode( 'warning_sign', {
           fill: '#E87600', // "safety orange", according to Wikipedia

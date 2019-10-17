@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -35,13 +36,13 @@ define( require => {
      */
     constructor( valueProperty, label, range, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {*|null} options passed to the NumberDisplay, see NumberDisplay for full list
         numberDisplayOptions: null
       }, options );
 
-      options.numberDisplayOptions = _.extend( {}, NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
+      options.numberDisplayOptions = merge( {}, NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
 
       super( valueProperty, label, range, options );
 

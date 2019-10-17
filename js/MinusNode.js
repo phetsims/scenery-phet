@@ -12,6 +12,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -21,7 +22,7 @@ define( require => {
    */
   function MinusNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
       size: new Dimension2( 20, 5 ),
       fill: 'black'
     }, options );

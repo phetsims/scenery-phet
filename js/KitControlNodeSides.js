@@ -16,6 +16,7 @@ define( require => {
   // modules
   const Color = require( 'SCENERY/util/Color' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
@@ -35,7 +36,7 @@ define( require => {
    */
   function KitControlNodeSides( numKits, selectedKitProperty, spaceBetweenControls, options ) {
     Node.call( this );
-    options = _.extend(
+    options = merge(
       {
         // Default values
         buttonBaseColor: DEFAULT_BASE_COLOR,
@@ -65,7 +66,7 @@ define( require => {
     const nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( options.arrowWidth, options.arrowHeight / 2 ).lineTo( 0, options.arrowHeight ), iconOptions );
     const previousIcon = new Path( new Shape().moveTo( options.arrowWidth, 0 ).lineTo( 0, options.arrowHeight / 2 ).lineTo( options.arrowWidth, options.arrowHeight ), iconOptions );
 
-    const nextKitButton = new RectangularPushButton( _.extend( {
+    const nextKitButton = new RectangularPushButton( merge( {
       content: nextIcon,
       baseColor: new Color( 'black' ),
       listener: function() {
@@ -74,7 +75,7 @@ define( require => {
     }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    const previousKitButton = new RectangularPushButton( _.extend( {
+    const previousKitButton = new RectangularPushButton( merge( {
       content: previousIcon,
       baseColor: 'orange',
       listener: function() {

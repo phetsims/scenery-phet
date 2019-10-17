@@ -13,6 +13,7 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -33,7 +34,7 @@ define( require => {
 
     Node.call( this );
 
-    options = _.extend( {
+    options = merge( {
       // {ColorDef} default base color
       baseColor: new Color( 80, 130, 230 ),
 

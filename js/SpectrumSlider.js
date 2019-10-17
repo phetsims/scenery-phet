@@ -19,6 +19,7 @@ define( require => {
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -44,7 +45,7 @@ define( require => {
     const self = this;
 
     // options that are specific to this type
-    options = _.extend( {
+    options = merge( {
 
       // {number} The minimum value to be displayed
       minValue: 0,
@@ -333,7 +334,7 @@ define( require => {
    */
   function Thumb( width, height, options ) {
 
-    options = _.extend( {
+    options = merge( {
       stroke: 'black',
       lineWidth: 1,
       fill: 'black'

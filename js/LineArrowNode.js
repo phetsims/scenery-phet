@@ -11,6 +11,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -28,7 +29,7 @@ define( require => {
   function LineArrowNode( tailX, tailY, tipX, tipY, options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
       headHeight: 10,
       headWidth: 10,
       headLineWidth: 1,

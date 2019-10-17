@@ -14,6 +14,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const MinusNode = require( 'SCENERY_PHET/MinusNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -28,7 +29,7 @@ define( require => {
    */
   function ZoomButton( options ) {
 
-    options = _.extend( {
+    options = merge( {
       in: true, // true: zoom-in button, false: zoom-out button
       radius: 15,
       baseColor: PhetColorScheme.BUTTON_YELLOW,

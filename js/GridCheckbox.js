@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const Checkbox = require( 'SUN/Checkbox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -23,7 +24,7 @@ define( require => {
      */
     constructor( property, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // options for the grid icon
         gridSize: 30, // {number} square grid with this width and height

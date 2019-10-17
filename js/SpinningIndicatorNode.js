@@ -16,6 +16,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const Color = require( 'SCENERY/util/Color' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -28,7 +29,7 @@ define( require => {
   function SpinningIndicatorNode( options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
       indicatorSize: 15, // {number} - The width/height taken up by the indicator.
       indicatorSpeed: 1, // {number} - A multiplier for how fast/slow the indicator will spin.
       elementFactory: SpinningIndicatorNode.rectangleFactory, // {function( options ) => {Node}} - To create the elements

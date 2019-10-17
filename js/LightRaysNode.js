@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
@@ -42,7 +43,7 @@ define( require => {
 
     assert && assert( bulbRadius > 0 );
 
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.optional
     }, DEFAULT_OPTIONS, options );
 

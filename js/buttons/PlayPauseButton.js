@@ -14,6 +14,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
   const PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
@@ -37,7 +38,7 @@ define( require => {
   function PlayPauseButton( isPlayingProperty, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       radius: DEFAULT_RADIUS,
       containerTagName: 'div',
       a11yPauseDescription: pauseDescriptionString,

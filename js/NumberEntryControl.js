@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberKeypad = require( 'SCENERY_PHET/NumberKeypad' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -27,7 +28,7 @@ define( require => {
   function NumberEntryControl( options ) {
     Node.call( this );
     const self = this;
-    options = _.extend( {
+    options = merge( {
       maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
       readoutFont: new PhetFont( 20 )
     }, options );

@@ -17,6 +17,7 @@ define( require => {
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -53,7 +54,7 @@ define( require => {
      */
     constructor( numberProperty, rangeProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {number} sizing
         width: 200,
@@ -232,7 +233,7 @@ define( require => {
       // @private create and add a drag listener to the handle
       this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, options.enabledProperty,
         minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-        _.extend( {
+        merge( {
           tandem: options.tandem.createTandem( 'handleDragListener')
         }, options.dragListenerOptions ) );
       this.pumpHandleNode.addInputListener( this.handleDragListener );
@@ -616,7 +617,7 @@ define( require => {
 
       assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
-      options = _.extend( {
+      options = merge( {
         // {number} number of particles released by the pump during one pumping action
         numberOfParticlesPerPumpAction: 10,
 
@@ -632,7 +633,7 @@ define( require => {
       const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) /
                                                    options.numberOfParticlesPerPumpAction - 0.01;
 
-      super( _.extend( {
+      super( merge( {
         drag: ( event, listener ) => {
 
           // update the handle and shaft position based on the user's pointer position

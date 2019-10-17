@@ -16,6 +16,7 @@ define( require => {
   // modules
   const Font = require( 'SCENERY/util/Font' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
@@ -32,7 +33,7 @@ define( require => {
     }
 
     // PhET defaults
-    options = _.extend( {
+    options = merge( {
       family: 'Arial'
     }, options );
 

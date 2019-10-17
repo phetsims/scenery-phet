@@ -14,6 +14,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -31,7 +32,7 @@ define( require => {
 
     const self = this;
     
-    options = _.extend( {
+    options = merge( {
 
       // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
       // See https://github.com/phetsims/scenery-phet/issues/375

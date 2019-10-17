@@ -16,6 +16,7 @@ define( require => {
   // modules
   const GroundNode = require( 'SCENERY_PHET/GroundNode' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SkyNode = require( 'SCENERY_PHET/SkyNode' );
@@ -32,7 +33,7 @@ define( require => {
   function OutsideBackgroundNode( centerX, centerY, width, skyHeight, groundDepth, options ) {
     Node.call( this );
 
-    options = _.extend(
+    options = merge(
       {
         // Defaults.
         skyGradientHeight:   skyHeight / 2,

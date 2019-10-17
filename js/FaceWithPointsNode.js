@@ -13,6 +13,7 @@ define( require => {
   // modules
   const FaceNode = require( 'SCENERY_PHET/FaceNode' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -24,7 +25,7 @@ define( require => {
    * @constructor
    */
   function FaceWithPointsNode( options ) {
-    options = _.extend( {
+    options = merge( {
       spacing: 2, // space between face and points
 
       // face options

@@ -12,6 +12,7 @@ define( require => {
   // modules
   const EventType = require( 'TANDEM/EventType' );
   const FireListener = require( 'SCENERY/listeners/FireListener' );
+  const merge = require( 'PHET_CORE/merge' );
   const Plane = require( 'SCENERY/nodes/Plane' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -19,7 +20,7 @@ define( require => {
   class BarrierRectangle extends Plane {
     constructor( modalNodeStack, options ) {
 
-      options = _.extend( {
+      options = merge( {
         tandem: Tandem.required,
         phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
         phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper

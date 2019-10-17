@@ -17,6 +17,7 @@ define( require => {
   const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
+  const merge = require( 'PHET_CORE/merge' );
   const NullableIO = require( 'TANDEM/types/NullableIO' );
   const NumberIO = require( 'TANDEM/types/NumberIO' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -38,7 +39,7 @@ define( require => {
    */
   function NumberAccumulator( options ) {
     const self = this;
-    options = _.extend( {
+    options = merge( {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS,
       tandem: Tandem.required

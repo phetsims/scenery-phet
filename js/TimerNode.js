@@ -17,6 +17,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
@@ -37,7 +38,7 @@ define( require => {
    */
   function TimerNode( timeProperty, runningProperty, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // See also options that pass through to TimerReadoutNode
       cursor: 'pointer',

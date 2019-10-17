@@ -20,6 +20,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -35,7 +36,7 @@ define( require => {
    * @constructor
    */
   function NumberKeypad( options ) {
-    options = _.extend( {
+    options = merge( {
       buttonFont: new PhetFont( { size: 20 } ),
       minButtonWidth: 35,
       minButtonHeight: 35,
@@ -115,7 +116,7 @@ define( require => {
     else {
 
       // add a double-width zero key instead of the decimal point key
-      const doubleRowButtonKeySpec = _.extend( {}, keyOptions, { minWidth: keyOptions.minWidth * 2 + options.xSpacing } );
+      const doubleRowButtonKeySpec = merge( {}, keyOptions, { minWidth: keyOptions.minWidth * 2 + options.xSpacing } );
       bottomRowChildren.push( createKey( '0', keyCallback, doubleRowButtonKeySpec ) );
     }
     bottomRowChildren.push( backspaceKey );
@@ -191,7 +192,7 @@ define( require => {
    */
   var validateMaxDigits = function( options ) {
 
-    options = _.extend( {
+    options = merge( {
       maxDigits: 8 // {number} the maximum number of digits (numbers)
     }, options );
     assert && assert( options.maxDigits > 0, 'invalid maxDigits: ' + options.maxDigits );

@@ -13,6 +13,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
 
@@ -23,7 +24,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {number} - in ms, should be larger than 500, prevents the utterance from being duplicated within the delay
         // of press and hold for most typical user settings

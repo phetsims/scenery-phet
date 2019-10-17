@@ -65,7 +65,7 @@ define( require => {
     validateCallbacks( options || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    options = _.extend( {
+    options = merge( {
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()
@@ -181,14 +181,14 @@ define( require => {
 
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
-      options.sliderOptions = _.extend( {
+      options.sliderOptions = merge( {
         trackSize: new Dimension2( 180, 3 )
       }, options.sliderOptions );
     }
 
     // Slider options for thumb (if n ot specified as thumbNode)
     if ( !options.sliderOptions.thumbNode ) {
-      options.sliderOptions = _.extend( {
+      options.sliderOptions = merge( {
         thumbSize: new Dimension2( 17, 34 ),
         thumbTouchAreaXDilation: 6
       }, options.sliderOptions );
@@ -198,7 +198,7 @@ define( require => {
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
-    options.sliderOptions = _.extend( {
+    options.sliderOptions = merge( {
 
       // a11y - shiftKeyboardStep should be the same as clicking the arrow buttons
       shiftKeyboardStep: options.delta,
@@ -238,7 +238,7 @@ define( require => {
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.max( value, numberRange.min ); // constrain to range
       numberProperty.set( value );
-    }, _.extend( {
+    }, merge( {
       startCallback: options.arrowButtonOptions.leftStart,
       endCallback: options.arrowButtonOptions.leftEnd,
       tandem: options.tandem.createTandem( 'leftArrowButton' )
@@ -249,7 +249,7 @@ define( require => {
       value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
       value = Math.min( value, numberRange.max ); // constrain to range
       numberProperty.set( value );
-    }, _.extend( {
+    }, merge( {
       startCallback: options.arrowButtonOptions.rightStart,
       endCallback: options.arrowButtonOptions.rightEnd,
       tandem: options.tandem.createTandem( 'rightArrowButton' )
@@ -441,7 +441,7 @@ define( require => {
         tickLabelFont: new PhetFont( 12 )
       }, options );
 
-      options.sliderOptions = _.extend( {
+      options.sliderOptions = merge( {
         majorTicks: [
           { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
           { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
@@ -465,7 +465,7 @@ define( require => {
      */
     createLayoutFunction1: function( options ) {
 
-      options = _.extend( {
+      options = merge( {
         align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
         titleXSpacing: 5, // {number} horizontal spacing between title and number
         arrowButtonsXSpacing: 15, // {number} horizontal spacing between arrow buttons and slider
@@ -505,7 +505,7 @@ define( require => {
      */
     createLayoutFunction2: function( options ) {
 
-      options = _.extend( {
+      options = merge( {
         align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
         xSpacing: 5, // {number} horizontal spacing in top row
         ySpacing: 5 // {number} vertical spacing between rows
@@ -542,7 +542,7 @@ define( require => {
      */
     createLayoutFunction3: function( options ) {
 
-      options = _.extend( {
+      options = merge( {
         alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
         alignNumber: 'center', // {string} horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
         titleLeftIndent: 0, // {number|null}  if provided, indent the title on the left to push the title to the right
@@ -587,7 +587,7 @@ define( require => {
      * @returns {Function}
      */
     createLayoutFunction4: function( options ) {
-      options = _.extend( {
+      options = merge( {
         excludeTweakers: false,
 
         // adds additional horizontal space between title and NumberDisplay

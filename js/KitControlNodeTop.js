@@ -15,6 +15,7 @@ define( require => {
   // modules
   const Color = require( 'SCENERY/util/Color' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
@@ -29,7 +30,7 @@ define( require => {
    */
   function KitControlNodeTop( numKits, selectedKitProperty, options ) {
     Node.call( this );
-    options = _.extend(
+    options = merge(
       {
         // Default values
         titleNode: null,
@@ -51,13 +52,13 @@ define( require => {
     const nextIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( 5, 5 ).lineTo( 0, 10 ), iconOptions );
     const previousIcon = new Path( new Shape().moveTo( 0, 0 ).lineTo( -5, 5 ).lineTo( 0, 10 ), iconOptions );
 
-    const nextKitButton = new RoundPushButton( _.extend( {
+    const nextKitButton = new RoundPushButton( merge( {
       listener: function() { selectedKitProperty.value = selectedKitProperty.value + 1; },
       content: nextIcon
     }, commonButtonOptions ) );
     this.addChild( nextKitButton );
 
-    const previousKitButton = new RoundPushButton( _.extend( {
+    const previousKitButton = new RoundPushButton( merge( {
       listener: function() { selectedKitProperty.value = selectedKitProperty.value - 1; },
       content: previousIcon
     }, commonButtonOptions ) );

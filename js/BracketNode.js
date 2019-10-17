@@ -11,6 +11,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -22,7 +23,7 @@ define( require => {
    */
   function BracketNode( options ) {
 
-    options = _.extend( {
+    options = merge( {
       orientation: 'down', // refers to the direction that the tip of the bracket points, 'up'|'down'|'left'|'right'
       labelNode: null, // {Node|null} optional label that will be centered below bracket's tip
       bracketLength: 100, // {number} length of the bracket

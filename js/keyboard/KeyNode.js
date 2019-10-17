@@ -19,6 +19,7 @@ define( require => {
   const AlignBox = require( 'SCENERY/nodes/AlignBox' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -68,7 +69,7 @@ define( require => {
    */
   function KeyNode( keyIcon, options ) {
 
-    options = _.extend( {}, DEFAULT_OPTIONS, options );
+    options = merge( {}, DEFAULT_OPTIONS, options );
     assert && assert( !options.children, 'KeyNode cannot have additional children' );
 
     // scale down the size of the keyIcon passed in if it is taller than the max height of the icon

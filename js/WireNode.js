@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -25,7 +26,7 @@ define( require => {
    */
   function WireNode( position1Property, normal1Property, position2Property, normal2Property, options ) {
 
-    options = _.extend( {
+    options = merge( {
       stroke: 'black'
     }, options );
 

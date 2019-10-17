@@ -10,8 +10,9 @@ define( require => {
 
   // modules
   const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const merge = require( 'PHET_CORE/merge' );
   const MixedFractionNode = require( 'SCENERY_PHET/MixedFractionNode' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   class PropertyFractionNode extends MixedFractionNode {
     /**
@@ -20,7 +21,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( numeratorProperty, denominatorProperty, options ) {
-      options = _.extend( {
+      options = merge( {
         // {PropertyFractionNode.DisplayType}
         type: PropertyFractionNode.DisplayType.IMPROPER,
 

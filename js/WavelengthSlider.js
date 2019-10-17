@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -29,7 +30,7 @@ define( require => {
   function WavelengthSlider( wavelengthProperty, options ) {
 
     // options that are specific to this type
-    options = _.extend( {
+    options = merge( {
 
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,

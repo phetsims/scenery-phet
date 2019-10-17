@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SliderKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/SliderKeyboardHelpSection' );
   const TwoColumnKeyboardHelpContent = require( 'SCENERY_PHET/keyboard/help/TwoColumnKeyboardHelpContent' );
@@ -23,7 +24,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options =  _.extend( {
+      options =  merge( {
 
         // {null|*} - options passed to the SliderKeyboardHelpSection
         sliderSectionOptions: null,

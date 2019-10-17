@@ -23,6 +23,7 @@ define( require => {
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -50,7 +51,7 @@ define( require => {
    */
   function NumberPicker( valueProperty, rangeProperty, options ) {
 
-    options = _.extend( {
+    options = merge( {
       cursor: 'pointer',
       color: new Color( 0, 0, 255 ), // {Color|string|Property.<Color|string>} color of arrows, and top/bottom gradient on pointer over
       backgroundColor: 'white', // {Color|string|Property.<Color|string>} color of the background when pointer is not over it
@@ -162,7 +163,7 @@ define( require => {
     this.enabledProperty = options.enabledProperty;
     const ownsEnabledProperty = !this.enabledProperty;
     if ( ownsEnabledProperty ) {
-      this.enabledProperty = new BooleanProperty( true, _.extend( {
+      this.enabledProperty = new BooleanProperty( true, merge( {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioReadOnly: options.phetioReadOnly,
         phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.',
@@ -399,7 +400,7 @@ define( require => {
     // initialize accessibility features - must reach into up function to get delta
     // both normal arrow and shift arrow keys use delta produced with up function
     const keyboardStep = options.upFunction( valueProperty.get() ) - valueProperty.get();
-    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, _.extend( {
+    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, merge( {
       keyboardStep: keyboardStep,
       shiftKeyboardStep: keyboardStep
     }, options ) );

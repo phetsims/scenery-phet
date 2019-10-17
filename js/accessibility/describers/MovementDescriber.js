@@ -15,6 +15,7 @@ define( require => {
   const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
+  const merge = require( 'PHET_CORE/merge' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
@@ -70,7 +71,7 @@ define( require => {
   class MovementDescriber {
     constructor( locationProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // see BorderAlertsDescriber
         borderAlertsOptions: null,
@@ -246,7 +247,7 @@ define( require => {
      * @returns {{LEFT: string, RIGHT: string, UP: string, DOWN: string}}
      */
     static getDefaultMovementAlerts() {
-      return _.extend( {}, DEFAULT_MOVEMENT_ALERTS ); // clone
+      return merge( {}, DEFAULT_MOVEMENT_ALERTS ); // clone
     }
   }
 

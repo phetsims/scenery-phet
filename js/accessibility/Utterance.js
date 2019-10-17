@@ -23,6 +23,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const validate = require( 'AXON/validate' );
 
@@ -39,7 +40,7 @@ define( require => {
      * @param {Object} options
      */
     constructor( options ) {
-      options = _.extend( {
+      options = merge( {
 
         /**
          * The content of the alert that this Utterance is wrapping. If it is an array, then the Utterance will

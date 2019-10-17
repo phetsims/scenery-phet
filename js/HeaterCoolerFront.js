@@ -17,6 +17,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -44,7 +45,7 @@ define( require => {
     constructor( heatCoolAmountProperty, options ) {
       super();
 
-      options = _.extend( {
+      options = merge( {
         baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
         snapToZero: true, // controls whether the slider will snap to the off.

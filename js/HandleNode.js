@@ -15,6 +15,7 @@ define( require => {
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PaintColorProperty = require( 'SCENERY/util/PaintColorProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -39,7 +40,7 @@ define( require => {
 
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // options for the grip
         gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {ColorDef} base color of gradient on the grip
@@ -107,7 +108,7 @@ define( require => {
       } );
 
       assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
-      options = _.extend( {
+      options = merge( {
         children: [ gripPath ]
       }, options );
 
@@ -162,7 +163,7 @@ define( require => {
       // left attachment
       if ( options.hasLeftAttachment ) {
 
-        const leftAttachmentPath = new Path( leftAttachmentShape, _.extend( {
+        const leftAttachmentPath = new Path( leftAttachmentShape, merge( {
           right: gripPath.left + options.gripLineWidth
         }, attachmentOptions ) );
 
@@ -175,7 +176,7 @@ define( require => {
         const rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
         // handle right attachment
-        const rightAttachmentPath = new Path( rightAttachmentShape, _.extend( {
+        const rightAttachmentPath = new Path( rightAttachmentShape, merge( {
           left: gripPath.right - options.gripLineWidth
         }, attachmentOptions ) );
 

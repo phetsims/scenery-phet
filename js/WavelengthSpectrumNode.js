@@ -10,6 +10,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -25,7 +26,7 @@ define( require => {
 
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
         valueToColor: value => VisibleColor.wavelengthToColor( value ),
         minWavelength: VisibleColor.MIN_WAVELENGTH,
         maxWavelength: VisibleColor.MAX_WAVELENGTH,

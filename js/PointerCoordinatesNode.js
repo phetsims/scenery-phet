@@ -11,6 +11,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -26,7 +27,7 @@ define( require => {
      */
     constructor( modelViewTransform, options ) {
 
-      options = _.extend( {
+      options = merge( {
         textColor: 'black',
         backgroundColor: 'rgba( 255, 255, 255, 0.5 )',
         font: new PhetFont( 14 ),

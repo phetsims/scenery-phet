@@ -13,6 +13,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const GradientBackgroundNode = require( 'SCENERY_PHET/GradientBackgroundNode' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   /**
@@ -25,7 +26,7 @@ define( require => {
    * @constructor
    */
   function SkyNode( x, y, width, height, gradientEndHeight, options ) {
-    options = _.extend(
+    options = merge(
       {
         topColor: new Color( 1, 172, 228 ),
         bottomColor: new Color( 208, 236, 251 )

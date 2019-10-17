@@ -13,6 +13,7 @@ define( require => {
   // modules
   const ComboBox = require( 'SUN/ComboBox' );
   const ComboBoxItem = require( 'SUN/ComboBoxItem' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -36,7 +37,7 @@ define( require => {
      */
     constructor( items, choiceProperty, listParent, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         numberDisplayOptions: null, // {*|null} propagated to all NumberDisplay subcomponents
 
@@ -46,7 +47,7 @@ define( require => {
       }, options );
 
       // defaults for NumberDisplay
-      options.numberDisplayOptions = _.extend( {
+      options.numberDisplayOptions = merge( {
         backgroundFill: null,
         backgroundStroke: null,
         font: new PhetFont( 14 ),
@@ -70,7 +71,7 @@ define( require => {
           'ComboBoxDisplay sets item.numberDisplayOptions.valuePattern' );
 
         const itemNode = new NumberDisplay( item.numberProperty, item.range || item.numberProperty.range,
-          _.extend( {}, options.numberDisplayOptions, item.numberDisplayOptions, {
+          merge( {}, options.numberDisplayOptions, item.numberDisplayOptions, {
             valuePattern: StringUtils.fillIn( comboBoxDisplayValueUnitsString, { units: item.units } )
           } ) );
 

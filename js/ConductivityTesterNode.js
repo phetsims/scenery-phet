@@ -17,6 +17,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
   const LightBulbNode = require( 'SCENERY_PHET/LightBulbNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const MinusNode = require( 'SCENERY_PHET/MinusNode' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -54,7 +55,7 @@ define( require => {
   function ConductivityTesterNode( brightnessProperty, locationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       modelViewTransform: ModelViewTransform2.createIdentity(),
       interactive: true, // set to false if you're creating an icon
       bulbImageScale: 0.33,
@@ -274,7 +275,7 @@ define( require => {
    */
   function ProbeNode( labelNode, options ) {
 
-    options = _.extend( {
+    options = merge( {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',

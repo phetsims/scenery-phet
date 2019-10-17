@@ -14,6 +14,7 @@ define( require => {
 
   // modules
   const Color = require( 'SCENERY/util/Color' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
 
@@ -47,7 +48,7 @@ define( require => {
      */
     wavelengthToColor: function( wavelength, options ) {
 
-      options = _.extend( {
+      options = merge( {
         irColor: null, // {Color|string|null} color to use for IR wavelengths
         uvColor: null,  // {Color|string|null} color to use for UV wavelengths
         reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
@@ -118,7 +119,7 @@ define( require => {
      */
     colorToWavelength: function( color, options ) {
 
-      options = _.extend( {
+      options = merge( {
         reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
       }, options );
 

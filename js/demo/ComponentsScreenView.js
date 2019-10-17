@@ -23,7 +23,6 @@ define( require => {
   const CapsLockKeyNode = require( 'SCENERY_PHET/keyboard/CapsLockKeyNode' );
   const Checkbox = require( 'SUN/Checkbox' );
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const YawPitchModelViewTransform3 = require( 'SCENERY_PHET/capacitor/YawPitchModelViewTransform3' );
   const Color = require( 'SCENERY/util/Color' );
   const ComboBoxDisplay = require( 'SCENERY_PHET/ComboBoxDisplay' );
   const ConductivityTesterNode = require( 'SCENERY_PHET/ConductivityTesterNode' );
@@ -52,6 +51,7 @@ define( require => {
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -94,6 +94,7 @@ define( require => {
   const Vector2Property = require( 'DOT/Vector2Property' );
   const VSlider = require( 'SUN/VSlider' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
+  const YawPitchModelViewTransform3 = require( 'SCENERY_PHET/capacitor/YawPitchModelViewTransform3' );
 
   // constants
   const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
@@ -144,7 +145,7 @@ define( require => {
       { label: 'TimerNode', createNode: demoTimerNode },
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'WireNode', createNode: demoWireNode }
-    ], _.extend( {
+    ], merge( {
       comboBoxItemFont: new PhetFont( 12 ),
       comboBoxItemYMargin: 3,
       selectedDemoLabel: sceneryPhetQueryParameters.component,
@@ -675,16 +676,16 @@ define( require => {
     } );
 
     // construct nested options object from base numberControlsOptions
-    const lightAngleNumberControlOptions = _.extend( {
+    const lightAngleNumberControlOptions = merge( {
       delta: 0.05
     }, numberControlOptions );
 
-    lightAngleNumberControlOptions.numberDisplayOptions = _.extend( {
+    lightAngleNumberControlOptions.numberDisplayOptions = merge( {
       valuePattern: '{0} \u03c0',
       decimalPlaces: 2
     }, numberControlOptions.numberDisplayOptions );
 
-    lightAngleNumberControlOptions.sliderOptions = _.extend( {
+    lightAngleNumberControlOptions.sliderOptions = merge( {
       majorTicks: [
         { value: 0, label: new Text( '0', tickLabelOptions ) },
         { value: 1, label: new Text( '\u03c0', tickLabelOptions ) },
@@ -872,7 +873,7 @@ define( require => {
     };
 
     // To demonstrate 'no value' options
-    const noValueDisplay = new NumberDisplay( new Property( null ), range, _.extend( {}, numberDisplayOptions, {
+    const noValueDisplay = new NumberDisplay( new Property( null ), range, merge( {}, numberDisplayOptions, {
       noValueAlign: 'center',
       noValuePattern: '{{value}}'
     } ) );
