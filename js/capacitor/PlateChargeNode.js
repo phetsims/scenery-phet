@@ -59,13 +59,19 @@ define( require => {
    *
    * @param {Vector2} location
    * @param {CanvasRenderingContext2D} context
+   * @param {string} orientation
    */
-  const addNegativeCharge = ( location, context ) => {
+  const addNegativeCharge = ( location, context, orientation ) => {
     const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
     const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = NEGATIVE_CHARGE_COLOR;
-    context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
+    if ( orientation === 'vertical' ) {
+      context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
+    }
+    else {
+      context.fillRect( location.x - chargeHeight / 2, location.y - 2.5, chargeHeight, chargeWidth );
+    }
   };
 
   // TODO: This class seems never used directly
@@ -83,14 +89,20 @@ define( require => {
         polarity: CapacitorConstants.POLARITY.POSITIVE,
         maxPlateCharge: Infinity,
         opacity: 1.0,
+        orientation: 'vertical',
         canvasBounds: null // Bounds2|null
       }, options );
+
+      assert && assert( options.orientation === 'horizontal' || options.orientation === 'vertical' );
 
       super( { canvasBounds: options.canvasBounds } );
       const self = this; // extend scope for nested callbacks
 
       // @private {Capacitor}
       this.capacitor = capacitor;
+
+      // @private
+      this.orientation = options.orientation;
 
       // @private {YawPitchModelViewTransform3}
       this.modelViewTransform = modelViewTransform;
@@ -109,15 +121,12 @@ define( require => {
 
       // No disposal required because the capacitor is persistent
       Property.multilink( [
-        capacitor.plateSizeProperty,
-        capacitor.plateSeparationProperty, // TODO: Is this needed?
-        capacitor.plateVoltageProperty,  // TODO: Is this needed?
-        capacitor.plateChargeProperty // TODO: why was this not needed by CLB
-      ], () => {
-        if ( self.isVisible() ) {
-          self.invalidatePaint();
-        }
-      } );
+          capacitor.plateSizeProperty,
+          capacitor.plateSeparationProperty, // TODO: Is this needed?
+          capacitor.plateVoltageProperty,  // TODO: Is this needed?
+          capacitor.plateChargeProperty // TODO: why was this not needed by CLB
+        ], () => self.isVisible() && self.invalidatePaint()
+      );
     }
 
     /**
@@ -262,8 +271,8 @@ define( require => {
 
             // add the signed charge to the grid
             this.isPositivelyCharged() ?
-            addPositiveCharge( centerPosition, context ) : addNegativeCharge( centerPosition, context );
-
+            addPositiveCharge( centerPosition, context ) :
+            addNegativeCharge( centerPosition, context, this.orientation );
           }
         }
       }
