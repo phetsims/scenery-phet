@@ -103,14 +103,16 @@ define( require => {
         // handle scaling of the head and tail
         if ( options.isHeadDynamic ) {
 
-          // scale down the head height, if it's dynamic
-          if ( length < options.headHeight / options.fractionalHeadHeight ) {
-            headHeight = length * options.fractionalHeadHeight;
-            if ( options.scaleTailToo ) {
+          const maxHeadHeight = options.fractionalHeadHeight * length;
 
-              // also scale down head width and tail width
-              tailWidth = options.tailWidth * headHeight / options.headHeight;
+          // scale down the head height if it exceeds the max
+          if ( options.headHeight > maxHeadHeight ) {
+            headHeight = maxHeadHeight;
+
+            // optionally scale down the head width and tail width
+            if ( options.scaleTailToo ) {
               headWidth = options.headWidth * headHeight / options.headHeight;
+              tailWidth = options.tailWidth * headHeight / options.headHeight;
             }
           }
         }
