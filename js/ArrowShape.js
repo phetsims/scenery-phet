@@ -37,7 +37,7 @@ define( require => {
       doubleHead: false, // determines whether the arrow has a head at both ends of the tail
       isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
       scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
-      fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
+      fractionalHeadHeight: 0.5 // head will be scaled when head size is greater than fractionalHeadHeight * arrow length
     }, options );
 
     const self = this;
