@@ -31,7 +31,7 @@ define( require => {
      * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
      * @param {number} maxPlateCharge
      */
-    constructor( capacitor, modelViewTransform, polarity, maxPlateCharge ) {
+    constructor( capacitor, modelViewTransform, polarity, maxPlateCharge, orientation ) {
 
       super( modelViewTransform, PLATE_COLOR, capacitor.plateSizeProperty.value );
 
@@ -45,7 +45,8 @@ define( require => {
       this.vacuumPlateChargeNode = new PlateChargeNode( capacitor, modelViewTransform, {
         polarity: polarity,
         maxPlateCharge: maxPlateCharge,
-        canvasBounds: canvasBounds
+        canvasBounds: canvasBounds,
+        orientation: orientation
       } );
       this.addChild( this.vacuumPlateChargeNode );
     }
@@ -76,25 +77,6 @@ define( require => {
           CapacitorConstants.PLATE_WIDTH_RANGE.max )
       );
       return maxWidthBoxNode.bounds;
-    }
-
-    // TODO: These may not be helping too much
-    /**
-     * Factory methods to create top and bottom PlateNode instances.
-     * @public
-     *
-     * @param {Capacitor} capacitor
-     * @param {YawPitchModelViewTransform3} modelViewTransform
-     * @param {number} maxPlateCharge
-     *
-     * @returns {PlateNode}
-     */
-    static createTopPlateNode( capacitor, modelViewTransform, maxPlateCharge ) {
-      return new PlateNode( capacitor, modelViewTransform, CapacitorConstants.POLARITY.POSITIVE, maxPlateCharge );
-    }
-
-    static createBottomPlateNode( capacitor, modelViewTransform, maxPlateCharge ) {
-      return new PlateNode( capacitor, modelViewTransform, CapacitorConstants.POLARITY.NEGATIVE, maxPlateCharge );
     }
   }
 

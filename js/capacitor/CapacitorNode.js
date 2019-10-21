@@ -14,6 +14,7 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const EFieldNode = require( 'SCENERY_PHET/capacitor/EFieldNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PlateNode = require( 'SCENERY_PHET/capacitor/PlateNode' );
@@ -27,20 +28,26 @@ define( require => {
      * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {Property.<boolean>} plateChargeVisibleProperty
      * @param {Property.<boolean>} electricFieldVisibleProperty
-     * @param {Tandem} tandem
+     * @param {Tandem} tandem  // TODO: Move tandem to options
+     * @param {Object} options
      */
     constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem, options ) {
 
-      super( { tandem: tandem } ); // TODO: Move tandem to options
-      const self = this; // extend scope for nested callbacks
+      options = _.extend( {
+        tandem: tandem,
+        orientation: 'vertical' // TODO: Enumeration
+      }, options );
+      super();
+
+      assert && assert( options.orientation === 'horizontal' || options.orientation === 'vertical' );
 
       // @private
       this.capacitor = circuit.capacitor;
       this.modelViewTransform = modelViewTransform;
 
       // @private {PlateNode}
-      this.topPlateNode = PlateNode.createTopPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
-      this.bottomPlateNode = PlateNode.createBottomPlateNode( this.capacitor, modelViewTransform, circuit.maxPlateCharge );
+      this.topPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.POSITIVE, circuit.maxPlateCharge, options.orientation );
+      this.bottomPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.NEGATIVE, circuit.maxPlateCharge, options.orientation );
 
       const eFieldNode = new EFieldNode( this.capacitor, modelViewTransform, circuit.maxEffectiveEField, this.getPlatesBounds() );
 
@@ -52,11 +59,11 @@ define( require => {
       Property.multilink( [
         this.capacitor.plateSizeProperty,
         this.capacitor.plateSeparationProperty
-      ], () => self.updateGeometry() );
+      ], () => this.updateGeometry() );
 
       plateChargeVisibleProperty.link( visible => {
-        self.topPlateNode.setChargeVisible( visible );
-        self.bottomPlateNode.setChargeVisible( visible );
+        this.topPlateNode.setChargeVisible( visible );
+        this.bottomPlateNode.setChargeVisible( visible );
       } );
 
       electricFieldVisibleProperty.link( visible => eFieldNode.setVisible( visible ) );
