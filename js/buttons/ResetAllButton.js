@@ -11,7 +11,7 @@ define( require => {
   'use strict';
 
   // modules
-  const ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
+  const ActivationUtterance = require( 'UTTERANCE_QUEUE/ActivationUtterance' );
   const BooleanIO = require( 'TANDEM/types/BooleanIO' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
@@ -23,7 +23,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
 
   // constants
   const RESET_ALL_BUTTON_RADIUS = 20.8;

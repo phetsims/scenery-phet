@@ -12,15 +12,15 @@ define( require => {
   'use strict';
 
   // modules
-  const AlertableDef = require( 'SCENERY_PHET/accessibility/AlertableDef' );
+  const AlertableDef = require( 'UTTERANCE_QUEUE/AlertableDef' );
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
   const merge = require( 'PHET_CORE/merge' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
 
   // a11y strings
   const downString = SceneryPhetA11yStrings.down.value;

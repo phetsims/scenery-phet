@@ -13,7 +13,6 @@ define( require => {
   // modules
   require( 'SCENERY_PHET/accessibility/GrabDragInteractionTests' );
   require( 'SCENERY_PHET/MultiLineTextTests' );
-  require( 'SCENERY_PHET/accessibility/UtteranceTests' );
 
   // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
   QUnit.start();
