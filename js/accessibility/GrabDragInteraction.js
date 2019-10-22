@@ -46,7 +46,7 @@ define( require => {
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
-  const movablePatternString = SceneryPhetA11yStrings.movablePattern.value;
+  const movableString = SceneryPhetA11yStrings.movable.value;
   const defaultObjectToGrabString = SceneryPhetA11yStrings.defaultObjectToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
@@ -145,9 +145,7 @@ define( require => {
       }, options.draggableOptions );
 
       // @private
-      this.draggableAccessibleName = StringUtils.fillIn( movablePatternString, {
-        objectToGrab: options.objectToGrabString
-      } );
+      this.draggableAccessibleName = options.objectToGrabString;
       options.draggableOptions.innerContent = this.draggableAccessibleName;
       options.draggableOptions.ariaLabel = this.draggableAccessibleName;
 
@@ -164,9 +162,10 @@ define( require => {
       }, options.grabbableOptions );
 
       // @private
-      this.grabbableAccessibleName = StringUtils.fillIn( grabPatternString, {
-        objectToGrab: options.objectToGrabString
-      } );
+      this.grabbableAccessibleName = phet.joist.sim.supportsTouchA11y ? options.objectToGrabString :
+                                     StringUtils.fillIn( grabPatternString, {
+                                       objectToGrab: options.objectToGrabString
+                                     } );
       options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
       // @private
@@ -299,11 +298,7 @@ define( require => {
             this.dragCueNode.visible = false;
           }
         },
-
-        blur: () => {
-          releaseDraggable();
-
-        },
+        blur: releaseDraggable,
         focus: () => {
 
           // if successfully dragged, then make the cue node invisible
@@ -355,8 +350,13 @@ define( require => {
       // interrupt prior input, reset the key state of the drag handler by interrupting the drag
       this.node.interruptInput();
 
-      // by default, the grabbable has no roledescription. Can be overwritten in `onGrabbable()`
-      if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
+      // To support touch and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
+      if ( phet.joist.sim.supportsTouchA11y ) {
+        this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
+      }
+      else if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
+
+        // by default, the grabbable has no roledescription. Can be overwritten in `onGrabbable()`
         this.node.removeAccessibleAttribute( 'aria-roledescription' );
       }
 
@@ -371,8 +371,8 @@ define( require => {
     turnToDraggable() {
       this.grabbable = false;
 
-      // by default, the draggable has roledescription of the draggable accessible name. Can be overwritten in `onDraggable()`
-      this.node.setAccessibleAttribute( 'aria-roledescription', this.draggableAccessibleName );
+      // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
+      this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
 
       this.onDraggable();
 

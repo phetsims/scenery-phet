@@ -160,8 +160,8 @@ define( require => {
     grabPattern: {
       value: 'Grab {{objectToGrab}}'
     },
-    movablePattern: {
-      value: 'Movable {{objectToGrab}}'
+    movable: {
+      value: 'movable'
     },
     defaultObjectToGrab: {
       value: 'Object'
