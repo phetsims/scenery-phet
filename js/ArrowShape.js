@@ -37,7 +37,7 @@ define( require => {
       doubleHead: false, // determines whether the arrow has a head at both ends of the tail
       isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
       scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
-      fractionalHeadHeight: 0.5 // head will be scaled when head size is less than fractionalHeadHeight * arrow length
+      fractionalHeadHeight: 0.5 // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
     }, options );
 
     const self = this;
@@ -103,14 +103,16 @@ define( require => {
         // handle scaling of the head and tail
         if ( options.isHeadDynamic ) {
 
-          // scale down the head height, if it's dynamic
-          if ( length < options.headHeight / options.fractionalHeadHeight ) {
-            headHeight = length * options.fractionalHeadHeight;
-            if ( options.scaleTailToo ) {
+          const maxHeadHeight = options.fractionalHeadHeight * length;
 
-              // also scale down head width and tail width
-              tailWidth = options.tailWidth * headHeight / options.headHeight;
+          // scale down the head height if it exceeds the max
+          if ( options.headHeight > maxHeadHeight ) {
+            headHeight = maxHeadHeight;
+
+            // optionally scale down the head width and tail width
+            if ( options.scaleTailToo ) {
               headWidth = options.headWidth * headHeight / options.headHeight;
+              tailWidth = options.tailWidth * headHeight / options.headHeight;
             }
           }
         }
