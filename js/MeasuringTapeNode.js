@@ -540,11 +540,12 @@ define( require => {
      *
      * @param {Object} [measuringTapeOptions] - options applied to the 'look' of icon.
      *    These options are not applied to the icon this returns. DO NOT use layout options!
+     * @param {Tandem} [tandem]
      * @returns {Node}
      * @static
      * @public
      */
-    createIcon: function( measuringTapeOptions ) {
+    createIcon: function( measuringTapeOptions, tandem = null ) {
 
       // See documentation above!
       measuringTapeOptions = merge( {
@@ -554,6 +555,8 @@ define( require => {
       }, measuringTapeOptions, {
         pickable: false // MeasuringTapeNode has a drag handle, don't allow the user to interact with it
       } );
+
+      assert && assert( !measuringTapeOptions.tandem, 'pass tandem as an arg for the icon, not as options' );
 
       // Create an actual measuring tape.
       const measuringTape = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), new Property( true ),
@@ -568,6 +571,11 @@ define( require => {
       measuringTape.toImage( function( image ) {
         measuringTapeIcon.children = [ new Image( image ) ];
       } );
+
+      if ( tandem ) {
+        measuringTapeIcon.mutate( { tandem: tandem } ); // need to mutate, as there is no tandem setter for Node.
+      }
+
       return measuringTapeIcon;
     }
   } );
