@@ -72,6 +72,15 @@ define( require => {
     }
 
     /**
+     * Returns the center point of the top plate in global coordinates.
+     * @returns {Vector2}
+     * @public
+     */
+    getTopPlateCenterToGlobal() {
+      return this.topPlateNode.parentToGlobalPoint( this.topPlateNode.bounds.center );
+    }
+
+    /**
      * Update the geometry of the capacitor plates.
      * @private
      */
