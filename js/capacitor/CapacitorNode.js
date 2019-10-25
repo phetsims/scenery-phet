@@ -20,6 +20,7 @@ define( require => {
   const PlateNode = require( 'SCENERY_PHET/capacitor/PlateNode' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Shape = require( 'KITE/Shape' );
 
   class CapacitorNode extends Node {
 
@@ -72,12 +73,33 @@ define( require => {
     }
 
     /**
-     * Returns the center point of the top plate in global coordinates.
-     * @returns {Vector2}
+     * Returns the clipping region for the top shape, in global coordinates, used to show wires or electrons flowing in/out of the capacitor.
+     * @returns {Shape}
      * @public
      */
-    getTopPlateCenterToGlobal() {
-      return this.topPlateNode.parentToGlobalPoint( this.topPlateNode.bounds.center );
+    getTopPlateClipShapeToGlobal() {
+
+      // Note x & y are defined for a vertical capacitor, like in Capacitor Lab: Basics
+      const CLIP_HEIGHT = 100;
+      const CLIP_WIDTH = 300;
+      const topNode = this.topPlateNode.topNode;
+      const shape = Shape.rect( topNode.center.x - CLIP_HEIGHT, topNode.center.y - CLIP_WIDTH, CLIP_HEIGHT * 2, CLIP_WIDTH );
+      return shape.transformed( topNode.getLocalToGlobalMatrix() );
+    }
+
+    /**
+     * Returns the clipping region for the bottom shape, in global coordinates, used to show wires or electrons flowing in/out of the capacitor.
+     * @returns {Shape}
+     * @public
+     */
+    getBottomPlateClipShapeToGlobal() {
+
+      // Note x & y are defined for a vertical capacitor, like in Capacitor Lab: Basics
+      const CLIP_HEIGHT = 100;
+      const CLIP_WIDTH = 300;
+      const frontNode = this.bottomPlateNode.frontNode;
+      const shape = Shape.rect( frontNode.bounds.center.x - CLIP_HEIGHT, frontNode.bounds.bottom, CLIP_HEIGHT * 2, CLIP_WIDTH );
+      return shape.transformed( frontNode.getLocalToGlobalMatrix() );
     }
 
     /**

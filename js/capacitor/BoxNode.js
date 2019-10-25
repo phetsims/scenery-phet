@@ -42,20 +42,14 @@ define( require => {
       // @private {BoxShapeCreator}
       this.shapeCreator = new BoxShapeCreator( transform );
 
-      // @private {Path}
-      this.topNode = new Path( null, merge( {
-        fill: color
-      }, PATH_OPTIONS ) );
+      // @public (read-only) {Path}
+      this.topNode = new Path( null, merge( { fill: color }, PATH_OPTIONS ) );
+
+      // @public (read-only) {Path}
+      this.frontNode = new Path( null, merge( { fill: color.darkerColor() }, PATH_OPTIONS ) );
 
       // @private {Path}
-      this.frontNode = new Path( null, merge( {
-        fill: color.darkerColor()
-      }, PATH_OPTIONS ) );
-
-      // @private {Path}
-      this.rightSideNode = new Path( null, merge( {
-        fill: color.darkerColor().darkerColor()
-      }, PATH_OPTIONS ) );
+      this.rightSideNode = new Path( null, merge( { fill: color.darkerColor().darkerColor() }, PATH_OPTIONS ) );
 
       // @private {Bounds3}
       this.size = null;
