@@ -187,7 +187,6 @@ define( require => {
       // @private - wrap the optional onRelease in logic that is needed for the core type.
       this.onRelease = () => {
         options.onRelease && options.onRelease();
-
         utteranceQueue.addToBack( releasedString );
       };
       this.onGrab = options.onGrab; // @private
@@ -229,8 +228,6 @@ define( require => {
           // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
           // and pick it up immediately again.
           if ( !guardKeyPressFromDraggable ) {
-            this.numberOfGrabs++;
-
             this.turnToDraggable();
 
             this.node.focus();
@@ -253,6 +250,13 @@ define( require => {
 
           // "grab" the draggable on the next click event
           guardKeyPressFromDraggable = false;
+        },
+
+        // on pointer down, switch to "draggable" representation in the PDOM - necessary for accessible tech that
+        // uses pointer events like iOS VoiceOver
+        down: () => {
+          this.turnToDraggable();
+          this.onGrab();
         },
 
         blur: () => {
@@ -305,6 +309,11 @@ define( require => {
           if ( this.dragCueNode && options.successfulDrag() ) {
             this.dragCueNode.visible = false;
           }
+        },
+
+        // on pointer up, turn back into a "grabbable" so that it can be picked up again
+        up: () => {
+          releaseDraggable();
         }
       };
 
@@ -365,10 +374,13 @@ define( require => {
     }
 
     /**
-     * turn the node into a draggable, swap out listeners too
+     * Turn the node into a draggable by updating accessibility representation in the PDOM and changing input
+     * listeners.
      * @private
      */
     turnToDraggable() {
+      this.numberOfGrabs++;
+
       this.grabbable = false;
 
       // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
