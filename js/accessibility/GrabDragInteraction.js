@@ -247,6 +247,12 @@ define( require => {
       const grabButtonListener = {
         click: () => {
 
+          // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
+          // to initiate a drag
+          if ( phet.sim.joist.supportsTouchA11y ) {
+            return;
+          }
+
           // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
           // and pick it up immediately again.
           if ( !guardKeyPressFromDraggable ) {
