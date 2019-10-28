@@ -33,6 +33,7 @@ define( require => {
   'use strict';
 
   // modules
+  const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
@@ -99,6 +100,11 @@ define( require => {
         listenersForDrag: [],
         listenersForGrab: [],
 
+        // {null|string} - if defined, this will be the help text for the object when it is in a "grabbable" state. The
+        // help text will be associated with the grabbable with aria-describedby so that the help text is read
+        // automatically when the user encounters the grabbable object
+        grabbableHelpText: null,
+
         // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
         //              thus determining whether or not to show the dragCueNode.
         successfulDrag: _.noop
@@ -130,6 +136,10 @@ define( require => {
         assert && assert( options.dragCueNode instanceof Node );
         assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
+      }
+      if ( options.grabbableHelpText ) {
+        assert && assert( !options.grabbableOptions.descriptionContent, 'using grabbableHelpText, dont set descriptionContent on grabbable' );
+        assert && assert( !options.grabbableOptions.helpText, 'using grabbableHelpText, dont set descriptionContent on grabbable' );
       }
 
       assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
@@ -180,6 +190,18 @@ define( require => {
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
       this.onGrabbable = options.onGrabbable;
       this.onDraggable = options.onDraggable;
+
+      // @private {string|null}
+      this.grabbableHelpText = options.grabbableHelpText;
+
+      // @private {Object} - The aria-describedby association object that will associate "grabbable" with its
+      // help text so that it is read automatically when the user finds it. This reference is saved so that
+      // the association can be removed when the node becomes a "draggable"
+      this.descriptionAssociationObject = {
+        otherNode: this.node,
+        thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+        otherElementName: AccessiblePeer.DESCRIPTION_SIBLING
+      };
 
       // for both grabbing and dragging, the node with this interaction must be focusable
       this.node.focusable = true;
@@ -320,6 +342,11 @@ define( require => {
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
+      // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
+      if ( this.grabbableHelpText ) {
+        this.node.descriptionContent = this.grabbableHelpText;
+      }
+
       // Initialize the node as a grabbable (button) to begin with
       this.turnToGrabbable();
 
@@ -369,6 +396,13 @@ define( require => {
         this.node.removeAccessibleAttribute( 'aria-roledescription' );
       }
 
+      if ( this.grabbableHelpText ) {
+
+        // this node is aria-describedby its own description content, so that the description is read automatically
+        // when found by the user
+        this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+      }
+
       this.onGrabbable();
       this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
     }
@@ -385,6 +419,13 @@ define( require => {
 
       // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
       this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
+
+      if ( this.grabbableHelpText ) {
+
+        // this node is aria-describedby its own description content, so that the description is read automatically
+        // when found by the user
+        this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
+      }
 
       this.onDraggable();
 
