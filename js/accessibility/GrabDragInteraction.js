@@ -249,7 +249,7 @@ define( require => {
 
           // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
           // to initiate a drag
-          if ( phet.sim.joist.supportsTouchA11y ) {
+          if ( phet.joist.sim.supportsTouchA11y ) {
             return;
           }
 
