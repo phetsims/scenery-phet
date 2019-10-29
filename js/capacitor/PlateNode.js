@@ -30,6 +30,7 @@ define( require => {
      * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
      * @param {number} maxPlateCharge
+     * @param {string} orientation
      */
     constructor( capacitor, modelViewTransform, polarity, maxPlateCharge, orientation ) {
 

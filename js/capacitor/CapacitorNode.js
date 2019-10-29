@@ -72,6 +72,16 @@ define( require => {
       this.mutate( options );
     }
 
+    frontSideContainsSensorPoint( globalPoint ) {
+      const point = this.topPlateNode.globalToParentPoint( globalPoint );
+      return this.topPlateNode.containsPoint( point );
+    }
+
+    backSideContainsSensorPoint( globalPoint ) {
+      const point = this.bottomPlateNode.globalToParentPoint( globalPoint );
+      return this.bottomPlateNode.containsPoint( point );
+    }
+
     /**
      * Returns the clipping region for the top shape, in global coordinates, used to show wires or electrons flowing in/out of the capacitor.
      * @returns {Shape}

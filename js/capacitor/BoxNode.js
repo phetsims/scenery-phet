@@ -61,6 +61,8 @@ define( require => {
       this.addChild( this.frontNode );
       this.addChild( this.rightSideNode );
 
+      options = merge( { pickable: true }, options );
+
       this.mutate( options );
     }
 
