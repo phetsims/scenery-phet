@@ -63,6 +63,9 @@ define( require => {
         // A string that is filled in to the appropriate button label
         objectToGrabString: defaultObjectToGrabString,
 
+        // {string|null} - if not provided, a default will be applied, see this.grabbableAccessibleName
+        grabbableAccessibleName: null,
+
         // {function} - called when the node is "grabbed" (when the grab button fires); button -> draggable
         onGrab: _.noop,
 
@@ -172,10 +175,11 @@ define( require => {
       }, options.grabbableOptions );
 
       // @private
-      this.grabbableAccessibleName = phet.joist.sim.supportsTouchA11y ? options.objectToGrabString :
-                                     StringUtils.fillIn( grabPatternString, {
-                                       objectToGrab: options.objectToGrabString
-                                     } );
+      this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
+                                     ( phet.joist.sim.supportsTouchA11y ? options.objectToGrabString : // otherwise if supporting touch
+                                       StringUtils.fillIn( grabPatternString, { // default case
+                                         objectToGrab: options.objectToGrabString
+                                       } ) );
       options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
       // @private
@@ -297,11 +301,6 @@ define( require => {
       // @private - keep track of all listeners to swap out grab/drag functionalities
       this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
 
-      const releaseDraggable = () => {
-        this.turnToGrabbable();
-        this.onRelease();
-      };
-
       // use arrow functions so that we can have the right "this" reference
       const dragDivListener = {
 
@@ -313,7 +312,7 @@ define( require => {
             // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
             // "clicking" the grab button also on this key press.
             guardKeyPressFromDraggable = true;
-            releaseDraggable();
+            this.releaseDraggable();
           }
         },
         keyup: event => {
@@ -321,8 +320,7 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-            releaseDraggable();
-
+            this.releaseDraggable();
           }
 
           // if successfully dragged, then make the cue node invisible
@@ -330,7 +328,7 @@ define( require => {
             this.dragCueNode.visible = false;
           }
         },
-        blur: releaseDraggable,
+        blur: () => this.releaseDraggable(),
         focus: () => {
 
           // if successfully dragged, then make the cue node invisible
@@ -340,9 +338,7 @@ define( require => {
         },
 
         // on pointer up, turn back into a "grabbable" so that it can be picked up again
-        up: () => {
-          releaseDraggable();
-        }
+        up: () => this.releaseDraggable()
       };
 
       // @private
@@ -383,8 +379,18 @@ define( require => {
     }
 
     /**
-     * turn the node into a button, swap out listeners too
-     * @private
+     * Release the draggable
+     * @public
+     */
+    releaseDraggable() {
+      assert && assert( !this.grabbable, 'cannot set to grabbable if already set that way' );
+      this.turnToGrabbable();
+      this.onRelease();
+    }
+
+    /**
+     * turn the Node into the grabbable (button), swap out listeners too
+     * @public
      */
     turnToGrabbable() {
       this.grabbable = true;
