@@ -72,11 +72,23 @@ define( require => {
       this.mutate( options );
     }
 
+    /**
+     * Returns true if the front side contains the specified point, used for voltmeter probe hit testing.
+     * @param {Vector2} globalPoint
+     * @returns {boolean}
+     * @public
+     */
     frontSideContainsSensorPoint( globalPoint ) {
       const point = this.topPlateNode.globalToParentPoint( globalPoint );
       return this.topPlateNode.containsPoint( point );
     }
 
+    /**
+     * Returns true if the back side contains the specified point, used for voltmeter probe hit testing.
+     * @param {Vector2} globalPoint
+     * @returns {boolean}
+     * @public
+     */
     backSideContainsSensorPoint( globalPoint ) {
       const point = this.bottomPlateNode.globalToParentPoint( globalPoint );
       return this.bottomPlateNode.containsPoint( point );

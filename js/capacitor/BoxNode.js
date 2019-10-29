@@ -61,6 +61,7 @@ define( require => {
       this.addChild( this.frontNode );
       this.addChild( this.rightSideNode );
 
+      // mark pickable so it can be hit tested for the voltmeter probe
       options = merge( { pickable: true }, options );
 
       this.mutate( options );
