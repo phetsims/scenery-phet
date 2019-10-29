@@ -85,8 +85,8 @@ define( require => {
         // Use `{}` to omit movementAlerts.
         movementAlerts: DEFAULT_MOVEMENT_ALERTS,
 
-        // if provided, this will transform between the model and view coordinate frames, so that movement in the
-        // view is described
+        // {ModelViewTransform2} - if provided, this will transform between the model and view coordinate frames, so
+        // that movement in the view is described
         modelViewTransform: ModelViewTransform2.createIdentity(),
 
         // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
