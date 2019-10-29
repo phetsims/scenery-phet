@@ -64,11 +64,12 @@ define( require => {
     DOWN: downString
   };
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
   class MovementDescriber {
+
+    /**
+     * @param {Property.<Vector2>} locationProperty - Property that drives movement, in model coordinate frame
+     * @param {Object} options
+     */
     constructor( locationProperty, options ) {
 
       options = merge( {
