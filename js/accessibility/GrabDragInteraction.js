@@ -11,6 +11,10 @@
  * As a note on terminology, mostly things are referred to by their current "interaction mode" which is either grabbable
  * or draggable.
  *
+ * This type will alert when the draggable is released, but not default alert is provided when the object is grabbed.
+ * This is because in usages so far that alert has been custom, context specific, and easier to just supply through
+ * the onGrab listener.
+ *
  * NOTE: You cannot add a11y listeners directly to the node where it is constructed, instead see
  * `options.listenersForGrab/Drag`. These will keep track of the listeners for each interaction mode, and
  * will set them accordingly.
