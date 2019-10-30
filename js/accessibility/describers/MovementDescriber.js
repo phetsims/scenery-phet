@@ -16,6 +16,7 @@ define( require => {
   const BorderAlertsDescriber = require( 'SCENERY_PHET/accessibility/describers/BorderAlertsDescriber' );
   const DirectionEnum = require( 'SCENERY_PHET/accessibility/describers/DirectionEnum' );
   const merge = require( 'PHET_CORE/merge' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
@@ -33,9 +34,12 @@ define( require => {
   const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
   // mapping from alerting direction to the radian range that fills that space in the unit circle.
-  // The diagnal directions take up the middle third of each quadrant, such that each "outside" third is in the range for
-  // a relative (primary) direction. Therefore each diagonal direction is 1/9 of the Unit circle, and each primary direction
-  // is 2/9 of the unit circle.
+  //
+  // 'UP' is in the bottom two quadrants and 'DOWN' is in the top two quadrants because y increases down for scenery.
+  //
+  // The diagonal directions take up the middle third of each quadrant, such that each "outside" third is in the range
+  // for a relative (primary) direction. Therefore each diagonal direction is 1/9 of the Unit circle, and each
+  // primary direction is 2/9 of the unit circle.
   const DIRECTION_MAP = {
     UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -64,11 +68,12 @@ define( require => {
     DOWN: downString
   };
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
   class MovementDescriber {
+
+    /**
+     * @param {Property.<Vector2>} locationProperty - Property that drives movement, in model coordinate frame
+     * @param {Object} options
+     */
     constructor( locationProperty, options ) {
 
       options = merge( {
@@ -79,6 +84,10 @@ define( require => {
         // {Object.<DIRECTION, AlertableDef> see DirectionEnum for allowed keys. Any missing keys will not be alerted.
         // Use `{}` to omit movementAlerts.
         movementAlerts: DEFAULT_MOVEMENT_ALERTS,
+
+        // {ModelViewTransform2} - if provided, this will transform between the model and view coordinate frames, so
+        // that movement in the view is described
+        modelViewTransform: ModelViewTransform2.createIdentity(),
 
         // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
         // i.e. UP_LEFT becomes "UP" and "LEFT"
@@ -102,6 +111,7 @@ define( require => {
       // @private
       this.movementAlerts = options.movementAlerts;
       this.alertDiagonal = options.alertDiagonal;
+      this.modelViewTransform = options.modelViewTransform;
 
       // @private
       // This sub-describer handles the logic for alerting when an item is on the edge of the movement space
@@ -175,21 +185,26 @@ define( require => {
     }
 
     /**
-     * Get the direction of movement that would take you from point A to point B, returning one of DirectionEnum,
-     * LEFT, RIGHT,  UP, DOWN,  UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT. Uses Math.atan2, so the angle is mapped from
-     * 0 to +/- Math.PI.
+     * Get the direction of movement that would take you from point A to point B, returning one of DirectionEnum.
+     * These directions are described as they appear visually, with positive y going up.
      *
-     * @param  {Vector2} pointA
-     * @param  {Vector2} pointB
+     * Uses Math.atan2, so the angle is mapped from 0 to +/- Math.PI.
+     *
+     * @param  {Vector2} newPoint - in the model coordinate frame
+     * @param  {Vector2} oldPoint - in the model coordinate frame
      * @returns {Array.<DirectionEnum>} - contains one or two of the values in DirectionEnum, depending on whether or no you get
      *                            diagonal directions or their composite. See options.alertDiagonal for more info
-     * @static
+     * @private
      */
-    getDirections( pointA, pointB ) {
+    getDirections( newPoint, oldPoint ) {
       let direction;
 
-      const dx = pointA.x - pointB.x;
-      const dy = pointA.y - pointB.y;
+      // to view coordinates to motion in the screen
+      const newViewPoint = this.modelViewTransform.modelToViewPosition( newPoint );
+      const oldViewPoint = this.modelViewTransform.modelToViewPosition( oldPoint );
+
+      const dx = newViewPoint.x - oldViewPoint.x;
+      const dy = newViewPoint.y - oldViewPoint.y;
       const angle = Math.atan2( dy, dx );
 
       // atan2 wraps around Math.PI, so special check for moving left from absolute value
