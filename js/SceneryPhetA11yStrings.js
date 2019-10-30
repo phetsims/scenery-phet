@@ -140,6 +140,18 @@ define( require => {
     up: {
       value: 'up'
     },
+    upAndToTheRight: {
+      value: 'up and to the right'
+    },
+    upAndToTheLeft: {
+      value: 'up and to the left'
+    },
+    downAndToTheRight: {
+      value: 'down and to the right'
+    },
+    downAndToTheLeft: {
+      value: 'down and to the left'
+    },
 
     leftBorderAlert: {
       value: 'At left edge'

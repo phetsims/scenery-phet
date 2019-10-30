@@ -22,12 +22,17 @@ define( require => {
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
   const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   const downString = SceneryPhetA11yStrings.down.value;
   const leftString = SceneryPhetA11yStrings.left.value;
   const rightString = SceneryPhetA11yStrings.right.value;
   const upString = SceneryPhetA11yStrings.up.value;
+  const upAndToTheLeftString = SceneryPhetA11yStrings.upAndToTheLeft.value;
+  const upAndToTheRightString = SceneryPhetA11yStrings.upAndToTheRight.value;
+  const downAndToTheLeftString = SceneryPhetA11yStrings.downAndToTheLeft.value;
+  const downAndToTheRightString = SceneryPhetA11yStrings.downAndToTheRight.value;
 
   // constants
   // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
@@ -67,6 +72,14 @@ define( require => {
     UP: upString,
     DOWN: downString
   };
+
+  // the set of directional alerts including cardinal and intercardinal directions
+  const DIAGONAL_MOVEMENT_ALERTS = merge( {
+    UP_LEFT: upAndToTheLeftString,
+    UP_RIGHT: upAndToTheRightString,
+    DOWN_LEFT: downAndToTheLeftString,
+    DOWN_RIGHT: downAndToTheRightString
+  }, DEFAULT_MOVEMENT_ALERTS );
 
   class MovementDescriber {
 
@@ -197,11 +210,34 @@ define( require => {
      * @private
      */
     getDirections( newPoint, oldPoint ) {
+
+      const direction = MovementDescriber.getDirectionEnumerable( newPoint, oldPoint, this.modelViewTransform );
+
+      // This includes complex directions like "UP_LEFT"
+      if ( this.alertDiagonal ) {
+        return [ direction ];
+      }
+      else {
+        return DirectionEnum.directionToRelativeDirections( direction );
+      }
+    }
+
+    /**
+     * Get one of DirectionEnum from a newPoint and an oldPoint that would describe the direction of movement
+     * from the old point to the new point. These directions are described as they would appear visually, with
+     * +y going up.
+     * @private
+     *
+     * @param {Vector2} newPoint - in model coordinate frame
+     * @param {Vector2} oldPoint - in model coordinate frame
+     * @returns {}
+     */
+    static getDirectionEnumerable( newPoint, oldPoint, modelViewTransform ) {
       let direction;
 
       // to view coordinates to motion in the screen
-      const newViewPoint = this.modelViewTransform.modelToViewPosition( newPoint );
-      const oldViewPoint = this.modelViewTransform.modelToViewPosition( oldPoint );
+      const newViewPoint = modelViewTransform.modelToViewPosition( newPoint );
+      const oldViewPoint = modelViewTransform.modelToViewPosition( oldPoint );
 
       const dx = newViewPoint.x - oldViewPoint.x;
       const dy = newViewPoint.y - oldViewPoint.y;
@@ -221,14 +257,36 @@ define( require => {
         }
       }
 
-      // This includes complex directions like "UP_LEFT"
-      if ( this.alertDiagonal ) {
-        return [ direction ];
-      }
-      else {
-        return DirectionEnum.directionToRelativeDirections( direction );
-      }
+      return direction;
+    }
 
+    /**
+     * Get a description of direction from the provided angle. This will describe the motion as it appears
+     * on screen. The angle should go from 0 to 2PI. Angles in the top two quadrants are described as going 'up'.
+     * Angles in bottom two quadrants are described as going 'down'. Angles in the right two quadrants are described
+     * as going "right", and angles in the left two quadrants are described as going to the left.
+     *
+     * For now, this will always include diagonal alerts. In the future we can exclude the primary intercardinal
+     * directions.
+     * @public
+     *
+     * @param {} angle - an angle of directional movement in the model coordinate frame
+     * @returns {string}
+     */
+    static getDirectionDescriptionFromAngle( angle, options ) {
+
+      options = merge( {
+
+        // see constructor options for description
+        modelViewTransform: ModelViewTransform2.createIdentity()
+      }, options );
+
+      // start and end positions to determine angle in view coordinate frame
+      const modelStartPoint = new Vector2( 0, 0 );
+      const modelEndPoint = new Vector2( Math.cos( angle ), Math.sin( angle ) );
+
+      const direction = MovementDescriber.getDirectionEnumerable( modelEndPoint, modelStartPoint, options.modelViewTransform );
+      return DIAGONAL_MOVEMENT_ALERTS[ direction ];
     }
 
     /**
