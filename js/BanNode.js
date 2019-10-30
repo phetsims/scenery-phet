@@ -29,6 +29,7 @@ define( require => {
         stroke: 'black'
       }, options );
 
+      // TODO: Would it be preferable to preserve the passed-in children, and overlay the ban icon?
       assert && assert( !options.children, 'BanNode provides its own children' );
       super();
 
