@@ -79,8 +79,11 @@ define( require => {
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
-      // (see createLayoutFunction*) or create your own function.
+      // (see createLayoutFunction*) or create your own function. Arrow buttons will be null if `includeArrowButtons:false`
       layoutFunction: NumberControl.createLayoutFunction1(),
+
+      // {boolean} If set to false, then no arrow buttons will be added to the NumberControl
+      includeArrowButtons: true,
 
       // phet-io
       tandem: Tandem.required,
@@ -233,82 +236,90 @@ define( require => {
 
     const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
-    const leftArrowButton = new ArrowButton( 'left', () => {
-      let value = numberProperty.get() - options.delta;
-      value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      value = Math.max( value, numberRange.min ); // constrain to range
-      numberProperty.set( value );
-    }, merge( {
-      startCallback: options.arrowButtonOptions.leftStart,
-      endCallback: options.arrowButtonOptions.leftEnd,
-      tandem: options.tandem.createTandem( 'leftArrowButton' )
-    }, options.arrowButtonOptions ) );
-
-    const rightArrowButton = new ArrowButton( 'right', () => {
-      let value = numberProperty.get() + options.delta;
-      value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      value = Math.min( value, numberRange.max ); // constrain to range
-      numberProperty.set( value );
-    }, merge( {
-      startCallback: options.arrowButtonOptions.rightStart,
-      endCallback: options.arrowButtonOptions.rightEnd,
-      tandem: options.tandem.createTandem( 'rightArrowButton' )
-    }, options.arrowButtonOptions ) );
-
-    // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
-    // the NumberDisplay's maxWidth (if any)
-    if ( !arrowButtonScaleProvided ) {
-
-      // Remove the current button scaling so we can determine the desired final scale factor
-      leftArrowButton.setScaleMagnitude( 1 );
-
-      // Set the tweaker button height to match the height of the numberDisplay. Lengthy text can shrink a numberDisplay
-      // with maxWidth--if we match the scaled height of the numberDisplay the arrow buttons would shrink too, as
-      // depicted in https://github.com/phetsims/scenery-phet/issues/513#issuecomment-517897850
-      // Instead, to keep the tweaker buttons a uniform and reasonable size, we match their height to the unscaled
-      // height of the numberDisplay (ignores maxWidth and scale).
-      const numberDisplayHeight = numberDisplay.localBounds.height;
-      const arrowButtonsScale = numberDisplayHeight / leftArrowButton.height;
-
-      leftArrowButton.setScaleMagnitude( arrowButtonsScale );
-      rightArrowButton.setScaleMagnitude( arrowButtonsScale );
-    }
-
-    // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
-    leftArrowButton.touchArea = leftArrowButton.localBounds
-      .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
-      .shiftedX( -arrowButtonPointerAreaOptions.touchAreaXDilation );
-    rightArrowButton.touchArea = rightArrowButton.localBounds
-      .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
-      .shiftedX( arrowButtonPointerAreaOptions.touchAreaXDilation );
-
-    // arrow button mouseAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
-    leftArrowButton.mouseArea = leftArrowButton.localBounds
-      .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
-      .shiftedX( -arrowButtonPointerAreaOptions.mouseAreaXDilation );
-    rightArrowButton.mouseArea = rightArrowButton.localBounds
-      .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
-      .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
-
     // @public {HSlider} - for access to accessibility API
     this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
-    // Disable the arrow buttons if the slider currently has focus
-    const arrowEnabledListener = value => {
-      leftArrowButton.enabled = ( value > numberRange.min && !this.slider.isFocused() );
-      rightArrowButton.enabled = ( value < numberRange.max && !this.slider.isFocused() );
-    };
-    numberProperty.link( arrowEnabledListener );
+    // set below only if options.includeArrowButtons
+    let leftArrowButton = null;
+    let rightArrowButton = null;
+    let arrowEnabledListener = null;
 
-    this.slider.addInputListener( {
-      focus: () => {
-        leftArrowButton.enabled = false;
-        rightArrowButton.enabled = false;
-      },
-      blur: () => arrowEnabledListener( numberProperty.value ) // recompute if the arrow buttons should be enabled
-    } );
+    if ( options.includeArrowButtons ) {
 
-    // major ticks
+      leftArrowButton = new ArrowButton( 'left', () => {
+        let value = numberProperty.get() - options.delta;
+        value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        value = Math.max( value, numberRange.min ); // constrain to range
+        numberProperty.set( value );
+      }, merge( {
+        startCallback: options.arrowButtonOptions.leftStart,
+        endCallback: options.arrowButtonOptions.leftEnd,
+        tandem: options.tandem.createTandem( 'leftArrowButton' )
+      }, options.arrowButtonOptions ) );
+
+      rightArrowButton = new ArrowButton( 'right', () => {
+        let value = numberProperty.get() + options.delta;
+        value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        value = Math.min( value, numberRange.max ); // constrain to range
+        numberProperty.set( value );
+      }, merge( {
+        startCallback: options.arrowButtonOptions.rightStart,
+        endCallback: options.arrowButtonOptions.rightEnd,
+        tandem: options.tandem.createTandem( 'rightArrowButton' )
+      }, options.arrowButtonOptions ) );
+
+      // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
+      // the NumberDisplay's maxWidth (if any)
+      if ( !arrowButtonScaleProvided ) {
+
+        // Remove the current button scaling so we can determine the desired final scale factor
+        leftArrowButton.setScaleMagnitude( 1 );
+
+        // Set the tweaker button height to match the height of the numberDisplay. Lengthy text can shrink a numberDisplay
+        // with maxWidth--if we match the scaled height of the numberDisplay the arrow buttons would shrink too, as
+        // depicted in https://github.com/phetsims/scenery-phet/issues/513#issuecomment-517897850
+        // Instead, to keep the tweaker buttons a uniform and reasonable size, we match their height to the unscaled
+        // height of the numberDisplay (ignores maxWidth and scale).
+        const numberDisplayHeight = numberDisplay.localBounds.height;
+        const arrowButtonsScale = numberDisplayHeight / leftArrowButton.height;
+
+        leftArrowButton.setScaleMagnitude( arrowButtonsScale );
+        rightArrowButton.setScaleMagnitude( arrowButtonsScale );
+      }
+
+      // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+      leftArrowButton.touchArea = leftArrowButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+        .shiftedX( -arrowButtonPointerAreaOptions.touchAreaXDilation );
+      rightArrowButton.touchArea = rightArrowButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+        .shiftedX( arrowButtonPointerAreaOptions.touchAreaXDilation );
+
+      // arrow button mouseAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+      leftArrowButton.mouseArea = leftArrowButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+        .shiftedX( -arrowButtonPointerAreaOptions.mouseAreaXDilation );
+      rightArrowButton.mouseArea = rightArrowButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+        .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
+
+      // Disable the arrow buttons if the slider currently has focus
+      arrowEnabledListener = value => {
+        leftArrowButton.enabled = ( value > numberRange.min && !this.slider.isFocused() );
+        rightArrowButton.enabled = ( value < numberRange.max && !this.slider.isFocused() );
+      };
+      numberProperty.link( arrowEnabledListener );
+
+      this.slider.addInputListener( {
+        focus: () => {
+          leftArrowButton.enabled = false;
+          rightArrowButton.enabled = false;
+        },
+        blur: () => arrowEnabledListener( numberProperty.value ) // recompute if the arrow buttons should be enabled
+      } );
+    }
+
+    // major ticks for the slider
     const majorTicks = options.sliderOptions.majorTicks;
     for ( let i = 0; i < majorTicks.length; i++ ) {
       this.slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
@@ -344,13 +355,15 @@ define( require => {
     // @private
     this.disposeNumberControl = () => {
       numberDisplay.dispose();
-      leftArrowButton.dispose();
-      rightArrowButton.dispose();
       this.slider.dispose();
 
       this.thumbFillProperty && this.thumbFillProperty.dispose();
 
-      numberProperty.unlink( arrowEnabledListener );
+      // only defined if options.includeArrowButtons
+      leftArrowButton && leftArrowButton.dispose();
+      rightArrowButton && rightArrowButton.dispose();
+      arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
+
       this.enabledProperty.unlink( enabledObserver );
     };
 
