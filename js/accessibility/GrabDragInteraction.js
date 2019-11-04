@@ -129,6 +129,8 @@ define( require => {
 
       // a second block for options that use other options, therefore needing the defaults to be filled in
       options = merge( {
+
+        // {string} - like keyboardHelpText but when supporting gesture accessibility
         gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternString, {
           objectToGrab: options.objectToGrabString
         } )
