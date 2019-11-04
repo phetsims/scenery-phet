@@ -55,6 +55,10 @@ define( require => {
   const defaultObjectToGrabString = SceneryPhetA11yStrings.defaultObjectToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
 
+  // constants
+  // wrap in a function because phet.joist.sim doesn't exist at RequireJS time
+  const supportsTouchA11y = () => phet.joist.sim.supportsTouchA11y;
+
   class GrabDragInteraction {
 
     /**
@@ -180,7 +184,7 @@ define( require => {
 
       // @private
       this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
-                                     ( phet.joist.sim.supportsTouchA11y ? options.objectToGrabString : // otherwise if supporting touch
+                                     ( supportsTouchA11y() ? options.objectToGrabString : // otherwise if supporting touch
                                        StringUtils.fillIn( grabPatternString, { // default case
                                          objectToGrab: options.objectToGrabString
                                        } ) );
@@ -257,7 +261,7 @@ define( require => {
 
           // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
           // to initiate a drag
-          if ( phet.joist.sim.supportsTouchA11y ) {
+          if ( supportsTouchA11y() ) {
             return;
           }
 
@@ -403,7 +407,7 @@ define( require => {
       this.node.interruptInput();
 
       // To support touch and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-      if ( phet.joist.sim.supportsTouchA11y ) {
+      if ( supportsTouchA11y() ) {
         this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
       }
       else if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
