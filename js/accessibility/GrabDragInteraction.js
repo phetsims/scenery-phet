@@ -93,7 +93,9 @@ define( require => {
 
 
         // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
-        grabbableOptions: {},
+        grabbableOptions: {
+          appendDescription: true // in general, the help text is after the grabbable
+        },
 
         // {Object} - to pass in options to the cue
         grabCueOptions: {},
@@ -120,7 +122,6 @@ define( require => {
         // runtime is supporting gesture accessibility. Even though "technically" there is no way to access the
         // help text when this Node is in the draggable mode, the help text is still in the PDOM.
         keyboardHelpText: null,
-        gestureHelpText: null, // {string} Filled in below. Help text for the PDOM when supporting gesture a11y.
 
         // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
         //              thus determining whether or not to show the dragCueNode.
