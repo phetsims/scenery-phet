@@ -394,7 +394,7 @@ define( require => {
 
     /**
      * turn the Node into the grabbable (button), swap out listeners too
-     * @public
+     * @private
      */
     turnToGrabbable() {
       this.grabbable = true;
