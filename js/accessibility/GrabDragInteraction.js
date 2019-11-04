@@ -58,7 +58,7 @@ define( require => {
 
   // constants
   // wrap in a function because phet.joist.sim doesn't exist at RequireJS time
-  const supportsTouchA11y = () => phet.joist.sim.supportsTouchA11y;
+  const supportsGestureA11y = () => phet.joist.sim.supportsGestureA11y;
 
   class GrabDragInteraction {
 
@@ -116,7 +116,7 @@ define( require => {
 
         // {boolean} - Add an aria-describedby link between the description sibling and the primary sibling. By default this should
         // only be done when supporting gesture accessibility.
-        addAriaDescribedby: supportsTouchA11y(),
+        addAriaDescribedby: supportsGestureA11y(),
 
         // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
         // runtime is supporting gesture accessibility. Even though "technically" there is no way to access the
@@ -210,7 +210,7 @@ define( require => {
 
       // @private
       this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
-                                     ( supportsTouchA11y() ? options.objectToGrabString : // otherwise if supporting touch
+                                     ( supportsGestureA11y() ? options.objectToGrabString : // otherwise if supporting gesture
                                        StringUtils.fillIn( grabPatternString, { // default case
                                          objectToGrab: options.objectToGrabString
                                        } ) );
@@ -232,7 +232,7 @@ define( require => {
 
       // @private {string|null}
       // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
-      this.node.descriptionContent = supportsTouchA11y() ? options.gestureHelpText : options.keyboardHelpText;
+      this.node.descriptionContent = supportsGestureA11y() ? options.gestureHelpText : options.keyboardHelpText;
 
       // @private {Object} - The aria-describedby association object that will associate "grabbable" with its
       // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -289,7 +289,7 @@ define( require => {
 
           // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
           // to initiate a drag
-          if ( supportsTouchA11y() ) {
+          if ( supportsGestureA11y() ) {
             return;
           }
 
@@ -429,8 +429,8 @@ define( require => {
       // interrupt prior input, reset the key state of the drag handler by interrupting the drag
       this.node.interruptInput();
 
-      // To support touch and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-      if ( supportsTouchA11y() ) {
+      // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
+      if ( supportsGestureA11y() ) {
         this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
       }
       else if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
