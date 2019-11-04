@@ -51,6 +51,7 @@ define( require => {
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
+  const gestureHelpTextPatternString = SceneryPhetA11yStrings.gestureHelpTextPattern.value;
   const movableString = SceneryPhetA11yStrings.movable.value;
   const defaultObjectToGrabString = SceneryPhetA11yStrings.defaultObjectToGrab.value;
   const releasedString = SceneryPhetA11yStrings.released.value;
@@ -103,7 +104,7 @@ define( require => {
         // {Object} - Node options passed to the draggable created for the PDOM, filled in with defaults below
         draggableOptions: {},
 
-        // // {null|Node} - Optional node to cue the drag interaction once successfully updated.
+        // {null|Node} - Optional node to cue the drag interaction once successfully updated.
         dragCueNode: null,
 
         // {Function[]} - This type swaps the PDOM structure for a given node between a grabbable mode, and draggable one.
@@ -111,14 +112,26 @@ define( require => {
         listenersForDrag: [],
         listenersForGrab: [],
 
-        // {null|string} - if defined, this will be the help text for the object when it is in a "grabbable" state. The
-        // help text will be associated with the grabbable with aria-describedby so that the help text is read
-        // automatically when the user encounters the grabbable object
-        grabbableHelpText: null,
+        // {boolean} - Add an aria-describedby link between the description sibling and the primary sibling. By default this should
+        // only be done when supporting gesture accessibility.
+        addAriaDescribedby: supportsTouchA11y(),
+
+        // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
+        // runtime is supporting gesture accessibility. Even though "technically" there is no way to access the
+        // help text when this Node is in the draggable mode, the help text is still in the PDOM.
+        keyboardHelpText: null,
+        gestureHelpText: null, // {string} Filled in below. Help text for the PDOM when supporting gesture a11y.
 
         // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
         //              thus determining whether or not to show the dragCueNode.
-        successfulDrag: _.noop
+        successfulDrag: _.stubTrue
+      }, options );
+
+      // a second block for options that use other options, therefore needing the defaults to be filled in
+      options = merge( {
+        gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternString, {
+          objectToGrab: options.objectToGrabString
+        } )
       }, options );
 
       if ( node.focusHighlightLayerable ) {
@@ -148,10 +161,20 @@ define( require => {
         assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
         assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
       }
-      if ( options.grabbableHelpText ) {
-        assert && assert( !options.grabbableOptions.descriptionContent, 'using grabbableHelpText, dont set descriptionContent on grabbable' );
-        assert && assert( !options.grabbableOptions.helpText, 'using grabbableHelpText, dont set descriptionContent on grabbable' );
-      }
+
+      // GrabDragInteraction has its own api for description content.
+      assert && assert( !options.grabbableOptions.descriptionContent,
+        'set grabbableOptions.descriptionContent through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      assert && assert( !options.grabbableOptions.helpText,
+        'set grabbableOptions.helpText through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      assert && assert( !options.grabbableOptions.descriptionTagName,
+        'set grabbableOptions.descriptionTagName through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      assert && assert( !options.draggableOptions.descriptionTagName,
+        'set draggableOptions.descriptionTagName through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      assert && assert( !options.draggableOptions.descriptionContent,
+        'set draggableOptions.descriptionContent through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      assert && assert( !options.draggableOptions.helpText,
+        'set draggableOptions.helpText through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
 
       assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
       assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
@@ -202,9 +225,11 @@ define( require => {
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
       this.onGrabbable = options.onGrabbable;
       this.onDraggable = options.onDraggable;
+      this.addAriaDescribedby = options.addAriaDescribedby;
 
       // @private {string|null}
-      this.grabbableHelpText = options.grabbableHelpText;
+      // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
+      this.node.descriptionContent = supportsTouchA11y() ? options.gestureHelpText : options.keyboardHelpText;
 
       // @private {Object} - The aria-describedby association object that will associate "grabbable" with its
       // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -352,11 +377,6 @@ define( require => {
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
-      // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
-      if ( this.grabbableHelpText ) {
-        this.node.descriptionContent = this.grabbableHelpText;
-      }
-
       // Initialize the node as a grabbable (button) to begin with
       this.turnToGrabbable();
 
@@ -416,7 +436,7 @@ define( require => {
         this.node.removeAccessibleAttribute( 'aria-roledescription' );
       }
 
-      if ( this.grabbableHelpText ) {
+      if ( this.addAriaDescribedby ) {
 
         // this node is aria-describedby its own description content, so that the description is read automatically
         // when found by the user
@@ -440,7 +460,7 @@ define( require => {
       // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
       this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
 
-      if ( this.grabbableHelpText ) {
+      if ( this.addAriaDescribedby ) {
 
         // this node is aria-describedby its own description content, so that the description is read automatically
         // when found by the user

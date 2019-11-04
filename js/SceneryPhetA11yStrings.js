@@ -183,8 +183,10 @@ define( require => {
     },
     grabOrReleaseDescriptionPattern: {
       value: 'Grab or release {{thing}} with Space or Enter keys.'
+    },
+    gestureHelpTextPattern: {
+      value: 'Double tap and hold to drag {{objectToGrab}}. Lift finger to release.'
     }
-
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
