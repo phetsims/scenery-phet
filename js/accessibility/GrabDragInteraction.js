@@ -426,9 +426,6 @@ define( require => {
     turnToGrabbable() {
       this.grabbable = true;
 
-      // interrupt prior input, reset the key state of the drag handler by interrupting the drag
-      this.node.interruptInput();
-
       // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
       if ( supportsGestureA11y() ) {
         this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
@@ -446,8 +443,10 @@ define( require => {
         this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
 
-      this.onGrabbable();
       this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
+
+      // callback on completion
+      this.onGrabbable();
     }
 
     /**
@@ -470,10 +469,11 @@ define( require => {
         this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
 
-      this.onDraggable();
-
       // turn this into a draggable in the node
       this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrab, this.listenersForDrag );
+
+      // callback on completion
+      this.onDraggable();
     }
 
     /**
@@ -482,6 +482,9 @@ define( require => {
      * @private
      */
     baseInteractionUpdate( optionsToMutate, listenersToRemove, listenersToAdd ) {
+
+      // interrupt prior input, reset the key state of the drag handler by interrupting the drag
+      this.node.interruptInput();
 
       // remove all previous listeners from the node
       this.removeInputListeners( listenersToRemove );
