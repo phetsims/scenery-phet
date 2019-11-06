@@ -79,11 +79,11 @@ define( require => {
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
-      // (see createLayoutFunction*) or create your own function. Arrow buttons will be null if `excludeTweakers:true`
+      // (see createLayoutFunction*) or create your own function. Arrow buttons will be null if `includeArrowButtons:false`
       layoutFunction: NumberControl.createLayoutFunction1(),
 
       // {boolean} If set to true, then no arrow buttons will be added to the NumberControl
-      excludeTweakers: false,
+      includeArrowButtons: true,
 
       // phet-io
       tandem: Tandem.required,
@@ -239,12 +239,12 @@ define( require => {
     // @public {HSlider} - for access to accessibility API
     this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
-    // set below, see options.excludeTweakers
+    // set below, see options.includeArrowButtons
     let leftArrowButton = null;
     let rightArrowButton = null;
     let arrowEnabledListener = null;
 
-    if ( !options.excludeTweakers ) {
+    if ( options.includeArrowButtons ) {
 
       leftArrowButton = new ArrowButton( 'left', () => {
         let value = numberProperty.get() - options.delta;
@@ -359,7 +359,7 @@ define( require => {
 
       this.thumbFillProperty && this.thumbFillProperty.dispose();
 
-      // only defined if !options.excludeTweakers
+      // only defined if options.includeArrowButtons
       leftArrowButton && leftArrowButton.dispose();
       rightArrowButton && rightArrowButton.dispose();
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
@@ -614,11 +614,11 @@ define( require => {
         createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
       }, options );
       return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
-        const excludeTweakers = !leftArrowButton; // if there aren't arrow buttons, then exclude them
+        const includeArrowButtons = !!leftArrowButton; // if there aren't arrow buttons, then exclude them
         const bottomBox = new HBox( {
           resize: false, // prevent slider from causing resize?
           spacing: options.arrowButtonSpacing,
-          children: excludeTweakers ? [ slider ] : [
+          children: !includeArrowButtons ? [ slider ] : [
             leftArrowButton,
             slider,
             rightArrowButton
