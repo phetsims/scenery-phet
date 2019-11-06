@@ -38,6 +38,9 @@ define( require => {
 
     // @public (read-only) {number} - number of vertical cells in the keypad grid that this key occupies
     this.verticalSpan = options.verticalSpan;
+
+    // @public (read-only) {number} - the tandem component name to use when creating a button from this key.
+    this.buttonTandemName = `${_.camelCase( this.identifier )}Button`;
   }
 
   sceneryPhet.register( 'Key', Key );
