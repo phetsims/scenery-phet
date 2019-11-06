@@ -23,9 +23,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-
-  // constants
+// constants
   const RESET_ALL_BUTTON_RADIUS = 20.8;
 
   // a11y strings - not translatable
@@ -69,13 +67,13 @@ define( require => {
     // alert that everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     this.isFiringProperty.lazyLink( function( isFiring ) {
-      utteranceQueue.enabled = !isFiring;
+      phet.joist.sim.display.utteranceQueue.enabled = !isFiring;
 
       if ( isFiring ) {
-        utteranceQueue.clear();
+        phet.joist.sim.display.utteranceQueue.clear();
       }
       else {
-        utteranceQueue.addToBack( resetUtterance );
+        phet.joist.sim.display.utteranceQueue.addToBack( resetUtterance );
       }
     } );
   }

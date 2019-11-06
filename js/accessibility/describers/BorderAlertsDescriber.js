@@ -17,9 +17,7 @@ define( require => {
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Util = require( 'DOT/Util' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-
-  // a11y strings
+// a11y strings
   const leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
   const rightBorderAlertString = SceneryPhetA11yStrings.rightBorderAlert.value;
   const topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
@@ -179,7 +177,7 @@ define( require => {
     }
 
     alert() {
-      utteranceQueue.addToBackIfDefined( this.getAlert() );
+      phet.joist.sim.display.utteranceQueue.addToBackIfDefined( this.getAlert() );
       this._numberOfTimesAlerted++;
     }
 

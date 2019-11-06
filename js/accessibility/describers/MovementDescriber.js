@@ -21,7 +21,6 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
@@ -147,7 +146,7 @@ define( require => {
      * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
      */
     alert( alertable ) {
-      utteranceQueue.addToBack( alertable );
+      phet.joist.sim.display.utteranceQueue.addToBack( alertable );
       this.lastAlertedLocation = this.locationProperty.get();
     }
 

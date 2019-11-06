@@ -47,9 +47,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-
-  // a11y strings
+// a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
   const gestureHelpTextPatternString = SceneryPhetA11yStrings.gestureHelpTextPattern.value;
   const movableString = SceneryPhetA11yStrings.movable.value;
@@ -249,7 +247,7 @@ define( require => {
       // @private - wrap the optional onRelease in logic that is needed for the core type.
       this.onRelease = () => {
         options.onRelease && options.onRelease();
-        utteranceQueue.addToBack( releasedString );
+        phet.joist.sim.display.utteranceQueue.addToBack( releasedString );
       };
       this.onGrab = options.onGrab; // @private
 

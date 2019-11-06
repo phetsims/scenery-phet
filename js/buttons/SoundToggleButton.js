@@ -22,9 +22,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Shape = require( 'KITE/Shape' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-
-  // constants
+// constants
   const WIDTH = 45;
   const HEIGHT = 45;
   const MARGIN = 4;
@@ -79,7 +77,7 @@ define( require => {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       const alertString = value ? simSoundOnString : simSoundOffString;
-      utteranceQueue.addToBack( alertString );
+      phet.joist.sim.display.utteranceQueue.addToBack( alertString );
     };
     property.lazyLink( pressedListener );
     self.setAccessibleAttribute( 'aria-pressed', !property.get() );
