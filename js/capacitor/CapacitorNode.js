@@ -33,13 +33,11 @@ define( require => {
      * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {Property.<boolean>} plateChargeVisibleProperty
      * @param {Property.<boolean>} electricFieldVisibleProperty
-     * @param {Tandem} tandem  // TODO: Move tandem to options
      * @param {Object} options
      */
-    constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, tandem, options ) {
+    constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, options ) {
 
       options = _.extend( {
-        tandem: tandem,
         orientation: 'vertical' // TODO: Enumeration
       }, options );
       super();

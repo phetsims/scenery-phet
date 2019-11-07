@@ -255,8 +255,9 @@ define( require => {
     const plateChargeVisibleProperty = new BooleanProperty( true );
     const electricFieldVisibleProperty = new BooleanProperty( true );
 
-    const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty,
-      Tandem.optional );
+    const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, {
+      tandem: Tandem.optional
+    } );
 
     const controls = new VBox( {
       children: [
