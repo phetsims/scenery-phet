@@ -23,11 +23,13 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const Orientation = require( 'PHET_CORE/Orientation' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Util = require( 'DOT/Util' );
+  const validate = require( 'AXON/validate' );
 
   // constants
   const POSITIVE_CHARGE_COLOR = PhetColorScheme.RED_COLORBLIND.computeCSS(); // CSS passed into context fillStyle
@@ -66,7 +68,7 @@ define( require => {
     const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = NEGATIVE_CHARGE_COLOR;
-    if ( orientation === 'vertical' ) {
+    if ( orientation === Orientation.VERTICAL ) {
       context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
     }
     else {
@@ -89,11 +91,11 @@ define( require => {
         polarity: CapacitorConstants.POLARITY.POSITIVE,
         maxPlateCharge: Infinity,
         opacity: 1.0,
-        orientation: 'vertical',
+        orientation: Orientation.VERTICAL,
         canvasBounds: null // Bounds2|null
       }, options );
 
-      assert && assert( options.orientation === 'horizontal' || options.orientation === 'vertical' );
+      validate( options.orientation, { validValues: Orientation.VALUES } );
 
       super( { canvasBounds: options.canvasBounds } );
       const self = this; // extend scope for nested callbacks

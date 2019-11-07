@@ -17,10 +17,12 @@ define( require => {
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const EFieldNode = require( 'SCENERY_PHET/capacitor/EFieldNode' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const Orientation = require( 'PHET_CORE/Orientation' );
   const PlateNode = require( 'SCENERY_PHET/capacitor/PlateNode' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
+  const validate = require( 'AXON/validate' );
 
   // constants
   const CLIP_HEIGHT = 100;
@@ -38,11 +40,11 @@ define( require => {
     constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, options ) {
 
       options = _.extend( {
-        orientation: 'vertical' // TODO: Enumeration
+        orientation: Orientation.VERTICAL
       }, options );
       super();
 
-      assert && assert( options.orientation === 'horizontal' || options.orientation === 'vertical' );
+      validate( options.orientation, { validValues: Orientation.VALUES } );
 
       // @private
       this.capacitor = circuit.capacitor;
