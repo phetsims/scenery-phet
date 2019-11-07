@@ -22,6 +22,10 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
 
+  // constants
+  const CLIP_HEIGHT = 100;
+  const CLIP_WIDTH = 300;
+
   class CapacitorNode extends Node {
 
     /**
@@ -102,8 +106,6 @@ define( require => {
     getTopPlateClipShapeToGlobal() {
 
       // Note x & y are defined for a vertical capacitor, like in Capacitor Lab: Basics
-      const CLIP_HEIGHT = 100;
-      const CLIP_WIDTH = 300;
       const topNode = this.topPlateNode.topNode;
       const shape = Shape.rect( topNode.center.x - CLIP_HEIGHT, topNode.center.y - CLIP_WIDTH, CLIP_HEIGHT * 2, CLIP_WIDTH );
       return shape.transformed( topNode.getLocalToGlobalMatrix() );
@@ -117,8 +119,6 @@ define( require => {
     getBottomPlateClipShapeToGlobal() {
 
       // Note x & y are defined for a vertical capacitor, like in Capacitor Lab: Basics
-      const CLIP_HEIGHT = 100;
-      const CLIP_WIDTH = 300;
       const frontNode = this.bottomPlateNode.frontNode;
       const shape = Shape.rect( frontNode.bounds.center.x - CLIP_HEIGHT, frontNode.bounds.bottom, CLIP_HEIGHT * 2, CLIP_WIDTH );
       return shape.transformed( frontNode.getLocalToGlobalMatrix() );
@@ -157,7 +157,8 @@ define( require => {
         this.topPlateNode.left,
         this.topPlateNode.top,
         this.bottomPlateNode.right,
-        this.bottomPlateNode.bottom );
+        this.bottomPlateNode.bottom
+      );
     }
   }
 
