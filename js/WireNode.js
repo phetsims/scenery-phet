@@ -17,9 +17,9 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   /**
-   * @param {Property.<Vector2>} position1Property - connects to one object
+   * @param {Property.<Vector2>} position1Property - connects to one object, often this is a DerivedProperty
    * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the position1
-   * @param {Property.<Vector2>} position2Property - connects to another object
+   * @param {Property.<Vector2>} position2Property - connects to another object, often this is a DerivedProperty
    * @param {Property.<Vector2>} normal2Property - defines the control point of the cubic curve, relative to the position2
    * @param {Object} [options]
    * @constructor
@@ -30,14 +30,13 @@ define( require => {
       stroke: 'black'
     }, options );
 
-    const self = this;
     Path.call( this, null, options );
 
     // @private
     this.multilink = Property.multilink( [
       position1Property, normal1Property, position2Property, normal2Property
-    ], function( position1, normal1, position2, normal2 ) {
-      self.shape = new Shape()
+    ], ( position1, normal1, position2, normal2 ) => {
+      this.shape = new Shape()
         .moveToPoint( position1 )
         .cubicCurveToPoint(
           position1.plus( normal1 ),
