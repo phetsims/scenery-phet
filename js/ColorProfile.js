@@ -102,10 +102,11 @@ define( require => {
           'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
         // Use the requested initial profile, fallback to default.
-        const initialColor = colorMap[ initialProfileName] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
+        const initialColor = colorMap[ initialProfileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
 
         // Create a Property for the color
-        const colorProperty = self[ key + 'Property' ] = new Property( initialColor );
+        const colorProperty = new Property( initialColor );
+        self[ key + 'Property' ] = colorProperty;
 
         // Update the Property on profile name changes
         self.profileNameProperty.lazyLink( function( profileName ) {
