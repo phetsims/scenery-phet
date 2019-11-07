@@ -156,7 +156,7 @@ define( require => {
    * @param {Tandem} keyPadTandem
    * @returns {RectangularPushButton} keyNode
    */
-    function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
+  function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
 
     options = merge( {
       buttonColor: 'white',
@@ -178,7 +178,7 @@ define( require => {
       listener: function() {
         keyAccumulator.handleKeyPressed( keyObject.identifier );
       },
-      tandem: keyPadTandem.createTandem( `${_.camelCase( keyObject.identifier )}Button` )
+      tandem: keyPadTandem.createTandem( keyObject.buttonTandemName )
     } );
     keyNode.scale( width / keyNode.width, height / keyNode.height );
     return keyNode;
