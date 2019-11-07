@@ -16,6 +16,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const CapacitorConstants = require( 'SCENERY_PHET/capacitor/CapacitorConstants' );
   const EFieldNode = require( 'SCENERY_PHET/capacitor/EFieldNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Orientation = require( 'PHET_CORE/Orientation' );
   const PlateNode = require( 'SCENERY_PHET/capacitor/PlateNode' );
@@ -39,8 +40,14 @@ define( require => {
      */
     constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, options ) {
 
+<<<<<<< HEAD
       options = _.extend( {
         orientation: Orientation.VERTICAL
+=======
+      options = merge( {
+        tandem: tandem,
+        orientation: 'vertical' // TODO: Enumeration
+>>>>>>> forbid _.extend to define options or config (prefer merge), https://github.com/phetsims/chipper/issues/805
       }, options );
       super();
 
