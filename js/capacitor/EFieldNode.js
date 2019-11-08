@@ -15,6 +15,7 @@ define( require => {
   //modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Property = require( 'AXON/Property' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
@@ -22,8 +23,7 @@ define( require => {
   const ARROW_SIZE = new Dimension2( 6, 7 );
   const LINE_WIDTH = 1;
   const ARROW_COLOR = 'black';
-
-  // TODO: Enumeration for UP/DOWN?
+  const ArrowDirection = new Enumeration( [ 'UP', 'DOWN' ] );
 
   // determines spacing of electric field lines, chosen by inspection to match spacing from Java
   const SPACING_CONSTANT = 0.0258;
@@ -49,17 +49,17 @@ define( require => {
     // make sure that the arrow path is centered along the field line.
     // dividing by 4 aligns better than dividing by 2 for the narrow line width.
     const xOffset = LINE_WIDTH / 4;
-    const arrowCenter = ( direction === 'UP' ) ? position.x - xOffset : position.x + xOffset;
+    const arrowCenter = direction === ArrowDirection.UP ? position.x - xOffset : position.x + xOffset;
 
     // path for the UP arrow
-    if ( direction === 'UP' ) {
+    if ( direction === ArrowDirection.UP ) {
       context.moveTo( arrowCenter, position.y - h / 2 );
       context.lineTo( arrowCenter + w / 2, position.y + h / 2 );
       context.lineTo( arrowCenter - w / 2, position.y + h / 2 );
     }
 
     // path for the DOWN arrow
-    else if ( direction === 'DOWN' ) {
+    else if ( direction === ArrowDirection.DOWN ) {
       context.moveTo( arrowCenter, position.y + h / 2 );
       context.lineTo( arrowCenter - w / 2, position.y - h / 2 );
       context.lineTo( arrowCenter + w / 2, position.y - h / 2 );
@@ -137,7 +137,7 @@ define( require => {
          * E_effective changes.
          */
         const length = this.modelViewTransform.modelToViewDeltaXYZ( 0, plateSeparation, 0 ).y;
-        const direction = ( effectiveEField >= 0 ) ? 'DOWN' : 'UP';
+        const direction = ( effectiveEField >= 0 ) ? ArrowDirection.DOWN : ArrowDirection.UP;
         let x = lineSpacing / 2;
         while ( x <= plateWidth / 2 ) {
           let z = lineSpacing / 2;
