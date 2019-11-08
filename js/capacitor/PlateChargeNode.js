@@ -37,46 +37,6 @@ define( require => {
   const NUMBER_OF_PLATE_CHARGES = new Range( 1, 625 );
   const NEGATIVE_CHARGE_SIZE = new Dimension2( 7, 2 );
 
-  /**
-   * Draw a positive charge with canvas.  'Plus' sign is painted with two
-   * overlapping rectangles around a center location.
-   * @private
-   *
-   * @param {Vector2} location - center location of the charge in view space
-   * @param {CanvasRenderingContext2D} context - context for the canvas methods
-   */
-  const addPositiveCharge = ( location, context ) => {
-    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
-    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
-
-    context.fillStyle = POSITIVE_CHARGE_COLOR;
-    context.fillRect( location.x - chargeWidth / 2, location.y - chargeHeight / 2, chargeWidth, chargeHeight );
-    context.fillRect( location.x - chargeHeight / 2, location.y - chargeWidth / 2, chargeHeight, chargeWidth );
-  };
-
-  /**
-   * Draw a negative charge with canvas.  'Minus' sign is painted with a single
-   * rectangle around a center location.
-   * @private
-   *
-   * @param {Vector2} location
-   * @param {CanvasRenderingContext2D} context
-   * @param {string} orientation
-   */
-  const addNegativeCharge = ( location, context, orientation ) => {
-    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
-    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
-
-    context.fillStyle = NEGATIVE_CHARGE_COLOR;
-    if ( orientation === Orientation.VERTICAL ) {
-      context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
-    }
-    else {
-      context.fillRect( location.x - chargeHeight / 2, location.y - 2.5, chargeHeight, chargeWidth );
-    }
-  };
-
-  // TODO: This class seems never used directly
   class PlateChargeNode extends CanvasNode {
 
     /**
@@ -298,6 +258,45 @@ define( require => {
       return numberOfCharges;
     }
   }
+
+  /**
+   * Draw a positive charge with canvas.  'Plus' sign is painted with two
+   * overlapping rectangles around a center location.
+   * @private
+   *
+   * @param {Vector2} location - center location of the charge in view space
+   * @param {CanvasRenderingContext2D} context - context for the canvas methods
+   */
+  const addPositiveCharge = ( location, context ) => {
+    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
+    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
+
+    context.fillStyle = POSITIVE_CHARGE_COLOR;
+    context.fillRect( location.x - chargeWidth / 2, location.y - chargeHeight / 2, chargeWidth, chargeHeight );
+    context.fillRect( location.x - chargeHeight / 2, location.y - chargeWidth / 2, chargeHeight, chargeWidth );
+  };
+
+  /**
+   * Draw a negative charge with canvas.  'Minus' sign is painted with a single
+   * rectangle around a center location.
+   * @private
+   *
+   * @param {Vector2} location
+   * @param {CanvasRenderingContext2D} context
+   * @param {string} orientation
+   */
+  const addNegativeCharge = ( location, context, orientation ) => {
+    const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
+    const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
+
+    context.fillStyle = NEGATIVE_CHARGE_COLOR;
+    if ( orientation === Orientation.VERTICAL ) {
+      context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
+    }
+    else {
+      context.fillRect( location.x - chargeHeight / 2, location.y - 2.5, chargeHeight, chargeWidth );
+    }
+  };
 
   return sceneryPhet.register( 'PlateChargeNode', PlateChargeNode );
 } );
