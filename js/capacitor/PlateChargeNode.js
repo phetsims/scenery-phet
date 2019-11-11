@@ -81,11 +81,9 @@ define( require => {
       this.parentNode = new Node(); // @private parent node for charges
       this.addChild( this.parentNode );
 
-      // No disposal required because the capacitor is persistent
+      // No disposal required because the capacitor exists for the life of the sim
       Property.multilink( [
           capacitor.plateSizeProperty,
-          capacitor.plateSeparationProperty, // TODO: Is this needed?
-          capacitor.plateVoltageProperty,  // TODO: Is this needed?
           capacitor.plateChargeProperty // TODO: why was this not needed by CLB
         ], () => self.isVisible() && self.invalidatePaint()
       );
@@ -226,15 +224,20 @@ define( require => {
             const x = this.getContactXOrigin() + xOffset + ( column * dx );
             const y = 0;
             let z = -( gridDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
+
+            // #2935, so that single charge is not obscured by wire connected to center of top plate
             if ( numberOfCharges === 1 ) {
-              z -= dz / 6; //#2935, so that single charge is not obscured by wire connected to center of top plate
+              z -= dz / 6;
             }
             const centerPosition = this.modelViewTransform.modelToViewXYZ( x, y, z );
 
             // add the signed charge to the grid
-            this.isPositivelyCharged() ?
-            addPositiveCharge( centerPosition, context ) :
-            addNegativeCharge( centerPosition, context, this.orientation );
+            if ( this.isPositivelyCharged() ) {
+              addPositiveCharge( centerPosition, context );
+            }
+            else {
+              addNegativeCharge( centerPosition, context, this.orientation );
+            }
           }
         }
       }
