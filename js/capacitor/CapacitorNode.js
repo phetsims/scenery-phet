@@ -62,19 +62,34 @@ define( require => {
       this.addChild( eFieldNode );
       this.addChild( this.topPlateNode );
 
-      Property.multilink( [
+      const updateGeometry = Property.multilink( [
         this.capacitor.plateSizeProperty,
         this.capacitor.plateSeparationProperty
       ], () => this.updateGeometry() );
 
-      plateChargeVisibleProperty.link( visible => {
+      const updateVisibility = visible => {
         this.topPlateNode.setChargeVisible( visible );
         this.bottomPlateNode.setChargeVisible( visible );
-      } );
+      };
+      plateChargeVisibleProperty.link( updateVisibility );
 
-      electricFieldVisibleProperty.link( visible => eFieldNode.setVisible( visible ) );
+      const updateElectricFieldVisibility = visible => eFieldNode.setVisible( visible );
+      electricFieldVisibleProperty.link( updateElectricFieldVisibility );
 
       this.mutate( options );
+
+      // @private
+      this.disposeCapacitorNode = () => {
+        updateGeometry.dispose();
+        plateChargeVisibleProperty.unlink( updateVisibility );
+        electricFieldVisibleProperty.unlink( updateElectricFieldVisibility );
+      };
+    }
+
+    // @public
+    dispose() {
+      this.disposeCapacitorNode();
+      super.dispose();
     }
 
     /**
