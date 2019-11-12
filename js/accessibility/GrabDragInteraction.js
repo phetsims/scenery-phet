@@ -108,7 +108,9 @@ define( require => {
         dragCueNode: null,
 
         // {Function[]} - This type swaps the PDOM structure for a given node between a grabbable mode, and draggable one.
-        // We need to keep track of all listeners that need to be attached to each PDOM manifestation.
+        // We need to keep track of all listeners that need to be attached to each PDOM manifestation. Note: when these
+        // are removed while converting to/from grabbable/draggable, they are interrupted. Other listeners that are
+        // attached to this.node but aren't in these lists will not be interrupted.
         listenersForDrag: [],
         listenersForGrab: [],
 
@@ -481,8 +483,9 @@ define( require => {
      */
     baseInteractionUpdate( optionsToMutate, listenersToRemove, listenersToAdd ) {
 
-      // interrupt prior input, reset the key state of the drag handler by interrupting the drag
-      this.node.interruptInput();
+      // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
+      // input, but instead just those to be removed.
+      listenersToRemove.forEach( listener => listener.interrupt && listener.interrupt() );
 
       // remove all previous listeners from the node
       this.removeInputListeners( listenersToRemove );
