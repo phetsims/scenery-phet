@@ -25,7 +25,7 @@ define( require => {
     assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
     options = merge( {
       direction: 'forward',
-      soundPlayer: stepForwardSoundPlayer,
+      soundPlayer: stepForwardSoundPlayer
     }, options );
     
     StepButton.call( this, options );
