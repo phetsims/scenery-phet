@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
 
@@ -18,10 +19,9 @@ define( require => {
    * @constructor
    */
   function StepBackwardButton( options ) {
-    options = options || {};
 
-    assert && assert( !options.direction, 'StepBackwardButton sets direction' );
-    options.direction = 'backward';
+    assert && assert( !options || !options.direction, 'StepBackwardButton sets direction' );
+    options = merge( { direction: 'backward' }, options );
 
     StepButton.call( this, options );
   }
