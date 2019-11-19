@@ -48,6 +48,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
@@ -127,7 +128,10 @@ define( require => {
 
         // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
         //              thus determining whether or not to show the dragCueNode.
-        successfulDrag: _.stubTrue
+        successfulDrag: _.stubTrue,
+
+        // {Tandem} - For instrumenting
+        tandem: Tandem.required
       }, options );
 
       // a second block for options that use other options, therefore needing the defaults to be filled in
@@ -383,7 +387,9 @@ define( require => {
 
         // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
         // whether or not the pointer is already attached
-        attach: false
+        attach: false,
+
+        tandem: options.tandem.createTandem( 'pressListener' )
       } );
       this.node.addInputListener( pressListener );
 
