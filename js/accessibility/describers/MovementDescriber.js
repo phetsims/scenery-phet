@@ -153,7 +153,7 @@ define( require => {
      * @param {Array.<DirectionEnum>|DirectionEnum} directions
      */
     alertDirections( directions ) {
-      if ( typeof directions === 'string' ) {
+      if ( DirectionEnum.includes( directions ) ) {
         directions = [ directions ];
       }
 
