@@ -206,7 +206,7 @@ define( require => {
      * @param  {Vector2} oldPoint - in the model coordinate frame
      * @returns {Array.<DirectionEnum>} - contains one or two of the values in DirectionEnum, depending on whether or no you get
      *                            diagonal directions or their composite. See options.alertDiagonal for more info
-     * @private
+     * @protected
      */
     getDirections( newPoint, oldPoint ) {
 
@@ -229,6 +229,7 @@ define( require => {
      *
      * @param {Vector2} newPoint - in model coordinate frame
      * @param {Vector2} oldPoint - in model coordinate frame
+     * @param {ModelViewTransform2} modelViewTransform
      * @returns {}
      */
     static getDirectionEnumerable( newPoint, oldPoint, modelViewTransform ) {
