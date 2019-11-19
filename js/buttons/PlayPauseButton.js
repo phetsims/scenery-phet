@@ -17,7 +17,9 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PauseIconShape = require( 'SCENERY_PHET/PauseIconShape' );
+  const pauseSoundPlayer = require( 'TAMBO/shared-sound-players/pauseSoundPlayer' );
   const PlayIconShape = require( 'SCENERY_PHET/PlayIconShape' );
+  const playSoundPlayer = require( 'TAMBO/shared-sound-players/playSoundPlayer' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
 
@@ -42,7 +44,12 @@ define( require => {
       radius: DEFAULT_RADIUS,
       containerTagName: 'div',
       a11yPauseDescription: pauseDescriptionString,
-      a11yPlayDescription: playDescriptionString
+      a11yPlayDescription: playDescriptionString,
+
+      // sound generation
+      valueOffSoundPlayer: pauseSoundPlayer,
+      valueOnSoundPlayer: playSoundPlayer
+
     }, options );
 
     this.isPlayingProperty = isPlayingProperty; // @private
