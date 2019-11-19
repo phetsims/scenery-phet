@@ -383,7 +383,9 @@ define( require => {
 
         // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
         // whether or not the pointer is already attached
-        attach: false
+        attach: false,
+
+        tandem: options.tandem.createTandem( 'pressListener' )
       } );
       this.node.addInputListener( pressListener );
 
