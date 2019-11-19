@@ -14,6 +14,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  const stepForwardSoundPlayer = require( 'TAMBO/shared-sound-players/stepForwardSoundPlayer' );
 
   /**
    * @param {Object} [options]
@@ -22,7 +23,10 @@ define( require => {
   function StepForwardButton( options ) {
 
     assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
-    options = merge( { direction: 'forward' }, options );
+    options = merge( {
+      direction: 'forward',
+      soundPlayer: stepForwardSoundPlayer,
+    }, options );
     
     StepButton.call( this, options );
   }
