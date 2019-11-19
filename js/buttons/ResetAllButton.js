@@ -23,8 +23,12 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Tandem = require( 'TANDEM/Tandem' );
-// constants
+
+  // constants
   const RESET_ALL_BUTTON_RADIUS = 20.8;
+
+  // sounds
+  const resetAllSoundPlayer = require( 'TAMBO/shared-sound-players/resetAllSoundPlayer' );
 
   // a11y strings - not translatable
   const resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
@@ -47,6 +51,9 @@ define( require => {
       tandem: Tandem.required,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
       phetioType: ResetAllButtonIO,
+
+      // sound generation
+      soundPlayer: resetAllSoundPlayer,
 
       // a11y
       innerContent: resetAllButtonNameString
