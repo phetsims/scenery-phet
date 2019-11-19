@@ -65,26 +65,23 @@ define( require => {
     } );
   }
 
-  const DEFAULT_MOVEMENT_ALERTS = {
+  // the set of directional alerts including cardinal and intercardinal directions
+  const DEFAULT_MOVEMENT_DESCRIPTIONS = {
     LEFT: leftString,
     RIGHT: rightString,
     UP: upString,
-    DOWN: downString
-  };
-
-  // the set of directional alerts including cardinal and intercardinal directions
-  const DIAGONAL_MOVEMENT_ALERTS = merge( {
+    DOWN: downString,
     UP_LEFT: upAndToTheLeftString,
     UP_RIGHT: upAndToTheRightString,
     DOWN_LEFT: downAndToTheLeftString,
     DOWN_RIGHT: downAndToTheRightString
-  }, DEFAULT_MOVEMENT_ALERTS );
+  };
 
   class MovementDescriber {
 
     /**
      * @param {Property.<Vector2>} locationProperty - Property that drives movement, in model coordinate frame
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( locationProperty, options ) {
 
@@ -95,7 +92,7 @@ define( require => {
 
         // {Object.<DIRECTION, AlertableDef> see DirectionEnum for allowed keys. Any missing keys will not be alerted.
         // Use `{}` to omit movementAlerts.
-        movementAlerts: DEFAULT_MOVEMENT_ALERTS,
+        movementAlerts: DEFAULT_MOVEMENT_DESCRIPTIONS,
 
         // {ModelViewTransform2} - if provided, this will transform between the model and view coordinate frames, so
         // that movement in the view is described
@@ -134,11 +131,11 @@ define( require => {
       this.directionChangeUtterance = new Utterance();
 
       // @private
-      this.initialFirstLocationProperty = locationProperty.get();
+      this.initialFirstLocation = locationProperty.get();
 
       // @protected
       this.locationProperty = locationProperty;
-      this.lastAlertedLocation = this.initialFirstLocationProperty; // initial value of the locationProperty
+      this.lastAlertedLocation = this.initialFirstLocation; // initial value of the locationProperty
     }
 
     /**
@@ -156,7 +153,7 @@ define( require => {
      * @param {Array.<DirectionEnum>|DirectionEnum} directions
      */
     alertDirections( directions ) {
-      if ( typeof directions === 'string' ) {
+      if ( DirectionEnum.includes( directions ) ) {
         directions = [ directions ];
       }
 
@@ -206,7 +203,7 @@ define( require => {
      * @param  {Vector2} oldPoint - in the model coordinate frame
      * @returns {Array.<DirectionEnum>} - contains one or two of the values in DirectionEnum, depending on whether or no you get
      *                            diagonal directions or their composite. See options.alertDiagonal for more info
-     * @private
+     * @protected
      */
     getDirections( newPoint, oldPoint ) {
 
@@ -229,7 +226,8 @@ define( require => {
      *
      * @param {Vector2} newPoint - in model coordinate frame
      * @param {Vector2} oldPoint - in model coordinate frame
-     * @returns {}
+     * @param {ModelViewTransform2} modelViewTransform
+     * @returns {DirectionEnum}
      */
     static getDirectionEnumerable( newPoint, oldPoint, modelViewTransform ) {
       let direction;
@@ -269,7 +267,8 @@ define( require => {
      * directions.
      * @public
      *
-     * @param {} angle - an angle of directional movement in the model coordinate frame
+     * @param {number} angle - an angle of directional movement in the model coordinate frame
+     * @param {Object} [options]
      * @returns {string}
      */
     static getDirectionDescriptionFromAngle( angle, options ) {
@@ -285,7 +284,7 @@ define( require => {
       const modelEndPoint = new Vector2( Math.cos( angle ), Math.sin( angle ) );
 
       const direction = MovementDescriber.getDirectionEnumerable( modelEndPoint, modelStartPoint, options.modelViewTransform );
-      return DIAGONAL_MOVEMENT_ALERTS[ direction ];
+      return DEFAULT_MOVEMENT_DESCRIPTIONS[ direction ];
     }
 
     /**
@@ -303,7 +302,7 @@ define( require => {
      * @public
      */
     reset() {
-      this.lastAlertedLocation = this.initialFirstLocationProperty;
+      this.lastAlertedLocation = this.initialFirstLocation;
 
       // if any alerts are of type Utterance, reset them.
       this.movementAlertKeys.forEach( direction => {
@@ -315,11 +314,12 @@ define( require => {
     }
 
     /**
-     * get the default movement alerts
-     * @returns {{LEFT: string, RIGHT: string, UP: string, DOWN: string}}
+     * Get the default movement descriptions
+     * @returns {Object.<DirectionEnum, string>}} - not an actual DirectionEnum, but the toString() of it (as a key).
+     * @public
      */
-    static getDefaultMovementAlerts() {
-      return merge( {}, DEFAULT_MOVEMENT_ALERTS ); // clone
+    static getDefaultMovementDescriptions() {
+      return merge( {}, DEFAULT_MOVEMENT_DESCRIPTIONS ); // clone
     }
   }
 

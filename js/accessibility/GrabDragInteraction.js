@@ -44,10 +44,12 @@ define( require => {
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const PressListener = require( 'SCENERY/listeners/PressListener' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-// a11y strings
+
+  // a11y strings
   const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
   const gestureHelpTextPatternString = SceneryPhetA11yStrings.gestureHelpTextPattern.value;
   const movableString = SceneryPhetA11yStrings.movable.value;
@@ -320,13 +322,6 @@ define( require => {
           guardKeyPressFromDraggable = false;
         },
 
-        // on pointer down, switch to "draggable" representation in the PDOM - necessary for accessible tech that
-        // uses pointer events like iOS VoiceOver
-        down: () => {
-          this.turnToDraggable();
-          this.onGrab();
-        },
-
         blur: () => {
           if ( this.numberOfGrabs >= options.grabsToCue ) {
             this.grabCueNode.visible = false;
@@ -371,20 +366,34 @@ define( require => {
           if ( this.dragCueNode && options.successfulDrag() ) {
             this.dragCueNode.visible = false;
           }
-        },
-
-        // on pointer up, turn back into a "grabbable" so that it can be picked up again
-        up: () => this.releaseDraggable()
+        }
       };
 
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
-      // Initialize the node as a grabbable (button) to begin with
+      // on pointer down, switch to "draggable" representation in the PDOM - necessary for accessible tech that
+      // uses pointer events like iOS VoiceOver
+      const pressListener = new PressListener( {
+        press: () => {
+          this.turnToDraggable();
+          this.onGrab();
+        },
+        release: () => this.releaseDraggable(),
+
+        // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
+        // whether or not the pointer is already attached
+        attach: false
+      } );
+      this.node.addInputListener( pressListener );
+
+      // Initialize the Node as a grabbable (button) to begin with
       this.turnToGrabbable();
 
       // @private
       this.disposeA11yGrabDragNode = () => {
+
+        this.node.removeInputListener( pressListener );
 
         // Remove listeners according to what mode we are in
         if ( this.grabbable ) {
