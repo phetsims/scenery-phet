@@ -77,7 +77,7 @@ define( require => {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       const alertString = value ? simSoundOnString : simSoundOffString;
-      phet.joist.sim.display.utteranceQueue.addToBack( alertString );
+      phet.joist.sim.utteranceQueue.addToBack( alertString );
     };
     property.lazyLink( pressedListener );
     self.setAccessibleAttribute( 'aria-pressed', !property.get() );

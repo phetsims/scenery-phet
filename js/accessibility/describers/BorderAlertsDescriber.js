@@ -177,7 +177,7 @@ define( require => {
     }
 
     alert() {
-      phet.joist.sim.display.utteranceQueue.addToBackIfDefined( this.getAlert() );
+      phet.joist.sim.utteranceQueue.addToBackIfDefined( this.getAlert() );
       this._numberOfTimesAlerted++;
     }
 

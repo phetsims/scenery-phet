@@ -74,13 +74,13 @@ define( require => {
     // alert that everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     this.isFiringProperty.lazyLink( function( isFiring ) {
-      phet.joist.sim.display.utteranceQueue.enabled = !isFiring;
+      phet.joist.sim.utteranceQueue.enabled = !isFiring;
 
       if ( isFiring ) {
-        phet.joist.sim.display.utteranceQueue.clear();
+        phet.joist.sim.utteranceQueue.clear();
       }
       else {
-        phet.joist.sim.display.utteranceQueue.addToBack( resetUtterance );
+        phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
       }
     } );
   }

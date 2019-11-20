@@ -255,7 +255,7 @@ define( require => {
       // @private - wrap the optional onRelease in logic that is needed for the core type.
       this.onRelease = () => {
         options.onRelease && options.onRelease();
-        phet.joist.sim.display.utteranceQueue.addToBack( releasedString );
+        phet.joist.sim.utteranceQueue.addToBack( releasedString );
       };
       this.onGrab = options.onGrab; // @private
 

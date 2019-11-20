@@ -143,7 +143,7 @@ define( require => {
      * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
      */
     alert( alertable ) {
-      phet.joist.sim.display.utteranceQueue.addToBack( alertable );
+      phet.joist.sim.utteranceQueue.addToBack( alertable );
       this.lastAlertedLocation = this.locationProperty.get();
     }
 
