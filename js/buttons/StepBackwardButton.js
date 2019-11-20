@@ -12,6 +12,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const stepBackwardSoundPlayer = require( 'TAMBO/shared-sound-players/stepBackwardSoundPlayer' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
 
   /**
@@ -21,7 +22,10 @@ define( require => {
   function StepBackwardButton( options ) {
 
     assert && assert( !options || !options.direction, 'StepBackwardButton sets direction' );
-    options = merge( { direction: 'backward' }, options );
+    options = merge( {
+      direction: 'backward',
+      soundPlayer: stepBackwardSoundPlayer
+    }, options );
 
     StepButton.call( this, options );
   }
