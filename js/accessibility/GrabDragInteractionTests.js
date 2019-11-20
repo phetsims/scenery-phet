@@ -29,6 +29,10 @@ define( require => {
     display.initializeEvents();
     document.body.appendChild( display.domElement );
 
+    phet = phet || {}; // eslint-disable-line no-global-assign
+    phet.joist = phet.joist || {};
+    phet.joist.sim = phet.joist.sim || { utteranceQueue: display.utteranceQueue }; // stub utteranceQueue global
+
     const a = new Rectangle( 0, 0, 5, 5 );
 
     rootNode.addChild( a );
