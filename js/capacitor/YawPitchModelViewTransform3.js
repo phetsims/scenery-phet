@@ -65,14 +65,12 @@ define( require => {
      * @public
      *
      * @param {Vector3} modelPoint
-     * @returns {Vector3}
+     * @returns {Vector2}
      */
     modelToViewPosition( modelPoint ) {
-
-      assert && assert( modelPoint instanceof Vector3,
-        'modelPoint must be of type Vector3. Received ' + modelPoint );
-
-      scratchVector2.setPolar( modelPoint.z * Math.sin( this.pitch ), this.yaw ).add( modelPoint );
+      assert && assert( modelPoint instanceof Vector3, 'modelPoint must be of type Vector3. Received ' + modelPoint );
+      scratchVector2.setPolar( modelPoint.z * Math.sin( this.pitch ), this.yaw );
+      scratchVector2.addXY( modelPoint.x, modelPoint.y );
       return this.modelToViewTransform2D.transformPosition2( scratchVector2 );
     }
 
@@ -145,11 +143,11 @@ define( require => {
      * This is different than the inverse of modelToViewPosition.
      * @public
      *
-     * @param {Vector2} pView
+     * @param {Vector2} viewPoint
      * @returns {Vector3}
      */
-    viewToModelPosition( pView ) {
-      return this.modelToViewTransform2D.inversePosition2( pView ).toVector3();
+    viewToModelPosition( viewPoint ) {
+      return this.modelToViewTransform2D.inversePosition2( viewPoint ).toVector3();
     }
 
     /**
