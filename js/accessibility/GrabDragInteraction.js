@@ -265,7 +265,8 @@ define( require => {
 
       // @private - Make the draggable focusHighlight in the spitting image of the node's
       this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, {
-        visible: false
+        visible: false,
+        transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
       } );
 
       // Update the passed in node's focusHighlight to make it dashed for the "grabbed" mode
@@ -415,7 +416,9 @@ define( require => {
         if ( node.focusHighlightLayerable ) {
           assert && assert( this.grabFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
                                                             'node that is not in the scene graph?' );
-          this.grabFocusHighlight.parent.removeChild( this.dragFocusHighlight );
+          if ( this.grabFocusHighlight.parent.hasChild( this.dragFocusHighlight ) ) {
+            this.grabFocusHighlight.parent.removeChild( this.dragFocusHighlight );
+          }
         }
 
         // remove cue references
