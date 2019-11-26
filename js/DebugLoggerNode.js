@@ -5,7 +5,7 @@
  * often used when a console is not available, such as when debugging on iPads or other tablets.
  *
  * Typically, an instance of this is created and made global for use on a given screen.  Example:
- *   phet.debugLoggerNode = new DebugLogger;
+ *   phet.debugLoggerNode = new DebugLoggerNode();
  *   this.addChild( phet.debugLoggerNode );
  *
  * ...and then logging is accomplished by calling the logger like this:
