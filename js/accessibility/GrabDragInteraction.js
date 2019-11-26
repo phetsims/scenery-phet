@@ -117,9 +117,11 @@ define( require => {
         listenersForDrag: [],
         listenersForGrab: [],
 
-        // {boolean} - Add an aria-describedby link between the description sibling and the primary sibling. By default this should
-        // only be done when supporting gesture accessibility.
-        addAriaDescribedby: supportsGestureA11y(),
+        // {function(numberOfGrabs:number} - Add an aria-describedby link between the description
+        // sibling and the primary sibling, only when grabbable. By default this should only be done when supporting
+        // gesture accessibility before two success grabs. This function is called with one parameters: the number of
+        // successful grabs that has occurred thus far.
+        addAriaDescribedbyPredicate: numberOfGrabs => phet.joist.sim.supportsGestureA11y && numberOfGrabs < 2,
 
         // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
         // runtime is supporting gesture accessibility. Even though "technically" there is no way to access the
@@ -234,7 +236,7 @@ define( require => {
       this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
       this.onGrabbable = options.onGrabbable;
       this.onDraggable = options.onDraggable;
-      this.addAriaDescribedby = options.addAriaDescribedby;
+      this.addAriaDescribedbyPredicate = options.addAriaDescribedbyPredicate;
 
       // @private {string|null}
       // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
@@ -454,11 +456,14 @@ define( require => {
         this.node.removeAccessibleAttribute( 'aria-roledescription' );
       }
 
-      if ( this.addAriaDescribedby ) {
+      if ( this.addAriaDescribedbyPredicate( this.numberOfGrabs ) ) {
 
         // this node is aria-describedby its own description content, so that the description is read automatically
         // when found by the user
         this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+      }
+      else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
+        this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
 
       this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
@@ -480,10 +485,9 @@ define( require => {
       // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
       this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
 
-      if ( this.addAriaDescribedby ) {
-
-        // this node is aria-describedby its own description content, so that the description is read automatically
-        // when found by the user
+      // This node is aria-describedby its own description content only when grabbable, so that the description is
+      // read automatically when found by the user with the virtual cursor. Remove it for draggable
+      if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
         this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
 
@@ -594,7 +598,11 @@ define( require => {
      */
     reset() {
 
+      // reset numberOfGrabs for turnToGrabbable
+      this.numberOfGrabs = 0;
       this.turnToGrabbable();
+
+      // turnToGrabbable will increment this, so reset it again
       this.numberOfGrabs = 0;
       this.grabCueNode.visible = true;
       if ( this.dragCueNode ) {
