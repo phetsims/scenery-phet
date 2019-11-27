@@ -58,6 +58,7 @@ define( require => {
       backgroundFill: 'white',
       backgroundStroke: 'lightGray',
       backgroundLineWidth: 1,
+      backgroundLineDash: [],
       minBackgroundWidth: 0,
 
       // options related to display when numberProperty.value === null
@@ -128,7 +129,8 @@ define( require => {
       cornerRadius: options.cornerRadius,
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
-      lineWidth: options.backgroundLineWidth
+      lineWidth: options.backgroundLineWidth,
+      lineDash: options.backgroundLineDash
     } );
 
     options.children = [ this.backgroundNode, this.valueNode ];
