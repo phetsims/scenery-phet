@@ -59,7 +59,7 @@ define( require => {
         labelMaxWidth: 35, // {number} maxWidth of the Heat and Cool labels, determined empirically
 
         // slider options
-        thumbSize: new Dimension2( 22, 45 ), // {Dimension2}
+        thumbSize: new Dimension2( 45, 22 ), // {Dimension2}
         thumbTouchAreaXDilation: 11, // {number}
         thumbTouchAreaYDilation: 11, // {number}
         thumbMouseAreaXDilation: 0, // {number}
@@ -95,7 +95,7 @@ define( require => {
       // See https://github.com/phetsims/scenery-phet/issues/442
       this.slider = new VSlider( heatCoolAmountProperty,
         new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
-          trackSize: new Dimension2( DEFAULT_WIDTH / 2, 10 ),
+          trackSize: new Dimension2( 10, DEFAULT_WIDTH / 2 ), // height of the track depends on the width
           trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
             .addColorStop( 0, '#0A00F0' )
             .addColorStop( 1, '#EF000F' ),
