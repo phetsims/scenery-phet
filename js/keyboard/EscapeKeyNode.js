@@ -2,7 +2,7 @@
 
 /**
  * Node that looks like an 'Esc' key on a keyboard.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -10,7 +10,6 @@ define( require => {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
 
@@ -19,15 +18,17 @@ define( require => {
 
   /**
    * Constructor.
-   * 
-   * @param {Object} [options]
+   *
    */
-  function EscapeKeyNode( options ) {
-    TextKeyNode.call( this, keyEscString, options );
+  class EscapeKeyNode extends TextKeyNode {
+
+    /**
+     * @param {Object} [options]
+     */
+    constructor( options ) {
+      super( keyEscString, options );
+    }
   }
 
-  sceneryPhet.register( 'EscapeKeyNode', EscapeKeyNode );
-
-  return inherit( TextKeyNode, EscapeKeyNode );
-
+  return sceneryPhet.register( 'EscapeKeyNode', EscapeKeyNode );
 } );
