@@ -16,10 +16,6 @@ define( require => {
   // strings
   const keyEscString = require( 'string!SCENERY_PHET/key.esc' );
 
-  /**
-   * Constructor.
-   *
-   */
   class EscapeKeyNode extends TextKeyNode {
 
     /**
