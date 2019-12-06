@@ -92,7 +92,7 @@ define( require => {
   }
 
   // @public {Enumeration}
-  PropertyFractionNode.DisplayType = new Enumeration( [
+  PropertyFractionNode.DisplayType = Enumeration.byKeys( [
     'IMPROPER', // e.g. 3/2
     'MIXED' // e.g. 1 1/2
   ] );

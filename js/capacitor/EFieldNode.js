@@ -23,7 +23,7 @@ define( require => {
   const ARROW_SIZE = new Dimension2( 6, 7 );
   const LINE_WIDTH = 1;
   const ARROW_COLOR = 'black';
-  const ArrowDirection = new Enumeration( [ 'UP', 'DOWN' ] );
+  const ArrowDirection = Enumeration.byKeys( [ 'UP', 'DOWN' ] );
 
   // determines spacing of electric field lines, chosen by inspection to match spacing from Java
   const SPACING_CONSTANT = 0.0258;
