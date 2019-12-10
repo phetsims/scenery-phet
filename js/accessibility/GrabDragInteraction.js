@@ -92,13 +92,13 @@ define( require => {
         // accessibleAttributes.
         onDraggable: _.noop,
 
-
         // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
         grabbableOptions: {
           appendDescription: true // in general, the help text is after the grabbable
         },
 
-        // {Object} - to pass in options to the cue
+        // {Object} - To pass in options to the cue. This is a scenery Node and you can pass it options supported by
+        // that type. When positioning this node, it is in the target Node's parent coordinate frame.
         grabCueOptions: {},
 
         // {number} - the number of times a user has to successfully grab the object before hiding the cue.
