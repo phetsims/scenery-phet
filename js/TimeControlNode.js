@@ -91,6 +91,8 @@ define( require => {
         children: [ playPauseButton, stepButton ],
 
         // PDOM
+        tagName: 'div',
+        appendDescription: true,
         descriptionContent: timeControlDescriptionString
       } );
 
