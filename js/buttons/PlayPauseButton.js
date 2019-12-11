@@ -41,7 +41,9 @@ define( require => {
     options = merge( {
       radius: DEFAULT_RADIUS,
 
-      // {number} - scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false)
+      // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
+      // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
+      // the sim.
       playButtonScaleFactor: 1,
 
       // sound generation
