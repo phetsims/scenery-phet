@@ -90,6 +90,9 @@ define( require => {
         spacing: options.playPauseStepXSpacing,
         children: [ playPauseButton, stepButton ],
 
+        // don't change layout if playPauseButton resizes with playButtonScaleFactor
+        resize: false,
+
         // PDOM
         tagName: 'div',
         appendDescription: true,
