@@ -26,8 +26,6 @@ define( require => {
   // a11y strings
   const playString = SceneryPhetA11yStrings.playString.value;
   const pauseString = SceneryPhetA11yStrings.pauseString.value;
-  const playDescriptionString = SceneryPhetA11yStrings.playDescriptionString.value;
-  const pauseDescriptionString = SceneryPhetA11yStrings.pauseDescriptionString.value;
 
   // constants
   const DEFAULT_RADIUS = 28;
@@ -42,9 +40,6 @@ define( require => {
 
     options = merge( {
       radius: DEFAULT_RADIUS,
-      containerTagName: 'div',
-      a11yPauseDescription: pauseDescriptionString,
-      a11yPlayDescription: playDescriptionString,
 
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
@@ -76,7 +71,6 @@ define( require => {
 
     const isPlayingListener = function( running ) {
       self.innerContent = running ? pauseString : playString;
-      self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
     isPlayingProperty.link( isPlayingListener );
 

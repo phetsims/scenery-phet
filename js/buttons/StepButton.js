@@ -24,7 +24,6 @@ define( require => {
 
   // a11y strings
   const stepString = SceneryPhetA11yStrings.stepString.value;
-  const stepDescriptionString = SceneryPhetA11yStrings.stepDescriptionString.value;
 
   /**
    * @param {Object} [options] - see RoundPushButton
@@ -51,9 +50,7 @@ define( require => {
       isPlayingProperty: null,
 
       // a11y
-      innerContent: stepString,
-      containerTagName: 'div',
-      descriptionContent: stepDescriptionString
+      innerContent: stepString
     }, options );
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',

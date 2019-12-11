@@ -109,20 +109,16 @@ define( require => {
     pauseString: {
       value: 'Pause'
     },
-    playDescriptionString: {
-      value: 'Resume what is happening in the Play Area'
-    },
-    pauseDescriptionString: {
-      value: 'Pause what is happening in the Play Area'
-    },
+
     // StepButton
     stepString: {
-      'value': 'Step'
-    },
-    stepDescriptionString: {
-      'value': 'Pause and resume stream with every press.'
+      value: 'Step'
     },
 
+    // TimeControlNode
+    timeControlDescription: {
+      value: 'Pause, play, or step forward in time while paused.'
+    },
 
     //------------------------------------------------------------------------
     // MovementDescriber strings
