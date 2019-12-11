@@ -18,6 +18,11 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   class BarrierRectangle extends Plane {
+
+    /**
+     * @param {Array.<Node>} modalNodeStack
+     * @param {Object} [options]
+     */
     constructor( modalNodeStack, options ) {
 
       options = merge( {
