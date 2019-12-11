@@ -26,8 +26,6 @@ define( require => {
   // a11y strings
   const playString = SceneryPhetA11yStrings.playString.value;
   const pauseString = SceneryPhetA11yStrings.pauseString.value;
-  const playDescriptionString = SceneryPhetA11yStrings.playDescriptionString.value;
-  const pauseDescriptionString = SceneryPhetA11yStrings.pauseDescriptionString.value;
 
   // constants
   const DEFAULT_RADIUS = 28;
@@ -42,15 +40,19 @@ define( require => {
 
     options = merge( {
       radius: DEFAULT_RADIUS,
-      containerTagName: 'div',
-      a11yPauseDescription: pauseDescriptionString,
-      a11yPlayDescription: playDescriptionString,
+
+      // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
+      // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
+      // the sim.
+      playButtonScaleFactor: 1,
 
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
       valueOnSoundPlayer: playSoundPlayer
 
     }, options );
+
+    assert && assert( options.playButtonScaleFactor > 0, 'button scale factor must be greater than 0' );
 
     this.isPlayingProperty = isPlayingProperty; // @private
 
@@ -74,9 +76,14 @@ define( require => {
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
-    const isPlayingListener = function( running ) {
+    const isPlayingListener = function( running, oldValue ) {
+
+      // so we don't scale down the button immediately if isPlayingProperty is initially false
+      const runningScale = oldValue === null ? 1 : 1 / options.playButtonScaleFactor;
+      self.scale( running ? runningScale : options.playButtonScaleFactor );
+
+      // PDOM - accessible name for the button
       self.innerContent = running ? pauseString : playString;
-      self.descriptionContent = running ? options.a11yPauseDescription : options.a11yPlayDescription;
     };
     isPlayingProperty.link( isPlayingListener );
 

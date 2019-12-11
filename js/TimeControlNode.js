@@ -18,6 +18,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   const SunConstants = require( 'SUN/SunConstants' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -27,6 +28,9 @@ define( require => {
   // strings
   const speedNormalString = require( 'string!SCENERY_PHET/speed.normal' );
   const speedSlowString = require( 'string!SCENERY_PHET/speed.slow' );
+
+  // PDOM strings
+  const timeControlDescriptionString = SceneryPhetA11yStrings.timeControlDescription.value;
 
   class TimeControlNode extends Node {
 
@@ -84,7 +88,15 @@ define( require => {
       // Play/Pause and Step buttons
       const pushButtonGroup = new HBox( {
         spacing: options.playPauseStepXSpacing,
-        children: [ playPauseButton, stepButton ]
+        children: [ playPauseButton, stepButton ],
+
+        // don't change layout if playPauseButton resizes with playButtonScaleFactor
+        resize: false,
+
+        // PDOM
+        tagName: 'div',
+        appendDescription: true,
+        descriptionContent: timeControlDescriptionString
       } );
 
       const children = [];
