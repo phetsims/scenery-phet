@@ -379,14 +379,22 @@ define( require => {
       // @private
       this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
-      // on pointer down, switch to "draggable" representation in the PDOM - necessary for accessible tech that
-      // uses pointer events like iOS VoiceOver
+      // From non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
+      // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
       const pressListener = new PressListener( {
-        press: () => {
-          this.turnToDraggable();
-          this.onGrab();
+        press: ( event, listener ) => {
+          if ( !event.isA11y() ) {
+            this.turnToDraggable();
+            this.onGrab();
+          }
         },
-        release: () => this.releaseDraggable(),
+        release: ( event, listener ) => {
+
+          // release if PressListener is interrupted
+          if ( event === null || !event.isA11y() ) {
+            this.releaseDraggable();
+          }
+        },
 
         // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
         // whether or not the pointer is already attached
