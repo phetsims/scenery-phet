@@ -41,11 +41,16 @@ define( require => {
     options = merge( {
       radius: DEFAULT_RADIUS,
 
+      // {number} - scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false)
+      playButtonScaleFactor: 1,
+
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
       valueOnSoundPlayer: playSoundPlayer
 
     }, options );
+
+    assert && assert( options.playButtonScaleFactor > 0, 'button scale factor must be greater than 0' );
 
     this.isPlayingProperty = isPlayingProperty; // @private
 
@@ -69,7 +74,13 @@ define( require => {
 
     BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
-    const isPlayingListener = function( running ) {
+    const isPlayingListener = function( running, oldValue ) {
+
+      // so we don't scale down the button immediately if isPlayingProperty is initially false
+      const runningScale = oldValue === null ? 1 : 1 / options.playButtonScaleFactor;
+      self.scale( running ? runningScale : options.playButtonScaleFactor );
+
+      // PDOM - accessible name for the button
       self.innerContent = running ? pauseString : playString;
     };
     isPlayingProperty.link( isPlayingListener );
