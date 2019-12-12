@@ -20,6 +20,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
+  const StepBackwardButton = require( 'SCENERY_PHET/buttons/StepBackwardButton' );
   const SunConstants = require( 'SUN/SunConstants' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -45,6 +46,9 @@ define( require => {
         // Optional {BooleanProperty}, if provided 'Normal' and 'Slow' radio buttons are added.
         isSlowMotionProperty: null,
 
+        // {boolean} - if true a StepBackwardButton will be included in the controls to the left of the PlayPauseButton
+        includeStepBackwardButton: false,
+
         // {BooleanProperty}
         enabledProperty: null,
 
@@ -54,6 +58,9 @@ define( require => {
 
         // Options for the PlayPauseButton
         playPauseOptions: null,
+
+        // Options for the StepBackwardButton
+        stepBackwardOptions: null,
 
         // Options for the StepForwardButton
         stepOptions: null,
@@ -78,17 +85,30 @@ define( require => {
         tandem: options.tandem.createTandem( 'playPauseButton' )
       }, options.playPauseOptions ) );
 
-      const stepButton = new StepForwardButton( merge( {
+      const stepButtonOptions = {
         isPlayingProperty: isPlayingProperty,
         radius: 15,
-        touchAreaDilation: 5,
+        touchAreaDilation: 5
+      };
+
+      const stepForwardButton = new StepForwardButton( merge( {
         tandem: options.tandem.createTandem( 'stepForwardButton' )
-      }, options.stepOptions ) );
+      }, stepButtonOptions, options.stepOptions ) );
+
+      const buttons = [ playPauseButton, stepForwardButton ];
+
+      if ( options.includeStepBackwardButton ) {
+        const stepBackwardButton = new StepBackwardButton( merge( {
+          tandem: options.tandem.createTandem( 'stepBackwardButton' )
+        }, stepButtonOptions, options.stepBackwardOptions ) );
+
+        buttons.unshift( stepBackwardButton );
+      }
 
       // Play/Pause and Step buttons
       const pushButtonGroup = new HBox( {
         spacing: options.playPauseStepXSpacing,
-        children: [ playPauseButton, stepButton ],
+        children: buttons,
 
         // don't change layout if playPauseButton resizes with playButtonScaleFactor
         resize: false,
@@ -164,7 +184,7 @@ define( require => {
       this.disposeTimeControlNode = () => {
 
         playPauseButton.dispose();
-        stepButton.dispose();
+        stepForwardButton.dispose();
         radioButtonGroup && radioButtonGroup.dispose();
 
         if ( ownsEnabledProperty ) {
