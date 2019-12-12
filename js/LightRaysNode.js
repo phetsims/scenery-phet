@@ -44,7 +44,7 @@ define( require => {
     assert && assert( bulbRadius > 0 );
 
     options = merge( {
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     }, DEFAULT_OPTIONS, options );
 
     assert && assert( !options.stroke );

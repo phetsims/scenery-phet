@@ -149,7 +149,7 @@ define( require => {
       comboBoxItemFont: new PhetFont( 12 ),
       comboBoxItemYMargin: 3,
       selectedDemoLabel: sceneryPhetQueryParameters.component,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options ) );
   }
 
@@ -256,7 +256,7 @@ define( require => {
     const electricFieldVisibleProperty = new BooleanProperty( true );
 
     const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, {
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     } );
 
     const controls = new VBox( {

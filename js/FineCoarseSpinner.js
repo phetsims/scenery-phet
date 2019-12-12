@@ -38,7 +38,7 @@ define( require => {
         spacing: 10, // {number} horizontal space between subcomponents
         enabledProperty: null, // {BooleanProperty|null} is this control enabled?
         disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       if ( !options.range ) {

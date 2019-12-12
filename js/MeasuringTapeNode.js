@@ -91,7 +91,7 @@ define( require => {
       isTipDragBounded: true, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     }, options );
 
     Node.call( this );

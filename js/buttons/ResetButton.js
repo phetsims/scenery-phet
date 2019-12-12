@@ -42,7 +42,7 @@ define( require => {
       xContentOffset: -0.03 * BUTTON_RADIUS,
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235

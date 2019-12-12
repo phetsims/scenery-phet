@@ -40,12 +40,12 @@ define( require => {
   // Create and start sim
   SimLauncher.launch( function() {
 
-    const buttonsScreenTandem = Tandem.rootTandem.createTandem( 'buttonsScreen' );
-    const slidersScreenTandem = Tandem.rootTandem.createTandem( 'slidersScreen' );
-    const componentsScreenTandem = Tandem.rootTandem.createTandem( 'componentsScreen' );
-    const dialogsScreenTandem = Tandem.rootTandem.createTandem( 'dialogsScreen' );
-    const springScreenTandem = Tandem.rootTandem.createTandem( 'springsScreen' );
-    const memoryTestsScreenTandem = Tandem.rootTandem.createTandem( 'memoryTestsScreen' );
+    const buttonsScreenTandem = Tandem.ROOT.createTandem( 'buttonsScreen' );
+    const slidersScreenTandem = Tandem.ROOT.createTandem( 'slidersScreen' );
+    const componentsScreenTandem = Tandem.ROOT.createTandem( 'componentsScreen' );
+    const dialogsScreenTandem = Tandem.ROOT.createTandem( 'dialogsScreen' );
+    const springScreenTandem = Tandem.ROOT.createTandem( 'springsScreen' );
+    const memoryTestsScreenTandem = Tandem.ROOT.createTandem( 'memoryTestsScreen' );
     new Sim( sceneryPhetTitleString, [
 
       // Buttons

@@ -45,7 +45,7 @@ define( require => {
       lineWidth: 1,
 
       // phet-io
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     }, options );
 
     // things you're likely to mess up, add more as needed

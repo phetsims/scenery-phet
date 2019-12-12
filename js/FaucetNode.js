@@ -103,7 +103,7 @@ define( require => {
         mouseAreaYDilation: 0
       },
 
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioType: FaucetNodeIO,
       phetioEventType: EventType.USER
     }, options );

@@ -62,7 +62,7 @@ define( require => {
     glassOptions: null, // {Object|null} to be filled in with defaults below, or overriden, see DEFAULT_GLASS_OPTIONS
 
     // PhET-iO
-    tandem: Tandem.required
+    tandem: Tandem.REQUIRED
   };
   assert && Object.freeze( DEFAULT_OPTIONS );
 

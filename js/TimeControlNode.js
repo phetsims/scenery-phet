@@ -68,7 +68,7 @@ define( require => {
         radioButtonGroupOptions: null,
 
         // phet-io
-        tandem: Tandem.required // {Tandem}
+        tandem: Tandem.REQUIRED // {Tandem}
 
       }, options );
 

@@ -86,7 +86,7 @@ define( require => {
       pathBoundsMethod: 'accurate',
 
       // phet-io
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     }, options );
 
     const self = this;

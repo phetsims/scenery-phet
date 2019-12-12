@@ -30,7 +30,7 @@ define( require => {
         valueToColor: value => VisibleColor.wavelengthToColor( value ),
         minWavelength: VisibleColor.MIN_WAVELENGTH,
         maxWavelength: VisibleColor.MAX_WAVELENGTH,
-        tandem: Tandem.optional
+        tandem: Tandem.OPTIONAL
       }, options );
 
       // validation

@@ -48,7 +48,7 @@ define( require => {
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
 
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
       phetioType: ResetAllButtonIO,
 

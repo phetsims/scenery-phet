@@ -26,7 +26,7 @@ define( require => {
     constructor( modalNodeStack, options ) {
 
       options = merge( {
-        tandem: Tandem.required,
+        tandem: Tandem.REQUIRED,
         phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
         phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
         phetioEventType: EventType.USER,

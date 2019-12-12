@@ -120,7 +120,7 @@ define( require => {
       disabledOpacity: SunConstants.DISABLED_OPACITY,
 
       // phet-io
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
       phetioComponentOptions: null, // filled in below with PhetioObject.mergePhetioComponentOptions()
 

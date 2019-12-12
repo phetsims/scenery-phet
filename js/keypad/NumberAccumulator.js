@@ -42,7 +42,7 @@ define( require => {
     options = merge( {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     // range check the options

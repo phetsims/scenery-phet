@@ -52,7 +52,7 @@ define( require => {
       // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implementations
       // for examples
       accumulator: null,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     Node.call( this );

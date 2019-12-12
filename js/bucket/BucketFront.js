@@ -30,7 +30,7 @@ define( require => {
   function BucketFront( bucket, modelViewTransform, options ) {
 
     options = merge( {
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       cursor: 'pointer'
     }, options );
 

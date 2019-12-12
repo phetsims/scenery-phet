@@ -52,7 +52,7 @@ define( require => {
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
 
       // Note: EyeDropperNode is not draggable and hence only registers its button with tandem.
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     const self = this;

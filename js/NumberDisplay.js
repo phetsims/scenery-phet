@@ -67,7 +67,7 @@ define( require => {
       noValuePattern: null, // {string|null} If null, defaults to options.valuePattern
 
       // phet-io
-      tandem: Tandem.optional,
+      tandem: Tandem.OPTIONAL,
       phetioType: NumberDisplayIO
     }, options );
 

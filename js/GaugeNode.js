@@ -64,7 +64,7 @@ define( require => {
       // If null, BooleanProperty(true) will be created.
       enabledProperty: null,
 
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     assert && assert( range instanceof Range, 'range must be of type Range: ' + range );

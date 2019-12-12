@@ -133,7 +133,7 @@ define( require => {
         successfulDrag: _.stubTrue,
 
         // {Tandem} - For instrumenting
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       // a second block for options that use other options, therefore needing the defaults to be filled in

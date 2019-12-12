@@ -59,7 +59,7 @@ define( require => {
       timerReadoutNodeOptions: null,
 
       // Tandem is required to make sure the buttons are instrumented
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );

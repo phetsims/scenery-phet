@@ -62,7 +62,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  const tandem = Tandem.globalTandem.createTandem( 'colorProfile' );
+  const tandem = Tandem.GLOBAL.createTandem( 'colorProfile' );
 
   /**
    * @public

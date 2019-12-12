@@ -87,7 +87,7 @@ define( require => {
         dragListenerOptions: null, // see HandleDragListener
 
         // phet-io
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
 
       }, options );
 

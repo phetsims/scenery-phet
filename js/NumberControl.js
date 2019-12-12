@@ -86,7 +86,7 @@ define( require => {
       includeArrowButtons: true,
 
       // phet-io
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioType: NumberControlIO,
 
       // a11y

@@ -35,7 +35,7 @@ define( require => {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       magnifyingGlassFill: 'white', // center of the glass
       magnifyingGlassStroke: 'black', // rim and handle
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     // the magnifying glass

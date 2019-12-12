@@ -68,7 +68,7 @@ define( require => {
       tickMarksOnBottom: true,
 
       // phet-io
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     // things you're likely to mess up, add more as needed

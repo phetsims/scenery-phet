@@ -45,7 +45,7 @@ define( require => {
       buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
       xMargin: 7,
       yMargin: 3,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     assert && assert( !options.contentAppearanceStrategy, 'MoveToTrashButton sets contentAppearanceStrategy' );

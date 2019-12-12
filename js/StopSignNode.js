@@ -35,7 +35,7 @@ define( require => {
       innerStroke: 'white',
       outerStroke: 'black',
 
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     options.children = [

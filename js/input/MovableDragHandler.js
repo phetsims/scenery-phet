@@ -40,7 +40,7 @@ define( require => {
       // the target can be overridden here. This is useful when you need to attach a listener to a sub-component
       // of a node hierarchy
       targetNode: null,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     this.locationProperty = locationProperty; // @private
