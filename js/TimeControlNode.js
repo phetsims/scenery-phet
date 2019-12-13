@@ -63,7 +63,7 @@ define( require => {
         stepBackwardOptions: null,
 
         // Options for the StepForwardButton
-        stepOptions: null,
+        stepForwardOptions: null,
 
         // Options for the Normal/Slow text labels
         labelOptions: null,
@@ -93,7 +93,7 @@ define( require => {
 
       const stepForwardButton = new StepForwardButton( merge( {
         tandem: options.tandem.createTandem( 'stepForwardButton' )
-      }, stepButtonOptions, options.stepOptions ) );
+      }, stepButtonOptions, options.stepForwardOptions ) );
 
       const buttons = [ playPauseButton, stepForwardButton ];
 
@@ -101,7 +101,6 @@ define( require => {
         const stepBackwardButton = new StepBackwardButton( merge( {
           tandem: options.tandem.createTandem( 'stepBackwardButton' )
         }, stepButtonOptions, options.stepBackwardOptions ) );
-
         buttons.unshift( stepBackwardButton );
       }
 
