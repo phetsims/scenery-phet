@@ -84,7 +84,7 @@ define( require => {
       // No disposal required because the capacitor exists for the life of the sim
       Property.multilink( [
           capacitor.plateSizeProperty,
-          capacitor.plateChargeProperty // TODO: why was this not needed by CLB
+          capacitor.plateChargeProperty
         ], () => self.isVisible() && self.invalidatePaint()
       );
     }
