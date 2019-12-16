@@ -71,7 +71,9 @@ define( require => {
     options.timerReadoutNodeOptions = options.timerReadoutNodeOptions || {};
     options.timerReadoutNodeOptions.maxValue = options.maxValue;
 
-    // Create the TimerReadoutNode.  If we need more flexibility for this part, consider inversion of control
+    // Create the TimerReadoutNode.
+    // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in a
+    // TimerReadoutNode)
     const timerReadoutNode = new TimerReadoutNode( timeProperty, options.timerReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
