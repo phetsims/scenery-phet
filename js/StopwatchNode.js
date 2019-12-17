@@ -14,6 +14,9 @@ define( require => {
   // modules
   const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   const Bounds2 = require( 'DOT/Bounds2' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const DragBoundsProperty = require( 'SCENERY_PHET/DragBoundsProperty' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
@@ -25,18 +28,18 @@ define( require => {
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const Stopwatch = require( 'SCENERY_PHET/Stopwatch' );
   const Tandem = require( 'TANDEM/Tandem' );
   const TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
   const UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
-   * @param {Property.<number>} timeProperty
-   * @param {Property.<boolean>} runningProperty
+   * @param {Stopwatch} stopwatch
    * @param {Object} [options]
-   * @constructor
    */
-  function TimerNode( timeProperty, runningProperty, options ) {
+  function StopwatchNode( stopwatch, options ) {
+    assert && assert( stopwatch instanceof Stopwatch, `invalid stopwatch: ${stopwatch}` );
 
     options = merge( {
 
@@ -45,7 +48,7 @@ define( require => {
       iconHeight: 10,
       iconFill: 'black',
       iconLineWidth: 1,
-      backgroundBaseColor: 'rgb(  80, 130, 230  )',
+      backgroundBaseColor: 'rgb( 80, 130, 230 )',
       buttonBaseColor: '#DFE0E1',
       xSpacing: 6, // horizontal space between the buttons
       ySpacing: 6, // vertical space between readout and buttons
@@ -58,8 +61,12 @@ define( require => {
       // options propagated to TimerReadoutNode
       timerReadoutNodeOptions: null,
 
+      visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
+
       // Tandem is required to make sure the buttons are instrumented
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+
+      dragEndListener: () => {} // TODO: better name for this option, see https://github.com/phetsims/gas-properties/issues/170
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
@@ -67,14 +74,14 @@ define( require => {
 
     // fill in timerReadoutNodeOptions defaults
     assert && assert( !options.timerReadoutNodeOptions || options.timerReadoutNodeOptions.maxValue === undefined,
-      'TimerNode sets maxValue' );
+      'StopwatchNode sets maxValue' );
     options.timerReadoutNodeOptions = options.timerReadoutNodeOptions || {};
     options.timerReadoutNodeOptions.maxValue = options.maxValue;
 
     // Create the TimerReadoutNode.
     // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in a
     // TimerReadoutNode)
-    const timerReadoutNode = new TimerReadoutNode( timeProperty, options.timerReadoutNodeOptions );
+    const timerReadoutNode = new TimerReadoutNode( stopwatch.timeProperty, options.timerReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
 
@@ -92,15 +99,15 @@ define( require => {
       fill: options.iconFill
     } );
 
-    const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, runningProperty, {
+    const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, stopwatch.isRunningProperty, {
       baseColor: options.buttonBaseColor,
       tandem: options.tandem.createTandem( 'playPauseButton' )
     } );
 
     const resetButton = new RectangularPushButton( {
       listener: function resetTimer() {
-        runningProperty.set( false );
-        timeProperty.set( 0 );
+        stopwatch.isRunningProperty.set( false );
+        stopwatch.timeProperty.set( 0 );
       },
       content: resetPath,
       baseColor: options.buttonBaseColor,
@@ -126,7 +133,7 @@ define( require => {
     } );
     contents.center = backgroundNode.center;
 
-    assert && assert( !options.children, 'TimerNode sets children' );
+    assert && assert( !options.children, 'StopwatchNode sets children' );
     options.children = [ backgroundNode, contents ];
 
     Node.call( this, options );
@@ -139,33 +146,91 @@ define( require => {
       resetButton.enabled = time > 0;
       playPauseButton.enabled = time < options.maxValue;
       if ( time >= options.maxValue ) {
-        runningProperty.value = false;
+        stopwatch.isRunningProperty.value = false;
       }
     };
-    timeProperty.link( timeListener );
+    stopwatch.timeProperty.link( timeListener );
 
     // @private
-    this.disposeTimerNode = function() {
+    this.disposeStopwatchNode = function() {
       timerReadoutNode.dispose();
-      timeProperty.unlink( timeListener );
+      stopwatch.timeProperty.unlink( timeListener );
       resetButton.dispose();
       playPauseButton.dispose();
     };
 
+    // Put a red dot at the origin, for debugging layout.
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addChild( new Circle( 3, { fill: 'red' } ) );
+    }
+
+    // visibility
+    stopwatch.isVisibleProperty.link( visible => {
+
+      this.visible = visible;
+      if ( visible ) {
+        this.moveToFront();
+      }
+      else {
+
+        // TODO: https://github.com/phetsims/gas-properties/issues/170 this was incompatible with dragging out of a toolbox
+        // in wave interference, but not in Energy Skate Park: Basics, but I can't figure out why.
+        this.interruptSubtreeInput(); // interrupt user interactions
+      }
+    } );
+
+    // Move to the stopwatch's location
+    stopwatch.positionProperty.link( location => this.setTranslation( location ) );
+
+    this.dragListener = null; // may be reassigned below, if draggable
+
+    if ( options.visibleBoundsProperty ) {
+
+      // drag bounds, adjusted to keep this entire Node inside visible bounds
+      const dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
+
+      // If the stopwatch is outside the drag bounds, move it inside.
+      dragBoundsProperty.link( dragBounds => {
+        this.interruptSubtreeInput(); // interrupt user interactions
+        if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
+          stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
+        }
+      } );
+
+      // dragging, added to background so that other UI components get input events on touch devices
+      this.dragListener = new DragListener( {
+        targetNode: this,
+        locationProperty: stopwatch.positionProperty,
+        dragBoundsProperty: dragBoundsProperty,
+        end: options.dragEndListener
+      } );
+      this.dragTarget.addInputListener( this.dragListener );
+
+      // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
+      // This needs to be a DragListener so that touchSnag works.
+      this.addInputListener( new DragListener( {
+        attach: false, // so that this DragListener won't be ignored
+        start: () => this.moveToFront()
+      } ) );
+
+      // TODO: This is from masses and springs, is it necessary in common code? See https://github.com/phetsims/gas-properties/issues/170
+      this.touchArea = this.localBounds.dilated( 10 );
+    }
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimerNode', this );
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
   }
 
-  sceneryPhet.register( 'TimerNode', TimerNode );
+  sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 
-  return inherit( Node, TimerNode, {
+  return inherit( Node, StopwatchNode, {
 
     /**
      * Release resources when no longer be used.
      * @public
      */
     dispose: function() {
-      this.disposeTimerNode();
+      this.disposeStopwatchNode();
       Node.prototype.dispose.call( this );
     }
   } );
