@@ -80,8 +80,7 @@ define( require => {
     options.stopwatchReadoutNodeOptions.maxValue = options.maxValue;
 
     // Create the StopwatchReadoutNode.
-    // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in a
-    // StopwatchReadoutNode)
+    // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in an alternate Node)
     const stopwatchReadoutNode = new StopwatchReadoutNode( stopwatch.timeProperty, options.stopwatchReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
