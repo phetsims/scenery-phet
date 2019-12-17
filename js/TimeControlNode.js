@@ -97,8 +97,9 @@ define( require => {
 
       const buttons = [ playPauseButton, stepForwardButton ];
 
+      let stepBackwardButton = null;
       if ( options.includeStepBackwardButton ) {
-        const stepBackwardButton = new StepBackwardButton( merge( {
+        stepBackwardButton = new StepBackwardButton( merge( {
           tandem: options.tandem.createTandem( 'stepBackwardButton' )
         }, stepButtonOptions, options.stepBackwardOptions ) );
         buttons.unshift( stepBackwardButton );
@@ -184,6 +185,7 @@ define( require => {
 
         playPauseButton.dispose();
         stepForwardButton.dispose();
+        stepBackwardButton && stepBackwardButton.dispose();
         radioButtonGroup && radioButtonGroup.dispose();
 
         if ( ownsEnabledProperty ) {
