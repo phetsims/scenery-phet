@@ -66,7 +66,8 @@ define( require => {
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
 
-      dragEndListener: () => {} // TODO: Use nested options pattern here, see https://github.com/phetsims/gas-properties/issues/170
+      // TODO: https://github.com/phetsims/gas-properties/issues/170: is this the right way to indicate nested options?
+      dragListenerOptions: {}
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
@@ -198,12 +199,11 @@ define( require => {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      this.dragListener = new DragListener( {
+      this.dragListener = new DragListener( merge( {
         targetNode: this,
         locationProperty: stopwatch.positionProperty,
-        dragBoundsProperty: dragBoundsProperty,
-        end: options.dragEndListener
-      } );
+        dragBoundsProperty: dragBoundsProperty
+      }, options.dragListenerOptions ) );
       this.dragTarget.addInputListener( this.dragListener );
 
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
