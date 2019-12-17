@@ -1348,7 +1348,7 @@ define( require => {
       isVisible: true,
       tandem: options.tandem.createTandem( 'stopwatch' )
     } ), {
-      unitsNode: unitsNode,
+      stopwatchReadoutNodeOptions: { unitsNode: unitsNode },
       scale: 2,
       tandem: options.tandem.createTandem( 'stopwatchNode' )
     } );
