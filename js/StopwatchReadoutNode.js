@@ -2,7 +2,6 @@
 
 /**
  * Shows an elapsed time--can be displayed in a StopwatchNode.
- * TODO: https://github.com/phetsims/gas-properties/issues/170 rename to StopwatchReadoutNode
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -31,7 +30,7 @@ define( require => {
   } );
   const DEFAULT_MAX_VALUE = 3599.99;
 
-  class TimerReadoutNode extends Rectangle {
+  class StopwatchReadoutNode extends Rectangle {
 
     /**
      * @param {Property.<Number>} timeProperty
@@ -45,7 +44,7 @@ define( require => {
         smallFont: DEFAULT_SMALL_FONT, // {Font} for smaller numbers in the time value
 
         // {number} the maximum time value, in seconds. The timer will stop when this value is reached.
-        // When set to display time in minutes and seconds (the default for TimerReadoutNode),
+        // When set to display time in minutes and seconds (the default for StopwatchReadoutNode),
         // the largest quantity that StopwatchNode can display is minutes, and the smallest is 1/100 second.
         // So the default maxValue is 59 minutes, 59.99 seconds, which is 1/100 second short of 1 hour.
         // See https://github.com/phetsims/masses-and-springs-basics/issues/36
@@ -141,7 +140,7 @@ define( require => {
         options.unitsNode.on( 'bounds', unitsNodeBoundsListener );
       }
 
-      this.disposeTimerReadoutNode = () => {
+      this.disposeStopwatchReadoutNode = () => {
         timeProperty.unlink( updateText );
         timeProperty.unlink( updateTextLocation );
         options.unitsNode && options.unitsNode.off( unitsNodeBoundsListener );
@@ -149,14 +148,14 @@ define( require => {
     }
 
     dispose() {
-      this.disposeTimerReadoutNode();
+      this.disposeStopwatchReadoutNode();
     }
   }
 
   //statics
   // Make the default fonts public, to inform creation of optional unitsNode
-  TimerReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
-  TimerReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
+  StopwatchReadoutNode.DEFAULT_LARGE_FONT = DEFAULT_LARGE_FONT;
+  StopwatchReadoutNode.DEFAULT_SMALL_FONT = DEFAULT_SMALL_FONT;
 
   // the full-sized minutes and seconds string
   const timeToBigString = ( time, showUnits ) => {
@@ -202,7 +201,7 @@ define( require => {
   };
 
   // @public {number} - the default value for max time
-  TimerReadoutNode.DEFAULT_MAX_VALUE = DEFAULT_MAX_VALUE;
+  StopwatchReadoutNode.DEFAULT_MAX_VALUE = DEFAULT_MAX_VALUE;
 
-  return sceneryPhet.register( 'TimerReadoutNode', TimerReadoutNode );
+  return sceneryPhet.register( 'StopwatchReadoutNode', StopwatchReadoutNode );
 } );

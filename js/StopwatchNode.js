@@ -30,7 +30,7 @@ define( require => {
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Stopwatch = require( 'SCENERY_PHET/Stopwatch' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const TimerReadoutNode = require( 'SCENERY_PHET/TimerReadoutNode' );
+  const StopwatchReadoutNode = require( 'SCENERY_PHET/StopwatchReadoutNode' );
   const UTurnArrowShape = require( 'SCENERY_PHET/UTurnArrowShape' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -43,7 +43,7 @@ define( require => {
 
     options = merge( {
 
-      // See also options that pass through to TimerReadoutNode
+      // See also options that pass through to StopwatchReadoutNode
       cursor: 'pointer',
       iconHeight: 10,
       iconFill: 'black',
@@ -55,11 +55,11 @@ define( require => {
       xMargin: 8,
       yMargin: 8,
 
-      // {number} the maximum time value, in seconds. See TimerReadoutNode options.maxValue
-      maxValue: TimerReadoutNode.DEFAULT_MAX_VALUE,
+      // {number} the maximum time value, in seconds. See StopwatchReadoutNode options.maxValue
+      maxValue: StopwatchReadoutNode.DEFAULT_MAX_VALUE,
 
-      // options propagated to TimerReadoutNode
-      timerReadoutNodeOptions: null,
+      // options propagated to StopwatchReadoutNode
+      stopwatchReadoutNodeOptions: null,
 
       visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
 
@@ -72,16 +72,16 @@ define( require => {
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
     assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
-    // fill in timerReadoutNodeOptions defaults
-    assert && assert( !options.timerReadoutNodeOptions || options.timerReadoutNodeOptions.maxValue === undefined,
+    // fill in stopwatchReadoutNodeOptions defaults
+    assert && assert( !options.stopwatchReadoutNodeOptions || options.stopwatchReadoutNodeOptions.maxValue === undefined,
       'StopwatchNode sets maxValue' );
-    options.timerReadoutNodeOptions = options.timerReadoutNodeOptions || {};
-    options.timerReadoutNodeOptions.maxValue = options.maxValue;
+    options.stopwatchReadoutNodeOptions = options.stopwatchReadoutNodeOptions || {};
+    options.stopwatchReadoutNodeOptions.maxValue = options.maxValue;
 
-    // Create the TimerReadoutNode.
+    // Create the StopwatchReadoutNode.
     // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in a
-    // TimerReadoutNode)
-    const timerReadoutNode = new TimerReadoutNode( stopwatch.timeProperty, options.timerReadoutNodeOptions );
+    // StopwatchReadoutNode)
+    const stopwatchReadoutNode = new StopwatchReadoutNode( stopwatch.timeProperty, options.stopwatchReadoutNodeOptions );
 
     // Buttons ----------------------------------------------------------------------------
 
@@ -117,7 +117,7 @@ define( require => {
     const contents = new VBox( {
       spacing: options.ySpacing,
       children: [
-        timerReadoutNode,
+        stopwatchReadoutNode,
         new HBox( {
           spacing: options.xSpacing,
           children: [ resetButton, playPauseButton ]
@@ -153,7 +153,7 @@ define( require => {
 
     // @private
     this.disposeStopwatchNode = function() {
-      timerReadoutNode.dispose();
+      stopwatchReadoutNode.dispose();
       stopwatch.timeProperty.unlink( timeListener );
       resetButton.dispose();
       playPauseButton.dispose();
