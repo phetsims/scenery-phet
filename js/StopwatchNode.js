@@ -201,7 +201,8 @@ define( require => {
       this.dragListener = new DragListener( merge( {
         targetNode: this,
         locationProperty: stopwatch.positionProperty,
-        dragBoundsProperty: dragBoundsProperty
+        dragBoundsProperty: dragBoundsProperty,
+        tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions ) );
       this.dragTarget.addInputListener( this.dragListener );
 
@@ -209,7 +210,8 @@ define( require => {
       // This needs to be a DragListener so that touchSnag works.
       this.addInputListener( new DragListener( {
         attach: false, // so that this DragListener won't be ignored
-        start: () => this.moveToFront()
+        start: () => this.moveToFront(),
+        tandem: options.tandem.createTandem( 'moveToFrontListener' )
       } ) );
 
       // TODO: This is from masses and springs, is it necessary in common code, or should it be specified via an option?
