@@ -66,8 +66,8 @@ define( require => {
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
 
-      // TODO: https://github.com/phetsims/gas-properties/issues/170: is this the right way to indicate nested options?
-      dragListenerOptions: {}
+      // options propagated to the DragListener
+      dragListenerOptions: null
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
