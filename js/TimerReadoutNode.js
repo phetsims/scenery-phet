@@ -1,7 +1,8 @@
 // Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * Shows an elapsed time--can be displayed in a TimerNode.
+ * Shows an elapsed time--can be displayed in a StopwatchNode.
+ * TODO: https://github.com/phetsims/gas-properties/issues/170 rename to StopwatchReadoutNode
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -45,7 +46,7 @@ define( require => {
 
         // {number} the maximum time value, in seconds. The timer will stop when this value is reached.
         // When set to display time in minutes and seconds (the default for TimerReadoutNode),
-        // the largest quantity that TimerNode can display is minutes, and the smallest is 1/100 second.
+        // the largest quantity that StopwatchNode can display is minutes, and the smallest is 1/100 second.
         // So the default maxValue is 59 minutes, 59.99 seconds, which is 1/100 second short of 1 hour.
         // See https://github.com/phetsims/masses-and-springs-basics/issues/36
         maxValue: DEFAULT_MAX_VALUE
