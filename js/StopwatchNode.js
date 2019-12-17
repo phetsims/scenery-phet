@@ -66,7 +66,7 @@ define( require => {
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
 
-      dragEndListener: () => {} // TODO: better name for this option, see https://github.com/phetsims/gas-properties/issues/170
+      dragEndListener: () => {} // TODO: Use nested options pattern here, see https://github.com/phetsims/gas-properties/issues/170
     }, options );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
@@ -173,7 +173,7 @@ define( require => {
       }
       else {
 
-        // TODO: https://github.com/phetsims/gas-properties/issues/170 this was incompatible with dragging out of a toolbox
+        // TODO: https://github.com/phetsims/gas-properties/issues/170 interrupting input was incompatible with dragging out of a toolbox
         // in wave interference, but not in Energy Skate Park: Basics, but I can't figure out why.
         this.interruptSubtreeInput(); // interrupt user interactions
       }
@@ -213,7 +213,8 @@ define( require => {
         start: () => this.moveToFront()
       } ) );
 
-      // TODO: This is from masses and springs, is it necessary in common code? See https://github.com/phetsims/gas-properties/issues/170
+      // TODO: This is from masses and springs, is it necessary in common code, or should it be specified via an option?
+      // TODO: If so, how should the option be named or structured? See https://github.com/phetsims/gas-properties/issues/170
       this.touchArea = this.localBounds.dilated( 10 );
     }
 
