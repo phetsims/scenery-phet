@@ -508,7 +508,7 @@ define( require => {
      * Initiates a drag of the base (whole measuring tape) from a Scenery event.
      * @public
      *
-     * @param {Event} event
+     * @param {SceneryEvent} event
      */
     startBaseDrag: function( event ) {
       this.baseDragHandler.startDrag( event );
