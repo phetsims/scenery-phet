@@ -10,7 +10,7 @@ define( require => {
   'use strict';
 
   // modules
-  const CallbackTimer = require( 'SUN/CallbackTimer' );
+  const CallbackTimer = require( 'AXON/CallbackTimer' );
   const DownUpListener = require( 'SCENERY/input/DownUpListener' );
   const inherit = require( 'PHET_CORE/inherit' );
   const merge = require( 'PHET_CORE/merge' );
