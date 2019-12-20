@@ -25,7 +25,7 @@ define( require => {
     constructor( options ) {
 
       options = merge( {
-        location: Vector2.ZERO,
+        position: Vector2.ZERO,
         isVisible: false,
         timePropertyOptions: {},
 
@@ -34,7 +34,7 @@ define( require => {
       }, options );
 
       // @public - position of the stopwatch, in view coordinates
-      this.positionProperty = new Vector2Property( options.location, {
+      this.positionProperty = new Vector2Property( options.position, {
         tandem: options.tandem.createTandem( 'positionProperty' )
       } );
 
