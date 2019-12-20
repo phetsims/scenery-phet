@@ -166,7 +166,10 @@ define( require => {
 
         children.push( new HBox( {
           spacing: options.buttonsXSpacing,
-          children: [ pushButtonGroup, radioButtonGroup ]
+          children: [ pushButtonGroup, radioButtonGroup ],
+
+          // don't change layout if PlayPauseButton size changes
+          resize: false
         } ) );
       }
       else {
