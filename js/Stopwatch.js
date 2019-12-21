@@ -71,6 +71,7 @@ define( require => {
       };
       this.isVisibleProperty.link( visibilityListener );
 
+      // @private
       this.disposeStopwatch = () => {
         this.isVisibleProperty.unlink( visibilityListener );
       };
