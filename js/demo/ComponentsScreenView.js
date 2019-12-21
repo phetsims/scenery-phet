@@ -1336,22 +1336,27 @@ define( require => {
     const stopwatchNode = new StopwatchNode( stopwatch, {
       tandem: options.tandem.createTandem( 'unitlessStopwatchNode' )
     } );
-    const stopwatchNodeListener = dt => stopwatch.step( dt );
-    emitter.addListener( stopwatchNodeListener );
 
     // Create a StopwatchNode that can show from a selection of units.
     const unitsProperty = new Property( 'ps' );
 
     // Initialize with longest possible string
     const unitsNode = new Text( 'ms', { font: new PhetFont( 15 ) } );
-    const mutableUnitsStopwatchNode = new StopwatchNode( new Stopwatch( {
+    const mutableUnitsStopwatch = new Stopwatch( {
       isVisible: true,
       tandem: options.tandem.createTandem( 'stopwatch' )
-    } ), {
+    } );
+    const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
       stopwatchReadoutNodeOptions: { unitsNode: unitsNode },
       scale: 2,
       tandem: options.tandem.createTandem( 'stopwatchNode' )
     } );
+
+    const stopwatchNodeListener = dt => {
+      stopwatch.step( dt );
+      mutableUnitsStopwatch.step( dt );
+    };
+    emitter.addListener( stopwatchNodeListener );
     unitsProperty.link( function( units ) {
       unitsNode.text = units;
     } );
