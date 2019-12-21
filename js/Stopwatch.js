@@ -48,6 +48,8 @@ define( require => {
         tandem: options.tandem.createTandem( 'isRunningProperty' )
       } );
 
+      assert && assert( !options.timePropertyOptions.hasOwnProperty( 'tandem' ), 'Time property provides its own tandem' );
+
       // @public (read-only) time displayed on the stopwatch
       this.timeProperty = new NumberProperty( 0, merge( {
         units: 's',
