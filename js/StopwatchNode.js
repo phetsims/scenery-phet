@@ -151,21 +151,13 @@ define( require => {
     };
     stopwatch.timeProperty.link( timeListener );
 
-    // @private
-    this.disposeStopwatchNode = function() {
-      stopwatchReadoutNode.dispose();
-      stopwatch.timeProperty.unlink( timeListener );
-      resetButton.dispose();
-      playPauseButton.dispose();
-    };
-
     // Put a red dot at the origin, for debugging layout.
     if ( phet.chipper.queryParameters.dev ) {
       this.addChild( new Circle( 3, { fill: 'red' } ) );
     }
 
     // visibility
-    stopwatch.isVisibleProperty.link( visible => {
+    const stopwatchVisibleListener = visible => {
 
       this.visible = visible;
       if ( visible ) {
@@ -177,17 +169,21 @@ define( require => {
         // in wave interference, but not in Energy Skate Park: Basics, but I can't figure out why.
         this.interruptSubtreeInput(); // interrupt user interactions
       }
-    } );
+    };
+    stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
 
     // Move to the stopwatch's location
-    stopwatch.positionProperty.link( location => this.setTranslation( location ) );
+    const stopwatchPositionListener = location => this.setTranslation( location );
+    stopwatch.positionProperty.link( stopwatchPositionListener );
 
     this.dragListener = null; // may be reassigned below, if draggable
+
+    let dragBoundsProperty = null;
 
     if ( options.visibleBoundsProperty ) {
 
       // drag bounds, adjusted to keep this entire Node inside visible bounds
-      const dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
+      dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
 
       // If the stopwatch is outside the drag bounds, move it inside.
       dragBoundsProperty.link( dragBounds => {
@@ -222,6 +218,24 @@ define( require => {
     this.addLinkedElement( stopwatch, {
       tandem: options.tandem.createTandem( 'stopwatch' )
     } );
+
+    // @private
+    this.disposeStopwatchNode = function() {
+      stopwatch.isVisibleProperty.unlink( stopwatchVisibleListener );
+      stopwatch.timeProperty.unlink( timeListener );
+      stopwatch.positionProperty.unlink( stopwatchPositionListener );
+
+      stopwatchReadoutNode.dispose();
+      resetButton.dispose();
+      playPauseButton.dispose();
+
+      if ( this.dragListener ) {
+        this.dragTarget.removeInputListener( this.dragListener );
+        this.dragListener.dispose();
+      }
+
+      dragBoundsProperty && dragBoundsProperty.dispose();
+    };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
