@@ -12,12 +12,14 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const merge = require( 'PHET_CORE/merge' );
   const NumberProperty = require( 'AXON/NumberProperty' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
+  const ReferenceIO = require( 'TANDEM/types/ReferenceIO' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
 
-  class Stopwatch {
+  class Stopwatch extends PhetioObject {
 
     /**
      * @param {Object} [options]
@@ -30,8 +32,11 @@ define( require => {
         timePropertyOptions: {},
 
         // phet-io
-        tandem: Tandem.REQUIRED
+        tandem: Tandem.REQUIRED,
+        phetioType: ReferenceIO
       }, options );
+
+      super( options );
 
       // @public - position of the stopwatch, in view coordinates
       this.positionProperty = new Vector2Property( options.position, {
@@ -60,10 +65,27 @@ define( require => {
       }, options.timePropertyOptions ) );
 
       // When the stopwatch visibility changes, stop it and reset its value.
-      this.isVisibleProperty.link( () => {
+      const visibilityListener = () => {
         this.isRunningProperty.value = false;
         this.timeProperty.value = 0;
-      } );
+      };
+      this.isVisibleProperty.link( visibilityListener );
+
+      this.disposeStopwatch = () => {
+        this.isVisibleProperty.unlink( visibilityListener );
+      };
+    }
+
+    /**
+     * @public
+     */
+    dispose() {
+      this.disposeStopwatch();
+      this.positionProperty.dispose();
+      this.isVisibleProperty.dispose();
+      this.isRunningProperty.dispose();
+      this.timeProperty.dispose();
+      super.dispose();
     }
 
     /**

@@ -219,6 +219,10 @@ define( require => {
       this.touchArea = this.localBounds.dilated( 10 );
     }
 
+    this.addLinkedElement( stopwatch, {
+      tandem: options.tandem.createTandem( 'stopwatch' )
+    } );
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
   }
