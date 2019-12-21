@@ -156,18 +156,15 @@ define( require => {
       this.addChild( new Circle( 3, { fill: 'red' } ) );
     }
 
-    // visibility
     const stopwatchVisibleListener = visible => {
-
       this.visible = visible;
       if ( visible ) {
         this.moveToFront();
       }
       else {
 
-        // TODO: https://github.com/phetsims/gas-properties/issues/170 interrupting input was incompatible with dragging out of a toolbox
-        // in wave interference, but not in Energy Skate Park: Basics, but I can't figure out why.
-        this.interruptSubtreeInput(); // interrupt user interactions
+        // interrupt user interactions when the stopwatch is made invisible
+        this.interruptSubtreeInput();
       }
     };
     stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
