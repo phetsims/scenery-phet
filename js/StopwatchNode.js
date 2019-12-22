@@ -206,10 +206,6 @@ define( require => {
         start: () => this.moveToFront(),
         tandem: options.tandem.createTandem( 'moveToFrontListener' )
       } ) );
-
-      // TODO: This is from masses and springs, is it necessary in common code, or should it be specified via an option?
-      // TODO: If so, how should the option be named or structured? See https://github.com/phetsims/gas-properties/issues/170
-      this.touchArea = this.localBounds.dilated( 10 );
     }
 
     this.addLinkedElement( stopwatch, {
