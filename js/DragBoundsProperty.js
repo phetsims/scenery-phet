@@ -10,10 +10,11 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
+  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   class DragBoundsProperty extends DerivedProperty {
 
@@ -26,14 +27,38 @@ define( require => {
       assert && assert( visibleBoundsProperty instanceof Property,
         `invalid visibleBoundsProperty: ${visibleBoundsProperty}` );
 
-      // TODO: https://github.com/phetsims/gas-properties/issues/170 Should we also detect changes in the size of the
-      // target node itself?
-      super( [ visibleBoundsProperty ], visibleBounds => {
+      // Also detect changes in the size of the target node itself
+      const targetWidthProperty = new NodeProperty( targetNode, 'bounds', 'width', {
+        readOnly: true
+      } );
+      // Also detect changes in the size of the target node itself
+      const targetHeightProperty = new NodeProperty( targetNode, 'bounds', 'height', {
+        readOnly: true
+      } );
+
+      super( [ visibleBoundsProperty, targetWidthProperty, targetHeightProperty ], ( visibleBounds, targetWidth, targetHeight ) => {
 
         // account for the bounds of targetNode
-        return new Bounds2( visibleBounds.minX, visibleBounds.minY,
-          visibleBounds.maxX - targetNode.width, visibleBounds.maxY - targetNode.height );
+        return new Bounds2(
+          visibleBounds.minX,
+          visibleBounds.minY,
+          visibleBounds.maxX - targetWidth,
+          visibleBounds.maxY - targetHeight
+        );
       } );
+
+      // @private
+      this.disposeDragBoundsProperty = () => {
+        targetWidthProperty.dispose();
+      };
+    }
+
+    /**
+     * @public
+     */
+    dispose() {
+      this.disposeDragBoundsProperty();
+      super.dispose();
     }
   }
 

@@ -182,9 +182,11 @@ define( require => {
       // drag bounds, adjusted to keep this entire Node inside visible bounds
       dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
 
+      // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
+      options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
+
       // If the stopwatch is outside the drag bounds, move it inside.
       dragBoundsProperty.link( dragBounds => {
-        this.interruptSubtreeInput(); // interrupt user interactions
         if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
           stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
         }
