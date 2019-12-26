@@ -83,6 +83,7 @@ define( require => {
 
     /**
      * @public
+     * @override
      */
     dispose() {
       this.disposeStopwatch();
