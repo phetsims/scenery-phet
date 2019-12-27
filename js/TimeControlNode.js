@@ -183,6 +183,9 @@ define( require => {
 
       super( options );
 
+      // @private {PlayPauseButton} - for layout
+      this.playPauseButton = playPauseButton;
+
       // So we know whether we can dispose of the enabledProperty and its tandem
       const ownsEnabledProperty = !options.enabledProperty;
 
@@ -212,6 +215,17 @@ define( require => {
           this.enabledProperty.unlink( enabledListener );
         }
       };
+    }
+
+    /**
+     * Get the center of the PlayPauseButton, in the local coordinate frame of the TimeControlNode. Useful if the
+     * TimeControlNode needs to be positioned relative to the PlayPauseButton.
+     * @public
+     *
+     * @returns {Vector2}
+     */
+    getPlayPauseButtonCenter() {
+      return this.playPauseButton.center;
     }
 
     /**
