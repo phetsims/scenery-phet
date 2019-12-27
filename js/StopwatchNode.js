@@ -250,6 +250,7 @@ define( require => {
     /**
      * Release resources when no longer be used.
      * @public
+     * @override
      */
     dispose: function() {
       this.disposeStopwatchNode();
