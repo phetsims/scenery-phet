@@ -173,7 +173,7 @@ define( require => {
     const stopwatchPositionListener = location => this.setTranslation( location );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
-    this.dragListener = null; // may be reassigned below, if draggable
+    let dragListener = null; // may be reassigned below, if draggable
 
     let dragBoundsProperty = null;
 
@@ -193,13 +193,13 @@ define( require => {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      this.dragListener = new DragListener( merge( {
+      dragListener = new DragListener( merge( {
         targetNode: this,
         locationProperty: stopwatch.positionProperty,
         dragBoundsProperty: dragBoundsProperty,
         tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions ) );
-      this.dragTarget.addInputListener( this.dragListener );
+      this.dragTarget.addInputListener( dragListener );
 
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
       // This needs to be a DragListener so that touchSnag works.
@@ -224,9 +224,9 @@ define( require => {
       resetButton.dispose();
       playPauseButton.dispose();
 
-      if ( this.dragListener ) {
-        this.dragTarget.removeInputListener( this.dragListener );
-        this.dragListener.dispose();
+      if ( dragListener ) {
+        this.dragTarget.removeInputListener( dragListener );
+        dragListener.dispose();
       }
 
       dragBoundsProperty && dragBoundsProperty.dispose();
