@@ -44,7 +44,7 @@ define( require => {
       // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
       // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
       // the sim.
-      playButtonScaleFactor: 1,
+      scaleFactorWhenPaused: 1,
 
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
@@ -52,7 +52,7 @@ define( require => {
 
     }, options );
 
-    assert && assert( options.playButtonScaleFactor > 0, 'button scale factor must be greater than 0' );
+    assert && assert( options.scaleFactorWhenPaused > 0, 'button scale factor must be greater than 0' );
 
     this.isPlayingProperty = isPlayingProperty; // @private
 
@@ -79,8 +79,8 @@ define( require => {
     const isPlayingListener = function( running, oldValue ) {
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
-      const runningScale = oldValue === null ? 1 : 1 / options.playButtonScaleFactor;
-      self.scale( running ? runningScale : options.playButtonScaleFactor );
+      const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenPaused;
+      self.scale( running ? runningScale : options.scaleFactorWhenPaused );
 
       // PDOM - accessible name for the button
       self.innerContent = running ? pauseString : playString;
