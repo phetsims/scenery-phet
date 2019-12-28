@@ -173,7 +173,7 @@ define( require => {
     const stopwatchPositionListener = location => this.setTranslation( location );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
-    // @public {DragListener|null} -- reassigned below, if draggable
+    // @public (read-only) {DragListener|null} -- reassigned below, if draggable
     this.dragListener = null;
     let moveToFrontListener = null;
 
