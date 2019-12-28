@@ -85,12 +85,10 @@ define( require => {
 
       if ( options.stepForwardOptions ) {
         assert && assert( !options.stepForwardOptions.tandem, 'TimeControlNode sets tandems for buttons' );
-        assert && assert( !options.stepForwardOptions.isPlayingProperty, 'TimeControlNode components use same isPlayingProperty' );
       }
 
       if ( options.stepBackwardOptions ) {
         assert && assert( !options.stepBackwardOptions.tandem, 'TimeControlNode sets tandems for buttons' );
-        assert && assert( !options.stepBackwardOptions.isPlayingProperty, 'TimeControlNode components use same isPlayingProperty' );
       }
 
       const playPauseButton = new PlayPauseButton( isPlayingProperty, merge( {
