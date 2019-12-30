@@ -74,18 +74,19 @@ define( require => {
       // @private
       this.disposeStopwatch = () => {
         this.isVisibleProperty.unlink( visibilityListener );
+        this.positionProperty.dispose();
+        this.isVisibleProperty.dispose();
+        this.isRunningProperty.dispose();
+        this.timeProperty.dispose();
       };
     }
 
     /**
      * @public
+     * @override
      */
     dispose() {
       this.disposeStopwatch();
-      this.positionProperty.dispose();
-      this.isVisibleProperty.dispose();
-      this.isRunningProperty.dispose();
-      this.timeProperty.dispose();
       super.dispose();
     }
 

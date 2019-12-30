@@ -19,11 +19,13 @@ define( require => {
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const VSlider = require( 'SUN/VSlider' );
 
@@ -65,7 +67,14 @@ define( require => {
         thumbMouseAreaXDilation: 0, // {number}
         thumbMouseAreaYDilation: 0, // {number}
         thumbFill: '#71edff', // {Color|string|null}
-        thumbFillHighlighted: '#bff7ff' // {Color|string|null}
+        thumbFillHighlighted: '#bff7ff', // {Color|string|null}
+
+        // {null|HeaterCoolerBack} links the NodeIO Properties of the provided HeaterCoolerBack to this HeaterCoolerFront
+        heaterCoolerBack: null,
+
+        // phet-io
+        tandem: Tandem.REQUIRED,
+        phetioType: NodeIO
       }, options );
 
       assert && assert( options.heatEnabled || options.coolEnabled, 'Either heat or cool must be enabled.' );
@@ -116,7 +125,8 @@ define( require => {
             if ( options.snapToZero ) {
               heatCoolAmountProperty.set( 0 );
             }
-          }
+          },
+          tandem: options.tandem.createTandem( 'slider' )
         } );
 
       // Create the tick labels.
@@ -132,6 +142,19 @@ define( require => {
       this.addChild( this.slider );
 
       this.mutate( options );
+
+      // update the back component if provided
+      if ( options.heaterCoolerBack ) {
+        this.on( 'opacity', () => {
+          options.heaterCoolerBack.opacity = this.opacity;
+        } );
+        this.on( 'pickability', () => {
+          options.heaterCoolerBack.pickable = this.pickable;
+        } );
+        this.on( 'visibility', () => {
+          options.heaterCoolerBack.visible = this.visible;
+        } );
+      }
     }
   }
 

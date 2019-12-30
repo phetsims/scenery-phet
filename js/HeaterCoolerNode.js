@@ -62,7 +62,8 @@ define( require => {
         'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
       const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
         baseColor: options.baseColor,
-        leftTop: heaterCoolerBack.getHeaterFrontPosition()
+        leftTop: heaterCoolerBack.getHeaterFrontPosition(),
+        heaterCoolerBack: heaterCoolerBack
       }, options.frontOptions ) );
 
       // @public (read-only) With this visibility annotation comes great power - use it wisely.
@@ -83,7 +84,7 @@ define( require => {
       // support for binder documentation, stripped out in builds and only runs when ?binder is specified
       assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HeaterCoolerNode', this );
     }
-    
+
     /**
      * @public
      * @override

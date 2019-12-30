@@ -173,7 +173,9 @@ define( require => {
     const stopwatchPositionListener = location => this.setTranslation( location );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
-    this.dragListener = null; // may be reassigned below, if draggable
+    // @public (read-only) {DragListener|null} -- reassigned below, if draggable
+    this.dragListener = null;
+    let moveToFrontListener = null;
 
     let dragBoundsProperty = null;
 
@@ -182,9 +184,11 @@ define( require => {
       // drag bounds, adjusted to keep this entire Node inside visible bounds
       dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
 
+      // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
+      options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
+
       // If the stopwatch is outside the drag bounds, move it inside.
       dragBoundsProperty.link( dragBounds => {
-        this.interruptSubtreeInput(); // interrupt user interactions
         if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
           stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
         }
@@ -201,11 +205,12 @@ define( require => {
 
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
       // This needs to be a DragListener so that touchSnag works.
-      this.addInputListener( new DragListener( {
+      moveToFrontListener = new DragListener( {
         attach: false, // so that this DragListener won't be ignored
         start: () => this.moveToFront(),
         tandem: options.tandem.createTandem( 'moveToFrontListener' )
-      } ) );
+      } );
+      this.addInputListener( moveToFrontListener );
     }
 
     this.addLinkedElement( stopwatch, {
@@ -226,6 +231,10 @@ define( require => {
         this.dragTarget.removeInputListener( this.dragListener );
         this.dragListener.dispose();
       }
+      if ( moveToFrontListener ) {
+        this.removeInputListener( moveToFrontListener );
+        moveToFrontListener.dispose();
+      }
 
       dragBoundsProperty && dragBoundsProperty.dispose();
     };
@@ -241,6 +250,7 @@ define( require => {
     /**
      * Release resources when no longer be used.
      * @public
+     * @override
      */
     dispose: function() {
       this.disposeStopwatchNode();
