@@ -16,7 +16,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // constants
   const COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
@@ -66,7 +66,7 @@ define( require => {
       }
       else { // lookup visible color
         const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
-        color = colorTable[ Util.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
+        color = colorTable[ Utils.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
       }
 
       assert && assert( color, 'color not found for wavelength ' + wavelength );
@@ -215,9 +215,9 @@ define( require => {
       else {
         intensity = 1;
       }
-      const red = Util.roundSymmetric( 255 * ( intensity * r ) );
-      const green = Util.roundSymmetric( 255 * ( intensity * g ) );
-      const blue = Util.roundSymmetric( 255 * ( intensity * b ) );
+      const red = Utils.roundSymmetric( 255 * ( intensity * r ) );
+      const green = Utils.roundSymmetric( 255 * ( intensity * g ) );
+      const blue = Utils.roundSymmetric( 255 * ( intensity * b ) );
       const alpha = 1;
 
       // Add the color to the lookup array.

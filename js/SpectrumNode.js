@@ -18,7 +18,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // constants
   const DEFAULT_SIZE = new Dimension2( 150, 30 );
@@ -60,7 +60,7 @@ define( require => {
 
       // Draw the spectrum.
       for ( let i = 0; i < canvas.width; i++ ) {
-        const value = Util.clamp( Util.linear( 0, canvas.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
+        const value = Utils.clamp( Utils.linear( 0, canvas.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
         context.fillStyle = options.valueToColor( value ).toCSS();
         context.fillRect( i, 0, 1, canvas.height );
       }

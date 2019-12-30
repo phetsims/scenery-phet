@@ -18,7 +18,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -112,7 +112,7 @@ define( require => {
       }
       else {
         const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-        const mantissaNumber = Util.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+        const mantissaNumber = Utils.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
         const exponentNumber = parseInt( scientificNotation.exponent, 10 );
 
         if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
@@ -164,7 +164,7 @@ define( require => {
         exponent = 1;
       }
       else if ( options.exponent !== null && options.exponent === 0 ) {
-        mantissa = Util.toFixed( value, options.mantissaDecimalPlaces );
+        mantissa = Utils.toFixed( value, options.mantissaDecimalPlaces );
         exponent = 0;
       }
       else {
@@ -176,18 +176,18 @@ define( require => {
         const tokens = exponentialString.toLowerCase().split( 'e' );
 
         // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
-        mantissa = Util.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
+        mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
         exponent = parseInt( tokens[ 1 ], 10 );
 
         // Convert if a specific exponent was requested.
         if ( options.exponent !== null ) {
-          mantissa = Util.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
+          mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
           exponent = options.exponent;
         }
       }
 
       // restore precision in case toFixedNumber removed zeros to right of decimal
-      mantissa = Util.toFixed( mantissa, options.mantissaDecimalPlaces );
+      mantissa = Utils.toFixed( mantissa, options.mantissaDecimalPlaces );
       exponent = exponent.toString();
 
       // mantissa x 10^exponent

@@ -17,7 +17,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   class PointerCoordinatesNode extends Node {
 
@@ -61,13 +61,13 @@ define( require => {
 
           // (x,y) in view coordinates
           const viewPoint = this.globalToParentPoint( event.pointer.point );
-          const xView = Util.toFixed( viewPoint.x, options.viewDecimalPlaces );
-          const yView = Util.toFixed( viewPoint.y, options.viewDecimalPlaces );
+          const xView = Utils.toFixed( viewPoint.x, options.viewDecimalPlaces );
+          const yView = Utils.toFixed( viewPoint.y, options.viewDecimalPlaces );
 
           // (x,y) in model coordinates
           const modelPoint = modelViewTransform.viewToModelPosition( viewPoint );
-          const xModel = Util.toFixed( modelPoint.x, options.modelDecimalPlaces );
-          const yModel = Util.toFixed( modelPoint.y, options.modelDecimalPlaces );
+          const xModel = Utils.toFixed( modelPoint.x, options.modelDecimalPlaces );
+          const yModel = Utils.toFixed( modelPoint.y, options.modelDecimalPlaces );
 
           // Update coordinates display.
           textNode.text = `(${xView},${yView})<br>(${xModel},${yModel})`;

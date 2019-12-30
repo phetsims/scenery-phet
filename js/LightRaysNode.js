@@ -15,7 +15,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // constants, these are specific to bulb images
   const RAYS_START_ANGLE = 3 * Math.PI / 4;
@@ -79,7 +79,7 @@ define( require => {
       const maxRayLength = this.lightRaysNodeOptions.maxRayLength;
 
       // number of rays is a function of brightness
-      const numberOfRays = ( brightness === 0 ) ? 0 : minRays + Util.roundSymmetric( brightness * ( maxRays - minRays ) );
+      const numberOfRays = ( brightness === 0 ) ? 0 : minRays + Utils.roundSymmetric( brightness * ( maxRays - minRays ) );
 
       // ray length is a function of brightness
       const rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );
@@ -88,14 +88,14 @@ define( require => {
       const deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
       // The ray line width is a linear function within the allowed range
-      const lineWidth = Util.linear(
+      const lineWidth = Utils.linear(
         0.3 * maxRayLength,
         0.6 * maxRayLength,
         this.lightRaysNodeOptions.shortRayLineWidth,
         this.lightRaysNodeOptions.longRayLineWidth,
         rayLength
       );
-      this.lineWidth = Util.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
+      this.lineWidth = Utils.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
 
       const shape = new Shape();
 

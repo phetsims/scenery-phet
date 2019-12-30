@@ -33,7 +33,7 @@ define( require => {
   const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
 
@@ -390,7 +390,7 @@ define( require => {
      * @returns {string}
      */
     getText: function() {
-      return Util.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance,
+      return Utils.toFixed( this.unitsProperty.value.multiplier * this.tipToBaseDistance,
         this.significantFigures ) + ' ' + this.unitsProperty.value.name;
     },
 

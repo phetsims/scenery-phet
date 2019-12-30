@@ -30,7 +30,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
 
@@ -154,7 +154,7 @@ define( require => {
         const locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
         let yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - clickYOffset;
         if ( options.probeDragYRange ) {
-          yView = Util.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
+          yView = Utils.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
         }
         // convert to model coordinate frame
         const yModel = options.modelViewTransform.viewToModelY( yView );

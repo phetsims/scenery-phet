@@ -28,7 +28,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const validate = require( 'AXON/validate' );
 
   // constants
@@ -102,11 +102,11 @@ define( require => {
       if ( numberOfObjects > 0 ) {
 
         const alpha = Math.sqrt( numberOfObjects / width / height );
-        columns = Util.roundSymmetric( width * alpha );
+        columns = Utils.roundSymmetric( width * alpha );
 
         // compute rows 2 ways, choose the best fit
-        const rows1 = Util.roundSymmetric( height * alpha );
-        const rows2 = Util.roundSymmetric( numberOfObjects / columns );
+        const rows1 = Utils.roundSymmetric( height * alpha );
+        const rows2 = Utils.roundSymmetric( numberOfObjects / columns );
         if ( rows1 !== rows2 ) {
           const error1 = Math.abs( numberOfObjects - ( rows1 * columns ) );
           const error2 = Math.abs( numberOfObjects - ( rows2 * columns ) );
@@ -254,7 +254,7 @@ define( require => {
      */
     getNumberOfCharges( plateCharge, maxPlateCharge ) {
       const absCharge = Math.abs( plateCharge );
-      let numberOfCharges = Util.toFixedNumber( NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
+      let numberOfCharges = Utils.toFixedNumber( NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
       if ( absCharge > 0 && numberOfCharges < NUMBER_OF_PLATE_CHARGES.min ) {
         numberOfCharges = NUMBER_OF_PLATE_CHARGES.min;
       }

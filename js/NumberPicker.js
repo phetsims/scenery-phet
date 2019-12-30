@@ -37,7 +37,7 @@ define( require => {
   const SunConstants = require( 'SUN/SunConstants' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -87,7 +87,7 @@ define( require => {
        * @returns {string}
        */
       formatValue: function( value ) {
-        return Util.toFixed( value, options.decimalPlaces );
+        return Utils.toFixed( value, options.decimalPlaces );
       },
 
       /**

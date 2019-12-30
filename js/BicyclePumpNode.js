@@ -26,7 +26,7 @@ define( require => {
   const SegmentedBarGraphNode = require( 'SCENERY_PHET/SegmentedBarGraphNode' );
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // The follow constants define the size and positions of the various components of the pump as proportions of the
@@ -638,7 +638,7 @@ define( require => {
 
           // update the handle and shaft position based on the user's pointer position
           const dragPositionY = pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
-          handlePosition = Util.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
+          handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
           pumpHandleNode.centerY = handlePosition;
           pumpShaftNode.top = pumpHandleNode.bottom;
 

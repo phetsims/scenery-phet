@@ -16,7 +16,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // images
   const offImage = require( 'mipmap!SCENERY_PHET/light-bulb-off.png' );
@@ -84,7 +84,7 @@ define( require => {
         assert && assert( brightness >= 0 && brightness <= 1 );
         this.onNode.visible = ( brightness > 0 );
         if ( this.onNode.visible ) {
-          this.onNode.opacity = Util.linear( 0, 1, 0.3, 1, brightness );
+          this.onNode.opacity = Utils.linear( 0, 1, 0.3, 1, brightness );
         }
         this.raysNode.setBrightness( brightness );
       }
