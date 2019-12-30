@@ -1,5 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
+// REVIEW: Can we remove the documenation describing when this file was moved from CLB repo?
+// REVIEW: Is this documenation supposed to be used to track this file's history on github? If so, please ignore.
 /**
  * Visual representation of a capacitor.
  *

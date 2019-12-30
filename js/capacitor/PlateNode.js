@@ -42,6 +42,10 @@ define( require => {
       // Charges restricted to the largest possible top face on a capacitor plate.  Bounds needed for canvas.
       const canvasBounds = this.getMaxBoxNodeBounds();
 
+      // REVIEW: VacuumPlateChargeNode.js was deleted in commit a1272d042747dc72f8bd6222f969e4dad3c2470d.
+      // REVIEW: This type doc should read {PlateChargeNode} due to that type being deleted.
+      // REVIEW: Also, I (DB) would also suggest renaming vacuumPlateChargeNode -> plateChargeNode since the type was removed.
+      // REVIEW: Maybe in the documentation of CapacitorNode.js we should indicate that the model assumes a vacuum in the gap.
       // @private {VacuumPlateChargeNode}
       this.vacuumPlateChargeNode = new PlateChargeNode( capacitor, modelViewTransform, {
         polarity: polarity,

@@ -63,6 +63,7 @@ define( require => {
       // @private {Capacitor}
       this.capacitor = capacitor;
 
+      // REVIEW: Type doc {string}?
       // @private
       this.orientation = options.orientation;
 
@@ -89,12 +90,14 @@ define( require => {
       );
     }
 
+    // REVIEW: Should `[description]` in the jsdoc be removed?
     /**
      * @param {number} numberOfObjects [description]
      * @param {number} width
      * @param {number} height
-     * @returns {Dimension2}
      * @private
+     *
+     * @returns {Dimension2}
      */
     getGridSize( numberOfObjects, width, height ) {
       let columns = 0;
@@ -186,7 +189,7 @@ define( require => {
     }
 
     /**
-     * Updates the view to match the model.  Charges are arranged in a grid.
+     * Updates the view to match the model. Charges are arranged in a grid.
      *
      * @param {CanvasRenderingContext2D} context
      * @public
@@ -265,10 +268,10 @@ define( require => {
   /**
    * Draw a positive charge with canvas.  'Plus' sign is painted with two
    * overlapping rectangles around a center location.
-   * @private
    *
    * @param {Vector2} location - center location of the charge in view space
    * @param {CanvasRenderingContext2D} context - context for the canvas methods
+   * @private
    */
   const addPositiveCharge = ( location, context ) => {
     const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
@@ -282,11 +285,11 @@ define( require => {
   /**
    * Draw a negative charge with canvas.  'Minus' sign is painted with a single
    * rectangle around a center location.
-   * @private
    *
    * @param {Vector2} location
    * @param {CanvasRenderingContext2D} context
    * @param {string} orientation
+   * @private
    */
   const addNegativeCharge = ( location, context, orientation ) => {
     const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
