@@ -41,7 +41,7 @@ define( require => {
   const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   const GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
-  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const KeyboardUtils = require( 'SCENERY/accessibility/KeyboardUtils' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PressListener = require( 'SCENERY/listeners/PressListener' );
@@ -345,7 +345,7 @@ define( require => {
         // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
         // we don't immediately catch the 'click' event while the enter key is down on the button
         keydown: event => {
-          if ( event.domEvent.keyCode === KeyboardUtil.KEY_ENTER ) {
+          if ( event.domEvent.keyCode === KeyboardUtils.KEY_ENTER ) {
 
             // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
             // "clicking" the grab button also on this key press.
@@ -357,7 +357,7 @@ define( require => {
 
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
-          if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
+          if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
             this.releaseDraggable();
           }
 
