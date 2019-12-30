@@ -68,7 +68,6 @@ define( require => {
      *
      * @returns {Bounds3}
      */
-    // REVIEW: Should this be @private? I'm (DB) only seeing one call to this function in the constructor. If not, then ignore.
     getMaxBoxNodeBounds() {
       const maxWidthBoxNode = new BoxNode(
         this.modelViewTransform,

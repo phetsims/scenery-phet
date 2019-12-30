@@ -82,13 +82,14 @@ define( require => {
   const SliderKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/SliderKeyboardHelpSection' );
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   const StarNode = require( 'SCENERY_PHET/StarNode' );
+  const Stopwatch = require( 'SCENERY_PHET/Stopwatch' );
+  const StopwatchNode = require( 'SCENERY_PHET/StopwatchNode' );
   const StringProperty = require( 'AXON/StringProperty' );
   const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   const ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
@@ -142,7 +143,7 @@ define( require => {
       { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
       { label: 'SpectrumNode', createNode: demoSpectrumNode },
       { label: 'StarNode', createNode: demoStarNode },
-      { label: 'TimerNode', createNode: demoTimerNode },
+      { label: 'StopwatchNode', createNode: demoStopwatchNode },
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'WireNode', createNode: demoWireNode }
     ], merge( {
@@ -259,8 +260,6 @@ define( require => {
       tandem: Tandem.OPTIONAL
     } );
 
-    // REVIEW: The number display isn't showing the correct value in the demo. Perhaps this is due to the range we are showing compared
-    // REVIEW: to the actual value of the property.
     const controls = new VBox( {
       children: [
         new NumberControl( 'separation', circuit.capacitor.plateSeparationProperty, new Range( 0, 0.01 ), {
@@ -1329,37 +1328,35 @@ define( require => {
     } );
   };
 
-  // Creates a sample TimerNode
-  const demoTimerNode = function( layoutBounds, options ) {
+  // Creates a sample StopwatchNode
+  const demoStopwatchNode = function( layoutBounds, options, ) {
 
-    // Create a TimerNode that doesn't show units (assumed to be seconds)
-    const isRunningProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'isRunningProperty' )
+    // Create a StopwatchNode that doesn't show units (assumed to be seconds)
+    const stopwatch = new Stopwatch( { isVisible: true, tandem: options.tandem.createTandem( 'stopwatch' ) } );
+    const stopwatchNode = new StopwatchNode( stopwatch, {
+      tandem: options.tandem.createTandem( 'unitlessStopwatchNode' )
     } );
-    const timeProperty = new NumberProperty( 12.34, {
-      tandem: options.tandem.createTandem( 'timeProperty' ),
-      phetioHighFrequency: true
-    } );
-    const timerNode = new TimerNode( timeProperty, isRunningProperty, {
-      tandem: options.tandem.createTandem( 'noUnitsTimerNode' )
-    } );
-    const timerNodeListener = function( dt ) {
-      if ( isRunningProperty.value ) {
-        timeProperty.value += dt;
-      }
-    };
-    emitter.addListener( timerNodeListener );
 
-    // Create a TimerNode that can show from a selection of units.
+    // Create a StopwatchNode that can show from a selection of units.
     const unitsProperty = new Property( 'ps' );
 
     // Initialize with longest possible string
     const unitsNode = new Text( 'ms', { font: new PhetFont( 15 ) } );
-    const mutableUnitsTimerNode = new TimerNode( new Property( 12.34 ), new Property( true ), {
-      unitsNode: unitsNode,
-      scale: 2,
-      tandem: options.tandem.createTandem( 'mutableUnitsTimerNode' )
+    const mutableUnitsStopwatch = new Stopwatch( {
+      isVisible: true,
+      tandem: options.tandem.createTandem( 'stopwatch' )
     } );
+    const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
+      stopwatchReadoutNodeOptions: { unitsNode: unitsNode },
+      scale: 2,
+      tandem: options.tandem.createTandem( 'stopwatchNode' )
+    } );
+
+    const stopwatchNodeListener = dt => {
+      stopwatch.step( dt );
+      mutableUnitsStopwatch.step( dt );
+    };
+    emitter.addListener( stopwatchNodeListener );
     unitsProperty.link( function( units ) {
       unitsNode.text = units;
     } );
@@ -1378,11 +1375,11 @@ define( require => {
       spacing: 20,
       center: layoutBounds.center,
       children: [
-        timerNode,
+        stopwatchNode,
         new HBox( {
           spacing: 20,
           children: [
-            mutableUnitsTimerNode,
+            mutableUnitsStopwatchNode,
             unitsRadioButtonGroup
           ]
         } )
@@ -1392,7 +1389,7 @@ define( require => {
     // Swap out the dispose function for one that also removes the Emitter listener
     const demoDispose = vBox.dispose.bind( vBox );
     vBox.dispose = function() {
-      emitter.removeListener( timerNodeListener );
+      emitter.removeListener( stopwatchNodeListener );
       demoDispose();
     };
     return vBox;
