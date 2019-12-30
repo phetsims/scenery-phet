@@ -43,6 +43,7 @@ define( require => {
       this.shapeCreator = new BoxShapeCreator( transform );
 
       // @public (read-only) {Path}
+      // REVIEW: this.topNode.shape is mutated below, is this still a read-only?
       this.topNode = new Path( null, merge( { fill: color }, PATH_OPTIONS ) );
 
       // @public (read-only) {Path}
@@ -52,6 +53,7 @@ define( require => {
       this.rightSideNode = new Path( null, merge( { fill: color.darkerColor().darkerColor() }, PATH_OPTIONS ) );
 
       // @private {Bounds3}
+      // REVIEW: Type doc should include `null`
       this.size = null;
 
       this.setBoxSize( size );
@@ -72,6 +74,7 @@ define( require => {
      * @param {Bounds3} size
      * @public
      */
+    // REVIEW: Type doc should include `null`
     setBoxSize( size ) {
       if ( this.size === null || !size.equals( this.size ) ) {
         this.size = size;
