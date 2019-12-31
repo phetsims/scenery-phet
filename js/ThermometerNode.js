@@ -170,7 +170,7 @@ define( require => {
 
     // Temperature determines the height of the fluid in the tube
     const maxFluidHeight = new Path( fluidClipArea ).height;
-    //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Util.linear?
+    //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Utils.linear?
 
     let minFluidHeight;
     if ( options.zeroLevel === 'bulbCenter' ) {

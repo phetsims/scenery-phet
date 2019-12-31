@@ -15,7 +15,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
 // a11y strings
   const leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
@@ -170,7 +170,7 @@ define( require => {
     getAlert() {
       let alert = this._alert;
       if ( Array.isArray( alert ) ) {
-        const index = Util.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
+        const index = Utils.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
         alert = alert[ index ];
       }
       return alert;

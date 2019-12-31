@@ -33,7 +33,7 @@ define( require => {
   const SliderIO = require( 'SUN/SliderIO' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
@@ -98,7 +98,7 @@ define( require => {
 
     // By default, constrain to multiples of delta, see #384
     const defaultConstrainValue = value => {
-      const newValue = Util.roundToInterval( value, options.delta );
+      const newValue = Utils.roundToInterval( value, options.delta );
       return numberRange.constrainValue( newValue );
     };
 
@@ -248,7 +248,7 @@ define( require => {
 
       leftArrowButton = new ArrowButton( 'left', () => {
         let value = numberProperty.get() - options.delta;
-        value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.max( value, numberRange.min ); // constrain to range
         numberProperty.set( value );
       }, merge( {
@@ -259,7 +259,7 @@ define( require => {
 
       rightArrowButton = new ArrowButton( 'right', () => {
         let value = numberProperty.get() + options.delta;
-        value = Util.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.min( value, numberRange.max ); // constrain to range
         numberProperty.set( value );
       }, merge( {

@@ -25,7 +25,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -125,8 +125,8 @@ define( require => {
         if ( typeof( valueProperty.get() ) === 'number' ) {
 
           // clamp value to valid range and map it to an angle
-          const clampedValue = Util.clamp( valueProperty.get(), range.min, range.max );
-          const needleAngle = Util.linear( range.min, range.max, startAngle, endAngle, clampedValue );
+          const clampedValue = Utils.clamp( valueProperty.get(), range.min, range.max );
+          const needleAngle = Utils.linear( range.min, range.max, startAngle, endAngle, clampedValue );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );

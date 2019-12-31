@@ -23,7 +23,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // constants
   const DEFAULT_OPTIONS = {
@@ -159,7 +159,7 @@ define( require => {
       const glassOptions = merge( {}, options.glassOptions, {
 
         // The origin is at the output point of the nozzle, translate accordingly
-        centerX: Util.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
+        centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
 
         // Center vertically
         centerY: 0

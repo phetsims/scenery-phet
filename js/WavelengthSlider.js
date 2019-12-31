@@ -15,7 +15,7 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SpectrumSlider = require( 'SCENERY_PHET/SpectrumSlider' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
@@ -35,7 +35,7 @@ define( require => {
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
       valueToString: function( value ) {
-        return StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Util.toFixed( value, 0 ), unitsNmString );
+        return StringUtils.format( wavelengthSliderPattern0Wavelength1UnitsString, Utils.toFixed( value, 0 ), unitsNmString );
       },
       valueToColor: function( value ) {
         return VisibleColor.wavelengthToColor( value );

@@ -12,7 +12,7 @@ define( require => {
 
   // modules
   const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const KeyboardUtils = require( 'SCENERY/accessibility/KeyboardUtils' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
   // It is important that the key and value are the same, so that either way you can access the values of the enum.
@@ -82,16 +82,16 @@ define( require => {
       DirectionEnum.keyCodeToDirection = function( keyCode ) {
         assert && assert( typeof keyCode === 'number' );
 
-        if ( keyCode === KeyboardUtil.KEY_UP_ARROW || keyCode === KeyboardUtil.KEY_W ) {
+        if ( keyCode === KeyboardUtils.KEY_UP_ARROW || keyCode === KeyboardUtils.KEY_W ) {
           return DirectionEnum.UP;
         }
-        if ( keyCode === KeyboardUtil.KEY_LEFT_ARROW || keyCode === KeyboardUtil.KEY_A ) {
+        if ( keyCode === KeyboardUtils.KEY_LEFT_ARROW || keyCode === KeyboardUtils.KEY_A ) {
           return DirectionEnum.LEFT;
         }
-        if ( keyCode === KeyboardUtil.KEY_DOWN_ARROW || keyCode === KeyboardUtil.KEY_S ) {
+        if ( keyCode === KeyboardUtils.KEY_DOWN_ARROW || keyCode === KeyboardUtils.KEY_S ) {
           return DirectionEnum.DOWN;
         }
-        if ( keyCode === KeyboardUtil.KEY_RIGHT_ARROW || keyCode === KeyboardUtil.KEY_D ) {
+        if ( keyCode === KeyboardUtils.KEY_RIGHT_ARROW || keyCode === KeyboardUtils.KEY_D ) {
           return DirectionEnum.RIGHT;
         }
         return null;

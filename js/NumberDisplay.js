@@ -22,7 +22,7 @@ define( require => {
   const SunConstants = require( 'SUN/SunConstants' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // valid values for options.align and options.noValueAlign
   const ALIGN_VALUES = [ 'center', 'left', 'right' ];
@@ -185,7 +185,7 @@ define( require => {
         stringValue = '' + value;
       }
       else {
-        stringValue = Util.toFixed( value, decimalPlaces );
+        stringValue = Utils.toFixed( value, decimalPlaces );
       }
     }
     return stringValue;

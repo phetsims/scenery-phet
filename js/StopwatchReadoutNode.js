@@ -15,7 +15,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
   // https://github.com/phetsims/wave-interference/issues/239
@@ -162,7 +162,7 @@ define( require => {
 
     // Round to the nearest centi-part (if time is in seconds, this would be centiseconds), (compatible with timeToSmallString).
     // see https://github.com/phetsims/masses-and-springs/issues/156
-    time = Util.roundSymmetric( time * 100 ) / 100;
+    time = Utils.roundSymmetric( time * 100 ) / 100;
 
     // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
     if ( showUnits ) {
@@ -190,10 +190,10 @@ define( require => {
 
     // Round to the nearest centisecond (compatible with timeToSmallString).
     // see https://github.com/phetsims/masses-and-springs/issues/156
-    time = Util.roundSymmetric( time * 100 ) / 100;
+    time = Utils.roundSymmetric( time * 100 ) / 100;
 
     // Rounding after mod, in case there is floating-point error
-    let centitime = Util.roundSymmetric( time % 1 * 100 );
+    let centitime = Utils.roundSymmetric( time % 1 * 100 );
     if ( centitime < 10 ) {
       centitime = '0' + centitime;
     }

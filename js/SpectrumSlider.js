@@ -32,7 +32,7 @@ define( require => {
   const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {Property.<number>} valueProperty
@@ -216,10 +216,10 @@ define( require => {
 
     // transforms between position and value
     const positionToValue = function( x ) {
-      return Util.clamp( Util.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
+      return Utils.clamp( Utils.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
     };
     const valueToPosition = function( value ) {
-      return Util.clamp( Util.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
+      return Utils.clamp( Utils.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
     };
 
     // click in the track to change the value, continue dragging if desired
