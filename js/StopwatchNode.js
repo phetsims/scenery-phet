@@ -173,7 +173,8 @@ define( require => {
     const stopwatchPositionListener = location => this.setTranslation( location );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
-    // @public (read-only) {DragListener|null} -- reassigned below, if draggable
+    // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
+    // events when dragging out of a toolbox.
     this.dragListener = null;
     let moveToFrontListener = null;
 
