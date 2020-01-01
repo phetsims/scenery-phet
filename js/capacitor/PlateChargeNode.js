@@ -63,8 +63,7 @@ define( require => {
       // @private {Capacitor}
       this.capacitor = capacitor;
 
-      // REVIEW: Type doc {string}?
-      // @private
+      // @private {Orientation}
       this.orientation = options.orientation;
 
       // @private {YawPitchModelViewTransform3}
@@ -90,9 +89,8 @@ define( require => {
       );
     }
 
-    // REVIEW: Should `[description]` in the jsdoc be removed?
     /**
-     * @param {number} numberOfObjects [description]
+     * @param {number} numberOfObjects
      * @param {number} width
      * @param {number} height
      * @private

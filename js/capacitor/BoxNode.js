@@ -43,7 +43,6 @@ define( require => {
       this.shapeCreator = new BoxShapeCreator( transform );
 
       // @public (read-only) {Path}
-      // REVIEW: this.topNode.shape is mutated below, is this still a read-only?
       this.topNode = new Path( null, merge( { fill: color }, PATH_OPTIONS ) );
 
       // @public (read-only) {Path}
@@ -53,10 +52,8 @@ define( require => {
       this.rightSideNode = new Path( null, merge( { fill: color.darkerColor().darkerColor() }, PATH_OPTIONS ) );
 
       // @private {Bounds3}
-      // REVIEW: Type doc should include `null`
-      this.size = null;
-
-      this.setBoxSize( size );
+      this.size = size;
+      this.updateShapes();
 
       // rendering order
       this.addChild( this.topNode );
@@ -70,17 +67,23 @@ define( require => {
     }
 
     /**
+     * @private - update the shapes after the size has been set
+     */
+    updateShapes() {
+      this.topNode.shape = this.shapeCreator.createTopFaceBounds3( this.size );
+      this.frontNode.shape = this.shapeCreator.createFrontFaceBounds3( this.size );
+      this.rightSideNode.shape = this.shapeCreator.createRightSideFaceBounds3( this.size );
+    }
+
+    /**
      * Set the size of this box.
      * @param {Bounds3} size
      * @public
      */
-    // REVIEW: Type doc should include `null`
     setBoxSize( size ) {
-      if ( this.size === null || !size.equals( this.size ) ) {
+      if ( !size.equals( this.size ) ) {
         this.size = size;
-        this.topNode.shape = this.shapeCreator.createTopFaceBounds3( this.size );
-        this.frontNode.shape = this.shapeCreator.createFrontFaceBounds3( this.size );
-        this.rightSideNode.shape = this.shapeCreator.createRightSideFaceBounds3( this.size );
+        this.updateShapes();
       }
     }
   }

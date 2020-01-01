@@ -42,18 +42,14 @@ define( require => {
       // Charges restricted to the largest possible top face on a capacitor plate.  Bounds needed for canvas.
       const canvasBounds = this.getMaxBoxNodeBounds();
 
-      // REVIEW: VacuumPlateChargeNode.js was deleted in commit a1272d042747dc72f8bd6222f969e4dad3c2470d.
-      // REVIEW: This type doc should read {PlateChargeNode} due to that type being deleted.
-      // REVIEW: Also, I (DB) would also suggest renaming vacuumPlateChargeNode -> plateChargeNode since the type was removed.
-      // REVIEW: Maybe in the documentation of CapacitorNode.js we should indicate that the model assumes a vacuum in the gap.
-      // @private {VacuumPlateChargeNode}
-      this.vacuumPlateChargeNode = new PlateChargeNode( capacitor, modelViewTransform, {
+      // @private {PlateChargeNode}
+      this.plateChargeNode = new PlateChargeNode( capacitor, modelViewTransform, {
         polarity: polarity,
         maxPlateCharge: maxPlateCharge,
         canvasBounds: canvasBounds,
         orientation: orientation
       } );
-      this.addChild( this.vacuumPlateChargeNode );
+      this.addChild( this.plateChargeNode );
     }
 
     /**
@@ -63,16 +59,15 @@ define( require => {
      * @param {boolean} visible
      */
     setChargeVisible( visible ) {
-      this.vacuumPlateChargeNode.visible = visible;
+      this.plateChargeNode.visible = visible;
     }
 
     /**
      * Get bounds for a plate with maximum width.  Useful for layout and bounds calculations.
-     * @public
+     * @private
      *
      * @returns {Bounds3}
      */
-    // REVIEW: Should this be @private? I'm (DB) only seeing one call to this function in the constructor. If not, then ignore.
     getMaxBoxNodeBounds() {
       const maxWidthBoxNode = new BoxNode(
         this.modelViewTransform,
