@@ -5,8 +5,6 @@
  * Shapes are in the view coordinate frame, everything else is in model coordinates.
  * Shapes for all faces corresponds to a box with its origin in the center of the top face.
  *
- * Moved from capacitor-lab-basics/js/common/model/shapes/BoxShapeCreator.js on Oct 7, 2019
- *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)

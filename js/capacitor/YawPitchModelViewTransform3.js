@@ -11,8 +11,6 @@
  * | /
  * +-------> +x
  *
- * Moved from capacitor-lab-basics/js/common/model/CLBModelViewTransform3D.js on Oct 7, 2019
- *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)

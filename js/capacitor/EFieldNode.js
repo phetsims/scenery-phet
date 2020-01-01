@@ -3,8 +3,6 @@
 /**
  * Visual representation of the effective E-field (E_effective) between the capacitor plates.
  *
- * Moved from capacitor-lab-basics/js/common/view/EFieldNode.js on Oct 7, 2019
- *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Emily Randall (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)

@@ -3,8 +3,6 @@
 /**
  * Visual representation of a capacitor plate.
  *
- * Moved from capacitor-lab-basics/js/common/view/PlateNode.js on Oct 7, 2019
- *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
