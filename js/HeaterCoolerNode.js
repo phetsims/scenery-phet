@@ -21,6 +21,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // const
   const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
@@ -44,7 +45,9 @@ define( require => {
         frontOptions: null,
 
         // {*|null} options passed to HeaterCoolerBack
-        backOptions: null
+        backOptions: null,
+
+        tandem: Tandem.REQUIRED
       }, options );
 
       // @public
@@ -63,7 +66,11 @@ define( require => {
       const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
         baseColor: options.baseColor,
         leftTop: heaterCoolerBack.getHeaterFrontPosition(),
-        heaterCoolerBack: heaterCoolerBack
+        heaterCoolerBack: heaterCoolerBack,
+
+        // The front takes the entire tandem since we are treating it as a consolidated component (client doesn't need
+        // to know about front vs back)
+        tandem: options.tandem
       }, options.frontOptions ) );
 
       // @public (read-only) With this visibility annotation comes great power - use it wisely.

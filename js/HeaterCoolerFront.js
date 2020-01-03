@@ -72,6 +72,17 @@ define( require => {
         // {null|HeaterCoolerBack} links the NodeIO Properties of the provided HeaterCoolerBack to this HeaterCoolerFront
         heaterCoolerBack: null,
 
+        sliderOptions: {
+          trackSize: new Dimension2( 10, DEFAULT_WIDTH / 2 ), // height of the track depends on the width
+          trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
+            .addColorStop( 0, '#0A00F0' )
+            .addColorStop( 1, '#EF000F' ),
+          thumbLineWidth: 1.4,
+          thumbCenterLineStroke: 'black',
+          majorTickLength: 15,
+          minorTickLength: 12
+        },
+
         // phet-io
         tandem: Tandem.REQUIRED,
         phetioType: NodeIO
@@ -99,35 +110,30 @@ define( require => {
           .addColorStop( 1, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
       } );
 
-      // Create the slider.
-      // @public (read-only) With this visibility annotation comes great power - use it wisely.
-      // See https://github.com/phetsims/scenery-phet/issues/442
-      this.slider = new VSlider( heatCoolAmountProperty,
-        new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ), {
-          trackSize: new Dimension2( 10, DEFAULT_WIDTH / 2 ), // height of the track depends on the width
-          trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
-            .addColorStop( 0, '#0A00F0' )
-            .addColorStop( 1, '#EF000F' ),
-          thumbSize: options.thumbSize,
-          thumbLineWidth: 1.4,
-          thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
-          thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
-          thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
-          thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
-          thumbFill: options.thumbFill,
-          thumbFillHighlighted: options.thumbFillHighlighted,
-          thumbCenterLineStroke: 'black',
-          majorTickLength: 15,
-          minorTickLength: 12,
-          centerY: stoveBody.centerY,
-          right: stoveBody.right - DEFAULT_WIDTH / 8,
-          endDrag: () => {
-            if ( options.snapToZero ) {
-              heatCoolAmountProperty.set( 0 );
-            }
-          },
-          tandem: options.tandem.createTandem( 'slider' )
-        } );
+      const sliderOptions = merge( {
+        thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
+        thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
+        thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
+        thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
+        thumbFill: options.thumbFill,
+        thumbSize: options.thumbSize,
+        thumbFillHighlighted: options.thumbFillHighlighted,
+        endDrag: () => {
+          if ( options.snapToZero ) {
+            heatCoolAmountProperty.set( 0 );
+          }
+        },
+        centerY: stoveBody.centerY,
+        right: stoveBody.right - DEFAULT_WIDTH / 8,
+        tandem: options.tandem.createTandem( 'slider' )
+      }, options.sliderOptions );
+
+      // @public (read-only), please use judiciously, see https://github.com/phetsims/scenery-phet/issues/442
+      this.slider = new VSlider(
+        heatCoolAmountProperty,
+        new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ),
+        sliderOptions
+      );
 
       // Create the tick labels.
       const labelOptions = {
