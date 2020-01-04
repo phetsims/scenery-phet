@@ -94,7 +94,8 @@ define( require => {
       const playPauseButton = new PlayPauseButton( isPlayingProperty, merge( {
         radius: 20,
         touchAreaDilation: 5,
-        tandem: options.tandem.createTandem( 'playPauseButton' )
+        tandem: options.tandem.createTandem( 'playPauseButton' ),
+        phetioDocumentation: 'Button to control the animation in the simulation. This will also stop the model from stepping.'
       }, options.playPauseOptions ) );
 
       const stepButtonOptions = {
@@ -104,7 +105,8 @@ define( require => {
       };
 
       const stepForwardButton = new StepForwardButton( merge( {
-        tandem: options.tandem.createTandem( 'stepForwardButton' )
+        tandem: options.tandem.createTandem( 'stepForwardButton' ),
+        phetioDocumentation: 'Progress the simulation a single model step forwards.'
       }, stepButtonOptions, options.stepForwardOptions ) );
 
       const buttons = [ playPauseButton, stepForwardButton ];
@@ -112,6 +114,7 @@ define( require => {
       let stepBackwardButton = null;
       if ( options.includeStepBackwardButton ) {
         stepBackwardButton = new StepBackwardButton( merge( {
+          phetioDocumentation: 'Progress the simulation a single model step backwards.',
           tandem: options.tandem.createTandem( 'stepBackwardButton' )
         }, stepButtonOptions, options.stepBackwardOptions ) );
         buttons.unshift( stepBackwardButton );
