@@ -170,7 +170,7 @@ define( require => {
     stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
 
     // Move to the stopwatch's location
-    const stopwatchPositionListener = location => this.setTranslation( location );
+    const stopwatchPositionListener = position => this.setTranslation( position );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
     // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
