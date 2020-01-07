@@ -169,7 +169,7 @@ define( require => {
     };
     stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
 
-    // Move to the stopwatch's location
+    // Move to the stopwatch's position
     const stopwatchPositionListener = position => this.setTranslation( position );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
