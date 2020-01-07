@@ -46,13 +46,13 @@ define( require => {
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
-   * @param {Property.<Vector2>} locationProperty location of the tester, at bottom-center of the bulb (model coordinate frame)
-   * @param {Property.<Vector2>} positiveProbeLocationProperty location of bottom-center of the positive probe (model coordinate frame)
-   * @param {Property.<Vector2>} negativeProbeLocationProperty location of bottom-center of the negative probe (model coordinate frame)
+   * @param {Property.<Vector2>} positionProperty position of the tester, at bottom-center of the bulb (model coordinate frame)
+   * @param {Property.<Vector2>} positiveProbePositionProperty position of bottom-center of the positive probe (model coordinate frame)
+   * @param {Property.<Vector2>} negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
    * @param {Object} [options]
    * @constructor
    */
-  function ConductivityTesterNode( brightnessProperty, locationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, options ) {
+  function ConductivityTesterNode( brightnessProperty, positionProperty, positiveProbePositionProperty, negativeProbePositionProperty, options ) {
     const self = this;
 
     options = merge( {
@@ -63,7 +63,7 @@ define( require => {
       // common to both probes
       probeSize: new Dimension2( 20, 68 ), // {Dimension2} probe dimensions, in view coordinates
       probeLineWidth: 0.5,
-      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to locationProperty, in view coordinates. null means no constraint.
+      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to positionProperty, in view coordinates. null means no constraint.
       probeCursor: 'pointer',
       // positive probe
       positiveProbeFill: 'red',
@@ -127,16 +127,16 @@ define( require => {
     const positiveWire = new WireNode(
       battery.getGlobalBounds().right,
       battery.getGlobalBounds().centerY,
-      options.modelViewTransform.modelToViewX( positiveProbeLocationProperty.get().x ) - options.modelViewTransform.modelToViewX( locationProperty.get().x ),
-      options.modelViewTransform.modelToViewY( positiveProbeLocationProperty.get().y ) - options.modelViewTransform.modelToViewY( locationProperty.get().y ) - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( positiveProbePositionProperty.get().x ) - options.modelViewTransform.modelToViewX( positionProperty.get().x ),
+      options.modelViewTransform.modelToViewY( positiveProbePositionProperty.get().y ) - options.modelViewTransform.modelToViewY( positionProperty.get().y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
     // wire from base of bulb (origin) to negative probe
     const negativeWire = new WireNode(
       -5, -5, // specific to bulb image file
-      options.modelViewTransform.modelToViewX( negativeProbeLocationProperty.get().x ) - options.modelViewTransform.modelToViewX( locationProperty.get().x ),
-      options.modelViewTransform.modelToViewY( negativeProbeLocationProperty.get().y ) - options.modelViewTransform.modelToViewY( locationProperty.get().y ) - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( negativeProbePositionProperty.get().x ) - options.modelViewTransform.modelToViewX( positionProperty.get().x ),
+      options.modelViewTransform.modelToViewY( negativeProbePositionProperty.get().y ) - options.modelViewTransform.modelToViewY( positionProperty.get().y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
@@ -151,15 +151,15 @@ define( require => {
       // probes move together
       drag: function( e ) {
         // do dragging in view coordinate frame
-        const locationView = options.modelViewTransform.modelToViewPosition( locationProperty.get() );
-        let yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + locationView.y - clickYOffset;
+        const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.get() );
+        let yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + positionView.y - clickYOffset;
         if ( options.probeDragYRange ) {
-          yView = Utils.clamp( yView, locationView.y + options.probeDragYRange.min, locationView.y + options.probeDragYRange.max );
+          yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
         }
         // convert to model coordinate frame
         const yModel = options.modelViewTransform.viewToModelY( yView );
-        positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x, yModel ) );
-        negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x, yModel ) );
+        positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x, yModel ) );
+        negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x, yModel ) );
       }
     } );
 
@@ -185,40 +185,40 @@ define( require => {
 
     Node.call( this, { children: [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ] } );
 
-    // @private when the location changes ...
-    this.locationObserver = function( location, oldLocation ) {
+    // @private when the position changes ...
+    this.positionObserver = function( position, oldLocation ) {
       // move the entire tester
-      self.translation = options.modelViewTransform.modelToViewPosition( location );
+      self.translation = options.modelViewTransform.modelToViewPosition( position );
       // probes move with the tester
       if ( oldLocation ) {
-        const dx = location.x - oldLocation.x;
-        const dy = location.y - oldLocation.y;
-        positiveProbeLocationProperty.set( new Vector2( positiveProbeLocationProperty.get().x + dx, positiveProbeLocationProperty.get().y + dy ) );
-        negativeProbeLocationProperty.set( new Vector2( negativeProbeLocationProperty.get().x + dx, negativeProbeLocationProperty.get().y + dy ) );
+        const dx = position.x - oldLocation.x;
+        const dy = position.y - oldLocation.y;
+        positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x + dx, positiveProbePositionProperty.get().y + dy ) );
+        negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x + dx, negativeProbePositionProperty.get().y + dy ) );
       }
     };
-    this.locationProperty = locationProperty; // @private
-    this.locationProperty.link( this.locationObserver );
+    this.positionProperty = positionProperty; // @private
+    this.positionProperty.link( this.positionObserver );
 
     // @private update positive wire if end point was changed
     this.positiveProbeObserver = function( positiveProbeLocation ) {
-      positiveProbe.centerX = options.modelViewTransform.modelToViewX( positiveProbeLocation.x ) - options.modelViewTransform.modelToViewX( self.locationProperty.get().x );
-      positiveProbe.bottom = options.modelViewTransform.modelToViewY( positiveProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.locationProperty.get().y );
+      positiveProbe.centerX = options.modelViewTransform.modelToViewX( positiveProbeLocation.x ) - options.modelViewTransform.modelToViewX( self.positionProperty.get().x );
+      positiveProbe.bottom = options.modelViewTransform.modelToViewY( positiveProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.positionProperty.get().y );
       positiveWire.setEndPoint( positiveProbe.x, positiveProbe.y - options.probeSize.height );
     };
-    this.positiveProbeLocationProperty = positiveProbeLocationProperty; // @private
-    this.positiveProbeLocationProperty.link( this.positiveProbeObserver );
+    this.positiveProbePositionProperty = positiveProbePositionProperty; // @private
+    this.positiveProbePositionProperty.link( this.positiveProbeObserver );
 
     // @private update negative wire if end point was changed
     this.negativeProbeObserver = function( negativeProbeLocation ) {
-      negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbeLocation.x ) - options.modelViewTransform.modelToViewX( self.locationProperty.get().x );
-      negativeProbe.bottom = options.modelViewTransform.modelToViewY( negativeProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.locationProperty.get().y );
+      negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbeLocation.x ) - options.modelViewTransform.modelToViewX( self.positionProperty.get().x );
+      negativeProbe.bottom = options.modelViewTransform.modelToViewY( negativeProbeLocation.y ) - options.modelViewTransform.modelToViewY( self.positionProperty.get().y );
       negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
-    this.negativeProbeLocationProperty = negativeProbeLocationProperty; // @private
-    this.negativeProbeLocationProperty.link( this.negativeProbeObserver );
+    this.negativeProbePositionProperty = negativeProbePositionProperty; // @private
+    this.negativeProbePositionProperty.link( this.negativeProbeObserver );
 
-    // Since locationProperty determines translation, avoid options related to translation!
+    // Since positionProperty determines translation, avoid options related to translation!
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -233,9 +233,9 @@ define( require => {
     dispose: function() {
 
       // unlink from axon properties
-      this.locationProperty.unlink( this.locationObserver );
-      this.positiveProbeLocationProperty.unlink( this.positiveProbeObserver );
-      this.negativeProbeLocationProperty.unlink( this.negativeProbeObserver );
+      this.positionProperty.unlink( this.positionObserver );
+      this.positiveProbePositionProperty.unlink( this.positiveProbeObserver );
+      this.negativeProbePositionProperty.unlink( this.negativeProbeObserver );
 
       // dispose of sub-components
       this.lightBulbNode.dispose();

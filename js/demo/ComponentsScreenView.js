@@ -337,18 +337,18 @@ define( require => {
   const demoConductivityTesterNode = function( layoutBounds ) {
 
     const brightnessProperty = new Property( 0 ); // 0-1
-    const testerLocationProperty = new Vector2Property( new Vector2( 0, 0 ) );
-    const positiveProbeLocationProperty = new Vector2Property( new Vector2( testerLocationProperty.get().x + 140, testerLocationProperty.get().y + 100 ) );
-    const negativeProbeLocationProperty = new Vector2Property( new Vector2( testerLocationProperty.get().x - 40, testerLocationProperty.get().y + 100 ) );
+    const testerPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
+    const positiveProbePositionProperty = new Vector2Property( new Vector2( testerPositionProperty.get().x + 140, testerPositionProperty.get().y + 100 ) );
+    const negativeProbePositionProperty = new Vector2Property( new Vector2( testerPositionProperty.get().x - 40, testerPositionProperty.get().y + 100 ) );
 
     const conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
-      testerLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty, {
+      testerPositionProperty, positiveProbePositionProperty, negativeProbePositionProperty, {
         modelViewTransform: ModelViewTransform2.createOffsetScaleMapping( layoutBounds.center, 1 ), // move model origin to screen's center
         positiveProbeFill: 'orange',
         cursor: 'pointer'
       }
     );
-    conductivityTesterNode.addInputListener( new MovableDragHandler( testerLocationProperty ) );
+    conductivityTesterNode.addInputListener( new MovableDragHandler( testerPositionProperty ) );
 
     // brightness slider
     const brightnessSlider = new HSlider( brightnessProperty, new Range( 0, 1 ), {
