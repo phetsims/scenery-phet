@@ -1,7 +1,7 @@
 // Copyright 2013-2019, University of Colorado Boulder
 
 /**
- * A drag handler for something that has a location and is constrained to some (optional) bounds.
+ * A drag handler for something that has a position and is constrained to some (optional) bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -20,11 +20,11 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * @param {Property.<Vector2>} locationProperty - in model coordinate frame
+   * @param {Property.<Vector2>} positionProperty - in model coordinate frame
    * @param {Object} [options]
    * @constructor
    */
-  function MovableDragHandler( locationProperty, options ) {
+  function MovableDragHandler( positionProperty, options ) {
 
     const self = this;
 
@@ -43,19 +43,19 @@ define( require => {
       tandem: Tandem.REQUIRED
     }, options );
 
-    this.locationProperty = locationProperty; // @private
+    this.positionProperty = positionProperty; // @private
     this._dragBounds = options.dragBounds.copy(); // @private
     this._modelViewTransform = options.modelViewTransform; // @private
 
-    let startOffset; // where the drag started relative to locationProperty, in parent view coordinates
+    let startOffset; // where the drag started relative to positionProperty, in parent view coordinates
 
     // @private - note where the drag started
     this.movableDragHandlerStart = function( event, trail ) {
 
       options.startDrag( event );
 
-      // Note the options.startDrag can change the locationProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
-      const location = self._modelViewTransform.modelToViewPosition( locationProperty.get() );
+      // Note the options.startDrag can change the positionProperty, so read it again above, see https://github.com/phetsims/scenery-phet/issues/157
+      const position = self._modelViewTransform.modelToViewPosition( positionProperty.get() );
       if ( options.targetNode ) {
         startOffset = options.targetNode.globalToParentPoint( event.pointer.point );
       }
@@ -63,10 +63,10 @@ define( require => {
         // See https://github.com/phetsims/beers-law-lab/issues/197, the Trail provided looks buggy (missing last node)
         startOffset = trail.globalToLocalPoint( event.pointer.point );
       }
-      startOffset = startOffset.minus( location );
+      startOffset = startOffset.minus( position );
     };
 
-    // @private - change the location, adjust for starting offset, constrain to drag bounds
+    // @private - change the position, adjust for starting offset, constrain to drag bounds
     this.movableDragHandlerDrag = function( event, trail ) {
       let parentPoint;
       if ( options.targetNode ) {
@@ -77,10 +77,10 @@ define( require => {
         parentPoint = trail.globalToLocalPoint( event.pointer.point );
       }
       parentPoint = parentPoint.minus( startOffset );
-      let location = self._modelViewTransform.viewToModelPosition( parentPoint );
-      location = self._dragBounds.closestPointTo( location );
+      let position = self._modelViewTransform.viewToModelPosition( parentPoint );
+      position = self._dragBounds.closestPointTo( position );
 
-      locationProperty.set( location );
+      positionProperty.set( position );
 
       options.onDrag( event );
     };
@@ -108,7 +108,7 @@ define( require => {
 
     /**
      * Sets the dragBounds.
-     * In addition, it forces the location to be within the bounds.
+     * In addition, it forces the position to be within the bounds.
      * @param {Bounds2} dragBounds
      * @public
      */
@@ -129,11 +129,11 @@ define( require => {
     get dragBounds() { return this.getDragBounds(); },
 
     /**
-     * If the location is outside of the drag bounds, change it to lie to the closest in-bounds point.
+     * If the position is outside of the drag bounds, change it to lie to the closest in-bounds point.
      * @public
      */
     constrainToBounds: function() {
-      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.get() ) );
+      this.positionProperty.set( this._dragBounds.closestPointTo( this.positionProperty.get() ) );
     },
 
     /**
