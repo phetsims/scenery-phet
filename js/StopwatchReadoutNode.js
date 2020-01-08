@@ -115,7 +115,7 @@ define( require => {
         centerX: 0
       } );
 
-      const updateTextLocation = () => {
+      const updateTextPosition = () => {
         if ( options.unitsNode ) {
           const RIGHT_MARGIN = 4;
           readoutLayer.right = parentBounds.right - RIGHT_MARGIN;
@@ -127,7 +127,7 @@ define( require => {
 
       // Set initial values and layout
       timeProperty.link( updateText );
-      timeProperty.link( updateTextLocation );
+      timeProperty.link( updateTextPosition );
 
       let unitsNodeBoundsListener = null;
 
@@ -135,14 +135,14 @@ define( require => {
       if ( options.unitsNode ) {
         unitsNodeBoundsListener = function() {
           updateText( timeProperty.value );
-          updateTextLocation();
+          updateTextPosition();
         };
         options.unitsNode.on( 'bounds', unitsNodeBoundsListener );
       }
 
       this.disposeStopwatchReadoutNode = () => {
         timeProperty.unlink( updateText );
-        timeProperty.unlink( updateTextLocation );
+        timeProperty.unlink( updateTextPosition );
         options.unitsNode && options.unitsNode.off( unitsNodeBoundsListener );
       };
     }
