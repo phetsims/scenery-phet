@@ -40,7 +40,7 @@ define( require => {
       animationEnabled: true, // {boolean} is animation enabled when opening/closing the drawer?
 
       // handle
-      handleLocation: 'top', // {string} 'top'|'bottom'
+      handlePosition: 'top', // {string} 'top'|'bottom'
       handleSize: new Dimension2( 70, 20 ),
       handleCornerRadius: 5,
       handleFill: 'rgb( 230, 230, 230 )', // {Color|string}
@@ -69,7 +69,7 @@ define( require => {
       stepEmitter: timer // {Emitter|null} see Animation options.stepEmitter
     }, options );
 
-    assert && assert( options.handleLocation === 'top' || options.handleLocation === 'bottom' );
+    assert && assert( options.handlePosition === 'top' || options.handlePosition === 'bottom' );
 
     this.contentsNode = contentsNode; // @public (read-only)
     this._animationEnabled = options.animationEnabled; // @private
@@ -103,7 +103,7 @@ define( require => {
     }
 
     // handle, rectangle with top or bottom corners rounded, the other corners square
-    const HANDLE_RADII = ( options.handleLocation === 'top' ) ? {
+    const HANDLE_RADII = ( options.handlePosition === 'top' ) ? {
       topLeft: options.handleCornerRadius,
       topRight: options.handleCornerRadius
     } : {
@@ -137,18 +137,18 @@ define( require => {
 
     // handle pointerArea
     if ( options.handleTouchAreaXDilation !== 0 || options.handleTouchAreaYDilation !== 0 ) {
-      const touchAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleTouchAreaYDilation : options.handleTouchAreaYDilation;
+      const touchAreaShiftY = ( options.handlePosition === 'top' ) ? -options.handleTouchAreaYDilation : options.handleTouchAreaYDilation;
       handleNode.touchArea = handleNode.localBounds.dilatedXY( options.handleTouchAreaXDilation, options.handleTouchAreaYDilation ).shiftedY( touchAreaShiftY );
     }
     if ( options.handleMouseAreaXDilation !== 0 || options.handleMouseAreaYDilation !== 0 ) {
-      const mouseAreaShiftY = ( options.handleLocation === 'top' ) ? -options.handleMouseAreaYDilation : options.handleMouseAreaYDilation;
+      const mouseAreaShiftY = ( options.handlePosition === 'top' ) ? -options.handleMouseAreaYDilation : options.handleMouseAreaYDilation;
       handleNode.mouseArea = handleNode.localBounds.dilatedXY( options.handleMouseAreaXDilation, options.handleMouseAreaYDilation ).shiftedY( mouseAreaShiftY );
     }
 
     // layout, position the handle at center-top or center-bottom
     backgroundNode.x = 0;
     handleNode.centerX = backgroundNode.centerX;
-    if ( options.handleLocation === 'top' ) {
+    if ( options.handlePosition === 'top' ) {
       handleNode.top = 0;
       backgroundNode.top = handleNode.bottom - 1;
     }
@@ -171,7 +171,7 @@ define( require => {
     Node.call( this, options );
 
     const yOpen = 0;
-    const yClosed = ( options.handleLocation === 'top' ) ? backgroundNode.height : -backgroundNode.height;
+    const yClosed = ( options.handlePosition === 'top' ) ? backgroundNode.height : -backgroundNode.height;
     drawerNode.y = options.open ? yOpen : yClosed;
 
     // click on the handle to toggle between open and closed

@@ -228,7 +228,7 @@ define( require => {
   const demoBracketNode = function( layoutBounds ) {
     return new BracketNode( {
       orientation: 'left',
-      bracketTipLocation: 0.75,
+      bracketTipPosition: 0.75,
       labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
       spacing: 10,
       center: layoutBounds.center
@@ -392,7 +392,7 @@ define( require => {
     } );
 
     const drawer = new Drawer( textNode, {
-      handleLocation: 'bottom',
+      handlePosition: 'bottom',
       open: false,
       xMargin: 30,
       yMargin: 20,
