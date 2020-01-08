@@ -27,7 +27,7 @@ define( require => {
       orientation: 'down', // refers to the direction that the tip of the bracket points, 'up'|'down'|'left'|'right'
       labelNode: null, // {Node|null} optional label that will be centered below bracket's tip
       bracketLength: 100, // {number} length of the bracket
-      bracketTipLocation: 0.5, // {number} [0,1] exclusive, determines where along the width of the bracket the tip (and optional label) are placed
+      bracketTipPosition: 0.5, // {number} [0,1] exclusive, determines where along the width of the bracket the tip (and optional label) are placed
       bracketEndRadius: 5, // {number} radius of the arcs at the ends of the bracket
       bracketTipRadius: 6, // {number} radius of the arcs at the tip (center) of the bracket
       bracketStroke: 'black', // {Color|string} color of the bracket
@@ -37,17 +37,17 @@ define( require => {
 
     // validate options
     assert && assert( options.orientation === 'up' || options.orientation === 'down' || options.orientation === 'left' || options.orientation === 'right' );
-    assert && assert( options.bracketTipLocation > 0 && options.bracketTipLocation < 1 );
+    assert && assert( options.bracketTipPosition > 0 && options.bracketTipPosition < 1 );
 
     Node.call( this );
 
-    // compute tip location
+    // compute tip position
     let tipX;
     if ( options.orientation === 'down' || options.orientation === 'left' ) {
-       tipX = options.bracketTipLocation * options.bracketLength;
+       tipX = options.bracketTipPosition * options.bracketLength;
     }
     else {
-      tipX = ( 1 - options.bracketTipLocation ) * options.bracketLength;
+      tipX = ( 1 - options.bracketTipPosition ) * options.bracketLength;
     }
     assert && assert( tipX > ( options.bracketEndRadius + options.bracketTipRadius ) );
     assert && assert( tipX < options.bracketLength - ( options.bracketEndRadius + options.bracketTipRadius ) );
@@ -94,20 +94,20 @@ define( require => {
       this.addChild( options.labelNode );
       switch( options.orientation ) {
         case 'up':
-          options.labelNode.centerX = bracketNode.left + ( options.bracketTipLocation * bracketNode.width );
+          options.labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
           options.labelNode.bottom = bracketNode.top - options.spacing;
           break;
         case 'down':
-          options.labelNode.centerX = bracketNode.left + ( options.bracketTipLocation * bracketNode.width );
+          options.labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
           options.labelNode.top = bracketNode.bottom + options.spacing;
           break;
         case 'left':
           options.labelNode.right = bracketNode.left - options.spacing;
-          options.labelNode.centerY = bracketNode.top + ( options.bracketTipLocation * bracketNode.height );
+          options.labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
           break;
         case 'right':
           options.labelNode.left = bracketNode.right + options.spacing;
-          options.labelNode.centerY = bracketNode.top + ( options.bracketTipLocation * bracketNode.height );
+          options.labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
           break;
         default:
           throw new Error( 'unsupported orientation: ' + options.orientation );
