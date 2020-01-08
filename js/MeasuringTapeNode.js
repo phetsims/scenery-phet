@@ -198,32 +198,32 @@ define( require => {
 
       start: function( event, trail ) {
         self._isBaseUserControlledProperty.set( true );
-        const location = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
-        baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+        const position = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
+        baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
       },
 
       drag: function( event ) {
         const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
-        const unconstrainedBaseLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
-        const constrainedBaseLocation = self._dragBounds.closestPointTo( unconstrainedBaseLocation );
+        const unconstrainedBasePosition = self._modelViewTransform.viewToModelPosition( parentPoint );
+        const constrainedBasePosition = self._dragBounds.closestPointTo( unconstrainedBasePosition );
 
         // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
-        const translationDelta = constrainedBaseLocation.minus( self.basePositionProperty.value ); // in model reference frame
+        const translationDelta = constrainedBasePosition.minus( self.basePositionProperty.value ); // in model reference frame
 
         // translation of the basePosition (subject to the constraining drag bounds)
-        self.basePositionProperty.set( constrainedBaseLocation );
+        self.basePositionProperty.set( constrainedBasePosition );
 
         // translate the position of the tip if it is not being dragged
         // when the user is not holding onto the tip, dragging the body will also drag the tip
         if ( !self._isTipUserControlled ) {
-          const unconstrainedTipLocation = translationDelta.add( self.tipPositionProperty.value );
+          const unconstrainedTipPosition = translationDelta.add( self.tipPositionProperty.value );
           if ( options.isTipDragBounded ) {
-            const constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
+            const constrainedTipPosition = self._dragBounds.closestPointTo( unconstrainedTipPosition );
             // translation of the tipPosition (subject to the constraining drag bounds)
-            self.tipPositionProperty.set( constrainedTipLocation );
+            self.tipPositionProperty.set( constrainedTipPosition );
           }
           else {
-            self.tipPositionProperty.set( unconstrainedTipLocation );
+            self.tipPositionProperty.set( unconstrainedTipPosition );
           }
         }
       },
@@ -249,21 +249,21 @@ define( require => {
 
       start: function( event, trail ) {
         self._isTipUserControlledProperty.set( true );
-        const location = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
-        tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+        const position = self._modelViewTransform.modelToViewPosition( self.tipPositionProperty.value );
+        tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
       },
 
       drag: function( event ) {
         const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
-        const unconstrainedTipLocation = self._modelViewTransform.viewToModelPosition( parentPoint );
+        const unconstrainedTipPosition = self._modelViewTransform.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
-          const constrainedTipLocation = self._dragBounds.closestPointTo( unconstrainedTipLocation );
+          const constrainedTipPosition = self._dragBounds.closestPointTo( unconstrainedTipPosition );
           // translation of the tipPosition (subject to the constraining drag bounds)
-          self.tipPositionProperty.set( constrainedTipLocation );
+          self.tipPositionProperty.set( constrainedTipPosition );
         }
         else {
-          self.tipPositionProperty.set( unconstrainedTipLocation );
+          self.tipPositionProperty.set( unconstrainedTipPosition );
         }
       },
 
