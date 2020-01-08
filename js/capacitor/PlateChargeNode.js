@@ -263,40 +263,40 @@ define( require => {
 
   /**
    * Draw a positive charge with canvas.  'Plus' sign is painted with two
-   * overlapping rectangles around a center location.
+   * overlapping rectangles around a center position.
    *
-   * @param {Vector2} location - center location of the charge in view space
+   * @param {Vector2} position - center position of the charge in view space
    * @param {CanvasRenderingContext2D} context - context for the canvas methods
    * @private
    */
-  const addPositiveCharge = ( location, context ) => {
+  const addPositiveCharge = ( position, context ) => {
     const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
     const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = POSITIVE_CHARGE_COLOR;
-    context.fillRect( location.x - chargeWidth / 2, location.y - chargeHeight / 2, chargeWidth, chargeHeight );
-    context.fillRect( location.x - chargeHeight / 2, location.y - chargeWidth / 2, chargeHeight, chargeWidth );
+    context.fillRect( position.x - chargeWidth / 2, position.y - chargeHeight / 2, chargeWidth, chargeHeight );
+    context.fillRect( position.x - chargeHeight / 2, position.y - chargeWidth / 2, chargeHeight, chargeWidth );
   };
 
   /**
    * Draw a negative charge with canvas.  'Minus' sign is painted with a single
-   * rectangle around a center location.
+   * rectangle around a center position.
    *
-   * @param {Vector2} location
+   * @param {Vector2} position
    * @param {CanvasRenderingContext2D} context
    * @param {string} orientation
    * @private
    */
-  const addNegativeCharge = ( location, context, orientation ) => {
+  const addNegativeCharge = ( position, context, orientation ) => {
     const chargeWidth = NEGATIVE_CHARGE_SIZE.width;
     const chargeHeight = NEGATIVE_CHARGE_SIZE.height;
 
     context.fillStyle = NEGATIVE_CHARGE_COLOR;
     if ( orientation === Orientation.VERTICAL ) {
-      context.fillRect( location.x - chargeWidth / 2, location.y, chargeWidth, chargeHeight );
+      context.fillRect( position.x - chargeWidth / 2, position.y, chargeWidth, chargeHeight );
     }
     else {
-      context.fillRect( location.x - chargeHeight / 2, location.y - 2.5, chargeHeight, chargeWidth );
+      context.fillRect( position.x - chargeHeight / 2, position.y - 2.5, chargeHeight, chargeWidth );
     }
   };
 
