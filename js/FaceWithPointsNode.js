@@ -94,11 +94,11 @@ define( require => {
       else {
         this.pointsNode.text = '+' + points;
       }
-      this.updatePointsLocation();
+      this.updatePointsPosition();
     },
 
-    // @private Adjusts location of the points to match the specified value of options.pointsAlignment.
-    updatePointsLocation: function() {
+    // @private Adjusts position of the points to match the specified value of options.pointsAlignment.
+    updatePointsPosition: function() {
       switch( this.pointsAlignment ) {
 
         case 'centerBottom':
