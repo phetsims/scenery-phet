@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * Single location of all accessibility strings used in scenery-phet.  These
@@ -67,10 +67,10 @@ define( require => {
 
     // help descriptions for general navigation
     keyboardHelpDialogTabDescription: {
-      value: 'Move to next item with Tab key.'
+      value: 'Move to next item{{orGroup}} with Tab key.'
     },
     keyboardHelpDialogShiftTabDescription: {
-      value: 'Move to previous item with Shift plus Tab key.'
+      value: 'Move to previous item{{orGroup}} with Shift plus Tab key.'
     },
     keyboardHelpDialogPressButtonsDescription: {
       value: 'Press buttons with Space key.'

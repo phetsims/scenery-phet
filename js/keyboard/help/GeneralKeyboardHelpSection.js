@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * General help information for how to navigation a simulation with a keyboard. In general, this file supports a fair
@@ -19,15 +19,15 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
 
   // stings
   const keyboardHelpDialogBasicActionsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.basicActions' );
   const keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
   const keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
-  const keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
   const keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
-  const keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
+  const keyboardHelpDialogOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.orGroup' );
   const keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
   const keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
   const keyboardHelpDialogToggleCheckboxesString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
@@ -39,6 +39,13 @@ define( require => {
   const keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   const keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
   const toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
+
+  // constants
+  // This is to support json string files not allowing trailing or leading spaces.
+  // TODO: remove this hard coded unicode replace that is needed to prevent weird spacing, https://github.com/phetsims/chipper/issues/798
+  const OR_GROUP_STRING = StringUtils.fillIn( keyboardHelpDialogOrGroupString.replace( '\u202a', '' ), {
+    space: ' '
+  } );
 
   class GeneralKeyboardHelpSection extends KeyboardHelpSection {
 
@@ -67,14 +74,9 @@ define( require => {
           toggleCheckboxesDescriptionString );
       }
 
-      // these strings differ if there is group content present
-      let nextItemString;
-      let previousItemString;
+      // added row if group content is present
       let moveBetweenItemsInAGroupRow = null;
       if ( options.withGroupContent ) {
-
-        nextItemString = keyboardHelpDialogMoveToNextItemOrGroupString;
-        previousItemString = keyboardHelpDialogMoveToPreviousItemOrGroupString;
 
         // if the general navigation section includes help content includes groups, modify some text and add another
         // section to describe how to navigate groups
@@ -84,20 +86,29 @@ define( require => {
         moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
           leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
       }
-      else {
-        nextItemString = keyboardHelpDialogMoveToNextItemString;
-        previousItemString = keyboardHelpDialogMoveToPreviousItemString;
-      }
 
-      // 'move to next item' content
+      // 'move to next item {{or group}}' content
       const moveToNextItemIcon = new TabKeyNode();
-      const moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon, keyboardHelpDialogTabDescriptionString );
+      const nextItemString = StringUtils.fillIn( keyboardHelpDialogMoveToNextItemString, {
+        orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
+      } );
+      const moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon,
+        StringUtils.fillIn( keyboardHelpDialogTabDescriptionString, {
+          orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
+        } )
+      );
 
-      // 'move to previous item' content
+      // 'move to previous item{{ or group}}' content
       const tabIcon = new TabKeyNode();
+      const previousItemString = StringUtils.fillIn( keyboardHelpDialogMoveToPreviousItemString, {
+        orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
+      } );
       const moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
-      const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon, keyboardHelpDialogShiftTabDescriptionString );
-
+      const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon,
+        StringUtils.fillIn( keyboardHelpDialogShiftTabDescriptionString, {
+          orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
+        } )
+      );
 
       const content = [
         moveToNextItemRow,
