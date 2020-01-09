@@ -197,7 +197,7 @@ define( require => {
     const startTapToDispense = function() {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         const flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
-        self.phetioStartEvent( 'startTapToDispense', { flowRate: flowRate } );
+        self.phetioStartEvent( 'startTapToDispense', { data: { flowRate: flowRate } } );
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate ); // L/ms -> L/sec
@@ -210,7 +210,7 @@ define( require => {
       }
     };
     var endTapToDispense = function() {
-      self.phetioStartEvent( 'endTapToDispense', { flowRate: 0 } );
+      self.phetioStartEvent( 'endTapToDispense', { data: { flowRate: 0 } } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
         timer.clearTimeout( timeoutID );
