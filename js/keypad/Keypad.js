@@ -31,6 +31,20 @@ define( require => {
   const DEFAULT_BUTTON_COLOR = 'white';
   const PLUS_CHAR = '\u002b';
   const MINUS_CHAR = '\u2212';
+  const _0 = new Key( '0', KeyID.ZERO );
+  const _1 = new Key( '1', KeyID.ONE );
+  const _2 = new Key( '2', KeyID.TWO );
+  const _3 = new Key( '3', KeyID.THREE );
+  const _4 = new Key( '4', KeyID.FOUR );
+  const _5 = new Key( '5', KeyID.FIVE );
+  const _6 = new Key( '6', KeyID.SIX );
+  const _7 = new Key( '7', KeyID.SEVEN );
+  const _8 = new Key( '8', KeyID.EIGHT );
+  const _9 = new Key( '9', KeyID.NINE );
+  const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } );
+  const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE );
+  const PLUS_MINUS_KEY = new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS );
+  const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL );
 
   /**
    * @param {Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
@@ -233,32 +247,32 @@ define( require => {
     //------------------------------------------------------------------------------------------------------------------
 
     PositiveIntegerLayout: [
-      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
-      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
-      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
-      [ new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
+      [ _7, _8, _9 ],
+      [ _4, _5, _6 ],
+      [ _1, _2, _3 ],
+      [ WIDE_ZERO, BACKSPACE_KEY ]
     ],
 
     PositiveAndNegativeIntegerLayout: [
-      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
-      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
-      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
-      [ new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ), new Key( '0', KeyID.ZERO ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS ) ]
+      [ _7, _8, _9 ],
+      [ _4, _5, _6 ],
+      [ _1, _2, _3 ],
+      [ BACKSPACE_KEY, _0, PLUS_MINUS_KEY ]
     ],
 
     PositiveFloatingPointLayout: [
-      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
-      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
-      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
-      [ new Key( '.', KeyID.DECIMAL ), new Key( '0', KeyID.ZERO ), new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
+      [ _7, _8, _9 ],
+      [ _4, _5, _6 ],
+      [ _1, _2, _3 ],
+      [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
     ],
 
     PositiveAndNegativeFloatingPointLayout: [
-      [ new Key( '7', KeyID.SEVEN ), new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
-      [ new Key( '4', KeyID.FOUR ), new Key( '5', KeyID.FIVE ), new Key( '6', KeyID.SIX ) ],
-      [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE ) ],
-      [ new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } ), new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS ) ],
-      [ new Key( '.', KeyID.DECIMAL ), null, new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE ) ]
+      [ _7, _8, _9 ],
+      [ _4, _5, _6 ],
+      [ _1, _2, _3 ],
+      [ WIDE_ZERO, PLUS_MINUS_KEY ],
+      [ DECIMAL_KEY, null, BACKSPACE_KEY ]
     ],
 
     // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
@@ -269,6 +283,5 @@ define( require => {
       [ null, new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
       [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
     ]
-
   } );
 } );

@@ -198,7 +198,7 @@ define( require => {
       // dragging, added to background so that other UI components get input events on touch devices
       this.dragListener = new DragListener( merge( {
         targetNode: this,
-        locationProperty: stopwatch.positionProperty,
+        positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: dragBoundsProperty,
         tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions ) );
