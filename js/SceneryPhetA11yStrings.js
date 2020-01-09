@@ -67,10 +67,10 @@ define( require => {
 
     // help descriptions for general navigation
     keyboardHelpDialogTabDescription: {
-      value: 'Move to next item with Tab key.'
+      value: 'Move to next item{{orGroup}} with Tab key.'
     },
     keyboardHelpDialogShiftTabDescription: {
-      value: 'Move to previous item with Shift plus Tab key.'
+      value: 'Move to previous item{{orGroup}} with Shift plus Tab key.'
     },
     keyboardHelpDialogPressButtonsDescription: {
       value: 'Press buttons with Space key.'
