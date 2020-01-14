@@ -42,8 +42,7 @@ define( require => {
 
   // constants
   // This is to support json string files not allowing trailing or leading spaces.
-  // TODO: remove this hard coded unicode replace that is needed to prevent weird spacing, https://github.com/phetsims/scenery/issues/1029
-  const OR_GROUP_STRING = StringUtils.fillIn( keyboardHelpDialogOrGroupString.replace( '\u202a', '' ), {
+  const OR_GROUP_STRING = StringUtils.fillIn( keyboardHelpDialogOrGroupString, {
     space: ' '
   } );
 
