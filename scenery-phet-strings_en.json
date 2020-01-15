@@ -96,13 +96,16 @@
     "value": "Basic Actions"
   },
   "keyboardHelpDialog.moveToNextItem": {
-    "value": "Move to next item{{orGroup}}"
+    "value": "Move to next item"
   },
   "keyboardHelpDialog.moveToPreviousItem": {
-    "value": "Move to previous item{{orGroup}}"
+    "value": "Move to previous item"
   },
-  "keyboardHelpDialog.orGroup": {
-    "value": "{{space}}or group"
+  "keyboardHelpDialog.moveToNextItemOrGroup": {
+    "value": "Move to next item or group"
+  },
+  "keyboardHelpDialog.moveToPreviousItemOrGroup": {
+    "value": "Move to previous item or group"
   },
   "keyboardHelpDialog.pressButtons": {
     "value": "Press buttons"

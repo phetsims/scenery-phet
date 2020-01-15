@@ -19,7 +19,6 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
 
   // stings
@@ -27,24 +26,21 @@ define( require => {
   const keyboardHelpDialogExitADialogString = require( 'string!SCENERY_PHET/keyboardHelpDialog.exitADialog' );
   const keyboardHelpDialogMoveBetweenItemsInAGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveBetweenItemsInAGroup' );
   const keyboardHelpDialogMoveToNextItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItem' );
-  const keyboardHelpDialogOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.orGroup' );
   const keyboardHelpDialogMoveToPreviousItemString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItem' );
+  const keyboardHelpDialogMoveToNextItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToNextItemOrGroup' );
+  const keyboardHelpDialogMoveToPreviousItemOrGroupString = require( 'string!SCENERY_PHET/keyboardHelpDialog.moveToPreviousItemOrGroup' );
   const keyboardHelpDialogPressButtonsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.pressButtons' );
   const keyboardHelpDialogToggleCheckboxesString = require( 'string!SCENERY_PHET/keyboardHelpDialog.toggleCheckboxes' );
 
   // a11y strings
   const keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
   const keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescription.value;
+  const keyboardHelpDialogTabGroupDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabGroupDescription.value;
+  const keyboardHelpDialogShiftTabGroupDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabGroupDescription.value;
   const keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
   const keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
   const keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
   const toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
-
-  // constants
-  // This is to support json string files not allowing trailing or leading spaces.
-  const OR_GROUP_STRING = StringUtils.fillIn( keyboardHelpDialogOrGroupString, {
-    space: ' '
-  } );
 
   class GeneralKeyboardHelpSection extends KeyboardHelpSection {
 
@@ -86,27 +82,33 @@ define( require => {
           leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
       }
 
-      // 'move to next item {{or group}}' content
+      // with "or group" when providing group content
       const moveToNextItemIcon = new TabKeyNode();
-      const nextItemString = StringUtils.fillIn( keyboardHelpDialogMoveToNextItemString, {
-        orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
-      } );
-      const moveToNextItemRow = KeyboardHelpSection.labelWithIcon( nextItemString, moveToNextItemIcon,
-        StringUtils.fillIn( keyboardHelpDialogTabDescriptionString, {
-          orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
-        } )
+      const nextItemString = options.withGroupContent ?
+                             keyboardHelpDialogMoveToNextItemOrGroupString :
+                             keyboardHelpDialogMoveToNextItemString;
+      const moveToNextDescription = options.withGroupContent ?
+                                    keyboardHelpDialogTabGroupDescriptionString :
+                                    keyboardHelpDialogTabDescriptionString;
+      const moveToNextItemRow = KeyboardHelpSection.labelWithIcon(
+        nextItemString,
+        moveToNextItemIcon,
+        moveToNextDescription
       );
 
-      // 'move to previous item{{ or group}}' content
+      // with "or group" when providing group content
+      const previousItemString = options.withGroupContent ?
+                                 keyboardHelpDialogMoveToPreviousItemOrGroupString :
+                                 keyboardHelpDialogMoveToPreviousItemString;
       const tabIcon = new TabKeyNode();
-      const previousItemString = StringUtils.fillIn( keyboardHelpDialogMoveToPreviousItemString, {
-        orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
-      } );
       const moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
-      const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon( previousItemString, moveToPreviousItemIcon,
-        StringUtils.fillIn( keyboardHelpDialogShiftTabDescriptionString, {
-          orGroup: options.withGroupContent ? OR_GROUP_STRING : ''
-        } )
+      const moveToPreviousDescriptionString = options.withGroupContent ?
+                                              keyboardHelpDialogShiftTabGroupDescriptionString :
+                                              keyboardHelpDialogShiftTabDescriptionString;
+      const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon(
+        previousItemString,
+        moveToPreviousItemIcon,
+        moveToPreviousDescriptionString
       );
 
       const content = [
