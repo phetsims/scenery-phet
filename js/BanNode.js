@@ -1,10 +1,11 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * Shows a circle with a line through it.  Implemented as a scenery node to overlay the line.
- * TODO: Would this be better written as a shape?
+ * The symbol is the universal "no" symbol, which shows a circle with a line through it, see
+ * https://en.wikipedia.org/wiki/No_symbol. It's known by a number of  different emoji names, include "banned", see
+ * https://emojipedia.org/no-entry-sign/.
  *
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
   'use strict';
@@ -15,39 +16,56 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Vector2 = require( 'DOT/Vector2' );
 
+  // TODO: What is the best name for this node?  We discussed BannedNode and BanNode, but those terms aren't mentioned
+  // TODO: at all in the wikipedia entry, which uses terms like:
+  // * prohibition sign
+  // * no symbol
+  // * no sign
+  // * circle-backslash symbol
+  // * nay
+  // * interdictory circle
+  // * universal no
+  // TODO: The term "prohibited" is featured prominently in both https://en.wikipedia.org/wiki/No_symbol and
+  // TODO: https://emojipedia.org/no-entry-sign/, so I recommend we use a variant of that, such as ProhibitedNode
+  // TODO: Or ProhibitedSymbolNode or ProhibitionSignNode, see https://github.com/phetsims/scenery-phet/issues/548
   class BanNode extends Node {
 
     /**
      * @param {Object} [options]
+     * @constructor
      */
     constructor( options ) {
+
       options = merge( {
-        lineWidth: 5,
         radius: 20,
-        stroke: 'black'
+        lineWidth: 5,
+        stroke: 'red',
+        fill: 'white' // TODO: Should the default fill be null? See https://github.com/phetsims/scenery-phet/issues/548
       }, options );
 
-      // TODO: Would it be preferable to preserve the passed-in children, and overlay the ban icon?
-      assert && assert( !options.children, 'BanNode provides its own children' );
-      super();
-
-      // Options that apply to both the circle and the line
-      const sharedOptions = {
+      const circleNode = new Circle( options.radius, {
         lineWidth: options.lineWidth,
         stroke: options.stroke,
-        center: Vector2.ZERO
-      };
+        fill: options.fill
+      } );
 
-      this.addChild( new Line( 0, 0, options.radius * 2, 0, merge( { rotation: Math.PI / 4 }, sharedOptions ) ) );
+      const slashNode = new Line( 0, 0, 2 * options.radius, 0, {
+        lineWidth: options.lineWidth,
+        stroke: options.stroke,
+        rotation: Math.PI / 4,
+        center: circleNode.center
+      } );
 
-      // Put the circle across the line in case there is any "seam"
-      this.addChild( new Circle( options.radius, sharedOptions ) );
+      // TODO: Should we show the circleNode in front of the slashNode to avoid the possibility of "seams"? See https://github.com/phetsims/scenery-phet/issues/548
+      assert && assert( !options.children, 'decoration not supported' );
+      options.children = [ circleNode, slashNode ];
 
-      this.mutate( options );
+      super( options );
     }
   }
 
-  return sceneryPhet.register( 'BanNode', BanNode );
+  sceneryPhet.register( 'BanNode', BanNode );
+
+  return BanNode;
 } );
