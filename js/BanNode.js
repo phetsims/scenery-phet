@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * The symbol is the universal "no" symbol, which shows a circle with a line through it, see
