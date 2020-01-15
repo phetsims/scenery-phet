@@ -47,7 +47,11 @@ define( require => {
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
+      listener: _.noop, // {function}
 
+      // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
+      // previous PhET-iO state, if applicable.
+      phetioRestoreScreenStateOnReset: false,
       tandem: Tandem.REQUIRED,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
       phetioType: ResetAllButtonIO,
@@ -58,6 +62,17 @@ define( require => {
       // a11y
       innerContent: resetAllButtonNameString
     }, options );
+
+    const oldListener = options.listener;
+
+    options.listener = () => {
+      oldListener();
+
+      // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
+      if ( options.phetioRestoreScreenStateOnReset && _.hasIn( window, 'phet.phetIo.phetioEngine' ) ) {
+        phet.phetIo.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
+      }
+    };
 
     ResetButton.call( this, options );
 
