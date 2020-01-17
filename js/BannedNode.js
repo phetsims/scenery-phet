@@ -29,7 +29,7 @@ define( require => {
         radius: 20,
         lineWidth: 5,
         stroke: 'red',
-        fill: 'white' // TODO: Should the default fill be null? See https://github.com/phetsims/scenery-phet/issues/548
+        fill: null
       }, options );
 
       const circleNode = new Circle( options.radius, {
