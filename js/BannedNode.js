@@ -3,7 +3,7 @@
 /**
  * The symbol is the universal "no" symbol, which shows a circle with a line through it, see
  * https://en.wikipedia.org/wiki/No_symbol. It's known by a number of  different emoji names, include "banned", see
- * https://emojipedia.org/no-entry-sign/.
+ * https://emojipedia.org/no-entry-sign/.  It is also referred to as a prohibition sign.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -45,8 +45,8 @@ define( require => {
         center: circleNode.center
       } );
 
-      // TODO: Should we show the circleNode in front of the slashNode to avoid the possibility of "seams"? See https://github.com/phetsims/scenery-phet/issues/548
       assert && assert( !options.children, 'decoration not supported' );
+
       options.children = [ circleNode, slashNode ];
 
       super( options );
