@@ -17,7 +17,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
 
-  // TODO: What is the best name for this node?  We discussed BannedNode and BanNode, but those terms aren't mentioned
+  // TODO: What is the best name for this node?  We discussed BannedNode and BannedNode, but those terms aren't mentioned
   // TODO: at all in the wikipedia entry, which uses terms like:
   // * prohibition sign
   // * no symbol
@@ -29,7 +29,7 @@ define( require => {
   // TODO: The term "prohibited" is featured prominently in both https://en.wikipedia.org/wiki/No_symbol and
   // TODO: https://emojipedia.org/no-entry-sign/, so I recommend we use a variant of that, such as ProhibitedNode
   // TODO: Or ProhibitedSymbolNode or ProhibitionSignNode, see https://github.com/phetsims/scenery-phet/issues/548
-  class BanNode extends Node {
+  class BannedNode extends Node {
 
     /**
      * @param {Object} [options]
@@ -65,7 +65,7 @@ define( require => {
     }
   }
 
-  sceneryPhet.register( 'BanNode', BanNode );
+  sceneryPhet.register( 'BannedNode', BannedNode );
 
-  return BanNode;
+  return BannedNode;
 } );
