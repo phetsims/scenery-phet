@@ -43,7 +43,6 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
   const HSlider = require( 'SUN/HSlider' );
-  const HStrut = require( 'SCENERY/nodes/HStrut' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
