@@ -47,7 +47,6 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
-  const KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -128,7 +127,6 @@ define( require => {
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'KeyNode', createNode: demoKeyNode },
-      { label: 'KitSelectionNode', createNode: demoKitSelectionNode },
       { label: 'KeyboardHelpContent', createNode: demoHelpContent },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
@@ -530,16 +528,6 @@ define( require => {
     return new HeaterCoolerNode( new NumberProperty( 0, {
       range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
     } ), { center: layoutBounds.center } );
-  };
-
-  // Creates a demo for KitSelectionNode
-  const demoKitSelectionNode = function( layoutBounds ) {
-    const selectedKitProperty = new Property( 0 );
-    const kits = [
-      { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
-      { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
-    ];
-    return new KitSelectionNode( selectedKitProperty, kits, { center: layoutBounds.center } );
   };
 
   // Creates a demo for ProbeNode

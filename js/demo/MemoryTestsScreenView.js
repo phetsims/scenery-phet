@@ -14,7 +14,6 @@ define( require => {
   // const GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   // const HStrut = require( 'SCENERY/nodes/HStrut' );
   // const KitControlNodeSides = require( 'SCENERY_PHET/KitControlNodeSides' );
-  // const KitSelectionNode = require( 'SCENERY_PHET/KitSelectionNode' );
   // const LeftRightSpinner = require( 'SCENERY_PHET/LeftRightSpinner' );
   // const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   // const NumberPicker = require( 'SCENERY_PHET/NumberPicker' );
@@ -94,13 +93,6 @@ define( require => {
     // } ),
     // new ComponentHolder( function() {
     //   return new RadioButtonGroupMember( booleanProperty, false );
-    // } )
-    // new ComponentHolder( function() {
-    //   var kits = [
-    //     { title: new Text( 'kit 0', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) },
-    //     { title: new Text( 'kit 1', { font: new PhetFont( 24 ) } ), content: new HStrut( 200 ) }
-    //   ];
-    //   return new KitSelectionNode( numberProperty, kits, { selectorPosition: 'sides' } );
     // } )
     // new ComponentHolder( function() {
     //   return new RewindButton();
