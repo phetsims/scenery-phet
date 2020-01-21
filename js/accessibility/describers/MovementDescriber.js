@@ -1,7 +1,7 @@
 // Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * A generic accessibility type that will alert positional alerts based on a locationProperty and bounds (see
+ * A generic accessibility type that will alert positional alerts based on a positionProperty and bounds (see
  * BorderAlertsDescriber) encapsulating the draggable area.
  *
  * General usage involves calling this endDrag() function from all dragListeners that you want this functionality to describe
@@ -80,10 +80,10 @@ define( require => {
   class MovementDescriber {
 
     /**
-     * @param {Property.<Vector2>} locationProperty - Property that drives movement, in model coordinate frame
+     * @param {Property.<Vector2>} positionProperty - Property that drives movement, in model coordinate frame
      * @param {Object} [options]
      */
-    constructor( locationProperty, options ) {
+    constructor( positionProperty, options ) {
 
       options = merge( {
 
@@ -131,11 +131,11 @@ define( require => {
       this.directionChangeUtterance = new Utterance();
 
       // @private
-      this.initialFirstLocation = locationProperty.get();
+      this.initialFirstPosition = positionProperty.get();
 
       // @protected
-      this.locationProperty = locationProperty;
-      this.lastAlertedLocation = this.initialFirstLocation; // initial value of the locationProperty
+      this.positionProperty = positionProperty;
+      this.lastAlertedPosition = this.initialFirstPosition; // initial value of the positionProperty
     }
 
     /**
@@ -144,7 +144,7 @@ define( require => {
      */
     alert( alertable ) {
       phet.joist.sim.utteranceQueue.addToBack( alertable );
-      this.lastAlertedLocation = this.locationProperty.get();
+      this.lastAlertedPosition = this.positionProperty.get();
     }
 
     /**
@@ -165,10 +165,10 @@ define( require => {
     }
 
     /**
-     * Alert a movement direction. The direction from this.lastAlertedLocation relative to the current value of the locationProperty
-     * Call this from a listener or when the locationProperty has changed enough.
+     * Alert a movement direction. The direction from this.lastAlertedPosition relative to the current value of the positionProperty
+     * Call this from a listener or when the positionProperty has changed enough.
      * Can be overridden. Easy to implement method with the following schema:
-     * (1) get the current value of the location property, and make sure it has changed enough from the lastAlertedLocation
+     * (1) get the current value of the position property, and make sure it has changed enough from the lastAlertedPosition
      * (2) get the directions from the difference,
      * (3) alert those directions by calling this.alertDirections or this.alert,
      * see friction/view/describers/BookMovementDescriber.
@@ -180,10 +180,10 @@ define( require => {
      */
     alertDirectionalMovement() {
 
-      const newLocation = this.locationProperty.get();
-      if ( !newLocation.equals( this.lastAlertedLocation ) ) {
+      const newPosition = this.positionProperty.get();
+      if ( !newPosition.equals( this.lastAlertedPosition ) ) {
 
-        const directions = this.getDirections( newLocation, this.lastAlertedLocation );
+        const directions = this.getDirections( newPosition, this.lastAlertedPosition );
 
         // make sure that these alerts exist
         if ( assert ) {
@@ -295,14 +295,14 @@ define( require => {
 
       // better to have the movement alerts, then the alert about the border
       this.alertDirectionalMovement();
-      this.borderAlertsDescriber.endDrag( this.locationProperty.get(), domEvent );
+      this.borderAlertsDescriber.endDrag( this.positionProperty.get(), domEvent );
     }
 
     /**
      * @public
      */
     reset() {
-      this.lastAlertedLocation = this.initialFirstLocation;
+      this.lastAlertedPosition = this.initialFirstPosition;
 
       // if any alerts are of type Utterance, reset them.
       this.movementAlertKeys.forEach( direction => {
