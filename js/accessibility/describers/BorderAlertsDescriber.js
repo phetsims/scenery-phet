@@ -69,22 +69,22 @@ define( require => {
 
       const bordersTouching = [];
 
-      // at left now, but wasn't last location
+      // at left now, but wasn't last position
       if ( position.x === this.bounds.left ) {
         bordersTouching.push( DirectionEnum.LEFT );
       }
 
-      // at right now, but wasn't last location
+      // at right now, but wasn't last position
       if ( position.x === this.bounds.right ) {
         bordersTouching.push( DirectionEnum.RIGHT );
       }
 
-      // at top now, but wasn't last location
+      // at top now, but wasn't last position
       if ( position.y === this.bounds.top ) {
         bordersTouching.push( DirectionEnum.UP );
       }
 
-      // at bottom now, but wasn't last location
+      // at bottom now, but wasn't last position
       if ( position.y === this.bounds.bottom ) {
         bordersTouching.push( DirectionEnum.DOWN );
       }
@@ -116,15 +116,15 @@ define( require => {
 
     /**
      * @public
-     * @param {Vector2} location
+     * @param {Vector2} position
      * @param {KeyboardEvent} [domEvent] - we don'tget this from a mouse drag listener
      */
-    endDrag( location, domEvent ) {
+    endDrag( position, domEvent ) {
       let keyCode;
       if ( domEvent ) {
         keyCode = domEvent.keyCode;
       }
-      this.alertAtBorder( location, keyCode );
+      this.alertAtBorder( position, keyCode );
     }
 
     /**
