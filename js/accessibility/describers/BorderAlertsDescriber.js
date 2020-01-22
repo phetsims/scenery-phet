@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2018-2020, University of Colorado Boulder
 
 /**
  * BorderAlertsDescriber is "sub-describer" used in MovementDescriber to manage its border alerts. Border alerts will
