@@ -51,7 +51,7 @@ define( require => {
 
       // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
       // previous PhET-iO state, if applicable.
-      phetioRestoreScreenStateOnReset: false,
+      phetioRestoreScreenStateOnReset: true,
       tandem: Tandem.REQUIRED,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
       phetioType: ResetAllButtonIO,
@@ -63,10 +63,9 @@ define( require => {
       innerContent: resetAllButtonNameString
     }, options );
 
-    const oldListener = options.listener;
-
+    const passedInListener = options.listener;
     options.listener = () => {
-      oldListener();
+      passedInListener();
 
       // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
       if ( options.phetioRestoreScreenStateOnReset && _.hasIn( window, 'phet.phetIo.phetioEngine' ) ) {
