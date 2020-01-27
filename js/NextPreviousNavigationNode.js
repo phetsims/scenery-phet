@@ -20,9 +20,6 @@ define( require => {
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const Shape = require( 'KITE/Shape' );
 
-  // constants
-  const arrowPadding = 8;
-
   /**
    * @param {Node} centerNode
    * @param {Object} selfOptions  Valid options are:
@@ -49,6 +46,7 @@ define( require => {
       arrowStrokeColor: Color.BLACK,
       arrowWidth: 14,
       arrowHeight: 18,
+      arrowPadding: 15,
       next: null, // function() { ... }
       previous: null, // function() { ... }
       createTouchAreaShape: function( shape, isPrevious ) {
@@ -134,8 +132,8 @@ define( require => {
     nextKitNode.centerY = maxHeight / 2;
 
     // previousKitNode.x = 0;
-    centerNode.x = arrowWidth + arrowPadding;
-    nextKitNode.x = centerNode.right + arrowPadding;
+    centerNode.x = arrowWidth + selfOptions.arrowPadding;
+    nextKitNode.x = centerNode.right + selfOptions.arrowPadding;
 
     this.mutate( nodeOptions );
   }
