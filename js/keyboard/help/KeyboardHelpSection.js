@@ -313,46 +313,6 @@ define( require => {
     },
 
     /**
-     * An icon containing icons for the up and down arrow keys aligned horizontally.
-     *
-     * @param {Object} [options]
-     * @returns {HBox}
-     */
-    wasdRowIcon: function( options ) {
-      options = merge( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      // These are not translated because they map directly to specific key codes.
-      const wKeyNode = new LetterKeyNode( 'W' );
-      const aKeyNode = new LetterKeyNode( 'A' );
-      const sKeyNode = new LetterKeyNode( 'S' );
-      const dKeyNode = new LetterKeyNode( 'D' );
-
-      options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
-      return new HBox( options );
-    },
-
-    /**
-     * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
-     *
-     * @param {Object} [options]
-     * @returns {HBox}
-     */
-    arrowOrWasdKeysRowIcon: function( options ) {
-      options = merge( {
-        spacing: DEFAULT_ICON_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      const arrowKeys = KeyboardHelpIconFactory.arrowKeysRowIcon();
-      const wasdKeys = KeyboardHelpSection.wasdRowIcon();
-
-      return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
-    },
-
-    /**
      * An icon containing icons for the page up/down keys aligned horizontally.
      *
      * @param  {Object} [options]

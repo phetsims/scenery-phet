@@ -13,6 +13,7 @@ define( require => {
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
@@ -93,6 +94,30 @@ define( require => {
     }
 
     /**
+     * An icon containing icons for the up and down arrow keys aligned horizontally.
+     *
+     * @param {Object} [options]
+     * @returns {HBox}
+     */
+    wasdRowIcon( options ) {
+      options = merge( {
+        spacing: DEFAULT_LETTER_KEY_SPACING
+      }, options );
+
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      // These are not translated because they map directly to specific key codes.
+      const wKeyNode = new LetterKeyNode( 'W' );
+      const aKeyNode = new LetterKeyNode( 'A' );
+      const sKeyNode = new LetterKeyNode( 'S' );
+      const dKeyNode = new LetterKeyNode( 'D' );
+
+      options.children = [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ];
+      return new HBox( options );
+    }
+
+
+    /**
      * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
      *
      * @param {Object} [options]
@@ -112,6 +137,24 @@ define( require => {
 
       options.children = [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArrowKeyNode ];
       return new HBox( options );
+    }
+
+    /**
+     * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
+     *
+     * @param {Object} [options]
+     * @returns {HBox}
+     */
+    arrowOrWasdKeysRowIcon( options ) {
+      options = merge( {
+        spacing: DEFAULT_ICON_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      const arrowKeys = KeyboardHelpIconFactory.arrowKeysRowIcon();
+      const wasdKeys = KeyboardHelpIconFactory.wasdRowIcon();
+
+      return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
     }
   }
 
