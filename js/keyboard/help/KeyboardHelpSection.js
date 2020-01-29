@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSecctions
