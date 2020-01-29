@@ -13,6 +13,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const merge = require( 'PHET_CORE/merge' );
   const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
@@ -50,7 +51,7 @@ define( require => {
     // 'Move sliders' content
     const adjustSliderLeftRightIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
     const adjustSliderUpDownIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
-    const adjustSliderIcon = KeyboardHelpSection.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
+    const adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content

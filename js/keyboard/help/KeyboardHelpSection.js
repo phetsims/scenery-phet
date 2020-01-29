@@ -25,6 +25,7 @@ define( require => {
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const merge = require( 'PHET_CORE/merge' );
   const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
@@ -270,28 +271,6 @@ define( require => {
     },
 
     /**
-     * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
-     *
-     * @param {Object} [options]
-     * @returns {HBox}
-     */
-    arrowKeysRowIcon: function( options ) {
-
-      options = merge( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      const upArrowKeyNode = new ArrowKeyNode( 'up' );
-      const leftArrowKeyNode = new ArrowKeyNode( 'left' );
-      const downArrowKeyNode = new ArrowKeyNode( 'down' );
-      const rightArowKeyNode = new ArrowKeyNode( 'right' );
-
-      options.children = [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArowKeyNode ];
-      return new HBox( options );
-    },
-
-    /**
      * An icon containing the icons two arrow keys,  aligned horizontally.
      *
      * @param {string} firstKeyName
@@ -367,10 +346,10 @@ define( require => {
       }, options );
       assert && assert( !options.children, 'children cannot be passed to options' );
 
-      const arrowKeys = KeyboardHelpSection.arrowKeysRowIcon();
+      const arrowKeys = KeyboardHelpIconFactory.arrowKeysRowIcon();
       const wasdKeys = KeyboardHelpSection.wasdRowIcon();
 
-      return KeyboardHelpSection.iconOrIcon( arrowKeys, wasdKeys, options );
+      return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
     },
 
     /**
@@ -421,31 +400,6 @@ define( require => {
       } );
 
       options.children = [ shiftKeyIcon, plusIconNode, icon ];
-      return new HBox( options );
-    },
-
-    /**
-     * Get two icons horizontally aligned and separated by 'or' text.
-     *
-     * @param {Node} iconA - to the left of 'or' text
-     * @param {Node} iconB - to the right of 'or' text
-     * @param {Object} [options]
-     *
-     * @returns {HBox}
-     */
-    iconOrIcon: function( iconA, iconB, options ) {
-
-      options = merge( {
-        spacing: DEFAULT_ICON_SPACING
-      }, options );
-      assert && assert( !options.children );
-
-      const orText = new Text( keyboardHelpDialogOrString, {
-        font: LABEL_FONT,
-        maxWidth: OR_TEXT_MAX_WIDTH
-      } );
-
-      options.children = [ iconA, orText, iconB ];
       return new HBox( options );
     },
 
@@ -517,7 +471,6 @@ define( require => {
     // @static - defaults for layout in subtypes
     DEFAULT_ICON_SPACING: DEFAULT_ICON_SPACING,
     DEFAULT_LABEL_ICON_SPACING: DEFAULT_LABEL_ICON_SPACING,
-    DEFAULT_LETTER_KEY_SPACING: DEFAULT_LETTER_KEY_SPACING,
     DEFAULT_VERTICAL_ICON_SPACING: DEFAULT_VERTICAL_ICON_SPACING
   } );
 
@@ -554,7 +507,7 @@ define( require => {
 
     const spaceKeyNode = new SpaceKeyNode();
     const enterKeyNode = new EnterKeyNode();
-    const icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
+    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
     const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
