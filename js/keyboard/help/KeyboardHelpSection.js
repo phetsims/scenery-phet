@@ -271,68 +271,6 @@ define( require => {
     },
 
     /**
-     * An icon containing the icons two arrow keys,  aligned horizontally.
-     *
-     * @param {string} firstKeyName
-     * @param {string} secondKeyName
-     * @param {Object} [options]
-     * @returns {HBox}
-     * @private
-     */
-    createTwoArrowKeysIcon: function( firstKeyName, secondKeyName, options ) {
-      options = merge( {
-        spacing: DEFAULT_LETTER_KEY_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      const upArrowKeyNode = new ArrowKeyNode( firstKeyName );
-      const rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
-
-      options.children = [ upArrowKeyNode, rightArrowKeyNode ];
-      return new HBox( options );
-    },
-
-    /**
-     * An icon containing icons for the up and down arrow keys aligned horizontally.
-     *
-     * @param {Object} [options]
-     * @returns {HBox}
-     */
-    upDownArrowKeysRowIcon: function( options ) {
-      return KeyboardHelpSection.createTwoArrowKeysIcon( 'up', 'down', options );
-    },
-
-    /**
-     * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
-     *
-     * @param {Object} [options]
-     * @returns {HBox}
-     */
-    leftRightArrowKeysRowIcon: function( options ) {
-      return KeyboardHelpSection.createTwoArrowKeysIcon( 'left', 'right', options );
-    },
-
-    /**
-     * An icon containing icons for the page up/down keys aligned horizontally.
-     *
-     * @param  {Object} [options]
-     * @returns {HBox}
-     */
-    pageUpPageDownRowIcon: function( options ) {
-      options = merge( {
-        spacing: DEFAULT_ICON_SPACING
-      }, options );
-      assert && assert( !options.children, 'children cannot be passed to options' );
-
-      const pageUpKeyNode = new PageUpKeyNode();
-      const pageDownKeyNode = new PageDownKeyNode();
-
-      options.children = [ pageUpKeyNode, pageDownKeyNode ];
-
-      return new HBox( options );
-    },
-
-    /**
      * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
      * of shift, plus icon, and desired icon.
      *

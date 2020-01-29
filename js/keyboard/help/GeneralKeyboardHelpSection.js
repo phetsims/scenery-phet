@@ -76,8 +76,8 @@ define( require => {
 
         // if the general navigation section includes help content includes groups, modify some text and add another
         // section to describe how to navigate groups
-        const leftRightArrowsIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
-        const upDownArrowsIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+        const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+        const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
         const leftRightOrUpDownIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
         moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
           leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );

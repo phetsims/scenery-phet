@@ -49,14 +49,14 @@ define( require => {
     }, options );
 
     // 'Move sliders' content
-    const adjustSliderLeftRightIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
-    const adjustSliderUpDownIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+    const adjustSliderLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+    const adjustSliderUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
     const adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
     const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
     // 'move in smaller steps' content
-    const smallStepsLeftRightIcon = KeyboardHelpSection.leftRightArrowKeysRowIcon();
-    const smallStepsUpDownIcon = KeyboardHelpSection.upDownArrowKeysRowIcon();
+    const smallStepsLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+    const smallStepsUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
 
     const shiftPlusLeftRightIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsLeftRightIcon );
     const shiftPlusUpDownIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsUpDownIcon );

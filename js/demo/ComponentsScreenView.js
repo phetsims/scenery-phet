@@ -1001,8 +1001,8 @@ define( require => {
     ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
 
     const labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:', KeyboardHelpIconFactory.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
-    const labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:', KeyboardHelpSection.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
-    const labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:', KeyboardHelpSection.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
+    const labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:', KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+    const labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:', KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
 
     // Display all of the Help Contents. A custom one for the above components, and KeyboardHelpSection subtypes as well, each
     // in their own panel

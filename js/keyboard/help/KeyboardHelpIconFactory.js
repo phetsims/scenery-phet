@@ -15,6 +15,8 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const merge = require( 'PHET_CORE/merge' );
+  const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
+  const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
@@ -156,6 +158,71 @@ define( require => {
 
       return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
     }
+
+    /**
+     * An icon containing icons for the page up/down keys aligned horizontally.
+     *
+     * @param  {Object} [options]
+     * @returns {HBox}
+     */
+    pageUpPageDownRowIcon( options ) {
+      options = merge( {
+        spacing: DEFAULT_ICON_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      const pageUpKeyNode = new PageUpKeyNode();
+      const pageDownKeyNode = new PageDownKeyNode();
+
+      options.children = [ pageUpKeyNode, pageDownKeyNode ];
+
+      return new HBox( options );
+    }
+
+
+    /**
+     * An icon containing the icons two arrow keys,  aligned horizontally.
+     *
+     * @param {string} firstKeyName
+     * @param {string} secondKeyName
+     * @param {Object} [options]
+     * @returns {HBox}
+     * @private
+     */
+    createTwoArrowKeysIcon( firstKeyName, secondKeyName, options ) {
+      options = merge( {
+        spacing: DEFAULT_LETTER_KEY_SPACING
+      }, options );
+      assert && assert( !options.children, 'children cannot be passed to options' );
+
+      const upArrowKeyNode = new ArrowKeyNode( firstKeyName );
+      const rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
+
+      options.children = [ upArrowKeyNode, rightArrowKeyNode ];
+      return new HBox( options );
+    }
+
+
+    /**
+     * An icon containing icons for the up and down arrow keys aligned horizontally.
+     *
+     * @param {Object} [options]
+     * @returns {HBox}
+     */
+    upDownArrowKeysRowIcon( options ) {
+      return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'up', 'down', options );
+    }
+
+    /**
+     * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
+     *
+     * @param {Object} [options]
+     * @returns {HBox}
+     */
+    leftRightArrowKeysRowIcon( options ) {
+      return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'left', 'right', options );
+    }
+
   }
 
   sceneryPhet.register( 'KeyboardHelpIconFactory', KeyboardHelpIconFactory );
