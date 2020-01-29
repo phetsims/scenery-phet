@@ -73,7 +73,7 @@ define( require => {
      *
      * @returns {HBox}
      */
-    iconPlusIcon( iconA, iconB, options ) {
+    static iconPlusIcon( iconA, iconB, options ) {
 
       options = merge( {
         spacing: DEFAULT_ICON_SPACING,
@@ -101,7 +101,7 @@ define( require => {
      *
      * @returns {HBox}
      */
-    shiftPlusIcon( icon, options ) {
+    static shiftPlusIcon( icon, options ) {
 
       options = merge( {
         spacing: DEFAULT_ICON_SPACING,
@@ -163,7 +163,7 @@ define( require => {
      * @param {Object} [options]
      * @returns {HBox}
      */
-    wasdRowIcon( options ) {
+    static wasdRowIcon( options ) {
       options = merge( {
         spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
@@ -209,7 +209,7 @@ define( require => {
      * @param {Object} [options]
      * @returns {HBox}
      */
-    arrowOrWasdKeysRowIcon( options ) {
+    static arrowOrWasdKeysRowIcon( options ) {
       options = merge( {
         spacing: DEFAULT_ICON_SPACING
       }, options );
@@ -227,7 +227,7 @@ define( require => {
      * @param  {Object} [options]
      * @returns {HBox}
      */
-    pageUpPageDownRowIcon( options ) {
+    static pageUpPageDownRowIcon( options ) {
       options = merge( {
         spacing: DEFAULT_ICON_SPACING
       }, options );
@@ -251,7 +251,7 @@ define( require => {
      * @returns {HBox}
      * @private
      */
-    createTwoArrowKeysIcon( firstKeyName, secondKeyName, options ) {
+    static createTwoArrowKeysIcon( firstKeyName, secondKeyName, options ) {
       options = merge( {
         spacing: DEFAULT_LETTER_KEY_SPACING
       }, options );
@@ -271,7 +271,7 @@ define( require => {
      * @param {Object} [options]
      * @returns {HBox}
      */
-    upDownArrowKeysRowIcon( options ) {
+    static upDownArrowKeysRowIcon( options ) {
       return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'up', 'down', options );
     }
 
@@ -281,13 +281,16 @@ define( require => {
      * @param {Object} [options]
      * @returns {HBox}
      */
-    leftRightArrowKeysRowIcon( options ) {
+    static leftRightArrowKeysRowIcon( options ) {
       return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'left', 'right', options );
     }
   }
 
   // @public (read-only)
   KeyboardHelpIconFactory.DEFAULT_ICON_SPACING = DEFAULT_ICON_SPACING;
+
+  assert && assert( Object.keys( KeyboardHelpIconFactory.prototype ).length === 0,
+    'KeyboardHelpIconFactory only has static functions' );
 
   sceneryPhet.register( 'KeyboardHelpIconFactory', KeyboardHelpIconFactory );
 
