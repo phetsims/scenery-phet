@@ -20,22 +20,16 @@ define( require => {
 
   // modules
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  const ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
-  const Dimension2 = require( 'DOT/Dimension2' );
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const merge = require( 'PHET_CORE/merge' );
-  const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
-  const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const PlusNode = require( 'SCENERY_PHET/PlusNode' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
   const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  const ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -57,9 +51,7 @@ define( require => {
   // Content spacing and alignment
   const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
   const DEFAULT_LABEL_ICON_SPACING = 20; // spacing between
-  const DEFAULT_ICON_SPACING = 5;
   const DEFAULT_VERTICAL_ICON_SPACING = 10;
-  const DEFAULT_LETTER_KEY_SPACING = 1;
 
   // text fonts and max widths
   const LABEL_FONT = new PhetFont( 12 );
@@ -251,7 +243,7 @@ define( require => {
         // place orText with the icon in an HBox
         iconsWithOrText.push( new HBox( {
           children: [ icons[ i ], orText ],
-          spacing: DEFAULT_ICON_SPACING
+          spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
         } ) );
       }
       iconsWithOrText.push( icons[ icons.length - 1 ] );
@@ -271,65 +263,6 @@ define( require => {
     },
 
     /**
-     * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
-     * of shift, plus icon, and desired icon.
-     *
-     * @param {Node} icon - icon to right of 'shift +'
-     * @param {Object} [options]
-     *
-     * @returns {HBox}
-     */
-    shiftPlusIcon: function( icon, options ) {
-
-      options = merge( {
-        spacing: DEFAULT_ICON_SPACING,
-
-        // plus icon
-        plusIconSize: new Dimension2( 8, 1.2 )
-      }, options );
-      assert && assert( !options.children );
-
-      // shift key icon
-      const shiftKeyIcon = new ShiftKeyNode();
-
-      // plus icon
-      const plusIconNode = new PlusNode( {
-        size: options.plusIconSize
-      } );
-
-      options.children = [ shiftKeyIcon, plusIconNode, icon ];
-      return new HBox( options );
-    },
-
-    /**
-     * Get two icons horizontally aligned and separated by '+' text.
-     *
-     * @param {Node} iconA - to the left of '+' text
-     * @param {Node} iconB - to the right of '+' text
-     * @param {Object} [options]
-     *
-     * @returns {HBox}
-     */
-    iconPlusIcon: function( iconA, iconB, options ) {
-
-      options = merge( {
-        spacing: DEFAULT_ICON_SPACING,
-
-        // plus icon
-        plusIconSize: new Dimension2( 8, 1.2 )
-      }, options );
-      assert && assert( !options.children );
-
-      // plus icon
-      const plusIconNode = new PlusNode( {
-        size: options.plusIconSize
-      } );
-
-      options.children = [ iconA, plusIconNode, iconB ];
-      return new HBox( options );
-    },
-
-    /**
      * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
      * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
      *
@@ -344,7 +277,7 @@ define( require => {
       const jKey = new LetterKeyNode( 'J' );
       const otherKey = new LetterKeyNode( keyString );
 
-      const jPlusOtherKey = KeyboardHelpSection.iconPlusIcon( jKey, otherKey );
+      const jPlusOtherKey = KeyboardHelpIconFactory.iconPlusIcon( jKey, otherKey );
       return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, labelInnerContent );
     },
 
@@ -366,55 +299,49 @@ define( require => {
       } );
     },
 
-    // @static - defaults for layout in subtypes
-    DEFAULT_ICON_SPACING: DEFAULT_ICON_SPACING,
-    DEFAULT_LABEL_ICON_SPACING: DEFAULT_LABEL_ICON_SPACING,
-    DEFAULT_VERTICAL_ICON_SPACING: DEFAULT_VERTICAL_ICON_SPACING
+    /**
+     * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
+     * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
+     * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
+     * @param {Object} [options]
+     * @static
+     * @returns {KeyboardHelpSection}
+     */
+    getGrabReleaseHelpSection: function( thingAsTitle, thingAsLowerCase, options ) {
+
+      options = merge( {
+
+        // just a paragraph for this section, no list
+        a11yContentTagName: null
+      }, options );
+
+      // the visible heading string
+      const heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
+        thing: thingAsTitle
+      } );
+
+      // the visible label string
+      const labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
+        thing: thingAsLowerCase
+      } );
+
+      // the string for the PDOM
+      const descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
+        thing: thingAsLowerCase
+      } );
+
+      const spaceKeyNode = new SpaceKeyNode();
+      const enterKeyNode = new EnterKeyNode();
+      const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
+      const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
+        iconOptions: {
+          tagName: 'p' // it is the only item so it is a p rather than an li
+        }
+      } );
+
+      return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
+    }
   } );
-
-  /**
-   * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
-   * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
-   * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
-   * @param {Object} [options]
-   * @static
-   * @returns {KeyboardHelpSection}
-   */
-  KeyboardHelpSection.getGrabReleaseHelpSection = function( thingAsTitle, thingAsLowerCase, options ) {
-
-    options = merge( {
-
-      // just a paragraph for this section, no list
-      a11yContentTagName: null
-    }, options );
-
-    // the visible heading string
-    const heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
-      thing: thingAsTitle
-    } );
-
-    // the visible label string
-    const labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
-      thing: thingAsLowerCase
-    } );
-
-    // the string for the PDOM
-    const descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
-      thing: thingAsLowerCase
-    } );
-
-    const spaceKeyNode = new SpaceKeyNode();
-    const enterKeyNode = new EnterKeyNode();
-    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
-      iconOptions: {
-        tagName: 'p' // it is the only item so it is a p rather than an li
-      }
-    } );
-
-    return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
-  };
-
 
   /**
    * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection

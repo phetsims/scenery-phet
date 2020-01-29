@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const ArrowKeyNode = require( 'SCENERY_PHET/keyboard/ArrowKeyNode' );
+  const Dimension2 = require( 'DOT/Dimension2' );
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const EscapeKeyNode = require( 'SCENERY_PHET/keyboard/EscapeKeyNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
@@ -18,7 +19,9 @@ define( require => {
   const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
   const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlusNode = require( 'SCENERY_PHET/PlusNode' );
   const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+  const ShiftKeyNode = require( 'SCENERY_PHET/keyboard/ShiftKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const Text = require( 'SCENERY/nodes/Text' );
 
@@ -58,6 +61,65 @@ define( require => {
       } );
 
       options.children = [ iconA, orText, iconB ];
+      return new HBox( options );
+    }
+
+    /**
+     * Get two icons horizontally aligned and separated by '+' text.
+     *
+     * @param {Node} iconA - to the left of '+' text
+     * @param {Node} iconB - to the right of '+' text
+     * @param {Object} [options]
+     *
+     * @returns {HBox}
+     */
+    iconPlusIcon( iconA, iconB, options ) {
+
+      options = merge( {
+        spacing: DEFAULT_ICON_SPACING,
+
+        // plus icon
+        plusIconSize: new Dimension2( 8, 1.2 )
+      }, options );
+      assert && assert( !options.children );
+
+      // plus icon
+      const plusIconNode = new PlusNode( {
+        size: options.plusIconSize
+      } );
+
+      options.children = [ iconA, plusIconNode, iconB ];
+      return new HBox( options );
+    }
+
+    /**
+     * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
+     * of shift, plus icon, and desired icon.
+     *
+     * @param {Node} icon - icon to right of 'shift +'
+     * @param {Object} [options]
+     *
+     * @returns {HBox}
+     */
+    shiftPlusIcon( icon, options ) {
+
+      options = merge( {
+        spacing: DEFAULT_ICON_SPACING,
+
+        // plus icon
+        plusIconSize: new Dimension2( 8, 1.2 )
+      }, options );
+      assert && assert( !options.children );
+
+      // shift key icon
+      const shiftKeyIcon = new ShiftKeyNode();
+
+      // plus icon
+      const plusIconNode = new PlusNode( {
+        size: options.plusIconSize
+      } );
+
+      options.children = [ shiftKeyIcon, plusIconNode, icon ];
       return new HBox( options );
     }
 
@@ -222,8 +284,10 @@ define( require => {
     leftRightArrowKeysRowIcon( options ) {
       return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'left', 'right', options );
     }
-
   }
+
+  // @public (read-only)
+  KeyboardHelpIconFactory.DEFAULT_ICON_SPACING = DEFAULT_ICON_SPACING;
 
   sceneryPhet.register( 'KeyboardHelpIconFactory', KeyboardHelpIconFactory );
 

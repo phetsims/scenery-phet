@@ -58,8 +58,8 @@ define( require => {
     const smallStepsLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
     const smallStepsUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
 
-    const shiftPlusLeftRightIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsLeftRightIcon );
-    const shiftPlusUpDownIcon = KeyboardHelpSection.shiftPlusIcon( smallStepsUpDownIcon );
+    const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsLeftRightIcon );
+    const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsUpDownIcon );
 
     const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
@@ -68,7 +68,7 @@ define( require => {
     const pageDownKeyNode = new PageDownKeyNode();
     const pageUpPageDownIcon = new HBox( {
       children: [ pageUpKeyNode, pageDownKeyNode ],
-      spacing: KeyboardHelpSection.DEFAULT_ICON_SPACING
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     } );
     const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 

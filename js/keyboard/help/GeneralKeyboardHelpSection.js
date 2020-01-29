@@ -102,7 +102,7 @@ define( require => {
                                  keyboardHelpDialogMoveToPreviousItemOrGroupString :
                                  keyboardHelpDialogMoveToPreviousItemString;
       const tabIcon = new TabKeyNode();
-      const moveToPreviousItemIcon = KeyboardHelpSection.shiftPlusIcon( tabIcon );
+      const moveToPreviousItemIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabIcon );
       const moveToPreviousDescriptionString = options.withGroupContent ?
                                               keyboardHelpDialogShiftTabGroupDescriptionString :
                                               keyboardHelpDialogShiftTabDescriptionString;
