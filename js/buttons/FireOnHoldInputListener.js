@@ -19,6 +19,7 @@ define( require => {
   /**
    * @param {Object} [options]
    * @constructor
+   * @deprecated - Use FireListener instead, see https://github.com/phetsims/scenery/issues/1004
    */
   function FireOnHoldInputListener( options ) {
     options = merge( {
