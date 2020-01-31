@@ -39,11 +39,13 @@ define( require => {
   const FormulaNode = require( 'SCENERY_PHET/FormulaNode' );
   const GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
+  const GrabDragInteraction = require( 'SCENERY_PHET/accessibility/GrabDragInteraction' );
   const HandleNode = require( 'SCENERY_PHET/HandleNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HeaterCoolerNode = require( 'SCENERY_PHET/HeaterCoolerNode' );
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const KeyboardDragListener = require( 'SCENERY/listeners/KeyboardDragListener' );
   const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const Keypad = require( 'SCENERY_PHET/keypad/Keypad' );
@@ -124,6 +126,7 @@ define( require => {
       { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
+      { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'KeyNode', createNode: demoKeyNode },
@@ -1425,6 +1428,45 @@ define( require => {
       children: [ thermometer, temperatureSlider ],
       center: layoutBounds.center
     } );
+  };
+
+  // Creates a demo for GrabDragInteraction
+  const getDemoGrabDragInteraction = tandem => {
+    return function( layoutBounds ) {
+
+      const rect = new Rectangle( 0, 0, 100, 100, {
+        tagName: 'div',
+        role: 'application',
+        fill: 'blue',
+        cursor: 'pointer'
+      } );
+      const positionProperty = new Vector2Property( Vector2.ZERO );
+      positionProperty.linkAttribute( rect, 'translation' );
+
+      const listener = new DragListener( {
+        positionProperty: positionProperty
+      } );
+      rect.addInputListener( listener );
+      const keyboardDragListener = new KeyboardDragListener( {
+        positionProperty: positionProperty
+      } );
+      rect.addInputListener( keyboardDragListener );
+
+      // @private
+      this.grabDragInteraction = new GrabDragInteraction( rect, {
+        objectToGrabString: 'rectangle',
+        grabbableAccessibleName: 'grab rectangle',
+
+        listenersForDrag: [ keyboardDragListener ],
+
+        tandem: tandem.createTandem( 'grabDragInteraction' )
+      } );
+
+      return new Node( {
+        children: [ rect ],
+        center: layoutBounds.center
+      } );
+    };
   };
 
   return inherit( DemosScreenView, ComponentsScreenView, {
