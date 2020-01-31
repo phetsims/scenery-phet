@@ -1326,7 +1326,7 @@ define( require => {
   };
 
   // Creates a sample StopwatchNode
-  const demoStopwatchNode = function( layoutBounds, options, ) {
+  const demoStopwatchNode = function( layoutBounds, options ) {
 
     // Create a StopwatchNode that doesn't show units (assumed to be seconds)
     const stopwatch = new Stopwatch( { isVisible: true, tandem: options.tandem.createTandem( 'stopwatch' ) } );
