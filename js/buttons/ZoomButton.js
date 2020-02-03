@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * Zoom button, has an icon with a magnifying glass, with either a plus or minus sign in the center of the glass.
@@ -43,8 +43,7 @@ define( require => {
     const glassNode = new Circle( options.radius, {
       fill: options.magnifyingGlassFill,
       stroke: options.magnifyingGlassStroke,
-      lineWidth: glassLineWidth,
-      tandem: options.tandem.createTandem( 'glassNode' )
+      lineWidth: glassLineWidth
     } );
 
     // handle at lower-left of glass, at a 45-degree angle
@@ -61,8 +60,7 @@ define( require => {
     const signOptions = {
       size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
       centerX: glassNode.centerX,
-      centerY: glassNode.centerY,
-      tandem: options.tandem.createTandem( 'signNode' )
+      centerY: glassNode.centerY
     };
     const signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
