@@ -90,6 +90,7 @@ define( require => {
       isTipCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
       isTipDragBounded: true, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
+      baseDragStarted: _.noop, // called when the base drag starts
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       tandem: Tandem.OPTIONAL
     }, options );
@@ -197,6 +198,7 @@ define( require => {
       attach: true,
 
       start: function( event, trail ) {
+        options.baseDragStarted();
         self._isBaseUserControlledProperty.set( true );
         const position = self._modelViewTransform.modelToViewPosition( self.basePositionProperty.value );
         baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
