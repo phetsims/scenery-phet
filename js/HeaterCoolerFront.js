@@ -13,6 +13,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Color = require( 'SCENERY/util/Color' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
@@ -50,7 +51,7 @@ define( require => {
       options = merge( {
         baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
-        snapToZero: true, // controls whether the slider will snap to the off.
+        snapToZero: true, // see doc at this.snapToZeroProperty
         heatEnabled: true, // Allows slider to reach positive values (corresponding to heating)
         coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
 
@@ -110,6 +111,30 @@ define( require => {
           .addColorStop( 1, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
       } );
 
+      // @private {BooleanProperty}
+      this.snapToZeroProperty = new BooleanProperty( options.snapToZero, {
+        tandem: options.tandem.createTandem( 'snapToZeroProperty' ),
+        phetioDocumentation: 'whether the slider will snap to the off position when released'
+      } );
+
+      const setSliderToZero = () => {
+        heatCoolAmountProperty.set( 0 );
+      };
+      const sliderRange = new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 );
+      const closeToZeroThreshold = 0.05; // percentage value determined by a designer
+
+      /**
+       * determines if the slider is close enough to zero to snap to zero (even when snapToZeroProperty is false). It's
+       * only needed when both heating and cooling are enabled because that is the only configuration where it was
+       * difficult for a user to set the slider to 0. This feature was requested by designers, see https://github.com/phetsims/scenery-phet/issues/568.
+       * @returns {boolean}
+       */
+      const sliderIsCloseToZero = () => {
+        return options.coolEnabled && options.heatEnabled && (
+          heatCoolAmountProperty.value < 0 && heatCoolAmountProperty.value / sliderRange.min < closeToZeroThreshold ||
+          heatCoolAmountProperty.value > 0 && heatCoolAmountProperty.value / sliderRange.max < closeToZeroThreshold );
+      };
+
       const sliderOptions = merge( {
         thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
         thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
@@ -119,8 +144,8 @@ define( require => {
         thumbSize: options.thumbSize,
         thumbFillHighlighted: options.thumbFillHighlighted,
         endDrag: () => {
-          if ( options.snapToZero ) {
-            heatCoolAmountProperty.set( 0 );
+          if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
+            setSliderToZero();
           }
         },
         centerY: stoveBody.centerY,
@@ -131,7 +156,7 @@ define( require => {
       // @public (read-only), please use judiciously, see https://github.com/phetsims/scenery-phet/issues/442
       this.slider = new VSlider(
         heatCoolAmountProperty,
-        new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 ),
+        sliderRange,
         sliderOptions
       );
 
@@ -161,6 +186,11 @@ define( require => {
           options.heaterCoolerBack.visible = this.visible;
         } );
       }
+
+      // return the slider to its origin if snapToZero is changed to true
+      this.snapToZeroProperty.link( snapToZero => {
+        snapToZero && setSliderToZero();
+      } );
     }
   }
 
