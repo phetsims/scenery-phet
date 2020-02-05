@@ -381,7 +381,7 @@ define( require => {
    * function.
    *
    * Only general or specific callbacks are allowed, but not both.
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function validateCallbacks( options ) {
     const normalCallbacksPresent = !!( options.startCallback ||
@@ -409,7 +409,7 @@ define( require => {
    * passed in the options object. These callback options are only the specific component callbacks, not the general
    * start/end that are called for every component's interaction
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @returns {boolean}
    */
   function specificCallbackKeysInOptions( options ) {

@@ -34,7 +34,7 @@ define( require => {
      * @param {YawPitchModelViewTransform3} modelViewTransform
      * @param {Property.<boolean>} plateChargeVisibleProperty
      * @param {Property.<boolean>} electricFieldVisibleProperty
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, options ) {
 

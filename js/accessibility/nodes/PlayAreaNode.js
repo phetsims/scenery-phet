@@ -23,7 +23,7 @@ define( require => {
 
   /**
    * @constructor
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function PlayAreaNode( options ) {
     AccessibleSectionNode.call( this, playAreaString, options );

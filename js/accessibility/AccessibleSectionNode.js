@@ -21,7 +21,7 @@ define( require => {
   /**
    * @constructor
    * @param {string} label
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function AccessibleSectionNode( label, options ) {
     assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );

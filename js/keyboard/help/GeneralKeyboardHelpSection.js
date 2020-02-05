@@ -46,7 +46,7 @@ define( require => {
   class GeneralKeyboardHelpSection extends KeyboardHelpSection {
 
     /**
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( options ) {
 

@@ -34,7 +34,7 @@ define( require => {
 
     /**
      * @param {Property.<Number>} timeProperty
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( timeProperty, options ) {
 

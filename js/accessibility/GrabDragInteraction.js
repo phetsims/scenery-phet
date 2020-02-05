@@ -65,7 +65,7 @@ define( require => {
 
     /**
      * @param {Node} node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( node, options ) {
       options = merge( {

@@ -31,7 +31,7 @@ define( require => {
 
   /**
    * @param {string} direction - direction of arrow, 'up'|'down'|'left'|'right'
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ArrowKeyNode( direction, options ) {

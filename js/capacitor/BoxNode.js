@@ -31,7 +31,7 @@ define( require => {
      * @param {YawPitchModelViewTransform3} transform
      * @param {Color} color
      * @param {Bounds3} size
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( transform, color, size, options ) {
 

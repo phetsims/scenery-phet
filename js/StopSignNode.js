@@ -22,7 +22,7 @@ define( require => {
   const NUMBER_OF_SIDES = 8;
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function StopSignNode( options ) {

@@ -40,7 +40,7 @@ define( require => {
     /**
      * @param {Capacitor} capacitor
      * @param {YawPitchModelViewTransform3} modelViewTransform
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( capacitor, modelViewTransform, options ) {
 

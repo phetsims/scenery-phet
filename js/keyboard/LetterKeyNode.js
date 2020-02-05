@@ -20,7 +20,7 @@ define( require => {
    * Constructor.
    *
    * @param {string} string - the letter for the key
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function LetterKeyNode( string, options ) {
 

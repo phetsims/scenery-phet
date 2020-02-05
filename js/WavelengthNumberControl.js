@@ -35,7 +35,7 @@ define( require => {
 
     /**
      * @param {Property.<number>} property - for the wavelength, in nm
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( property, options ) {
 

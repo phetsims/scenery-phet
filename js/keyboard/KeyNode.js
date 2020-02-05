@@ -65,7 +65,7 @@ define( require => {
   /**
    * Constructor.
    * @param {Node} keyIcon - icon placed in the key
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function KeyNode( keyIcon, options ) {
 

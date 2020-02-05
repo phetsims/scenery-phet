@@ -22,7 +22,7 @@ define( require => {
    * Constructor.
    *
    * @param {string} string
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function TextKeyNode( string, options ) {
 
