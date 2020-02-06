@@ -51,9 +51,14 @@ define( require => {
       options = merge( {
         baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
         width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
-        snapToZero: true, // see doc at this.snapToZeroProperty
         heatEnabled: true, // Allows slider to reach positive values (corresponding to heating)
         coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
+        snapToZero: true, // see doc at this.snapToZeroProperty
+
+        // the percentage of the slider's minimum and maximum range at which the slider should snap to zero when
+        // released. Note that it's only used when this.snapToZeroProperty is false and when both heating and cooling
+        // are enabled. Value empirically determined.
+        snapToZeroThreshold: 0.1,
 
         // slider label options
         heatString: heatString, // {string} label for +1 end of slider
@@ -114,14 +119,14 @@ define( require => {
       // @private {BooleanProperty}
       this.snapToZeroProperty = new BooleanProperty( options.snapToZero, {
         tandem: options.tandem.createTandem( 'snapToZeroProperty' ),
-        phetioDocumentation: 'whether the slider will snap to the off position when released'
+        phetioDocumentation: 'whether the slider will snap to the off position when released',
+        phetioFeatured: true
       } );
 
       const setSliderToZero = () => {
         heatCoolAmountProperty.set( 0 );
       };
       const sliderRange = new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 );
-      const closeToZeroThreshold = 0.05; // percentage value determined by a designer
 
       /**
        * determines if the slider is close enough to zero to snap to zero (even when snapToZeroProperty is false). It's
@@ -131,8 +136,8 @@ define( require => {
        */
       const sliderIsCloseToZero = () => {
         return options.coolEnabled && options.heatEnabled && (
-          heatCoolAmountProperty.value < 0 && heatCoolAmountProperty.value / sliderRange.min < closeToZeroThreshold ||
-          heatCoolAmountProperty.value > 0 && heatCoolAmountProperty.value / sliderRange.max < closeToZeroThreshold );
+          heatCoolAmountProperty.value < 0 && heatCoolAmountProperty.value / sliderRange.min < options.snapToZeroThreshold ||
+          heatCoolAmountProperty.value > 0 && heatCoolAmountProperty.value / sliderRange.max < options.snapToZeroThreshold );
       };
 
       const sliderOptions = merge( {
