@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2018-2020, University of Colorado Boulder
 
 /**
  * The main interaction for grabbing and dragging an object. It works by taking in a Node to augment with the a11y
