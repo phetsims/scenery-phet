@@ -130,7 +130,7 @@ define( require => {
 
       /**
        * determines if the slider is close enough to zero to snap to zero (even when snapToZeroProperty is false). It's
-       * only needed when both heating and cooling are enabled because that is the only configuration where it was
+       * only applicable when both heating and cooling are enabled because that is the only configuration where it was
        * difficult for a user to set the slider to 0. This feature was requested by designers, see https://github.com/phetsims/scenery-phet/issues/568.
        * @returns {boolean}
        */
