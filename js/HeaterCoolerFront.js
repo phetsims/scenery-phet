@@ -57,7 +57,7 @@ define( require => {
 
         // the percentage of the slider's minimum and maximum range at which the slider should snap to zero when
         // released. Note that it's only used when this.snapToZeroProperty is false and when both heating and cooling
-        // are enabled. Value empirically determined.
+        // are enabled. Default value empirically determined, see https://github.com/phetsims/scenery-phet/issues/568
         snapToZeroThreshold: 0.1,
 
         // slider label options
