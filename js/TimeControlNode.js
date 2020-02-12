@@ -43,7 +43,7 @@ define( require => {
 
       options = merge( {
 
-        // Optional {BooleanProperty}, if provided 'Normal' and 'Slow' radio buttons are added.
+        // {BooleanProperty|null} if provided 'Normal' and 'Slow' radio buttons are added.
         isSlowMotionProperty: null,
 
         // {boolean} - if true a StepBackwardButton will be included in the controls to the left of the PlayPauseButton
