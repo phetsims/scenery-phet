@@ -42,7 +42,7 @@ define( require => {
   class Wave extends Path {
     constructor() {
       super( null, {
-        stroke: 'white',
+        stroke: 'yellow',
         lineWidth: 4
       } );
       this.t = 0;
@@ -85,7 +85,7 @@ define( require => {
     constructor( model ) {
       super();
       this.waves = [];
-      const MAX_WAVES = 5;
+      const MAX_WAVES = 10;
       for ( let i = 0; i < MAX_WAVES; i++ ) {
         this.waves.push( new Wave() );
       }
