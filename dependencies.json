@@ -1,5 +1,5 @@
 {
-  "comment": "# scenery-phet 1.0.0-dev.17 Thu Feb 13 2020 08:07:02 GMT-0700 (Mountain Standard Time)",
+  "comment": "# scenery-phet 1.0.0-dev.18 Thu Feb 13 2020 11:03:53 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "a99a9ce9ee0774bf3ef509bf3e31ca7383f67478",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "98119833fb74403195a77d79c07caa171d44063b",
+    "sha": "2db434a484fbf37298ca67ab5e817a916aa1dd54",
     "branch": "java"
   },
   "dot": {
@@ -57,7 +57,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "47b8f5080cf6b33ede6006c40461f379e310043c",
+    "sha": "b3d8a6e9b9448e34b186d05393236c6981d0829c",
     "branch": "master"
   },
   "sherpa": {
