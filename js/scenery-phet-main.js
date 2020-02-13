@@ -12,6 +12,7 @@ define( require => {
   const ButtonsScreenView = require( 'SCENERY_PHET/demo/ButtonsScreenView' );
   const ComponentsScreenView = require( 'SCENERY_PHET/demo/ComponentsScreenView' );
   const DialogsScreenView = require( 'SCENERY_PHET/demo/DialogsScreenView' );
+  const GreenhouseWavesScreenView = require( 'SCENERY_PHET/demo/GreenhouseWavesScreenView' );
   const MemoryTestsScreenView = require( 'SCENERY_PHET/demo/MemoryTestsScreenView' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -46,82 +47,95 @@ define( require => {
     const dialogsScreenTandem = Tandem.ROOT.createTandem( 'dialogsScreen' );
     const springScreenTandem = Tandem.ROOT.createTandem( 'springsScreen' );
     const memoryTestsScreenTandem = Tandem.ROOT.createTandem( 'memoryTestsScreen' );
-    new Sim( sceneryPhetTitleString, [
+    new Sim( sceneryPhetTitleString,
 
-      // Buttons
-      new Screen(
+      // Prototype for Greenhouse
+      sceneryPhetQueryParameters.greenhouseWaves ? [ new Screen(
         function() {return {};},
-        function( model ) {return new ButtonsScreenView();},
-        {
-          name: 'Buttons',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'red' ),
-          tandem: buttonsScreenTandem
-        }
-      ),
-
-      // Sliders
-      new Screen(
-        function() {return {};},
-        function( model ) {return new SlidersScreenView();},
-        {
-          name: 'Sliders',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'yellow' ),
-          tandem: slidersScreenTandem
-        }
-      ),
-
-      // Components
-      new Screen(
-        function() {return {};},
-        function( model ) {
-
-          return new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } );
-        },
-        {
-          name: 'Components',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'orange' ),
-          tandem: componentsScreenTandem
-        }
-      ),
-
-      // Dialogs
-      new Screen(
-        function() {return {};},
-        function( model ) {return new DialogsScreenView();},
-        {
-          name: 'Dialogs',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'white' ),
-          tandem: dialogsScreenTandem
-        }
-      ),
-
-      // Spring
-      new Screen(
-        function() {return {};},
-        function( model ) {return new SpringScreenView();},
-        {
-          name: 'Spring',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'blue' ),
-          tandem: springScreenTandem
-        }
-      ),
-
-      // Memory Tests
-      new Screen(
-        function() {return {};},
-        function( model ) {return new MemoryTestsScreenView();},
-        {
-          name: 'Memory Tests',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'purple' ),
+        function( model ) {return new GreenhouseWavesScreenView();}, {
+          name: 'Greenhouse Waves',
+          backgroundColorProperty: new Property( 'black' ),
+          homeScreenIcon: createScreenIcon( 'green' ),
           tandem: memoryTestsScreenTandem
-        }
-      )
-    ], simOptions ).start();
+        } ) ] :
+
+        // Standard screens
+        [
+
+          // Buttons
+          new Screen(
+            function() {return {};},
+            function( model ) {return new ButtonsScreenView();},
+            {
+              name: 'Buttons',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'red' ),
+              tandem: buttonsScreenTandem
+            }
+          ),
+
+          // Sliders
+          new Screen(
+            function() {return {};},
+            function( model ) {return new SlidersScreenView();},
+            {
+              name: 'Sliders',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'yellow' ),
+              tandem: slidersScreenTandem
+            }
+          ),
+
+          // Components
+          new Screen(
+            function() {return {};},
+            function( model ) {
+
+              return new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } );
+            },
+            {
+              name: 'Components',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'orange' ),
+              tandem: componentsScreenTandem
+            }
+          ),
+
+          // Dialogs
+          new Screen(
+            function() {return {};},
+            function( model ) {return new DialogsScreenView();},
+            {
+              name: 'Dialogs',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'white' ),
+              tandem: dialogsScreenTandem
+            }
+          ),
+
+          // Spring
+          new Screen(
+            function() {return {};},
+            function( model ) {return new SpringScreenView();},
+            {
+              name: 'Spring',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'blue' ),
+              tandem: springScreenTandem
+            }
+          ),
+
+          // Memory Tests
+          new Screen(
+            function() {return {};},
+            function( model ) {return new MemoryTestsScreenView();},
+            {
+              name: 'Memory Tests',
+              backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+              homeScreenIcon: createScreenIcon( 'purple' ),
+              tandem: memoryTestsScreenTandem
+            }
+          )
+        ], simOptions ).start();
   } );
 } );

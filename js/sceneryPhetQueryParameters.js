@@ -34,6 +34,10 @@ define( require => {
     memoryTestCreationMax: {
       type: 'number',
       defaultValue: 10000
+    },
+
+    greenhouseWaves: {
+      type: 'flag'
     }
   } );
 
