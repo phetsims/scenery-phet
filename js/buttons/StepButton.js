@@ -23,7 +23,9 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   // a11y strings
-  const stepString = SceneryPhetA11yStrings.stepString.value;
+  const stepForwardString = SceneryPhetA11yStrings.stepForwardString.value;
+  const stepPlayingDescriptionString = SceneryPhetA11yStrings.stepPlayingDescriptionString.value;
+  const stepPausedDescriptionString = SceneryPhetA11yStrings.stepPausedDescriptionString.value;
 
   /**
    * @param {Object} [options] - see RoundPushButton
@@ -49,8 +51,9 @@ define( require => {
       // and you should avoid using the button's native 'enabled' property.
       isPlayingProperty: null,
 
-      // a11y
-      innerContent: stepString
+      // PDOM
+      innerContent: stepForwardString,
+      appendDescription: true
     }, options );
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
@@ -87,6 +90,8 @@ define( require => {
       const self = this;
       var playingObserver = function( playing ) {
         self.enabled = !playing;
+
+        self.descriptionContent = playing ? stepPlayingDescriptionString : stepPausedDescriptionString;
       };
       options.isPlayingProperty.link( playingObserver );
     }

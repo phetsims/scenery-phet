@@ -11,6 +11,7 @@ define( require => {
   'use strict';
 
   // modules
+  const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const merge = require( 'PHET_CORE/merge' );
@@ -32,6 +33,8 @@ define( require => {
 
   // PDOM strings
   const timeControlDescriptionString = SceneryPhetA11yStrings.timeControlDescription.value;
+  const timeControlLabelString = SceneryPhetA11yStrings.timeControlLabel.value;
+  const simSpeedsString = SceneryPhetA11yStrings.simSpeedsString.value;
 
   class TimeControlNode extends Node {
 
@@ -75,8 +78,13 @@ define( require => {
         radioButtonGroupOptions: null,
 
         // phet-io
-        tandem: Tandem.REQUIRED // {Tandem}
+        tandem: Tandem.REQUIRED, // {Tandem}
 
+        // PDOM
+        tagName: 'div',
+        labelTagName: 'h3',
+        labelContent: timeControlLabelString,
+        descriptionContent: timeControlDescriptionString
       }, options );
 
       if ( options.playPauseOptions ) {
@@ -126,12 +134,7 @@ define( require => {
         children: buttons,
 
         // don't change layout if playPauseButton resizes with scaleFactorWhenPaused
-        resize: false,
-
-        // PDOM
-        tagName: 'div',
-        appendDescription: true,
-        descriptionContent: timeControlDescriptionString
+        resize: false
       } );
 
       const children = [];
@@ -157,13 +160,24 @@ define( require => {
           spacing: 9,
           touchAreaDilation: 10,
           maxWidth: 150,
-          tandem: options.tandem.createTandem( 'speedRadioButtonGroup' )
+          tandem: options.tandem.createTandem( 'speedRadioButtonGroup' ),
+
+          // PDOM
+          labelTagName: 'h4',
+          labelContent: simSpeedsString
         }, options.radioButtonGroupOptions );
 
         radioButtonGroup = new VerticalAquaRadioButtonGroup( options.isSlowMotionProperty, [
-          { value: false, node: normalText, tandemName: 'normal' },
-          { value: true, node: slowText, tandemName: 'slow' }
+          { value: false, node: normalText, labelContent: speedNormalString, tandemName: 'normal' },
+          { value: true, node: slowText, labelContent: speedSlowString, tandemName: 'slow' }
         ], radioButtonGroupOptions );
+
+        // PDOM - so that the RadioButtonGroup label is read any time a RadioButton gets focus
+        radioButtonGroup.addAriaLabelledbyAssociation( {
+          thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+          otherNode: radioButtonGroup,
+          otherElementName: AccessiblePeer.LABEL_SIBLING
+        } );
 
         children.push( new HBox( {
           spacing: options.buttonsXSpacing,
@@ -186,6 +200,14 @@ define( require => {
 
       // @private {PlayPauseButton} - for layout
       this.playPauseButton = playPauseButton;
+
+      // PDOM - this node's primary sibling is aria-labelledby its own label so the label content is read whenever
+      // a member of the group receives focus
+      this.addAriaLabelledbyAssociation( {
+        thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+        otherNode: this,
+        otherElementName: AccessiblePeer.LABEL_SIBLING
+      } );
 
       // So we know whether we can dispose of the enabledProperty and its tandem
       const ownsEnabledProperty = !options.enabledProperty;

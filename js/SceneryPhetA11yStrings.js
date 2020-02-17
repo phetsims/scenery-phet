@@ -117,13 +117,25 @@ define( require => {
     },
 
     // StepButton
-    stepString: {
-      value: 'Step'
+    stepForwardString: {
+      value: 'Step Forward'
+    },
+    stepPlayingDescriptionString: {
+      value: 'Pause sim to step forward little by little.'
+    },
+    stepPausedDescriptionString: {
+      value: 'Play sim to resume chosen speed.'
     },
 
     // TimeControlNode
     timeControlDescription: {
-      value: 'Pause, play, or step forward in time while paused.'
+      value: 'For closer observations Play sim on slow speed.'
+    },
+    timeControlLabel: {
+      value: 'Timing Controls'
+    },
+    simSpeedsString: {
+      value: 'Sim Speeds'
     },
 
     //------------------------------------------------------------------------
