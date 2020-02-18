@@ -95,6 +95,8 @@ define( require => {
       }, options );
 
       assert && assert( options.heatEnabled || options.coolEnabled, 'Either heat or cool must be enabled.' );
+      assert && assert( options.snapToZeroThreshold >= 0 && options.snapToZeroThreshold <= 1,
+        'options.snapToZeroThreshold must be between 0 and 1: ' + options.snapToZeroThreshold );
 
       // Dimensions for the rest of the stove, dependent on the specified stove width.  Empirically determined, and could
       // be made into options if needed.
