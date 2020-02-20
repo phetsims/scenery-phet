@@ -158,7 +158,7 @@ define( require => {
         const radioButtonGroupOptions = merge( {
           radioButtonOptions: radioButtonOptions,
           spacing: 9,
-          touchAreaDilation: 10,
+          touchAreaXDilation: 10,
           maxWidth: 150,
           tandem: options.tandem.createTandem( 'speedRadioButtonGroup' ),
 
