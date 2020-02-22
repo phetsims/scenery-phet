@@ -358,7 +358,7 @@ define( require => {
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
           if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
-            this.releaseDraggable();
+            this.releaseDraggable( event );
           }
 
           // if successfully dragged, then make the cue node invisible
@@ -366,7 +366,7 @@ define( require => {
             this.dragCueNode.visible = false;
           }
         },
-        blur: () => this.releaseDraggable(),
+        blur: event => this.releaseDraggable( event ),
         focus: () => {
 
           // if successfully dragged, then make the cue node invisible
@@ -392,7 +392,7 @@ define( require => {
 
           // release if PressListener is interrupted
           if ( event === null || !event.isA11y() ) {
-            this.releaseDraggable();
+            this.releaseDraggable( event );
           }
         },
 
@@ -441,8 +441,12 @@ define( require => {
      * Release the draggable
      * @public
      */
-    releaseDraggable() {
+    releaseDraggable( event ) {
       assert && assert( !this.grabbable, 'cannot set to grabbable if already set that way' );
+
+      // TODO: this may not stick around, need to test in https://github.com/phetsims/gravity-force-lab/issues/254
+      event && event.domEvent && event.domEvent.preventDefault();
+
       this.turnToGrabbable();
       this.onRelease();
     }
