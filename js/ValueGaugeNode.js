@@ -3,94 +3,92 @@
 /**
  * A GaugeNode with a NumberDisplay located in the center bottom half of the GaugeNode to
  * display the numerical value. The NumberDisplay can be hidden but is visible by default.
- * 
+ *
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import Vector2 from '../../dot/js/Vector2.js';
+import merge from '../../phet-core/js/merge.js';
+import GaugeNode from './GaugeNode.js';
+import NumberDisplay from './NumberDisplay.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // modules
-  const GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
-  const merge = require( 'PHET_CORE/merge' );
-  const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Vector2 = require( 'DOT/Vector2' );
+// constants
+const NUMBER_DISPLAY_DEFAULT_OPTIONS = {
+  font: new PhetFont( 16 ),
+  backgroundStroke: 'black',
+  align: 'center',
+  cornerRadius: 5
+};
 
-  // constants
-  const NUMBER_DISPLAY_DEFAULT_OPTIONS = {
-    font: new PhetFont( 16 ),
-    backgroundStroke: 'black',
-    align: 'center',
-    cornerRadius: 5
-  };
+class ValueGaugeNode extends GaugeNode {
 
-  class ValueGaugeNode extends GaugeNode {
+  /**
+   * @param  {Property.<Number>} valueProperty
+   * @param  {string} label - label to display
+   * @param  {Range} range
+   * @param  {Object} options
+   */
+  constructor( valueProperty, label, range, options ) {
 
-    /**
-     * @param  {Property.<Number>} valueProperty
-     * @param  {string} label - label to display
-     * @param  {Range} range
-     * @param  {Object} options
-     */
-    constructor( valueProperty, label, range, options ) {
+    options = merge( {
 
-      options = merge( {
+      // {*|null} options passed to the NumberDisplay, see NumberDisplay for full list
+      numberDisplayOptions: null
+    }, options );
 
-        // {*|null} options passed to the NumberDisplay, see NumberDisplay for full list
-        numberDisplayOptions: null
-      }, options );
+    options.numberDisplayOptions = merge( {}, NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
 
-      options.numberDisplayOptions = merge( {}, NUMBER_DISPLAY_DEFAULT_OPTIONS, options.numberDisplayOptions );
+    super( valueProperty, label, range, options );
 
-      super( valueProperty, label, range, options );
+    // @private {boolean}
+    this._numberDisplayVisible = true;
 
-      // @private {boolean}
-      this._numberDisplayVisible = true;
+    // @private {NumberDisplay} - display for the valueProperty
+    this.numberDisplay = new NumberDisplay( valueProperty, range, options.numberDisplayOptions );
+    this.addChild( this.numberDisplay );
 
-      // @private {NumberDisplay} - display for the valueProperty
-      this.numberDisplay = new NumberDisplay( valueProperty, range, options.numberDisplayOptions );
-      this.addChild( this.numberDisplay );
+    assert && assert( this.numberDisplay.matrix.translation.equals( Vector2.ZERO ), 'ValueGaugeNode positions the NumberDisplay' );
+    this.numberDisplay.center = new Vector2( 0, this.radius / 2 );
+  }
 
-      assert && assert( this.numberDisplay.matrix.translation.equals( Vector2.ZERO ), 'ValueGaugeNode positions the NumberDisplay' );
-      this.numberDisplay.center = new Vector2( 0, this.radius / 2 );
-    }
-
-    /**
-     * Set whether or not the NumberDisplay inside this GaugeNode is visible.
-     * 
-     * @public
-     * @param {boolean} visible
-     */
-    setNumberDisplayVisible( visible ) {
-      if ( visible !== this._numberDisplayVisible ) {
-        this._numberDisplayVisible = visible;
-        this.numberDisplay.visible = visible;
-      }
-    }
-    set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
-
-    /**
-     * Get whether or not the number display inside this GaugeNode is visible.
-     * 
-     * @public
-     * @returns {boolean}
-     */
-    getNumberDisplayVisible() {
-      return this._numberDisplayVisible;
-    }
-    get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
-
-    /**
-     * @public
-     * @override
-     */
-    dispose() {
-      this.numberDisplay.dispose();
-      super.dispose();
+  /**
+   * Set whether or not the NumberDisplay inside this GaugeNode is visible.
+   *
+   * @public
+   * @param {boolean} visible
+   */
+  setNumberDisplayVisible( visible ) {
+    if ( visible !== this._numberDisplayVisible ) {
+      this._numberDisplayVisible = visible;
+      this.numberDisplay.visible = visible;
     }
   }
 
-  return sceneryPhet.register( 'ValueGaugeNode', ValueGaugeNode );
-} );
+  set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
+
+  /**
+   * Get whether or not the number display inside this GaugeNode is visible.
+   *
+   * @public
+   * @returns {boolean}
+   */
+  getNumberDisplayVisible() {
+    return this._numberDisplayVisible;
+  }
+
+  get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.numberDisplay.dispose();
+    super.dispose();
+  }
+}
+
+sceneryPhet.register( 'ValueGaugeNode', ValueGaugeNode );
+export default ValueGaugeNode;

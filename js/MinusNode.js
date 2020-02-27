@@ -6,33 +6,30 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import Dimension2 from '../../dot/js/Dimension2.js';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function MinusNode( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function MinusNode( options ) {
 
-    options = merge( {
-      size: new Dimension2( 20, 5 ),
-      fill: 'black'
-    }, options );
+  options = merge( {
+    size: new Dimension2( 20, 5 ),
+    fill: 'black'
+  }, options );
 
-    assert && assert( options.size.width >= options.size.height );
+  assert && assert( options.size.width >= options.size.height );
 
-    Rectangle.call( this, 0, 0, options.size.width, options.size.height, options );
-  }
+  Rectangle.call( this, 0, 0, options.size.width, options.size.height, options );
+}
 
-  sceneryPhet.register( 'MinusNode', MinusNode );
+sceneryPhet.register( 'MinusNode', MinusNode );
 
-  return inherit( Rectangle, MinusNode );
-} );
+inherit( Rectangle, MinusNode );
+export default MinusNode;

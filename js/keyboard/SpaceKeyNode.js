@@ -2,32 +2,27 @@
 
 /**
  * Node that represents a 'Space' key on a keyboard.
- * 
+ *
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+const keySpaceString = sceneryPhetStrings.key.space;
 
-  // strings
-  const keySpaceString = require( 'string!SCENERY_PHET/key.space' );
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function SpaceKeyNode( options ) {
+  TextKeyNode.call( this, keySpaceString, options );
+}
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function SpaceKeyNode( options ) {
-    TextKeyNode.call( this, keySpaceString, options );
-  }
+sceneryPhet.register( 'SpaceKeyNode', SpaceKeyNode );
 
-  sceneryPhet.register( 'SpaceKeyNode', SpaceKeyNode );
-
-  return inherit( TextKeyNode, SpaceKeyNode );
-
-} );
+inherit( TextKeyNode, SpaceKeyNode );
+export default SpaceKeyNode;

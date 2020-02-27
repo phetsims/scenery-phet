@@ -6,167 +6,163 @@
  * @author John Blanco
  * @author Aadish Gupta
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const KeyID = require( 'SCENERY_PHET/keypad/KeyID' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Property = require( 'AXON/Property' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import Property from '../../../axon/js/Property.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import sceneryPhet from '../sceneryPhet.js';
+import KeyID from './KeyID.js';
+
+/**
+ * @param {Array.<function>} validators
+ * @param {Object} [options]
+ * @constructor
+ */
+function AbstractKeyAccumulator( validators, options ) {
+  options = merge( {
+
+    // a function that, if non-null, is used in addition to the default validation function to validate the user input
+    // type spec: additionalValidator(Array.<KeyID>) { return true/false }
+    additionalValidator: null
+
+  }, options );
+
+  // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
+  this.accumulatedKeysProperty = new Property( [] );
+
+  // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
+  this._clearOnNextKeyPress = false;
+
+  // @private {function|null}
+  this.additionalValidator = options.additionalValidator;
+
+  // @protected {function}
+  this.validators = validators;
+}
+
+sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
+
+export default inherit( Object, AbstractKeyAccumulator, {
 
   /**
-   * @param {Array.<function>} validators
-   * @param {Object} [options]
-   * @constructor
+   * clears the accumulated keys
+   * @public
    */
-  function AbstractKeyAccumulator( validators, options ) {
-    options = merge( {
+  clear: function() {
+    this.accumulatedKeysProperty.reset();
+  },
 
-      // a function that, if non-null, is used in addition to the default validation function to validate the user input
-      // type spec: additionalValidator(Array.<KeyID>) { return true/false }
-      additionalValidator: null
+  /**
+   * set/clear the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys
+   * @param {boolean} clearOnNextKeyPress
+   * @public
+   */
+  setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+    this._clearOnNextKeyPress = clearOnNextKeyPress;
+  },
+  set clearOnNextKeyPress( value ) {
+    this.setClearOnNextKeyPress( value );
+  },
 
-    }, options );
+  /**
+   * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
+   * keys
+   * @returns {boolean}
+   * @public
+   */
+  getClearOnNextKeyPress: function() {
+    return this._clearOnNextKeyPress;
+  },
+  get clearOnNextKeyPress() {
+    return this.getClearOnNextKeyPress();
+  },
 
-    // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
-    this.accumulatedKeysProperty = new Property( [] );
+  /**
+   * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
+   * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
+   * @protected
+   *
+   * @returns boolean
+   */
+  validateKeys: function( proposedKeys ) {
 
-    // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
-    this._clearOnNextKeyPress = false;
+    // Ensures that proposedKeys exist before validation
+    let valid = !!proposedKeys;
 
-    // @private {function|null}
-    this.additionalValidator = options.additionalValidator;
+    // If any validator returns false then the proposedKey is not valid
+    this.validators.forEach( function( validator ) {
+      valid = valid && validator( proposedKeys );
+    } );
+    return valid;
+  },
+  /**
+   * update the property that represents the accumulated keys
+   * @param {Array.<KeyID>} proposedKeys - the proposed set of keys
+   * @protected
+   */
+  updateKeys: function( proposedKeys ) {
+    this.accumulatedKeysProperty.set( proposedKeys );
+  },
+  // TODO: Remove after changes are complete. See https://github.com/phetsims/scenery-phet/issues/283
+  // validateAndUpdate: function( proposedKeys ) {
+  //
+  //   // if alternative validation is provided it is called here
+  //   if ( this.alternativeValidator ) {
+  //     if ( this.alternativeValidator( proposedKeys ) ) {
+  //       this.accumulatedKeysProperty.set( proposedKeys );
+  //     }
+  //   }
+  //   else {
+  //
+  //     // default validation for the accumulator
+  //     if ( this.defaultValidator( proposedKeys ) ) {
+  //
+  //       // if additional validation is provided it is called here
+  //       if ( this.additionalValidator ) {
+  //         if ( this.additionalValidator( proposedKeys ) ) {
+  //           this.accumulatedKeysProperty.set( proposedKeys );
+  //         }
+  //       }
+  //       else {
+  //         this.accumulatedKeysProperty.set( proposedKeys );
+  //       }
+  //     }
+  //   }
+  // },
 
-    // @protected {function}
-    this.validators = validators;
-  }
+  /**
+   * Called by the key accumulator when this key is pressed.
+   * @param {KeyID} keyIdentifier
+   * @public
+   * @abstract
+   */
+  handleKeyPressed: function( keyIdentifier ) {
+    throw new Error( 'abstract function must be implemented by subtypes' );
+  },
 
-  sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
-
-  return inherit( Object, AbstractKeyAccumulator, {
-
-    /**
-     * clears the accumulated keys
-     * @public
-     */
-    clear: function() {
-      this.accumulatedKeysProperty.reset();
-    },
-
-    /**
-     * set/clear the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys
-     * @param {boolean} clearOnNextKeyPress
-     * @public
-     */
-    setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
-      this._clearOnNextKeyPress = clearOnNextKeyPress;
-    },
-    set clearOnNextKeyPress( value ) {
-      this.setClearOnNextKeyPress( value );
-    },
-
-    /**
-     * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
-     * keys
-     * @returns {boolean}
-     * @public
-     */
-    getClearOnNextKeyPress: function() {
-      return this._clearOnNextKeyPress;
-    },
-    get clearOnNextKeyPress() {
-      return this.getClearOnNextKeyPress();
-    },
-
-    /**
-     * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
-     * @protected
-     *
-     * @returns boolean
-     */
-    validateKeys: function( proposedKeys ) {
-
-      // Ensures that proposedKeys exist before validation
-      let valid = !!proposedKeys;
-
-      // If any validator returns false then the proposedKey is not valid
-      this.validators.forEach( function( validator ) {
-        valid = valid && validator( proposedKeys );
-      } );
-      return valid;
-    },
-    /**
-     * update the property that represents the accumulated keys
-     * @param {Array.<KeyID>} proposedKeys - the proposed set of keys
-     * @protected
-     */
-    updateKeys: function( proposedKeys ) {
-      this.accumulatedKeysProperty.set( proposedKeys );
-    },
-    // TODO: Remove after changes are complete. See https://github.com/phetsims/scenery-phet/issues/283
-    // validateAndUpdate: function( proposedKeys ) {
-    //
-    //   // if alternative validation is provided it is called here
-    //   if ( this.alternativeValidator ) {
-    //     if ( this.alternativeValidator( proposedKeys ) ) {
-    //       this.accumulatedKeysProperty.set( proposedKeys );
-    //     }
-    //   }
-    //   else {
-    //
-    //     // default validation for the accumulator
-    //     if ( this.defaultValidator( proposedKeys ) ) {
-    //
-    //       // if additional validation is provided it is called here
-    //       if ( this.additionalValidator ) {
-    //         if ( this.additionalValidator( proposedKeys ) ) {
-    //           this.accumulatedKeysProperty.set( proposedKeys );
-    //         }
-    //       }
-    //       else {
-    //         this.accumulatedKeysProperty.set( proposedKeys );
-    //       }
-    //     }
-    //   }
-    // },
-
-    /**
-     * Called by the key accumulator when this key is pressed.
-     * @param {KeyID} keyIdentifier
-     * @public
-     * @abstract
-     */
-    handleKeyPressed: function( keyIdentifier ) {
-      throw new Error( 'abstract function must be implemented by subtypes' );
-    },
-
-    /**
-     * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
-     * @param {KeyID} keyIdentifier
-     * @returns {Array.<KeyID>} proposedArray
-     * @private
-     */
-    handleClearOnNextKeyPress: function( keyIdentifier ) {
-      let proposedArray;
-      if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
-        proposedArray = _.clone( this.accumulatedKeysProperty.get() );
-      }
-      else {
-        proposedArray = [];
-      }
-      this.setClearOnNextKeyPress( false );
-      return proposedArray;
-    },
-
-    /**
-     * Cleans up references.
-     * @public
-     */
-    dispose: function() {
-      this.accumulatedKeysProperty.dispose();
+  /**
+   * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
+   * @param {KeyID} keyIdentifier
+   * @returns {Array.<KeyID>} proposedArray
+   * @private
+   */
+  handleClearOnNextKeyPress: function( keyIdentifier ) {
+    let proposedArray;
+    if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
+      proposedArray = _.clone( this.accumulatedKeysProperty.get() );
     }
-  } );
+    else {
+      proposedArray = [];
+    }
+    this.setClearOnNextKeyPress( false );
+    return proposedArray;
+  },
+
+  /**
+   * Cleans up references.
+   * @public
+   */
+  dispose: function() {
+    this.accumulatedKeysProperty.dispose();
+  }
 } );

@@ -7,56 +7,53 @@
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Dimension2 from '../../dot/js/Dimension2.js';
+import Shape from '../../kite/js/Shape.js';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function BackspaceIcon( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function BackspaceIcon( options ) {
 
-    options = merge( {
-      stroke: 'black',
-      lineWidth: 1,
-      lineJoin: 'round',
-      lineCap: 'square',
-      size: new Dimension2( 15, 10 )
-    }, options );
+  options = merge( {
+    stroke: 'black',
+    lineWidth: 1,
+    lineJoin: 'round',
+    lineCap: 'square',
+    size: new Dimension2( 15, 10 )
+  }, options );
 
-    const iconShape = new Shape();
+  const iconShape = new Shape();
 
-    // the outline, tip points left, described clockwise from the tip
-    const tipWidth = options.size.width / 3;
-    iconShape.moveTo( 0, tipWidth )
-      .lineTo( tipWidth, 0 )
-      .lineTo( options.size.width, 0 )
-      .lineTo( options.size.width, options.size.height )
-      .lineTo( tipWidth, options.size.height )
-      .close();
+  // the outline, tip points left, described clockwise from the tip
+  const tipWidth = options.size.width / 3;
+  iconShape.moveTo( 0, tipWidth )
+    .lineTo( tipWidth, 0 )
+    .lineTo( options.size.width, 0 )
+    .lineTo( options.size.width, options.size.height )
+    .lineTo( tipWidth, options.size.height )
+    .close();
 
-    // the x in the middle, multipliers determined empirically
-    const left = 0.47 * options.size.width;
-    const right = 0.73 * options.size.width;
-    const top = 0.3 * options.size.height;
-    const bottom = 0.7 * options.size.height;
-    iconShape.moveTo( left, top )
-      .lineTo( right, bottom )
-      .moveTo( right, top )
-      .lineTo( left, bottom );
+  // the x in the middle, multipliers determined empirically
+  const left = 0.47 * options.size.width;
+  const right = 0.73 * options.size.width;
+  const top = 0.3 * options.size.height;
+  const bottom = 0.7 * options.size.height;
+  iconShape.moveTo( left, top )
+    .lineTo( right, bottom )
+    .moveTo( right, top )
+    .lineTo( left, bottom );
 
-    Path.call( this, iconShape, options );
-  }
+  Path.call( this, iconShape, options );
+}
 
-  sceneryPhet.register( 'BackspaceIcon', BackspaceIcon );
+sceneryPhet.register( 'BackspaceIcon', BackspaceIcon );
 
-  return inherit( Path, BackspaceIcon );
-} );
+inherit( Path, BackspaceIcon );
+export default BackspaceIcon;

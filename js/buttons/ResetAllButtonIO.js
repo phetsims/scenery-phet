@@ -6,21 +6,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import NodeIO from '../../../scenery/js/nodes/NodeIO.js';
+import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  class ResetAllButtonIO extends NodeIO {}
+class ResetAllButtonIO extends NodeIO {}
 
-  ResetAllButtonIO.documentation = 'Button that performs an action while it is being pressed, and stops the action when released';
-  ResetAllButtonIO.events = [ 'pressed', 'released', 'releasedDisabled' ];
-  ResetAllButtonIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.ResetAllButton };
-  ResetAllButtonIO.typeName = 'ResetAllButtonIO';
-  ObjectIO.validateSubtype( ResetAllButtonIO );
+ResetAllButtonIO.documentation = 'Button that performs an action while it is being pressed, and stops the action when released';
+ResetAllButtonIO.events = [ 'pressed', 'released', 'releasedDisabled' ];
+ResetAllButtonIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.ResetAllButton };
+ResetAllButtonIO.typeName = 'ResetAllButtonIO';
+ObjectIO.validateSubtype( ResetAllButtonIO );
 
-  return sceneryPhet.register( 'ResetAllButtonIO', ResetAllButtonIO );
-} );
+sceneryPhet.register( 'ResetAllButtonIO', ResetAllButtonIO );
+export default ResetAllButtonIO;

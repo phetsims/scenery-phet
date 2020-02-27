@@ -7,33 +7,28 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+/**
+ * Constructor.
+ *
+ * @param {string} string - the letter for the key
+ * @param {Object} [options]
+ */
+function LetterKeyNode( string, options ) {
 
-  /**
-   * Constructor.
-   *
-   * @param {string} string - the letter for the key
-   * @param {Object} [options]
-   */
-  function LetterKeyNode( string, options ) {
+  options = merge( {
+    xPadding: 5,
+    forceSquareKey: true
+  }, options );
 
-    options = merge( {
-      xPadding: 5,
-      forceSquareKey: true
-    }, options );
+  TextKeyNode.call( this, string, options );
+}
 
-    TextKeyNode.call( this, string, options );
-  }
+sceneryPhet.register( 'LetterKeyNode', LetterKeyNode );
 
-  sceneryPhet.register( 'LetterKeyNode', LetterKeyNode );
-
-  return inherit( TextKeyNode, LetterKeyNode );
-
-} );
+inherit( TextKeyNode, LetterKeyNode );
+export default LetterKeyNode;

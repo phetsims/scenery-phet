@@ -2,32 +2,27 @@
 
 /**
  * Node that looks like a 'Tab' key on a keyboard.
- * 
+ *
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+const keyTabString = sceneryPhetStrings.key.tab;
 
-  // strings
-  const keyTabString = require( 'string!SCENERY_PHET/key.tab' );
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function TabKeyNode( options ) {
+  TextKeyNode.call( this, keyTabString, options );
+}
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function TabKeyNode( options ) {
-    TextKeyNode.call( this, keyTabString, options );
-  }
+sceneryPhet.register( 'TabKeyNode', TabKeyNode );
 
-  sceneryPhet.register( 'TabKeyNode', TabKeyNode );
-
-  return inherit( TextKeyNode, TabKeyNode );
-
-} );
+inherit( TextKeyNode, TabKeyNode );
+export default TabKeyNode;

@@ -7,65 +7,59 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dialog = require( 'SUN/Dialog' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const RichText = require( 'SCENERY/nodes/RichText' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import merge from '../../phet-core/js/merge.js';
+import HBox from '../../scenery/js/nodes/HBox.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import RichText from '../../scenery/js/nodes/RichText.js';
+import Dialog from '../../sun/js/Dialog.js';
+import phetGirlWaggingFingerImage from '../images/phet-girl-wagging-finger_png.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // images
-  const phetGirlWaggingFingerImage = require( 'image!SCENERY_PHET/phet-girl-wagging-finger.png' );
+class OopsDialog extends Dialog {
 
-  class OopsDialog extends Dialog {
+  /**
+   * @param {string} messageString - supports RichText formatting
+   * @param {Object} [options]
+   */
+  constructor( messageString, options ) {
 
-    /**
-     * @param {string} messageString - supports RichText formatting
-     * @param {Object} [options]
-     */
-    constructor( messageString, options ) {
+    options = merge( {
 
-      options = merge( {
+      // {Node|null} optional icon that will be placed to the right of the image.
+      // If this is null, then a PhET Girl image is used.
+      // If provided, the caller is responsible for all aspects of the icon, including scale.
+      iconNode: null,
 
-        // {Node|null} optional icon that will be placed to the right of the image.
-        // If this is null, then a PhET Girl image is used.
-        // If provided, the caller is responsible for all aspects of the icon, including scale.
-        iconNode: null,
+      // nested options
+      richTextOptions: null,
 
-        // nested options
-        richTextOptions: null,
+      // Dialog options
+      topMargin: 20,
+      bottomMargin: 20,
+      rightMargin: 20
 
-        // Dialog options
-        topMargin: 20,
-        bottomMargin: 20,
-        rightMargin: 20
+    }, options );
 
-      }, options );
+    const messageNode = new RichText( messageString, merge( {
+      font: new PhetFont( 20 ),
+      maxWidth: 600,
+      maxHeight: 400
+    }, options.richTextOptions ) );
 
-      const messageNode = new RichText( messageString, merge( {
-        font: new PhetFont( 20 ),
-        maxWidth: 600,
-        maxHeight: 400
-      }, options.richTextOptions ) );
+    const iconNode = options.iconNode || new Image( phetGirlWaggingFingerImage, {
+      maxHeight: 132 // determined empirically
+    } );
 
-      const iconNode = options.iconNode || new Image( phetGirlWaggingFingerImage, {
-        maxHeight: 132 // determined empirically
-      } );
+    const content = new HBox( {
+      spacing: 20,
+      children: [ messageNode, iconNode ]
+    } );
 
-      const content = new HBox( {
-        spacing: 20,
-        children: [ messageNode, iconNode ]
-      } );
-
-      super( content, options );
-    }
+    super( content, options );
   }
+}
 
-  return sceneryPhet.register( 'OopsDialog', OopsDialog );
-} );
- 
+sceneryPhet.register( 'OopsDialog', OopsDialog );
+export default OopsDialog;

@@ -6,20 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class NumberDisplayIO extends NodeIO {}
+class NumberDisplayIO extends NodeIO {}
 
-  NumberDisplayIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay };
-  NumberDisplayIO.documentation = 'A numeric readout with a background';
-  NumberDisplayIO.typeName = 'NumberDisplayIO';
-  ObjectIO.validateSubtype( NumberDisplayIO );
+NumberDisplayIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay };
+NumberDisplayIO.documentation = 'A numeric readout with a background';
+NumberDisplayIO.typeName = 'NumberDisplayIO';
+ObjectIO.validateSubtype( NumberDisplayIO );
 
-  return sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
-} );
+sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
+export default NumberDisplayIO;

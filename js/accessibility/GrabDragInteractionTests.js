@@ -5,79 +5,75 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Display = require( 'SCENERY/display/Display' );
-  const GrabDragInteraction = require( 'SCENERY_PHET/accessibility/GrabDragInteraction' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+import Display from '../../../scenery/js/display/Display.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import GrabDragInteraction from './GrabDragInteraction.js';
 
-  // constants
-  const thingString = 'thing';
+// constants
+const thingString = 'thing';
 
 
-  QUnit.module( 'GrabDragInteraction' );
+QUnit.module( 'GrabDragInteraction' );
 
-  QUnit.test( 'GrabDragInteraction defaults', assert => {
+QUnit.test( 'GrabDragInteraction defaults', assert => {
 
-    assert.ok( true, 'first test' );
+  assert.ok( true, 'first test' );
 
-    const rootNode = new Node( { tagName: 'div' } );
-    const display = new Display( rootNode ); // eslint-disable-line
-    display.initializeEvents();
-    document.body.appendChild( display.domElement );
+  const rootNode = new Node( { tagName: 'div' } );
+  const display = new Display( rootNode ); // eslint-disable-line
+  display.initializeEvents();
+  document.body.appendChild( display.domElement );
 
-    phet = phet || {}; // eslint-disable-line no-global-assign
-    phet.joist = phet.joist || {};
-    phet.joist.sim = phet.joist.sim || { utteranceQueue: display.utteranceQueue }; // stub utteranceQueue global
+  phet = phet || {}; // eslint-disable-line no-global-assign
+  phet.joist = phet.joist || {};
+  phet.joist.sim = phet.joist.sim || { utteranceQueue: display.utteranceQueue }; // stub utteranceQueue global
 
-    const a = new Rectangle( 0, 0, 5, 5 );
+  const a = new Rectangle( 0, 0, 5, 5 );
 
-    rootNode.addChild( a );
+  rootNode.addChild( a );
 
-    const interaction = new GrabDragInteraction( a, {
-      objectToGrabString: thingString
-    } );
-
-    const testDefaultGrabbable = () => {
-
-      assert.ok( interaction.grabbable, 'default to grabbable' );
-      assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
-      assert.ok( a.ariaRole === null, 'no role for grabbable' );
-      assert.ok( a.ariaLabel === null, 'no aria-label for grabbable' );
-
-      const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
-      assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
-    };
-
-    testDefaultGrabbable();
-
-    a.accessibleInstances[ 0 ].peer.primarySibling.click();
-
-
-    const testDefaultDraggable = () => {
-
-      assert.ok( !interaction.grabbable, 'should be draggable after click draggable' );
-      assert.ok( a.tagName.toUpperCase() === 'DIV', 'draggable defaults to div' );
-      assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
-      assert.ok( a.ariaLabel.indexOf( thingString ) > 0, 'ariaLabel should include thing string' );
-      assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
-
-      const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
-      assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
-      assert.ok( aElement.getAttribute( 'aria-roledescription' ) === a.ariaLabel, 'aria role description should be same as model label' );
-      assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
-      assert.ok( aElement.getAttribute( 'aria-label' ) === a.ariaLabel, 'element innerHTML should be same as model label' );
-    };
-
-    testDefaultDraggable();
-
-    a.accessibleInstances[ 0 ].peer.primarySibling.blur();
-
-    testDefaultGrabbable();
-
-    display.detachEvents();
+  const interaction = new GrabDragInteraction( a, {
+    objectToGrabString: thingString
   } );
+
+  const testDefaultGrabbable = () => {
+
+    assert.ok( interaction.grabbable, 'default to grabbable' );
+    assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
+    assert.ok( a.ariaRole === null, 'no role for grabbable' );
+    assert.ok( a.ariaLabel === null, 'no aria-label for grabbable' );
+
+    const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
+    assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
+  };
+
+  testDefaultGrabbable();
+
+  a.accessibleInstances[ 0 ].peer.primarySibling.click();
+
+
+  const testDefaultDraggable = () => {
+
+    assert.ok( !interaction.grabbable, 'should be draggable after click draggable' );
+    assert.ok( a.tagName.toUpperCase() === 'DIV', 'draggable defaults to div' );
+    assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
+    assert.ok( a.ariaLabel.indexOf( thingString ) > 0, 'ariaLabel should include thing string' );
+    assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
+
+    const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
+    assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
+    assert.ok( aElement.getAttribute( 'aria-roledescription' ) === a.ariaLabel, 'aria role description should be same as model label' );
+    assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
+    assert.ok( aElement.getAttribute( 'aria-label' ) === a.ariaLabel, 'element innerHTML should be same as model label' );
+  };
+
+  testDefaultDraggable();
+
+  a.accessibleInstances[ 0 ].peer.primarySibling.blur();
+
+  testDefaultGrabbable();
+
+  display.detachEvents();
 } );

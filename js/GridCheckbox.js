@@ -6,70 +6,67 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Checkbox = require( 'SUN/Checkbox' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../kite/js/Shape.js';
+import merge from '../../phet-core/js/merge.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Checkbox from '../../sun/js/Checkbox.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class GridCheckbox extends Checkbox {
+class GridCheckbox extends Checkbox {
 
-    /**
-     * @param {Property.<boolean>} property
-     * @param {Object} [options]
-     */
-    constructor( property, options ) {
+  /**
+   * @param {Property.<boolean>} property
+   * @param {Object} [options]
+   */
+  constructor( property, options ) {
 
-      options = merge( {
+    options = merge( {
 
-        // options for the grid icon
-        gridSize: 30, // {number} square grid with this width and height
-        gridStroke: 'rgb( 100, 100, 100 )',
-        gridLineWidth: 1,
+      // options for the grid icon
+      gridSize: 30, // {number} square grid with this width and height
+      gridStroke: 'rgb( 100, 100, 100 )',
+      gridLineWidth: 1,
 
-        // superclass options
-        spacing: 10
+      // superclass options
+      spacing: 10
 
-      }, options );
+    }, options );
 
-      const iconSize = options.gridSize;
+    const iconSize = options.gridSize;
 
-      // The grid shape looks approximately like this:
-      //
-      //      |   |   |
-      //   ---|---|---|---
-      //      |   |   |
-      //   ---|---|---|---
-      //      |   |   |
-      //   ---|---|---|---
-      //      |   |   |
-      //
-      const iconShape = new Shape()
-        .moveTo( iconSize / 4, 0 )
-        .lineTo( iconSize / 4, iconSize )
-        .moveTo( iconSize / 2, 0 )
-        .lineTo( iconSize / 2, iconSize )
-        .moveTo( iconSize * 3 / 4, 0 )
-        .lineTo( iconSize * 3 / 4, iconSize )
-        .moveTo( 0, iconSize / 4 )
-        .lineTo( iconSize, iconSize / 4 )
-        .moveTo( 0, iconSize / 2 )
-        .lineTo( iconSize, iconSize / 2 )
-        .moveTo( 0, iconSize * 3 / 4 )
-        .lineTo( iconSize, iconSize * 3 / 4 );
+    // The grid shape looks approximately like this:
+    //
+    //      |   |   |
+    //   ---|---|---|---
+    //      |   |   |
+    //   ---|---|---|---
+    //      |   |   |
+    //   ---|---|---|---
+    //      |   |   |
+    //
+    const iconShape = new Shape()
+      .moveTo( iconSize / 4, 0 )
+      .lineTo( iconSize / 4, iconSize )
+      .moveTo( iconSize / 2, 0 )
+      .lineTo( iconSize / 2, iconSize )
+      .moveTo( iconSize * 3 / 4, 0 )
+      .lineTo( iconSize * 3 / 4, iconSize )
+      .moveTo( 0, iconSize / 4 )
+      .lineTo( iconSize, iconSize / 4 )
+      .moveTo( 0, iconSize / 2 )
+      .lineTo( iconSize, iconSize / 2 )
+      .moveTo( 0, iconSize * 3 / 4 )
+      .lineTo( iconSize, iconSize * 3 / 4 );
 
-      const iconNode = new Path( iconShape, {
-        stroke: options.gridStroke,
-        lineWidth: options.lineWidth
-      } );
+    const iconNode = new Path( iconShape, {
+      stroke: options.gridStroke,
+      lineWidth: options.lineWidth
+    } );
 
-      super( iconNode, property, options );
-    }
+    super( iconNode, property, options );
   }
+}
 
-  return sceneryPhet.register( 'GridCheckbox', GridCheckbox );
-} );
+sceneryPhet.register( 'GridCheckbox', GridCheckbox );
+export default GridCheckbox;

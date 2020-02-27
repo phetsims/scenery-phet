@@ -5,39 +5,35 @@
  * so its children will be other Nodes that may or may not have accessible content. The accessible content is a
  * 'section' element under the an 'H2' label.  Children are contained under a 'div' element, and labels will come
  * before the accessible content of the children.
- * 
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+/**
+ * @constructor
+ * @param {string} label
+ * @param {Object} [options]
+ */
+function AccessibleSectionNode( label, options ) {
+  assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
 
-  /**
-   * @constructor
-   * @param {string} label
-   * @param {Object} [options]
-   */
-  function AccessibleSectionNode( label, options ) {
-    assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
+  // options for accessibility, but others can be passed to Node call
+  options = merge( {
+    containerTagName: 'section',
+    tagName: 'div',
+    labelContent: label,
+    labelTagName: 'h2'
+  }, options );
 
-    // options for accessibility, but others can be passed to Node call
-    options = merge( {
-      containerTagName: 'section',
-      tagName: 'div',
-      labelContent: label,
-      labelTagName: 'h2'
-    }, options );
+  Node.call( this, options );
+}
 
-    Node.call( this, options );
-  }
+sceneryPhet.register( 'AccessibleSectionNode', AccessibleSectionNode );
 
-  sceneryPhet.register( 'AccessibleSectionNode', AccessibleSectionNode );
-
-  return inherit( Node, AccessibleSectionNode );
-} );
+inherit( Node, AccessibleSectionNode );
+export default AccessibleSectionNode;

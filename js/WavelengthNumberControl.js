@@ -5,74 +5,71 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const merge = require( 'PHET_CORE/merge' );
-  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Range = require( 'DOT/Range' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
-  const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
-  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+import Dimension2 from '../../dot/js/Dimension2.js';
+import Range from '../../dot/js/Range.js';
+import merge from '../../phet-core/js/merge.js';
+import NumberControl from './NumberControl.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhet from './sceneryPhet.js';
+import SpectrumSliderThumb from './SpectrumSliderThumb.js';
+import SpectrumSliderTrack from './SpectrumSliderTrack.js';
+import VisibleColor from './VisibleColor.js';
 
-  // strings
-  const wavelengthNMValuePatternString = require( 'string!SCENERY_PHET/wavelengthNMValuePattern' );
-  const wavelengthString = require( 'string!SCENERY_PHET/wavelength' );
+const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
+const wavelengthString = sceneryPhetStrings.wavelength;
 
-  // constants
-  const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+// constants
+const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+
+/**
+ * @param {Property.<number>} wavelengthProperty - wavelength, in nm
+ * @param {Object} [options]
+ * @constructor
+ */
+class WavelengthNumberControl extends NumberControl {
 
   /**
-   * @param {Property.<number>} wavelengthProperty - wavelength, in nm
+   * @param {Property.<number>} property - for the wavelength, in nm
    * @param {Object} [options]
-   * @constructor
    */
-  class WavelengthNumberControl extends NumberControl {
+  constructor( property, options ) {
 
-    /**
-     * @param {Property.<number>} property - for the wavelength, in nm
-     * @param {Object} [options]
-     */
-    constructor( property, options ) {
+    options = merge( {
+      trackHeight: 20, // in view coordinates
+      title: wavelengthString,
+      range: DEFAULT_RANGE // in nm
+    }, options );
 
-      options = merge( {
-        trackHeight: 20, // in view coordinates
-        title: wavelengthString,
-        range: DEFAULT_RANGE // in nm
-      }, options );
+    const trackHeight = options.trackHeight;
 
-      const trackHeight = options.trackHeight;
-
-      super( options.title, property, options.range, merge( {
-        titleNodeOptions: {
-          font: new PhetFont( 15 ),
-          maxWidth: 175
-        },
-        numberDisplayOptions: {
-          font: new PhetFont( 14 ),
-          valuePattern: wavelengthNMValuePatternString,
-          maxWidth: 120
-        },
-        sliderOptions: {
-          trackNode: new SpectrumSliderTrack( property, options.range, {
-            valueToColor: VisibleColor.wavelengthToColor,
-            size: new Dimension2( 160, trackHeight )
-          } ),
-          thumbNode: new SpectrumSliderThumb( property, {
-            valueToColor: VisibleColor.wavelengthToColor,
-            width: 25,
-            height: 25,
-            cursorHeight: trackHeight
-          } )
-        },
-        layoutFunction: NumberControl.createLayoutFunction3()
-      }, options ) );
-    }
+    super( options.title, property, options.range, merge( {
+      titleNodeOptions: {
+        font: new PhetFont( 15 ),
+        maxWidth: 175
+      },
+      numberDisplayOptions: {
+        font: new PhetFont( 14 ),
+        valuePattern: wavelengthNMValuePatternString,
+        maxWidth: 120
+      },
+      sliderOptions: {
+        trackNode: new SpectrumSliderTrack( property, options.range, {
+          valueToColor: VisibleColor.wavelengthToColor,
+          size: new Dimension2( 160, trackHeight )
+        } ),
+        thumbNode: new SpectrumSliderThumb( property, {
+          valueToColor: VisibleColor.wavelengthToColor,
+          width: 25,
+          height: 25,
+          cursorHeight: trackHeight
+        } )
+      },
+      layoutFunction: NumberControl.createLayoutFunction3()
+    }, options ) );
   }
+}
 
-  return sceneryPhet.register( 'WavelengthNumberControl', WavelengthNumberControl );
-} );
+sceneryPhet.register( 'WavelengthNumberControl', WavelengthNumberControl );
+export default WavelengthNumberControl;

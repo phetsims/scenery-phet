@@ -6,25 +6,21 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+const keyEnterString = sceneryPhetStrings.key.enter;
 
-  // strings
-  const keyEnterString = require( 'string!SCENERY_PHET/key.enter' );
+class EnterKeyNode extends TextKeyNode {
 
-  class EnterKeyNode extends TextKeyNode {
-
-    /**
-     * @param {Object} [options]
-     */
-    constructor( options ) {
-      super( keyEnterString, options );
-    }
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( keyEnterString, options );
   }
+}
 
-  return sceneryPhet.register( 'EnterKeyNode', EnterKeyNode );
-} );
+sceneryPhet.register( 'EnterKeyNode', EnterKeyNode );
+export default EnterKeyNode;

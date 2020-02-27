@@ -10,31 +10,28 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import inherit from '../../../phet-core/js/inherit.js';
+import ButtonListener from '../../../scenery/js/input/ButtonListener.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  /**
-   * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {boolean} indicating whether to highlight
-   * @constructor
-   */
-  function HighlightListener( callback ) {
+/**
+ * @param {function} callback called when the highlight changes, has 2 parameters: the {Node} to be highlighted, and a {boolean} indicating whether to highlight
+ * @constructor
+ */
+function HighlightListener( callback ) {
 
-    ButtonListener.call( this, {
-      over: function( event ) {
-        callback( event.currentTarget, true );
-      },
-      up: function( event ) {
-        callback( event.currentTarget, false );
-      }
-    } );
-  }
+  ButtonListener.call( this, {
+    over: function( event ) {
+      callback( event.currentTarget, true );
+    },
+    up: function( event ) {
+      callback( event.currentTarget, false );
+    }
+  } );
+}
 
-  sceneryPhet.register( 'HighlightListener', HighlightListener );
+sceneryPhet.register( 'HighlightListener', HighlightListener );
 
-  return inherit( ButtonListener, HighlightListener );
-} );
+inherit( ButtonListener, HighlightListener );
+export default HighlightListener;

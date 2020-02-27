@@ -6,32 +6,29 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
-  const stepForwardSoundPlayer = require( 'TAMBO/shared-sound-players/stepForwardSoundPlayer' );
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
+import sceneryPhet from '../sceneryPhet.js';
+import StepButton from './StepButton.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function StepForwardButton( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function StepForwardButton( options ) {
 
-    assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
-    options = merge( {
-      direction: 'forward',
-      soundPlayer: stepForwardSoundPlayer
-    }, options );
-    
-    StepButton.call( this, options );
-  }
+  assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
+  options = merge( {
+    direction: 'forward',
+    soundPlayer: stepForwardSoundPlayer
+  }, options );
 
-  sceneryPhet.register( 'StepForwardButton', StepForwardButton );
+  StepButton.call( this, options );
+}
 
-  return inherit( StepButton, StepForwardButton );
-} );
+sceneryPhet.register( 'StepForwardButton', StepForwardButton );
+
+inherit( StepButton, StepForwardButton );
+export default StepForwardButton;

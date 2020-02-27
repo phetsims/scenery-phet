@@ -5,43 +5,38 @@
  *
  * @author John Blanco
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import eraserImage from '../../images/eraser_png.js';
+import PhetColorScheme from '../PhetColorScheme.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  // images
-  const eraserImage = require( 'image!SCENERY_PHET/eraser.png' );
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function EraserButton( options ) {
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function EraserButton( options ) {
+  options = merge( {
+    baseColor: PhetColorScheme.BUTTON_YELLOW,
+    iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
+  }, options );
 
-    options = merge( {
-      baseColor: PhetColorScheme.BUTTON_YELLOW,
-      iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
-    }, options );
+  // eraser icon
+  options.content = new Image( eraserImage );
+  options.content.scale( options.iconWidth / options.content.width );
 
-    // eraser icon
-    options.content = new Image( eraserImage );
-    options.content.scale( options.iconWidth / options.content.width );
+  RectangularPushButton.call( this, options );
 
-    RectangularPushButton.call( this, options );
+  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EraserButton', this );
+}
 
-    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EraserButton', this );
-  }
+sceneryPhet.register( 'EraserButton', EraserButton );
 
-  sceneryPhet.register( 'EraserButton', EraserButton );
-
-  return inherit( RectangularPushButton, EraserButton );
-} );
+inherit( RectangularPushButton, EraserButton );
+export default EraserButton;

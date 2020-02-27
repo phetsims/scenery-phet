@@ -7,113 +7,109 @@
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ActivationUtterance = require( 'UTTERANCE_QUEUE/ActivationUtterance' );
-  const BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  const DerivedProperty = require( 'AXON/DerivedProperty' );
-  const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  const ResetAllButtonIO = require( 'SCENERY_PHET/buttons/ResetAllButtonIO' );
-  const ResetButton = require( 'SCENERY_PHET/buttons/ResetButton' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import DerivedPropertyIO from '../../../axon/js/DerivedPropertyIO.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
+import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
+import PhetColorScheme from '../PhetColorScheme.js';
+import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
+import ResetAllButtonIO from './ResetAllButtonIO.js';
+import ResetButton from './ResetButton.js';
 
-  // constants
-  const RESET_ALL_BUTTON_RADIUS = 20.8;
+// constants
+const RESET_ALL_BUTTON_RADIUS = 20.8;
 
-  // sounds
-  const resetAllSoundPlayer = require( 'TAMBO/shared-sound-players/resetAllSoundPlayer' );
+// sounds
 
-  // a11y strings - not translatable
-  const resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
-  const resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
+// a11y strings - not translatable
+const resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
+const resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ResetAllButton( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function ResetAllButton( options ) {
 
-    options = merge( {
-      radius: RESET_ALL_BUTTON_RADIUS,
+  options = merge( {
+    radius: RESET_ALL_BUTTON_RADIUS,
 
-      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly
-      touchAreaDilation: 5.2,
-      baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
-      arrowColor: 'white',
-      listener: _.noop, // {function}
+    // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly
+    touchAreaDilation: 5.2,
+    baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
+    arrowColor: 'white',
+    listener: _.noop, // {function}
 
-      // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
-      // previous PhET-iO state, if applicable.
-      phetioRestoreScreenStateOnReset: true,
-      tandem: Tandem.REQUIRED,
-      phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
-      phetioType: ResetAllButtonIO,
+    // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
+    // previous PhET-iO state, if applicable.
+    phetioRestoreScreenStateOnReset: true,
+    tandem: Tandem.REQUIRED,
+    phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
+    phetioType: ResetAllButtonIO,
 
-      // sound generation
-      soundPlayer: resetAllSoundPlayer,
+    // sound generation
+    soundPlayer: resetAllSoundPlayer,
 
-      // a11y
-      innerContent: resetAllButtonNameString
-    }, options );
+    // a11y
+    innerContent: resetAllButtonNameString
+  }, options );
 
-    const passedInListener = options.listener;
-    options.listener = () => {
-      passedInListener();
+  const passedInListener = options.listener;
+  options.listener = () => {
+    passedInListener();
 
-      // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
-      if ( options.phetioRestoreScreenStateOnReset &&
-           this.isPhetioInstrumented() && // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
-           _.hasIn( window, 'phet.phetIo.phetioEngine' ) ) {
-        phet.phetIo.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
-      }
-    };
+    // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
+    if ( options.phetioRestoreScreenStateOnReset &&
+         this.isPhetioInstrumented() && // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
+         _.hasIn( window, 'phet.phetIo.phetioEngine' ) ) {
+      phet.phetIo.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
+    }
+  };
 
-    ResetButton.call( this, options );
+  ResetButton.call( this, options );
 
-    // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
-    this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
-      tandem: options.tandem.createTandem( 'isFiringProperty' ),
-      phetioDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
-      phetioType: DerivedPropertyIO( BooleanIO ),
-      phetioState: false // this is a transient property based on user interaction, should not be stored in the state
-    } );
+  // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
+  this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
+    tandem: options.tandem.createTandem( 'isFiringProperty' ),
+    phetioDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
+    phetioType: DerivedPropertyIO( BooleanIO ),
+    phetioState: false // this is a transient property based on user interaction, should not be stored in the state
+  } );
 
-    // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
-    // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
-    // alert that everything was reset.
-    const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
-    this.isFiringProperty.lazyLink( function( isFiring ) {
-      phet.joist.sim.utteranceQueue.enabled = !isFiring;
+  // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
+  // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
+  // alert that everything was reset.
+  const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
+  this.isFiringProperty.lazyLink( function( isFiring ) {
+    phet.joist.sim.utteranceQueue.enabled = !isFiring;
 
-      if ( isFiring ) {
-        phet.joist.sim.utteranceQueue.clear();
-      }
-      else {
-        phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
-      }
-    } );
-  }
-
-  sceneryPhet.register( 'ResetAllButton', ResetAllButton );
-
-  return inherit( ResetButton, ResetAllButton, {
-
-    /**
-     * Make eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-
-      this.isFiringProperty.dispose();
-
-      ResetButton.prototype.dispose.call( this );
+    if ( isFiring ) {
+      phet.joist.sim.utteranceQueue.clear();
+    }
+    else {
+      phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
     }
   } );
+}
+
+sceneryPhet.register( 'ResetAllButton', ResetAllButton );
+
+export default inherit( ResetButton, ResetAllButton, {
+
+  /**
+   * Make eligible for garbage collection.
+   * @public
+   */
+  dispose: function() {
+
+    this.isFiringProperty.dispose();
+
+    ResetButton.prototype.dispose.call( this );
+  }
 } );

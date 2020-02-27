@@ -6,51 +6,47 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Dimension2 from '../../dot/js/Dimension2.js';
+import Shape from '../../kite/js/Shape.js';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function PlusNode( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function PlusNode( options ) {
 
-    options = merge( {
-      size: new Dimension2( 20, 5 ), // width of the plus sign, height of the horizontal line in plus sign
-      fill: 'black'
-    }, options );
+  options = merge( {
+    size: new Dimension2( 20, 5 ), // width of the plus sign, height of the horizontal line in plus sign
+    fill: 'black'
+  }, options );
 
-    // + shape, starting from top left and moving clockwise
-    const c1 = ( options.size.width / 2 ) - ( options.size.height / 2 );
-    const c2 = ( options.size.width / 2 ) + ( options.size.height / 2 );
-    const shape = new Shape()
-      .moveTo( c1, 0 )
-      .lineTo( c2, 0 )
-      .lineTo( c2, c1 )
-      .lineTo( options.size.width, c1 )
-      .lineTo( options.size.width, c2 )
-      .lineTo( c2, c2 )
-      .lineTo( c2, options.size.width )/* yes, use width for y param */
-      .lineTo( c1, options.size.width )/* yes, use width for y param */
-      .lineTo( c1, c2 )
-      .lineTo( 0, c2 )
-      .lineTo( 0, c1 )
-      .lineTo( c1, c1 )
-      .close();
+  // + shape, starting from top left and moving clockwise
+  const c1 = ( options.size.width / 2 ) - ( options.size.height / 2 );
+  const c2 = ( options.size.width / 2 ) + ( options.size.height / 2 );
+  const shape = new Shape()
+    .moveTo( c1, 0 )
+    .lineTo( c2, 0 )
+    .lineTo( c2, c1 )
+    .lineTo( options.size.width, c1 )
+    .lineTo( options.size.width, c2 )
+    .lineTo( c2, c2 )
+    .lineTo( c2, options.size.width )/* yes, use width for y param */
+    .lineTo( c1, options.size.width )/* yes, use width for y param */
+    .lineTo( c1, c2 )
+    .lineTo( 0, c2 )
+    .lineTo( 0, c1 )
+    .lineTo( c1, c1 )
+    .close();
 
-    Path.call( this, shape, options );
-  }
+  Path.call( this, shape, options );
+}
 
-  sceneryPhet.register( 'PlusNode', PlusNode );
+sceneryPhet.register( 'PlusNode', PlusNode );
 
-  return inherit( Path, PlusNode );
-} );
-
+inherit( Path, PlusNode );
+export default PlusNode;

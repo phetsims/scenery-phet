@@ -5,44 +5,41 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
-  const merge = require( 'PHET_CORE/merge' );
-  const RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function InfoButton( options ) {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function InfoButton( options ) {
 
-    options = merge( {
-      minXMargin: 10,
-      minYMargin: 10,
-      touchAreaXDilation: 10,
-      touchAreaYDilation: 5,
-      baseColor: 'rgb( 238, 238, 238 )',
-      iconFill: 'black'
-    }, options );
+  options = merge( {
+    minXMargin: 10,
+    minYMargin: 10,
+    touchAreaXDilation: 10,
+    touchAreaYDilation: 5,
+    baseColor: 'rgb( 238, 238, 238 )',
+    iconFill: 'black'
+  }, options );
 
-    assert && assert( !options.content, 'InfoButton sets content' );
-    options.content = new FontAwesomeNode( 'info_circle', {
-      fill: options.iconFill
-    } );
+  assert && assert( !options.content, 'InfoButton sets content' );
+  options.content = new FontAwesomeNode( 'info_circle', {
+    fill: options.iconFill
+  } );
 
-    RoundPushButton.call( this, options );
+  RoundPushButton.call( this, options );
 
-    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'InfoButton', this );
-  }
+  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'InfoButton', this );
+}
 
-  sceneryPhet.register( 'InfoButton', InfoButton );
+sceneryPhet.register( 'InfoButton', InfoButton );
 
-  return inherit( RoundPushButton, InfoButton );
-} );
+inherit( RoundPushButton, InfoButton );
+export default InfoButton;

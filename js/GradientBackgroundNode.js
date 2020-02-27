@@ -7,36 +7,33 @@
  * @author John Blanco
  * @author Sam Reid
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import inherit from '../../phet-core/js/inherit.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  /**
-   *
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {string||Color} color1
-   * @param {string||Color} color2
-   * @param {number} y1
-   * @param {number} y2
-   * @constructor
-   */
-  function GradientBackgroundNode( x, y, width, height, color1, color2, y1, y2 ) {
-    const centerX = x + width / 2;
-    const gradient = new LinearGradient( centerX, y1, centerX, y2 );
-    gradient.addColorStop( 0, color1 );
-    gradient.addColorStop( 1, color2 );
-    Rectangle.call( this, x, y, width, height, 0, 0, { fill: gradient } );
-  }
+/**
+ *
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
+ * @param {string||Color} color1
+ * @param {string||Color} color2
+ * @param {number} y1
+ * @param {number} y2
+ * @constructor
+ */
+function GradientBackgroundNode( x, y, width, height, color1, color2, y1, y2 ) {
+  const centerX = x + width / 2;
+  const gradient = new LinearGradient( centerX, y1, centerX, y2 );
+  gradient.addColorStop( 0, color1 );
+  gradient.addColorStop( 1, color2 );
+  Rectangle.call( this, x, y, width, height, 0, 0, { fill: gradient } );
+}
 
-  sceneryPhet.register( 'GradientBackgroundNode', GradientBackgroundNode );
+sceneryPhet.register( 'GradientBackgroundNode', GradientBackgroundNode );
 
-  return inherit( Rectangle, GradientBackgroundNode );
-} );
+inherit( Rectangle, GradientBackgroundNode );
+export default GradientBackgroundNode;

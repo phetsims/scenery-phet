@@ -5,28 +5,25 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../kite/js/Shape.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class PauseIconShape extends Shape {
+class PauseIconShape extends Shape {
 
-    /**
-     * @param {number} width
-     * @param {number} height
-     */
-    constructor( width, height ) {
-      super();
+  /**
+   * @param {number} width
+   * @param {number} height
+   */
+  constructor( width, height ) {
+    super();
 
-      // 2 vertical bars
-      const barWidth = width / 3;
-      this.rect( 0, 0, barWidth, height );
-      this.rect( 2 * barWidth, 0, barWidth, height );
-    }
+    // 2 vertical bars
+    const barWidth = width / 3;
+    this.rect( 0, 0, barWidth, height );
+    this.rect( 2 * barWidth, 0, barWidth, height );
   }
+}
 
-  return sceneryPhet.register( 'PauseIconShape', PauseIconShape );
-} );
+sceneryPhet.register( 'PauseIconShape', PauseIconShape );
+export default PauseIconShape;

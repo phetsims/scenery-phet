@@ -5,88 +5,85 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const EndKeyNode = require( 'SCENERY_PHET/keyboard/EndKeyNode' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
-  const HomeKeyNode = require( 'SCENERY_PHET/keyboard/HomeKeyNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
-  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PageDownKeyNode = require( 'SCENERY_PHET/keyboard/PageDownKeyNode' );
-  const PageUpKeyNode = require( 'SCENERY_PHET/keyboard/PageUpKeyNode' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import merge from '../../../../phet-core/js/merge.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
+import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import EndKeyNode from '../EndKeyNode.js';
+import HomeKeyNode from '../HomeKeyNode.js';
+import PageDownKeyNode from '../PageDownKeyNode.js';
+import PageUpKeyNode from '../PageUpKeyNode.js';
+import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-  // strings
-  const keyboardHelpDialogAdjustInLargerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInLargerSteps' );
-  const keyboardHelpDialogAdjustInSmallerStepsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustInSmallerSteps' );
-  const keyboardHelpDialogAdjustSliderString = require( 'string!SCENERY_PHET/keyboardHelpDialog.adjustSlider' );
-  const keyboardHelpDialogJumpToMaximumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMaximum' );
-  const keyboardHelpDialogJumpToMinimumString = require( 'string!SCENERY_PHET/keyboardHelpDialog.jumpToMinimum' );
-  const keyboardHelpDialogSliderControlsString = require( 'string!SCENERY_PHET/keyboardHelpDialog.sliderControls' );
+const keyboardHelpDialogAdjustInLargerStepsString = sceneryPhetStrings.keyboardHelpDialog.adjustInLargerSteps;
+const keyboardHelpDialogAdjustInSmallerStepsString = sceneryPhetStrings.keyboardHelpDialog.adjustInSmallerSteps;
+const keyboardHelpDialogAdjustSliderString = sceneryPhetStrings.keyboardHelpDialog.adjustSlider;
+const keyboardHelpDialogJumpToMaximumString = sceneryPhetStrings.keyboardHelpDialog.jumpToMaximum;
+const keyboardHelpDialogJumpToMinimumString = sceneryPhetStrings.keyboardHelpDialog.jumpToMinimum;
+const keyboardHelpDialogSliderControlsString = sceneryPhetStrings.keyboardHelpDialog.sliderControls;
 
-  // a11y strings
-  const keyboardHelpDialogAdjustLargerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustLargerStepsString.value;
-  const keyboardHelpDialogJumpToHomeString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToHomeString.value;
-  const keyboardHelpDialogJumpToEndString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToEndString.value;
-  const keyboardHelpDialogAdjustDefaultStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustDefaultStepsString.value;
-  const keyboardHelpDialogAdjustSmallerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustSmallerStepsString.value;
+// a11y strings
+const keyboardHelpDialogAdjustLargerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustLargerStepsString.value;
+const keyboardHelpDialogJumpToHomeString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToHomeString.value;
+const keyboardHelpDialogJumpToEndString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToEndString.value;
+const keyboardHelpDialogAdjustDefaultStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustDefaultStepsString.value;
+const keyboardHelpDialogAdjustSmallerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustSmallerStepsString.value;
 
-  /**
-   * @constructor
-   * @param {Object} [options]
-   */
-  function SliderKeyboardHelpSection( options ) {
+/**
+ * @constructor
+ * @param {Object} [options]
+ */
+function SliderKeyboardHelpSection( options ) {
 
-    options = merge( {
+  options = merge( {
 
-      // heading string for this content
-      headingString: keyboardHelpDialogSliderControlsString
-    }, options );
+    // heading string for this content
+    headingString: keyboardHelpDialogSliderControlsString
+  }, options );
 
-    // 'Move sliders' content
-    const adjustSliderLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
-    const adjustSliderUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
-    const adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
-    const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
+  // 'Move sliders' content
+  const adjustSliderLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+  const adjustSliderUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+  const adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( adjustSliderLeftRightIcon, adjustSliderUpDownIcon );
+  const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustSliderString, adjustSliderIcon, keyboardHelpDialogAdjustDefaultStepsString );
 
-    // 'move in smaller steps' content
-    const smallStepsLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
-    const smallStepsUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+  // 'move in smaller steps' content
+  const smallStepsLeftRightIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+  const smallStepsUpDownIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
 
-    const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsLeftRightIcon );
-    const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsUpDownIcon );
+  const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsLeftRightIcon );
+  const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( smallStepsUpDownIcon );
 
-    const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
+  const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
-    // 'move in larger steps' content
-    const pageUpKeyNode = new PageUpKeyNode();
-    const pageDownKeyNode = new PageDownKeyNode();
-    const pageUpPageDownIcon = new HBox( {
-      children: [ pageUpKeyNode, pageDownKeyNode ],
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    } );
-    const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
+  // 'move in larger steps' content
+  const pageUpKeyNode = new PageUpKeyNode();
+  const pageDownKeyNode = new PageDownKeyNode();
+  const pageUpPageDownIcon = new HBox( {
+    children: [ pageUpKeyNode, pageDownKeyNode ],
+    spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+  } );
+  const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
-    // 'move to minimum value' content
-    const homeKeyNode = new HomeKeyNode();
-    const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
+  // 'move to minimum value' content
+  const homeKeyNode = new HomeKeyNode();
+  const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
-    // 'move to maximum value' content
-    const endKeyNode = new EndKeyNode();
-    const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
+  // 'move to maximum value' content
+  const endKeyNode = new EndKeyNode();
+  const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
 
-    // assemble final content for KeyboardHelpSection
-    const content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
+  // assemble final content for KeyboardHelpSection
+  const content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
 
-    KeyboardHelpSection.call( this, options.headingString, content, options );
-  }
+  KeyboardHelpSection.call( this, options.headingString, content, options );
+}
 
-  sceneryPhet.register( 'SliderKeyboardHelpSection', SliderKeyboardHelpSection );
+sceneryPhet.register( 'SliderKeyboardHelpSection', SliderKeyboardHelpSection );
 
-  return inherit( KeyboardHelpSection, SliderKeyboardHelpSection );
-} );
+inherit( KeyboardHelpSection, SliderKeyboardHelpSection );
+export default SliderKeyboardHelpSection;

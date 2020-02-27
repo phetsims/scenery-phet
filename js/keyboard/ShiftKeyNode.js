@@ -2,32 +2,27 @@
 
 /**
  * Node that looks like a 'Shift' key on a keyboard.
- * 
+ *
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+const keyShiftString = sceneryPhetStrings.key.shift;
 
-  // strings
-  const keyShiftString = require( 'string!SCENERY_PHET/key.shift' );
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function ShiftKeyNode( options ) {
+  TextKeyNode.call( this, keyShiftString, options );
+}
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function ShiftKeyNode( options ) {
-    TextKeyNode.call( this, keyShiftString, options );
-  }
+sceneryPhet.register( 'ShiftKeyNode', ShiftKeyNode );
 
-  sceneryPhet.register( 'ShiftKeyNode', ShiftKeyNode );
-
-  return inherit( TextKeyNode, ShiftKeyNode );
-
-} );
+inherit( TextKeyNode, ShiftKeyNode );
+export default ShiftKeyNode;

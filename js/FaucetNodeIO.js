@@ -6,22 +6,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class FaucetNodeIO extends NodeIO {}
+class FaucetNodeIO extends NodeIO {}
 
-  FaucetNodeIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode };
-  FaucetNodeIO.documentation = 'Faucet that emits fluid, typically user-controllable';
-  FaucetNodeIO.events = [ 'startTapToDispense', 'endTapToDispense' ];
-  FaucetNodeIO.typeName = 'FaucetNodeIO';
-  ObjectIO.validateSubtype( FaucetNodeIO );
+FaucetNodeIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode };
+FaucetNodeIO.documentation = 'Faucet that emits fluid, typically user-controllable';
+FaucetNodeIO.events = [ 'startTapToDispense', 'endTapToDispense' ];
+FaucetNodeIO.typeName = 'FaucetNodeIO';
+ObjectIO.validateSubtype( FaucetNodeIO );
 
-  return sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
-} );
-
+sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
+export default FaucetNodeIO;

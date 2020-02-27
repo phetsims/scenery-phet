@@ -7,92 +7,89 @@
  * @author Sam Reid
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
-  const Color = require( 'SCENERY/util/Color' );
-  const CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
-  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
-  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Color from '../../scenery/js/util/Color.js';
+import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
+import RectangularButtonView from '../../sun/js/buttons/RectangularButtonView.js';
+import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
+import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import CurvedArrowShape from './CurvedArrowShape.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // constants
-  const DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
+// constants
+const DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
 
-  /**
-   * @constructor
-   *
-   * @param {Object} [options]
-   */
-  function MoveToTrashButton( options ) {
+/**
+ * @constructor
+ *
+ * @param {Object} [options]
+ */
+function MoveToTrashButton( options ) {
 
-    options = merge( {
+  options = merge( {
 
-      // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
-      baseColor: new Color( 230, 230, 240 ),
-      disabledBaseColor: 'white',
-      arrowColor: 'black',
-      cornerRadius: 6,
-      buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
-      xMargin: 7,
-      yMargin: 3,
-      tandem: Tandem.REQUIRED
-    }, options );
+    // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
+    baseColor: new Color( 230, 230, 240 ),
+    disabledBaseColor: 'white',
+    arrowColor: 'black',
+    cornerRadius: 6,
+    buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
+    xMargin: 7,
+    yMargin: 3,
+    tandem: Tandem.REQUIRED
+  }, options );
 
-    assert && assert( !options.contentAppearanceStrategy, 'MoveToTrashButton sets contentAppearanceStrategy' );
-    options.contentAppearanceStrategy = function( content, interactionStateProperty ) {
+  assert && assert( !options.contentAppearanceStrategy, 'MoveToTrashButton sets contentAppearanceStrategy' );
+  options.contentAppearanceStrategy = function( content, interactionStateProperty ) {
 
-      function updateEnabled( state ) {
-        if ( content ) {
-          const enabled = state !== ButtonInteractionState.DISABLED &&
+    function updateEnabled( state ) {
+      if ( content ) {
+        const enabled = state !== ButtonInteractionState.DISABLED &&
                         state !== ButtonInteractionState.DISABLED_PRESSED;
 
-          arrowPath.fill = enabled ? options.arrowColor : DISABLED_COLOR;
-          trashPath.fill = enabled ? 'black' : DISABLED_COLOR;
-        }
+        arrowPath.fill = enabled ? options.arrowColor : DISABLED_COLOR;
+        trashPath.fill = enabled ? 'black' : DISABLED_COLOR;
       }
+    }
 
-      interactionStateProperty.link( updateEnabled );
-      this.dispose = function() {
-        interactionStateProperty.unlink( updateEnabled );
-      };
+    interactionStateProperty.link( updateEnabled );
+    this.dispose = function() {
+      interactionStateProperty.unlink( updateEnabled );
     };
+  };
 
-    var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
+  var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
 
-    const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
-      tandem: options.tandem.createTandem( 'arrowShape' ),
-      headWidth: 12,
-      tailWidth: 4
-    } );
+  const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
+    tandem: options.tandem.createTandem( 'arrowShape' ),
+    headWidth: 12,
+    tailWidth: 4
+  } );
 
-    var arrowPath = new Path( arrowShape, {
-      tandem: options.tandem.createTandem( 'arrowPath' ),
-      bottom: trashPath.top,
-      right: trashPath.left + trashPath.width * 0.75
-    } );
+  var arrowPath = new Path( arrowShape, {
+    tandem: options.tandem.createTandem( 'arrowPath' ),
+    bottom: trashPath.top,
+    right: trashPath.left + trashPath.width * 0.75
+  } );
 
-    options.content = new Node( {
-      children: [ trashPath, arrowPath ],
-      scale: 0.4
-    } );
+  options.content = new Node( {
+    children: [ trashPath, arrowPath ],
+    scale: 0.4
+  } );
 
-    RectangularPushButton.call( this, options );
+  RectangularPushButton.call( this, options );
 
-    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'MoveToTrashButton', this );
-  }
+  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'MoveToTrashButton', this );
+}
 
-  sceneryPhet.register( 'MoveToTrashButton', MoveToTrashButton );
+sceneryPhet.register( 'MoveToTrashButton', MoveToTrashButton );
 
-  return inherit( RectangularPushButton, MoveToTrashButton );
-} );
+inherit( RectangularPushButton, MoveToTrashButton );
+export default MoveToTrashButton;

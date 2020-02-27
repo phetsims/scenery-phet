@@ -11,52 +11,49 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @deprecated - this has been supplanted by SCENERY/nodes/RichText
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const RichText = require( 'SCENERY/nodes/RichText' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import merge from '../../phet-core/js/merge.js';
+import RichText from '../../scenery/js/nodes/RichText.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class MultiLineText extends RichText {
+class MultiLineText extends RichText {
 
-    /**
-     * @param {string} text - newlines will be replaced with '<br>'.
-     * @param {Object} [options]
-     */
-    constructor( text, options ) {
+  /**
+   * @param {string} text - newlines will be replaced with '<br>'.
+   * @param {Object} [options]
+   */
+  constructor( text, options ) {
 
-      options = merge( {
+    options = merge( {
 
-        // RichText options
-        align: 'center',
-        font: new PhetFont()
-      }, options );
+      // RichText options
+      align: 'center',
+      font: new PhetFont()
+    }, options );
 
-      super( replaceNewlines( text ), options );
-    }
-
-    /**
-     * Sets the text, replacing newlines with '<br>'.
-     * @param {string} text
-     * @public
-     * @override
-     */
-    setText( text ) {
-      super.setText( replaceNewlines( text ) );
-    }
+    super( replaceNewlines( text ), options );
   }
 
   /**
-   * Replaces newline characters with '<br>'.
+   * Sets the text, replacing newlines with '<br>'.
    * @param {string} text
-   * @returns {string}
+   * @public
+   * @override
    */
-  function replaceNewlines( text ) {
-    return text.replace( /\n/g, '<br>' );
+  setText( text ) {
+    super.setText( replaceNewlines( text ) );
   }
+}
 
-  return sceneryPhet.register( 'MultiLineText', MultiLineText );
-} );
+/**
+ * Replaces newline characters with '<br>'.
+ * @param {string} text
+ * @returns {string}
+ */
+function replaceNewlines( text ) {
+  return text.replace( /\n/g, '<br>' );
+}
+
+sceneryPhet.register( 'MultiLineText', MultiLineText );
+export default MultiLineText;

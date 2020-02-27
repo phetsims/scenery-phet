@@ -11,97 +11,93 @@
  * @author Denzell Barnett (PhET Interactive Sims)
  * @author Chris Malley  (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const HeaterCoolerBack = require( 'SCENERY_PHET/HeaterCoolerBack' );
-  const HeaterCoolerFront = require( 'SCENERY_PHET/HeaterCoolerFront' );
-  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import merge from '../../phet-core/js/merge.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import HeaterCoolerBack from './HeaterCoolerBack.js';
+import HeaterCoolerFront from './HeaterCoolerFront.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // const
-  const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
+// const
+const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
-  class HeaterCoolerNode extends Node {
+class HeaterCoolerNode extends Node {
 
-    /**
-     * @param {NumberProperty} heatCoolAmountProperty +1 for max heating, -1 for max cooling, 0 for no change
-     * @param {Object} [options]
-     * @constructor
-     */
-    constructor( heatCoolAmountProperty, options ) {
-      super();
+  /**
+   * @param {NumberProperty} heatCoolAmountProperty +1 for max heating, -1 for max cooling, 0 for no change
+   * @param {Object} [options]
+   * @constructor
+   */
+  constructor( heatCoolAmountProperty, options ) {
+    super();
 
-      options = merge( {
+    options = merge( {
 
-        // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
-        baseColor: DEFAULT_BASE_COLOR,
+      // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
+      baseColor: DEFAULT_BASE_COLOR,
 
-        // {*|null} options passed to HeaterCoolerFront
-        frontOptions: null,
+      // {*|null} options passed to HeaterCoolerFront
+      frontOptions: null,
 
-        // {*|null} options passed to HeaterCoolerBack
-        backOptions: null,
+      // {*|null} options passed to HeaterCoolerBack
+      backOptions: null,
 
-        tandem: Tandem.REQUIRED
-      }, options );
+      tandem: Tandem.REQUIRED
+    }, options );
 
-      // @public
-      this.heatCoolAmountProperty = heatCoolAmountProperty;
+    // @public
+    this.heatCoolAmountProperty = heatCoolAmountProperty;
 
-      // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
-      assert && assert( !options.backOptions || !options.backOptions.baseColor,
-        'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
-      const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, merge( {
-        baseColor: options.baseColor
-      }, options.backOptions ) );
+    // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
+    assert && assert( !options.backOptions || !options.backOptions.baseColor,
+      'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
+    const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, merge( {
+      baseColor: options.baseColor
+    }, options.backOptions ) );
 
-      // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
-      assert && assert( !options.frontOptions || !options.frontOptions.baseColor,
-        'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
-      const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
-        baseColor: options.baseColor,
-        leftTop: heaterCoolerBack.getHeaterFrontPosition(),
-        heaterCoolerBack: heaterCoolerBack,
+    // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
+    assert && assert( !options.frontOptions || !options.frontOptions.baseColor,
+      'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
+    const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
+      baseColor: options.baseColor,
+      leftTop: heaterCoolerBack.getHeaterFrontPosition(),
+      heaterCoolerBack: heaterCoolerBack,
 
-        // The front takes the entire tandem since we are treating it as a consolidated component (client doesn't need
-        // to know about front vs back)
-        tandem: options.tandem
-      }, options.frontOptions ) );
+      // The front takes the entire tandem since we are treating it as a consolidated component (client doesn't need
+      // to know about front vs back)
+      tandem: options.tandem
+    }, options.frontOptions ) );
 
-      // @public (read-only) With this visibility annotation comes great power - use it wisely.
-      // See https://github.com/phetsims/scenery-phet/issues/442
-      this.slider = heaterCoolerFront.slider;
+    // @public (read-only) With this visibility annotation comes great power - use it wisely.
+    // See https://github.com/phetsims/scenery-phet/issues/442
+    this.slider = heaterCoolerFront.slider;
 
-      assert && assert( !options.children, 'HeaterCoolerNode sets children' );
-      options.children = [ heaterCoolerBack, heaterCoolerFront ];
+    assert && assert( !options.children, 'HeaterCoolerNode sets children' );
+    options.children = [ heaterCoolerBack, heaterCoolerFront ];
 
-      super.mutate( options );
+    super.mutate( options );
 
-      // @public Dispose function used for GC
-      this.disposeHeaterCoolerNode = function() {
-        heaterCoolerBack.dispose();
-        heaterCoolerFront.dispose();
-      };
+    // @public Dispose function used for GC
+    this.disposeHeaterCoolerNode = function() {
+      heaterCoolerBack.dispose();
+      heaterCoolerFront.dispose();
+    };
 
-      // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-      assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HeaterCoolerNode', this );
-    }
-
-    /**
-     * @public
-     * @override
-     */
-    dispose() {
-      this.disposeHeaterCoolerNode();
-      super.dispose();
-    }
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HeaterCoolerNode', this );
   }
 
-  return sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
-} );
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeHeaterCoolerNode();
+    super.dispose();
+  }
+}
 
+sceneryPhet.register( 'HeaterCoolerNode', HeaterCoolerNode );
+export default HeaterCoolerNode;

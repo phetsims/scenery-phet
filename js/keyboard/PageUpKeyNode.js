@@ -2,31 +2,27 @@
 
 /**
  * Node that looks like a 'Page Up' key on a keyboard.
- * 
+ *
  * @author Michael Barlow
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // strings
-  const keyPageUpString = require( 'string!SCENERY_PHET/key.pageUp' );
+const keyPageUpString = sceneryPhetStrings.key.pageUp;
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function PageUpKeyNode( options ) {
-    TextKeyNode.call( this, keyPageUpString, options );
-  }
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function PageUpKeyNode( options ) {
+  TextKeyNode.call( this, keyPageUpString, options );
+}
 
-  sceneryPhet.register( 'PageUpKeyNode', PageUpKeyNode );
+sceneryPhet.register( 'PageUpKeyNode', PageUpKeyNode );
 
-  return inherit( TextKeyNode, PageUpKeyNode );
-
-} );
+inherit( TextKeyNode, PageUpKeyNode );
+export default PageUpKeyNode;

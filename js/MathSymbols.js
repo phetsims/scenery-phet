@@ -12,67 +12,63 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // strings
-  const symbolOhmsString = require( 'string!SCENERY_PHET/symbol.ohms' );
-  const symbolResistivityString = require( 'string!SCENERY_PHET/symbol.resistivity' );
+const symbolOhmsString = sceneryPhetStrings.symbol.ohms;
+const symbolResistivityString = sceneryPhetStrings.symbol.resistivity;
 
-  const MathSymbols = {
+const MathSymbols = {
 
-    //==================================================================================================================
-    // Symbols in this section are universal and are NOT translatable.  A decision to promote any of these to
-    // translatable requires discussion with PhET team members and subject-matter experts.
-    //==================================================================================================================
+  //==================================================================================================================
+  // Symbols in this section are universal and are NOT translatable.  A decision to promote any of these to
+  // translatable requires discussion with PhET team members and subject-matter experts.
+  //==================================================================================================================
 
-    // binary operators
-    PLUS: '+',
-    MINUS: '\u2212', // longer than UNARY_MINUS (PhET-specific convention)
-    TIMES: '\u00d7',
-    DIVIDE: '\u00f7',
-    DOT: '\u22c5',
+  // binary operators
+  PLUS: '+',
+  MINUS: '\u2212', // longer than UNARY_MINUS (PhET-specific convention)
+  TIMES: '\u00d7',
+  DIVIDE: '\u00f7',
+  DOT: '\u22c5',
 
-    // unary operators
-    UNARY_PLUS: '+',
-    UNARY_MINUS: '-', // shorter than MINUS (PhET-specific convention)
+  // unary operators
+  UNARY_PLUS: '+',
+  UNARY_MINUS: '-', // shorter than MINUS (PhET-specific convention)
 
-    // relational operators
-    EQUAL_TO: '=',
-    NOT_EQUAL_TO: '\u2260',
-    GREATER_THAN: '>',
-    LESS_THAN: '<',
-    LESS_THAN_OR_EQUAL: '\u2264',
-    GREATER_THAN_OR_EQUAL: '\u2265',
+  // relational operators
+  EQUAL_TO: '=',
+  NOT_EQUAL_TO: '\u2260',
+  GREATER_THAN: '>',
+  LESS_THAN: '<',
+  LESS_THAN_OR_EQUAL: '\u2264',
+  GREATER_THAN_OR_EQUAL: '\u2265',
 
-    // other math symbols
-    PERCENT: '%',
-    INFINITY: '\u221E',
-    PI: '\u03c0',
-    PLUS_MINUS: '\u00B1',
+  // other math symbols
+  PERCENT: '%',
+  INFINITY: '\u221E',
+  PI: '\u03c0',
+  PLUS_MINUS: '\u00B1',
 
-    // Greek characters
-    THETA: '\u03b8',
+  // Greek characters
+  THETA: '\u03b8',
 
-    // Used to symbolize 'no value', e.g. on a meter that is not reading anything.
-    // See https://github.com/phetsims/scenery-phet/issues/431
-    NO_VALUE: '\u2014', // em dash
+  // Used to symbolize 'no value', e.g. on a meter that is not reading anything.
+  // See https://github.com/phetsims/scenery-phet/issues/431
+  NO_VALUE: '\u2014', // em dash
 
-    DEGREES: '\u00B0',
+  DEGREES: '\u00B0',
 
-    //==================================================================================================================
-    // Symbols in this section represent logical concepts and ARE translatable.
-    // See https://github.com/phetsims/resistance-in-a-wire/issues/187
-    //==================================================================================================================
+  //==================================================================================================================
+  // Symbols in this section represent logical concepts and ARE translatable.
+  // See https://github.com/phetsims/resistance-in-a-wire/issues/187
+  //==================================================================================================================
 
-    // universal units
-    OHMS: symbolOhmsString,
-    RESISTIVITY: symbolResistivityString
-  };
+  // universal units
+  OHMS: symbolOhmsString,
+  RESISTIVITY: symbolResistivityString
+};
 
-  return sceneryPhet.register( 'MathSymbols', MathSymbols );
-} );
- 
+sceneryPhet.register( 'MathSymbols', MathSymbols );
+export default MathSymbols;

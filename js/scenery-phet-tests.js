@@ -7,13 +7,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  require( 'SCENERY_PHET/accessibility/GrabDragInteractionTests' );
-  require( 'SCENERY_PHET/MultiLineTextTests' );
+import './accessibility/GrabDragInteractionTests.js';
+import './MultiLineTextTests.js';
 
-  // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
-  QUnit.start();
-} );
+// Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
+QUnit.start();

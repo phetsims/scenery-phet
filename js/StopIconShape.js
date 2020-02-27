@@ -5,25 +5,22 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../kite/js/Shape.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class StopIconShape extends Shape {
+class StopIconShape extends Shape {
 
-    /**
-     * @param {number} width
-     */
-    constructor( width ) {
-      super();
+  /**
+   * @param {number} width
+   */
+  constructor( width ) {
+    super();
 
-      // rectangle
-      this.rect( 0, 0, width, width );
-    }
+    // rectangle
+    this.rect( 0, 0, width, width );
   }
+}
 
-  return sceneryPhet.register( 'StopIconShape', StopIconShape );
-} );
+sceneryPhet.register( 'StopIconShape', StopIconShape );
+export default StopIconShape;

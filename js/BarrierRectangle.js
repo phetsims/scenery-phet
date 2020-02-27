@@ -6,65 +6,62 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const EventType = require( 'TANDEM/EventType' );
-  const FireListener = require( 'SCENERY/listeners/FireListener' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Plane = require( 'SCENERY/nodes/Plane' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import merge from '../../phet-core/js/merge.js';
+import FireListener from '../../scenery/js/listeners/FireListener.js';
+import Plane from '../../scenery/js/nodes/Plane.js';
+import EventType from '../../tandem/js/EventType.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class BarrierRectangle extends Plane {
+class BarrierRectangle extends Plane {
 
-    /**
-     * @param {Array.<Node>} modalNodeStack
-     * @param {Object} [options]
-     */
-    constructor( modalNodeStack, options ) {
+  /**
+   * @param {Array.<Node>} modalNodeStack
+   * @param {Object} [options]
+   */
+  constructor( modalNodeStack, options ) {
 
-      options = merge( {
-        tandem: Tandem.REQUIRED,
-        phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
-        phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
-        phetioEventType: EventType.USER,
-        phetioComponentOptions: {
-          phetioState: false
-        }
-      }, options );
+    options = merge( {
+      tandem: Tandem.REQUIRED,
+      phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
+      phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
+      phetioEventType: EventType.USER,
+      phetioComponentOptions: {
+        phetioState: false
+      }
+    }, options );
 
-      super( options );
+    super( options );
 
-      const lengthListener = numberOfBarriers => {
-        this.visible = numberOfBarriers > 0;
-      };
-      modalNodeStack.lengthProperty.link( lengthListener );
+    const lengthListener = numberOfBarriers => {
+      this.visible = numberOfBarriers > 0;
+    };
+    modalNodeStack.lengthProperty.link( lengthListener );
 
-      this.addInputListener( new FireListener( {
-        tandem: options.tandem.createTandem( 'inputListener' ),
-        fire() {
-          assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
-          modalNodeStack.get( modalNodeStack.length - 1 ).hide();
-        }
-      } ) );
+    this.addInputListener( new FireListener( {
+      tandem: options.tandem.createTandem( 'inputListener' ),
+      fire() {
+        assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
+        modalNodeStack.get( modalNodeStack.length - 1 ).hide();
+      }
+    } ) );
 
-      // @private
-      this.disposeBarrierRectangle = () => {
-        modalNodeStack.lengthProperty.unlink( lengthListener );
-      };
-    }
-
-    /**
-     * @public
-     * @override
-     */
-    dispose() {
-      this.disposeBarrierRectangle();
-      super.dispose();
-    }
+    // @private
+    this.disposeBarrierRectangle = () => {
+      modalNodeStack.lengthProperty.unlink( lengthListener );
+    };
   }
 
-  return sceneryPhet.register( 'BarrierRectangle', BarrierRectangle );
-} );
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeBarrierRectangle();
+    super.dispose();
+  }
+}
+
+sceneryPhet.register( 'BarrierRectangle', BarrierRectangle );
+export default BarrierRectangle;

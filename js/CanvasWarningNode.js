@@ -5,63 +5,60 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const openPopup = require( 'PHET_CORE/openPopup' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Text = require( 'SCENERY/nodes/Text' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
+import inherit from '../../phet-core/js/inherit.js';
+import openPopup from '../../phet-core/js/openPopup.js';
+import HBox from '../../scenery/js/nodes/HBox.js';
+import Text from '../../scenery/js/nodes/Text.js';
+import VBox from '../../scenery/js/nodes/VBox.js';
+import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // strings
-  const webglWarningBodyString = require( 'string!SCENERY_PHET/webglWarning.body' );
-  const webglWarningTitleString = require( 'string!SCENERY_PHET/webglWarning.title' );
+const webglWarningBodyString = sceneryPhetStrings.webglWarning.body;
+const webglWarningTitleString = sceneryPhetStrings.webglWarning.title;
 
-  /**
-   * @constructor
-   */
-  function CanvasWarningNode() {
-    HBox.call( this, {
-      children: [
-        new FontAwesomeNode( 'warning_sign', {
-          fill: '#E87600', // "safety orange", according to Wikipedia
-          scale: 0.6
-        } ),
-        new VBox( {
-          children: [
-            new Text( webglWarningTitleString, {
-              font: new PhetFont( 14 ),
-              fill: '#ddd'
-            } ),
-            new Text( webglWarningBodyString, {
-              font: new PhetFont( 10 ),
-              fill: '#999'
-            } )
-          ],
-          spacing: 3,
-          align: 'left'
-        } )
-      ],
-      spacing: 12,
-      align: 'center',
-      cursor: 'pointer'
-    } );
+/**
+ * @constructor
+ */
+function CanvasWarningNode() {
+  HBox.call( this, {
+    children: [
+      new FontAwesomeNode( 'warning_sign', {
+        fill: '#E87600', // "safety orange", according to Wikipedia
+        scale: 0.6
+      } ),
+      new VBox( {
+        children: [
+          new Text( webglWarningTitleString, {
+            font: new PhetFont( 14 ),
+            fill: '#ddd'
+          } ),
+          new Text( webglWarningBodyString, {
+            font: new PhetFont( 10 ),
+            fill: '#999'
+          } )
+        ],
+        spacing: 3,
+        align: 'left'
+      } )
+    ],
+    spacing: 12,
+    align: 'center',
+    cursor: 'pointer'
+  } );
 
-    this.mouseArea = this.touchArea = this.localBounds;
+  this.mouseArea = this.touchArea = this.localBounds;
 
-    this.addInputListener( {
-      up: function() {
-        openPopup( 'http://phet.colorado.edu/webgl-disabled-page?simLocale=' + phet.joist.sim.locale );
-      }
-    } );
-  }
+  this.addInputListener( {
+    up: function() {
+      openPopup( 'http://phet.colorado.edu/webgl-disabled-page?simLocale=' + phet.joist.sim.locale );
+    }
+  } );
+}
 
-  sceneryPhet.register( 'CanvasWarningNode', CanvasWarningNode );
+sceneryPhet.register( 'CanvasWarningNode', CanvasWarningNode );
 
-  return inherit( HBox, CanvasWarningNode );
-} );
+inherit( HBox, CanvasWarningNode );
+export default CanvasWarningNode;

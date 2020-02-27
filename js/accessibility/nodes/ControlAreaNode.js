@@ -10,28 +10,24 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
-  // modules
-  const AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+// A11y strings
+const controlAreaString = SceneryPhetA11yStrings.controlArea.value;
 
-  // A11y strings
-  const controlAreaString = SceneryPhetA11yStrings.controlArea.value;
+/**
+ * @constructor
+ * @param {Object} [options]
+ */
+function ControlAreaNode( options ) {
 
-  /**
-   * @constructor
-   * @param {Object} [options]
-   */
-  function ControlAreaNode( options ) {
+  AccessibleSectionNode.call( this, controlAreaString, options );
+}
 
-    AccessibleSectionNode.call( this, controlAreaString, options );
-  }
+sceneryPhet.register( 'ControlAreaNode', ControlAreaNode );
 
-  sceneryPhet.register( 'ControlAreaNode', ControlAreaNode );
-
-  return inherit( AccessibleSectionNode, ControlAreaNode );
-} );
+inherit( AccessibleSectionNode, ControlAreaNode );
+export default ControlAreaNode;

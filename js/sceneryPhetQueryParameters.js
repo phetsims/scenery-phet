@@ -5,43 +5,39 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import sceneryPhet from './sceneryPhet.js';
 
-  const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
+const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
 
-    // background color of the screens
-    backgroundColor: {
-      type: 'string', // CSS color format, e.g. 'green', 'ff8c00', 'rgb(255,0,255)'
-      defaultValue: 'white'
-    },
+  // background color of the screens
+  backgroundColor: {
+    type: 'string', // CSS color format, e.g. 'green', 'ff8c00', 'rgb(255,0,255)'
+    defaultValue: 'white'
+  },
 
-    // initial selection on the Sliders screen, values are the same as the labels on combo box items
-    slider: {
-      type: 'string',
-      defaultValue: null
-    },
+  // initial selection on the Sliders screen, values are the same as the labels on combo box items
+  slider: {
+    type: 'string',
+    defaultValue: null
+  },
 
-    // initial selection on the Components screen, values are the same as the labels on combo box items
-    component: {
-      type: 'string',
-      defaultValue: null
-    },
+  // initial selection on the Components screen, values are the same as the labels on combo box items
+  component: {
+    type: 'string',
+    defaultValue: null
+  },
 
-    memoryTestCreationMax: {
-      type: 'number',
-      defaultValue: 10000
-    },
+  memoryTestCreationMax: {
+    type: 'number',
+    defaultValue: 10000
+  },
 
-    greenhouseWaves: {
-      type: 'flag'
-    }
-  } );
-
-  sceneryPhet.register( 'sceneryPhetQueryParameters', sceneryPhetQueryParameters );
-
-  return sceneryPhetQueryParameters;
+  greenhouseWaves: {
+    type: 'flag'
+  }
 } );
+
+sceneryPhet.register( 'sceneryPhetQueryParameters', sceneryPhetQueryParameters );
+
+export default sceneryPhetQueryParameters;

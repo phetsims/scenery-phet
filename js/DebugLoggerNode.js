@@ -13,66 +13,63 @@
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Color = require( 'SCENERY/util/Color' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const RichText = require( 'SCENERY/nodes/RichText' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Vector2 = require( 'DOT/Vector2' );
+import Vector2 from '../../dot/js/Vector2.js';
+import merge from '../../phet-core/js/merge.js';
+import RichText from '../../scenery/js/nodes/RichText.js';
+import Color from '../../scenery/js/util/Color.js';
+import PhetFont from './PhetFont.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // constants
-  const DEFAULT_NUM_MESSAGES = 4;
-  const DEFAULT_POSITION = new Vector2( 20, 20 );
-  const DEFAULT_FONT = new PhetFont( 20 );
-  const DEFAULT_TEXT_COLOR = Color.red;
+// constants
+const DEFAULT_NUM_MESSAGES = 4;
+const DEFAULT_POSITION = new Vector2( 20, 20 );
+const DEFAULT_FONT = new PhetFont( 20 );
+const DEFAULT_TEXT_COLOR = Color.red;
 
-  class DebugLoggerNode extends RichText {
+class DebugLoggerNode extends RichText {
 
-    /**
-     * @param {Object} [options]
-     * @constructor
-     */
-    constructor( options ) {
+  /**
+   * @param {Object} [options]
+   * @constructor
+   */
+  constructor( options ) {
 
-      options = merge( {
-        left: DEFAULT_POSITION.x,
-        top: DEFAULT_POSITION.y,
-        numMessagesToDisplay: DEFAULT_NUM_MESSAGES,
-        font: DEFAULT_FONT,
-        fill: DEFAULT_TEXT_COLOR
-      }, options );
+    options = merge( {
+      left: DEFAULT_POSITION.x,
+      top: DEFAULT_POSITION.y,
+      numMessagesToDisplay: DEFAULT_NUM_MESSAGES,
+      font: DEFAULT_FONT,
+      fill: DEFAULT_TEXT_COLOR
+    }, options );
 
-      super( '', options );
+    super( '', options );
 
-      this.numMessagesToDisplay = options.numMessagesToDisplay;
-      this.messages = [];
-    }
-
-    /**
-     * log a message
-     * @param {String} message
-     */
-    log( message ) {
-
-      if ( this.messages.length >= this.numMessagesToDisplay ) {
-
-        // remove the oldest message
-        this.messages.shift();
-      }
-
-      // add the newest message
-      this.messages.push( message );
-
-      // munge the messages together and set the value of the text
-      this.text = _.reduce( this.messages, ( memo, compositeMessage ) => {
-        return memo + '<br>' + compositeMessage;
-      } );
-    }
+    this.numMessagesToDisplay = options.numMessagesToDisplay;
+    this.messages = [];
   }
 
-  return sceneryPhet.register( 'DebugLoggerNode', DebugLoggerNode );
-} );
+  /**
+   * log a message
+   * @param {String} message
+   */
+  log( message ) {
+
+    if ( this.messages.length >= this.numMessagesToDisplay ) {
+
+      // remove the oldest message
+      this.messages.shift();
+    }
+
+    // add the newest message
+    this.messages.push( message );
+
+    // munge the messages together and set the value of the text
+    this.text = _.reduce( this.messages, ( memo, compositeMessage ) => {
+      return memo + '<br>' + compositeMessage;
+    } );
+  }
+}
+
+sceneryPhet.register( 'DebugLoggerNode', DebugLoggerNode );
+export default DebugLoggerNode;

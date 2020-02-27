@@ -50,127 +50,123 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Aaron Davis
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Color = require( 'SCENERY/util/Color' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Property = require( 'AXON/Property' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const StringProperty = require( 'AXON/StringProperty' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import Property from '../../axon/js/Property.js';
+import StringProperty from '../../axon/js/StringProperty.js';
+import inherit from '../../phet-core/js/inherit.js';
+import Color from '../../scenery/js/util/Color.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // constants
-  const tandem = Tandem.GLOBAL.createTandem( 'colorProfile' );
+// constants
+const tandem = Tandem.GLOBAL.createTandem( 'colorProfile' );
 
-  /**
-   * @public
-   * @constructor
-   *
-   * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
-   * @param {Object} colors - See documentation above
-   */
-  function ColorProfile( profileNames, colors ) {
-    const self = this;
+/**
+ * @public
+ * @constructor
+ *
+ * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
+ * @param {Object} colors - See documentation above
+ */
+function ColorProfile( profileNames, colors ) {
+  const self = this;
 
-    // @public (read-only)
-    this.profileNames = profileNames;
+  // @public (read-only)
+  this.profileNames = profileNames;
 
-    // Query parameter may override the default profile name.
-    const initialProfileName = phet.chipper.queryParameters.colorProfile || ColorProfile.DEFAULT_COLOR_PROFILE_NAME;
-    if ( profileNames.indexOf( initialProfileName ) === -1 ) {
-      throw new Error( `invalid colorProfile: ${initialProfileName}` );
-    }
-
-    // @public {Property.<string>}
-    // The current profile name. Change this Property's value to change which profile is currently active.
-    this.profileNameProperty = new StringProperty( initialProfileName, {
-      tandem: tandem.createTandem( 'profileNameProperty' ),
-      validValues: profileNames
-    } );
-
-    Object.keys( colors ).sort().forEach( function( key ) {
-      if ( colors.hasOwnProperty( key ) ) {
-
-        // Turn strings/hex to Color objects
-        const colorMap = _.mapValues( colors[ key ], Color.toColor );
-
-        assert && assert( colorMap.hasOwnProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ),
-          `missing default color for key=${key}` );
-        assert && assert( key !== 'profileName',
-          'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
-
-        // Use the requested initial profile, fallback to default.
-        const initialColor = colorMap[ initialProfileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
-
-        // Create a Property for the color
-        const colorProperty = new Property( initialColor );
-        self[ key + 'Property' ] = colorProperty;
-
-        // Update the Property on profile name changes
-        self.profileNameProperty.lazyLink( function( profileName ) {
-          colorProperty.value = colorMap[ profileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
-        } );
-
-        // Communicate color changes to the iframe
-        colorProperty.link( function( color ) {
-          self.reportColor( key );
-        } );
-      }
-    } );
-
-    // receives iframe communication to set a color
-    window.addEventListener( 'message', function( evt ) {
-      let data;
-      try {
-        data = JSON.parse( evt.data );
-      }
-      catch( e ) {
-        // We don't do anything with the caught value. If this happens, it is not JSON. This can happen with the
-        // LoL wrappers, see https://github.com/phetsims/joist/issues/484.
-      }
-      if ( data && data.type === 'setColor' ) {
-        self[ data.name + 'Property' ].value = new Color( data.value );
-      }
-    } );
+  // Query parameter may override the default profile name.
+  const initialProfileName = phet.chipper.queryParameters.colorProfile || ColorProfile.DEFAULT_COLOR_PROFILE_NAME;
+  if ( profileNames.indexOf( initialProfileName ) === -1 ) {
+    throw new Error( `invalid colorProfile: ${initialProfileName}` );
   }
 
-  sceneryPhet.register( 'ColorProfile', ColorProfile );
+  // @public {Property.<string>}
+  // The current profile name. Change this Property's value to change which profile is currently active.
+  this.profileNameProperty = new StringProperty( initialProfileName, {
+    tandem: tandem.createTandem( 'profileNameProperty' ),
+    validValues: profileNames
+  } );
 
-  // @public (read-only) the default profile required by all ColorProfile instances
-  ColorProfile.DEFAULT_COLOR_PROFILE_NAME = 'default';
+  Object.keys( colors ).sort().forEach( function( key ) {
+    if ( colors.hasOwnProperty( key ) ) {
 
-  // @public (read-only) a common profile that appears in sims that have 'Projector Mode' feature
-  ColorProfile.PROJECTOR_COLOR_PROFILE_NAME = 'projector';
+      // Turn strings/hex to Color objects
+      const colorMap = _.mapValues( colors[ key ], Color.toColor );
 
-  return inherit( Object, ColorProfile, {
-    /**
-     * Sends color change events as iframe messages, so that a container can be notified (and possibly update color pickers).
-     * @private
-     *
-     * @param {string} key - The color name that was changed
-     */
-    reportColor: function( key ) {
-      let hexColor = this[ key + 'Property' ].value.toNumber().toString( 16 );
-      while ( hexColor.length < 6 ) {
-        hexColor = '0' + hexColor;
-      }
+      assert && assert( colorMap.hasOwnProperty( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ),
+        `missing default color for key=${key}` );
+      assert && assert( key !== 'profileName',
+        'Unlikely, but would have hilarious consequences since we would overwrite profileNameProperty' );
 
-      ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
-        type: 'reportColor',
-        name: key,
-        value: '#' + hexColor
-      } ), '*' );
-    },
+      // Use the requested initial profile, fallback to default.
+      const initialColor = colorMap[ initialProfileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
 
-    /**
-     * Does this ColorProfile has the specified color profile?
-     * @param {string} profileName
-     * @returns {boolean}
-     */
-    hasProfile( profileName ) {
-      return ( this.profileNames.indexOf( profileName ) !== -1 );
+      // Create a Property for the color
+      const colorProperty = new Property( initialColor );
+      self[ key + 'Property' ] = colorProperty;
+
+      // Update the Property on profile name changes
+      self.profileNameProperty.lazyLink( function( profileName ) {
+        colorProperty.value = colorMap[ profileName ] || colorMap[ ColorProfile.DEFAULT_COLOR_PROFILE_NAME ];
+      } );
+
+      // Communicate color changes to the iframe
+      colorProperty.link( function( color ) {
+        self.reportColor( key );
+      } );
     }
   } );
+
+  // receives iframe communication to set a color
+  window.addEventListener( 'message', function( evt ) {
+    let data;
+    try {
+      data = JSON.parse( evt.data );
+    }
+    catch( e ) {
+      // We don't do anything with the caught value. If this happens, it is not JSON. This can happen with the
+      // LoL wrappers, see https://github.com/phetsims/joist/issues/484.
+    }
+    if ( data && data.type === 'setColor' ) {
+      self[ data.name + 'Property' ].value = new Color( data.value );
+    }
+  } );
+}
+
+sceneryPhet.register( 'ColorProfile', ColorProfile );
+
+// @public (read-only) the default profile required by all ColorProfile instances
+ColorProfile.DEFAULT_COLOR_PROFILE_NAME = 'default';
+
+// @public (read-only) a common profile that appears in sims that have 'Projector Mode' feature
+ColorProfile.PROJECTOR_COLOR_PROFILE_NAME = 'projector';
+
+export default inherit( Object, ColorProfile, {
+  /**
+   * Sends color change events as iframe messages, so that a container can be notified (and possibly update color pickers).
+   * @private
+   *
+   * @param {string} key - The color name that was changed
+   */
+  reportColor: function( key ) {
+    let hexColor = this[ key + 'Property' ].value.toNumber().toString( 16 );
+    while ( hexColor.length < 6 ) {
+      hexColor = '0' + hexColor;
+    }
+
+    ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
+      type: 'reportColor',
+      name: key,
+      value: '#' + hexColor
+    } ), '*' );
+  },
+
+  /**
+   * Does this ColorProfile has the specified color profile?
+   * @param {string} profileName
+   * @returns {boolean}
+   */
+  hasProfile( profileName ) {
+    return ( this.profileNames.indexOf( profileName ) !== -1 );
+  }
 } );

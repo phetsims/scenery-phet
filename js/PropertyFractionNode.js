@@ -5,97 +5,94 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const merge = require( 'PHET_CORE/merge' );
-  const MixedFractionNode = require( 'SCENERY_PHET/MixedFractionNode' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import merge from '../../phet-core/js/merge.js';
+import MixedFractionNode from './MixedFractionNode.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class PropertyFractionNode extends MixedFractionNode {
-    /**
-     * @param {Property.<number>} numeratorProperty
-     * @param {Property.<number>} denominatorProperty
-     * @param {Object} [options]
-     */
-    constructor( numeratorProperty, denominatorProperty, options ) {
-      options = merge( {
-        // {PropertyFractionNode.DisplayType}
-        type: PropertyFractionNode.DisplayType.IMPROPER,
+class PropertyFractionNode extends MixedFractionNode {
+  /**
+   * @param {Property.<number>} numeratorProperty
+   * @param {Property.<number>} denominatorProperty
+   * @param {Object} [options]
+   */
+  constructor( numeratorProperty, denominatorProperty, options ) {
+    options = merge( {
+      // {PropertyFractionNode.DisplayType}
+      type: PropertyFractionNode.DisplayType.IMPROPER,
 
-        // {boolean}
-        simplify: false,
+      // {boolean}
+      simplify: false,
 
-        // {boolean}
-        showZeroImproperFraction: true
-      }, options );
+      // {boolean}
+      showZeroImproperFraction: true
+    }, options );
 
-      assert && assert( PropertyFractionNode.DisplayType.includes( options.type ) );
-      assert && assert( typeof options.simplify === 'boolean' );
+    assert && assert( PropertyFractionNode.DisplayType.includes( options.type ) );
+    assert && assert( typeof options.simplify === 'boolean' );
 
-      super( options );
+    super( options );
 
-      // @private {Property.<number>}
-      this.numeratorProperty = numeratorProperty;
-      this.denominatorProperty = denominatorProperty;
+    // @private {Property.<number>}
+    this.numeratorProperty = numeratorProperty;
+    this.denominatorProperty = denominatorProperty;
 
-      // @private {function}
-      this.propertyListener = this.updateFromProperties.bind( this );
+    // @private {function}
+    this.propertyListener = this.updateFromProperties.bind( this );
 
-      // @private {PropertyFractionNode.DisplayType}
-      this.type = options.type;
+    // @private {PropertyFractionNode.DisplayType}
+    this.type = options.type;
 
-      // @private {boolean}
-      this.simplify = options.simplify;
-      this.showZeroImproperFraction = options.showZeroImproperFraction;
+    // @private {boolean}
+    this.simplify = options.simplify;
+    this.showZeroImproperFraction = options.showZeroImproperFraction;
 
-      this.numeratorProperty.lazyLink( this.propertyListener );
-      this.denominatorProperty.lazyLink( this.propertyListener );
-      this.updateFromProperties();
+    this.numeratorProperty.lazyLink( this.propertyListener );
+    this.denominatorProperty.lazyLink( this.propertyListener );
+    this.updateFromProperties();
+  }
+
+  /**
+   * Updates our display based on our Property values.
+   * @private
+   */
+  updateFromProperties() {
+    const numerator = this.numeratorProperty.value;
+    const denominator = this.denominatorProperty.value;
+
+    const hasWhole = this.type === PropertyFractionNode.DisplayType.IMPROPER || !this.simplify || numerator === 0 || numerator >= denominator;
+    const hasFraction = this.type === PropertyFractionNode.DisplayType.IMPROPER || !this.simplify || ( this.showZeroImproperFraction ? numerator > 0 : ( numerator % denominator !== 0 ) );
+
+    this.denominator = hasFraction ? denominator : null;
+
+    if ( this.type === PropertyFractionNode.DisplayType.MIXED ) {
+      this.whole = hasWhole ? Math.floor( numerator / denominator ) : null;
+      this.numerator = hasFraction ? ( numerator % denominator ) : null;
     }
-
-    /**
-     * Updates our display based on our Property values.
-     * @private
-     */
-    updateFromProperties() {
-      const numerator = this.numeratorProperty.value;
-      const denominator = this.denominatorProperty.value;
-
-      const hasWhole = this.type === PropertyFractionNode.DisplayType.IMPROPER || !this.simplify || numerator === 0 || numerator >= denominator;
-      const hasFraction = this.type === PropertyFractionNode.DisplayType.IMPROPER || !this.simplify || ( this.showZeroImproperFraction ? numerator > 0 : ( numerator % denominator !== 0 ) );
-
-      this.denominator = hasFraction ? denominator : null;
-
-      if ( this.type === PropertyFractionNode.DisplayType.MIXED ) {
-        this.whole = hasWhole ? Math.floor( numerator / denominator ) : null;
-        this.numerator = hasFraction ? ( numerator % denominator ) : null;
-      }
-      else {
-        this.numerator = numerator;
-      }
-    }
-
-    /**
-     * Releases references.
-     * @public
-     * @override
-     */
-    dispose() {
-      this.numeratorProperty.unlink( this.propertyListener );
-      this.denominatorProperty.unlink( this.propertyListener );
-
-      super.dispose();
+    else {
+      this.numerator = numerator;
     }
   }
 
-  // @public {Enumeration}
-  PropertyFractionNode.DisplayType = Enumeration.byKeys( [
-    'IMPROPER', // e.g. 3/2
-    'MIXED' // e.g. 1 1/2
-  ] );
+  /**
+   * Releases references.
+   * @public
+   * @override
+   */
+  dispose() {
+    this.numeratorProperty.unlink( this.propertyListener );
+    this.denominatorProperty.unlink( this.propertyListener );
 
-  return sceneryPhet.register( 'PropertyFractionNode', PropertyFractionNode );
-} );
+    super.dispose();
+  }
+}
+
+// @public {Enumeration}
+PropertyFractionNode.DisplayType = Enumeration.byKeys( [
+  'IMPROPER', // e.g. 3/2
+  'MIXED' // e.g. 1 1/2
+] );
+
+sceneryPhet.register( 'PropertyFractionNode', PropertyFractionNode );
+export default PropertyFractionNode;

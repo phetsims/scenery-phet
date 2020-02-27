@@ -7,46 +7,43 @@
  * @author John Blanco
  * @author Sam Reid
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import ArrowShape from '../ArrowShape.js';
+import PhetColorScheme from '../PhetColorScheme.js';
+import sceneryPhet from '../sceneryPhet.js';
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function BackButton( options ) {
-    options = merge( {
+/**
+ * @param {Object} [options]
+ * @constructor
+ */
+function BackButton( options ) {
+  options = merge( {
 
-      // Default margin values were set up to make this button match the size of the refresh button, since these
-      // buttons often appear together.  See see https://github.com/phetsims/scenery-phet/issues/44.
-      xMargin: 8,
-      yMargin: 10.9,
+    // Default margin values were set up to make this button match the size of the refresh button, since these
+    // buttons often appear together.  See see https://github.com/phetsims/scenery-phet/issues/44.
+    xMargin: 8,
+    yMargin: 10.9,
 
-      baseColor: PhetColorScheme.BUTTON_YELLOW
+    baseColor: PhetColorScheme.BUTTON_YELLOW
 
-    }, options );
+  }, options );
 
-    const arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
-      tailWidth: 8,
-      headWidth: 18,
-      headHeight: 15
-    } );
+  const arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
+    tailWidth: 8,
+    headWidth: 18,
+    headHeight: 15
+  } );
 
-    RectangularPushButton.call( this, merge( {
-      content: new Path( arrowShape, { fill: 'black' } )
-    }, options ) );
-  }
+  RectangularPushButton.call( this, merge( {
+    content: new Path( arrowShape, { fill: 'black' } )
+  }, options ) );
+}
 
-  sceneryPhet.register( 'BackButton', BackButton );
+sceneryPhet.register( 'BackButton', BackButton );
 
-  return inherit( RectangularPushButton, BackButton );
-} );
+inherit( RectangularPushButton, BackButton );
+export default BackButton;

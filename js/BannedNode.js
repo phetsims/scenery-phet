@@ -7,53 +7,49 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Circle = require( 'SCENERY/nodes/Circle' );
-  const Line = require( 'SCENERY/nodes/Line' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import merge from '../../phet-core/js/merge.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Line from '../../scenery/js/nodes/Line.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class BannedNode extends Node {
+class BannedNode extends Node {
 
-    /**
-     * @param {Object} [options]
-     * @constructor
-     */
-    constructor( options ) {
+  /**
+   * @param {Object} [options]
+   * @constructor
+   */
+  constructor( options ) {
 
-      options = merge( {
-        radius: 20,
-        lineWidth: 5,
-        stroke: 'red',
-        fill: null
-      }, options );
+    options = merge( {
+      radius: 20,
+      lineWidth: 5,
+      stroke: 'red',
+      fill: null
+    }, options );
 
-      const circleNode = new Circle( options.radius, {
-        lineWidth: options.lineWidth,
-        stroke: options.stroke,
-        fill: options.fill
-      } );
+    const circleNode = new Circle( options.radius, {
+      lineWidth: options.lineWidth,
+      stroke: options.stroke,
+      fill: options.fill
+    } );
 
-      const slashNode = new Line( 0, 0, 2 * options.radius, 0, {
-        lineWidth: options.lineWidth,
-        stroke: options.stroke,
-        rotation: Math.PI / 4,
-        center: circleNode.center
-      } );
+    const slashNode = new Line( 0, 0, 2 * options.radius, 0, {
+      lineWidth: options.lineWidth,
+      stroke: options.stroke,
+      rotation: Math.PI / 4,
+      center: circleNode.center
+    } );
 
-      assert && assert( !options.children, 'decoration not supported' );
+    assert && assert( !options.children, 'decoration not supported' );
 
-      options.children = [ circleNode, slashNode ];
+    options.children = [ circleNode, slashNode ];
 
-      super( options );
-    }
+    super( options );
   }
+}
 
-  sceneryPhet.register( 'BannedNode', BannedNode );
+sceneryPhet.register( 'BannedNode', BannedNode );
 
-  return BannedNode;
-} );
+export default BannedNode;

@@ -6,22 +6,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import sceneryPhet from './sceneryPhet.js';
+import WavelengthSlider from './WavelengthSlider.js';
 
-  class WavelengthSliderIO extends NodeIO {}
+class WavelengthSliderIO extends NodeIO {}
 
-  WavelengthSliderIO.documentation = 'A slider that shows wavelengths for selection';
-  WavelengthSliderIO.validator = { valueType: WavelengthSlider };
-  WavelengthSliderIO.typeName = 'WavelengthSliderIO';
-  ObjectIO.validateSubtype( WavelengthSliderIO );
+WavelengthSliderIO.documentation = 'A slider that shows wavelengths for selection';
+WavelengthSliderIO.validator = { valueType: WavelengthSlider };
+WavelengthSliderIO.typeName = 'WavelengthSliderIO';
+ObjectIO.validateSubtype( WavelengthSliderIO );
 
-  return sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
-} );
-
+sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
+export default WavelengthSliderIO;

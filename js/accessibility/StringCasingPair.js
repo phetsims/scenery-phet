@@ -5,28 +5,24 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import sceneryPhet from '../sceneryPhet.js';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+class StringCasingPair {
 
-  class StringCasingPair {
+  /**
+   * @param {string} lowercase
+   * @param {string} capitalized
+   */
+  constructor( lowercase, capitalized ) {
 
-    /**
-     * @param {string} lowercase
-     * @param {string} capitalized
-     */
-    constructor( lowercase, capitalized ) {
+    assert && assert( typeof lowercase === 'string' );
+    assert && assert( typeof capitalized === 'string' );
 
-      assert && assert( typeof lowercase === 'string' );
-      assert && assert( typeof capitalized === 'string' );
-
-      // @public (read-only)
-      this.lowercase = lowercase;
-      this.capitalized = capitalized;
-    }
+    // @public (read-only)
+    this.lowercase = lowercase;
+    this.capitalized = capitalized;
   }
+}
 
-  return sceneryPhet.register( 'StringCasingPair', StringCasingPair );
-} );
+sceneryPhet.register( 'StringCasingPair', StringCasingPair );
+export default StringCasingPair;

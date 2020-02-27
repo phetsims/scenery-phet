@@ -10,41 +10,38 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Font = require( 'SCENERY/util/Font' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Font from '../../scenery/js/util/Font.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  /**
-   * @param {number|string|Object} [options] number or string indicate the font size, otherwise same options as scenery.Font
-   * @constructor
-   */
-  function PhetFont( options ) {
+/**
+ * @param {number|string|Object} [options] number or string indicate the font size, otherwise same options as scenery.Font
+ * @constructor
+ */
+function PhetFont( options ) {
 
-    assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
+  assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
 
-    // convenience constructor: new PhetFont( {number|string} size )
-    if ( typeof options === 'number' || typeof options === 'string' ) {
-      options = { size: options };
-    }
-
-    // PhET defaults
-    options = merge( {
-      family: 'Arial'
-    }, options );
-
-    // Guarantee a fallback family
-    assert && assert( options.family );
-    options.family = options.family + ', sans-serif';
-
-    Font.call( this, options );
+  // convenience constructor: new PhetFont( {number|string} size )
+  if ( typeof options === 'number' || typeof options === 'string' ) {
+    options = { size: options };
   }
 
-  sceneryPhet.register( 'PhetFont', PhetFont );
+  // PhET defaults
+  options = merge( {
+    family: 'Arial'
+  }, options );
 
-  return inherit( Font, PhetFont );
-} );
+  // Guarantee a fallback family
+  assert && assert( options.family );
+  options.family = options.family + ', sans-serif';
+
+  Font.call( this, options );
+}
+
+sceneryPhet.register( 'PhetFont', PhetFont );
+
+inherit( Font, PhetFont );
+export default PhetFont;

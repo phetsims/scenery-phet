@@ -2,31 +2,27 @@
 
 /**
  * Node that is meant to represent the 'End' key on a keyboard.
- * 
+ *
  * @author Michael Barlow
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // strings
-  const keyEndString = require( 'string!SCENERY_PHET/key.end' );
+const keyEndString = sceneryPhetStrings.key.end;
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function EndKeyNode( options ) {
-    TextKeyNode.call( this, keyEndString, options );
-  }
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function EndKeyNode( options ) {
+  TextKeyNode.call( this, keyEndString, options );
+}
 
-  sceneryPhet.register( 'EndKeyNode', EndKeyNode );
+sceneryPhet.register( 'EndKeyNode', EndKeyNode );
 
-  return inherit( TextKeyNode, EndKeyNode );
-
-} );
+inherit( TextKeyNode, EndKeyNode );
+export default EndKeyNode;

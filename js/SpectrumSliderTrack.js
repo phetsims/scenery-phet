@@ -5,45 +5,42 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SliderTrack = require( 'SUN/SliderTrack' );
-  const SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+import Dimension2 from '../../dot/js/Dimension2.js';
+import merge from '../../phet-core/js/merge.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import SliderTrack from '../../sun/js/SliderTrack.js';
+import sceneryPhet from './sceneryPhet.js';
+import SpectrumNode from './SpectrumNode.js';
 
-  class SpectrumSliderTrack extends SliderTrack {
+class SpectrumSliderTrack extends SliderTrack {
 
-    /**
-     * @param {Property.<number>} property
-     * @param {Range} range
-     * @param {Object} [options]
-     */
-    constructor( property, range, options ) {
-      options = merge( {
-        size: new Dimension2( 150, 30 ),
-        valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
-      }, options );
+  /**
+   * @param {Property.<number>} property
+   * @param {Range} range
+   * @param {Object} [options]
+   */
+  constructor( property, range, options ) {
+    options = merge( {
+      size: new Dimension2( 150, 30 ),
+      valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
+    }, options );
 
-      const spectrumNode = new SpectrumNode( {
-        minValue: range.min,
-        maxValue: range.max,
-        size: options.size,
-        valueToColor: options.valueToColor
-      } );
+    const spectrumNode = new SpectrumNode( {
+      minValue: range.min,
+      maxValue: range.max,
+      size: options.size,
+      valueToColor: options.valueToColor
+    } );
 
-      // Show a thin black stroke around the border
-      spectrumNode.addChild( new Rectangle( 0, 0, spectrumNode.width, spectrumNode.height, {
-        stroke: 'black',
-        lineWidth: 1
-      } ) );
-      super( spectrumNode, property, range, options );
-    }
+    // Show a thin black stroke around the border
+    spectrumNode.addChild( new Rectangle( 0, 0, spectrumNode.width, spectrumNode.height, {
+      stroke: 'black',
+      lineWidth: 1
+    } ) );
+    super( spectrumNode, property, range, options );
   }
+}
 
-  return sceneryPhet.register( 'SpectrumSliderTrack', SpectrumSliderTrack );
-} );
+sceneryPhet.register( 'SpectrumSliderTrack', SpectrumSliderTrack );
+export default SpectrumSliderTrack;

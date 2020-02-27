@@ -2,31 +2,27 @@
 
 /**
  * Node that looks like a 'Page Down' key on a keyboard.
- * 
+ *
  * @author Michael Barlow
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+import inherit from '../../../phet-core/js/inherit.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhet from '../sceneryPhet.js';
+import TextKeyNode from './TextKeyNode.js';
 
-  // strings
-  const keyPageDownString = require( 'string!SCENERY_PHET/key.pageDown' );
+const keyPageDownString = sceneryPhetStrings.key.pageDown;
 
-  /**
-   * Constructor.
-   * 
-   * @param {Object} [options]
-   */
-  function PageDownKeyNode( options ) {
-    TextKeyNode.call( this, keyPageDownString, options );
-  }
+/**
+ * Constructor.
+ *
+ * @param {Object} [options]
+ */
+function PageDownKeyNode( options ) {
+  TextKeyNode.call( this, keyPageDownString, options );
+}
 
-  sceneryPhet.register( 'PageDownKeyNode', PageDownKeyNode );
+sceneryPhet.register( 'PageDownKeyNode', PageDownKeyNode );
 
-  return inherit( TextKeyNode, PageDownKeyNode );
-
-} );
+inherit( TextKeyNode, PageDownKeyNode );
+export default PageDownKeyNode;

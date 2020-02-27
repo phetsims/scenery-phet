@@ -5,63 +5,60 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Circle = require( 'SCENERY/nodes/Circle' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const InstanceRegistry = require( 'PHET_CORE/documentation/InstanceRegistry' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import RadialGradient from '../../scenery/js/util/RadialGradient.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  // constants
-  const RADIUS = 10;
+// constants
+const RADIUS = 10;
 
-  /**
-   * @constructor
-   */
-  function ElectronChargeNode( options ) {
+/**
+ * @constructor
+ */
+function ElectronChargeNode( options ) {
 
-    // No options supported yet
-    options = merge( {
+  // No options supported yet
+  options = merge( {
 
-      // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
-      sphereOpacity: 1,
-      minusSignOpacity: 1
+    // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
+    sphereOpacity: 1,
+    minusSignOpacity: 1
 
-    }, options );
-    options.children = [
+  }, options );
+  options.children = [
 
-      // The blue shaded sphere
-      new Circle( RADIUS, {
-        opacity: options.sphereOpacity,
-        fill: new RadialGradient(
-          2, -3, 2,
-          2, -3, 7 )
-          .addColorStop( 0, '#4fcfff' )
-          .addColorStop( 0.5, '#2cbef5' )
-          .addColorStop( 1, '#00a9e8' )
-      } ),
+    // The blue shaded sphere
+    new Circle( RADIUS, {
+      opacity: options.sphereOpacity,
+      fill: new RadialGradient(
+        2, -3, 2,
+        2, -3, 7 )
+        .addColorStop( 0, '#4fcfff' )
+        .addColorStop( 0.5, '#2cbef5' )
+        .addColorStop( 1, '#00a9e8' )
+    } ),
 
-      // Minus sign, intentionally not internationalized
-      new Rectangle( 0, 0, 11, 2, {
-        opacity: options.minusSignOpacity,
-        fill: 'white',
-        centerX: 0,
-        centerY: 0
-      } )
-    ];
-    Node.call( this, options );
+    // Minus sign, intentionally not internationalized
+    new Rectangle( 0, 0, 11, 2, {
+      opacity: options.minusSignOpacity,
+      fill: 'white',
+      centerX: 0,
+      centerY: 0
+    } )
+  ];
+  Node.call( this, options );
 
-    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ElectronChargeNode', this );
-  }
+  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ElectronChargeNode', this );
+}
 
-  sceneryPhet.register( 'ElectronChargeNode', ElectronChargeNode );
+sceneryPhet.register( 'ElectronChargeNode', ElectronChargeNode );
 
-  return inherit( Node, ElectronChargeNode );
-} );
+inherit( Node, ElectronChargeNode );
+export default ElectronChargeNode;

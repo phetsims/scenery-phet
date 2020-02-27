@@ -9,27 +9,23 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
-  // modules
-  const AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
+// A11y strings
+const playAreaString = SceneryPhetA11yStrings.playArea.value;
 
-  // A11y strings
-  const playAreaString = SceneryPhetA11yStrings.playArea.value;
+/**
+ * @constructor
+ * @param {Object} [options]
+ */
+function PlayAreaNode( options ) {
+  AccessibleSectionNode.call( this, playAreaString, options );
+}
 
-  /**
-   * @constructor
-   * @param {Object} [options]
-   */
-  function PlayAreaNode( options ) {
-    AccessibleSectionNode.call( this, playAreaString, options );
-  }
+sceneryPhet.register( 'PlayAreaNode', PlayAreaNode );
 
-  sceneryPhet.register( 'PlayAreaNode', PlayAreaNode );
-
-  return inherit( AccessibleSectionNode, PlayAreaNode );
-} );
+inherit( AccessibleSectionNode, PlayAreaNode );
+export default PlayAreaNode;

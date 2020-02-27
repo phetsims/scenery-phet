@@ -11,61 +11,56 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+// a11y strings
+const screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
+const screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
+const screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
 
-  // a11y strings
-  const screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
-  const screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
-  const screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
+/**
+ * @constructor
+ */
+function ScreenSummaryNode() {
+
+  Node.call( this );
+
+  // @private
+  this.openingSummaryNode = new Node( { tagName: 'p' } );
+
+  const keyboardShortcutsHint = new Node( {
+    tagName: 'p',
+    innerContent: screenSummaryKeyboardShortcutsHintString
+  } );
+
+  this.addChild( this.openingSummaryNode );
+  this.addChild( keyboardShortcutsHint );
+
+  // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
+  this.accessibleOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
+}
+
+sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
+
+export default inherit( Node, ScreenSummaryNode, {
 
   /**
-   * @constructor
+   * The sim name and numberOfScreens in the simulation is not known in the constructor, so the intro string can
+   * filled in later on during initialization.
+   * @param {string} simName
+   * @param {number} numberOfScreens
+   * @public
    */
-  function ScreenSummaryNode() {
+  setIntroString: function( simName, numberOfScreens ) {
 
-    Node.call( this );
-
-    // @private
-    this.openingSummaryNode = new Node( { tagName: 'p' } );
-
-    const keyboardShortcutsHint = new Node( {
-      tagName: 'p',
-      innerContent: screenSummaryKeyboardShortcutsHintString
-    } );
-
-    this.addChild( this.openingSummaryNode );
-    this.addChild( keyboardShortcutsHint );
-
-    // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
-    this.accessibleOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
+    // different default string depending on if there are multiple screens
+    this.openingSummaryNode.innerContent = numberOfScreens > 1 ? screenSummaryMultiScreenIntroString :
+                                           StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, {
+                                             sim: simName
+                                           } );
   }
-
-  sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
-
-  return inherit( Node, ScreenSummaryNode, {
-
-    /**
-     * The sim name and numberOfScreens in the simulation is not known in the constructor, so the intro string can
-     * filled in later on during initialization.
-     * @param {string} simName
-     * @param {number} numberOfScreens
-     * @public
-     */
-    setIntroString: function( simName, numberOfScreens ) {
-
-      // different default string depending on if there are multiple screens
-      this.openingSummaryNode.innerContent = numberOfScreens > 1 ? screenSummaryMultiScreenIntroString :
-                                             StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, {
-                                               sim: simName
-                                             } );
-    }
-  } );
 } );

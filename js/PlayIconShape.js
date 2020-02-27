@@ -5,29 +5,26 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../kite/js/Shape.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class PlayIconShape extends Shape {
+class PlayIconShape extends Shape {
 
-    /**
-     * @param {number} width
-     * @param {number} height
-     */
-    constructor( width, height ) {
-      super();
+  /**
+   * @param {number} width
+   * @param {number} height
+   */
+  constructor( width, height ) {
+    super();
 
-      // triangle that points to the right
-      this.moveTo( 0, 0 );
-      this.lineTo( width, height / 2 );
-      this.lineTo( 0, height );
-      this.close();
-    }
+    // triangle that points to the right
+    this.moveTo( 0, 0 );
+    this.lineTo( width, height / 2 );
+    this.lineTo( 0, height );
+    this.close();
   }
+}
 
-  return sceneryPhet.register( 'PlayIconShape', PlayIconShape );
-} );
+sceneryPhet.register( 'PlayIconShape', PlayIconShape );
+export default PlayIconShape;

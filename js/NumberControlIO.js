@@ -6,20 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const NodeIO = require( 'SCENERY/nodes/NodeIO' );
-  const sceneryPhet = require( 'SCENERY_PHET/sceneryPhet' );
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import sceneryPhet from './sceneryPhet.js';
 
-  class NumberControlIO extends NodeIO {}
+class NumberControlIO extends NodeIO {}
 
-  NumberControlIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberControl };
-  NumberControlIO.documentation = 'A number control with a title, slider and +/- buttons';
-  NumberControlIO.typeName = 'NumberControlIO';
-  ObjectIO.validateSubtype( NumberControlIO );
+NumberControlIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberControl };
+NumberControlIO.documentation = 'A number control with a title, slider and +/- buttons';
+NumberControlIO.typeName = 'NumberControlIO';
+ObjectIO.validateSubtype( NumberControlIO );
 
-  return sceneryPhet.register( 'NumberControlIO', NumberControlIO );
-} );
+sceneryPhet.register( 'NumberControlIO', NumberControlIO );
+export default NumberControlIO;
