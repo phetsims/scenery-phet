@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * The lovechild of a ComboBox and a NumberDisplay. Allows the user to choose one of N dynamic numeric values.

@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * DragBoundsProperty derives drag bounds that will keep an entire Node inside the visible bounds of a ScreenView.

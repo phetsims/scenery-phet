@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * An enum that defines the keys supported by the common-code keypad. If a new type of key is needed, it must be added

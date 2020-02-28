@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * DebugLoggerNode is a node that can be added as a child to the view and can show debug log messages.  This is most

@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * Button for returning to the level selection screen, which shows a "back" arrow, i.e., an arrow pointing to the left.

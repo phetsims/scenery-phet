@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * An HBox with content for a KeyboardHelpDialog. Most KeyboardHelpDialogs have two columns of
