@@ -304,6 +304,12 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   };
   options.interactiveProperty.link( interactiveObserver );
 
+  // Add a link to flowRateProperty, to make it easier to find in Studio.
+  // See https://github.com/phetsims/ph-scale/issues/123
+  this.addLinkedElement( flowRateProperty, {
+    tandem: options.tandem.createTandem( 'flowRateProperty' )
+  } );
+
   // @private called by dispose
   this.disposeFaucetNode = function() {
 
