@@ -7,7 +7,7 @@
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"/>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="phet-sim-level" content="development">
-  
+
   <title>scenery-phet</title>
 </head>
 
@@ -19,30 +19,65 @@
 
   window.phet = window.phet || {};
   window.phet.chipper = window.phet.chipper || {};
-  window.phet.chipper.packageObject = {
-    "name": "scenery-phet",
-    "version": "1.0.0-dev.18",
-    "license": "MIT",
-    "repository": { "type": "git", "url": "https://github.com/phetsims/scenery-phet.git" },
-    "devDependencies": { "grunt": "~1.0.0" },
-    "phet": {
-      "generatedUnitTests": true,
-      "requirejsNamespace": "SCENERY_PHET",
-      "preload": [ "../sherpa/lib/katex-0.11.0-css-all.js", "../sherpa/lib/katex-0.11.0.min.js" ],
-      "phetLibs": [ "twixt" ],
-      "runnable": true,
-      "accessible": true,
-      "supportedBrands": [ "phet", "adapted-from-phet" ]
-    },
-    "eslintConfig": { "extends": "../chipper/eslint/sim_eslintrc.js", "globals": { "katex": false } }
-  };
-  window.phet.chipper.stringRepos = [ { "repo": "joist", "requirejsNamespace": "JOIST" }, {
-    "repo": "scenery-phet",
-    "requirejsNamespace": "SCENERY_PHET"
-  }, { "repo": "sun", "requirejsNamespace": "SUN" }, {
-    "repo": "tambo",
-    "requirejsNamespace": "TAMBO"
-  }, { "repo": "twixt", "requirejsNamespace": "TWIXT" } ];
+  window.phet.chipper.packageObject =
+    {
+      "name": "scenery-phet",
+      "version": "1.0.0-dev.18",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/phetsims/scenery-phet.git"
+      },
+      "devDependencies": {
+        "grunt": "~1.0.0"
+      },
+      "phet": {
+        "generatedUnitTests": true,
+        "requirejsNamespace": "SCENERY_PHET",
+        "preload": [
+          "../sherpa/lib/katex-0.11.0-css-all.js",
+          "../sherpa/lib/katex-0.11.0.min.js"
+        ],
+        "phetLibs": [
+          "twixt"
+        ],
+        "runnable": true,
+        "accessible": true,
+        "supportedBrands": [
+          "phet",
+          "adapted-from-phet"
+        ]
+      },
+      "eslintConfig": {
+        "extends": "../chipper/eslint/sim_eslintrc.js",
+        "globals": {
+          "katex": false
+        }
+      }
+    };
+  window.phet.chipper.stringRepos =
+    [
+      {
+        "repo": "joist",
+        "requirejsNamespace": "JOIST"
+      },
+      {
+        "repo": "scenery-phet",
+        "requirejsNamespace": "SCENERY_PHET"
+      },
+      {
+        "repo": "sun",
+        "requirejsNamespace": "SUN"
+      },
+      {
+        "repo": "tambo",
+        "requirejsNamespace": "TAMBO"
+      },
+      {
+        "repo": "twixt",
+        "requirejsNamespace": "TWIXT"
+      }
+    ];
 
   // Identify the brand (assume generated brand if not provided with query parameters)
   const brandMatch = location.search.match( /brand=([^&]+)/ );
