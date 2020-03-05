@@ -468,7 +468,7 @@ define( require => {
 
         // this node is aria-describedby its own description content, so that the description is read automatically
         // when found by the user
-        this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+        !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) && this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
       else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
         this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );

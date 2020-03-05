@@ -11,6 +11,8 @@
  * ...and then logging is accomplished by calling the logger like this:
  *   phet.debugLoggerNode.log( 'my insightful message' );
  *
+ * Tip from MK - start by puting the above line in assert.js
+ *
  * @author John Blanco (PhET Interactive Simulations)
  */
 define( require => {
