@@ -84,34 +84,34 @@ class FineCoarseSpinner extends Node {
     } );
 
     // <
-    const leftFineButton = new ArrowButton( 'left', function() {
+    const decrementFineButton = new ArrowButton( 'left', function() {
       valueProperty.value = valueProperty.value - options.deltaFine;
-    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'leftFineButton' ) } ) );
+    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
-    const leftCoarseButton = new ArrowButton( 'left', function() {
+    const decrementCoarseButton = new ArrowButton( 'left', function() {
       const delta = Math.min( options.deltaCoarse, valueProperty.value - options.range.min );
       valueProperty.value = valueProperty.value - delta;
-    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'leftCoarseButton' ) } ) );
+    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
 
     // [ value ]
     const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
 
     // >
-    const rightFineButton = new ArrowButton( 'right', function() {
+    const incrementFineButton = new ArrowButton( 'right', function() {
       valueProperty.value = valueProperty.value + options.deltaFine;
-    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'rightFineButton' ) } ) );
+    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
-    const rightCoarseButton = new ArrowButton( 'right', function() {
+    const incrementCoarseButton = new ArrowButton( 'right', function() {
       const delta = Math.min( options.deltaCoarse, options.range.max - valueProperty.value );
       valueProperty.value = valueProperty.value + delta;
-    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'rightCoarseButton' ) } ) );
+    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
     const layoutBox = new HBox( {
       spacing: options.spacing,
-      children: [ leftFineButton, leftCoarseButton, numberDisplay, rightCoarseButton, rightFineButton ]
+      children: [ decrementFineButton, decrementCoarseButton, numberDisplay, incrementCoarseButton, incrementFineButton ]
     } );
 
     // Wrap in Node to hide HBox API.
@@ -133,10 +133,10 @@ class FineCoarseSpinner extends Node {
     const valuePropertyListener = value => {
 
       // left buttons
-      leftFineButton.enabled = leftCoarseButton.enabled = ( value !== options.range.min );
+      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== options.range.min );
 
       // right buttons
-      rightFineButton.enabled = rightCoarseButton.enabled = ( value !== options.range.max );
+      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== options.range.max );
     };
     valueProperty.link( valuePropertyListener ); // unlink required in dispose
 
@@ -156,10 +156,10 @@ class FineCoarseSpinner extends Node {
 
       // unregister tandems
       numberDisplay.dispose();
-      leftFineButton.dispose();
-      leftCoarseButton.dispose();
-      rightFineButton.dispose();
-      rightCoarseButton.dispose();
+      decrementFineButton.dispose();
+      decrementCoarseButton.dispose();
+      incrementFineButton.dispose();
+      incrementCoarseButton.dispose();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
