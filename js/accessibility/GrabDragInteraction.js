@@ -468,7 +468,7 @@ define( require => {
 
         // this node is aria-describedby its own description content, so that the description is read automatically
         // when found by the user
-        !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) && this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+        this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
       else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
         this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
@@ -606,9 +606,12 @@ define( require => {
      */
     reset() {
 
+      // handle multi-touch case where reset button is called when draggable is being moved
+      this.node.interruptInput();
+
       // reset numberOfGrabs for turnToGrabbable
       this.numberOfGrabs = 0;
-      this.turnToGrabbable();
+      !this.grabbable && this.turnToGrabbable();
 
       // turnToGrabbable will increment this, so reset it again
       this.numberOfGrabs = 0;
