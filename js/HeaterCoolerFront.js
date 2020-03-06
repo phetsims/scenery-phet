@@ -176,12 +176,7 @@ class HeaterCoolerFront extends Node {
     this.addChild( stoveBody );
     this.addChild( this.slider );
 
-    this.mutate( merge( {}, options, {
-
-      // Do not propagate options.tandem to super, because we want to hide the specifics of HeaterCoolerFront.
-      // See https://github.com/phetsims/scenery-phet/issues/579
-      tandem: Tandem.OPTIONAL
-    } ) );
+    this.mutate( options );
 
     // update the back component if provided
     if ( options.heaterCoolerBack ) {

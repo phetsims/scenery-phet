@@ -77,7 +77,13 @@ class HeaterCoolerNode extends Node {
     assert && assert( !options.children, 'HeaterCoolerNode sets children' );
     options.children = [ heaterCoolerBack, heaterCoolerFront ];
 
-    super.mutate( options );
+    super.mutate( merge( {}, options, {
+
+      // Do not propagate options.tandem to super because HeaterCoolerFront is the only part of HeaterCoolerNode that's
+      // instrumented, so it will pass the same Tandem to super instead.
+      // See https://github.com/phetsims/scenery-phet/issues/579
+      tandem: Tandem.OPTIONAL
+    } ) );
 
     // @public Dispose function used for GC
     this.disposeHeaterCoolerNode = function() {
