@@ -56,7 +56,10 @@ const releasedString = SceneryPhetA11yStrings.released.value;
 
 // constants
 // wrap in a function because phet.joist.sim doesn't exist at RequireJS time
-const supportsGestureA11y = () => phet.joist.sim && phet.joist.sim.supportsGestureA11y;
+const supportsGestureA11y = () => {
+  assert && assert( phet.joist && phet.joist.sim && typeof phet.joist.sim.supportsGestureA11y === 'boolean', 'boolean expected' );
+  return phet.joist.sim.supportsGestureA11y;
+};
 
 class GrabDragInteraction {
 
@@ -118,7 +121,7 @@ class GrabDragInteraction {
       // sibling and the primary sibling, only when grabbable. By default this should only be done when supporting
       // gesture accessibility before two success grabs. This function is called with one parameters: the number of
       // successful grabs that has occurred thus far.
-      addAriaDescribedbyPredicate: numberOfGrabs => ( phet.joist.sim && phet.joist.sim.supportsGestureA11y ) && numberOfGrabs < 2,
+      addAriaDescribedbyPredicate: numberOfGrabs => supportsGestureA11y() && numberOfGrabs < 2,
 
       // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
       // runtime is supporting gesture accessibility. Even though "technically" there is no way to access the
