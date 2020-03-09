@@ -8,10 +8,13 @@
  */
 
 import CallbackTimer from '../../../axon/js/CallbackTimer.js';
+import deprecationWarning from '../../../phet-core/js/deprecationWarning.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import DownUpListener from '../../../scenery/js/input/DownUpListener.js';
 import sceneryPhet from '../sceneryPhet.js';
+
+assert && deprecationWarning( 'FireOnHoldInputListener is deprecated, please use FireListener instead' );
 
 /**
  * @param {Object} [options]
