@@ -146,6 +146,9 @@
   "wavelengthNMValuePattern": {
     "value": "{0} nm"
   },
+  "measuringTapeReadoutPattern": {
+    "value": "{{distance}} {{units}}"
+  },
   "wavelength": {
     "value": "Wavelength"
   },

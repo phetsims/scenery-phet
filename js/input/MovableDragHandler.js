@@ -9,12 +9,15 @@
  */
 
 import Bounds2 from '../../../dot/js/Bounds2.js';
+import deprecationWarning from '../../../phet-core/js/deprecationWarning.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
+
+assert && deprecationWarning( 'MovableDragHandler is deprecated, please use DragListener instead' );
 
 /**
  * @param {Property.<Vector2>} positionProperty - in model coordinate frame

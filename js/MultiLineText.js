@@ -12,10 +12,13 @@
  * @deprecated - this has been supplanted by SCENERY/nodes/RichText
  */
 
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import merge from '../../phet-core/js/merge.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+
+assert && deprecationWarning( 'MultiLineText is deprecated, please use RichText instead' );
 
 class MultiLineText extends RichText {
 
