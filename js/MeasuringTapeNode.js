@@ -22,6 +22,7 @@ import Vector2Property from '../../dot/js/Vector2Property.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
+import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
@@ -33,8 +34,10 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 import measuringTapeImage from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
+import sceneryPhetStrings from './scenery-phet-strings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class MeasuringTapeNode extends Node {
@@ -99,7 +102,7 @@ class MeasuringTapeNode extends Node {
     this.significantFigures = options.significantFigures; // @private
     this.unitsProperty = unitsProperty; // @private
     this._dragBounds = options.dragBounds; // @private
-    this._modelViewTransform = options.modelViewTransform; // @private
+    this.modelViewTransformProperty = new Property( options.modelViewTransform ); // @private
     this.isTipDragBounded = options.isTipDragBounded; //@private
     this.basePositionProperty = options.basePositionProperty;
     this.tipPositionProperty = options.tipPositionProperty;
@@ -114,6 +117,7 @@ class MeasuringTapeNode extends Node {
       [ this.basePositionProperty, this.tipPositionProperty ],
       ( basePosition, tipPosition ) => basePosition.distance( tipPosition ), {
         tandem: options.tandem.createTandem( 'measuredDistanceProperty' ),
+        phetioDocumentation: 'The distance measured by the measuring tape',
         phetioType: DerivedPropertyIO( NumberIO ),
         units: this.basePositionProperty.units
       } );
@@ -152,8 +156,22 @@ class MeasuringTapeNode extends Node {
     // add tipCrosshair and tipCircle to the tip
     const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
+    const readoutTextProperty = new DerivedProperty(
+      [ this.unitsProperty, this.measuredDistanceProperty ],
+      ( units, measuredDistance ) => {
+        const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
+        return StringUtils.fillIn( sceneryPhetStrings.measuringTapeReadoutPattern, {
+          distance: distance,
+          units: units.name
+        } );
+      }, {
+        tandem: options.tandem.createTandem( 'readoutTextProperty' ),
+        phetioType: DerivedPropertyIO( StringIO ),
+        phetioDocumentation: 'The text content of the readout on the measuring tape'
+      } );
+
     // @private
-    this.valueNode = new Text( this.getText(), {
+    this.valueNode = new Text( readoutTextProperty.value, {
       font: options.textFont,
       fill: options.textColor,
       maxWidth: options.textMaxWidth
@@ -207,13 +225,13 @@ class MeasuringTapeNode extends Node {
         start: ( event, trail ) => {
           options.baseDragStarted();
           this._isBaseUserControlledProperty.set( true );
-          const position = this._modelViewTransform.modelToViewPosition( this.basePositionProperty.value );
+          const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
           baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
         },
 
         drag: event => {
           const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
-          const unconstrainedBasePosition = this._modelViewTransform.viewToModelPosition( parentPoint );
+          const unconstrainedBasePosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
           const constrainedBasePosition = this._dragBounds.closestPointTo( unconstrainedBasePosition );
 
           // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
@@ -259,13 +277,13 @@ class MeasuringTapeNode extends Node {
 
       start: ( event, trail ) => {
         this._isTipUserControlledProperty.set( true );
-        const position = this._modelViewTransform.modelToViewPosition( this.tipPositionProperty.value );
+        const position = this.modelViewTransformProperty.value.modelToViewPosition( this.tipPositionProperty.value );
         tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
       },
 
       drag: event => {
         const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
-        const unconstrainedTipPosition = this._modelViewTransform.viewToModelPosition( parentPoint );
+        const unconstrainedTipPosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
           const constrainedTipPosition = this._dragBounds.closestPointTo( unconstrainedTipPosition );
@@ -282,72 +300,66 @@ class MeasuringTapeNode extends Node {
       }
     } ) );
 
-    /**
-     * Update the scenery nodes of the measuring tape such as crosshair, tip, valueNode, tapeLine, baseImage
-     * based on the position of the base and tip of the measuring tape
-     * @private
-     */
-    this.updatePosition = () => {
-
-      const viewTipPosition = this._modelViewTransform.modelToViewPosition( this.tipPositionProperty.value );
-      const viewBasePosition = this._modelViewTransform.modelToViewPosition( this.basePositionProperty.value );
-
-      // calculate the orientation and change of orientation of the Measuring tape
-      const oldAngle = this.baseImage.getRotation();
-      const angle = Math.atan2( viewTipPosition.y - viewBasePosition.y, viewTipPosition.x - viewBasePosition.x );
-      const deltaAngle = angle - oldAngle;
-
-      // set position of the tip and the base crosshair
-      baseCrosshair.center = viewBasePosition;
-      tip.center = viewTipPosition;
-
-      // in order to avoid all kind of geometrical issues with position,
-      // let's reset the baseImage upright and then set its position and rotation
-      this.baseImage.setRotation( 0 );
-      this.baseImage.rightBottom = viewBasePosition;
-      this.baseImage.rotateAround( this.baseImage.rightBottom, angle );
+    // set Text on on valueNode
+    const updateTextReadout = text => {
+      this.valueNode.setText( text );
 
       // reset the text
-      // this.tipToBaseDistance = tipPosition.distance( basePosition );
-      this.valueNode.setText( this.getText() );
       this.valueNode.centerTop = this.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
-
-      // reposition the tapeline
-      tapeLine.setLine( viewBasePosition.x, viewBasePosition.y, viewTipPosition.x, viewTipPosition.y );
-
-      // rotate the crosshairs
-      if ( options.isTipCrosshairRotating ) {
-        tip.rotateAround( viewTipPosition, deltaAngle );
-      }
-      if ( options.isBaseCrosshairRotating ) {
-        baseCrosshair.rotateAround( viewBasePosition, deltaAngle );
-      }
     };
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
-    const multilink = Property.multilink( [ this.measuredDistanceProperty, unitsProperty ], () => this.updatePosition() );
+    const multilink = Property.multilink(
+      [ this.measuredDistanceProperty, unitsProperty, this.modelViewTransformProperty, this.tipPositionProperty, this.basePositionProperty ], (
+        measuredDistance, units, modelViewTransform, tipPosition, basePosition ) => {
+
+        const viewTipPosition = modelViewTransform.modelToViewPosition( tipPosition );
+        const viewBasePosition = modelViewTransform.modelToViewPosition( basePosition );
+
+        // calculate the orientation and change of orientation of the Measuring tape
+        const oldAngle = this.baseImage.getRotation();
+        const angle = Math.atan2( viewTipPosition.y - viewBasePosition.y, viewTipPosition.x - viewBasePosition.x );
+        const deltaAngle = angle - oldAngle;
+
+        // set position of the tip and the base crosshair
+        baseCrosshair.center = viewBasePosition;
+        tip.center = viewTipPosition;
+
+        // in order to avoid all kind of geometrical issues with position,
+        // let's reset the baseImage upright and then set its position and rotation
+        this.baseImage.setRotation( 0 );
+        this.baseImage.rightBottom = viewBasePosition;
+        this.baseImage.rotateAround( this.baseImage.rightBottom, angle );
+
+        // reposition the tapeline
+        tapeLine.setLine( viewBasePosition.x, viewBasePosition.y, viewTipPosition.x, viewTipPosition.y );
+
+        // rotate the crosshairs
+        if ( options.isTipCrosshairRotating ) {
+          tip.rotateAround( viewTipPosition, deltaAngle );
+        }
+        if ( options.isBaseCrosshairRotating ) {
+          baseCrosshair.rotateAround( viewBasePosition, deltaAngle );
+        }
+
+        updateTextReadout( readoutTextProperty.value );
+      } );
 
     const isVisiblePropertyObserver = isVisible => {
       this.visible = isVisible;
     };
     isVisibleProperty.link( isVisiblePropertyObserver ); // must be unlinked in dispose
 
-    // set Text on on valueNode
-    const unitsPropertyObserver = () => this.valueNode.setText( this.getText() );
-
-    // link change of units to the text
-    unitsProperty.link( unitsPropertyObserver ); // must be unlinked in dispose
+    readoutTextProperty.link( updateTextReadout );
 
     // @private
-    this.disposeMeasuringTapeNode = function() {
+    this.disposeMeasuringTapeNode = () => {
       multilink.dispose();
       if ( isVisibleProperty.hasListener( isVisiblePropertyObserver ) ) {
         isVisibleProperty.unlink( isVisiblePropertyObserver );
       }
-      if ( unitsProperty.hasListener( unitsPropertyObserver ) ) {
-        unitsProperty.unlink( unitsPropertyObserver );
-      }
+      readoutTextProperty.unlink( updateTextReadout );
     };
 
     this.mutate( options );
@@ -383,16 +395,6 @@ class MeasuringTapeNode extends Node {
   dispose() {
     this.disposeMeasuringTapeNode();
     Node.prototype.dispose.call( this );
-  }
-
-  /**
-   * Returns a readout of the current measurement
-   * @public
-   * @returns {string}
-   */
-  getText() {
-    return Utils.toFixed( this.unitsProperty.value.multiplier * this.measuredDistanceProperty.value,
-      this.significantFigures ) + ' ' + this.unitsProperty.value.name;
   }
 
   /**
@@ -472,8 +474,7 @@ class MeasuringTapeNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform
    */
   setModelViewTransform( modelViewTransform ) {
-    this._modelViewTransform = modelViewTransform;
-    this.updatePosition( this.basePositionProperty.value, this.tipPositionProperty.value );
+    this.modelViewTransformProperty.value = modelViewTransform;
   }
 
   /**
@@ -482,7 +483,7 @@ class MeasuringTapeNode extends Node {
    * @returns {ModelViewTransform2}
    */
   getModelViewTransform() {
-    return this._modelViewTransform;
+    return this.modelViewTransformProperty.value;
   }
 
   /**
@@ -521,9 +522,9 @@ class MeasuringTapeNode extends Node {
   get textColor() { return this.valueNode.fill; }
 
   // @public ES5 getter and setter for the modelViewTransform
-  set modelViewTransform( modelViewTransform ) { this._modelViewTransform = modelViewTransform; }
+  set modelViewTransform( modelViewTransform ) { this.modelViewTransformProperty.value = modelViewTransform; }
 
-  get modelViewTransform() { return this._modelViewTransform; }
+  get modelViewTransform() { return this.modelViewTransformProperty.value; }
 
   // @public ES5 getter and setter for the dragBounds
   set dragBounds( value ) { this.setDragBounds( value ); }
