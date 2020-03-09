@@ -74,13 +74,25 @@ class FineCoarseSpinner extends Node {
       touchAreaXDilation: 3,
       touchAreaYDilation: 3,
       mouseAreaXDilation: 0,
-      mouseAreaYDilation: 0
+      mouseAreaYDilation: 0,
+
+      // phet-io, as requested in https://github.com/phetsims/sun/issues/575
+      enabledPropertyOptions: {
+        phetioReadOnly: true,
+        phetioFeatured: false
+      }
     }, options.arrowButtonOptions );
 
     // options for the 'coarse' arrow buttons, which show 2 arrows
     const coarseButtonOptions = merge( {}, fineButtonOptions, {
       numberOfArrows: 2,
-      arrowSpacing: -0.5 * fineButtonOptions.arrowHeight // arrows overlap
+      arrowSpacing: -0.5 * fineButtonOptions.arrowHeight, // arrows overlap
+
+      // phet-io, as requested in https://github.com/phetsims/sun/issues/575
+      enabledPropertyOptions: {
+        phetioReadOnly: true,
+        phetioFeatured: false
+      }
     } );
 
     // <
