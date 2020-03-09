@@ -21,13 +21,13 @@ import sceneryPhet from './sceneryPhet.js';
 class FineCoarseSpinner extends Node {
 
   /**
-   * @param {NumberProperty} valueProperty
+   * @param {NumberProperty} numberProperty
    * @param {Object} [options]
    */
-  constructor( valueProperty, options ) {
+  constructor( numberProperty, options ) {
 
     options = merge( {
-      range: null, // {Range|null} if null, valueProperty.range must exist
+      range: null, // {Range|null} if null, numberProperty.range must exist
       numberDisplayOptions: null, // {*|null} options propagated to the NumberDisplay subcomponent
       arrowButtonOptions: null, // {*|null} options propagated to all ArrowButton subcomponents
       deltaFine: 1, // {number} amount to increment/decrement when the 'fine' tweakers are pressed
@@ -39,8 +39,8 @@ class FineCoarseSpinner extends Node {
     }, options );
 
     if ( !options.range ) {
-      assert && assert( valueProperty.range, 'valueProperty.range or options.range must be provided' );
-      options.range = valueProperty.range;
+      assert && assert( numberProperty.range, 'numberProperty.range or options.range must be provided' );
+      options.range = numberProperty.range;
     }
 
     // So we know whether we can dispose of the enabledProperty and its tandem
@@ -85,27 +85,27 @@ class FineCoarseSpinner extends Node {
 
     // <
     const decrementFineButton = new ArrowButton( 'left', function() {
-      valueProperty.value = valueProperty.value - options.deltaFine;
+      numberProperty.value = numberProperty.value - options.deltaFine;
     }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
     const decrementCoarseButton = new ArrowButton( 'left', function() {
-      const delta = Math.min( options.deltaCoarse, valueProperty.value - options.range.min );
-      valueProperty.value = valueProperty.value - delta;
+      const delta = Math.min( options.deltaCoarse, numberProperty.value - options.range.min );
+      numberProperty.value = numberProperty.value - delta;
     }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
 
     // [ value ]
-    const numberDisplay = new NumberDisplay( valueProperty, options.range, options.numberDisplayOptions );
+    const numberDisplay = new NumberDisplay( numberProperty, options.range, options.numberDisplayOptions );
 
     // >
     const incrementFineButton = new ArrowButton( 'right', function() {
-      valueProperty.value = valueProperty.value + options.deltaFine;
+      numberProperty.value = numberProperty.value + options.deltaFine;
     }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
     const incrementCoarseButton = new ArrowButton( 'right', function() {
-      const delta = Math.min( options.deltaCoarse, options.range.max - valueProperty.value );
-      valueProperty.value = valueProperty.value + delta;
+      const delta = Math.min( options.deltaCoarse, options.range.max - numberProperty.value );
+      numberProperty.value = numberProperty.value + delta;
     }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
@@ -130,7 +130,7 @@ class FineCoarseSpinner extends Node {
     this.enabledProperty.link( enabledObserver );
 
     // Disable the buttons when the value is at min or max of the range
-    const valuePropertyListener = value => {
+    const numberPropertyListener = value => {
 
       // left buttons
       decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== options.range.min );
@@ -138,13 +138,13 @@ class FineCoarseSpinner extends Node {
       // right buttons
       incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== options.range.max );
     };
-    valueProperty.link( valuePropertyListener ); // unlink required in dispose
+    numberProperty.link( numberPropertyListener ); // unlink required in dispose
 
     // @private
     this.disposeFineCoarseSpinner = () => {
 
-      if ( valueProperty.hasListener( valuePropertyListener ) ) {
-        valueProperty.unlink( valuePropertyListener );
+      if ( numberProperty.hasListener( numberPropertyListener ) ) {
+        numberProperty.unlink( numberPropertyListener );
       }
 
       if ( ownsEnabledProperty ) {
@@ -161,6 +161,11 @@ class FineCoarseSpinner extends Node {
       incrementFineButton.dispose();
       incrementCoarseButton.dispose();
     };
+
+    // Create a link to associated Property, so it's easier to find in Studio.
+    this.addLinkedElement( numberProperty, {
+      tandem: options.tandem.createTandem( 'property' )
+    } );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FineCoarseSpinner', this );
