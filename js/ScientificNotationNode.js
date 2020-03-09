@@ -18,7 +18,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
 /**
- * @param {Property.<number>} valueProperty
+ * @param {Property.<number|null>} valueProperty
  * @param {Object} [options]
  * @constructor
  */
@@ -82,7 +82,7 @@ export default inherit( Node, ScientificNotationNode, {
   },
 
   /**
-   * @param {number} value
+   * @param {number|null} value
    * @private
    */
   update: function( value ) {
