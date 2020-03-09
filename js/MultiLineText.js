@@ -18,8 +18,6 @@ import RichText from '../../scenery/js/nodes/RichText.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-assert && deprecationWarning( 'MultiLineText is deprecated, please use RichText instead' );
-
 class MultiLineText extends RichText {
 
   /**
@@ -27,6 +25,7 @@ class MultiLineText extends RichText {
    * @param {Object} [options]
    */
   constructor( text, options ) {
+    assert && deprecationWarning( 'MultiLineText is deprecated, please use RichText instead' );
 
     options = merge( {
 

@@ -17,14 +17,13 @@ import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-assert && deprecationWarning( 'MovableDragHandler is deprecated, please use DragListener instead' );
-
 /**
  * @param {Property.<Vector2>} positionProperty - in model coordinate frame
  * @param {Object} [options]
  * @constructor
  */
 function MovableDragHandler( positionProperty, options ) {
+  assert && deprecationWarning( 'MovableDragHandler is deprecated, please use DragListener instead' );
 
   const self = this;
 

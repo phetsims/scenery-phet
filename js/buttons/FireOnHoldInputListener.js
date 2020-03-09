@@ -14,14 +14,14 @@ import merge from '../../../phet-core/js/merge.js';
 import DownUpListener from '../../../scenery/js/input/DownUpListener.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-assert && deprecationWarning( 'FireOnHoldInputListener is deprecated, please use FireListener instead' );
-
 /**
  * @param {Object} [options]
  * @constructor
  * @deprecated - Use FireListener instead, see https://github.com/phetsims/scenery/issues/1004
  */
 function FireOnHoldInputListener( options ) {
+  assert && deprecationWarning( 'FireOnHoldInputListener is deprecated, please use FireListener instead' );
+
   options = merge( {
     listener: null, // {function} convenience for adding 1 listener
     enabled: true, // is this input listener enabled?
