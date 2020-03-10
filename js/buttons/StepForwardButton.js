@@ -9,7 +9,6 @@
 
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
-import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton from './StepButton.js';
 
@@ -21,8 +20,7 @@ function StepForwardButton( options ) {
 
   assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
   options = merge( {
-    direction: 'forward',
-    soundPlayer: stepForwardSoundPlayer
+    direction: 'forward'
   }, options );
 
   StepButton.call( this, options );

@@ -16,6 +16,7 @@ import HBox from '../../../scenery/js/nodes/HBox.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
 
@@ -47,6 +48,9 @@ function StepButton( options ) {
     // If this Property is provided, it will disable the button while the sim is playing,
     // and you should avoid using the button's native 'enabled' property.
     isPlayingProperty: null,
+
+    // use the step-forward sound by default
+    soundPlayer: stepForwardSoundPlayer,
 
     // PDOM
     innerContent: stepForwardString,
