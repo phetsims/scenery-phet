@@ -1,5 +1,6 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
+// REVIEW: This header comment seems a little out of date, because there is an optional step back button too.
 /**
  * Combines the Play/Pause button and the Step button with optional speed controls.
  *
@@ -56,6 +57,9 @@ class TimeControlNode extends Node {
       playPauseStepXSpacing: 10, // horizontal space between Play/Pause and Step buttons
       buttonsXSpacing: 40, // horizontal space between push buttons and radio buttons
 
+      // REVIEW: Why not playPauseButtonOptions instead of playPauseOptions?  The latter makes it sound like they could
+      // be for the behavior instead of the button. Same for stepForwardOptions and stepBackwardOptions.
+
       // Options for the PlayPauseButton
       playPauseOptions: null,
 
@@ -103,6 +107,7 @@ class TimeControlNode extends Node {
       phetioDocumentation: 'Button to control the animation in the simulation. This will also stop the model from stepping.'
     }, options.playPauseOptions ) );
 
+    // REVIEW: how about defaultStepButtonOptions, since they could be overridden?
     const stepButtonOptions = {
       isPlayingProperty: isPlayingProperty,
       radius: 15,
@@ -188,6 +193,7 @@ class TimeControlNode extends Node {
       children.push( pushButtonGroup );
     }
 
+    // The assert basically disallows children, so why bother with the merge?  You could just set options.children.
     assert && assert( !options.children, 'TimeControlNode sets children' );
     options = merge( {
       children: children
