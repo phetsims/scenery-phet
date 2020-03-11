@@ -108,7 +108,7 @@ function StepButton( options ) {
 
 sceneryPhet.register( 'StepButton', StepButton );
 
-export default inherit( RoundPushButton, StepButton, {
+inherit( RoundPushButton, StepButton, {
 
   // @public
   dispose: function() {
@@ -116,3 +116,5 @@ export default inherit( RoundPushButton, StepButton, {
     RoundPushButton.prototype.dispose.call( this );
   }
 } );
+
+export default StepButton;
