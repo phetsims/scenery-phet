@@ -83,7 +83,7 @@ function ConductivityTesterNode( brightnessProperty, positionProperty, positiveP
   } );
 
   // @private short-circuit indicator, centered above the light bulb
-  assert && assert( brightnessProperty.get() === 0 ); //TODO layout will be wrong if lightBulbNode has rays
+  assert && assert( brightnessProperty.get() === 0, 'layout will be incorrect if lightBulbNode has rays' );
   this.shortCircuitNode = new Text( shortCircuitString, {
     font: options.shortCircuitFont,
     fill: options.shortCircuitFill,
