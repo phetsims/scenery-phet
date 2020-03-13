@@ -237,7 +237,7 @@ const demoBracketNode = function( layoutBounds ) {
 const demoCapacitorNode = function( layoutBounds ) {
   const plateBounds = new Bounds3( 0, 0, 0, 0.01414213562373095, CapacitorConstants.PLATE_HEIGHT, 0.01414213562373095 );
 
-  // TODO: OK to use a mock object like this, or should we create a model type
+  // An object literal is fine in a demo like this, but we probably wouldn't do this in production code.
   const circuit = {
     maxPlateCharge: 2.6562e-12,
     capacitor: {
