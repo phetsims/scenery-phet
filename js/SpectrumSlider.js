@@ -403,7 +403,6 @@ inherit( Text, ValueDisplay, {
   }
 } );
 
-//TODO better name for this, that doesn't conflict with scenery cursor
 /**
  * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center.
  *
