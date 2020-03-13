@@ -33,7 +33,7 @@ function ResetButton( options ) {
     baseColor: 'white',
     arrowColor: 'black',
 
-    //TODO this should be handled by RoundButtonView.ThreeDAppearanceStrategy, see sun#234
+    //TODO this should be handled by RoundButtonView.ThreeDAppearanceStrategy, see https://github.com/phetsims/sun/issues/236
     // The icon doesn't look right when perfectly centered, account for that here,
     // and see docs in RoundButtonView. The multiplier values were empirically determined.
     xContentOffset: -0.03 * BUTTON_RADIUS,
