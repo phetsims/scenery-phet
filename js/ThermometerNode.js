@@ -64,7 +64,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
     'Invalid zeroLevel: ' + options.zeroLevel );
 
   // Create a shaded sphere to act as the bulb fluid
-  const bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness; //TODO should this be options.lineWidth/2 ?
+  const bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
   const bulbFluidNode = new ShadedSphereNode( bulbFluidDiameter, {
     centerX: BULB_CENTER_X,
     centerY: BULB_CENTER_Y,
@@ -96,9 +96,9 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
   } );
   assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth ); // see scenery-phet#136
 
-  const tubeFluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness; //TODO should this be options.lineWidth/2 ?
+  const tubeFluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
   const tubeFluidRadius = tubeFluidWidth / 2;
-  const clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2; //TODO should this be options.lineWidth/2 ?
+  const clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
   const clipStartAngle = -Math.acos( tubeFluidRadius / clipBulbRadius );
   const clipEndAngle = Math.PI - clipStartAngle;
   const tubeFluidBottom = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
@@ -167,7 +167,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
 
   // Temperature determines the height of the fluid in the tube
   const maxFluidHeight = new Path( fluidClipArea ).height;
-  //TODO this can exceed max/min. should this be clamped? or should it be replaced by dot.Utils.linear?
+  //TODO https://github.com/phetsims/scenery-phet/issues/585 this can exceed max/min. should this be clamped? or should it be replaced by dot.Utils.linear?
 
   let minFluidHeight;
   if ( options.zeroLevel === 'bulbCenter' ) {
