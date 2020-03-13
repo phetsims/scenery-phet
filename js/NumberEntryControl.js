@@ -98,7 +98,7 @@ export default inherit( Node, NumberEntryControl, {
     this.keypad.clear();
   },
 
-  //TODO add ES5 setter/getter, ala NumberKeypad?
+  //TODO https://github.com/phetsims/scenery-phet/issues/272 add ES5 setter/getter, ala NumberKeypad?
   /**
    * Determines whether pressing a key (except for the backspace) will clear the existing value.
    * @public
