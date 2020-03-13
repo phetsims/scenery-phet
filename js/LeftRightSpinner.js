@@ -3,7 +3,7 @@
 /**
  * Node for up/down buttons.  Used in the fractions sims to change the number of divisions in a container.  See also UpDownSpinner.
  *
- * TODO: press to hold
+ * TODO: press to hold https://github.com/phetsims/scenery-phet/issues/584
  *
  * @author Sam Reid
  */
