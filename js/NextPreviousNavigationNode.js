@@ -67,7 +67,7 @@ function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
   const previousKitNode = new Path( previousShape, {
     fill: selfOptions.arrowColor,
     stroke: selfOptions.arrowStrokeColor,
-    cursor: 'pointer', // TODO: buttonListener adds this maybe?
+    cursor: 'pointer', // TODO: buttonListener adds this maybe? https://github.com/phetsims/scenery-phet/issues/587
     touchArea: selfOptions.createTouchAreaShape( previousShape, true )
   } );
   previousKitNode.addInputListener( new ButtonListener( {
@@ -102,7 +102,7 @@ function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
   const nextKitNode = new Path( nextShape, {
     fill: selfOptions.arrowColor,
     stroke: selfOptions.arrowStrokeColor,
-    cursor: 'pointer', // TODO: buttonListener adds this maybe?
+    cursor: 'pointer', // TODO: buttonListener adds this maybe? https://github.com/phetsims/scenery-phet/issues/587
     touchArea: selfOptions.createTouchAreaShape( nextShape, false )
   } );
   nextKitNode.addInputListener( new ButtonListener( {
