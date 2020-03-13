@@ -345,7 +345,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
   const enabledObserver = enabled => {
     this.pickable = enabled;
     this.opacity = enabled ? 1.0 : options.disabledOpacity;
-    // TODO if !enabled, cancel any interaction that is in progress, see scenery#218
+    // TODO if !enabled, cancel any interaction that is in progress, see https://github.com/phetsims/scenery-phet/issues/218
   };
   this.enabledProperty.link( enabledObserver );
 
