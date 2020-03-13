@@ -190,6 +190,4 @@ export default inherit( Node, ScientificNotationNode, {
     // mantissa x 10^exponent
     return { mantissa: mantissa, exponent: exponent };
   }
-
-  //TODO add setters and getters for scenery.Text properties as needed
 } );
