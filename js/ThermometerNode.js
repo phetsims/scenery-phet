@@ -167,7 +167,6 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
 
   // Temperature determines the height of the fluid in the tube
   const maxFluidHeight = new Path( fluidClipArea ).height;
-  //TODO https://github.com/phetsims/scenery-phet/issues/585 this can exceed max/min. should this be clamped? or should it be replaced by dot.Utils.linear?
 
   let minFluidHeight;
   if ( options.zeroLevel === 'bulbCenter' ) {
