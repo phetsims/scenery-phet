@@ -1404,11 +1404,7 @@ const demoTemperatureNode = function( layoutBounds ) {
   const temperatureProperty = new Property( 50 );
 
   const thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
-    bulbDiameter: 100,
-    tubeWidth: 60,
-    tubeHeight: 200,
-    glassThickness: 6,
-    backgroundFill: 'yellow'
+    scale: 1.5
   } );
 
   const temperatureSlider = new HSlider( temperatureProperty, new Range( 0, 100 ), {

@@ -46,7 +46,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
     tickSpacingTemperature: null, // {number} overrides tickSpacing to space ticks by units of temperature
     majorTickLength: 15,
     minorTickLength: 7.5,
-    glassThickness: 2, // space between the thermometer outline and the fluid inside it
+    glassThickness: 4, // space between the thermometer outline and the fluid inside it
     zeroLevel: 'bulbCenter', // defines where level is at temperature zero - 'bulbCenter' or 'bulbTop'
 
     // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
@@ -64,7 +64,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
     'Invalid zeroLevel: ' + options.zeroLevel );
 
   // Create a shaded sphere to act as the bulb fluid
-  const bulbFluidDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
+  const bulbFluidDiameter = options.bulbDiameter - options.glassThickness - options.lineWidth / 2;
   const bulbFluidNode = new ShadedSphereNode( bulbFluidDiameter, {
     centerX: BULB_CENTER_X,
     centerY: BULB_CENTER_Y,
@@ -96,9 +96,9 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
   } );
   assert && assert( outlineNode.height === options.tubeHeight + options.bulbDiameter + options.lineWidth ); // see scenery-phet#136
 
-  const tubeFluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
+  const tubeFluidWidth = options.tubeWidth - options.glassThickness - options.lineWidth / 2;
   const tubeFluidRadius = tubeFluidWidth / 2;
-  const clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2; //TODO https://github.com/phetsims/scenery-phet/issues/585 should this be options.lineWidth/2 ?
+  const clipBulbRadius = ( options.bulbDiameter - options.glassThickness - options.lineWidth / 2 ) / 2;
   const clipStartAngle = -Math.acos( tubeFluidRadius / clipBulbRadius );
   const clipEndAngle = Math.PI - clipStartAngle;
   const tubeFluidBottom = ( bulbFluidDiameter / 2 ) * Math.sin( clipEndAngle );
