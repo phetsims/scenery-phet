@@ -19,7 +19,6 @@ import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
-import ResetAllButtonIO from './ResetAllButtonIO.js';
 import ResetButton from './ResetButton.js';
 
 // constants
@@ -51,7 +50,6 @@ function ResetAllButton( options ) {
     phetioRestoreScreenStateOnReset: true,
     tandem: Tandem.REQUIRED,
     phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
-    phetioType: ResetAllButtonIO,
 
     // sound generation
     soundPlayer: resetAllSoundPlayer,
