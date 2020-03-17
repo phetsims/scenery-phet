@@ -19,7 +19,7 @@ import sceneryPhet from '../sceneryPhet.js';
  * @param {Object} [options] - see RoundPushButton
  * @constructor
  */
-function RewindButton( options ) {
+function RestartButton( options ) {
   options = options || {};
 
   const scale = 0.75;
@@ -48,10 +48,10 @@ function RewindButton( options ) {
   RoundPushButton.call( this, options );
 
   // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RewindButton', this );
+  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RestartButton', this );
 }
 
-sceneryPhet.register( 'RewindButton', RewindButton );
+sceneryPhet.register( 'RestartButton', RestartButton );
 
-inherit( RoundPushButton, RewindButton );
-export default RewindButton;
+inherit( RoundPushButton, RestartButton );
+export default RestartButton;

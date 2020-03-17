@@ -21,7 +21,7 @@
 // const PushButtonModel = require( '/sun/js/buttons/PushButtonModel' );
 // const RadioButtonGroupMember = require( '/sun/js/buttons/RadioButtonGroupMember' );
 // const Range = require( '/dot/js/Range' );
-// const RewindButton = require( '/scenery-phet/js/buttons/RewindButton' );
+// const RestartButton = require( '/scenery-phet/js/buttons/RestartButton' );
 // const RoundStickyToggleButton = require( '/sun/js/buttons/RoundStickyToggleButton' );
 // const RoundButtonView = require( '/sun/js/buttons/RoundButtonView' );
 // const ScientificNotationNode = require( '/scenery-phet/js/ScientificNotationNode' );
@@ -95,7 +95,7 @@ const components = [
   //   return new RadioButtonGroupMember( booleanProperty, false );
   // } )
   // new ComponentHolder( function() {
-  //   return new RewindButton();
+  //   return new RestartButton();
   // } )
   // new ComponentHolder( function() {
   //   var pushButtonModel = new PushButtonModel();

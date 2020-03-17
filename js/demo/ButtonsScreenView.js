@@ -24,7 +24,7 @@ import RecordStopButton from '../buttons/RecordStopButton.js';
 import RefreshButton from '../buttons/RefreshButton.js';
 import ResetAllButton from '../buttons/ResetAllButton.js';
 import ResetButton from '../buttons/ResetButton.js';
-import RewindButton from '../buttons/RewindButton.js';
+import RestartButton from '../buttons/RestartButton.js';
 import SoundToggleButton from '../buttons/SoundToggleButton.js';
 import StarButton from '../buttons/StarButton.js';
 import StepBackwardButton from '../buttons/StepBackwardButton.js';
@@ -63,8 +63,8 @@ function ButtonsScreenView() {
     listener: function() { console.log( 'ResetButton pressed' ); }
   } );
 
-  const rewindButton = new RewindButton( {
-    listener: function() { console.log( 'RewindButton pressed' ); }
+  const restartButton = new RestartButton( {
+    listener: function() { console.log( 'RestartButton pressed' ); }
   } );
 
   const starButton = new StarButton( {
@@ -142,7 +142,7 @@ function ButtonsScreenView() {
       closeButton,
       eraserButton,
       resetButton,
-      rewindButton,
+      restartButton,
       starButton,
       stepBackwardButton,
       stepForwardButton,
