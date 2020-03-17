@@ -399,11 +399,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
       // {Object|null} - options for the radio button group, defaults defined below because they are dependent on
       // size of label text
-      radioButtonGroupOptions: null,
-
-      // {Object|null} - options for individual radio buttons, defaults below because they are dependent on size of label
-      // text
-      radioButtonOptions: null
+      radioButtonGroupOptions: null
     }, options );
 
     const radioButtons = [];
@@ -419,15 +415,14 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
       } );
     } );
 
-    const radioButtonOptions = merge( {
-      xSpacing: 5,
-      radius: radioButtons[ 0 ].node.height / 2
-    }, options.radioButtonOptions );
-
     const radioButtonGroupOptions = merge( {
-      radioButtonOptions: radioButtonOptions,
       spacing: 9,
       touchAreaDilation: 10,
+      radioButtonOptions: {
+
+        // by default, radio buttons match height of label before maxWidth scaling adjustments
+        radius: new Text( 'test', options.labelOptions ).height / 2
+      },
       tandem: tandem.createTandem( 'speedRadioButtonGroup' ),
 
       // PDOM
