@@ -144,7 +144,7 @@ class TimeControlNode extends Node {
       children: children
     }, options );
 
-    super( options );
+    super();
 
     // @private {PlayPauseButton} - for layout
     this.playPauseStepButtons = playPauseStepButtons;
@@ -198,6 +198,10 @@ class TimeControlNode extends Node {
         this.enabledProperty.unlink( enabledListener );
       }
     };
+
+    // mutate with options after spacing and layout is complete so other layout options apply correctly to the
+    // whole TimeControlNode
+    this.mutate( options );
   }
 
   /**
