@@ -134,6 +134,9 @@
   "speed.slow": {
     "value": "Slow"
   },
+  "speed.fast": {
+    "value": "Fast"
+  },
   "symbol.ohms": {
     "value": "\u2126"
   },
