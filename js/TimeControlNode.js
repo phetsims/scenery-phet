@@ -214,7 +214,7 @@ class TimeControlNode extends Node {
 
   /**
    * Get the center of the PlayPauseButton, in the local coordinate frame of the TimeControlNode. Useful if the
-   * TimeControlNode needs to be positioned relative to the PlayPauseButton.
+   * TimeControlNode needs to be positioned relative to the PlayPauseButtons.
    * @public
    *
    * @returns {Vector2}
@@ -225,7 +225,8 @@ class TimeControlNode extends Node {
 
   /**
    * Set the spacing between the SpeedRadioButtonGroup and the PlayPauseStepButtons. Spacing is from horizontal
-   * edge to edge for each Node. No-op if there is no SpeedRadioButtonGroup for this TimeControlNode.
+   * edge to edge for each Node. This will move the SpeedRadioButtonGroup relative to the edge of the
+   * PlayPauseStepButtons. No-op if there is no SpeedRadioButtonGroup for this TimeControlNode.
    * @public
    *
    * @param spacing
@@ -388,7 +389,8 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
       // {Object} - options for the Normal/Slow/Fast text labels
       labelOptions: {
-        font: new PhetFont( 14 )
+        font: new PhetFont( 14 ),
+        maxWidth: 130 // i18n
       },
 
       // {Object|null} - options for the radio button group, defaults defined below because they are dependent on
@@ -422,7 +424,6 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
       radioButtonOptions: radioButtonOptions,
       spacing: 9,
       touchAreaDilation: 10,
-      maxWidth: 150,
       tandem: tandem.createTandem( 'speedRadioButtonGroup' ),
 
       // PDOM
