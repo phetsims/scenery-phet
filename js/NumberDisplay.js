@@ -42,6 +42,9 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     useRichText: false,
     font: new PhetFont( 20 ),
 
+    // options pass to Text or RichText (depending on the value of options.useRichText) that displays the value
+    textOptions: null,
+
     // {number|null} the number of decimal places to show. If null, the full value is displayed.
     // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
     // See https://github.com/phetsims/scenery-phet/issues/511
@@ -103,13 +106,13 @@ function NumberDisplay( numberProperty, displayRange, options ) {
 
   // value
   const Constructor = options.useRichText ? RichText : Text;
-  this.valueNode = new Constructor( longestString, {
+  this.valueNode = new Constructor( longestString, merge( {}, options.textOptions, {
     font: options.font,
     fill: options.numberFill,
     maxWidth: options.numberMaxWidth,
     phetioReadOnly: true,
     tandem: options.tandem.createTandem( 'valueText' )
-  } );
+  } ) );
 
   // maxWidth for valueNode
   if ( options.numberMaxWidth === null ) {
