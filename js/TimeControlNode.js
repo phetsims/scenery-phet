@@ -421,7 +421,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
     const radioButtonOptions = merge( {
       xSpacing: 5,
-      radius: radioButtons[ 0 ].node.height / 2
+      radius: 7
     }, options.radioButtonOptions );
 
     const radioButtonGroupOptions = merge( {
