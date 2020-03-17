@@ -418,6 +418,11 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
     const radioButtonGroupOptions = merge( {
       spacing: 9,
       touchAreaDilation: 10,
+      radioButtonOptions: {
+
+        // by default, radio buttons match height of label before maxWidth scaling adjustments
+        radius: new Text( 'test', options.labelOptions ).height / 2
+      },
       tandem: tandem.createTandem( 'speedRadioButtonGroup' ),
 
       // PDOM
