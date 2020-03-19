@@ -96,6 +96,9 @@ class TimeControlNode extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED, // {Tandem}
+      phetioComponentOptions: {
+        visibleProperty: { phetioFeatured: true }
+      },
 
       // PDOM
       tagName: 'div',
@@ -177,8 +180,11 @@ class TimeControlNode extends Node {
 
     // @public
     this.enabledProperty = options.enabledProperty || new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' )
+      tandem: options.tandem.createTandem( 'enabledProperty' ),
+      phetioFeatured: true
     } );
+
+    assert && assert( this.enabledProperty.phetioFeatured, 'TimeControlNode.enabledProperty should be phetioFeatured' );
 
     const enabledListener = enabled => {
       this.pickable = enabled;
