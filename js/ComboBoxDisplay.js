@@ -48,7 +48,9 @@ class ComboBoxDisplay extends ComboBox {
     options.numberDisplayOptions = merge( {
       backgroundFill: null,
       backgroundStroke: null,
-      font: new PhetFont( 14 ),
+      textOptions: {
+        font: new PhetFont( 14 )
+      },
       align: 'right',
       xMargin: 0,
       yMargin: 0

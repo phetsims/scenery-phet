@@ -53,7 +53,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 0
     },
     sliderOptions: {
@@ -65,7 +67,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 0
     },
     sliderOptions: {
@@ -77,7 +81,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 0
     },
     sliderOptions: {
@@ -89,7 +95,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 0.1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 1
     },
     sliderOptions: {
@@ -102,7 +110,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 0.1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 1
     },
     sliderOptions: {
@@ -120,7 +130,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 0.1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 1
     },
     sliderOptions: {
@@ -138,7 +150,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 0.1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 1
     },
     sliderOptions: {
@@ -150,7 +164,9 @@ function SpringControls( ranges, springNode, options ) {
     delta: 0.1,
     titleNodeOptions: { font: CONTROL_FONT },
     numberDisplayOptions: {
-      font: CONTROL_FONT,
+      textOptions: {
+        font: CONTROL_FONT
+      },
       decimalPlaces: 1
     },
     sliderOptions: {

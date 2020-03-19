@@ -142,8 +142,9 @@ function NumberControl( title, numberProperty, numberRange, options ) {
 
     // Options propagated to NumberDisplay
     numberDisplayOptions: {
-      font: new PhetFont( 12 ),
-      maxWidth: null, // {null|number} maxWidth to use for value display, to constrain width for i18n
+      textOptions: {
+        font: new PhetFont( 12 )
+      },
 
       // phet-io
       tandem: options.tandem.createTandem( 'numberDisplay' )

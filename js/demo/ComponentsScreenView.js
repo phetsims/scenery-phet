@@ -313,7 +313,11 @@ const demoComboBoxDisplay = function( layoutBounds ) {
     xMargin: 10,
     yMargin: 8,
     highlightFill: 'rgb( 255, 200, 200 )', // pink
-    numberDisplayOptions: { font: new PhetFont( 20 ) }
+    numberDisplayOptions: {
+      textOptions: {
+        font: new PhetFont( 20 )
+      }
+    }
   } );
 
   // Slider
@@ -630,7 +634,9 @@ const demoProbeNode = function( layoutBounds ) {
       font: new PhetFont( 14 )
     },
     numberDisplayOptions: {
-      font: new PhetFont( 14 )
+      textOptions: {
+        font: new PhetFont( 14 )
+      }
     },
     sliderOptions: {
       trackSize: new Dimension2( 150, 3 ),

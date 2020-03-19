@@ -50,7 +50,9 @@ class WavelengthNumberControl extends NumberControl {
         maxWidth: 175
       },
       numberDisplayOptions: {
-        font: new PhetFont( 14 ),
+        textOptions: {
+          font: new PhetFont( 14 )
+        },
         valuePattern: wavelengthNMValuePatternString,
         maxWidth: 120
       },

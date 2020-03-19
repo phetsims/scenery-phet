@@ -68,7 +68,9 @@ var demoNumberControl = function( layoutBounds ) {
       font: new PhetFont( 20 )
     },
     numberDisplayOptions: {
-      font: new PhetFont( 20 ),
+      textOptions: {
+        font: new PhetFont( 20 )
+      },
       valuePattern: '{0} lbs'
     },
     sliderOptions: {
@@ -157,7 +159,9 @@ const demoNumberControlWithSpectrum = layoutBounds => {
       font: new PhetFont( 14 )
     },
     numberDisplayOptions: {
-      font: new PhetFont( 14 ),
+      textOptions: {
+        font: new PhetFont( 14 )
+      },
       valuePattern: '{0} nm'
     },
     sliderOptions: {

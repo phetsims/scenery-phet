@@ -16,7 +16,9 @@ import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const NUMBER_DISPLAY_DEFAULT_OPTIONS = {
-  font: new PhetFont( 16 ),
+  textOptions: {
+    font: new PhetFont( 16 )
+  },
   backgroundStroke: 'black',
   align: 'center',
   cornerRadius: 5

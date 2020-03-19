@@ -21,6 +21,9 @@ import NumberDisplayIO from './NumberDisplayIO.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
+// constants
+const DEFAULT_FONT = new PhetFont( 20 );
+
 // valid values for options.align and options.noValueAlign
 const ALIGN_VALUES = [ 'center', 'left', 'right' ];
 
@@ -40,10 +43,14 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
     valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
     useRichText: false,
-    font: new PhetFont( 20 ),
 
-    // options pass to Text or RichText (depending on the value of options.useRichText) that displays the value
-    textOptions: null,
+    // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
+    textOptions: {
+      font: DEFAULT_FONT,
+      fill: 'black',
+      maxWidth: null, // {number|null} if null, then it will be computed based on displayRange
+      phetioReadOnly: true
+    },
 
     // {number|null} the number of decimal places to show. If null, the full value is displayed.
     // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
@@ -53,8 +60,6 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     xMargin: 8,
     yMargin: 2,
     cornerRadius: 0,
-    numberFill: 'black',
-    numberMaxWidth: null, // {number|null} if null, then it will be computed
     backgroundFill: 'white',
     backgroundStroke: 'lightGray',
     backgroundLineWidth: 1,
@@ -77,6 +82,14 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     options.noValueAlign = options.align;
   }
   assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
+  assert && assert( options.textOptions, 'did you accidentally set textOptions to null?' );
+
+  //TODO delete these after https://github.com/phetsims/scenery-phet/issues/588 passes CT
+  assert && assert( options.font === undefined, 'font was moved to textOptions.font' );
+  assert && assert( options.numberFill === undefined, 'numberFill was moved to textOptions.numberFill' );
+  assert && assert( options.textOptions.numberFill === undefined, 'numberFill was renamed to textOptions.fill' );
+  assert && assert( options.numberMaxWidth === undefined, 'font was moved to textOptions.numberMaxWidth' );
+  assert && assert( options.textOptions.numberMaxWidth === undefined, 'numberMaxWidth was renamed to textOptions.maxWidth' );
 
   // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
   // See https://github.com/phetsims/scenery-phet/issues/446
@@ -106,26 +119,22 @@ function NumberDisplay( numberProperty, displayRange, options ) {
 
   // value
   const Constructor = options.useRichText ? RichText : Text;
-  this.valueNode = new Constructor( longestString, merge( {}, options.textOptions, {
-    font: options.font,
-    fill: options.numberFill,
-    maxWidth: options.numberMaxWidth,
-    phetioReadOnly: true,
+  this.valueText = new Constructor( longestString, merge( {
     tandem: options.tandem.createTandem( 'valueText' )
-  } ) );
+  }, options.textOptions ) );
 
-  // maxWidth for valueNode
-  if ( options.numberMaxWidth === null ) {
-    this.valueNode.maxWidth = this.valueNode.width;
+  // maxWidth for valueText
+  if ( options.textOptions.maxWidth === null ) {
+    this.valueText.maxWidth = this.valueText.width;
   }
   else {
-    this.valueNode.maxWidth = options.numberMaxWidth;
+    this.valueText.maxWidth = options.textOptions.maxWidth;
   }
 
-  const backgroundWidth = Math.max( options.minBackgroundWidth, this.valueNode.width + 2 * options.xMargin );
+  const backgroundWidth = Math.max( options.minBackgroundWidth, this.valueText.width + 2 * options.xMargin );
 
   // @private background
-  this.backgroundNode = new Rectangle( 0, 0, backgroundWidth, this.valueNode.height + 2 * options.yMargin, {
+  this.backgroundNode = new Rectangle( 0, 0, backgroundWidth, this.valueText.height + 2 * options.yMargin, {
     cornerRadius: options.cornerRadius,
     fill: options.backgroundFill,
     stroke: options.backgroundStroke,
@@ -133,7 +142,7 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     lineDash: options.backgroundLineDash
   } );
 
-  options.children = [ this.backgroundNode, this.valueNode ];
+  options.children = [ this.backgroundNode, this.valueText ];
 
   // display the value
   const numberObserver = function( value ) {
@@ -143,21 +152,21 @@ function NumberDisplay( numberProperty, displayRange, options ) {
     const align = ( value === null ) ? options.noValueAlign : options.align;
 
     // update the value
-    self.valueNode.text = StringUtils.fillIn( valuePattern, {
+    self.valueText.text = StringUtils.fillIn( valuePattern, {
       value: stringValue
     } );
 
     // horizontally align value in background
     if ( align === 'center' ) {
-      self.valueNode.centerX = self.backgroundNode.centerX;
+      self.valueText.centerX = self.backgroundNode.centerX;
     }
     else if ( align === 'left' ) {
-      self.valueNode.left = self.backgroundNode.left + options.xMargin;
+      self.valueText.left = self.backgroundNode.left + options.xMargin;
     }
     else { // right
-      self.valueNode.right = self.backgroundNode.right - options.xMargin;
+      self.valueText.right = self.backgroundNode.right - options.xMargin;
     }
-    self.valueNode.centerY = self.backgroundNode.centerY;
+    self.valueText.centerY = self.backgroundNode.centerY;
   };
   numberProperty.link( numberObserver );
 
@@ -205,7 +214,7 @@ export default inherit( Node, NumberDisplay, {
    * @public
    */
   setNumberFont: function( font ) {
-    this.valueNode.font = font;
+    this.valueText.font = font;
   },
   set numberFont( value ) { this.setNumberFont( value ); },
 
@@ -215,7 +224,7 @@ export default inherit( Node, NumberDisplay, {
    * @public
    */
   setNumberFill: function( fill ) {
-    this.valueNode.fill = fill;
+    this.valueText.fill = fill;
   },
   set numberFill( value ) { this.setNumberFill( value ); },
 
