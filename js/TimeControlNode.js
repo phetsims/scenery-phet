@@ -423,7 +423,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
         // by default, radio buttons match height of label before maxWidth scaling adjustments
         radius: new Text( 'test', options.labelOptions ).height / 2
       },
-      tandem: tandem.createTandem( 'speedRadioButtonGroup' ),
+      tandem: tandem,
 
       // PDOM
       labelTagName: 'h4',
