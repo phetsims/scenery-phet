@@ -84,13 +84,6 @@ function NumberDisplay( numberProperty, displayRange, options ) {
   assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
   assert && assert( options.textOptions, 'did you accidentally set textOptions to null?' );
 
-  //TODO delete these after https://github.com/phetsims/scenery-phet/issues/588 passes CT
-  assert && assert( options.font === undefined, 'font was moved to textOptions.font' );
-  assert && assert( options.numberFill === undefined, 'numberFill was moved to textOptions.numberFill' );
-  assert && assert( options.textOptions.numberFill === undefined, 'numberFill was renamed to textOptions.fill' );
-  assert && assert( options.numberMaxWidth === undefined, 'font was moved to textOptions.numberMaxWidth' );
-  assert && assert( options.textOptions.numberMaxWidth === undefined, 'numberMaxWidth was renamed to textOptions.maxWidth' );
-
   // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
   // See https://github.com/phetsims/scenery-phet/issues/446
   if ( options.valuePattern.indexOf( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) !== -1 ) {
