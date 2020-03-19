@@ -317,14 +317,14 @@ class PlayPauseStepButtons extends HBox {
 
       // Options for the StepBackwardButton
       stepBackwardButtonOptions: merge( {
-        tandem: tandem.createTandem( 'stepForwardButton' ),
-        phetioDocumentation: 'Progress the simulation a single model step forwards.'
+        tandem: tandem.createTandem( 'stepBackwardButton' ),
+        phetioDocumentation: 'Progress the simulation a single model step backwards.'
       }, defaultStepButtonOptions ),
 
       // Options for the StepForwardButton
       stepForwardButtonOptions: merge( {
-        phetioDocumentation: 'Progress the simulation a single model step backwards.',
-        tandem: tandem.createTandem( 'stepBackwardButton' )
+        phetioDocumentation: 'Progress the simulation a single model step forwards.',
+        tandem: tandem.createTandem( 'stepForwardButton' )
       }, defaultStepButtonOptions )
     }, options );
 
