@@ -168,7 +168,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
     }, options.enabledPropertyOptions ) );
   }
   else {
-    assert && assert( this.enabledProperty.phetioFeatured, 'provided enabledProperty must be phetioFeatured' );
+    assert && Tandem.errorOnFailedValidation() && assert( this.enabledProperty.phetioFeatured, 'provided enabledProperty must be phetioFeatured' );
   }
 
   //------------------------------------------------------------
