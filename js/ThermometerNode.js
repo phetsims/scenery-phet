@@ -228,11 +228,15 @@ export default inherit( Node, ThermometerNode, {
 
   /**
    * Get y position at temperature to allow accurate tick placement
-   * @param {number} temp - temperature at which to find y position
+   * @param {Number|null} temperature - temperature at which to find y position
    * @public
    */
-  temperatureToYPos: function( temp ) {
-    return this.temperatureLinearFunction( temp );
+  temperatureToYPos: function( temperature ) {
+
+    // treat null as zero - this is a "legacy requirement", needed by the States of Matter sims
+    const compensatedTemperature = temperature === null ? 0 : temperature;
+
+    return this.temperatureLinearFunction( compensatedTemperature );
   },
 
   /**
