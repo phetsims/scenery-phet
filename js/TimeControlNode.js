@@ -35,7 +35,7 @@ const speedSlowString = sceneryPhetStrings.speed.slow;
 const speedFastString = sceneryPhetStrings.speed.fast;
 
 // PDOM strings
-const timeControlDescriptionString = SceneryPhetA11yStrings.timeControlDescription.value;
+const simSpeedDescriptionString = SceneryPhetA11yStrings.simSpeedDescription.value;
 const timeControlLabelString = SceneryPhetA11yStrings.timeControlLabel.value;
 const simSpeedsString = SceneryPhetA11yStrings.simSpeedsString.value;
 
@@ -103,8 +103,7 @@ class TimeControlNode extends Node {
       // PDOM
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: timeControlLabelString,
-      descriptionContent: timeControlDescriptionString
+      labelContent: timeControlLabelString
     }, options );
 
     // options validation
@@ -425,7 +424,8 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
       // PDOM
       labelTagName: 'h4',
-      labelContent: simSpeedsString
+      labelContent: simSpeedsString,
+      descriptionContent: simSpeedDescriptionString
     }, options.radioButtonGroupOptions );
 
     super( timeControlSpeedProperty, radioButtons, radioButtonGroupOptions );

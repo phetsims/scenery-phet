@@ -126,7 +126,7 @@ const SceneryPhetA11yStrings = {
   },
 
   // TimeControlNode
-  timeControlDescription: {
+  simSpeedDescription: {
     value: 'For closer observations Play sim on slow speed.'
   },
   timeControlLabel: {
