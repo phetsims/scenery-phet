@@ -167,14 +167,6 @@ class TimeControlNode extends Node {
     this.buttonGroupXSpacing = options.buttonGroupXSpacing;
     this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
 
-    // PDOM - this node's primary sibling is aria-labelledby its own label so the label content is read whenever
-    // a member of the group receives focus
-    this.addAriaLabelledbyAssociation( {
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
-      otherNode: this,
-      otherElementName: AccessiblePeer.LABEL_SIBLING
-    } );
-
     // So we know whether we can dispose of the enabledProperty and its tandem
     const ownsEnabledProperty = !options.enabledProperty;
 
