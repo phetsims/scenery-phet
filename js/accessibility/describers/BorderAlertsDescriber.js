@@ -16,10 +16,10 @@ import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const leftBorderAlertString = sceneryPhetStrings.a11y.leftBorderAlert;
-const rightBorderAlertString = sceneryPhetStrings.a11y.rightBorderAlert;
-const topBorderAlertString = sceneryPhetStrings.a11y.topBorderAlert;
-const bottomBorderAlertString = sceneryPhetStrings.a11y.bottomBorderAlert;
+const leftBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.leftBorderAlert;
+const rightBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.rightBorderAlert;
+const topBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.topBorderAlert;
+const bottomBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.bottomBorderAlert;
 
 const DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 
