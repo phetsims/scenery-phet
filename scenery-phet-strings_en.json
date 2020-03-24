@@ -274,6 +274,20 @@
       },
       "simSpeeds": {
         "value": "Sim Speeds"
+      },
+      "playPauseStepButtons": {
+        "playingDescription": {
+          "value": "Pause sim to step forward little by little."
+        },
+        "playingWithSpeedDescription": {
+          "value": "Pause sim to step forward little by little, or keep playing sim at chosen sim speed."
+        },
+        "pausedDescription": {
+          "value": "Step forward little by little."
+        },
+        "pausedWithSpeedDescription": {
+          "value": "Step forward little by little, or play sim at chosen sim speed."
+        }
       }
     },
     "movementDescriber": {
