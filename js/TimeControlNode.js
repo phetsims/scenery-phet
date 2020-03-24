@@ -36,6 +36,10 @@ const speedFastString = sceneryPhetStrings.speed.fast;
 const simSpeedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.simSpeedDescription;
 const timeControlLabelString = sceneryPhetStrings.a11y.timeControlNode.label;
 const simSpeedsString = sceneryPhetStrings.a11y.timeControlNode.simSpeeds;
+const timeControlNodePlayPauseStepButtonsPlayingDescriptionString = sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.playingDescription;
+const timeControlNodePlayPauseStepButtonsPlayingWithSpeedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.playingWithSpeedDescription;
+const timeControlNodePlayPauseStepButtonsPausedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.pausedDescription;
+const timeControlNodePlayPauseStepButtonsPausedWithSpeedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.pausedWithSpeedDescription;
 
 // supported speeds for SpeedRadioButtonGroup
 const DEFAULT_TIME_CONTROL_SPEEDS = [ TimeControlSpeed.NORMAL, TimeControlSpeed.SLOW ];
@@ -180,10 +184,25 @@ class TimeControlNode extends Node {
     };
     this.enabledProperty.link( enabledListener );
 
+    // PDOM - dynamic or component dependent descriptions
+    const playingListener = playing => {
+      let description;
+      if ( playing ) {
+        description = options.timeControlSpeedProperty ? timeControlNodePlayPauseStepButtonsPlayingWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPlayingDescriptionString;
+      }
+      else {
+        description = options.timeControlSpeedProperty ? timeControlNodePlayPauseStepButtonsPausedWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPausedDescriptionString;
+      }
+      playPauseStepButtons.descriptionContent = description;
+    };
+    isPlayingProperty.link( playingListener );
+
     // @private
     this.disposeTimeControlNode = () => {
       playPauseStepButtons.dispose();
       speedRadioButtonGroup && speedRadioButtonGroup.dispose();
+
+      isPlayingProperty.unlink( playingListener );
 
       if ( ownsEnabledProperty ) {
         this.enabledProperty.dispose();
@@ -339,7 +358,11 @@ class PlayPauseStepButtons extends HBox {
       children: buttons,
 
       // don't change layout if playPauseButton resizes with scaleFactorWhenPaused
-      resize: false
+      resize: false,
+
+      // PDOM
+      tagName: 'div', // so that it can receive descriptions
+      appendDescription: true
     } );
 
     // @private {PlayPauseButton} - for layout
