@@ -18,13 +18,12 @@ import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPla
 import PauseIconShape from '../PauseIconShape.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
-
-// a11y strings
-const playString = SceneryPhetA11yStrings.playString.value;
-const pauseString = SceneryPhetA11yStrings.pauseString.value;
+import sceneryPhetStrings from '../scenery-phet-strings.js';
 
 // constants
+const playString = sceneryPhetStrings.a11y.playString;
+const pauseString = sceneryPhetStrings.a11y.pauseString;
+
 const DEFAULT_RADIUS = 28;
 
 /**

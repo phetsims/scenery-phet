@@ -12,11 +12,11 @@
 
 import inherit from '../../../../phet-core/js/inherit.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
-// A11y strings
-const controlAreaString = SceneryPhetA11yStrings.controlArea.value;
+// constants
+const controlAreaString = sceneryPhetStrings.a11y.controlArea;
 
 /**
  * @constructor

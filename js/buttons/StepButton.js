@@ -17,13 +17,13 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
 
-// a11y strings
-const stepForwardString = SceneryPhetA11yStrings.stepForwardString.value;
-const stepPlayingDescriptionString = SceneryPhetA11yStrings.stepPlayingDescriptionString.value;
-const stepPausedDescriptionString = SceneryPhetA11yStrings.stepPausedDescriptionString.value;
+// contants
+const stepForwardString = sceneryPhetStrings.a11y.stepForwardString;
+const stepPlayingDescriptionString = sceneryPhetStrings.a11y.stepPlayingDescriptionString;
+const stepPausedDescriptionString = sceneryPhetStrings.a11y.stepPausedDescriptionString;
 
 /**
  * @param {Object} [options] - see RoundPushButton

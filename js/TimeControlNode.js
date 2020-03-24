@@ -27,19 +27,16 @@ import StepForwardButton from './buttons/StepForwardButton.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhetStrings from './scenery-phet-strings.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetA11yStrings from './SceneryPhetA11yStrings.js';
 import TimeControlSpeed from './TimeControlSpeed.js';
 
+// constants
 const speedNormalString = sceneryPhetStrings.speed.normal;
 const speedSlowString = sceneryPhetStrings.speed.slow;
 const speedFastString = sceneryPhetStrings.speed.fast;
+const simSpeedDescriptionString = sceneryPhetStrings.a11y.simSpeedDescription;
+const timeControlLabelString = sceneryPhetStrings.a11y.timeControlLabel;
+const simSpeedsString = sceneryPhetStrings.a11y.simSpeedsString;
 
-// PDOM strings
-const simSpeedDescriptionString = SceneryPhetA11yStrings.simSpeedDescription.value;
-const timeControlLabelString = SceneryPhetA11yStrings.timeControlLabel.value;
-const simSpeedsString = SceneryPhetA11yStrings.simSpeedsString.value;
-
-// constants
 // supported speeds for SpeedRadioButtonGroup
 const DEFAULT_TIME_CONTROL_SPEEDS = [ TimeControlSpeed.NORMAL, TimeControlSpeed.SLOW ];
 

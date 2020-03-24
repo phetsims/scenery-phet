@@ -15,12 +15,12 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import sceneryPhetStrings from '../../scenery-phet-strings.js';
 
-// a11y strings
-const screenSummaryMultiScreenIntroString = SceneryPhetA11yStrings.screenSummaryMultiScreenIntro.value;
-const screenSummaryKeyboardShortcutsHintString = SceneryPhetA11yStrings.screenSummaryKeyboardShortcutsHint.value;
-const screenSummarySingleScreenIntroPatternString = SceneryPhetA11yStrings.screenSummarySingleScreenIntroPattern.value;
+// constants
+const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.screenSummaryMultiScreenIntro;
+const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.screenSummaryKeyboardShortcutsHint;
+const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.screenSummarySingleScreenIntroPattern;
 
 /**
  * @constructor

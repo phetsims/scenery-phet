@@ -14,7 +14,7 @@ import sceneryPhetStrings from '../scenery-phet-strings.js';
 import sceneryPhet from '../sceneryPhet.js';
 import TextKeyNode from './TextKeyNode.js';
 
-// strings (a11y strings are not translatable yet, see SceneryPhetA11yStrings for more details)
+// strings
 const keyFnString = sceneryPhetStrings.key.fn;
 
 /**

@@ -17,8 +17,8 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
 
 // constants
 const WIDTH = 45;
@@ -26,10 +26,9 @@ const HEIGHT = 45;
 const MARGIN = 4;
 const X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
-// a11y strings
-const soundToggleLabelString = SceneryPhetA11yStrings.soundToggleLabelString.value;
-const simSoundOnString = SceneryPhetA11yStrings.simSoundOnString.value;
-const simSoundOffString = SceneryPhetA11yStrings.simSoundOffString.value;
+const soundToggleLabelString = sceneryPhetStrings.a11y.soundToggleLabelString;
+const simSoundOnString = sceneryPhetStrings.a11y.simSoundOnString;
+const simSoundOffString = sceneryPhetStrings.a11y.simSoundOffString;
 
 /**
  *

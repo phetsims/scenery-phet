@@ -13,14 +13,13 @@
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
 import EscapeKeyNode from '../EscapeKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
 import TabKeyNode from '../TabKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-// stings
+// constants
 const keyboardHelpDialogBasicActionsString = sceneryPhetStrings.keyboardHelpDialog.basicActions;
 const keyboardHelpDialogExitADialogString = sceneryPhetStrings.keyboardHelpDialog.exitADialog;
 const keyboardHelpDialogMoveBetweenItemsInAGroupString = sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroup;
@@ -30,16 +29,14 @@ const keyboardHelpDialogMoveToPreviousItemOrGroupString = sceneryPhetStrings.key
 const keyboardHelpDialogMoveToPreviousItemString = sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItem;
 const keyboardHelpDialogPressButtonsString = sceneryPhetStrings.keyboardHelpDialog.pressButtons;
 const keyboardHelpDialogToggleCheckboxesString = sceneryPhetStrings.keyboardHelpDialog.toggleCheckboxes;
-
-// a11y strings
-const keyboardHelpDialogTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabDescription.value;
-const keyboardHelpDialogShiftTabDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabDescription.value;
-const keyboardHelpDialogTabGroupDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogTabGroupDescription.value;
-const keyboardHelpDialogShiftTabGroupDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogShiftTabGroupDescription.value;
-const keyboardHelpDialogPressButtonsDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogPressButtonsDescription.value;
-const keyboardHelpDialogGroupNavigationDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogGroupNavigationDescription.value;
-const keyboardHelpDialogExitDialogDescriptionString = SceneryPhetA11yStrings.keyboardHelpDialogExitDialogDescription.value;
-const toggleCheckboxesDescriptionString = SceneryPhetA11yStrings.toggleCheckboxesDescription.value;
+const keyboardHelpDialogTabDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogTabDescription;
+const keyboardHelpDialogShiftTabDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogShiftTabDescription;
+const keyboardHelpDialogTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogTabGroupDescription;
+const keyboardHelpDialogShiftTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogShiftTabGroupDescription;
+const keyboardHelpDialogPressButtonsDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogPressButtonsDescription;
+const keyboardHelpDialogGroupNavigationDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogGroupNavigationDescription;
+const keyboardHelpDialogExitDialogDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialogExitDialogDescription;
+const toggleCheckboxesDescriptionString = sceneryPhetStrings.a11y.toggleCheckboxesDescription;
 
 class GeneralKeyboardHelpSection extends KeyboardHelpSection {
 

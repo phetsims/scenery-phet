@@ -44,17 +44,16 @@ import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
 import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
 
-// a11y strings
-const grabPatternString = SceneryPhetA11yStrings.grabPattern.value;
-const gestureHelpTextPatternString = SceneryPhetA11yStrings.gestureHelpTextPattern.value;
-const movableString = SceneryPhetA11yStrings.movable.value;
-const defaultObjectToGrabString = SceneryPhetA11yStrings.defaultObjectToGrab.value;
-const releasedString = SceneryPhetA11yStrings.released.value;
-
 // constants
+const grabPatternString = sceneryPhetStrings.a11y.grabPattern;
+const gestureHelpTextPatternString = sceneryPhetStrings.a11y.gestureHelpTextPattern;
+const movableString = sceneryPhetStrings.a11y.movable;
+const defaultObjectToGrabString = sceneryPhetStrings.a11y.defaultObjectToGrab;
+const releasedString = sceneryPhetStrings.a11y.released;
+
 // wrap in a function because phet.joist.sim doesn't exist at RequireJS time
 const supportsGestureDescription = () => {
   assert && assert( phet.joist && phet.joist.sim && typeof phet.joist.sim.supportsGestureDescription === 'boolean', 'boolean expected' );

@@ -27,7 +27,6 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
 import EnterKeyNode from '../EnterKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
@@ -38,7 +37,7 @@ const keyboardHelpDialogGrabOrReleaseLabelPatternString = sceneryPhetStrings.key
 const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
 
 // a11y strings
-const grabOrReleaseDescriptionPatternString = SceneryPhetA11yStrings.grabOrReleaseDescriptionPattern.value;
+const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.grabOrReleaseDescriptionPattern;
 
 // constants
 // heading defaults

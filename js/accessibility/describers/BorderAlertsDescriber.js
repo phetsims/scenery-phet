@@ -12,14 +12,14 @@ import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
+import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import DirectionEnum from './DirectionEnum.js';
 
-// a11y strings
-const leftBorderAlertString = SceneryPhetA11yStrings.leftBorderAlert.value;
-const rightBorderAlertString = SceneryPhetA11yStrings.rightBorderAlert.value;
-const topBorderAlertString = SceneryPhetA11yStrings.topBorderAlert.value;
-const bottomBorderAlertString = SceneryPhetA11yStrings.bottomBorderAlert.value;
+// constants
+const leftBorderAlertString = sceneryPhetStrings.a11y.leftBorderAlert;
+const rightBorderAlertString = sceneryPhetStrings.a11y.rightBorderAlert;
+const topBorderAlertString = sceneryPhetStrings.a11y.topBorderAlert;
+const bottomBorderAlertString = sceneryPhetStrings.a11y.bottomBorderAlert;
 
 const DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 

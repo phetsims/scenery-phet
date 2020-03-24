@@ -11,7 +11,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../../SceneryPhetA11yStrings.js';
 import EndKeyNode from '../EndKeyNode.js';
 import HomeKeyNode from '../HomeKeyNode.js';
 import PageDownKeyNode from '../PageDownKeyNode.js';
@@ -27,11 +26,11 @@ const keyboardHelpDialogJumpToMinimumString = sceneryPhetStrings.keyboardHelpDia
 const keyboardHelpDialogSliderControlsString = sceneryPhetStrings.keyboardHelpDialog.sliderControls;
 
 // a11y strings
-const keyboardHelpDialogAdjustLargerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustLargerStepsString.value;
-const keyboardHelpDialogJumpToHomeString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToHomeString.value;
-const keyboardHelpDialogJumpToEndString = SceneryPhetA11yStrings.keyboardHelpDialogJumpToEndString.value;
-const keyboardHelpDialogAdjustDefaultStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustDefaultStepsString.value;
-const keyboardHelpDialogAdjustSmallerStepsString = SceneryPhetA11yStrings.keyboardHelpDialogAdjustSmallerStepsString.value;
+const keyboardHelpDialogAdjustLargerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustLargerStepsString;
+const keyboardHelpDialogJumpToHomeString = sceneryPhetStrings.a11y.keyboardHelpDialogJumpToHomeString;
+const keyboardHelpDialogJumpToEndString = sceneryPhetStrings.a11y.keyboardHelpDialogJumpToEndString;
+const keyboardHelpDialogAdjustDefaultStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustDefaultStepsString;
+const keyboardHelpDialogAdjustSmallerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustSmallerStepsString;
 
 /**
  * @constructor

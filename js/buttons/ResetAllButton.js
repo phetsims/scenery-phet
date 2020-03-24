@@ -18,17 +18,14 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetA11yStrings from '../SceneryPhetA11yStrings.js';
+import sceneryPhetStrings from '../scenery-phet-strings.js';
 import ResetButton from './ResetButton.js';
 
 // constants
 const RESET_ALL_BUTTON_RADIUS = 20.8;
 
-// sounds
-
-// a11y strings - not translatable
-const resetAllButtonNameString = SceneryPhetA11yStrings.resetAllLabelString.value;
-const resetAllAlertString = SceneryPhetA11yStrings.resetAllAlertString.value;
+const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAllLabelString;
+const resetAllAlertString = sceneryPhetStrings.a11y.resetAllAlertString;
 
 /**
  * @param {Object} [options]
