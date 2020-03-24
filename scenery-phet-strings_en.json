@@ -162,152 +162,174 @@
     "value": "Ruler"
   },
   "a11y": {
-    "screenSummaryMultiScreenIntro": {
-      "value": "This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Area."
+    "simSection": {
+      "screenSummaryMultiScreenIntro": {
+        "value": "This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Area."
+      },
+      "screenSummarySingleScreenIntroPattern": {
+        "value": "{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area."
+      },
+      "screenSummaryKeyboardShortcutsHint": {
+        "value": "If needed, check out keyboard shortcuts under Sim Resources."
+      },
+      "playArea": {
+        "value": "Play Area"
+      },
+      "controlArea": {
+        "value": "Control Area"
+      }
     },
-    "screenSummarySingleScreenIntroPattern": {
-      "value": "{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area."
+    "resetAll": {
+      "label": {
+        "value": "Reset All"
+      },
+      "alert": {
+        "value": "Sim screen restarted. Everything reset."
+      }
     },
-    "screenSummaryKeyboardShortcutsHint": {
-      "value": "If needed, check out keyboard shortcuts under Sim Resources."
+    "soundToggle": {
+      "label": {
+        "value": "Mute Sound"
+      },
+      "simSoundOn": {
+        "value": "Sim sound on."
+      },
+      "simSoundOff": {
+        "value": "Sim sound off."
+      }
     },
-    "playArea": {
-      "value": "Play Area"
+    "keyboardHelpDialog": {
+      "general": {
+        "tabDescription": {
+          "value": "Move to next item with Tab key."
+        },
+        "shiftTabDescription": {
+          "value": "Move to previous item with Shift plus Tab key."
+        },
+        "tabGroupDescription": {
+          "value": "Move to next item or group with Tab key."
+        },
+        "shiftTabGroupDescription": {
+          "value": "Move to previous item or group with Shift plus Tab key."
+        },
+        "pressButtonsDescription": {
+          "value": "Press buttons with Space key."
+        },
+        "groupNavigationDescription": {
+          "value": "Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys."
+        },
+        "exitDialogDescription": {
+          "value": "Exit a dialog with Escape key."
+        },
+        "toggleCheckboxesDescription": {
+          "value": "Toggle checkboxes with Space key."
+        }
+      },
+      "slider": {
+        "adjustDefaultStepsString": {
+          "value": "Adjust slider with Left and Right arrow keys, or Up and Down arrow keys."
+        },
+        "adjustSmallerStepsString": {
+          "value": "Adjust in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key."
+        },
+        "adjustLargerStepsString": {
+          "value": "Adjust in larger steps with Page Up or Page Down key."
+        },
+        "jumpToHomeString": {
+          "value": "Jump to minimum with Home key."
+        },
+        "jumpToEndString": {
+          "value": "Jump to maximum with End key."
+        }
+      },
+      "grabOrReleaseDescriptionPattern": {
+        "value": "Grab or release {{thing}} with Space or Enter keys."
+      }
     },
-    "controlArea": {
-      "value": "Control Area"
+    "playPauseButton": {
+      "play": {
+        "value": "Play"
+      },
+      "pause": {
+        "value": "Pause"
+      }
     },
-    "soundToggleLabelString": {
-      "value": "Mute Sound"
+    "stepButton": {
+      "stepForward": {
+        "value": "Step Forward"
+      },
+      "playingDescription": {
+        "value": "Pause sim to step forward little by little."
+      },
+      "pausedDescription": {
+        "value": "Play sim to resume chosen speed."
+      }
     },
-    "resetAllLabelString": {
-      "value": "Reset All"
+    "timeControlNode": {
+      "simSpeedDescription": {
+        "value": "For closer observations Play sim on slow speed."
+      },
+      "label": {
+        "value": "Timing Controls"
+      },
+      "simSpeeds": {
+        "value": "Sim Speeds"
+      }
     },
-    "simSoundOnString": {
-      "value": "Sim sound on."
+    "movementDescriber": {
+      "down": {
+        "value": "down"
+      },
+      "left": {
+        "value": "left"
+      },
+      "right": {
+        "value": "right"
+      },
+      "up": {
+        "value": "up"
+      },
+      "upAndToTheRight": {
+        "value": "up and to the right"
+      },
+      "upAndToTheLeft": {
+        "value": "up and to the left"
+      },
+      "downAndToTheRight": {
+        "value": "down and to the right"
+      },
+      "downAndToTheLeft": {
+        "value": "down and to the left"
+      },
+      "leftBorderAlert": {
+        "value": "At left edge"
+      },
+      "rightBorderAlert": {
+        "value": "At right edge"
+      },
+      "topBorderAlert": {
+        "value": "At top"
+      },
+      "bottomBorderAlert": {
+        "value": "At bottom"
+      }
     },
-    "simSoundOffString": {
-      "value": "Sim sound off."
-    },
-    "resetAllAlertString": {
-      "value": "Sim screen restarted. Everything reset."
-    },
-    "keyboardHelpDialogTabDescription": {
-      "value": "Move to next item with Tab key."
-    },
-    "keyboardHelpDialogShiftTabDescription": {
-      "value": "Move to previous item with Shift plus Tab key."
-    },
-    "keyboardHelpDialogTabGroupDescription": {
-      "value": "Move to next item or group with Tab key."
-    },
-    "keyboardHelpDialogShiftTabGroupDescription": {
-      "value": "Move to previous item or group with Shift plus Tab key."
-    },
-    "keyboardHelpDialogPressButtonsDescription": {
-      "value": "Press buttons with Space key."
-    },
-    "keyboardHelpDialogGroupNavigationDescription": {
-      "value": "Move between items in a group with Left and Right arrow keys or Up and Down Arrow keys."
-    },
-    "keyboardHelpDialogExitDialogDescription": {
-      "value": "Exit a dialog with Escape key."
-    },
-    "toggleCheckboxesDescription": {
-      "value": "Toggle checkboxes with Space key."
-    },
-    "keyboardHelpDialogAdjustDefaultStepsString": {
-      "value": "Adjust slider with Left and Right arrow keys, or Up and Down arrow keys."
-    },
-    "keyboardHelpDialogAdjustSmallerStepsString": {
-      "value": "Adjust in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key."
-    },
-    "keyboardHelpDialogAdjustLargerStepsString": {
-      "value": "Adjust in larger steps with Page Up or Page Down key."
-    },
-    "keyboardHelpDialogJumpToHomeString": {
-      "value": "Jump to minimum with Home key."
-    },
-    "keyboardHelpDialogJumpToEndString": {
-      "value": "Jump to maximum with End key."
-    },
-    "playString": {
-      "value": "Play"
-    },
-    "pauseString": {
-      "value": "Pause"
-    },
-    "stepForwardString": {
-      "value": "Step Forward"
-    },
-    "stepPlayingDescriptionString": {
-      "value": "Pause sim to step forward little by little."
-    },
-    "stepPausedDescriptionString": {
-      "value": "Play sim to resume chosen speed."
-    },
-    "simSpeedDescription": {
-      "value": "For closer observations Play sim on slow speed."
-    },
-    "timeControlLabel": {
-      "value": "Timing Controls"
-    },
-    "simSpeedsString": {
-      "value": "Sim Speeds"
-    },
-    "down": {
-      "value": "down"
-    },
-    "left": {
-      "value": "left"
-    },
-    "right": {
-      "value": "right"
-    },
-    "up": {
-      "value": "up"
-    },
-    "upAndToTheRight": {
-      "value": "up and to the right"
-    },
-    "upAndToTheLeft": {
-      "value": "up and to the left"
-    },
-    "downAndToTheRight": {
-      "value": "down and to the right"
-    },
-    "downAndToTheLeft": {
-      "value": "down and to the left"
-    },
-    "leftBorderAlert": {
-      "value": "At left edge"
-    },
-    "rightBorderAlert": {
-      "value": "At right edge"
-    },
-    "topBorderAlert": {
-      "value": "At top"
-    },
-    "bottomBorderAlert": {
-      "value": "At bottom"
-    },
-    "grabPattern": {
-      "value": "Grab {{objectToGrab}}"
-    },
-    "movable": {
-      "value": "movable"
-    },
-    "defaultObjectToGrab": {
-      "value": "Object"
-    },
-    "released": {
-      "value": "Released."
-    },
-    "grabOrReleaseDescriptionPattern": {
-      "value": "Grab or release {{thing}} with Space or Enter keys."
-    },
-    "gestureHelpTextPattern": {
-      "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
+    "grabDrag": {
+      "grabPattern": {
+        "value": "Grab {{objectToGrab}}"
+      },
+      "movable": {
+        "value": "movable"
+      },
+      "defaultObjectToGrab": {
+        "value": "Object"
+      },
+      "released": {
+        "value": "Released."
+      },
+      "gestureHelpTextPattern": {
+        "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
+      }
     }
   }
 }

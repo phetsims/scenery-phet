@@ -32,14 +32,12 @@ import LetterKeyNode from '../LetterKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
+// constants
 const keyboardHelpDialogGrabOrReleaseHeadingPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPattern;
 const keyboardHelpDialogGrabOrReleaseLabelPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPattern;
 const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
+const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPattern;
 
-// a11y strings
-const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.grabOrReleaseDescriptionPattern;
-
-// constants
 // heading defaults
 const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
 const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );

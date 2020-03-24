@@ -48,11 +48,11 @@ import sceneryPhetStrings from '../scenery-phet-strings.js';
 import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
 
 // constants
-const grabPatternString = sceneryPhetStrings.a11y.grabPattern;
-const gestureHelpTextPatternString = sceneryPhetStrings.a11y.gestureHelpTextPattern;
-const movableString = sceneryPhetStrings.a11y.movable;
-const defaultObjectToGrabString = sceneryPhetStrings.a11y.defaultObjectToGrab;
-const releasedString = sceneryPhetStrings.a11y.released;
+const grabPatternString = sceneryPhetStrings.a11y.grabDrag.grabPattern;
+const gestureHelpTextPatternString = sceneryPhetStrings.a11y.grabDrag.gestureHelpTextPattern;
+const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
+const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
+const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
 // wrap in a function because phet.joist.sim doesn't exist at RequireJS time
 const supportsGestureDescription = () => {

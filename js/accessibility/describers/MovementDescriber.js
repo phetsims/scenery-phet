@@ -21,14 +21,14 @@ import BorderAlertsDescriber from './BorderAlertsDescriber.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const downString = sceneryPhetStrings.a11y.down;
-const leftString = sceneryPhetStrings.a11y.left;
-const rightString = sceneryPhetStrings.a11y.right;
-const upString = sceneryPhetStrings.a11y.up;
-const upAndToTheLeftString = sceneryPhetStrings.a11y.upAndToTheLeft;
-const upAndToTheRightString = sceneryPhetStrings.a11y.upAndToTheRight;
-const downAndToTheLeftString = sceneryPhetStrings.a11y.downAndToTheLeft;
-const downAndToTheRightString = sceneryPhetStrings.a11y.downAndToTheRight;
+const downString = sceneryPhetStrings.a11y.movementDescriber.down;
+const leftString = sceneryPhetStrings.a11y.movementDescriber.left;
+const rightString = sceneryPhetStrings.a11y.movementDescriber.right;
+const upString = sceneryPhetStrings.a11y.movementDescriber.up;
+const upAndToTheLeftString = sceneryPhetStrings.a11y.movementDescriber.upAndToTheLeft;
+const upAndToTheRightString = sceneryPhetStrings.a11y.movementDescriber.upAndToTheRight;
+const downAndToTheLeftString = sceneryPhetStrings.a11y.movementDescriber.downAndToTheLeft;
+const downAndToTheRightString = sceneryPhetStrings.a11y.movementDescriber.downAndToTheRight;
 
 // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
 const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;

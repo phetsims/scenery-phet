@@ -18,19 +18,18 @@ import PageUpKeyNode from '../PageUpKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
+// constants
 const keyboardHelpDialogAdjustInLargerStepsString = sceneryPhetStrings.keyboardHelpDialog.adjustInLargerSteps;
 const keyboardHelpDialogAdjustInSmallerStepsString = sceneryPhetStrings.keyboardHelpDialog.adjustInSmallerSteps;
 const keyboardHelpDialogAdjustSliderString = sceneryPhetStrings.keyboardHelpDialog.adjustSlider;
 const keyboardHelpDialogJumpToMaximumString = sceneryPhetStrings.keyboardHelpDialog.jumpToMaximum;
 const keyboardHelpDialogJumpToMinimumString = sceneryPhetStrings.keyboardHelpDialog.jumpToMinimum;
 const keyboardHelpDialogSliderControlsString = sceneryPhetStrings.keyboardHelpDialog.sliderControls;
-
-// a11y strings
-const keyboardHelpDialogAdjustLargerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustLargerStepsString;
-const keyboardHelpDialogJumpToHomeString = sceneryPhetStrings.a11y.keyboardHelpDialogJumpToHomeString;
-const keyboardHelpDialogJumpToEndString = sceneryPhetStrings.a11y.keyboardHelpDialogJumpToEndString;
-const keyboardHelpDialogAdjustDefaultStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustDefaultStepsString;
-const keyboardHelpDialogAdjustSmallerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialogAdjustSmallerStepsString;
+const keyboardHelpDialogAdjustLargerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialog.slider.adjustLargerStepsString;
+const keyboardHelpDialogJumpToHomeString = sceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToHomeString;
+const keyboardHelpDialogJumpToEndString = sceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToEndString;
+const keyboardHelpDialogAdjustDefaultStepsString = sceneryPhetStrings.a11y.keyboardHelpDialog.slider.adjustDefaultStepsString;
+const keyboardHelpDialogAdjustSmallerStepsString = sceneryPhetStrings.a11y.keyboardHelpDialog.slider.adjustSmallerStepsString;
 
 /**
  * @constructor

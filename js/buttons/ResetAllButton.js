@@ -24,8 +24,8 @@ import ResetButton from './ResetButton.js';
 // constants
 const RESET_ALL_BUTTON_RADIUS = 20.8;
 
-const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAllLabelString;
-const resetAllAlertString = sceneryPhetStrings.a11y.resetAllAlertString;
+const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
+const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 
 /**
  * @param {Object} [options]

@@ -21,8 +21,8 @@ import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../scenery-phet-strings.js';
 
 // constants
-const playString = sceneryPhetStrings.a11y.playString;
-const pauseString = sceneryPhetStrings.a11y.pauseString;
+const playString = sceneryPhetStrings.a11y.playPauseButton.play;
+const pauseString = sceneryPhetStrings.a11y.playPauseButton.pause;
 
 const DEFAULT_RADIUS = 28;
 

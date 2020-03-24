@@ -33,9 +33,9 @@ import TimeControlSpeed from './TimeControlSpeed.js';
 const speedNormalString = sceneryPhetStrings.speed.normal;
 const speedSlowString = sceneryPhetStrings.speed.slow;
 const speedFastString = sceneryPhetStrings.speed.fast;
-const simSpeedDescriptionString = sceneryPhetStrings.a11y.simSpeedDescription;
-const timeControlLabelString = sceneryPhetStrings.a11y.timeControlLabel;
-const simSpeedsString = sceneryPhetStrings.a11y.simSpeedsString;
+const simSpeedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.simSpeedDescription;
+const timeControlLabelString = sceneryPhetStrings.a11y.timeControlNode.label;
+const simSpeedsString = sceneryPhetStrings.a11y.timeControlNode.simSpeeds;
 
 // supported speeds for SpeedRadioButtonGroup
 const DEFAULT_TIME_CONTROL_SPEEDS = [ TimeControlSpeed.NORMAL, TimeControlSpeed.SLOW ];

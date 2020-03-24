@@ -21,9 +21,9 @@ import sceneryPhetStrings from '../scenery-phet-strings.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // contants
-const stepForwardString = sceneryPhetStrings.a11y.stepForwardString;
-const stepPlayingDescriptionString = sceneryPhetStrings.a11y.stepPlayingDescriptionString;
-const stepPausedDescriptionString = sceneryPhetStrings.a11y.stepPausedDescriptionString;
+const stepForwardString = sceneryPhetStrings.a11y.stepButton.stepForward;
+const stepPlayingDescriptionString = sceneryPhetStrings.a11y.stepButton.playingDescription;
+const stepPausedDescriptionString = sceneryPhetStrings.a11y.stepButton.pausedDescription;
 
 /**
  * @param {Object} [options] - see RoundPushButton

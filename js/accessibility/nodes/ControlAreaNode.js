@@ -16,7 +16,7 @@ import sceneryPhetStrings from '../../scenery-phet-strings.js';
 import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
 // constants
-const controlAreaString = sceneryPhetStrings.a11y.controlArea;
+const controlAreaString = sceneryPhetStrings.a11y.simSection.controlArea;
 
 /**
  * @constructor
