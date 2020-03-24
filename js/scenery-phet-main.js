@@ -17,6 +17,7 @@ import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
 import GreenhouseWavesScreenView from './demo/GreenhouseWavesScreenView.js';
 import MemoryTestsScreenView from './demo/MemoryTestsScreenView.js';
+import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
 import sceneryPhetStrings from './scenery-phet-strings.js';
@@ -27,7 +28,8 @@ const sceneryPhetTitleString = sceneryPhetStrings[ 'scenery-phet' ].title;
 const simOptions = {
   credits: {
     leadDesign: 'PhET'
-  }
+  },
+  keyboardHelpNode: new SceneryPhetKeyboardHelpContent()
 };
 
 // Creates a rectangle filled with a specified color
