@@ -148,12 +148,13 @@ inherit( VBox, KeyboardHelpSection, {}, {
    *
    * @param {string} labelString - string for the label Text
    * @param {Node} icon
-   * @param {string} [labelInnerContent] - required to have the PDOM description of this row in the dialog
+   * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
    * @param {Object} [options]
    * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
   labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
+    assert && assert( typeof labelInnerContent === 'string', 'labelInnerContent should be a string.' );
 
     options = merge( {
 
@@ -163,19 +164,16 @@ inherit( VBox, KeyboardHelpSection, {}, {
       matchHorizontal: false,
 
       // options for the AlignBox surrounding the icon
-      iconOptions: {}
+      iconOptions: {
+        tagName: 'li'
+      }
     }, options );
     assert && assert( !options.children, 'children are not optional' );
+    assert && assert( !options.iconOptions.innerContent, 'should be specified as an parameter, see labelInnerContent' );
+
+    options.iconOptions.innerContent = labelInnerContent;
 
     const labelText = new RichText( labelString, { font: LABEL_FONT } );
-
-    if ( labelInnerContent ) {
-      assert && assert( !options.iconOptions.innerContent, 'should be specified as an argument' );
-      options.iconOptions = merge( {
-        tagName: 'li',
-        innerContent: labelInnerContent
-      }, options.iconOptions );
-    }
 
     // make the label and icon the same height so that they will align when we assemble help section group
     const labelIconGroup = new AlignGroup( options );
