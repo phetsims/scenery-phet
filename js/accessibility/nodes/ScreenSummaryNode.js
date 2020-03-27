@@ -18,9 +18,9 @@ import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../scenery-phet-strings.js';
 
 // constants
-const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.screenSummaryMultiScreenIntro;
-const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.simSection.screenSummaryKeyboardShortcutsHint;
-const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.simSection.screenSummarySingleScreenIntroPattern;
+const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntro;
+const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
+const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
 
 /**
  * @constructor
