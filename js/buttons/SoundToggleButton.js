@@ -27,8 +27,8 @@ const MARGIN = 4;
 const X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
 const soundToggleLabelString = sceneryPhetStrings.a11y.soundToggle.label;
-const simSoundOnString = sceneryPhetStrings.a11y.soundToggle.simSoundOn;
-const simSoundOffString = sceneryPhetStrings.a11y.soundToggle.simSoundOff;
+const simSoundOnString = sceneryPhetStrings.a11y.soundToggle.alert.simSoundOn;
+const simSoundOffString = sceneryPhetStrings.a11y.soundToggle.alert.simSoundOff;
 
 /**
  *

@@ -193,11 +193,13 @@
       "label": {
         "value": "Mute Sound"
       },
-      "simSoundOn": {
-        "value": "Sim sound on."
-      },
-      "simSoundOff": {
-        "value": "Sim sound off."
+      "alert": {
+        "simSoundOn": {
+          "value": "Sim sound on."
+        },
+        "simSoundOff": {
+          "value": "Sim sound off."
+        }
       }
     },
     "keyboardHelpDialog": {
