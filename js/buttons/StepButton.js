@@ -17,7 +17,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // contants

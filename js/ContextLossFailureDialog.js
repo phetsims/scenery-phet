@@ -15,7 +15,7 @@ import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../sun/js/Dialog.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const webglWarningContextLossFailureString = sceneryPhetStrings.webglWarning.contextLossFailure;

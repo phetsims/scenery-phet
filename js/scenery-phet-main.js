@@ -20,7 +20,7 @@ import MemoryTestsScreenView from './demo/MemoryTestsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 
 const sceneryPhetTitleString = sceneryPhetStrings[ 'scenery-phet' ].title;

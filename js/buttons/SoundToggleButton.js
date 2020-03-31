@@ -17,7 +17,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // constants

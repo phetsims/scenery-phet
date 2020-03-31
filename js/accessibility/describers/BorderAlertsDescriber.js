@@ -12,7 +12,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants

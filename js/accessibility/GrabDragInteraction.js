@@ -44,7 +44,7 @@ import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
 
 // constants

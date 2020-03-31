@@ -15,7 +15,7 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 
 // constants
 const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntro;

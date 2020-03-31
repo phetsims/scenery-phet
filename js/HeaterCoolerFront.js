@@ -24,7 +24,7 @@ import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HeaterCoolerBack from './HeaterCoolerBack.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const coolString = sceneryPhetStrings.cool;

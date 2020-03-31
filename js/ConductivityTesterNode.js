@@ -30,7 +30,7 @@ import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const shortCircuitString = sceneryPhetStrings.shortCircuit;

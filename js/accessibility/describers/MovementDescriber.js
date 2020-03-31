@@ -16,7 +16,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import BorderAlertsDescriber from './BorderAlertsDescriber.js';
 import DirectionEnum from './DirectionEnum.js';
 

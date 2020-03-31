@@ -11,7 +11,7 @@ import Range from '../../dot/js/Range.js';
 import merge from '../../phet-core/js/merge.js';
 import NumberControl from './NumberControl.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumSliderThumb from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack from './SpectrumSliderTrack.js';

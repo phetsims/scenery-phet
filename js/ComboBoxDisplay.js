@@ -14,7 +14,7 @@ import ComboBox from '../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../sun/js/ComboBoxItem.js';
 import NumberDisplay from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

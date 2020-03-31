@@ -11,7 +11,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SpaceKeyNode from '../../keyboard/SpaceKeyNode.js';
 import PhetFont from '../../PhetFont.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
 const keyToGrabOrReleaseString = sceneryPhetStrings.key.toGrabOrRelease;

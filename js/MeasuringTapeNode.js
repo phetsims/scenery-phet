@@ -37,7 +37,7 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import measuringTapeImage from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class MeasuringTapeNode extends Node {

@@ -18,7 +18,7 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import ResetButton from './ResetButton.js';
 
 // constants

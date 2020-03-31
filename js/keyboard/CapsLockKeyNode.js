@@ -9,7 +9,7 @@
  */
 
 import inherit from '../../../phet-core/js/inherit.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import sceneryPhet from '../sceneryPhet.js';
 import TextKeyNode from './TextKeyNode.js';
 

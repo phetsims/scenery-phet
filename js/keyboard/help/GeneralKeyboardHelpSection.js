@@ -11,7 +11,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import EscapeKeyNode from '../EscapeKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';

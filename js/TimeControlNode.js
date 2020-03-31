@@ -23,7 +23,7 @@ import PlayPauseButton from './buttons/PlayPauseButton.js';
 import StepBackwardButton from './buttons/StepBackwardButton.js';
 import StepForwardButton from './buttons/StepForwardButton.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import TimeControlSpeed from './TimeControlSpeed.js';
 

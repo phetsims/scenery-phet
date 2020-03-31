@@ -13,7 +13,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const symbolOhmsString = sceneryPhetStrings.symbol.ohms;

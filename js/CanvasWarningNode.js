@@ -13,7 +13,7 @@ import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const webglWarningBodyString = sceneryPhetStrings.webglWarning.body;

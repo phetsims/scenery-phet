@@ -12,7 +12,7 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import PhetFont from '../../PhetFont.js';
 import PlusNode from '../../PlusNode.js';
-import sceneryPhetStrings from '../../scenery-phet-strings.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
 import EnterKeyNode from '../EnterKeyNode.js';

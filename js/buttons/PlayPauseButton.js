@@ -18,7 +18,7 @@ import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPla
 import PauseIconShape from '../PauseIconShape.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../scenery-phet-strings.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
 // constants
 const playString = sceneryPhetStrings.a11y.playPauseButton.play;

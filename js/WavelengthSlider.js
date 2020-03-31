@@ -11,7 +11,7 @@ import Utils from '../../dot/js/Utils.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import sceneryPhetStrings from './scenery-phet-strings.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumSlider from './SpectrumSlider.js';
 import VisibleColor from './VisibleColor.js';
