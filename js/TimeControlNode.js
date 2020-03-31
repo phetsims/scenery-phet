@@ -1,9 +1,8 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * Combines the PlayPauseButton and StepForwardButton. Also optionally includes a StepBackwardButton and a
- * VerticalAquaRadioButtonGroup that can control play speed. Various layouts for these buttons are supported,
- * see options.
+ * TimeControlNode provides a UI for controlling time.  It includes a play/pause button, step-forward button,
+ * optional step-backward button, and optional radio buttons for time speed. Various layouts are supported via options.
  *
  * @author Denzell Barnett (PhET Interactive Simulations)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
