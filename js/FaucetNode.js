@@ -191,11 +191,11 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   let intervalID = null;
   const startTapToDispense = function() {
     if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
-      const flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000;
+      const flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000; // L/ms -> L/sec
       self.phetioStartEvent( 'startTapToDispense', { data: { flowRate: flowRate } } );
       tapToDispenseIsArmed = false;
       tapToDispenseIsRunning = true;
-      flowRateProperty.set( flowRate ); // L/ms -> L/sec
+      flowRateProperty.set( flowRate );
       timeoutID = timer.setTimeout( function() {
         intervalID = timer.setInterval( function() {
           endTapToDispense();
