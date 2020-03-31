@@ -12,7 +12,6 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -448,13 +447,6 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
     }, options.radioButtonGroupOptions );
 
     super( timeControlSpeedProperty, radioButtons, radioButtonGroupOptions );
-
-    // PDOM - so that the RadioButtonGroup label is read any time a RadioButton gets focus
-    this.addAriaLabelledbyAssociation( {
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
-      otherNode: this,
-      otherElementName: AccessiblePeer.LABEL_SIBLING
-    } );
   }
 }
 
