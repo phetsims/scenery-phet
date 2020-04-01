@@ -13,6 +13,7 @@ import Vector2Property from '../../dot/js/Vector2Property.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -30,7 +31,7 @@ class Stopwatch extends PhetioObject {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      phetioType: ReferenceIO
+      phetioType: ReferenceIO( ObjectIO )
     }, options );
 
     super( options );
