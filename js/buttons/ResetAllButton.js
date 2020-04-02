@@ -62,8 +62,8 @@ function ResetAllButton( options ) {
     // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
     if ( options.phetioRestoreScreenStateOnReset &&
          this.isPhetioInstrumented() && // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
-         _.hasIn( window, 'phet.phetIo.phetioEngine' ) ) {
-      phet.phetIo.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
+         _.hasIn( window, 'phet.phetio.phetioEngine' ) ) {
+      phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
     }
   };
 
