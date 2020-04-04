@@ -88,8 +88,7 @@ function GaugeNode( valueProperty, label, range, options ) {
   } ) );
 
   const foregroundNode = new Node( {
-    pickable: false,
-    tandem: tandem.createTandem( 'foregroundNode' )
+    pickable: false
   } );
   this.addChild( foregroundNode );
 
