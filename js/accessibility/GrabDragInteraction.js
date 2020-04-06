@@ -36,7 +36,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import AccessiblePeer from '../../../scenery/js/accessibility/AccessiblePeer.js';
+import AccessiblePeer from '../../../scenery/js/accessibility/pdom/AccessiblePeer.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
