@@ -36,7 +36,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import AccessiblePeer from '../../../scenery/js/accessibility/pdom/AccessiblePeer.js';
+import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
@@ -246,8 +246,8 @@ class GrabDragInteraction {
     // the association can be removed when the node becomes a "draggable"
     this.descriptionAssociationObject = {
       otherNode: this.node,
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
-      otherElementName: AccessiblePeer.DESCRIPTION_SIBLING
+      thisElementName: PDOMPeer.PRIMARY_SIBLING,
+      otherElementName: PDOMPeer.DESCRIPTION_SIBLING
     };
 
     // for both grabbing and dragging, the node with this interaction must be focusable
