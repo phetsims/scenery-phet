@@ -86,7 +86,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     tandem: Tandem.REQUIRED,
     phetioType: NumberControlIO,
 
-    // a11y
+    // pdom
     groupFocusHighlight: true
   }, options );
 
@@ -173,7 +173,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
   const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
   options.arrowButtonOptions = _.omit( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
 
-  // a11y - for alternative input, the number control is accessed entirely through slider interaction and these
+  // pdom - for alternative input, the number control is accessed entirely through slider interaction and these
   // arrow buttons are not tab navigable
   assert && assert( options.arrowButtonOptions.tagName === undefined,
     'NumberControl\'s accessible content is just the slider, do not set accessible content on the buttons. Instead ' +
@@ -201,7 +201,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
   // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
   options.sliderOptions = merge( {
 
-    // a11y - shiftKeyboardStep should be the same as clicking the arrow buttons
+    // pdom - shiftKeyboardStep should be the same as clicking the arrow buttons
     shiftKeyboardStep: options.delta,
 
     // Make sure Slider gets created with the right IO Type

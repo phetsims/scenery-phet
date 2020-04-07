@@ -51,7 +51,7 @@ function ResetAllButton( options ) {
     // sound generation
     soundPlayer: resetAllSoundPlayer,
 
-    // a11y
+    // pdom
     innerContent: resetAllButtonNameString
   }, options );
 
@@ -77,7 +77,7 @@ function ResetAllButton( options ) {
     phetioState: false // this is a transient property based on user interaction, should not be stored in the state
   } );
 
-  // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
+  // pdom - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
   // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
   // alert that everything was reset.
   const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );

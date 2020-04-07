@@ -136,7 +136,7 @@ function LaserPointerNode( onProperty, options ) {
       center: bodyNode.center,
       tandem: options.tandem.createTandem( 'button' ),
 
-      // a11y
+      // pdom
       labelContent: options.buttonAccessibleName,
       labelTagName: 'label',
       descriptionContent: options.buttonDescriptionContent

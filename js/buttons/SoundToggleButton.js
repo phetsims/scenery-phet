@@ -61,7 +61,7 @@ function SoundToggleButton( property, options ) {
     xMargin: MARGIN,
     yMargin: MARGIN,
 
-    // a11y
+    // pdom
     tagName: 'button',
     innerContent: soundToggleLabelString
   }, options ) );

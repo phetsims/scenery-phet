@@ -80,7 +80,7 @@ function KeyboardHelpSection( headingString, content, options ) {
     // VBox options
     align: DEFAULT_ALIGN,
 
-    // a11y - tag name for the entire content, usually content is a list of items
+    // pdom - tag name for the entire content, usually content is a list of items
     a11yContentTagName: 'ul'
   }, options );
 
@@ -89,7 +89,7 @@ function KeyboardHelpSection( headingString, content, options ) {
     font: options.headingFont,
     maxWidth: options.headingMaxWidth,
 
-    // a11y
+    // pdom
     tagName: 'h2',
     innerContent: headingString
   } );
@@ -118,7 +118,7 @@ function KeyboardHelpSection( headingString, content, options ) {
   this.iconVBox = new VBox( merge( {
     children: icons,
 
-    // a11y
+    // pdom
     tagName: options.a11yContentTagName
   }, vBoxOptions ) );
 

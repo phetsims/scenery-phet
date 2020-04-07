@@ -121,7 +121,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
     phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
     phetioComponentOptions: null, // filled in below with PhetioObject.mergePhetioComponentOptions()
 
-    // a11y
+    // pdom
     pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
   }, options );
 
@@ -381,7 +381,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
   // Dilate based on consistent technique which brings into account transform of this node.
   const focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
 
-  // a11y - custom focus highlight that matches rounded background behind the numeric value
+  // pdom - custom focus highlight that matches rounded background behind the numeric value
   this.focusHighlight = new FocusHighlightPath( Shape.roundedRectangleWithRadii(
     focusBounds.minX,
     focusBounds.minY,
@@ -436,7 +436,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
       self.enabledProperty.unlink( enabledListener );
     }
 
-    // a11y mixin
+    // pdom mixin
     self.disposeAccessibleNumberSpinner();
   };
 
