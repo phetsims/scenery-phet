@@ -382,7 +382,7 @@ class GrabDragInteraction {
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
     const pressListener = new PressListener( {
       press: ( event, listener ) => {
-        if ( !event.isA11y() ) {
+        if ( !event.isFromPDOM() ) {
           this.turnToDraggable();
           this.onGrab();
         }
@@ -390,7 +390,7 @@ class GrabDragInteraction {
       release: ( event, listener ) => {
 
         // release if PressListener is interrupted
-        if ( event === null || !event.isA11y() ) {
+        if ( event === null || !event.isFromPDOM() ) {
           this.releaseDraggable();
         }
       },
