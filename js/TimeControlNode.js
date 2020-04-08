@@ -44,9 +44,9 @@ const DEFAULT_TIME_CONTROL_SPEEDS = [ TimeControlSpeed.NORMAL, TimeControlSpeed.
 
 //  maps TimeControlSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
-SPEED_LABEL_MAP.set( TimeControlSpeed.FAST, { labelString: speedFastString, tandemName: 'fast' } );
-SPEED_LABEL_MAP.set( TimeControlSpeed.NORMAL, { labelString: speedNormalString, tandemName: 'normal' } );
-SPEED_LABEL_MAP.set( TimeControlSpeed.SLOW, { labelString: speedSlowString, tandemName: 'slow' } );
+SPEED_LABEL_MAP.set( TimeControlSpeed.FAST, { labelString: speedFastString, tandemName: 'fastRadioButton' } );
+SPEED_LABEL_MAP.set( TimeControlSpeed.NORMAL, { labelString: speedNormalString, tandemName: 'normalRadioButton' } );
+SPEED_LABEL_MAP.set( TimeControlSpeed.SLOW, { labelString: speedSlowString, tandemName: 'slowRadioButton' } );
 
 class TimeControlNode extends Node {
 
