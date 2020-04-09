@@ -53,20 +53,25 @@
 
 import Property from '../../axon/js/Property.js';
 import StringProperty from '../../axon/js/StringProperty.js';
+import merge from '../../phet-core/js/merge.js';
 import Color from '../../scenery/js/util/Color.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
-
-// constants
-const tandem = Tandem.GLOBAL.createTandem( 'colorProfile' );
 
 class ColorProfile {
 
   /**
    * @param {Array.<string>} profileNames - A list of valid profile names that can be taken.
    * @param {Object} colors - See documentation above
+   * @param {Object} [options]
    */
-  constructor( profileNames, colors ) {
+  constructor( profileNames, colors, options ) {
+
+    options = merge( {
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
 
     // @public (read-only)
     this.profileNames = profileNames;
@@ -80,7 +85,7 @@ class ColorProfile {
     // @public {Property.<string>}
     // The current profile name. Change this Property's value to change which profile is currently active.
     this.profileNameProperty = new StringProperty( initialProfileName, {
-      tandem: tandem.createTandem( 'profileNameProperty' ),
+      tandem: options.tandem.createTandem( 'profileNameProperty' ),
       validValues: profileNames
     } );
 
