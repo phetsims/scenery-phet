@@ -190,7 +190,7 @@ class MeasuringTapeNode extends Node {
       this.valueBackgroundNode.setRect( 0, 0, valueBackgroundWidth, valueBackgroundHeight );
       this.valueBackgroundNode.center = this.valueNode.center;
     };
-    this.valueNode.on( 'bounds', updateValueBackgroundNode );
+    this.valueNode.boundsProperty.lazyLink( updateValueBackgroundNode );
     updateValueBackgroundNode();
 
     // expand the area for touch

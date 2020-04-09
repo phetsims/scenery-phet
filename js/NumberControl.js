@@ -584,7 +584,7 @@ inherit( VBox, NumberControl, {
       } );
 
       // When the text of the title changes recompute the alignment between the title and content
-      titleNode.on( 'bounds', () => {
+      titleNode.boundsProperty.lazyLink( () => {
         titleAndContentVBox.updateLayout();
       } );
       return titleAndContentVBox;

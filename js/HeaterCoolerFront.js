@@ -180,13 +180,13 @@ class HeaterCoolerFront extends Node {
 
     // update the back component if provided
     if ( options.heaterCoolerBack ) {
-      this.on( 'opacity', () => {
+      this.opacityProperty.lazyLink( () => {
         options.heaterCoolerBack.opacity = this.opacity;
       } );
-      this.on( 'pickability', () => {
+      this.pickableProperty.lazyLink( () => {
         options.heaterCoolerBack.pickable = this.pickable;
       } );
-      this.on( 'visibility', () => {
+      this.visibleProperty.lazyLink( () => {
         options.heaterCoolerBack.visible = this.visible;
       } );
     }

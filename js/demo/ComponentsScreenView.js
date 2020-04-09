@@ -850,11 +850,11 @@ const demoWireNode = function( layoutBounds ) {
   // Add the wire behind the probe.
   const wireNode = new WireNode(
     // Connect to the greenCircle at the center bottom
-    new NodeProperty( greenCircle, 'bounds', 'centerBottom' ),
+    new NodeProperty( greenCircle, greenCircle.boundsProperty, 'centerBottom' ),
     new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ),
 
     // Connect to node2 at the left center
-    new NodeProperty( redCircle, 'bounds', 'leftCenter' ),
+    new NodeProperty( redCircle, redCircle.boundsProperty, 'leftCenter' ),
     new Vector2Property( new Vector2( -NORMAL_DISTANCE, 0 ) ), {
       lineWidth: 3
     }

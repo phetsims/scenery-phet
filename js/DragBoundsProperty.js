@@ -25,11 +25,11 @@ class DragBoundsProperty extends DerivedProperty {
       `invalid visibleBoundsProperty: ${visibleBoundsProperty}` );
 
     // Also detect changes in the size of the target node itself
-    const targetWidthProperty = new NodeProperty( targetNode, 'bounds', 'width', {
+    const targetWidthProperty = new NodeProperty( targetNode, targetNode.boundsProperty, 'width', {
       readOnly: true
     } );
     // Also detect changes in the size of the target node itself
-    const targetHeightProperty = new NodeProperty( targetNode, 'bounds', 'height', {
+    const targetHeightProperty = new NodeProperty( targetNode, targetNode.boundsProperty, 'height', {
       readOnly: true
     } );
 

@@ -134,13 +134,13 @@ class StopwatchReadoutNode extends Rectangle {
         updateText( timeProperty.value );
         updateTextPosition();
       };
-      options.unitsNode.on( 'bounds', unitsNodeBoundsListener );
+      options.unitsNode.boundsProperty.lazyLink( unitsNodeBoundsListener );
     }
 
     this.disposeStopwatchReadoutNode = () => {
       timeProperty.unlink( updateText );
       timeProperty.unlink( updateTextPosition );
-      options.unitsNode && options.unitsNode.off( unitsNodeBoundsListener );
+      options.unitsNode && options.unitsNode.boundsProperty.unlink( unitsNodeBoundsListener );
     };
   }
 
