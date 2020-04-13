@@ -18,12 +18,13 @@ import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.
 import RectangularButtonView from '../../sun/js/buttons/RectangularButtonView.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
+import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CurvedArrowShape from './CurvedArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
-const DISABLED_COLOR = 'rgba( 0, 0, 0, 0.3 )';
+const DISABLED_COLOR = new Color( 0, 0, 0, SunConstants.DISABLED_OPACITY );
 
 /**
  * @constructor
