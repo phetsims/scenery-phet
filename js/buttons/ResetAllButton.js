@@ -56,6 +56,8 @@ function ResetAllButton( options ) {
   }, options );
 
   const passedInListener = options.listener;
+
+  // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super call is complete.
   options.listener = () => {
     passedInListener();
 
