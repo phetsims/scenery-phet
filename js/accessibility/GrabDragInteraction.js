@@ -279,7 +279,6 @@ class GrabDragInteraction {
     };
     this.grabFocusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
 
-    // TODO: Likely we will need to monitor the parent for changes, and update accordingly, though for now it works in friction, see https://github.com/phetsims/scenery-phet/issues/421
     this.grabCueNode.prependMatrix( node.getMatrix() );
     this.grabFocusHighlight.addChild( this.grabCueNode );
     if ( this.dragCueNode ) {
