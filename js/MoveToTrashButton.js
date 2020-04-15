@@ -17,7 +17,6 @@ import Color from '../../scenery/js/util/Color.js';
 import RectangularButtonView from '../../sun/js/buttons/RectangularButtonView.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import CurvedArrowShape from './CurvedArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -37,25 +36,20 @@ function MoveToTrashButton( options ) {
     buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
     cornerRadius: 6,
     xMargin: 7,
-    yMargin: 3,
-    tandem: Tandem.REQUIRED
+    yMargin: 3
   }, options );
 
-  const trashNode = new FontAwesomeNode( 'trash', {
-    tandem: options.tandem.createTandem( 'trashPath' )
-  } );
+  const trashNode = new FontAwesomeNode( 'trash' );
 
   const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
     headWidth: 12,
-    tailWidth: 4,
-    tandem: options.tandem.createTandem( 'arrowShape' )
+    tailWidth: 4
   } );
 
   const arrowPath = new Path( arrowShape, {
     fill: options.arrowColor,
     right: trashNode.left + ( 0.75 * trashNode.width ), // a bit to the left of center
-    bottom: trashNode.top,
-    tandem: options.tandem.createTandem( 'arrowPath' )
+    bottom: trashNode.top
   } );
 
   options.content = new Node( {
