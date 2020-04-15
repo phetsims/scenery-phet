@@ -1,7 +1,7 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
 /**
- * A button whose icon means 'move to trash'.
+ * MoveToTrashButton is a push button whose icon means 'move to trash'.
  * The arrow can be color-coded to the thing being deleted by setting options.arrowColor.
  *
  * @author Sam Reid
@@ -14,17 +14,12 @@ import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Color from '../../scenery/js/util/Color.js';
-import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import RectangularButtonView from '../../sun/js/buttons/RectangularButtonView.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CurvedArrowShape from './CurvedArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
-
-// constants
-const DISABLED_COLOR = new Color( 0, 0, 0, SunConstants.DISABLED_OPACITY );
 
 /**
  * @constructor
@@ -34,51 +29,37 @@ const DISABLED_COLOR = new Color( 0, 0, 0, SunConstants.DISABLED_OPACITY );
 function MoveToTrashButton( options ) {
 
   options = merge( {
+    arrowColor: 'black',
+
+    // RectangularPushButton options
     baseColor: new Color( 230, 230, 240 ),
     disabledBaseColor: 'white',
-    arrowColor: 'black',
-    cornerRadius: 6,
     buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
+    cornerRadius: 6,
     xMargin: 7,
     yMargin: 3,
     tandem: Tandem.REQUIRED
   }, options );
 
-  assert && assert( !options.contentAppearanceStrategy, 'MoveToTrashButton sets contentAppearanceStrategy' );
-  options.contentAppearanceStrategy = function( content, interactionStateProperty ) {
-
-    function updateEnabled( state ) {
-      if ( content ) {
-        const enabled = state !== ButtonInteractionState.DISABLED &&
-                        state !== ButtonInteractionState.DISABLED_PRESSED;
-
-        arrowPath.fill = enabled ? options.arrowColor : DISABLED_COLOR;
-        trashPath.fill = enabled ? 'black' : DISABLED_COLOR;
-      }
-    }
-
-    interactionStateProperty.link( updateEnabled );
-    this.dispose = function() {
-      interactionStateProperty.unlink( updateEnabled );
-    };
-  };
-
-  var trashPath = new FontAwesomeNode( 'trash', { tandem: options.tandem.createTandem( 'trashPath' ) } );
-
-  const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
-    tandem: options.tandem.createTandem( 'arrowShape' ),
-    headWidth: 12,
-    tailWidth: 4
+  const trashNode = new FontAwesomeNode( 'trash', {
+    tandem: options.tandem.createTandem( 'trashPath' )
   } );
 
-  var arrowPath = new Path( arrowShape, {
-    tandem: options.tandem.createTandem( 'arrowPath' ),
-    bottom: trashPath.top,
-    right: trashPath.left + trashPath.width * 0.75
+  const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
+    headWidth: 12,
+    tailWidth: 4,
+    tandem: options.tandem.createTandem( 'arrowShape' )
+  } );
+
+  const arrowPath = new Path( arrowShape, {
+    fill: options.arrowColor,
+    right: trashNode.left + ( 0.75 * trashNode.width ), // a bit to the left of center
+    bottom: trashNode.top,
+    tandem: options.tandem.createTandem( 'arrowPath' )
   } );
 
   options.content = new Node( {
-    children: [ trashPath, arrowPath ],
+    children: [ trashNode, arrowPath ],
     scale: 0.4
   } );
 
