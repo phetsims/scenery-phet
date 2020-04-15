@@ -7,6 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Property from '../../../axon/js/Property.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
 import inherit from '../../../phet-core/js/inherit.js';
@@ -14,6 +15,7 @@ import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import VStrut from '../../../scenery/js/nodes/VStrut.js';
+import Checkbox from '../../../sun/js/Checkbox.js';
 import BackButton from '../buttons/BackButton.js';
 import CloseButton from '../buttons/CloseButton.js';
 import EraserButton from '../buttons/EraserButton.js';
@@ -47,55 +49,69 @@ function ButtonsScreenView() {
   //------------------------------------------------------------------------------------------------------
   // Push buttons
 
+  const pushButtons = [];
+
   const backButton = new BackButton( {
     listener: function() { console.log( 'BackButton pressed' ); }
   } );
+  pushButtons.push( backButton );
 
   const closeButton = new CloseButton( {
     listener: function() { console.log( 'CloseButton pressed' ); }
   } );
+  pushButtons.push( closeButton );
 
   const eraserButton = new EraserButton( {
     listener: function() { console.log( 'EraserButton pressed' ); }
   } );
+  pushButtons.push( eraserButton );
 
   const resetButton = new ResetButton( {
     listener: function() { console.log( 'ResetButton pressed' ); }
   } );
+  pushButtons.push( resetButton );
 
   const restartButton = new RestartButton( {
     listener: function() { console.log( 'RestartButton pressed' ); }
   } );
+  pushButtons.push( restartButton );
 
   const starButton = new StarButton( {
     listener: function() { console.log( 'StarButton pressed' ); }
   } );
+  pushButtons.push( starButton );
 
   const stepBackwardButton = new StepBackwardButton( {
     listener: function() { console.log( 'StepBackwardButton pressed' ); }
   } );
+  pushButtons.push( stepBackwardButton );
 
   const stepForwardButton = new StepForwardButton( {
     listener: function() { console.log( 'StepForwardButton pressed' ); }
   } );
+  pushButtons.push( stepForwardButton );
 
   const zoomButton = new ZoomButton( {
     listener: function() { console.log( 'ZoomButton pressed' ); }
   } );
+  pushButtons.push( zoomButton );
 
   const infoButton = new InfoButton( {
     listener: function() { console.log( 'InfoButton pressed' ); }
   } );
+  pushButtons.push( infoButton );
 
   const refreshButton = new RefreshButton( {
     listener: function() { console.log( 'RefreshButton pressed' ); }
   } );
+  pushButtons.push( refreshButton );
 
   const leftRightSpinnerProperty = new Property( 1 );
   const leftEnabledProperty = new Property( true );
   const rightEnabledProperty = new Property( true );
 
   const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty );
+  pushButtons.push( leftRightSpinner );
 
   leftRightSpinnerProperty.lazyLink( function( value ) {
     console.log( 'LeftRightSpinner: ' + value );
@@ -116,6 +132,7 @@ function ButtonsScreenView() {
   const downEnabledProperty = new Property( true );
 
   const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty );
+  pushButtons.push( upDownSpinner );
 
   upDownSpinnerProperty.lazyLink( function( value ) {
     console.log( 'UpDownSpinner: ' + value );
@@ -135,25 +152,13 @@ function ButtonsScreenView() {
     arrowColor: 'red',
     scale: 2
   } );
+  pushButtons.push( moveToTrashButton );
 
-  // Push buttons
-  const pushButtons = new HBox( {
-    children: [
-      backButton,
-      closeButton,
-      eraserButton,
-      resetButton,
-      restartButton,
-      starButton,
-      stepBackwardButton,
-      stepForwardButton,
-      zoomButton,
-      infoButton,
-      refreshButton,
-      leftRightSpinner,
-      upDownSpinner,
-      moveToTrashButton
-    ],
+  const resetAllButton = new ResetAllButton();
+  pushButtons.push( resetAllButton );
+
+  const pushButtonsHBox = new HBox( {
+    children: pushButtons,
     spacing: 10,
     align: 'center',
     center: this.layoutBounds.center
@@ -161,6 +166,8 @@ function ButtonsScreenView() {
 
   //------------------------------------------------------------------------------------------------------
   // Toggle buttons
+
+  const toggleButtons = [];
 
   // Add button properties here, so that resetAllButton functions properly.
   const toggleButtonProperties = {
@@ -175,77 +182,76 @@ function ButtonsScreenView() {
   toggleButtonProperties.eyeOpenProperty.lazyLink( function( eyeOpen ) {
     console.log( 'eyeOpen=' + eyeOpen );
   } );
+  toggleButtons.push( eyeButton );
 
   const playPauseButton = new PlayPauseButton( toggleButtonProperties.isPlayingProperty );
   toggleButtonProperties.isPlayingProperty.lazyLink( function( playing ) {
     console.log( 'playing=' + playing );
   } );
+  toggleButtons.push( playPauseButton );
 
   const recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
   toggleButtonProperties.recordingProperty.lazyLink( function( recording ) {
     console.log( 'recording=' + recording );
   } );
+  toggleButtons.push( recordStopButton );
 
   const soundToggleButton = new SoundToggleButton( toggleButtonProperties.soundEnabledProperty );
   toggleButtonProperties.soundEnabledProperty.lazyLink( function( soundEnabled ) {
     console.log( 'soundEnabled=' + soundEnabled );
   } );
+  toggleButtons.push( soundToggleButton );
 
   const timerToggleButton = new TimerToggleButton( toggleButtonProperties.timerEnabledProperty );
   toggleButtonProperties.timerEnabledProperty.lazyLink( function( timerEnabled ) {
     console.log( 'timerEnabled=' + timerEnabled );
   } );
+  toggleButtons.push( timerToggleButton );
 
   // Toggle button
-  const toggleButtons = new HBox( {
-    children: [
-      eyeButton,
-      playPauseButton,
-      recordStopButton,
-      soundToggleButton,
-      timerToggleButton
-    ],
+  const toggleButtonsHBox = new HBox( {
+    children: toggleButtons,
     spacing: 10,
     align: 'center',
     center: this.layoutBounds.center
   } );
 
+  //------------------------------------------------------------------------------------------------------
+  // enabledProperty
+
+  const buttonsEnabledProperty = new BooleanProperty( true );
+  buttonsEnabledProperty.link( enabled => {
+    pushButtons.forEach( button => {
+      button.enabled = enabled;
+    } );
+    toggleButtons.forEach( button => {
+      button.enabled = enabled;
+    } );
+  } );
+
+  const enabledText = new Text( 'Enabled', { font: new PhetFont( 22 ) } );
+  const enabledCheckbox = new Checkbox( enabledText, buttonsEnabledProperty );
+
+  //------------------------------------------------------------------------------------------------------
+  // ScreenView layout
+
   this.addChild( new VBox( {
     align: 'left',
     children: [
       new Text( 'Push buttons:', { font: new PhetFont( 24 ) } ),
-      pushButtons,
+      pushButtonsHBox,
       new VStrut( 20 ),
       new Text( 'Toggle buttons:', { font: new PhetFont( 24 ) } ),
-      toggleButtons
+      toggleButtonsHBox,
+      new VStrut( 20 ),
+      new Text(  'Tests:', { font: new PhetFont( 24 ) }  ),
+      enabledCheckbox
     ],
     spacing: 10,
     center: this.layoutBounds.center
   } ) );
 
-  // Reset All button, in its usual lower-right position
-  const resetAllButton = new ResetAllButton( {
-    listener: function() {
 
-      leftRightSpinnerProperty.reset();
-      leftEnabledProperty.reset();
-      rightEnabledProperty.reset();
-      upDownSpinnerProperty.reset();
-      upEnabledProperty.reset();
-      downEnabledProperty.reset();
-
-      // reset each Property in toggleButtonProperties
-      for ( const property in toggleButtonProperties ) {
-        if ( toggleButtonProperties.hasOwnProperty( property ) && ( toggleButtonProperties[ property ] instanceof Property ) ) {
-          toggleButtonProperties[ property ].reset();
-        }
-      }
-    },
-    radius: 22,
-    right: this.layoutBounds.right - 10,
-    bottom: this.layoutBounds.bottom - 10
-  } );
-  this.addChild( resetAllButton );
 }
 
 sceneryPhet.register( 'ButtonsScreenView', ButtonsScreenView );
