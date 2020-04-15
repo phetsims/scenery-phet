@@ -26,6 +26,8 @@ class MoveToTrashButton extends RectangularPushButton {
   constructor( options ) {
 
     options = merge( {
+
+      // MoveToTrashButton options
       arrowColor: 'black',
 
       // RectangularPushButton options
