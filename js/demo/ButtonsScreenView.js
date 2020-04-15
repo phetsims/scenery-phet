@@ -33,11 +33,9 @@ import StepBackwardButton from '../buttons/StepBackwardButton.js';
 import StepForwardButton from '../buttons/StepForwardButton.js';
 import TimerToggleButton from '../buttons/TimerToggleButton.js';
 import ZoomButton from '../buttons/ZoomButton.js';
-import LeftRightSpinner from '../LeftRightSpinner.js';
 import MoveToTrashButton from '../MoveToTrashButton.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import UpDownSpinner from '../UpDownSpinner.js';
 
 /**
  * @constructor
@@ -105,48 +103,6 @@ function ButtonsScreenView() {
     listener: function() { console.log( 'RefreshButton pressed' ); }
   } );
   pushButtons.push( refreshButton );
-
-  const leftRightSpinnerProperty = new Property( 1 );
-  const leftEnabledProperty = new Property( true );
-  const rightEnabledProperty = new Property( true );
-
-  const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty );
-  pushButtons.push( leftRightSpinner );
-
-  leftRightSpinnerProperty.lazyLink( function( value ) {
-    console.log( 'LeftRightSpinner: ' + value );
-    if ( value >= 10 ) {
-      rightEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      leftEnabledProperty.set( false );
-    }
-    else {
-      rightEnabledProperty.set( true );
-      leftEnabledProperty.set( true );
-    }
-  } );
-
-  const upDownSpinnerProperty = new Property( 1 );
-  const upEnabledProperty = new Property( true );
-  const downEnabledProperty = new Property( true );
-
-  const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty );
-  pushButtons.push( upDownSpinner );
-
-  upDownSpinnerProperty.lazyLink( function( value ) {
-    console.log( 'UpDownSpinner: ' + value );
-    if ( value >= 10 ) {
-      upEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      downEnabledProperty.set( false );
-    }
-    else {
-      upEnabledProperty.set( true );
-      downEnabledProperty.set( true );
-    }
-  } );
 
   const moveToTrashButton = new MoveToTrashButton( {
     arrowColor: 'red',

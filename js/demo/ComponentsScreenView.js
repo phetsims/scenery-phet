@@ -76,6 +76,7 @@ import TabKeyNode from '../keyboard/TabKeyNode.js';
 import TextKeyNode from '../keyboard/TextKeyNode.js';
 import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
+import LeftRightSpinner from '../LeftRightSpinner.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
 import NumberControl from '../NumberControl.js';
 import NumberDisplay from '../NumberDisplay.js';
@@ -95,6 +96,7 @@ import StopwatchNode from '../StopwatchNode.js';
 import ThermometerNode from '../ThermometerNode.js';
 import TimeControlNode from '../TimeControlNode.js';
 import TimeControlSpeed from '../TimeControlSpeed.js';
+import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
 
 // constants
@@ -132,6 +134,7 @@ function ComponentsScreenView( options ) {
     { label: 'KeyboardHelpContent', createNode: demoHelpContent },
     { label: 'Keypad', createNode: demoKeypad },
     { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+    { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
     { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
     { label: 'NumberDisplay', createNode: demoNumberDisplay },
     { label: 'NumberKeypad', createNode: demoNumberKeypad },
@@ -146,6 +149,7 @@ function ComponentsScreenView( options ) {
     { label: 'StopwatchNode', createNode: demoStopwatchNode },
     { label: 'ThermometerNode', createNode: demoTemperatureNode },
     { label: 'TimeControlNode', createNode: demoTimeControlNode },
+    { label: 'UpDownSpinner', createNode: demoUpDownSpinner },
     { label: 'WireNode', createNode: demoWireNode }
   ], merge( {
     comboBoxItemFont: new PhetFont( 12 ),
@@ -1511,6 +1515,62 @@ const demoTimeControlNode = function( layoutBounds ) {
     center: layoutBounds.center,
     resize: false
   } );
+};
+
+// creates a demo for LeftRightSpinner
+const demoLeftRightSpinner = layoutBounds => {
+
+  const leftRightSpinnerProperty = new Property( 1 );
+  const leftEnabledProperty = new Property( true );
+  const rightEnabledProperty = new Property( true );
+
+  const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty, {
+    center: layoutBounds.center
+  } );
+
+  leftRightSpinnerProperty.lazyLink( function( value ) {
+    console.log( 'LeftRightSpinner: ' + value );
+    if ( value >= 10 ) {
+      rightEnabledProperty.set( false );
+    }
+    else if ( value <= 0 ) {
+      leftEnabledProperty.set( false );
+    }
+    else {
+      rightEnabledProperty.set( true );
+      leftEnabledProperty.set( true );
+    }
+  } );
+
+  return leftRightSpinner;
+};
+
+// creates a demo for UpDownSpinner
+const demoUpDownSpinner = layoutBounds => {
+
+  const upDownSpinnerProperty = new Property( 1 );
+  const upEnabledProperty = new Property( true );
+  const downEnabledProperty = new Property( true );
+
+  const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty, {
+    center: layoutBounds.center
+  } );
+
+  upDownSpinnerProperty.lazyLink( function( value ) {
+    console.log( 'UpDownSpinner: ' + value );
+    if ( value >= 10 ) {
+      upEnabledProperty.set( false );
+    }
+    else if ( value <= 0 ) {
+      downEnabledProperty.set( false );
+    }
+    else {
+      upEnabledProperty.set( true );
+      downEnabledProperty.set( true );
+    }
+  } );
+
+  return upDownSpinner;
 };
 
 export default inherit( DemosScreenView, ComponentsScreenView, {
