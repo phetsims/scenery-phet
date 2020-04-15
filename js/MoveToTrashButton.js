@@ -34,8 +34,6 @@ const DISABLED_COLOR = new Color( 0, 0, 0, SunConstants.DISABLED_OPACITY );
 function MoveToTrashButton( options ) {
 
   options = merge( {
-
-    // {Color|string} by default the arrow is color-coded for thermal energy, see scenery-phet#320
     baseColor: new Color( 230, 230, 240 ),
     disabledBaseColor: 'white',
     arrowColor: 'black',
