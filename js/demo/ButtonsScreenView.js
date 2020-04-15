@@ -132,6 +132,7 @@ function ButtonsScreenView() {
   } );
 
   const moveToTrashButton = new MoveToTrashButton( {
+    arrowColor: 'red',
     scale: 2
   } );
 
