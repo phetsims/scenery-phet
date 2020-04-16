@@ -129,12 +129,12 @@ class KeyboardHelpIconFactory {
   }
 
   /**
-   * "Enter or down" icon
+   * "Space or Enter" icon
    * @public
    * @returns {Node}
    */
-  static enterOrSpace() {
-    return KeyboardHelpIconFactory.iconOrIcon( new EnterKeyNode(), new SpaceKeyNode() );
+  static spaceOrEnter() {
+    return KeyboardHelpIconFactory.iconOrIcon( new SpaceKeyNode(), new EnterKeyNode() );
   }
 
   /**
