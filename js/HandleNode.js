@@ -192,16 +192,15 @@ class HandleNode extends Node {
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HandleNode', this );
   }
-}
-
-sceneryPhet.register( 'HandleNode', HandleNode, {
 
   // @public
   dispose() {
     this.disposeHandleNode();
     HandleNode.prototype.dispose.call( this );
   }
-} );
+}
+
+sceneryPhet.register( 'HandleNode', HandleNode );
 
 /**
  * Add an "up/down" combination to either the top or bottom of the grip.
