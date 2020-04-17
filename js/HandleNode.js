@@ -196,7 +196,7 @@ class HandleNode extends Node {
   // @public
   dispose() {
     this.disposeHandleNode();
-    HandleNode.prototype.dispose.call( this );
+    super.dispose();
   }
 }
 
