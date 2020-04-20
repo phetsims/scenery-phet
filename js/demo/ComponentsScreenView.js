@@ -36,11 +36,13 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
+import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import NumberSpinner from '../../../sun/js/NumberSpinner.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -60,6 +62,7 @@ import FaucetNode from '../FaucetNode.js';
 import FineCoarseSpinner from '../FineCoarseSpinner.js';
 import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
+import GridNode from '../GridNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
 import MovableDragHandler from '../input/MovableDragHandler.js';
@@ -128,6 +131,7 @@ function ComponentsScreenView( options ) {
     { label: 'FormulaNode', createNode: demoFormulaNode },
     { label: 'GaugeNode', createNode: demoGaugeNode },
     { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
+    { label: 'GridNode', createNode: demoGridNode },
     { label: 'HandleNode', createNode: demoHandleNode },
     { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
     { label: 'KeyNode', createNode: demoKeyNode },
@@ -522,6 +526,93 @@ const demoGaugeNode = function( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
+};
+
+// Creates a demo for GridNode
+const demoGridNode = layoutBounds => {
+  const gridWidth = 300;
+  const gridHeight = 300;
+  const defaultMinorSpacing = 30;
+  const defaultMajorSpacing = 120;
+  const spacingRange = new Range( 30, 300 );
+
+  const gridNode = new GridNode( gridWidth, gridHeight, defaultMinorSpacing, defaultMinorSpacing, {
+    majorHorizontalLineSpacing: defaultMajorSpacing,
+    majorVerticalLineSpacing: defaultMajorSpacing
+  } );
+
+  // creates a NumberSpinner with a text label that controls grid spacing
+  const createLabelledSpinner = ( labelString, numberProperty, enabledProperty ) => {
+    const label = new Text( labelString, { font: new PhetFont( 15 ) } );
+    const spinner = new NumberSpinner( numberProperty, new Property( numberProperty.range ), {
+      deltaValue: 5,
+      enabledProperty: enabledProperty
+    } );
+    return new HBox( {
+      children: [ label, spinner ],
+      spacing: 5
+    } );
+  };
+
+  // creates a BooleanRectangularToggleButton that toggles visibility of grid lines
+  const createToggleLinesButton = ( visibleProperty, visibleText, hiddenText ) => {
+    return new BooleanRectangularToggleButton( new Text( visibleText ), new Text( hiddenText ), visibleProperty );
+  };
+
+  // Properties for controls to change the GridNode
+  const verticalLinesVisibleProperty = new BooleanProperty( true );
+  const horizontalLinesVisibleProperty = new BooleanProperty( true );
+
+  const minorHorizontalLineSpacingProperty = new NumberProperty( 30, { range: spacingRange } );
+  const minorVerticalLineSpacingProperty = new NumberProperty( 30, { range: spacingRange } );
+  const majorHorizontalLineSpacingProperty = new NumberProperty( 60, { range: spacingRange } );
+  const majorVerticalLineSpacingProperty = new NumberProperty( 60, { range: spacingRange } );
+
+  // controls to change the GridNode
+  const minorHorizontalLineSpinner = createLabelledSpinner( 'Minor Horizontal Spacing', minorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty );
+  const minorVerticalLineSpinner = createLabelledSpinner( 'Minor Vertical Spacing', minorVerticalLineSpacingProperty, verticalLinesVisibleProperty );
+  const majorHorizontalLineSpinner = createLabelledSpinner( 'Major Horizontal Spacing', majorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty );
+  const majorVerticalLineSpinner = createLabelledSpinner( 'Major Vertical Spacing', majorVerticalLineSpacingProperty, verticalLinesVisibleProperty );
+
+  const hideHorizontalLinesButton = createToggleLinesButton( horizontalLinesVisibleProperty, 'Hide Horizontal', 'Show Horizontal' );
+  const hideVerticalLinesButton = createToggleLinesButton( verticalLinesVisibleProperty, 'Hide Vertical', 'Show Horizontal' );
+
+  const buttonsHBox = new HBox( {
+    children: [ hideHorizontalLinesButton, hideVerticalLinesButton ],
+    spacing: 10
+  } );
+
+  const controls = new VBox( {
+    children: [ minorHorizontalLineSpinner, minorVerticalLineSpinner, majorHorizontalLineSpinner, majorVerticalLineSpinner, buttonsHBox ],
+    spacing: 15,
+    align: 'right'
+  } );
+
+  const node = new HBox( {
+    children: [ controls, gridNode ],
+    spacing: 15,
+    center: layoutBounds.center,
+    resize: false
+  } );
+
+  // listeners to redraw GridNode with changing Properties
+  verticalLinesVisibleProperty.link( visible => {
+    gridNode.setMajorVerticalLineSpacing( visible ? majorVerticalLineSpacingProperty.get() : null );
+    gridNode.setMinorVerticalLineSpacing( visible ? minorVerticalLineSpacingProperty.get() : null );
+  } );
+
+  horizontalLinesVisibleProperty.link( visible => {
+    gridNode.setMajorHorizontalLineSpacing( visible ? majorHorizontalLineSpacingProperty.get() : null );
+    gridNode.setMinorHorizontalLineSpacing( visible ? minorHorizontalLineSpacingProperty.get() : null );
+  } );
+
+  minorHorizontalLineSpacingProperty.link( minorHorizontalLineSpacing => gridNode.setMinorHorizontalLineSpacing( minorHorizontalLineSpacing ) );
+  minorVerticalLineSpacingProperty.link( minorVerticalLineSpacing => gridNode.setMinorVerticalLineSpacing( minorVerticalLineSpacing ) );
+
+  majorHorizontalLineSpacingProperty.link( majorHorizontalLineSpacing => gridNode.setMajorHorizontalLineSpacing( majorHorizontalLineSpacing ) );
+  majorVerticalLineSpacingProperty.link( majorVerticalLineSpacing => gridNode.setMajorVerticalLineSpacing( majorVerticalLineSpacing ) );
+
+  return node;
 };
 
 // Creates a demo for HandleNode
