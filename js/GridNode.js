@@ -47,7 +47,7 @@ class GridNode extends Node {
 
     super();
 
-    // @private
+    // @private {number}
     this.gridWidth = gridWidth;
     this.gridHeight = gridHeight;
     this.minorHorizontalLineSpacing = minorHorizontalLineSpacing;
