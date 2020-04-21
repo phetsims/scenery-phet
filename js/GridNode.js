@@ -78,6 +78,7 @@ class GridNode extends Node {
    * @param {number|null} spacing - setting to null hides minor horizontal lines
    */
   setMinorHorizontalLineSpacing( spacing ) {
+    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
     this.minorHorizontalLineSpacing = spacing;
     this.drawMinorLines();
   }
@@ -89,6 +90,8 @@ class GridNode extends Node {
    * @param {number|null} spacing - setting to null hides minor vertical lines
    */
   setMinorVerticalLineSpacing( spacing ) {
+    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
+
     this.minorVerticalLineSpacing = spacing;
     this.drawMinorLines();
   }
@@ -100,6 +103,8 @@ class GridNode extends Node {
    * @param {number|null} spacing - setting to null hides major horizontal lines
    */
   setMajorHorizontalLineSpacing( spacing ) {
+    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
+
     this.majorHorizontalLineSpacing = spacing;
     this.drawMajorLines();
   }
@@ -111,8 +116,34 @@ class GridNode extends Node {
    * @param {number|null} spacing - setting to null hides major vertical lines
    */
   setMajorVerticalLineSpacing( spacing ) {
+    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
+
     this.majorVerticalLineSpacing = spacing;
     this.drawMajorLines();
+  }
+
+  /**
+   * Set the width of the grid, relative to the origin (left top).
+   * @public
+   *
+   * @param width
+   */
+  setGridWidth( width ) {
+    this.gridWidth = width;
+    this.drawMajorLines();
+    this.drawMinorLines();
+  }
+
+  /**
+   * Set the height of the grid relative to the origin (left top).
+   * @public
+   *
+   * @param height
+   */
+  setGridHeight( height ) {
+    this.gridHeight = height;
+    this.drawMajorLines();
+    this.drawMinorLines();
   }
 
   /**
