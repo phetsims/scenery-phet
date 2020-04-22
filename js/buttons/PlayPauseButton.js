@@ -10,6 +10,8 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
+import Display from '../../../scenery/js/display/Display.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
@@ -72,6 +74,20 @@ function PlayPauseButton( isPlayingProperty, options ) {
 
   BooleanRoundToggleButton.call( this, pausedCircle, playCircle, isPlayingProperty, options );
 
+  // PDOM - a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
+  const globalKeyboardListener = event => {
+
+    // only enabled if the sim supports interactive descriptions
+    if ( phet.joist.sim.supportsInteractiveDescriptions ) {
+      if ( this.buttonModel.enabledProperty.get() ) {
+        if ( event.keyCode === KeyboardUtils.KEY_K && Display.keyStateTracker.altKeyDown ) {
+          isPlayingProperty.set( !isPlayingProperty.get() );
+        }
+      }
+    }
+  };
+  Display.keyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+
   const isPlayingListener = function( running, oldValue ) {
 
     // so we don't scale down the button immediately if isPlayingProperty is initially false
@@ -88,6 +104,7 @@ function PlayPauseButton( isPlayingProperty, options ) {
     if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
       isPlayingProperty.unlink( isPlayingListener );
     }
+    Display.keyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
   };
 
   // support for binder documentation, stripped out in builds and only runs when ?binder is specified
