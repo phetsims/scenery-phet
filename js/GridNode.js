@@ -54,10 +54,12 @@ class GridNode extends Node {
     // @private {number}
     this.gridWidth = gridWidth;
     this.gridHeight = gridHeight;
-    this.minorHorizontalLineSpacing = options.minorHorizontalLineSpacing;
-    this.minorVerticalLineSpacing = options.minorVerticalLineSpacing;
-    this.majorVerticalLineSpacing = options.majorVerticalLineSpacing;
-    this.majorHorizontalLineSpacing = options.majorHorizontalLineSpacing;
+
+    // @private {null|number}
+    this.minorHorizontalLineSpacing = null;
+    this.minorVerticalLineSpacing = null;
+    this.majorVerticalLineSpacing = null;
+    this.majorHorizontalLineSpacing = null;
 
     // @private {Path} - Path for minor lines
     this.minorLines = new Path( null, options.minorLineOptions );
@@ -68,62 +70,71 @@ class GridNode extends Node {
     assert && assert( !options.children, 'GridNode sets children' );
     this.children = [ this.minorLines, this.majorLines ];
 
-    this.drawMinorLines();
-    this.drawMajorLines();
+    // set spacings and draw the grid
+    this.setLineSpacings( options.majorVerticalLineSpacing, options.majorHorizontalLineSpacing, options.minorVerticalLineSpacing, options.minorHorizontalLineSpacing );
 
     // mutate with Node options after grid is drawn so that bounds are defined
     this.mutate( options );
   }
 
   /**
-   * Set the spacing for minor horizontal lines. First line is drawn at y=0 (top of the GridNode).
+   * Set the spacing for all major and minor lines. Spacing for at least one line must be defined.
    * @public
    *
-   * @param {number|null} spacing - setting to null hides minor horizontal lines
+   * @param {number|null} majorVerticalLineSpacing
+   * @param {number|null} majorHorizontalLineSpacing
+   * @param {number|null} minorVerticalLineSpacing
+   * @param {number|null} minorHorizontalLineSpacing
    */
-  setMinorHorizontalLineSpacing( spacing ) {
-    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
-    this.minorHorizontalLineSpacing = spacing;
-    this.drawMinorLines();
+  setLineSpacings( majorVerticalLineSpacing, majorHorizontalLineSpacing, minorVerticalLineSpacing, minorHorizontalLineSpacing ) {
+    assert && assert( majorVerticalLineSpacing || majorHorizontalLineSpacing || minorVerticalLineSpacing || minorHorizontalLineSpacing, 'At least one line should be specified' );
+
+    this.assertGreaterThanZeroIfDefined( majorVerticalLineSpacing );
+    this.assertGreaterThanZeroIfDefined( majorHorizontalLineSpacing );
+    this.assertGreaterThanZeroIfDefined( minorVerticalLineSpacing );
+    this.assertGreaterThanZeroIfDefined( minorHorizontalLineSpacing );
+
+    if ( majorVerticalLineSpacing && minorVerticalLineSpacing ) {
+      this.validateMajorMinorPair( majorVerticalLineSpacing, minorVerticalLineSpacing );
+    }
+    if ( majorHorizontalLineSpacing && minorHorizontalLineSpacing ) {
+      this.validateMajorMinorPair( majorHorizontalLineSpacing, minorHorizontalLineSpacing );
+    }
+
+    if ( this.majorVerticalLineSpacing !== majorVerticalLineSpacing || this.majorHorizontalLineSpacing !== majorHorizontalLineSpacing ) {
+      this.majorVerticalLineSpacing = majorVerticalLineSpacing;
+      this.majorHorizontalLineSpacing = majorHorizontalLineSpacing;
+
+      this.drawMajorLines();
+    }
+
+    if ( this.minorVerticalLineSpacing !== minorVerticalLineSpacing || this.minorHorizontalLineSpacing !== minorHorizontalLineSpacing ) {
+      this.minorVerticalLineSpacing = minorVerticalLineSpacing;
+      this.minorHorizontalLineSpacing = minorHorizontalLineSpacing;
+
+      this.drawMinorLines();
+    }
   }
 
   /**
-   * Set the spacing for minor vertical lines. First line is drawn at x=0 (left of GridNode).
-   * @public
+   * Ensure that spacing is greater than zero if specified.
+   * @private
    *
-   * @param {number|null} spacing - setting to null hides minor vertical lines
+   * @param {null|number} spacing
    */
-  setMinorVerticalLineSpacing( spacing ) {
-    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
-
-    this.minorVerticalLineSpacing = spacing;
-    this.drawMinorLines();
+  assertGreaterThanZeroIfDefined( spacing ) {
+    assert && assert( spacing === null || spacing > 0, 'if defined, spacing must be greater than zero' );
   }
 
   /**
-   * Set the spacing for major horizontal lines. First line is drawn at y=0 (top of GridNode).
-   * @public
-   *
-   * @param {number|null} spacing - setting to null hides major horizontal lines
+   * @private
+   * @param {number} majorSpacing
+   * @param {number} minorSpacing
    */
-  setMajorHorizontalLineSpacing( spacing ) {
-    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
-
-    this.majorHorizontalLineSpacing = spacing;
-    this.drawMajorLines();
-  }
-
-  /**
-   * Set the spacing for major vertical lines. First line is drawn at x=0 (left of GridNode).
-   * @public
-   *
-   * @param {number|null} spacing - setting to null hides major vertical lines
-   */
-  setMajorVerticalLineSpacing( spacing ) {
-    assert && assert( spacing === null || spacing > 0, 'if defined, spacing should be greater than zero' );
-
-    this.majorVerticalLineSpacing = spacing;
-    this.drawMajorLines();
+  validateMajorMinorPair( majorSpacing, minorSpacing ) {
+    assert && assert( majorSpacing && minorSpacing, 'Cant validate unless major minor are specified' );
+    assert && assert( majorSpacing > minorSpacing, 'major spacing must be greater than minor spacing' );
+    assert && assert( majorSpacing % minorSpacing === 0, 'minor spacing should be a multiple of major spacing' );
   }
 
   /**
@@ -134,8 +145,7 @@ class GridNode extends Node {
    */
   setGridWidth( width ) {
     this.gridWidth = width;
-    this.drawMajorLines();
-    this.drawMinorLines();
+    this.drawAllLines();
   }
 
   /**
@@ -146,8 +156,7 @@ class GridNode extends Node {
    */
   setGridHeight( height ) {
     this.gridHeight = height;
-    this.drawMajorLines();
-    this.drawMinorLines();
+    this.drawAllLines();
   }
 
   /**
@@ -164,6 +173,15 @@ class GridNode extends Node {
    */
   drawMajorLines() {
     this.drawLines( this.majorHorizontalLineSpacing, this.majorVerticalLineSpacing, this.majorLines );
+  }
+
+  /**
+   * Redraw all grid lines.
+   * @private
+   */
+  drawAllLines() {
+    this.drawMajorLines();
+    this.drawMinorLines();
   }
 
   /**

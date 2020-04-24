@@ -530,11 +530,12 @@ const demoGaugeNode = function( layoutBounds ) {
 
 // Creates a demo for GridNode
 const demoGridNode = layoutBounds => {
-  const gridWidth = 300;
-  const gridHeight = 300;
-  const defaultMinorSpacing = 30;
-  const defaultMajorSpacing = 120;
-  const spacingRange = new Range( 30, 300 );
+  const gridWidth = 360;
+  const gridHeight = 360;
+  const minorSpacingRange = new Range( 10, 40 );
+  const majorSpacingRange = new Range( 120, 360 );
+  const defaultMinorSpacing = minorSpacingRange.min;
+  const defaultMajorSpacing = majorSpacingRange.min;
 
   const gridNode = new GridNode( gridWidth, gridHeight, {
     majorHorizontalLineSpacing: defaultMajorSpacing,
@@ -544,10 +545,10 @@ const demoGridNode = layoutBounds => {
   } );
 
   // creates a NumberSpinner with a text label that controls grid spacing
-  const createLabelledSpinner = ( labelString, numberProperty, enabledProperty ) => {
+  const createLabelledSpinner = ( labelString, numberProperty, enabledProperty, valueDelta ) => {
     const label = new Text( labelString, { font: new PhetFont( 15 ) } );
     const spinner = new NumberSpinner( numberProperty, new Property( numberProperty.range ), {
-      deltaValue: 5,
+      deltaValue: valueDelta,
       enabledProperty: enabledProperty
     } );
     return new HBox( {
@@ -565,16 +566,16 @@ const demoGridNode = layoutBounds => {
   const verticalLinesVisibleProperty = new BooleanProperty( true );
   const horizontalLinesVisibleProperty = new BooleanProperty( true );
 
-  const minorHorizontalLineSpacingProperty = new NumberProperty( 30, { range: spacingRange } );
-  const minorVerticalLineSpacingProperty = new NumberProperty( 30, { range: spacingRange } );
-  const majorHorizontalLineSpacingProperty = new NumberProperty( 60, { range: spacingRange } );
-  const majorVerticalLineSpacingProperty = new NumberProperty( 60, { range: spacingRange } );
+  const minorHorizontalLineSpacingProperty = new NumberProperty( defaultMinorSpacing, { range: minorSpacingRange } );
+  const minorVerticalLineSpacingProperty = new NumberProperty( defaultMinorSpacing, { range: minorSpacingRange } );
+  const majorHorizontalLineSpacingProperty = new NumberProperty( defaultMajorSpacing, { range: majorSpacingRange } );
+  const majorVerticalLineSpacingProperty = new NumberProperty( defaultMajorSpacing, { range: majorSpacingRange } );
 
   // controls to change the GridNode
-  const minorHorizontalLineSpinner = createLabelledSpinner( 'Minor Horizontal Spacing', minorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty );
-  const minorVerticalLineSpinner = createLabelledSpinner( 'Minor Vertical Spacing', minorVerticalLineSpacingProperty, verticalLinesVisibleProperty );
-  const majorHorizontalLineSpinner = createLabelledSpinner( 'Major Horizontal Spacing', majorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty );
-  const majorVerticalLineSpinner = createLabelledSpinner( 'Major Vertical Spacing', majorVerticalLineSpacingProperty, verticalLinesVisibleProperty );
+  const minorHorizontalLineSpinner = createLabelledSpinner( 'Minor Horizontal Spacing', minorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty, 10 );
+  const minorVerticalLineSpinner = createLabelledSpinner( 'Minor Vertical Spacing', minorVerticalLineSpacingProperty, verticalLinesVisibleProperty, 10 );
+  const majorHorizontalLineSpinner = createLabelledSpinner( 'Major Horizontal Spacing', majorHorizontalLineSpacingProperty, horizontalLinesVisibleProperty, 120 );
+  const majorVerticalLineSpinner = createLabelledSpinner( 'Major Vertical Spacing', majorVerticalLineSpacingProperty, verticalLinesVisibleProperty, 120 );
 
   const hideHorizontalLinesButton = createToggleLinesButton( horizontalLinesVisibleProperty, 'Hide Horizontal', 'Show Horizontal' );
   const hideVerticalLinesButton = createToggleLinesButton( verticalLinesVisibleProperty, 'Hide Vertical', 'Show Horizontal' );
@@ -597,22 +598,18 @@ const demoGridNode = layoutBounds => {
     resize: false
   } );
 
-  // listeners to redraw GridNode with changing Properties
-  verticalLinesVisibleProperty.link( visible => {
-    gridNode.setMajorVerticalLineSpacing( visible ? majorVerticalLineSpacingProperty.get() : null );
-    gridNode.setMinorVerticalLineSpacing( visible ? minorVerticalLineSpacingProperty.get() : null );
+  Property.multilink( [ verticalLinesVisibleProperty, horizontalLinesVisibleProperty ], ( verticalVisible, horizontalVisible ) => {
+    const majorVerticalLineSpacing = verticalVisible ? majorVerticalLineSpacingProperty.get() : null;
+    const minorVerticalLineSpacing = verticalVisible ? minorVerticalLineSpacingProperty.get() : null;
+    const majorHorizontalLineSpacing = horizontalVisible ? majorHorizontalLineSpacingProperty.get() : null;
+    const minorHorizontalLineSpacing = horizontalVisible ? minorHorizontalLineSpacingProperty.get() : null;
+
+    gridNode.setLineSpacings( majorVerticalLineSpacing, majorHorizontalLineSpacing, minorVerticalLineSpacing, minorHorizontalLineSpacing );
   } );
 
-  horizontalLinesVisibleProperty.link( visible => {
-    gridNode.setMajorHorizontalLineSpacing( visible ? majorHorizontalLineSpacingProperty.get() : null );
-    gridNode.setMinorHorizontalLineSpacing( visible ? minorHorizontalLineSpacingProperty.get() : null );
-  } );
-
-  minorHorizontalLineSpacingProperty.link( minorHorizontalLineSpacing => gridNode.setMinorHorizontalLineSpacing( minorHorizontalLineSpacing ) );
-  minorVerticalLineSpacingProperty.link( minorVerticalLineSpacing => gridNode.setMinorVerticalLineSpacing( minorVerticalLineSpacing ) );
-
-  majorHorizontalLineSpacingProperty.link( majorHorizontalLineSpacing => gridNode.setMajorHorizontalLineSpacing( majorHorizontalLineSpacing ) );
-  majorVerticalLineSpacingProperty.link( majorVerticalLineSpacing => gridNode.setMajorVerticalLineSpacing( majorVerticalLineSpacing ) );
+  Property.multilink( [ majorVerticalLineSpacingProperty, majorHorizontalLineSpacingProperty, minorHorizontalLineSpacingProperty, minorVerticalLineSpacingProperty ],
+    gridNode.setLineSpacings.bind( gridNode )
+  );
 
   return node;
 };
