@@ -536,9 +536,11 @@ const demoGridNode = layoutBounds => {
   const defaultMajorSpacing = 120;
   const spacingRange = new Range( 30, 300 );
 
-  const gridNode = new GridNode( gridWidth, gridHeight, defaultMinorSpacing, defaultMinorSpacing, {
+  const gridNode = new GridNode( gridWidth, gridHeight, {
     majorHorizontalLineSpacing: defaultMajorSpacing,
-    majorVerticalLineSpacing: defaultMajorSpacing
+    majorVerticalLineSpacing: defaultMajorSpacing,
+    minorHorizontalLineSpacing: defaultMinorSpacing,
+    minorVerticalLineSpacing: defaultMinorSpacing
   } );
 
   // creates a NumberSpinner with a text label that controls grid spacing

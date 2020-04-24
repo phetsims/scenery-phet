@@ -1,9 +1,9 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A reusable Node that draws a 2D grid. The grid has "minor" lines and optionally "major" lines which are
- * generally more prevalent. Origin is at the top left of the grid, and lines are drawn with
- * desired spacing between the origin and grid width/height.
+ * A reusable Node that draws a 2D grid. The grid can have "major" lines which are generally more visually prominent,
+ * and "minor" lines which break the major lines into further subdivisions. Origin is at the top left of the grid,
+ * and lines are drawn with desired spacing between the origin and grid width/height.
  *
  * @author Jesse Greenberg
  */
@@ -19,11 +19,9 @@ class GridNode extends Node {
   /**
    * @param {number} gridWidth
    * @param {number} gridHeight
-   * @param {number|null} minorHorizontalLineSpacing - null for hidden minor horizontal lines
-   * @param {number|null} minorVerticalLineSpacing - null for hidden minor vertical lines
    * @param {Object} [options]
    */
-  constructor( gridWidth, gridHeight, minorHorizontalLineSpacing, minorVerticalLineSpacing, options ) {
+  constructor( gridWidth, gridHeight, options ) {
     options = merge( {
 
       // {number|null} spacing between major horizontal lines - no major horizontal lines added if null
@@ -31,6 +29,12 @@ class GridNode extends Node {
 
       // {number|null} spacing between major vertical lines - no major vertical lines if null
       majorVerticalLineSpacing: null,
+
+      // {number|null} spacing between minor horizontal lines - no minor horizontal lines added if null
+      minorHorizontalLineSpacing: null,
+
+      // {number|null} spacing between minor vertical lines - no minor vertical lines if null
+      minorVerticalLineSpacing: null,
 
       // {Object} - passed to the Path for minor lines
       minorLineOptions: {
@@ -50,8 +54,8 @@ class GridNode extends Node {
     // @private {number}
     this.gridWidth = gridWidth;
     this.gridHeight = gridHeight;
-    this.minorHorizontalLineSpacing = minorHorizontalLineSpacing;
-    this.minorVerticalLineSpacing = minorVerticalLineSpacing;
+    this.minorHorizontalLineSpacing = options.minorHorizontalLineSpacing;
+    this.minorVerticalLineSpacing = options.minorVerticalLineSpacing;
     this.majorVerticalLineSpacing = options.majorVerticalLineSpacing;
     this.majorHorizontalLineSpacing = options.majorHorizontalLineSpacing;
 
