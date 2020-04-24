@@ -60,13 +60,13 @@ class GridNode extends Node {
     this.majorHorizontalLineSpacing = options.majorHorizontalLineSpacing;
 
     // @private {Path} - Path for minor lines
-    this.minorPath = new Path( null, options.minorLineOptions );
+    this.minorLines = new Path( null, options.minorLineOptions );
 
     // @private {Path} - path for major lines
-    this.majorPath = new Path( null, options.majorLineOptions );
+    this.majorLines = new Path( null, options.majorLineOptions );
 
     assert && assert( !options.children, 'GridNode sets children' );
-    this.children = [ this.minorPath, this.majorPath ];
+    this.children = [ this.minorLines, this.majorLines ];
 
     this.drawMinorLines();
     this.drawMajorLines();
@@ -155,7 +155,7 @@ class GridNode extends Node {
    * @private
    */
   drawMinorLines() {
-    this.drawLines( this.minorHorizontalLineSpacing, this.minorVerticalLineSpacing, this.minorPath );
+    this.drawLines( this.minorHorizontalLineSpacing, this.minorVerticalLineSpacing, this.minorLines );
   }
 
   /**
@@ -163,7 +163,7 @@ class GridNode extends Node {
    * @private
    */
   drawMajorLines() {
-    this.drawLines( this.majorHorizontalLineSpacing, this.majorVerticalLineSpacing, this.majorPath );
+    this.drawLines( this.majorHorizontalLineSpacing, this.majorVerticalLineSpacing, this.majorLines );
   }
 
   /**
