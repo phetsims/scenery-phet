@@ -605,6 +605,10 @@ const demoGridNode = layoutBounds => {
     const minorHorizontalLineSpacing = horizontalVisible ? minorHorizontalLineSpacingProperty.get() : null;
 
     gridNode.setLineSpacings( majorVerticalLineSpacing, majorHorizontalLineSpacing, minorVerticalLineSpacing, minorHorizontalLineSpacing );
+
+    // disable the other button, cant have both sets hidden at once
+    hideHorizontalLinesButton.enabled = verticalVisible;
+    hideVerticalLinesButton.enabled = horizontalVisible;
   } );
 
   Property.multilink( [ majorVerticalLineSpacingProperty, majorHorizontalLineSpacingProperty, minorHorizontalLineSpacingProperty, minorVerticalLineSpacingProperty ],
