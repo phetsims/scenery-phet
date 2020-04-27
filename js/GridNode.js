@@ -78,7 +78,7 @@ class GridNode extends Node {
   }
 
   /**
-   * Set the spacing for all major and minor lines. Spacing for at least one line must be defined.
+   * Set the spacing for all major and minor lines.
    * @public
    *
    * @param {number|null} majorVerticalLineSpacing
