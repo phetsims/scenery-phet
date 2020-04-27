@@ -87,19 +87,8 @@ class GridNode extends Node {
    * @param {number|null} minorHorizontalLineSpacing
    */
   setLineSpacings( majorVerticalLineSpacing, majorHorizontalLineSpacing, minorVerticalLineSpacing, minorHorizontalLineSpacing ) {
-    assert && assert( majorVerticalLineSpacing || majorHorizontalLineSpacing || minorVerticalLineSpacing || minorHorizontalLineSpacing, 'At least one line should be specified' );
-
-    this.assertGreaterThanZeroIfDefined( majorVerticalLineSpacing );
-    this.assertGreaterThanZeroIfDefined( majorHorizontalLineSpacing );
-    this.assertGreaterThanZeroIfDefined( minorVerticalLineSpacing );
-    this.assertGreaterThanZeroIfDefined( minorHorizontalLineSpacing );
-
-    if ( majorVerticalLineSpacing && minorVerticalLineSpacing ) {
-      this.validateMajorMinorPair( majorVerticalLineSpacing, minorVerticalLineSpacing );
-    }
-    if ( majorHorizontalLineSpacing && minorHorizontalLineSpacing ) {
-      this.validateMajorMinorPair( majorHorizontalLineSpacing, minorHorizontalLineSpacing );
-    }
+    this.validateMajorMinorPair( majorVerticalLineSpacing, minorVerticalLineSpacing );
+    this.validateMajorMinorPair( majorHorizontalLineSpacing, minorHorizontalLineSpacing );
 
     if ( this.majorVerticalLineSpacing !== majorVerticalLineSpacing || this.majorHorizontalLineSpacing !== majorHorizontalLineSpacing ) {
       this.majorVerticalLineSpacing = majorVerticalLineSpacing;
@@ -117,24 +106,21 @@ class GridNode extends Node {
   }
 
   /**
-   * Ensure that spacing is greater than zero if specified.
+   * Validate each parameter, and make sure that as a pair they are as expected.
    * @private
-   *
-   * @param {null|number} spacing
-   */
-  assertGreaterThanZeroIfDefined( spacing ) {
-    assert && assert( spacing === null || spacing > 0, 'if defined, spacing must be greater than zero' );
-  }
-
-  /**
-   * @private
-   * @param {number} majorSpacing
-   * @param {number} minorSpacing
+   * @param {number|null} majorSpacing
+   * @param {number|null} minorSpacing
    */
   validateMajorMinorPair( majorSpacing, minorSpacing ) {
-    assert && assert( majorSpacing && minorSpacing, 'Cant validate unless major minor are specified' );
-    assert && assert( majorSpacing > minorSpacing, 'major spacing must be greater than minor spacing' );
-    assert && assert( majorSpacing % minorSpacing === 0, 'minor spacing should be a multiple of major spacing' );
+    assert && assert( ( typeof majorSpacing === 'number' && majorSpacing > 0 ) ||
+                      majorSpacing === null, 'majorSpacing should be positive number or null' );
+    assert && assert( ( typeof minorSpacing === 'number' && minorSpacing > 0 ) ||
+                      minorSpacing === null, 'minorSpacing should be positive number or null' );
+
+    if ( majorSpacing !== null && minorSpacing !== null ) {
+      assert && assert( majorSpacing > minorSpacing, 'major spacing must be greater than minor spacing' );
+      assert && assert( majorSpacing % minorSpacing === 0, 'minor spacing should be a multiple of major spacing' );
+    }
   }
 
   /**
@@ -190,9 +176,9 @@ class GridNode extends Node {
    *
    * @param {number|null} horizontalSpacing - horizontal lines not drawn if null
    * @param {number|null} verticalSpacing - vertical lines not drawn if null
-   * @param {Path} path - line shape is drawn with this Path
+   * @param {Path} linesPath - line shape is drawn with this Path
    */
-  drawLines( horizontalSpacing, verticalSpacing, path ) {
+  drawLines( horizontalSpacing, verticalSpacing, linesPath ) {
     const shape = new Shape();
 
     if ( verticalSpacing ) {
@@ -209,7 +195,7 @@ class GridNode extends Node {
       }
     }
 
-    path.shape = shape;
+    linesPath.shape = shape;
   }
 }
 
