@@ -27,7 +27,9 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import AltKeyNode from '../AltKeyNode.js';
 import EnterKeyNode from '../EnterKeyNode.js';
+import KKeyNode from '../KKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
@@ -271,6 +273,22 @@ inherit( VBox, KeyboardHelpSection, {}, {
 
     const jPlusOtherKey = KeyboardHelpIconFactory.iconPlusIcon( jKey, otherKey );
     return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, labelInnerContent );
+  },
+
+  /**
+   * Create a HelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
+   * @public
+   *
+   * @param {string} labelString - visual label string for the "Alt" + "K" icon
+   * @param labelInnerContent - description for screen readers in the PDOM
+   * @returns {HelpSectionRow}
+   */
+  createPlayPauseKeyRow: function( labelString, labelInnerContent ) {
+    return KeyboardHelpSection.labelWithIcon(
+      labelString,
+      KeyboardHelpIconFactory.iconPlusIcon( new AltKeyNode(), new KKeyNode() ),
+      labelInnerContent
+    );
   },
 
   /**
