@@ -26,6 +26,12 @@
   "key.shift": {
     "value": "Shift"
   },
+  "key.alt": {
+    "value": "Alt"
+  },
+  "key.k": {
+    "value": "K"
+  },
   "key.capsLock": {
     "value": "Caps Lock"
   },
