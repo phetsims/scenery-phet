@@ -82,6 +82,10 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     // {boolean} If set to true, then no arrow buttons will be added to the NumberControl
     includeArrowButtons: true,
 
+    // {Property.<Range>|null} - If provided, this will be provided to the slider and arrow buttons in order to
+    // constrain the range of actual values to within this range.
+    enabledRangeProperty: null,
+
     // phet-io
     tandem: Tandem.REQUIRED,
     phetioType: NumberControlIO,
@@ -93,10 +97,15 @@ function NumberControl( title, numberProperty, numberRange, options ) {
   // If the arrow button scale is not provided, the arrow button height will match the number display height
   const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
 
+  const getCurrentRange = () => {
+    return options.enabledRangeProperty ? options.enabledRangeProperty.value : numberRange;
+  };
+
   // By default, constrain to multiples of delta, see #384
   const defaultConstrainValue = value => {
     const newValue = Utils.roundToInterval( value, options.delta );
-    return numberRange.constrainValue( newValue );
+
+    return getCurrentRange().constrainValue( newValue );
   };
 
   // Merge all nested options in one block.
@@ -166,6 +175,10 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     `invalid disabledOpacity: ${options.disabledOpacity}` );
   assert && assert( !options.tagName,
     'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
+
+  if ( options.enabledRangeProperty ) {
+    options.sliderOptions.enabledRangeProperty = options.enabledRangeProperty;
+  }
 
   // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
   // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
@@ -247,7 +260,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     leftArrowButton = new ArrowButton( 'left', () => {
       let value = numberProperty.get() - options.delta;
       value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      value = Math.max( value, numberRange.min ); // constrain to range
+      value = Math.max( value, getCurrentRange().min ); // constrain to range
       numberProperty.set( value );
     }, merge( {
       startCallback: options.arrowButtonOptions.leftStart,
@@ -258,7 +271,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     rightArrowButton = new ArrowButton( 'right', () => {
       let value = numberProperty.get() + options.delta;
       value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-      value = Math.min( value, numberRange.max ); // constrain to range
+      value = Math.min( value, getCurrentRange().max ); // constrain to range
       numberProperty.set( value );
     }, merge( {
       startCallback: options.arrowButtonOptions.rightStart,
@@ -303,8 +316,8 @@ function NumberControl( title, numberProperty, numberRange, options ) {
 
     // Disable the arrow buttons if the slider currently has focus
     arrowEnabledListener = value => {
-      leftArrowButton.enabled = ( value > numberRange.min && !this.slider.isFocused() );
-      rightArrowButton.enabled = ( value < numberRange.max && !this.slider.isFocused() );
+      leftArrowButton.enabled = ( value > getCurrentRange().min && !this.slider.isFocused() );
+      rightArrowButton.enabled = ( value < getCurrentRange().max && !this.slider.isFocused() );
     };
     numberProperty.link( arrowEnabledListener );
 
