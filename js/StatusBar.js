@@ -81,7 +81,7 @@ function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
 vegas.register( 'StatusBar', StatusBar );
 
-export default inherit( Node, StatusBar, {
+inherit( Node, StatusBar, {
 
   /**
    * @public
@@ -118,3 +118,5 @@ export default inherit( Node, StatusBar, {
   // Default font for things text that appears in the status bar subtypes
   DEFAULT_FONT: DEFAULT_FONT
 } );
+
+export default StatusBar;
