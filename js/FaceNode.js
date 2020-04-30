@@ -93,7 +93,7 @@ function FaceNode( headDiameter, options ) {
 
 sceneryPhet.register( 'FaceNode', FaceNode );
 
-export default inherit( Node, FaceNode, {
+inherit( Node, FaceNode, {
 
   // @public
   smile: function() {
@@ -120,3 +120,5 @@ export default inherit( Node, FaceNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default FaceNode;

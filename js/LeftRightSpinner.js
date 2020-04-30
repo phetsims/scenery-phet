@@ -77,7 +77,7 @@ function LeftRightSpinner( valueProperty, leftEnabledProperty, rightEnabledPrope
 
 sceneryPhet.register( 'LeftRightSpinner', LeftRightSpinner );
 
-export default inherit( HBox, LeftRightSpinner, {
+inherit( HBox, LeftRightSpinner, {
 
   /**
    * Ensures that this node is subject to garbage collection
@@ -88,3 +88,5 @@ export default inherit( HBox, LeftRightSpinner, {
     HBox.prototype.dispose.call( this );
   }
 } );
+
+export default LeftRightSpinner;

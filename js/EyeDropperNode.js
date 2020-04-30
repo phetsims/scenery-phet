@@ -124,7 +124,7 @@ function EyeDropperNode( options ) {
 
 sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
 
-export default inherit( Node, EyeDropperNode, {
+inherit( Node, EyeDropperNode, {
 
   // @public makes this instance eligible for garbage collection
   dispose: function() {
@@ -158,3 +158,5 @@ export default inherit( Node, EyeDropperNode, {
   GLASS_MIN_Y: GLASS_MIN_Y,
   GLASS_MAX_Y: GLASS_MAX_Y
 } );
+
+export default EyeDropperNode;

@@ -71,7 +71,7 @@ function ScientificNotationNode( valueProperty, options ) {
 
 sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
 
-export default inherit( Node, ScientificNotationNode, {
+inherit( Node, ScientificNotationNode, {
 
   /**
    * @public
@@ -191,3 +191,5 @@ export default inherit( Node, ScientificNotationNode, {
     return { mantissa: mantissa, exponent: exponent };
   }
 } );
+
+export default ScientificNotationNode;

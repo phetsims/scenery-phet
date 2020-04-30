@@ -94,7 +94,7 @@ function NumberAccumulator( options ) {
 
 sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
 
-export default inherit( AbstractKeyAccumulator, NumberAccumulator, {
+inherit( AbstractKeyAccumulator, NumberAccumulator, {
 
   /**
    * invoked when a key is pressed and creates proposed set of keys to be passed to the validator
@@ -299,3 +299,5 @@ export default inherit( AbstractKeyAccumulator, NumberAccumulator, {
   }
 
 } );
+
+export default NumberAccumulator;

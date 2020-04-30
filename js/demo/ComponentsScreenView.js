@@ -1667,8 +1667,10 @@ const demoUpDownSpinner = layoutBounds => {
   return upDownSpinner;
 };
 
-export default inherit( DemosScreenView, ComponentsScreenView, {
+inherit( DemosScreenView, ComponentsScreenView, {
   step: function( dt ) {
     emitter.emit( dt );
   }
 } );
+
+export default ComponentsScreenView;

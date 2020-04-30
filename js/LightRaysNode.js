@@ -62,7 +62,7 @@ function LightRaysNode( bulbRadius, options ) {
 
 sceneryPhet.register( 'LightRaysNode', LightRaysNode );
 
-export default inherit( Path, LightRaysNode, {
+inherit( Path, LightRaysNode, {
 
   // @public updates light rays based on {number} brightness, which varies from 0 to 1.
   setBrightness: function( brightness ) {
@@ -126,3 +126,5 @@ export default inherit( Path, LightRaysNode, {
 
   DEFAULT_OPTIONS: DEFAULT_OPTIONS
 } );
+
+export default LightRaysNode;

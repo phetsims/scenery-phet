@@ -45,7 +45,7 @@ function WireNode( position1Property, normal1Property, position2Property, normal
 
 sceneryPhet.register( 'WireNode', WireNode );
 
-export default inherit( Path, WireNode, {
+inherit( Path, WireNode, {
 
   /**
    * Unlink listeners when disposed.
@@ -55,3 +55,5 @@ export default inherit( Path, WireNode, {
     this.multilink.dispose();
   }
 } );
+
+export default WireNode;

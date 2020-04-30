@@ -226,7 +226,7 @@ function Drawer( contentsNode, options ) {
 
 sceneryPhet.register( 'Drawer', Drawer );
 
-export default inherit( Node, Drawer, {
+inherit( Node, Drawer, {
 
   // @public
   dispose: function() {
@@ -274,3 +274,5 @@ export default inherit( Node, Drawer, {
   },
   get animationEnabled() { return this.getAnimationEnabled(); }
 } );
+
+export default Drawer;

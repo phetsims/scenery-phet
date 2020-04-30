@@ -194,7 +194,7 @@ function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, 
   return keyNode;
 }
 
-export default inherit( Node, Keypad, {
+inherit( Node, Keypad, {
 
   /**
    * Calls the clear function for the given accumulator
@@ -280,3 +280,5 @@ export default inherit( Node, Keypad, {
     [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
   ]
 } );
+
+export default Keypad;

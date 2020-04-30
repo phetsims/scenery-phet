@@ -72,7 +72,7 @@ function SpinningIndicatorNode( options ) {
 
 sceneryPhet.register( 'SpinningIndicatorNode', SpinningIndicatorNode );
 
-export default inherit( Node, SpinningIndicatorNode, {
+inherit( Node, SpinningIndicatorNode, {
 
   // @public
   step: function( dt ) {
@@ -128,3 +128,5 @@ export default inherit( Node, SpinningIndicatorNode, {
     return new Circle( 0.8 * options.indicatorSize / options.elementQuantity );
   }
 } );
+
+export default SpinningIndicatorNode;

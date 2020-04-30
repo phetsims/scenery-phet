@@ -63,7 +63,7 @@ function LineArrowNode( tailX, tailY, tipX, tipY, options ) {
 
 sceneryPhet.register( 'LineArrowNode', LineArrowNode );
 
-export default inherit( Node, LineArrowNode, {
+inherit( Node, LineArrowNode, {
 
   /**
    * Set the tail and tip locations to update the arrow shape.
@@ -97,3 +97,5 @@ export default inherit( Node, LineArrowNode, {
       .lineToPoint( getPoint( length - headHeight, -this.headWidth / 2 ) );
   }
 } );
+
+export default LineArrowNode;

@@ -69,7 +69,7 @@ function ContextLossFailureDialog( options ) {
 
 sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
 
-export default inherit( Dialog, ContextLossFailureDialog, {
+inherit( Dialog, ContextLossFailureDialog, {
 
   /**
    * Perform reload (or provided callback) regardless of how the dialog is hidden.
@@ -82,3 +82,5 @@ export default inherit( Dialog, ContextLossFailureDialog, {
     Dialog.prototype.hide.call( this );
   }
 } );
+
+export default ContextLossFailureDialog;

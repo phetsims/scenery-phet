@@ -313,7 +313,7 @@ var computeCoilY = function( index, radius, pointsPerLoop, phase, deltaPhase, as
   return aspectRatio * radius * Math.cos( 2 * Math.PI * index / pointsPerLoop + deltaPhase + phase );
 };
 
-export default inherit( Node, ParametricSpringNode, {
+inherit( Node, ParametricSpringNode, {
 
   // @public
   reset: function() {
@@ -327,3 +327,5 @@ export default inherit( Node, ParametricSpringNode, {
     this.xScaleProperty.reset();
   }
 } );
+
+export default ParametricSpringNode;

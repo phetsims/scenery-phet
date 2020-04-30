@@ -77,7 +77,7 @@ function UpDownSpinner( valueProperty, upEnabledProperty, downEnabledProperty, o
 
 sceneryPhet.register( 'UpDownSpinner', UpDownSpinner );
 
-export default inherit( VBox, UpDownSpinner, {
+inherit( VBox, UpDownSpinner, {
 
   /**
    * Ensures that this node is subject to garbage collection
@@ -88,3 +88,5 @@ export default inherit( VBox, UpDownSpinner, {
     VBox.prototype.dispose.call( this );
   }
 } );
+
+export default UpDownSpinner;

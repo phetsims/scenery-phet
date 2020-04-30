@@ -97,7 +97,7 @@ function ResetAllButton( options ) {
 
 sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
-export default inherit( ResetButton, ResetAllButton, {
+inherit( ResetButton, ResetAllButton, {
 
   /**
    * Make eligible for garbage collection.
@@ -110,3 +110,5 @@ export default inherit( ResetButton, ResetAllButton, {
     ResetButton.prototype.dispose.call( this );
   }
 } );
+
+export default ResetAllButton;
