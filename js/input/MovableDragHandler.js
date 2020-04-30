@@ -103,7 +103,7 @@ sceneryPhet.register( 'MovableDragHandler', MovableDragHandler );
 
 // MovableDragHandler extends SimpleDragHandler to facilitate phet-io instrumentation.  If no tandem is provided,
 // then no additional work is done.
-export default inherit( SimpleDragHandler, MovableDragHandler, {
+inherit( SimpleDragHandler, MovableDragHandler, {
 
   /**
    * Sets the dragBounds.
@@ -182,3 +182,5 @@ export default inherit( SimpleDragHandler, MovableDragHandler, {
     this.movableDragHandlerEnd( event, trail );
   }
 } );
+
+export default MovableDragHandler;

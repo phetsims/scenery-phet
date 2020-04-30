@@ -41,7 +41,7 @@ function MathSymbolFont( options ) {
 
 sceneryPhet.register( 'MathSymbolFont', MathSymbolFont );
 
-export default inherit( Font, MathSymbolFont, {}, {
+inherit( Font, MathSymbolFont, {}, {
 
   // @public @static
   FAMILY: FAMILY,
@@ -61,3 +61,5 @@ export default inherit( Font, MathSymbolFont, {}, {
     } );
   }
 } );
+
+export default MathSymbolFont;

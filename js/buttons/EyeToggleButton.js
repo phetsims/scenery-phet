@@ -54,7 +54,7 @@ function EyeToggleButton( eyeOpenProperty, options ) {
 
 sceneryPhet.register( 'EyeToggleButton', EyeToggleButton );
 
-export default inherit( RectangularToggleButton, EyeToggleButton, {
+inherit( RectangularToggleButton, EyeToggleButton, {
 
   // @public
   dispose: function() {
@@ -62,3 +62,5 @@ export default inherit( RectangularToggleButton, EyeToggleButton, {
     RectangularToggleButton.prototype.dispose.call( this );
   }
 } );
+
+export default EyeToggleButton;

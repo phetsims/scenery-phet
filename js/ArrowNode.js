@@ -70,7 +70,7 @@ function ArrowNode( tailX, tailY, tipX, tipY, options ) {
 
 sceneryPhet.register( 'ArrowNode', ArrowNode );
 
-export default inherit( Path, ArrowNode, {
+inherit( Path, ArrowNode, {
 
   /**
    * Update the internal shapePoints array which is used to populate the points in the Shape instance.
@@ -175,3 +175,5 @@ export default inherit( Path, ArrowNode, {
     this.updateShape();
   }
 } );
+
+export default ArrowNode;

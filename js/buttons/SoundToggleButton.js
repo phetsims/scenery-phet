@@ -90,7 +90,7 @@ function SoundToggleButton( property, options ) {
 
 sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );
 
-export default inherit( BooleanRectangularToggleButton, SoundToggleButton, {
+inherit( BooleanRectangularToggleButton, SoundToggleButton, {
 
   /**
    * Make eligible for garbage collection.
@@ -101,3 +101,5 @@ export default inherit( BooleanRectangularToggleButton, SoundToggleButton, {
     BooleanRectangularToggleButton.prototype.dispose.call( this );
   }
 } );
+
+export default SoundToggleButton;

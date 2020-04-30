@@ -76,7 +76,7 @@ function BucketFront( bucket, modelViewTransform, options ) {
 
 sceneryPhet.register( 'BucketFront', BucketFront );
 
-export default inherit( Node, BucketFront, {
+inherit( Node, BucketFront, {
   /**
    * Set a scenery node to appear in front of the bucket.
    * @public
@@ -106,3 +106,5 @@ export default inherit( Node, BucketFront, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default BucketFront;

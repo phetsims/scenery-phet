@@ -201,7 +201,7 @@ function GaugeNode( valueProperty, label, range, options ) {
 
 sceneryPhet.register( 'GaugeNode', GaugeNode );
 
-export default inherit( Node, GaugeNode, {
+inherit( Node, GaugeNode, {
 
   // @public
   dispose: function() {
@@ -209,3 +209,5 @@ export default inherit( Node, GaugeNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default GaugeNode;

@@ -166,7 +166,7 @@ function ShadedRectangle( rectBounds, options ) {
 
 sceneryPhet.register( 'ShadedRectangle', ShadedRectangle );
 
-export default inherit( Node, ShadedRectangle, {
+inherit( Node, ShadedRectangle, {
   /**
    * Releases references.
    * @public
@@ -181,3 +181,5 @@ export default inherit( Node, ShadedRectangle, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default ShadedRectangle;

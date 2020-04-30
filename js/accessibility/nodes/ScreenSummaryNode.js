@@ -46,7 +46,7 @@ function ScreenSummaryNode() {
 
 sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
 
-export default inherit( Node, ScreenSummaryNode, {
+inherit( Node, ScreenSummaryNode, {
 
   /**
    * The sim name and numberOfScreens in the simulation is not known in the constructor, so the intro string can
@@ -64,3 +64,5 @@ export default inherit( Node, ScreenSummaryNode, {
                                            } );
   }
 } );
+
+export default ScreenSummaryNode;

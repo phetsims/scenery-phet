@@ -42,7 +42,7 @@ function AbstractKeyAccumulator( validators, options ) {
 
 sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
 
-export default inherit( Object, AbstractKeyAccumulator, {
+inherit( Object, AbstractKeyAccumulator, {
 
   /**
    * clears the accumulated keys
@@ -166,3 +166,5 @@ export default inherit( Object, AbstractKeyAccumulator, {
     this.accumulatedKeysProperty.dispose();
   }
 } );
+
+export default AbstractKeyAccumulator;

@@ -130,7 +130,7 @@ function MemoryTestsScreenView() {
 
 sceneryPhet.register( 'MemoryTestsScreenView', MemoryTestsScreenView );
 
-export default inherit( ScreenView, MemoryTestsScreenView, {
+inherit( ScreenView, MemoryTestsScreenView, {
   step: function() {
 
     if ( this.numTests < this.maxNumTests ) {
@@ -149,3 +149,5 @@ export default inherit( ScreenView, MemoryTestsScreenView, {
     }
   }
 } );
+
+export default MemoryTestsScreenView;

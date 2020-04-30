@@ -56,7 +56,7 @@ function ArrowShape( tailX, tailY, tipX, tipY, options ) {
 
 sceneryPhet.register( 'ArrowShape', ArrowShape );
 
-export default inherit( Shape, ArrowShape, {}, {
+inherit( Shape, ArrowShape, {}, {
 
   /**
    * This method is static so it can be used in ArrowShape as well as in ArrowNode.  If the tail and tip are at the
@@ -170,3 +170,5 @@ export default inherit( Shape, ArrowShape, {}, {
     return shapePoints;
   }
 } );
+
+export default ArrowShape;

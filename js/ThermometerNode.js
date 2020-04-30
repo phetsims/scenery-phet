@@ -215,7 +215,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
 
 sceneryPhet.register( 'ThermometerNode', ThermometerNode );
 
-export default inherit( Node, ThermometerNode, {
+inherit( Node, ThermometerNode, {
 
   /**
    * Ensures that this node is subject to garbage collection
@@ -248,3 +248,5 @@ export default inherit( Node, ThermometerNode, {
     return this.temperatureLinearFunction.inverse( y );
   }
 } );
+
+export default ThermometerNode;

@@ -189,7 +189,7 @@ function LaserPointerNode( onProperty, options ) {
 
 sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
 
-export default inherit( Node, LaserPointerNode, {
+inherit( Node, LaserPointerNode, {
 
   // @public
   dispose: function() {
@@ -216,3 +216,5 @@ export default inherit( Node, LaserPointerNode, {
 
   DEFAULT_OPTIONS: DEFAULT_OPTIONS
 } );
+
+export default LaserPointerNode;

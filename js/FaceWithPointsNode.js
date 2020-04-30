@@ -64,7 +64,7 @@ function FaceWithPointsNode( options ) {
 
 sceneryPhet.register( 'FaceWithPointsNode', FaceWithPointsNode );
 
-export default inherit( Node, FaceWithPointsNode, {
+inherit( Node, FaceWithPointsNode, {
 
   // @public
   smile: function() {
@@ -122,3 +122,5 @@ export default inherit( Node, FaceWithPointsNode, {
     }
   }
 } );
+
+export default FaceWithPointsNode;

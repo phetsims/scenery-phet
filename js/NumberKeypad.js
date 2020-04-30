@@ -236,7 +236,7 @@ var validateMaxDigits = function( options ) {
   };
 };
 
-export default inherit( VBox, NumberKeypad, {
+inherit( VBox, NumberKeypad, {
 
   /**
    * Clear anything that has been accumulated in the valueStringProperty field.
@@ -280,3 +280,5 @@ export default inherit( VBox, NumberKeypad, {
    */
   DECIMAL_POINT: DECIMAL_POINT
 } );
+
+export default NumberKeypad;

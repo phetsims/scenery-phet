@@ -193,7 +193,7 @@ function valueToString( value, decimalPlaces, noValueString ) {
   return stringValue;
 }
 
-export default inherit( Node, NumberDisplay, {
+inherit( Node, NumberDisplay, {
 
   // @public
   dispose: function() {
@@ -241,3 +241,5 @@ export default inherit( Node, NumberDisplay, {
   },
   set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
 } );
+
+export default NumberDisplay;

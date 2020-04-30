@@ -66,7 +66,7 @@ function NumberEntryControl( options ) {
 
 sceneryPhet.register( 'NumberEntryControl', NumberEntryControl );
 
-export default inherit( Node, NumberEntryControl, {
+inherit( Node, NumberEntryControl, {
   /**
    * Returns the numeric value of the currently entered number (0 for nothing entered).
    * @public
@@ -107,3 +107,5 @@ export default inherit( Node, NumberEntryControl, {
     this.keypad.clearOnNextKeyPress = clearOnNextKeyPress;
   }
 } );
+
+export default NumberEntryControl;

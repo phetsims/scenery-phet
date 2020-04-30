@@ -70,7 +70,7 @@ function FireOnHoldInputListener( options ) {
 
 sceneryPhet.register( 'FireOnHoldInputListener', FireOnHoldInputListener );
 
-export default inherit( DownUpListener, FireOnHoldInputListener, {
+inherit( DownUpListener, FireOnHoldInputListener, {
 
   // @public Adds a {function} listener
   addListener: function( listener ) {
@@ -109,3 +109,5 @@ export default inherit( DownUpListener, FireOnHoldInputListener, {
     DownUpListener.prototype.dispose && DownUpListener.prototype.dispose.call( this );
   }
 } );
+
+export default FireOnHoldInputListener;

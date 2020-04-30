@@ -113,7 +113,7 @@ function PlayPauseButton( isPlayingProperty, options ) {
 
 sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );
 
-export default inherit( BooleanRoundToggleButton, PlayPauseButton, {
+inherit( BooleanRoundToggleButton, PlayPauseButton, {
 
   /**
    * @public
@@ -124,3 +124,5 @@ export default inherit( BooleanRoundToggleButton, PlayPauseButton, {
     BooleanRoundToggleButton.prototype.dispose.call( this );
   }
 } );
+
+export default PlayPauseButton;

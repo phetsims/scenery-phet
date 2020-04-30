@@ -243,7 +243,7 @@ function StopwatchNode( stopwatch, options ) {
 
 sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 
-export default inherit( Node, StopwatchNode, {
+inherit( Node, StopwatchNode, {
 
   /**
    * Release resources when no longer be used.
@@ -255,3 +255,5 @@ export default inherit( Node, StopwatchNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default StopwatchNode;

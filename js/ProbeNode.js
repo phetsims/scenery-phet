@@ -233,7 +233,7 @@ function ProbeNode( options ) {
 
 sceneryPhet.register( 'ProbeNode', ProbeNode );
 
-export default inherit( Node, ProbeNode, {
+inherit( Node, ProbeNode, {
     /**
      * Releases references.
      * @public
@@ -263,3 +263,5 @@ export default inherit( Node, ProbeNode, {
     crosshairs: crosshairs,
     glass: glass
   } );
+
+export default ProbeNode;
