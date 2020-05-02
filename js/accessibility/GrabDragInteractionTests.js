@@ -13,6 +13,7 @@ import GrabDragInteraction from './GrabDragInteraction.js';
 
 // constants
 const thingString = 'thing';
+const movableString = 'movable';
 
 
 QUnit.module( 'GrabDragInteraction' );
@@ -29,6 +30,9 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
   phet = phet || {}; // eslint-disable-line no-global-assign
   phet.joist = phet.joist || {};
   phet.joist.sim = phet.joist.sim || { utteranceQueue: display.utteranceQueue }; // stub utteranceQueue global
+
+  // GrabDragInteraction requires a sim
+  phet.joist.sim.supportsGestureDescription = phet.joist.sim.supportsGestureDescription || false;
 
   const a = new Rectangle( 0, 0, 5, 5 );
 
@@ -59,12 +63,12 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     assert.ok( !interaction.grabbable, 'should be draggable after click draggable' );
     assert.ok( a.tagName.toUpperCase() === 'DIV', 'draggable defaults to div' );
     assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
-    assert.ok( a.ariaLabel.indexOf( thingString ) > 0, 'ariaLabel should include thing string' );
+    assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string' );
     assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
 
     const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
     assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
-    assert.ok( aElement.getAttribute( 'aria-roledescription' ) === a.ariaLabel, 'aria role description should be same as model label' );
+    assert.ok( aElement.getAttribute( 'aria-roledescription' ) === movableString, 'aria role description should describe that it is movable by default' );
     assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
     assert.ok( aElement.getAttribute( 'aria-label' ) === a.ariaLabel, 'element innerHTML should be same as model label' );
   };
