@@ -165,6 +165,11 @@ inherit( VBox, KeyboardHelpSection, {}, {
       align: 'center',
       matchHorizontal: false,
 
+      // options passed along to the RichText label
+      labelOptions: {
+        font: LABEL_FONT
+      },
+
       // options for the AlignBox surrounding the icon
       iconOptions: {
         tagName: 'li'
@@ -175,7 +180,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
 
     options.iconOptions.innerContent = labelInnerContent;
 
-    const labelText = new RichText( labelString, { font: LABEL_FONT } );
+    const labelText = new RichText( labelString, options.labelOptions );
 
     // make the label and icon the same height so that they will align when we assemble help section group
     const labelIconGroup = new AlignGroup( options );
@@ -281,13 +286,15 @@ inherit( VBox, KeyboardHelpSection, {}, {
    *
    * @param {string} labelString - visual label string for the "Alt" + "K" icon
    * @param labelInnerContent - description for screen readers in the PDOM
+   * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  createPlayPauseKeyRow: function( labelString, labelInnerContent ) {
+  createPlayPauseKeyRow: function( labelString, labelInnerContent, options ) {
     return KeyboardHelpSection.labelWithIcon(
       labelString,
       KeyboardHelpIconFactory.iconPlusIcon( new AltKeyNode(), new KKeyNode() ),
-      labelInnerContent
+      labelInnerContent,
+      options
     );
   },
 
