@@ -19,7 +19,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 /**
  * @param {Node} centerNode
- * @param {Object} selfOptions  Valid options are:
+ * @param {Object} [selfOptions]  Valid options are:
  *                                arrowColor         - color for the arrow's fill
  *                                arrowStrokeColor   - color for the arrow's stroke
  *                                arrowWidth         - the width of the arrow, from its point to its side
@@ -27,7 +27,7 @@ import sceneryPhet from './sceneryPhet.js';
  *                                next               - a function to be called when the "next" arrow is pressed
  *                                previous           - a function to be called when the "previous" arrow is pressed
  *                                createTouchAreaShape - function( shape, isPrevious ) that returns the touch area for the specified arrow
- * @param {Object} nodeOptions  Passed to the Node constructor
+ * @param {Object} [nodeOptions] Passed to the Node constructor
  */
 function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
   const self = this;
