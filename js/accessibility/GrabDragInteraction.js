@@ -54,7 +54,7 @@ const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
-// wrap in a function because phet.joist.sim doesn't exist at RequireJS time
+// wrap in a function because phet.joist.sim doesn't exist while modules are being loaded
 const supportsGestureDescription = () => {
   assert && assert( phet.joist && phet.joist.sim && typeof phet.joist.sim.supportsGestureDescription === 'boolean', 'boolean expected' );
   return phet.joist.sim.supportsGestureDescription;
