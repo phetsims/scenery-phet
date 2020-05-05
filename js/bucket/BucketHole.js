@@ -16,6 +16,7 @@ import sceneryPhet from '../sceneryPhet.js';
 /**
  * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
  * @param {ModelViewTransform2} modelViewTransform
+ * @param {Object} [options]
  * @constructor
  */
 function BucketHole( bucket, modelViewTransform, options ) {
