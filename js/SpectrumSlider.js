@@ -18,7 +18,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightFromNode from '../../scenery/js/accessibility/FocusHighlightFromNode.js';
-import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -28,8 +28,8 @@ import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
+import sceneryPhet from './sceneryPhet.js';
 
 /**
  * @param {Property.<number>} valueProperty
@@ -226,32 +226,32 @@ function SpectrumSlider( valueProperty, options ) {
     valueProperty.set( value );
   };
 
-  track.addInputListener( new SimpleDragHandler( {
+  track.addInputListener( new DragListener( {
 
     tandem: options.tandem.createTandem( 'trackInputListener' ),
 
-    start: function( event, trail ) {
+    allowTouchSnag: false,
+
+    start: event => {
       handleTrackEvent( event );
     },
 
-    drag: function( event, trail ) {
+    drag: event => {
       handleTrackEvent( event );
     }
   } ) );
 
   // thumb drag handler
   let clickXOffset = 0; // x-offset between initial click and thumb's origin
-  thumb.addInputListener( new SimpleDragHandler( {
+  thumb.addInputListener( new DragListener( {
 
     tandem: options.tandem.createTandem( 'thumbInputListener' ),
 
-    allowTouchSnag: true,
-
-    start: function( event ) {
+    start: event => {
       clickXOffset = thumb.globalToParentPoint( event.pointer.point ).x - thumb.x;
     },
 
-    drag: function( event ) {
+    drag: event => {
       const x = thumb.globalToParentPoint( event.pointer.point ).x - clickXOffset;
       const value = positionToValue( x );
       valueProperty.set( value );

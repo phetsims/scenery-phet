@@ -29,7 +29,7 @@ import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
-import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -220,11 +220,9 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   };
 
   let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
-  const inputListener = new SimpleDragHandler( {
+  const inputListener = new DragListener( {
 
-    allowTouchSnag: true,
-
-    start: function( event ) {
+    start: event => {
       if ( enabledProperty.get() ) {
         // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
         tapToDispenseIsArmed = options.tapToDispenseEnabled;
@@ -233,7 +231,7 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
     },
 
     // adjust the flow
-    drag: function( event ) {
+    drag: ( event, listener ) => {
 
       // dragging is the cue that we're not doing tap-to-dispense
       tapToDispenseIsArmed = false;
@@ -245,14 +243,14 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
       if ( enabledProperty.get() ) {
 
         // offsetToFlowRate is relative to bodyNode.left, so account for it
-        const xOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
+        const xOffset = listener.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
         const flowRate = offsetToFlowRate( xOffset );
 
         flowRateProperty.set( flowRate );
       }
     },
 
-    end: function() {
+    end: () => {
       if ( enabledProperty.get() ) {
 
         if ( tapToDispenseIsArmed ) {
@@ -276,7 +274,7 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   flowRateProperty.link( flowRateObserver );
 
   const enabledObserver = function( enabled ) {
-    if ( !enabled && inputListener.dragging ) {
+    if ( !enabled && inputListener.isPressed ) {
       inputListener.interrupt();
     }
     if ( !enabled && tapToDispenseIsRunning ) {

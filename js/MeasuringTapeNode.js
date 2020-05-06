@@ -24,7 +24,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Line from '../../scenery/js/nodes/Line.js';
@@ -37,8 +37,8 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import measuringTapeImage from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 class MeasuringTapeNode extends Node {
 
@@ -214,23 +214,18 @@ class MeasuringTapeNode extends Node {
     // @private
     this.baseDragHandler =
       options.interactive ?
-      new SimpleDragHandler( {
+      new DragListener( {
         tandem: options.tandem.createTandem( 'baseDragHandler' ),
 
-        allowTouchSnag: true,
-
-        // Don't allow the pointer to swipe-to-snag other things while dragging
-        attach: true,
-
-        start: ( event, trail ) => {
+        start: event => {
           options.baseDragStarted();
           this._isBaseUserControlledProperty.set( true );
           const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
           baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
         },
 
-        drag: event => {
-          const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
+        drag: ( event, listener ) => {
+          const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
           const unconstrainedBasePosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
           const constrainedBasePosition = this._dragBounds.closestPointTo( unconstrainedBasePosition );
 
@@ -267,22 +262,17 @@ class MeasuringTapeNode extends Node {
     let tipStartOffset;
 
     // init drag and drop for tip
-    options.interactive && tip.addInputListener( new SimpleDragHandler( {
+    options.interactive && tip.addInputListener( new DragListener( {
       tandem: options.tandem.createTandem( 'tipDragHandler' ),
 
-      allowTouchSnag: true,
-
-      // Don't allow the pointer to swipe-to-snag other things while dragging
-      attach: true,
-
-      start: ( event, trail ) => {
+      start: event => {
         this._isTipUserControlledProperty.set( true );
         const position = this.modelViewTransformProperty.value.modelToViewPosition( this.tipPositionProperty.value );
         tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
       },
 
-      drag: event => {
-        const parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
+      drag: ( event, listener ) => {
+        const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
         const unconstrainedTipPosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
 
         if ( options.isTipDragBounded ) {
@@ -295,7 +285,7 @@ class MeasuringTapeNode extends Node {
         }
       },
 
-      end: ( event, trail ) => {
+      end: event => {
         this._isTipUserControlledProperty.set( false );
       }
     } ) );
@@ -513,7 +503,7 @@ class MeasuringTapeNode extends Node {
    * @param {SceneryEvent} event
    */
   startBaseDrag( event ) {
-    this.baseDragHandler.startDrag( event );
+    this.baseDragHandler.press( event );
   }
 
   // @public ES5 getter and setter for the textColor

@@ -18,7 +18,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -30,8 +30,8 @@ import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 const shortCircuitString = sceneryPhetStrings.shortCircuit;
 
@@ -137,17 +137,17 @@ function ConductivityTesterNode( brightnessProperty, positionProperty, positiveP
 
   // drag handler for probes
   let clickYOffset = 0;
-  const probeDragHandler = new SimpleDragHandler( {
+  const probeDragHandler = new DragListener( {
 
     start: function( e ) {
       clickYOffset = e.currentTarget.globalToParentPoint( e.pointer.point ).y - e.currentTarget.y;
     },
 
     // probes move together
-    drag: function( e ) {
+    drag: function( e, listener ) {
       // do dragging in view coordinate frame
       const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.get() );
-      let yView = e.currentTarget.globalToParentPoint( e.pointer.point ).y + positionView.y - clickYOffset;
+      let yView = listener.currentTarget.globalToParentPoint( e.pointer.point ).y + positionView.y - clickYOffset;
       if ( options.probeDragYRange ) {
         yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
       }
