@@ -7,7 +7,6 @@
  * @author John Blanco
  */
 
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -41,5 +40,4 @@ function Key( label, identifier, options ) {
 }
 
 sceneryPhet.register( 'Key', Key );
-
-export default inherit( Object, Key, {} );
+export default Key;
