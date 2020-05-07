@@ -9,7 +9,7 @@
 import Property from '../../axon/js/Property.js';
 import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
@@ -38,7 +38,7 @@ const createScreenIcon = function( color ) {
 };
 
 // Create and start sim
-SimLauncher.launch( function() {
+simLauncher.launch( function() {
 
   const buttonsScreenTandem = Tandem.ROOT.createTandem( 'buttonsScreen' );
   const slidersScreenTandem = Tandem.ROOT.createTandem( 'slidersScreen' );
