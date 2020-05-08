@@ -15,7 +15,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
-import GreenhouseWavesScreenView from './demo/GreenhouseWavesScreenView.js';
 import MemoryTestsScreenView from './demo/MemoryTestsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
@@ -47,16 +46,6 @@ simLauncher.launch( function() {
   const springScreenTandem = Tandem.ROOT.createTandem( 'springsScreen' );
   const memoryTestsScreenTandem = Tandem.ROOT.createTandem( 'memoryTestsScreen' );
   new Sim( sceneryPhetTitleString,
-
-    // Prototype for Greenhouse
-    sceneryPhetQueryParameters.greenhouseWaves ? [ new Screen(
-      function() {return {};},
-      function( model ) {return new GreenhouseWavesScreenView();}, {
-        name: 'Greenhouse Waves',
-        backgroundColorProperty: new Property( 'black' ),
-        homeScreenIcon: createScreenIcon( 'green' ),
-        tandem: memoryTestsScreenTandem
-      } ) ] :
 
       // Standard screens
       [

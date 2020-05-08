@@ -31,10 +31,6 @@ const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
   memoryTestCreationMax: {
     type: 'number',
     defaultValue: 10000
-  },
-
-  greenhouseWaves: {
-    type: 'flag'
   }
 } );
 
