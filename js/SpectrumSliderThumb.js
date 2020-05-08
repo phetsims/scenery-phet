@@ -87,6 +87,7 @@ class SpectrumSliderThumb extends Path {
    * Position the thumb in the track.
    * @param {number} centerY
    * @override
+   * @public
    */
   setCenterY( centerY ) {
     super.setY( centerY + this.windowCursor.height / 2 );

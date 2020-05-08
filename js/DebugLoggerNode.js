@@ -53,7 +53,8 @@ class DebugLoggerNode extends RichText {
 
   /**
    * log a message
-   * @param {String} message
+   * @param {string} message
+   * @public
    */
   log( message ) {
 

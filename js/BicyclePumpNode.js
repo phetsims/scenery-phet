@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+  // Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * This is a graphical representation of a bicycle pump. A user can move the handle up and down.
@@ -9,24 +9,24 @@
  * @author Saurabh Totey
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import Utils from '../../dot/js/Utils.js';
-import Vector2 from '../../dot/js/Vector2.js';
-import Shape from '../../kite/js/Shape.js';
-import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import DragListener from '../../scenery/js/listeners/DragListener.js';
-import Circle from '../../scenery/js/nodes/Circle.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import sceneryPhet from './sceneryPhet.js';
-import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
+  import BooleanProperty from '../../axon/js/BooleanProperty.js';
+  import Utils from '../../dot/js/Utils.js';
+  import Vector2 from '../../dot/js/Vector2.js';
+  import Shape from '../../kite/js/Shape.js';
+  import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+  import merge from '../../phet-core/js/merge.js';
+  import DragListener from '../../scenery/js/listeners/DragListener.js';
+  import Circle from '../../scenery/js/nodes/Circle.js';
+  import Node from '../../scenery/js/nodes/Node.js';
+  import Path from '../../scenery/js/nodes/Path.js';
+  import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+  import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+  import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+  import Tandem from '../../tandem/js/Tandem.js';
+  import sceneryPhet from './sceneryPhet.js';
+  import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
 
-// The follow constants define the size and positions of the various components of the pump as proportions of the
+  // The follow constants define the size and positions of the various components of the pump as proportions of the
 // overall width and height of the node.
 const PUMP_BASE_WIDTH_PROPORTION = 0.35;
 const PUMP_BASE_HEIGHT_PROPORTION = 0.075;
@@ -681,6 +681,9 @@ class HandleDragListener extends DragListener {
     this.lastHandlePosition = null;
   }
 
+  /**
+   * @public
+   */
   reset() {
     this.lastHandlePosition = null;
   }

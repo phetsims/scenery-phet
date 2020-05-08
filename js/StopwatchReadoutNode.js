@@ -144,6 +144,9 @@ class StopwatchReadoutNode extends Rectangle {
     };
   }
 
+  /**
+   * @public
+   */
   dispose() {
     this.disposeStopwatchReadoutNode();
   }

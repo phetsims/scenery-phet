@@ -23,8 +23,8 @@ import PlayPauseButton from './buttons/PlayPauseButton.js';
 import StepBackwardButton from './buttons/StepBackwardButton.js';
 import StepForwardButton from './buttons/StepForwardButton.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import TimeControlSpeed from './TimeControlSpeed.js';
 
 // constants
@@ -384,7 +384,8 @@ class PlayPauseStepButtons extends HBox {
   }
 
   /**
-   * Garbage collection.
+   * @public
+   * @override
    */
   dispose() {
     this.disposePlayPauseStepButtons();
