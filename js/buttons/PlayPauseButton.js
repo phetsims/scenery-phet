@@ -82,6 +82,9 @@ function PlayPauseButton( isPlayingProperty, options ) {
       if ( this.buttonModel.enabledProperty.get() ) {
         if ( event.keyCode === KeyboardUtils.KEY_K && Display.keyStateTracker.altKeyDown ) {
           isPlayingProperty.set( !isPlayingProperty.get() );
+
+          const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+          if ( soundPlayer ) { soundPlayer.play(); }
         }
       }
     }
