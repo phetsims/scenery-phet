@@ -31,6 +31,7 @@ import AltKeyNode from '../AltKeyNode.js';
 import EnterKeyNode from '../EnterKeyNode.js';
 import KKeyNode from '../KKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
+import LKeyNode from '../LKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
@@ -290,9 +291,37 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @returns {HelpSectionRow}
    */
   createPlayPauseKeyRow: function( labelString, labelInnerContent, options ) {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new KKeyNode(), options );
+  },
+
+  /**
+   * Create a HelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
+   * @public
+   *
+   * @param {string} labelString
+   * @param {string} labelInnerContent
+   * @param {}options
+   * @returns {HelpSectionRow}
+   */
+  createStepForwardKeyRow: function( labelString, labelInnerContent, options ) {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LKeyNode(), options );
+  },
+
+  /**
+   * Create a HelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
+   * some other key, to be provided.
+   * @public
+   *
+   * @param {string} labelString - visual label in the row
+   * @param {string} labelInnerContent - label to be read by the screen reader
+   * @param {Node} keyIcon - icon to be used in addition to AltKeyNode
+   * @param {object} options
+   * @returns {HelpSectionRow}
+   */
+  createGlobalHotkeyRow: function( labelString, labelInnerContent, keyIcon, options ) {
     return KeyboardHelpSection.labelWithIcon(
       labelString,
-      KeyboardHelpIconFactory.iconPlusIcon( new AltKeyNode(), new KKeyNode() ),
+      KeyboardHelpIconFactory.iconPlusIcon( new AltKeyNode(), keyIcon ),
       labelInnerContent,
       options
     );
