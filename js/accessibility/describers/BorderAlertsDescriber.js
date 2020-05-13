@@ -59,6 +59,8 @@ class BorderAlertsDescriber {
    * Based on a position and the border bounds, if the position is touching the bounds, then alert that we are at border.
    * By passing in an optional keyCode, you can prioritize that direction if you are at the corner.
    * TODO see https://github.com/phetsims/scenery-phet/issues/583 don't alert perpendicular direction if you are sliding against it.
+   * @private
+   *
    * @param {Vector2} position
    * @param {number} [keyCode]
    */
@@ -137,6 +139,8 @@ class BorderAlertsDescriber {
 
   /**
    * Default top alert for the border alerts
+   * @public
+   *
    * @returns {string}
    */
   static getDefaultTopAlert() {
@@ -174,6 +178,10 @@ class BorderAlert {
     return alert;
   }
 
+  /**
+   * Send the alert for this describer to the UtteranceQueue, and update state variables that are tracking descriptions.
+   * @public
+   */
   alert() {
     phet.joist.sim.utteranceQueue.addToBackIfDefined( this.getAlert() );
     this._numberOfTimesAlerted++;

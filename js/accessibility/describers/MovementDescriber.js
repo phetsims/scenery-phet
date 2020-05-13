@@ -136,6 +136,8 @@ class MovementDescriber {
 
   /**
    * Simple alert for the Describer
+   * @public
+   *
    * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
    */
   alert( alertable ) {

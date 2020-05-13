@@ -38,6 +38,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * Get two icons horizontally aligned and separated by 'or' text.
+   * @public
    *
    * @param {Node} iconA - to the left of 'or' text
    * @param {Node} iconB - to the right of 'or' text
@@ -63,6 +64,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * Get two icons horizontally aligned and separated by '+' text.
+   * @public
    *
    * @param {Node} iconA - to the left of '+' text
    * @param {Node} iconB - to the right of '+' text
@@ -92,6 +94,7 @@ class KeyboardHelpIconFactory {
   /**
    * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
    * of shift, plus icon, and desired icon.
+   * @public
    *
    * @param {Node} icon - icon to right of 'shift +'
    * @param {Object} [options]
@@ -156,6 +159,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * An icon containing icons for the up and down arrow keys aligned horizontally.
+   * @public
    *
    * @param {Object} [options]
    * @returns {HBox}
@@ -180,6 +184,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
+   * @public
    *
    * @param {Object} [options]
    * @returns {HBox}
@@ -202,6 +207,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
+   * @public
    *
    * @param {Object} [options]
    * @returns {HBox}
@@ -220,6 +226,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * An icon containing icons for the page up/down keys aligned horizontally.
+   * @public
    *
    * @param  {Object} [options]
    * @returns {HBox}
@@ -264,6 +271,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * An icon containing icons for the up and down arrow keys aligned horizontally.
+   * @public
    *
    * @param {Object} [options]
    * @returns {HBox}
@@ -274,6 +282,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
+   * @public
    *
    * @param {Object} [options]
    * @returns {HBox}
