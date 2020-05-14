@@ -38,7 +38,8 @@ class Stopwatch extends PhetioObject {
 
     // @public - position of the stopwatch, in view coordinates
     this.positionProperty = new Vector2Property( options.position, {
-      tandem: options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioDocumentation: `view coordinates for the upper-left of the stopwatch (initially ${options.position.x},${options.position.y})`
     } );
 
     // @public - whether the stopwatch is visible
