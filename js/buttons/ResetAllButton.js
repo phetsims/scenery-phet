@@ -28,7 +28,7 @@ const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 
 /**
- * @param {Object} [options]
+* @param {Object} [options]
  * @constructor
  */
 function ResetAllButton( options ) {
