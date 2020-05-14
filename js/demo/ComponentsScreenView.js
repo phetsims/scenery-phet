@@ -98,7 +98,7 @@ import Stopwatch from '../Stopwatch.js';
 import StopwatchNode from '../StopwatchNode.js';
 import ThermometerNode from '../ThermometerNode.js';
 import TimeControlNode from '../TimeControlNode.js';
-import TimeControlSpeed from '../TimeControlSpeed.js';
+import TimeSpeed from '../TimeSpeed.js';
 import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
 
@@ -1586,13 +1586,13 @@ const demoTimeControlNode = function( layoutBounds ) {
 
   // a TimeControlNode with default speed radio buttons
   const speedTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
-    timeControlSpeedProperty: new Property( TimeControlSpeed.NORMAL )
+    timeSpeedProperty: new Property( TimeSpeed.NORMAL )
   } );
 
   // a TimeControlNode with swapped layout for radio buttons with radio buttons wrapped in a panel
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
-    timeControlSpeedProperty: new Property( TimeControlSpeed.SLOW ),
-    timeControlSpeeds: [ TimeControlSpeed.NORMAL, TimeControlSpeed.FAST, TimeControlSpeed.SLOW ],
+    timeSpeedProperty: new Property( TimeSpeed.SLOW ),
+    timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
     speedRadioButtonGroupOnLeft: true,
     wrapSpeedButtonsInPanel: true,
     speedRadioButtonGroupPanelOptions: {

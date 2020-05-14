@@ -25,7 +25,7 @@ import StepForwardButton from './buttons/StepForwardButton.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
-import TimeControlSpeed from './TimeControlSpeed.js';
+import TimeSpeed from './TimeSpeed.js';
 
 // constants
 const speedNormalString = sceneryPhetStrings.speed.normal;
@@ -40,13 +40,13 @@ const timeControlNodePlayPauseStepButtonsPausedDescriptionString = sceneryPhetSt
 const timeControlNodePlayPauseStepButtonsPausedWithSpeedDescriptionString = sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.pausedWithSpeedDescription;
 
 // supported speeds for SpeedRadioButtonGroup
-const DEFAULT_TIME_CONTROL_SPEEDS = [ TimeControlSpeed.NORMAL, TimeControlSpeed.SLOW ];
+const DEFAULT_TIME_SPEEDS = [ TimeSpeed.NORMAL, TimeSpeed.SLOW ];
 
-//  maps TimeControlSpeed to its label and Tandem name
+// maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
-SPEED_LABEL_MAP.set( TimeControlSpeed.FAST, { labelString: speedFastString, tandemName: 'fastRadioButton' } );
-SPEED_LABEL_MAP.set( TimeControlSpeed.NORMAL, { labelString: speedNormalString, tandemName: 'normalRadioButton' } );
-SPEED_LABEL_MAP.set( TimeControlSpeed.SLOW, { labelString: speedSlowString, tandemName: 'slowRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.FAST, { labelString: speedFastString, tandemName: 'fastRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { labelString: speedNormalString, tandemName: 'normalRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: speedSlowString, tandemName: 'slowRadioButton' } );
 
 class TimeControlNode extends Node {
 
@@ -58,13 +58,13 @@ class TimeControlNode extends Node {
 
     options = merge( {
 
-      // {null|EnumerationProperty.<TimeControlSpeed>} - Play speed Property for the radio button group. If null,
+      // {null|EnumerationProperty.<TimeSpeed>} - Play speed Property for the radio button group. If null,
       // no radio buttons included in this control.
-      timeControlSpeedProperty: null,
+      timeSpeedProperty: null,
 
-      // {TimeControlSpeed[]} - Speeds supported by this TimeControlNode. Vertical radio buttons are created for
+      // {TimeSpeed[]} - Speeds supported by this TimeControlNode. Vertical radio buttons are created for
       // each in the order provided.
-      timeControlSpeeds: DEFAULT_TIME_CONTROL_SPEEDS,
+      timeSpeeds: DEFAULT_TIME_SPEEDS,
 
       // {boolean} - If true, the SpeedRadioButtonGroup will be to the left of the PlayPauseStepButtons, if a
       // SpeedRadioButtonGroup is included
@@ -106,11 +106,11 @@ class TimeControlNode extends Node {
     }, options );
 
     // options validation
-    if ( options.timeControlSpeedProperty !== null ) {
-      assert && assert( options.timeControlSpeeds.length > 1, 'must be at least two speed options' );
+    if ( options.timeSpeedProperty !== null ) {
+      assert && assert( options.timeSpeeds.length > 1, 'must be at least two speed options' );
       assert && assert(
-        _.every( options.timeControlSpeeds, speed => TimeControlSpeed.includes( speed ) ),
-        'speeds must be one of TimeControlSpeed'
+        _.every( options.timeSpeeds, speed => TimeSpeed.includes( speed ) ),
+        'speeds must be one of TimeSpeed'
       );
     }
 
@@ -123,10 +123,10 @@ class TimeControlNode extends Node {
 
     let speedRadioButtonGroup = null; // reference necessary for disposal
     let speedRadioButtonGroupParent = null; // either the SpeedRadioButtonGroup or its containing panel,  for layout
-    if ( options.timeControlSpeedProperty !== null ) {
+    if ( options.timeSpeedProperty !== null ) {
       speedRadioButtonGroup = new SpeedRadioButtonGroup(
-        options.timeControlSpeedProperty,
-        options.timeControlSpeeds,
+        options.timeSpeedProperty,
+        options.timeSpeeds,
         options.tandem.createTandem( 'speedRadioButtonGroup' ),
         options.speedRadioButtonGroupOptions
       );
@@ -153,7 +153,7 @@ class TimeControlNode extends Node {
     // @private {SpeedRadioButtonGroup} - for layout
     this.speedRadioButtonGroup = speedRadioButtonGroup;
 
-    // @prvate {SpeedRadioButtonGroup|Panel} - for layout code that may depend on the containing
+    // @private {SpeedRadioButtonGroup|Panel} - for layout code that may depend on the containing
     // panel of the SpeedRadioButtonGroup, if one is included
     this.speedRadioButtonGroupParent = speedRadioButtonGroupParent;
 
@@ -186,10 +186,10 @@ class TimeControlNode extends Node {
     const playingListener = playing => {
       let description;
       if ( playing ) {
-        description = options.timeControlSpeedProperty ? timeControlNodePlayPauseStepButtonsPlayingWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPlayingDescriptionString;
+        description = options.timeSpeedProperty ? timeControlNodePlayPauseStepButtonsPlayingWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPlayingDescriptionString;
       }
       else {
-        description = options.timeControlSpeedProperty ? timeControlNodePlayPauseStepButtonsPausedWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPausedDescriptionString;
+        description = options.timeSpeedProperty ? timeControlNodePlayPauseStepButtonsPausedWithSpeedDescriptionString : timeControlNodePlayPauseStepButtonsPausedDescriptionString;
       }
       playPauseStepButtons.descriptionContent = description;
     };
@@ -270,11 +270,6 @@ class TimeControlNode extends Node {
     super.dispose();
   }
 }
-
-// Possible play speeds for TimeControlNode
-// @public
-// @static
-TimeControlNode.TimeControlSpeed = TimeControlSpeed;
 
 /**
  * Inner type that collects the PlayPauseButton, StepForwardButton, and optionally the StepBackwardButton in
@@ -399,12 +394,12 @@ class PlayPauseStepButtons extends HBox {
 class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
   /**
-   * @param {EnumerationProperty.<TimeControlSpeed>} timeControlSpeedProperty
-   * @param {TimeControlSpeed[]} timeControlSpeeds - array of speeds to be included in this button group
+   * @param {EnumerationProperty.<TimeSpeed>} timeSpeedProperty
+   * @param {TimeSpeed[]} timeSpeeds - array of speeds to be included in this button group
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( timeControlSpeedProperty, timeControlSpeeds, tandem, options ) {
+  constructor( timeSpeedProperty, timeSpeeds, tandem, options ) {
     options = merge( {
 
       // {Object} - options for the Normal/Slow/Fast text labels
@@ -419,7 +414,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
     }, options );
 
     const radioButtons = [];
-    timeControlSpeeds.forEach( speed => {
+    timeSpeeds.forEach( speed => {
       const speedLabel = SPEED_LABEL_MAP.get( speed );
       const labelNode = new Text( speedLabel.labelString, options.labelOptions );
 
@@ -447,7 +442,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
       descriptionContent: simSpeedDescriptionString
     }, options.radioButtonGroupOptions );
 
-    super( timeControlSpeedProperty, radioButtons, radioButtonGroupOptions );
+    super( timeSpeedProperty, radioButtons, radioButtonGroupOptions );
   }
 }
 
