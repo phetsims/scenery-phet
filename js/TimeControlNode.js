@@ -217,13 +217,13 @@ class TimeControlNode extends Node {
 
   /**
    * Translate this node so that the center of the PlayPauseButton is at the specified point in the parent
-   * coordinate frame.
+   * coordinate frame for the TimeControlNode.
    * @public
    *
    * @param {Vector2} center
    */
   setPlayPauseButtonCenter( center ) {
-    const distanceToCenter = this.playPauseStepButtons.getPlayPauseButtonCenter().minus( this.center );
+    const distanceToCenter = this.localToParentPoint( this.getPlayPauseButtonCenter() ).minus( this.center );
     this.center = center.minus( distanceToCenter );
   }
 
