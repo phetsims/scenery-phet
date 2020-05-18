@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * Shows the model and view coordinates that correspond to the cursor location.
+ * Shows the model and view coordinates that correspond to the cursor position.
  * Originally implemented for use in gas-properties, where it was used exclusively for debugging.
  * CAUTION! This adds a listener to the Display, see notes below.
  *
@@ -49,7 +49,7 @@ class PointerCoordinatesNode extends Node {
       pickable: false
     } );
 
-    // Update the coordinates to match the pointer location.
+    // Update the coordinates to match the pointer position.
     // Add the input listener to the Display, so that things behind the grid will received events.
     // Scenery does not support having one event sent through two different trails.
     // Note that this will continue to receive events when the current screen is inactive.

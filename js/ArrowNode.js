@@ -104,7 +104,7 @@ inherit( Path, ArrowNode, {
   },
 
   /**
-   * Sets the tail and tip locations to update the arrow shape.
+   * Sets the tail and tip positions to update the arrow shape.
    * If the tail and tip are at the same point, the arrow is not shown.
    * @public
    * @param {number} tailX
@@ -134,7 +134,7 @@ inherit( Path, ArrowNode, {
   },
 
   /**
-   * Sets the tail location.
+   * Sets the tail position.
    * @param {number} tailX
    * @param {number} tailY
    * @public
@@ -144,7 +144,7 @@ inherit( Path, ArrowNode, {
   },
 
   /**
-   * Sets the tip location.
+   * Sets the tip position.
    * @param {number} tipX
    * @param {number} tipY
    * @public

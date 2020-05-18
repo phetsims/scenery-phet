@@ -134,7 +134,7 @@ function ThermometerNode( minTemperature, maxTemperature, temperatureProperty, o
   } );
 
   // override tick spacing options when using tickSpacingTemperature
-  let offset = options.tickSpacing; // distance between location of minTemp and first tick
+  let offset = options.tickSpacing; // distance between position of minTemp and first tick
   let minorOffset = 0; // bool (as number) indicating where first minor tick is placed
   if ( options.tickSpacingTemperature !== null ) {
     const scaleTempY = ( options.tubeHeight + options.lineWidth ) / ( maxTemperature - minTemperature );

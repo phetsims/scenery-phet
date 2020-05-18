@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * Stopwatch is the model for the stopwatch. It is responsible for time, location, and visibility.
+ * Stopwatch is the model for the stopwatch. It is responsible for time, position, and visibility.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

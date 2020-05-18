@@ -66,7 +66,7 @@ sceneryPhet.register( 'LineArrowNode', LineArrowNode );
 inherit( Node, LineArrowNode, {
 
   /**
-   * Set the tail and tip locations to update the arrow shape.
+   * Set the tail and tip positions to update the arrow shape.
    * @param {number} tailX
    * @param {number} tailY
    * @param {number} tipX

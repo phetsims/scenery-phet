@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * A Scenery Node that portrays a thermometer and a triangular indicator of the precise location where the temperature
+ * A Scenery Node that portrays a thermometer and a triangular indicator of the precise position where the temperature
  * is being sensed. The triangular indicator can be filled with a color to make it more clear what exactly is being
  * measured.
  *
