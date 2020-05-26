@@ -4,6 +4,7 @@
  * TimeSpeed is an enumeration of time speeds. These are supported by TimeControlNode, when it includes speed controls.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Enumeration from '../../phet-core/js/Enumeration.js';

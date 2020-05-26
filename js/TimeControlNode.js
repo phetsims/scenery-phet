@@ -58,7 +58,7 @@ class TimeControlNode extends Node {
 
     options = merge( {
 
-      // {null|EnumerationProperty.<TimeSpeed>} - Play speed Property for the radio button group. If null,
+      // {EnumerationProperty.<TimeSpeed>|null} - Play speed Property for the radio button group. If null,
       // no radio buttons included in this control.
       timeSpeedProperty: null,
 
