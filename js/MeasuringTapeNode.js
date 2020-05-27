@@ -218,6 +218,7 @@ class MeasuringTapeNode extends Node {
         tandem: options.tandem.createTandem( 'baseDragHandler' ),
 
         start: event => {
+          this.moveToFront();
           options.baseDragStarted();
           this._isBaseUserControlledProperty.set( true );
           const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
@@ -266,6 +267,7 @@ class MeasuringTapeNode extends Node {
       tandem: options.tandem.createTandem( 'tipDragHandler' ),
 
       start: event => {
+        this.moveToFront();
         this._isTipUserControlledProperty.set( true );
         const position = this.modelViewTransformProperty.value.modelToViewPosition( this.tipPositionProperty.value );
         tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
