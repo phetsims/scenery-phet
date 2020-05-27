@@ -36,6 +36,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
+import BooleanRectangularStickyToggleButton from '../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -565,6 +566,7 @@ const demoGridNode = layoutBounds => {
   // Properties for controls to change the GridNode
   const verticalLinesVisibleProperty = new BooleanProperty( true );
   const horizontalLinesVisibleProperty = new BooleanProperty( true );
+  const scrollingProperty = new BooleanProperty( false );
 
   const minorHorizontalLineSpacingProperty = new NumberProperty( defaultMinorSpacing, { range: minorSpacingRange } );
   const minorVerticalLineSpacingProperty = new NumberProperty( defaultMinorSpacing, { range: minorSpacingRange } );
@@ -580,13 +582,17 @@ const demoGridNode = layoutBounds => {
   const hideHorizontalLinesButton = createToggleLinesButton( horizontalLinesVisibleProperty, 'Hide Horizontal', 'Show Horizontal' );
   const hideVerticalLinesButton = createToggleLinesButton( verticalLinesVisibleProperty, 'Hide Vertical', 'Show Horizontal' );
 
-  const buttonsHBox = new HBox( {
+  const hideButtonsHBox = new HBox( {
     children: [ hideHorizontalLinesButton, hideVerticalLinesButton ],
     spacing: 10
   } );
 
+  const scrollButton = new BooleanRectangularStickyToggleButton( scrollingProperty, {
+    content: new Text( 'Scroll' )
+  } );
+
   const controls = new VBox( {
-    children: [ minorHorizontalLineSpinner, minorVerticalLineSpinner, majorHorizontalLineSpinner, majorVerticalLineSpinner, buttonsHBox ],
+    children: [ minorHorizontalLineSpinner, minorVerticalLineSpinner, majorHorizontalLineSpinner, majorVerticalLineSpinner, hideButtonsHBox, scrollButton ],
     spacing: 15,
     align: 'right'
   } );
@@ -614,6 +620,14 @@ const demoGridNode = layoutBounds => {
   Property.multilink( [ majorVerticalLineSpacingProperty, majorHorizontalLineSpacingProperty, minorHorizontalLineSpacingProperty, minorVerticalLineSpacingProperty ],
     gridNode.setLineSpacings.bind( gridNode )
   );
+
+  emitter.addListener( dt => {
+    if ( scrollingProperty.get() ) {
+      const offset = gridNode.verticalLineOffset + 80 * dt;
+      gridNode.verticalLineOffset = offset;
+      gridNode.horizontalLineOffset = offset;
+    }
+  } );
 
   return node;
 };

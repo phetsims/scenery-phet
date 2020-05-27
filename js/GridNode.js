@@ -36,6 +36,11 @@ class GridNode extends Node {
       // {number|null} spacing between minor vertical lines - no minor vertical lines if null
       minorVerticalLineSpacing: null,
 
+      // {number} - Offsets for lines relative to the top left of the grid. Lines are still drawn at
+      // intervals of line spacings across bounds grid bounds, so this won't create empty space within the grid.
+      verticalLineOffset: 0,
+      horizontalLineOffset: 0,
+
       // {Object} - passed to the Path for minor lines
       minorLineOptions: {
         stroke: 'grey',
@@ -60,6 +65,10 @@ class GridNode extends Node {
     this.minorVerticalLineSpacing = null;
     this.majorVerticalLineSpacing = null;
     this.majorHorizontalLineSpacing = null;
+
+    // @private {number}
+    this._verticalLineOffset = options.verticalLineOffset;
+    this._horizontalLineOffset = options.horizontalLineOffset;
 
     // @private {Path} - Path for minor lines
     this.minorLines = new Path( null, options.minorLineOptions );
@@ -106,8 +115,63 @@ class GridNode extends Node {
   }
 
   /**
+   * Set the offset for vertical lines (major and minor), relative to the left of the grid node. Lines will be
+   * drawn at spacing intervals from left to right edge of the grid, so this cannot be used to create empty space
+   * within grid bounds if offset is larger than spacings.
+   * @public
+   *
+   * @param {number} offset
+   */
+  setVerticalLineOffset( offset ) {
+    if ( this._verticalLineOffset !== offset ) {
+      this._verticalLineOffset = offset;
+      this.drawAllLines();
+    }
+  }
+  set verticalLineOffset( offset ) { this.setVerticalLineOffset( offset ); }
+
+  /**
+   * Get the offset for vertical lines.
+   * @public
+   *
+   * @returns {number}
+   */
+  getVerticalLineOffset() {
+    return this._verticalLineOffset;
+  }
+  get verticalLineOffset() { return this.getVerticalLineOffset(); }
+
+  /**
+   * Set the offset for horizontal lines (major and minor) relative to the top of the GridNode. Lines will be
+   * drawn at spacing intervals from top to bottom edge of the grid, so this cannot be used to create empty space
+   * within grid bounds if offset is larger than spacings.
+   * @public
+   *
+   * @param {number} offset
+   */
+  setHorizontalLineOffset( offset ) {
+    if ( this._horizontalLineOffset !== offset ) {
+      this._horizontalLineOffset = offset;
+      this.drawAllLines();
+    }
+  }
+  set horizontalLineOffset( offset ) { this.setHorizontalLineOffset( offset ); }
+
+  /**
+   * Get the offset for horizontal lines.
+   * @public
+   *
+   * @returns {number}
+   */
+  getHorizontalLineOffset() {
+    return this._horizontalLineOffset;
+  }
+  get horizontalLineOffset() { return this.getHorizontalLineOffset(); }
+
+  /**
    * Validate each parameter, and make sure that as a pair they are as expected.
    * @private
+   *
    * @param {number|null} majorSpacing
    * @param {number|null} minorSpacing
    */
@@ -182,16 +246,26 @@ class GridNode extends Node {
     const shape = new Shape();
 
     if ( verticalSpacing ) {
-      for ( let x = 0; x <= this.gridWidth; x += verticalSpacing ) {
-        shape.moveTo( x, 0 );
-        shape.lineTo( x, this.gridHeight );
+
+      // constrain offset to within width of grid
+      const verticalLineOffset = this._verticalLineOffset % ( this.gridWidth * 2 );
+
+      for ( let x = 0; x <= this.gridWidth * 2; x += verticalSpacing ) {
+        const xPosition = x + verticalLineOffset % verticalSpacing;
+        if ( xPosition >= 0 && xPosition <= this.gridWidth ) {
+          shape.moveTo( xPosition, 0 );
+          shape.lineTo( xPosition, this.gridHeight );
+        }
       }
     }
 
     if ( horizontalSpacing ) {
       for ( let y = 0; y <= this.gridHeight; y += horizontalSpacing ) {
-        shape.moveTo( 0, y );
-        shape.lineTo( this.gridWidth, y );
+        const yPosition = y + this._horizontalLineOffset % horizontalSpacing;
+        if ( yPosition >= 0 && yPosition <= this.gridHeight ) {
+          shape.moveTo( 0, yPosition );
+          shape.lineTo( this.gridWidth, yPosition );
+        }
       }
     }
 
