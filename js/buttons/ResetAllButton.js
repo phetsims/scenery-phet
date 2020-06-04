@@ -28,7 +28,7 @@ const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 
 /**
-* @param {Object} [options]
+ * @param {Object} [options]
  * @constructor
  */
 function ResetAllButton( options ) {
@@ -62,9 +62,8 @@ function ResetAllButton( options ) {
     passedInListener();
 
     // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
-    if ( options.phetioRestoreScreenStateOnReset &&
-         this.isPhetioInstrumented() && // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
-         _.hasIn( window, 'phet.phetio.phetioEngine' ) ) {
+    if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
+         this.isPhetioInstrumented() ) {// even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
       phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
     }
   };
