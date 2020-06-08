@@ -70,8 +70,8 @@ class MeasuringTapeNode extends Node {
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
       modelViewTransform: ModelViewTransform2.createIdentity(),
       significantFigures: 1, // number of significant figures in the length measurement
-      textColor: 'white', // color of the length measurement and unit
-      textBackgroundColor: null, // {Color|string|null} fill color of the text background
+      textColor: 'white', // {Color|string|Property<Color>|null} color of the length measurement and unit
+      textBackgroundColor: null, // {Color|string|Property<Color>|null} fill color of the text background
       textBackgroundXMargin: 4,
       textBackgroundYMargin: 2,
       textBackgroundCornerRadius: 2,
