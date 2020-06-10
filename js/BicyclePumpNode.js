@@ -1,4 +1,4 @@
-  // Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * This is a graphical representation of a bicycle pump. A user can move the handle up and down.
@@ -9,25 +9,25 @@
  * @author Saurabh Totey
  */
 
-  import BooleanProperty from '../../axon/js/BooleanProperty.js';
-  import Utils from '../../dot/js/Utils.js';
-  import Vector2 from '../../dot/js/Vector2.js';
-  import Shape from '../../kite/js/Shape.js';
-  import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-  import merge from '../../phet-core/js/merge.js';
-  import DragListener from '../../scenery/js/listeners/DragListener.js';
-  import Circle from '../../scenery/js/nodes/Circle.js';
-  import Node from '../../scenery/js/nodes/Node.js';
-  import Path from '../../scenery/js/nodes/Path.js';
-  import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-  import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-  import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
-  import SunConstants from '../../sun/js/SunConstants.js';
-  import Tandem from '../../tandem/js/Tandem.js';
-  import sceneryPhet from './sceneryPhet.js';
-  import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import Utils from '../../dot/js/Utils.js';
+import Vector2 from '../../dot/js/Vector2.js';
+import Shape from '../../kite/js/Shape.js';
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import merge from '../../phet-core/js/merge.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import SunConstants from '../../sun/js/SunConstants.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import sceneryPhet from './sceneryPhet.js';
+import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
 
-  // The follow constants define the size and positions of the various components of the pump as proportions of the
+// The follow constants define the size and positions of the various components of the pump as proportions of the
 // overall width and height of the node.
 const PUMP_BASE_WIDTH_PROPORTION = 0.35;
 const PUMP_BASE_HEIGHT_PROPORTION = 0.075;
@@ -72,9 +72,14 @@ class BicyclePumpNode extends Node {
       // {Vector2} where the hose will attach externally relative to the origin of the pump
       hoseAttachmentOffset: new Vector2( 100, 100 ),
 
-      // {BooleanProperty} Determines whether the pump will be updated when its number changes. If the pump's range
-      // changes, the pumps indicator will update regardless of enabledProperty. Created below if not provided.
-      enabledProperty: null,
+      // {BooleanProperty} - determines whether the pump will interactive. If the pump's range changes, the pumps
+      // indicator will update regardless of enabledProperty. Created below if not provided.
+      nodeEnabledProperty: null,
+
+      // {BooleanProperty} - determines whether the pump is able to inject particles when the pump is still interactive.
+      // This is needed for when a user is pumping in particles too quickly for a model to handle (so the injection
+      // needs throttling), but the pump should not become non-interactive as a result, see https://github.com/phetsims/states-of-matter/issues/276
+      injectionEnabledProperty: new BooleanProperty( true ),
 
       // pointer areas
       handleTouchAreaXDilation: 15,
@@ -95,11 +100,11 @@ class BicyclePumpNode extends Node {
 
     super( options );
 
-    // does this instance own enabledProperty?
-    const ownsEnabledProperty = !options.enabledProperty;
+    // does this instance own nodeEnabledProperty?
+    const ownsEnabledProperty = !options.nodeEnabledProperty;
 
     // @public (read-only)
-    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
+    this.nodeEnabledProperty = options.nodeEnabledProperty || new BooleanProperty( true );
 
     // @public (read-only)
     this.hoseAttachmentOffset = options.hoseAttachmentOffset;
@@ -239,15 +244,15 @@ class BicyclePumpNode extends Node {
       this.pumpHandleNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
       this.pumpShaftNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
     };
-    this.enabledProperty.link( enabledListener );
+    this.nodeEnabledProperty.link( enabledListener );
 
     // define the allowed range for the pump handle's movement
     const maxHandleYOffset = this.pumpHandleNode.centerY;
     const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
     // @private create and add a drag listener to the handle
-    this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.enabledProperty,
-      minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
+    this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
+      options.nodeEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
       merge( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
       }, options.dragListenerOptions ) );
@@ -280,10 +285,10 @@ class BicyclePumpNode extends Node {
       this.handleDragListener.dispose(); // to unregister tandem
 
       if ( ownsEnabledProperty ) {
-        this.enabledProperty.dispose();
+        this.nodeEnabledProperty.dispose();
       }
-      else if ( this.enabledProperty.hasListener( enabledListener ) ) {
-        this.enabledProperty.unlink( enabledListener );
+      else if ( this.nodeEnabledProperty.hasListener( enabledListener ) ) {
+        this.nodeEnabledProperty.unlink( enabledListener );
       }
     };
   }
@@ -446,7 +451,7 @@ function createConeNode( pumpBodyWidth, height, fill ) {
 
   const coneShape = new Shape()
 
-    // start in upper right corner of shape, draw top ellipse right to left
+  // start in upper right corner of shape, draw top ellipse right to left
     .ellipticalArc( 0, 0, coneTopRadiusX, coneTopRadiusY, 0, 0, Math.PI, false )
     .lineTo( -coneBottomRadiusX, height ) // line to bottom left corner of shape
 
@@ -624,7 +629,7 @@ class HandleDragListener extends DragListener {
    *
    * @param {NumberProperty} numberProperty
    * @param {Property.<Range>} rangeProperty
-   * @param {BooleanProperty} enabledProperty
+   * @param {BooleanProperty} nodeEnabledProperty
    * @param {number} minHandleYOffset
    * @param {number} maxHandleYOffset
    * @param {Path} pumpHandleNode
@@ -633,7 +638,8 @@ class HandleDragListener extends DragListener {
    */
   constructor( numberProperty,
                rangeProperty,
-               enabledProperty,
+               nodeEnabledProperty,
+               injectionEnabledProperty,
                minHandleYOffset,
                maxHandleYOffset,
                pumpHandleNode,
@@ -679,7 +685,8 @@ class HandleDragListener extends DragListener {
             while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
               // add a particle
-              if ( enabledProperty.value && numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
+              if ( nodeEnabledProperty.value && injectionEnabledProperty.value &&
+                   numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
                 if ( options.addParticlesOneAtATime ) {
                   numberProperty.value++;
                 }
