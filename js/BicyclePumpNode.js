@@ -610,7 +610,7 @@ function createPumpHandleNode( fill ) {
 
   return new Path( pumpHandleShape, {
     lineWidth: 2,
-    stroke: 'black ',
+    stroke: 'black',
     fill: pumpHandleGradient
   } );
 }
