@@ -252,7 +252,7 @@ class BicyclePumpNode extends Node {
 
     // @private create and add a drag listener to the handle
     this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
-      options.nodeEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
+      options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
       merge( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
       }, options.dragListenerOptions ) );
