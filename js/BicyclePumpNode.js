@@ -22,6 +22,7 @@
   import Rectangle from '../../scenery/js/nodes/Rectangle.js';
   import LinearGradient from '../../scenery/js/util/LinearGradient.js';
   import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+  import SunConstants from '../../sun/js/SunConstants.js';
   import Tandem from '../../tandem/js/Tandem.js';
   import sceneryPhet from './sceneryPhet.js';
   import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
@@ -72,8 +73,8 @@ class BicyclePumpNode extends Node {
       hoseAttachmentOffset: new Vector2( 100, 100 ),
 
       // {BooleanProperty} Determines whether the pump will be updated when its number changes. If the pump's range
-      // changes, the pumps indicator will update regardless of enabledProperty.
-      enabledProperty: new BooleanProperty( true ),
+      // changes, the pumps indicator will update regardless of enabledProperty. Created below if not provided.
+      enabledProperty: null,
 
       // pointer areas
       handleTouchAreaXDilation: 15,
@@ -82,6 +83,7 @@ class BicyclePumpNode extends Node {
       handleMouseAreaYDilation: 0,
 
       dragListenerOptions: null, // see HandleDragListener
+      handleCursor: 'ns-resize', // curose style for the pump handle when it's enabled
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -92,6 +94,12 @@ class BicyclePumpNode extends Node {
     const height = options.height;
 
     super( options );
+
+    // does this instance own enabledProperty?
+    const ownsEnabledProperty = !options.enabledProperty;
+
+    // @public (read-only)
+    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
     // @public (read-only)
     this.hoseAttachmentOffset = options.hoseAttachmentOffset;
@@ -223,12 +231,22 @@ class BicyclePumpNode extends Node {
     this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
     this.setPumpHandleToInitialPosition();
 
+    // enable/disable behavior and appearance for the handle
+    const enabledListener = enabled => {
+      this.pumpHandleNode.interruptSubtreeInput();
+      this.pumpHandleNode.pickable = enabled;
+      this.pumpHandleNode.cursor = enabled ? options.handleCursor : 'default';
+      this.pumpHandleNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
+      this.pumpShaftNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
+    };
+    this.enabledProperty.link( enabledListener );
+
     // define the allowed range for the pump handle's movement
     const maxHandleYOffset = this.pumpHandleNode.centerY;
     const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
     // @private create and add a drag listener to the handle
-    this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, options.enabledProperty,
+    this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.enabledProperty,
       minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
       merge( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
@@ -256,6 +274,18 @@ class BicyclePumpNode extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
+
+    // @private
+    this.disposeBicyclePumpNode = () => {
+      this.handleDragListener.dispose(); // to unregister tandem
+
+      if ( ownsEnabledProperty ) {
+        this.enabledProperty.dispose();
+      }
+      else if ( this.enabledProperty.hasListener( enabledListener ) ) {
+        this.enabledProperty.unlink( enabledListener );
+      }
+    };
   }
 
   /**
@@ -280,7 +310,7 @@ class BicyclePumpNode extends Node {
    * @override
    */
   dispose() {
-    this.handleDragListener.dispose(); // to unregister tandem
+    this.disposeBicyclePumpNode();
     super.dispose();
   }
 }
@@ -581,8 +611,7 @@ function createPumpHandleNode( fill ) {
   return new Path( pumpHandleShape, {
     lineWidth: 2,
     stroke: 'black ',
-    fill: pumpHandleGradient,
-    cursor: 'ns-resize'
+    fill: pumpHandleGradient
   } );
 }
 
