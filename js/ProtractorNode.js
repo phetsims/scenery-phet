@@ -35,7 +35,7 @@ class ProtractorNode extends Node {
 
     super();
 
-    showProtractorProperty.linkAttribute( this, 'visible' );
+    const showProtractorListener = showProtractorProperty.linkAttribute( this, 'visible' );
 
     // Image
     const protractorImageNode = new Image( protractorImage, {
@@ -94,7 +94,21 @@ class ProtractorNode extends Node {
       } );
     }
 
+    // @private
+    this.disposeProtractorNode = () => {
+      showProtractorProperty.unlinkAttribute( showProtractorListener );
+    };
+
     this.mutate( options );
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeProtractorNode();
+    super.dispose();
   }
 
   /**
