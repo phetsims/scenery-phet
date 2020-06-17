@@ -27,61 +27,46 @@ class ProtractorNode extends Node {
   constructor( showProtractorProperty, options ) {
 
     options = merge( {
-      rotatable: false
+      rotatable: false,
+      pointer: 'cursor'
     }, options );
 
     super();
 
-    this.showProtractorProperty = showProtractorProperty; // @public (read-only)
-
-    // @public (read-only)- the image node
-    this.protractorImageNode = new Image( protractorImage, { pickable: false } );
-
     showProtractorProperty.linkAttribute( this, 'visible' );
-    this.addChild( this.protractorImageNode );
+
+    // Image
+    const protractorImageNode = new Image( protractorImage, { pickable: false } );
+    this.addChild( protractorImageNode );
 
     // Use nicknames for the protractor image width and height to make the layout code easier to understand
-    const w = this.protractorImageNode.getWidth();
-    const h = this.protractorImageNode.getHeight();
+    const w = protractorImageNode.getWidth();
+    const h = protractorImageNode.getHeight();
 
-    /**
-     * Creates the outer rim shape of the protractor, used for the outer rim shape as well as the full shape with
-     * the interior middle bar.
-     * @returns {Shape}
-     */
-    const createOuterRimShape = () => new Shape()
-      .moveTo( w, h / 2 )
-      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
-      .lineTo( w * 0.2, h / 2 )
-      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
-      .lineTo( w, h / 2 )
-      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
-      .lineTo( w * 0.2, h / 2 )
-      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
-
-    // shape for the outer ring of the protractor, must match the image.
-    this.outerRimShape = createOuterRimShape();
-
-    this.fullShape = createOuterRimShape()
-      .rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
-
-    this.mouseArea = this.fullShape;
-    this.touchArea = this.fullShape;
-    this.cursor = 'pointer';
+    // Pointer areas
+    const pointAreaShape = createOuterRingShape( w, h ).rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
+    this.mouseArea = pointAreaShape;
+    this.touchArea = pointAreaShape;
 
     if ( options.rotatable ) {
+
+      // @private
       this.protractorAngleProperty = new Property( 0.0 );
 
-      // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
-      const rotatePath = new Path( this.outerRimShape, {
+      // Outer ring of the protractor
+      const outRingPath = new Path( createOuterRingShape( w, h ), {
         pickable: true,
         cursor: 'pointer'
       } );
-      this.addChild( rotatePath );
+      this.addChild( outRingPath );
 
-      // rotate listener
+      // @public (read-only) the horizontal bar that spans the outer ring
+      this.barPath = new Path( new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 ) ); //TODO duplicate code
+      this.addChild( this.barPath );
+
+      // Rotate when the outer ring is dragged.
       let start;
-      rotatePath.addInputListener( new SimpleDragHandler( {
+      outRingPath.addInputListener( new SimpleDragHandler( {
         start: event => {
           start = this.globalToParentPoint( event.pointer.point );
         },
@@ -104,20 +89,38 @@ class ProtractorNode extends Node {
       this.protractorAngleProperty.link( angle => {
         this.rotateAround( this.center, angle - this.getRotation() );
       } );
-      this.barPath = new Path( new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 ) );
-      this.addChild( this.barPath );
     }
+
     this.mutate( options );
   }
 
-  // @public
-  // Reset the rotation of the ProtractorNode
+  /**
+   * @public
+   */
   reset() {
     this.protractorAngleProperty && this.protractorAngleProperty.reset();
   }
 }
 
 ProtractorNode.protractorImage = protractorImage;
+
+/**
+ * Creates the outer ring shape of the protractor.
+ * @param {number} w - width
+ * @param {number} h - height
+ * @returns {Shape}
+ */
+function createOuterRingShape( w, h ) {
+  return new Shape()
+    .moveTo( w, h / 2 )
+    .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
+    .lineTo( w * 0.2, h / 2 )
+    .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
+    .lineTo( w, h / 2 )
+    .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
+    .lineTo( w * 0.2, h / 2 )
+    .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
+}
 
 sceneryPhet.register( 'ProtractorNode', ProtractorNode );
 
