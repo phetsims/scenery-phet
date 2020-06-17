@@ -29,43 +29,45 @@ class ProtractorNode extends Node {
 
     options = merge( {
       rotatable: false,
-      pointer: 'cursor'
+      cursor: 'pointer'
     }, options );
+    assert && assert( !options.children, 'ProtractorNode sets children' );
 
     super();
 
     showProtractorProperty.linkAttribute( this, 'visible' );
 
     // Image
-    const protractorImageNode = new Image( protractorImage, { pickable: false } );
+    const protractorImageNode = new Image( protractorImage, {
+      hitTestPixels: true // hit test only non-transparent pixels in the image
+    } );
     this.addChild( protractorImageNode );
-
-    // Use nicknames for the protractor image width and height to make the layout code easier to understand
-    const w = protractorImageNode.getWidth();
-    const h = protractorImageNode.getHeight();
-
-    // Pointer areas
-    const pointAreaShape = createOuterRingShape( w, h ).shapeUnion( createBarShape( w, h ) );
-    this.mouseArea = pointAreaShape;
-    this.touchArea = pointAreaShape;
 
     if ( options.rotatable ) {
 
       // @private
       this.protractorAngleProperty = new Property( 0.0 );
 
-      // Outer ring of the protractor
-      const outerRingPath = new Path( createOuterRingShape( w, h ), {
-        pickable: true,
-        cursor: 'pointer'
+      // Use nicknames for width and height, to make the Shape code easier to understand.
+      const w = protractorImageNode.getWidth();
+      const h = protractorImageNode.getHeight();
+
+      // Outer ring of the protractor. Shape must match protractorImage!
+      const outerRingShape = new Shape()
+        .moveTo( w, h / 2 )
+        .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
+        .lineTo( w * 0.2, h / 2 )
+        .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
+        .lineTo( w, h / 2 )
+        .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
+        .lineTo( w * 0.2, h / 2 )
+        .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
+      const outerRingPath = new Path( outerRingShape, {
+        stroke: phet.chipper.queryParameters.dev ? 'red' : null // show the Shape with ?dev
       } );
       this.addChild( outerRingPath );
 
-      // @public (read-only) the horizontal bar that spans the outer ring
-      this.barPath = new Path( createBarShape( w, h ) );
-      this.addChild( this.barPath );
-
-      // Rotate when the outer ring is dragged.
+      // Rotate the protractor when its outer ring is dragged.
       let start;
       outerRingPath.addInputListener( new SimpleDragHandler( {
         start: event => {
@@ -86,7 +88,7 @@ class ProtractorNode extends Node {
         }
       } ) );
 
-      // update the protractor angle
+      // Rotate to match the protractor angle
       this.protractorAngleProperty.link( angle => {
         this.rotateAround( this.center, angle - this.getRotation() );
       } );
@@ -101,36 +103,16 @@ class ProtractorNode extends Node {
   reset() {
     this.protractorAngleProperty && this.protractorAngleProperty.reset();
   }
-}
 
-ProtractorNode.protractorImage = protractorImage;
-
-/**
- * Creates the outer ring shape of the protractor. Must match protractorImage!
- * @param {number} w - width
- * @param {number} h - height
- * @returns {Shape}
- */
-function createOuterRingShape( w, h ) {
-  return new Shape()
-    .moveTo( w, h / 2 )
-    .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
-    .lineTo( w * 0.2, h / 2 )
-    .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
-    .lineTo( w, h / 2 )
-    .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
-    .lineTo( w * 0.2, h / 2 )
-    .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
-}
-
-/**
- * Creates the horizontal bar shape that spans the center of the protractor. Must match protractorImage!
- * @param {number} w - width
- * @param {number} h - height
- * @returns {Shape}
- */
-function createBarShape( w, h ) {
-  return new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
+  /**
+   * Creates an icon, to be used in toolboxes, etc.
+   * @param {Object} [options] - options to scenery.Image
+   * @returns {Image}
+   * @public
+   */
+  static createIcon( options ) {
+    return new Image( protractorImage, options );
+  }
 }
 
 sceneryPhet.register( 'ProtractorNode', ProtractorNode );
