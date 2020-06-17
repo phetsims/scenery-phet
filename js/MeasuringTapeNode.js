@@ -212,10 +212,10 @@ class MeasuringTapeNode extends Node {
     let baseStartOffset;
 
     // @private
-    this.baseDragHandler =
+    this.baseDragListener =
       options.interactive ?
       new DragListener( {
-        tandem: options.tandem.createTandem( 'baseDragHandler' ),
+        tandem: options.tandem.createTandem( 'baseDragListener' ),
 
         start: event => {
           this.moveToFront();
@@ -258,13 +258,13 @@ class MeasuringTapeNode extends Node {
       } ) :
       null;
 
-    options.interactive && this.baseImage.addInputListener( this.baseDragHandler );
+    options.interactive && this.baseImage.addInputListener( this.baseDragListener );
 
     let tipStartOffset;
 
     // init drag and drop for tip
     options.interactive && tip.addInputListener( new DragListener( {
-      tandem: options.tandem.createTandem( 'tipDragHandler' ),
+      tandem: options.tandem.createTandem( 'tipDragListener' ),
 
       start: event => {
         this.moveToFront();
@@ -505,7 +505,7 @@ class MeasuringTapeNode extends Node {
    * @param {SceneryEvent} event
    */
   startBaseDrag( event ) {
-    this.baseDragHandler.press( event );
+    this.baseDragListener.press( event );
   }
 
   // @public ES5 getter and setter for the textColor

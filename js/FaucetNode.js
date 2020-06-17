@@ -220,7 +220,7 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   };
 
   let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
-  const inputListener = new DragListener( {
+  const dragListener = new DragListener( {
 
     start: event => {
       if ( enabledProperty.get() ) {
@@ -264,9 +264,9 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
         }
       }
     },
-    tandem: options.tandem.createTandem( 'inputListener' )
+    tandem: options.tandem.createTandem( 'dragListener' )
   } );
-  shooterNode.addInputListener( inputListener );
+  shooterNode.addInputListener( dragListener );
 
   const flowRateObserver = function( flowRate ) {
     shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
@@ -274,8 +274,8 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
   flowRateProperty.link( flowRateObserver );
 
   const enabledObserver = function( enabled ) {
-    if ( !enabled && inputListener.isPressed ) {
-      inputListener.interrupt();
+    if ( !enabled && dragListener.isPressed ) {
+      dragListener.interrupt();
     }
     if ( !enabled && tapToDispenseIsRunning ) {
       endTapToDispense();
@@ -323,7 +323,7 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
     }
 
     // Subcomponents
-    inputListener.dispose();
+    dragListener.dispose();
     shooterNode.dispose();
 
     self.disposeAccessibleSlider();

@@ -228,7 +228,7 @@ function SpectrumSlider( valueProperty, options ) {
 
   track.addInputListener( new DragListener( {
 
-    tandem: options.tandem.createTandem( 'trackInputListener' ),
+    tandem: options.tandem.createTandem( 'dragListener' ),
 
     allowTouchSnag: false,
 
