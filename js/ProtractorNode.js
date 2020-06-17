@@ -119,9 +119,9 @@ class ProtractorNode extends Node {
   }
 
   /**
-   * Creates an icon, to be used in toolboxes, checkboxes, etc.
-   * @param {Object} [options] - options to scenery.Image
-   * @returns {Image}
+   * Creates an icon, to be used for toolboxes, checkboxes, etc.
+   * @param {Object} [options] - options to scenery.Node
+   * @returns {Node}
    * @public
    */
   static createIcon( options ) {
