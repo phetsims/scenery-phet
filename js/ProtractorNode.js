@@ -6,6 +6,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Property from '../../axon/js/Property.js';
@@ -44,7 +45,7 @@ class ProtractorNode extends Node {
     const h = protractorImageNode.getHeight();
 
     // Pointer areas
-    const pointAreaShape = createOuterRingShape( w, h ).rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
+    const pointAreaShape = createOuterRingShape( w, h ).shapeUnion( createBarShape( w, h ) );
     this.mouseArea = pointAreaShape;
     this.touchArea = pointAreaShape;
 
@@ -54,19 +55,19 @@ class ProtractorNode extends Node {
       this.protractorAngleProperty = new Property( 0.0 );
 
       // Outer ring of the protractor
-      const outRingPath = new Path( createOuterRingShape( w, h ), {
+      const outerRingPath = new Path( createOuterRingShape( w, h ), {
         pickable: true,
         cursor: 'pointer'
       } );
-      this.addChild( outRingPath );
+      this.addChild( outerRingPath );
 
       // @public (read-only) the horizontal bar that spans the outer ring
-      this.barPath = new Path( new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 ) ); //TODO duplicate code
+      this.barPath = new Path( createBarShape( w, h ) );
       this.addChild( this.barPath );
 
       // Rotate when the outer ring is dragged.
       let start;
-      outRingPath.addInputListener( new SimpleDragHandler( {
+      outerRingPath.addInputListener( new SimpleDragHandler( {
         start: event => {
           start = this.globalToParentPoint( event.pointer.point );
         },
@@ -105,7 +106,7 @@ class ProtractorNode extends Node {
 ProtractorNode.protractorImage = protractorImage;
 
 /**
- * Creates the outer ring shape of the protractor.
+ * Creates the outer ring shape of the protractor. Must match protractorImage!
  * @param {number} w - width
  * @param {number} h - height
  * @returns {Shape}
@@ -120,6 +121,16 @@ function createOuterRingShape( w, h ) {
     .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
     .lineTo( w * 0.2, h / 2 )
     .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
+}
+
+/**
+ * Creates the horizontal bar shape that spans the center of the protractor. Must match protractorImage!
+ * @param {number} w - width
+ * @param {number} h - height
+ * @returns {Shape}
+ */
+function createBarShape( w, h ) {
+  return new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
 }
 
 sceneryPhet.register( 'ProtractorNode', ProtractorNode );
