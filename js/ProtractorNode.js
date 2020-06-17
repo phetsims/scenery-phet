@@ -10,6 +10,7 @@
 
 import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
+import merge from '../../phet-core/js/merge.js';
 import sceneryPhet from '../../scenery-phet/js/sceneryPhet.js';
 import protractorImage from '../../scenery-phet/mipmaps/protractor_png.js';
 import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
@@ -21,10 +22,13 @@ class ProtractorNode extends Node {
 
   /**
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
-   * @param {boolean} rotatable - can be rotated
    * @param {Object} [options]
    */
-  constructor( showProtractorProperty, rotatable, options ) {
+  constructor( showProtractorProperty, options ) {
+
+    options = merge( {
+      rotatable: false
+    }, options );
 
     super();
 
@@ -65,7 +69,7 @@ class ProtractorNode extends Node {
     this.touchArea = this.fullShape;
     this.cursor = 'pointer';
 
-    if ( rotatable ) {
+    if ( options.rotatable ) {
       this.protractorAngleProperty = new Property( 0.0 );
 
       // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
