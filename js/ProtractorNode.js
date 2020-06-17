@@ -14,7 +14,7 @@ import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import sceneryPhet from '../../scenery-phet/js/sceneryPhet.js';
 import protractorImage from '../../scenery-phet/mipmaps/protractor_png.js';
-import SimpleDragHandler from '../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -69,7 +69,7 @@ class ProtractorNode extends Node {
 
       // Rotate the protractor when its outer ring is dragged.
       let start;
-      outerRingPath.addInputListener( new SimpleDragHandler( {
+      outerRingPath.addInputListener( new DragListener( {
         start: event => {
           start = this.globalToParentPoint( event.pointer.point );
         },
