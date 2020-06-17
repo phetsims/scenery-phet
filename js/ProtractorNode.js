@@ -21,10 +21,10 @@ class ProtractorNode extends Node {
 
   /**
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
-   * @param {boolean} rotateable - can be rotated
+   * @param {boolean} rotatable - can be rotated
    * @param {Object} [options]
    */
-  constructor( showProtractorProperty, rotateable, options ) {
+  constructor( showProtractorProperty, rotatable, options ) {
 
     super();
 
@@ -65,7 +65,7 @@ class ProtractorNode extends Node {
     this.touchArea = this.fullShape;
     this.cursor = 'pointer';
 
-    if ( rotateable ) {
+    if ( rotatable ) {
       this.protractorAngleProperty = new Property( 0.0 );
 
       // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
