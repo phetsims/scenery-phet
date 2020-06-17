@@ -113,6 +113,8 @@ class ProtractorNode extends Node {
   }
 }
 
+ProtractorNode.protractorImage = protractorImage;
+
 sceneryPhet.register( 'ProtractorNode', ProtractorNode );
 
 export default ProtractorNode;
