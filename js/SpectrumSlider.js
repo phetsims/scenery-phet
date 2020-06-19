@@ -36,6 +36,7 @@ import sceneryPhet from './sceneryPhet.js';
  * @param {Object} [options]
  * @mixes AccessibleSlider
  * @constructor
+ * @deprecated - please use Slider.js with SpectrumSlideTrack/Thumb (or the composite WavelengthNumberControl)
  */
 function SpectrumSlider( valueProperty, options ) {
 
