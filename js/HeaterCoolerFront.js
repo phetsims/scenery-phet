@@ -24,8 +24,8 @@ import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HeaterCoolerBack from './HeaterCoolerBack.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 const coolString = sceneryPhetStrings.cool;
 const heatString = sceneryPhetStrings.heat;
@@ -88,6 +88,11 @@ class HeaterCoolerFront extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED,
+
+      // HeaterCoolerFront is sometimes instrumented as a parent component, and is sometimes a sub-compoent to
+      // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
+      // instrumented tree. This doesn't effect the instrumentation of sub-components like the slider.
+      phetioInstrument: true,
       phetioType: NodeIO
     }, options );
 
@@ -176,6 +181,9 @@ class HeaterCoolerFront extends Node {
     this.addChild( stoveBody );
     this.addChild( this.slider );
 
+    if ( !options.phetioInstrument ) {
+      options.tandem = Tandem.OPT_OUT;
+    }
     this.mutate( options );
 
     // update the back component if provided

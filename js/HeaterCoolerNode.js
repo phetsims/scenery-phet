@@ -65,9 +65,10 @@ class HeaterCoolerNode extends Node {
       leftTop: heaterCoolerBack.getHeaterFrontPosition(),
       heaterCoolerBack: heaterCoolerBack,
 
-      // The front takes the entire tandem since we are treating it as a consolidated component (client doesn't need
-      // to know about front vs back)
-      tandem: options.tandem
+      // HeaterCoolerFront can be instrumented as a composite in some usages. Here, HeaterCoolerNode is the composite, so
+      // don't instrument the HeaterCoolerFront.
+      phetioInstrument: false,
+      tandem: options.tandem // Keep the same tandem so that things like slider are instrumented directly underneat this Node.
     }, options.frontOptions ) );
 
     // @public (read-only) With this visibility annotation comes great power - use it wisely.
@@ -77,13 +78,7 @@ class HeaterCoolerNode extends Node {
     assert && assert( !options.children, 'HeaterCoolerNode sets children' );
     options.children = [ heaterCoolerBack, heaterCoolerFront ];
 
-    super.mutate( merge( {}, options, {
-
-      // Do not propagate options.tandem to super because HeaterCoolerFront is the only part of HeaterCoolerNode that's
-      // instrumented, so it will pass the same Tandem to super instead.
-      // See https://github.com/phetsims/scenery-phet/issues/579
-      tandem: Tandem.OPTIONAL
-    } ) );
+    this.mutate( options );
 
     // @public Dispose function used for GC
     this.disposeHeaterCoolerNode = function() {
