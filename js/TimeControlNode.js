@@ -11,6 +11,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -213,6 +214,9 @@ class TimeControlNode extends Node {
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
     this.mutate( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimeControlNode', this );
   }
 
   /**
