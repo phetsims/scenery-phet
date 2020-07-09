@@ -37,7 +37,7 @@ class BackgroundNode extends Node {
     this.background = new Rectangle( 0, 0, 1, 1, options.backgroundOptions );
 
     // size the rectangle to fit the node
-    node.boundsProperty.link( bounds => {
+    node.localBoundsProperty.link( bounds => {
       if ( !bounds.isEmpty() ) {
         this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
         node.center = this.background.center;
