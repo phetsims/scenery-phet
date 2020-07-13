@@ -32,26 +32,28 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
+import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
-import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import Sprite from '../../../scenery/js/util/Sprite.js';
+import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
+import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
+import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
+import flameImage from '../../images/flame_png.js';
+import iceCubeStackImage from '../../images/ice-cube-stack_png.js';
+import measuringTapeImage from '../../images/measuringTape_png.js';
 import ArrowNode from '../ArrowNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
 import BracketNode from '../BracketNode.js';
-import ResetButton from '../buttons/ResetButton.js';
-import CapacitorConstants from '../capacitor/CapacitorConstants.js';
-import CapacitorNode from '../capacitor/CapacitorNode.js';
-import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
 import ComboBoxDisplay from '../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../ConductivityTesterNode.js';
 import Drawer from '../Drawer.js';
@@ -62,19 +64,6 @@ import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
-import MovableDragHandler from '../input/MovableDragHandler.js';
-import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
-import EnterKeyNode from '../keyboard/EnterKeyNode.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
-import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
-import LetterKeyNode from '../keyboard/LetterKeyNode.js';
-import ShiftKeyNode from '../keyboard/ShiftKeyNode.js';
-import TabKeyNode from '../keyboard/TabKeyNode.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
-import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
 import LeftRightSpinner from '../LeftRightSpinner.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
@@ -86,8 +75,6 @@ import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
 import ProbeNode from '../ProbeNode.js';
 import RulerNode from '../RulerNode.js';
-import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 import ScientificNotationNode from '../ScientificNotationNode.js';
 import SpectrumNode from '../SpectrumNode.js';
 import StarNode from '../StarNode.js';
@@ -98,6 +85,26 @@ import TimeControlNode from '../TimeControlNode.js';
 import TimeSpeed from '../TimeSpeed.js';
 import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
+import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
+import ResetButton from '../buttons/ResetButton.js';
+import CapacitorConstants from '../capacitor/CapacitorConstants.js';
+import CapacitorNode from '../capacitor/CapacitorNode.js';
+import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
+import MovableDragHandler from '../input/MovableDragHandler.js';
+import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
+import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
+import EnterKeyNode from '../keyboard/EnterKeyNode.js';
+import LetterKeyNode from '../keyboard/LetterKeyNode.js';
+import ShiftKeyNode from '../keyboard/ShiftKeyNode.js';
+import TabKeyNode from '../keyboard/TabKeyNode.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
+import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
+import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import Keypad from '../keypad/Keypad.js';
+import sceneryPhet from '../sceneryPhet.js';
+import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
 // constants
 const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
@@ -145,6 +152,7 @@ function ComponentsScreenView( options ) {
     { label: 'RulerNode', createNode: demoRulerNode },
     { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
     { label: 'SpectrumNode', createNode: demoSpectrumNode },
+    { label: 'Sprites', createNode: demoSprites },
     { label: 'StarNode', createNode: demoStarNode },
     { label: 'StopwatchNode', createNode: demoStopwatchNode },
     { label: 'ThermometerNode', createNode: demoTemperatureNode },
@@ -1571,6 +1579,61 @@ const demoUpDownSpinner = layoutBounds => {
   } );
 
   return upDownSpinner;
+};
+
+const demoSprites = layoutBounds => {
+  // SpriteImage references
+  const flameSpriteImage = new SpriteImage( flameImage, Vector2.ZERO );
+  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, Vector2.ZERO );
+  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, Vector2.ZERO );
+
+  // Sprites
+  const sprite0 = new Sprite( flameSpriteImage );
+  const sprite1 = new Sprite( measuringTapeSpriteImage );
+  const sprite2 = new Sprite( iceCubeStackSpriteImage );
+
+  // We'll hold our SpriteInstances here in this array (the reference to this exact array will be used)
+  const instances = [];
+
+  // Create the 'Sprites' node
+  const sprites = new Sprites( {
+    sprites: [ sprite0, sprite1, sprite2 ],
+    spriteInstances: instances
+  } );
+
+  // Initialize our instances
+  _.range( 0, 500 ).forEach( () => {
+    const instance = SpriteInstance.createFromPool();
+    instances.push( instance );
+    instance.sprite = phet.joist.random.sample( [ sprite0, sprite1, sprite2 ] );
+    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * layoutBounds.width, phet.joist.random.nextDouble() * layoutBounds.height );
+  } );
+  sprites.invalidatePaint();
+
+  const listener = dt => {
+    const width = layoutBounds.width;
+    const height = layoutBounds.height;
+    const distance = 250 * dt;
+    for ( let i = instances.length - 1; i >= 0; i-- ) {
+      const matrix = instances[ i ].matrix;
+
+      // Optimized translation
+      matrix.set02( ( matrix.m02() + distance ) % width );
+      matrix.set12( ( matrix.m12() + distance ) % height );
+    }
+
+    // We modified our instances, so we need this to repaint
+    sprites.invalidatePaint();
+  };
+
+  emitter.addListener( listener );
+  sprites.dispose = () => {
+    emitter.removeListener( listener );
+
+    Node.prototype.dispose.call( this );
+  };
+
+  return sprites;
 };
 
 inherit( DemosScreenView, ComponentsScreenView, {

@@ -29,7 +29,8 @@ const simOptions = {
   credits: {
     leadDesign: 'PhET'
   },
-  keyboardHelpNode: new SceneryPhetKeyboardHelpContent()
+  keyboardHelpNode: new SceneryPhetKeyboardHelpContent(),
+  webgl: true
 };
 
 // Creates a rectangle filled with a specified color
