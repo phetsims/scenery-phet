@@ -15,6 +15,7 @@ import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import StringProperty from '../../../axon/js/StringProperty.js';
+import Bounds2 from '../../../dot/js/Bounds2.js';
 import Bounds3 from '../../../dot/js/Bounds3.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
@@ -1590,6 +1591,12 @@ const demoSprites = layoutBounds => {
   const spriteSpeedProperty = new NumberProperty( 15, {
     range: new Range( 0, 100 )
   } );
+  const spriteScaleProperty = new NumberProperty( 0.5, {
+    range: new Range( 0.01, 1 )
+  } );
+
+  const getAvailableWidth = () => layoutBounds.width / spriteScaleProperty.value;
+  const getAvailableHeight = () => layoutBounds.height / spriteScaleProperty.value;
 
   // SpriteImage references
   const flameSpriteImage = new SpriteImage( flameImage, new Vector2( 44, 42 ), { hitTestPixels: true } );
@@ -1604,7 +1611,7 @@ const demoSprites = layoutBounds => {
   const createSpriteInstance = () => {
     const instance = SpriteInstance.createFromPool();
     instance.sprite = phet.joist.random.sample( [ sprite0, sprite1, sprite2 ] );
-    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * layoutBounds.width, phet.joist.random.nextDouble() * layoutBounds.height );
+    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * getAvailableWidth(), phet.joist.random.nextDouble() * getAvailableHeight() );
 
     // Put a custom velocity on each one
     instance.velocity = Vector2.createPolar( 1, phet.joist.random.nextDouble() * 2 * Math.PI );
@@ -1651,8 +1658,8 @@ const demoSprites = layoutBounds => {
       drag: ( event, listener ) => {
         // translate the selected instance
         const matrix = selectedInstance.matrix;
-        matrix.set02( matrix.m02() + listener.modelDelta.x );
-        matrix.set12( matrix.m12() + listener.modelDelta.y );
+        matrix.set02( matrix.m02() + listener.modelDelta.x / spriteScaleProperty.value );
+        matrix.set12( matrix.m12() + listener.modelDelta.y / spriteScaleProperty.value );
 
         sprites.invalidatePaint();
       },
@@ -1661,13 +1668,25 @@ const demoSprites = layoutBounds => {
       }
     } ) ]
   } );
+  spriteScaleProperty.link( ( scale, oldScale ) => {
+    sprites.setScaleMagnitude( scale, scale );
+    sprites.canvasBounds = Bounds2.rect( 0, 0, getAvailableWidth(), getAvailableHeight() ).dilated( 200 );
+
+    // rescale positions
+    if ( oldScale ) {
+      instances.forEach( instance => {
+        instance.matrix.set02( instance.matrix.m02() * oldScale / scale );
+        instance.matrix.set12( instance.matrix.m12() * oldScale / scale );
+      } );
+    }
+  } );
 
   sprites.invalidatePaint();
 
   const listener = dt => {
-    const distance = dt * spriteSpeedProperty.value;
-    const width = layoutBounds.width;
-    const height = layoutBounds.height;
+    const distance = dt * spriteSpeedProperty.value / spriteScaleProperty.value;
+    const width = getAvailableWidth();
+    const height = getAvailableHeight();
     for ( let i = instances.length - 1; i >= 0; i-- ) {
       const instance = instances[ i ];
 
@@ -1691,22 +1710,31 @@ const demoSprites = layoutBounds => {
     Node.prototype.dispose.call( this );
   };
 
-  sprites.addChild( new Panel( new HBox( {
-    spacing: 10,
+  return new Node( {
     children: [
-      new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
+      sprites,
+      new Panel( new VBox( {
+        spacing: 10,
+        children: [
+          new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
 
-      } ),
-      new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range, {
+          } ),
+          new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range, {
 
+          } ),
+          new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } )
+        ]
+      } ), {
+        bottom: layoutBounds.bottom - 10,
+        right: layoutBounds.right - 10
       } )
     ]
-  } ), {
-    bottom: layoutBounds.bottom - 10,
-    centerX: layoutBounds.centerX
-  } ) );
-
-  return sprites;
+  } );
 };
 
 inherit( DemosScreenView, ComponentsScreenView, {
