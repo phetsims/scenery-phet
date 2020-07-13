@@ -1584,6 +1584,10 @@ const demoUpDownSpinner = layoutBounds => {
 };
 
 const demoSprites = layoutBounds => {
+  const spriteCountProperty = new NumberProperty( 500, {
+    range: new Range( 0, 10000 )
+  } );
+
   // SpriteImage references
   const flameSpriteImage = new SpriteImage( flameImage, Vector2.ZERO, { hitTestPixels: true } );
   const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, Vector2.ZERO, { hitTestPixels: true } );
@@ -1594,8 +1598,31 @@ const demoSprites = layoutBounds => {
   const sprite1 = new Sprite( measuringTapeSpriteImage );
   const sprite2 = new Sprite( iceCubeStackSpriteImage );
 
+  const createSpriteInstance = () => {
+    const instance = SpriteInstance.createFromPool();
+    instance.sprite = phet.joist.random.sample( [ sprite0, sprite1, sprite2 ] );
+    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * layoutBounds.width, phet.joist.random.nextDouble() * layoutBounds.height );
+
+    // Put a custom velocity on each one
+    instance.velocity = Vector2.createPolar( 15, phet.joist.random.nextDouble() * 2 * Math.PI );
+
+    return instance;
+  };
+
   // We'll hold our SpriteInstances here in this array (the reference to this exact array will be used)
-  const instances = [];
+  const instances = _.range( 0, spriteCountProperty.value ).map( createSpriteInstance );
+
+  // Adjust sprite count dynamically
+  spriteCountProperty.lazyLink( ( value, oldValue ) => {
+    const delta = value - oldValue;
+
+    if ( delta > 0 ) {
+      _.range( 0, delta ).forEach( () => instances.push( createSpriteInstance() ) );
+    }
+    else {
+      _.range( 0, -delta ).forEach( () => instances.pop() );
+    }
+  } );
 
   let selectedInstance = null;
 
@@ -1632,19 +1659,11 @@ const demoSprites = layoutBounds => {
     } ) ]
   } );
 
-  // Initialize our instances
-  _.range( 0, 500 ).forEach( () => {
-    const instance = SpriteInstance.createFromPool();
-    instances.push( instance );
-    instance.sprite = phet.joist.random.sample( [ sprite0, sprite1, sprite2 ] );
-    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * layoutBounds.width, phet.joist.random.nextDouble() * layoutBounds.height );
-  } );
   sprites.invalidatePaint();
 
   const listener = dt => {
     const width = layoutBounds.width;
     const height = layoutBounds.height;
-    const distance = 15 * dt;
     for ( let i = instances.length - 1; i >= 0; i-- ) {
       const instance = instances[ i ];
 
@@ -1652,8 +1671,8 @@ const demoSprites = layoutBounds => {
         const matrix = instance.matrix;
 
         // Optimized translation
-        matrix.set02( ( matrix.m02() + distance ) % width );
-        matrix.set12( ( matrix.m12() + distance ) % height );
+        matrix.set02( ( matrix.m02() + instance.velocity.x * dt + width ) % width );
+        matrix.set12( ( matrix.m12() + instance.velocity.y * dt + height ) % height );
       }
     }
 
@@ -1667,6 +1686,13 @@ const demoSprites = layoutBounds => {
 
     Node.prototype.dispose.call( this );
   };
+
+  sprites.addChild( new Panel( new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
+
+  } ), {
+    top: layoutBounds.top + 10,
+    centerX: layoutBounds.centerX
+  } ) );
 
   return sprites;
 };
