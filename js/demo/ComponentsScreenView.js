@@ -1587,11 +1587,14 @@ const demoSprites = layoutBounds => {
   const spriteCountProperty = new NumberProperty( 500, {
     range: new Range( 0, 10000 )
   } );
+  const spriteSpeedProperty = new NumberProperty( 15, {
+    range: new Range( 0, 100 )
+  } );
 
   // SpriteImage references
-  const flameSpriteImage = new SpriteImage( flameImage, Vector2.ZERO, { hitTestPixels: true } );
-  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, Vector2.ZERO, { hitTestPixels: true } );
-  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, Vector2.ZERO, { hitTestPixels: true } );
+  const flameSpriteImage = new SpriteImage( flameImage, new Vector2( 44, 42 ), { hitTestPixels: true } );
+  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, new Vector2( 50, 40 ), { hitTestPixels: true } );
+  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, new Vector2( 25, 25 ), { hitTestPixels: true } );
 
   // Sprites
   const sprite0 = new Sprite( flameSpriteImage );
@@ -1604,7 +1607,7 @@ const demoSprites = layoutBounds => {
     instance.matrix.setToTranslation( phet.joist.random.nextDouble() * layoutBounds.width, phet.joist.random.nextDouble() * layoutBounds.height );
 
     // Put a custom velocity on each one
-    instance.velocity = Vector2.createPolar( 15, phet.joist.random.nextDouble() * 2 * Math.PI );
+    instance.velocity = Vector2.createPolar( 1, phet.joist.random.nextDouble() * 2 * Math.PI );
 
     return instance;
   };
@@ -1662,6 +1665,7 @@ const demoSprites = layoutBounds => {
   sprites.invalidatePaint();
 
   const listener = dt => {
+    const distance = dt * spriteSpeedProperty.value;
     const width = layoutBounds.width;
     const height = layoutBounds.height;
     for ( let i = instances.length - 1; i >= 0; i-- ) {
@@ -1671,8 +1675,8 @@ const demoSprites = layoutBounds => {
         const matrix = instance.matrix;
 
         // Optimized translation
-        matrix.set02( ( matrix.m02() + instance.velocity.x * dt + width ) % width );
-        matrix.set12( ( matrix.m12() + instance.velocity.y * dt + height ) % height );
+        matrix.set02( ( matrix.m02() + instance.velocity.x * distance + width ) % width );
+        matrix.set12( ( matrix.m12() + instance.velocity.y * distance + height ) % height );
       }
     }
 
@@ -1687,10 +1691,18 @@ const demoSprites = layoutBounds => {
     Node.prototype.dispose.call( this );
   };
 
-  sprites.addChild( new Panel( new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
+  sprites.addChild( new Panel( new HBox( {
+    spacing: 10,
+    children: [
+      new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
 
+      } ),
+      new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range, {
+
+      } )
+    ]
   } ), {
-    top: layoutBounds.top + 10,
+    bottom: layoutBounds.bottom - 10,
     centerX: layoutBounds.centerX
   } ) );
 
