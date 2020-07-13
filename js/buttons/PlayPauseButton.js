@@ -81,10 +81,14 @@ function PlayPauseButton( isPlayingProperty, options ) {
     if ( phet.joist.sim.supportsInteractiveDescriptions ) {
       if ( this.buttonModel.enabledProperty.get() ) {
         if ( event.keyCode === KeyboardUtils.KEY_K && Display.keyStateTracker.altKeyDown ) {
-          isPlayingProperty.set( !isPlayingProperty.get() );
 
-          const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
-          if ( soundPlayer ) { soundPlayer.play(); }
+          // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
+          if ( this.accessibleDisplayed ) {
+            isPlayingProperty.set( !isPlayingProperty.get() );
+
+            const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+            if ( soundPlayer ) { soundPlayer.play(); }
+          }
         }
       }
     }
