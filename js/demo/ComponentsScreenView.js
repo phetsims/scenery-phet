@@ -21,11 +21,13 @@ import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import Shape from '../../../kite/js/Shape.js';
+import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
+import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -1583,9 +1585,9 @@ const demoUpDownSpinner = layoutBounds => {
 
 const demoSprites = layoutBounds => {
   // SpriteImage references
-  const flameSpriteImage = new SpriteImage( flameImage, Vector2.ZERO );
-  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, Vector2.ZERO );
-  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, Vector2.ZERO );
+  const flameSpriteImage = new SpriteImage( flameImage, Vector2.ZERO, { hitTestPixels: true } );
+  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, Vector2.ZERO, { hitTestPixels: true } );
+  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, Vector2.ZERO, { hitTestPixels: true } );
 
   // Sprites
   const sprite0 = new Sprite( flameSpriteImage );
@@ -1595,10 +1597,39 @@ const demoSprites = layoutBounds => {
   // We'll hold our SpriteInstances here in this array (the reference to this exact array will be used)
   const instances = [];
 
+  let selectedInstance = null;
+
   // Create the 'Sprites' node
   const sprites = new Sprites( {
+    // The sprites we have available (fixed, won't change)
     sprites: [ sprite0, sprite1, sprite2 ],
-    spriteInstances: instances
+    spriteInstances: instances,
+    canvasBounds: layoutBounds.dilated( 200 ),
+    hitTestSprites: true,
+    cursor: 'pointer',
+
+    // Mix in SpriteListenable, so we (a) have access to the SpriteInstance and (b) will only interact when there is one
+    inputListeners: [ new ( SpriteListenable( DragListener ) )( {
+      applyOffset: false,
+      start: ( event, listener ) => {
+        selectedInstance = listener.spriteInstance;
+
+        // e.g. moveToFront
+        arrayRemove( instances, selectedInstance );
+        instances.push( selectedInstance );
+      },
+      drag: ( event, listener ) => {
+        // translate the selected instance
+        const matrix = selectedInstance.matrix;
+        matrix.set02( matrix.m02() + listener.modelDelta.x );
+        matrix.set12( matrix.m12() + listener.modelDelta.y );
+
+        sprites.invalidatePaint();
+      },
+      end: listener => {
+        selectedInstance = null;
+      }
+    } ) ]
   } );
 
   // Initialize our instances
@@ -1613,13 +1644,17 @@ const demoSprites = layoutBounds => {
   const listener = dt => {
     const width = layoutBounds.width;
     const height = layoutBounds.height;
-    const distance = 250 * dt;
+    const distance = 15 * dt;
     for ( let i = instances.length - 1; i >= 0; i-- ) {
-      const matrix = instances[ i ].matrix;
+      const instance = instances[ i ];
 
-      // Optimized translation
-      matrix.set02( ( matrix.m02() + distance ) % width );
-      matrix.set12( ( matrix.m12() + distance ) % height );
+      if ( instance !== selectedInstance ) {
+        const matrix = instance.matrix;
+
+        // Optimized translation
+        matrix.set02( ( matrix.m02() + distance ) % width );
+        matrix.set12( ( matrix.m12() + distance ) % height );
+      }
     }
 
     // We modified our instances, so we need this to repaint
@@ -1627,7 +1662,7 @@ const demoSprites = layoutBounds => {
   };
 
   emitter.addListener( listener );
-  sprites.dispose = () => {
+  sprites.dispose = function() {
     emitter.removeListener( listener );
 
     Node.prototype.dispose.call( this );
