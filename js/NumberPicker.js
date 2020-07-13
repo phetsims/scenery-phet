@@ -29,6 +29,8 @@ import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
 import SunConstants from '../../sun/js/SunConstants.js';
+import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
+import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import FireOnHoldInputListener from './buttons/FireOnHoldInputListener.js';
@@ -116,13 +118,19 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
     // Opacity used to indicate disabled, [0,1] exclusive
     disabledOpacity: SunConstants.DISABLED_OPACITY,
 
+    // {Playable} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
+    // Use Playable.NO_SOUND to disable.
+    valueChangedSoundPlayer: generalSoftClickSoundPlayer,
+    boundarySoundPlayer: generalBoundaryBoopSoundPlayer,
+
     // phet-io
     tandem: Tandem.REQUIRED,
     phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
     phetioComponentOptions: null, // filled in below with PhetioObject.mergePhetioComponentOptions()
 
-    // pdom
-    pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
+    // pdom (passed to AccessibleNumberSpinner)
+    pageKeyboardStep: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
+    change: _.noop
   }, options );
 
   // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
@@ -311,6 +319,16 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
     disabled: options.backgroundColor
   };
 
+  const playUISound = () => {
+    let soundClip = options.valueChangedSoundPlayer;
+
+    // If the value is at min or max, then play the boundary sound instead of the default sound
+    if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
+      soundClip = options.boundarySoundPlayer;
+    }
+    soundClip.play();
+  };
+
   //------------------------------------------------------------
   // Observers and InputListeners
 
@@ -319,6 +337,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
   this.upListener = new FireOnHoldInputListener( {
     listener: function() {
       valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
+      playUISound();
     },
     timerDelay: options.timerDelay,
     timerInterval: options.timerInterval
@@ -331,6 +350,7 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
   this.downListener = new FireOnHoldInputListener( {
     listener: function() {
       valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
+      playUISound();
     },
     timerDelay: options.timerDelay,
     timerInterval: options.timerInterval
@@ -393,6 +413,13 @@ function NumberPicker( valueProperty, rangeProperty, options ) {
       bottomRight: options.cornerRadius
     } )
   );
+
+  // Overwrite the passed in change listener to make sure that sound implementation can't be blown away in the defaults.
+  const passedInChangeListener = options.change;
+  options.change = () => {
+    passedInChangeListener();
+    playUISound();
+  };
 
   // initialize accessibility features - must reach into up function to get delta
   // both normal arrow and shift arrow keys use delta produced with up function
