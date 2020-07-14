@@ -95,14 +95,14 @@ function PlayPauseButton( isPlayingProperty, options ) {
   };
   Display.keyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
 
-  const isPlayingListener = function( running, oldValue ) {
+  const isPlayingListener = function( isPlaying, oldValue ) {
 
     // so we don't scale down the button immediately if isPlayingProperty is initially false
     const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenPaused;
-    self.scale( running ? runningScale : options.scaleFactorWhenPaused );
+    self.scale( isPlaying ? runningScale : options.scaleFactorWhenPaused );
 
     // PDOM - accessible name for the button
-    self.innerContent = running ? pauseString : playString;
+    self.innerContent = isPlaying ? pauseString : playString;
   };
   isPlayingProperty.link( isPlayingListener );
 
