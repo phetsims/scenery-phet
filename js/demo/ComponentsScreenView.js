@@ -997,7 +997,7 @@ const demoKeyNode = function( layoutBounds ) {
   bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 70 } ) );
 
   const topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
-  const midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
+  const middleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
   const bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
   const arrowKeysVBox = new VBox( {
     children: [ topArrowKeyNode, bottomArrowKeyBox ],
@@ -1005,7 +1005,7 @@ const demoKeyNode = function( layoutBounds ) {
   } );
 
   return new VBox( {
-    children: [ topHBox, midddleHBox, bottomHBox, arrowKeysVBox ],
+    children: [ topHBox, middleHBox, bottomHBox, arrowKeysVBox ],
     center: layoutBounds.center,
     align: 'right',
     spacing: 3,
@@ -1415,11 +1415,10 @@ const demoStopwatchNode = function( layoutBounds, options ) {
 
 // Creates a demo for PaperAirplaneNode
 const demoPaperAirplaneNode = function( layoutBounds ) {
-  const paperAirplaneNode = new PaperAirplaneNode( {
+  return new PaperAirplaneNode( {
     center: layoutBounds.center,
     scale: 5
   } );
-  return paperAirplaneNode;
 };
 
 // Creates a demo for ThermometerNode
