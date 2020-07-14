@@ -1718,9 +1718,9 @@ const demoSprites = layoutBounds => {
   const controlPanel = new Panel( new VBox( {
     spacing: 10,
     children: [
-      new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range ),
-      new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range ),
-      new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
+      new NumberControl( 'Sprite Count:', spriteCountProperty, spriteCountProperty.range ),
+      new NumberControl( 'Sprite Speed:', spriteSpeedProperty, spriteSpeedProperty.range ),
+      new NumberControl( 'Sprite Scale:', spriteScaleProperty, spriteScaleProperty.range, {
         delta: 0.01,
         numberDisplayOptions: {
           decimalPlaces: 2
