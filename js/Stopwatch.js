@@ -9,6 +9,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
+import Range from '../../dot/js/Range.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -27,7 +28,15 @@ class Stopwatch extends PhetioObject {
     options = merge( {
       position: Vector2.ZERO,
       isVisible: false,
-      timePropertyOptions: {},
+      timePropertyOptions: {
+
+        // when time reaches range.max, the Stopwatch automatically pauses.
+        range: new Range( 0, Number.POSITIVE_INFINITY ),
+        units: 's',
+        isValidValue: value => value >= 0,
+        phetioReadOnly: true,
+        phetioHighFrequency: true
+      },
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -56,11 +65,7 @@ class Stopwatch extends PhetioObject {
 
     // @public (read-only) time displayed on the stopwatch
     this.timeProperty = new NumberProperty( 0, merge( {
-      units: 's',
-      isValidValue: value => ( value >= 0 ),
-      tandem: options.tandem.createTandem( 'timeProperty' ),
-      phetioReadOnly: true,
-      phetioHighFrequency: true
+      tandem: options.tandem.createTandem( 'timeProperty' )
     }, options.timePropertyOptions ) );
 
     // When the stopwatch visibility changes, stop it and reset its value.
@@ -109,10 +114,20 @@ class Stopwatch extends PhetioObject {
     assert && assert( typeof dt === 'number' && dt > 0, `invalid dt: ${dt}` );
 
     if ( this.isRunningProperty.value ) {
-      this.timeProperty.value += dt;
+
+      // Increment time, but don't exceed the range
+      this.timeProperty.value = this.timeProperty.range.constrainValue( this.timeProperty.value + dt );
+
+      // If the max is reached, then pause
+      if ( this.timeProperty.value === this.timeProperty.range.max ) {
+        this.isRunningProperty.value = false;
+      }
     }
   }
 }
+
+// @public
+Stopwatch.ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // Works out to be 59:59.99
 
 sceneryPhet.register( 'Stopwatch', Stopwatch );
 export default Stopwatch;

@@ -26,12 +26,14 @@ const DEFAULT_FONT = new PhetFont( 20 );
 // valid values for options.align and options.noValueAlign
 const ALIGN_VALUES = [ 'center', 'left', 'right' ];
 
+const DEFAULT_DECIMAL_PLACES = 0;
+
 class NumberDisplay extends Node {
 
   /**
    * @param {Property.<number|null>} numberProperty
-   * @param {Range} displayRange - this range, with options.decimals applied, is used to determine the display width.
-   *                               It is unrelated to the range of numberProperty.
+   * @param {Range} displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
+   *                             - the display width. It is unrelated to the range of numberProperty.
    * @param {Object} [options]
    */
   constructor( numberProperty, displayRange, options ) {
@@ -42,6 +44,17 @@ class NumberDisplay extends Node {
       // {string} Pattern used to format the value.
       // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
       valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
+
+      // {number|null} the number of decimal places to show. If null, the full value is displayed.
+      // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
+      // See https://github.com/phetsims/scenery-phet/issues/511
+      decimalPlaces: DEFAULT_DECIMAL_PLACES,
+
+      // {function} Takes a {number} and returns a {string} for full control. Mutually exclusive with valuePattern and
+      // decimalPlaces.  Named "numberFormatter" instead of "formatter" to help clarify that it is separate from the
+      // noValueString/Align/Pattern defined below.
+      numberFormatter: null,
+
       useRichText: false,
 
       // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
@@ -51,11 +64,6 @@ class NumberDisplay extends Node {
         maxWidth: null, // {number|null} if null, then it will be computed based on displayRange
         phetioReadOnly: true
       },
-
-      // {number|null} the number of decimal places to show. If null, the full value is displayed.
-      // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
-      // See https://github.com/phetsims/scenery-phet/issues/511
-      decimalPlaces: 0,
 
       xMargin: 8,
       yMargin: 2,
@@ -75,6 +83,19 @@ class NumberDisplay extends Node {
       tandem: Tandem.OPTIONAL,
       phetioType: NumberDisplayIO
     }, options );
+
+    // valuePattern|decimalPlaces is mutually exclusive with numberFormatter
+    if ( assert ) {
+      const numberFormatterProvided = !!options.numberFormatter;
+      const decimalPlacesProvided = options.decimalPlaces !== DEFAULT_DECIMAL_PLACES;
+      const valuePatternProvided = options.valuePattern !== SunConstants.VALUE_NAMED_PLACEHOLDER;
+      const decimalOrValueProvided = decimalPlacesProvided || valuePatternProvided;
+      if ( numberFormatterProvided || decimalOrValueProvided ) {
+        assert && assert( numberFormatterProvided !== decimalOrValueProvided, 'options.numberFormatter is mutually exclusive with options.valuePattern and options.decimalPlaces' );
+      }
+    }
+
+    assert && assert( !options.hasOwnProperty( 'unitsNode' ), 'unitsNode is not a supported option' );
 
     // Set default alignments and validate
     assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
@@ -102,8 +123,8 @@ class NumberDisplay extends Node {
       'missing value placeholder in options.noValuePattern: ' + options.noValuePattern );
 
     // determine the widest value
-    const minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString );
-    const maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString );
+    const minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString, options.numberFormatter );
+    const maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString, options.numberFormatter );
     const longestString = StringUtils.fillIn( options.valuePattern, {
       value: ( ( minString.length > maxString.length ) ? minString : maxString )
     } );
@@ -136,10 +157,10 @@ class NumberDisplay extends Node {
     options.children = [ backgroundNode, valueText ];
 
     // display the value
-    const numberObserver = function( value ) {
+    const numberObserver = value => {
 
       const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
-      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString );
+      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, options.numberFormatter );
       const align = ( value === null ) ? options.noValueAlign : options.align;
 
       // update the value
@@ -169,8 +190,16 @@ class NumberDisplay extends Node {
     // @private
     this.backgroundNode = backgroundNode;
 
+    // @private
+    this._recomputeText = () => numberObserver( numberProperty.value );
+
     // @private called by dispose
     this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
+  }
+
+  // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
+  recomputeText() {
+    this._recomputeText();
   }
 
   // @public
@@ -232,12 +261,16 @@ sceneryPhet.register( 'NumberDisplay', NumberDisplay );
  * @param {number|null} value
  * @param {number|null} decimalPlaces - if null, use the full value
  * @param {string} noValueString
+ * @param {function|null} numberFormatter - if provided, function that converts {number} => {string}
  * @returns {*|string}
  */
-const valueToString = ( value, decimalPlaces, noValueString ) => {
+const valueToString = ( value, decimalPlaces, noValueString, numberFormatter ) => {
   let stringValue = noValueString;
   if ( value !== null ) {
-    if ( decimalPlaces === null ) {
+    if ( numberFormatter ) {
+      stringValue = numberFormatter( value );
+    }
+    else if ( decimalPlaces === null ) {
       stringValue = '' + value;
     }
     else {

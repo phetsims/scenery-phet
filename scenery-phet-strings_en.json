@@ -8,6 +8,9 @@
   "frequencyUnitsPattern": {
     "value": "{{frequency}} THz"
   },
+  "stopwatchValueUnitsPattern": {
+    "value": "{{value}} {{units}}"
+  },
   "units_nm": {
     "value": "nm"
   },

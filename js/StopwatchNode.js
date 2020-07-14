@@ -9,10 +9,13 @@
  * @author Anton Ulyanov (Mlearner)
  */
 
+import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
+import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
@@ -23,13 +26,15 @@ import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangu
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import DragBoundsProperty from './DragBoundsProperty.js';
+import NumberDisplay from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
 import PlayIconShape from './PlayIconShape.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
-import StopwatchReadoutNode from './StopwatchReadoutNode.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
+
 
 /**
  * @param {Stopwatch} stopwatch
@@ -40,9 +45,9 @@ function StopwatchNode( stopwatch, options ) {
 
   options = merge( {
 
-    // See also options that pass through to StopwatchReadoutNode
     cursor: 'pointer',
     iconHeight: 10,
+    numberDisplayRange: Stopwatch.ZERO_TO_ALMOST_SIXTY, // Just for sizing the display, sized for 59:59.99 (mm:ss) or 3599.99 (decimal)
     iconFill: 'black',
     iconLineWidth: 1,
     backgroundBaseColor: 'rgb( 80, 130, 230 )',
@@ -52,11 +57,17 @@ function StopwatchNode( stopwatch, options ) {
     xMargin: 8,
     yMargin: 8,
 
-    // {number} the maximum time value, in seconds. See StopwatchReadoutNode options.maxValue
-    maxValue: StopwatchReadoutNode.DEFAULT_MAX_VALUE,
-
-    // options propagated to StopwatchReadoutNode
-    stopwatchReadoutNodeOptions: null,
+    // options propagated to the NumberDisplay.  Named "stopwatchNumberDisplayOptions" instead of "numberDisplayOptions"
+    // to improve searchability
+    stopwatchNumberDisplayOptions: {
+      numberFormatter: StopwatchNode.richNumberFormatter,
+      useRichText: true,
+      align: 'right',
+      cornerRadius: 4,
+      xMargin: 4,
+      yMargin: 2,
+      pickable: false // allow dragging by the number display
+    },
 
     visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
 
@@ -66,19 +77,13 @@ function StopwatchNode( stopwatch, options ) {
     // options propagated to the DragListener
     dragListenerOptions: null
   }, options );
+  assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
   assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
   assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
-  // fill in stopwatchReadoutNodeOptions defaults
-  assert && assert( !options.stopwatchReadoutNodeOptions || options.stopwatchReadoutNodeOptions.maxValue === undefined,
-    'StopwatchNode sets maxValue' );
-  options.stopwatchReadoutNodeOptions = options.stopwatchReadoutNodeOptions || {};
-  options.stopwatchReadoutNodeOptions.maxValue = options.maxValue;
-
   // Create the StopwatchReadoutNode.
-  // NOTE: If we need more flexibility for this part, consider inversion of control (i.e. client passing in an alternate Node)
-  const stopwatchReadoutNode = new StopwatchReadoutNode( stopwatch.timeProperty, options.stopwatchReadoutNodeOptions );
+  this.numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.stopwatchNumberDisplayOptions );
 
   // Buttons ----------------------------------------------------------------------------
 
@@ -114,7 +119,7 @@ function StopwatchNode( stopwatch, options ) {
   const contents = new VBox( {
     spacing: options.ySpacing,
     children: [
-      stopwatchReadoutNode,
+      this.numberDisplay,
       new HBox( {
         spacing: options.xSpacing,
         children: [ resetButton, playPauseButton ]
@@ -138,13 +143,10 @@ function StopwatchNode( stopwatch, options ) {
   // @public (read-only) - Target for drag listeners
   this.dragTarget = backgroundNode;
 
-  // Disable the reset button when time is zero.
-  const timeListener = function( time ) {
+  // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
+  const timeListener = time => {
     resetButton.enabled = time > 0;
-    playPauseButton.enabled = time < options.maxValue;
-    if ( time >= options.maxValue ) {
-      stopwatch.isRunningProperty.value = false;
-    }
+    playPauseButton.enabled = time < stopwatch.timeProperty.range.max;
   };
   stopwatch.timeProperty.link( timeListener );
 
@@ -221,7 +223,7 @@ function StopwatchNode( stopwatch, options ) {
     stopwatch.timeProperty.unlink( timeListener );
     stopwatch.positionProperty.unlink( stopwatchPositionListener );
 
-    stopwatchReadoutNode.dispose();
+    this.numberDisplay.dispose();
     resetButton.dispose();
     playPauseButton.dispose();
 
@@ -245,6 +247,11 @@ sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 
 inherit( Node, StopwatchNode, {
 
+  // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
+  redrawNumberDisplay() {
+    this.numberDisplay.recomputeText();
+  },
+
   /**
    * Release resources when no longer be used.
    * @public
@@ -255,5 +262,86 @@ inherit( Node, StopwatchNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+// the full-sized minutes and seconds string
+const toMinutesAndSeconds = time => {
+
+  // Round to the nearest centi-part (if time is in seconds, this would be centiseconds), (compatible with timeToSmallString).
+  // see https://github.com/phetsims/masses-and-springs/issues/156
+  time = Utils.roundSymmetric( time * 100 ) / 100;
+
+  // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
+  const timeInSeconds = time;
+
+  // If no units are provided, then we assume the time is in seconds, and should be shown in mm:ss.cs
+  let minutes = Math.floor( timeInSeconds / 60 );
+  let seconds = Math.floor( timeInSeconds ) % 60;
+
+  if ( seconds < 10 ) {
+    seconds = '0' + seconds;
+  }
+  if ( minutes < 10 ) {
+    minutes = '0' + minutes;
+  }
+  return minutes + ':' + seconds;
+};
+
+// the smaller hundredths-of-a-second string
+const toCentiseconds = time => {
+
+  // Round to the nearest centisecond (compatible with timeToSmallString).
+  // see https://github.com/phetsims/masses-and-springs/issues/156
+  time = Utils.roundSymmetric( time * 100 ) / 100;
+
+  // Rounding after mod, in case there is floating-point error
+  let centitime = Utils.roundSymmetric( time % 1 * 100 );
+  if ( centitime < 10 ) {
+    centitime = '0' + centitime;
+  }
+  return '.' + centitime;
+};
+
+// @public - for NumberDisplay, shows 12:34.56
+StopwatchNode.numberFormatter = x => {
+  const minutesAndSeconds = toMinutesAndSeconds( x );
+  const centiseconds = toCentiseconds( x );
+  return minutesAndSeconds + centiseconds;
+};
+
+// @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
+StopwatchNode.richNumberFormatter = x => {
+  const minutesAndSeconds = toMinutesAndSeconds( x );
+  const centiseconds = toCentiseconds( x );
+
+  return `<span style="font-size: 20px;">${minutesAndSeconds}</span><span style="font-size: 14px;">${centiseconds}</span>`;
+};
+
+// @public - for NumberDisplay, more customizable
+StopwatchNode.getRichNumberFormatter = options => {
+  options = merge( {
+    showAsDecimal: false,
+    bigNumberFont: 20,
+    smallNumberFont: 14,
+    unitsFont: 14,
+    unitsProperty: new StringProperty( 'units' ),
+
+    // Units cannot be baked into the i18n string because they can change independently
+    valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
+  }, options );
+
+  return x => {
+    const minutesAndSeconds = options.showAsDecimal ? Math.floor( x ) : toMinutesAndSeconds( x );
+    const centiseconds = toCentiseconds( x );
+
+    // Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
+    // https://github.com/phetsims/wave-interference/issues/239
+    const numberFontFamily = 'font-family: Lucida Console,Arial,Bitstream Vera Sans Mono,monospace;';
+
+    return StringUtils.fillIn( options.valueUnitsPattern, {
+      value: `<span style="font-size: ${options.bigNumberFont}px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;${numberFontFamily}">${centiseconds}</span>`,
+      units: `<span style="font-size: ${options.unitsFont}px;">${options.unitsProperty.value}</span>`
+    } );
+  };
+};
 
 export default StopwatchNode;

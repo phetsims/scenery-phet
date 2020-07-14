@@ -900,12 +900,33 @@ const demoNumberDisplay = function( layoutBounds ) {
 
   // To demonstrate numeric value display
   const property = new NumberProperty( 1 );
+
   const numberDisplay = new NumberDisplay( property, range, numberDisplayOptions );
-  const slider = new HSlider( property, range );
+  const numberDisplayTime = new NumberDisplay( property, range, {
+    numberFormatter: StopwatchNode.numberFormatter,
+    align: 'center'
+  } );
+  const numberDisplayTimeRich = new NumberDisplay( property, range, {
+    numberFormatter: StopwatchNode.richNumberFormatter,
+    useRichText: true,
+    align: 'center'
+  } );
+
+  // Test shrinking to fit
+  const numberDisplayTimeRichUnits = new NumberDisplay( property, new Range( 0, 10 ), {
+    numberFormatter: StopwatchNode.getRichNumberFormatter( {
+      unitsProperty: new StringProperty( 'hours' )
+    } ),
+    useRichText: true,
+    align: 'center'
+  } );
+  const slider = new HSlider( property, range, {
+    trackSize: new Dimension2( 400, 5 )
+  } );
 
   return new VBox( {
-    spacing: 40,
-    children: [ noValueDisplay, numberDisplay, slider ],
+    spacing: 30,
+    children: [ noValueDisplay, numberDisplay, numberDisplayTime, numberDisplayTimeRich, numberDisplayTimeRichUnits, slider ],
     center: layoutBounds.center
   } );
 };
@@ -1356,28 +1377,29 @@ const demoStopwatchNode = function( layoutBounds, options ) {
   } );
 
   // Create a StopwatchNode that can show from a selection of units.
-  const unitsProperty = new Property( 'ps' );
-
   // Initialize with longest possible string
-  const unitsNode = new Text( 'ms', { font: new PhetFont( 15 ) } );
+  const unitsProperty = new Property( 'ms' );
+
   const mutableUnitsStopwatch = new Stopwatch( {
     isVisible: true,
     tandem: options.tandem.createTandem( 'stopwatch' )
   } );
   const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
-    stopwatchReadoutNodeOptions: { unitsNode: unitsNode },
+    stopwatchNumberDisplayOptions: {
+      numberFormatter: StopwatchNode.getRichNumberFormatter( {
+        unitsProperty: unitsProperty
+      } )
+    },
     scale: 2,
     tandem: options.tandem.createTandem( 'stopwatchNode' )
   } );
+  unitsProperty.link( () => mutableUnitsStopwatchNode.redrawNumberDisplay() );
 
   const stopwatchNodeListener = dt => {
     stopwatch.step( dt );
     mutableUnitsStopwatch.step( dt );
   };
   emitter.addListener( stopwatchNodeListener );
-  unitsProperty.link( function( units ) {
-    unitsNode.text = units;
-  } );
   const unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
     { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picoseconds' },
     { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'milliseconds' },
