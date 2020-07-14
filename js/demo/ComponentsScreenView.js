@@ -1712,34 +1712,28 @@ const demoSprites = layoutBounds => {
 
   sprites.dispose = function() {
     emitter.removeListener( listener );
-
     Node.prototype.dispose.call( this );
   };
 
-  return new Node( {
+  const controlPanel = new Panel( new VBox( {
+    spacing: 10,
     children: [
-      sprites,
-      new Panel( new VBox( {
-        spacing: 10,
-        children: [
-          new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
-
-          } ),
-          new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range, {
-
-          } ),
-          new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
-            delta: 0.01,
-            numberDisplayOptions: {
-              decimalPlaces: 2
-            }
-          } )
-        ]
-      } ), {
-        bottom: layoutBounds.bottom - 10,
-        right: layoutBounds.right - 10
+      new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range ),
+      new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range ),
+      new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
+        delta: 0.01,
+        numberDisplayOptions: {
+          decimalPlaces: 2
+        }
       } )
     ]
+  } ), {
+    bottom: layoutBounds.bottom - 10,
+    right: layoutBounds.right - 10
+  } );
+
+  return new Node( {
+    children: [ sprites, controlPanel ]
   } );
 };
 
