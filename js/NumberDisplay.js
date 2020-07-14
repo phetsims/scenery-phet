@@ -176,7 +176,7 @@ class NumberDisplay extends Node {
   // @public
   dispose() {
     this.disposeNumberDisplay();
-    Node.prototype.dispose.call( this );
+    super.dispose();
   }
 
   /**
