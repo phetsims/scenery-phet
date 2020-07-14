@@ -43,20 +43,25 @@ import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
+import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
+import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
-import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import flameImage from '../../images/flame_png.js';
 import iceCubeStackImage from '../../images/ice-cube-stack_png.js';
 import measuringTapeImage from '../../images/measuringTape_png.js';
+import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
 import ArrowNode from '../ArrowNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
 import BracketNode from '../BracketNode.js';
+import ResetButton from '../buttons/ResetButton.js';
+import CapacitorConstants from '../capacitor/CapacitorConstants.js';
+import CapacitorNode from '../capacitor/CapacitorNode.js';
+import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
 import ComboBoxDisplay from '../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../ConductivityTesterNode.js';
 import Drawer from '../Drawer.js';
@@ -67,6 +72,19 @@ import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
+import MovableDragHandler from '../input/MovableDragHandler.js';
+import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
+import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
+import EnterKeyNode from '../keyboard/EnterKeyNode.js';
+import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
+import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import LetterKeyNode from '../keyboard/LetterKeyNode.js';
+import ShiftKeyNode from '../keyboard/ShiftKeyNode.js';
+import TabKeyNode from '../keyboard/TabKeyNode.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
+import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
 import LeftRightSpinner from '../LeftRightSpinner.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
@@ -78,6 +96,8 @@ import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
 import ProbeNode from '../ProbeNode.js';
 import RulerNode from '../RulerNode.js';
+import sceneryPhet from '../sceneryPhet.js';
+import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 import ScientificNotationNode from '../ScientificNotationNode.js';
 import SpectrumNode from '../SpectrumNode.js';
 import StarNode from '../StarNode.js';
@@ -88,26 +108,6 @@ import TimeControlNode from '../TimeControlNode.js';
 import TimeSpeed from '../TimeSpeed.js';
 import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
-import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
-import ResetButton from '../buttons/ResetButton.js';
-import CapacitorConstants from '../capacitor/CapacitorConstants.js';
-import CapacitorNode from '../capacitor/CapacitorNode.js';
-import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
-import MovableDragHandler from '../input/MovableDragHandler.js';
-import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
-import EnterKeyNode from '../keyboard/EnterKeyNode.js';
-import LetterKeyNode from '../keyboard/LetterKeyNode.js';
-import ShiftKeyNode from '../keyboard/ShiftKeyNode.js';
-import TabKeyNode from '../keyboard/TabKeyNode.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
-import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
-import Keypad from '../keypad/Keypad.js';
-import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
 // constants
 const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
@@ -997,7 +997,7 @@ const demoKeyNode = function( layoutBounds ) {
   bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 70 } ) );
 
   const topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
-  const midddleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
+  const middleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
   const bottomHBox = new HBox( { children: bottomKeyNodes, spacing: 5 } );
   const arrowKeysVBox = new VBox( {
     children: [ topArrowKeyNode, bottomArrowKeyBox ],
@@ -1005,7 +1005,7 @@ const demoKeyNode = function( layoutBounds ) {
   } );
 
   return new VBox( {
-    children: [ topHBox, midddleHBox, bottomHBox, arrowKeysVBox ],
+    children: [ topHBox, middleHBox, bottomHBox, arrowKeysVBox ],
     center: layoutBounds.center,
     align: 'right',
     spacing: 3,
@@ -1415,11 +1415,10 @@ const demoStopwatchNode = function( layoutBounds, options ) {
 
 // Creates a demo for PaperAirplaneNode
 const demoPaperAirplaneNode = function( layoutBounds ) {
-  const paperAirplaneNode = new PaperAirplaneNode( {
+  return new PaperAirplaneNode( {
     center: layoutBounds.center,
     scale: 5
   } );
-  return paperAirplaneNode;
 };
 
 // Creates a demo for ThermometerNode
@@ -1585,6 +1584,7 @@ const demoUpDownSpinner = layoutBounds => {
 };
 
 const demoSprites = layoutBounds => {
+
   const spriteCountProperty = new NumberProperty( 500, {
     range: new Range( 0, 10000 )
   } );
@@ -1625,7 +1625,6 @@ const demoSprites = layoutBounds => {
   // Adjust sprite count dynamically
   spriteCountProperty.lazyLink( ( value, oldValue ) => {
     const delta = value - oldValue;
-
     if ( delta > 0 ) {
       _.range( 0, delta ).forEach( () => instances.push( createSpriteInstance() ) );
     }
@@ -1638,6 +1637,7 @@ const demoSprites = layoutBounds => {
 
   // Create the 'Sprites' node
   const sprites = new Sprites( {
+
     // The sprites we have available (fixed, won't change)
     sprites: [ sprite0, sprite1, sprite2 ],
     spriteInstances: instances,
@@ -1648,6 +1648,7 @@ const demoSprites = layoutBounds => {
     // Mix in SpriteListenable, so we (a) have access to the SpriteInstance and (b) will only interact when there is one
     inputListeners: [ new ( SpriteListenable( DragListener ) )( {
       applyOffset: false,
+
       start: ( event, listener ) => {
         selectedInstance = listener.spriteInstance;
 
@@ -1655,6 +1656,7 @@ const demoSprites = layoutBounds => {
         arrayRemove( instances, selectedInstance );
         instances.push( selectedInstance );
       },
+
       drag: ( event, listener ) => {
         // translate the selected instance
         const matrix = selectedInstance.matrix;
@@ -1663,11 +1665,13 @@ const demoSprites = layoutBounds => {
 
         sprites.invalidatePaint();
       },
+
       end: listener => {
         selectedInstance = null;
       }
     } ) ]
   } );
+
   spriteScaleProperty.link( ( scale, oldScale ) => {
     sprites.setScaleMagnitude( scale, scale );
     sprites.canvasBounds = Bounds2.rect( 0, 0, getAvailableWidth(), getAvailableHeight() ).dilated( 200 );
@@ -1684,12 +1688,13 @@ const demoSprites = layoutBounds => {
   sprites.invalidatePaint();
 
   const listener = dt => {
+
     const distance = dt * spriteSpeedProperty.value / spriteScaleProperty.value;
     const width = getAvailableWidth();
     const height = getAvailableHeight();
+
     for ( let i = instances.length - 1; i >= 0; i-- ) {
       const instance = instances[ i ];
-
       if ( instance !== selectedInstance ) {
         const matrix = instance.matrix;
 
@@ -1704,36 +1709,31 @@ const demoSprites = layoutBounds => {
   };
 
   emitter.addListener( listener );
+
   sprites.dispose = function() {
     emitter.removeListener( listener );
-
     Node.prototype.dispose.call( this );
   };
 
-  return new Node( {
+  const controlPanel = new Panel( new VBox( {
+    spacing: 10,
     children: [
-      sprites,
-      new Panel( new VBox( {
-        spacing: 10,
-        children: [
-          new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range, {
-
-          } ),
-          new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range, {
-
-          } ),
-          new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
-            delta: 0.01,
-            numberDisplayOptions: {
-              decimalPlaces: 2
-            }
-          } )
-        ]
-      } ), {
-        bottom: layoutBounds.bottom - 10,
-        right: layoutBounds.right - 10
+      new NumberControl( 'Sprite Count', spriteCountProperty, spriteCountProperty.range ),
+      new NumberControl( 'Sprite Speed', spriteSpeedProperty, spriteSpeedProperty.range ),
+      new NumberControl( 'Sprite Scale', spriteScaleProperty, spriteScaleProperty.range, {
+        delta: 0.01,
+        numberDisplayOptions: {
+          decimalPlaces: 2
+        }
       } )
     ]
+  } ), {
+    bottom: layoutBounds.bottom - 10,
+    right: layoutBounds.right - 10
+  } );
+
+  return new Node( {
+    children: [ sprites, controlPanel ]
   } );
 };
 
