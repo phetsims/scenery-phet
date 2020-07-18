@@ -175,7 +175,7 @@ class TimeControlNode extends Node {
       phetioFeatured: true
     } );
 
-    assert && Tandem.errorOnFailedValidation() && assert( this.enabledProperty.phetioFeatured, 'TimeControlNode.enabledProperty should be phetioFeatured' );
+    assert && Tandem.VALIDATION && assert( this.enabledProperty.phetioFeatured, 'TimeControlNode.enabledProperty should be phetioFeatured' );
 
     const enabledListener = enabled => {
       this.pickable = enabled;
