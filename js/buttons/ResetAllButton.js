@@ -62,7 +62,7 @@ function ResetAllButton( options ) {
     passedInListener();
 
     // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
-    if ( Tandem.VALIDATION && options.phetioRestoreScreenStateOnReset &&
+    if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
 
          // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
          this.isPhetioInstrumented() ) {
