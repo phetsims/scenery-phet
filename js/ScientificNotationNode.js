@@ -176,6 +176,13 @@ inherit( Node, ScientificNotationNode, {
       mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
       exponent = parseInt( tokens[ 1 ], 10 );
 
+      // If the mantissa is exactly 10, shift that power of 10 to the exponent.
+      // See https://github.com/phetsims/scenery-phet/issues/613
+      if ( mantissa === 10 ) {
+        mantissa = 1;
+        exponent += 1;
+      }
+
       // Convert if a specific exponent was requested.
       if ( options.exponent !== null ) {
         mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
