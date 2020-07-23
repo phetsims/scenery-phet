@@ -131,9 +131,7 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
 
   // other nodes
   const spoutNode = new Image( spoutImage );
-  const bodyNode = new Image( bodyImage, {
-    pickable: false
-  } );
+  const bodyNode = new Image( bodyImage );
 
   const shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
     SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
