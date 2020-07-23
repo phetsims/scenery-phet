@@ -131,7 +131,9 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
 
   // other nodes
   const spoutNode = new Image( spoutImage );
-  const bodyNode = new Image( bodyImage );
+  const bodyNode = new Image( bodyImage, {
+    pickable: false
+  } );
 
   const shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
     SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
@@ -139,11 +141,11 @@ function FaucetNode( maxFlowRate, flowRateProperty, enabledProperty, options ) {
 
   // rendering order
   self.addChild( shooterWindowNode );
-  self.addChild( shooterNode );
   self.addChild( horizontalPipeNode );
   self.addChild( verticalPipeNode );
   self.addChild( spoutNode );
   self.addChild( bodyNode );
+  self.addChild( shooterNode );
   self.addChild( trackNode );
 
   // origin
