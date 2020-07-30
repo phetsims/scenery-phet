@@ -49,19 +49,18 @@ sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
 inherit( Node, ScreenSummaryNode, {
 
   /**
-   * The sim name and numberOfScreens in the simulation is not known in the constructor, so the intro string can
-   * filled in later on during initialization.
+   * The parameters are not known in the constructor, so the intro string can filled in later on during initialization.
    * @param {string} simName
-   * @param {number} numberOfScreens
+   * @param {string} screenName - with the word "Screen" in it, like "Explore Screen"
+   * @param {boolean} isMultiScreen - if the sim has multiple screens
    * @public
    */
-  setIntroString: function( simName, numberOfScreens ) {
+  setIntroString: function( simName, screenName, isMultiScreen ) {
 
     // different default string depending on if there are multiple screens
-    this.openingSummaryNode.innerContent = numberOfScreens > 1 ? screenSummaryMultiScreenIntroString :
-                                           StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, {
-                                             sim: simName
-                                           } );
+    this.openingSummaryNode.innerContent = isMultiScreen ?
+                                           StringUtils.fillIn( screenSummaryMultiScreenIntroString, { screen: screenName } ) :
+                                           StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, { sim: simName } );
   }
 } );
 

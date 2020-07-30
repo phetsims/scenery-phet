@@ -177,7 +177,7 @@
     "simSection": {
       "screenSummary": {
         "multiScreenIntro": {
-          "value": "This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Area."
+          "value": "The interactive {{screen}} changes as you play with it. It has a Play Area and a Control Area."
         },
         "singleScreenIntroPattern": {
           "value": "{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area."
