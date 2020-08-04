@@ -22,8 +22,9 @@ const webglWarningContextLossFailureString = sceneryPhetStrings.webglWarning.con
 const webglWarningContextLossReloadString = sceneryPhetStrings.webglWarning.contextLossReload;
 
 /**
- *
  * @constructor
+ *
+ * @param {Object} [options]
  */
 function ContextLossFailureDialog( options ) {
 
