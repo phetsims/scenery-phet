@@ -57,6 +57,11 @@ class NumberDisplay extends Node {
 
       useRichText: false,
 
+      // {boolean} - If set to true, the smaller text height (from applying the maxWidth) will NOT be used, and instead
+      // the height of the text (as if there was no maxWidth) will be used for layout and the background.
+      // See https://github.com/phetsims/density/issues/34.
+      useFullHeight: false,
+
       // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
       textOptions: {
         font: DEFAULT_FONT,
@@ -133,20 +138,20 @@ class NumberDisplay extends Node {
     const Constructor = options.useRichText ? RichText : Text;
     const valueText = new Constructor( longestString, merge( {
       tandem: options.tandem.createTandem( 'valueText' )
-    }, options.textOptions ) );
+    }, options.textOptions, {
+      maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.
+    } ) );
 
-    // maxWidth for valueText
-    if ( options.textOptions.maxWidth === null ) {
-      valueText.maxWidth = valueText.width;
-    }
-    else {
-      valueText.maxWidth = options.textOptions.maxWidth;
-    }
+    const originalTextHeight = valueText.height;
+
+    // Manually set maxWidth later, adjusting it to the width of the longest string if it's null
+    valueText.maxWidth = options.textOptions.maxWidth === null ? valueText.width : options.textOptions.maxWidth;
 
     const backgroundWidth = Math.max( options.minBackgroundWidth, valueText.width + 2 * options.xMargin );
+    const backgroundHeight = ( options.useFullHeight ? originalTextHeight : valueText.height ) + 2 * options.yMargin;
 
     // @private background
-    const backgroundNode = new Rectangle( 0, 0, backgroundWidth, valueText.height + 2 * options.yMargin, {
+    const backgroundNode = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, {
       cornerRadius: options.cornerRadius,
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
