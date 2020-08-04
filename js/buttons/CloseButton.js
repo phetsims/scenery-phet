@@ -23,21 +23,26 @@ function CloseButton( options ) {
   options = merge( {
     baseColor: PhetColorScheme.RED_COLORBLIND,
     iconLength: 16, // {number} length of the 'X' icon, whose bounds are square
-    iconLineWidth: 2.5, // {number} lineWidth for the 'X' icon
     xMargin: 4, // {number} x margin around the icon
     yMargin: 4, // {number} y margin around the icon
-    listener: null // {function} called when the button is pressed
+    listener: null, // {function} called when the button is pressed
+
+    // {Object} - options passed along to the Path for the "X"
+    pathOptions: {
+      stroke: 'white',
+      lineWidth: 2.5,
+      lineCap: 'round'
+    }
   }, options );
 
   // 'X' icon
   options.content = new Path( new Shape()
-    .moveTo( -options.iconLength / 2, -options.iconLength / 2 )
-    .lineTo( options.iconLength / 2, options.iconLength / 2 )
-    .moveTo( options.iconLength / 2, -options.iconLength / 2 )
-    .lineTo( -options.iconLength / 2, options.iconLength / 2 ), {
-    stroke: 'white', // color is standardized, not configurable
-    lineWidth: options.iconLineWidth
-  } );
+      .moveTo( -options.iconLength / 2, -options.iconLength / 2 )
+      .lineTo( options.iconLength / 2, options.iconLength / 2 )
+      .moveTo( options.iconLength / 2, -options.iconLength / 2 )
+      .lineTo( -options.iconLength / 2, options.iconLength / 2 ),
+    options.pathOptions
+  );
 
   RectangularPushButton.call( this, options );
 }
