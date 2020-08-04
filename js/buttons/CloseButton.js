@@ -21,15 +21,13 @@ import sceneryPhet from '../sceneryPhet.js';
  */
 function CloseButton( options ) {
   options = merge( {
+    baseColor: PhetColorScheme.RED_COLORBLIND,
     iconLength: 8, // {number} length of the 'X' icon, whose bounds are square
     iconLineWidth: 2.5, // {number} lineWidth for the 'X' icon
     xMargin: 4, // {number} x margin around the icon
     yMargin: 4, // {number} y margin around the icon
     listener: null // {function} called when the button is pressed
   }, options );
-
-  // color is standardized, not configurable
-  options.baseColor = PhetColorScheme.RED_COLORBLIND;
 
   // 'X' icon
   options.content = new Path( new Shape()
