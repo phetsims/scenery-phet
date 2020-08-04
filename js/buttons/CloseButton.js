@@ -22,7 +22,7 @@ import sceneryPhet from '../sceneryPhet.js';
 function CloseButton( options ) {
   options = merge( {
     baseColor: PhetColorScheme.RED_COLORBLIND,
-    iconLength: 8, // {number} length of the 'X' icon, whose bounds are square
+    iconLength: 16, // {number} length of the 'X' icon, whose bounds are square
     iconLineWidth: 2.5, // {number} lineWidth for the 'X' icon
     xMargin: 4, // {number} x margin around the icon
     yMargin: 4, // {number} y margin around the icon
@@ -31,10 +31,10 @@ function CloseButton( options ) {
 
   // 'X' icon
   options.content = new Path( new Shape()
-    .moveTo( -options.iconLength, -options.iconLength )
-    .lineTo( options.iconLength, options.iconLength )
-    .moveTo( options.iconLength, -options.iconLength )
-    .lineTo( -options.iconLength, options.iconLength ), {
+    .moveTo( -options.iconLength / 2, -options.iconLength / 2 )
+    .lineTo( options.iconLength / 2, options.iconLength / 2 )
+    .moveTo( options.iconLength / 2, -options.iconLength / 2 )
+    .lineTo( -options.iconLength / 2, options.iconLength / 2 ), {
     stroke: 'white', // color is standardized, not configurable
     lineWidth: options.iconLineWidth
   } );
