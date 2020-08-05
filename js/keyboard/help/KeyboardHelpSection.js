@@ -42,19 +42,19 @@ const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
 const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPattern;
 
 // heading defaults
-const DEFAULT_HEADING_CONTENT_SPACING = 10; // spacing between h
-const DEFAULT_HEADING_FONT = new PhetFont( { size: 16, weight: 'bold' } );
+const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
+const DEFAULT_HEADING_FONT = new PhetFont( { size: 21, weight: 'bold' } );
 
 // Content spacing and alignment
 const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
-const DEFAULT_LABEL_ICON_SPACING = 20; // spacing between
-const DEFAULT_VERTICAL_ICON_SPACING = 10;
+const DEFAULT_LABEL_ICON_SPACING = 27; // spacing between
+const DEFAULT_VERTICAL_ICON_SPACING = 13;
 
 // text fonts and max widths
-const LABEL_FONT = new PhetFont( 12 );
-const OR_TEXT_MAX_WIDTH = 12;
-const DEFAULT_LABEL_MAX_WIDTH = 175;
-const DEFAULT_HEADING_MAX_WIDTH = 250;
+const LABEL_FONT = new PhetFont( 16 );
+const OR_TEXT_MAX_WIDTH = 16;
+const DEFAULT_LABEL_MAX_WIDTH = 235;
+const DEFAULT_HEADING_MAX_WIDTH = 335;
 
 /**
  * @constructor

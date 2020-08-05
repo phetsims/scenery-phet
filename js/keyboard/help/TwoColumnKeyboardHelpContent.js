@@ -26,10 +26,10 @@ class TwoColumnKeyboardHelpContent extends Node {
     options = merge( {
 
       // spacing between the left and right columns of the help content
-      columnSpacing: 30,
+      columnSpacing: 40,
 
       // vertical spacing between KeyboardHelpSections in each column
-      sectionSpacing: 30
+      sectionSpacing: 40
     }, options );
 
     assert && assert( options.align === undefined, 'TwoColumnKeyboardHelpContent sets column alignment' );

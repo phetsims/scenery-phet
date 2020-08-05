@@ -26,12 +26,12 @@ const DEFAULT_OPTIONS = {
   // color and styling
   keyFill: 'white',
   keyShadowFill: 'black',
-  lineWidth: 1, // line width for the key icon
+  lineWidth: 1.3, // line width for the key icon
   cornerRadius: 2, // corner radius applied to the key and its shadow
 
   // offset for the shadow rectangle relative to the top left corner of the key
-  xShadowOffset: 1.3,
-  yShadowOffset: 1.3,
+  xShadowOffset: 1.7,
+  yShadowOffset: 1.7,
 
   // margins set by AlignBox
   xMargin: 0, // sets the horizontal margin for the icon from the left/right edge
@@ -43,15 +43,15 @@ const DEFAULT_OPTIONS = {
 
   // x and y padding around the icon, will increase the size of the key if there is available space,
   // or scale down the icon if key is at max width or height
-  xPadding: 3,
-  yPadding: 3,
+  xPadding: 4,
+  yPadding: 4,
 
   // Key will be at least this wide, making it possible to surround the icon with extra space if necessary.
   // The minimum width of the KeyNode allowed, if the icon is wider, than it will expand gracefully
-  minKeyWidth: 17, // default equal to the height, a square key as the minimum.
+  minKeyWidth: 23, // default equal to the height, a square key as the minimum.
 
   // the desired height of the KeyNode; icon will be scaled down if too big
-  keyHeight: 17,
+  keyHeight: 23,
 
   // Force the width of the KeyNode to be the same width as height, based on the height.
   // Will scale down the icon if too wide.

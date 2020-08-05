@@ -26,12 +26,12 @@ function TextKeyNode( string, options ) {
   options = merge( {
 
     // text options
-    font: new PhetFont( { size: 12 } ),
+    font: new PhetFont( { size: 16 } ),
     fill: 'black',
-    textMaxWidth: 35, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
+    textMaxWidth: 45, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
 
     // by default, key should tightly surround the text, with a bit more horizontal space
-    xPadding: 8
+    xPadding: 11
 
   }, options );
 

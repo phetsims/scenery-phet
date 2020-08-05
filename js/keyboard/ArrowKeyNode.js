@@ -44,7 +44,7 @@ function ArrowKeyNode( direction, options ) {
     arrowHeight: DEFAULT_ARROW_HEIGHT,
     arrowWidth: DEFAULT_ARROW_WIDTH,
 
-    yPadding: 10, // this way the arrows will be scaled down and given proper margin in the key
+    yPadding: 13, // this way the arrows will be scaled down and given proper margin in the key
     forceSquareKey: true // arrow keys are typically square
   }, options );
 
