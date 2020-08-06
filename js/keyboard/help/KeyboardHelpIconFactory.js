@@ -26,10 +26,10 @@ import SpaceKeyNode from '../SpaceKeyNode.js';
 const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
 
 // constants
-const DEFAULT_LETTER_KEY_SPACING = 1;
-const DEFAULT_ICON_SPACING = 5;
-const OR_TEXT_MAX_WIDTH = 12;
-const LABEL_FONT = new PhetFont( 12 );
+const DEFAULT_LETTER_KEY_SPACING = 1.3;
+const DEFAULT_ICON_SPACING = 6.5;
+const OR_TEXT_MAX_WIDTH = 16;
+const LABEL_FONT = new PhetFont( 16 );
 
 class KeyboardHelpIconFactory {
   constructor() {
