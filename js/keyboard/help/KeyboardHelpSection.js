@@ -43,7 +43,7 @@ const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHe
 
 // heading defaults
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
-const DEFAULT_HEADING_FONT = new PhetFont( { size: 21, weight: 'bold' } );
+const DEFAULT_HEADING_FONT = new PhetFont( { size: 19, weight: 'bold' } );
 
 // Content spacing and alignment
 const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
