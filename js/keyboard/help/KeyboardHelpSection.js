@@ -47,7 +47,7 @@ const DEFAULT_HEADING_FONT = new PhetFont( { size: 19, weight: 'bold' } );
 
 // Content spacing and alignment
 const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
-const DEFAULT_LABEL_ICON_SPACING = 27; // spacing between
+const DEFAULT_LABEL_ICON_SPACING = 28; // spacing between Text labels and icons in a HelpSectionRow
 const DEFAULT_VERTICAL_ICON_SPACING = 13;
 
 // text fonts and max widths
