@@ -36,8 +36,7 @@ function CloseButton( options ) {
     // RectangularPushButton options
     baseColor: PhetColorScheme.RED_COLORBLIND,
     xMargin: 4, // {number} x margin around the icon
-    yMargin: 4, // {number} y margin around the icon
-    listener: null // {function} called when the button is pressed
+    yMargin: 4 // {number} y margin around the icon
 
   }, options );
 
