@@ -74,8 +74,12 @@ function StopwatchNode( stopwatch, options ) {
     // Tandem is required to make sure the buttons are instrumented
     tandem: Tandem.REQUIRED,
 
-    // options propagated to the DragListener
-    dragListenerOptions: null
+    // options propagated to the DragListener.  By default StopwatchNode moves to front on drag start.  To override this
+    // behavior, you can supply an empty object {} for the dragListenerOptions.  Also keep in mind if supplying other
+    // dragListenerOptions (say, to add a drag behavior), you may need to supply this.moveToFront() if desired.
+    dragListenerOptions: {
+      start: () => this.moveToFront()
+    }
   }, options );
   assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
@@ -175,7 +179,6 @@ function StopwatchNode( stopwatch, options ) {
   // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
   // events when dragging out of a toolbox.
   this.dragListener = null;
-  let moveToFrontListener = null;
 
   let dragBoundsProperty = null;
 
@@ -202,15 +205,6 @@ function StopwatchNode( stopwatch, options ) {
       tandem: options.tandem.createTandem( 'dragListener' )
     }, options.dragListenerOptions ) );
     this.dragTarget.addInputListener( this.dragListener );
-
-    // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
-    // This needs to be a DragListener so that touchSnag works.
-    moveToFrontListener = new DragListener( {
-      attach: false, // so that this DragListener won't be ignored
-      start: () => this.moveToFront(),
-      tandem: options.tandem.createTandem( 'moveToFrontListener' )
-    } );
-    this.addInputListener( moveToFrontListener );
   }
 
   this.addLinkedElement( stopwatch, {
@@ -230,10 +224,6 @@ function StopwatchNode( stopwatch, options ) {
     if ( this.dragListener ) {
       this.dragTarget.removeInputListener( this.dragListener );
       this.dragListener.dispose();
-    }
-    if ( moveToFrontListener ) {
-      this.removeInputListener( moveToFrontListener );
-      moveToFrontListener.dispose();
     }
 
     dragBoundsProperty && dragBoundsProperty.dispose();
