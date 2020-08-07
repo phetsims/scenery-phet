@@ -4,7 +4,8 @@
  * Close button, red with a white 'X'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenburg (PhET Interactive Simulations)
  */
 
 import Shape from '../../../kite/js/Shape.js';
