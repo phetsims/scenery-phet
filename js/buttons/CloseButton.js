@@ -20,19 +20,25 @@ import sceneryPhet from '../sceneryPhet.js';
  * @constructor
  */
 function CloseButton( options ) {
+
   options = merge( {
-    baseColor: PhetColorScheme.RED_COLORBLIND,
-    iconLength: 16, // {number} length of the 'X' icon, whose bounds are square
-    xMargin: 4, // {number} x margin around the icon
-    yMargin: 4, // {number} y margin around the icon
-    listener: null, // {function} called when the button is pressed
+
+    // {number} length of the 'X' icon, whose bounds are square
+    iconLength: 16,
 
     // {Object} - options passed along to the Path for the "X"
     pathOptions: {
       stroke: 'white',
       lineWidth: 2.5,
       lineCap: 'round'
-    }
+    },
+
+    // RectangularPushButton options
+    baseColor: PhetColorScheme.RED_COLORBLIND,
+    xMargin: 4, // {number} x margin around the icon
+    yMargin: 4, // {number} y margin around the icon
+    listener: null // {function} called when the button is pressed
+
   }, options );
 
   // 'X' icon
