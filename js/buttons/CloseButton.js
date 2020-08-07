@@ -9,51 +9,51 @@
  */
 
 import Shape from '../../../kite/js/Shape.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @param {Object} [options] - see RectangularPushButton
- * @constructor
- */
-function CloseButton( options ) {
+class CloseButton extends RectangularPushButton {
 
-  options = merge( {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-    // {number} length of the 'X' icon, whose bounds are square
-    iconLength: 16,
+    options = merge( {
 
-    // {Object} - options passed along to the Path for the "X"
-    pathOptions: {
-      stroke: 'white',
-      lineWidth: 2.5,
-      lineCap: 'round'
-    },
+      // {number} length of the 'X' icon, whose bounds are square
+      iconLength: 16,
 
-    // RectangularPushButton options
-    baseColor: PhetColorScheme.RED_COLORBLIND,
-    xMargin: 4, // {number} x margin around the icon
-    yMargin: 4 // {number} y margin around the icon
+      // {Object} - options passed along to the Path for the 'X'
+      pathOptions: {
+        stroke: 'white',
+        lineWidth: 2.5,
+        lineCap: 'round'
+      },
 
-  }, options );
+      // RectangularPushButton options
+      baseColor: PhetColorScheme.RED_COLORBLIND,
+      xMargin: 4, // {number} x margin around the icon
+      yMargin: 4 // {number} y margin around the icon
 
-  // 'X' icon
-  options.content = new Path( new Shape()
-      .moveTo( -options.iconLength / 2, -options.iconLength / 2 )
-      .lineTo( options.iconLength / 2, options.iconLength / 2 )
-      .moveTo( options.iconLength / 2, -options.iconLength / 2 )
-      .lineTo( -options.iconLength / 2, options.iconLength / 2 ),
-    options.pathOptions
-  );
+    }, options );
 
-  RectangularPushButton.call( this, options );
+    // 'X' icon
+    options.content = new Path( new Shape()
+        .moveTo( -options.iconLength / 2, -options.iconLength / 2 )
+        .lineTo( options.iconLength / 2, options.iconLength / 2 )
+        .moveTo( options.iconLength / 2, -options.iconLength / 2 )
+        .lineTo( -options.iconLength / 2, options.iconLength / 2 ),
+      options.pathOptions
+    );
+
+    super( options );
+  }
 }
 
 sceneryPhet.register( 'CloseButton', CloseButton );
 
-inherit( RectangularPushButton, CloseButton );
 export default CloseButton;
