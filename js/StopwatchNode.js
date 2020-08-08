@@ -74,12 +74,8 @@ function StopwatchNode( stopwatch, options ) {
     // Tandem is required to make sure the buttons are instrumented
     tandem: Tandem.REQUIRED,
 
-    // options propagated to the DragListener.  By default StopwatchNode moves to front on drag start.  To override this
-    // behavior, you can supply an empty object {} for the dragListenerOptions.  Also keep in mind if supplying other
-    // dragListenerOptions (say, to add a drag behavior), you may need to supply this.moveToFront() if desired.
-    dragListenerOptions: {
-      start: () => this.moveToFront()
-    }
+    // options propagated to the DragListener.
+    dragListenerOptions: null
   }, options );
   assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
@@ -198,12 +194,21 @@ function StopwatchNode( stopwatch, options ) {
     } );
 
     // dragging, added to background so that other UI components get input events on touch devices
-    this.dragListener = new DragListener( merge( {
+    const dragListenerOptions = merge( {
       targetNode: this,
       positionProperty: stopwatch.positionProperty,
       dragBoundsProperty: dragBoundsProperty,
       tandem: options.tandem.createTandem( 'dragListener' )
-    }, options.dragListenerOptions ) );
+    }, options.dragListenerOptions );
+
+    // The StopwatchNode always calls moveToFront on drag start
+    const startOption = dragListenerOptions.start;
+    dragListenerOptions.start = () => {
+      this.moveToFront();
+      startOption && startOption();
+    };
+
+    this.dragListener = new DragListener( dragListenerOptions );
     this.dragTarget.addInputListener( this.dragListener );
   }
 
