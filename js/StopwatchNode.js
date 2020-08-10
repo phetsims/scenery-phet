@@ -61,7 +61,7 @@ function StopwatchNode( stopwatch, options ) {
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.richNumberFormatter,
       useRichText: true,
-      align: 'left',
+      align: 'right',
       cornerRadius: 4,
       xMargin: 4,
       yMargin: 2,
