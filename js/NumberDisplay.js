@@ -96,7 +96,8 @@ class NumberDisplay extends Node {
       const valuePatternProvided = options.valuePattern !== SunConstants.VALUE_NAMED_PLACEHOLDER;
       const decimalOrValueProvided = decimalPlacesProvided || valuePatternProvided;
       if ( numberFormatterProvided || decimalOrValueProvided ) {
-        assert && assert( numberFormatterProvided !== decimalOrValueProvided, 'options.numberFormatter is mutually exclusive with options.valuePattern and options.decimalPlaces' );
+        assert && assert( numberFormatterProvided !== decimalOrValueProvided,
+          'options.numberFormatter is mutually exclusive with options.valuePattern and options.decimalPlaces' );
       }
     }
 
