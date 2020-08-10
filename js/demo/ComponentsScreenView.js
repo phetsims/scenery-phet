@@ -1385,7 +1385,7 @@ const demoStopwatchNode = function( layoutBounds, options ) {
     tandem: options.tandem.createTandem( 'stopwatch' )
   } );
   const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
-    stopwatchNumberDisplayOptions: {
+    numberDisplayOptions: {
       numberFormatter: StopwatchNode.getRichNumberFormatter( {
         unitsProperty: unitsProperty
       } )

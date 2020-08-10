@@ -57,9 +57,8 @@ function StopwatchNode( stopwatch, options ) {
     xMargin: 8,
     yMargin: 8,
 
-    // options propagated to the NumberDisplay.  Named "stopwatchNumberDisplayOptions" instead of "numberDisplayOptions"
-    // to improve searchability
-    stopwatchNumberDisplayOptions: {
+    // options propagated to the NumberDisplay
+    numberDisplayOptions: {
       numberFormatter: StopwatchNode.richNumberFormatter,
       useRichText: true,
       align: 'right',
@@ -83,7 +82,7 @@ function StopwatchNode( stopwatch, options ) {
   assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
   // Create the StopwatchReadoutNode.
-  this.numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.stopwatchNumberDisplayOptions );
+  this.numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.numberDisplayOptions );
 
   // Buttons ----------------------------------------------------------------------------
 
