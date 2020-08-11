@@ -9,7 +9,6 @@
  * @author Anton Ulyanov (Mlearner)
  */
 
-import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -241,6 +240,14 @@ sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 
 inherit( Node, StopwatchNode, {
 
+  /**
+   * @param {function<number,string>} numberFormatter
+   * @public
+   */
+  setNumberFormatter( numberFormatter ) {
+    this.numberDisplay.setNumberFormatter( numberFormatter );
+  },
+
   // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
   redrawNumberDisplay() {
     this.numberDisplay.recomputeText();
@@ -325,7 +332,7 @@ StopwatchNode.getRichNumberFormatter = options => {
     bigNumberFont: 20,
     smallNumberFont: 14,
     unitsFont: 14,
-    unitsProperty: new StringProperty( 'units' ),
+    units: '',
 
     // Units cannot be baked into the i18n string because they can change independently
     valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
@@ -337,7 +344,7 @@ StopwatchNode.getRichNumberFormatter = options => {
 
     return StringUtils.fillIn( options.valueUnitsPattern, {
       value: `<span style="font-size: ${options.bigNumberFont}px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;${numberFontFamily}">${centiseconds}</span>`,
-      units: `<span style="font-size: ${options.unitsFont}px;${numberFontFamily}">${options.unitsProperty.value}</span>`
+      units: `<span style="font-size: ${options.unitsFont}px;${numberFontFamily}">${options.units}</span>`
     } );
   };
 };

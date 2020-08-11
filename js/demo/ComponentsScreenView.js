@@ -915,7 +915,7 @@ const demoNumberDisplay = function( layoutBounds ) {
   // Test shrinking to fit
   const numberDisplayTimeRichUnits = new NumberDisplay( property, new Range( 0, 10 ), {
     numberFormatter: StopwatchNode.getRichNumberFormatter( {
-      unitsProperty: new StringProperty( 'hours' )
+      units: 'hours'
     } ),
     useRichText: true,
     align: 'center'
@@ -1387,7 +1387,7 @@ const demoStopwatchNode = function( layoutBounds, options ) {
   const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.getRichNumberFormatter( {
-        unitsProperty: unitsProperty
+        units: unitsProperty.value
       } )
     },
     scale: 2,

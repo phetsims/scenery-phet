@@ -162,11 +162,16 @@ class NumberDisplay extends Node {
 
     options.children = [ backgroundNode, valueText ];
 
+    super();
+
+    // @private
+    this.numberFormatter = options.numberFormatter;
+
     // display the value
     const numberObserver = value => {
 
       const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
-      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, options.numberFormatter );
+      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, this.numberFormatter );
       const align = ( value === null ) ? options.noValueAlign : options.align;
 
       // update the value
@@ -188,7 +193,7 @@ class NumberDisplay extends Node {
     };
     numberProperty.link( numberObserver );
 
-    super( options );
+    this.mutate( options );
 
     // @private
     this.valueText = valueText;
@@ -201,6 +206,15 @@ class NumberDisplay extends Node {
 
     // @private called by dispose
     this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
+  }
+
+  /**
+   * @param {function<number,string>} numberFormatter
+   * @public
+   */
+  setNumberFormatter( numberFormatter ) {
+    this.numberFormatter = numberFormatter;
+    this.recomputeText();
   }
 
   // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
