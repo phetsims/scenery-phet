@@ -302,9 +302,13 @@ StopwatchNode.numberFormatter = x => {
   return minutesAndSeconds + centiseconds;
 };
 
-// Try for a monospace font so that the numbers don't change alignment.  Fallback to Arial as determined in
-// https://github.com/phetsims/wave-interference/issues/239
-const numberFontFamily = 'font-family: Lucida Console,Arial,Bitstream Vera Sans Mono,monospace;';
+// We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing jitter.
+// Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
+// Use Trebuchet first, since it has broader cross-platform support.
+// Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
+// wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
+// and it seemed to work nicely, with no jitter.
+const numberFontFamily = 'font-family:Trebuchet MS,Lucida Grande,monospace;';
 
 // @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
 StopwatchNode.richNumberFormatter = x => {
