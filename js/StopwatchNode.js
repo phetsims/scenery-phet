@@ -306,17 +306,12 @@ StopwatchNode.numberFormatter = x => {
 // https://github.com/phetsims/wave-interference/issues/239
 const numberFontFamily = 'font-family: Lucida Console,Arial,Bitstream Vera Sans Mono,monospace;';
 
-// const numberFontFamily = 'font-family: Lucida Console;';
-// const numberFontFamily = 'font-family: Lucida Console;';
-// const numberFontFamily = 'font-family: Bitstream Vera Sans Mono;';
-// const numberFontFamily = 'font-family: monospace;';
-
 // @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
 StopwatchNode.richNumberFormatter = x => {
   const minutesAndSeconds = toMinutesAndSeconds( x );
   const centiseconds = toCentiseconds( x );
 
-  return `<span style="font-size: 20px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: 14px;">${centiseconds}</span>`;
+  return `<span style="font-size: 20px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: 14px;${numberFontFamily}">${centiseconds}</span>`;
 };
 
 // @public - for NumberDisplay, more customizable
@@ -338,7 +333,7 @@ StopwatchNode.getRichNumberFormatter = options => {
 
     return StringUtils.fillIn( options.valueUnitsPattern, {
       value: `<span style="font-size: ${options.bigNumberFont}px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;${numberFontFamily}">${centiseconds}</span>`,
-      units: `<span style="font-size: ${options.unitsFont}px;">${options.unitsProperty.value}</span>`
+      units: `<span style="font-size: ${options.unitsFont}px;${numberFontFamily}">${options.unitsProperty.value}</span>`
     } );
   };
 };
