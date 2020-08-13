@@ -1401,9 +1401,9 @@ const demoStopwatchNode = function( layoutBounds, options ) {
   };
   emitter.addListener( stopwatchNodeListener );
   const unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
-    { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picoseconds' },
-    { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'milliseconds' },
-    { value: 'fs', node: new Text( 'femtoseconds' ), tandemName: 'femtoseconds' }
+    { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picosecondsRadioButton' },
+    { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'millisecondsRadioButton' },
+    { value: 'fs', node: new Text( 'femtoseconds' ), tandemName: 'femtosecondsRadioButton' }
   ], {
     spacing: 5,
     tandem: options.tandem.createTandem( 'unitsRadioButtonGroup' )
