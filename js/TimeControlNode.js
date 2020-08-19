@@ -52,7 +52,7 @@ SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: speedSlowString, tandemName:
 class TimeControlNode extends Node {
 
   /**
-   * @param {BooleanProperty} isPlayingProperty
+   * @param {Property.<boolean>} isPlayingProperty
    * @param {Object} [options]
    */
   constructor( isPlayingProperty, options ) {
@@ -282,7 +282,7 @@ class TimeControlNode extends Node {
 class PlayPauseStepButtons extends HBox {
 
   /**
-   * @param {BooleanProperty} isPlayingProperty
+   * @param {Property.<boolean>} isPlayingProperty
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
@@ -311,6 +311,9 @@ class PlayPauseStepButtons extends HBox {
 
     options = merge( {
 
+      // {boolean} - if true, a StepForwardButton is included in the button group
+      includeStepForwardButton: true,
+
       // {boolean} - if true, a StepBackwardButton is included in the button group
       includeStepBackwardButton: false,
 
@@ -338,10 +341,16 @@ class PlayPauseStepButtons extends HBox {
       }, defaultStepButtonOptions )
     }, options );
 
-    const playPauseButton = new PlayPauseButton( isPlayingProperty, options.playPauseButtonOptions );
-    const stepForwardButton = new StepForwardButton( options.stepForwardButtonOptions );
+    const buttons = [];
 
-    const buttons = [ playPauseButton, stepForwardButton ];
+    const playPauseButton = new PlayPauseButton( isPlayingProperty, options.playPauseButtonOptions );
+    buttons.push( playPauseButton );
+
+    let stepForwardButton = null;
+    if ( options.includeStepForwardButton ) {
+      stepForwardButton = new StepForwardButton( options.stepForwardButtonOptions );
+      buttons.push( stepForwardButton );
+    }
 
     let stepBackwardButton = null;
     if ( options.includeStepBackwardButton ) {
@@ -349,7 +358,6 @@ class PlayPauseStepButtons extends HBox {
       buttons.unshift( stepBackwardButton );
     }
 
-    // Play/Pause and Step buttons
     super( {
       spacing: options.playPauseStepXSpacing,
       children: buttons,
@@ -367,7 +375,7 @@ class PlayPauseStepButtons extends HBox {
 
     this.disposePlayPauseStepButtons = () => {
       playPauseButton.dispose();
-      stepForwardButton.dispose();
+      stepForwardButton && stepForwardButton.dispose();
       stepBackwardButton && stepBackwardButton.dispose();
     };
   }
