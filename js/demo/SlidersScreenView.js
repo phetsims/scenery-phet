@@ -43,7 +43,7 @@ function SlidersScreenView() {
      */
     { label: 'NumberControl', createNode: demoNumberControl },
     { label: 'WavelengthNumberControl', createNode: demoWavelengthSlider },
-    { label: 'SliderWithSpectrumSliderTrack', createNode: demoSliderWithSpectrum },
+    { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
     { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
   ], {
     selectedDemoLabel: sceneryPhetQueryParameters.slider
