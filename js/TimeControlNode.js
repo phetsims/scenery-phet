@@ -52,7 +52,7 @@ SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: speedSlowString, tandemName:
 class TimeControlNode extends Node {
 
   /**
-   * @param {BooleanProperty} isPlayingProperty
+   * @param {Property.<boolean>} isPlayingProperty
    * @param {Object} [options]
    */
   constructor( isPlayingProperty, options ) {
@@ -282,7 +282,7 @@ class TimeControlNode extends Node {
 class PlayPauseStepButtons extends HBox {
 
   /**
-   * @param {BooleanProperty} isPlayingProperty
+   * @param {Property.<boolean>} isPlayingProperty
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
