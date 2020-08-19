@@ -309,20 +309,20 @@ StopwatchNode.numberFormatter = x => {
   return minutesAndSeconds + centiseconds;
 };
 
-// We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing jitter.
-// Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
+// @public -  We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing
+// jitter. Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
 // Use Trebuchet first, since it has broader cross-platform support.
 // Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
 // wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
 // and it seemed to work nicely, with no jitter.
-const numberFontFamily = 'font-family:Trebuchet MS,Lucida Grande,monospace;';
+StopwatchNode.NUMBER_FONT_FAMILY = 'font-family:Trebuchet MS,Lucida Grande,monospace;';
 
 // @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
 StopwatchNode.richNumberFormatter = x => {
   const minutesAndSeconds = toMinutesAndSeconds( x );
   const centiseconds = toCentiseconds( x );
 
-  return `<span style="font-size: 20px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: 14px;${numberFontFamily}">${centiseconds}</span>`;
+  return `<span style="font-size: 20px;${StopwatchNode.NUMBER_FONT_FAMILY}">${minutesAndSeconds}</span><span style="font-size: 14px;${StopwatchNode.NUMBER_FONT_FAMILY}">${centiseconds}</span>`;
 };
 
 // @public - for NumberDisplay, more customizable
@@ -343,8 +343,8 @@ StopwatchNode.getRichNumberFormatter = options => {
     const centiseconds = toCentiseconds( x );
 
     return StringUtils.fillIn( options.valueUnitsPattern, {
-      value: `<span style="font-size: ${options.bigNumberFont}px;${numberFontFamily}">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;${numberFontFamily}">${centiseconds}</span>`,
-      units: `<span style="font-size: ${options.unitsFont}px;${numberFontFamily}">${options.units}</span>`
+      value: `<span style="font-size: ${options.bigNumberFont}px;${StopwatchNode.NUMBER_FONT_FAMILY}">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;${StopwatchNode.NUMBER_FONT_FAMILY}">${centiseconds}</span>`,
+      units: `<span style="font-size: ${options.unitsFont}px;${StopwatchNode.NUMBER_FONT_FAMILY}">${options.units}</span>`
     } );
   };
 };
