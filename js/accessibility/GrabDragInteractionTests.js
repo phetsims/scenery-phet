@@ -9,6 +9,7 @@
 import Display from '../../../scenery/js/display/Display.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
 
 // constants
@@ -39,6 +40,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
   rootNode.addChild( a );
 
   const interaction = new GrabDragInteraction( a, {
+    tandem: Tandem.GENERAL.createTandem( 'myGrabDragInteraction' ),
     objectToGrabString: thingString
   } );
 
@@ -79,5 +81,5 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   testDefaultGrabbable();
 
-  display.detachEvents();
+  display.dispose();
 } );
