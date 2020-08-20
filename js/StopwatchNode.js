@@ -343,7 +343,7 @@ StopwatchNode.getRichNumberFormatter = options => {
     const centiseconds = toCentiseconds( x );
 
     return StringUtils.fillIn( options.valueUnitsPattern, {
-      value: `<span style="font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`,
+      value: `<span style="font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`,
       units: `<span style="font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${options.units}</span>`
     } );
   };
