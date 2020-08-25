@@ -10,7 +10,6 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeProperty from '../../scenery/js/util/NodeProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class DragBoundsProperty extends DerivedProperty {
@@ -21,41 +20,18 @@ class DragBoundsProperty extends DerivedProperty {
    */
   constructor( targetNode, visibleBoundsProperty ) {
     assert && assert( targetNode instanceof Node, `invalid targetNode: ${targetNode}` );
-    assert && assert( visibleBoundsProperty instanceof Property,
-      `invalid visibleBoundsProperty: ${visibleBoundsProperty}` );
+    assert && assert( visibleBoundsProperty instanceof Property, `invalid visibleBoundsProperty: ${visibleBoundsProperty}` );
 
-    // Also detect changes in the size of the target node itself
-    const targetWidthProperty = new NodeProperty( targetNode, targetNode.boundsProperty, 'width', {
-      readOnly: true
-    } );
-    // Also detect changes in the size of the target node itself
-    const targetHeightProperty = new NodeProperty( targetNode, targetNode.boundsProperty, 'height', {
-      readOnly: true
-    } );
-
-    super( [ visibleBoundsProperty, targetWidthProperty, targetHeightProperty ], ( visibleBounds, targetWidth, targetHeight ) => {
+    super( [ visibleBoundsProperty, targetNode.boundsProperty ], ( visibleBounds, targetNodeBounds ) => {
 
       // account for the bounds of targetNode
       return new Bounds2(
         visibleBounds.minX,
         visibleBounds.minY,
-        visibleBounds.maxX - targetWidth,
-        visibleBounds.maxY - targetHeight
+        visibleBounds.maxX - targetNodeBounds.width,
+        visibleBounds.maxY - targetNodeBounds.height
       );
     } );
-
-    // @private
-    this.disposeDragBoundsProperty = () => {
-      targetWidthProperty.dispose();
-    };
-  }
-
-  /**
-   * @public
-   */
-  dispose() {
-    this.disposeDragBoundsProperty();
-    super.dispose();
   }
 }
 
