@@ -322,7 +322,7 @@ class PlayPauseStepButtons extends HBox {
 
       // Options for the PlayPauseButton
       playPauseButtonOptions: {
-        radius: 20,
+        radius: 20.8,
         touchAreaDilation: 5,
         tandem: tandem.createTandem( 'playPauseButton' ),
         phetioDocumentation: 'Button to control the animation in the simulation. This will also stop the model from stepping.'
