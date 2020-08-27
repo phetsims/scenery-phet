@@ -288,24 +288,29 @@ const toMinutesAndSeconds = time => {
 };
 
 // the smaller hundredths-of-a-second string
-const toCentiseconds = time => {
+const getDecimalPlaces = ( time, numberDecimalPlaces ) => {
+
+  const max = Math.pow( 10, numberDecimalPlaces );
 
   // Round to the nearest centisecond (compatible with timeToSmallString).
   // see https://github.com/phetsims/masses-and-springs/issues/156
-  time = Utils.roundSymmetric( time * 100 ) / 100;
+  time = Utils.roundSymmetric( time * max ) / max;
 
   // Rounding after mod, in case there is floating-point error
-  let centitime = Utils.roundSymmetric( time % 1 * 100 );
-  if ( centitime < 10 ) {
-    centitime = '0' + centitime;
+  let decimalValue = Utils.roundSymmetric( time % 1 * max ) + '';
+  while ( decimalValue.length < numberDecimalPlaces ) {
+    decimalValue = '0' + decimalValue;
   }
-  return '.' + centitime;
+  return '.' + decimalValue;
 };
+
+// @public (read-only, unit-tests)
+StopwatchNode.getDecimalPlaces = getDecimalPlaces;
 
 // @public - for NumberDisplay, shows 12:34.56
 StopwatchNode.numberFormatter = x => {
   const minutesAndSeconds = toMinutesAndSeconds( x );
-  const centiseconds = toCentiseconds( x );
+  const centiseconds = getDecimalPlaces( x, 2 );
   return minutesAndSeconds + centiseconds;
 };
 
@@ -320,7 +325,7 @@ StopwatchNode.NUMBER_FONT_FAMILY = 'Trebuchet MS,Lucida Grande,monospace';
 // @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
 StopwatchNode.richNumberFormatter = x => {
   const minutesAndSeconds = toMinutesAndSeconds( x );
-  const centiseconds = toCentiseconds( x );
+  const centiseconds = getDecimalPlaces( x, 2 );
 
   return `<span style="font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`;
 };
@@ -328,11 +333,12 @@ StopwatchNode.richNumberFormatter = x => {
 // @public - for NumberDisplay, more customizable
 StopwatchNode.getRichNumberFormatter = options => {
   options = merge( {
-    showAsDecimal: false,
+    showAsDecimal: false, // 123.45 (decimal) vs 59:59.00 (non-decimal)
     bigNumberFont: 20,
     smallNumberFont: 14,
     unitsFont: 14,
     units: '',
+    numberOfDecimalPlaces: 2,
 
     // Units cannot be baked into the i18n string because they can change independently
     valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
@@ -340,7 +346,7 @@ StopwatchNode.getRichNumberFormatter = options => {
 
   return x => {
     const minutesAndSeconds = options.showAsDecimal ? Math.floor( x ) : toMinutesAndSeconds( x );
-    const centiseconds = toCentiseconds( x );
+    const centiseconds = getDecimalPlaces( x, options.numberOfDecimalPlaces );
 
     return StringUtils.fillIn( options.valueUnitsPattern, {
       value: `<span style="font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`,
