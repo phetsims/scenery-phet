@@ -25,6 +25,7 @@ import StepBackwardButton from './buttons/StepBackwardButton.js';
 import StepForwardButton from './buttons/StepForwardButton.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import SceneryPhetConstants from './SceneryPhetConstants.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import TimeSpeed from './TimeSpeed.js';
 
@@ -322,7 +323,7 @@ class PlayPauseStepButtons extends HBox {
 
       // Options for the PlayPauseButton
       playPauseButtonOptions: {
-        radius: 20.8, // default radius matches the size of the ResetAllButton
+        radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
         touchAreaDilation: 5,
         tandem: tandem.createTandem( 'playPauseButton' ),
         phetioDocumentation: 'Button to control the animation in the simulation. This will also stop the model from stepping.'

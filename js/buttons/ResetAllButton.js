@@ -18,11 +18,9 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import ResetButton from './ResetButton.js';
-
-// constants
-const RESET_ALL_BUTTON_RADIUS = 20.8;
 
 const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
@@ -34,7 +32,7 @@ const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 function ResetAllButton( options ) {
 
   options = merge( {
-    radius: RESET_ALL_BUTTON_RADIUS,
+    radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
 
     // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly
     touchAreaDilation: 5.2,
