@@ -377,9 +377,9 @@ class GrabDragInteraction {
     // @private
     this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
 
-    // From non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
+    // @private - from non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
-    const pressListener = new PressListener( {
+    this.pressListener = new PressListener( {
       press: ( event, listener ) => {
         if ( !event.isFromPDOM() ) {
           this.turnToDraggable();
@@ -400,7 +400,7 @@ class GrabDragInteraction {
 
       tandem: options.tandem.createTandem( 'pressListener' )
     } );
-    this.node.addInputListener( pressListener );
+    this.node.addInputListener( this.pressListener );
 
     // Initialize the Node as a grabbable (button) to begin with
     this.turnToGrabbable();
@@ -408,7 +408,7 @@ class GrabDragInteraction {
     // @private
     this.disposeA11yGrabDragNode = () => {
 
-      this.node.removeInputListener( pressListener );
+      this.node.removeInputListener( this.pressListener );
 
       // Remove listeners according to what mode we are in
       if ( this.grabbable ) {
@@ -596,6 +596,15 @@ class GrabDragInteraction {
    */
   dispose() {
     this.disposeA11yGrabDragNode();
+  }
+
+  /**
+   * Interrupt the grab drag interraction - interrupts any listeners attached and makes sure the
+   * Node is back in its "grabbable" state.
+   * @public
+   */
+  interrupt() {
+    this.pressListener.interrupt();
   }
 
   /**
