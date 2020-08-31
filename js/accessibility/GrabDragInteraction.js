@@ -388,8 +388,10 @@ class GrabDragInteraction {
       },
       release: ( event, listener ) => {
 
-        // release if PressListener is interrupted
-        if ( event === null || !event.isFromPDOM() ) {
+        // release if PressListener is interrupted, but only if not already
+        // grabbable, which is possible if the GrabDragInteraction has been
+        // reset since press
+        if ( ( event === null || !event.isFromPDOM() ) && !this.grabbable ) {
           this.releaseDraggable();
         }
       },
