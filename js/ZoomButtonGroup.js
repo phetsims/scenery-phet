@@ -37,6 +37,12 @@ class ZoomButtonGroup extends LayoutBox {
       zoomInDelta: 1,   // delta applied when the '+' button is pressed
       zoomOutDelta: -1, // delta applied when the '-' button is pressed
 
+      // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
+      touchAreaXDilation: 0,
+      touchAreaYDilation: 0,
+      mouseAreaXDilation: 0,
+      mouseAreaYDilation: 0,
+
       // RectangularPushButton options
       buttonOptions: {
         baseColor: 'white',
@@ -85,7 +91,25 @@ class ZoomButtonGroup extends LayoutBox {
     } ) );
 
     assert && assert( !options.children, 'ZoomButtonGroup sets children' );
-    options.children = [ zoomInButton, zoomOutButton ];
+    options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
+
+    // Pointer areas, shifted to prevent overlap
+    zoomInButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
+    zoomOutButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
+    zoomInButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
+    zoomOutButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
+    if ( options.orientation === 'horizontal' ) {
+      zoomInButton.touchArea = zoomInButton.touchArea.shiftedX( options.touchAreaXDilation );
+      zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedX( -options.touchAreaXDilation );
+      zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedX( options.mouseAreaXDilation );
+      zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedX( -options.mouseAreaXDilation );
+    }
+    else {
+      zoomInButton.touchArea = zoomInButton.touchArea.shiftedY( -options.touchAreaYDilation );
+      zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedY( options.touchAreaYDilation );
+      zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedY( -options.mouseAreaYDilation );
+      zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedY( options.mouseAreaYDilation );
+    }
 
     super( options );
 
