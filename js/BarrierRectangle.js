@@ -41,6 +41,7 @@ class BarrierRectangle extends Plane {
 
     this.addInputListener( new FireListener( {
       tandem: options.tandem.createTandem( 'inputListener' ),
+      phetioReadOnly: options.phetioReadOnly,
       fire() {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
         modalNodeStack.get( modalNodeStack.length - 1 ).hide();
