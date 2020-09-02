@@ -85,18 +85,6 @@ function ResetAllButton( options ) {
 
 sceneryPhet.register( 'ResetAllButton', ResetAllButton );
 
-inherit( ResetButton, ResetAllButton, {
-
-  /**
-   * Make eligible for garbage collection.
-   * @public
-   */
-  dispose: function() {
-
-    this.isFiringProperty.dispose();
-
-    ResetButton.prototype.dispose.call( this );
-  }
-} );
+inherit( ResetButton, ResetAllButton );
 
 export default ResetAllButton;
