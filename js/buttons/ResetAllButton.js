@@ -8,13 +8,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../../axon/js/DerivedPropertyIO.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -70,19 +67,11 @@ function ResetAllButton( options ) {
 
   ResetButton.call( this, options );
 
-  // @private - Mirrored property of `buttonModel.isFiringProperty`, but is phet-io instrumented.
-  this.isFiringProperty = new DerivedProperty( [ this.buttonModel.isFiringProperty ], function( a ) { return a; }, {
-    tandem: options.tandem.createTandem( 'isFiringProperty' ),
-    phetioDocumentation: 'Temporarily becomes true while the Reset All button is firing.  Commonly used to disable audio effects during reset.',
-    phetioType: DerivedPropertyIO( BooleanIO ),
-    phetioState: false // this is a transient property based on user interaction, should not be stored in the state
-  } );
-
   // pdom - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
   // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
   // alert that everything was reset.
   const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
-  this.isFiringProperty.lazyLink( function( isFiring ) {
+  this.buttonModel.isFiringProperty.lazyLink( function( isFiring ) {
     phet.joist.sim.utteranceQueue.enabled = !isFiring;
 
     if ( isFiring ) {
