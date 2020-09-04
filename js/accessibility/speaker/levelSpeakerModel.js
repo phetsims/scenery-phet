@@ -10,6 +10,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Property from '../../../../axon/js/Property.js';
@@ -97,8 +98,17 @@ class LevelSpeakerModel {
    * @param {string} objectResponse
    * @param {string} contextResponse
    * @param {string} interactionHint
+   * @param {Object} [options]
    */
-  speakAllResponses( objectResponse, contextResponse, interactionHint ) {
+  speakAllResponses( objectResponse, contextResponse, interactionHint, options ) {
+
+    options = merge( {
+
+      // if true, this content will take priority and cancel any other content currently
+      // being spoken by the speech synth
+      withCancel: true
+    }, options );
+
     const objectChanges = this.objectChangesProperty.get();
     const contextChanges = this.contextChangesProperty.get();
     const interactionHints = this.hintsProperty.get();
@@ -118,7 +128,7 @@ class LevelSpeakerModel {
 
     // cant decide if punctuation is right here, it always sounds better but is likely wrong in many cases.
     const outputString = `${usedObjectString}. ${usedContextString}. ${usedInteractionHint}`;
-    webSpeaker.speak( outputString, true );
+    webSpeaker.speak( outputString, options.withCancel );
   }
 }
 
