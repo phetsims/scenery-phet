@@ -17,7 +17,7 @@ FaucetNodeIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.Fauc
 FaucetNodeIO.documentation = 'Faucet that emits fluid, typically user-controllable';
 FaucetNodeIO.events = [ 'startTapToDispense', 'endTapToDispense' ];
 FaucetNodeIO.typeName = 'FaucetNodeIO';
-ObjectIO.validateSubtype( FaucetNodeIO );
+ObjectIO.validateIOType( FaucetNodeIO );
 
 sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
 export default FaucetNodeIO;

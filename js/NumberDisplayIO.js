@@ -16,7 +16,7 @@ class NumberDisplayIO extends NodeIO {}
 NumberDisplayIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberDisplay };
 NumberDisplayIO.documentation = 'A numeric readout with a background';
 NumberDisplayIO.typeName = 'NumberDisplayIO';
-ObjectIO.validateSubtype( NumberDisplayIO );
+ObjectIO.validateIOType( NumberDisplayIO );
 
 sceneryPhet.register( 'NumberDisplayIO', NumberDisplayIO );
 export default NumberDisplayIO;

@@ -16,7 +16,7 @@ class NumberControlIO extends NodeIO {}
 NumberControlIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberControl };
 NumberControlIO.documentation = 'A number control with a title, slider and +/- buttons';
 NumberControlIO.typeName = 'NumberControlIO';
-ObjectIO.validateSubtype( NumberControlIO );
+ObjectIO.validateIOType( NumberControlIO );
 
 sceneryPhet.register( 'NumberControlIO', NumberControlIO );
 export default NumberControlIO;

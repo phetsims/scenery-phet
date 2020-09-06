@@ -17,7 +17,7 @@ class WavelengthSliderIO extends NodeIO {}
 WavelengthSliderIO.documentation = 'A slider that shows wavelengths for selection';
 WavelengthSliderIO.validator = { valueType: WavelengthSlider };
 WavelengthSliderIO.typeName = 'WavelengthSliderIO';
-ObjectIO.validateSubtype( WavelengthSliderIO );
+ObjectIO.validateIOType( WavelengthSliderIO );
 
 sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
 export default WavelengthSliderIO;
