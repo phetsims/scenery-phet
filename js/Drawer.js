@@ -13,7 +13,7 @@ import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
-import DownUpListener from '../../scenery/js/input/DownUpListener.js';
+import PressListener from '../../scenery/js/listeners/PressListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -172,8 +172,8 @@ function Drawer( contentsNode, options ) {
   drawerNode.y = options.open ? yOpen : yClosed;
 
   // click on the handle to toggle between open and closed
-  handleNode.addInputListener( new DownUpListener( {
-    down: function( event, trail ) {
+  handleNode.addInputListener( new PressListener( {
+    press: function( event, trail ) {
       self.openProperty.set( !self.openProperty.get() );
     }
   } ) );
