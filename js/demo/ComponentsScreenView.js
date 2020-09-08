@@ -25,7 +25,6 @@ import Shape from '../../../kite/js/Shape.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
@@ -72,7 +71,6 @@ import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
-import MovableDragHandler from '../input/MovableDragHandler.js';
 import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
 import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
 import EnterKeyNode from '../keyboard/EnterKeyNode.js';
@@ -363,12 +361,13 @@ const demoConductivityTesterNode = function( layoutBounds ) {
 
   const conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
     testerPositionProperty, positiveProbePositionProperty, negativeProbePositionProperty, {
-      modelViewTransform: ModelViewTransform2.createOffsetScaleMapping( layoutBounds.center, 1 ), // move model origin to screen's center
       positiveProbeFill: 'orange',
       cursor: 'pointer'
     }
   );
-  conductivityTesterNode.addInputListener( new MovableDragHandler( testerPositionProperty ) );
+  conductivityTesterNode.addInputListener( new DragListener( {
+    positionProperty: testerPositionProperty
+  } ) );
 
   // brightness slider
   const brightnessSlider = new HSlider( brightnessProperty, new Range( 0, 1 ), {
