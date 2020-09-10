@@ -8,7 +8,6 @@
 
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -17,63 +16,75 @@ import onImage from '../mipmaps/light-bulb-on_png.js';
 import LightRaysNode from './LightRaysNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {Property.<number>} brightnessProperty 0 (off) to 1 (full brightness)
- * @param {Object} [options]
- * @constructor
- */
-function LightBulbNode( brightnessProperty, options ) {
-  options = merge( {
-    bulbImageScale: 0.33
+class LightBulbNode extends Node {
 
-    // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
-  }, options );
+  /**
+   * @param {Property.<number>} brightnessProperty - brightness of the bulb, 0 (off) to 1 (full brightness)
+   * @param {Object} [options]
+   */
+  constructor( brightnessProperty, options ) {
 
-  const self = this;
+    options = merge( {
+      bulbImageScale: 0.33
 
-  // @private
-  self.onNode = new Image( onImage, {
-    scale: options.bulbImageScale,
-    centerX: 0,
-    bottom: 0
-  } ); // @private
+      // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
+    }, options );
 
-  const offNode = new Image( offImage, {
-    scale: options.bulbImageScale,
-    centerX: self.onNode.centerX,
-    bottom: self.onNode.bottom
-  } );
+    const onNode = new Image( onImage, {
+      scale: options.bulbImageScale,
+      centerX: 0,
+      bottom: 0
+    } ); // @private
 
-  // rays
-  const bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
-  const rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
-  rayOptions.x = this.onNode.centerX;
-  rayOptions.y = offNode.top + bulbRadius;
-  self.raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
+    const offNode = new Image( offImage, {
+      scale: options.bulbImageScale,
+      centerX: onNode.centerX,
+      bottom: onNode.bottom
+    } );
 
-  options.children = [ self.raysNode, offNode, self.onNode ];
-  Node.call( self, options );
+    // rays
+    const bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
+    const rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
+    rayOptions.x = onNode.centerX;
+    rayOptions.y = offNode.top + bulbRadius;
+    const raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
 
-  self.brightnessObserver = function( brightness ) { self.update(); }; // @private
-  self.brightnessProperty = brightnessProperty; // @private
-  self.brightnessProperty.link( this.brightnessObserver );
+    assert && assert( !options.children, 'LightBulbNode sets children' );
+    options.children = [ raysNode, offNode, onNode ];
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LightBulbNode', this );
-}
+    super( options );
 
-sceneryPhet.register( 'LightBulbNode', LightBulbNode );
+    // @private needed by other methods
+    this.onNode = onNode;
+    this.raysNode = raysNode;
+    this.brightnessProperty = brightnessProperty;
 
-inherit( Node, LightBulbNode, {
+    const brightnessObserver = brightness => this.update();
+    brightnessProperty.link( brightnessObserver );
 
-  // @public Ensures that this object is eligible for GC
-  dispose: function() {
-    this.brightnessProperty.unlink( this.brightnessObserver );
-    Node.prototype.dispose.call( this );
-  },
+    // @private
+    this.disposeLightBulbNode = () => {
+      brightnessProperty.unlink( brightnessObserver );
+    };
 
-  // @private
-  update: function() {
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LightBulbNode', this );
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeLightBulbNode();
+    super.dispose();
+  }
+
+  /**
+   * Updates the bulb. For performance, this is a no-op when the bulb is not visible.
+   * @private
+   */
+  update() {
     if ( this.visible ) {
       const brightness = this.brightnessProperty.value;
       assert && assert( brightness >= 0 && brightness <= 1 );
@@ -83,16 +94,21 @@ inherit( Node, LightBulbNode, {
       }
       this.raysNode.setBrightness( brightness );
     }
-  },
+  }
 
-  // @override update when this node becomes visible
-  setVisible: function( visible ) {
+  /**
+   * @param {boolean} visible
+   * @public
+   * @override
+   */
+  setVisible( visible ) {
     const wasVisible = this.visible;
-    Node.prototype.setVisible.call( this, visible );
+    super.setVisible( visible );
     if ( !wasVisible && visible ) {
       this.update();
     }
   }
-} );
+}
 
+sceneryPhet.register( 'LightBulbNode', LightBulbNode );
 export default LightBulbNode;
