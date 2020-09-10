@@ -9,7 +9,6 @@
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -17,69 +16,70 @@ import FaceNode from './FaceNode.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function FaceWithPointsNode( options ) {
-  options = merge( {
-    spacing: 2, // space between face and points
+class FaceWithPointsNode extends Node {
 
-    // face options
-    faceDiameter: 100,
-    faceOpacity: 1, // 0-1, see scenery.Node.opacity
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-    // points options
-    pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
-    pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
-    pointsFill: 'black', // {Color|string}
-    pointsStroke: null, // {Color|string}
-    pointsOpacity: 1, // {number} 0 (transparent) to 1 (opaque)
-    showZeroPoints: false, // whether to show '0' points
-    points: 0 // {number} the number of points
-  }, options );
+    options = merge( {
+      spacing: 2, // space between face and points
 
-  // @private options needed by prototype functions
-  this.pointsAlignment = options.pointsAlignment;
-  this.spacing = options.spacing;
-  this.showZeroPoints = options.showZeroPoints;
+      // face options
+      faceDiameter: 100,
+      faceOpacity: 1, // 0-1, see scenery.Node.opacity
 
-  // @private
-  this.faceNode = new FaceNode( options.faceDiameter, { opacity: options.faceOpacity } );
+      // points options
+      pointsAlignment: 'centerBottom', // 'centerBottom', 'rightBottom', 'rightCenter'
+      pointsFont: new PhetFont( { size: 44, weight: 'bold' } ),
+      pointsFill: 'black', // {Color|string}
+      pointsStroke: null, // {Color|string}
+      pointsOpacity: 1, // {number} 0 (transparent) to 1 (opaque)
+      showZeroPoints: false, // whether to show '0' points
+      points: 0 // {number} the number of points
+    }, options );
 
-  // @private
-  this.pointsNode = new Text( '', {
-    font: options.pointsFont,
-    fill: options.pointsFill,
-    opacity: options.pointsOpacity,
-    stroke: options.pointsStroke,
-    lineWidth: 1
-  } );
+    super();
 
-  options.children = [ this.faceNode, this.pointsNode ];
-  Node.call( this, options );
+    // @private options needed by prototype functions
+    this.pointsAlignment = options.pointsAlignment;
+    this.spacing = options.spacing;
+    this.showZeroPoints = options.showZeroPoints;
 
-  this.setPoints( options.points );
-}
+    // @private
+    this.faceNode = new FaceNode( options.faceDiameter, { opacity: options.faceOpacity } );
 
-sceneryPhet.register( 'FaceWithPointsNode', FaceWithPointsNode );
+    // @private
+    this.pointsNode = new Text( '', {
+      font: options.pointsFont,
+      fill: options.pointsFill,
+      opacity: options.pointsOpacity,
+      stroke: options.pointsStroke,
+      lineWidth: 1
+    } );
 
-inherit( Node, FaceWithPointsNode, {
+    assert && assert( !options.children, 'FaceWithPointsNode sets children' );
+    options.children = [ this.faceNode, this.pointsNode ];
+    this.mutate( options );
+
+    this.setPoints( options.points );
+  }
 
   // @public
-  smile: function() {
+  smile() {
     this.faceNode.smile();
     this.pointsNode.visible = true;
-  },
+  }
 
   // @public
-  frown: function() {
+  frown() {
     this.faceNode.frown();
     this.pointsNode.visible = false;
-  },
+  }
 
   // @public sets the number of {number} points
-  setPoints: function( points ) {
+  setPoints( points ) {
 
     // We do not have negative points, as it goes against our philosophy,
     // see https://github.com/phetsims/scenery-phet/issues/224
@@ -92,10 +92,10 @@ inherit( Node, FaceWithPointsNode, {
       this.pointsNode.text = '+' + points;
     }
     this.updatePointsPosition();
-  },
+  }
 
   // @private Adjusts position of the points to match the specified value of options.pointsAlignment.
-  updatePointsPosition: function() {
+  updatePointsPosition() {
     switch( this.pointsAlignment ) {
 
       case 'centerBottom':
@@ -121,6 +121,7 @@ inherit( Node, FaceWithPointsNode, {
         throw new Error( 'unsupported pointsAlignment: ' + this.pointsAlignment );
     }
   }
-} );
+}
 
+sceneryPhet.register( 'FaceWithPointsNode', FaceWithPointsNode );
 export default FaceWithPointsNode;
