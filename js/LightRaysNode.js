@@ -8,7 +8,6 @@
 
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -20,7 +19,7 @@ const RAYS_ARC_ANGLE = 3 * Math.PI / 2;
 
 // default options, do not modify!
 const DEFAULT_OPTIONS = Object.freeze( {
-  raysStroke: 'yellow',
+  stroke: 'yellow',
   minRays: 8,
   maxRays: 60,
   minRayLength: 0,
@@ -30,42 +29,40 @@ const DEFAULT_OPTIONS = Object.freeze( {
   shortRayLineWidth: 0.5 // for short rays
 } );
 
-/**
- * Rays of light that come out of the light bulb.
- * @param {number} bulbRadius
- * @param {Object} [options]
- * @constructor
- */
-function LightRaysNode( bulbRadius, options ) {
+class LightRaysNode extends Path {
 
-  assert && assert( bulbRadius > 0 );
+  /**
+   * @param {number} bulbRadius
+   * @param {Object} [options]
+   */
+  constructor( bulbRadius, options ) {
 
-  options = merge( {
-    tandem: Tandem.OPTIONAL
-  }, DEFAULT_OPTIONS, options );
+    assert && assert( bulbRadius > 0 );
 
-  assert && assert( !options.stroke );
-  options.stroke = options.raysStroke;
+    options = merge( {
+      tandem: Tandem.OPTIONAL
+    }, DEFAULT_OPTIONS, options );
 
-  this.bulbRadius = bulbRadius; //@private
+    super( null );
 
-  // @private cherry pick options specific to this type, needed by prototype functions
-  this.lightRaysNodeOptions = _.pick( options, _.keys( DEFAULT_OPTIONS ) );
+    // @private
+    this.bulbRadius = bulbRadius;
 
-  Path.call( this, null );
+    // @private cherry pick options specific to this type, needed other methods
+    this.lightRaysNodeOptions = _.pick( options, _.keys( DEFAULT_OPTIONS ) );
 
-  // Ensures there are set bounds at initialization
-  this.setBrightness( 0 );
+    // Ensures there are well-defined bounds at initialization
+    this.setBrightness( 0 );
 
-  this.mutate( options );
-}
+    this.mutate( options );
+  }
 
-sceneryPhet.register( 'LightRaysNode', LightRaysNode );
-
-inherit( Path, LightRaysNode, {
-
-  // @public updates light rays based on {number} brightness, which varies from 0 to 1.
-  setBrightness: function( brightness ) {
+  /**
+   * Updates the number and length of light rays.
+   * @param {number} brightness - brightness, which varies from 0 to 1
+   * @public
+   */
+  setBrightness( brightness ) {
 
     assert && assert( brightness >= 0 && brightness <= 1 );
 
@@ -122,9 +119,9 @@ inherit( Path, LightRaysNode, {
     // Set the shape of the path to the shape created above
     this.setShape( shape );
   }
-}, {
+}
 
-  DEFAULT_OPTIONS: DEFAULT_OPTIONS
-} );
+LightRaysNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
 
+sceneryPhet.register( 'LightRaysNode', LightRaysNode );
 export default LightRaysNode;
