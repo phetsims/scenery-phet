@@ -13,50 +13,43 @@
 
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {number} tailX
- * @param {number} tailY
- * @param {number} tipX
- * @param {number} tipY
- * @param {Object} [options]
- * @constructor
- */
-function ArrowShape( tailX, tailY, tipX, tipY, options ) {
+class ArrowShape extends Shape {
 
-  options = merge( {
-    tailWidth: 5,
-    headWidth: 10,
-    headHeight: 10,
-    doubleHead: false, // determines whether the arrow has a head at both ends of the tail
-    isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
-    scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
-    fractionalHeadHeight: 0.5 // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
-  }, options );
+  /**
+   * @param {number} tailX
+   * @param {number} tailY
+   * @param {number} tipX
+   * @param {number} tipY
+   * @param {Object} [options]
+   */
+  constructor( tailX, tailY, tipX, tipY, options ) {
 
-  const self = this;
-  Shape.call( this );
+    options = merge( {
+      tailWidth: 5,
+      headWidth: 10,
+      headHeight: 10,
+      doubleHead: false, // determines whether the arrow has a head at both ends of the tail
+      isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
+      scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
+      fractionalHeadHeight: 0.5 // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
+    }, options );
 
-  if ( tipX !== tailX || tipY !== tailY ) {
+    super();
 
-    const points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
+    if ( tipX !== tailX || tipY !== tailY ) {
 
-    // Describe the shape
-    this.moveTo( points[ 0 ].x, points[ 0 ].y );
-    const tail = _.tail( points );
-    _.each( tail, function( element ) {
-      self.lineTo( element.x, element.y );
-    } );
-    this.close();
+      const points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
+
+      // Describe the shape
+      this.moveTo( points[ 0 ].x, points[ 0 ].y );
+      const tail = _.tail( points );
+      _.each( tail, element => this.lineTo( element.x, element.y ) );
+      this.close();
+    }
   }
-}
-
-sceneryPhet.register( 'ArrowShape', ArrowShape );
-
-inherit( Shape, ArrowShape, {}, {
 
   /**
    * This method is static so it can be used in ArrowShape as well as in ArrowNode.  If the tail and tip are at the
@@ -71,10 +64,9 @@ inherit( Shape, ArrowShape, {}, {
    *                                  saw significant performance gains.
    * @param {Object} [options]
    * @returns {Vector2[]}
-   * @static
    * @public
    */
-  getArrowShapePoints: function( tailX, tailY, tipX, tipY, shapePoints, options ) {
+  static getArrowShapePoints( tailX, tailY, tipX, tipY, shapePoints, options ) {
 
     // default shapePoints to empty array if it isn't passed in
     if ( !shapePoints ) {
@@ -169,6 +161,7 @@ inherit( Shape, ArrowShape, {}, {
 
     return shapePoints;
   }
-} );
+}
 
+sceneryPhet.register( 'ArrowShape', ArrowShape );
 export default ArrowShape;
