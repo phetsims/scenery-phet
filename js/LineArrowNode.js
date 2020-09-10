@@ -9,61 +9,62 @@
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {number} tailX
- * @param {number} tailY
- * @param {number} tipX
- * @param {number} tipY
- * @param {Object} [options]
- * @constructor
- */
-function LineArrowNode( tailX, tailY, tipX, tipY, options ) {
+class LineArrowNode extends Node {
 
-  // default options
-  options = merge( {
-    headHeight: 10,
-    headWidth: 10,
-    headLineWidth: 1,
-    tailLineWidth: 1,
-    tailLineDash: [],
-    doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
-    stroke: 'black'
-  }, options );
+  /**
+   * @param {number} tailX
+   * @param {number} tailY
+   * @param {number} tipX
+   * @param {number} tipY
+   * @param {Object} [options]
+   */
+  constructor( tailX, tailY, tipX, tipY, options ) {
 
-  this.headHeight = options.headHeight; // @private
-  this.headWidth = options.headWidth; // @private
+    // default options
+    options = merge( {
+      headHeight: 10,
+      headWidth: 10,
+      headLineWidth: 1,
+      tailLineWidth: 1,
+      tailLineDash: [],
+      doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
+      stroke: 'black'
+    }, options );
 
-  // @private
-  this.tailNode = new Path( null, {
-    stroke: options.stroke,
-    lineWidth: options.tailLineWidth,
-    lineDash: options.tailLineDash
-  } );
+    super();
 
-  // @private
-  this.headNode = new Path( null, {
-    stroke: options.stroke,
-    lineWidth: options.headLineWidth
-  } );
+    // @private
+    this.headHeight = options.headHeight;
+    this.headWidth = options.headWidth;
 
-  this.setTailAndTip( tailX, tailY, tipX, tipY );
+    // @private
+    this.tailNode = new Path( null, {
+      stroke: options.stroke,
+      lineWidth: options.tailLineWidth,
+      lineDash: options.tailLineDash
+    } );
 
-  options.children = [ this.tailNode, this.headNode ];
-  Node.call( this, options );
+    // @private
+    this.headNode = new Path( null, {
+      stroke: options.stroke,
+      lineWidth: options.headLineWidth
+    } );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LineArrowNode', this );
-}
+    this.setTailAndTip( tailX, tailY, tipX, tipY );
 
-sceneryPhet.register( 'LineArrowNode', LineArrowNode );
+    assert && assert( !options.children, 'LineArrowNode sets children' );
+    options.children = [ this.tailNode, this.headNode ];
 
-inherit( Node, LineArrowNode, {
+    this.mutate( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LineArrowNode', this );
+  }
 
   /**
    * Set the tail and tip positions to update the arrow shape.
@@ -73,7 +74,7 @@ inherit( Node, LineArrowNode, {
    * @param {number} tipY
    * @public
    */
-  setTailAndTip: function( tailX, tailY, tipX, tipY ) {
+  setTailAndTip( tailX, tailY, tipX, tipY ) {
 
     this.tailNode.shape = Shape.lineSegment( tailX, tailY, tipX, tipY );
 
@@ -96,6 +97,7 @@ inherit( Node, LineArrowNode, {
       .lineToPoint( getPoint( length, 0 ) )
       .lineToPoint( getPoint( length - headHeight, -this.headWidth / 2 ) );
   }
-} );
+}
 
+sceneryPhet.register( 'LineArrowNode', LineArrowNode );
 export default LineArrowNode;
