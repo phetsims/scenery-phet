@@ -8,28 +8,30 @@
  */
 
 import Dimension2 from '../../dot/js/Dimension2.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function MinusNode( options ) {
+// constants
+const DEFAULT_SIZE = new Dimension2( 20, 5 );
 
-  options = merge( {
-    size: new Dimension2( 20, 5 ),
-    fill: 'black'
-  }, options );
+class MinusNode extends Rectangle {
 
-  assert && assert( options.size.width >= options.size.height );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  Rectangle.call( this, 0, 0, options.size.width, options.size.height, options );
+    options = merge( {
+      size: DEFAULT_SIZE,
+      fill: 'black'
+    }, options );
+
+    assert && assert( options.size.width >= options.size.height );
+
+    super( 0, 0, options.size.width, options.size.height, options );
+  }
 }
 
 sceneryPhet.register( 'MinusNode', MinusNode );
-
-inherit( Rectangle, MinusNode );
 export default MinusNode;
