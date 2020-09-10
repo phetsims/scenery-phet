@@ -11,7 +11,6 @@ import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -74,147 +73,150 @@ const DEFAULT_GLASS_OPTIONS = {
 };
 assert && Object.freeze( DEFAULT_GLASS_OPTIONS );
 
-/**
- * @param {Property.<boolean>} onProperty - is the laser on?
- * @param {Object} [options]
- * @constructor
- */
-function LaserPointerNode( onProperty, options ) {
+class LaserPointerNode extends Node {
 
-  options = merge( {}, DEFAULT_OPTIONS, options );
+  /**
+   * @param {Property.<boolean>} onProperty - is the laser on?
+   * @param {Object} [options]
+   */
+  constructor( onProperty, options ) {
 
-  options.glassOptions = merge( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
+    options = merge( {}, DEFAULT_OPTIONS, options );
 
-  assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
+    options.glassOptions = merge( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
 
-  this.enabledProperty = options.enabledProperty || new Property( true ); // @public
+    assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
 
-  // validate options
-  assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
-    'invalid buttonType: ' + options.buttonType );
+    // validate options
+    assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
+      'invalid buttonType: ' + options.buttonType );
 
-  const self = this;
-  const children = [];
+    const children = [];
 
-  // the narrow part that the light will come out of
-  const nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
-    cornerRadius: options.cornerRadius,
-    fill: new LinearGradient( 0, 0, 0, options.nozzleSize.height )
-      .addColorStop( 0, options.topColor )
-      .addColorStop( options.highlightColorStop, options.highlightColor )
-      .addColorStop( 1, options.bottomColor ),
-    stroke: options.stroke,
-    lineWidth: options.lineWidth,
-    right: 0,
-    centerY: 0
-  } );
-  children.push( nozzleNode );
-
-  // the main body of the laser pointer
-  const bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
-    cornerRadius: options.cornerRadius,
-    fill: new LinearGradient( 0, 0, 0, options.bodySize.height )
-      .addColorStop( 0, options.topColor )
-      .addColorStop( options.highlightColorStop, options.highlightColor )
-      .addColorStop( 1, options.bottomColor ),
-    stroke: options.stroke,
-    lineWidth: options.lineWidth,
-    right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
-    centerY: nozzleNode.centerY
-  } );
-  children.push( bodyNode );
-
-  // the optional button that controls whether the laser is on or off
-  if ( options.hasButton ) {
-
-    const buttonOptions = {
-      radius: options.buttonRadius,
-      touchAreaDilation: options.buttonTouchAreaDilation,
-      mouseAreaDilation: options.buttonMouseAreaDilation,
-      baseColor: options.buttonColor,
-      rotation: options.buttonRotation,
-      center: bodyNode.center,
-      tandem: options.tandem.createTandem( 'button' ),
-
-      // pdom
-      labelContent: options.buttonAccessibleName,
-      labelTagName: 'label',
-      descriptionContent: options.buttonDescriptionContent
-    };
-
-    // @private
-    this.button = ( options.buttonType === 'toggle' ) ?
-                  new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
-                  new RoundMomentaryButton( false, true, onProperty, buttonOptions );
-
-    children.push( this.button );
-  }
-
-  // Add the glass, if any
-  if ( options.hasGlass ) {
-    const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
-    const glassOptions = merge( {}, options.glassOptions, {
-
-      // The origin is at the output point of the nozzle, translate accordingly
-      centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
-
-      // Center vertically
+    // the narrow part that the light will come out of
+    const nozzleNode = new Rectangle( 0, 0, options.nozzleSize.width + options.cornerRadius, options.nozzleSize.height, {
+      cornerRadius: options.cornerRadius,
+      fill: new LinearGradient( 0, 0, 0, options.nozzleSize.height )
+        .addColorStop( 0, options.topColor )
+        .addColorStop( options.highlightColorStop, options.highlightColor )
+        .addColorStop( 1, options.bottomColor ),
+      stroke: options.stroke,
+      lineWidth: options.lineWidth,
+      right: 0,
       centerY: 0
     } );
-    const glassNode = new ShadedSphereNode( glassDiameter, glassOptions );
+    children.push( nozzleNode );
 
-    // Glass is behind everything else.
-    children.unshift( glassNode );
+    // the main body of the laser pointer
+    const bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
+      cornerRadius: options.cornerRadius,
+      fill: new LinearGradient( 0, 0, 0, options.bodySize.height )
+        .addColorStop( 0, options.topColor )
+        .addColorStop( options.highlightColorStop, options.highlightColor )
+        .addColorStop( 1, options.bottomColor ),
+      stroke: options.stroke,
+      lineWidth: options.lineWidth,
+      right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
+      centerY: nozzleNode.centerY
+    } );
+    children.push( bodyNode );
+
+    // the optional button that controls whether the laser is on or off
+    let onOffButton = null;
+    if ( options.hasButton ) {
+
+      const buttonOptions = {
+        radius: options.buttonRadius,
+        touchAreaDilation: options.buttonTouchAreaDilation,
+        mouseAreaDilation: options.buttonMouseAreaDilation,
+        baseColor: options.buttonColor,
+        rotation: options.buttonRotation,
+        center: bodyNode.center,
+        tandem: options.tandem.createTandem( 'button' ),
+
+        // pdom
+        labelContent: options.buttonAccessibleName,
+        labelTagName: 'label',
+        descriptionContent: options.buttonDescriptionContent
+      };
+
+      onOffButton = ( options.buttonType === 'toggle' ) ?
+                    new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
+                    new RoundMomentaryButton( false, true, onProperty, buttonOptions );
+
+      children.push( onOffButton );
+    }
+
+    // Add the glass, if any
+    if ( options.hasGlass ) {
+      const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
+      const glassOptions = merge( {}, options.glassOptions, {
+
+        // The origin is at the output point of the nozzle, translate accordingly
+        centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
+
+        // Center vertically
+        centerY: 0
+      } );
+      const glassNode = new ShadedSphereNode( glassDiameter, glassOptions );
+
+      // Glass is behind everything else.
+      children.unshift( glassNode );
+    }
+
+    // add any children specified by the client
+    options.children = children.concat( options.children || [] );
+
+    super( options );
+
+    // @public
+    this.enabledProperty = options.enabledProperty || new Property( true );
+
+    // enables and disables the button
+    const enabledObserver = enabled => {
+      this.button && ( this.button.enabled = enabled );
+    };
+    this.enabledProperty.link( enabledObserver );
+
+    // @private called by dispose
+    this.disposeLaserPointerNode = () => {
+      onOffButton && onOffButton.dispose();
+      this.enabledProperty.unlink( enabledObserver );
+    };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
   }
 
-  // add any children specified by the client
-  options.children = children.concat( options.children || [] );
-  Node.call( this, options );
+  get enabled() { return this.getEnabled(); }
 
-  // enables and disables the button
-  const enabledObserver = function( enabled ) {
-    self.button && ( self.button.enabled = enabled );
-  };
-  this.enabledProperty.link( enabledObserver );
+  set enabled( value ) { this.setEnabled( value ); }
 
-  // @private called by dispose
-  this.disposeLaserPointerNode = function() {
-    self.button && self.button.dispose();
-    self.enabledProperty.unlink( enabledObserver );
-  };
-
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
-}
-
-sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
-
-inherit( Node, LaserPointerNode, {
-
-  // @public
-  dispose: function() {
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
     this.disposeLaserPointerNode();
-    Node.prototype.dispose.call( this );
-  },
+    super.dispose();
+  }
 
   /**
    * Sets the enabled state.
-   * @param {boolean} value
+   * @param {boolean} enabled
    * @public
    */
-  setEnabled: function( value ) { this.enabledProperty.set( value ); },
-  set enabled( value ) { this.setEnabled( value ); },
+  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
 
   /**
    * Gets the enabled state.
    * @returns {boolean}
    * @public
    */
-  getEnabled: function() {return this.enabledProperty.get(); },
-  get enabled() { return this.getEnabled(); }
-}, {
+  getEnabled() { return this.enabledProperty.get(); }
+}
 
-  DEFAULT_OPTIONS: DEFAULT_OPTIONS
-} );
+LaserPointerNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
 
+sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
 export default LaserPointerNode;
