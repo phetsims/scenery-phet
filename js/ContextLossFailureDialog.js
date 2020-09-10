@@ -7,7 +7,6 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -15,62 +14,55 @@ import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../sun/js/Dialog.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
-const webglWarningContextLossFailureString = sceneryPhetStrings.webglWarning.contextLossFailure;
-const webglWarningContextLossReloadString = sceneryPhetStrings.webglWarning.contextLossReload;
+class ContextLossFailureDialog extends Dialog {
 
-/**
- * @constructor
- *
- * @param {Object} [options]
- */
-function ContextLossFailureDialog( options ) {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  const self = this;
+    options = merge( {
 
-  options = merge( {
+      // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
+      // See https://github.com/phetsims/scenery-phet/issues/375
+      reload: function() {
+        window.location.reload();
+      },
 
-    // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
-    // See https://github.com/phetsims/scenery-phet/issues/375
-    reload: function() {
-      window.location.reload();
-    },
+      // Dialog options
+      xSpacing: 30,
+      topMargin: 30,
+      bottomMargin: 30,
+      leftMargin: 30
 
-    // Dialog options
-    xSpacing: 30,
-    topMargin: 30,
-    bottomMargin: 30,
-    leftMargin: 30
+    }, options );
 
-  }, options );
+    const warningSign = new FontAwesomeNode( 'warning_sign', {
+      fill: '#E87600', // "safety orange", according to Wikipedia
+      scale: 0.6
+    } );
 
-  // @private
-  this.reload = options.reload;
+    const text = new Text( sceneryPhetStrings.webglWarning.contextLossFailure, { font: new PhetFont( 12 ) } );
 
-  const warningSign = new FontAwesomeNode( 'warning_sign', {
-    fill: '#E87600', // "safety orange", according to Wikipedia
-    scale: 0.6
-  } );
+    const button = new TextPushButton( sceneryPhetStrings.webglWarning.contextLossReload, {
+      font: new PhetFont( 12 ),
+      baseColor: '#E87600',
+      listener: () => this.hide()
+    } );
 
-  const text = new Text( webglWarningContextLossFailureString, { font: new PhetFont( 12 ) } );
+    const content = new HBox( {
+      children: [ warningSign, text, button ],
+      spacing: 10
+    } );
 
-  const button = new TextPushButton( webglWarningContextLossReloadString, {
-    font: new PhetFont( 12 ),
-    baseColor: '#E87600',
-    listener: function() { self.hide(); }
-  } );
+    super( content, options );
 
-  Dialog.call( this, new HBox( {
-    children: [ warningSign, text, button ],
-    spacing: 10
-  } ), options );
-}
-
-sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
-
-inherit( Dialog, ContextLossFailureDialog, {
+    // @private
+    this.reload = options.reload;
+  }
 
   /**
    * Perform reload (or provided callback) regardless of how the dialog is hidden.
@@ -78,10 +70,11 @@ inherit( Dialog, ContextLossFailureDialog, {
    * @public
    * @override
    */
-  hide: function() {
+  hide() {
     this.reload();
-    Dialog.prototype.hide.call( this );
+    super.hide();
   }
-} );
+}
 
+sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
 export default ContextLossFailureDialog;
