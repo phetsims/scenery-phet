@@ -7,7 +7,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -64,7 +64,7 @@ class Drawer extends Node {
 
       // animation of the drawer opening and closing
       animationDuration: 0.5, // seconds
-      stepEmitter: timer // {Emitter|null} see Animation options.stepEmitter
+      stepEmitter: stepTimer // {Emitter|null} see Animation options.stepEmitter
     }, options );
 
     assert && assert( options.handlePosition === 'top' || options.handlePosition === 'bottom' );

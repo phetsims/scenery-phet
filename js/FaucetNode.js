@@ -22,7 +22,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
@@ -194,8 +194,8 @@ class FaucetNode extends Node {
         tapToDispenseIsArmed = false;
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate );
-        timeoutID = timer.setTimeout( () => {
-          intervalID = timer.setInterval( () => endTapToDispense(), options.tapToDispenseInterval );
+        timeoutID = stepTimer.setTimeout( () => {
+          intervalID = stepTimer.setInterval( () => endTapToDispense(), options.tapToDispenseInterval );
         }, 0 );
         this.phetioEndEvent();
       }
@@ -204,11 +204,11 @@ class FaucetNode extends Node {
       this.phetioStartEvent( 'endTapToDispense', { data: { flowRate: 0 } } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {
-        timer.clearTimeout( timeoutID );
+        stepTimer.clearTimeout( timeoutID );
         timeoutID = null;
       }
       if ( intervalID !== null ) {
-        timer.clearInterval( intervalID );
+        stepTimer.clearInterval( intervalID );
         intervalID = null;
       }
       tapToDispenseIsRunning = false;
