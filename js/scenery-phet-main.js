@@ -25,6 +25,8 @@ import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 
 const sceneryPhetTitleString = sceneryPhetStrings[ 'scenery-phet' ].title;
 
+const MODEL = {};
+
 const simOptions = {
   credits: {
     leadDesign: 'PhET'
@@ -51,42 +53,36 @@ simLauncher.launch( function() {
   const dialogsScreenTandem = Tandem.ROOT.createTandem( 'dialogsScreen' );
   const springScreenTandem = Tandem.ROOT.createTandem( 'springsScreen' );
   const memoryTestsScreenTandem = Tandem.ROOT.createTandem( 'memoryTestsScreen' );
-  new Sim( sceneryPhetTitleString,
+  new Sim( sceneryPhetTitleString, [
 
-    // Standard screens
-    [
+    // Buttons
+    new Screen(
+      () => MODEL,
+      () => new ButtonsScreenView(),
+      {
+        name: 'Buttons',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'red' ),
+        tandem: buttonsScreenTandem
+      }
+    ),
 
-      // Buttons
-      new Screen(
-        function() {return {};},
-        function( model ) {return new ButtonsScreenView();},
-        {
-          name: 'Buttons',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'red' ),
-          tandem: buttonsScreenTandem
-        }
-      ),
-
-      // Sliders
-      new Screen(
-        function() {return {};},
-        function( model ) {return new SlidersScreenView();},
-        {
-          name: 'Sliders',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'yellow' ),
-          tandem: slidersScreenTandem
-        }
-      ),
+    // Sliders
+    new Screen(
+      () => MODEL,
+      () => new SlidersScreenView(),
+      {
+        name: 'Sliders',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'yellow' ),
+        tandem: slidersScreenTandem
+      }
+    ),
 
       // Components
       new Screen(
-        function() {return {};},
-        function( model ) {
-
-          return new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } );
-        },
+        () => MODEL,
+        () => new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } ),
         {
           name: 'Components',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -97,8 +93,8 @@ simLauncher.launch( function() {
 
       // Dialogs
       new Screen(
-        function() {return {};},
-        function( model ) {return new DialogsScreenView();},
+        () => MODEL,
+        () => new DialogsScreenView(),
         {
           name: 'Dialogs',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -109,8 +105,8 @@ simLauncher.launch( function() {
 
       // Spring
       new Screen(
-        function() {return {};},
-        function( model ) {return new SpringScreenView();},
+        () => MODEL,
+        () => new SpringScreenView(),
         {
           name: 'Spring',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
@@ -121,8 +117,8 @@ simLauncher.launch( function() {
 
       // Memory Tests
       new Screen(
-        function() {return {};},
-        function( model ) {return new SceneryPhetMemoryTestsScreenView();},
+        () => MODEL,
+        () => new SceneryPhetMemoryTestsScreenView(),
         {
           name: 'Memory Tests',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
