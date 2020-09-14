@@ -23,8 +23,7 @@ import SpringScreenView from './demo/SpringScreenView.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 
-const sceneryPhetTitleString = sceneryPhetStrings[ 'scenery-phet' ].title;
-
+// empty model used for all demo screens
 const MODEL = {};
 
 const simOptions = {
@@ -35,25 +34,25 @@ const simOptions = {
   webgl: true
 };
 
-// Creates a rectangle filled with a specified color
-const createScreenIcon = function( color ) {
+/**
+ * Creates a simple screen icon, a colored rectangle.
+ * @param {ColorDef} color
+ * @returns {ScreenIcon}
+ */
+function createScreenIcon( color ) {
   return new ScreenIcon(
     new Rectangle( 0, 0, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
       fill: color
     } )
   );
-};
+}
 
 // Create and start sim
-simLauncher.launch( function() {
+simLauncher.launch( () => {
 
-  const buttonsScreenTandem = Tandem.ROOT.createTandem( 'buttonsScreen' );
-  const slidersScreenTandem = Tandem.ROOT.createTandem( 'slidersScreen' );
   const componentsScreenTandem = Tandem.ROOT.createTandem( 'componentsScreen' );
-  const dialogsScreenTandem = Tandem.ROOT.createTandem( 'dialogsScreen' );
-  const springScreenTandem = Tandem.ROOT.createTandem( 'springsScreen' );
-  const memoryTestsScreenTandem = Tandem.ROOT.createTandem( 'memoryTestsScreen' );
-  new Sim( sceneryPhetTitleString, [
+
+  new Sim( sceneryPhetStrings[ 'scenery-phet' ].title, [
 
     // Buttons
     new Screen(
@@ -63,7 +62,7 @@ simLauncher.launch( function() {
         name: 'Buttons',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'red' ),
-        tandem: buttonsScreenTandem
+        tandem: Tandem.ROOT.createTandem( 'buttonsScreen' )
       }
     ),
 
@@ -75,56 +74,56 @@ simLauncher.launch( function() {
         name: 'Sliders',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
-        tandem: slidersScreenTandem
+        tandem: Tandem.ROOT.createTandem( 'slidersScreen' )
       }
     ),
 
-      // Components
-      new Screen(
-        () => MODEL,
-        () => new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } ),
-        {
-          name: 'Components',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'orange' ),
-          tandem: componentsScreenTandem
-        }
-      ),
+    // Components
+    new Screen(
+      () => MODEL,
+      () => new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } ),
+      {
+        name: 'Components',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'orange' ),
+        tandem: componentsScreenTandem
+      }
+    ),
 
-      // Dialogs
-      new Screen(
-        () => MODEL,
-        () => new DialogsScreenView(),
-        {
-          name: 'Dialogs',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'maroon' ),
-          tandem: dialogsScreenTandem
-        }
-      ),
+    // Dialogs
+    new Screen(
+      () => MODEL,
+      () => new DialogsScreenView(),
+      {
+        name: 'Dialogs',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'maroon' ),
+        tandem: Tandem.ROOT.createTandem( 'dialogsScreen' )
+      }
+    ),
 
-      // Spring
-      new Screen(
-        () => MODEL,
-        () => new SpringScreenView(),
-        {
-          name: 'Spring',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'blue' ),
-          tandem: springScreenTandem
-        }
-      ),
+    // Spring
+    new Screen(
+      () => MODEL,
+      () => new SpringScreenView(),
+      {
+        name: 'Spring',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'blue' ),
+        tandem: Tandem.ROOT.createTandem( 'springsScreen' )
+      }
+    ),
 
-      // Memory Tests
-      new Screen(
-        () => MODEL,
-        () => new SceneryPhetMemoryTestsScreenView(),
-        {
-          name: 'Memory Tests',
-          backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-          homeScreenIcon: createScreenIcon( 'purple' ),
-          tandem: memoryTestsScreenTandem
-        }
-      )
-    ], simOptions ).start();
+    // Memory Tests
+    new Screen(
+      () => MODEL,
+      () => new SceneryPhetMemoryTestsScreenView(),
+      {
+        name: 'Memory Tests',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'purple' ),
+        tandem: Tandem.ROOT.createTandem( 'memoryTestsScreen' )
+      }
+    )
+  ], simOptions ).start();
 } );
