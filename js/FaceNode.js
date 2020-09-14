@@ -8,13 +8,14 @@
  * @author John Blanco
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
-import Color from '../../scenery/js/util/Color.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class FaceNode extends Node {
@@ -28,15 +29,22 @@ class FaceNode extends Node {
     // default options
     options = merge( {
       headFill: 'yellow',
-      headStroke: null, // {ColorDef} defaults to darker version of headFill, see below
+      headStroke: null,
       eyeFill: 'black',
       mouthStroke: 'black',
       headLineWidth: 1
     }, options );
 
-    options.headStroke = options.headStroke || Color.toColor( options.headFill ).darkerColor();
-
     super();
+
+    // @private {Property.<Color>}
+    this.headFillProperty = new PaintColorProperty( options.headFill );
+
+    // The derived property listens to our headFillProperty which will be disposed. We don't need to keep a reference.
+    options.headStroke = options.headStroke ||
+                         new DerivedProperty( [ this.headFillProperty ],
+                           color => color.darkerColor()
+                         );
 
     // Add head.
     this.addChild( new Circle( headDiameter / 2, {
@@ -97,6 +105,15 @@ class FaceNode extends Node {
     this.smileMouth.visible = false;
     this.frownMouth.visible = true;
     return this; // allow chaining
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.headFillProperty.dispose();
+    super.dispose();
   }
 }
 
