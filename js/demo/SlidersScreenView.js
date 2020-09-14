@@ -12,7 +12,6 @@
 import Property from '../../../axon/js/Property.js';
 import Range from '../../../dot/js/Range.js';
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -29,31 +28,29 @@ import SpectrumSliderTrack from '../SpectrumSliderTrack.js';
 import VisibleColor from '../VisibleColor.js';
 import WavelengthNumberControl from '../WavelengthNumberControl.js';
 
-/**
- * @constructor
- */
-function SlidersScreenView() {
-  DemosScreenView.call( this, [
+class SlidersScreenView extends DemosScreenView {
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} createNode - creates the scene graph for the demo
-     */
-    { label: 'NumberControl', createNode: demoNumberControl },
-    { label: 'WavelengthNumberControl', createNode: demoWavelengthSlider },
-    { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
-    { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
-  ], {
-    selectedDemoLabel: sceneryPhetQueryParameters.slider
-  } );
+  constructor() {
+    super( [
+
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} createNode - creates the scene graph for the demo
+       */
+      { label: 'NumberControl', createNode: demoNumberControl },
+      { label: 'WavelengthNumberControl', createNode: demoWavelengthSlider },
+      { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
+      { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
+    ], {
+      selectedDemoLabel: sceneryPhetQueryParameters.slider
+    } );
+  }
 }
 
-sceneryPhet.register( 'SlidersScreenView', SlidersScreenView );
-
 // Creates a demo for NumberControl
-var demoNumberControl = function( layoutBounds ) {
+function demoNumberControl( layoutBounds ) {
 
   const weightRange = new RangeWithValue( 0, 300, 100 );
 
@@ -119,21 +116,21 @@ var demoNumberControl = function( layoutBounds ) {
     children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckbox ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for WavelengthNumberControl
-var demoWavelengthSlider = function( layoutBounds ) {
+function demoWavelengthSlider( layoutBounds ) {
   const wavelengthProperty = new Property( 500 );
   return new WavelengthNumberControl( wavelengthProperty, {
     center: layoutBounds.center
   } );
-};
+}
 
 /**
  * Creates a HSlider that uses a SpectrumSliderTrack and SpectrumSliderThumb.
  * @param layoutBounds
  */
-const demoSliderWithSpectrum = layoutBounds => {
+function demoSliderWithSpectrum( layoutBounds ) {
   const property = new Property( 380 );
   const wavelengthToColor = VisibleColor.wavelengthToColor;
   const range = new Range( 380, 780 );
@@ -142,13 +139,13 @@ const demoSliderWithSpectrum = layoutBounds => {
     trackNode: new SpectrumSliderTrack( property, range, { valueToColor: wavelengthToColor } ),
     thumbNode: new SpectrumSliderThumb( property, { valueToColor: wavelengthToColor } )
   } );
-};
+}
 
 /**
  * Creates a NumberControl that uses SpectrumSliderTrack and SpectrumSliderThumb.
  * @param layoutBounds
  */
-const demoNumberControlWithSpectrum = layoutBounds => {
+function demoNumberControlWithSpectrum( layoutBounds ) {
   const property = new Property( 380 );
   const wavelengthToColor = VisibleColor.wavelengthToColor;
 
@@ -173,7 +170,7 @@ const demoNumberControlWithSpectrum = layoutBounds => {
       alignTitle: 'left'
     } )
   } );
-};
+}
 
-inherit( DemosScreenView, SlidersScreenView );
+sceneryPhet.register( 'SlidersScreenView', SlidersScreenView );
 export default SlidersScreenView;

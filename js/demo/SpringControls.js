@@ -8,7 +8,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -33,167 +32,173 @@ const xScaleString = 'x scale:';
 const CONTROL_FONT = new PhetFont( 18 );
 const TICK_LABEL_FONT = new PhetFont( 14 );
 
-/**
- * @param {Object} ranges - a hash of dot.Range
- * @param {ParametricSpringNode} springNode
- * @param {Object} [options]
- * @constructor
- */
-function SpringControls( ranges, springNode, options ) {
+class SpringControls extends Panel {
 
-  options = merge( {
-    fill: 'rgb( 243, 243, 243 )',
-    stroke: 'rgb( 125, 125, 125 )',
-    xMargin: 20,
-    yMargin: 10
-  }, options );
+  /**
+   * @param {Object} ranges - a hash of dot.Range
+   * @param {ParametricSpringNode} springNode
+   * @param {Object} [options]
+   */
+  constructor( ranges, springNode, options ) {
 
-  // controls, options tweaked empirically to match ranges
-  const loopsControl = NumberControl.withMinMaxTicks( loopsString, springNode.loopsProperty, ranges.loopsRange, {
-    delta: 1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 0
-    },
-    sliderOptions: {
-      thumbFill: 'black',
-      minorTickSpacing: 1
-    }
-  } );
-  const pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, springNode.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
-    delta: 1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 0
-    },
-    sliderOptions: {
-      minorTickSpacing: 10,
-      thumbFill: 'black'
-    }
-  } );
-  const radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
-    delta: 1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 0
-    },
-    sliderOptions: {
-      minorTickSpacing: 5,
-      thumbFill: 'green'
-    }
-  } );
-  const aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
-    delta: 0.1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 1
-    },
-    sliderOptions: {
-      minorTickSpacing: 0.5,
-      thumbFill: 'black'
-    }
-  } );
-  assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
-  const phaseControl = new NumberControl( phaseString, springNode.phaseProperty, ranges.phaseRange, {
-    delta: 0.1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 1
-    },
-    sliderOptions: {
-      minorTickSpacing: 1,
-      thumbFill: 'black',
-      majorTicks: [
-        { value: ranges.phaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
-        { value: ranges.phaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
-        { value: ranges.phaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
-      ]
-    }
-  } );
-  assert && assert( ranges.deltaPhaseRange.min === 0 && ranges.deltaPhaseRange.max === 2 * Math.PI );
-  const deltaPhaseControl = new NumberControl( deltaPhaseString, springNode.deltaPhaseProperty, ranges.deltaPhaseRange, {
-    delta: 0.1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
-      },
-      decimalPlaces: 1
-    },
-    sliderOptions: {
-      minorTickSpacing: 1,
-      thumbFill: 'black',
-      majorTicks: [
-        { value: ranges.deltaPhaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
-        { value: ranges.deltaPhaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
-        { value: ranges.deltaPhaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
-      ]
-    }
-  } );
+    options = merge( {
+      fill: 'rgb( 243, 243, 243 )',
+      stroke: 'rgb( 125, 125, 125 )',
+      xMargin: 20,
+      yMargin: 10
+    }, options );
 
-  const lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, springNode.lineWidthProperty, ranges.lineWidthRange, {
-    delta: 0.1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
+    // controls, options tweaked empirically to match ranges
+    const loopsControl = NumberControl.withMinMaxTicks( loopsString, springNode.loopsProperty, ranges.loopsRange, {
+      delta: 1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 0
       },
-      decimalPlaces: 1
-    },
-    sliderOptions: {
-      minorTickSpacing: 1,
-      thumbFill: 'green'
-    }
-  } );
-  const xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
-    delta: 0.1,
-    titleNodeOptions: { font: CONTROL_FONT },
-    numberDisplayOptions: {
-      textOptions: {
-        font: CONTROL_FONT
+      sliderOptions: {
+        thumbFill: 'black',
+        minorTickSpacing: 1
+      }
+    } );
+
+    const pointsPerLoopControl = NumberControl.withMinMaxTicks( pointsPerLoopString, springNode.pointsPerLoopProperty, ranges.pointsPerLoopRange, {
+      delta: 1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 0
       },
-      decimalPlaces: 1
-    },
-    sliderOptions: {
-      minorTickSpacing: 0.5,
-      thumbFill: 'green'
-    }
-  } );
+      sliderOptions: {
+        minorTickSpacing: 10,
+        thumbFill: 'black'
+      }
+    } );
 
-  // layout
-  const xSpacing = 25;
-  const ySpacing = 30;
-  const content = new HBox( {
-    children: [
-      new VBox( { children: [ loopsControl, pointsPerLoopControl ], spacing: ySpacing } ),
-      new VBox( { children: [ radiusControl, aspectRatioControl ], spacing: ySpacing } ),
-      new VBox( { children: [ phaseControl, deltaPhaseControl ], spacing: ySpacing } ),
-      new VSeparator( 225, { stroke: 'rgb( 125, 125, 125 )' } ),
-      new VBox( { children: [ lineWidthControl, xScaleControl ], spacing: ySpacing } )
-    ],
-    spacing: xSpacing,
-    align: 'top'
-  } );
+    const radiusControl = NumberControl.withMinMaxTicks( radiusString, springNode.radiusProperty, ranges.radiusRange, {
+      delta: 1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 0
+      },
+      sliderOptions: {
+        minorTickSpacing: 5,
+        thumbFill: 'green'
+      }
+    } );
 
-  Panel.call( this, content, options );
+    const aspectRatioControl = NumberControl.withMinMaxTicks( aspectRatioString, springNode.aspectRatioProperty, ranges.aspectRatioRange, {
+      delta: 0.1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 1
+      },
+      sliderOptions: {
+        minorTickSpacing: 0.5,
+        thumbFill: 'black'
+      }
+    } );
+
+    assert && assert( ranges.phaseRange.min === 0 && ranges.phaseRange.max === 2 * Math.PI );
+    const phaseControl = new NumberControl( phaseString, springNode.phaseProperty, ranges.phaseRange, {
+      delta: 0.1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 1
+      },
+      sliderOptions: {
+        minorTickSpacing: 1,
+        thumbFill: 'black',
+        majorTicks: [
+          { value: ranges.phaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
+          { value: ranges.phaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
+          { value: ranges.phaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
+        ]
+      }
+    } );
+
+    assert && assert( ranges.deltaPhaseRange.min === 0 && ranges.deltaPhaseRange.max === 2 * Math.PI );
+    const deltaPhaseControl = new NumberControl( deltaPhaseString, springNode.deltaPhaseProperty, ranges.deltaPhaseRange, {
+      delta: 0.1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 1
+      },
+      sliderOptions: {
+        minorTickSpacing: 1,
+        thumbFill: 'black',
+        majorTicks: [
+          { value: ranges.deltaPhaseRange.min, label: new Text( '0', { font: TICK_LABEL_FONT } ) },
+          { value: ranges.deltaPhaseRange.getCenter(), label: new Text( '\u03c0', { font: TICK_LABEL_FONT } ) },
+          { value: ranges.deltaPhaseRange.max, label: new Text( '2\u03c0', { font: TICK_LABEL_FONT } ) }
+        ]
+      }
+    } );
+
+    const lineWidthControl = NumberControl.withMinMaxTicks( lineWidthString, springNode.lineWidthProperty, ranges.lineWidthRange, {
+      delta: 0.1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 1
+      },
+      sliderOptions: {
+        minorTickSpacing: 1,
+        thumbFill: 'green'
+      }
+    } );
+
+    const xScaleControl = NumberControl.withMinMaxTicks( xScaleString, springNode.xScaleProperty, ranges.xScaleRange, {
+      delta: 0.1,
+      titleNodeOptions: { font: CONTROL_FONT },
+      numberDisplayOptions: {
+        textOptions: {
+          font: CONTROL_FONT
+        },
+        decimalPlaces: 1
+      },
+      sliderOptions: {
+        minorTickSpacing: 0.5,
+        thumbFill: 'green'
+      }
+    } );
+
+    // layout
+    const xSpacing = 25;
+    const ySpacing = 30;
+    const content = new HBox( {
+      children: [
+        new VBox( { children: [ loopsControl, pointsPerLoopControl ], spacing: ySpacing } ),
+        new VBox( { children: [ radiusControl, aspectRatioControl ], spacing: ySpacing } ),
+        new VBox( { children: [ phaseControl, deltaPhaseControl ], spacing: ySpacing } ),
+        new VSeparator( 225, { stroke: 'rgb( 125, 125, 125 )' } ),
+        new VBox( { children: [ lineWidthControl, xScaleControl ], spacing: ySpacing } )
+      ],
+      spacing: xSpacing,
+      align: 'top'
+    } );
+
+    super( content, options );
+  }
 }
 
 sceneryPhet.register( 'SpringControls', SpringControls );
-
-inherit( Panel, SpringControls );
 export default SpringControls;

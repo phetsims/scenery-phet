@@ -7,7 +7,6 @@
  */
 
 import ScreenView from '../../../joist/js/ScreenView.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
@@ -23,55 +22,52 @@ const BUTTON_OPTIONS = {
   font: new PhetFont( 20 )
 };
 
-/**
- * @constructor
- */
-function DialogsScreenView() {
-  ScreenView.call( this );
+class DialogsScreenView extends ScreenView {
+  constructor() {
+    super();
 
-  // reuse one instance of the dialog
-  let contextLossFailureDialog = null;
-  const contextLossFailureButton = new RectangularPushButton( {
-    content: new Text( 'ContextLossFailureDialog', BUTTON_OPTIONS ),
-    listener: function() {
-      if ( !contextLossFailureDialog ) {
-        contextLossFailureDialog = new ContextLossFailureDialog( {
+    // reuse one instance of the dialog
+    let contextLossFailureDialog = null;
+    const contextLossFailureButton = new RectangularPushButton( {
+      content: new Text( 'ContextLossFailureDialog', BUTTON_OPTIONS ),
+      listener: () => {
+        if ( !contextLossFailureDialog ) {
+          contextLossFailureDialog = new ContextLossFailureDialog( {
 
-          // So that we don't cause problems with automated testing.
-          // See https://github.com/phetsims/scenery-phet/issues/375
-          reload: function() {
-            console.log( 'Reload' );
-          }
-        } );
+            // So that we don't cause problems with automated testing.
+            // See https://github.com/phetsims/scenery-phet/issues/375
+            reload: function() {
+              console.log( 'Reload' );
+            }
+          } );
+        }
+        contextLossFailureDialog.show();
       }
-      contextLossFailureDialog.show();
-    }
-  } );
+    } );
 
-  let oopsDialog = null;
-  const oopsButton = new RectangularPushButton( {
-    content: new Text( 'OopsDialog', BUTTON_OPTIONS ),
-    listener: () => {
-      if ( !oopsDialog ) {
-        oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
-          iconNode: new Image( batteryDCellImage, { rotation: -Math.PI / 2 } )
-        } );
+    let oopsDialog = null;
+    const oopsButton = new RectangularPushButton( {
+      content: new Text( 'OopsDialog', BUTTON_OPTIONS ),
+      listener: () => {
+        if ( !oopsDialog ) {
+          oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
+            iconNode: new Image( batteryDCellImage, { rotation: -Math.PI / 2 } )
+          } );
+        }
+        oopsDialog.show();
       }
-      oopsDialog.show();
-    }
-  } );
+    } );
 
-  this.addChild( new VBox( {
-    children: [
-      contextLossFailureButton,
-      oopsButton
-    ],
-    spacing: 20,
-    center: this.layoutBounds.center
-  } ) );
+    this.addChild( new VBox( {
+      children: [
+        contextLossFailureButton,
+        oopsButton
+      ],
+      spacing: 20,
+      center: this.layoutBounds.center
+    } ) );
+  }
 }
 
 sceneryPhet.register( 'DialogsScreenView', DialogsScreenView );
-
-inherit( ScreenView, DialogsScreenView );
 export default DialogsScreenView;

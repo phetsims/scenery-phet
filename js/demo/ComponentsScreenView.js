@@ -23,7 +23,6 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import Shape from '../../../kite/js/Shape.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
@@ -108,70 +107,81 @@ import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
 
 // constants
-const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } ); // allow tests to wire up to step function // TODO: move to DemosScreenView
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function ComponentsScreenView( options ) {
-  DemosScreenView.call( this, [
+// allow tests to wire up to step function // TODO: move to DemosScreenView
+const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
 
-    /**
-     * To add a demo, add an object literal here. Each object has these properties:
-     *
-     * {string} label - label in the combo box
-     * {function(Bounds2): Node} createNode - creates the scene graph for the demo
-     */
-    { label: 'ArrowNode', createNode: demoArrowNode },
-    { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
-    { label: 'BracketNode', createNode: demoBracketNode },
-    { label: 'CapacitorNode', createNode: demoCapacitorNode },
-    { label: 'ComboBoxDisplay', createNode: demoComboBoxDisplay },
-    { label: 'ConductivityTesterNode', createNode: demoConductivityTesterNode },
-    { label: 'Drawer', createNode: demoDrawer },
-    { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
-    { label: 'FaucetNode', createNode: demoFaucetNode },
-    { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
-    { label: 'FormulaNode', createNode: demoFormulaNode },
-    { label: 'GaugeNode', createNode: demoGaugeNode },
-    { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
-    { label: 'HandleNode', createNode: demoHandleNode },
-    { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
-    { label: 'KeyNode', createNode: demoKeyNode },
-    { label: 'KeyboardHelpContent', createNode: demoHelpContent },
-    { label: 'Keypad', createNode: demoKeypad },
-    { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
-    { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
-    { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
-    { label: 'NumberDisplay', createNode: demoNumberDisplay },
-    { label: 'NumberKeypad', createNode: demoNumberKeypad },
-    { label: 'NumberPicker', createNode: demoNumberPicker },
-    { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
-    { label: 'ProbeNode', createNode: demoProbeNode },
-    { label: 'RichText', createNode: demoRichText },
-    { label: 'RulerNode', createNode: demoRulerNode },
-    { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
-    { label: 'SpectrumNode', createNode: demoSpectrumNode },
-    { label: 'Sprites', createNode: demoSprites },
-    { label: 'StarNode', createNode: demoStarNode },
-    { label: 'StopwatchNode', createNode: demoStopwatchNode },
-    { label: 'ThermometerNode', createNode: demoTemperatureNode },
-    { label: 'TimeControlNode', createNode: demoTimeControlNode },
-    { label: 'UpDownSpinner', createNode: demoUpDownSpinner },
-    { label: 'WireNode', createNode: demoWireNode }
-  ], merge( {
-    comboBoxItemFont: new PhetFont( 12 ),
-    comboBoxItemYMargin: 3,
-    selectedDemoLabel: sceneryPhetQueryParameters.component,
-    tandem: Tandem.REQUIRED
-  }, options ) );
+
+class ComponentsScreenView extends DemosScreenView {
+
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( [
+
+      /**
+       * To add a demo, add an object literal here. Each object has these properties:
+       *
+       * {string} label - label in the combo box
+       * {function(Bounds2): Node} createNode - creates the scene graph for the demo
+       */
+      { label: 'ArrowNode', createNode: demoArrowNode },
+      { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
+      { label: 'BracketNode', createNode: demoBracketNode },
+      { label: 'CapacitorNode', createNode: demoCapacitorNode },
+      { label: 'ComboBoxDisplay', createNode: demoComboBoxDisplay },
+      { label: 'ConductivityTesterNode', createNode: demoConductivityTesterNode },
+      { label: 'Drawer', createNode: demoDrawer },
+      { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
+      { label: 'FaucetNode', createNode: demoFaucetNode },
+      { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
+      { label: 'FormulaNode', createNode: demoFormulaNode },
+      { label: 'GaugeNode', createNode: demoGaugeNode },
+      { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
+      { label: 'HandleNode', createNode: demoHandleNode },
+      { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
+      { label: 'KeyNode', createNode: demoKeyNode },
+      { label: 'KeyboardHelpContent', createNode: demoHelpContent },
+      { label: 'Keypad', createNode: demoKeypad },
+      { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+      { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
+      { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
+      { label: 'NumberDisplay', createNode: demoNumberDisplay },
+      { label: 'NumberKeypad', createNode: demoNumberKeypad },
+      { label: 'NumberPicker', createNode: demoNumberPicker },
+      { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
+      { label: 'ProbeNode', createNode: demoProbeNode },
+      { label: 'RichText', createNode: demoRichText },
+      { label: 'RulerNode', createNode: demoRulerNode },
+      { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
+      { label: 'SpectrumNode', createNode: demoSpectrumNode },
+      { label: 'Sprites', createNode: demoSprites },
+      { label: 'StarNode', createNode: demoStarNode },
+      { label: 'StopwatchNode', createNode: demoStopwatchNode },
+      { label: 'ThermometerNode', createNode: demoTemperatureNode },
+      { label: 'TimeControlNode', createNode: demoTimeControlNode },
+      { label: 'UpDownSpinner', createNode: demoUpDownSpinner },
+      { label: 'WireNode', createNode: demoWireNode }
+    ], merge( {
+      comboBoxItemFont: new PhetFont( 12 ),
+      comboBoxItemYMargin: 3,
+      selectedDemoLabel: sceneryPhetQueryParameters.component,
+      tandem: Tandem.REQUIRED
+    }, options ) );
+  }
+
+  /**
+   * @param {number} dt
+   * @public
+   */
+  step( dt ) {
+    emitter.emit( dt );
+  }
 }
 
-sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
-
 // Creates a demo for ArrowNode
-const demoArrowNode = function( layoutBounds ) {
+function demoArrowNode( layoutBounds ) {
 
   const arrowNode = new ArrowNode( 0, 0, 200, 200, {
     headWidth: 30,
@@ -180,14 +190,13 @@ const demoArrowNode = function( layoutBounds ) {
   } );
 
   const checkedProperty = new Property( false );
-  checkedProperty.link( function( checked ) {
-    arrowNode.setDoubleHead( checked );
-  } );
+  checkedProperty.link( checked => arrowNode.setDoubleHead( checked ) );
 
   const checkbox = new Checkbox( new Text( 'Double head', { font: new PhetFont( 20 ) } ), checkedProperty, {
     centerX: layoutBounds.centerX,
     top: arrowNode.bottom + 50
   } );
+
   return new Node( {
     children: [
       checkbox,
@@ -195,10 +204,10 @@ const demoArrowNode = function( layoutBounds ) {
     ]
   } );
 
-};
+}
 
 // Creates a demo for BicyclePumpNode
-const demoBicyclePumpNode = function( layoutBounds ) {
+function demoBicyclePumpNode( layoutBounds ) {
 
   const numberOfParticlesProperty = new NumberProperty( 0, {
     numberType: 'Integer',
@@ -236,10 +245,10 @@ const demoBicyclePumpNode = function( layoutBounds ) {
     children: [ bicyclePumpNode, displayNode, resetButton ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for BracketNode
-const demoBracketNode = function( layoutBounds ) {
+function demoBracketNode( layoutBounds ) {
   return new BracketNode( {
     orientation: 'left',
     bracketTipPosition: 0.75,
@@ -247,10 +256,10 @@ const demoBracketNode = function( layoutBounds ) {
     spacing: 10,
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for BracketNode
-const demoCapacitorNode = function( layoutBounds ) {
+function demoCapacitorNode( layoutBounds ) {
   const plateBounds = new Bounds3( 0, 0, 0, 0.01414213562373095, CapacitorConstants.PLATE_HEIGHT, 0.01414213562373095 );
 
   // An object literal is fine in a demo like this, but we probably wouldn't do this in production code.
@@ -300,11 +309,11 @@ const demoCapacitorNode = function( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for ComboBoxDisplay that exercises layout functionality.
 // See https://github.com/phetsims/scenery-phet/issues/482
-const demoComboBoxDisplay = function( layoutBounds ) {
+function demoComboBoxDisplay( layoutBounds ) {
 
   const numberOfDogsProperty = new NumberProperty( 0 ); // value to be displayed for dogs
   const numberOfCatsProperty = new DerivedProperty( [ numberOfDogsProperty ], () => numberOfDogsProperty.value * 20 );
@@ -349,10 +358,10 @@ const demoComboBoxDisplay = function( layoutBounds ) {
       center: layoutBounds.center
     } ), listParent ]
   } );
-};
+}
 
 // Creates a demo for ConductivityTesterNode
-const demoConductivityTesterNode = function( layoutBounds ) {
+function demoConductivityTesterNode( layoutBounds ) {
 
   const brightnessProperty = new Property( 0 ); // 0-1
   const testerPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
@@ -382,7 +391,7 @@ const demoConductivityTesterNode = function( layoutBounds ) {
 
   // short-circuit checkbox
   const shortCircuitProperty = new Property( false );
-  shortCircuitProperty.link( function( shortCircuit ) {
+  shortCircuitProperty.link( shortCircuit => {
     conductivityTesterNode.shortCircuit = shortCircuit;
   } );
   const shortCircuitCheckbox = new Checkbox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
@@ -394,10 +403,10 @@ const demoConductivityTesterNode = function( layoutBounds ) {
     children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckbox ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for Drawer
-const demoDrawer = function( layoutBounds ) {
+function demoDrawer( layoutBounds ) {
 
   const rectangle = new Rectangle( 0, 0, 400, 50, {
     fill: 'gray',
@@ -423,25 +432,25 @@ const demoDrawer = function( layoutBounds ) {
     children: [ drawer, rectangle ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for EyeDropperNode
-const demoEyeDropperNode = function( layoutBounds ) {
+function demoEyeDropperNode( layoutBounds ) {
 
   const dropperNode = new EyeDropperNode( {
     fluidColor: 'purple',
     center: layoutBounds.center
   } );
 
-  dropperNode.dispensingProperty.lazyLink( function( dispensing ) {
-    console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) );
-  } );
+  dropperNode.dispensingProperty.lazyLink(
+    dispensing => console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) )
+  );
 
   return dropperNode;
-};
+}
 
 // Creates a demo for FaucetNode
-const demoFaucetNode = function( layoutBounds ) {
+function demoFaucetNode( layoutBounds ) {
 
   const fluidRateProperty = new Property( 0 );
   const faucetEnabledProperty = new Property( true );
@@ -462,10 +471,10 @@ const demoFaucetNode = function( layoutBounds ) {
     children: [ faucetNode, faucetEnabledCheckbox ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for FineCoarseSpinner
-const demoFineCoarseSpinner = function( layoutBounds, options ) {
+function demoFineCoarseSpinner( layoutBounds, options ) {
 
   const numberProperty = new NumberProperty( 0, {
     range: new Range( 0, 100 ),
@@ -491,10 +500,11 @@ const demoFineCoarseSpinner = function( layoutBounds, options ) {
     children: [ spinner, checkbox ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for FormulaNode
-const demoFormulaNode = function( layoutBounds ) {
+function demoFormulaNode( layoutBounds ) {
+
   const conditional = '\\forall \\mathbf{p}\\in\\mathbb{R}^2';
   const leftVert = '\\left\\lVert';
   const rightVert = '\\right\\rVert';
@@ -514,10 +524,10 @@ const demoFormulaNode = function( layoutBounds ) {
   return new Node( {
     children: [ bounds, formulaNode ]
   } );
-};
+}
 
 // Creates a demo for GaugeNode
-const demoGaugeNode = function( layoutBounds ) {
+function demoGaugeNode( layoutBounds ) {
   const valueProperty = new Property( 0 );
   const gaugeValueRange = new Range( -100, 100 );
   const sliderValueRange = new Range( gaugeValueRange.min - 20, gaugeValueRange.max + 20 );
@@ -532,27 +542,27 @@ const demoGaugeNode = function( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for HandleNode
-const demoHandleNode = function( layoutBounds ) {
+function demoHandleNode( layoutBounds ) {
   const handleNode = new HandleNode( { scale: 4.0 } );
 
   return new Node( {
     children: [ handleNode ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for HeaterCoolerNode
-const demoHeaterCoolerNode = function( layoutBounds ) {
+function demoHeaterCoolerNode( layoutBounds ) {
   return new HeaterCoolerNode( new NumberProperty( 0, {
     range: new Range( -1, 1 ) // +1 for max heating, -1 for max cooling
   } ), { center: layoutBounds.center } );
-};
+}
 
 // Creates a demo for ProbeNode
-const demoProbeNode = function( layoutBounds ) {
+function demoProbeNode( layoutBounds ) {
 
   const demoParent = new Node();
 
@@ -575,9 +585,10 @@ const demoProbeNode = function( layoutBounds ) {
   const redProperty = new Property( color.red );
   const greenProperty = new Property( color.green );
   const blueProperty = new Property( color.blue );
-  Property.multilink( [ redProperty, greenProperty, blueProperty ], function( r, g, b ) {
-    colorProperty.value = new Color( r, g, b );
-  } );
+  Property.multilink( [ redProperty, greenProperty, blueProperty ],
+    ( r, g, b ) => {
+      colorProperty.value = new Color( r, g, b );
+    } );
 
   // Controls for the sensor type (glass/crosshairs/empty/etc)
   const radioButtons = new RadioButtonGroup( sensorTypeFunctionProperty, [
@@ -611,7 +622,7 @@ const demoProbeNode = function( layoutBounds ) {
       lightAngleProperty,
       sensorTypeFunctionProperty
     ],
-    function() {
+    () => {
       probeNodeLayer.removeAllChildren();
       probeNodeLayer.addChild( new ProbeNode( {
 
@@ -690,7 +701,7 @@ const demoProbeNode = function( layoutBounds ) {
   // Light angle control, sets the multiplier for Math.PI
   const tickLabelOptions = { font: new PhetFont( 14 ) };
   const multiplierProperty = new Property( 0 );
-  multiplierProperty.link( function( multiplier ) {
+  multiplierProperty.link( multiplier => {
     lightAngleProperty.value = ( multiplier * Math.PI );
   } );
 
@@ -727,10 +738,10 @@ const demoProbeNode = function( layoutBounds ) {
   } ) );
 
   return demoParent;
-};
+}
 
 // Creates a demo for RichText
-const demoRichText = function( layoutBounds ) {
+function demoRichText( layoutBounds ) {
   return new VBox( {
     spacing: 15,
     children: [
@@ -744,9 +755,7 @@ const demoRichText = function( layoutBounds ) {
       new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>, and <a href="{{callback}}">links that call functions</a>.', {
         links: {
           phetWebsite: 'https://phet.colorado.edu',
-          callback: function() {
-            console.log( 'Link was clicked' );
-          }
+          callback: () => console.log( 'Link was clicked' )
         }
       } ),
       new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
@@ -765,10 +774,10 @@ const demoRichText = function( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for LaserPointerNode
-const demoLaserPointerNode = function( layoutBounds ) {
+function demoLaserPointerNode( layoutBounds ) {
 
   const leftOnProperty = new Property( false );
   const rightOnProperty = new Property( false );
@@ -809,10 +818,10 @@ const demoLaserPointerNode = function( layoutBounds ) {
     centerY: rightLaserNode.centerY
   } );
 
-  leftOnProperty.link( function( on ) {
+  leftOnProperty.link( on => {
     leftBeamNode.visible = on;
   } );
-  rightOnProperty.link( function( on ) {
+  rightOnProperty.link( on => {
     rightBeamNode.visible = on;
   } );
 
@@ -823,10 +832,10 @@ const demoLaserPointerNode = function( layoutBounds ) {
   } );
 
   return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckbox ] } );
-};
+}
 
 // Creates a demo for MeasuringTapeNode
-const demoMeasuringTapeNode = function( layoutBounds ) {
+function demoMeasuringTapeNode( layoutBounds ) {
 
   const measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
 
@@ -840,10 +849,10 @@ const demoMeasuringTapeNode = function( layoutBounds ) {
     basePositionProperty: new Vector2Property( new Vector2( layoutBounds.centerX, layoutBounds.centerY ) ),
     tipPositionProperty: new Vector2Property( new Vector2( layoutBounds.centerX + 100, layoutBounds.centerY ) )
   } );
-};
+}
 
 // Creates a demo for MeterBodyNode - two circles connected by a wire.
-const demoWireNode = function( layoutBounds ) {
+function demoWireNode( layoutBounds ) {
 
   const greenCircle = new Circle( 20, {
     fill: 'green',
@@ -878,10 +887,10 @@ const demoWireNode = function( layoutBounds ) {
     children: [ greenCircle, redCircle, wireNode ], // wireNode on top, so we can see it fully
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for NumberDisplay
-const demoNumberDisplay = function( layoutBounds ) {
+function demoNumberDisplay( layoutBounds ) {
 
   const range = new Range( 0, 1000 );
 
@@ -928,10 +937,10 @@ const demoNumberDisplay = function( layoutBounds ) {
     children: [ noValueDisplay, numberDisplay, numberDisplayTime, numberDisplayTimeRich, numberDisplayTimeRichUnits, slider ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for NumberKeypad
-const demoNumberKeypad = function( layoutBounds ) {
+function demoNumberKeypad( layoutBounds ) {
 
   const integerKeypad = new NumberKeypad( {
     validateKey: NumberKeypad.validateMaxDigits( { maxDigits: 4 } )
@@ -939,7 +948,7 @@ const demoNumberKeypad = function( layoutBounds ) {
 
   // value of integerKeypad is displayed here
   const integerText = new Text( '', { font: new PhetFont( 24 ) } );
-  integerKeypad.valueStringProperty.link( function( valueString ) {
+  integerKeypad.valueStringProperty.link( valueString => {
     integerText.text = valueString;
   } );
 
@@ -947,10 +956,10 @@ const demoNumberKeypad = function( layoutBounds ) {
   const clearOnNextKeyPressProperty = new Property( false );
   const clearOnNextKeyPressCheckbox = new Checkbox( new Text( 'clearOnNextKeyPress', { font: new PhetFont( 16 ) } ), clearOnNextKeyPressProperty );
 
-  clearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
+  clearOnNextKeyPressProperty.link( clearOnNextKeyPress => {
     integerKeypad.clearOnNextKeyPress = clearOnNextKeyPress;
   } );
-  integerKeypad.valueStringProperty.link( function() {
+  integerKeypad.valueStringProperty.link( () => {
     clearOnNextKeyPressProperty.value = integerKeypad.clearOnNextKeyPress;
   } );
 
@@ -960,7 +969,7 @@ const demoNumberKeypad = function( layoutBounds ) {
 
   // value of decimalKeypad is displayed here
   const decimalText = new Text( '', { font: new PhetFont( 24 ) } );
-  decimalKeypad.valueStringProperty.link( function( valueString ) {
+  decimalKeypad.valueStringProperty.link( valueString => {
     decimalText.text = valueString;
   } );
 
@@ -983,10 +992,10 @@ const demoNumberKeypad = function( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
-};
+}
 
 // creates a demo for KeyNode and its subtypes
-const demoKeyNode = function( layoutBounds ) {
+function demoKeyNode( layoutBounds ) {
 
   // example letter keys, portion of a typical keyboard
   const topRowKeyStrings = [ 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\' ];
@@ -1031,11 +1040,10 @@ const demoKeyNode = function( layoutBounds ) {
     spacing: 3,
     scale: 2
   } );
-};
-
+}
 
 // creates a demo for KeyNode
-const demoHelpContent = function( layoutBounds ) {
+function demoHelpContent( layoutBounds ) {
 
   const labelWithIcon = KeyboardHelpSection.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
   const labelWithIconList = KeyboardHelpSection.labelWithIconList( 'Label With Icon List:', [
@@ -1079,10 +1087,10 @@ const demoHelpContent = function( layoutBounds ) {
     top: 100,
     spacing: 10
   } );
-};
+}
 
 // creates a demo for Keypad
-const demoKeypad = function( layoutBounds ) {
+function demoKeypad( layoutBounds ) {
 
   const integerKeyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, {
     buttonWidth: 35,
@@ -1093,19 +1101,17 @@ const demoKeypad = function( layoutBounds ) {
   const integerStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const integerValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  integerKeyPad.stringProperty.link( function( value ) {
+  integerKeyPad.stringProperty.link( value => {
     integerStringRepresentation.text = 'string: ' + value;
   } );
 
-  integerKeyPad.valueProperty.link( function( value ) {
+  integerKeyPad.valueProperty.link( value => {
     integerValueRepresentation.text = 'number: ' + value;
   } );
 
   const integerClearButton = new RectangularPushButton( {
     content: new Text( 'Clear Keypad' ),
-    listener: function() {
-      integerKeyPad.clear();
-    }
+    listener: () => integerKeyPad.clear()
   } );
 
   // For testing clearOnNextKeyPress feature
@@ -1114,11 +1120,11 @@ const demoKeypad = function( layoutBounds ) {
     new Text( 'Clear On Next Key Press' ),
     integerClearOnNextKeyPressProperty
   );
-  integerClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
-    integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
-  } );
+  integerClearOnNextKeyPressProperty.link(
+    clearOnNextKeyPress => integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress )
+  );
 
-  integerKeyPad.valueProperty.link( function( value ) {
+  integerKeyPad.valueProperty.link( value => {
     integerClearOnNextKeyPressProperty.value = integerKeyPad.getClearOnNextKeyPress();
   } );
 
@@ -1145,19 +1151,17 @@ const demoKeypad = function( layoutBounds ) {
   const floatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const floatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  floatingPointKeyPad.stringProperty.link( function( value ) {
+  floatingPointKeyPad.stringProperty.link( value => {
     floatingPointStringRepresentation.text = 'string: ' + value;
   } );
 
-  floatingPointKeyPad.valueProperty.link( function( value ) {
+  floatingPointKeyPad.valueProperty.link( value => {
     floatingPointValueRepresentation.text = 'number: ' + value;
   } );
 
   const floatingPointClearButton = new RectangularPushButton( {
     content: new Text( 'Clear Keypad' ),
-    listener: function() {
-      floatingPointKeyPad.clear();
-    }
+    listener: () => floatingPointKeyPad.clear()
   } );
 
   // For testing clearOnNextKeyPress feature
@@ -1166,11 +1170,11 @@ const demoKeypad = function( layoutBounds ) {
     new Text( 'Clear On Next Key Press' ),
     floatingPointClearOnNextKeyPressProperty
   );
-  floatingPointClearOnNextKeyPressProperty.link( function( clearOnNextKeyPress ) {
-    floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
-  } );
+  floatingPointClearOnNextKeyPressProperty.link(
+    clearOnNextKeyPress => floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress )
+  );
 
-  floatingPointKeyPad.valueProperty.link( function() {
+  floatingPointKeyPad.valueProperty.link( () => {
     floatingPointClearOnNextKeyPressProperty.value = floatingPointKeyPad.getClearOnNextKeyPress();
   } );
 
@@ -1197,19 +1201,17 @@ const demoKeypad = function( layoutBounds ) {
   const positiveAndNegativeFloatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const positiveAndNegativeFloatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  positiveAndNegativeFloatingPointKeyPad.stringProperty.link( function( value ) {
+  positiveAndNegativeFloatingPointKeyPad.stringProperty.link( value => {
     positiveAndNegativeFloatingPointStringRepresentation.text = 'string: ' + value;
   } );
 
-  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
+  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
     positiveAndNegativeFloatingPointValueRepresentation.text = 'number: ' + value;
   } );
 
   const positiveAndNegativeFloatingPointClearButton = new RectangularPushButton( {
     content: new Text( 'Clear Keypad' ),
-    listener: function() {
-      positiveAndNegativeFloatingPointKeyPad.clear();
-    }
+    listener: () => positiveAndNegativeFloatingPointKeyPad.clear()
   } );
 
   // For testing clearOnNextKeyPress feature
@@ -1229,7 +1231,7 @@ const demoKeypad = function( layoutBounds ) {
     handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
   );
 
-  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( function( value ) {
+  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
     positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
       positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
   } );
@@ -1238,7 +1240,7 @@ const demoKeypad = function( layoutBounds ) {
   const removeKeypadFromScreenButton = new RectangularPushButton( {
     content: new Text( 'Remove Keypad (tests dispose)' ),
     baseColor: '#73DC69',
-    listener: function() {
+    listener: () => {
       positiveAndNegativeFloatingPointKeyPad.clear();
       positiveAndNegativeFloatingPointVBox.removeChild( positiveAndNegativeFloatingPointKeyPad );
       positiveAndNegativeFloatingPointKeyPad.dispose();
@@ -1277,18 +1279,18 @@ const demoKeypad = function( layoutBounds ) {
     center: layoutBounds.center
   } );
 
-};
+}
 
 // Creates a demo for NumberPicker
-const demoNumberPicker = function( layoutBounds ) {
+function demoNumberPicker( layoutBounds ) {
   return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
     font: new PhetFont( 40 ),
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for RulerNode
-const demoRulerNode = function( layoutBounds ) {
+function demoRulerNode( layoutBounds ) {
 
   const rulerLength = 500;
   const majorTickWidth = 50;
@@ -1303,17 +1305,17 @@ const demoRulerNode = function( layoutBounds ) {
     minorTicksPerMajorTick: 4,
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for SpectrumNode
-const demoSpectrumNode = function( layoutBounds ) {
+function demoSpectrumNode( layoutBounds ) {
   return new SpectrumNode( {
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for StarNode
-const demoStarNode = function( layoutBounds ) {
+function demoStarNode( layoutBounds ) {
 
   const starValueProperty = new Property( 1 );
 
@@ -1335,7 +1337,7 @@ const demoStarNode = function( layoutBounds ) {
    * Shouldn't be a problem for sims since stars are relatively static.
    * Stars should be rewritten if they need to support smooth dynamic filling (may require mutable kite paths).
    */
-  starValueProperty.link( function( value ) {
+  starValueProperty.link( value => {
     starNodeContainer.children = [
       new StarNode( {
         value: value,
@@ -1349,10 +1351,10 @@ const demoStarNode = function( layoutBounds ) {
     children: [ starNodeContainer, starSlider ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a sample ScientificNotationNode
-const demoScientificNotationNode = function( layoutBounds ) {
+function demoScientificNotationNode( layoutBounds ) {
   const numberProperty = new Property( 1 );
 
   const numberSlider = new HSlider( numberProperty, new Range( 0, 100 ) );
@@ -1364,10 +1366,10 @@ const demoScientificNotationNode = function( layoutBounds ) {
     center: layoutBounds.center,
     children: [ numberSlider, scientificNotationNode ]
   } );
-};
+}
 
 // Creates a sample StopwatchNode
-const demoStopwatchNode = function( layoutBounds, options ) {
+function demoStopwatchNode( layoutBounds, options ) {
 
   // Create a StopwatchNode that doesn't show units (assumed to be seconds)
   const stopwatch = new Stopwatch( { isVisible: true, tandem: options.tandem.createTandem( 'stopwatch' ) } );
@@ -1427,23 +1429,23 @@ const demoStopwatchNode = function( layoutBounds, options ) {
 
   // Swap out the dispose function for one that also removes the Emitter listener
   const demoDispose = vBox.dispose.bind( vBox );
-  vBox.dispose = function() {
+  vBox.dispose = () => {
     emitter.removeListener( stopwatchNodeListener );
     demoDispose();
   };
   return vBox;
-};
+}
 
 // Creates a demo for PaperAirplaneNode
-const demoPaperAirplaneNode = function( layoutBounds ) {
+function demoPaperAirplaneNode( layoutBounds ) {
   return new PaperAirplaneNode( {
     center: layoutBounds.center,
     scale: 5
   } );
-};
+}
 
 // Creates a demo for ThermometerNode
-const demoTemperatureNode = function( layoutBounds ) {
+function demoTemperatureNode( layoutBounds ) {
 
   const temperatureProperty = new Property( 50 );
 
@@ -1465,11 +1467,11 @@ const demoTemperatureNode = function( layoutBounds ) {
     children: [ thermometer, temperatureSlider ],
     center: layoutBounds.center
   } );
-};
+}
 
 // Creates a demo for GrabDragInteraction
 const getDemoGrabDragInteraction = tandem => {
-  return function( layoutBounds ) {
+  return layoutBounds => {
 
     const rect = new Rectangle( 0, 0, 100, 100, {
       tagName: 'div',
@@ -1507,7 +1509,7 @@ const getDemoGrabDragInteraction = tandem => {
 };
 
 // creates a demo for the TimeControlNode
-const demoTimeControlNode = function( layoutBounds ) {
+function demoTimeControlNode( layoutBounds ) {
 
   const defaultTimeControlNode = new TimeControlNode( new BooleanProperty( true ) );
 
@@ -1546,10 +1548,10 @@ const demoTimeControlNode = function( layoutBounds ) {
     center: layoutBounds.center,
     resize: false
   } );
-};
+}
 
 // creates a demo for LeftRightSpinner
-const demoLeftRightSpinner = layoutBounds => {
+function demoLeftRightSpinner( layoutBounds ) {
 
   const leftRightSpinnerProperty = new Property( 1 );
   const leftEnabledProperty = new Property( true );
@@ -1559,7 +1561,7 @@ const demoLeftRightSpinner = layoutBounds => {
     center: layoutBounds.center
   } );
 
-  leftRightSpinnerProperty.lazyLink( function( value ) {
+  leftRightSpinnerProperty.lazyLink( value => {
     console.log( 'LeftRightSpinner: ' + value );
     if ( value >= 10 ) {
       rightEnabledProperty.set( false );
@@ -1574,10 +1576,10 @@ const demoLeftRightSpinner = layoutBounds => {
   } );
 
   return leftRightSpinner;
-};
+}
 
 // creates a demo for UpDownSpinner
-const demoUpDownSpinner = layoutBounds => {
+function demoUpDownSpinner( layoutBounds ) {
 
   const upDownSpinnerProperty = new Property( 1 );
   const upEnabledProperty = new Property( true );
@@ -1587,7 +1589,7 @@ const demoUpDownSpinner = layoutBounds => {
     center: layoutBounds.center
   } );
 
-  upDownSpinnerProperty.lazyLink( function( value ) {
+  upDownSpinnerProperty.lazyLink( value => {
     console.log( 'UpDownSpinner: ' + value );
     if ( value >= 10 ) {
       upEnabledProperty.set( false );
@@ -1602,9 +1604,9 @@ const demoUpDownSpinner = layoutBounds => {
   } );
 
   return upDownSpinner;
-};
+}
 
-const demoSprites = layoutBounds => {
+function demoSprites( layoutBounds ) {
 
   const spriteCountProperty = new NumberProperty( 500, {
     range: new Range( 0, 10000 )
@@ -1731,7 +1733,7 @@ const demoSprites = layoutBounds => {
 
   emitter.addListener( listener );
 
-  sprites.dispose = function() {
+  sprites.dispose = () => {
     emitter.removeListener( listener );
     Node.prototype.dispose.call( this );
   };
@@ -1756,12 +1758,7 @@ const demoSprites = layoutBounds => {
   return new Node( {
     children: [ sprites, controlPanel ]
   } );
-};
+}
 
-inherit( DemosScreenView, ComponentsScreenView, {
-  step: function( dt ) {
-    emitter.emit( dt );
-  }
-} );
-
+sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
 export default ComponentsScreenView;
