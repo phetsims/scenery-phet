@@ -16,7 +16,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
-import MemoryTestsScreenView from './demo/MemoryTestsScreenView.js';
+import SceneryPhetMemoryTestsScreenView from './demo/SceneryPhetMemoryTestsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
@@ -122,7 +122,7 @@ simLauncher.launch( function() {
       // Memory Tests
       new Screen(
         function() {return {};},
-        function( model ) {return new MemoryTestsScreenView();},
+        function( model ) {return new SceneryPhetMemoryTestsScreenView();},
         {
           name: 'Memory Tests',
           backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
