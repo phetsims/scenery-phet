@@ -54,7 +54,7 @@ simLauncher.launch( () => {
 
   new Sim( sceneryPhetStrings[ 'scenery-phet' ].title, [
 
-    // Buttons
+    // Buttons screen
     new Screen(
       () => MODEL,
       () => new ButtonsScreenView(),
@@ -66,7 +66,7 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Sliders
+    // Sliders screen
     new Screen(
       () => MODEL,
       () => new SlidersScreenView(),
@@ -78,7 +78,7 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Components
+    // Components screen
     new Screen(
       () => MODEL,
       () => new ComponentsScreenView( { tandem: componentsScreenTandem.createTandem( 'view' ) } ),
@@ -90,7 +90,7 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Dialogs
+    // Dialogs screen
     new Screen(
       () => MODEL,
       () => new DialogsScreenView(),
@@ -102,7 +102,7 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Spring
+    // Spring screen
     new Screen(
       () => MODEL,
       () => new SpringScreenView(),
@@ -114,7 +114,7 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Memory Tests
+    // Memory Tests screen
     new Screen(
       () => MODEL,
       () => new SceneryPhetMemoryTestsScreenView(),
