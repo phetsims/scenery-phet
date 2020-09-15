@@ -1491,8 +1491,7 @@ function getDemoGrabDragInteraction( tandem ) {
     } );
     rect.addInputListener( keyboardDragListener );
 
-    /* eslint-disable no-new */
-    new GrabDragInteraction( rect, {
+    new GrabDragInteraction( rect, { // eslint-disable-line no-new
       objectToGrabString: 'rectangle',
       grabbableAccessibleName: 'grab rectangle',
 
