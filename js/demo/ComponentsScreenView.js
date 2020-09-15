@@ -1470,7 +1470,7 @@ function demoTemperatureNode( layoutBounds ) {
 }
 
 // Creates a demo for GrabDragInteraction
-const getDemoGrabDragInteraction = tandem => {
+function getDemoGrabDragInteraction( tandem ) {
   return layoutBounds => {
 
     const rect = new Rectangle( 0, 0, 100, 100, {
@@ -1491,8 +1491,8 @@ const getDemoGrabDragInteraction = tandem => {
     } );
     rect.addInputListener( keyboardDragListener );
 
-    // @private
-    this.grabDragInteraction = new GrabDragInteraction( rect, {
+    /* eslint-disable no-new */
+    new GrabDragInteraction( rect, {
       objectToGrabString: 'rectangle',
       grabbableAccessibleName: 'grab rectangle',
 
@@ -1506,7 +1506,7 @@ const getDemoGrabDragInteraction = tandem => {
       center: layoutBounds.center
     } );
   };
-};
+}
 
 // creates a demo for the TimeControlNode
 function demoTimeControlNode( layoutBounds ) {
