@@ -29,7 +29,11 @@ class LevelSpeakerModel {
 
     // @public {BooleanProperty - whether or not the PhET focus highlight
     // appears around interactive nodes from mouse hover
-    this.showHoverHighlights = new BooleanProperty( true );
+    this.showHoverHighlightsProperty = new BooleanProperty( true );
+
+    // @public {BooleanProperty} - whether or not the "Self-Voicing Quick Menu" is visible
+    // and available to the user
+    this.showQuickMenuProperty = new BooleanProperty( true );
   }
 
   /**
