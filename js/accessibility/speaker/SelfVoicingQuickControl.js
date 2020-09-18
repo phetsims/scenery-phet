@@ -13,13 +13,14 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Spacer from '../../../../scenery/js/nodes/Spacer.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
@@ -28,6 +29,23 @@ import ExpandCollapseButton from '../../../../sun/js/ExpandCollapseButton.js';
 import Panel from '../../../../sun/js/Panel.js';
 import selfVoicingIconImage from '../../../images/self-voicing-icon_png.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import levelSpeakerModel from './levelSpeakerModel.js';
+import SelfVoicingInputListener from './SelfVoicingInputListener.js';
+
+// strings for self-voicing content - these should not be translatable and are therefore not
+// added to the strings file - I also don't know if "prototype" strings can go into translatable files
+// so keeping these here for now
+const hintPleaseString = 'Hint Please!';
+const simOverviewString = 'Sim Overview';
+const currentDetailsString = 'Current Details';
+const stopSpeechString = 'Stop Speech';
+const muteSpeechString = 'Mute Speech';
+const hideString = 'Hide';
+const showString = 'Show';
+const shownString = 'shown';
+const hiddenString = 'hidden';
+const expandCollapseButtonPatternString = '{{action}} Self-Voicing Quick Menu';
+const pressResponsePatternString = 'Self-Voicing Quick Menu {{state}}';
 
 class SelfVoicingQuickControl extends Node {
 
@@ -85,6 +103,23 @@ class SelfVoicingQuickControl extends Node {
       sideLength: 20
     } );
 
+    expandCollapseButton.addInputListener( new SelfVoicingInputListener( {
+      onFocusIn: () => {
+        const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
+          action: openProperty.get() ? hideString : showString
+        } );
+        levelSpeakerModel.speakAllResponses( string );
+      },
+      highlightTarget: expandCollapseButton
+    } ) );
+
+    openProperty.lazyLink( open => {
+      const response = StringUtils.fillIn( pressResponsePatternString, {
+        state: open ? shownString : hiddenString
+      } );
+      levelSpeakerModel.speakAllResponses( response );
+    } );
+
     // creates content for each button and puts it into an AlignGroup so that
     // all buttons can have the same dimensions
     const alignGroup = new AlignGroup();
@@ -92,18 +127,27 @@ class SelfVoicingQuickControl extends Node {
       return alignGroup.createBox( new Text( buttonString ) );
     };
 
-    const hintButtonContent = createSpeechButtonContent( 'Hint Please!' );
-    const simOverviewContent = createSpeechButtonContent( 'Sim Overview' );
-    const detailsContent = createSpeechButtonContent( 'Current Details' );
-    const stopSpeechContent = createSpeechButtonContent( 'Stop Speech' );
-    const muteSpeechContent = createSpeechButtonContent( 'Mute Speech' );
+    const hintButtonContent = createSpeechButtonContent( hintPleaseString );
+    const simOverviewContent = createSpeechButtonContent( simOverviewString );
+    const detailsContent = createSpeechButtonContent( currentDetailsString );
+    const stopSpeechContent = createSpeechButtonContent( stopSpeechString );
+    const muteSpeechContent = createSpeechButtonContent( muteSpeechString );
 
     // creates the actual button with provided content and behavior
-    const createSpeechButton = ( buttonContent, listener ) => {
-      return new RectangularPushButton( {
+    const createSpeechButton = ( buttonContent, contentString, listener ) => {
+      const button = new RectangularPushButton( {
         content: buttonContent,
         listener: listener
       } );
+
+      button.addInputListener( new SelfVoicingInputListener( {
+        onFocusIn: () => {
+          levelSpeakerModel.speakAllResponses( contentString );
+        },
+        highlightTarget: button
+      } ) );
+
+      return button;
     };
 
     // the webSpeaker uses enabledProperty, the push button uses "muted" terminology -
@@ -115,26 +159,36 @@ class SelfVoicingQuickControl extends Node {
       inverseMap: muted => !muted
     } );
 
-    const hintButton = createSpeechButton( hintButtonContent, this.speakHintContent.bind( this ) );
-    const overviewButton = createSpeechButton( simOverviewContent, this.speakOverviewContent.bind( this ) );
-    const detailsButton = createSpeechButton( detailsContent, this.speakDetailsContent.bind( this ) );
-    const stopSpeechButton = createSpeechButton( stopSpeechContent, webSpeaker.cancel.bind( webSpeaker ) );
+    const hintButton = createSpeechButton( hintButtonContent, hintPleaseString, this.speakHintContent.bind( this ) );
+    const overviewButton = createSpeechButton( simOverviewContent, simOverviewString, this.speakOverviewContent.bind( this ) );
+    const detailsButton = createSpeechButton( detailsContent, currentDetailsString, this.speakDetailsContent.bind( this ) );
+    const stopSpeechButton = createSpeechButton( stopSpeechContent, stopSpeechString, webSpeaker.cancel.bind( webSpeaker ) );
     const muteSpeechButton = new BooleanRectangularStickyToggleButton( dynamicProperty, {
       content: muteSpeechContent
     } );
 
-    // spacer is required to make room for the ExpandCollapseButton in the panel
-    const spacer = new Spacer( 0, expandCollapseButton.height );
-    const buttonGroup = new VBox( {
-      children: [
-        hintButton,
-        overviewButton,
-        detailsButton,
-        stopSpeechButton,
-        muteSpeechButton,
-        spacer
-      ],
+    // other listeners are added in createSpeechButton
+    muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
+      onFocusIn: () => {
+        levelSpeakerModel.speakAllResponses( muteSpeechString );
+      },
+      highlightTarget: muteSpeechButton
+    } ) );
+
+    // layout code
+    const topRow = new HBox( {
+      children: [ hintButton, overviewButton, detailsButton ],
       spacing: 5
+    } );
+    const bottomRow = new HBox( {
+      children: [ stopSpeechButton, muteSpeechButton ],
+      spacing: 5
+    } );
+
+    const buttonGroup = new VBox( {
+      children: [ topRow, bottomRow ],
+      spacing: 5,
+      align: 'right'
     } );
     const buttonsPanel = new Panel( buttonGroup, {
       backgroundPickable: true
@@ -146,7 +200,7 @@ class SelfVoicingQuickControl extends Node {
     // in layout so that this Node can be positioned relative to the always-visible
     // content, the panel can occlude other things
     this.excludeInvisibleChildrenFromBounds = true;
-    expandCollapseButton.leftTop = iconRectangle.rightTop.plusXY( 6, 0 );
+    expandCollapseButton.leftBottom = iconRectangle.rightBottom.plusXY( 6, 0 );
     buttonsPanel.leftBottom = expandCollapseButton.leftBottom.plusXY( -4, 4 );
 
     this.children = [
@@ -155,6 +209,9 @@ class SelfVoicingQuickControl extends Node {
       disabledIndicator,
       expandCollapseButton
     ];
+
+    // expandCollapseButton first
+    this.accessibleOrder = [ expandCollapseButton ];
 
     // when the webSpeaker becomes disabled the various content buttons should also be disabled
     webSpeaker.enabledProperty.link( enabled => {
