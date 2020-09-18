@@ -475,8 +475,10 @@ class NumberPicker extends Node {
 
   // @public
   setArrowsVisible( visible ) {
-    this.upListener.setEnabled( visible );
-    this.downListener.setEnabled( visible );
+    if ( !visible ) {
+      this.upListener.interrupt();
+      this.downListener.interrupt();
+    }
     this.upArrow.visible = this.downArrow.visible = visible;
   }
 
