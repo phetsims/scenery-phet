@@ -8,16 +8,15 @@
  */
 
 import NodeIO from '../../scenery/js/nodes/NodeIO.js';
-import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import sceneryPhet from './sceneryPhet.js';
 import WavelengthSlider from './WavelengthSlider.js';
 
-class WavelengthSliderIO extends NodeIO {}
-
-WavelengthSliderIO.documentation = 'A slider that shows wavelengths for selection';
-WavelengthSliderIO.validator = { valueType: WavelengthSlider };
-WavelengthSliderIO.typeName = 'WavelengthSliderIO';
-ObjectIO.validateIOType( WavelengthSliderIO );
+const WavelengthSliderIO = new IOType( 'WavelengthSliderIO', {
+  valueType: WavelengthSlider,
+  supertype: NodeIO,
+  documentation: 'A slider that shows wavelengths for selection'
+} );
 
 sceneryPhet.register( 'WavelengthSliderIO', WavelengthSliderIO );
 export default WavelengthSliderIO;

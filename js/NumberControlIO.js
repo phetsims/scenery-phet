@@ -8,15 +8,14 @@
  */
 
 import NodeIO from '../../scenery/js/nodes/NodeIO.js';
-import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class NumberControlIO extends NodeIO {}
-
-NumberControlIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.NumberControl };
-NumberControlIO.documentation = 'A number control with a title, slider and +/- buttons';
-NumberControlIO.typeName = 'NumberControlIO';
-ObjectIO.validateIOType( NumberControlIO );
+const NumberControlIO = new IOType( 'NumberControlIO', {
+  isValidValue: v => v instanceof phet.sceneryPhet.NumberControl,
+  documentation: 'A number control with a title, slider and +/- buttons',
+  supertype: NodeIO
+} );
 
 sceneryPhet.register( 'NumberControlIO', NumberControlIO );
 export default NumberControlIO;

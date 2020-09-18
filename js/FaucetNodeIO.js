@@ -8,16 +8,15 @@
  */
 
 import NodeIO from '../../scenery/js/nodes/NodeIO.js';
-import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class FaucetNodeIO extends NodeIO {}
-
-FaucetNodeIO.validator = { isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode };
-FaucetNodeIO.documentation = 'Faucet that emits fluid, typically user-controllable';
-FaucetNodeIO.events = [ 'startTapToDispense', 'endTapToDispense' ];
-FaucetNodeIO.typeName = 'FaucetNodeIO';
-ObjectIO.validateIOType( FaucetNodeIO );
+const FaucetNodeIO = new IOType( 'FaucetNodeIO', {
+  isValidValue: v => v instanceof phet.sceneryPhet.FaucetNode,
+  documentation: 'Faucet that emits fluid, typically user-controllable',
+  supertype: NodeIO,
+  events: [ 'startTapToDispense', 'endTapToDispense' ]
+} );
 
 sceneryPhet.register( 'FaucetNodeIO', FaucetNodeIO );
 export default FaucetNodeIO;
