@@ -491,7 +491,7 @@ function ButtonStateListener( stateProperty ) {
 inherit( ButtonListener, ButtonStateListener );
 
 // creates a vertical gradient
-var createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
+const createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
   return new LinearGradient( 0, 0, 0, height )
     .addColorStop( 0, topColor )
     .addColorStop( 0.5, centerColor )
@@ -499,7 +499,7 @@ var createVerticalGradient = function( topColor, centerColor, bottomColor, heigh
 };
 
 // Update arrow and background colors
-var updateColors = function( state, enabled, background, arrow, backgroundColors, arrowColors ) {
+const updateColors = function( state, enabled, background, arrow, backgroundColors, arrowColors ) {
   if ( enabled ) {
     arrow.stroke = 'black';
     if ( state === 'up' ) {
