@@ -18,7 +18,7 @@ import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
-import PressListener from '../../scenery/js/listeners/PressListener.js';
+import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -32,7 +32,6 @@ import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import FireOnHoldInputListener from './buttons/FireOnHoldInputListener.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -331,34 +330,32 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Observers and InputListeners
 
-    // up
-    upParent.addInputListener( new ButtonStateListener( upStateProperty ) );
-    this.upListener = new FireOnHoldInputListener( {
-      listener: function() {
+    // @private
+    const inputListenerOptions = {
+      fireOnHold: true,
+      fireOnHoldDelay: options.timerDelay,
+      fireOnHoldInterval: options.timerInterval
+    };
+    this.upListener = new NumberPickerInputListener( upStateProperty, merge( {
+      fire: () => {
         valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
         playUISound();
-      },
-      timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval
-    } );
+      }
+    }, inputListenerOptions ) );
     upParent.addInputListener( this.upListener );
 
-    // down
-    downParent.addInputListener( new ButtonStateListener( downStateProperty ) );
     // @private
-    this.downListener = new FireOnHoldInputListener( {
-      listener: function() {
+    this.downListener = new NumberPickerInputListener( downStateProperty, merge( {
+      fire: () => {
         valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
         playUISound();
-      },
-      timerDelay: options.timerDelay,
-      timerInterval: options.timerInterval
-    } );
+      }
+    }, inputListenerOptions ) );
     downParent.addInputListener( this.downListener );
 
     // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    upEnabledProperty.link( enabled => { this.upListener.enabled = enabled; } );
-    downEnabledProperty.link( enabled => { this.downListener.enabled = enabled; } );
+    upEnabledProperty.link( enabled => !enabled && this.upListener.interrupt() );
+    downEnabledProperty.link( enabled => !enabled && this.downListener.interrupt() );
 
     // Update text to match the value
     const valueObserver = function( value ) {
@@ -507,13 +504,14 @@ sceneryPhet.register( 'NumberPicker', NumberPicker );
 /**
  * Converts ButtonListener events to state changes.
  */
-class ButtonStateListener extends PressListener {
+class NumberPickerInputListener extends FireListener {
 
   /**
    * @param {Property.<string>} stateProperty up|down|over|out
+   * @param {Object} [options]
    */
-  constructor( stateProperty ) {
-    super();
+  constructor( stateProperty, options ) {
+    super( options );
 
     const updateState = () => {
       const isOver = this.isOverProperty.value;
@@ -523,7 +521,7 @@ class ButtonStateListener extends PressListener {
                          isOver && isPressed ? 'down' :
 
                          !isOver && !isPressed ? 'up' :
-                         !isOver && isPressed ? 'down' : // armed?
+                         !isOver && isPressed ? 'out' : // like 'armed', see documentation in ButtonListener
                          assert && assert( 'bad state' )
       );
     };
