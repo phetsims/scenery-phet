@@ -13,7 +13,6 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../axon/js/DerivedPropertyIO.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -118,7 +117,7 @@ class MeasuringTapeNode extends Node {
       ( basePosition, tipPosition ) => basePosition.distance( tipPosition ), {
         tandem: options.tandem.createTandem( 'measuredDistanceProperty' ),
         phetioDocumentation: 'The distance measured by the measuring tape',
-        phetioType: DerivedPropertyIO( NumberIO ),
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO ),
         units: this.basePositionProperty.units
       } );
 
@@ -166,7 +165,7 @@ class MeasuringTapeNode extends Node {
         } );
       }, {
         tandem: options.tandem.createTandem( 'readoutTextProperty' ),
-        phetioType: DerivedPropertyIO( StringIO ),
+        phetioType: DerivedProperty.DerivedPropertyIO( StringIO ),
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 

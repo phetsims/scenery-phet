@@ -10,7 +10,6 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../../axon/js/DerivedPropertyIO.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -79,7 +78,7 @@ function NumberAccumulator( options ) {
     return self.keysToString( accumulatedKeys );
   }, {
     tandem: options.tandem.createTandem( 'stringProperty' ),
-    phetioType: DerivedPropertyIO( StringIO )
+    phetioType: DerivedProperty.DerivedPropertyIO( StringIO )
   } );
 
   // @public (read-only) - numerical value of the keys entered by the user
@@ -87,7 +86,7 @@ function NumberAccumulator( options ) {
     return self.stringToInteger( stringValue );
   }, {
     tandem: options.tandem.createTandem( 'valueProperty' ),
-    phetioType: DerivedPropertyIO( NullableIO( NumberIO ) )
+    phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
   } );
 
 }
