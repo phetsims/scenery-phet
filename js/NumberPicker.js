@@ -16,7 +16,6 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
 import ButtonListener from '../../scenery/js/input/ButtonListener.js';
@@ -507,20 +506,21 @@ sceneryPhet.register( 'NumberPicker', NumberPicker );
 
 /**
  * Converts ButtonListener events to state changes.
- *
- * @param {Property.<string>} stateProperty up|down|over|out
- * @constructor
  */
-function ButtonStateListener( stateProperty ) {
-  ButtonListener.call( this, {
-    up: function() { stateProperty.set( 'up' ); },
-    over: function() { stateProperty.set( 'over' ); },
-    down: function() { stateProperty.set( 'down' ); },
-    out: function() { stateProperty.set( 'out' ); }
-  } );
-}
+class ButtonStateListener extends ButtonListener {
 
-inherit( ButtonListener, ButtonStateListener );
+  /**
+   * @param {Property.<string>} stateProperty up|down|over|out
+   */
+  constructor( stateProperty ) {
+    super( {
+      up: function() { stateProperty.set( 'up' ); },
+      over: function() { stateProperty.set( 'over' ); },
+      down: function() { stateProperty.set( 'down' ); },
+      out: function() { stateProperty.set( 'out' ); }
+    } );
+  }
+}
 
 // creates a vertical gradient
 const createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
