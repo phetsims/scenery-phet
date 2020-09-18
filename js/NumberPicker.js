@@ -18,7 +18,7 @@ import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
-import ButtonListener from '../../scenery/js/input/ButtonListener.js';
+import PressListener from '../../scenery/js/listeners/PressListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -507,18 +507,28 @@ sceneryPhet.register( 'NumberPicker', NumberPicker );
 /**
  * Converts ButtonListener events to state changes.
  */
-class ButtonStateListener extends ButtonListener {
+class ButtonStateListener extends PressListener {
 
   /**
    * @param {Property.<string>} stateProperty up|down|over|out
    */
   constructor( stateProperty ) {
-    super( {
-      up: function() { stateProperty.set( 'up' ); },
-      over: function() { stateProperty.set( 'over' ); },
-      down: function() { stateProperty.set( 'down' ); },
-      out: function() { stateProperty.set( 'out' ); }
-    } );
+    super();
+
+    const updateState = () => {
+      const isOver = this.isOverProperty.value;
+      const isPressed = this.isPressedProperty.value;
+
+      stateProperty.set( isOver && !isPressed ? 'over' :
+                         isOver && isPressed ? 'down' :
+
+                         !isOver && !isPressed ? 'up' :
+                         !isOver && isPressed ? 'down' : // armed?
+                         assert && assert( 'bad state' )
+      );
+    };
+    this.isOverProperty.link( updateState );
+    this.isPressedProperty.link( updateState );
   }
 }
 
