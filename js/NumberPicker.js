@@ -336,26 +336,28 @@ class NumberPicker extends Node {
       fireOnHoldDelay: options.timerDelay,
       fireOnHoldInterval: options.timerInterval
     };
-    this.upListener = new NumberPickerInputListener( upStateProperty, merge( {
+    this.upInputListener = new NumberPickerInputListener( upStateProperty, merge( {
+      tandem: options.tandem.createTandem( 'upInputListener' ),
       fire: () => {
         valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
         playUISound();
       }
     }, inputListenerOptions ) );
-    upParent.addInputListener( this.upListener );
+    upParent.addInputListener( this.upInputListener );
 
     // @private
-    this.downListener = new NumberPickerInputListener( downStateProperty, merge( {
+    this.downInputListener = new NumberPickerInputListener( downStateProperty, merge( {
+      tandem: options.tandem.createTandem( 'downInputListener' ),
       fire: () => {
         valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
         playUISound();
       }
     }, inputListenerOptions ) );
-    downParent.addInputListener( this.downListener );
+    downParent.addInputListener( this.downInputListener );
 
     // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    upEnabledProperty.link( enabled => !enabled && this.upListener.interrupt() );
-    downEnabledProperty.link( enabled => !enabled && this.downListener.interrupt() );
+    upEnabledProperty.link( enabled => !enabled && this.upInputListener.interrupt() );
+    downEnabledProperty.link( enabled => !enabled && this.downInputListener.interrupt() );
 
     // Update text to match the value
     const valueObserver = function( value ) {
@@ -476,8 +478,8 @@ class NumberPicker extends Node {
   // @public
   setArrowsVisible( visible ) {
     if ( !visible ) {
-      this.upListener.interrupt();
-      this.downListener.interrupt();
+      this.upInputListener.interrupt();
+      this.downInputListener.interrupt();
     }
     this.upArrow.visible = this.downArrow.visible = visible;
   }
