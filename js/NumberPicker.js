@@ -58,8 +58,8 @@ class NumberPicker extends Node {
       yMargin: 3,
       decimalPlaces: 0,
       font: new PhetFont( 24 ),
-      upFunction: function( value ) { return value + 1; },
-      downFunction: function( value ) { return value - 1; },
+      upFunction: value => value + 1,
+      downFunction: value => value - 1,
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this frequency (milliseconds),
       noValueString: MathSymbols.NO_VALUE, // string to display if valueProperty.get is null or undefined
@@ -84,9 +84,7 @@ class NumberPicker extends Node {
        * @param {number} value - the current value
        * @returns {string}
        */
-      formatValue: function( value ) {
-        return Utils.toFixed( value, options.decimalPlaces );
-      },
+      formatValue: value => Utils.toFixed( value, options.decimalPlaces ),
 
       /**
        * Determines whether the up arrow is enabled.
@@ -94,9 +92,7 @@ class NumberPicker extends Node {
        * @param {Range} range - the picker's range
        * @returns {boolean}
        */
-      upEnabledFunction: function( value, range ) {
-        return ( value !== null && value !== undefined && value < range.max );
-      },
+      upEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value < range.max ),
 
       /**
        * Determines whether the down arrow is enabled.
@@ -104,9 +100,7 @@ class NumberPicker extends Node {
        * @param {Range} range - the picker's range
        * @returns {boolean}
        */
-      downEnabledFunction: function( value, range ) {
-        return ( value !== null && value !== undefined && value > range.min );
-      },
+      downEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
 
       // {BooleanProperty|null} if null, a default BooleanProperty is created
       enabledProperty: null,
@@ -138,9 +132,7 @@ class NumberPicker extends Node {
       colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
       // No reference needs to be kept, since we dispose its dependency.
-      options.pressedColor = new DerivedProperty( [ colorProperty ], function( color ) {
-        return color.darkerColor();
-      } );
+      options.pressedColor = new DerivedProperty( [ colorProperty ], color => color.darkerColor() );
     }
 
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
@@ -193,7 +185,7 @@ class NumberPicker extends Node {
       currentSampleValue = options.upFunction( currentSampleValue );
       assert && assert( sampleValues.length < 500000, 'Don\'t infinite loop here' );
     }
-    let maxWidth = Math.max.apply( null, sampleValues.map( function( value ) {
+    let maxWidth = Math.max.apply( null, sampleValues.map( value => {
       valueNode.text = options.formatValue( value );
       return valueNode.width;
     } ) );
@@ -360,7 +352,7 @@ class NumberPicker extends Node {
     downEnabledProperty.link( enabled => !enabled && this.downInputListener.interrupt() );
 
     // Update text to match the value
-    const valueObserver = function( value ) {
+    const valueObserver = value => {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
@@ -419,8 +411,8 @@ class NumberPicker extends Node {
       playUISound();
     };
 
-    // initialize accessibility features - must reach into up function to get delta
-    // both normal arrow and shift arrow keys use delta produced with up function
+    // Initialize accessibility features. This must reach into upFunction to get the delta.
+    // Both normal arrow and shift arrow keys use the delta computed with upFunction.
     const keyboardStep = options.upFunction( valueProperty.get() ) - valueProperty.get();
     this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, merge( {
       keyboardStep: keyboardStep,
@@ -428,8 +420,8 @@ class NumberPicker extends Node {
     }, options ) );
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
-    this.incrementDownEmitter.addListener( function( isDown ) { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
-    this.decrementDownEmitter.addListener( function( isDown ) { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
+    this.incrementDownEmitter.addListener( isDown => { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
+    this.decrementDownEmitter.addListener( isDown => { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
 
     const enabledListener = enabled => {
       this.interruptSubtreeInput(); // cancel interaction that may be in progress
@@ -444,7 +436,7 @@ class NumberPicker extends Node {
     } );
 
     // @private
-    this.disposeNumberPicker = function() {
+    this.disposeNumberPicker = () => {
 
       colorProperty && colorProperty.dispose();
       upEnabledProperty.dispose();
@@ -548,12 +540,12 @@ class NumberPickerInputListener extends FireListener {
  * @param {number} height
  * @returns {LinearGradient}
  */
-const createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
+function createVerticalGradient( topColor, centerColor, bottomColor, height ) {
   return new LinearGradient( 0, 0, 0, height )
     .addColorStop( 0, topColor )
     .addColorStop( 0.5, centerColor )
     .addColorStop( 1, bottomColor );
-};
+}
 
 /**
  * Updates arrow and background colors
@@ -564,7 +556,7 @@ const createVerticalGradient = function( topColor, centerColor, bottomColor, hei
  * @param {Object} backgroundColors - see backgroundColors in constructor
  * @param {Object} arrowColors - see arrowColors in constructor
  */
-const updateColors = function( state, enabled, background, arrow, backgroundColors, arrowColors ) {
+function updateColors( state, enabled, background, arrow, backgroundColors, arrowColors ) {
   if ( enabled ) {
     arrow.stroke = 'black';
     if ( state === 'up' ) {
@@ -592,7 +584,7 @@ const updateColors = function( state, enabled, background, arrow, backgroundColo
     arrow.fill = arrowColors.disabled;
     arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
   }
-};
+}
 
 // mix accessibility into NumberPicker
 AccessibleNumberSpinner.mixInto( NumberPicker );
