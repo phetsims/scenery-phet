@@ -515,20 +515,17 @@ class NumberPickerInputListener extends FireListener {
    */
   constructor( stateProperty, options ) {
     super( options );
-
-    const updateState = () => {
-      const isOver = this.isOverProperty.value;
-      const isPressed = this.isPressedProperty.value;
-
-      stateProperty.set( isOver && !isPressed ? 'over' :
-                         isOver && isPressed ? 'down' :
-                         !isOver && !isPressed ? 'up' :
-                         !isOver && isPressed ? 'out' :
-                         assert && assert( 'bad state' )
-      );
-    };
-    this.isOverProperty.link( updateState );
-    this.isPressedProperty.link( updateState );
+    Property.multilink(
+      [ this.isOverProperty, this.isPressedProperty ],
+      ( isOver, isPressed ) => {
+        stateProperty.set(
+          isOver && !isPressed ? 'over' :
+          isOver && isPressed ? 'down' :
+          !isOver && !isPressed ? 'up' :
+          !isOver && isPressed ? 'out' :
+          assert && assert( 'bad state' )
+        );
+      } );
   }
 }
 
