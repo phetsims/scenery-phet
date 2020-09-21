@@ -44,7 +44,7 @@ class NumberPicker extends Node {
   /**
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
-   *                                           property contain the (maximum) union of all potential changes, so that
+   *                                           Property contain the (maximum) union of all potential changes, so that
    *                                           NumberPicker can iterate through all possible values and compute the
    *                                           bounds of the labels.
    * @param {Object} [options]
