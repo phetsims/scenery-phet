@@ -11,7 +11,7 @@ import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
-import ButtonListener from '../../scenery/js/input/ButtonListener.js';
+import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Color from '../../scenery/js/util/Color.js';
@@ -70,7 +70,7 @@ function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
     cursor: 'pointer', // TODO: buttonListener adds this maybe? https://github.com/phetsims/scenery-phet/issues/587
     touchArea: selfOptions.createTouchAreaShape( previousShape, true )
   } );
-  previousKitNode.addInputListener( new ButtonListener( {
+  previousKitNode.addInputListener( new FireListener( {
     fire: function() {
       if ( self.hasPreviousProperty.value ) {
         selfOptions.previous && selfOptions.previous();
@@ -105,7 +105,7 @@ function NextPreviousNavigationNode( centerNode, selfOptions, nodeOptions ) {
     cursor: 'pointer', // TODO: buttonListener adds this maybe? https://github.com/phetsims/scenery-phet/issues/587
     touchArea: selfOptions.createTouchAreaShape( nextShape, false )
   } );
-  nextKitNode.addInputListener( new ButtonListener( {
+  nextKitNode.addInputListener( new FireListener( {
     fire: function() {
       if ( self.hasNextProperty.value ) {
         selfOptions.next && selfOptions.next();
