@@ -51,8 +51,8 @@ class NumberPicker extends Node {
 
     options = merge( {
       cursor: 'pointer',
-      color: new Color( 0, 0, 255 ), // {Color|string|Property.<Color|string>} color of arrows, and top/bottom gradient on pointer over
-      backgroundColor: 'white', // {Color|string|Property.<Color|string>} color of the background when pointer is not over it
+      color: new Color( 0, 0, 255 ), // {ColorDef} color of arrows, and top/bottom gradient on pointer over
+      backgroundColor: 'white', // {ColorDef} color of the background when pointer is not over it
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
@@ -126,7 +126,7 @@ class NumberPicker extends Node {
       change: _.noop
     }, options );
 
-    // {Color|string|Property.<Color|string} color of arrows and top/bottom gradient when pressed
+    // {ColorDef} color of arrows and top/bottom gradient when pressed
     let colorProperty = null;
     if ( options.pressedColor === undefined ) {
       colorProperty = new PaintColorProperty( options.color ); // dispose required!
