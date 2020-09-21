@@ -61,8 +61,8 @@ class NumberPicker extends Node {
       yMargin: 3,
       decimalPlaces: 0,
       font: new PhetFont( 24 ),
-      upFunction: value => value + 1,
-      downFunction: value => value - 1,
+      incrementFunction: value => value + 1,
+      decrementFunction: value => value - 1,
       timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
       timerInterval: 100, // fire continuously at this frequency (milliseconds),
       noValueString: MathSymbols.NO_VALUE, // string to display if valueProperty.get is null or undefined
@@ -90,20 +90,20 @@ class NumberPicker extends Node {
       formatValue: value => Utils.toFixed( value, options.decimalPlaces ),
 
       /**
-       * Determines whether the up arrow is enabled.
+       * Determines whether the increment arrow is enabled.
        * @param {number} value - the current value
        * @param {Range} range - the picker's range
        * @returns {boolean}
        */
-      upEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value < range.max ),
+      incrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value < range.max ),
 
       /**
-       * Determines whether the down arrow is enabled.
+       * Determines whether the decrement arrow is enabled.
        * @param {number} value - the current value
        * @param {Range} range - the picker's range
        * @returns {boolean}
        */
-      downEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
+      decrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
 
       // {BooleanProperty|null} if null, a default BooleanProperty is created
       enabledProperty: null,
@@ -152,10 +152,10 @@ class NumberPicker extends Node {
     const decrementButtonStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
 
     // must be disposed
-    const incrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
+    const incrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.incrementEnabledFunction );
 
     // must be disposed
-    const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
+    const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.decrementEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
@@ -185,7 +185,7 @@ class NumberPicker extends Node {
     const sampleValues = [];
     while ( currentSampleValue <= rangeProperty.get().max ) {
       sampleValues.push( currentSampleValue );
-      currentSampleValue = options.upFunction( currentSampleValue );
+      currentSampleValue = options.incrementFunction( currentSampleValue );
       assert && assert( sampleValues.length < 500000, 'Don\'t infinite loop here' );
     }
     let maxWidth = Math.max.apply( null, sampleValues.map( value => {
@@ -339,7 +339,7 @@ class NumberPicker extends Node {
     this.incrementInputListener = new NumberPickerInputListener( incrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'incrementInputListener' ),
       fire: () => {
-        valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
+        valueProperty.set( Math.min( options.incrementFunction( valueProperty.get() ), rangeProperty.get().max ) );
         playUISound();
       }
     }, inputListenerOptions ) );
@@ -349,7 +349,7 @@ class NumberPicker extends Node {
     this.decrementInputListener = new NumberPickerInputListener( decrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'decrementInputListener' ),
       fire: () => {
-        valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
+        valueProperty.set( Math.max( options.decrementFunction( valueProperty.get() ), rangeProperty.get().min ) );
         playUISound();
       }
     }, inputListenerOptions ) );
@@ -419,9 +419,9 @@ class NumberPicker extends Node {
       playUISound();
     };
 
-    // Initialize accessibility features. This must reach into upFunction to get the delta.
-    // Both normal arrow and shift arrow keys use the delta computed with upFunction.
-    const keyboardStep = options.upFunction( valueProperty.get() ) - valueProperty.get();
+    // Initialize accessibility features. This must reach into incrementFunction to get the delta.
+    // Both normal arrow and shift arrow keys use the delta computed with incrementFunction.
+    const keyboardStep = options.incrementFunction( valueProperty.get() ) - valueProperty.get();
     this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, merge( {
       keyboardStep: keyboardStep,
       shiftKeyboardStep: keyboardStep
