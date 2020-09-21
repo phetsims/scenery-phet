@@ -153,8 +153,8 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Properties
 
-    const upStateProperty = new StringProperty( 'up' ); // up|down|over|out
-    const downStateProperty = new StringProperty( 'up' ); // up|down|over|out
+    const upStateProperty = new StringProperty( 'up' ); // 'up'|'down'|'over'|'out'
+    const downStateProperty = new StringProperty( 'up' ); // 'up'|'down'|'over'|'out'
 
     // must be disposed
     const upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
@@ -469,13 +469,20 @@ class NumberPicker extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberPicker', this );
   }
 
-  // @public Ensures that this node is eligible for GC.
+  /**
+   * @public
+   * @override
+   */
   dispose() {
     this.disposeNumberPicker();
     super.dispose();
   }
 
-  // @public
+  /**
+   * Sets visibility of the arrows.
+   * @param {boolean} visible
+   * @public
+   */
   setArrowsVisible( visible ) {
     if ( !visible ) {
       this.upInputListener.interrupt();
@@ -533,7 +540,14 @@ class NumberPickerInputListener extends FireListener {
   }
 }
 
-// creates a vertical gradient
+/**
+ * Creates a vertical gradient.
+ * @param {ColorDef} topColor
+ * @param {ColorDef} centerColor
+ * @param {ColorDef} bottomColor
+ * @param {number} height
+ * @returns {LinearGradient}
+ */
 const createVerticalGradient = function( topColor, centerColor, bottomColor, height ) {
   return new LinearGradient( 0, 0, 0, height )
     .addColorStop( 0, topColor )
@@ -541,7 +555,15 @@ const createVerticalGradient = function( topColor, centerColor, bottomColor, hei
     .addColorStop( 1, bottomColor );
 };
 
-// Update arrow and background colors
+/**
+ * Updates arrow and background colors
+ * @param {string} state
+ * @param {boolean} enabled
+ * @param {ColorDef} background
+ * @param {Path} arrow
+ * @param {Object} backgroundColors - see backgroundColors in constructor
+ * @param {Object} arrowColors - see arrowColors in constructor
+ */
 const updateColors = function( state, enabled, background, arrow, backgroundColors, arrowColors ) {
   if ( enabled ) {
     arrow.stroke = 'black';
