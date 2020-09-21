@@ -10,12 +10,13 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
-import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
@@ -35,6 +36,9 @@ import Tandem from '../../tandem/js/Tandem.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+
+// constants
+const ButtonState = Enumeration.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 
 class NumberPicker extends Node {
 
@@ -145,8 +149,8 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Properties
 
-    const upStateProperty = new StringProperty( 'up' ); // 'up'|'down'|'over'|'out'
-    const downStateProperty = new StringProperty( 'up' ); // 'up'|'down'|'over'|'out'
+    const upStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
+    const downStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
 
     // must be disposed
     const upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
@@ -203,7 +207,7 @@ class NumberPicker extends Node {
     // Apply the max-width AFTER computing the backgroundHeight, so it doesn't shrink vertically
     valueNode.maxWidth = maxWidth;
 
-    // top half of the background, for 'up'. Shape computed starting at upper-left, going clockwise.
+    // top half of the background, for ButtonState.UP. Shape computed starting at upper-left, going clockwise.
     const upBackground = new Path( new Shape()
       .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
       .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
@@ -211,7 +215,7 @@ class NumberPicker extends Node {
       .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
       .close(), { pickable: false } );
 
-    // bottom half of the background, for 'down'. Shape computed starting at bottom-right, going clockwise.
+    // bottom half of the background, for ButtonState.DOWN. Shape computed starting at bottom-right, going clockwise.
     const downBackground = new Path( new Shape()
       .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
       .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
@@ -420,8 +424,12 @@ class NumberPicker extends Node {
     }, options ) );
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
-    this.incrementDownEmitter.addListener( isDown => { upStateProperty.value = ( isDown ? 'down' : 'up' ); } );
-    this.decrementDownEmitter.addListener( isDown => { downStateProperty.value = ( isDown ? 'down' : 'up' ); } );
+    this.incrementDownEmitter.addListener( isDown => {
+      upStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+    } );
+    this.decrementDownEmitter.addListener( isDown => {
+      downStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+    } );
 
     const enabledListener = enabled => {
       this.interruptSubtreeInput(); // cancel interaction that may be in progress
@@ -510,19 +518,19 @@ sceneryPhet.register( 'NumberPicker', NumberPicker );
 class NumberPickerInputListener extends FireListener {
 
   /**
-   * @param {Property.<string>} stateProperty 'up'|'down'|'over'|'out'
+   * @param {EnumerationProperty.<ButtonState>} buttonStateProperty
    * @param {Object} [options]
    */
-  constructor( stateProperty, options ) {
+  constructor( buttonStateProperty, options ) {
     super( options );
     Property.multilink(
       [ this.isOverProperty, this.isPressedProperty ],
       ( isOver, isPressed ) => {
-        stateProperty.set(
-          isOver && !isPressed ? 'over' :
-          isOver && isPressed ? 'down' :
-          !isOver && !isPressed ? 'up' :
-          !isOver && isPressed ? 'out' :
+        buttonStateProperty.set(
+          isOver && !isPressed ? ButtonState.OVER :
+          isOver && isPressed ? ButtonState.DOWN :
+          !isOver && !isPressed ? ButtonState.UP :
+          !isOver && isPressed ? ButtonState.OUT :
           assert && assert( 'bad state' )
         );
       } );
@@ -546,34 +554,34 @@ function createVerticalGradient( topColor, centerColor, bottomColor, height ) {
 
 /**
  * Updates arrow and background colors
- * @param {string} state
+ * @param {ButtonState} buttonState
  * @param {boolean} enabled
  * @param {ColorDef} background
  * @param {Path} arrow
  * @param {Object} backgroundColors - see backgroundColors in constructor
  * @param {Object} arrowColors - see arrowColors in constructor
  */
-function updateColors( state, enabled, background, arrow, backgroundColors, arrowColors ) {
+function updateColors( buttonState, enabled, background, arrow, backgroundColors, arrowColors ) {
   if ( enabled ) {
     arrow.stroke = 'black';
-    if ( state === 'up' ) {
+    if ( buttonState === ButtonState.UP ) {
       background.fill = backgroundColors.up;
       arrow.fill = arrowColors.up;
     }
-    else if ( state === 'over' ) {
+    else if ( buttonState === ButtonState.OVER ) {
       background.fill = backgroundColors.over;
       arrow.fill = arrowColors.over;
     }
-    else if ( state === 'down' ) {
+    else if ( buttonState === ButtonState.DOWN ) {
       background.fill = backgroundColors.down;
       arrow.fill = arrowColors.down;
     }
-    else if ( state === 'out' ) {
+    else if ( buttonState === ButtonState.OUT ) {
       background.fill = backgroundColors.out;
       arrow.fill = arrowColors.out;
     }
     else {
-      throw new Error( 'unsupported state: ' + state );
+      throw new Error( `unsupported buttonState: ${buttonState}` );
     }
   }
   else {
