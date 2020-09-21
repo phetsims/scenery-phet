@@ -506,12 +506,12 @@ class NumberPicker extends Node {
 sceneryPhet.register( 'NumberPicker', NumberPicker );
 
 /**
- * Converts ButtonListener events to state changes.
+ * Converts FireListener events to state changes.
  */
 class NumberPickerInputListener extends FireListener {
 
   /**
-   * @param {Property.<string>} stateProperty up|down|over|out
+   * @param {Property.<string>} stateProperty 'up'|'down'|'over'|'out'
    * @param {Object} [options]
    */
   constructor( stateProperty, options ) {
@@ -523,9 +523,8 @@ class NumberPickerInputListener extends FireListener {
 
       stateProperty.set( isOver && !isPressed ? 'over' :
                          isOver && isPressed ? 'down' :
-
                          !isOver && !isPressed ? 'up' :
-                         !isOver && isPressed ? 'out' : // like 'armed', see documentation in ButtonListener
+                         !isOver && isPressed ? 'out' :
                          assert && assert( 'bad state' )
       );
     };
