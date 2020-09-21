@@ -157,7 +157,7 @@ class NumberPicker extends Node {
     // must be disposed
     const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.decrementEnabledFunction );
 
-    // @private
+    // @public
     this.enabledProperty = options.enabledProperty;
     const ownsEnabledProperty = !this.enabledProperty;
     if ( ownsEnabledProperty ) {
