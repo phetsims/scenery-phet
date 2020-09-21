@@ -1283,8 +1283,19 @@ function demoKeypad( layoutBounds ) {
 
 // Creates a demo for NumberPicker
 function demoNumberPicker( layoutBounds ) {
-  return new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
+
+  const enabledProperty = new BooleanProperty( true );
+
+  const numberPicker = new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
     font: new PhetFont( 40 ),
+    enabledProperty: enabledProperty
+  } );
+
+  const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+
+  return new VBox( {
+    spacing: 40,
+    children: [ numberPicker, enabledCheckbox ],
     center: layoutBounds.center
   } );
 }
