@@ -1,9 +1,8 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * User-interface component for picking a number value from a range.
- * This is essentially a value with integrated up/down spinners.
- * But PhET has been calling it a 'picker', so that's what this type is named.
+ * NumberPicker is a UI component for picking a number value from a range.
+ * This is actually a number spinner, but PhET refers to it as a 'picker', so that's what this class is named.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -149,14 +148,14 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Properties
 
-    const upStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
-    const downStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
+    const incrementButtonStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
+    const decrementButtonStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
 
     // must be disposed
-    const upEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
+    const incrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.upEnabledFunction );
 
     // must be disposed
-    const downEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
+    const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.downEnabledFunction );
 
     // @private
     this.enabledProperty = options.enabledProperty;
@@ -207,21 +206,25 @@ class NumberPicker extends Node {
     // Apply the max-width AFTER computing the backgroundHeight, so it doesn't shrink vertically
     valueNode.maxWidth = maxWidth;
 
-    // top half of the background, for ButtonState.UP. Shape computed starting at upper-left, going clockwise.
-    const upBackground = new Path( new Shape()
-      .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
-      .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
-      .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
-      .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
-      .close(), { pickable: false } );
+    // Top half of the background. Pressing here will increment the value.
+    // Shape computed starting at upper-left, going clockwise.
+    const incrementBackgroundNode = new Path( new Shape()
+        .arc( backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, Math.PI, Math.PI * 3 / 2, false )
+        .arc( backgroundWidth - backgroundCornerRadius, backgroundCornerRadius, backgroundCornerRadius, -Math.PI / 2, 0, false )
+        .lineTo( backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap )
+        .lineTo( 0, ( backgroundHeight / 2 ) + backgroundOverlap )
+        .close(),
+      { pickable: false } );
 
-    // bottom half of the background, for ButtonState.DOWN. Shape computed starting at bottom-right, going clockwise.
-    const downBackground = new Path( new Shape()
-      .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
-      .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
-      .lineTo( 0, backgroundHeight / 2 )
-      .lineTo( backgroundWidth, backgroundHeight / 2 )
-      .close(), { pickable: false } );
+    // Bottom half of the background. Pressing here will decrement the value.
+    // Shape computed starting at bottom-right, going clockwise.
+    const decrementBackgroundNode = new Path( new Shape()
+        .arc( backgroundWidth - backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, 0, Math.PI / 2, false )
+        .arc( backgroundCornerRadius, backgroundHeight - backgroundCornerRadius, backgroundCornerRadius, Math.PI / 2, Math.PI, false )
+        .lineTo( 0, backgroundHeight / 2 )
+        .lineTo( backgroundWidth, backgroundHeight / 2 )
+        .close(),
+      { pickable: false } );
 
     // separate rectangle for stroke around value background
     const strokedBackground = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, backgroundCornerRadius, backgroundCornerRadius, {
@@ -239,61 +242,61 @@ class NumberPicker extends Node {
       pickable: false
     };
 
-    // 'up' arrow
-    const upArrowShape = new Shape()
-      .moveTo( arrowButtonSize.width / 2, 0 )
-      .lineTo( arrowButtonSize.width, arrowButtonSize.height )
-      .lineTo( 0, arrowButtonSize.height )
-      .close();
-    this.upArrow = new Path( upArrowShape, arrowOptions ); // @private
-    this.upArrow.centerX = upBackground.centerX;
-    this.upArrow.bottom = upBackground.top - options.arrowYSpacing;
+    // @private increment arrow, pointing up, described clockwise from tip
+    this.incrementArrow = new Path( new Shape()
+        .moveTo( arrowButtonSize.width / 2, 0 )
+        .lineTo( arrowButtonSize.width, arrowButtonSize.height )
+        .lineTo( 0, arrowButtonSize.height )
+        .close(),
+      arrowOptions );
+    this.incrementArrow.centerX = incrementBackgroundNode.centerX;
+    this.incrementArrow.bottom = incrementBackgroundNode.top - options.arrowYSpacing;
 
-    // 'down' arrow
-    const downArrowShape = new Shape()
-      .moveTo( arrowButtonSize.width / 2, arrowButtonSize.height )
-      .lineTo( 0, 0 )
-      .lineTo( arrowButtonSize.width, 0 )
-      .close();
-    this.downArrow = new Path( downArrowShape, arrowOptions ); // @private
-    this.downArrow.centerX = downBackground.centerX;
-    this.downArrow.top = downBackground.bottom + options.arrowYSpacing;
+    // @private decrement arrow, pointing down, described clockwise from the tip
+    this.decrementArrow = new Path( new Shape()
+        .moveTo( arrowButtonSize.width / 2, arrowButtonSize.height )
+        .lineTo( 0, 0 )
+        .lineTo( arrowButtonSize.width, 0 )
+        .close(),
+      arrowOptions );
+    this.decrementArrow.centerX = decrementBackgroundNode.centerX;
+    this.decrementArrow.top = decrementBackgroundNode.bottom + options.arrowYSpacing;
 
-    // parents for 'up' and 'down' components
-    const upParent = new Node( { children: [ upBackground, this.upArrow ] } );
-    upParent.addChild( new Rectangle( upParent.localBounds ) ); // invisible overlay
-    const downParent = new Node( { children: [ downBackground, this.downArrow ] } );
-    downParent.addChild( new Rectangle( downParent.localBounds ) ); // invisible overlay
+    // parents for increment and decrement components
+    const incrementParent = new Node( { children: [ incrementBackgroundNode, this.incrementArrow ] } );
+    incrementParent.addChild( new Rectangle( incrementParent.localBounds ) ); // invisible overlay
+    const decrementParent = new Node( { children: [ decrementBackgroundNode, this.decrementArrow ] } );
+    decrementParent.addChild( new Rectangle( decrementParent.localBounds ) ); // invisible overlay
 
     // rendering order
-    this.addChild( upParent );
-    this.addChild( downParent );
+    this.addChild( incrementParent );
+    this.addChild( decrementParent );
     this.addChild( strokedBackground );
     this.addChild( valueNode );
 
     //------------------------------------------------------------
     // Pointer areas
 
-    // touch area
-    upParent.touchArea = Shape.rectangle(
-      upParent.left - ( options.touchAreaXDilation / 2 ), upParent.top - options.touchAreaYDilation,
-      upParent.width + options.touchAreaXDilation, upParent.height + options.touchAreaYDilation );
-    downParent.touchArea = Shape.rectangle(
-      downParent.left - ( options.touchAreaXDilation / 2 ), downParent.top,
-      downParent.width + options.touchAreaXDilation, downParent.height + options.touchAreaYDilation );
+    // touch areas
+    incrementParent.touchArea = Shape.rectangle(
+      incrementParent.left - ( options.touchAreaXDilation / 2 ), incrementParent.top - options.touchAreaYDilation,
+      incrementParent.width + options.touchAreaXDilation, incrementParent.height + options.touchAreaYDilation );
+    decrementParent.touchArea = Shape.rectangle(
+      decrementParent.left - ( options.touchAreaXDilation / 2 ), decrementParent.top,
+      decrementParent.width + options.touchAreaXDilation, decrementParent.height + options.touchAreaYDilation );
 
-    // mouse area
-    upParent.mouseArea = Shape.rectangle(
-      upParent.left - ( options.mouseAreaXDilation / 2 ), upParent.top - options.mouseAreaYDilation,
-      upParent.width + options.mouseAreaXDilation, upParent.height + options.mouseAreaYDilation );
-    downParent.mouseArea = Shape.rectangle(
-      downParent.left - ( options.mouseAreaXDilation / 2 ), downParent.top,
-      downParent.width + options.mouseAreaXDilation, downParent.height + options.mouseAreaYDilation );
+    // mouse areas
+    incrementParent.mouseArea = Shape.rectangle(
+      incrementParent.left - ( options.mouseAreaXDilation / 2 ), incrementParent.top - options.mouseAreaYDilation,
+      incrementParent.width + options.mouseAreaXDilation, incrementParent.height + options.mouseAreaYDilation );
+    decrementParent.mouseArea = Shape.rectangle(
+      decrementParent.left - ( options.mouseAreaXDilation / 2 ), decrementParent.top,
+      decrementParent.width + options.mouseAreaXDilation, decrementParent.height + options.mouseAreaYDilation );
 
     //------------------------------------------------------------
     // Colors
 
-    // arrow colors
+    // arrow colors, corresponding to ButtonState and incrementEnabledProperty/decrementEnabledProperty
     const arrowColors = {
       up: options.color,
       over: options.color,
@@ -302,7 +305,7 @@ class NumberPicker extends Node {
       disabled: 'rgb(176,176,176)'
     };
 
-    // background colors
+    // background colors, corresponding to ButtonState and enabledProperty.value
     const highlightGradient = createVerticalGradient( options.color, options.backgroundColor, options.color, backgroundHeight );
     const pressedGradient = createVerticalGradient( options.pressedColor, options.backgroundColor, options.pressedColor, backgroundHeight );
     const backgroundColors = {
@@ -312,6 +315,9 @@ class NumberPicker extends Node {
       out: pressedGradient,
       disabled: options.backgroundColor
     };
+
+    //------------------------------------------------------------
+    // Observers and InputListeners
 
     const playUISound = () => {
       let soundClip = options.valueChangedSoundPlayer;
@@ -323,37 +329,35 @@ class NumberPicker extends Node {
       soundClip.play();
     };
 
-    //------------------------------------------------------------
-    // Observers and InputListeners
-
-    // @private
     const inputListenerOptions = {
       fireOnHold: true,
       fireOnHoldDelay: options.timerDelay,
       fireOnHoldInterval: options.timerInterval
     };
-    this.upInputListener = new NumberPickerInputListener( upStateProperty, merge( {
-      tandem: options.tandem.createTandem( 'upInputListener' ),
+
+    // @private
+    this.incrementInputListener = new NumberPickerInputListener( incrementButtonStateProperty, merge( {
+      tandem: options.tandem.createTandem( 'incrementInputListener' ),
       fire: () => {
         valueProperty.set( Math.min( options.upFunction( valueProperty.get() ), rangeProperty.get().max ) );
         playUISound();
       }
     }, inputListenerOptions ) );
-    upParent.addInputListener( this.upInputListener );
+    incrementParent.addInputListener( this.incrementInputListener );
 
     // @private
-    this.downInputListener = new NumberPickerInputListener( downStateProperty, merge( {
-      tandem: options.tandem.createTandem( 'downInputListener' ),
+    this.decrementInputListener = new NumberPickerInputListener( decrementButtonStateProperty, merge( {
+      tandem: options.tandem.createTandem( 'decrementInputListener' ),
       fire: () => {
         valueProperty.set( Math.max( options.downFunction( valueProperty.get() ), rangeProperty.get().min ) );
         playUISound();
       }
     }, inputListenerOptions ) );
-    downParent.addInputListener( this.downInputListener );
+    decrementParent.addInputListener( this.decrementInputListener );
 
     // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    upEnabledProperty.link( enabled => !enabled && this.upInputListener.interrupt() );
-    downEnabledProperty.link( enabled => !enabled && this.downInputListener.interrupt() );
+    incrementEnabledProperty.link( enabled => !enabled && this.incrementInputListener.interrupt() );
+    decrementEnabledProperty.link( enabled => !enabled && this.decrementInputListener.interrupt() );
 
     // Update text to match the value
     const valueObserver = value => {
@@ -364,30 +368,30 @@ class NumberPicker extends Node {
       else {
         valueNode.text = options.formatValue( value );
         if ( options.align === 'center' ) {
-          valueNode.centerX = upBackground.centerX;
+          valueNode.centerX = incrementBackgroundNode.centerX;
         }
         else if ( options.align === 'right' ) {
-          valueNode.right = upBackground.right - options.xMargin;
+          valueNode.right = incrementBackgroundNode.right - options.xMargin;
         }
         else if ( options.align === 'left' ) {
-          valueNode.left = upBackground.left + options.xMargin;
+          valueNode.left = incrementBackgroundNode.left + options.xMargin;
         }
         else {
-          throw new Error( 'unsupported value for options.align: ' + options.align );
+          throw new Error( `unsupported value for options.align: ${options.align}` );
         }
       }
       valueNode.centerY = backgroundHeight / 2;
     };
     valueProperty.link( valueObserver ); // must be unlinked in dispose
 
-    // @private update colors for 'up' components
-    Property.multilink( [ upStateProperty, upEnabledProperty ], ( state, enabled ) => {
-      updateColors( state, enabled, upBackground, this.upArrow, backgroundColors, arrowColors );
+    // @private update colors for increment components
+    Property.multilink( [ incrementButtonStateProperty, incrementEnabledProperty ], ( state, enabled ) => {
+      updateColors( state, enabled, incrementBackgroundNode, this.incrementArrow, backgroundColors, arrowColors );
     } );
 
-    // @private update colors for 'down' components
-    Property.multilink( [ downStateProperty, downEnabledProperty ], ( state, enabled ) => {
-      updateColors( state, enabled, downBackground, this.downArrow, backgroundColors, arrowColors );
+    // @private update colors for decrement components
+    Property.multilink( [ decrementButtonStateProperty, decrementEnabledProperty ], ( state, enabled ) => {
+      updateColors( state, enabled, decrementBackgroundNode, this.decrementArrow, backgroundColors, arrowColors );
     } );
 
     this.mutate( options );
@@ -425,10 +429,10 @@ class NumberPicker extends Node {
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
     this.incrementDownEmitter.addListener( isDown => {
-      upStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+      incrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
     } );
     this.decrementDownEmitter.addListener( isDown => {
-      downStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+      decrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
     } );
 
     const enabledListener = enabled => {
@@ -447,8 +451,8 @@ class NumberPicker extends Node {
     this.disposeNumberPicker = () => {
 
       colorProperty && colorProperty.dispose();
-      upEnabledProperty.dispose();
-      downEnabledProperty.dispose();
+      incrementEnabledProperty.dispose();
+      decrementEnabledProperty.dispose();
 
       if ( valueProperty.hasListener( valueObserver ) ) {
         valueProperty.unlink( valueObserver );
@@ -485,10 +489,11 @@ class NumberPicker extends Node {
    */
   setArrowsVisible( visible ) {
     if ( !visible ) {
-      this.upInputListener.interrupt();
-      this.downInputListener.interrupt();
+      this.incrementInputListener.interrupt();
+      this.decrementInputListener.interrupt();
     }
-    this.upArrow.visible = this.downArrow.visible = visible;
+    this.incrementArrow.visible = visible;
+    this.decrementArrow.visible = visible;
   }
 
   /**
