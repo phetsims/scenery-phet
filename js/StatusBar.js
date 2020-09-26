@@ -25,8 +25,6 @@ const DEFAULT_FONT = new PhetFont( 20 );
  */
 function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
-  const self = this;
-
   options = merge( {
     barHeight: 50,
     xMargin: 10,
@@ -60,19 +58,19 @@ function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
   Node.call( this, options );
 
-  const visibleBoundsListener = function( visibleBounds ) {
+  const visibleBoundsListener = visibleBounds => {
 
     // resize the bar
     const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
-    self.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
+    this.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
 
     // update layout of things on the bar
-    self.updateLayout();
+    this.updateLayout();
   };
   visibleBoundsProperty.link( visibleBoundsListener );
 
   // @private
-  this.disposeStatusBar = function() {
+  this.disposeStatusBar = () => {
     if ( visibleBoundsProperty.hasListener( visibleBoundsListener ) ) {
       visibleBoundsProperty.unlink( visibleBoundsListener );
     }
