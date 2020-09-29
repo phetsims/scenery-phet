@@ -103,11 +103,14 @@ class ButtonsScreenView extends ScreenView {
 
     const moveToTrashButton = new MoveToTrashButton( {
       arrowColor: 'red',
-      scale: 2
+      scale: 2,
+      listener: () => console.log( 'MoveToTrashButton pressed' )
     } );
     pushButtons.push( moveToTrashButton );
 
-    const resetAllButton = new ResetAllButton();
+    const resetAllButton = new ResetAllButton( {
+      listener: () => console.log( 'ResetAllButton pressed' )
+    } );
     pushButtons.push( resetAllButton );
 
     const pushButtonsHBox = new HBox( {
@@ -133,31 +136,31 @@ class ButtonsScreenView extends ScreenView {
 
     const eyeButton = new EyeToggleButton( toggleButtonProperties.eyeOpenProperty );
     toggleButtonProperties.eyeOpenProperty.lazyLink(
-      eyeOpen => console.log( 'eyeOpen=' + eyeOpen )
+      eyeOpen => console.log( 'EyeToggleButton pressed, eyeOpen=' + eyeOpen )
     );
     toggleButtons.push( eyeButton );
 
     const playPauseButton = new PlayPauseButton( toggleButtonProperties.isPlayingProperty );
     toggleButtonProperties.isPlayingProperty.lazyLink(
-      playing => console.log( 'playing=' + playing )
+      playing => console.log( 'PlayPauseButton pressed, playing=' + playing )
     );
     toggleButtons.push( playPauseButton );
 
     const recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
     toggleButtonProperties.recordingProperty.lazyLink(
-      recording => console.log( 'recording=' + recording )
+      recording => console.log( 'RecordStopButton pressed, recording=' + recording )
     );
     toggleButtons.push( recordStopButton );
 
     const soundToggleButton = new SoundToggleButton( toggleButtonProperties.soundEnabledProperty );
     toggleButtonProperties.soundEnabledProperty.lazyLink(
-      soundEnabled => console.log( 'soundEnabled=' + soundEnabled )
+      soundEnabled => console.log( 'SoundToggleButton pressed, soundEnabled=' + soundEnabled )
     );
     toggleButtons.push( soundToggleButton );
 
     const timerToggleButton = new TimerToggleButton( toggleButtonProperties.timerEnabledProperty );
     toggleButtonProperties.timerEnabledProperty.lazyLink(
-      timerEnabled => console.log( 'timerEnabled=' + timerEnabled )
+      timerEnabled => console.log( 'TimerToggleButton pressed, timerEnabled=' + timerEnabled )
     );
     toggleButtons.push( timerToggleButton );
 
