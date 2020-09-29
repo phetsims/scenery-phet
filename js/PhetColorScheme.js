@@ -23,7 +23,7 @@ const PHET_LOGO_BLUE = new Color( 106, 206, 245 ); // the color of the blue in t
 const PHET_LOGO_YELLOW = new Color( 254, 225, 5 ); // the color of the yellow in the PhET logo
 
 const PhetColorScheme = {
-  ACCELERATION: Color.GREEN,
+  ACCELERATION: new Color( 255, 255, 50 ),
   APPLIED_FORCE: new Color( 236, 153, 55 ),
   BUTTON_YELLOW: PHET_LOGO_YELLOW,
   ELASTIC_POTENTIAL_ENERGY: new Color( 0, 204, 255 ),
@@ -33,6 +33,7 @@ const PhetColorScheme = {
   HEAT_THERMAL_ENERGY: RED_COLORBLIND,
   IMAGINARY_PART: new Color( 153, 51, 102 ),
   KINETIC_ENERGY: new Color( 30, 200, 45 ),
+  MOMENTUM: new Color( 50, 50, 255 ),
   NET_WORK: DARK_GREEN,
   NORMAL_FORCE: new Color( 255, 235, 0 ),
   PHET_LOGO_BLUE: PHET_LOGO_BLUE,
@@ -44,7 +45,7 @@ const PhetColorScheme = {
   GREEN_COLORBLIND: GREEN_COLORBLIND,
   TOTAL_ENERGY: new Color( 180, 180, 0 ),
   TOTAL_FORCE: DARK_GREEN,
-  VELOCITY: RED_COLORBLIND,
+  VELOCITY: new Color( 50, 255, 50 ),
   WALL_FORCE: new Color( 153, 51, 0 ),
   SCREEN_ICON_FRAME: '#dddddd'
 };
