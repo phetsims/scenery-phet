@@ -7,60 +7,60 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import RectangularToggleButton from '../../../sun/js/buttons/RectangularToggleButton.js';
 import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @param {Property.<boolean>} eyeOpenProperty - true: eye is open; false: eye is closed
- * @param {Object} [options]
- * @constructor
- */
-function EyeToggleButton( eyeOpenProperty, options ) {
+class EyeToggleButton extends RectangularToggleButton {
 
-  options = options || {};
+  /**
+   * @param {Property.<boolean>} eyeOpenProperty - true: eye is open; false: eye is closed
+   * @param {Object} [options]
+   */
+  constructor( eyeOpenProperty, options ) {
 
-  // icons
-  const eyeOpenNode = new FontAwesomeNode( 'eye_open' );
-  const eyeCloseNode = new FontAwesomeNode( 'eye_close', {
-    center: eyeOpenNode.center
-  } );
+    options = options || {};
 
-  // button content
-  assert && assert( !options.content );
-  options.content = new Node( {
-    children: [ eyeCloseNode, eyeOpenNode ]
-  } );
+    // icons
+    const eyeOpenNode = new FontAwesomeNode( 'eye_open' );
+    const eyeCloseNode = new FontAwesomeNode( 'eye_close', {
+      center: eyeOpenNode.center
+    } );
 
-  // toggle which icon is shown
-  const eyeOpenObserver = function( eyeOpen ) {
-    eyeOpenNode.visible = eyeOpen;
-    eyeCloseNode.visible = !eyeOpen;
-  };
-  eyeOpenProperty.link( eyeOpenObserver ); // unlink required by dispose
+    // button content
+    assert && assert( !options.content, 'EyeToggleButton sets content' );
+    options.content = new Node( {
+      children: [ eyeCloseNode, eyeOpenNode ]
+    } );
 
-  RectangularToggleButton.call( this, true, false, eyeOpenProperty, options );
+    // toggle which icon is shown
+    const eyeOpenObserver = eyeOpen => {
+      eyeOpenNode.visible = eyeOpen;
+      eyeCloseNode.visible = !eyeOpen;
+    };
+    eyeOpenProperty.link( eyeOpenObserver ); // unlink required by dispose
 
-  // @private
-  this.disposeEyeToggleButton = function() {
-    eyeOpenProperty.unlink( eyeOpenObserver );
-  };
+    super( true, false, eyeOpenProperty, options );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeToggleButton', this );
+    // @private
+    this.disposeEyeToggleButton = () => {
+      eyeOpenProperty.unlink( eyeOpenObserver );
+    };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeToggleButton', this );
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeEyeToggleButton();
+    super.dispose();
+  }
 }
 
 sceneryPhet.register( 'EyeToggleButton', EyeToggleButton );
-
-inherit( RectangularToggleButton, EyeToggleButton, {
-
-  // @public
-  dispose: function() {
-    this.disposeEyeToggleButton();
-    RectangularToggleButton.prototype.dispose.call( this );
-  }
-} );
-
 export default EyeToggleButton;
