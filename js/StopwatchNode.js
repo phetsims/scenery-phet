@@ -320,14 +320,16 @@ StopwatchNode.numberFormatter = x => {
 // Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
 // wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
 // and it seemed to work nicely, with no jitter.
-StopwatchNode.NUMBER_FONT_FAMILY = 'Trebuchet MS,Lucida Grande,monospace';
+StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
 
 // @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
 StopwatchNode.richNumberFormatter = x => {
   const minutesAndSeconds = toMinutesAndSeconds( x );
   const centiseconds = getDecimalPlaces( x, 2 );
 
-  return `<span style="font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`;
+  // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
+  // See https://github.com/phetsims/collision-lab/issues/140.
+  return `<span style='font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`;
 };
 
 // @public - for NumberDisplay, more customizable
@@ -348,9 +350,11 @@ StopwatchNode.getRichNumberFormatter = options => {
     const minutesAndSeconds = options.showAsDecimal ? Math.floor( x ) : toMinutesAndSeconds( x );
     const centiseconds = getDecimalPlaces( x, options.numberOfDecimalPlaces );
 
+    // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
+    // See https://github.com/phetsims/collision-lab/issues/140.
     return StringUtils.fillIn( options.valueUnitsPattern, {
-      value: `<span style="font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${minutesAndSeconds}</span><span style="font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${centiseconds}</span>`,
-      units: `<span style="font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};">${options.units}</span>`
+      value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
+      units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${options.units}</span>`
     } );
   };
 };
