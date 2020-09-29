@@ -7,36 +7,35 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function RefreshButton( options ) {
+class RefreshButton extends RectangularPushButton {
 
-  options = merge( {
-    baseColor: PhetColorScheme.BUTTON_YELLOW,
-    iconScale: 1
-  }, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  assert && assert( !options.content, 'RefreshButton sets content' );
-  options.content = new FontAwesomeNode( 'refresh', {
-    scale: options.iconScale
-  } );
+    options = merge( {
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
+      iconScale: 1
+    }, options );
 
-  RectangularPushButton.call( this, options );
+    assert && assert( !options.content, 'RefreshButton sets content' );
+    options.content = new FontAwesomeNode( 'refresh', {
+      scale: options.iconScale
+    } );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RefreshButton', this );
+    super( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RefreshButton', this );
+  }
 }
 
 sceneryPhet.register( 'RefreshButton', RefreshButton );
-
-inherit( RectangularPushButton, RefreshButton );
 export default RefreshButton;

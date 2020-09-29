@@ -8,7 +8,6 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Line from '../../../scenery/js/nodes/Line.js';
@@ -20,56 +19,57 @@ import PhetColorScheme from '../PhetColorScheme.js';
 import PlusNode from '../PlusNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function ZoomButton( options ) {
+class ZoomButton extends RectangularPushButton {
 
-  options = merge( {
-    in: true, // true: zoom-in button, false: zoom-out button
-    radius: 15,
-    baseColor: PhetColorScheme.BUTTON_YELLOW,
-    magnifyingGlassFill: 'white', // center of the glass
-    magnifyingGlassStroke: 'black', // rim and handle
-    tandem: Tandem.REQUIRED
-  }, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // the magnifying glass
-  const glassLineWidth = 0.25 * options.radius;
-  const glassNode = new Circle( options.radius, {
-    fill: options.magnifyingGlassFill,
-    stroke: options.magnifyingGlassStroke,
-    lineWidth: glassLineWidth
-  } );
+    options = merge( {
+      in: true, // true: zoom-in button, false: zoom-out button
+      radius: 15,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
+      magnifyingGlassFill: 'white', // center of the glass
+      magnifyingGlassStroke: 'black', // rim and handle
+      tandem: Tandem.REQUIRED
+    }, options );
 
-  // handle at lower-left of glass, at a 45-degree angle
-  const outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
-  const handleNode = new Line(
-    outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
-    options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ), {
+    // the magnifying glass
+    const glassLineWidth = 0.25 * options.radius;
+    const glassNode = new Circle( options.radius, {
+      fill: options.magnifyingGlassFill,
       stroke: options.magnifyingGlassStroke,
-      lineWidth: 0.4 * options.radius,
-      lineCap: 'round'
+      lineWidth: glassLineWidth
     } );
 
-  // plus or minus sign in middle of magnifying glass
-  const signOptions = {
-    size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
-    centerX: glassNode.centerX,
-    centerY: glassNode.centerY
-  };
-  const signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
+    // handle at lower-left of glass, at a 45-degree angle
+    const outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
+    const handleNode = new Line(
+      outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
+      options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ), {
+        stroke: options.magnifyingGlassStroke,
+        lineWidth: 0.4 * options.radius,
+        lineCap: 'round'
+      } );
 
-  options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
+    // plus or minus sign in middle of magnifying glass
+    const signOptions = {
+      size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
+      centerX: glassNode.centerX,
+      centerY: glassNode.centerY
+    };
+    const signNode = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-  RectangularPushButton.call( this, options );
+    assert && assert( !options.content, 'ZoomButton sets content' );
+    options.content = new Node( { children: [ handleNode, glassNode, signNode ] } );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ZoomButton', this );
+    super( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ZoomButton', this );
+  }
 }
 
 sceneryPhet.register( 'ZoomButton', ZoomButton );
-
-inherit( RectangularPushButton, ZoomButton );
 export default ZoomButton;
