@@ -21,6 +21,7 @@ import AlignBox from '../../scenery/js/nodes/AlignBox.js';
 import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
@@ -28,7 +29,7 @@ import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import SliderIO from '../../sun/js/SliderIO.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import NumberControlIO from './NumberControlIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -88,7 +89,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
 
     // phet-io
     tandem: Tandem.REQUIRED,
-    phetioType: NumberControlIO,
+    phetioType: NumberControl.NumberControlIO,
 
     // pdom
     groupFocusHighlight: true
@@ -654,6 +655,12 @@ inherit( VBox, NumberControl, {
       return node;
     };
   }
+} );
+
+NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
+  valueType: NumberControl,
+  documentation: 'A number control with a title, slider and +/- buttons',
+  supertype: NodeIO
 } );
 
 export default NumberControl;
