@@ -10,13 +10,14 @@ import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import MathSymbols from './MathSymbols.js';
-import NumberDisplayIO from './NumberDisplayIO.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -86,7 +87,7 @@ class NumberDisplay extends Node {
 
       // phet-io
       tandem: Tandem.OPTIONAL,
-      phetioType: NumberDisplayIO
+      phetioType: NumberDisplay.NumberDisplayIO
     }, options );
 
     // valuePattern|decimalPlaces is mutually exclusive with numberFormatter
@@ -299,5 +300,11 @@ const valueToString = ( value, decimalPlaces, noValueString, numberFormatter ) =
   }
   return stringValue;
 };
+
+NumberDisplay.NumberDisplayIO = new IOType( 'NumberDisplayIO', {
+  valueType: NumberDisplay,
+  supertype: NodeIO,
+  documentation: 'A numeric readout with a background'
+} );
 
 export default NumberDisplay;
