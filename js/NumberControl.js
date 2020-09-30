@@ -26,7 +26,7 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
-import SliderIO from '../../sun/js/SliderIO.js';
+import Slider from '../../sun/js/Slider.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay from './NumberDisplay.js';
@@ -218,7 +218,7 @@ function NumberControl( title, numberProperty, numberRange, options ) {
     shiftKeyboardStep: options.delta,
 
     // Make sure Slider gets created with the right IO Type
-    phetioType: SliderIO
+    phetioType: Slider.SliderIO
   }, options.sliderOptions );
 
   // highlight color for thumb defaults to a brighter version of the thumb color
