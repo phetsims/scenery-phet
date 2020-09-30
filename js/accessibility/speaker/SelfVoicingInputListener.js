@@ -16,35 +16,29 @@
  * @author Jesse Greenberg
  */
 
+import speakerHighlighter from '../../../../inverse-square-law-common/js/view/speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import levelSpeakerModel from './levelSpeakerModel.js';
-import Display from '../../../../scenery/js/display/Display.js';
 
 class SelfVoicingInputListener {
   constructor( options ) {
     options = merge( {
 
-      // {function} - behaviors for each of the various methods of input
-      onDown: () => {},
-      onUp: () => {},
-      onOver: () => {},
-      onOut: () => {},
+      // {function} - called on down and on click when those scenery events reach the node with this listener
+      onPress: () => {},
+
+      // {function} - called when the Node receives the focus event
       onFocusIn: () => {},
-      onFocusOut: () => {},
 
       // {Node|null} if defined, we will show focus highlights around this Node
-      // if the setting to do so is selected by the user in levelSpeakerModel
+      // Note: almost every usage of the listener sepcifies this option, this
+      // should be a required param
       highlightTarget: null
     }, options );
 
-    // @private
-    this.onDown = options.onDown;
-    this.onUp = options.onUp;
-    this.onOver = options.onOver;
-    this.onOut = options.onOut;
+    // @private - see options
+    this.onPress = options.onPress;
     this.onFocusIn = options.onFocusIn;
-    this.onFocusOut = options.onFocusOut;
     this.highlightTarget = options.highlightTarget;
   }
 
@@ -53,64 +47,57 @@ class SelfVoicingInputListener {
    * @param event
    */
   down( event ) {
-    this.onDown();
+    this.onPress();
+
+    if ( this.highlightTarget && speakerHighlighter.speakingTrailProperty.get() ) {
+      if ( !this.highlightTarget.getUniqueTrail().equals( speakerHighlighter.speakingTrailProperty.get() ) ) {
+        speakerHighlighter.speakingTrailProperty.set( null );
+      }
+    }
   }
 
   /**
+   * Called in response to the click event (scenery API)
    * @private (scenery API)
+   *
    * @param event
    */
-  up( event ) {
-    this.onUp();
+  click( event ) {
+    this.onPress();
   }
 
   /**
+   * Called in response to the over event (scenery API)
    * @private (scenery API)
    * @param event
    */
   over( event ) {
-    this.onOver();
-
-    // CRAZY HACK ALERT! Uses the focusOverlay to shows these highlights where possible,
-    // should be made a more formal feature of the focusOverlay if we want to do this.
-    if ( this.highlightTarget && levelSpeakerModel.showHoverHighlightsProperty.get() ) {
-      if ( !phet.joist.sim.display._focusOverlay.hasHighlight() ) {
-        Display.focusedNode && Display.focusedNode.blur();
-        phet.joist.sim.display._focusOverlay.activateHighlight( this.highlightTarget.getUniqueTrail() );
-      }
+    if ( this.highlightTarget ) {
+      speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
     }
   }
 
   /**
+   * Called in response to an 'out' event (scenery API)
+   *
    * @private (scenery API)
    * @param event
    */
   out( event ) {
-    this.onOut();
 
-    // CRAZY HACK ALERT! Uses the focusOverlay to shows these highlights where possible,
-    // should be made a formal feature of FocusOverlay if we want to do this
-    if ( this.highlightTarget && levelSpeakerModel.showHoverHighlightsProperty.get() ) {
-      if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
-        phet.joist.sim.display._focusOverlay.deactivateHighlight( this.highlightTarget.getUniqueTrail() );
-      }
+    // pointer leaving a Node, notify the speakerHighlighter
+    if ( this.highlightTarget ) {
+      speakerHighlighter.overTrailProperty.set( null );
     }
   }
 
   /**
+   * Called in response to the focusin event (scenery API)
    * @private (scenery API)
    * @param event
    */
   focusin( event ) {
     this.onFocusIn();
-  }
-
-  /**
-   * @private (scenery API)
-   * @param event
-   */
-  focusout( event ) {
-    this.onFocusOut();
   }
 }
 

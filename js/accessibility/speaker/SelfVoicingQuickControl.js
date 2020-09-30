@@ -70,7 +70,7 @@ class SelfVoicingQuickControl extends Node {
       createDetailsContent: () => ''
     }, options );
 
-    super();
+    super( options );
 
     // @private {function}
     this.createHintContent = options.createHintContent;
@@ -221,6 +221,18 @@ class SelfVoicingQuickControl extends Node {
       stopSpeechButton.enabled = enabled;
 
       disabledIndicator.visible = !enabled;
+    } );
+
+    // the entire control is invisible if all self-voicing is disable
+    Property.multilink( [ levelSpeakerModel.objectChangesProperty, levelSpeakerModel.contextChangesProperty, levelSpeakerModel.hintsProperty ],
+      ( objectChanges, contextChanges, hints ) => {
+        this.visible = objectChanges || contextChanges || hints;
+      }
+    );
+
+    // the quick menu can be hidden independently
+    levelSpeakerModel.showQuickMenuProperty.link( visible => {
+      expandCollapseButton.visible = visible;
     } );
 
     // mutate with options after Node has been assembled
