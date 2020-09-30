@@ -11,6 +11,8 @@ import Utils from '../../dot/js/Utils.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumSlider from './SpectrumSlider.js';
@@ -47,6 +49,12 @@ function WavelengthSlider( wavelengthProperty, options ) {
 }
 
 sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
+
+WavelengthSlider.WavelengthSliderIO = new IOType( 'WavelengthSliderIO', {
+  valueType: WavelengthSlider,
+  supertype: NodeIO,
+  documentation: 'A slider that shows wavelengths for selection'
+} );
 
 inherit( SpectrumSlider, WavelengthSlider );
 export default WavelengthSlider;
