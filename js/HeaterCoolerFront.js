@@ -15,7 +15,6 @@ import Range from '../../dot/js/Range.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Color from '../../scenery/js/util/Color.js';
@@ -93,7 +92,7 @@ class HeaterCoolerFront extends Node {
       // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
       // instrumented tree. This doesn't effect the instrumentation of sub-components like the slider.
       phetioInstrument: true,
-      phetioType: NodeIO
+      phetioType: Node.NodeIO
     }, options );
 
     assert && assert( options.heatEnabled || options.coolEnabled, 'Either heat or cool must be enabled.' );

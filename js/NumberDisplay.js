@@ -10,7 +10,6 @@ import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -303,7 +302,7 @@ const valueToString = ( value, decimalPlaces, noValueString, numberFormatter ) =
 
 NumberDisplay.NumberDisplayIO = new IOType( 'NumberDisplayIO', {
   valueType: NumberDisplay,
-  supertype: NodeIO,
+  supertype: Node.NodeIO,
   documentation: 'A numeric readout with a background'
 } );
 

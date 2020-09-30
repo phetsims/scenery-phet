@@ -21,7 +21,6 @@ import AlignBox from '../../scenery/js/nodes/AlignBox.js';
 import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
@@ -660,7 +659,7 @@ inherit( VBox, NumberControl, {
 NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
   valueType: NumberControl,
   documentation: 'A number control with a title, slider and +/- buttons',
-  supertype: NodeIO
+  supertype: Node.NodeIO
 } );
 
 export default NumberControl;

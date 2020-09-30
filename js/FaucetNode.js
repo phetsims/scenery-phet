@@ -32,7 +32,6 @@ import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
 import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
@@ -430,7 +429,7 @@ class ShooterNode extends Node {
 FaucetNode.FaucetNodeIO = new IOType( 'FaucetNodeIO', {
   valueType: FaucetNode,
   documentation: 'Faucet that emits fluid, typically user-controllable',
-  supertype: NodeIO,
+  supertype: Node.NodeIO,
   events: [ 'startTapToDispense', 'endTapToDispense' ]
 } );
 
