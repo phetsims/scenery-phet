@@ -32,11 +32,13 @@ import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import NodeIO from '../../scenery/js/nodes/NodeIO.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
 import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import bodyImage from '../images/faucet_body_png.js';
 import flangeDisabledImage from '../images/faucet_flange_disabled_png.js';
 import flangeImage from '../images/faucet_flange_png.js';
@@ -48,7 +50,6 @@ import spoutImage from '../images/faucet_spout_png.js';
 import stopImage from '../images/faucet_stop_png.js';
 import trackImage from '../images/faucet_track_png.js';
 import verticalPipeImage from '../images/faucet_vertical_pipe_png.js';
-import FaucetNodeIO from './FaucetNodeIO.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -98,7 +99,7 @@ class FaucetNode extends Node {
       },
 
       tandem: Tandem.REQUIRED,
-      phetioType: FaucetNodeIO,
+      phetioType: FaucetNode.FaucetNodeIO,
       phetioEventType: EventType.USER
     }, options );
 
@@ -425,5 +426,12 @@ class ShooterNode extends Node {
     super.dispose();
   }
 }
+
+FaucetNode.FaucetNodeIO = new IOType( 'FaucetNodeIO', {
+  valueType: FaucetNode,
+  documentation: 'Faucet that emits fluid, typically user-controllable',
+  supertype: NodeIO,
+  events: [ 'startTapToDispense', 'endTapToDispense' ]
+} );
 
 export default FaucetNode;
