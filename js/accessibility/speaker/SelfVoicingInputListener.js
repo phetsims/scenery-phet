@@ -30,6 +30,12 @@ class SelfVoicingInputListener {
       // {function} - called when the Node receives the focus event
       onFocusIn: () => {},
 
+      // the Node represented for self-voicing - state of this Node will
+      // control the output of speech. For instance, if the representedNode
+      // is not visible in a display no speech will be generated on
+      // various input. If null, no such checks will be made
+      representedNode: null,
+
       // {Node|null} if defined, we will show focus highlights around this Node
       // Note: almost every usage of the listener sepcifies this option, this
       // should be a required param
@@ -40,6 +46,7 @@ class SelfVoicingInputListener {
     this.onPress = options.onPress;
     this.onFocusIn = options.onFocusIn;
     this.highlightTarget = options.highlightTarget;
+    this.representedNode = options.representedNode;
   }
 
   /**
@@ -73,7 +80,12 @@ class SelfVoicingInputListener {
    */
   over( event ) {
     if ( this.highlightTarget ) {
-      speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
+      if ( !this.representedNode || this.representedNode.getUniqueTrail().isVisible() ) {
+        const uniqueTrail = this.highlightTarget.getUniqueTrail();
+        if ( uniqueTrail.isVisible() ) {
+          speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
+        }
+      }
     }
   }
 

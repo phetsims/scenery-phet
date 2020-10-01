@@ -40,11 +40,14 @@ class SelfVoicingWrapperNode extends Node {
 
     super( options );
 
-    // by default, this node acts as the target for focus highlights
-    // with the
-    if ( !options.listenerOptions.highlightTarget ) {
-      options.listenerOptions.highlightTarget = this;
-    }
+    options.listenerOptions = merge( {
+
+      // by default, this Node acts as a target for focus highlights
+      highlightTarget: this,
+
+      // by default, visibility of this Node will control speech output
+      representedNode: this
+    }, options.listenerOptions );
     const listener = new SelfVoicingInputListener( options.listenerOptions );
 
     if ( options.customNode === null ) {
@@ -57,6 +60,11 @@ class SelfVoicingWrapperNode extends Node {
         wrapperRectangle.setRectBounds( node.bounds );
       } );
       this.addInputListener( listener );
+
+      // whenever the Node changes visibility, we need to update visibility of
+      // this node - how to determine if Node is visible in display and link to that?
+
+
     }
     else {
       this.addChild( options.customNode );
