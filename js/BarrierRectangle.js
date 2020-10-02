@@ -17,7 +17,7 @@ import sceneryPhet from './sceneryPhet.js';
 class BarrierRectangle extends Plane {
 
   /**
-   * @param {Array.<Node>} modalNodeStack
+   * @param {ObservableArrayDef} modalNodeStack
    * @param {Object} [options]
    */
   constructor( modalNodeStack, options ) {
