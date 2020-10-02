@@ -360,6 +360,15 @@
       "gestureHelpTextPattern": {
         "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
       }
+    },
+    "selfVoicing": {
+      "simSection": {
+        "screenSummary": {
+          "singleScreenIntroPattern": {
+            "value": "{{sim}} is an interactive sim. It changes as you play with it."
+          }
+        }
+      }
     }
   }
 }
