@@ -47,6 +47,34 @@ class SelfVoicingInputListener {
     this.onFocusIn = options.onFocusIn;
     this.highlightTarget = options.highlightTarget;
     this.representedNode = options.representedNode;
+
+    // @private - reference to the pointer on a down event so we can add and remove listeners from it
+    this.pointer = null;
+
+    // @private - whether or not the listener has been interrupted, in which case we will
+    // stop all speaking and highlighting behavior for a certain press
+    this.interrupted = false;
+
+    // @private
+    this.pointerListener = {
+      up: event => {
+
+        if ( !this.interrupted ) {
+          this.onPress();
+
+          if ( this.highlightTarget && speakerHighlighter.speakingTrailProperty.get() ) {
+            if ( !this.highlightTarget.getUniqueTrail().equals( speakerHighlighter.speakingTrailProperty.get() ) ) {
+              speakerHighlighter.speakingTrailProperty.set( null );
+            }
+          }
+        }
+
+        this.removePointerListener();
+      },
+      interrupt: () => {
+        this.interrupt();
+      }
+    };
   }
 
   /**
@@ -54,13 +82,29 @@ class SelfVoicingInputListener {
    * @param event
    */
   down( event ) {
-    this.onPress();
-
-    if ( this.highlightTarget && speakerHighlighter.speakingTrailProperty.get() ) {
-      if ( !this.highlightTarget.getUniqueTrail().equals( speakerHighlighter.speakingTrailProperty.get() ) ) {
-        speakerHighlighter.speakingTrailProperty.set( null );
-      }
+    if ( !this.pointer ) {
+      this.interrupted = false;
+      event.pointer.addInputListener( this.pointerListener );
+      this.pointer = event.pointer;
     }
+  }
+
+  /**
+   * @private
+   */
+  removePointerListener() {
+    if ( this.pointer ) {
+      this.pointer.removeInputListener( this.pointerListener );
+      this.pointer = null;
+    }
+  }
+
+  /**
+   * @public
+   */
+  interrupt() {
+    this.interrupted = true;
+    this.removePointerListener();
   }
 
   /**
@@ -71,6 +115,7 @@ class SelfVoicingInputListener {
    */
   click( event ) {
     this.onPress();
+    this.interrupted = false;
   }
 
   /**
@@ -97,8 +142,9 @@ class SelfVoicingInputListener {
    */
   out( event ) {
 
-    // pointer leaving a Node, notify the speakerHighlighter
-    if ( this.highlightTarget ) {
+    // pointer leaving a Node, notify the speakerHighlighter - however, we want the highlight
+    // to remain for touch input
+    if ( event.pointer.type !== 'touch' && this.highlightTarget ) {
       speakerHighlighter.overTrailProperty.set( null );
     }
   }
