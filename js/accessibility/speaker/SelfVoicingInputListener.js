@@ -110,6 +110,15 @@ class SelfVoicingInputListener {
    */
   focusin( event ) {
     this.onFocusIn();
+
+    // set the 'over' trail when we receive focus so that the speakerHighlighter
+    // sets the speakingTrailProperty correctly.
+    // I don't like this because it basically removes the default highlight from FocusOverlay
+    // just to control it in speakerHighlighter. Would be much better if all of this was moved to
+    // FocusOverlay
+    if ( this.highlightTarget ) {
+      speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
+    }
   }
 }
 
