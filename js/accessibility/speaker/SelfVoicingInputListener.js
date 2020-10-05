@@ -16,7 +16,7 @@
  * @author Jesse Greenberg
  */
 
-import speakerHighlighter from '../../../../inverse-square-law-common/js/view/speakerHighlighter.js';
+import speakerHighlighter from './speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
