@@ -16,12 +16,12 @@ import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
-import SceneryPhetMemoryTestsScreenView from './demo/SceneryPhetMemoryTestsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
+import SceneryPhetMemoryTestsScreenView from './demo/SceneryPhetMemoryTestsScreenView.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 // empty model used for all demo screens
 const MODEL = {};
@@ -30,9 +30,11 @@ const simOptions = {
   credits: {
     leadDesign: 'PhET'
   },
-  keyboardHelpNode: new SceneryPhetKeyboardHelpContent(),
+  hasKeyboardHelpContent: true,
   webgl: true
 };
+
+const keyboardHelpNode = new SceneryPhetKeyboardHelpContent();
 
 /**
  * Creates a simple screen icon, a colored rectangle.
@@ -62,7 +64,8 @@ simLauncher.launch( () => {
         name: 'Buttons',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'red' ),
-        tandem: Tandem.ROOT.createTandem( 'buttonsScreen' )
+        tandem: Tandem.ROOT.createTandem( 'buttonsScreen' ),
+        keyboardHelpNode: keyboardHelpNode
       }
     ),
 
@@ -74,7 +77,8 @@ simLauncher.launch( () => {
         name: 'Sliders',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
-        tandem: Tandem.ROOT.createTandem( 'slidersScreen' )
+        tandem: Tandem.ROOT.createTandem( 'slidersScreen' ),
+        keyboardHelpNode: keyboardHelpNode
       }
     ),
 
@@ -86,7 +90,8 @@ simLauncher.launch( () => {
         name: 'Components',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'orange' ),
-        tandem: componentsScreenTandem
+        tandem: componentsScreenTandem,
+        keyboardHelpNode: keyboardHelpNode
       }
     ),
 
@@ -98,7 +103,8 @@ simLauncher.launch( () => {
         name: 'Dialogs',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
-        tandem: Tandem.ROOT.createTandem( 'dialogsScreen' )
+        tandem: Tandem.ROOT.createTandem( 'dialogsScreen' ),
+        keyboardHelpNode: keyboardHelpNode
       }
     ),
 
@@ -110,7 +116,8 @@ simLauncher.launch( () => {
         name: 'Spring',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'blue' ),
-        tandem: Tandem.ROOT.createTandem( 'springsScreen' )
+        tandem: Tandem.ROOT.createTandem( 'springsScreen' ),
+        keyboardHelpNode: keyboardHelpNode
       }
     ),
 
@@ -122,7 +129,8 @@ simLauncher.launch( () => {
         name: 'Memory Tests',
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'purple' ),
-        tandem: Tandem.ROOT.createTandem( 'memoryTestsScreen' )
+        tandem: Tandem.ROOT.createTandem( 'memoryTestsScreen' ),
+        keyboardHelpNode: keyboardHelpNode
       }
     )
   ], simOptions ).start();
