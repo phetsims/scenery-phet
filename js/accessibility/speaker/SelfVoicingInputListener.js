@@ -86,6 +86,24 @@ class SelfVoicingInputListener {
       this.interrupted = false;
       event.pointer.addInputListener( this.pointerListener );
       this.pointer = event.pointer;
+
+      // activate highlight if it isn't already activated possible in a touch)
+      this.activateHighlight();
+    }
+  }
+
+  /**
+   * If there is a highlight target, set it to active so that
+   * @private
+   */
+  activateHighlight() {
+    if ( this.highlightTarget ) {
+      if ( !this.representedNode || this.representedNode.getUniqueTrail().isVisible() ) {
+        const uniqueTrail = this.highlightTarget.getUniqueTrail();
+        if ( uniqueTrail.isVisible() ) {
+          speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
+        }
+      }
     }
   }
 
@@ -124,13 +142,8 @@ class SelfVoicingInputListener {
    * @param event
    */
   over( event ) {
-    if ( this.highlightTarget ) {
-      if ( !this.representedNode || this.representedNode.getUniqueTrail().isVisible() ) {
-        const uniqueTrail = this.highlightTarget.getUniqueTrail();
-        if ( uniqueTrail.isVisible() ) {
-          speakerHighlighter.overTrailProperty.set( this.highlightTarget.getUniqueTrail() );
-        }
-      }
+    if ( this.highlightTarget && !event.pointer.isAttached() ) {
+      this.activateHighlight();
     }
   }
 
