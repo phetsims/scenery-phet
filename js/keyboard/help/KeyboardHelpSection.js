@@ -45,8 +45,6 @@ const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHe
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
 const DEFAULT_HEADING_FONT = new PhetFont( { size: 19, weight: 'bold' } );
 
-// Content spacing and alignment
-const DEFAULT_ALIGN = 'left'; // default alignment for the content and title
 const DEFAULT_LABEL_ICON_SPACING = 28; // spacing between Text labels and icons in a HelpSectionRow
 const DEFAULT_VERTICAL_ICON_SPACING = 13;
 
@@ -72,7 +70,8 @@ function KeyboardHelpSection( headingString, content, options ) {
   options = merge( {
 
     // vertical spacing between the heading and the content
-    betweenHeadingAndContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
+    spacing: DEFAULT_HEADING_CONTENT_SPACING,
+    align: 'left',
 
     headingOptions: {
       font: DEFAULT_HEADING_FONT,
@@ -87,12 +86,19 @@ function KeyboardHelpSection( headingString, content, options ) {
     // of the KeyboardHelpSection.
     labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
 
-    // VBox options
-    align: DEFAULT_ALIGN,
+    // Passed to each sub-vBox created
+    vBoxOptions: {
+
+      // VBox options
+      align: 'left',
+      spacing: DEFAULT_VERTICAL_ICON_SPACING
+    },
 
     // pdom - tag name for the entire content, usually content is a list of items
     a11yContentTagName: 'ul'
   }, options );
+
+  assert && assert( !options.children, 'children set by KeyboardHelpSection' );
 
   // create the heading
   const headingText = new Text( headingString, options.headingOptions );
@@ -110,12 +116,10 @@ function KeyboardHelpSection( headingString, content, options ) {
     labels.push( helpSectionRow.label );
   }
 
-  const vBoxOptions = { align: 'left', spacing: DEFAULT_VERTICAL_ICON_SPACING };
-
   // @private - to adjust spacing if necessary for alignment
   this.labelVBox = new VBox( merge( {
     children: labels
-  }, vBoxOptions ) );
+  }, options.vBoxOptions ) );
 
   // @private - parent for all icons, instance variable to adjust spacing if necessary
   this.iconVBox = new VBox( merge( {
@@ -123,7 +127,7 @@ function KeyboardHelpSection( headingString, content, options ) {
 
     // pdom
     tagName: options.a11yContentTagName
-  }, vBoxOptions ) );
+  }, options.vBoxOptions ) );
 
   // @private - labels and icons horizontally aligned, instance variable to adjust spacing if necessary
   this.contentHBox = new HBox( {
@@ -132,11 +136,9 @@ function KeyboardHelpSection( headingString, content, options ) {
   } );
 
   // heading and content aligned in a VBox
-  VBox.call( this, {
-    children: [ headingText, this.contentHBox ],
-    align: options.align,
-    spacing: options.betweenHeadingAndContentSpacing
-  } );
+  VBox.call( this, merge( {}, options, {
+    children: [ headingText, this.contentHBox ]
+  } ) );
 }
 
 sceneryPhet.register( 'KeyboardHelpSection', KeyboardHelpSection );

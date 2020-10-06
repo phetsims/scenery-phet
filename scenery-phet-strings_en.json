@@ -140,6 +140,21 @@
   "keyboardHelpDialog.grabOrReleaseLabelPattern": {
     "value": "Grab or release {{thing}}"
   },
+  "keyboardHelpDialog.comboBox.stepsToChangePattern": {
+    "value": "Steps to change a {{thingTitle}}"
+  },
+  "keyboardHelpDialog.comboBox.popUpListPattern": {
+    "value": "1. Pop up list of {{thingPlural}}"
+  },
+  "keyboardHelpDialog.comboBox.moveThroughPattern": {
+    "value": "2. Move through set {{thingPlural}}"
+  },
+  "keyboardHelpDialog.comboBox.chooseNewPattern": {
+    "value": "3. Choose new {{thingSingular}}"
+  },
+  "keyboardHelpDialog.comboBox.closeWithoutChanging": {
+    "value": "4. Close list without changing"
+  },
   "speed.normal": {
     "value": "Normal"
   },
@@ -260,6 +275,20 @@
       },
       "grabOrReleaseDescriptionPattern": {
         "value": "Grab or release {{thing}} with Space or Enter keys."
+      },
+      "comboBox": {
+        "popUpListPatternDescription": {
+          "value": "Pop up list of {{thingPlural}} with Space or Enter keys."
+        },
+        "moveThroughPatternDescription": {
+          "value": "Move through set {{thingPlural}} with Up and Down arrow keys."
+        },
+        "chooseNewPatternDescription": {
+          "value": " Choose new ratio {{thingSingular}} with Enter key."
+        },
+        "closeWithoutChangingDescription": {
+          "value": " Close list without changing with Esc key."
+        }
       }
     },
     "playPauseButton": {
