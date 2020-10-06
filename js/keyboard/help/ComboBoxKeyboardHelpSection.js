@@ -1,4 +1,4 @@
-// Copyright 2017-2020, University of Colorado Boulder
+// Copyright 2020, University of Colorado Boulder
 
 /**
  * Help section for explaining how to use a keyboard to change a combo box.
