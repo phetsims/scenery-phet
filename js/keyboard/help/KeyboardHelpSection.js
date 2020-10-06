@@ -25,8 +25,8 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import PhetFont from '../../PhetFont.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import AltKeyNode from '../AltKeyNode.js';
 import EnterKeyNode from '../EnterKeyNode.js';
 import KKeyNode from '../KKeyNode.js';
@@ -71,10 +71,17 @@ function KeyboardHelpSection( headingString, content, options ) {
 
   options = merge( {
 
-    // heading options
-    headingContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
-    headingFont: DEFAULT_HEADING_FONT,
-    headingMaxWidth: DEFAULT_HEADING_MAX_WIDTH,
+    // vertical spacing between the heading and the content
+    betweenHeadingAndContentSpacing: DEFAULT_HEADING_CONTENT_SPACING,
+
+    headingOptions: {
+      font: DEFAULT_HEADING_FONT,
+      maxWidth: DEFAULT_HEADING_MAX_WIDTH,
+
+      // pdom
+      tagName: 'h2',
+      innerContent: headingString
+    },
 
     // {number} The max width for all labels in the KeyboardHelpSection. Used as the base sizing to layout the rest
     // of the KeyboardHelpSection.
@@ -88,14 +95,7 @@ function KeyboardHelpSection( headingString, content, options ) {
   }, options );
 
   // create the heading
-  const headingText = new Text( headingString, {
-    font: options.headingFont,
-    maxWidth: options.headingMaxWidth,
-
-    // pdom
-    tagName: 'h2',
-    innerContent: headingString
-  } );
+  const headingText = new Text( headingString, options.headingOptions );
 
   // place icons in labels in unique layout boxes for alignment
   const icons = [];
@@ -135,7 +135,7 @@ function KeyboardHelpSection( headingString, content, options ) {
   VBox.call( this, {
     children: [ headingText, this.contentHBox ],
     align: options.align,
-    spacing: options.headingContentSpacing
+    spacing: options.betweenHeadingAndContentSpacing
   } );
 }
 

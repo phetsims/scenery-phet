@@ -12,8 +12,8 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import PhetFont from '../../PhetFont.js';
 import PlusNode from '../../PlusNode.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
 import EnterKeyNode from '../EnterKeyNode.js';
 import EscapeKeyNode from '../EscapeKeyNode.js';
@@ -26,7 +26,7 @@ import SpaceKeyNode from '../SpaceKeyNode.js';
 const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
 
 // constants
-const DEFAULT_LETTER_KEY_SPACING = 1.3;
+const DEFAULT_HORIZONTAL_KEY_SPACING = 1.3;
 const DEFAULT_ICON_SPACING = 6.5;
 const OR_TEXT_MAX_WIDTH = 16;
 const LABEL_FONT = new PhetFont( 16 );
@@ -158,6 +158,19 @@ class KeyboardHelpIconFactory {
   }
 
   /**
+   * @public
+   * @param {Node[]} icons
+   * @param {Object} [options]
+   */
+  static iconRow( icons, options ) {
+    options = merge( {
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
+    }, options );
+    options.children = icons;
+    return new HBox( options );
+  }
+
+  /**
    * An icon containing icons for the up and down arrow keys aligned horizontally.
    * @public
    *
@@ -166,7 +179,7 @@ class KeyboardHelpIconFactory {
    */
   static wasdRowIcon( options ) {
     options = merge( {
-      spacing: DEFAULT_LETTER_KEY_SPACING
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, options );
 
     assert && assert( !options.children, 'children cannot be passed to options' );
@@ -192,7 +205,7 @@ class KeyboardHelpIconFactory {
   static arrowKeysRowIcon( options ) {
 
     options = merge( {
-      spacing: DEFAULT_LETTER_KEY_SPACING
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, options );
     assert && assert( !options.children, 'children cannot be passed to options' );
 
@@ -257,7 +270,7 @@ class KeyboardHelpIconFactory {
    */
   static createTwoArrowKeysIcon( firstKeyName, secondKeyName, options ) {
     options = merge( {
-      spacing: DEFAULT_LETTER_KEY_SPACING
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, options );
     assert && assert( !options.children, 'children cannot be passed to options' );
 
