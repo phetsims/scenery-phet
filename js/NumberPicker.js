@@ -10,8 +10,10 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -471,6 +473,38 @@ class NumberPicker extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberPicker', this );
+  }
+
+  /**
+   * @public
+   * @param {number} value
+   * @param {Object} [options]
+   * @returns {NumberPicker}
+   */
+  static createIcon( value, options ) {
+    options = merge( {
+
+      // Highlight the increment button
+      highlightIncrement: false,
+
+      // Highlight the decrement button
+      highlightDecrement: false,
+      range: new Range( value - 1, value + 1 ),
+      numberPickerOptions: {}
+    }, options );
+
+    const numberPicker = new NumberPicker( new NumberProperty( value ), new Property( options.range ), options.numberPickerOptions );
+
+    // we don't want this icon to have keyboard navigation, or description in the PDOM.
+    numberPicker.removeFromPDOM();
+
+    if ( options.highlightDecrement ) {
+      numberPicker.decrementInputListener.isOverProperty.value = true;
+    }
+    if ( options.highlightIncrement ) {
+      numberPicker.incrementInputListener.isOverProperty.value = true;
+    }
+    return numberPicker;
   }
 
   /**
