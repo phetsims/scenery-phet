@@ -55,6 +55,8 @@ class SpeakerHighlighter {
     // set the overTrailProperty when focus lands on something so that when
     // speaking starts, it sets the speakingTrailProperty to the focused trail
     Display.focusProperty.link( focus => {
+      this.overTrailProperty.set( null );
+      this.speakingTrailProperty.set( null );
       if ( focus ) {
         this.overTrailProperty.set( focus.trail );
       }

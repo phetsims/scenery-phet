@@ -16,6 +16,8 @@
  * @author Jesse Greenberg
  */
 
+import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
+import Display from '../../../../scenery/js/display/Display.js';
 import speakerHighlighter from './speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -60,6 +62,7 @@ class SelfVoicingInputListener {
       up: event => {
 
         if ( !this.interrupted ) {
+
           this.onPress();
 
           if ( this.highlightTarget && speakerHighlighter.speakingTrailProperty.get() ) {
@@ -87,8 +90,18 @@ class SelfVoicingInputListener {
       event.pointer.addInputListener( this.pointerListener );
       this.pointer = event.pointer;
 
-      // activate highlight if it isn't already activated possible in a touch)
-      this.activateHighlight();
+      // find the focusable node in the down trail and actually focus it
+      for ( let i = 0; i < event.trail.nodes.length; i++ ) {
+        if ( event.trail.nodes[ i ].focusable ) {
+
+          // prevent the web speaker from speaking focus related alerts when we
+          // put focus on it from a down event - simulation code is likely controlling
+          // in that case
+          webSpeaker.onHold = true;
+          event.trail.nodes[ i ].focus();
+          webSpeaker.onHold = false;
+        }
+      }
     }
   }
 
@@ -158,7 +171,15 @@ class SelfVoicingInputListener {
     // pointer leaving a Node, notify the speakerHighlighter - however, we want the highlight
     // to remain for touch input
     if ( event.pointer.type !== 'touch' && this.highlightTarget ) {
-      speakerHighlighter.overTrailProperty.set( null );
+
+      // if there is no fcus, clear the overTrail for the speakerHighlighter, otherwise
+      // return the highlight to the object with keyboard focus
+      if ( Display.focus === null ) {
+        speakerHighlighter.overTrailProperty.set( null );
+      }
+      else {
+        speakerHighlighter.overTrailProperty.set( Display.focus.trail );
+      }
     }
   }
 
