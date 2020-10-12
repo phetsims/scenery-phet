@@ -83,9 +83,9 @@ class GeneralKeyboardHelpSection extends KeyboardHelpSection {
     const content = [
       moveToNextItemRow,
       moveToPreviousItemRow,
+      moveBetweenItemsInAGroupRow,
       pressButtonsItemRow,
       toggleCheckboxes,
-      moveBetweenItemsInAGroupRow,
       exitADialogRow
     ].filter( row => row !== null ); // If any optional rows are null, omit them.
 
