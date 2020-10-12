@@ -75,6 +75,13 @@ class SelfVoicingInputListener {
         this.removePointerListener();
       },
       interrupt: () => {
+
+        // interrupts and removes pointer listeners
+        this.interrupt();
+      },
+      cancel: () => {
+
+        // interrupt and remove listeners on pointer cancel
         this.interrupt();
       }
     };
