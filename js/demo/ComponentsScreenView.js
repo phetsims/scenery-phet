@@ -1078,7 +1078,7 @@ function demoHelpContent( layoutBounds ) {
       new VBox( {
         children: [
           new Panel( new GeneralKeyboardHelpSection() ),
-          new Panel( new GeneralKeyboardHelpSection( { withGroupContent: true } ) )
+          new Panel( new GeneralKeyboardHelpSection( { withCheckboxContent: true } ) )
         ],
         spacing: 10
       } )

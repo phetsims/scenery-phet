@@ -11,8 +11,8 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import EscapeKeyNode from '../EscapeKeyNode.js';
 import SpaceKeyNode from '../SpaceKeyNode.js';
 import TabKeyNode from '../TabKeyNode.js';
@@ -24,13 +24,9 @@ const keyboardHelpDialogBasicActionsString = sceneryPhetStrings.keyboardHelpDial
 const keyboardHelpDialogExitADialogString = sceneryPhetStrings.keyboardHelpDialog.exitADialog;
 const keyboardHelpDialogMoveBetweenItemsInAGroupString = sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroup;
 const keyboardHelpDialogMoveToNextItemOrGroupString = sceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroup;
-const keyboardHelpDialogMoveToNextItemString = sceneryPhetStrings.keyboardHelpDialog.moveToNextItem;
 const keyboardHelpDialogMoveToPreviousItemOrGroupString = sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroup;
-const keyboardHelpDialogMoveToPreviousItemString = sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItem;
 const keyboardHelpDialogPressButtonsString = sceneryPhetStrings.keyboardHelpDialog.pressButtons;
 const keyboardHelpDialogToggleCheckboxesString = sceneryPhetStrings.keyboardHelpDialog.toggleCheckboxes;
-const keyboardHelpDialogTabDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.tabDescription;
-const keyboardHelpDialogShiftTabDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabDescription;
 const keyboardHelpDialogTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescription;
 const keyboardHelpDialogShiftTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescription;
 const keyboardHelpDialogPressButtonsDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescription;
@@ -46,7 +42,6 @@ class GeneralKeyboardHelpSection extends KeyboardHelpSection {
   constructor( options ) {
 
     options = merge( {
-      withGroupContent: false, // if true, the help content will include information about how to interact with groups
       withCheckboxContent: false // if true, the help content will include information about how to interact with checkboxes
     }, options );
 
@@ -65,46 +60,24 @@ class GeneralKeyboardHelpSection extends KeyboardHelpSection {
         toggleCheckboxesDescriptionString );
     }
 
-    // added row if group content is present
-    let moveBetweenItemsInAGroupRow = null;
-    if ( options.withGroupContent ) {
-
-      // if the general navigation section includes help content includes groups, modify some text and add another
-      // section to describe how to navigate groups
-      const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
-      const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
-      const leftRightOrUpDownIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-      moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogMoveBetweenItemsInAGroupString,
-        leftRightOrUpDownIcon, keyboardHelpDialogGroupNavigationDescriptionString );
-    }
-
-    // with "or group" when providing group content
-    const moveToNextItemIcon = new TabKeyNode();
-    const nextItemString = options.withGroupContent ?
-                           keyboardHelpDialogMoveToNextItemOrGroupString :
-                           keyboardHelpDialogMoveToNextItemString;
-    const moveToNextDescription = options.withGroupContent ?
-                                  keyboardHelpDialogTabGroupDescriptionString :
-                                  keyboardHelpDialogTabDescriptionString;
-    const moveToNextItemRow = KeyboardHelpSection.labelWithIcon(
-      nextItemString,
-      moveToNextItemIcon,
-      moveToNextDescription
+    const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+    const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+    const moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon(
+      keyboardHelpDialogMoveBetweenItemsInAGroupString,
+      KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ),
+      keyboardHelpDialogGroupNavigationDescriptionString
     );
 
-    // with "or group" when providing group content
-    const previousItemString = options.withGroupContent ?
-                               keyboardHelpDialogMoveToPreviousItemOrGroupString :
-                               keyboardHelpDialogMoveToPreviousItemString;
-    const tabIcon = new TabKeyNode();
-    const moveToPreviousItemIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabIcon );
-    const moveToPreviousDescriptionString = options.withGroupContent ?
-                                            keyboardHelpDialogShiftTabGroupDescriptionString :
-                                            keyboardHelpDialogShiftTabDescriptionString;
+    const moveToNextItemRow = KeyboardHelpSection.labelWithIcon(
+      keyboardHelpDialogMoveToNextItemOrGroupString,
+      new TabKeyNode(),
+      keyboardHelpDialogTabGroupDescriptionString
+    );
+
     const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon(
-      previousItemString,
-      moveToPreviousItemIcon,
-      moveToPreviousDescriptionString
+      keyboardHelpDialogMoveToPreviousItemOrGroupString,
+      KeyboardHelpIconFactory.shiftPlusIcon( new TabKeyNode() ),
+      keyboardHelpDialogShiftTabGroupDescriptionString
     );
 
     const content = [

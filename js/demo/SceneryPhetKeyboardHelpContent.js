@@ -23,7 +23,6 @@ class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     };
 
     const generalNavigationHelpContent = new GeneralKeyboardHelpSection( merge( helpContentOptions, {
-      withGroupContent: true,
       withCheckboxContent: true
     } ) );
     const sliderKeyboardHelpSection = new SliderKeyboardHelpSection( helpContentOptions );
