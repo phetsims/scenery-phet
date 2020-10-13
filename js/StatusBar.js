@@ -10,7 +10,6 @@
 
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -20,86 +19,83 @@ import vegas from './vegas.js';
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
 
-/**
- * @param {Bounds2} layoutBounds
- * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the parent ScreenView
- * @param {Object} [options]
- * @constructor
- */
-function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
+class StatusBar extends Node {
 
-  options = merge( {
-    barHeight: 50,
-    xMargin: 10,
-    yMargin: 8,
-    barFill: 'lightGray',
-    barStroke: null,
+  /**
+   * @param {Bounds2} layoutBounds
+   * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the parent ScreenView
+   * @param {Object} [options]
+   */
+  constructor( layoutBounds, visibleBoundsProperty, options ) {
 
-    // true: float bar to top of visible bounds
-    // false: bar at top of layoutBounds
-    floatToTop: false,
+    options = merge( {
+      barHeight: 50,
+      xMargin: 10,
+      yMargin: 8,
+      barFill: 'lightGray',
+      barStroke: null,
 
-    // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
-    // false: keeps things on the status bar aligned with left and right edges of layoutBounds
-    dynamicAlignment: true
-  }, options );
+      // true: float bar to top of visible bounds
+      // false: bar at top of layoutBounds
+      floatToTop: false,
 
-  // @protected size will be set by visibleBoundsListener
-  this.barNode = new Rectangle( {
-    fill: options.barFill,
-    stroke: options.barStroke
-  } );
+      // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
+      // false: keeps things on the status bar aligned with left and right edges of layoutBounds
+      dynamicAlignment: true
+    }, options );
 
-  // Support decoration, with the bar behind everything else
-  options.children = [ this.barNode ].concat( options.children || [] );
+    // size will be set by visibleBoundsListener
+    const barNode = new Rectangle( {
+      fill: options.barFill,
+      stroke: options.barStroke
+    } );
 
-  Node.call( this, options );
+    // Support decoration, with the bar behind everything else
+    options.children = [ barNode ].concat( options.children || [] );
 
-  // @public (read-only) for layout of UI components on the status bar, compensated for margins
-  this.positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
-    valueType: Bounds2
-  } );
+    super( options );
 
-  const visibleBoundsListener = visibleBounds => {
+    // @public (read-only) for layout of UI components on the status bar, compensated for margins
+    this.positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
+      valueType: Bounds2
+    } );
 
-    // Resize and position the bar to match the visible bounds.
-    const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
-    this.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
+    const visibleBoundsListener = visibleBounds => {
 
-    // Update the bounds inside which components on the status bar should be positioned.
-    this.positioningBoundsProperty.value = new Bounds2(
-      ( ( options.dynamicAlignment ) ? this.barNode.left : layoutBounds.minX ) + options.xMargin,
-      this.barNode.top,
-      ( ( options.dynamicAlignment ) ? this.barNode.right : layoutBounds.maxX ) - options.xMargin,
-      this.barNode.bottom
-    );
-  };
-  visibleBoundsProperty.link( visibleBoundsListener );
+      // Resize and position the bar to match the visible bounds.
+      const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
+      barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
 
-  // @private
-  this.disposeStatusBar = () => {
-    if ( visibleBoundsProperty.hasListener( visibleBoundsListener ) ) {
-      visibleBoundsProperty.unlink( visibleBoundsListener );
-    }
-  };
-}
+      // Update the bounds inside which components on the status bar should be positioned.
+      this.positioningBoundsProperty.value = new Bounds2(
+        ( ( options.dynamicAlignment ) ? barNode.left : layoutBounds.minX ) + options.xMargin,
+        barNode.top,
+        ( ( options.dynamicAlignment ) ? barNode.right : layoutBounds.maxX ) - options.xMargin,
+        barNode.bottom
+      );
+    };
+    visibleBoundsProperty.link( visibleBoundsListener );
 
-vegas.register( 'StatusBar', StatusBar );
-
-inherit( Node, StatusBar, {
+    // @private
+    this.disposeStatusBar = () => {
+      if ( visibleBoundsProperty.hasListener( visibleBoundsListener ) ) {
+        visibleBoundsProperty.unlink( visibleBoundsListener );
+      }
+    };
+  }
 
   /**
    * @public
    * @override
    */
-  dispose: function() {
+  dispose() {
     this.disposeStatusBar();
-    Node.prototype.dispose.call( this );
+    super.dispose();
   }
-}, {
+}
 
-  // Default font for things text that appears in the status bar subtypes
-  DEFAULT_FONT: DEFAULT_FONT
-} );
+// @public Default font for things text that appears in the status bar subtypes
+StatusBar.DEFAULT_FONT = DEFAULT_FONT;
 
+vegas.register( 'StatusBar', StatusBar );
 export default StatusBar;
