@@ -8,7 +8,6 @@
  */
 
 import Shape from '../../kite/js/Shape.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -18,35 +17,36 @@ import sceneryPhet from './sceneryPhet.js';
 // constants
 const NUMBER_OF_SIDES = 8;
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function StopSignNode( options ) {
-  options = merge( {
-    fillRadius: 23,
-    innerStrokeWidth: 2,
-    outerStrokeWidth: 1,
+class StopSignNode extends Node {
 
-    fill: 'red',
-    innerStroke: 'white',
-    outerStroke: 'black',
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-    tandem: Tandem.REQUIRED
-  }, options );
+    options = merge( {
+      fillRadius: 23,
+      innerStrokeWidth: 2,
+      outerStrokeWidth: 1,
 
-  options.children = [
-    createStopSignPath( options.outerStroke, options.fillRadius + options.innerStrokeWidth + options.outerStrokeWidth ),
-    createStopSignPath( options.innerStroke, options.fillRadius + options.innerStrokeWidth ),
-    createStopSignPath( options.fill, options.fillRadius )
-  ];
+      fill: 'red',
+      innerStroke: 'white',
+      outerStroke: 'black',
 
-  Node.call( this, options );
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    options.children = [
+      createStopSignPath( options.outerStroke, options.fillRadius + options.innerStrokeWidth + options.outerStrokeWidth ),
+      createStopSignPath( options.innerStroke, options.fillRadius + options.innerStrokeWidth ),
+      createStopSignPath( options.fill, options.fillRadius )
+    ];
+
+    super( options );
+  }
 }
 
-sceneryPhet.register( 'StopSignNode', StopSignNode );
-
-var createStopSignPath = function( fill, radius ) {
+function createStopSignPath( fill, radius ) {
   return new Path( Shape.regularPolygon( NUMBER_OF_SIDES, radius ), {
     fill: fill,
     rotation: Math.PI / NUMBER_OF_SIDES,
@@ -55,7 +55,7 @@ var createStopSignPath = function( fill, radius ) {
     centerX: 0,
     centerY: 0
   } );
-};
+}
 
-inherit( Node, StopSignNode );
+sceneryPhet.register( 'StopSignNode', StopSignNode );
 export default StopSignNode;
