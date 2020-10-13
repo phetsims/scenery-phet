@@ -7,39 +7,38 @@
  */
 
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
- * @param {ModelViewTransform2} modelViewTransform
- * @param {Object} [options]
- * @constructor
- */
-function BucketHole( bucket, modelViewTransform, options ) {
+class BucketHole extends Node {
 
-  Node.call( this, options );
+  /**
+   * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} [options]
+   */
+  constructor( bucket, modelViewTransform, options ) {
 
-  const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
-  const transformedShape = bucket.holeShape.transformed( scaleMatrix );
-  const gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
-  gradientPaint.addColorStop( 0, 'black' );
-  gradientPaint.addColorStop( 1, '#c0c0c0' );
+    super( options );
 
-  this.addChild( new Path( transformedShape, {
-    fill: gradientPaint,
-    stroke: '#777',
-    lineWidth: 1
-  } ) );
+    const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
+    const transformedShape = bucket.holeShape.transformed( scaleMatrix );
+    const gradientPaint = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 );
+    gradientPaint.addColorStop( 0, 'black' );
+    gradientPaint.addColorStop( 1, '#c0c0c0' );
 
-  // Set initial position.
-  this.translation = modelViewTransform.modelToViewPosition( bucket.position );
+    this.addChild( new Path( transformedShape, {
+      fill: gradientPaint,
+      stroke: '#777',
+      lineWidth: 1
+    } ) );
+
+    // Set initial position.
+    this.translation = modelViewTransform.modelToViewPosition( bucket.position );
+  }
 }
 
 sceneryPhet.register( 'BucketHole', BucketHole );
-
-inherit( Node, BucketHole );
 export default BucketHole;
