@@ -548,7 +548,7 @@ class GrabDragInteraction {
   }
 
   /**
-   * Update the visiblity of the cues for both grabbable and draggable modes
+   * Update the visibility of the cues for both grabbable and draggable modes.
    * @private
    */
   updateCues() {
