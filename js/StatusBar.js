@@ -1,12 +1,15 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * Base type for the status bar that appears at the top of games.
- * The base type is primarily responsible for resizing and 'floating' the bar.
+ * StatusBar is the base class for the status bar that appears at the top of games. It sizes itself to match the bounds
+ * of the browser window (the visible bounds) and float to either the top of the browser window or the layout bounds.
+ * Subclasses are responsible for adding UI components to the bar.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../axon/js/Property.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -32,22 +35,16 @@ function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
     barFill: 'lightGray',
     barStroke: null,
 
-    // true: float bar to top of visible bounds; false: bar at top of layoutBounds
+    // true: float bar to top of visible bounds
+    // false: bar at top of layoutBounds
     floatToTop: false,
 
-    // true: keeps things on the status bar aligned with left and right edges of window bounds
-    // false: align things on status bar with left and right edges of static layoutBounds
+    // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
+    // false: keeps things on the status bar aligned with left and right edges of layoutBounds
     dynamicAlignment: true
-
   }, options );
 
-  // @private
-  this.layoutBounds = layoutBounds;
-  this.xMargin = options.xMargin;
-  this.yMargin = options.yMargin;
-  this.dynamicAlignment = options.dynamicAlignment;
-
-  // @private size will be set by visibleBoundsListener
+  // @protected size will be set by visibleBoundsListener
   this.barNode = new Rectangle( {
     fill: options.barFill,
     stroke: options.barStroke
@@ -58,14 +55,24 @@ function StatusBar( layoutBounds, visibleBoundsProperty, options ) {
 
   Node.call( this, options );
 
+  // @public (read-only) for layout of UI components on the status bar, compensated for margins
+  this.positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
+    valueType: Bounds2
+  } );
+
   const visibleBoundsListener = visibleBounds => {
 
-    // resize the bar
+    // Resize and position the bar to match the visible bounds.
     const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
     this.barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
 
-    // update layout of things on the bar
-    this.updateLayout();
+    // Update the bounds inside which components on the status bar should be positioned.
+    this.positioningBoundsProperty.value = new Bounds2(
+      ( ( options.dynamicAlignment ) ? this.barNode.left : layoutBounds.minX ) + options.xMargin,
+      this.barNode.top,
+      ( ( options.dynamicAlignment ) ? this.barNode.right : layoutBounds.maxX ) - options.xMargin,
+      this.barNode.bottom
+    );
   };
   visibleBoundsProperty.link( visibleBoundsListener );
 
@@ -88,28 +95,6 @@ inherit( Node, StatusBar, {
   dispose: function() {
     this.disposeStatusBar();
     Node.prototype.dispose.call( this );
-  },
-
-  /**
-   * Updates the layout of things on the bar.
-   * @protected
-   */
-  updateLayout: function() {
-    const leftEdge = ( ( this.dynamicAlignment ) ? this.barNode.left : this.layoutBounds.minX ) + this.xMargin;
-    const rightEdge = ( ( this.dynamicAlignment ) ? this.barNode.right : this.layoutBounds.maxX ) - this.xMargin;
-    this.updateLayoutProtected( leftEdge, rightEdge, this.barNode.centerY );
-  },
-
-  /**
-   * Layout that is specific to subtypes.
-   * @param {number} leftEdge - the bar's left edge, compensated for xMargin
-   * @param {number} rightEdge - the bar's right edge, compensated for xMargin
-   * @param {number} centerY - the bar's vertical center
-   * @protected
-   * @abstract
-   */
-  updateLayoutProtected: function( leftEdge, rightEdge, centerY ) {
-    throw new Error( 'updateLayout must be implemented by subtypes' );
   }
 }, {
 
