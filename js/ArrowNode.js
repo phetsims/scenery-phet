@@ -11,66 +11,62 @@
 
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrowShape from './ArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {number} tailX
- * @param {number} tailY
- * @param {number} tipX
- * @param {number} tipY
- * @param {Object} [options]
- * @constructor
- */
-function ArrowNode( tailX, tailY, tipX, tipY, options ) {
+class ArrowNode extends Path {
 
-  // default options
-  options = merge( {
-    headHeight: 10,
-    headWidth: 10,
-    tailWidth: 5,
-    isHeadDynamic: false,
-    scaleTailToo: false,
-    fractionalHeadHeight: 0.5, // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
-    doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
-    fill: 'black',
-    stroke: 'black',
-    lineWidth: 1,
+  /**
+   * @param {number} tailX
+   * @param {number} tailY
+   * @param {number} tipX
+   * @param {number} tipY
+   * @param {Object} [options]
+   */
+  constructor( tailX, tailY, tipX, tipY, options ) {
 
-    // phet-io
-    tandem: Tandem.OPTIONAL
-  }, options );
+    // default options
+    options = merge( {
+      headHeight: 10,
+      headWidth: 10,
+      tailWidth: 5,
+      isHeadDynamic: false,
+      scaleTailToo: false,
+      fractionalHeadHeight: 0.5, // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
+      doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
+      fill: 'black',
+      stroke: 'black',
+      lineWidth: 1,
 
-  // things you're likely to mess up, add more as needed
-  assert && assert( options.headWidth > options.tailWidth );
+      // phet-io
+      tandem: Tandem.OPTIONAL
+    }, options );
 
-  Path.call( this, null );
+    // things you're likely to mess up, add more as needed
+    assert && assert( options.headWidth > options.tailWidth );
 
-  // @private
-  this.options = options;
-  this.shapePoints = []; // {Vector2[]}
+    super( null );
 
-  // @public {read-only}
-  this.tailX = tailX;
-  this.tailY = tailY;
-  this.tipX = tipX;
-  this.tipY = tipY;
+    // @private
+    this.options = options;
+    this.shapePoints = []; // {Vector2[]}
 
-  this.setTailAndTip( tailX, tailY, tipX, tipY );
+    // @public {read-only}
+    this.tailX = tailX;
+    this.tailY = tailY;
+    this.tipX = tipX;
+    this.tipY = tipY;
 
-  this.mutate( options );
+    this.setTailAndTip( tailX, tailY, tipX, tipY );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ArrowNode', this );
-}
+    this.mutate( options );
 
-sceneryPhet.register( 'ArrowNode', ArrowNode );
-
-inherit( Path, ArrowNode, {
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ArrowNode', this );
+  }
 
   /**
    * Update the internal shapePoints array which is used to populate the points in the Shape instance.
@@ -78,17 +74,17 @@ inherit( Path, ArrowNode, {
    * @returns {boolean} true if the number of points in the array has changed, which would require building a new
    *                    shape instance.
    */
-  updateShapePoints: function() {
+  updateShapePoints() {
     const numberOfPoints = this.shapePoints.length;
     this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
     return ( this.shapePoints.length !== numberOfPoints );
-  },
+  }
 
   /**
    * Initialize or update the shape. Only called if the number of points in the shape changes.
    * @private
    */
-  updateShape: function() {
+  updateShape() {
 
     const shape = new Shape();
 
@@ -101,7 +97,7 @@ inherit( Path, ArrowNode, {
     }
 
     this.shape = shape;
-  },
+  }
 
   /**
    * Sets the tail and tip positions to update the arrow shape.
@@ -112,7 +108,7 @@ inherit( Path, ArrowNode, {
    * @param {number} tipX
    * @param {number} tipY
    */
-  setTailAndTip: function( tailX, tailY, tipX, tipY ) {
+  setTailAndTip( tailX, tailY, tipX, tipY ) {
 
     this.tailX = tailX;
     this.tailY = tailY;
@@ -131,7 +127,7 @@ inherit( Path, ArrowNode, {
       // This is the higher-performance case where the Shape instance can be reused
       this.shape.invalidatePoints();
     }
-  },
+  }
 
   /**
    * Sets the tail position.
@@ -139,9 +135,9 @@ inherit( Path, ArrowNode, {
    * @param {number} tailY
    * @public
    */
-  setTail: function( tailX, tailY ) {
+  setTail( tailX, tailY ) {
     this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
-  },
+  }
 
   /**
    * Sets the tip position.
@@ -149,31 +145,32 @@ inherit( Path, ArrowNode, {
    * @param {number} tipY
    * @public
    */
-  setTip: function( tipX, tipY ) {
+  setTip( tipX, tipY ) {
     this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
-  },
+  }
 
   /**
    * Sets the tail width.
    * @public
    * @param {number} tailWidth
    */
-  setTailWidth: function( tailWidth ) {
+  setTailWidth( tailWidth ) {
     this.options.tailWidth = tailWidth;
     this.updateShapePoints();
     this.updateShape();
-  },
+  }
 
   /**
    * Sets whether the arrow has one or two heads.
    * @public
    * @param {boolean} doubleHead
    */
-  setDoubleHead: function( doubleHead ) {
+  setDoubleHead( doubleHead ) {
     this.options.doubleHead = doubleHead;
     this.updateShapePoints();
     this.updateShape();
   }
-} );
+}
 
+sceneryPhet.register( 'ArrowNode', ArrowNode );
 export default ArrowNode;
