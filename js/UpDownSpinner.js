@@ -10,83 +10,87 @@
 
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import RoundPushButton from '../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- *
- * @param {Property.<number>} valueProperty
- * @param {Property.<boolean>} upEnabledProperty
- * @param {Property.<boolean>} downEnabledProperty
- * @param {Object} [options]
- * @constructor
- */
-function UpDownSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
-  const shapeWidth = 26;
-  const upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );
-  const downShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, 10 ).lineTo( shapeWidth, 0 );
+class UpDownSpinner extends VBox {
 
-  const upIcon = new Path( upShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
-  const downIcon = new Path( downShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+  /**
+   *
+   * @param {Property.<number>} valueProperty
+   * @param {Property.<boolean>} upEnabledProperty
+   * @param {Property.<boolean>} downEnabledProperty
+   * @param {Object} [options]
+   */
+  constructor( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
 
-  const radius = 20;
-  const upButton = new RoundPushButton( {
-    content: upIcon,
-    listener: function() {
-      valueProperty.set( valueProperty.get() + 1 );
-    },
-    radius: radius,
-    touchAreaDilation: 5,
-    baseColor: '#fefd53',
-    yContentOffset: -3
-  } );
-  const upEnabledPropertyLinkAttribute = upEnabledProperty.linkAttribute( upButton, 'enabled' );
+    options = merge( {
+      spacing: 6
+    }, options );
 
-  const downButton = new RoundPushButton( {
-    content: downIcon,
-    listener: function() {
-      valueProperty.set( valueProperty.get() - 1 );
-    },
-    radius: radius,
-    touchAreaDilation: 5,
-    baseColor: '#fefd53',
-    yContentOffset: +3
-  } );
-  const downEnabledPropertyLinkAttribute = downEnabledProperty.linkAttribute( downButton, 'enabled' );
+    const shapeWidth = 26;
+    const upShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 ).lineTo( shapeWidth, 0 );
+    const downShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, 10 ).lineTo( shapeWidth, 0 );
 
-  VBox.call( this, { spacing: 6, children: [ upButton, downButton ] } );
+    const upIcon = new Path( upShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
+    const downIcon = new Path( downShape, { lineWidth: 5, stroke: 'black', lineCap: 'round' } );
 
-  this.mutate( options );
+    const radius = 20;
+    const upButton = new RoundPushButton( {
+      content: upIcon,
+      listener: function() {
+        valueProperty.set( valueProperty.get() + 1 );
+      },
+      radius: radius,
+      touchAreaDilation: 5,
+      baseColor: '#fefd53',
+      yContentOffset: -3
+    } );
+    const upEnabledPropertyLinkAttribute = upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
-  // @private
-  this.disposeUpDownSpinner = function() {
-    if ( upEnabledProperty.hasListener( upEnabledPropertyLinkAttribute ) ) {
-      upEnabledProperty.unlinkAttribute( upEnabledPropertyLinkAttribute );
-    }
-    if ( downEnabledProperty.hasListener( downEnabledPropertyLinkAttribute ) ) {
-      downEnabledProperty.unlinkAttribute( downEnabledPropertyLinkAttribute );
-    }
-  };
+    const downButton = new RoundPushButton( {
+      content: downIcon,
+      listener: function() {
+        valueProperty.set( valueProperty.get() - 1 );
+      },
+      radius: radius,
+      touchAreaDilation: 5,
+      baseColor: '#fefd53',
+      yContentOffset: +3
+    } );
+    const downEnabledPropertyLinkAttribute = downEnabledProperty.linkAttribute( downButton, 'enabled' );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'UpDownSpinner', this );
+    assert && assert( !options.children, 'UpDownSpinner sets children' );
+    options.children = [ upButton, downButton ];
+
+    super( options );
+
+    // @private
+    this.disposeUpDownSpinner = function() {
+      if ( upEnabledProperty.hasListener( upEnabledPropertyLinkAttribute ) ) {
+        upEnabledProperty.unlinkAttribute( upEnabledPropertyLinkAttribute );
+      }
+      if ( downEnabledProperty.hasListener( downEnabledPropertyLinkAttribute ) ) {
+        downEnabledProperty.unlinkAttribute( downEnabledPropertyLinkAttribute );
+      }
+    };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'UpDownSpinner', this );
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeUpDownSpinner();
+    super.dispose();
+  }
 }
 
 sceneryPhet.register( 'UpDownSpinner', UpDownSpinner );
-
-inherit( VBox, UpDownSpinner, {
-
-  /**
-   * Ensures that this node is subject to garbage collection
-   * @public
-   */
-  dispose: function() {
-    this.disposeUpDownSpinner();
-    VBox.prototype.dispose.call( this );
-  }
-} );
-
 export default UpDownSpinner;
