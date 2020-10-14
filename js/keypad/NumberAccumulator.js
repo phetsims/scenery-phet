@@ -10,7 +10,6 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
@@ -29,79 +28,61 @@ const DECIMAL_CHAR = '.';
 const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 const MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function NumberAccumulator( options ) {
-  const self = this;
-  options = merge( {
-    maxDigitsRightOfMantissa: 0,
-    maxDigits: MAX_DIGITS,
-    tandem: Tandem.REQUIRED
-  }, options );
-
-  // range check the options
-  assert && assert(
-  options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
-    'maxDigits out of range: ' + options.maxDigits
-  );
-  assert && assert(
-  options.maxDigitsRightOfMantissa >= 0 && options.maxDigitsRightOfMantissa <= options.maxDigits,
-    'maxDigitsRightOfMantissa is out of range: ' + options.maxDigitsRightOfMantissa
-  );
-
-  this.maxDigitsRightOfMantissa = options.maxDigitsRightOfMantissa; // @private
-  this.maxDigits = options.maxDigits; // @private
+class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
-   * validate a proposed set of keys
-   * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
-   * @returns {boolean}
-   * @protected
-   * @override
+   * @param {Object} [options]
    */
-  this.defaultValidator = function( proposedKeys ) {
-    return self.getNumberOfDigits( proposedKeys ) <= self.maxDigits
-           && !( self.getNumberOfDigits( proposedKeys ) === self.maxDigits
-           && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
-           && self.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= self.maxDigitsRightOfMantissa;
-  };
+  constructor( options ) {
 
-  // Validators to be passed into AbstractKeyAccumulator
-  const validators = [ this.defaultValidator ];
+    options = merge( {
+      maxDigitsRightOfMantissa: 0,
+      maxDigits: MAX_DIGITS,
+      tandem: Tandem.REQUIRED
+    }, options );
 
-  AbstractKeyAccumulator.call( this, validators, options );
+    // verify option values
+    assert && assert( options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
+      `maxDigits is out of range: ${options.maxDigits}` );
+    assert && assert( options.maxDigitsRightOfMantissa >= 0 && options.maxDigitsRightOfMantissa <= options.maxDigits,
+      `maxDigitsRightOfMantissa is out of range: ${options.maxDigitsRightOfMantissa}` );
 
-  // @public (read-only) - string representation of the keys entered by the user
-  this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
-    return self.keysToString( accumulatedKeys );
-  }, {
-    tandem: options.tandem.createTandem( 'stringProperty' ),
-    phetioType: DerivedProperty.DerivedPropertyIO( StringIO )
-  } );
+    // Validators to be passed to AbstractKeyAccumulator
+    const validators = [
+      proposedKeys => {
+        return this.getNumberOfDigits( proposedKeys ) <= options.maxDigits
+               && !( this.getNumberOfDigits( proposedKeys ) === options.maxDigits
+               && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
+               && this.getNumberOfDigitsRightOfMantissa( proposedKeys ) <= options.maxDigitsRightOfMantissa;
+      }
+    ];
 
-  // @public (read-only) - numerical value of the keys entered by the user
-  this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {
-    return self.stringToInteger( stringValue );
-  }, {
-    tandem: options.tandem.createTandem( 'valueProperty' ),
-    phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
-  } );
+    super( validators, options );
 
-}
+    // @public (read-only) - string representation of the keys entered by the user
+    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
+      return this.keysToString( accumulatedKeys );
+    }, {
+      tandem: options.tandem.createTandem( 'stringProperty' ),
+      phetioType: DerivedProperty.DerivedPropertyIO( StringIO )
+    } );
 
-sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
-
-inherit( AbstractKeyAccumulator, NumberAccumulator, {
+    // @public (read-only) - numerical value of the keys entered by the user
+    this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {
+      return this.stringToInteger( stringValue );
+    }, {
+      tandem: options.tandem.createTandem( 'valueProperty' ),
+      phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
+    } );
+  }
 
   /**
-   * invoked when a key is pressed and creates proposed set of keys to be passed to the validator
+   * Invoked when a key is pressed and creates proposed set of keys to be passed to the validator
    * @param {KeyID} keyIdentifier - identifier for the key pressed
    * @public
    * @override
    */
-  handleKeyPressed: function( keyIdentifier ) {
+  handleKeyPressed( keyIdentifier ) {
     const newArray = this.handleClearOnNextKeyPress( keyIdentifier );
     if ( this.isDigit( keyIdentifier ) ) {
       this.removeLeadingZero( newArray );
@@ -127,23 +108,23 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
       }
     }
     else {
-      assert && assert( false, 'This type of Key is not supported Number Keypad' );
+      assert && assert( false, `unsupported keyIdentifier: ${keyIdentifier}` );
     }
 
     // Validate and update the keys
     this.validateKeys( newArray ) && this.updateKeys( newArray );
-  },
+  }
 
   /**
-   * removes leading zeros from the array
+   * Removes leading zeros from the array.
    * @param {Array.<KeyID>} array
    * @private
    */
-  removeLeadingZero: function( array ) {
+  removeLeadingZero( array ) {
     if ( this.valueProperty.get() === 0 && !this.containsFloatingPoint( array ) ) {
       array.pop();
     }
-  },
+  }
 
   /**
    * Converts a set of keys to a string.
@@ -151,7 +132,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {string}
    * @private
    */
-  keysToString: function( keys ) {
+  keysToString( keys ) {
 
     let returnValue = '';
     let i = 0;
@@ -177,7 +158,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
     }
 
     return returnValue;
-  },
+  }
 
   /**
    * Converts a string representation to a number.
@@ -185,15 +166,14 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {number|null}
    * @private
    */
-  stringToInteger: function( stringValue ) {
+  stringToInteger( stringValue ) {
     let returnValue = null;
 
     // if stringValue contains something other than just a minus sign...
     if ( stringValue.length > 0
          && !( stringValue.length === 1 && stringValue[ 0 ] === NEGATIVE_CHAR )
          && ( this.getNumberOfDigitsLeftOfMantissa( this.accumulatedKeysProperty.get() ) > 0 ||
-              this.getNumberOfDigitsRightOfMantissa( this.accumulatedKeysProperty.get() ) > 0 )
-    ) {
+              this.getNumberOfDigitsRightOfMantissa( this.accumulatedKeysProperty.get() ) > 0 ) ) {
 
       // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
       returnValue = parseFloat( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ) );
@@ -201,7 +181,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
     }
 
     return returnValue;
-  },
+  }
 
   /**
    * Gets the number of digits to the left of mantissa in the accumulator.
@@ -209,7 +189,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {number}
    * @private
    */
-  getNumberOfDigitsLeftOfMantissa: function( keys ) {
+  getNumberOfDigitsLeftOfMantissa( keys ) {
     let numberOfDigits = 0;
     for ( let i = 0; i < keys.length; i++ ) {
       if ( this.isDigit( keys[ i ] ) ) {
@@ -221,7 +201,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
       }
     }
     return numberOfDigits;
-  },
+  }
 
   /**
    * Gets the number of digits to the right of mantissa in the accumulator.
@@ -229,7 +209,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {number}
    * @private
    */
-  getNumberOfDigitsRightOfMantissa: function( keys ) {
+  getNumberOfDigitsRightOfMantissa( keys ) {
     const decimalKeyIndex = keys.indexOf( KeyID.DECIMAL );
     let numberOfDigits = 0;
     if ( decimalKeyIndex >= 0 ) {
@@ -240,7 +220,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
       }
     }
     return numberOfDigits;
-  },
+  }
 
   /**
    * Gets the number of digits in the accumulator.
@@ -248,7 +228,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {number}
    * @private
    */
-  getNumberOfDigits: function( keys ) {
+  getNumberOfDigits( keys ) {
     let numberOfDigits = 0;
     for ( let i = 0; i < keys.length; i++ ) {
       if ( this.isDigit( keys[ i ] ) ) {
@@ -256,7 +236,7 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
       }
     }
     return numberOfDigits;
-  },
+  }
 
   /**
    * Gets the number of digits in the accumulator.
@@ -264,9 +244,9 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {boolean}
    * @private
    */
-  containsFloatingPoint: function( keys ) {
+  containsFloatingPoint( keys ) {
     return ( keys.indexOf( KeyID.DECIMAL ) >= 0 );
-  },
+  }
 
   /**
    * Returns weather the character is valid digit or not
@@ -274,29 +254,30 @@ inherit( AbstractKeyAccumulator, NumberAccumulator, {
    * @returns {boolean}
    * @private
    */
-  isDigit: function( char ) {
+  isDigit( char ) {
     return !isNaN( char ) && char >= '0' && char <= '9';
-  },
+  }
 
   /**
    * clear the accumulator
    * @public
+   * @override
    */
-  clear: function() {
-    AbstractKeyAccumulator.prototype.clear.call( this );
+  clear() {
+    super.clear();
     this.setClearOnNextKeyPress( false );
-  },
-
-  /**
-   * Cleans up references.
-   * @public
-   */
-  dispose: function() {
-    this.valueProperty.dispose();
-    this.stringProperty.dispose();
-    AbstractKeyAccumulator.prototype.dispose.call( this );
   }
 
-} );
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.valueProperty.dispose();
+    this.stringProperty.dispose();
+    super.dispose();
+  }
+}
 
+sceneryPhet.register( 'NumberAccumulator', NumberAccumulator );
 export default NumberAccumulator;

@@ -8,74 +8,67 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import sceneryPhet from '../sceneryPhet.js';
 import KeyID from './KeyID.js';
 
-/**
- * @param {Array.<function>} validators
- * @param {Object} [options]
- * @constructor
- */
-function AbstractKeyAccumulator( validators, options ) {
-  options = merge( {
-
-    // a function that, if non-null, is used in addition to the default validation function to validate the user input
-    // type spec: additionalValidator(Array.<KeyID>) { return true/false }
-    additionalValidator: null
-
-  }, options );
-
-  // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
-  this.accumulatedKeysProperty = new Property( [] );
-
-  // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
-  this._clearOnNextKeyPress = false;
-
-  // @private {function|null}
-  this.additionalValidator = options.additionalValidator;
-
-  // @protected {function}
-  this.validators = validators;
-}
-
-sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
-
-inherit( Object, AbstractKeyAccumulator, {
+class AbstractKeyAccumulator {
 
   /**
-   * clears the accumulated keys
+   * @param {Array.<function>} validators
+   * @param {Object} [options]
+   */
+  constructor( validators, options ) {
+    options = merge( {
+
+      // a function that, if non-null, is used in addition to the default validation function to validate the user input
+      // type spec: additionalValidator(Array.<KeyID>) { return true/false }
+      additionalValidator: null
+
+    }, options );
+
+    // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
+    this.accumulatedKeysProperty = new Property( [] );
+
+    // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
+    this._clearOnNextKeyPress = false;
+
+    // @private {function|null}
+    this.additionalValidator = options.additionalValidator;
+
+    // @protected {function}
+    this.validators = validators;
+  }
+
+  get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
+
+  set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); }
+
+  /**
+   * Clears the accumulated keys.
    * @public
    */
-  clear: function() {
+  clear() {
     this.accumulatedKeysProperty.reset();
-  },
+  }
 
   /**
-   * set/clear the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys
+   * Sets/clears the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys.
    * @param {boolean} clearOnNextKeyPress
    * @public
    */
-  setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+  setClearOnNextKeyPress( clearOnNextKeyPress ) {
     this._clearOnNextKeyPress = clearOnNextKeyPress;
-  },
-  set clearOnNextKeyPress( value ) {
-    this.setClearOnNextKeyPress( value );
-  },
+  }
 
   /**
-   * get the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated
-   * keys
+   * Gets the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated keys.
    * @returns {boolean}
    * @public
    */
-  getClearOnNextKeyPress: function() {
+  getClearOnNextKeyPress() {
     return this._clearOnNextKeyPress;
-  },
-  get clearOnNextKeyPress() {
-    return this.getClearOnNextKeyPress();
-  },
+  }
 
   /**
    * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
@@ -84,7 +77,7 @@ inherit( Object, AbstractKeyAccumulator, {
    *
    * @returns boolean
    */
-  validateKeys: function( proposedKeys ) {
+  validateKeys( proposedKeys ) {
 
     // Ensures that proposedKeys exist before validation
     let valid = !!proposedKeys;
@@ -94,17 +87,19 @@ inherit( Object, AbstractKeyAccumulator, {
       valid = valid && validator( proposedKeys );
     } );
     return valid;
-  },
+  }
+
   /**
    * update the property that represents the accumulated keys
    * @param {Array.<KeyID>} proposedKeys - the proposed set of keys
    * @protected
    */
-  updateKeys: function( proposedKeys ) {
+  updateKeys( proposedKeys ) {
     this.accumulatedKeysProperty.set( proposedKeys );
-  },
+  }
+
   // TODO: Remove after changes are complete. See https://github.com/phetsims/scenery-phet/issues/283
-  // validateAndUpdate: function( proposedKeys ) {
+  // validateAndUpdate( proposedKeys ) {
   //
   //   // if alternative validation is provided it is called here
   //   if ( this.alternativeValidator ) {
@@ -128,7 +123,7 @@ inherit( Object, AbstractKeyAccumulator, {
   //       }
   //     }
   //   }
-  // },
+  // }
 
   /**
    * Called by the key accumulator when this key is pressed.
@@ -136,9 +131,9 @@ inherit( Object, AbstractKeyAccumulator, {
    * @public
    * @abstract
    */
-  handleKeyPressed: function( keyIdentifier ) {
+  handleKeyPressed( keyIdentifier ) {
     throw new Error( 'abstract function must be implemented by subtypes' );
-  },
+  }
 
   /**
    * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
@@ -146,7 +141,7 @@ inherit( Object, AbstractKeyAccumulator, {
    * @returns {Array.<KeyID>} proposedArray
    * @private
    */
-  handleClearOnNextKeyPress: function( keyIdentifier ) {
+  handleClearOnNextKeyPress( keyIdentifier ) {
     let proposedArray;
     if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
       proposedArray = _.clone( this.accumulatedKeysProperty.get() );
@@ -156,15 +151,15 @@ inherit( Object, AbstractKeyAccumulator, {
     }
     this.setClearOnNextKeyPress( false );
     return proposedArray;
-  },
+  }
 
   /**
-   * Cleans up references.
    * @public
    */
-  dispose: function() {
+  dispose() {
     this.accumulatedKeysProperty.dispose();
   }
-} );
+}
 
+sceneryPhet.register( 'AbstractKeyAccumulator', AbstractKeyAccumulator );
 export default AbstractKeyAccumulator;
