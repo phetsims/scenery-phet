@@ -7,7 +7,6 @@
  */
 
 import Shape from '../../../kite/js/Shape.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -25,53 +24,53 @@ const DIRECTION_ANGLES = {
   right: Math.PI / 2
 };
 
-/**
- * @param {string} direction - direction of arrow, 'up'|'down'|'left'|'right'
- * @param {Object} [options]
- * @constructor
- */
-function ArrowKeyNode( direction, options ) {
+class ArrowKeyNode extends KeyNode {
 
-  assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
+  /**
+   * @param {string} direction - direction of arrow, 'up'|'down'|'left'|'right'
+   * @param {Object} [options]
+   */
+  constructor( direction, options ) {
 
-  options = merge( {
+    assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
 
-    // options for the arrow
-    arrowFill: 'black',
-    arrowStroke: 'black',
-    arrowLineJoin: 'round',
-    arrowLineWidth: 3,
-    arrowHeight: DEFAULT_ARROW_HEIGHT,
-    arrowWidth: DEFAULT_ARROW_WIDTH,
+    options = merge( {
 
-    yPadding: 13, // this way the arrows will be scaled down and given proper margin in the key
-    forceSquareKey: true // arrow keys are typically square
-  }, options );
+      // options for the arrow
+      arrowFill: 'black',
+      arrowStroke: 'black',
+      arrowLineJoin: 'round',
+      arrowLineWidth: 3,
+      arrowHeight: DEFAULT_ARROW_HEIGHT,
+      arrowWidth: DEFAULT_ARROW_WIDTH,
 
-  const arrowHeight = options.arrowHeight;
-  const arrowWidth = options.arrowWidth;
-  const arrowLineJoin = options.arrowLineJoin;
-  const arrowLineWidth = options.arrowLineWidth;
-  const arrowFill = options.arrowFill;
-  const arrowStroke = options.arrowStroke;
+      yPadding: 13, // this way the arrows will be scaled down and given proper margin in the key
+      forceSquareKey: true // arrow keys are typically square
+    }, options );
 
-  // draw the arrow shape - default shape pointing up
-  const arrowShape = new Shape();
-  arrowShape.moveTo( arrowHeight / 2, 0 ).lineTo( arrowHeight, arrowWidth + 0 ).lineTo( 0, arrowWidth + 0 ).close();
+    const arrowHeight = options.arrowHeight;
+    const arrowWidth = options.arrowWidth;
+    const arrowLineJoin = options.arrowLineJoin;
+    const arrowLineWidth = options.arrowLineWidth;
+    const arrowFill = options.arrowFill;
+    const arrowStroke = options.arrowStroke;
 
-  const arrowPath = new Path( arrowShape, {
-    fill: arrowFill,
-    stroke: arrowStroke,
-    lineJoin: arrowLineJoin,
-    lineWidth: arrowLineWidth,
-    rotation: DIRECTION_ANGLES[ direction ]
-  } );
+    // draw the arrow shape - default shape pointing up
+    const arrowShape = new Shape();
+    arrowShape.moveTo( arrowHeight / 2, 0 ).lineTo( arrowHeight, arrowWidth + 0 ).lineTo( 0, arrowWidth + 0 ).close();
 
-  // place the arrow in the key
-  KeyNode.call( this, arrowPath, options );
+    const arrowPath = new Path( arrowShape, {
+      fill: arrowFill,
+      stroke: arrowStroke,
+      lineJoin: arrowLineJoin,
+      lineWidth: arrowLineWidth,
+      rotation: DIRECTION_ANGLES[ direction ]
+    } );
+
+    // place the arrow in the key
+    super( arrowPath, options );
+  }
 }
 
 sceneryPhet.register( 'ArrowKeyNode', ArrowKeyNode );
-
-inherit( KeyNode, ArrowKeyNode );
 export default ArrowKeyNode;
