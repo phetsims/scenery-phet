@@ -11,9 +11,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
-import EnterKeyNode from '../EnterKeyNode.js';
-import EscapeKeyNode from '../EscapeKeyNode.js';
-import SpaceKeyNode from '../SpaceKeyNode.js';
+import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
@@ -42,7 +40,7 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     } );
 
     const popUpList = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPattern ),
-      KeyboardHelpIconFactory.iconOrIcon( new SpaceKeyNode(), new EnterKeyNode() ),
+      KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ),
       fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescription ) );
 
     const moveThrough = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPattern ),
@@ -50,11 +48,11 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescription ) );
 
     const chooseNew = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPattern ),
-      new EnterKeyNode(),
+      TextKeyNode.enter(),
       fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescription ) );
 
     const closeWithoutChanging = KeyboardHelpSection.labelWithIcon( sceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChanging,
-      new EscapeKeyNode(),
+      TextKeyNode.esc(),
       sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescription );
 
     // order the rows of content

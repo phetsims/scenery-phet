@@ -9,12 +9,9 @@
 import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import EndKeyNode from '../EndKeyNode.js';
-import HomeKeyNode from '../HomeKeyNode.js';
-import PageDownKeyNode from '../PageDownKeyNode.js';
-import PageUpKeyNode from '../PageUpKeyNode.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
@@ -59,8 +56,8 @@ function SliderKeyboardHelpSection( options ) {
   const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogAdjustInSmallerStepsString, [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ], keyboardHelpDialogAdjustSmallerStepsString );
 
   // 'move in larger steps' content
-  const pageUpKeyNode = new PageUpKeyNode();
-  const pageDownKeyNode = new PageDownKeyNode();
+  const pageUpKeyNode = TextKeyNode.pageUp();
+  const pageDownKeyNode = TextKeyNode.pageDown();
   const pageUpPageDownIcon = new HBox( {
     children: [ pageUpKeyNode, pageDownKeyNode ],
     spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
@@ -68,11 +65,11 @@ function SliderKeyboardHelpSection( options ) {
   const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogAdjustInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogAdjustLargerStepsString );
 
   // 'move to minimum value' content
-  const homeKeyNode = new HomeKeyNode();
+  const homeKeyNode = TextKeyNode.home();
   const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMinimumString, homeKeyNode, keyboardHelpDialogJumpToHomeString );
 
   // 'move to maximum value' content
-  const endKeyNode = new EndKeyNode();
+  const endKeyNode = TextKeyNode.end();
   const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogJumpToMaximumString, endKeyNode, keyboardHelpDialogJumpToEndString );
 
   // assemble final content for KeyboardHelpSection

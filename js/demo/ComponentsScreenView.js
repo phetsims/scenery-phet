@@ -71,15 +71,11 @@ import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
 import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import CapsLockKeyNode from '../keyboard/CapsLockKeyNode.js';
-import EnterKeyNode from '../keyboard/EnterKeyNode.js';
 import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
 import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
 import LetterKeyNode from '../keyboard/LetterKeyNode.js';
-import ShiftKeyNode from '../keyboard/ShiftKeyNode.js';
-import TabKeyNode from '../keyboard/TabKeyNode.js';
 import TextKeyNode from '../keyboard/TextKeyNode.js';
 import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
@@ -142,7 +138,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'KeyNode', createNode: demoKeyNode },
-      { label: 'KeyboardHelpContent', createNode: demoHelpContent },
+      { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
       { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
@@ -1003,27 +999,27 @@ function demoKeyNode( layoutBounds ) {
   const bottomRowKeyStrings = [ 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '\'', '.', '/' ];
 
   // arrays that hold key nodes for each row of a keyboard - each row starts with an additional multi-character key
-  const topKeyNodes = [ new TabKeyNode() ];
-  const middleKeyNodes = [ new CapsLockKeyNode() ];
-  const bottomKeyNodes = [ new ShiftKeyNode() ];
+  const topKeyNodes = [ TextKeyNode.tab() ];
+  const middleKeyNodes = [ TextKeyNode.capsLock() ];
+  const bottomKeyNodes = [ TextKeyNode.shift() ];
 
   let i;
   for ( i = 0; i < topRowKeyStrings.length; i++ ) {
-    topKeyNodes.push( new LetterKeyNode( topRowKeyStrings[ i ], { forceSquareKey: true } ) );
+    topKeyNodes.push( new LetterKeyNode( topRowKeyStrings[ i ] ) );
   }
   for ( i = 0; i < middleRowKeyStrings.length; i++ ) {
-    middleKeyNodes.push( new LetterKeyNode( middleRowKeyStrings[ i ], { forceSquareKey: true } ) );
+    middleKeyNodes.push( new LetterKeyNode( middleRowKeyStrings[ i ] ) );
   }
   for ( i = 0; i < bottomRowKeyStrings.length; i++ ) {
-    bottomKeyNodes.push( new LetterKeyNode( bottomRowKeyStrings[ i ], { forceSquareKey: true } ) );
+    bottomKeyNodes.push( new LetterKeyNode( bottomRowKeyStrings[ i ] ) );
   }
   const topArrowKeyNode = new ArrowKeyNode( 'up' );
   const bottomArrowKeyNodes = [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
   const bottomArrowKeyBox = new HBox( { children: bottomArrowKeyNodes, spacing: 2 } );
 
   // add the enter and shift keys to the middle and bottom rows, shift key has extra width for alignment
-  middleKeyNodes.push( new EnterKeyNode() );
-  bottomKeyNodes.push( new ShiftKeyNode( { xAlign: 'right', xMargin: 4, minKeyWidth: 70 } ) );
+  middleKeyNodes.push( TextKeyNode.enter() );
+  bottomKeyNodes.push( TextKeyNode.shift( { xAlign: 'right', xMargin: 4, minKeyWidth: 70 } ) );
 
   const topHBox = new HBox( { children: topKeyNodes, spacing: 5 } );
   const middleHBox = new HBox( { children: middleKeyNodes, spacing: 5 } );
@@ -1042,8 +1038,8 @@ function demoKeyNode( layoutBounds ) {
   } );
 }
 
-// creates a demo for KeyNode
-function demoHelpContent( layoutBounds ) {
+// creates a demo for KeyboardHelp
+function demoKeyboardHelp( layoutBounds ) {
 
   const labelWithIcon = KeyboardHelpSection.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
   const labelWithIconList = KeyboardHelpSection.labelWithIconList( 'Label With Icon List:', [
@@ -1052,9 +1048,12 @@ function demoHelpContent( layoutBounds ) {
     new TextKeyNode( 'Ahoy\' Manatee' )
   ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
 
-  const labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:', KeyboardHelpIconFactory.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
-  const labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:', KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
-  const labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:', KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
+  const labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:',
+    KeyboardHelpIconFactory.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
+  const labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:',
+    KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+  const labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:',
+    KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
 
   // Display all of the Help Contents. A custom one for the above components, and KeyboardHelpSection subtypes as well, each
   // in their own panel
@@ -1083,8 +1082,8 @@ function demoHelpContent( layoutBounds ) {
         spacing: 10
       } )
     ],
-    left: 200,
-    top: 100,
+    left: 10,
+    centerY: layoutBounds.centerY,
     spacing: 10
   } );
 }

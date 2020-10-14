@@ -27,12 +27,8 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
-import AltKeyNode from '../AltKeyNode.js';
-import EnterKeyNode from '../EnterKeyNode.js';
-import KKeyNode from '../KKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
-import LKeyNode from '../LKeyNode.js';
-import SpaceKeyNode from '../SpaceKeyNode.js';
+import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
 // constants
@@ -293,7 +289,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @returns {HelpSectionRow}
    */
   createPlayPauseKeyRow: function( labelString, labelInnerContent, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new KKeyNode(), options );
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'K' ), options );
   },
 
   /**
@@ -306,7 +302,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @returns {HelpSectionRow}
    */
   createStepForwardKeyRow: function( labelString, labelInnerContent, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LKeyNode(), options );
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'L' ), options );
   },
 
   /**
@@ -323,7 +319,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
   createGlobalHotkeyRow: function( labelString, labelInnerContent, keyIcon, options ) {
     return KeyboardHelpSection.labelWithIcon(
       labelString,
-      KeyboardHelpIconFactory.iconPlusIcon( new AltKeyNode(), keyIcon ),
+      KeyboardHelpIconFactory.iconPlusIcon( TextKeyNode.alt(), keyIcon ),
       labelInnerContent,
       options
     );
@@ -378,8 +374,8 @@ inherit( VBox, KeyboardHelpSection, {}, {
       thing: thingAsLowerCase
     } );
 
-    const spaceKeyNode = new SpaceKeyNode();
-    const enterKeyNode = new EnterKeyNode();
+    const spaceKeyNode = TextKeyNode.space();
+    const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
     const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
       iconOptions: {

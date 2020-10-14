@@ -15,13 +15,8 @@ import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
-import EnterKeyNode from '../EnterKeyNode.js';
-import EscapeKeyNode from '../EscapeKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
-import PageDownKeyNode from '../PageDownKeyNode.js';
-import PageUpKeyNode from '../PageUpKeyNode.js';
-import ShiftKeyNode from '../ShiftKeyNode.js';
-import SpaceKeyNode from '../SpaceKeyNode.js';
+import TextKeyNode from '../TextKeyNode.js';
 
 const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
 
@@ -112,7 +107,7 @@ class KeyboardHelpIconFactory {
     assert && assert( !options.children );
 
     // shift key icon
-    const shiftKeyIcon = new ShiftKeyNode();
+    const shiftKeyIcon = TextKeyNode.shift();
 
     // plus icon
     const plusIconNode = new PlusNode( {
@@ -124,20 +119,12 @@ class KeyboardHelpIconFactory {
   }
 
   /**
-   * @public
-   * @returns {EnterKeyNode}
-   */
-  static enter() {
-    return new EnterKeyNode();
-  }
-
-  /**
    * "Space or Enter" icon
    * @public
    * @returns {Node}
    */
   static spaceOrEnter() {
-    return KeyboardHelpIconFactory.iconOrIcon( new SpaceKeyNode(), new EnterKeyNode() );
+    return KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() );
   }
 
   /**
@@ -147,14 +134,6 @@ class KeyboardHelpIconFactory {
    */
   static upOrDown() {
     return KeyboardHelpIconFactory.iconOrIcon( new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) );
-  }
-
-  /**
-   * @public
-   * @returns {EscapeKeyNode}
-   */
-  static esc() {
-    return new EscapeKeyNode();
   }
 
   /**
@@ -250,14 +229,13 @@ class KeyboardHelpIconFactory {
     }, options );
     assert && assert( !options.children, 'children cannot be passed to options' );
 
-    const pageUpKeyNode = new PageUpKeyNode();
-    const pageDownKeyNode = new PageDownKeyNode();
+    const pageUpKeyNode = TextKeyNode.pageUp();
+    const pageDownKeyNode = TextKeyNode.pageDown();
 
     options.children = [ pageUpKeyNode, pageDownKeyNode ];
 
     return new HBox( options );
   }
-
 
   /**
    * An icon containing the icons two arrow keys,  aligned horizontally.
@@ -280,7 +258,6 @@ class KeyboardHelpIconFactory {
     options.children = [ upArrowKeyNode, rightArrowKeyNode ];
     return new HBox( options );
   }
-
 
   /**
    * An icon containing icons for the up and down arrow keys aligned horizontally.
