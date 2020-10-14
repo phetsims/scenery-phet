@@ -1,7 +1,7 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
 /**
- * A Node that contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSecctions
+ * KeyboardHelpSection contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSections
  * are assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label and
  * an array of contents for rows of labels and icons.
  *
@@ -16,7 +16,6 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
@@ -50,102 +49,100 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
-/**
- * @constructor
- *
- * @param {string} headingString - the translatable label for this content
- * @param {Array.<HelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
- *                                            boxes are aligned horizontally. It is assumed that label and icon have
- *                                            identical bounds so that each row of content can be aligned by
- *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
- *                                            this. For examples, see labelWithIcon() and labelWithIconList().
- * @param {Object} [options]
- */
-function KeyboardHelpSection( headingString, content, options ) {
+class KeyboardHelpSection extends VBox {
 
-  options = merge( {
+  /**
+   * @param {string} headingString - the translatable label for this content
+   * @param {Array.<HelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
+   *                                            boxes are aligned horizontally. It is assumed that label and icon have
+   *                                            identical bounds so that each row of content can be aligned by
+   *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
+   *                                            this. For examples, see labelWithIcon() and labelWithIconList().
+   * @param {Object} [options]
+   */
+  constructor( headingString, content, options ) {
 
-    // vertical spacing between the heading and the content
-    spacing: DEFAULT_HEADING_CONTENT_SPACING,
-    align: 'left',
+    options = merge( {
 
-    headingOptions: {
-      font: DEFAULT_HEADING_FONT,
-      maxWidth: DEFAULT_HEADING_MAX_WIDTH,
+      // vertical spacing between the heading and the content
+      spacing: DEFAULT_HEADING_CONTENT_SPACING,
+      align: 'left',
+
+      headingOptions: {
+        font: DEFAULT_HEADING_FONT,
+        maxWidth: DEFAULT_HEADING_MAX_WIDTH,
+
+        // pdom
+        tagName: 'h2',
+        innerContent: headingString
+      },
+
+      // {number} The max width for all labels in the KeyboardHelpSection. Used as the base sizing to layout the rest
+      // of the KeyboardHelpSection.
+      labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
+
+      // Passed to each sub-vBox created
+      vBoxOptions: {
+
+        // VBox options
+        align: 'left',
+        spacing: DEFAULT_VERTICAL_ICON_SPACING
+      },
+
+      // pdom - tag name for the entire content, usually content is a list of items
+      a11yContentTagName: 'ul'
+    }, options );
+
+    // create the heading
+    const headingText = new Text( headingString, options.headingOptions );
+
+    // place icons in labels in unique layout boxes for alignment
+    const icons = [];
+    const labels = [];
+    for ( let i = 0; i < content.length; i++ ) {
+      const helpSectionRow = content[ i ];
+
+      assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
+      helpSectionRow.text.maxWidth = options.labelMaxWidth;
+
+      icons.push( helpSectionRow.icon );
+      labels.push( helpSectionRow.label );
+    }
+
+    // parent for all labels
+    const labelVBox = new VBox( merge( {
+      children: labels
+    }, options.vBoxOptions ) );
+
+    // parent for all icons
+    const iconVBox = new VBox( merge( {
+      children: icons,
 
       // pdom
-      tagName: 'h2',
-      innerContent: headingString
-    },
+      tagName: options.a11yContentTagName
+    }, options.vBoxOptions ) );
 
-    // {number} The max width for all labels in the KeyboardHelpSection. Used as the base sizing to layout the rest
-    // of the KeyboardHelpSection.
-    labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
+    // labels and icons horizontally aligned
+    const contentHBox = new HBox( {
+      children: [ labelVBox, iconVBox ],
+      spacing: DEFAULT_LABEL_ICON_SPACING
+    } );
 
-    // Passed to each sub-vBox created
-    vBoxOptions: {
+    // heading and content aligned in a VBox
+    assert && assert( !options.children, 'KeyboardHelpSection sets children' );
+    options.children = [ headingText, contentHBox ];
 
-      // VBox options
-      align: 'left',
-      spacing: DEFAULT_VERTICAL_ICON_SPACING
-    },
+    super( options );
 
-    // pdom - tag name for the entire content, usually content is a list of items
-    a11yContentTagName: 'ul'
-  }, options );
-
-  assert && assert( !options.children, 'children set by KeyboardHelpSection' );
-
-  // create the heading
-  const headingText = new Text( headingString, options.headingOptions );
-
-  // place icons in labels in unique layout boxes for alignment
-  const icons = [];
-  const labels = [];
-  for ( let i = 0; i < content.length; i++ ) {
-    const helpSectionRow = content[ i ];
-
-    assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
-    helpSectionRow.text.maxWidth = options.labelMaxWidth;
-
-    icons.push( helpSectionRow.icon );
-    labels.push( helpSectionRow.label );
+    // @private used by static methods to adjust spacing if necessary
+    this.iconVBox = iconVBox;
+    this.contentHBox = contentHBox;
   }
-
-  // @private - to adjust spacing if necessary for alignment
-  this.labelVBox = new VBox( merge( {
-    children: labels
-  }, options.vBoxOptions ) );
-
-  // @private - parent for all icons, instance variable to adjust spacing if necessary
-  this.iconVBox = new VBox( merge( {
-    children: icons,
-
-    // pdom
-    tagName: options.a11yContentTagName
-  }, options.vBoxOptions ) );
-
-  // @private - labels and icons horizontally aligned, instance variable to adjust spacing if necessary
-  this.contentHBox = new HBox( {
-    children: [ this.labelVBox, this.iconVBox ],
-    spacing: DEFAULT_LABEL_ICON_SPACING
-  } );
-
-  // heading and content aligned in a VBox
-  VBox.call( this, merge( {}, options, {
-    children: [ headingText, this.contentHBox ]
-  } ) );
-}
-
-sceneryPhet.register( 'KeyboardHelpSection', KeyboardHelpSection );
-
-inherit( VBox, KeyboardHelpSection, {}, {
 
   /**
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
    * to give the label and icon identical dimensions for easy layout in KeyboardHelpSection.
    * @public
-   * @static
    *
    * @param {string} labelString - string for the label Text
    * @param {Node} icon
@@ -153,7 +150,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @param {Object} [options]
    * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
-  labelWithIcon: function( labelString, icon, labelInnerContent, options ) {
+  static labelWithIcon( labelString, icon, labelInnerContent, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
     assert && assert( typeof labelInnerContent === 'string', 'labelInnerContent should be a string.' );
 
@@ -187,7 +184,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
     return new HelpSectionRow( labelText, labelBox, iconBox );
-  },
+  }
 
   /**
    * Create a label with a list of icons. The icons will be vertically aligned, each separated by 'or' text. The
@@ -199,6 +196,8 @@ inherit( VBox, KeyboardHelpSection, {}, {
    *                    Icon2 or
    *                    Icon3
    *
+   * @public
+   *
    * @param {string} labelString - string for the visible label RichText
    * @param {Node[]} icons
    * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
@@ -206,7 +205,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
    *
    * @returns {HelpSectionRow} -  so KeyboardHelpSection can layout content groups
    */
-  labelWithIconList: function( labelString, icons, labelInnerContent, options ) {
+  static labelWithIconList( labelString, icons, labelInnerContent, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
     options = merge( {
@@ -258,18 +257,19 @@ inherit( VBox, KeyboardHelpSection, {}, {
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
     return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
-  },
+  }
 
   /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
    * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
+   * @public
    *
    * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
    * @param {string} labelString - visual label
    * @param {string} labelInnerContent - PDOM description
    * @returns {HBox}
    */
-  createJumpKeyRow: function( keyString, labelString, labelInnerContent ) {
+  static createJumpKeyRow( keyString, labelString, labelInnerContent ) {
 
     // Not translated because it maps directly to a specific key code.
     const jKey = new LetterKeyNode( 'J' );
@@ -277,7 +277,7 @@ inherit( VBox, KeyboardHelpSection, {}, {
 
     const jPlusOtherKey = KeyboardHelpIconFactory.iconPlusIcon( jKey, otherKey );
     return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, labelInnerContent );
-  },
+  }
 
   /**
    * Create a HelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
@@ -288,9 +288,9 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  createPlayPauseKeyRow: function( labelString, labelInnerContent, options ) {
+  static createPlayPauseKeyRow( labelString, labelInnerContent, options ) {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'K' ), options );
-  },
+  }
 
   /**
    * Create a HelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
@@ -301,9 +301,9 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @param {}options
    * @returns {HelpSectionRow}
    */
-  createStepForwardKeyRow: function( labelString, labelInnerContent, options ) {
+  static createStepForwardKeyRow( labelString, labelInnerContent, options ) {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'L' ), options );
-  },
+  }
 
   /**
    * Create a HelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
@@ -316,23 +316,24 @@ inherit( VBox, KeyboardHelpSection, {}, {
    * @param {object} options
    * @returns {HelpSectionRow}
    */
-  createGlobalHotkeyRow: function( labelString, labelInnerContent, keyIcon, options ) {
+  static createGlobalHotkeyRow( labelString, labelInnerContent, keyIcon, options ) {
     return KeyboardHelpSection.labelWithIcon(
       labelString,
       KeyboardHelpIconFactory.iconPlusIcon( TextKeyNode.alt(), keyIcon ),
       labelInnerContent,
       options
     );
-  },
+  }
 
   /**
    * Vertically align icons for a number of different KeyboardHelpSections. Useful when two KeyboardHelpSection
    * sections are stacked vertically in a Dialog. Loops through sectionArray and finds the max x value of the left
    * edge of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
+   * @public
    *
    * @param {KeyboardHelpSection[]} sectionArray
    */
-  alignHelpSectionIcons: function( sectionArray ) {
+  static alignHelpSectionIcons( sectionArray ) {
 
     // left edge of icons farthest to the right in the array of KeyboardHelpSection
     const maxLeftEdge = _.maxBy( sectionArray, function( section ) { return section.iconVBox.left; } ).iconVBox.left;
@@ -341,17 +342,18 @@ inherit( VBox, KeyboardHelpSection, {}, {
     sectionArray.forEach( function( section ) {
       section.contentHBox.spacing = section.contentHBox.spacing + maxLeftEdge - section.iconVBox.left;
     } );
-  },
+  }
 
   /**
    * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
+   * @public
+   *
    * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
    * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
    * @param {Object} [options]
-   * @static
    * @returns {KeyboardHelpSection}
    */
-  getGrabReleaseHelpSection: function( thingAsTitle, thingAsLowerCase, options ) {
+  static getGrabReleaseHelpSection( thingAsTitle, thingAsLowerCase, options ) {
 
     options = merge( {
 
@@ -385,13 +387,13 @@ inherit( VBox, KeyboardHelpSection, {}, {
 
     return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
   }
-} );
+}
 
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
  * will return a HelpSectionRow. The label and icon are often grouped in an AlignGroup for easy positioning
- * in KeyboardHelpSection. This cannot be done in KeyboardHelpSection directly because different labels and icons will have
- * varying layout. For instance, see labelWithIcon vs labelWithIconList.
+ * in KeyboardHelpSection. This cannot be done in KeyboardHelpSection directly because different labels and icons will
+ * have varying layout. For instance, see labelWithIcon vs labelWithIconList.
  *
  * Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
  * HelpSectionRows for i18n.
@@ -413,4 +415,5 @@ class HelpSectionRow {
   }
 }
 
+sceneryPhet.register( 'KeyboardHelpSection', KeyboardHelpSection );
 export default KeyboardHelpSection;
