@@ -97,9 +97,7 @@ class TimeControlNode extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED, // {Tandem}
-      phetioComponentOptions: {
-        visibleProperty: { phetioFeatured: true }
-      },
+      visiblePropertyOptions: { phetioFeatured: true },
 
       // PDOM
       tagName: 'div',

@@ -124,7 +124,7 @@ class NumberPicker extends Node {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
-      phetioComponentOptions: null, // filled in below with PhetioObject.mergePhetioComponentOptions()
+      visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom (passed to AccessibleNumberSpinner)
       pageKeyboardStep: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
@@ -142,8 +142,6 @@ class NumberPicker extends Node {
 
     assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
       `invalid disabledOpacity: ${options.disabledOpacity}` );
-
-    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     super();
 
