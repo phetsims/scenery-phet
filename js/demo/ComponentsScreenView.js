@@ -1397,6 +1397,8 @@ function demoStopwatchNode( layoutBounds, options ) {
     tandem: options.tandem.createTandem( 'stopwatch' )
   } );
   const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
+
+    // Supply the formatter on startup as well as on link, so it can detect widest/thinnest text, see NumberDisplay
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.getRichNumberFormatter( {
         units: unitsProperty.value
@@ -1405,7 +1407,12 @@ function demoStopwatchNode( layoutBounds, options ) {
     scale: 2,
     tandem: options.tandem.createTandem( 'stopwatchNode' )
   } );
-  unitsProperty.link( () => mutableUnitsStopwatchNode.redrawNumberDisplay() );
+  unitsProperty.link( () => {
+    mutableUnitsStopwatchNode.numberDisplay.setNumberFormatter( StopwatchNode.getRichNumberFormatter( {
+        units: unitsProperty.value
+      } )
+    );
+  } );
 
   const stopwatchNodeListener = dt => {
     stopwatch.step( dt );
