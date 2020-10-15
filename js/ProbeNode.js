@@ -18,7 +18,6 @@ import Vector2 from '../../dot/js/Vector2.js';
 import EllipticalArc from '../../kite/js/segments/EllipticalArc.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Line from '../../scenery/js/nodes/Line.js';
@@ -28,47 +27,6 @@ import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import RadialGradient from '../../scenery/js/util/RadialGradient.js';
 import sceneryPhet from './sceneryPhet.js';
-
-// Glass is one of the probe types, shows a shiny reflective interior in the central circle
-const glass = function( options ) {
-  const GLASS_DEFAULTS = {
-    centerColor: 'white',
-    middleColor: '#E6F5FF', // light blue
-    edgeColor: '#C2E7FF'    // slightly darker blue, like glass
-  };
-  options = merge( GLASS_DEFAULTS, options );
-  return function( radius ) {
-    return new Circle( radius, {
-      fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
-        .addColorStop( 0, options.centerColor )
-        .addColorStop( 0.4, options.middleColor ) // light blue
-        .addColorStop( 1, options.edgeColor ) // slightly darker blue, like glass
-    } );
-  };
-};
-
-// Crosshairs can be shown in the central circle
-const crosshairs = function( options ) {
-  const CROSSHAIRS_DEFAULTS = {
-    stroke: 'black',
-    lineWidth: 3,
-
-    // The amount of blank space visible at the intersection of the 2 crosshairs lines
-    intersectionRadius: 8
-  };
-  options = merge( CROSSHAIRS_DEFAULTS, options );
-  return function( radius ) {
-
-    const lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
-    return new Node( {
-      children: [
-        new Line( -radius, 0, -options.intersectionRadius, 0, lineOptions ),
-        new Line( +radius, 0, +options.intersectionRadius, 0, lineOptions ),
-        new Line( 0, -radius, 0, -options.intersectionRadius, lineOptions ),
-        new Line( 0, +radius, 0, +options.intersectionRadius, lineOptions ) ]
-    } );
-  };
-};
 
 // constants
 const DEFAULT_OPTIONS = {
@@ -88,180 +46,226 @@ const DEFAULT_OPTIONS = {
   lightAngle: 1.35 * Math.PI,
   color: '#008541', // {Color|string} darkish green
 
-  // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
-  // or null for an empty region
+  // {function(radius: number): Node} The circular part of the ProbeNode is called the sensor, where it receives light
+  // or has crosshairs, etc. or null for an empty region.
   sensorTypeFunction: glass()
 };
 assert && Object.freeze( DEFAULT_OPTIONS );
 
-/**
- * Constructor for the ProbeNode
- * @param {Object} [options]
- * @constructor
- */
-function ProbeNode( options ) {
+class ProbeNode extends Node {
 
-  options = merge( {}, DEFAULT_OPTIONS, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // To improve readability
-  const radius = options.radius;
+    options = merge( {}, DEFAULT_OPTIONS, options );
 
-  // the top of the handle, below the circle at the top of the sensor
-  const handleBottom = radius + options.handleHeight;
+    super();
 
-  // The shape of the outer body, circular at top with a handle at the bottom
-  const arcExtent = 0.8;
-  const handleWidth = options.handleWidth;
-  const innerRadius = Math.min( options.innerRadius, options.radius );
-  const cornerRadius = options.handleCornerRadius;
+    // To improve readability
+    const radius = options.radius;
 
-  const neckCornerRadius = 10;
+    // the top of the handle, below the circle at the top of the sensor
+    const handleBottom = radius + options.handleHeight;
 
-  // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
-  // Note: This elliptical arc must match the ellipticalArc call below
-  const ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false ).start;
+    // The shape of the outer body, circular at top with a handle at the bottom
+    const arcExtent = 0.8;
+    const handleWidth = options.handleWidth;
+    const innerRadius = Math.min( options.innerRadius, options.radius );
+    const cornerRadius = options.handleCornerRadius;
 
-  const createShape = function() {
-    return new Shape()
+    const neckCornerRadius = 10;
 
-      // start in the bottom center
-      .moveTo( 0, handleBottom )
+    // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
+    // Note: This elliptical arc must match the ellipticalArc call below
+    const ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false ).start;
 
-      // Kite Shape automatically lineTo's to the first point of an arc, so no need to lineTo ourselves
-      .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
-      .lineTo( -handleWidth / 2, radius + neckCornerRadius )
-      .quadraticCurveTo( -handleWidth / 2, radius, ellipticalArcStart.x, ellipticalArcStart.y )
+    function createSensorShape() {
+      return new Shape()
 
-      // Top arc
-      // Note: his elliptical arc must match the EllipticalArc above
-      .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false )
+        // start in the bottom center
+        .moveTo( 0, handleBottom )
 
-      .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
-      .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
+        // Kite Shape automatically lineTo's to the first point of an arc, so no need to lineTo ourselves
+        .arc( -handleWidth / 2 + cornerRadius, handleBottom - cornerRadius, cornerRadius, Math.PI / 2, Math.PI, false )
+        .lineTo( -handleWidth / 2, radius + neckCornerRadius )
+        .quadraticCurveTo( -handleWidth / 2, radius, ellipticalArcStart.x, ellipticalArcStart.y )
 
-      .lineTo( 0, handleBottom );
-  };
+        // Top arc
+        // Note: his elliptical arc must match the EllipticalArc above
+        .ellipticalArc( 0, 0, radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false )
 
-  const sensorShape = createShape()
-    .moveTo( innerRadius, 0 )
-    .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
-    .close();
+        .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
+        .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
 
-  // The light angle is variable so that you can create a probe node that is pointing up or to the side
-  const lightAngle = options.lightAngle;
+        .lineTo( 0, handleBottom );
+    }
 
-  const center = sensorShape.bounds.center;
-  const v1 = Vector2.createPolar( 1, lightAngle );
-  const intersections = sensorShape.intersection( new Ray2( center, v1 ) );
+    const sensorShape = createSensorShape()
+      .moveTo( innerRadius, 0 )
+      .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
+      .close();
 
-  // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
-  const lastIntersection = intersections[ intersections.length - 1 ];
-  const lastIntersectionPoint = lastIntersection ? lastIntersection.point : Vector2.ZERO;
-  const gradientSource = lastIntersectionPoint.plus( v1.timesScalar( 1 ) );
+    // The light angle is variable so that you can create a probe node that is pointing up or to the side
+    const lightAngle = options.lightAngle;
 
-  const v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
-  const intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
+    const center = sensorShape.bounds.center;
+    const v1 = Vector2.createPolar( 1, lightAngle );
+    const intersections = sensorShape.intersection( new Ray2( center, v1 ) );
 
-  // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
-  const lastIntersection2 = intersections2[ intersections2.length - 1 ];
-  const lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
-  const gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
+    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
+    const lastIntersection = intersections[ intersections.length - 1 ];
+    const lastIntersectionPoint = lastIntersection ? lastIntersection.point : Vector2.ZERO;
+    const gradientSource = lastIntersectionPoint.plus( v1.timesScalar( 1 ) );
 
-  // @private {Property.<Color>}
-  this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
-  this.brighter4 = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
-  this.brighter3 = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
-  this.brighter2 = new PaintColorProperty( options.color, { luminanceFactor: 0.2 } );
-  this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
-  this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
+    const v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
+    const intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
 
-  const outerShapePath = new Path( sensorShape, {
-    stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-      .addColorStop( 0.0, this.brighter2 ) // highlight
-      .addColorStop( 1.0, this.darker2 ), // shadow
-    fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-      .addColorStop( 0.0, this.brighter5 ) // highlight
-      .addColorStop( 0.03, this.brighter4 )
-      .addColorStop( 0.07, this.brighter4 )
-      .addColorStop( 0.11, this.brighter2 )
-      .addColorStop( 0.3, options.color )
-      .addColorStop( 0.8, this.darker2 ) // shadows
-      .addColorStop( 1.0, this.darker3 ),
-    lineWidth: 2
-  } );
+    // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
+    const lastIntersection2 = intersections2[ intersections2.length - 1 ];
+    const lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
+    const gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
-  // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
-  const innerPath = new Path( sensorShape, {
-    fill: options.color,
+    // @private {Property.<Color>}
+    this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
+    this.brighter4 = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
+    this.brighter3 = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
+    this.brighter2 = new PaintColorProperty( options.color, { luminanceFactor: 0.2 } );
+    this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
+    this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
 
-    // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
-    scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
-    centerX: outerShapePath.centerX,
-    stroke: new DerivedProperty( [ this.brighter3 ], function( color ) {
-      return color.withAlpha( 0.5 );
-    } ),
-    lineWidth: 1.2,
-    y: 2 // Shift it down a bit to make the face look a bit more 3d
-  } );
+    const outerShapePath = new Path( sensorShape, {
+      stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
+        .addColorStop( 0.0, this.brighter2 ) // highlight
+        .addColorStop( 1.0, this.darker2 ), // shadow
+      fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
+        .addColorStop( 0.0, this.brighter5 ) // highlight
+        .addColorStop( 0.03, this.brighter4 )
+        .addColorStop( 0.07, this.brighter4 )
+        .addColorStop( 0.11, this.brighter2 )
+        .addColorStop( 0.3, options.color )
+        .addColorStop( 0.8, this.darker2 ) // shadows
+        .addColorStop( 1.0, this.darker3 ),
+      lineWidth: 2
+    } );
 
-  const children = [];
+    // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
+    const innerPath = new Path( sensorShape, {
+      fill: options.color,
 
-  if ( options.sensorTypeFunction ) {
-    children.push( options.sensorTypeFunction( radius ) );
+      // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
+      scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
+      centerX: outerShapePath.centerX,
+      stroke: new DerivedProperty( [ this.brighter3 ], function( color ) {
+        return color.withAlpha( 0.5 );
+      } ),
+      lineWidth: 1.2,
+      y: 2 // Shift it down a bit to make the face look a bit more 3d
+    } );
+
+    const children = [];
+    if ( options.sensorTypeFunction ) {
+      children.push( options.sensorTypeFunction( radius ) );
+    }
+    children.push(
+      outerShapePath,
+      innerPath
+      //new Circle( 3, { center: gradientSource, fill: 'blue' } ),
+      //new Circle( 3, { center: gradientDestination, fill: 'red' } )
+    );
+
+    // Allow the client to add child nodes
+    options.children = children.concat( options.children || [] );
+
+    // Allow the client to override mouse and touch area, but fall back to the outline
+    const outline = createSensorShape().close();
+    options.mouseArea = options.mouseArea || outline;
+    options.touchArea = options.touchArea || outline;
+
+    this.mutate( options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
   }
 
-  children.push(
-    outerShapePath,
-    innerPath
-    //new Circle( 3, { center: gradientSource, fill: 'blue' } ),
-    //new Circle( 3, { center: gradientDestination, fill: 'red' } )
-  );
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.brighter5.dispose();
+    this.brighter4.dispose();
+    this.brighter3.dispose();
+    this.brighter2.dispose();
+    this.darker2.dispose();
+    this.darker3.dispose();
 
-  // Allow the client to override mouse and touch area, but fall back to the outline
-  const outline = createShape().close();
-  options.mouseArea = options.mouseArea || outline;
-  options.touchArea = options.touchArea || outline;
-
-  // Allow the client to add child nodes
-  options.children = children.concat( options.children || [] );
-
-  Node.call( this, options );
-
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
+    super.dispose();
+  }
 }
 
+/**
+ * Creates a value for options.sensorTypeFunction. Shows a shiny reflective interior in the central circle.
+ * @param {Object} [options]
+ * @returns {function(radius: number): Node}
+ * @public
+ * @static
+ */
+function glass( options ) {
+
+  options = merge( {
+    centerColor: 'white',
+    middleColor: '#E6F5FF', // light blue
+    edgeColor: '#C2E7FF'    // slightly darker blue, like glass
+  }, options );
+
+  return function( radius ) {
+    return new Circle( radius, {
+      fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
+        .addColorStop( 0, options.centerColor )
+        .addColorStop( 0.4, options.middleColor ) // light blue
+        .addColorStop( 1, options.edgeColor ) // slightly darker blue, like glass
+    } );
+  };
+}
+
+/**
+ * Creates a value for options.sensorTypeFunction. Shows a crosshairs in the central circle.
+ * @param {Object} [options]
+ * @returns {function(radius: number): Node}
+ * @public
+ * @static
+ */
+function crosshairs( options ) {
+
+  options = merge( {
+    stroke: 'black',
+    lineWidth: 3,
+
+    // The amount of blank space visible at the intersection of the 2 crosshairs lines
+    intersectionRadius: 8
+  }, options );
+
+  return function( radius ) {
+    const lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
+    return new Node( {
+      children: [
+        new Line( -radius, 0, -options.intersectionRadius, 0, lineOptions ),
+        new Line( +radius, 0, +options.intersectionRadius, 0, lineOptions ),
+        new Line( 0, -radius, 0, -options.intersectionRadius, lineOptions ),
+        new Line( 0, +radius, 0, +options.intersectionRadius, lineOptions ) ]
+    } );
+  };
+}
+
+// @public {read-only}, make the defaults publicly available to clients in case they need to make
+// customizations, such as 0.9 x the default width
+ProbeNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+
+// @public pre-defined functions for creating a value for options.sensorTypeFunction
+ProbeNode.glass = glass;
+ProbeNode.crosshairs = crosshairs;
+
 sceneryPhet.register( 'ProbeNode', ProbeNode );
-
-inherit( Node, ProbeNode, {
-    /**
-     * Releases references.
-     * @public
-     * @override
-     */
-    dispose: function() {
-      this.brighter5.dispose();
-      this.brighter4.dispose();
-      this.brighter3.dispose();
-      this.brighter2.dispose();
-      this.darker2.dispose();
-      this.darker3.dispose();
-
-      Node.prototype.dispose.call( this );
-    }
-  },
-
-  // statics
-  {
-
-    // @public {read-only}, make the defaults publicly available to clients in case they need to make
-    // customizations, such as 0.9 x the default width
-    DEFAULT_OPTIONS: DEFAULT_OPTIONS,
-
-    // Sensor types
-    // @public
-    crosshairs: crosshairs,
-    glass: glass
-  } );
-
 export default ProbeNode;
