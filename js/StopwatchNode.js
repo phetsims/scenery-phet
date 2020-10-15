@@ -104,7 +104,7 @@ class StopwatchNode extends Node {
     } );
 
     const resetButton = new RectangularPushButton( {
-      listener: function resetTimer() {
+      listener: () => {
         stopwatch.isRunningProperty.set( false );
         stopwatch.timeProperty.set( 0 );
       },
