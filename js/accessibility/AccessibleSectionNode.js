@@ -9,31 +9,30 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-/**
- * @constructor
- * @param {string} label
- * @param {Object} [options]
- */
-function AccessibleSectionNode( label, options ) {
-  assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
+class AccessibleSectionNode extends Node {
 
-  // options for accessibility, but others can be passed to Node call
-  options = merge( {
-    containerTagName: 'section',
-    tagName: 'div',
-    labelContent: label,
-    labelTagName: 'h2'
-  }, options );
+  /**
+   * @param {string} label
+   * @param {Object} [options]
+   */
+  constructor( label, options ) {
+    assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
 
-  Node.call( this, options );
+    // options for accessibility, but others can be passed to Node call
+    options = merge( {
+      containerTagName: 'section',
+      tagName: 'div',
+      labelContent: label,
+      labelTagName: 'h2'
+    }, options );
+
+    super( options );
+  }
 }
 
 sceneryPhet.register( 'AccessibleSectionNode', AccessibleSectionNode );
-
-inherit( Node, AccessibleSectionNode );
 export default AccessibleSectionNode;
