@@ -384,9 +384,24 @@ class NumberControl extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberControl', this );
   }
 
-  get enabled() { return this.getEnabled(); }
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeNumberControl();
+    super.dispose();
+  }
+
+  // @public
+  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
 
   set enabled( value ) { this.setEnabled( value ); }
+
+  // @public
+  getEnabled() { return this.enabledProperty.get(); }
+
+  get enabled() { return this.getEnabled(); }
 
   /**
    * Creates a NumberControl with default tick marks for min and max values.
@@ -593,21 +608,6 @@ class NumberControl extends Node {
       return node;
     };
   }
-
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
-    this.disposeNumberControl();
-    super.dispose();
-  }
-
-  // @public
-  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
-
-  // @public
-  getEnabled() { return this.enabledProperty.get(); }
 }
 
 /**
