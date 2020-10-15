@@ -260,12 +260,107 @@ class StopwatchNode extends Node {
     this.disposeStopwatchNode();
     super.dispose();
   }
+
+  /**
+   * Gets the smaller hundredths-of-a-second string.
+   * @public (read-only, unit-tests)
+   * @param {number} time
+   * @param {number} numberDecimalPlaces
+   * @returns {string}
+   */
+  static getDecimalPlaces( time, numberDecimalPlaces ) {
+
+    const max = Math.pow( 10, numberDecimalPlaces );
+
+    // Round to the nearest centisecond (compatible with timeToSmallString).
+    // see https://github.com/phetsims/masses-and-springs/issues/156
+    time = Utils.roundSymmetric( time * max ) / max;
+
+    // Rounding after mod, in case there is floating-point error
+    let decimalValue = Utils.roundSymmetric( time % 1 * max ) + '';
+    while ( decimalValue.length < numberDecimalPlaces ) {
+      decimalValue = '0' + decimalValue;
+    }
+    return '.' + decimalValue;
+  }
+
+  /**
+   * A value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   * Shows 12:34.56, where all digits are the same size.
+   * @public
+   * @param {number} time
+   * @returns {string}
+   */
+  static numberFormatter( time ) {
+    const minutesAndSeconds = toMinutesAndSeconds( time );
+    const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
+    return minutesAndSeconds + centiseconds;
+  }
+
+  /**
+   * A value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   * Shows 12:34.56, with the ".56" smaller.
+   * @public
+   * @param {number} time
+   * @returns {string}
+   */
+  static richNumberFormatter( time ) {
+    const minutesAndSeconds = toMinutesAndSeconds( time );
+    const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
+
+    // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
+    // See https://github.com/phetsims/collision-lab/issues/140.
+    return `<span style='font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`;
+  }
+
+  /**
+   * Gets a customized value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   * @public
+   * @param {Object} [options]
+   * @returns {function(time:number):string} - see NumberDisplay options.numberFormatter
+   */
+  static getRichNumberFormatter( options ){
+
+    options = merge( {
+      showAsDecimal: false, // 123.45 (decimal) vs 59:59.00 (non-decimal)
+      bigNumberFont: 20,
+      smallNumberFont: 14,
+      unitsFont: 14,
+      units: '',
+      numberOfDecimalPlaces: 2,
+
+      // Units cannot be baked into the i18n string because they can change independently
+      valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
+    }, options );
+
+    return time => {
+      const minutesAndSeconds = options.showAsDecimal ? Math.floor( time ) : toMinutesAndSeconds( time );
+      const centiseconds = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces );
+
+      // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
+      // See https://github.com/phetsims/collision-lab/issues/140.
+      return StringUtils.fillIn( options.valueUnitsPattern, {
+        value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
+        units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${options.units}</span>`
+      } );
+    };
+  }
 }
 
-sceneryPhet.register( 'StopwatchNode', StopwatchNode );
+// @public - We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing
+// jitter. Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
+// Use Trebuchet first, since it has broader cross-platform support.
+// Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
+// wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
+// and it seemed to work nicely, with no jitter.
+StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
 
-// the full-sized minutes and seconds string
-const toMinutesAndSeconds = time => {
+/**
+ * Converts a time to a string in {{minutes}}:{{seconds}} format.
+ * @param time
+ * @returns {string}
+ */
+function toMinutesAndSeconds( time ) {
 
   // Round to the nearest centi-part (if time is in seconds, this would be centiseconds), (compatible with timeToSmallString).
   // see https://github.com/phetsims/masses-and-springs/issues/156
@@ -285,78 +380,7 @@ const toMinutesAndSeconds = time => {
     minutes = '0' + minutes;
   }
   return minutes + ':' + seconds;
-};
-
-// the smaller hundredths-of-a-second string
-function getDecimalPlaces( time, numberDecimalPlaces ) {
-
-  const max = Math.pow( 10, numberDecimalPlaces );
-
-  // Round to the nearest centisecond (compatible with timeToSmallString).
-  // see https://github.com/phetsims/masses-and-springs/issues/156
-  time = Utils.roundSymmetric( time * max ) / max;
-
-  // Rounding after mod, in case there is floating-point error
-  let decimalValue = Utils.roundSymmetric( time % 1 * max ) + '';
-  while ( decimalValue.length < numberDecimalPlaces ) {
-    decimalValue = '0' + decimalValue;
-  }
-  return '.' + decimalValue;
 }
 
-// @public (read-only, unit-tests)
-StopwatchNode.getDecimalPlaces = getDecimalPlaces;
-
-// @public - for NumberDisplay, shows 12:34.56
-StopwatchNode.numberFormatter = x => {
-  const minutesAndSeconds = toMinutesAndSeconds( x );
-  const centiseconds = getDecimalPlaces( x, 2 );
-  return minutesAndSeconds + centiseconds;
-};
-
-// @public - We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing
-// jitter. Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
-// Use Trebuchet first, since it has broader cross-platform support.
-// Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
-// wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
-// and it seemed to work nicely, with no jitter.
-StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
-
-// @public - for NumberDisplay, shows 12:34.56, but the ".56" is smaller
-StopwatchNode.richNumberFormatter = x => {
-  const minutesAndSeconds = toMinutesAndSeconds( x );
-  const centiseconds = getDecimalPlaces( x, 2 );
-
-  // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
-  // See https://github.com/phetsims/collision-lab/issues/140.
-  return `<span style='font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`;
-};
-
-// @public - for NumberDisplay, more customizable
-StopwatchNode.getRichNumberFormatter = options => {
-  options = merge( {
-    showAsDecimal: false, // 123.45 (decimal) vs 59:59.00 (non-decimal)
-    bigNumberFont: 20,
-    smallNumberFont: 14,
-    unitsFont: 14,
-    units: '',
-    numberOfDecimalPlaces: 2,
-
-    // Units cannot be baked into the i18n string because they can change independently
-    valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
-  }, options );
-
-  return x => {
-    const minutesAndSeconds = options.showAsDecimal ? Math.floor( x ) : toMinutesAndSeconds( x );
-    const centiseconds = getDecimalPlaces( x, options.numberOfDecimalPlaces );
-
-    // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
-    // See https://github.com/phetsims/collision-lab/issues/140.
-    return StringUtils.fillIn( options.valueUnitsPattern, {
-      value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
-      units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${options.units}</span>`
-    } );
-  };
-};
-
+sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 export default StopwatchNode;
