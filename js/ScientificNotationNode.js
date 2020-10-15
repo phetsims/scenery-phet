@@ -9,7 +9,6 @@
 
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -17,75 +16,140 @@ import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {Property.<number|null>} valueProperty
- * @param {Object} [options]
- * @constructor
- */
-function ScientificNotationNode( valueProperty, options ) {
-  options = merge( {
-    fill: 'black',
-    font: new PhetFont( 20 ),
-    exponent: null,
-    mantissaDecimalPlaces: 1,
-    exponentScale: 0.75, // scale of the exponent, relative to the size of the '10'
-    showIntegersAsMantissaOnly: false, // if true, show 8000 as '8000', otherwise '8 x 10^3'
-    showZeroAsInteger: true, // if true, show '0 x 10^E' as '0'
-    showZeroExponent: false, // if false, show 'M x 10^0' as 'M'
-    exponentXSpacing: 2, // space to left of exponent
-    exponentYOffset: 0, // offset of exponent's center from cap line
-    capHeightScale: 0.75, // fudge factor for computing cap height, compensates for inaccuracy of Text.height
-    nullValueString: MathSymbols.NO_VALUE // if the value is null, display this string
-  }, options );
-  this.options = options; // @private
+class ScientificNotationNode extends Node {
 
-  const textOptions = { font: options.font, fill: options.fill };
-  this.valueProperty = valueProperty; // @public
+  /**
+   * @param {Property.<number|null>} valueProperty
+   * @param {Object} [options]
+   */
+  constructor( valueProperty, options ) {
 
-  // must be recomputed if font changes!
-  const tmpText = new Text( ' ', textOptions );
-  this.mantissaXSpacing = tmpText.width; // @private width of space between mantissa and 'x 10'
-  this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private cap line offset from baseline
+    options = merge( {
+      fill: 'black',
+      font: new PhetFont( 20 ),
+      exponent: null,
+      mantissaDecimalPlaces: 1,
+      exponentScale: 0.75, // scale of the exponent, relative to the size of the '10'
+      showIntegersAsMantissaOnly: false, // if true, show 8000 as '8000', otherwise '8 x 10^3'
+      showZeroAsInteger: true, // if true, show '0 x 10^E' as '0'
+      showZeroExponent: false, // if false, show 'M x 10^0' as 'M'
+      exponentXSpacing: 2, // space to left of exponent
+      exponentYOffset: 0, // offset of exponent's center from cap line
+      capHeightScale: 0.75, // fudge factor for computing cap height, compensates for inaccuracy of Text.height
+      nullValueString: MathSymbols.NO_VALUE // if the value is null, display this string
+    }, options );
 
-  // scenery.Text nodes
-  this.mantissaNode = new Text( '?', textOptions );
-  this.timesTenNode = new Text( '?', textOptions );
-  this.exponentNode = new Text( '?', merge( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
-  this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
+    super();
 
-  Node.call( this, merge( options, { children: [ this.mantissaNode, this.exponentNode, this.timesTenNode ] } ) ); // this replaces options.children
+    this.options = options; // @private
 
-  const valuePropertyObserver = this.update.bind( this );
-  valueProperty.link( valuePropertyObserver );
+    const textOptions = { font: options.font, fill: options.fill };
+    this.valueProperty = valueProperty; // @public
 
-  // @private
-  this.disposeScientificNotationNode = function() {
-    if ( valueProperty.hasListener( valuePropertyObserver ) ) {
-      valueProperty.unlink( valuePropertyObserver );
+    // must be recomputed if font changes!
+    const tmpText = new Text( ' ', textOptions );
+    this.mantissaXSpacing = tmpText.width; // @private width of space between mantissa and 'x 10'
+    this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private cap line offset from baseline
+
+    // scenery.Text nodes
+    this.mantissaNode = new Text( '?', textOptions );
+    this.timesTenNode = new Text( '?', textOptions );
+    this.exponentNode = new Text( '?', merge( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
+    this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
+
+    assert && assert( !options.children, 'ScientificNotationNode sets children' );
+    options.children = [ this.mantissaNode, this.exponentNode, this.timesTenNode ];
+
+    this.mutate( options );
+
+    const valuePropertyObserver = this.update.bind( this );
+    valueProperty.link( valuePropertyObserver );
+
+    // @private
+    this.disposeScientificNotationNode = function() {
+      if ( valueProperty.hasListener( valuePropertyObserver ) ) {
+        valueProperty.unlink( valuePropertyObserver );
+      }
+    };
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ScientificNotationNode', this );
+  }
+
+  /**
+   * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
+   * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
+   *
+   * @public
+   * @param {number} value the number to be formatted
+   * @param {Object} [options]
+   * @returns {mantissa:{string}, exponent:{string}}
+   */
+  static toScientificNotation( value, options ) {
+
+    options = merge( {
+      mantissaDecimalPlaces: 1,
+      exponent: null // specific exponent to use
+    }, options );
+
+    let mantissa;
+    let exponent;
+    if ( value === 0 ) {
+      mantissa = 0;
+      exponent = 1;
     }
-  };
+    else if ( options.exponent !== null && options.exponent === 0 ) {
+      mantissa = Utils.toFixed( value, options.mantissaDecimalPlaces );
+      exponent = 0;
+    }
+    else {
+      // Convert to a string in exponential notation (eg 2e+2).
+      // Request an additional decimal place, because toExponential uses toFixed, which doesn't round the same on all platforms.
+      const exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ScientificNotationNode', this );
-}
+      // Break into mantissa and exponent tokens.
+      const tokens = exponentialString.toLowerCase().split( 'e' );
 
-sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
+      // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
+      mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
+      exponent = parseInt( tokens[ 1 ], 10 );
 
-inherit( Node, ScientificNotationNode, {
+      // If the mantissa is exactly 10, shift that power of 10 to the exponent.
+      // See https://github.com/phetsims/scenery-phet/issues/613
+      if ( mantissa === 10 ) {
+        mantissa = 1;
+        exponent += 1;
+      }
+
+      // Convert if a specific exponent was requested.
+      if ( options.exponent !== null ) {
+        mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
+        exponent = options.exponent;
+      }
+    }
+
+    // restore precision in case toFixedNumber removed zeros to right of decimal
+    mantissa = Utils.toFixed( mantissa, options.mantissaDecimalPlaces );
+    exponent = exponent.toString();
+
+    // mantissa x 10^exponent
+    return { mantissa: mantissa, exponent: exponent };
+  }
 
   /**
    * @public
+   * @override
    */
-  dispose: function() {
+  dispose() {
     this.disposeScientificNotationNode();
-    Node.prototype.dispose.call( this );
-  },
+    super.dispose();
+  }
 
   /**
    * @param {number|null} value
    * @private
    */
-  update: function( value ) {
+  update( value ) {
 
     const options = this.options;
 
@@ -136,67 +200,7 @@ inherit( Node, ScientificNotationNode, {
     this.timesTenNode.left = this.mantissaNode.right + this.mantissaXSpacing;
     this.exponentNode.left = this.timesTenNode.right + options.exponentXSpacing;
   }
-}, {
+}
 
-  /**
-   * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
-   * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
-   *
-   * @static
-   * @param {number} value the number to be formatted
-   * @param {Object} [options]
-   * @returns {mantissa:{string}, exponent:{string}}
-   */
-  toScientificNotation: function( value, options ) {
-
-    options = merge( {
-      mantissaDecimalPlaces: 1,
-      exponent: null // specific exponent to use
-    }, options );
-
-    let mantissa;
-    let exponent;
-    if ( value === 0 ) {
-      mantissa = 0;
-      exponent = 1;
-    }
-    else if ( options.exponent !== null && options.exponent === 0 ) {
-      mantissa = Utils.toFixed( value, options.mantissaDecimalPlaces );
-      exponent = 0;
-    }
-    else {
-      // Convert to a string in exponential notation (eg 2e+2).
-      // Request an additional decimal place, because toExponential uses toFixed, which doesn't round the same on all platforms.
-      const exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
-
-      // Break into mantissa and exponent tokens.
-      const tokens = exponentialString.toLowerCase().split( 'e' );
-
-      // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
-      mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
-      exponent = parseInt( tokens[ 1 ], 10 );
-
-      // If the mantissa is exactly 10, shift that power of 10 to the exponent.
-      // See https://github.com/phetsims/scenery-phet/issues/613
-      if ( mantissa === 10 ) {
-        mantissa = 1;
-        exponent += 1;
-      }
-
-      // Convert if a specific exponent was requested.
-      if ( options.exponent !== null ) {
-        mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
-        exponent = options.exponent;
-      }
-    }
-
-    // restore precision in case toFixedNumber removed zeros to right of decimal
-    mantissa = Utils.toFixed( mantissa, options.mantissaDecimalPlaces );
-    exponent = exponent.toString();
-
-    // mantissa x 10^exponent
-    return { mantissa: mantissa, exponent: exponent };
-  }
-} );
-
+sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
 export default ScientificNotationNode;
