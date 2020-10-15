@@ -51,7 +51,10 @@ sceneryPhet.register( 'FormulaNode', FormulaNode );
 inherit( DOM, FormulaNode, {
 
   /**
-   * @override - We need to have a fairly custom bounds measurement method, since it's a block-level element
+   * We need to have a fairly custom bounds measurement method, since it's a block-level element.
+   * @protected
+   * @override
+   *
    * @returns {Bounds2}
    */
   calculateDOMBounds: function() {
@@ -72,11 +75,13 @@ inherit( DOM, FormulaNode, {
   },
 
   /**
-   * @override - FormulaNode needs this override in order to render formulas correctly
-   *  in DOM's invalidateDOM method, the temporaryContainer is given a size
-   *  temporaryContainer having a size affects the size of the formula and renders calculateDOMBounds useless
-   *  this method is almost the same as the one it overrides,
-   *  but it just removes temporaryContainer's size so that calculateDOMBounds can work and this can render correctly
+   *
+   * FormulaNode needs this override in order to render formulas correctly in DOM's invalidateDOM method, the
+   * temporaryContainer is given a size temporaryContainer having a size affects the size of the formula and renders
+   * calculateDOMBounds useless this method is almost the same as the one it overrides, but it just removes
+   * temporaryContainer's size so that calculateDOMBounds can work and this can render correctly
+   * @public
+   * @override
    */
   invalidateDOM: function() {
     // prevent this from being executed as a side-effect from inside one of its own calls
@@ -145,14 +150,13 @@ inherit( DOM, FormulaNode, {
 
   /**
    * Updates the {boolean} display mode.
-   *
-   * If true, the formula will be displayed in the display-mode ($$ in LaTeX) style, which is typically separated from
-   * other text, and on its own line.
-   *
-   * If false, the formula will be displayed in the 'inline math' ($ in LaTeX) style, which is typically
-   * meant to be embedded within flowed text.
+   * @private
    *
    * @param {boolean} mode
+   *   If true, the formula will be displayed in the display-mode ($$ in LaTeX) style, which is typically separated from
+   *   other text, and on its own line.
+   *   If false, the formula will be displayed in the 'inline math' ($ in LaTeX) style, which is typically
+   *   meant to be embedded within flowed text.
    */
   setDisplayMode: function( mode ) {
     assert && assert( typeof mode === 'boolean' );
@@ -168,14 +172,18 @@ inherit( DOM, FormulaNode, {
   set displayMode( value ) { return this.setDisplayMode( value ); },
 
   /**
-   * @returns {boolean} - Whether the displayMode is currently true.
+   * Whether the displayMode is currently true.
+   * @returns {boolean}
    */
   getDisplayMode: function() {
     return this._displayMode;
   },
   get displayMode() { return this.getDisplayMode(); },
 
-  // @private - Updates the displayed formula and its bounds.
+  /**
+   * Updates the displayed formula and its bounds.
+   * @private
+   */
   updateFormula: function() {
     katex.render( this._formula, this._span, {
       displayMode: this._displayMode,
