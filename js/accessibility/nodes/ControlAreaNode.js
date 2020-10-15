@@ -10,24 +10,19 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
-// constants
-const controlAreaString = sceneryPhetStrings.a11y.simSection.controlArea;
+class ControlAreaNode extends AccessibleSectionNode {
 
-/**
- * @constructor
- * @param {Object} [options]
- */
-function ControlAreaNode( options ) {
-
-  AccessibleSectionNode.call( this, controlAreaString, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( sceneryPhetStrings.a11y.simSection.controlArea, options );
+  }
 }
 
 sceneryPhet.register( 'ControlAreaNode', ControlAreaNode );
-
-inherit( AccessibleSectionNode, ControlAreaNode );
 export default ControlAreaNode;

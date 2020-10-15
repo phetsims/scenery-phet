@@ -11,7 +11,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -22,31 +21,26 @@ const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.s
 const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
 const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
 
-/**
- * @constructor
- */
-function ScreenSummaryNode() {
+class ScreenSummaryNode extends Node {
 
-  Node.call( this );
+  constructor() {
 
-  // @private
-  this.openingSummaryNode = new Node( { tagName: 'p' } );
+    super();
 
-  const keyboardShortcutsHint = new Node( {
-    tagName: 'p',
-    innerContent: screenSummaryKeyboardShortcutsHintString
-  } );
+    // @private
+    this.openingSummaryNode = new Node( { tagName: 'p' } );
 
-  this.addChild( this.openingSummaryNode );
-  this.addChild( keyboardShortcutsHint );
+    const keyboardShortcutsHint = new Node( {
+      tagName: 'p',
+      innerContent: screenSummaryKeyboardShortcutsHintString
+    } );
 
-  // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
-  this.accessibleOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
-}
+    this.addChild( this.openingSummaryNode );
+    this.addChild( keyboardShortcutsHint );
 
-sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
-
-inherit( Node, ScreenSummaryNode, {
+    // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
+    this.accessibleOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
+  }
 
   /**
    * The parameters are not known in the constructor, so the intro string can filled in later on during initialization.
@@ -55,13 +49,14 @@ inherit( Node, ScreenSummaryNode, {
    * @param {boolean} isMultiScreen - if the sim has multiple screens
    * @public
    */
-  setIntroString: function( simName, screenName, isMultiScreen ) {
+  setIntroString( simName, screenName, isMultiScreen ) {
 
     // different default string depending on if there are multiple screens
     this.openingSummaryNode.innerContent = isMultiScreen ?
                                            StringUtils.fillIn( screenSummaryMultiScreenIntroString, { screen: screenName } ) :
                                            StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, { sim: simName } );
   }
-} );
+}
 
+sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
 export default ScreenSummaryNode;

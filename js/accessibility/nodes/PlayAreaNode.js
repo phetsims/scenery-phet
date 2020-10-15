@@ -9,23 +9,19 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import AccessibleSectionNode from '../AccessibleSectionNode.js';
 
-// constants
-const playAreaString = sceneryPhetStrings.a11y.simSection.playArea;
+class PlayAreaNode extends AccessibleSectionNode {
 
-/**
- * @constructor
- * @param {Object} [options]
- */
-function PlayAreaNode( options ) {
-  AccessibleSectionNode.call( this, playAreaString, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( sceneryPhetStrings.a11y.simSection.playArea, options );
+  }
 }
 
 sceneryPhet.register( 'PlayAreaNode', PlayAreaNode );
-
-inherit( AccessibleSectionNode, PlayAreaNode );
 export default PlayAreaNode;
