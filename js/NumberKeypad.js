@@ -14,6 +14,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
@@ -35,6 +36,7 @@ class NumberKeypad extends Node {
    * @deprecated
    */
   constructor( options ) {
+    assert && deprecationWarning( 'NumberKeypad is deprecated, please use Keypad instead' );
 
     options = merge( {
       buttonFont: new PhetFont( { size: 20 } ),

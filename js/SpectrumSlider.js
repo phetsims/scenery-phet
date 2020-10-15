@@ -14,6 +14,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightFromNode from '../../scenery/js/accessibility/FocusHighlightFromNode.js';
@@ -39,6 +40,7 @@ class SpectrumSlider extends Node {
    * @deprecated - please use Slider.js with SpectrumSlideTrack/Thumb (or the composite WavelengthNumberControl)
    */
   constructor( valueProperty, options ) {
+    assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
     options = merge( {
