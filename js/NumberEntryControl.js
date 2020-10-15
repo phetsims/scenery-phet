@@ -9,7 +9,6 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -18,64 +17,63 @@ import NumberKeypad from './NumberKeypad.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function NumberEntryControl( options ) {
-  Node.call( this );
-  const self = this;
-  options = merge( {
-    maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
-    readoutFont: new PhetFont( 20 )
-  }, options );
+class NumberEntryControl extends Node {
 
-  // Add the keypad.
-  this.keypad = new NumberKeypad( {
-    validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
-  } );
-  this.addChild( this.keypad );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Add the number readout background.
-  const testString = new Text( '', { font: options.readoutFont } );
-  _.times( options.maxDigits, function() { testString.text = testString.text + '9'; } );
-  const readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
-    fill: 'white',
-    stroke: '#777777',
-    lineWidth: 1.5,
-    centerX: this.keypad.width / 2
-  } );
-  this.addChild( readoutBackground );
+    options = merge( {
+      maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
+      readoutFont: new PhetFont( 20 )
+    }, options );
 
-  // Add the digits.
-  const digits = new Text( '', { font: options.readoutFont } );
-  this.addChild( digits );
-  this.value = 0; // @private
-  this.keypad.valueStringProperty.link( function( valueString ) {
-    digits.text = valueString;
-    digits.center = readoutBackground.center;
-    self.value = Number( valueString );
-  } );
+    super();
 
-  // Layout
-  this.keypad.top = readoutBackground.bottom + 10;
+    // Add the keypad.
+    this.keypad = new NumberKeypad( {
+      validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
+    } );
+    this.addChild( this.keypad );
 
-  // Pass options through to parent class.
-  this.mutate( options );
-}
+    // Add the number readout background.
+    const testString = new Text( '', { font: options.readoutFont } );
+    _.times( options.maxDigits, function() { testString.text = testString.text + '9'; } );
+    const readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
+      fill: 'white',
+      stroke: '#777777',
+      lineWidth: 1.5,
+      centerX: this.keypad.width / 2
+    } );
+    this.addChild( readoutBackground );
 
-sceneryPhet.register( 'NumberEntryControl', NumberEntryControl );
+    // Add the digits.
+    const digits = new Text( '', { font: options.readoutFont } );
+    this.addChild( digits );
+    this.value = 0; // @private
+    this.keypad.valueStringProperty.link( valueString => {
+      digits.text = valueString;
+      digits.center = readoutBackground.center;
+      this.value = Number( valueString );
+    } );
 
-inherit( Node, NumberEntryControl, {
+    // Layout
+    this.keypad.top = readoutBackground.bottom + 10;
+
+    // Pass options through to parent class.
+    this.mutate( options );
+  }
+
   /**
    * Returns the numeric value of the currently entered number (0 for nothing entered).
    * @public
    *
    * @returns {number}
    */
-  getValue: function() {
+  getValue() {
     return this.value;
-  },
+  }
 
   /**
    * Sets the currently entered number.
@@ -83,29 +81,32 @@ inherit( Node, NumberEntryControl, {
    *
    * @param {number} number
    */
-  setValue: function( number ) {
+  setValue( number ) {
     assert && assert( typeof number === 'number' );
     assert && assert( number % 1 === 0, 'Only supports integers currently' );
 
     this.keypad.valueStringProperty.set( '' + number );
-  },
+  }
 
   /**
    * Clears the keypad, so nothing is entered
    * @public
    */
-  clear: function() {
+  clear() {
     this.keypad.clear();
-  },
+  }
 
   //TODO https://github.com/phetsims/scenery-phet/issues/272 add ES5 setter/getter, ala NumberKeypad?
   /**
    * Determines whether pressing a key (except for the backspace) will clear the existing value.
    * @public
+   *
+   * @param {boolean} clearOnNextKeyPress
    */
-  setClearOnNextKeyPress: function( clearOnNextKeyPress ) {
+  setClearOnNextKeyPress( clearOnNextKeyPress ) {
     this.keypad.clearOnNextKeyPress = clearOnNextKeyPress;
   }
-} );
+}
 
+sceneryPhet.register( 'NumberEntryControl', NumberEntryControl );
 export default NumberEntryControl;
