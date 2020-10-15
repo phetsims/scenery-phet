@@ -12,7 +12,6 @@
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import DragListener from '../../scenery/js/listeners/DragListener.js';
@@ -34,211 +33,210 @@ import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
 
+class StopwatchNode extends Node {
 
-/**
- * @param {Stopwatch} stopwatch
- * @param {Object} [options]
- */
-function StopwatchNode( stopwatch, options ) {
-  assert && assert( stopwatch instanceof Stopwatch, `invalid stopwatch: ${stopwatch}` );
+  /**
+   * @param {Stopwatch} stopwatch
+   * @param {Object} [options]
+   */
+  constructor( stopwatch, options ) {
+    assert && assert( stopwatch instanceof Stopwatch, `invalid stopwatch: ${stopwatch}` );
 
-  options = merge( {
+    options = merge( {
 
-    cursor: 'pointer',
-    iconHeight: 10,
-    numberDisplayRange: Stopwatch.ZERO_TO_ALMOST_SIXTY, // Just for sizing the display, sized for 59:59.99 (mm:ss) or 3599.99 (decimal)
-    iconFill: 'black',
-    iconLineWidth: 1,
-    backgroundBaseColor: 'rgb( 80, 130, 230 )',
-    buttonBaseColor: '#DFE0E1',
-    xSpacing: 6, // horizontal space between the buttons
-    ySpacing: 6, // vertical space between readout and buttons
-    xMargin: 8,
-    yMargin: 8,
+      cursor: 'pointer',
+      iconHeight: 10,
+      numberDisplayRange: Stopwatch.ZERO_TO_ALMOST_SIXTY, // Just for sizing the display, sized for 59:59.99 (mm:ss) or 3599.99 (decimal)
+      iconFill: 'black',
+      iconLineWidth: 1,
+      backgroundBaseColor: 'rgb( 80, 130, 230 )',
+      buttonBaseColor: '#DFE0E1',
+      xSpacing: 6, // horizontal space between the buttons
+      ySpacing: 6, // vertical space between readout and buttons
+      xMargin: 8,
+      yMargin: 8,
 
-    // options propagated to the NumberDisplay
-    numberDisplayOptions: {
-      numberFormatter: StopwatchNode.richNumberFormatter,
-      useRichText: true,
-      align: 'right',
-      cornerRadius: 4,
-      xMargin: 4,
-      yMargin: 2,
-      pickable: false // allow dragging by the number display
-    },
+      // options propagated to the NumberDisplay
+      numberDisplayOptions: {
+        numberFormatter: StopwatchNode.richNumberFormatter,
+        useRichText: true,
+        align: 'right',
+        cornerRadius: 4,
+        xMargin: 4,
+        yMargin: 2,
+        pickable: false // allow dragging by the number display
+      },
 
-    visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
+      visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
 
-    // Tandem is required to make sure the buttons are instrumented
-    tandem: Tandem.REQUIRED,
+      // Tandem is required to make sure the buttons are instrumented
+      tandem: Tandem.REQUIRED,
 
-    // options propagated to the DragListener.
-    dragListenerOptions: null
-  }, options );
-  assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
+      // options propagated to the DragListener.
+      dragListenerOptions: null
+    }, options );
+    assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
-  assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
-  assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
+    assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
+    assert && assert( options.ySpacing >= 0, 'Buttons cannot overlap the readout' );
 
-  // Create the StopwatchReadoutNode.
-  this.numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.numberDisplayOptions );
+    const numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.numberDisplayOptions );
 
-  // Buttons ----------------------------------------------------------------------------
+    // Buttons ----------------------------------------------------------------------------
 
-  const resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
-    fill: options.iconFill
-  } );
-
-  const playIconHeight = resetPath.height;
-  const playIconWidth = 0.8 * playIconHeight;
-  const playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
-    fill: options.iconFill
-  } );
-
-  const pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
-    fill: options.iconFill
-  } );
-
-  const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, stopwatch.isRunningProperty, {
-    baseColor: options.buttonBaseColor,
-    tandem: options.tandem.createTandem( 'playPauseButton' )
-  } );
-
-  const resetButton = new RectangularPushButton( {
-    listener: function resetTimer() {
-      stopwatch.isRunningProperty.set( false );
-      stopwatch.timeProperty.set( 0 );
-    },
-    content: resetPath,
-    baseColor: options.buttonBaseColor,
-    tandem: options.tandem.createTandem( 'resetButton' )
-  } );
-
-  const contents = new VBox( {
-    spacing: options.ySpacing,
-    children: [
-      this.numberDisplay,
-      new HBox( {
-        spacing: options.xSpacing,
-        children: [ resetButton, playPauseButton ]
-      } )
-    ]
-  } );
-
-  // Background panel ----------------------------------------------------------------------------
-
-  const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
-    contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
-    baseColor: options.backgroundBaseColor
-  } );
-  contents.center = backgroundNode.center;
-
-  assert && assert( !options.children, 'StopwatchNode sets children' );
-  options.children = [ backgroundNode, contents ];
-
-  Node.call( this, options );
-
-  // @public (read-only) - Target for drag listeners
-  this.dragTarget = backgroundNode;
-
-  // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
-  const timeListener = time => {
-    resetButton.enabled = time > 0;
-    playPauseButton.enabled = time < stopwatch.timeProperty.range.max;
-  };
-  stopwatch.timeProperty.link( timeListener );
-
-  // Put a red dot at the origin, for debugging layout.
-  if ( phet.chipper.queryParameters.dev ) {
-    this.addChild( new Circle( 3, { fill: 'red' } ) );
-  }
-
-  const stopwatchVisibleListener = visible => {
-    this.visible = visible;
-    if ( visible ) {
-      this.moveToFront();
-    }
-    else {
-
-      // interrupt user interactions when the stopwatch is made invisible
-      this.interruptSubtreeInput();
-    }
-  };
-  stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
-
-  // Move to the stopwatch's position
-  const stopwatchPositionListener = position => this.setTranslation( position );
-  stopwatch.positionProperty.link( stopwatchPositionListener );
-
-  // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
-  // events when dragging out of a toolbox.
-  this.dragListener = null;
-
-  let dragBoundsProperty = null;
-
-  if ( options.visibleBoundsProperty ) {
-
-    // drag bounds, adjusted to keep this entire Node inside visible bounds
-    dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
-
-    // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
-    options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
-
-    // If the stopwatch is outside the drag bounds, move it inside.
-    dragBoundsProperty.link( dragBounds => {
-      if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
-        stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
-      }
+    const resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
+      fill: options.iconFill
     } );
 
-    // dragging, added to background so that other UI components get input events on touch devices
-    const dragListenerOptions = merge( {
-      targetNode: this,
-      positionProperty: stopwatch.positionProperty,
-      dragBoundsProperty: dragBoundsProperty,
-      tandem: options.tandem.createTandem( 'dragListener' )
-    }, options.dragListenerOptions );
+    const playIconHeight = resetPath.height;
+    const playIconWidth = 0.8 * playIconHeight;
+    const playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
+      fill: options.iconFill
+    } );
 
-    // The StopwatchNode always calls moveToFront on drag start
-    const startOption = dragListenerOptions.start;
-    dragListenerOptions.start = () => {
-      this.moveToFront();
-      startOption && startOption();
+    const pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
+      fill: options.iconFill
+    } );
+
+    const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, stopwatch.isRunningProperty, {
+      baseColor: options.buttonBaseColor,
+      tandem: options.tandem.createTandem( 'playPauseButton' )
+    } );
+
+    const resetButton = new RectangularPushButton( {
+      listener: function resetTimer() {
+        stopwatch.isRunningProperty.set( false );
+        stopwatch.timeProperty.set( 0 );
+      },
+      content: resetPath,
+      baseColor: options.buttonBaseColor,
+      tandem: options.tandem.createTandem( 'resetButton' )
+    } );
+
+    const contents = new VBox( {
+      spacing: options.ySpacing,
+      children: [
+        numberDisplay,
+        new HBox( {
+          spacing: options.xSpacing,
+          children: [ resetButton, playPauseButton ]
+        } )
+      ]
+    } );
+
+    // Background panel ----------------------------------------------------------------------------
+
+    const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
+      contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
+      baseColor: options.backgroundBaseColor
+    } );
+    contents.center = backgroundNode.center;
+
+    assert && assert( !options.children, 'StopwatchNode sets children' );
+    options.children = [ backgroundNode, contents ];
+
+    super( options );
+
+    // @public (read-only) - Target for drag listeners
+    this.dragTarget = backgroundNode;
+
+    // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
+    const timeListener = time => {
+      resetButton.enabled = time > 0;
+      playPauseButton.enabled = time < stopwatch.timeProperty.range.max;
     };
+    stopwatch.timeProperty.link( timeListener );
 
-    this.dragListener = new DragListener( dragListenerOptions );
-    this.dragTarget.addInputListener( this.dragListener );
-  }
-
-  this.addLinkedElement( stopwatch, {
-    tandem: options.tandem.createTandem( 'stopwatch' )
-  } );
-
-  // @private
-  this.disposeStopwatchNode = function() {
-    stopwatch.isVisibleProperty.unlink( stopwatchVisibleListener );
-    stopwatch.timeProperty.unlink( timeListener );
-    stopwatch.positionProperty.unlink( stopwatchPositionListener );
-
-    this.numberDisplay.dispose();
-    resetButton.dispose();
-    playPauseButton.dispose();
-
-    if ( this.dragListener ) {
-      this.dragTarget.removeInputListener( this.dragListener );
-      this.dragListener.dispose();
+    // Put a red dot at the origin, for debugging layout.
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addChild( new Circle( 3, { fill: 'red' } ) );
     }
 
-    dragBoundsProperty && dragBoundsProperty.dispose();
-  };
+    const stopwatchVisibleListener = visible => {
+      this.visible = visible;
+      if ( visible ) {
+        this.moveToFront();
+      }
+      else {
 
-  // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-  assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
-}
+        // interrupt user interactions when the stopwatch is made invisible
+        this.interruptSubtreeInput();
+      }
+    };
+    stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
 
-sceneryPhet.register( 'StopwatchNode', StopwatchNode );
+    // Move to the stopwatch's position
+    const stopwatchPositionListener = position => this.setTranslation( position );
+    stopwatch.positionProperty.link( stopwatchPositionListener );
 
-inherit( Node, StopwatchNode, {
+    // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
+    // events when dragging out of a toolbox.
+    this.dragListener = null;
+
+    let dragBoundsProperty = null;
+
+    if ( options.visibleBoundsProperty ) {
+
+      // drag bounds, adjusted to keep this entire Node inside visible bounds
+      dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
+
+      // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
+      options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
+
+      // If the stopwatch is outside the drag bounds, move it inside.
+      dragBoundsProperty.link( dragBounds => {
+        if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
+          stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
+        }
+      } );
+
+      // dragging, added to background so that other UI components get input events on touch devices
+      const dragListenerOptions = merge( {
+        targetNode: this,
+        positionProperty: stopwatch.positionProperty,
+        dragBoundsProperty: dragBoundsProperty,
+        tandem: options.tandem.createTandem( 'dragListener' )
+      }, options.dragListenerOptions );
+
+      // The StopwatchNode always calls moveToFront on drag start
+      const startOption = dragListenerOptions.start;
+      dragListenerOptions.start = () => {
+        this.moveToFront();
+        startOption && startOption();
+      };
+
+      this.dragListener = new DragListener( dragListenerOptions );
+      this.dragTarget.addInputListener( this.dragListener );
+    }
+
+    this.addLinkedElement( stopwatch, {
+      tandem: options.tandem.createTandem( 'stopwatch' )
+    } );
+
+    // @private
+    this.disposeStopwatchNode = () => {
+      stopwatch.isVisibleProperty.unlink( stopwatchVisibleListener );
+      stopwatch.timeProperty.unlink( timeListener );
+      stopwatch.positionProperty.unlink( stopwatchPositionListener );
+
+      numberDisplay.dispose();
+      resetButton.dispose();
+      playPauseButton.dispose();
+
+      if ( this.dragListener ) {
+        this.dragTarget.removeInputListener( this.dragListener );
+        this.dragListener.dispose();
+      }
+
+      dragBoundsProperty && dragBoundsProperty.dispose();
+    };
+
+    // @private
+    this.numberDisplay = numberDisplay;
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
+  }
 
   /**
    * @param {function<number,string>} numberFormatter
@@ -246,23 +244,25 @@ inherit( Node, StopwatchNode, {
    */
   setNumberFormatter( numberFormatter ) {
     this.numberDisplay.setNumberFormatter( numberFormatter );
-  },
+  }
 
   // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
   redrawNumberDisplay() {
     this.numberDisplay.recomputeText();
-  },
+  }
 
   /**
    * Release resources when no longer be used.
    * @public
    * @override
    */
-  dispose: function() {
+  dispose() {
     this.disposeStopwatchNode();
-    Node.prototype.dispose.call( this );
+    super.dispose();
   }
-} );
+}
+
+sceneryPhet.register( 'StopwatchNode', StopwatchNode );
 
 // the full-sized minutes and seconds string
 const toMinutesAndSeconds = time => {
@@ -288,7 +288,7 @@ const toMinutesAndSeconds = time => {
 };
 
 // the smaller hundredths-of-a-second string
-const getDecimalPlaces = ( time, numberDecimalPlaces ) => {
+function getDecimalPlaces( time, numberDecimalPlaces ) {
 
   const max = Math.pow( 10, numberDecimalPlaces );
 
@@ -302,7 +302,7 @@ const getDecimalPlaces = ( time, numberDecimalPlaces ) => {
     decimalValue = '0' + decimalValue;
   }
   return '.' + decimalValue;
-};
+}
 
 // @public (read-only, unit-tests)
 StopwatchNode.getDecimalPlaces = getDecimalPlaces;
