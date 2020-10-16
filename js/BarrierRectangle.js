@@ -27,7 +27,7 @@ class BarrierRectangle extends Plane {
       phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioEventType: EventType.USER,
-      phetioComponentOptions: {
+      visiblePropertyOptions: {
         phetioState: false
       }
     }, options );
