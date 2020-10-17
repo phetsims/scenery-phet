@@ -101,6 +101,33 @@
   "keyboardHelpDialog.jumpToMaximum": {
     "value": "Jump to maximum"
   },
+  "keyboardHelpDialog.adjust": {
+    "value": "Adjust"
+  },
+  "keyboardHelpDialog.slider": {
+    "value": "slider"
+  },
+  "keyboardHelpDialog.verbSliderPattern": {
+    "value": "{{verb}} {{slider}}"
+  },
+  "keyboardHelpDialog.verbInSmallerStepsPattern": {
+    "value": "{{verb}} in smaller steps"
+  },
+  "keyboardHelpDialog.verbInLargerStepsPattern": {
+    "value": "{{verb}} in larger steps"
+  },
+  "keyboardHelpDialog.minimum": {
+    "value": "minimum"
+  },
+  "keyboardHelpDialog.maximum": {
+    "value": "maximum"
+  },
+  "keyboardHelpDialog.jumpToMinimumPattern": {
+    "value": "Jump to {{minimum}}"
+  },
+  "keyboardHelpDialog.jumpToMaximumPattern": {
+    "value": "Jump to {{maximum}}"
+  },
   "keyboardHelpDialog.generalNavigation": {
     "value": "General Navigation"
   },
@@ -257,20 +284,20 @@
         }
       },
       "slider": {
-        "adjustDefaultStepsString": {
-          "value": "Adjust slider with Left and Right arrow keys, or Up and Down arrow keys."
+        "defaultStepsDescriptionPattern": {
+          "value": "{{verb}} {{slider}} with Left and Right arrow keys, or Up and Down arrow keys."
         },
-        "adjustSmallerStepsString": {
-          "value": "Adjust in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key."
+        "smallerStepsDescriptionPattern": {
+          "value": "{{verb}} in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key."
         },
-        "adjustLargerStepsString": {
-          "value": "Adjust in larger steps with Page Up or Page Down key."
+        "largerStepsDescriptionPattern": {
+          "value": "{{verb}} in larger steps with Page Up or Page Down key."
         },
-        "jumpToHomeString": {
-          "value": "Jump to minimum with Home key."
+        "jumpToMinimumDescriptionPattern": {
+          "value": "Jump to {{minimum}} with Home key."
         },
-        "jumpToEndString": {
-          "value": "Jump to maximum with End key."
+        "jumpToMaximumDescriptionPattern": {
+          "value": "Jump to {{maximum}} with End key."
         }
       },
       "grabOrReleaseDescriptionPattern": {
