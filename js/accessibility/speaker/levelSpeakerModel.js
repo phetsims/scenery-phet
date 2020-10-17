@@ -130,8 +130,26 @@ class LevelSpeakerModel {
       usedInteractionHint = interactionHint;
     }
 
-    // cant decide if punctuation is right here, it always sounds better but is likely wrong in many cases.
-    const outputString = `${usedObjectString}. ${usedContextString}. ${usedInteractionHint}`;
+    // used to combine with string literal, but we need to conditionally include punctuation so that
+    // it isn't always read
+    let outputString = '';
+    if ( usedObjectString ) {
+      outputString += usedObjectString;
+    }
+    if ( usedContextString ) {
+      if ( outputString.length > 0 ) {
+        outputString += ', ';
+      }
+      outputString = outputString + usedContextString;
+    }
+    if ( usedInteractionHint ) {
+      if ( outputString.length > 0 ) {
+        outputString += ', ';
+      }
+      outputString = outputString + usedInteractionHint;
+    }
+
+    // const outputString = `${usedObjectString} ${usedContextString} ${usedInteractionHint}`;
     webSpeaker.speak( outputString, options.withCancel );
   }
 }
