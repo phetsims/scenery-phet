@@ -167,8 +167,8 @@
   "keyboardHelpDialog.grabOrReleaseLabelPattern": {
     "value": "Grab or release {{thing}}"
   },
-  "keyboardHelpDialog.comboBox.stepsToChangePattern": {
-    "value": "Steps to change a {{thingTitle}}"
+  "keyboardHelpDialog.comboBox.chooseAThingPattern": {
+    "value": "Choose a {{thingTitle}}"
   },
   "keyboardHelpDialog.comboBox.popUpListPattern": {
     "value": "1. Pop up list of {{thingPlural}}"

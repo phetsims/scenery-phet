@@ -22,8 +22,13 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
    * @param {Object} [options]
    */
   constructor( thingAsTitle, options ) {
+    assert && assert( typeof thingAsTitle === 'string' );
 
     options = merge( {
+
+      headingString: StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseAThingPattern, {
+        thingTitle: thingAsTitle
+      } ),
 
       // the item being changed by the combo box, lower case as used in a sentence.
       thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.option,
@@ -39,7 +44,6 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
     // convencience funtion for all the filling in done below
     const fillIn = stringPattern => StringUtils.fillIn( stringPattern, {
-      thingTitle: thingAsTitle,
       thingPlural: options.thingAsLowerCasePlural,
       thingSingular: options.thingAsLowerCaseSingular
     } );
@@ -61,8 +65,7 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescription );
 
     // order the rows of content
-    super( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.stepsToChangePattern ),
-      [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
+    super( options.headingString, [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
   }
 }
 
