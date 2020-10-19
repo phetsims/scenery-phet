@@ -238,28 +238,6 @@ class KeyboardHelpIconFactory {
   }
 
   /**
-   * An icon containing the icons two arrow keys,  aligned horizontally.
-   *
-   * @param {string} firstKeyName
-   * @param {string} secondKeyName
-   * @param {Object} [options]
-   * @returns {HBox}
-   * @private
-   */
-  static createTwoArrowKeysIcon( firstKeyName, secondKeyName, options ) {
-    options = merge( {
-      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
-    }, options );
-    assert && assert( !options.children, 'children cannot be passed to options' );
-
-    const upArrowKeyNode = new ArrowKeyNode( firstKeyName );
-    const rightArrowKeyNode = new ArrowKeyNode( secondKeyName );
-
-    options.children = [ upArrowKeyNode, rightArrowKeyNode ];
-    return new HBox( options );
-  }
-
-  /**
    * An icon containing icons for the up and down arrow keys aligned horizontally.
    * @public
    *
@@ -267,7 +245,7 @@ class KeyboardHelpIconFactory {
    * @returns {HBox}
    */
   static upDownArrowKeysRowIcon( options ) {
-    return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'up', 'down', options );
+    return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) ], options );
   }
 
   /**
@@ -278,7 +256,7 @@ class KeyboardHelpIconFactory {
    * @returns {HBox}
    */
   static leftRightArrowKeysRowIcon( options ) {
-    return KeyboardHelpIconFactory.createTwoArrowKeysIcon( 'left', 'right', options );
+    return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ], options );
   }
 }
 

@@ -10,7 +10,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
-import ArrowKeyNode from '../ArrowKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
@@ -53,7 +52,7 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescription ) );
 
     const moveThrough = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPattern ),
-      KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) ] ),
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
       fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescription ) );
 
     const chooseNew = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPattern ),
