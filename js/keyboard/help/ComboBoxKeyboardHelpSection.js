@@ -19,13 +19,18 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
    * @param {string} thingAsTitle - the item being changed by the combo box, capitalized as a title
-   * @param thingAsLowerCaseSingular - the item being changed by the combo box, lower case as used in a sentence.
-   * @param thingAsLowerCasePlural - plural version of thingAsLowerCaseSingular
    * @param {Object} [options]
    */
-  constructor( thingAsTitle, thingAsLowerCaseSingular, thingAsLowerCasePlural, options ) {
+  constructor( thingAsTitle, options ) {
 
     options = merge( {
+
+      // the item being changed by the combo box, lower case as used in a sentence.
+      thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.option,
+
+      // plural version of thingAsLowerCaseSingular
+      thingAsLowerCasePlural: sceneryPhetStrings.keyboardHelpDialog.comboBox.options,
+
       a11yContentTagName: 'ol', // ordered list
       vBoxOptions: {
         spacing: 8 // A bit tighter so that it looks like one set of instructions
@@ -35,8 +40,8 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     // convencience funtion for all the filling in done below
     const fillIn = stringPattern => StringUtils.fillIn( stringPattern, {
       thingTitle: thingAsTitle,
-      thingPlural: thingAsLowerCasePlural,
-      thingSingular: thingAsLowerCaseSingular
+      thingPlural: options.thingAsLowerCasePlural,
+      thingSingular: options.thingAsLowerCaseSingular
     } );
 
     const popUpList = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPattern ),

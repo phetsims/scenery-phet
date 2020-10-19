@@ -174,13 +174,19 @@
     "value": "1. Pop up list of {{thingPlural}}"
   },
   "keyboardHelpDialog.comboBox.moveThroughPattern": {
-    "value": "2. Move through set {{thingPlural}}"
+    "value": "2. Move through {{thingPlural}}"
   },
   "keyboardHelpDialog.comboBox.chooseNewPattern": {
     "value": "3. Choose new {{thingSingular}}"
   },
   "keyboardHelpDialog.comboBox.closeWithoutChanging": {
     "value": "4. Close list without changing"
+  },
+  "keyboardHelpDialog.comboBox.options": {
+    "value": "options"
+  },
+  "keyboardHelpDialog.comboBox.option": {
+    "value": "option"
   },
   "speed.normal": {
     "value": "Normal"
@@ -308,13 +314,13 @@
           "value": "Pop up list of {{thingPlural}} with Space or Enter keys."
         },
         "moveThroughPatternDescription": {
-          "value": "Move through set {{thingPlural}} with Up and Down arrow keys."
+          "value": "Move through {{thingPlural}} with Up and Down arrow keys."
         },
         "chooseNewPatternDescription": {
-          "value": " Choose new ratio {{thingSingular}} with Enter key."
+          "value": " Choose new {{thingSingular}} with Enter key."
         },
         "closeWithoutChangingDescription": {
-          "value": " Close list without changing with Esc key."
+          "value": " Close list without changing with Escape key."
         }
       }
     },
