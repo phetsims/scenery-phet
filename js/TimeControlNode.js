@@ -10,14 +10,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import EnabledNode from '../../sun/js/EnabledNode.js';
 import Panel from '../../sun/js/Panel.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseButton from './buttons/PlayPauseButton.js';
@@ -53,6 +52,7 @@ SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: speedSlowString, tandemName:
 class TimeControlNode extends Node {
 
   /**
+   * @mixes EnabledNode
    * @param {Property.<boolean>} isPlayingProperty
    * @param {Object} [options]
    */
@@ -75,9 +75,6 @@ class TimeControlNode extends Node {
       // {number} - horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup
       // is included
       buttonGroupXSpacing: 40,
-
-      // {BooleanProperty}
-      enabledProperty: null,
 
       // {Object|null} - options passed along to the PlayPauseStepButtons
       playPauseStepButtonOptions: null,
@@ -147,6 +144,9 @@ class TimeControlNode extends Node {
 
     super();
 
+    // Initialize the mixin, which defines this.enabledProperty.
+    this.initializeEnabledNode( options );
+
     // @private {PlayPauseButton} - for layout
     this.playPauseStepButtons = playPauseStepButtons;
 
@@ -165,23 +165,6 @@ class TimeControlNode extends Node {
     this.buttonGroupXSpacing = options.buttonGroupXSpacing;
     this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
 
-    // So we know whether we can dispose of the enabledProperty and its tandem
-    const ownsEnabledProperty = !options.enabledProperty;
-
-    // @public
-    this.enabledProperty = options.enabledProperty || new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' ),
-      phetioFeatured: true
-    } );
-
-    assert && Tandem.VALIDATION && assert( this.enabledProperty.phetioFeatured, 'TimeControlNode.enabledProperty should be phetioFeatured' );
-
-    const enabledListener = enabled => {
-      this.pickable = enabled;
-      this.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
-    };
-    this.enabledProperty.link( enabledListener );
-
     // PDOM - dynamic or component dependent descriptions
     const playingListener = playing => {
       let description;
@@ -199,15 +182,7 @@ class TimeControlNode extends Node {
     this.disposeTimeControlNode = () => {
       playPauseStepButtons.dispose();
       speedRadioButtonGroup && speedRadioButtonGroup.dispose();
-
       isPlayingProperty.unlink( playingListener );
-
-      if ( ownsEnabledProperty ) {
-        this.enabledProperty.dispose();
-      }
-      else if ( this.enabledProperty.hasListener( enabledListener ) ) {
-        this.enabledProperty.unlink( enabledListener );
-      }
     };
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
@@ -270,6 +245,7 @@ class TimeControlNode extends Node {
    */
   dispose() {
     this.disposeTimeControlNode();
+    this.disposeEnabledNode();
     super.dispose();
   }
 }
@@ -398,6 +374,8 @@ class PlayPauseStepButtons extends HBox {
     super.dispose();
   }
 }
+
+EnabledNode.mixInto( TimeControlNode );
 
 /**
  * Inner type for speed radio buttons.

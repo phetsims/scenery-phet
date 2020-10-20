@@ -1544,6 +1544,8 @@ function demoTimeControlNode( layoutBounds ) {
     timeSpeedProperty: new Property( TimeSpeed.NORMAL )
   } );
 
+  const enabledProperty = new BooleanProperty( true );
+
   // a TimeControlNode with swapped layout for radio buttons with radio buttons wrapped in a panel
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
     timeSpeedProperty: new Property( TimeSpeed.SLOW ),
@@ -1553,13 +1555,22 @@ function demoTimeControlNode( layoutBounds ) {
     speedRadioButtonGroupPanelOptions: {
       fill: 'rgb(239,239,195)'
     },
-    buttonGroupXSpacing: 100,
-    wrapSpeedRadioButtonGroupInPanel: true
+    buttonGroupXSpacing: 40,
+    wrapSpeedRadioButtonGroupInPanel: true,
+    enabledProperty: enabledProperty
   } );
 
-  const controls = [ defaultTimeControlNode, pushButtonTimeControlNode, speedTimeControlNode, customTimeControlNode ];
+  const enabledLabelNode = new Text( 'enabled', { font: new PhetFont( 20 ) } );
+  const enabledCheckbox = new Checkbox( enabledLabelNode, enabledProperty );
+
   return new VBox( {
-    children: controls,
+    children: [
+      defaultTimeControlNode,
+      pushButtonTimeControlNode,
+      speedTimeControlNode,
+      customTimeControlNode,
+      enabledCheckbox
+    ],
     spacing: 30,
     center: layoutBounds.center,
     resize: false
