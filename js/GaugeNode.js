@@ -8,7 +8,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
@@ -56,11 +55,11 @@ class GaugeNode extends Node {
 
       needleLineWidth: 3,
 
-      // {BooleanProperty|null} Determines whether the gauge will be updated when the value changes.
-      // Use this to (for example) disable updates while a gauge is not visible.
-      // If null, BooleanProperty(true) will be created.
-      enabledProperty: null,
-
+      // {boolean} 
+      // true - always updates, even when invisible
+      // false - does not update when invisible, use to optimize performance
+      updateWhenInvisible: true,
+      
       tandem: Tandem.REQUIRED
     }, options );
 
@@ -71,12 +70,6 @@ class GaugeNode extends Node {
 
     // @public (read-only) {number}
     this.radius = options.radius;
-
-    // Whether enabledProperty was provided by the client (false) or created by GaugeNode (true)
-    const ownsEnabledProperty = !options.enabledProperty;
-
-    // @public enabled/disables updates of the needle
-    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
     const anglePerTick = options.span / options.numberOfTicks;
     const tandem = options.tandem;
@@ -117,8 +110,9 @@ class GaugeNode extends Node {
     const scratchMatrix = new Matrix3();
 
     const updateNeedle = () => {
-      if ( this.enabledProperty.get() ) {
+      if ( this.visibleProperty.value || options.updateWhenInvisible ) {
         if ( typeof ( valueProperty.get() ) === 'number' ) {
+          console.log( `GaugeNode value = ${valueProperty.get()} ` );//XXX
 
           // clamp value to valid range and map it to an angle
           const clampedValue = Utils.clamp( valueProperty.get(), range.min, range.max );
@@ -135,9 +129,13 @@ class GaugeNode extends Node {
         }
       }
     };
-
     valueProperty.link( updateNeedle );
-    this.enabledProperty.link( updateNeedle );
+    
+    if ( options.updateOnlyWhenVisible ) {
+      this.visibleProperty.link( visible => {
+        visible && updateNeedle();
+      } );
+    }
 
     // Render all of the ticks into Shapes layers (since they have different strokes)
     // see https://github.com/phetsims/energy-skate-park-basics/issues/208
@@ -181,13 +179,6 @@ class GaugeNode extends Node {
     this.disposeGaugeNode = () => {
       if ( valueProperty.hasListener( updateNeedle ) ) {
         valueProperty.unlink( updateNeedle );
-      }
-
-      if ( ownsEnabledProperty ) {
-        this.enabledProperty.dispose();
-      }
-      else if ( options.enabledProperty.hasListener( updateNeedle ) ) {
-        this.enabledProperty.unlink( updateNeedle );
       }
 
       // de-register phet-io tandems
