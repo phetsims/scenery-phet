@@ -12,7 +12,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Property from '../../../../axon/js/Property.js';
 
 class LevelSpeakerModel {
@@ -93,8 +92,8 @@ class LevelSpeakerModel {
   }
 
   /**
-   * Prepares final output with both an object and a context response. Each response is only sent to the webSpeaker
-   * if the Properties for speaking that content indicate that content should be spoken. Rather than using
+   * Prepares final output with an object response, a context response, and a hint. Each response
+   * will only be added to the final string if that response type is included by the user. Rather than using
    * unique utterances, we use string interpolation so that the highlight around the abject being spoken
    * about stays lit for the entire combination of responses.
    * @public
@@ -104,7 +103,7 @@ class LevelSpeakerModel {
    * @param {string} interactionHint
    * @param {Object} [options]
    */
-  speakAllResponses( objectResponse, contextResponse, interactionHint, options ) {
+  collectResponses( objectResponse, contextResponse, interactionHint, options ) {
 
     options = merge( {
 
@@ -149,8 +148,7 @@ class LevelSpeakerModel {
       outputString = outputString + usedInteractionHint;
     }
 
-    // const outputString = `${usedObjectString} ${usedContextString} ${usedInteractionHint}`;
-    webSpeaker.speak( outputString, options.withCancel );
+    return outputString;
   }
 }
 

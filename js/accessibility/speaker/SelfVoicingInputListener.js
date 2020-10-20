@@ -10,13 +10,12 @@
  * For most of the optional listenres, he behavior will likely use webSpeaker in some way,
  * or maybe somethign else that will generate the strings that should come from each
  * method of input. Right now, I am noticing that almost all of these usages
- * use levelSpeakerModel.speakAllResponses, so perhaps instead of arbitrary listeners
+ * use levelSpeakerModel.collectResponses, so perhaps instead of arbitrary listeners
  * the options should be more directed toward that usage.
  *
  * @author Jesse Greenberg
  */
 
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../../../scenery/js/display/Display.js';
 import speakerHighlighter from './speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -101,12 +100,13 @@ class SelfVoicingInputListener {
       for ( let i = 0; i < event.trail.nodes.length; i++ ) {
         if ( event.trail.nodes[ i ].focusable ) {
 
-          // prevent the web speaker from speaking focus related alerts when we
-          // put focus on it from a down event - simulation code is likely controlling
-          // in that case
-          webSpeaker.onHold = true;
+          // prevent the Queue from speaking the focused item in this case, we likly
+          // have specific behavior on down that we should speak - we don't want to speak
+          // down content and focus
+          // I am actually not sure about this, should check with Taliesin.
+          phet.joist.sim.selfVoicingUtteranceQueue.enabled = false;
           event.trail.nodes[ i ].focus();
-          webSpeaker.onHold = false;
+          phet.joist.sim.selfVoicingUtteranceQueue.enabled = true;
         }
       }
     }

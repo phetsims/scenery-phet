@@ -15,7 +15,6 @@ import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -108,7 +107,7 @@ class SelfVoicingQuickControl extends Node {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
         } );
-        levelSpeakerModel.speakAllResponses( string );
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( string );
       },
       highlightTarget: expandCollapseButton
     } ) );
@@ -117,7 +116,7 @@ class SelfVoicingQuickControl extends Node {
       const response = StringUtils.fillIn( pressResponsePatternString, {
         state: open ? shownString : hiddenString
       } );
-      levelSpeakerModel.speakAllResponses( response );
+      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
     } );
 
     // creates content for each button and puts it into an AlignGroup so that
@@ -142,7 +141,7 @@ class SelfVoicingQuickControl extends Node {
 
       button.addInputListener( new SelfVoicingInputListener( {
         onFocusIn: () => {
-          levelSpeakerModel.speakAllResponses( contentString );
+          phet.joist.sim.selfVoicingUtteranceQueue.addToBack( contentString );
         },
         highlightTarget: button
       } ) );
@@ -170,7 +169,7 @@ class SelfVoicingQuickControl extends Node {
     // other listeners are added in createSpeechButton
     muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        levelSpeakerModel.speakAllResponses( muteSpeechString );
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( muteSpeechString );
       },
       highlightTarget: muteSpeechButton
     } ) );
@@ -244,7 +243,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakHintContent() {
-    webSpeaker.speak( this.createHintContent() );
+    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createHintContent() );
   }
 
   /**
@@ -252,7 +251,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakOverviewContent() {
-    webSpeaker.speak( this.createOverviewContent() );
+    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createOverviewContent() );
   }
 
   /**
@@ -261,7 +260,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakDetailsContent() {
-    webSpeaker.speak( this.createDetailsContent() );
+    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createDetailsContent() );
   }
 }
 
