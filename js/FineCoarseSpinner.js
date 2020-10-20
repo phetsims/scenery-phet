@@ -8,12 +8,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
+import EnabledNode from '../../sun/js/EnabledNode.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -21,6 +21,7 @@ import sceneryPhet from './sceneryPhet.js';
 class FineCoarseSpinner extends Node {
 
   /**
+   * @mixes EnabledNode
    * @param {NumberProperty} numberProperty
    * @param {Object} [options]
    */
@@ -33,7 +34,6 @@ class FineCoarseSpinner extends Node {
       deltaFine: 1, // {number} amount to increment/decrement when the 'fine' tweakers are pressed
       deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
       spacing: 10, // {number} horizontal space between subcomponents
-      enabledProperty: null, // {BooleanProperty|null} is this control enabled?
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
       tandem: Tandem.REQUIRED
     }, options );
@@ -42,14 +42,6 @@ class FineCoarseSpinner extends Node {
       assert && assert( numberProperty.range, 'numberProperty.range or options.range must be provided' );
       options.range = numberProperty.range;
     }
-
-    // So we know whether we can dispose of the enabledProperty and its tandem
-    const ownsEnabledProperty = !options.enabledProperty;
-
-    // Provide a default if not specified
-    options.enabledProperty = options.enabledProperty || new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' )
-    } );
 
     assert && assert( options.deltaFine > 0, 'invalid deltaFine: ' + options.deltaFine );
     assert && assert( options.deltaCoarse > 0, 'invalid deltaCoarse: ' + options.deltaCoarse );
@@ -132,14 +124,8 @@ class FineCoarseSpinner extends Node {
 
     super( options );
 
-    // @public
-    this.enabledProperty = options.enabledProperty;
-    const enabledObserver = enabled => {
-      this.interruptSubtreeInput(); // interrupt interaction
-      this.pickable = enabled;
-      this.opacity = enabled ? 1.0 : options.disabledOpacity;
-    };
-    this.enabledProperty.link( enabledObserver );
+    // Initialize the mixin, which defines this.enabledProperty.
+    this.initializeEnabledNode( options );
 
     // Disable the buttons when the value is at min or max of the range
     const numberPropertyListener = value => {
@@ -157,13 +143,6 @@ class FineCoarseSpinner extends Node {
 
       if ( numberProperty.hasListener( numberPropertyListener ) ) {
         numberProperty.unlink( numberPropertyListener );
-      }
-
-      if ( ownsEnabledProperty ) {
-        this.enabledProperty.dispose();
-      }
-      else if ( this.enabledProperty.hasListener( enabledObserver ) ) {
-        this.enabledProperty.unlink( enabledObserver );
       }
 
       // unregister tandems
@@ -186,27 +165,12 @@ class FineCoarseSpinner extends Node {
   // @public
   dispose() {
     this.disposeFineCoarseSpinner();
+    this.disposeEnabledNode();
     super.dispose();
   }
-
-  /**
-   * Sets whether this Node is enabled or disabled.
-   * @param {boolean} enabled
-   * @public
-   */
-  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
-
-  set enabled( value ) { this.setEnabled( value ); }
-
-  /**
-   * Gets whether this Node is enabled or disabled.
-   * @returns {boolean}
-   * @public
-   */
-  getEnabled() { return this.enabledProperty.get(); }
-
-  get enabled() { return this.getEnabled(); }
 }
+
+EnabledNode.mixInto( FineCoarseSpinner );
 
 sceneryPhet.register( 'FineCoarseSpinner', FineCoarseSpinner );
 export default FineCoarseSpinner;
