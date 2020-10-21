@@ -41,7 +41,7 @@ class EyeDropperNode extends Node {
     options = merge( {
 
       dispensingProperty: new Property( false ), // is the dropper dispensing?
-      enabledProperty: new Property( true ), // is the button enabled?
+      buttonEnabledProperty: new Property( true ), // is the button enabled?
       emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 15, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
@@ -57,7 +57,7 @@ class EyeDropperNode extends Node {
 
     // @public
     this.dispensingProperty = options.dispensingProperty;
-    this.enabledProperty = options.enabledProperty;
+    this.buttonEnabledProperty = options.buttonEnabledProperty;
     this.emptyProperty = options.emptyProperty;
 
     // @private fluid fills the glass portion of the dropper, shape is specific to the dropper image file
@@ -93,7 +93,7 @@ class EyeDropperNode extends Node {
       tandem: options.tandem.createTandem( 'button' )
     } );
     const enabledObserver = function( enabled ) { button.enabled = enabled; };
-    this.enabledProperty.link( enabledObserver );
+    this.buttonEnabledProperty.link( enabledObserver );
     button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
     button.centerX = foreground.centerX;
     button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
@@ -118,7 +118,7 @@ class EyeDropperNode extends Node {
     // @private
     this.disposeEyeDropperNode = () => {
       button.dispose();
-      this.enabledProperty.unlink( enabledObserver );
+      this.buttonEnabledProperty.unlink( enabledObserver );
       this.emptyProperty.unlink( emptyObserver );
     };
 

@@ -433,16 +433,25 @@ function demoDrawer( layoutBounds ) {
 // Creates a demo for EyeDropperNode
 function demoEyeDropperNode( layoutBounds ) {
 
+  const buttonEnabledProperty = new BooleanProperty( true );
+
   const dropperNode = new EyeDropperNode( {
+    buttonEnabledProperty: buttonEnabledProperty,
     fluidColor: 'purple',
     center: layoutBounds.center
   } );
+
+  const buttonEnabledCheckbox = new Checkbox( new Text( 'button enabled', { font: new PhetFont( 20 ) } ), buttonEnabledProperty );
 
   dropperNode.dispensingProperty.lazyLink(
     dispensing => console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) )
   );
 
-  return dropperNode;
+  return new VBox( {
+    spacing: 15,
+    children: [ dropperNode, buttonEnabledCheckbox ],
+    center: layoutBounds.center
+  } );
 }
 
 // Creates a demo for FaucetNode
