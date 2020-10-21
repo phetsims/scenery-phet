@@ -7,7 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
@@ -29,6 +28,7 @@ import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
+import EnabledNode from '../../sun/js/EnabledNode.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
@@ -44,6 +44,7 @@ const ButtonState = Enumeration.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 class NumberPicker extends Node {
 
   /**
+   * @mixes EnabledNode
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
    *                                           Property contain the (maximum) union of all potential changes, so that
@@ -107,12 +108,6 @@ class NumberPicker extends Node {
        */
       decrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
 
-      // {BooleanProperty|null} if null, a default BooleanProperty is created
-      enabledProperty: null,
-
-      // {*|null} options passed to enabledProperty constructor, ignored if enabledProperty is provided
-      enabledPropertyOptions: null,
-
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: SunConstants.DISABLED_OPACITY,
 
@@ -145,6 +140,9 @@ class NumberPicker extends Node {
 
     super();
 
+    // Initialize the mixin, which defines this.enabledProperty.
+    this.initializeEnabledNode( options );
+
     //------------------------------------------------------------
     // Properties
 
@@ -156,21 +154,6 @@ class NumberPicker extends Node {
 
     // must be disposed
     const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.decrementEnabledFunction );
-
-    // @public
-    this.enabledProperty = options.enabledProperty;
-    const ownsEnabledProperty = !this.enabledProperty;
-    if ( ownsEnabledProperty ) {
-      this.enabledProperty = new BooleanProperty( true, merge( {
-        tandem: options.tandem.createTandem( 'enabledProperty' ),
-        phetioReadOnly: options.phetioReadOnly,
-        phetioDocumentation: 'When disabled, the picker is grayed out and cannot be pressed.',
-        phetioFeatured: true
-      }, options.enabledPropertyOptions ) );
-    }
-    else {
-      assert && Tandem.VALIDATION && assert( this.enabledProperty.phetioFeatured, 'provided enabledProperty must be phetioFeatured' );
-    }
 
     //------------------------------------------------------------
     // Nodes
@@ -435,14 +418,6 @@ class NumberPicker extends Node {
       decrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
     } );
 
-    const enabledListener = enabled => {
-      this.interruptSubtreeInput(); // cancel interaction that may be in progress
-      this.pickable = enabled;
-      this.cursor = enabled ? options.cursor : 'default';
-      this.opacity = enabled ? 1 : options.disabledOpacity;
-    };
-    this.enabledProperty.link( enabledListener );
-
     this.addLinkedElement( valueProperty, {
       tandem: options.tandem.createTandem( 'valueProperty' )
     } );
@@ -456,13 +431,6 @@ class NumberPicker extends Node {
 
       if ( valueProperty.hasListener( valueObserver ) ) {
         valueProperty.unlink( valueObserver );
-      }
-
-      if ( ownsEnabledProperty ) {
-        this.enabledProperty.dispose();
-      }
-      else if ( this.enabledProperty.hasListener( enabledListener ) ) {
-        this.enabledProperty.unlink( enabledListener );
       }
 
       // pdom mixin
@@ -511,6 +479,7 @@ class NumberPicker extends Node {
    */
   dispose() {
     this.disposeNumberPicker();
+    this.disposeEnabledNode();
     super.dispose();
   }
 
@@ -527,24 +496,6 @@ class NumberPicker extends Node {
     this.incrementArrow.visible = visible;
     this.decrementArrow.visible = visible;
   }
-
-  /**
-   * Sets whether the picker is enabled.
-   * @param {boolean} enabled
-   * @public
-   */
-  setEnabled( enabled ) { this.enabledProperty.value = enabled; }
-
-  set enabled( value ) { this.setEnabled( value ); }
-
-  /**
-   * Is the picker enabled?
-   * @returns {boolean}
-   * @public
-   */
-  getEnabled() { return this.enabledProperty.value; }
-
-  get enabled() { return this.getEnabled(); }
 }
 
 sceneryPhet.register( 'NumberPicker', NumberPicker );
@@ -628,7 +579,7 @@ function updateColors( buttonState, enabled, background, arrow, backgroundColors
   }
 }
 
-// mix accessibility into NumberPicker
+EnabledNode.mixInto( NumberPicker );
 AccessibleNumberSpinner.mixInto( NumberPicker );
 
 export default NumberPicker;
