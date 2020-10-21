@@ -43,6 +43,8 @@ class SelfVoicingInputListener {
       highlightTarget: null
     }, options );
 
+    assert && assert( phet.joist.sim.selfVoicingUtteranceQueue, 'Listener requires the utteranceQueue for self-voicing, is the feature enabled?' );
+
     // @private - see options
     this.onPress = options.onPress;
     this.onFocusIn = options.onFocusIn;
