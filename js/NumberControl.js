@@ -11,7 +11,6 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -24,6 +23,7 @@ import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
+import EnabledNode from '../../sun/js/EnabledNode.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider from '../../sun/js/Slider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -46,6 +46,7 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 class NumberControl extends Node {
 
   /**
+   * @mixes EnabledNode
    * @param {string} title
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
@@ -70,7 +71,6 @@ class NumberControl extends Node {
 
       delta: 1,
 
-      enabledProperty: new Property( true ), // {Property.<boolean>} is this control enabled?
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
       // A {function} that handles layout of subcomponents.
@@ -95,6 +95,9 @@ class NumberControl extends Node {
     }, options );
 
     super();
+
+    // Initialize the mixin, which defines this.enabledProperty.
+    this.initializeEnabledNode( options );
 
     // If the arrow button scale is not provided, the arrow button height will match the number display height
     const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
@@ -356,15 +359,6 @@ class NumberControl extends Node {
 
     this.mutate( options );
 
-    // enabled/disable this control
-    this.enabledProperty = options.enabledProperty; // @public
-    const enabledObserver = enabled => {
-      this.pickable = enabled;
-      this.opacity = enabled ? 1.0 : options.disabledOpacity;
-      // TODO if !enabled, cancel any interaction that is in progress, see https://github.com/phetsims/scenery-phet/issues/218
-    };
-    this.enabledProperty.link( enabledObserver );
-
     // @private
     this.disposeNumberControl = () => {
       numberDisplay.dispose();
@@ -376,8 +370,6 @@ class NumberControl extends Node {
       leftArrowButton && leftArrowButton.dispose();
       rightArrowButton && rightArrowButton.dispose();
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
-
-      this.enabledProperty.unlink( enabledObserver );
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -390,18 +382,9 @@ class NumberControl extends Node {
    */
   dispose() {
     this.disposeNumberControl();
+    this.disposeEnabledNode();
     super.dispose();
   }
-
-  // @public
-  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
-
-  set enabled( value ) { this.setEnabled( value ); }
-
-  // @public
-  getEnabled() { return this.enabledProperty.get(); }
-
-  get enabled() { return this.getEnabled(); }
 
   /**
    * Creates a NumberControl with default tick marks for min and max values.
@@ -662,6 +645,8 @@ NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
   documentation: 'A number control with a title, slider and +/- buttons',
   supertype: Node.NodeIO
 } );
+
+EnabledNode.mixInto( NumberControl );
 
 sceneryPhet.register( 'NumberControl', NumberControl );
 export default NumberControl;
