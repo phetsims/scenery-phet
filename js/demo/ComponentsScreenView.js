@@ -777,12 +777,9 @@ function demoLaserPointerNode( layoutBounds ) {
 
   const leftOnProperty = new Property( false );
   const rightOnProperty = new Property( false );
-  const enabledProperty = new Property( true );
 
   // Demonstrate how to adjust lighting
   const leftLaserNode = new LaserPointerNode( leftOnProperty, {
-
-    enabledProperty: enabledProperty,
 
     // these options adjust the lighting
     topColor: LaserPointerNode.DEFAULT_OPTIONS.bottomColor,
@@ -796,7 +793,6 @@ function demoLaserPointerNode( layoutBounds ) {
   } );
 
   const rightLaserNode = new LaserPointerNode( rightOnProperty, {
-    enabledProperty: enabledProperty,
     left: layoutBounds.centerX + 20,
     centerY: layoutBounds.centerY,
     hasGlass: true
@@ -821,13 +817,7 @@ function demoLaserPointerNode( layoutBounds ) {
     rightBeamNode.visible = on;
   } );
 
-  // enabled checkbox
-  const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty, {
-    centerX: layoutBounds.centerX,
-    top: leftLaserNode.bottom + 40
-  } );
-
-  return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode, enabledCheckbox ] } );
+  return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
 }
 
 // Creates a demo for MeasuringTapeNode

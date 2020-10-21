@@ -7,7 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -23,10 +22,6 @@ import ShadedSphereNode from './ShadedSphereNode.js';
 
 // constants
 const DEFAULT_OPTIONS = {
-
-  // {Property.<boolean>} Set this if you want to control enabled via your own Property.
-  // Otherwise use this.enabledProperty or the setter/getter for enabled.
-  enabledProperty: null,
 
   // nozzle and body options
   bodySize: new Dimension2( 110, 78 ),
@@ -169,19 +164,9 @@ class LaserPointerNode extends Node {
 
     super( options );
 
-    // @public
-    this.enabledProperty = options.enabledProperty || new Property( true );
-
-    // enables and disables the button
-    const enabledObserver = enabled => {
-      this.button && ( this.button.enabled = enabled );
-    };
-    this.enabledProperty.link( enabledObserver );
-
     // @private called by dispose
     this.disposeLaserPointerNode = () => {
       onOffButton && onOffButton.dispose();
-      this.enabledProperty.unlink( enabledObserver );
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -200,20 +185,6 @@ class LaserPointerNode extends Node {
     this.disposeLaserPointerNode();
     super.dispose();
   }
-
-  /**
-   * Sets the enabled state.
-   * @param {boolean} enabled
-   * @public
-   */
-  setEnabled( enabled ) { this.enabledProperty.set( enabled ); }
-
-  /**
-   * Gets the enabled state.
-   * @returns {boolean}
-   * @public
-   */
-  getEnabled() { return this.enabledProperty.get(); }
 }
 
 LaserPointerNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
