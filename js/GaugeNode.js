@@ -112,7 +112,6 @@ class GaugeNode extends Node {
     const updateNeedle = () => {
       if ( this.visibleProperty.value || options.updateWhenInvisible ) {
         if ( typeof ( valueProperty.get() ) === 'number' ) {
-          console.log( `GaugeNode value = ${valueProperty.get()} ` );//XXX
 
           // clamp value to valid range and map it to an angle
           const clampedValue = Utils.clamp( valueProperty.get(), range.min, range.max );
