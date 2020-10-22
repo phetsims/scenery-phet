@@ -33,6 +33,10 @@ class LevelSpeakerModel {
     // @public {BooleanProperty} - whether or not the "Self-Voicing Quick Menu" is visible
     // and available to the user
     this.showQuickMenuProperty = new BooleanProperty( true );
+
+    // @public {BooleanProperty} - whether or not gesture controls are enabled for the sim - enabling
+    // gesture control generally interrupts most normal touch input
+    this.gestureControlProperty = new BooleanProperty( true );
   }
 
   /**

@@ -124,6 +124,10 @@ class LevelModeControls extends VBox {
       {
         node: new Text( 'Show Self Voicing Quick Menu', { font: LABEL_FONT } ),
         property: levelSpeakerModel.showQuickMenuProperty
+      },
+      {
+        node: new Text( 'Enable Gesture Control', { font: LABEL_FONT } ),
+        property: levelSpeakerModel.gestureControlProperty
       }
     ] );
 
