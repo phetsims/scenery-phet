@@ -12,7 +12,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
-import RectangularButtonView from '../../sun/js/buttons/RectangularButtonView.js';
+import RectangularButton from '../../sun/js/buttons/RectangularButton.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import CurvedArrowShape from './CurvedArrowShape.js';
@@ -33,7 +33,7 @@ class MoveToTrashButton extends RectangularPushButton {
       // RectangularPushButton options
       baseColor: 'rgb( 230, 230, 240 )',
       disabledBaseColor: 'white',
-      buttonAppearanceStrategy: RectangularButtonView.FlatAppearanceStrategy,
+      buttonAppearanceStrategy: RectangularButton.FlatAppearanceStrategy,
       cornerRadius: 6,
       xMargin: 7,
       yMargin: 3
