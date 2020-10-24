@@ -20,8 +20,8 @@ class InfoButton extends RoundPushButton {
   constructor( options ) {
 
     options = merge( {
-      minXMargin: 10,
-      minYMargin: 10,
+      xMargin: 10,
+      yMargin: 10,
       touchAreaXDilation: 10,
       touchAreaYDilation: 5,
       baseColor: 'rgb( 238, 238, 238 )',

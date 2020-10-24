@@ -29,7 +29,7 @@ class ResetButton extends RoundPushButton {
 
     options = merge( {
       radius: BUTTON_RADIUS,
-      minXMargin: BUTTON_RADIUS * 0.2,
+      xMargin: BUTTON_RADIUS * 0.2,
       baseColor: 'white',
       arrowColor: 'black',
 
