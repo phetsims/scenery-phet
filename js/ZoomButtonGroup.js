@@ -11,7 +11,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import LayoutBox from '../../scenery/js/nodes/LayoutBox.js';
 import Text from '../../scenery/js/nodes/Text.js';
-import RectangularButton from '../../sun/js/buttons/RectangularButton.js';
+import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import MathSymbols from './MathSymbols.js';
@@ -46,7 +46,7 @@ class ZoomButtonGroup extends LayoutBox {
       // RectangularPushButton options
       buttonOptions: {
         baseColor: 'white',
-        buttonAppearanceStrategy: RectangularButton.FlatAppearanceStrategy,
+        buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
         cornerRadius: 0,
         xMargin: 8,
         yMargin: 5,
