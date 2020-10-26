@@ -130,8 +130,9 @@ class GrabDragInteraction {
         return this.numberOfKeyboardGrabs < 1;
       },
 
-      // whether or not to display the Node for the "Drag" cue once the grabbable Node has been picked up,
-      // if a options.dragCueNode is specified
+      // whether or not to display the Node for the "Drag" cue node once the grabbable Node has been picked up,
+      // if a options.dragCueNode is specified. This will only be shown if draggable node has focus
+      // from alternative input
       showDragCueNode: () => {
         return true;
       },
