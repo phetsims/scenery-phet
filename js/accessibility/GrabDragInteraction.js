@@ -36,10 +36,10 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
+import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -375,17 +375,13 @@ class GrabDragInteraction {
         }
 
         // if successfully dragged, then make the cue node invisible
-        if ( this.dragCueNode && !options.showDragCueNode() ) {
-          this.dragCueNode.visible = false;
-        }
+        this.updateVisibilityForCues();
       },
       blur: () => this.releaseDraggable(),
       focus: () => {
 
         // if successfully dragged, then make the cue node invisible
-        if ( this.dragCueNode && !options.showDragCueNode() ) {
-          this.dragCueNode.visible = false;
-        }
+        this.updateVisibilityForCues();
       }
     };
 
@@ -542,7 +538,7 @@ class GrabDragInteraction {
     this.addInputListeners( listenersToAdd );
 
     this.updateFocusHighlights();
-    this.updateCues();
+    this.updateVisibilityForCues();
   }
 
   /**
@@ -566,7 +562,7 @@ class GrabDragInteraction {
    * Update the visibility of the cues for both grabbable and draggable modes.
    * @private
    */
-  updateCues() {
+  updateVisibilityForCues() {
     if ( this.dragCueNode ) {
       this.dragCueNode.visible = this.showDragCueNode();
     }
