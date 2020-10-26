@@ -100,9 +100,6 @@ class GrabDragInteraction {
       // that type. When positioning this node, it is in the target Node's parent coordinate frame.
       grabCueOptions: {},
 
-      // {number} - the number of times a user has to successfully grab the object before hiding the cue.
-      grabsToCue: 1,
-
       // {Object} - Node options passed to the draggable created for the PDOM, filled in with defaults below
       draggableOptions: {},
 
@@ -127,9 +124,17 @@ class GrabDragInteraction {
       // help text when this Node is in the draggable mode, the help text is still in the PDOM.
       keyboardHelpText: null,
 
-      // {function} - returns {boolean}, whether or not there has been a successful drag interaction,
-      //              thus determining whether or not to show the dragCueNode.
-      successfulDrag: _.stubTrue,
+      // controls whether or not to show the "Grab" cue node that is displayed on focus - by
+      // default it will be shown on focus until it has been successfully grabbed with a keyboard
+      showGrabCueNode: () => {
+        return this.numberOfKeyboardGrabs < 1;
+      },
+
+      // whether or not to display the Node for the "Drag" cue once the grabbable Node has been picked up,
+      // if a options.dragCueNode is specified
+      showDragCueNode: () => {
+        return true;
+      },
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
@@ -159,9 +164,10 @@ class GrabDragInteraction {
     assert && assert( typeof options.onRelease === 'function' );
     assert && assert( typeof options.onGrabbable === 'function' );
     assert && assert( typeof options.onDraggable === 'function' );
+    assert && assert( typeof options.showDragCueNode === 'function' );
+    assert && assert( typeof options.showGrabCueNode === 'function' );
     assert && assert( Array.isArray( options.listenersForDrag ) );
     assert && assert( Array.isArray( options.listenersForGrab ) );
-    assert && assert( typeof options.grabsToCue === 'number' );
     assert && assert( options.grabbableOptions instanceof Object );
     assert && assert( options.grabCueOptions instanceof Object );
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
@@ -228,14 +234,22 @@ class GrabDragInteraction {
     this.node = node;
     this.grabbableOptions = options.grabbableOptions;
     this.draggableOptions = options.draggableOptions;
-    this.numberOfGrabs = 0; // {number}
-    this.grabsToCue = options.grabsToCue;
-    this.successfulDrag = options.successfulDrag;
     this.dragCueNode = options.dragCueNode; // {Node|null}
     this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+    this.showGrabCueNode = options.showGrabCueNode;
+    this.showDragCueNode = options.showDragCueNode;
     this.onGrabbable = options.onGrabbable;
     this.onDraggable = options.onDraggable;
     this.addAriaDescribedbyPredicate = options.addAriaDescribedbyPredicate;
+
+    // @private {number} - the number of times the component has been picked up for dragging, regardless
+    // of pickup method for things like determining content for "hints" describing the interaction
+    // to the user
+    this.numberOfGrabs = 0; // {number}
+
+    // @private {number} - the number of times this component has been picked up with a keyboard
+    // specifically to provide hints specific to alternative input
+    this.numberOfKeyboardGrabs = 0;
 
     // @private {string|null}
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
@@ -305,6 +319,8 @@ class GrabDragInteraction {
         if ( !guardKeyPressFromDraggable ) {
           this.turnToDraggable();
 
+          this.numberOfKeyboardGrabs++;
+
           this.node.focus();
 
           this.onGrab();
@@ -328,9 +344,7 @@ class GrabDragInteraction {
       },
 
       blur: () => {
-        if ( this.numberOfGrabs >= options.grabsToCue ) {
-          this.grabCueNode.visible = false;
-        }
+        this.grabCueNode.visible = options.showGrabCueNode();
       }
     };
 
@@ -360,7 +374,7 @@ class GrabDragInteraction {
         }
 
         // if successfully dragged, then make the cue node invisible
-        if ( this.dragCueNode && options.successfulDrag() ) {
+        if ( this.dragCueNode && !options.showDragCueNode() ) {
           this.dragCueNode.visible = false;
         }
       },
@@ -368,7 +382,7 @@ class GrabDragInteraction {
       focus: () => {
 
         // if successfully dragged, then make the cue node invisible
-        if ( this.dragCueNode && options.successfulDrag() ) {
+        if ( this.dragCueNode && !options.showDragCueNode() ) {
           this.dragCueNode.visible = false;
         }
       }
@@ -552,15 +566,11 @@ class GrabDragInteraction {
    * @private
    */
   updateCues() {
-
-    // only if there is a dragCueNode
     if ( this.dragCueNode ) {
-
-      // Only visible if there hasn't yet been a successful drag
-      this.dragCueNode.visible = !this.successfulDrag();
+      this.dragCueNode.visible = this.showDragCueNode();
     }
 
-    this.grabCueNode.visible = this.numberOfGrabs < this.grabsToCue;
+    this.grabCueNode.visible = this.showGrabCueNode();
   }
 
   /**
@@ -621,6 +631,7 @@ class GrabDragInteraction {
 
     // turnToGrabbable will increment this, so reset it again
     this.numberOfGrabs = 0;
+    this.numberOfKeyboardGrabs = 0;
     this.grabCueNode.visible = true;
     if ( this.dragCueNode ) {
       this.dragCueNode.visible = true;
