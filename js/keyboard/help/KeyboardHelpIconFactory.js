@@ -18,8 +18,6 @@ import ArrowKeyNode from '../ArrowKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 
-const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
-
 // constants
 const DEFAULT_HORIZONTAL_KEY_SPACING = 1.3;
 const DEFAULT_ICON_SPACING = 6.5;
@@ -48,12 +46,38 @@ class KeyboardHelpIconFactory {
     }, options );
     assert && assert( !options.children );
 
-    const orText = new Text( keyboardHelpDialogOrString, {
+    const orText = new Text( sceneryPhetStrings.keyboardHelpDialog.or, {
       font: LABEL_FONT,
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
 
     options.children = [ iconA, orText, iconB ];
+    return new HBox( options );
+  }
+
+  /**
+   * Get two icons horizontally aligned and separated by '-' text. This is useful for a range, like 0-9.
+   * @public
+   *
+   * @param {Node} iconA - to the left of '-' text
+   * @param {Node} iconB - to the right of '-' text
+   * @param {Object} [options]
+   *
+   * @returns {HBox}
+   */
+  static iconToIcon( iconA, iconB, options ) {
+
+    options = merge( {
+      spacing: DEFAULT_ICON_SPACING / 2
+    }, options );
+    assert && assert( !options.children );
+
+    const hyphenText = new Text( sceneryPhetStrings.keyboardHelpDialog.hyphen, {
+      font: LABEL_FONT,
+      maxWidth: OR_TEXT_MAX_WIDTH
+    } );
+
+    options.children = [ iconA, hyphenText, iconB ];
     return new HBox( options );
   }
 

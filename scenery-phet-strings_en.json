@@ -161,6 +161,9 @@
   "keyboardHelpDialog.or": {
     "value": "or"
   },
+  "keyboardHelpDialog.hyphen": {
+    "value": "-"
+  },
   "keyboardHelpDialog.grabOrReleaseHeadingPattern": {
     "value": "Grab or Release {{thing}}"
   },
