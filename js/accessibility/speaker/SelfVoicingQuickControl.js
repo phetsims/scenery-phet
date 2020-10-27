@@ -229,8 +229,15 @@ class SelfVoicingQuickControl extends Node {
       }
     );
 
-    // the quick menu can be hidden independently
+    // the quick menu can be hidden independently from user settings (the speech icon remains
+    // visible to indicate that self-voicing is enabled, but the menu button is removed)
     levelSpeakerModel.showQuickMenuProperty.link( visible => {
+
+      // close the menu if we are making the button invisible
+      if ( !visible ) {
+        openProperty.set( false );
+      }
+
       expandCollapseButton.visible = visible;
     } );
 
