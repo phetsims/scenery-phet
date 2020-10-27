@@ -107,7 +107,7 @@ class SelfVoicingQuickControl extends Node {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
         } );
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( string );
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
       },
       highlightTarget: expandCollapseButton
     } ) );
@@ -116,7 +116,8 @@ class SelfVoicingQuickControl extends Node {
       const response = StringUtils.fillIn( pressResponsePatternString, {
         state: open ? shownString : hiddenString
       } );
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( response );
+
+      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
     } );
 
     // creates content for each button and puts it into an AlignGroup so that
@@ -141,7 +142,7 @@ class SelfVoicingQuickControl extends Node {
 
       button.addInputListener( new SelfVoicingInputListener( {
         onFocusIn: () => {
-          phet.joist.sim.selfVoicingUtteranceQueue.addToBack( contentString );
+          phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
         },
         highlightTarget: button
       } ) );
@@ -169,7 +170,7 @@ class SelfVoicingQuickControl extends Node {
     // other listeners are added in createSpeechButton
     muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( muteSpeechString );
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
       },
       highlightTarget: muteSpeechButton
     } ) );
@@ -221,13 +222,6 @@ class SelfVoicingQuickControl extends Node {
 
       disabledIndicator.visible = !enabled;
     } );
-
-    // the entire control is invisible if all self-voicing is disable
-    Property.multilink( [ levelSpeakerModel.objectChangesProperty, levelSpeakerModel.contextChangesProperty, levelSpeakerModel.hintsProperty ],
-      ( objectChanges, contextChanges, hints ) => {
-        this.visible = objectChanges || contextChanges || hints;
-      }
-    );
 
     // the quick menu can be hidden independently from user settings (the speech icon remains
     // visible to indicate that self-voicing is enabled, but the menu button is removed)
