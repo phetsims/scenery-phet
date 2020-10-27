@@ -68,7 +68,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     // @private
     this.isPlayingProperty = isPlayingProperty;
 
-    // PDOM - a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
+    // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
     const globalKeyboardListener = event => {
 
       // only enabled if the sim supports interactive descriptions
