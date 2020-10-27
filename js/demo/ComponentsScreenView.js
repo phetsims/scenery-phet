@@ -41,7 +41,7 @@ import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
-import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
@@ -596,7 +596,7 @@ function demoProbeNode( layoutBounds ) {
     } );
 
   // Controls for the sensor type (glass/crosshairs/empty/etc)
-  const radioButtons = new RadioButtonGroup( sensorTypeFunctionProperty, [
+  const radioButtonGroup = new RectangularRadioButtonGroup( sensorTypeFunctionProperty, [
     { value: null, node: new Text( 'null' ) },
     { value: sensorTypeFunctionProperty.value, node: new Text( 'default glass' ) },
     { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
@@ -614,7 +614,7 @@ function demoProbeNode( layoutBounds ) {
     baseColor: 'white',
     spacing: 5
   } );
-  demoParent.addChild( radioButtons );
+  demoParent.addChild( radioButtonGroup );
 
   // When the model properties change, update the sensor node
   Property.multilink( [
@@ -1417,7 +1417,7 @@ function demoStopwatchNode( layoutBounds, options ) {
     mutableUnitsStopwatch.step( dt );
   };
   emitter.addListener( stopwatchNodeListener );
-  const unitsRadioButtonGroup = new RadioButtonGroup( unitsProperty, [
+  const unitsRadioButtonGroup = new RectangularRadioButtonGroup( unitsProperty, [
     { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picosecondsRadioButton' },
     { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'millisecondsRadioButton' },
     { value: 'fs', node: new Text( 'femtoseconds' ), tandemName: 'femtosecondsRadioButton' }
