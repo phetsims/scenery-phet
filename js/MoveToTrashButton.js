@@ -32,7 +32,6 @@ class MoveToTrashButton extends RectangularPushButton {
 
       // RectangularPushButton options
       baseColor: 'rgb( 230, 230, 240 )',
-      disabledBaseColor: 'white',
       buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
       cornerRadius: 6,
       xMargin: 7,
