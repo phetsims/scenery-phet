@@ -39,6 +39,8 @@ const DEFAULT_OPTIONS = {
   buttonType: 'toggle', // {string} 'toggle'|'momentary'
   buttonColor: 'red',
   buttonRadius: 22,
+  buttonXMargin: 10,
+  buttonYMargin: 10,
   buttonTouchAreaDilation: 15,
   buttonMouseAreaDilation: 0,
   buttonRotation: 0, // {number} use this to adjust lighting on the button
@@ -122,6 +124,8 @@ class LaserPointerNode extends Node {
 
       const buttonOptions = {
         radius: options.buttonRadius,
+        xMargin: options.buttonXMargin,
+        yMargin: options.buttonYMargin,
         touchAreaDilation: options.buttonTouchAreaDilation,
         mouseAreaDilation: options.buttonMouseAreaDilation,
         baseColor: options.buttonColor,

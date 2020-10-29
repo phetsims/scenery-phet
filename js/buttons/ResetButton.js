@@ -28,10 +28,11 @@ class ResetButton extends RoundPushButton {
     const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 24;
 
     options = merge( {
-      radius: BUTTON_RADIUS,
-      xMargin: BUTTON_RADIUS * 0.2,
       baseColor: 'white',
       arrowColor: 'black',
+      radius: BUTTON_RADIUS,
+      xMargin: 6,
+      yMargin: 6,
 
       //TODO this should be handled by RoundButton.ThreeDAppearanceStrategy, see https://github.com/phetsims/sun/issues/236
       // The icon doesn't look right when perfectly centered, account for that here, and see docs in RoundButton.

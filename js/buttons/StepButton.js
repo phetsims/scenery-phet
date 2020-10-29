@@ -19,6 +19,9 @@ import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepF
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
+const DEFAULT_RADIUS = 20;
+const marginCoefficient = 10.5 / DEFAULT_RADIUS;
+
 class StepButton extends RoundPushButton {
 
   /**
@@ -27,17 +30,17 @@ class StepButton extends RoundPushButton {
   constructor( options ) {
 
     // these options are used in computation of other default options
-    const BUTTON_RADIUS = ( options && options.radius ) ? options.radius : 20;
-    const DIRECTION = ( options && options.direction ) ? options.direction : 'forward';
+    options = merge( {
+      radius: DEFAULT_RADIUS,
+      direction: 'forward' // {string} 'forward'|'backward'
+    }, options );
 
     options = merge( {
-      direction: DIRECTION, // {string} 'forward'|'backward'
-      radius: BUTTON_RADIUS,
       fireOnHold: true,
       iconFill: 'black',
 
       // shift the content to center align, assumes 3D appearance and specific content
-      xContentOffset: ( DIRECTION === 'forward' ) ? ( 0.075 * BUTTON_RADIUS ) : ( -0.15 * BUTTON_RADIUS ),
+      xContentOffset: ( options.direction === 'forward' ) ? ( 0.075 * options.radius ) : ( -0.15 * options.radius ),
 
       // {Property.<boolean>|null} is the sim playing? This is a convenience option.
       // If this Property is provided, it will disable the button while the sim is playing,
@@ -51,6 +54,10 @@ class StepButton extends RoundPushButton {
       innerContent: sceneryPhetStrings.a11y.stepButton.stepForward,
       appendDescription: true
     }, options );
+
+    assert && assert( !options.xMargin && !options.yMargin, 'stepButton sets margins' );
+    options.xMargin = options.yMargin = options.radius * marginCoefficient;
+
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
       'unsupported direction: ' + options.direction );
@@ -84,7 +91,7 @@ class StepButton extends RoundPushButton {
     // Disable the button when the sim is playing
     let playingObserver = null;
     if ( options.isPlayingProperty ) {
-       playingObserver = playing => {
+      playingObserver = playing => {
         this.enabled = !playing;
       };
       options.isPlayingProperty.link( playingObserver );

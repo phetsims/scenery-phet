@@ -32,6 +32,11 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     options = merge( {
       radius: 28,
 
+      // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
+      // in sync.
+      xMargin: 0,
+      yMargin: 0,
+
       // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
       // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
       // the sim.

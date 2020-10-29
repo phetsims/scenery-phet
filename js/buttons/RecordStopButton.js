@@ -23,7 +23,9 @@ class RecordStopButton extends BooleanRoundToggleButton {
   constructor( recordingProperty, options ) {
 
     options = merge( {
-      radius: 30
+      radius: 30,
+      xMargin: 16.5,
+      yMargin: 16.5
     }, options );
 
     const squareLength = 0.75 * options.radius;

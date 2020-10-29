@@ -21,6 +21,8 @@ import ResetButton from './ResetButton.js';
 const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 
+const resetAllButtonMarginCoefficient = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
+
 class ResetAllButton extends ResetButton {
 
   /**
@@ -64,6 +66,9 @@ class ResetAllButton extends ResetButton {
         phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
       }
     };
+
+    assert && assert( !options.xMargin && !options.yMargin, 'resetAllButton sets margins' );
+    options.xMargin = options.yMargin = options.radius * resetAllButtonMarginCoefficient;
 
     super( options );
 
