@@ -27,7 +27,7 @@ import sceneryPhet from '../sceneryPhet.js';
 import CapacitorConstants from './CapacitorConstants.js';
 
 // constants
-const POSITIVE_CHARGE_COLOR = PhetColorScheme.RED_COLORBLIND.computeCSS(); // CSS passed into context fillStyle
+const POSITIVE_CHARGE_COLOR = PhetColorScheme.RED_COLORBLIND.toCSS(); // CSS passed into context fillStyle
 const NEGATIVE_CHARGE_COLOR = 'blue';
 const NUMBER_OF_PLATE_CHARGES = new Range( 1, 625 );
 const NEGATIVE_CHARGE_SIZE = new Dimension2( 7, 2 );
