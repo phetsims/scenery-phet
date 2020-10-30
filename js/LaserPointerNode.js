@@ -177,7 +177,7 @@ class LaserPointerNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
   }
 
-  get enabled() { return this.getEnabled(); }
+  get enabled() { return this.isEnabled(); }
 
   set enabled( value ) { this.setEnabled( value ); }
 
