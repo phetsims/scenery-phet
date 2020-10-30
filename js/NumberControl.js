@@ -23,7 +23,6 @@ import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
-import EnabledNode from '../../sun/js/EnabledNode.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider from '../../sun/js/Slider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -46,7 +45,6 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 class NumberControl extends Node {
 
   /**
-   * @mixes EnabledNode
    * @param {string} title
    * @param {Property.<number>} numberProperty
    * @param {Range} numberRange
@@ -89,15 +87,13 @@ class NumberControl extends Node {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: NumberControl.NumberControlIO,
+      enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // pdom
       groupFocusHighlight: true
     }, options );
 
     super();
-
-    // Initialize the mixin, which defines this.enabledProperty.
-    this.initializeEnabledNode( options );
 
     // If the arrow button scale is not provided, the arrow button height will match the number display height
     const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
@@ -382,7 +378,6 @@ class NumberControl extends Node {
    */
   dispose() {
     this.disposeNumberControl();
-    this.disposeEnabledNode();
     super.dispose();
   }
 
@@ -645,8 +640,6 @@ NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
   documentation: 'A number control with a title, slider and +/- buttons',
   supertype: Node.NodeIO
 } );
-
-EnabledNode.mixInto( NumberControl );
 
 sceneryPhet.register( 'NumberControl', NumberControl );
 export default NumberControl;

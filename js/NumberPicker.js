@@ -28,7 +28,6 @@ import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
-import EnabledNode from '../../sun/js/EnabledNode.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
@@ -44,7 +43,6 @@ const ButtonState = Enumeration.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 class NumberPicker extends Node {
 
   /**
-   * @mixes EnabledNode
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
    *                                           Property contain the (maximum) union of all potential changes, so that
@@ -120,6 +118,7 @@ class NumberPicker extends Node {
       tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
       visiblePropertyOptions: { phetioFeatured: true },
+      enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // pdom (passed to AccessibleNumberSpinner)
       pageKeyboardStep: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
@@ -139,9 +138,6 @@ class NumberPicker extends Node {
       `invalid disabledOpacity: ${options.disabledOpacity}` );
 
     super();
-
-    // Initialize the mixin, which defines this.enabledProperty.
-    this.initializeEnabledNode( options );
 
     //------------------------------------------------------------
     // Properties
@@ -479,7 +475,6 @@ class NumberPicker extends Node {
    */
   dispose() {
     this.disposeNumberPicker();
-    this.disposeEnabledNode();
     super.dispose();
   }
 
@@ -579,7 +574,6 @@ function updateColors( buttonState, enabled, background, arrow, backgroundColors
   }
 }
 
-EnabledNode.mixInto( NumberPicker );
 AccessibleNumberSpinner.mixInto( NumberPicker );
 
 export default NumberPicker;

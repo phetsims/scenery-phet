@@ -15,7 +15,6 @@ import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
-import EnabledNode from '../../sun/js/EnabledNode.js';
 import Panel from '../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -52,7 +51,6 @@ SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: speedSlowString, tandemName:
 class TimeControlNode extends Node {
 
   /**
-   * @mixes EnabledNode
    * @param {Property.<boolean>} isPlayingProperty
    * @param {Object} [options]
    */
@@ -95,6 +93,7 @@ class TimeControlNode extends Node {
       // phet-io
       tandem: Tandem.REQUIRED, // {Tandem}
       visiblePropertyOptions: { phetioFeatured: true },
+      enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // PDOM
       tagName: 'div',
@@ -143,9 +142,6 @@ class TimeControlNode extends Node {
     }, options );
 
     super();
-
-    // Initialize the mixin, which defines this.enabledProperty.
-    this.initializeEnabledNode( options );
 
     // @private {PlayPauseButton} - for layout
     this.playPauseStepButtons = playPauseStepButtons;
@@ -245,7 +241,6 @@ class TimeControlNode extends Node {
    */
   dispose() {
     this.disposeTimeControlNode();
-    this.disposeEnabledNode();
     super.dispose();
   }
 }
@@ -374,8 +369,6 @@ class PlayPauseStepButtons extends HBox {
     super.dispose();
   }
 }
-
-EnabledNode.mixInto( TimeControlNode );
 
 /**
  * Inner type for speed radio buttons.

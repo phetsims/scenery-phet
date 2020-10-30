@@ -13,7 +13,6 @@ import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
-import EnabledNode from '../../sun/js/EnabledNode.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -21,7 +20,6 @@ import sceneryPhet from './sceneryPhet.js';
 class FineCoarseSpinner extends Node {
 
   /**
-   * @mixes EnabledNode
    * @param {NumberProperty} numberProperty
    * @param {Object} [options]
    */
@@ -35,7 +33,10 @@ class FineCoarseSpinner extends Node {
       deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
       spacing: 10, // {number} horizontal space between subcomponents
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-      tandem: Tandem.REQUIRED
+
+      // phet-io
+      tandem: Tandem.REQUIRED,
+      enabledPropertyPhetioInstrumented: true // opt into default PhET-iO instrumented enabledProperty
     }, options );
 
     if ( !options.range ) {
@@ -124,9 +125,6 @@ class FineCoarseSpinner extends Node {
 
     super( options );
 
-    // Initialize the mixin, which defines this.enabledProperty.
-    this.initializeEnabledNode( options );
-
     // Disable the buttons when the value is at min or max of the range
     const numberPropertyListener = value => {
 
@@ -165,12 +163,9 @@ class FineCoarseSpinner extends Node {
   // @public
   dispose() {
     this.disposeFineCoarseSpinner();
-    this.disposeEnabledNode();
     super.dispose();
   }
 }
-
-EnabledNode.mixInto( FineCoarseSpinner );
 
 sceneryPhet.register( 'FineCoarseSpinner', FineCoarseSpinner );
 export default FineCoarseSpinner;
