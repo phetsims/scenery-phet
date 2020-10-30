@@ -55,7 +55,7 @@ class StepButton extends RoundPushButton {
       appendDescription: true
     }, options );
 
-    assert && assert( !options.xMargin && !options.yMargin, 'stepButton sets margins' );
+    assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'stepButton sets margins' );
     options.xMargin = options.yMargin = options.radius * marginCoefficient;
 
 

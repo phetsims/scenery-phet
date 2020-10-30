@@ -67,7 +67,7 @@ class ResetAllButton extends ResetButton {
       }
     };
 
-    assert && assert( !options.xMargin && !options.yMargin, 'resetAllButton sets margins' );
+    assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
     options.xMargin = options.yMargin = options.radius * resetAllButtonMarginCoefficient;
 
     super( options );
