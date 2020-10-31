@@ -433,6 +433,12 @@
             "value": "{{sim}} is an interactive sim. It changes as you play with it."
           }
         }
+      },
+      "grabDragHint": {
+        "value": "Tap and hold to grab and drag."
+      },
+      "grabbedAlert": {
+        "value": "Grabbed."
       }
     }
   }

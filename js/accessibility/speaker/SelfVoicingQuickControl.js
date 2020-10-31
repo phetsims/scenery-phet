@@ -96,20 +96,21 @@ class SelfVoicingQuickControl extends Node {
     iconImage.center = iconRectangle.center;
     iconRectangle.addChild( iconImage );
 
-    // the button expands/collapses the controls
     const openProperty = new BooleanProperty( false );
-    const expandCollapseButton = new ExpandCollapseButton( openProperty, {
+
+    // @private {ExpandCollapseButton} - the button expands/collapses the controls
+    this.expandCollapseButton = new ExpandCollapseButton( openProperty, {
       sideLength: 20
     } );
 
-    expandCollapseButton.addInputListener( new SelfVoicingInputListener( {
+    this.expandCollapseButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
         } );
         phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
       },
-      highlightTarget: expandCollapseButton
+      highlightTarget: this.expandCollapseButton
     } ) );
 
     openProperty.lazyLink( open => {
@@ -200,18 +201,18 @@ class SelfVoicingQuickControl extends Node {
     // in layout so that this Node can be positioned relative to the always-visible
     // content, the panel can occlude other things
     this.excludeInvisibleChildrenFromBounds = true;
-    expandCollapseButton.leftBottom = iconRectangle.rightBottom.plusXY( 6, 0 );
-    buttonsPanel.leftBottom = expandCollapseButton.leftBottom.plusXY( -4, 4 );
+    this.expandCollapseButton.leftBottom = iconRectangle.rightBottom.plusXY( 6, 0 );
+    buttonsPanel.leftBottom = this.expandCollapseButton.leftBottom.plusXY( -4, 4 );
 
     this.children = [
       iconRectangle,
       buttonsPanel,
       disabledIndicator,
-      expandCollapseButton
+      this.expandCollapseButton
     ];
 
     // expandCollapseButton first
-    this.accessibleOrder = [ expandCollapseButton ];
+    this.accessibleOrder = [ this.expandCollapseButton ];
 
     // when the webSpeaker becomes disabled the various content buttons should also be disabled
     webSpeaker.enabledProperty.link( enabled => {
@@ -232,7 +233,7 @@ class SelfVoicingQuickControl extends Node {
         openProperty.set( false );
       }
 
-      expandCollapseButton.visible = visible;
+      this.expandCollapseButton.visible = visible;
     } );
 
     // mutate with options after Node has been assembled
@@ -262,6 +263,15 @@ class SelfVoicingQuickControl extends Node {
    */
   speakDetailsContent() {
     phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createDetailsContent() );
+  }
+
+  /**
+   * After certain intro dialogs close in prototypes, we want focus to land on this button.
+   * This function makes this possible without exposing the entire button.
+   * @public
+   */
+  focusExpandCollapseButton() {
+    this.expandCollapseButton.focus();
   }
 }
 
