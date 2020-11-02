@@ -41,10 +41,9 @@ const stopSpeechString = 'Stop Speech';
 const muteSpeechString = 'Mute Speech';
 const hideString = 'Hide';
 const showString = 'Show';
-const shownString = 'shown';
-const hiddenString = 'hidden';
 const expandCollapseButtonPatternString = '{{action}} Self-Voicing Quick Menu';
-const pressResponsePatternString = 'Self-Voicing Quick Menu {{state}}';
+const selfVoicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
+const selfVoicingQuickMenuHidden = 'Self-Voicing Quick Menu hidden.';
 
 class SelfVoicingQuickControl extends Node {
 
@@ -114,10 +113,7 @@ class SelfVoicingQuickControl extends Node {
     } ) );
 
     openProperty.lazyLink( open => {
-      const response = StringUtils.fillIn( pressResponsePatternString, {
-        state: open ? shownString : hiddenString
-      } );
-
+      const response = open ? selfVoicingQuickMenuShown : selfVoicingQuickMenuHidden;
       phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
     } );
 
