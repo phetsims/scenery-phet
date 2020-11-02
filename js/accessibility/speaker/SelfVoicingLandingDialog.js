@@ -28,9 +28,9 @@ const titleFont = new PhetFont( 32 );
 // strings
 const titleString = 'Web Speech!';
 const descriptionString = 'This page uses Web Speech to describe what is available and what is happening. ' +
-                          'Please turn off your screen reader and press the button below to enable web speech.';
-const enableButtonContent = 'Enable Speech';
-const speechEnabledString = 'Speech Enabled';
+                          'You will need to turn off your screen reader once you enable web speech.';
+const enableButtonContent = 'Enable Web Speech';
+const speechEnabledString = 'Web Speech Enabled';
 
 class SelfVoicingLandingDialog extends Dialog {
   constructor( options ) {
@@ -76,7 +76,8 @@ class SelfVoicingLandingDialog extends Dialog {
     } );
 
     const content = new VBox( {
-      children: [ descriptionParagraph, enableButton ]
+      children: [ descriptionParagraph, enableButton ],
+      spacing: 15
     } );
 
     super( content, options );
