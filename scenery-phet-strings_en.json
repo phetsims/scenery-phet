@@ -434,11 +434,14 @@
           }
         }
       },
-      "grabDragHint": {
-        "value": "Tap and hold to grab and drag."
+      "grabDragHintPattern": {
+        "value": "Tap, hold and drag to {{manipulation}}."
       },
       "grabbedAlert": {
         "value": "Grabbed."
+      },
+      "draggableAlert": {
+        "value": "Draggable"
       }
     }
   }

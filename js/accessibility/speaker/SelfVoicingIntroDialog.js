@@ -13,6 +13,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Display from '../../../../scenery/js/display/Display.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -40,7 +41,7 @@ const continueButtonContent = 'Continue to simulation';
 const testButtonContent = 'Activate Me!';
 const pressedString = 'Thanks for activating me! You rock!';
 const sliderLabelString = 'Move Me';
-const grabDragHintString = sceneryPhetStrings.a11y.selfVoicing.grabDragHint;
+const grabDragHintPatternString = sceneryPhetStrings.a11y.selfVoicing.grabDragHintPattern;
 const grabbedAlertString = sceneryPhetStrings.a11y.selfVoicing.grabbedAlert;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
@@ -139,7 +140,11 @@ class SelfVoicingIntroDialog extends Dialog {
 
     exampleSlider.addInputListener( {
       click: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( grabDragHintString );
+        const hintString = StringUtils.fillIn( grabDragHintPatternString, {
+          manipulation: 'Move me'
+        } );
+
+        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( hintString );
       }
     } );
 
