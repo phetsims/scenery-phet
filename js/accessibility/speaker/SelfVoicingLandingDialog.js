@@ -36,7 +36,7 @@ class SelfVoicingLandingDialog extends Dialog {
   constructor( options ) {
     if ( options ) {
       assert && assert( options.title === undefined, 'SelfVoicingLandingDialog sets title' );
-      assert && assert( options.closeButtonListener, 'SelfVoicingLandingDialog sets closeButtonListener' );
+      assert && assert( options.closeButtonListener === undefined, 'SelfVoicingLandingDialog sets closeButtonListener' );
     }
 
     options = merge( {
