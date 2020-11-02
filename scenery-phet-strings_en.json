@@ -435,7 +435,7 @@
         }
       },
       "grabDragHintPattern": {
-        "value": "Tap, hold and drag to {{manipulation}}."
+        "value": "Tap, hold, and drag to {{manipulation}}."
       },
       "grabbedAlert": {
         "value": "Grabbed."
