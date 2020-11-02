@@ -174,7 +174,7 @@ class SelfVoicingQuickControl extends Node {
 
     // layout code
     const topRow = new HBox( {
-      children: [ hintButton, overviewButton, detailsButton ],
+      children: [ overviewButton, detailsButton, hintButton ],
       spacing: 5
     } );
     const bottomRow = new HBox( {
