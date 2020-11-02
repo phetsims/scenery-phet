@@ -41,6 +41,7 @@ const continueButtonContent = 'Continue to simulation';
 const testButtonContent = 'Activate Me!';
 const pressedString = 'Thanks for activating me! You rock!';
 const sliderLabelString = 'Move Me';
+const sliderInteractionHintString = 'move me';
 const grabDragHintPatternString = sceneryPhetStrings.a11y.selfVoicing.grabDragHintPattern;
 const grabbedAlertString = sceneryPhetStrings.a11y.selfVoicing.grabbedAlert;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
@@ -141,7 +142,7 @@ class SelfVoicingIntroDialog extends Dialog {
     exampleSlider.addInputListener( {
       click: () => {
         const hintString = StringUtils.fillIn( grabDragHintPatternString, {
-          manipulation: 'Move me'
+          manipulation: sliderInteractionHintString
         } );
 
         phet.joist.sim.selfVoicingUtteranceQueue.addToBack( hintString );
