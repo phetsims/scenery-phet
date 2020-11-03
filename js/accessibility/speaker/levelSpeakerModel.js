@@ -36,7 +36,7 @@ class LevelSpeakerModel {
 
     // @public {BooleanProperty} - whether or not gesture controls are enabled for the sim - enabling
     // gesture control generally interrupts most normal touch input
-    this.gestureControlProperty = new BooleanProperty( true );
+    this.gestureControlProperty = new BooleanProperty( !!phet.chipper.queryParameters.supportsGestureControl );
   }
 
   /**
