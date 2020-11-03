@@ -104,9 +104,8 @@ import WireNode from '../WireNode.js';
 
 // constants
 
-// allow tests to wire up to step function // TODO: move to DemosScreenView
-const emitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
-
+// fires when this screen is stepped
+const stepEmitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
 
 class ComponentsScreenView extends DemosScreenView {
 
@@ -172,7 +171,7 @@ class ComponentsScreenView extends DemosScreenView {
    * @public
    */
   step( dt ) {
-    emitter.emit( dt );
+    stepEmitter.emit( dt );
   }
 }
 
@@ -906,18 +905,18 @@ function demoNumberDisplay( layoutBounds ) {
 
   const numberDisplay = new NumberDisplay( property, range, numberDisplayOptions );
   const numberDisplayTime = new NumberDisplay( property, range, {
-    numberFormatter: StopwatchNode.numberFormatter,
+    numberFormatter: StopwatchNode.PLAIN_TEXT_MINUTES_AND_SECONDS,
     align: 'center'
   } );
   const numberDisplayTimeRich = new NumberDisplay( property, range, {
-    numberFormatter: StopwatchNode.richNumberFormatter,
+    numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
     useRichText: true,
     align: 'center'
   } );
 
   // Test shrinking to fit
   const numberDisplayTimeRichUnits = new NumberDisplay( property, new Range( 0, 10 ), {
-    numberFormatter: StopwatchNode.getRichNumberFormatter( {
+    numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
       units: 'hours'
     } ),
     useRichText: true,
@@ -1380,43 +1379,53 @@ function demoScientificNotationNode( layoutBounds ) {
 // Creates a sample StopwatchNode
 function demoStopwatchNode( layoutBounds, options ) {
 
-  // Create a StopwatchNode that doesn't show units (assumed to be seconds)
-  const stopwatch = new Stopwatch( { isVisible: true, tandem: options.tandem.createTandem( 'stopwatch' ) } );
-  const stopwatchNode = new StopwatchNode( stopwatch, {
-    tandem: options.tandem.createTandem( 'unitlessStopwatchNode' )
-  } );
-
-  // Create a StopwatchNode that can show from a selection of units.
-  // Initialize with longest possible string
-  const unitsProperty = new Property( 'ms' );
-
-  const mutableUnitsStopwatch = new Stopwatch( {
+  // Use the same model for all views
+  const stopwatch = new Stopwatch( {
     isVisible: true,
     tandem: options.tandem.createTandem( 'stopwatch' )
   } );
-  const mutableUnitsStopwatchNode = new StopwatchNode( mutableUnitsStopwatch, {
+
+  const stepListener = dt => stopwatch.step( dt );
+  stepEmitter.addListener( stepListener );
+
+  // StopwatchNode with plain text format MM:SS.CC
+  const plainTextStopwatchNode = new StopwatchNode( stopwatch, {
+    numberDisplayOptions: {
+      numberFormatter: StopwatchNode.PLAIN_TEXT_MINUTES_AND_SECONDS
+    },
+    tandem: options.tandem.createTandem( 'stopwatchNodeMMSSCC' )
+  } );
+
+  // StopwatchNode with rich format MM:SS.cc and no units
+  const richTextStopwatchNode = new StopwatchNode( stopwatch, {
+    numberDisplayOptions: {
+      numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS
+    },
+    tandem: options.tandem.createTandem( 'stopwatchNodeMMSScc' )
+  } );
+
+  // StopwatchNode with rich text format and dynamic units.
+  const unitsProperty = new Property( 'ms' );
+  const customStopwatchNode = new StopwatchNode( stopwatch, {
 
     // Supply the formatter on startup as well as on link, so it can detect widest/thinnest text, see NumberDisplay
     numberDisplayOptions: {
-      numberFormatter: StopwatchNode.getRichNumberFormatter( {
+      numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
+        showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
+        decimalPlaces: 1,
         units: unitsProperty.value
       } )
     },
     scale: 2,
-    tandem: options.tandem.createTandem( 'stopwatchNode' )
+    tandem: options.tandem.createTandem( 'customStopwatchNode' )
   } );
   unitsProperty.link( () => {
-    mutableUnitsStopwatchNode.numberDisplay.setNumberFormatter( StopwatchNode.getRichNumberFormatter( {
-        units: unitsProperty.value
-      } )
-    );
+    customStopwatchNode.numberDisplay.setNumberFormatter( StopwatchNode.createRichTextNumberFormatter( {
+      showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
+      units: unitsProperty.value
+    } ) );
   } );
 
-  const stopwatchNodeListener = dt => {
-    stopwatch.step( dt );
-    mutableUnitsStopwatch.step( dt );
-  };
-  emitter.addListener( stopwatchNodeListener );
   const unitsRadioButtonGroup = new RectangularRadioButtonGroup( unitsProperty, [
     { value: 'ps', node: new Text( 'picoseconds' ), tandemName: 'picosecondsRadioButton' },
     { value: 'ms', node: new Text( 'milliseconds' ), tandemName: 'millisecondsRadioButton' },
@@ -1432,11 +1441,12 @@ function demoStopwatchNode( layoutBounds, options ) {
     spacing: 20,
     center: layoutBounds.center,
     children: [
-      stopwatchNode,
+      plainTextStopwatchNode,
+      richTextStopwatchNode,
       new HBox( {
         spacing: 20,
         children: [
-          mutableUnitsStopwatchNode,
+          customStopwatchNode,
           unitsRadioButtonGroup
         ]
       } )
@@ -1446,7 +1456,7 @@ function demoStopwatchNode( layoutBounds, options ) {
   // Swap out the dispose function for one that also removes the Emitter listener
   const demoDispose = vBox.dispose.bind( vBox );
   vBox.dispose = () => {
-    emitter.removeListener( stopwatchNodeListener );
+    stepEmitter.removeListener( stepListener );
     demoDispose();
   };
   return vBox;
@@ -1757,10 +1767,10 @@ function demoSprites( layoutBounds ) {
     sprites.invalidatePaint();
   };
 
-  emitter.addListener( listener );
+  stepEmitter.addListener( listener );
 
   sprites.dispose = () => {
-    emitter.removeListener( listener );
+    stepEmitter.removeListener( listener );
     Node.prototype.dispose.call( this );
   };
 

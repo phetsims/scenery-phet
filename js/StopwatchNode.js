@@ -26,6 +26,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import DragBoundsProperty from './DragBoundsProperty.js';
 import NumberDisplay from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
+import PhetFont from './PhetFont.js';
 import PlayIconShape from './PlayIconShape.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
@@ -58,8 +59,11 @@ class StopwatchNode extends Node {
 
       // options propagated to the NumberDisplay
       numberDisplayOptions: {
-        numberFormatter: StopwatchNode.richNumberFormatter,
+        numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
         useRichText: true,
+        textOptions: {
+          font: StopwatchNode.DEFAULT_FONT
+        },
         align: 'right',
         cornerRadius: 4,
         xMargin: 4,
@@ -262,7 +266,7 @@ class StopwatchNode extends Node {
   }
 
   /**
-   * Gets the smaller hundredths-of-a-second string.
+   * Gets the centiseconds (hundredths-of-a-second) string for a time value.
    * @public (read-only, unit-tests)
    * @param {number} time
    * @param {number} numberDecimalPlaces
@@ -272,8 +276,7 @@ class StopwatchNode extends Node {
 
     const max = Math.pow( 10, numberDecimalPlaces );
 
-    // Round to the nearest centisecond (compatible with timeToSmallString).
-    // see https://github.com/phetsims/masses-and-springs/issues/156
+    // Round to the nearest centisecond, see https://github.com/phetsims/masses-and-springs/issues/156
     time = Utils.roundSymmetric( time * max ) / max;
 
     // Rounding after mod, in case there is floating-point error
@@ -285,56 +288,30 @@ class StopwatchNode extends Node {
   }
 
   /**
-   * A value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
-   * Shows 12:34.56, where all digits are the same size.
-   * @public
-   * @param {number} time
-   * @returns {string}
-   */
-  static numberFormatter( time ) {
-    const minutesAndSeconds = toMinutesAndSeconds( time );
-    const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
-    return minutesAndSeconds + centiseconds;
-  }
-
-  /**
-   * A value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
-   * Shows 12:34.56, with the ".56" smaller.
-   * @public
-   * @param {number} time
-   * @returns {string}
-   */
-  static richNumberFormatter( time ) {
-    const minutesAndSeconds = toMinutesAndSeconds( time );
-    const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
-
-    // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
-    // See https://github.com/phetsims/collision-lab/issues/140.
-    return `<span style='font-size: 20px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: 14px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`;
-  }
-
-  /**
-   * Gets a customized value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   * Creates a custom value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
    * @public
    * @param {Object} [options]
    * @returns {function(time:number):string} - see NumberDisplay options.numberFormatter
    */
-  static getRichNumberFormatter( options ){
+  static createRichTextNumberFormatter( options ){
 
     options = merge( {
-      showAsDecimal: false, // 123.45 (decimal) vs 59:59.00 (non-decimal)
+
+      // If true, the time value is converted to minutes and seconds, and the format looks like 59:59.00.
+      // If false, time is formatted as a decimal value, like 123.45
+      showAsMinutesAndSeconds: true,
+      numberOfDecimalPlaces: 2,
       bigNumberFont: 20,
       smallNumberFont: 14,
       unitsFont: 14,
       units: '',
-      numberOfDecimalPlaces: 2,
 
       // Units cannot be baked into the i18n string because they can change independently
       valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
     }, options );
 
     return time => {
-      const minutesAndSeconds = options.showAsDecimal ? Math.floor( time ) : toMinutesAndSeconds( time );
+      const minutesAndSeconds = options.showAsMinutesAndSeconds ? toMinutesAndSeconds( time ) : Math.floor( time );
       const centiseconds = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces );
 
       // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
@@ -355,14 +332,48 @@ class StopwatchNode extends Node {
 // and it seemed to work nicely, with no jitter.
 StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
 
+// @public
+StopwatchNode.DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
+
+/**
+ * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
+ * The format is MM:SS.CC, where M=minutes, S=seconds, C=centiseconds. The returned string is plain text, so all
+ * digits will be the same size, and the client is responsible for setting the font size.
+ *
+ * @public
+ * @static
+ * @param {number} time
+ * @returns {string} - plain text
+ */
+StopwatchNode.PLAIN_TEXT_MINUTES_AND_SECONDS = time => {
+  const minutesAndSeconds = toMinutesAndSeconds( time );
+  const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
+  return minutesAndSeconds + centiseconds;
+};
+
+/**
+ * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
+ * The format is format MM:SS.cc, where M=minutes, S=seconds, c=centiseconds. The string returned is in RichText
+ * format, with the 'c' digits in a smaller font.
+ *
+ * @public
+ * @static
+ * @param {number} time
+ * @returns {string} - RichText format
+ */
+StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS = StopwatchNode.createRichTextNumberFormatter( {
+  showAsMinutesAndSeconds: true,
+  numberOfDecimalPlaces: 2
+} );
+
 /**
  * Converts a time to a string in {{minutes}}:{{seconds}} format.
- * @param time
+ * @param {number} time
  * @returns {string}
  */
 function toMinutesAndSeconds( time ) {
 
-  // Round to the nearest centi-part (if time is in seconds, this would be centiseconds), (compatible with timeToSmallString).
+  // Round to the nearest centi-part (if time is in seconds, this would be centiseconds)
   // see https://github.com/phetsims/masses-and-springs/issues/156
   time = Utils.roundSymmetric( time * 100 ) / 100;
 
