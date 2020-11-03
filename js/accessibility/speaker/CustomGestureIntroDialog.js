@@ -46,10 +46,10 @@ const grabDragHintPatternString = sceneryPhetStrings.a11y.selfVoicing.grabDragHi
 const grabbedAlertString = sceneryPhetStrings.a11y.selfVoicing.grabbedAlert;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
-class SelfVoicingIntroDialog extends Dialog {
+class CustomGestureIntroDialog extends Dialog {
   constructor( options ) {
     if ( options ) {
-      assert && assert( options.title === undefined, 'SelfVoicingIntroDialog sets title' );
+      assert && assert( options.title === undefined, 'CustomGestureIntroDialog sets title' );
     }
 
     options = merge( {
@@ -216,5 +216,5 @@ class SelfVoicingIntroDialog extends Dialog {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingIntroDialog', SelfVoicingIntroDialog );
-export default SelfVoicingIntroDialog;
+sceneryPhet.register( 'CustomGestureIntroDialog', CustomGestureIntroDialog );
+export default CustomGestureIntroDialog;
