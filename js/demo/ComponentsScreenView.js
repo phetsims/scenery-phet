@@ -1419,10 +1419,10 @@ function demoStopwatchNode( layoutBounds, options ) {
     scale: 2,
     tandem: options.tandem.createTandem( 'customStopwatchNode' )
   } );
-  unitsProperty.link( () => {
+  unitsProperty.link( units => {
     customStopwatchNode.numberDisplay.setNumberFormatter( StopwatchNode.createRichTextNumberFormatter( {
       showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
-      units: unitsProperty.value
+      units: units
     } ) );
   } );
 
