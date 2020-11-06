@@ -25,6 +25,7 @@ import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider from '../../sun/js/Slider.js';
+import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay from './NumberDisplay.js';
@@ -354,6 +355,9 @@ class NumberControl extends Node {
     ];
 
     this.mutate( options );
+
+    // No need to dispose because enabledProperty is disposed in Node
+    this.enabledProperty.link( SunConstants.getComponentEnabledListener( this, { disabledOpacity: options.disabledOpacity } ) );
 
     // @private
     this.disposeNumberControl = () => {

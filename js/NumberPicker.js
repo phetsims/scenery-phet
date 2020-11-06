@@ -375,6 +375,9 @@ class NumberPicker extends Node {
 
     this.mutate( options );
 
+    // No need to dispose because enabledProperty is disposed in Node
+    this.enabledProperty.link( SunConstants.getComponentEnabledListener( this, { disabledOpacity: options.disabledOpacity } ) );
+
     // Dilate based on consistent technique which brings into account transform of this node.
     const focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
 

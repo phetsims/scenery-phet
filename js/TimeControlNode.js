@@ -16,6 +16,7 @@ import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Panel from '../../sun/js/Panel.js';
+import SunConstants from '../../sun/js/SunConstants.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseButton from './buttons/PlayPauseButton.js';
@@ -184,6 +185,9 @@ class TimeControlNode extends Node {
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
     this.mutate( options );
+
+    // No need to dispose because enabledProperty is disposed in Node
+    this.enabledProperty.link( SunConstants.getComponentEnabledListener( this ) );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimeControlNode', this );
