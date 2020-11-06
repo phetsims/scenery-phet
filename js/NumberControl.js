@@ -72,6 +72,9 @@ class NumberControl extends Node {
 
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
+      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
+      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
+
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
@@ -357,7 +360,7 @@ class NumberControl extends Node {
     this.mutate( options );
 
     // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( SunConstants.getComponentEnabledListener( this, { disabledOpacity: options.disabledOpacity } ) );
+    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this, { disabledOpacity: options.disabledOpacity } ) );
 
     // @private
     this.disposeNumberControl = () => {

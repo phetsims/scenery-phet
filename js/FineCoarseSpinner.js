@@ -35,6 +35,9 @@ class FineCoarseSpinner extends Node {
       spacing: 10, // {number} horizontal space between subcomponents
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
+      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
+      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
+
       // phet-io
       tandem: Tandem.REQUIRED,
       enabledPropertyPhetioInstrumented: true // opt into default PhET-iO instrumented enabledProperty
@@ -138,7 +141,7 @@ class FineCoarseSpinner extends Node {
     numberProperty.link( numberPropertyListener ); // unlink required in dispose
 
     // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( SunConstants.getComponentEnabledListener( this, { disabledOpacity: options.disabledOpacity } ) );
+    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this, { disabledOpacity: options.disabledOpacity } ) );
 
     // @private
     this.disposeFineCoarseSpinner = () => {
