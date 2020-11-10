@@ -28,7 +28,7 @@ class TriangleNode extends Path {
    * @param {Object} [options]
    */
   constructor( side, options ) {
-    assert && assert( Side.isSide( side ), 'Side should be Side.LEFT or Side.RIGHT' );
+    assert && assert( Side.includes( side ), 'Side should be Side.LEFT or Side.RIGHT' );
 
     // defaults
     options = merge( {
