@@ -140,15 +140,10 @@ class ColorProfile {
    * @private
    */
   reportColor( key ) {
-    let hexColor = this[ key + 'Property' ].value.toNumber().toString( 16 );
-    while ( hexColor.length < 6 ) {
-      hexColor = '0' + hexColor;
-    }
-
     ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
       type: 'reportColor',
       name: key,
-      value: '#' + hexColor
+      value: this[ key + 'Property' ].value.toHexString()
     } ), '*' );
   }
 
