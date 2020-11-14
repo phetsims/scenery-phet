@@ -16,7 +16,9 @@ import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
+import SelfVoicingPreferencesDialog from './SelfVoicingPreferencesDialog.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
+import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -41,6 +43,7 @@ const stopSpeechString = 'Stop Speech';
 const muteSpeechString = 'Mute Speech';
 const hideString = 'Hide';
 const showString = 'Show';
+const preferencesString = 'Preferences';
 const expandCollapseButtonPatternString = '{{action}} Self-Voicing Quick Menu';
 const selfVoicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
 const selfVoicingQuickMenuHidden = 'Self-Voicing Quick Menu hidden.';
@@ -74,6 +77,9 @@ class SelfVoicingQuickControl extends Node {
     this.createHintContent = options.createHintContent;
     this.createOverviewContent = options.createOverviewContent;
     this.createDetailsContent = options.createDetailsContent;
+
+    // a reference to the preferences dialog that will
+    let preferencesDialog = null;
 
     // a placeholder icon until we get a more thorough design
     const iconImage = new Image( selfVoicingIconImage, {
@@ -129,6 +135,7 @@ class SelfVoicingQuickControl extends Node {
     const detailsContent = createSpeechButtonContent( currentDetailsString );
     const stopSpeechContent = createSpeechButtonContent( stopSpeechString );
     const muteSpeechContent = createSpeechButtonContent( muteSpeechString );
+    const preferencesContent = createSpeechButtonContent( preferencesString );
 
     // creates the actual button with provided content and behavior
     const createSpeechButton = ( buttonContent, contentString, listener ) => {
@@ -163,6 +170,17 @@ class SelfVoicingQuickControl extends Node {
     const muteSpeechButton = new BooleanRectangularStickyToggleButton( dynamicProperty, {
       content: muteSpeechContent
     } );
+    const preferencesButton = createSpeechButton( preferencesContent, preferencesString, () => {
+      if ( !preferencesDialog ) {
+        preferencesDialog = new SelfVoicingPreferencesDialog( {
+          hideCallback: () => {
+            preferencesButton.focus();
+          }
+        } );
+      }
+      preferencesDialog.show();
+      preferencesDialog.focusCloseButton();
+    } );
 
     // other listeners are added in createSpeechButton
     muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
@@ -174,11 +192,11 @@ class SelfVoicingQuickControl extends Node {
 
     // layout code
     const topRow = new HBox( {
-      children: [ overviewButton, detailsButton, hintButton ],
+      children: [ new HStrut( this.expandCollapseButton.width ), overviewButton, detailsButton, hintButton ],
       spacing: 5
     } );
     const bottomRow = new HBox( {
-      children: [ stopSpeechButton, muteSpeechButton ],
+      children: [ new HStrut( this.expandCollapseButton.width ), stopSpeechButton, muteSpeechButton, preferencesButton ],
       spacing: 5
     } );
 

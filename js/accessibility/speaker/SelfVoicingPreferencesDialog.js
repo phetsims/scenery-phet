@@ -18,6 +18,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import Dialog from '../../../../sun/js/Dialog.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import PhetFont from '../../PhetFont.js';
@@ -29,15 +30,15 @@ const TITLE_FONT = new PhetFont( { size: 16, weight: 'bold' } );
 const LABEL_FONT = new PhetFont( { size: 12 } );
 const INPUT_SPACING = 8;
 
-class WebSpeechDialogContent extends VBox {
-  constructor() {
+class SelfVoicingPreferencesDialog extends Dialog {
+  constructor( options ) {
 
     // controls which layer of content will be spoken (object, context, hints)
     const modeControls = new LevelModeControls();
 
     // controls for speech synthesis, such as the rate, pitch, and voice
-    const voiceRateSlider = WebSpeechDialogContent.createLabelledSlider( webSpeaker.voiceRateProperty, 'Rate', 'New Voice Rate' );
-    const voicePitchSlider = WebSpeechDialogContent.createLabelledSlider( webSpeaker.voicePitchProperty, 'Pitch', 'New Voice Pitch' );
+    const voiceRateSlider = SelfVoicingPreferencesDialog.createLabelledSlider( webSpeaker.voiceRateProperty, 'Rate', 'New Voice Rate' );
+    const voicePitchSlider = SelfVoicingPreferencesDialog.createLabelledSlider( webSpeaker.voicePitchProperty, 'Pitch', 'New Voice Pitch' );
 
     const comboBoxItems = [];
 
@@ -63,7 +64,7 @@ class WebSpeechDialogContent extends VBox {
       spacing: INPUT_SPACING
     } );
 
-    super( {
+    const content = new VBox( {
       children: [ modeControls, labelledVoiceControls ],
       spacing: 30,
       pickable: true
@@ -72,12 +73,14 @@ class WebSpeechDialogContent extends VBox {
     webSpeaker.voiceProperty.lazyLink( voice => {
       webSpeaker.speak( 'New voice selected' );
     } );
+
+    super( content, options );
   }
 }
 
 // @private
 // @static
-WebSpeechDialogContent.createLabelledSlider = ( numberProperty, label, changeSuccessDescription ) => {
+SelfVoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, changeSuccessDescription ) => {
   const changeSuccessPatternString = '{{successDescription}}, {{newValue}}';
 
   const slider = new HSlider( numberProperty, numberProperty.range, {
@@ -158,6 +161,6 @@ class LevelModeControls extends VBox {
   }
 }
 
-sceneryPhet.register( 'WebSpeechDialogContent', WebSpeechDialogContent );
+sceneryPhet.register( 'SelfVoicingPreferencesDialog', SelfVoicingPreferencesDialog );
 
-export default WebSpeechDialogContent;
+export default SelfVoicingPreferencesDialog;
