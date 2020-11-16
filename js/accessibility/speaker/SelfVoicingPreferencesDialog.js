@@ -19,8 +19,8 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import Dialog from '../../../../sun/js/Dialog.js';
-import HSlider from '../../../../sun/js/HSlider.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
+import GestureControlledSlider from '../../../../tappi/js/view/GestureControlledSlider.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
@@ -83,7 +83,7 @@ class SelfVoicingPreferencesDialog extends Dialog {
 SelfVoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, changeSuccessDescription ) => {
   const changeSuccessPatternString = '{{successDescription}}, {{newValue}}';
 
-  const slider = new HSlider( numberProperty, numberProperty.range, {
+  const slider = new GestureControlledSlider( numberProperty, numberProperty.range, {
     endDrag: () => {
       const utterance = StringUtils.fillIn( changeSuccessPatternString, {
         successDescription: changeSuccessDescription,
@@ -92,6 +92,7 @@ SelfVoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, cha
       webSpeaker.speak( utterance );
     }
   } );
+
   return new HBox( {
     children: [ new Text( label, { font: LABEL_FONT } ), slider ],
     spacing: INPUT_SPACING
