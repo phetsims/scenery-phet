@@ -62,35 +62,50 @@ class SpeakerHighlighter {
       }
     } );
 
-    // activate highlights for self-voicing
-    Property.multilink( [ this.overTrailProperty, this.speakingTrailProperty ], ( overTrail, speakingTrail ) => {
+    // if we aren't showing interactive highlights, make sure that the highlight disappears
+    // when we use a mouse
+    phet.joist.sim.display.addInputListener( {
+      down: event => {
 
-      // prioritize the speakingHighlightTrail as long as the webSpeaker is speaking - otherwise show highlights
-      // under the over trail
-      const trailToHighlight = speakingTrail || overTrail;
-      if ( trailToHighlight ) {
-        if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
-
-          // deactivate whatever trail is being used, it may be the activeHighlightTrail, but
-          // it could also be trail that has DOM focus
-          phet.joist.sim.display._focusOverlay.deactivateHighlight( phet.joist.sim.display._focusOverlay.trail );
-        }
-
-        // SelfVoicingFocusHighlights are always show, but only show default highlights if option is selected by user
-        const instanceOfSelfVoicingHighlight = trailToHighlight.lastNode().focusHighlight instanceof SelfVoicingFocusHighlight;
-        const showHighlight = instanceOfSelfVoicingHighlight || levelSpeakerModel.showHoverHighlightsProperty.get();
-
-        activeHighlightTrail = trailToHighlight;
-        if ( showHighlight ) {
-          phet.joist.sim.display._focusOverlay.activateHighlight( activeHighlightTrail );
+        // in the self-voicing prototype we want the focus highlight to remain with
+        // mouse/touch presses, only if 'interactive highlights' are enabled
+        if ( !levelSpeakerModel.showHoverHighlightsProperty.get() ) {
+          Display.focus = null;
         }
       }
-      else {
-        if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
-          assert && assert( activeHighlightTrail, 'trail to active highlight required' );
-          phet.joist.sim.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+    } );
 
-          activeHighlightTrail = null;
+    // activate highlights for self-voicing
+    Property.multilink( [ this.overTrailProperty, this.speakingTrailProperty ], ( overTrail, speakingTrail ) => {
+      if ( levelSpeakerModel.showHoverHighlightsProperty.get() ) {
+
+        // prioritize the speakingHighlightTrail as long as the webSpeaker is speaking - otherwise show highlights
+        // under the over trail
+        const trailToHighlight = speakingTrail || overTrail;
+        if ( trailToHighlight ) {
+          if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
+
+            // deactivate whatever trail is being used, it may be the activeHighlightTrail, but
+            // it could also be trail that has DOM focus
+            phet.joist.sim.display._focusOverlay.deactivateHighlight( phet.joist.sim.display._focusOverlay.trail );
+          }
+
+          // SelfVoicingFocusHighlights are always show, but only show default highlights if option is selected by user
+          const instanceOfSelfVoicingHighlight = trailToHighlight.lastNode().focusHighlight instanceof SelfVoicingFocusHighlight;
+          const showHighlight = instanceOfSelfVoicingHighlight || levelSpeakerModel.showHoverHighlightsProperty.get();
+
+          activeHighlightTrail = trailToHighlight;
+          if ( showHighlight ) {
+            phet.joist.sim.display._focusOverlay.activateHighlight( activeHighlightTrail );
+          }
+        }
+        else {
+          if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
+            assert && assert( activeHighlightTrail, 'trail to active highlight required' );
+            phet.joist.sim.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+
+            activeHighlightTrail = null;
+          }
         }
       }
     } );

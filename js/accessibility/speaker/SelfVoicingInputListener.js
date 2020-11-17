@@ -17,6 +17,7 @@
  */
 
 import Display from '../../../../scenery/js/display/Display.js';
+import levelSpeakerModel from './levelSpeakerModel.js';
 import speakerHighlighter from './speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -66,19 +67,22 @@ class SelfVoicingInputListener {
 
           this.onPress();
 
-          // find the focusable node in the trail and actually focus it - this is done
-          // on up event of the Pointer because we want to be able to prevent this from happening
-          // if this Pointer listener gets interrupted
-          for ( let i = 0; i < event.trail.nodes.length; i++ ) {
-            if ( event.trail.nodes[ i ].focusable ) {
+          if ( levelSpeakerModel.showHoverHighlightsProperty.get() ) {
 
-              // prevent the Queue from speaking the focused item in this case, we likly
-              // have specific behavior on down that we should speak - we don't want to speak
-              // down content and focus
-              // I am actually not sure about this, should check with Taliesin.
-              phet.joist.sim.selfVoicingUtteranceQueue.enabled = false;
-              event.trail.nodes[ i ].focus();
-              phet.joist.sim.selfVoicingUtteranceQueue.enabled = true;
+            // find the focusable node in the trail and actually focus it - this is done
+            // on up event of the Pointer because we want to be able to prevent this from happening
+            // if this Pointer listener gets interrupted
+            for ( let i = 0; i < event.trail.nodes.length; i++ ) {
+              if ( event.trail.nodes[ i ].focusable ) {
+
+                // prevent the Queue from speaking the focused item in this case, we likly
+                // have specific behavior on down that we should speak - we don't want to speak
+                // down content and focus
+                // I am actually not sure about this, should check with Taliesin.
+                phet.joist.sim.selfVoicingUtteranceQueue.enabled = false;
+                event.trail.nodes[ i ].focus();
+                phet.joist.sim.selfVoicingUtteranceQueue.enabled = true;
+              }
             }
           }
 
