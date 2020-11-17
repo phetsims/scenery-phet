@@ -16,6 +16,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
+import SelfVoicingUtterance from '../../../../utterance-queue/js/SelfVoicingUtterance.js';
 import SelfVoicingPreferencesDialog from './SelfVoicingPreferencesDialog.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
@@ -47,6 +48,7 @@ const preferencesString = 'Preferences';
 const expandCollapseButtonPatternString = '{{action}} Self-Voicing Quick Menu';
 const selfVoicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
 const selfVoicingQuickMenuHidden = 'Self-Voicing Quick Menu hidden.';
+const selfVoicingDialogAlert = 'Self Voicing Preferences shown.';
 
 class SelfVoicingQuickControl extends Node {
 
@@ -180,6 +182,14 @@ class SelfVoicingQuickControl extends Node {
       }
       preferencesDialog.show();
       preferencesDialog.focusCloseButton();
+
+      // object response describing the open dialog - polite so the first focusable element
+      // to be described
+      const utterance = new SelfVoicingUtterance( {
+        alert: selfVoicingDialogAlert,
+        cancelOther: false
+      } );
+      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( utterance );
     } );
 
     // other listeners are added in createSpeechButton
