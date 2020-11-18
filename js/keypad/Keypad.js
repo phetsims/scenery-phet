@@ -79,7 +79,8 @@ class Keypad extends Node {
     // @public {Property.<string>} (read-only) - string representation of the keys that have been accumulated
     this.stringProperty = this.keyAccumulator.stringProperty;
 
-    // @public {Property.<number>} (read-only) - numeric representation of the keys that have been accumulated
+    // @public {Property.<number|null>} (read-only) - numeric representation of the keys that have been accumulated,
+    // null if no keys have been accumulated
     this.valueProperty = this.keyAccumulator.valueProperty;
 
     // @private {Array.<RectangularPushButton>}
