@@ -170,7 +170,7 @@ class SelfVoicingInputListener {
    * @param event
    */
   over( event ) {
-    if ( this.highlightTarget && !event.pointer.isAttached() ) {
+    if ( this.highlightTarget && !event.pointer.isAttached() && !levelSpeakerModel.gestureControlProperty.get() ) {
       this.activateHighlight();
     }
   }
