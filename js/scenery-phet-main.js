@@ -17,7 +17,6 @@ import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
-import SceneryPhetMemoryTestsScreenView from './demo/SceneryPhetMemoryTestsScreenView.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
@@ -117,19 +116,6 @@ simLauncher.launch( () => {
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'blue' ),
         tandem: Tandem.ROOT.createTandem( 'springsScreen' ),
-        keyboardHelpNode: keyboardHelpNode
-      }
-    ),
-
-    // Memory Tests screen
-    new Screen(
-      () => MODEL,
-      () => new SceneryPhetMemoryTestsScreenView(),
-      {
-        name: 'Memory Tests',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-        homeScreenIcon: createScreenIcon( 'purple' ),
-        tandem: Tandem.ROOT.createTandem( 'memoryTestsScreen' ),
         keyboardHelpNode: keyboardHelpNode
       }
     )
