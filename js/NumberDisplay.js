@@ -241,7 +241,7 @@ class NumberDisplay extends Node {
 
   /**
    * Sets the number text fill.
-   * @param {Color|string} fill
+   * @param {ColorDef} fill
    * @public
    */
   setNumberFill( fill ) {
@@ -252,7 +252,7 @@ class NumberDisplay extends Node {
 
   /**
    * Sets the background fill.
-   * @param {Color|string} fill
+   * @param {ColorDef} fill
    * @public
    */
   setBackgroundFill( fill ) {
@@ -262,8 +262,21 @@ class NumberDisplay extends Node {
   set backgroundFill( value ) { this.setBackgroundFill( value ); }
 
   /**
+   * Gets the background fill.
+   * @returns {ColorDef}
+   * @public
+   */
+  getBackgroundFill() {
+    return this.backgroundNode.fill;
+  }
+
+  get backgroundFill() {
+    return this.getBackgroundFill();
+  }
+
+  /**
    * Sets the background stroke.
-   * @param {Color|string} stroke
+   * @param {ColorDef} stroke
    * @public
    */
   setBackgroundStroke( stroke ) {
