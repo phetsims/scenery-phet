@@ -68,8 +68,8 @@ class SpeakerHighlighter {
       down: event => {
 
         // in the self-voicing prototype we want the focus highlight to remain with
-        // mouse/touch presses, only if 'interactive highlights' are enabled
-        if ( !levelSpeakerModel.showHoverHighlightsProperty.get() ) {
+        // mouse/touch presses, only if 'interactive highlights' or custom gestures are enabled
+        if ( !levelSpeakerModel.showHoverHighlightsProperty.get() && !levelSpeakerModel.gestureControlProperty.get() ) {
           Display.focus = null;
         }
       }
