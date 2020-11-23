@@ -28,34 +28,34 @@ class ZoomButton extends RectangularPushButton {
 
     options = merge( {
       in: true, // true: zoom-in button, false: zoom-out button
-      radius: 15,
       baseColor: PhetColorScheme.BUTTON_YELLOW,
+      magnifyingGlassRadius: 15,
       magnifyingGlassFill: 'white', // center of the glass
       magnifyingGlassStroke: 'black', // rim and handle
       tandem: Tandem.REQUIRED
     }, options );
 
     // the magnifying glass
-    const glassLineWidth = 0.25 * options.radius;
-    const glassNode = new Circle( options.radius, {
+    const glassLineWidth = 0.25 * options.magnifyingGlassRadius;
+    const glassNode = new Circle( options.magnifyingGlassRadius, {
       fill: options.magnifyingGlassFill,
       stroke: options.magnifyingGlassStroke,
       lineWidth: glassLineWidth
     } );
 
     // handle at lower-left of glass, at a 45-degree angle
-    const outsideRadius = options.radius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
+    const outsideRadius = options.magnifyingGlassRadius + ( glassLineWidth / 2 ); // use outside radius so handle line cap doesn't appear inside glassNode
     const handleNode = new Line(
       outsideRadius * Math.cos( Math.PI / 4 ), outsideRadius * Math.sin( Math.PI / 4 ),
-      options.radius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.radius ), options.radius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.radius ), {
+      options.magnifyingGlassRadius * Math.cos( Math.PI / 4 ) + ( 0.65 * options.magnifyingGlassRadius ), options.magnifyingGlassRadius * Math.sin( Math.PI / 4 ) + ( 0.65 * options.magnifyingGlassRadius ), {
         stroke: options.magnifyingGlassStroke,
-        lineWidth: 0.4 * options.radius,
+        lineWidth: 0.4 * options.magnifyingGlassRadius,
         lineCap: 'round'
       } );
 
     // plus or minus sign in middle of magnifying glass
     const signOptions = {
-      size: new Dimension2( 1.3 * options.radius, options.radius / 3 ),
+      size: new Dimension2( 1.3 * options.magnifyingGlassRadius, options.magnifyingGlassRadius / 3 ),
       centerX: glassNode.centerX,
       centerY: glassNode.centerY
     };
