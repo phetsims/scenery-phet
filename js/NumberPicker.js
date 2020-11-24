@@ -94,6 +94,12 @@ class NumberPicker extends Node {
       formatValue: value => Utils.toFixed( value, options.decimalPlaces ),
 
       /**
+       * {function(SceneryEvent)}
+       * Callback when input occurs on the NumberPicker. This can be from mouse/touch or keyboard/PDOM.
+       */
+      onChange: _.noop,
+
+      /**
        * Determines whether the increment arrow is enabled.
        * @param {number} value - the current value
        * @param {Range} range - the picker's range
@@ -124,8 +130,7 @@ class NumberPicker extends Node {
       enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // pdom (passed to AccessibleNumberSpinner)
-      pageKeyboardStep: 2, // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
-      change: _.noop
+      pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
     }, options );
 
     // {ColorDef} color of arrows and top/bottom gradient when pressed
@@ -141,6 +146,21 @@ class NumberPicker extends Node {
       `invalid disabledOpacity: ${options.disabledOpacity}` );
 
     super();
+
+    // Overwrite the passed in change listener to make sure that sound implementation can't be blown away in the defaults.
+    const passedInChangeListener = options.onChange;
+    options.onChange = () => {
+      passedInChangeListener();
+
+      // play sound
+      let soundClip = options.valueChangedSoundPlayer;
+
+      // If the value is at min or max, then play the boundary sound instead of the default sound
+      if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
+        soundClip = options.boundarySoundPlayer;
+      }
+      soundClip.play();
+    };
 
     //------------------------------------------------------------
     // Properties
@@ -301,16 +321,6 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Observers and InputListeners
 
-    const playUISound = () => {
-      let soundClip = options.valueChangedSoundPlayer;
-
-      // If the value is at min or max, then play the boundary sound instead of the default sound
-      if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
-        soundClip = options.boundarySoundPlayer;
-      }
-      soundClip.play();
-    };
-
     const inputListenerOptions = {
       fireOnHold: true,
       fireOnHoldDelay: options.timerDelay,
@@ -320,9 +330,9 @@ class NumberPicker extends Node {
     // @private
     this.incrementInputListener = new NumberPickerInputListener( incrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'incrementInputListener' ),
-      fire: () => {
+      fire: event => {
         valueProperty.set( Math.min( options.incrementFunction( valueProperty.get() ), rangeProperty.get().max ) );
-        playUISound();
+        options.onChange( event );
       }
     }, inputListenerOptions ) );
     incrementParent.addInputListener( this.incrementInputListener );
@@ -330,9 +340,9 @@ class NumberPicker extends Node {
     // @private
     this.decrementInputListener = new NumberPickerInputListener( decrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'decrementInputListener' ),
-      fire: () => {
+      fire: event => {
         valueProperty.set( Math.max( options.decrementFunction( valueProperty.get() ), rangeProperty.get().min ) );
-        playUISound();
+        options.onChange( event );
       }
     }, inputListenerOptions ) );
     decrementParent.addInputListener( this.decrementInputListener );
@@ -396,13 +406,6 @@ class NumberPicker extends Node {
         bottomRight: options.cornerRadius
       } )
     );
-
-    // Overwrite the passed in change listener to make sure that sound implementation can't be blown away in the defaults.
-    const passedInChangeListener = options.change;
-    options.change = () => {
-      passedInChangeListener();
-      playUISound();
-    };
 
     // Initialize accessibility features. This must reach into incrementFunction to get the delta.
     // Both normal arrow and shift arrow keys use the delta computed with incrementFunction.
