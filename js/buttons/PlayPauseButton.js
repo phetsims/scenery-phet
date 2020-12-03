@@ -9,8 +9,8 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
+import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
-import Display from '../../../scenery/js/display/Display.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
@@ -79,7 +79,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
       // only enabled if the sim supports interactive descriptions
       if ( phet.joist.sim.supportsInteractiveDescriptions ) {
         if ( this.buttonModel.enabledProperty.get() ) {
-          if ( event.keyCode === KeyboardUtils.KEY_K && Display.keyStateTracker.altKeyDown ) {
+          if ( event.keyCode === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
 
             // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
             if ( this.accessibleDisplayed ) {
@@ -92,7 +92,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
         }
       }
     };
-    Display.keyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+    globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
@@ -111,7 +111,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
-      Display.keyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
+      globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
