@@ -152,14 +152,13 @@ class NumberPicker extends Node {
     options.onChange = () => {
       passedInChangeListener();
 
-      // play sound
-      let soundClip = options.valueChangedSoundPlayer;
-
-      // If the value is at min or max, then play the boundary sound instead of the default sound
+      // Play the boundary sound If the value is at min or max, otherwise play the default sound.
       if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
-        soundClip = options.boundarySoundPlayer;
+        options.boundarySoundPlayer.play();
       }
-      soundClip.play();
+      else {
+        options.valueChangedSoundPlayer.play();
+      }
     };
 
     //------------------------------------------------------------
