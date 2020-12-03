@@ -95,7 +95,7 @@ class NumberPicker extends Node {
 
       /**
        * {function(SceneryEvent)}
-       * Callback when input occurs on the NumberPicker. This can be from mouse/touch or keyboard/PDOM.
+       * Listener that is called when the value changes due to user interaction with this number picker.
        */
       onChange: _.noop,
 
