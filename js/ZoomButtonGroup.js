@@ -10,25 +10,24 @@
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import LayoutBox from '../../scenery/js/nodes/LayoutBox.js';
-import Text from '../../scenery/js/nodes/Text.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import MathSymbols from './MathSymbols.js';
-import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-
-// constants
-const DEFAULT_FONT = new PhetFont( 16 );
 
 class ZoomButtonGroup extends LayoutBox {
 
   /**
+   * @param {Node} zoomInIcon
+   * @param {Node} zoomOutIcon
    * @param {NumberProperty} zoomLevelProperty - smaller value means more zoomed out
    * @param {Object} [options]
    */
-  constructor( zoomLevelProperty, options ) {
+  constructor( zoomInIcon, zoomOutIcon, zoomLevelProperty, options ) {
 
+    assert && assert(zoomInIcon instanceof Node,'icons are required in the base class');
+    assert && assert(zoomOutIcon instanceof Node,'icons are required in the base class');
     assert && assert( zoomLevelProperty instanceof NumberProperty, 'invalid zoomLevelProperty' );
     assert && assert( zoomLevelProperty.range, 'missing zoomLevelProperty.range' );
 
@@ -55,11 +54,6 @@ class ZoomButtonGroup extends LayoutBox {
         fireOnHoldInterval: 250 // ms
       },
 
-      // Text options, for the + and - buttons
-      textOptions: {
-        font: DEFAULT_FONT
-      },
-
       // LayoutBox options
       spacing: 0,
       orientation: 'horizontal',
@@ -74,7 +68,7 @@ class ZoomButtonGroup extends LayoutBox {
 
     // zoom in
     const zoomInButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
-      content: new Text( MathSymbols.PLUS, options.textOptions ),
+      content: zoomInIcon,
       listener: () => {
         zoomLevelProperty.value += options.zoomInDelta;
       },
@@ -83,7 +77,7 @@ class ZoomButtonGroup extends LayoutBox {
 
     // zoom out
     const zoomOutButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
-      content: new Text( MathSymbols.MINUS, options.textOptions ),
+      content: zoomOutIcon,
       listener: () => {
         zoomLevelProperty.value += options.zoomOutDelta;
       },
