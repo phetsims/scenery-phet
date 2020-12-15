@@ -2,6 +2,8 @@
 
 /**
  * DragBoundsProperty derives drag bounds that will keep an entire Node inside some specified bounds.
+ * If the Node goes outside of these derived bounds, it's the client's responsibility to detect that
+ * and move the Node accordingly.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
