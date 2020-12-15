@@ -16,39 +16,37 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import DOM from '../../scenery/js/nodes/DOM.js';
 import sceneryPhet from './sceneryPhet.js';
 
-/**
- * @constructor
- * @param {string} formula - LaTeX-style string, assumed to be in math mode
- * @param {Object} [options]
- */
-function FormulaNode( formula, options ) {
-  options = merge( {
-    // Defaults
-    displayMode: true // If false, it will render with the 'inline math' mode which is vertically constrained more.
-  }, options );
+class FormulaNode extends DOM {
+  /**
+   * @param {string} formula - LaTeX-style string, assumed to be in math mode
+   * @param {Object} [options]
+   */
+  constructor( formula, options ) {
+    options = merge( {
+      // Defaults
+      displayMode: true // If false, it will render with the 'inline math' mode which is vertically constrained more.
+    }, options );
 
-  // @private
-  this._span = document.createElement( 'span' );
+    const span = document.createElement( 'span' );
 
-  // @private - Store these initially, so we can update the formula before mutating.
-  this._formula = formula; // {string}
-  this._displayMode = options.displayMode; // {boolean}
+    super( span );
 
-  DOM.call( this, this._span );
+    // @private
+    this._span = span;
 
-  this.updateFormula();
+    // @private - Store these initially, so we can update the formula before mutating.
+    this._formula = formula; // {string}
+    this._displayMode = options.displayMode; // {boolean}
 
-  this.mutate( options );
-}
+    this.updateFormula();
 
-sceneryPhet.register( 'FormulaNode', FormulaNode );
+    this.mutate( options );
+  }
 
-inherit( DOM, FormulaNode, {
 
   /**
    * We need to have a fairly custom bounds measurement method, since it's a block-level element.
@@ -57,9 +55,9 @@ inherit( DOM, FormulaNode, {
    *
    * @returns {Bounds2}
    */
-  calculateDOMBounds: function() {
+  calculateDOMBounds() {
     // Grab a particular child node for measurement, since it's an inline element and contains everything graphical.
-    const htmlList = this._span.getElementsByClassName( 'katex-html' );
+    const htmlList = this.element.getElementsByClassName( 'katex-html' );
 
     // Empty if we have no formula yet
     if ( htmlList.length === 0 ) {
@@ -72,7 +70,7 @@ inherit( DOM, FormulaNode, {
     // offsetLeft is always 0 once in place, and this seems like the best way to measure the change both before AND
     // after it's been added to the DOM.
     return Bounds2.rect( 0, element.offsetTop, element.offsetWidth, element.offsetHeight );
-  },
+  }
 
   /**
    *
@@ -83,7 +81,7 @@ inherit( DOM, FormulaNode, {
    * @public
    * @override
    */
-  invalidateDOM: function() {
+  invalidateDOM() {
     // prevent this from being executed as a side-effect from inside one of its own calls
     if ( this.invalidateDOMLock ) {
       return;
@@ -119,7 +117,7 @@ inherit( DOM, FormulaNode, {
 
     // unlock
     this.invalidateDOMLock = false;
-  },
+  }
 
   /**
    * Updates the formula to display. It should be a string, formatted with the general LaTeX style. Particular
@@ -128,7 +126,7 @@ inherit( DOM, FormulaNode, {
    *
    * @param {string} formula - The particular formula to display.
    */
-  setFormula: function( formula ) {
+  setFormula( formula ) {
     assert && assert( typeof formula === 'string' );
 
     if ( formula !== this._formula ) {
@@ -137,16 +135,18 @@ inherit( DOM, FormulaNode, {
     }
 
     return this;
-  },
-  set formula( value ) { return this.setFormula( value ); },
+  }
+  set formula( value ) { return this.setFormula( value ); }
 
   /**
+   * @public
+   *
    * @returns {string} - The string for the formula that is currently displayed.
    */
-  getFormula: function() {
+  getFormula() {
     return this._formula;
-  },
-  get formula() { return this.getFormula(); },
+  }
+  get formula() { return this.getFormula(); }
 
   /**
    * Updates the {boolean} display mode.
@@ -158,7 +158,7 @@ inherit( DOM, FormulaNode, {
    *   If false, the formula will be displayed in the 'inline math' ($ in LaTeX) style, which is typically
    *   meant to be embedded within flowed text.
    */
-  setDisplayMode: function( mode ) {
+  setDisplayMode( mode ) {
     assert && assert( typeof mode === 'boolean' );
 
     if ( mode !== this._displayMode ) {
@@ -168,23 +168,25 @@ inherit( DOM, FormulaNode, {
     }
 
     return this;
-  },
-  set displayMode( value ) { return this.setDisplayMode( value ); },
+  }
+  set displayMode( value ) { return this.setDisplayMode( value ); }
 
   /**
    * Whether the displayMode is currently true.
+   * @public
+   *
    * @returns {boolean}
    */
-  getDisplayMode: function() {
+  getDisplayMode() {
     return this._displayMode;
-  },
-  get displayMode() { return this.getDisplayMode(); },
+  }
+  get displayMode() { return this.getDisplayMode(); }
 
   /**
    * Updates the displayed formula and its bounds.
    * @private
    */
-  updateFormula: function() {
+  updateFormula() {
     katex.render( this._formula, this._span, {
       displayMode: this._displayMode,
       strict: errorCode => {
@@ -198,7 +200,9 @@ inherit( DOM, FormulaNode, {
     // recompute bounds
     this.invalidateDOM();
   }
-} );
+}
+
+sceneryPhet.register( 'FormulaNode', FormulaNode );
 
 // Allow the mutate() call to change displayMode and formula.
 FormulaNode.prototype._mutatorKeys = [ 'displayMode', 'formula' ].concat( DOM.prototype._mutatorKeys );
