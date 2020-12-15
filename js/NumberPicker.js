@@ -459,8 +459,11 @@ class NumberPicker extends Node {
 
       // Highlight the decrement button
       highlightDecrement: false,
+
       range: new Range( value - 1, value + 1 ),
-      numberPickerOptions: {}
+      numberPickerOptions: {
+        pickable: false
+      }
     }, options );
 
     const numberPicker = new NumberPicker( new NumberProperty( value ), new Property( options.range ), options.numberPickerOptions );
