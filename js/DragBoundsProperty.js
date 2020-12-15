@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * DragBoundsProperty derives drag bounds that will keep an entire Node inside the visible bounds of a ScreenView.
+ * DragBoundsProperty derives drag bounds that will keep an entire Node inside some specified bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -15,21 +15,21 @@ import sceneryPhet from './sceneryPhet.js';
 class DragBoundsProperty extends DerivedProperty {
 
   /**
-   * @param {Node} targetNode - the Node that is to be constrained to the drag bounds
-   * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the ScreenView
+   * @param {Node} targetNode - the Node that is to be constrained
+   * @param {Property.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds
    */
-  constructor( targetNode, visibleBoundsProperty ) {
+  constructor( targetNode, boundsProperty ) {
     assert && assert( targetNode instanceof Node, `invalid targetNode: ${targetNode}` );
-    assert && assert( visibleBoundsProperty instanceof Property, `invalid visibleBoundsProperty: ${visibleBoundsProperty}` );
+    assert && assert( boundsProperty instanceof Property, `invalid boundsProperty: ${boundsProperty}` );
 
-    super( [ visibleBoundsProperty, targetNode.boundsProperty ], ( visibleBounds, targetNodeBounds ) => {
+    super( [ targetNode.boundsProperty, boundsProperty ], ( targetNodeBounds, bounds ) => {
 
       // account for the bounds of targetNode
       return new Bounds2(
-        visibleBounds.minX,
-        visibleBounds.minY,
-        visibleBounds.maxX - targetNodeBounds.width,
-        visibleBounds.maxY - targetNodeBounds.height
+        bounds.minX,
+        bounds.minY,
+        bounds.maxX - targetNodeBounds.width,
+        bounds.maxY - targetNodeBounds.height
       );
     } );
   }
