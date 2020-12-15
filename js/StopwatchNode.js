@@ -189,7 +189,7 @@ class StopwatchNode extends Node {
 
       // If the stopwatch is outside the drag bounds, move it inside.
       dragBoundsProperty.link( dragBounds => {
-        if ( !dragBounds.containsPoint( stopwatch.positionProperty ) ) {
+        if ( !dragBounds.containsPoint( stopwatch.positionProperty.value ) ) {
           stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
         }
       } );
