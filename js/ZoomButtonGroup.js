@@ -87,22 +87,38 @@ class ZoomButtonGroup extends LayoutBox {
     assert && assert( !options.children, 'ZoomButtonGroup sets children' );
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
 
-    // Pointer areas, shifted to prevent overlap
+    // Pointer areas. Dependent on options.spacing, pointer areas will be shifted to prevent overlap.
     zoomInButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
     zoomOutButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
     zoomInButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
     zoomOutButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
+    const halfSpacing = options.spacing / 2;
     if ( options.orientation === 'horizontal' ) {
-      zoomInButton.touchArea = zoomInButton.touchArea.shiftedX( options.touchAreaXDilation );
-      zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedX( -options.touchAreaXDilation );
-      zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedX( options.mouseAreaXDilation );
-      zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedX( -options.mouseAreaXDilation );
+
+      const touchShiftX = options.touchAreaXDilation - halfSpacing;
+      if ( touchShiftX > 0 ) {
+        zoomInButton.touchArea = zoomInButton.touchArea.shiftedX( touchShiftX );
+        zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedX( -touchShiftX );
+      }
+
+      const mouseShiftX = options.mouseAreaXDilation - halfSpacing;
+      if ( mouseShiftX > 0 ) {
+        zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedX( mouseShiftX );
+        zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedX( -mouseShiftX );
+      }
     }
     else {
-      zoomInButton.touchArea = zoomInButton.touchArea.shiftedY( -options.touchAreaYDilation );
-      zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedY( options.touchAreaYDilation );
-      zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedY( -options.mouseAreaYDilation );
-      zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedY( options.mouseAreaYDilation );
+      const touchShiftY = options.touchAreaYDilation - halfSpacing;
+      if ( touchShiftY > 0 ) {
+        zoomInButton.touchArea = zoomInButton.touchArea.shiftedY( -touchShiftY );
+        zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedY( touchShiftY );
+      }
+
+      const mouseShiftY = options.mouseAreaYDilation - halfSpacing;
+      if ( mouseShiftY > 0 ) {
+        zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedY( -mouseShiftY );
+        zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedY( mouseShiftY );
+      }
     }
 
     super( options );

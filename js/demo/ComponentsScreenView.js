@@ -87,6 +87,7 @@ import NumberKeypad from '../NumberKeypad.js';
 import NumberPicker from '../NumberPicker.js';
 import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
+import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import ProbeNode from '../ProbeNode.js';
 import RulerNode from '../RulerNode.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -146,6 +147,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
       { label: 'NumberPicker', createNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
+      { label: 'PlusMinusZoomButtonGroup', createNode: demoPlusMinusZoomButtonGroup },
       { label: 'ProbeNode', createNode: demoProbeNode },
       { label: 'RichText', createNode: demoRichText },
       { label: 'RulerNode', createNode: demoRulerNode },
@@ -1467,6 +1469,43 @@ function demoPaperAirplaneNode( layoutBounds ) {
   return new PaperAirplaneNode( {
     center: layoutBounds.center,
     scale: 5
+  } );
+}
+
+// Creates a demo for PlusMinusZoomButtonGroup
+function demoPlusMinusZoomButtonGroup( layoutBounds ) {
+
+  const zoomLevelProperty = new NumberProperty( 0, {
+    range: new Range( 0, 5 )
+  } );
+  zoomLevelProperty.link( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
+
+  // Change this value to see how pointer areas are adjusted to prevent overlap.
+  // See https://github.com/phetsims/scenery-phet/issues/650
+  const spacing = 0;
+
+  const verticalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+    orientation: 'vertical',
+    spacing: spacing,
+    mouseAreaXDilation: 5,
+    mouseAreaYDilation: 10,
+    touchAreaXDilation: 5,
+    touchAreaYDilation: 10
+  } );
+
+  const horizontalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+    orientation: 'horizontal',
+    spacing: spacing,
+    mouseAreaXDilation: 10,
+    mouseAreaYDilation: 5,
+    touchAreaXDilation: 10,
+    touchAreaYDilation: 5
+  } );
+
+  return new HBox( {
+    children: [ verticalZoomButtonGroup, horizontalZoomButtonGroup ],
+    spacing: 100,
+    center: layoutBounds.center
   } );
 }
 
