@@ -26,7 +26,6 @@ class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
       }
     }, options );
 
-
     // plus or minus sign in middle of magnifying glass
     const signOptions = {
       size: new Dimension2(
@@ -35,6 +34,7 @@ class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
       )
     };
 
+    assert && assert( !options.magnifyingGlassNodeOptions.icon, 'MagnifyingGlassZoomButtonGroup sets magnifyingGlassNodeOptions.icon' );
     const zoomInIcon = new MagnifyingGlassNode( merge( {}, options.magnifyingGlassNodeOptions, { icon: new PlusNode( signOptions ) } ) );
     const zoomOutIcon = new MagnifyingGlassNode( merge( {}, options.magnifyingGlassNodeOptions, { icon: new MinusNode( signOptions ) } ) );
     super( zoomInIcon, zoomOutIcon, zoomLevelProperty, options );

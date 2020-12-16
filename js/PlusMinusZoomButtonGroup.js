@@ -10,7 +10,7 @@ import sceneryPhet from './sceneryPhet.js';
 import ZoomButtonGroup from './ZoomButtonGroup.js';
 
 // constants
-const DEFAULT_SIZE = new Dimension2( 20 * 0.35, 3.6 * 0.35 );
+const DEFAULT_ICON_SIZE = new Dimension2( 7, 1.26 ); // chosen to match existing sim defaults
 
 /**
  * A ZoomButtonGroup that shows a "+" and "-" sign for the button icons.
@@ -30,18 +30,16 @@ class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
         yMargin: 10
       },
       iconOptions: {
-        size: DEFAULT_SIZE
+        size: DEFAULT_ICON_SIZE
       }
     }, options );
 
-    // Make sure the + and - have the same dimensions
-    const alignGroup = new AlignGroup();
-    const plusMinusNodeOptions = merge( { size: DEFAULT_SIZE }, options.iconOptions );
-    const alignBoxOptions = { group: alignGroup };
+    // To make the icons have the same effective size
+    const alignBoxOptions = { group: new AlignGroup() };
 
     super(
-      new AlignBox( new PlusNode( plusMinusNodeOptions ), alignBoxOptions ),
-      new AlignBox( new MinusNode( plusMinusNodeOptions ), alignBoxOptions ),
+      new AlignBox( new PlusNode( options.iconOptions ), alignBoxOptions ),
+      new AlignBox( new MinusNode( options.iconOptions ), alignBoxOptions ),
       zoomLevelProperty, options
     );
   }
