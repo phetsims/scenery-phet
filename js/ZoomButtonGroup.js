@@ -65,6 +65,7 @@ class ZoomButtonGroup extends LayoutBox {
 
     assert && assert( !options.buttonOptions.content, 'ZoomButtonGroup sets buttonOptions.content' );
     assert && assert( !options.buttonOptions.listener, 'ZoomButtonGroup sets buttonOptions.listener' );
+    assert && assert( options.spacing >= 0, `invalid spacing: ${options.spacing}` );
 
     // zoom in
     const zoomInButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
