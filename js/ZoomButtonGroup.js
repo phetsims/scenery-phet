@@ -32,8 +32,8 @@ class ZoomButtonGroup extends LayoutBox {
 
     options = merge( {
 
-      zoomInDelta: 1,   // delta applied when the '+' button is pressed
-      zoomOutDelta: -1, // delta applied when the '-' button is pressed
+      zoomInDelta: 1,   // delta applied when the '+' button is pressed, must be > 0
+      zoomOutDelta: -1, // delta applied when the '-' button is pressed, must be < 0
 
       // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
       touchAreaXDilation: 0,
@@ -57,6 +57,8 @@ class ZoomButtonGroup extends LayoutBox {
       tandem: Tandem.REQUIRED
     }, options );
 
+    assert && assert( options.zoomInDelta > 0, 'zoomInDelta must be > 0' );
+    assert && assert( options.zoomOutDelta < 0, 'zoomOutDelta must be > 0' );
     assert && assert( !options.buttonOptions.content, 'ZoomButtonGroup sets buttonOptions.content' );
     assert && assert( !options.buttonOptions.listener, 'ZoomButtonGroup sets buttonOptions.listener' );
     assert && assert( options.spacing >= 0, `invalid spacing: ${options.spacing}` );
