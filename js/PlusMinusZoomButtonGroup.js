@@ -4,6 +4,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
 import AlignBox from '../../scenery/js/nodes/AlignBox.js';
 import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
+import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
 import MinusNode from './MinusNode.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -27,7 +28,9 @@ class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
     options = merge( {
       buttonOptions: {
         xMargin: 9,
-        yMargin: 10
+        yMargin: 10,
+        cornerRadius: 0,
+        buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy
       },
       iconOptions: {
         size: DEFAULT_ICON_SIZE

@@ -4,6 +4,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
 import MagnifyingGlassNode from './MagnifyingGlassNode.js';
 import MinusNode from './MinusNode.js';
+import PhetColorScheme from './PhetColorScheme.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import ZoomButtonGroup from './ZoomButtonGroup.js';
@@ -21,8 +22,11 @@ class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
   constructor( zoomLevelProperty, options ) {
 
     options = merge( {
+      buttonOptions: {
+        baseColor: PhetColorScheme.BUTTON_YELLOW // like ZoomButton
+      },
       magnifyingGlassNodeOptions: {
-        glassRadius: 10
+        glassRadius: 15 // like ZoomButton
       }
     }, options );
 
