@@ -27,6 +27,7 @@ class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
   constructor( zoomLevelProperty, options ) {
     options = merge( {
       buttonOptions: {
+        baseColor: 'white',
         xMargin: 9,
         yMargin: 10,
         cornerRadius: 0,

@@ -43,7 +43,6 @@ class ZoomButtonGroup extends LayoutBox {
 
       // RectangularPushButton options
       buttonOptions: {
-        baseColor: 'white',
         fireOnHold: true,
         fireOnHoldDelay: 600, // ms
         fireOnHoldInterval: 250 // ms
