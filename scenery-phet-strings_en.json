@@ -293,11 +293,26 @@
         }
       },
       "slider": {
+        "orKeysPattern": {
+          "value": "{{leftRight}}, or {{upDown}}"
+        },
+        "leftRightArrowKeys": {
+          "value": "Left and Right arrow keys"
+        },
+        "upDownArrowKeys": {
+          "value": "Up and Down arrow keys"
+        },
         "defaultStepsDescriptionPattern": {
-          "value": "{{verb}} {{slider}} with Left and Right arrow keys, or Up and Down arrow keys."
+          "value": "{{verb}} {{slider}} with {{keys}}."
+        },
+        "shiftLeftRightArrowKeys": {
+          "value": "Shift plus Left or Right arrow key"
+        },
+        "shiftUpDownArrowKeys": {
+          "value": "Shift plus Up or Down arrow key"
         },
         "smallerStepsDescriptionPattern": {
-          "value": "{{verb}} in smaller steps with Shift plus Left or Right arrow key, or Shift plus Up or Down arrow key."
+          "value": "{{verb}} in smaller steps with {{keys}}."
         },
         "largerStepsDescriptionPattern": {
           "value": "{{verb}} in larger steps with Page Up or Page Down key."

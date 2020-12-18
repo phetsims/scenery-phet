@@ -17,7 +17,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-const ArrowKeysIconDisplay = Enumeration.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
+const ArrowKeyIconDisplay = Enumeration.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
 
 class SliderKeyboardHelpSection extends KeyboardHelpSection {
 
@@ -28,9 +28,9 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
 
     options = merge( {
 
-      // {ArrowKeysIconDisplay} - Whether to show up/down, left/right or both sets of keyboard help icons to cue the
+      // {ArrowKeyIconDisplay} - Whether to show up/down, left/right or both sets of keyboard help icons to cue the
       // slider interaction.
-      arrowKeyIconDisplay: ArrowKeysIconDisplay.BOTH,
+      arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
 
       // heading string for this content
       headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControls,
@@ -45,7 +45,7 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
       minimumString: sceneryPhetStrings.keyboardHelpDialog.minimum
     }, options );
 
-    validate( options.arrowKeyIconDisplay, { valueType: ArrowKeysIconDisplay } );
+    validate( options.arrowKeyIconDisplay, { valueType: ArrowKeyIconDisplay } );
 
     const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
       verb: options.verbString,
@@ -58,12 +58,29 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
       verb: options.verbString
     } );
 
+    const keysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
+                 ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
+                 ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
+                   leftRight: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
+                   upDown: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
+                 } ) : null;
+    assert && assert( keysString );
     const keyboardHelpDialogDefaultStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPattern, {
       verb: options.verbString,
-      slider: options.sliderString
+      slider: options.sliderString,
+      keys: keysString
     } );
+
+    const shiftKeysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
+                      ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
+                      ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
+                        leftRight: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
+                        upDown: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
+                      } ) : null;
+    assert && assert( shiftKeysString );
     const keyboardHelpDialogSmallerStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPattern, {
-      verb: options.verbString
+      verb: options.verbString,
+      keys: shiftKeysString
     } );
     const keyboardHelpDialogLargerStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPattern, {
       verb: options.verbString
@@ -92,16 +109,16 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
     let adjustSliderSmallerStepsIcons = null;
 
     switch( options.arrowKeyIconDisplay ) {
-      case ArrowKeysIconDisplay.LEFT_RIGHT:
+      case ArrowKeyIconDisplay.LEFT_RIGHT:
         adjustSliderIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon ];
         break;
-      case ArrowKeysIconDisplay.UP_DOWN:
+      case ArrowKeyIconDisplay.UP_DOWN:
         adjustSliderIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
         adjustSliderSmallerStepsIcons = [ shiftPlusUpDownIcon ];
         break;
       default:
-        assert && assert( options.arrowKeyIconDisplay === ArrowKeysIconDisplay.BOTH, 'unsupported arrowKeyIconDisplay' );
+        assert && assert( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH, 'unsupported arrowKeyIconDisplay' );
         adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
@@ -135,7 +152,7 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
 }
 
 // @public - for use in defining a component-specific option.
-SliderKeyboardHelpSection.ArrowKeysIconDisplay = ArrowKeysIconDisplay;
+SliderKeyboardHelpSection.ArrowKeyIconDisplay = ArrowKeyIconDisplay;
 
 sceneryPhet.register( 'SliderKeyboardHelpSection', SliderKeyboardHelpSection );
 export default SliderKeyboardHelpSection;
