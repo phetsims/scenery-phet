@@ -8,7 +8,9 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
+import Range from '../../../dot/js/Range.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -34,6 +36,7 @@ import TimerToggleButton from '../buttons/TimerToggleButton.js';
 import ZoomButton from '../buttons/ZoomButton.js';
 import MoveToTrashButton from '../MoveToTrashButton.js';
 import PhetFont from '../PhetFont.js';
+import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 class ButtonsScreenView extends ScreenView {
@@ -164,10 +167,52 @@ class ButtonsScreenView extends ScreenView {
     );
     toggleButtons.push( timerToggleButton );
 
-    // Toggle button
     const toggleButtonsHBox = new HBox( {
       children: toggleButtons,
       spacing: 10,
+      align: 'center',
+      center: this.layoutBounds.center
+    } );
+
+    //------------------------------------------------------------------------------------------------------
+    // Button groups
+
+    const buttonGroups = [];
+
+    // Property shared by ZoomButtonGroups
+    const zoomLevelProperty = new NumberProperty( 0, {
+      range: new Range( 0, 5 )
+    } );
+    zoomLevelProperty.link( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
+
+    // Spacing shared by ZoomButtonGroups
+    // Change this value to see how pointer areas are adjusted to prevent overlap.
+    // See https://github.com/phetsims/scenery-phet/issues/650
+    const spacing = 0;
+
+    const verticalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+      orientation: 'vertical',
+      spacing: spacing,
+      mouseAreaXDilation: 5,
+      mouseAreaYDilation: 10,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 10
+    } );
+    buttonGroups.push( verticalZoomButtonGroup );
+
+    const horizontalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+      orientation: 'horizontal',
+      spacing: spacing,
+      mouseAreaXDilation: 10,
+      mouseAreaYDilation: 5,
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 5
+    } );
+    buttonGroups.push( horizontalZoomButtonGroup );
+
+    const buttonGroupsHBox = new HBox( {
+      children: buttonGroups,
+      spacing: 20,
       align: 'center',
       center: this.layoutBounds.center
     } );
@@ -199,6 +244,9 @@ class ButtonsScreenView extends ScreenView {
         new VStrut( 20 ),
         new Text( 'Toggle buttons:', { font: new PhetFont( 24 ) } ),
         toggleButtonsHBox,
+        new VStrut( 20 ),
+        new Text( 'Button groups:', { font: new PhetFont( 24 ) } ),
+        buttonGroupsHBox,
         new VStrut( 20 ),
         new Text( 'Tests:', { font: new PhetFont( 24 ) } ),
         enabledCheckbox
