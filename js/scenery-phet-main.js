@@ -18,6 +18,7 @@ import ComponentsScreenView from './demo/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
+import SpinnersScreenView from './demo/SpinnersScreenView.js';
 import SpringScreenView from './demo/SpringScreenView.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
@@ -68,19 +69,6 @@ simLauncher.launch( () => {
       }
     ),
 
-    // Sliders screen
-    new Screen(
-      () => MODEL,
-      () => new SlidersScreenView(),
-      {
-        name: 'Sliders',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
-        homeScreenIcon: createScreenIcon( 'yellow' ),
-        tandem: Tandem.ROOT.createTandem( 'slidersScreen' ),
-        keyboardHelpNode: keyboardHelpNode
-      }
-    ),
-
     // Components screen
     new Screen(
       () => MODEL,
@@ -103,6 +91,32 @@ simLauncher.launch( () => {
         backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
         tandem: Tandem.ROOT.createTandem( 'dialogsScreen' ),
+        keyboardHelpNode: keyboardHelpNode
+      }
+    ),
+
+    // Sliders screen
+    new Screen(
+      () => MODEL,
+      () => new SlidersScreenView(),
+      {
+        name: 'Sliders',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'yellow' ),
+        tandem: Tandem.ROOT.createTandem( 'slidersScreen' ),
+        keyboardHelpNode: keyboardHelpNode
+      }
+    ),
+
+    // Spinners screen
+    new Screen(
+      () => MODEL,
+      () => new SpinnersScreenView(),
+      {
+        name: 'Spinners',
+        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        homeScreenIcon: createScreenIcon( 'green' ),
+        tandem: Tandem.ROOT.createTandem( 'spinnersScreen' ),
         keyboardHelpNode: keyboardHelpNode
       }
     ),

@@ -41,8 +41,8 @@ import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
-import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
@@ -65,7 +65,6 @@ import ConductivityTesterNode from '../ConductivityTesterNode.js';
 import Drawer from '../Drawer.js';
 import EyeDropperNode from '../EyeDropperNode.js';
 import FaucetNode from '../FaucetNode.js';
-import FineCoarseSpinner from '../FineCoarseSpinner.js';
 import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
@@ -79,12 +78,10 @@ import LetterKeyNode from '../keyboard/LetterKeyNode.js';
 import TextKeyNode from '../keyboard/TextKeyNode.js';
 import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
-import LeftRightSpinner from '../LeftRightSpinner.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
 import NumberControl from '../NumberControl.js';
 import NumberDisplay from '../NumberDisplay.js';
 import NumberKeypad from '../NumberKeypad.js';
-import NumberPicker from '../NumberPicker.js';
 import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
 import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
@@ -100,7 +97,6 @@ import StopwatchNode from '../StopwatchNode.js';
 import ThermometerNode from '../ThermometerNode.js';
 import TimeControlNode from '../TimeControlNode.js';
 import TimeSpeed from '../TimeSpeed.js';
-import UpDownSpinner from '../UpDownSpinner.js';
 import WireNode from '../WireNode.js';
 
 // constants
@@ -131,7 +127,6 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
-      { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
       { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
@@ -141,11 +136,9 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
-      { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
-      { label: 'NumberPicker', createNode: demoNumberPicker },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
       { label: 'PlusMinusZoomButtonGroup', createNode: demoPlusMinusZoomButtonGroup },
       { label: 'ProbeNode', createNode: demoProbeNode },
@@ -158,7 +151,6 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'StopwatchNode', createNode: demoStopwatchNode },
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'TimeControlNode', createNode: demoTimeControlNode },
-      { label: 'UpDownSpinner', createNode: demoUpDownSpinner },
       { label: 'WireNode', createNode: demoWireNode }
     ], merge( {
       comboBoxItemFont: new PhetFont( 12 ),
@@ -475,35 +467,6 @@ function demoFaucetNode( layoutBounds ) {
 
   return new Node( {
     children: [ faucetNode, faucetEnabledCheckbox ],
-    center: layoutBounds.center
-  } );
-}
-
-// Creates a demo for FineCoarseSpinner
-function demoFineCoarseSpinner( layoutBounds, options ) {
-
-  const numberProperty = new NumberProperty( 0, {
-    range: new Range( 0, 100 ),
-    tandem: options.tandem.createTandem( 'numberProperty' )
-  } );
-
-  const enabledProperty = new BooleanProperty( true, {
-    tandem: options.tandem.createTandem( 'enabledProperty' )
-  } );
-
-  const spinner = new FineCoarseSpinner( numberProperty, {
-    enabledProperty: enabledProperty,
-    tandem: options.tandem.createTandem( 'spinner' )
-  } );
-
-  const checkbox = new Checkbox( new Text( 'enabled', {
-    font: new PhetFont( 20 ),
-    tandem: options.tandem.createTandem( 'checkbox' )
-  } ), enabledProperty );
-
-  return new VBox( {
-    spacing: 60,
-    children: [ spinner, checkbox ],
     center: layoutBounds.center
   } );
 }
@@ -1280,25 +1243,6 @@ function demoKeypad( layoutBounds ) {
 
 }
 
-// Creates a demo for NumberPicker
-function demoNumberPicker( layoutBounds ) {
-
-  const enabledProperty = new BooleanProperty( true );
-
-  const numberPicker = new NumberPicker( new Property( 0 ), new Property( new Range( -10, 10 ) ), {
-    font: new PhetFont( 40 ),
-    enabledProperty: enabledProperty
-  } );
-
-  const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
-
-  return new VBox( {
-    spacing: 40,
-    children: [ numberPicker, enabledCheckbox ],
-    center: layoutBounds.center
-  } );
-}
-
 // Creates a demo for RulerNode
 function demoRulerNode( layoutBounds ) {
 
@@ -1623,62 +1567,6 @@ function demoTimeControlNode( layoutBounds ) {
     center: layoutBounds.center,
     resize: false
   } );
-}
-
-// creates a demo for LeftRightSpinner
-function demoLeftRightSpinner( layoutBounds ) {
-
-  const leftRightSpinnerProperty = new Property( 1 );
-  const leftEnabledProperty = new Property( true );
-  const rightEnabledProperty = new Property( true );
-
-  const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty, {
-    center: layoutBounds.center
-  } );
-
-  leftRightSpinnerProperty.lazyLink( value => {
-    console.log( 'LeftRightSpinner: ' + value );
-    if ( value >= 10 ) {
-      rightEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      leftEnabledProperty.set( false );
-    }
-    else {
-      rightEnabledProperty.set( true );
-      leftEnabledProperty.set( true );
-    }
-  } );
-
-  return leftRightSpinner;
-}
-
-// creates a demo for UpDownSpinner
-function demoUpDownSpinner( layoutBounds ) {
-
-  const upDownSpinnerProperty = new Property( 1 );
-  const upEnabledProperty = new Property( true );
-  const downEnabledProperty = new Property( true );
-
-  const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty, {
-    center: layoutBounds.center
-  } );
-
-  upDownSpinnerProperty.lazyLink( value => {
-    console.log( 'UpDownSpinner: ' + value );
-    if ( value >= 10 ) {
-      upEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      downEnabledProperty.set( false );
-    }
-    else {
-      upEnabledProperty.set( true );
-      downEnabledProperty.set( true );
-    }
-  } );
-
-  return upDownSpinner;
 }
 
 function demoSprites( layoutBounds ) {
