@@ -224,6 +224,39 @@
   "ruler": {
     "value": "Ruler"
   },
+  "zero": {
+    "value": "zero"
+  },
+  "one": {
+    "value": "one"
+  },
+  "two": {
+    "value": "two"
+  },
+  "three": {
+    "value": "three"
+  },
+  "four": {
+    "value": "four"
+  },
+  "five": {
+    "value": "five"
+  },
+  "six": {
+    "value": "six"
+  },
+  "seven": {
+    "value": "seven"
+  },
+  "eight": {
+    "value": "eight"
+  },
+  "nine": {
+    "value": "nine"
+  },
+  "ten": {
+    "value": "ten"
+  },
   "a11y": {
     "simSection": {
       "screenSummary": {
