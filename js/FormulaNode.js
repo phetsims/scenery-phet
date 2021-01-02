@@ -136,7 +136,7 @@ class FormulaNode extends DOM {
 
     return this;
   }
-  set formula( value ) { return this.setFormula( value ); }
+  set formula( value ) { this.setFormula( value ); }
 
   /**
    * @public
@@ -169,7 +169,7 @@ class FormulaNode extends DOM {
 
     return this;
   }
-  set displayMode( value ) { return this.setDisplayMode( value ); }
+  set displayMode( value ) { this.setDisplayMode( value ); }
 
   /**
    * Whether the displayMode is currently true.

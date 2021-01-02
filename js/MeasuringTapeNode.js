@@ -528,9 +528,9 @@ class MeasuringTapeNode extends Node {
   get isTipUserControlledProperty() { return this.getIsTipUserControlledProperty(); }
 
   // @public
-  set isBaseUserControlledProperty( value ) { return this.setIsBaseUserControlledProperty( value ); }
+  set isBaseUserControlledProperty( value ) { this.setIsBaseUserControlledProperty( value ); }
 
-  set isTipUserControlledProperty( value ) { return this.setIsTipUserControlledProperty( value ); }
+  set isTipUserControlledProperty( value ) { this.setIsTipUserControlledProperty( value ); }
 
   /**
    * Creates an icon of the measuring tape.
