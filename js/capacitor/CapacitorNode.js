@@ -36,7 +36,8 @@ class CapacitorNode extends Node {
   constructor( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, options ) {
 
     options = merge( {
-      orientation: Orientation.VERTICAL
+      orientation: Orientation.VERTICAL,
+      includeChargeNode: true
     }, options );
     super();
 
@@ -47,8 +48,8 @@ class CapacitorNode extends Node {
     this.modelViewTransform = modelViewTransform;
 
     // @private {PlateNode}
-    this.topPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.POSITIVE, circuit.maxPlateCharge, options.orientation );
-    this.bottomPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.NEGATIVE, circuit.maxPlateCharge, options.orientation );
+    this.topPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.POSITIVE, circuit.maxPlateCharge, options.orientation, options.includeChargeNode );
+    this.bottomPlateNode = new PlateNode( this.capacitor, modelViewTransform, CapacitorConstants.POLARITY.NEGATIVE, circuit.maxPlateCharge, options.orientation, options.includeChargeNode );
 
     const eFieldNode = new EFieldNode( this.capacitor, modelViewTransform, circuit.maxEffectiveEField, this.getPlatesBounds() );
 

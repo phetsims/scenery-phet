@@ -26,8 +26,10 @@ class PlateNode extends BoxNode {
    * @param {string} polarity - 'POSITIVE' or 'NEGATIVE'
    * @param {number} maxPlateCharge
    * @param {string} orientation
+   * @param {boolean} includeChargeNode - if the charges can be shown.  This option was added for CCK toolbox icons, where
+   *                                    - charges are never shown, but the canvas was too large and threw off the bounds
    */
-  constructor( capacitor, modelViewTransform, polarity, maxPlateCharge, orientation ) {
+  constructor( capacitor, modelViewTransform, polarity, maxPlateCharge, orientation, includeChargeNode = true ) {
 
     super( modelViewTransform, PLATE_COLOR, capacitor.plateSizeProperty.value );
 
@@ -44,7 +46,7 @@ class PlateNode extends BoxNode {
       canvasBounds: canvasBounds,
       orientation: orientation
     } );
-    this.addChild( this.plateChargeNode );
+    includeChargeNode && this.addChild( this.plateChargeNode );
   }
 
   /**
