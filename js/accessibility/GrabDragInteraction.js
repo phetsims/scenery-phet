@@ -218,9 +218,6 @@ class GrabDragInteraction {
       ariaRole: null,
       tagName: 'button',
 
-      // position siblings so that the Node is grabbable with custom gestures on iOS with VoiceOver
-      positionSiblings: true,
-
       accessibleName: null,
       ariaLabel: null // also since many use ariaLabel to set accessibleName
     }, options.grabbableOptions );
