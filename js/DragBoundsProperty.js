@@ -16,6 +16,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 class DragBoundsProperty extends DerivedProperty {
 
+  //TODO https://github.com/phetsims/scenery-phet/issues/656 assumes that targetNode and boundsProperty are in the same coordinate frame
   /**
    * @param {Node} targetNode - the Node that is to be constrained
    * @param {Property.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds
@@ -26,6 +27,7 @@ class DragBoundsProperty extends DerivedProperty {
 
     super( [ targetNode.boundsProperty, boundsProperty ], ( targetNodeBounds, bounds ) => {
 
+      //TODO https://github.com/phetsims/scenery-phet/issues/656 assumes that targetNode's origin is a the upper-left corner of its bounds
       // account for the bounds of targetNode
       return new Bounds2(
         bounds.minX,
