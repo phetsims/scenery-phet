@@ -346,9 +346,15 @@ class NumberPicker extends Node {
     }, inputListenerOptions ) );
     decrementParent.addInputListener( this.decrementInputListener );
 
-    // enable/disable listeners: unlink unnecessary, Properties are owned by this instance
-    incrementEnabledProperty.link( enabled => !enabled && this.incrementInputListener.interrupt() );
-    decrementEnabledProperty.link( enabled => !enabled && this.decrementInputListener.interrupt() );
+    // enable/disable listeners and interaction: unlink unnecessary, Properties are owned by this instance
+    incrementEnabledProperty.link( enabled => {
+      !enabled && this.incrementInputListener.interrupt();
+      incrementParent.pickable = enabled;
+    } );
+    decrementEnabledProperty.link( enabled => {
+      !enabled && this.decrementInputListener.interrupt();
+      decrementParent.pickable = enabled;
+    } );
 
     // Update text to match the value
     const valueObserver = value => {
