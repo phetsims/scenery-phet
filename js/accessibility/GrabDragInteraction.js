@@ -40,6 +40,7 @@ import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighl
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -64,9 +65,10 @@ class GrabDragInteraction {
 
   /**
    * @param {Node} node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
+   * @param {KeyboardDragListener} keyboardDragListener - added to the Node when it is draggable
    * @param {Object} [options]
    */
-  constructor( node, options ) {
+  constructor( node, keyboardDragListener, options ) {
     options = merge( {
 
       // A string that is filled in to the appropriate button label
@@ -173,6 +175,7 @@ class GrabDragInteraction {
     assert && assert( options.grabCueOptions instanceof Object );
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
     assert && assert( options.draggableOptions instanceof Object );
+    assert && assert( !options.listenersForDrag.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersForDrag' );
     if ( options.dragCueNode !== null ) {
       assert && assert( options.dragCueNode instanceof Node );
       assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
@@ -389,7 +392,7 @@ class GrabDragInteraction {
     };
 
     // @private
-    this.listenersForDrag = options.listenersForDrag.concat( dragDivListener );
+    this.listenersForDrag = options.listenersForDrag.concat( [ dragDivListener, keyboardDragListener ] );
 
     // @private - from non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
@@ -418,6 +421,12 @@ class GrabDragInteraction {
     } );
     this.node.addInputListener( this.pressListener );
 
+    // upon successful drag with the KeyboardDragListener, keep this Node in view
+    const dragListener = () => {
+      animatedPanZoomSingleton.listener.keepNodeInView( this.node );
+    };
+    keyboardDragListener.dragEmitter.addListener( dragListener );
+
     // Initialize the Node as a grabbable (button) to begin with
     this.turnToGrabbable();
 
@@ -425,6 +434,7 @@ class GrabDragInteraction {
     this.disposeA11yGrabDragNode = () => {
 
       this.node.removeInputListener( this.pressListener );
+      keyboardDragListener.dragEmitter.removeListener( dragListener );
 
       // Remove listeners according to what mode we are in
       if ( this.grabbable ) {

@@ -11,6 +11,7 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
+import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 
 // constants
 const thingString = 'thing';
@@ -39,7 +40,8 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   rootNode.addChild( a );
 
-  const interaction = new GrabDragInteraction( a, {
+  const keyboardDragListener = new KeyboardDragListener();
+  const interaction = new GrabDragInteraction( a, keyboardDragListener, {
     tandem: Tandem.GENERAL.createTandem( 'myGrabDragInteraction' ),
     objectToGrabString: thingString
   } );
