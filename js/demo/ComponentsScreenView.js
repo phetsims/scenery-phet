@@ -1461,12 +1461,9 @@ function getDemoGrabDragInteraction( tandem ) {
     } );
     rect.addInputListener( keyboardDragListener );
 
-    new GrabDragInteraction( rect, { // eslint-disable-line no-new
+    new GrabDragInteraction( rect, keyboardDragListener, { // eslint-disable-line no-new
       objectToGrabString: 'rectangle',
       grabbableAccessibleName: 'grab rectangle',
-
-      listenersForDrag: [ keyboardDragListener ],
-
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
 
