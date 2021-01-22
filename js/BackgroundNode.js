@@ -36,16 +36,19 @@ class BackgroundNode extends Node {
     // @public (read-only) {Rectangle} - translucent rectangle
     this.background = new Rectangle( 0, 0, 1, 1, options.backgroundOptions );
 
+    // Wrap the provided node in a parent to avoid multiple bounds changes notifications in the following link.
+    const wrapperNode = new Node( { children: [ node ] } );
+
     // size the rectangle to fit the node
-    node.localBoundsProperty.link( bounds => {
+    node.boundsProperty.link( bounds => {
       if ( !bounds.isEmpty() ) {
         this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
-        node.center = this.background.center;
+        wrapperNode.center = this.background.center;
       }
     } );
 
     assert && assert( !options.children, 'BackgroundNode sets children' );
-    options.children = [ this.background, node ];
+    options.children = [ this.background, wrapperNode ];
     this.mutate( options );
   }
 }
