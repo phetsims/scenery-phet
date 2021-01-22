@@ -18,6 +18,7 @@ import StringProperty from '../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Bounds3 from '../../../dot/js/Bounds3.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -1554,11 +1555,11 @@ function demoSprites( layoutBounds ) {
 
   const createSpriteInstance = () => {
     const instance = SpriteInstance.createFromPool();
-    instance.sprite = phet.joist.random.sample( [ sprite0, sprite1, sprite2 ] );
-    instance.matrix.setToTranslation( phet.joist.random.nextDouble() * getAvailableWidth(), phet.joist.random.nextDouble() * getAvailableHeight() );
+    instance.sprite = dotRandom.sample( [ sprite0, sprite1, sprite2 ] );
+    instance.matrix.setToTranslation( dotRandom.nextDouble() * getAvailableWidth(), dotRandom.nextDouble() * getAvailableHeight() );
 
     // Put a custom velocity on each one
-    instance.velocity = Vector2.createPolar( 1, phet.joist.random.nextDouble() * 2 * Math.PI );
+    instance.velocity = Vector2.createPolar( 1, dotRandom.nextDouble() * 2 * Math.PI );
 
     return instance;
   };
