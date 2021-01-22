@@ -64,7 +64,7 @@ class SpeakerHighlighter {
 
     // if we aren't showing interactive highlights, make sure that the highlight disappears
     // when we use a mouse
-    phet.joist.sim.display.addInputListener( {
+    phet.joist.display.addInputListener( {
       down: event => {
 
         // in the self-voicing prototype we want the focus highlight to remain with
@@ -83,11 +83,11 @@ class SpeakerHighlighter {
         // under the over trail
         const trailToHighlight = speakingTrail || overTrail;
         if ( trailToHighlight ) {
-          if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
+          if ( phet.joist.display._focusOverlay.hasHighlight() ) {
 
             // deactivate whatever trail is being used, it may be the activeHighlightTrail, but
             // it could also be trail that has DOM focus
-            phet.joist.sim.display._focusOverlay.deactivateHighlight( phet.joist.sim.display._focusOverlay.trail );
+            phet.joist.display._focusOverlay.deactivateHighlight( phet.joist.display._focusOverlay.trail );
           }
 
           // SelfVoicingFocusHighlights are always show, but only show default highlights if option is selected by user
@@ -96,13 +96,13 @@ class SpeakerHighlighter {
 
           activeHighlightTrail = trailToHighlight;
           if ( showHighlight ) {
-            phet.joist.sim.display._focusOverlay.activateHighlight( activeHighlightTrail );
+            phet.joist.display._focusOverlay.activateHighlight( activeHighlightTrail );
           }
         }
         else {
-          if ( phet.joist.sim.display._focusOverlay.hasHighlight() ) {
+          if ( phet.joist.display._focusOverlay.hasHighlight() ) {
             assert && assert( activeHighlightTrail, 'trail to active highlight required' );
-            phet.joist.sim.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+            phet.joist.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
 
             activeHighlightTrail = null;
           }
