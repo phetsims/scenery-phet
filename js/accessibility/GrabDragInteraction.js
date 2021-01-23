@@ -397,13 +397,13 @@ class GrabDragInteraction {
     // @private - from non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
     this.pressListener = new PressListener( {
-      press: ( event, listener ) => {
+      press: event => {
         if ( !event.isFromPDOM() ) {
           this.turnToDraggable();
           this.onGrab();
         }
       },
-      release: ( event, listener ) => {
+      release: event => {
 
         // release if PressListener is interrupted, but only if not already
         // grabbable, which is possible if the GrabDragInteraction has been
