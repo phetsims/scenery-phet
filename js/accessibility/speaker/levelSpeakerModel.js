@@ -12,7 +12,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import Property from '../../../../axon/js/Property.js';
 
 class LevelSpeakerModel {
   constructor() {
@@ -65,34 +64,6 @@ class LevelSpeakerModel {
    */
   getNodeInteractive( node ) {
     return node.consideredInteractive;
-  }
-
-  /**
-   * Adds a node to the ShapeHitDetector, but removes it if the objectChangesProperty or help text is set
-   * to false.
-   *
-   * NOTE: At the moment all Non-interactive objects that have object responses also have hint content, so this
-   * works out. But if in the future we have a non-interactive object without help text, it will
-   * remain hittable even when it has no content, so they must be separated.
-   * @public
-   *
-   * @param {Node} node
-   * @param {ShapeHitDetector} shapeHitDetector
-   * @param {Object} [options] - options passed to the Hittable on addNode
-   */
-  addHitDetectionForObjectResponsesAndHelpText( node, shapeHitDetector, options ) {
-    Property.multilink( [ this.objectChangesProperty, this.hintsProperty ], ( objectChanges, hints ) => {
-      if ( objectChanges || hints ) {
-
-        // don't add the node twice
-        if ( !shapeHitDetector.hasNode( node ) ) {
-          shapeHitDetector.addNode( node, options );
-        }
-      }
-      else {
-        shapeHitDetector.removeNode( node );
-      }
-    } );
   }
 
   /**
