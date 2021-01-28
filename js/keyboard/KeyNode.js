@@ -111,7 +111,7 @@ class KeyNode extends Node {
     options.children = [
 
       // background (shadow rectangle)
-      Rectangle.roundedBounds( content.bounds.shifted(
+      Rectangle.roundedBounds( content.bounds.shiftedXY(
         options.xShadowOffset, options.yShadowOffset ), options.cornerRadius, options.cornerRadius, {
         fill: options.keyShadowFill
       } ),
