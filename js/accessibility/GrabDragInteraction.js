@@ -222,7 +222,7 @@ class GrabDragInteraction {
       tagName: 'button',
 
       // position the PDOM elements when grabbable for drag and drop on touch-based screen readers
-      positionSiblings: true,
+      positionInPDOM: true,
 
       accessibleName: null,
       ariaLabel: null // also since many use ariaLabel to set accessibleName
