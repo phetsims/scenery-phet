@@ -102,7 +102,6 @@ class LaserPointerNode extends Node {
       right: 0,
       centerY: 0
     } );
-    children.push( nozzleNode );
 
     // the main body of the laser pointer
     const bodyNode = new Rectangle( 0, 0, options.bodySize.width, options.bodySize.height, {
@@ -116,7 +115,8 @@ class LaserPointerNode extends Node {
       right: nozzleNode.left + options.cornerRadius, // overlap to hide corner radius
       centerY: nozzleNode.centerY
     } );
-    children.push( bodyNode );
+    const bodyAndNozzleNode = new Node( { children: [ nozzleNode, bodyNode ] } );
+    children.push( bodyAndNozzleNode );
 
     // the optional button that controls whether the laser is on or off
     let onOffButton = null;
@@ -175,6 +175,9 @@ class LaserPointerNode extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
+
+    // @public (read-only) {Node} - in case the client needs to add input listeners to that part
+    this.bodyAndNozzleNode = bodyAndNozzleNode;
   }
 
   get enabled() { return this.isEnabled(); }
