@@ -43,6 +43,7 @@ const DEFAULT_OPTIONS = {
   buttonYMargin: 10,
   buttonTouchAreaDilation: 15,
   buttonMouseAreaDilation: 0,
+  getButtonLocation: body => body.center, // {function} where to position the button within the body
   buttonRotation: 0, // {number} use this to adjust lighting on the button
   buttonAccessibleName: '',
   buttonDescriptionContent: '',
@@ -130,7 +131,7 @@ class LaserPointerNode extends Node {
         mouseAreaDilation: options.buttonMouseAreaDilation,
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
-        center: bodyNode.center,
+        center: options.getButtonLocation( bodyNode ),
         tandem: options.tandem.createTandem( 'button' ),
 
         // pdom
