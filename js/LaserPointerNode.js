@@ -43,10 +43,12 @@ const DEFAULT_OPTIONS = {
   buttonYMargin: 10,
   buttonTouchAreaDilation: 15,
   buttonMouseAreaDilation: 0,
-  getButtonLocation: body => body.center, // {function} where to position the button within the body
   buttonRotation: 0, // {number} use this to adjust lighting on the button
   buttonAccessibleName: '',
   buttonDescriptionContent: '',
+
+  // {function(body:Node):Vector2} where to position the button within the body
+  getButtonLocation: bodyNode => bodyNode.center,
 
   // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
   // It does not change the origin of the laser pointer node, which is at the center of the casing.  The glass is
