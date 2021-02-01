@@ -47,7 +47,7 @@ const DEFAULT_OPTIONS = {
   buttonAccessibleName: '',
   buttonDescriptionContent: '',
 
-  // {function(body:Node):Vector2} where to position the button within the body
+  // {function(bodyNode:Node):Vector2} where to position the button within the body
   getButtonLocation: bodyNode => bodyNode.center,
 
   // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
