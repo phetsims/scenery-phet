@@ -55,7 +55,7 @@ const DEFAULT_OPTIONS = {
   // sometimes used to help cue the user that it is a non-laser light source.
   // See https://github.com/phetsims/scenery-phet/issues/366
   hasGlass: false,
-  glassOptions: null, // {Object|null} to be filled in with defaults below, or overriden, see DEFAULT_GLASS_OPTIONS
+  glassOptions: null, // {Object|null} to be filled in with defaults below, or overridden, see DEFAULT_GLASS_OPTIONS
 
   // PhET-iO
   tandem: Tandem.REQUIRED

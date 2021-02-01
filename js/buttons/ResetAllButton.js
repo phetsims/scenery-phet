@@ -33,7 +33,7 @@ class ResetAllButton extends ResetButton {
     options = merge( {
       radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
 
-      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overriden lightly
+      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
