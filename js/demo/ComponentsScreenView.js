@@ -772,13 +772,13 @@ function demoLaserPointerNode( layoutBounds ) {
 
   const leftBeamNode = new Rectangle( 0, 0, 1000, 40, {
     fill: 'yellow',
-    right: leftLaserNode.left + 1,
+    right: leftLaserNode.centerX,
     centerY: leftLaserNode.centerY
   } );
 
   const rightBeamNode = new Rectangle( 0, 0, 1000, 40, {
     fill: 'yellow',
-    left: rightLaserNode.right - 1,
+    left: rightLaserNode.centerX,
     centerY: rightLaserNode.centerY
   } );
 
