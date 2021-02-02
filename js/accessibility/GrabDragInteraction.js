@@ -112,10 +112,10 @@ class GrabDragInteraction {
       // {null|Node} - Optional node to cue the drag interaction once successfully updated.
       dragCueNode: null,
 
-      // {Object[]} - GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and draggable one.
-      // We need to keep track of all listeners that need to be attached to each PDOM manifestation. Note: when these
-      // are removed while converting to/from grabbable/draggable, they are interrupted. Other listeners that are
-      // attached to this.node but aren't in these lists will not be interrupted.
+      // {Object[]} - GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and
+      // draggable one. We need to keep track of all listeners that need to be attached to each PDOM manifestation.
+      // Note: when these are removed while converting to/from grabbable/draggable, they are interrupted. Other
+      // listeners that are attached to this.node but aren't in these lists will not be interrupted.
       listenersForDragState: [],
       listenersForGrabState: [],
 
