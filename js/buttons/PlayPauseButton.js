@@ -81,8 +81,8 @@ class PlayPauseButton extends BooleanRoundToggleButton {
         if ( this.buttonModel.enabledProperty.get() ) {
           if ( event.keyCode === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
 
-            // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-            if ( this.accessibleDisplayed ) {
+            // only allow hotkey if this Node is pdomDisplayed, so it cannot be used if removed from PDOM
+            if ( this.pdomDisplayed ) {
               isPlayingProperty.set( !isPlayingProperty.get() );
 
               const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
