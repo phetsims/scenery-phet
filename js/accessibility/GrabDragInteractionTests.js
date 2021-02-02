@@ -53,13 +53,13 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     assert.ok( a.ariaRole === null, 'no role for grabbable' );
     assert.ok( a.ariaLabel === null, 'no aria-label for grabbable' );
 
-    const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
+    const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
     assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
   };
 
   testDefaultGrabbable();
 
-  a.accessibleInstances[ 0 ].peer.primarySibling.click();
+  a.pdomInstances[ 0 ].peer.primarySibling.click();
 
 
   const testDefaultDraggable = () => {
@@ -70,7 +70,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string' );
     assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
 
-    const aElement = a.accessibleInstances[ 0 ].peer.primarySibling;
+    const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
     assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
     assert.ok( aElement.getAttribute( 'aria-roledescription' ) === movableString, 'aria role description should describe that it is movable by default' );
     assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
@@ -79,7 +79,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   testDefaultDraggable();
 
-  a.accessibleInstances[ 0 ].peer.primarySibling.blur();
+  a.pdomInstances[ 0 ].peer.primarySibling.blur();
 
   testDefaultGrabbable();
 
