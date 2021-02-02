@@ -236,7 +236,7 @@ class SelfVoicingQuickControl extends Node {
     ];
 
     // expandCollapseButton first
-    this.accessibleOrder = [ this.expandCollapseButton ];
+    this.pdomOrder = [ this.expandCollapseButton ];
 
     // when the webSpeaker becomes disabled the various content buttons should also be disabled
     webSpeaker.enabledProperty.link( enabled => {

@@ -3,7 +3,7 @@
 /**
  *
  * A node that creates a "Control Area" accessible section in the PDOM. This organizational Node should have accessible
- * content to be displayed under it in the PDOM. This content can be added as a child, or added via `accessibleOrder`.
+ * content to be displayed under it in the PDOM. This content can be added as a child, or added via `pdomOrder`.
  * Items in this section are designed to be secondary to that in the PlayAreaNode. See ScreenView for more documentation
  * and usage explanation.
  *

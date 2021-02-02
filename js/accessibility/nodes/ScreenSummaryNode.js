@@ -3,7 +3,7 @@
 /**
  * A node that creates a summary of the screen in the PDOM. This type prevents duplicated code because
  * all screens have an instance of this node that is accessible on the ScreenView type.
- * Do not set the accessibleOrder of this Node, as it is ordered in its constructor to accept new children in the
+ * Do not set the pdomOrder of this Node, as it is ordered in its constructor to accept new children in the
  * proper place. TODO: Add assertions for this, see https://github.com/phetsims/joist/issues/511
  * USAGE: To add content to the screen overview in the PDOM, simply `this.screenSummaryNode.addChild( myNode() )` from
  * the ScreenView subtype, where myNode has accessible content to be displayed in the PDOM.
@@ -38,8 +38,8 @@ class ScreenSummaryNode extends Node {
     this.addChild( this.openingSummaryNode );
     this.addChild( keyboardShortcutsHint );
 
-    // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
-    this.accessibleOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
+    // set the pdomOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
+    this.pdomOrder = [ this.openingSummaryNode, null, keyboardShortcutsHint ];
   }
 
   /**
