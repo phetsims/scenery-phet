@@ -76,8 +76,8 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
     const globalKeyboardListener = event => {
 
-      // only enabled if the sim supports interactive descriptions
-      if ( phet.joist.sim.supportsInteractiveDescriptions ) {
+      // only enabled if the sim supports interactive description
+      if ( phet.joist.sim.supportsInteractiveDescription ) {
         if ( this.buttonModel.enabledProperty.get() ) {
           if ( event.keyCode === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
 
