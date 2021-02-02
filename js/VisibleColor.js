@@ -26,7 +26,7 @@ const RED_WAVELENGTH = 780; // nanometers
 let REDUCED_INTENSITY_COLOR_TABLE = null;
 let FULL_INTENSITY_COLOR_TABLE = null;
 
-var VisibleColor = {
+const VisibleColor = {
 
   // public constants
   MIN_WAVELENGTH: VIOLET_WAVELENGTH, // in nanometers
@@ -144,14 +144,12 @@ var VisibleColor = {
   }
 };
 
-sceneryPhet.register( 'VisibleColor', VisibleColor );
-
 /**
  * Creates a table that is used to map wavelength in nanometers to Color.
  * @param {boolean} reduceIntensityAtExtrema - whether the intensity should be reduced and high and low wavelength
  * @returns {Color[]}
  */
-var createColorTable = function( reduceIntensityAtExtrema ) {
+function createColorTable( reduceIntensityAtExtrema ) {
 
   const colorTable = [];
 
@@ -222,6 +220,7 @@ var createColorTable = function( reduceIntensityAtExtrema ) {
   }
 
   return colorTable;
-};
+}
 
+sceneryPhet.register( 'VisibleColor', VisibleColor );
 export default VisibleColor;
