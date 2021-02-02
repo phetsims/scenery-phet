@@ -1,35 +1,39 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * The main interaction for grabbing and dragging an object. It works by taking in a Node to augment with the a11y
- * interaction. In fact it works much like a mixin. In general, this type will mutate the accessible content of the
- * passed in node (sometimes referred to "wrappedNode"), alternating between a grabbable object and a draggable object.
- * To accomplish this there are options to be filled in that keeps track of the scenery inputListeners for each mode,
- * as well as the options to mutate the node by. By default the grabbable is a button with a parent div, and the
- * draggable is a focusable div with an "application" aria role.
+ * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
+ * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
+ * will mutate the accessible content (pdom) of the passed in Node (sometimes referred to "wrappedNode"), toggling
+ * between a grabbable state and a draggable state. When each state changes, the underlying PDOM element and general
+ * interaction does as well.
+ * To accomplish this there are options to be filled in that keeps track of the scenery inputListeners for each state,
+ * as well as the options to mutate the Node by for each state. By default the grabbable is a button with a parent div,
+ * and the draggable is a focusable div with an "application" aria role. It is up to the client to supply dragging
+ * listeners via options.
  *
- * As a note on terminology, mostly things are referred to by their current "interaction mode" which is either grabbable
+ * As a note on terminology, mostly things are referred to by their current "interaction state" which is either grabbable
  * or draggable.
  *
- * This type will alert when the draggable is released, but not default alert is provided when the object is grabbed.
- * This is because in usages so far that alert has been custom, context specific, and easier to just supply through
- * the onGrab listener.
+ * This type will alert when the draggable is released, but no default alert is provided when the object is grabbed.
+ * This is because in usages so far, that alert has been custom, context specific, and easier to just supply through
+ * the onGrab callback option.
  *
- * NOTE: You cannot add a11y listeners directly to the node where it is constructed, instead see
- * `options.listenersForGrab/Drag`. These will keep track of the listeners for each interaction mode, and
+ * NOTE: You CANNOT add listeners directly to the Node where it is constructed, instead see
+ * `options.listenersForGrab/DragState`. These will keep track of the listeners for each interaction state, and
  * will set them accordingly.
  *
  * NOTE: There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
  * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
+ * callbacks.
  *
- * NOTE: problems may occur if you change the focusHighlight of the node passed in after creating this type.
+ * NOTE: problems may occur if you change the focusHighlight of the Node passed in after creating this type.
  *
  * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have added the
  * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this Type's constructor.
  *
- * NOTE: positioning the grab "cue" node: transforming the Node adding the grab/drag interaction after running this code
- * will not update the layout of the grabCueNode. This is because it is a child of the focus highlight. As a result,
- * currently you must correctly position node before the cue node is created.
+ * NOTE on positioning the grab "cue" Node: transforming the Node adding the grab/drag interaction after running this code
+ * will not update the layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
+ * result, currently you must correctly position node before the cue Node is created.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -83,13 +87,13 @@ class GrabDragInteraction {
       // {function} - called when the node is "released" (when the draggable is "let go"); draggable -> button
       onRelease: _.noop,
 
-      // {function} - similar to onRelease, but called whenever the interaction mode is set to "grab". Useful for adding
-      // accessible content for the interaction mode in a way that can't be achieved with options, like setting
+      // {function} - similar to onRelease, but called whenever the interaction state is set to "grab". Useful for adding
+      // accessible content for the interaction state in a way that can't be achieved with options, like setting
       // accessibleAttributes.
       onGrabbable: _.noop,
 
-      // {function} - similar to onGrab, but called whenever the interaction mode is set to "drag". Useful for adding
-      // accessible content for the interaction mode in a way that can't be achieved with options, like setting
+      // {function} - similar to onGrab, but called whenever the interaction state is set to "drag". Useful for adding
+      // accessible content for the interaction state in a way that can't be achieved with options, like setting
       // accessibleAttributes.
       onDraggable: _.noop,
 
@@ -108,12 +112,12 @@ class GrabDragInteraction {
       // {null|Node} - Optional node to cue the drag interaction once successfully updated.
       dragCueNode: null,
 
-      // {Function[]} - This type swaps the PDOM structure for a given node between a grabbable mode, and draggable one.
+      // {Object[]} - GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and draggable one.
       // We need to keep track of all listeners that need to be attached to each PDOM manifestation. Note: when these
       // are removed while converting to/from grabbable/draggable, they are interrupted. Other listeners that are
       // attached to this.node but aren't in these lists will not be interrupted.
-      listenersForDrag: [],
-      listenersForGrab: [],
+      listenersForDragState: [],
+      listenersForGrabState: [],
 
       // {function(numberOfGrabs:number} - Add an aria-describedby link between the description
       // sibling and the primary sibling, only when grabbable. By default this should only be done when supporting
@@ -123,7 +127,7 @@ class GrabDragInteraction {
 
       // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
       // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
-      // help text when this Node is in the draggable mode, the help text is still in the PDOM.
+      // help text when this Node is in the draggable state, the help text is still in the PDOM.
       keyboardHelpText: null,
 
       // controls whether or not to show the "Grab" cue node that is displayed on focus - by
@@ -169,13 +173,13 @@ class GrabDragInteraction {
     assert && assert( typeof options.onDraggable === 'function' );
     assert && assert( typeof options.showDragCueNode === 'function' );
     assert && assert( typeof options.showGrabCueNode === 'function' );
-    assert && assert( Array.isArray( options.listenersForDrag ) );
-    assert && assert( Array.isArray( options.listenersForGrab ) );
+    assert && assert( Array.isArray( options.listenersForDragState ) );
+    assert && assert( Array.isArray( options.listenersForGrabState ) );
     assert && assert( options.grabbableOptions instanceof Object );
     assert && assert( options.grabCueOptions instanceof Object );
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
     assert && assert( options.draggableOptions instanceof Object );
-    assert && assert( !options.listenersForDrag.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersForDrag' );
+    assert && assert( !options.listenersForDragState.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersForDragState' );
     if ( options.dragCueNode !== null ) {
       assert && assert( options.dragCueNode instanceof Node );
       assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
@@ -237,7 +241,7 @@ class GrabDragInteraction {
     options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
     // @private
-    this.grabbable = true; // If false, then instead this type is in the draggable interaction mode.
+    this.grabbable = true; // If false, then instead this type is in the draggable interaction state.
     this.node = node;
     this.grabbableOptions = options.grabbableOptions;
     this.draggableOptions = options.draggableOptions;
@@ -291,7 +295,7 @@ class GrabDragInteraction {
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
     } );
 
-    // Update the passed in node's focusHighlight to make it dashed for the "grabbed" mode
+    // Update the passed in node's focusHighlight to make it dashed for the "grabbed" state
     this.dragFocusHighlight.makeDashed();
 
     // if ever we update the node's focusHighlight, then update the grab button's too to keep in syn.
@@ -356,7 +360,7 @@ class GrabDragInteraction {
     };
 
     // @private - keep track of all listeners to swap out grab/drag functionalities
-    this.listenersForGrab = options.listenersForGrab.concat( grabButtonListener );
+    this.listenersForGrabState = options.listenersForGrabState.concat( grabButtonListener );
 
     // use arrow functions so that we can have the right "this" reference
     const dragDivListener = {
@@ -392,7 +396,7 @@ class GrabDragInteraction {
     };
 
     // @private
-    this.listenersForDrag = options.listenersForDrag.concat( [ dragDivListener, keyboardDragListener ] );
+    this.listenersForDragState = options.listenersForDragState.concat( [ dragDivListener, keyboardDragListener ] );
 
     // @private - from non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
@@ -436,12 +440,12 @@ class GrabDragInteraction {
       this.node.removeInputListener( this.pressListener );
       keyboardDragListener.dragEmitter.removeListener( dragListener );
 
-      // Remove listeners according to what mode we are in
+      // Remove listeners according to what state we are in
       if ( this.grabbable ) {
-        this.removeInputListeners( this.listenersForGrab );
+        this.removeInputListeners( this.listenersForGrabState );
       }
       else {
-        this.removeInputListeners( this.listenersForDrag );
+        this.removeInputListeners( this.listenersForDragState );
       }
 
       this.grabFocusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
@@ -498,7 +502,7 @@ class GrabDragInteraction {
       this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
     }
 
-    this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDrag, this.listenersForGrab );
+    this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDragState, this.listenersForGrabState );
 
     // callback on completion
     this.onGrabbable();
@@ -524,7 +528,7 @@ class GrabDragInteraction {
     }
 
     // turn this into a draggable in the node
-    this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrab, this.listenersForDrag );
+    this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrabState, this.listenersForDragState );
 
     // callback on completion
     this.onDraggable();
@@ -555,7 +559,7 @@ class GrabDragInteraction {
   }
 
   /**
-   * Update the focusHighlights according to if we are in grabbable or draggable mode
+   * Update the focusHighlights according to if we are in grabbable or draggable state
    * No need to set visibility to true, because that will happen for us by FocusOverlay on focus.
    *
    * @private
@@ -572,7 +576,7 @@ class GrabDragInteraction {
   }
 
   /**
-   * Update the visibility of the cues for both grabbable and draggable modes.
+   * Update the visibility of the cues for both grabbable and draggable states.
    * @private
    */
   updateVisibilityForCues() {
