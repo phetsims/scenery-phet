@@ -89,12 +89,12 @@ class GrabDragInteraction {
 
       // {function} - similar to onRelease, but called whenever the interaction state is set to "grab". Useful for adding
       // accessible content for the interaction state in a way that can't be achieved with options, like setting
-      // accessibleAttributes.
+      // pdom attributes.
       onGrabbable: _.noop,
 
       // {function} - similar to onGrab, but called whenever the interaction state is set to "drag". Useful for adding
       // accessible content for the interaction state in a way that can't be achieved with options, like setting
-      // accessibleAttributes.
+      // pdom attributes.
       onDraggable: _.noop,
 
       // {Object} - Node options passed to the grabbable created for the PDOM, filled in with defaults below
@@ -484,12 +484,12 @@ class GrabDragInteraction {
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
     if ( supportsGestureDescription() ) {
-      this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
+      this.node.setPDOMAttribute( 'aria-roledescription', movableString );
     }
-    else if ( this.node.hasAccessibleAttribute( 'aria-roledescription' ) ) {
+    else if ( this.node.hasPDOMAttribute( 'aria-roledescription' ) ) {
 
       // by default, the grabbable has no roledescription. Can be overwritten in `onGrabbable()`
-      this.node.removeAccessibleAttribute( 'aria-roledescription' );
+      this.node.removePDOMAttribute( 'aria-roledescription' );
     }
 
     if ( this.addAriaDescribedbyPredicate( this.numberOfGrabs ) ) {
@@ -519,7 +519,7 @@ class GrabDragInteraction {
     this.grabbable = false;
 
     // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
-    this.node.setAccessibleAttribute( 'aria-roledescription', movableString );
+    this.node.setPDOMAttribute( 'aria-roledescription', movableString );
 
     // This node is aria-describedby its own description content only when grabbable, so that the description is
     // read automatically when found by the user with the virtual cursor. Remove it for draggable
