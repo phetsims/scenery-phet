@@ -70,7 +70,7 @@ class ColorProfile {
     options = merge( {
 
       // phet-io
-      tandem: Tandem.GLOBAL.createTandem( 'colorProfile' )
+      tandem: Tandem.GLOBAL_VIEW.createTandem( 'colorProfile' )
     }, options );
 
     // @public (read-only)
