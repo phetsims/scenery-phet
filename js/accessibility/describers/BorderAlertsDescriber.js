@@ -57,14 +57,14 @@ class BorderAlertsDescriber {
 
   /**
    * Based on a position and the border bounds, if the position is touching the bounds, then alert that we are at border.
-   * By passing in an optional keyCode, you can prioritize that direction if you are at the corner.
+   * By passing in an optional key, you can prioritize that direction if you are at the corner.
    * TODO see https://github.com/phetsims/scenery-phet/issues/583 don't alert perpendicular direction if you are sliding against it.
    * @private
    *
    * @param {Vector2} position
-   * @param {number} [keyCode]
+   * @param {KeyDef} [key] - prefer this direction key if provided
    */
-  alertAtBorder( position, keyCode ) {
+  alertAtBorder( position, key ) {
     let alertDirection;
 
     const bordersTouching = [];
@@ -91,10 +91,10 @@ class BorderAlertsDescriber {
 
     // corner case
     if ( bordersTouching.length > 1 ) {
-      keyCode = keyCode || -1;
-      const possibleDirection = DirectionEnum.keyCodeToDirection( keyCode );
+      key = key || '';
+      const possibleDirection = DirectionEnum.keyToDirection( key );
 
-      // if the keyCode matches a border direction, use that instead of another wall that we may also be touching
+      // if the key matches a border direction, use that instead of another wall that we may also be touching
       if ( possibleDirection && bordersTouching.indexOf( possibleDirection ) >= 0 ) {
         alertDirection = possibleDirection;
       }
@@ -120,11 +120,11 @@ class BorderAlertsDescriber {
    * @param {KeyboardEvent} [domEvent] - we don'tget this from a mouse drag listener
    */
   endDrag( position, domEvent ) {
-    let keyCode;
+    let key;
     if ( domEvent ) {
-      keyCode = domEvent.keyCode;
+      key = domEvent.key.toLowerCase();
     }
-    this.alertAtBorder( position, keyCode );
+    this.alertAtBorder( position, key );
   }
 
   /**

@@ -71,24 +71,25 @@ const DirectionEnum = Enumeration.byKeys( [
     };
 
     /**
-     * Support for converting a keyCode to a direction. Arrow keys and WASD will return a primary relative direction.
-     * Return null if unrecognized keyCode is given.
-     * @param keyCode
+     * Support for converting a key to a direction. Arrow keys and WASD will return a primary relative direction.
+     * Return null if unrecognized key is given.
+     * @param {KeyDef} key
      * @returns {DirectionEnum|null}
      */
-    DirectionEnum.keyCodeToDirection = function( keyCode ) {
-      assert && assert( typeof keyCode === 'number' );
+    DirectionEnum.keyToDirection = function( key ) {
+      assert && assert( typeof key === 'string' );
+      assert && assert( key === key.toLowerCase(), 'KeyDef should be lowercase' );
 
-      if ( keyCode === KeyboardUtils.KEY_UP_ARROW || keyCode === KeyboardUtils.KEY_W ) {
+      if ( key === KeyboardUtils.KEY_UP_ARROW || key === KeyboardUtils.KEY_W ) {
         return DirectionEnum.UP;
       }
-      if ( keyCode === KeyboardUtils.KEY_LEFT_ARROW || keyCode === KeyboardUtils.KEY_A ) {
+      if ( key === KeyboardUtils.KEY_LEFT_ARROW || key === KeyboardUtils.KEY_A ) {
         return DirectionEnum.LEFT;
       }
-      if ( keyCode === KeyboardUtils.KEY_DOWN_ARROW || keyCode === KeyboardUtils.KEY_S ) {
+      if ( key === KeyboardUtils.KEY_DOWN_ARROW || key === KeyboardUtils.KEY_S ) {
         return DirectionEnum.DOWN;
       }
-      if ( keyCode === KeyboardUtils.KEY_RIGHT_ARROW || keyCode === KeyboardUtils.KEY_D ) {
+      if ( key === KeyboardUtils.KEY_RIGHT_ARROW || key === KeyboardUtils.KEY_D ) {
         return DirectionEnum.RIGHT;
       }
       return null;

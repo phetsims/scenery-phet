@@ -368,7 +368,7 @@ class GrabDragInteraction {
       // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
       // we don't immediately catch the 'click' event while the enter key is down on the button
       keydown: event => {
-        if ( event.domEvent.keyCode === KeyboardUtils.KEY_ENTER ) {
+        if ( event.domEvent.key.toLowerCase() === KeyboardUtils.KEY_ENTER ) {
 
           // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
           // "clicking" the grab button also on this key press.
@@ -377,10 +377,11 @@ class GrabDragInteraction {
         }
       },
       keyup: event => {
+        const key = event.domEvent.key.toLowerCase();
 
         // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        if ( event.domEvent.keyCode === KeyboardUtils.KEY_SPACE || event.domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
+        if ( key === KeyboardUtils.KEY_SPACE || key === KeyboardUtils.KEY_ESCAPE ) {
           this.releaseDraggable();
         }
 
