@@ -44,7 +44,7 @@ const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL );
 class Keypad extends Node {
 
   /**
-   * @param {Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
+   * @param {Array.Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
    * example usage
    * @param {Object} [options]
    */
