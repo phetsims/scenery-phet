@@ -209,7 +209,7 @@ class NumberDisplay extends Node {
   }
 
   /**
-   * @param {function<number,string>} numberFormatter
+   * @param {function(number):string} numberFormatter
    * @public
    */
   setNumberFormatter( numberFormatter ) {
