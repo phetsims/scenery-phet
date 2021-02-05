@@ -27,7 +27,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // string
-const DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/279
+const DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/333
 
 class NumberKeypad extends Node {
 
