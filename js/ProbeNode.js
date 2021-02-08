@@ -1,9 +1,9 @@
 // Copyright 2015-2020, University of Colorado Boulder
 
 /**
- * A physical-looking probe with a handle and a semicircular sensor region, used in simulations like Bending Light and
- * Beer's Law Lab to show how much light is being received. It is typically connected to a body with readouts with a
- * curved wire. The origin is in the center of the circular part of the sensor (which is not vertically symmetrical).
+ * ProbeNode is a physical-looking probe with a handle and a circular sensor region. It is used in simulations like
+ * Bending Light and Beer's Law Lab to show how much light is being received. It is typically connected to a body
+ * with readouts via a wire. The origin is in the center of the sensor.
  *
  * This code was generalized from Bending Light, see https://github.com/phetsims/bending-light/issues/165
  *
@@ -46,8 +46,8 @@ const DEFAULT_OPTIONS = {
   lightAngle: 1.35 * Math.PI,
   color: '#008541', // {Color|string} darkish green
 
-  // {function(radius: number): Node} The circular part of the ProbeNode is called the sensor, where it receives light
-  // or has crosshairs, etc. or null for an empty region.
+  // {null|function(radius:number):Node} Determines what is displayed in the sensor area, the circular cut-out part of
+  // the ProbeNode. Set this to null to display nothing in the sensor.
   sensorTypeFunction: glass()
 };
 assert && Object.freeze( DEFAULT_OPTIONS );
@@ -66,22 +66,22 @@ class ProbeNode extends Node {
     // To improve readability
     const radius = options.radius;
 
-    // the top of the handle, below the circle at the top of the sensor
+    // y coordinate of the bottom of the handle, relative to the origin (center of the sensor)
     const handleBottom = radius + options.handleHeight;
 
-    // The shape of the outer body, circular at top with a handle at the bottom
+    // Constants that determine the outer Shape of the probe
     const arcExtent = 0.8;
     const handleWidth = options.handleWidth;
     const innerRadius = Math.min( options.innerRadius, options.radius );
     const cornerRadius = options.handleCornerRadius;
-
     const neckCornerRadius = 10;
 
     // We must know where the elliptical arc begins, so create an explicit EllipticalArc for that
     // Note: This elliptical arc must match the ellipticalArc call below
     const ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false ).start;
 
-    function createSensorShape() {
+    // Creates the Shape for the outside edge of the probe, circular at top with handle at the bottom.
+    function createOuterProbeShape() {
       return new Shape()
 
         // start in the bottom center
@@ -102,7 +102,8 @@ class ProbeNode extends Node {
         .lineTo( 0, handleBottom );
     }
 
-    const sensorShape = createSensorShape()
+    // Start with the outer Shape of the probe, and cut out the sensor area.
+    const probeShape = createOuterProbeShape()
       .moveTo( innerRadius, 0 )
       .arc( 0, 0, innerRadius, Math.PI * 2, 0, true )
       .close();
@@ -110,9 +111,9 @@ class ProbeNode extends Node {
     // The light angle is variable so that you can create a probe node that is pointing up or to the side
     const lightAngle = options.lightAngle;
 
-    const center = sensorShape.bounds.center;
+    const center = probeShape.bounds.center;
     const v1 = Vector2.createPolar( 1, lightAngle );
-    const intersections = sensorShape.intersection( new Ray2( center, v1 ) );
+    const intersections = probeShape.intersection( new Ray2( center, v1 ) );
 
     // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
     const lastIntersection = intersections[ intersections.length - 1 ];
@@ -120,7 +121,7 @@ class ProbeNode extends Node {
     const gradientSource = lastIntersectionPoint.plus( v1.timesScalar( 1 ) );
 
     const v2 = Vector2.createPolar( 1, lightAngle + Math.PI );
-    const intersections2 = sensorShape.intersection( new Ray2( center, v2 ) );
+    const intersections2 = probeShape.intersection( new Ray2( center, v2 ) );
 
     // take last intersection or zero point, see https://github.com/phetsims/scenery-phet/issues/294
     const lastIntersection2 = intersections2[ intersections2.length - 1 ];
@@ -135,7 +136,8 @@ class ProbeNode extends Node {
     this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
     this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
 
-    const outerShapePath = new Path( sensorShape, {
+    // The main path of the probe
+    const mainPath = new Path( probeShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
         .addColorStop( 0.0, this.brighter2 ) // highlight
         .addColorStop( 1.0, this.darker2 ), // shadow
@@ -150,13 +152,14 @@ class ProbeNode extends Node {
       lineWidth: 2
     } );
 
-    // the front flat "surface" of the sensor, makes it look 3d by putting a shiny glare on the top edge
-    const innerPath = new Path( sensorShape, {
+    // The front flat "surface" of the probe, makes it look 3d by giving the probe a beveled appearance and putting
+    // a shiny glare on the top edge.
+    const frontPath = new Path( probeShape, {
       fill: options.color,
 
       // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
       scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
-      centerX: outerShapePath.centerX,
+      centerX: mainPath.centerX,
       stroke: new DerivedProperty( [ this.brighter3 ], function( color ) {
         return color.withAlpha( 0.5 );
       } ),
@@ -169,8 +172,8 @@ class ProbeNode extends Node {
       children.push( options.sensorTypeFunction( radius ) );
     }
     children.push(
-      outerShapePath,
-      innerPath
+      mainPath,
+      frontPath
       //new Circle( 3, { center: gradientSource, fill: 'blue' } ),
       //new Circle( 3, { center: gradientDestination, fill: 'red' } )
     );
@@ -179,7 +182,7 @@ class ProbeNode extends Node {
     options.children = children.concat( options.children || [] );
 
     // Allow the client to override mouse and touch area, but fall back to the outline
-    const outline = createSensorShape().close();
+    const outline = createOuterProbeShape().close();
     options.mouseArea = options.mouseArea || outline;
     options.touchArea = options.touchArea || outline;
 
@@ -206,7 +209,7 @@ class ProbeNode extends Node {
 }
 
 /**
- * Creates a value for options.sensorTypeFunction. Shows a shiny reflective interior in the central circle.
+ * Creates a value for options.sensorTypeFunction. Shows a shiny reflective interior in the sensor area.
  * @param {Object} [options]
  * @returns {function(radius: number): Node}
  * @public
@@ -231,7 +234,7 @@ function glass( options ) {
 }
 
 /**
- * Creates a value for options.sensorTypeFunction. Shows a crosshairs in the central circle.
+ * Creates a value for options.sensorTypeFunction. Shows a crosshairs in the sensor area.
  * @param {Object} [options]
  * @returns {function(radius: number): Node}
  * @public
