@@ -99,7 +99,7 @@ class ProbeNode extends Node {
         .quadraticCurveTo( handleWidth / 2, radius, +handleWidth / 2, radius + neckCornerRadius )
         .arc( handleWidth / 2 - cornerRadius, handleBottom - cornerRadius, cornerRadius, 0, Math.PI / 2, false )
 
-        .lineTo( 0, handleBottom );
+        .close();
     }
 
     // Start with the outer Shape of the probe, and cut out the sensor area.
@@ -182,7 +182,7 @@ class ProbeNode extends Node {
     options.children = children.concat( options.children || [] );
 
     // Allow the client to override mouse and touch area, but fall back to the outline
-    const outline = createOuterProbeShape().close();
+    const outline = createOuterProbeShape();
     options.mouseArea = options.mouseArea || outline;
     options.touchArea = options.touchArea || outline;
 
