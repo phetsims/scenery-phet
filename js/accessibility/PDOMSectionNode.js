@@ -1,10 +1,10 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
 /**
- * A container type for accessible content. The container is a Node (Scenery display object),
- * so its children will be other Nodes that may or may not have accessible content. The accessible content is a
- * 'section' element under the an 'H2' label.  Children are contained under a 'div' element, and labels will come
- * before the accessible content of the children.
+ * A container type for content in the PDOM for screen reader accessibility. The container is a Node
+ * (Scenery display object), so its children will be other Nodes that may or may not have accessible content.
+ * The accessible content is a 'section' element under the an 'H2' label.  Children are contained under a 'div'
+ * element, and labels will come before the accessible content of the children.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -13,7 +13,7 @@ import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class AccessibleSectionNode extends Node {
+class PDOMSectionNode extends Node {
 
   /**
    * @param {string} label
@@ -34,5 +34,5 @@ class AccessibleSectionNode extends Node {
   }
 }
 
-sceneryPhet.register( 'AccessibleSectionNode', AccessibleSectionNode );
-export default AccessibleSectionNode;
+sceneryPhet.register( 'PDOMSectionNode', PDOMSectionNode );
+export default PDOMSectionNode;

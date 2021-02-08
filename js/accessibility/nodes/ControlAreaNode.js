@@ -12,9 +12,9 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
-import AccessibleSectionNode from '../AccessibleSectionNode.js';
+import PDOMSectionNode from '../PDOMSectionNode.js';
 
-class ControlAreaNode extends AccessibleSectionNode {
+class ControlAreaNode extends PDOMSectionNode {
 
   /**
    * @param {Object} [options]
