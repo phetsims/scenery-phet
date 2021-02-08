@@ -174,8 +174,6 @@ class ProbeNode extends Node {
     children.push(
       mainPath,
       frontPath
-      //new Circle( 3, { center: gradientSource, fill: 'blue' } ),
-      //new Circle( 3, { center: gradientDestination, fill: 'red' } )
     );
 
     // Allow the client to add child nodes
