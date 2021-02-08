@@ -54,17 +54,9 @@ class SelfVoicingWrapperNode extends Node {
       const wrapperRectangle = new Rectangle( {} );
       this.addChild( wrapperRectangle );
       node.boundsProperty.link( bounds => {
-
-        // don't use the bounds param, it's value is not correct because
-        // of https://github.com/phetsims/axon/issues/309
-        wrapperRectangle.setRectBounds( node.bounds );
+        wrapperRectangle.setRectBounds( bounds );
       } );
       this.addInputListener( listener );
-
-      // whenever the Node changes visibility, we need to update visibility of
-      // this node - how to determine if Node is visible in display and link to that?
-
-
     }
     else {
       this.addChild( options.customNode );
