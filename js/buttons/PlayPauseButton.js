@@ -83,12 +83,12 @@ class PlayPauseButton extends BooleanRoundToggleButton {
       globalKeyboardListener = event => {
 
         // only enabled if the sim supports interactive descriptions
-        if ( phet.joist.sim.supportsInteractiveDescriptions ) {
+        if ( phet.joist.sim.supportsInteractiveDescription ) {
           if ( this.buttonModel.enabledProperty.get() ) {
-            if ( event.keyCode === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
+            if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
 
               // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-              if ( this.accessibleDisplayed ) {
+              if ( this.pdomDisplayed ) {
                 isPlayingProperty.set( !isPlayingProperty.get() );
 
                 const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
