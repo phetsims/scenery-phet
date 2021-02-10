@@ -44,8 +44,12 @@ class PlayPauseButton extends BooleanRoundToggleButton {
 
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
-      valueOnSoundPlayer: playSoundPlayer
+      valueOnSoundPlayer: playSoundPlayer,
 
+      // pdom
+      // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
+      // of where focus is in the document
+      includeGlobalHotKey: true
     }, options );
 
     assert && assert( options.scaleFactorWhenPaused > 0, 'button scale factor must be greater than 0' );
@@ -74,25 +78,28 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     this.isPlayingProperty = isPlayingProperty;
 
     // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
-    const globalKeyboardListener = event => {
+    let globalKeyboardListener;
+    if ( options.includeGlobalHotKey ) {
+      globalKeyboardListener = event => {
 
-      // only enabled if the sim supports interactive description
-      if ( phet.joist.sim.supportsInteractiveDescription ) {
-        if ( this.buttonModel.enabledProperty.get() ) {
-          if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
+        // only enabled if the sim supports interactive descriptions
+        if ( phet.joist.sim.supportsInteractiveDescriptions ) {
+          if ( this.buttonModel.enabledProperty.get() ) {
+            if ( event.keyCode === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
 
-            // only allow hotkey if this Node is pdomDisplayed, so it cannot be used if removed from PDOM
-            if ( this.pdomDisplayed ) {
-              isPlayingProperty.set( !isPlayingProperty.get() );
+              // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
+              if ( this.accessibleDisplayed ) {
+                isPlayingProperty.set( !isPlayingProperty.get() );
 
-              const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
-              if ( soundPlayer ) { soundPlayer.play(); }
+                const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+                if ( soundPlayer ) { soundPlayer.play(); }
+              }
             }
           }
         }
-      }
-    };
-    globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+      };
+      globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+    }
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
@@ -111,7 +118,9 @@ class PlayPauseButton extends BooleanRoundToggleButton {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
-      globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
+      if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
+        globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
+      }
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
