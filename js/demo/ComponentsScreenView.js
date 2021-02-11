@@ -152,8 +152,6 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'TimeControlNode', createNode: demoTimeControlNode },
       { label: 'WireNode', createNode: demoWireNode }
     ], merge( {
-      comboBoxItemFont: new PhetFont( 12 ),
-      comboBoxItemYMargin: 3,
       selectedDemoLabel: sceneryPhetQueryParameters.component,
       tandem: Tandem.REQUIRED
     }, options ) );

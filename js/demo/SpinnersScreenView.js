@@ -46,8 +46,6 @@ class SpinnersScreenView extends DemosScreenView {
       { label: 'NumberPicker', createNode: demoNumberPicker },
       { label: 'UpDownSpinner', createNode: demoUpDownSpinner }
     ], merge( {
-      comboBoxItemFont: new PhetFont( 12 ),
-      comboBoxItemYMargin: 3,
       selectedDemoLabel: sceneryPhetQueryParameters.component,
       tandem: Tandem.REQUIRED
     }, options ) );
