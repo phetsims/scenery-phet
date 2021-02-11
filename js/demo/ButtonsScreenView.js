@@ -191,7 +191,7 @@ class ButtonsScreenView extends ScreenView {
     const zoomLevelProperty = new NumberProperty( 0, {
       range: new Range( 0, 5 )
     } );
-    zoomLevelProperty.link( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
+    zoomLevelProperty.lazyLink( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
 
     // Spacing shared by ZoomButtonGroups
     // Change this value to see how pointer areas are adjusted to prevent overlap.
