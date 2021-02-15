@@ -1483,7 +1483,7 @@ function demoTimeControlNode( layoutBounds ) {
     playPauseStepButtonOptions: {
       includeStepBackwardButton: true,
       playPauseButtonOptions: {
-        scaleFactorWhenPaused: 1.3
+        scaleFactorWhenNotPlaying: 1.3
       }
     }
   } );

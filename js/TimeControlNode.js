@@ -339,7 +339,7 @@ class PlayPauseStepButtons extends HBox {
       spacing: options.playPauseStepXSpacing,
       children: buttons,
 
-      // don't change layout if playPauseButton resizes with scaleFactorWhenPaused
+      // don't change layout if playPauseButton resizes with scaleFactorWhenNotPlaying
       resize: false,
 
       // PDOM

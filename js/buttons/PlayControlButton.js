@@ -40,7 +40,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
       // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
       // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
       // the sim.
-      scaleFactorWhenPaused: 1,
+      scaleFactorWhenNotPlaying: 1,
 
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
@@ -52,7 +52,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
       includeGlobalHotKey: false
     }, options );
 
-    assert && assert( options.scaleFactorWhenPaused > 0, 'button scale factor must be greater than 0' );
+    assert && assert( options.scaleFactorWhenNotPlaying > 0, 'button scale factor must be greater than 0' );
 
     // play and pause icons are sized relative to the radius
     const playHeight = options.radius;
@@ -76,8 +76,8 @@ class PlayControlButton extends BooleanRoundToggleButton {
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
-      const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenPaused;
-      this.scale( isPlaying ? runningScale : options.scaleFactorWhenPaused );
+      const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenNotPlaying;
+      this.scale( isPlaying ? runningScale : options.scaleFactorWhenNotPlaying );
     };
     isPlayingProperty.link( isPlayingListener );
 
