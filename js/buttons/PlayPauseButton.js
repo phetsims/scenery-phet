@@ -10,11 +10,7 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Path from '../../../scenery/js/nodes/Path.js';
-import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
-import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
@@ -39,13 +35,7 @@ class PlayPauseButton extends PlayControlButton {
       // the sim.
       scaleFactorWhenPaused: 1,
 
-      // sound generation
-      valueOffSoundPlayer: pauseSoundPlayer,
-      valueOnSoundPlayer: playSoundPlayer,
-
-      // pdom
-      // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
-      // of where focus is in the document
+      // ny default the PlayPauseButton adds a global key command that will toggle the isPlayingProperty
       includeGlobalHotKey: true
     }, options );
 
@@ -57,30 +47,6 @@ class PlayPauseButton extends PlayControlButton {
     const pausePath = new Path( new PauseIconShape( pauseWidth, pauseHeight ), { fill: 'black' } );
 
     super( isPlayingProperty, pausePath, options );
-
-    // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
-    let globalKeyboardListener;
-    if ( options.includeGlobalHotKey ) {
-      globalKeyboardListener = event => {
-
-        // only enabled if the sim supports interactive descriptions
-        if ( phet.joist.sim.supportsInteractiveDescription ) {
-          if ( this.buttonModel.enabledProperty.get() ) {
-            if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
-
-              // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-              if ( this.pdomDisplayed ) {
-                isPlayingProperty.set( !isPlayingProperty.get() );
-
-                const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
-                if ( soundPlayer ) { soundPlayer.play(); }
-              }
-            }
-          }
-        }
-      };
-      globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
-    }
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
@@ -98,9 +64,6 @@ class PlayPauseButton extends PlayControlButton {
     this.disposePlayPauseButton = () => {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
-      }
-      if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
-        globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
       }
     };
 
