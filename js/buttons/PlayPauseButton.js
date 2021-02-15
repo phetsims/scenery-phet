@@ -30,8 +30,11 @@ class PlayPauseButton extends PlayControlButton {
       // {number}
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
 
-      // ny default the PlayPauseButton adds a global key command that will toggle the isPlayingProperty
-      includeGlobalHotKey: true
+      // by default the PlayPauseButton adds a global key command that will toggle the isPlayingProperty
+      includeGlobalHotKey: true,
+
+      // pdom - label for the button when the "pause" icon is displayed
+      endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.pause
     }, options );
 
     // icon sized relative to the radius
@@ -40,14 +43,6 @@ class PlayPauseButton extends PlayControlButton {
     const pausePath = new Path( new PauseIconShape( pauseWidth, pauseHeight ), { fill: 'black' } );
 
     super( isPlayingProperty, pausePath, options );
-
-    const isPlayingListener = ( isPlaying, oldValue ) => {
-
-      // PDOM - accessible name for the button
-      this.innerContent = isPlaying ? sceneryPhetStrings.a11y.playPauseButton.pause
-                                    : sceneryPhetStrings.a11y.playPauseButton.play;
-    };
-    isPlayingProperty.link( isPlayingListener );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayPauseButton', this );

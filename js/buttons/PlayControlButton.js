@@ -18,6 +18,7 @@ import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPla
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
 class PlayControlButton extends BooleanRoundToggleButton {
 
@@ -49,7 +50,13 @@ class PlayControlButton extends BooleanRoundToggleButton {
       // pdom
       // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
       // of where focus is in the document
-      includeGlobalHotKey: false
+      includeGlobalHotKey: false,
+
+      // {string|null} - Label for the button in the PDOM when the button will set isPlayingProperty to true
+      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.play,
+
+      // {string|null} - Label for the button in the PDOM when the button will set isPlayingProperty to false
+      endPlayingLabel: null
     }, options );
 
     assert && assert( options.scaleFactorWhenNotPlaying > 0, 'button scale factor must be greater than 0' );
@@ -74,6 +81,10 @@ class PlayControlButton extends BooleanRoundToggleButton {
     super( stopCircle, playCircle, isPlayingProperty, options );
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
+
+      // PDOM - accessible name for the button
+      this.innerContent = isPlaying ? options.endPlayingLabel
+                                    : options.startPlayingLabel;
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
       const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenNotPlaying;

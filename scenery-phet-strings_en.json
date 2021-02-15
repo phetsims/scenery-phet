@@ -375,12 +375,17 @@
         }
       }
     },
-    "playPauseButton": {
+    "playControlButton": {
       "play": {
         "value": "Play"
       },
       "pause": {
         "value": "Pause"
+      },
+      "stop": {
+        "stop": {
+          "value": "Stop"
+        }
       }
     },
     "stepButton": {
