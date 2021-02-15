@@ -8,9 +8,13 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
+import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
+import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
+import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
@@ -31,7 +35,16 @@ class PlayControlButton extends BooleanRoundToggleButton {
       // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
       // in sync.
       xMargin: 0,
-      yMargin: 0
+      yMargin: 0,
+
+      // sound generation
+      valueOffSoundPlayer: pauseSoundPlayer,
+      valueOnSoundPlayer: playSoundPlayer,
+
+      // pdom
+      // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
+      // of where focus is in the document
+      includeGlobalHotKey: false
     }, options );
 
     // play and pause icons are sized relative to the radius
@@ -52,6 +65,47 @@ class PlayControlButton extends BooleanRoundToggleButton {
     stopCircle.addChild( endPlayingIcon );
 
     super( stopCircle, playCircle, isPlayingProperty, options );
+
+    // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
+    let globalKeyboardListener;
+    if ( options.includeGlobalHotKey ) {
+      globalKeyboardListener = event => {
+
+        // only enabled if the sim supports interactive descriptions
+        if ( phet.joist.sim.supportsInteractiveDescription ) {
+          if ( this.buttonModel.enabledProperty.get() ) {
+            if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
+
+              // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
+              if ( this.pdomDisplayed ) {
+                isPlayingProperty.set( !isPlayingProperty.get() );
+
+                const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+                if ( soundPlayer ) { soundPlayer.play(); }
+              }
+            }
+          }
+        }
+      };
+      globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+    }
+
+
+    // @private
+    this.disposePlayStopButton = () => {
+      if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
+        globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
+      }
+    };
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposePlayStopButton();
+    super.dispose();
   }
 }
 
