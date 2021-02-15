@@ -19,10 +19,10 @@ class PlayControlButton extends BooleanRoundToggleButton {
 
   /**
    * @param {Property.<boolean>} isPlayingProperty
-   * @param {Node} stopIcon - icon for when isPlayingProperty value is true
+   * @param {Node} endPlayingIcon - icon for the button when pressing it will stop play
    * @param {Object} [options]
    */
-  constructor( isPlayingProperty, stopIcon, options ) {
+  constructor( isPlayingProperty, endPlayingIcon, options ) {
     options = merge( {
 
       // {number}
@@ -47,9 +47,9 @@ class PlayControlButton extends BooleanRoundToggleButton {
     playCircle.addChild( playPath );
 
     const stopCircle = new Circle( options.radius );
-    stopIcon.centerX = 0;
-    stopIcon.centerY = 0;
-    stopCircle.addChild( stopIcon );
+    endPlayingIcon.centerX = 0;
+    endPlayingIcon.centerY = 0;
+    stopCircle.addChild( endPlayingIcon );
 
     super( stopCircle, playCircle, isPlayingProperty, options );
   }
