@@ -21,7 +21,7 @@ import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
-class PlayPauseButton extends BooleanRoundToggleButton {
+class PlayControlButton extends BooleanRoundToggleButton {
 
   /**
    * @param {Property.<boolean>} isPlayingProperty
@@ -114,7 +114,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     isPlayingProperty.link( isPlayingListener );
 
     // @private
-    this.disposePlayPauseButton = () => {
+    this.disposePlayControlButton = () => {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
@@ -124,7 +124,7 @@ class PlayPauseButton extends BooleanRoundToggleButton {
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayPauseButton', this );
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayControlButton', this );
   }
 
   /**
@@ -132,10 +132,10 @@ class PlayPauseButton extends BooleanRoundToggleButton {
    * @override
    */
   dispose() {
-    this.disposePlayPauseButton();
+    this.disposePlayControlButton();
     super.dispose();
   }
 }
 
-sceneryPhet.register( 'PlayPauseButton', PlayPauseButton );
-export default PlayPauseButton;
+sceneryPhet.register( 'PlayControlButton', PlayControlButton );
+export default PlayControlButton;
