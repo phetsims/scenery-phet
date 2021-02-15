@@ -23,7 +23,6 @@ import EraserButton from '../buttons/EraserButton.js';
 import EyeToggleButton from '../buttons/EyeToggleButton.js';
 import InfoButton from '../buttons/InfoButton.js';
 import PlayPauseButton from '../buttons/PlayPauseButton.js';
-import PlayStopButton from '../buttons/PlayStopButton.js';
 import RecordStopButton from '../buttons/RecordStopButton.js';
 import RefreshButton from '../buttons/RefreshButton.js';
 import ResetAllButton from '../buttons/ResetAllButton.js';
@@ -133,7 +132,6 @@ class ButtonsScreenView extends ScreenView {
     const toggleButtonProperties = {
       eyeOpenProperty: new Property( true ),
       isPlayingProperty: new Property( true ),
-      stopButtonIsPlayingProperty: new Property( false ),
       recordingProperty: new Property( true ),
       soundEnabledProperty: new Property( true ),
       timerEnabledProperty: new Property( true )
@@ -150,12 +148,6 @@ class ButtonsScreenView extends ScreenView {
       playing => console.log( 'PlayPauseButton pressed, playing=' + playing )
     );
     toggleButtons.push( playPauseButton );
-
-    const playStopButton = new PlayStopButton( toggleButtonProperties.stopButtonIsPlayingProperty );
-    toggleButtonProperties.stopButtonIsPlayingProperty.lazyLink(
-      playing => console.log( 'PlayStopButton pressed, playing=' + playing )
-    );
-    toggleButtons.push( playStopButton );
 
     const recordStopButton = new RecordStopButton( toggleButtonProperties.recordingProperty );
     toggleButtonProperties.recordingProperty.lazyLink(

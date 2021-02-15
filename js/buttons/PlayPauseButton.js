@@ -11,15 +11,17 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import merge from '../../../phet-core/js/merge.js';
 import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
+import Circle from '../../../scenery/js/nodes/Circle.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
 import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PauseIconShape from '../PauseIconShape.js';
+import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
-import PlayControlButton from './PlayControlButton.js';
 
-class PlayPauseButton extends PlayControlButton {
+class PlayPauseButton extends BooleanRoundToggleButton {
 
   /**
    * @param {Property.<boolean>} isPlayingProperty
@@ -28,9 +30,12 @@ class PlayPauseButton extends PlayControlButton {
   constructor( isPlayingProperty, options ) {
 
     options = merge( {
-
-      // {number}
       radius: 28,
+
+      // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
+      // in sync.
+      xMargin: 0,
+      yMargin: 0,
 
       // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
       // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
@@ -49,12 +54,28 @@ class PlayPauseButton extends PlayControlButton {
 
     assert && assert( options.scaleFactorWhenPaused > 0, 'button scale factor must be greater than 0' );
 
-    // icon sized relative to the radius
-    const pauseHeight = options.radius;
-    const pauseWidth = options.radius * 0.6;
-    const pausePath = new Path( new PauseIconShape( pauseWidth, pauseHeight ), { fill: 'black' } );
+    // play and pause icons are sized relative to the radius
+    const playHeight = options.radius;
+    const playWidth = options.radius * 0.8;
+    const playPath = new Path( new PlayIconShape( playWidth, playHeight ), { fill: 'black' } );
+    const pausePath = new Path( new PauseIconShape( 0.75 * playWidth, playHeight ), { fill: 'black' } );
 
-    super( isPlayingProperty, pausePath, options );
+    // put the play and pause symbols inside circles so they have the same bounds,
+    // otherwise BooleanToggleNode will re-adjust their positions relative to each other
+    const playCircle = new Circle( options.radius );
+    playPath.centerX = options.radius * 0.05; // move to right slightly since we don't want it exactly centered
+    playPath.centerY = 0;
+    playCircle.addChild( playPath );
+
+    const pausedCircle = new Circle( options.radius );
+    pausePath.centerX = 0;
+    pausePath.centerY = 0;
+    pausedCircle.addChild( pausePath );
+
+    super( pausedCircle, playCircle, isPlayingProperty, options );
+
+    // @private
+    this.isPlayingProperty = isPlayingProperty;
 
     // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
     let globalKeyboardListener;
