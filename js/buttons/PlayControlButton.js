@@ -37,6 +37,11 @@ class PlayControlButton extends BooleanRoundToggleButton {
       xMargin: 0,
       yMargin: 0,
 
+      // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
+      // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
+      // the sim.
+      scaleFactorWhenPaused: 1,
+
       // sound generation
       valueOffSoundPlayer: pauseSoundPlayer,
       valueOnSoundPlayer: playSoundPlayer,
@@ -46,6 +51,8 @@ class PlayControlButton extends BooleanRoundToggleButton {
       // of where focus is in the document
       includeGlobalHotKey: false
     }, options );
+
+    assert && assert( options.scaleFactorWhenPaused > 0, 'button scale factor must be greater than 0' );
 
     // play and pause icons are sized relative to the radius
     const playHeight = options.radius;
@@ -65,6 +72,14 @@ class PlayControlButton extends BooleanRoundToggleButton {
     stopCircle.addChild( endPlayingIcon );
 
     super( stopCircle, playCircle, isPlayingProperty, options );
+
+    const isPlayingListener = ( isPlaying, oldValue ) => {
+
+      // so we don't scale down the button immediately if isPlayingProperty is initially false
+      const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenPaused;
+      this.scale( isPlaying ? runningScale : options.scaleFactorWhenPaused );
+    };
+    isPlayingProperty.link( isPlayingListener );
 
     // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
     let globalKeyboardListener;
@@ -93,6 +108,9 @@ class PlayControlButton extends BooleanRoundToggleButton {
 
     // @private
     this.disposePlayStopButton = () => {
+      if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
+        isPlayingProperty.unlink( isPlayingListener );
+      }
       if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
         globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
       }
