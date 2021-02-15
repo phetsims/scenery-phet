@@ -10,6 +10,7 @@
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import StopIconShape from '../StopIconShape.js';
 import PlayControlButton from './PlayControlButton.js';
 
@@ -23,7 +24,7 @@ class PlayStopButton extends PlayControlButton {
     options = merge( {
 
       // {number}
-      radius: 28
+      radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS
     }, options );
 
     // icon is sized relative to radius

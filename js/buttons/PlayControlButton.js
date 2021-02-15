@@ -13,6 +13,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetConstants from '../SceneryPhetConstants.js';
 
 class PlayControlButton extends BooleanRoundToggleButton {
 
@@ -25,7 +26,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
     options = merge( {
 
       // {number}
-      radius: 28,
+      radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
 
       // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
       // in sync.

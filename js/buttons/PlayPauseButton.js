@@ -16,6 +16,7 @@ import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundP
 import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import PlayControlButton from './PlayControlButton.js';
 
@@ -30,7 +31,7 @@ class PlayPauseButton extends PlayControlButton {
     options = merge( {
 
       // {number}
-      radius: 28,
+      radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
 
       // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
       // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
