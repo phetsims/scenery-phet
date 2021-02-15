@@ -7,6 +7,7 @@
  * @author Jesse Greenberg
  */
 
+import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -32,6 +33,9 @@ class PlayStopButton extends PlayControlButton {
     const stopPath = new Path( new StopIconShape( stopWidth ), { fill: 'black' } );
 
     super( isPlayingProperty, stopPath, options );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayStopButton', this );
   }
 }
 
