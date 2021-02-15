@@ -3,8 +3,8 @@
 /**
  * A round toggle button that displays some custom icon when playing and a triangular "Play" icon when not playing.
  *
- * @author Sam Reid
- * @author Jesse Greenberg
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import merge from '../../../phet-core/js/merge.js';

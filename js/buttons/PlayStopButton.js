@@ -4,7 +4,8 @@
  * Button for starting/stopping some behavior. Unlike the PlayPauseButton, this indicates that play will re-start
  * from the beginning after switch from play to stop.
  *
- * @author Jesse Greenberg
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';

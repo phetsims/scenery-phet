@@ -4,7 +4,8 @@
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
  * Generated programmatically using RoundPushButton (as opposed to using raster images).
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
