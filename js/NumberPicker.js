@@ -468,7 +468,10 @@ class NumberPicker extends Node {
 
       range: new Range( value - 1, value + 1 ),
       numberPickerOptions: {
-        pickable: false
+        pickable: false,
+
+        // phet-io
+        tandem: Tandem.OPT_OUT // by default, icons don't need instrumentation
       }
     }, options );
 
