@@ -18,10 +18,10 @@ import StringProperty from '../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Bounds3 from '../../../dot/js/Bounds3.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import dotRandom from '../../../dot/js/dotRandom.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
 import Shape from '../../../kite/js/Shape.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
@@ -38,29 +38,25 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
+import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import flameImage from '../../images/flame_png.js';
 import iceCubeStackImage from '../../images/ice-cube-stack_png.js';
 import measuringTapeImage from '../../images/measuringTape_png.js';
-import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
 import ArrowNode from '../ArrowNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
 import BracketNode from '../BracketNode.js';
-import ResetButton from '../buttons/ResetButton.js';
-import CapacitorConstants from '../capacitor/CapacitorConstants.js';
-import CapacitorNode from '../capacitor/CapacitorNode.js';
-import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
 import ComboBoxDisplay from '../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../ConductivityTesterNode.js';
 import Drawer from '../Drawer.js';
@@ -70,14 +66,6 @@ import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
-import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
-import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
-import LetterKeyNode from '../keyboard/LetterKeyNode.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
-import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
 import NumberControl from '../NumberControl.js';
@@ -87,8 +75,6 @@ import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
 import ProbeNode from '../ProbeNode.js';
 import RulerNode from '../RulerNode.js';
-import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 import ScientificNotationNode from '../ScientificNotationNode.js';
 import SpectrumNode from '../SpectrumNode.js';
 import StarNode from '../StarNode.js';
@@ -98,6 +84,21 @@ import ThermometerNode from '../ThermometerNode.js';
 import TimeControlNode from '../TimeControlNode.js';
 import TimeSpeed from '../TimeSpeed.js';
 import WireNode from '../WireNode.js';
+import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
+import ResetButton from '../buttons/ResetButton.js';
+import CapacitorConstants from '../capacitor/CapacitorConstants.js';
+import CapacitorNode from '../capacitor/CapacitorNode.js';
+import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
+import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
+import LetterKeyNode from '../keyboard/LetterKeyNode.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
+import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
+import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import Keypad from '../keypad/Keypad.js';
+import sceneryPhet from '../sceneryPhet.js';
+import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
 // constants
 
@@ -136,6 +137,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+      { label: 'Layout', createNode: demoLayout },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
@@ -788,6 +790,35 @@ function demoLaserPointerNode( layoutBounds ) {
   } );
 
   return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
+}
+
+function demoLayout( layoutBounds ) {
+  const base = new Node();
+
+  const transformedContainer = new Node( {
+    scale: 2,
+    x: 100,
+    y: -50
+  } );
+
+  const nodeA = new Text( 'A' );
+  const nodeB = new Text( 'B' );
+
+  base.addChild( nodeA );
+  base.addChild( transformedContainer );
+  transformedContainer.addChild( nodeB );
+
+  ManualConstraint.create( base, [ nodeA ], a => {
+    a.left = 200;
+    a.top = 200;
+  } );
+
+  ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
+    b.left = a.right + 10;
+    b.centerY = a.centerY;
+  } );
+
+  return base;
 }
 
 // Creates a demo for MeasuringTapeNode
