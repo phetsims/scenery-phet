@@ -383,9 +383,7 @@
         "value": "Pause"
       },
       "stop": {
-        "stop": {
-          "value": "Stop"
-        }
+        "value": "Stop"
       }
     },
     "stepButton": {
