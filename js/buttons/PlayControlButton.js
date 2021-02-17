@@ -8,8 +8,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
@@ -100,7 +100,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
         // only enabled if the sim supports interactive descriptions
         if ( phet.joist.sim.supportsInteractiveDescription ) {
           if ( this.buttonModel.enabledProperty.get() ) {
-            if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
+            if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K ) && globalKeyStateTracker.altKeyDown ) {
 
               // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
               if ( this.pdomDisplayed ) {
