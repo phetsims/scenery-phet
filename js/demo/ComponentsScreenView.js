@@ -899,8 +899,16 @@ function demoLayout( layoutBounds ) {
   function demoBox( box, title ) {
     preferredSizeProperty.link( width => { box.preferredWidth = width; } );
 
+    const backgroundRect = new Rectangle( {
+      fill: 'rgba(0,0,0,0.1)'
+    } );
+    box.localBoundsProperty.link( localBounds => {
+      backgroundRect.rectBounds = localBounds.copy();
+    } );
+
     return new Node( {
       children: [
+        backgroundRect,
         box,
         new Text( title, {
           fill: 'black',
