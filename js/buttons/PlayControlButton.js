@@ -62,21 +62,27 @@ class PlayControlButton extends BooleanRoundToggleButton {
     assert && assert( options.scaleFactorWhenNotPlaying > 0, 'button scale factor must be greater than 0' );
 
     // play and pause icons are sized relative to the radius
-    const playHeight = options.radius;
     const playWidth = options.radius * 0.8;
-    const playPath = new Path( new PlayIconShape( playWidth, playHeight ), { fill: 'black' } );
+    const playHeight = options.radius;
+
+    const playPath = new Path( new PlayIconShape( playWidth, playHeight ), {
+      fill: 'black',
+      centerX: options.radius * 0.05, // move to right slightly since we don't want it exactly centered
+      centerY: 0
+    } );
 
     // put the play and stop symbols inside circles so they have the same bounds,
     // otherwise BooleanToggleNode will re-adjust their positions relative to each other
-    const playCircle = new Circle( options.radius );
-    playPath.centerX = options.radius * 0.05; // move to right slightly since we don't want it exactly centered
-    playPath.centerY = 0;
-    playCircle.addChild( playPath );
+    const playCircle = new Circle( options.radius, {
+      children: [ playPath ]
+    } );
 
-    const stopCircle = new Circle( options.radius );
     endPlayingIcon.centerX = 0;
     endPlayingIcon.centerY = 0;
-    stopCircle.addChild( endPlayingIcon );
+
+    const stopCircle = new Circle( options.radius, {
+      children: [ endPlayingIcon ]
+    } );
 
     super( stopCircle, playCircle, isPlayingProperty, options );
 
@@ -98,19 +104,18 @@ class PlayControlButton extends BooleanRoundToggleButton {
       globalKeyboardListener = event => {
 
         // only enabled if the sim supports interactive descriptions
-        if ( phet.joist.sim.supportsInteractiveDescription ) {
-          if ( this.buttonModel.enabledProperty.get() ) {
-            if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K ) && globalKeyStateTracker.altKeyDown ) {
+        if ( phet.joist.sim.supportsInteractiveDescription &&
+             this.buttonModel.enabledProperty.get() &&
+             KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K ) &&
+             globalKeyStateTracker.altKeyDown &&
 
-              // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-              if ( this.pdomDisplayed ) {
-                isPlayingProperty.set( !isPlayingProperty.get() );
+             // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
+             this.pdomDisplayed
+        ) {
+          isPlayingProperty.set( !isPlayingProperty.get() );
 
-                const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
-                if ( soundPlayer ) { soundPlayer.play(); }
-              }
-            }
-          }
+          const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+          if ( soundPlayer ) { soundPlayer.play(); }
         }
       };
       globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
