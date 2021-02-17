@@ -41,6 +41,7 @@ import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
+import Sizable from '../../../scenery/js/util/Sizable.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
@@ -875,6 +876,21 @@ function demoLayout( layoutBounds ) {
     rectD.rectWidth = width * 0.5;
   } );
 
+  function demoBox( box, title ) {
+    preferredWidthProperty.link( width => { box.preferredWidth = width; } );
+
+    return new Node( {
+      children: [
+        box,
+        new Text( title, {
+          fill: 'black',
+          centerY: 15 / 2,
+          left: 5
+        } )
+      ]
+    } );
+  }
+
   const justifyBox = new VBox( { spacing: 1, align: 'left' } );
   leftBox.addChild( justifyBox );
 
@@ -895,18 +911,8 @@ function demoLayout( layoutBounds ) {
       ],
       justify: justify
     } );
-    preferredWidthProperty.link( width => { flowBox.preferredWidth = width; } );
 
-    justifyBox.addChild( new Node( {
-      children: [
-        flowBox,
-        new Text( justify, {
-          fill: 'black',
-          centerY: 15 / 2,
-          left: 5
-        } )
-      ]
-    } ) );
+    justifyBox.addChild( demoBox( flowBox, justify ) );
   } );
 
   [
@@ -927,19 +933,90 @@ function demoLayout( layoutBounds ) {
       justify: justify,
       wrap: true
     } );
-    preferredWidthProperty.link( width => { wrapBox.preferredWidth = width; } );
 
-    justifyBox.addChild( new Node( {
-      children: [
-        wrapBox,
-        new Text( `wrap+${justify}`, {
-          fill: 'black',
-          centerY: 15 / 2,
-          left: 5
-        } )
-      ]
-    } ) );
+    justifyBox.addChild( demoBox( wrapBox, `wrap+${justify}` ) );
   } );
+
+  const alignBox = new VBox( { spacing: 1, align: 'left' } );
+  leftBox.addChild( alignBox );
+
+  [
+    'top',
+    'bottom',
+    'center'
+    // 'origin'
+  ].forEach( align => {
+    const flowBox = new FlowBox( {
+      children: [
+        new Rectangle( 0, 0, 50, 15, {
+          fill: niceColors[ 9 ]
+        } ),
+        new Rectangle( 0, 0, 50, 25, {
+          fill: niceColors[ 6 ]
+        } ),
+        new Rectangle( 0, 0, 50, 10, {
+          fill: niceColors[ 3 ]
+        } ),
+        new Rectangle( 0, 0, 50, 20, {
+          fill: niceColors[ 0 ]
+        } ),
+        new Text( 'Some text' )
+      ],
+      justify: 'left',
+      align: align
+    } );
+
+    justifyBox.addChild( demoBox( flowBox, align ) );
+  } );
+
+  class ExampleExpandingRectangle extends Sizable( Rectangle ) {
+    constructor( ...args ) {
+      super( ...args );
+
+      this.minimumWidth = 50;
+      this.minimumHeight = 15;
+
+      this.preferredWidthProperty.lazyLink( width => {
+        if ( width ) {
+          this.rectWidth = Math.max( this.minimumWidth, width );
+        }
+      } );
+      this.preferredHeightProperty.lazyLink( height => {
+        if ( height ) {
+          this.rectHeight = Math.max( this.minimumHeight, height );
+        }
+      } );
+    }
+  }
+
+  const singleExpander = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
+  const singleGrowBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      singleExpander,
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  singleGrowBox.getCell( singleExpander ).grow = 1;
+  leftBox.addChild( demoBox( singleGrowBox, 'Single Grow' ) );
+
+  const doubleExpander1 = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
+  const doubleExpander2 = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
+  const doubleGrowBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      doubleExpander1,
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      doubleExpander2,
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  doubleGrowBox.getCell( doubleExpander1 ).grow = 1;
+  doubleGrowBox.getCell( doubleExpander2 ).grow = 4;
+  leftBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
 
   return scene;
 }
