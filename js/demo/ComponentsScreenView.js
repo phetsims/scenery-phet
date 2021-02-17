@@ -798,10 +798,10 @@ function demoLayout( layoutBounds ) {
 
   const scene = new Node( { y: 50 } );
 
-  const blockWidthProperty = new NumberProperty( 50, {
+  const blockSizeProperty = new NumberProperty( 50, {
     range: new Range( 50, 200 )
   } );
-  const preferredWidthProperty = new NumberProperty( 500, {
+  const preferredSizeProperty = new NumberProperty( 500, {
     range: new Range( 200, 800 )
   } );
 
@@ -837,10 +837,10 @@ function demoLayout( layoutBounds ) {
   leftBox.addChild( new HBox( {
     spacing: 5,
     children: [
-      new Text( 'Block Width' ),
-      new HSlider( blockWidthProperty, blockWidthProperty.range ),
-      new Text( 'Preferred Width' ),
-      new HSlider( preferredWidthProperty, preferredWidthProperty.range )
+      new Text( 'Block Size' ),
+      new HSlider( blockSizeProperty, blockSizeProperty.range ),
+      new Text( 'Preferred Size' ),
+      new HSlider( preferredSizeProperty, preferredSizeProperty.range )
     ]
   } ) );
 
@@ -889,15 +889,15 @@ function demoLayout( layoutBounds ) {
   const rectD = new Rectangle( 0, 0, 50, 15, {
     fill: niceColors[ 0 ]
   } );
-  blockWidthProperty.link( width => {
-    rectA.rectWidth = width;
-    rectB.rectWidth = width * 0.5;
-    rectC.rectWidth = width * 2;
-    rectD.rectWidth = width * 0.5;
+  blockSizeProperty.link( size => {
+    rectA.rectWidth = size;
+    rectB.rectWidth = size * 0.5;
+    rectC.rectWidth = size * 2;
+    rectD.rectWidth = size * 0.5;
   } );
 
   function demoBox( box, title ) {
-    preferredWidthProperty.link( width => { box.preferredWidth = width; } );
+    preferredSizeProperty.link( width => { box.preferredWidth = width; } );
 
     return new Node( {
       children: [
@@ -1038,6 +1038,32 @@ function demoLayout( layoutBounds ) {
     ]
   } );
   leftBox.addChild( demoBox( maxWidthBox, 'maxCellWidth' ) );
+
+  const spacingBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ],
+    spacing: 10,
+    lineSpacing: 10,
+    wrap: true,
+    justify: 'left'
+  } );
+  leftBox.addChild( demoBox( spacingBox, 'spacing+lineSpacing+wrap+left' ) );
+
+  const marginBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ], layoutOptions: { xMargin: 10 } } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ], layoutOptions: { topMargin: 10 } } )
+    ],
+    justify: 'left',
+    align: 'top'
+  } );
+  leftBox.addChild( demoBox( marginBox, 'margins+justify:left+align:top' ) );
 
   return scene;
 }
