@@ -10,6 +10,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -122,7 +123,7 @@ class BorderAlertsDescriber {
   endDrag( position, domEvent ) {
     let key;
     if ( domEvent ) {
-      key = domEvent.key.toLowerCase();
+      key = KeyboardUtils.getKeyDef( domEvent );
     }
     this.alertAtBorder( position, key );
   }

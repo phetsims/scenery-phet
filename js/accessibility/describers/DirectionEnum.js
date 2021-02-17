@@ -78,7 +78,7 @@ const DirectionEnum = Enumeration.byKeys( [
      */
     DirectionEnum.keyToDirection = function( key ) {
       assert && assert( typeof key === 'string' );
-      assert && assert( key === key.toLowerCase(), 'KeyDef should be lowercase' );
+      assert && assert( KeyboardUtils.isKeyDef( key ), 'should be a KeyDef' );
 
       if ( key === KeyboardUtils.KEY_UP_ARROW || key === KeyboardUtils.KEY_W ) {
         return DirectionEnum.UP;
