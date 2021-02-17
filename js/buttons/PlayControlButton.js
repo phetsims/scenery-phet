@@ -98,19 +98,17 @@ class PlayControlButton extends BooleanRoundToggleButton {
       globalKeyboardListener = event => {
 
         // only enabled if the sim supports interactive descriptions
-        if ( phet.joist.sim.supportsInteractiveDescription ) {
-          if ( this.buttonModel.enabledProperty.get() ) {
-            if ( event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown ) {
+        if ( phet.joist.sim.supportsInteractiveDescription &&
+             this.buttonModel.enabledProperty.get() &&
+             event.key.toLowerCase() === KeyboardUtils.KEY_K && globalKeyStateTracker.altKeyDown &&
 
-              // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-              if ( this.pdomDisplayed ) {
-                isPlayingProperty.set( !isPlayingProperty.get() );
+             // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
+             this.pdomDisplayed
+        ) {
+          isPlayingProperty.set( !isPlayingProperty.get() );
 
-                const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
-                if ( soundPlayer ) { soundPlayer.play(); }
-              }
-            }
-          }
+          const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
+          if ( soundPlayer ) { soundPlayer.play(); }
         }
       };
       globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
