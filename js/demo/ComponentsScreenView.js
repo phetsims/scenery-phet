@@ -875,7 +875,7 @@ function demoLayout( layoutBounds ) {
     rectD.rectWidth = width * 0.5;
   } );
 
-  const justifyBox = new VBox( { spacing: 1 } );
+  const justifyBox = new VBox( { spacing: 1, align: 'left' } );
   leftBox.addChild( justifyBox );
 
   [
@@ -901,6 +901,38 @@ function demoLayout( layoutBounds ) {
       children: [
         flowBox,
         new Text( justify, {
+          fill: 'black',
+          centerY: 15 / 2,
+          left: 5
+        } )
+      ]
+    } ) );
+  } );
+
+  [
+    'left',
+    'right',
+    'center',
+    'spaceBetween',
+    'spaceAround',
+    'spaceEvenly'
+  ].forEach( justify => {
+    const wrapBox = new FlowBox( {
+      children: [
+        new Node( { children: [ rectA ] } ),
+        new Node( { children: [ rectB ] } ),
+        new Node( { children: [ rectC ] } ),
+        new Node( { children: [ rectD ] } )
+      ],
+      justify: justify,
+      wrap: true
+    } );
+    preferredWidthProperty.link( width => { wrapBox.preferredWidth = width; } );
+
+    justifyBox.addChild( new Node( {
+      children: [
+        wrapBox,
+        new Text( `wrap+${justify}`, {
           fill: 'black',
           centerY: 15 / 2,
           left: 5
