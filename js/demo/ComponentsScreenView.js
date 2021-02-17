@@ -857,6 +857,26 @@ function demoLayout( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
+  class ExampleExpandingRectangle extends Sizable( Rectangle ) {
+    constructor( ...args ) {
+      super( ...args );
+
+      this.minimumWidth = 50;
+      this.minimumHeight = 15;
+
+      this.preferredWidthProperty.lazyLink( width => {
+        if ( width ) {
+          this.rectWidth = Math.max( this.minimumWidth, width );
+        }
+      } );
+      this.preferredHeightProperty.lazyLink( height => {
+        if ( height ) {
+          this.rectHeight = Math.max( this.minimumHeight, height );
+        }
+      } );
+    }
+  }
+
   const rectA = new Rectangle( 0, 0, 50, 15, {
     fill: niceColors[ 9 ]
   } );
@@ -943,7 +963,8 @@ function demoLayout( layoutBounds ) {
   [
     'top',
     'bottom',
-    'center'
+    'center',
+    'stretch'
     // 'origin'
   ].forEach( align => {
     const flowBox = new FlowBox( {
@@ -953,6 +974,9 @@ function demoLayout( layoutBounds ) {
         } ),
         new Rectangle( 0, 0, 50, 25, {
           fill: niceColors[ 6 ]
+        } ),
+        new ExampleExpandingRectangle( 0, 0, 50, 15, {
+          fill: 'gray'
         } ),
         new Rectangle( 0, 0, 50, 10, {
           fill: niceColors[ 3 ]
@@ -968,26 +992,6 @@ function demoLayout( layoutBounds ) {
 
     justifyBox.addChild( demoBox( flowBox, align ) );
   } );
-
-  class ExampleExpandingRectangle extends Sizable( Rectangle ) {
-    constructor( ...args ) {
-      super( ...args );
-
-      this.minimumWidth = 50;
-      this.minimumHeight = 15;
-
-      this.preferredWidthProperty.lazyLink( width => {
-        if ( width ) {
-          this.rectWidth = Math.max( this.minimumWidth, width );
-        }
-      } );
-      this.preferredHeightProperty.lazyLink( height => {
-        if ( height ) {
-          this.rectHeight = Math.max( this.minimumHeight, height );
-        }
-      } );
-    }
-  }
 
   const singleGrowBox = new FlowBox( {
     children: [
@@ -1020,6 +1024,20 @@ function demoLayout( layoutBounds ) {
     ]
   } );
   leftBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
+
+  const maxWidthBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1, maxCellWidth: 150 }
+      } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  leftBox.addChild( demoBox( maxWidthBox, 'maxCellWidth' ) );
 
   return scene;
 }
