@@ -999,9 +999,12 @@ function demoLayout( layoutBounds ) {
           fill: 'gray'
         } ),
         new Rectangle( 0, 0, 50, 10, {
-          fill: niceColors[ 3 ]
+          fill: niceColors[ 4 ]
         } ),
         new Rectangle( 0, 0, 50, 20, {
+          fill: niceColors[ 2 ]
+        } ),
+        new Circle( 7, {
           fill: niceColors[ 0 ]
         } ),
         new Text( 'Some text' )
