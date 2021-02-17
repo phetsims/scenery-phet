@@ -896,8 +896,10 @@ function demoLayout( layoutBounds ) {
     rectD.rectWidth = size * 0.5;
   } );
 
-  function demoBox( box, title ) {
-    preferredSizeProperty.link( width => { box.preferredWidth = width; } );
+  function demoBox( box, title, usePreferred = true ) {
+    if ( usePreferred ) {
+      preferredSizeProperty.link( width => { box.preferredWidth = width; } );
+    }
 
     const backgroundRect = new Rectangle( {
       fill: 'rgba(0,0,0,0.1)'
@@ -918,6 +920,16 @@ function demoLayout( layoutBounds ) {
       ]
     } );
   }
+
+  const noPreferredBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  leftBox.addChild( demoBox( noPreferredBox, 'no-preferred', false ) );
 
   const justifyBox = new VBox( { spacing: 1, align: 'left' } );
   leftBox.addChild( justifyBox );
@@ -940,7 +952,7 @@ function demoLayout( layoutBounds ) {
       justify: justify
     } );
 
-    justifyBox.addChild( demoBox( flowBox, justify ) );
+    justifyBox.addChild( demoBox( flowBox, `justify:${justify}` ) );
   } );
 
   [
@@ -962,7 +974,7 @@ function demoLayout( layoutBounds ) {
       wrap: true
     } );
 
-    justifyBox.addChild( demoBox( wrapBox, `wrap+${justify}` ) );
+    justifyBox.addChild( demoBox( wrapBox, `wrap+justify:${justify}` ) );
   } );
 
   const alignBox = new VBox( { spacing: 1, align: 'left' } );
@@ -972,8 +984,8 @@ function demoLayout( layoutBounds ) {
     'top',
     'bottom',
     'center',
-    'stretch'
-    // 'origin'
+    'stretch',
+    'origin'
   ].forEach( align => {
     const flowBox = new FlowBox( {
       children: [
@@ -998,7 +1010,7 @@ function demoLayout( layoutBounds ) {
       align: align
     } );
 
-    justifyBox.addChild( demoBox( flowBox, align ) );
+    justifyBox.addChild( demoBox( flowBox, `align:${align}` ) );
   } );
 
   const singleGrowBox = new FlowBox( {
