@@ -989,33 +989,36 @@ function demoLayout( layoutBounds ) {
     }
   }
 
-  const singleExpander = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
   const singleGrowBox = new FlowBox( {
     children: [
       new Node( { children: [ rectA ] } ),
       new Node( { children: [ rectB ] } ),
-      singleExpander,
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1 }
+      } ),
       new Node( { children: [ rectC ] } ),
       new Node( { children: [ rectD ] } )
     ]
   } );
-  singleGrowBox.getCell( singleExpander ).grow = 1;
   leftBox.addChild( demoBox( singleGrowBox, 'Single Grow' ) );
 
-  const doubleExpander1 = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
-  const doubleExpander2 = new ExampleExpandingRectangle( 0, 0, 50, 15, { fill: 'gray' } );
   const doubleGrowBox = new FlowBox( {
     children: [
       new Node( { children: [ rectA ] } ),
-      doubleExpander1,
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1 }
+      } ),
       new Node( { children: [ rectB ] } ),
       new Node( { children: [ rectC ] } ),
-      doubleExpander2,
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 4 }
+      } ),
       new Node( { children: [ rectD ] } )
     ]
   } );
-  doubleGrowBox.getCell( doubleExpander1 ).grow = 1;
-  doubleGrowBox.getCell( doubleExpander2 ).grow = 4;
   leftBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
 
   return scene;
