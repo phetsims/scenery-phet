@@ -38,6 +38,8 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
+import FlowCell from '../../../scenery/js/util/FlowCell.js';
+import FlowConstraint from '../../../scenery/js/util/FlowConstraint.js';
 import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
@@ -817,6 +819,39 @@ function demoLayout( layoutBounds ) {
     b.left = a.right + 10;
     b.centerY = a.centerY;
   } );
+
+  const rectA = new Rectangle( 0, 0, 50, 50, { fill: 'red' } );
+  const rectB = new Rectangle( 0, 0, 50, 50, { fill: 'green' } );
+  const rectC = new Rectangle( 0, 0, 50, 50, { fill: 'blue' } );
+  const rectD = new Rectangle( 0, 0, 50, 50, { fill: 'magenta' } );
+
+  base.addChild( rectA );
+  base.addChild( rectB );
+  base.addChild( rectC );
+  base.addChild( rectD );
+
+  const constraint = new FlowConstraint( base, {
+    justify: 'spaceBetween'
+  } );
+
+  constraint.insertCell( 0, new FlowCell( rectA, {
+
+  } ) );
+
+  constraint.insertCell( 1, new FlowCell( rectB, {
+
+  } ) );
+
+  constraint.insertCell( 2, new FlowCell( rectC, {
+
+  } ) );
+
+  constraint.insertCell( 3, new FlowCell( rectD, {
+
+  } ) );
+
+  constraint.preferredWidthProperty.value = 500;
+  constraint.updateLayout();
 
   return base;
 }
