@@ -29,6 +29,7 @@ import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
+import FlowBox from '../../../scenery/js/nodes/FlowBox.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
@@ -38,8 +39,6 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
-import FlowCell from '../../../scenery/js/util/FlowCell.js';
-import FlowConstraint from '../../../scenery/js/util/FlowConstraint.js';
 import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
@@ -795,8 +794,22 @@ function demoLaserPointerNode( layoutBounds ) {
 }
 
 function demoLayout( layoutBounds ) {
-  const base = new Node();
 
+  const scene = new Node( { y: 50 } );
+
+  const blockWidthProperty = new NumberProperty( 50, {
+    range: new Range( 50, 200 )
+  } );
+  const preferredWidthProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+
+  const leftBox = new VBox( { spacing: 10, align: 'left' } );
+  scene.addChild( leftBox );
+
+
+
+  const base = new Node();
   const transformedContainer = new Node( {
     scale: 2,
     x: 100,
@@ -814,46 +827,89 @@ function demoLayout( layoutBounds ) {
     a.left = 200;
     a.top = 200;
   } );
-
   ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
     b.left = a.right + 10;
     b.centerY = a.centerY;
   } );
+  leftBox.addChild( base );
 
-  const rectA = new Rectangle( 0, 0, 50, 50, { fill: 'red' } );
-  const rectB = new Rectangle( 0, 0, 50, 50, { fill: 'green' } );
-  const rectC = new Rectangle( 0, 0, 50, 50, { fill: 'blue' } );
-  const rectD = new Rectangle( 0, 0, 50, 50, { fill: 'magenta' } );
+  leftBox.addChild( new HBox( {
+    spacing: 5,
+    children: [
+      new Text( 'Block Width' ),
+      new HSlider( blockWidthProperty, blockWidthProperty.range ),
+      new Text( 'Preferred Width' ),
+      new HSlider( preferredWidthProperty, preferredWidthProperty.range )
+    ]
+  } ) );
 
-  base.addChild( rectA );
-  base.addChild( rectB );
-  base.addChild( rectC );
-  base.addChild( rectD );
+  const niceColors = [
+    new Color( 62, 171, 3 ),
+    new Color( 23, 180, 77 ),
+    new Color( 24, 183, 138 ),
+    new Color( 23, 178, 194 ),
+    new Color( 20, 163, 238 ),
+    new Color( 71, 136, 255 ),
+    new Color( 171, 101, 255 ),
+    new Color( 228, 72, 235 ),
+    new Color( 252, 66, 186 ),
+    new Color( 252, 82, 127 )
+  ];
 
-  const constraint = new FlowConstraint( base, {
-    justify: 'spaceBetween'
+  const rectA = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectB = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectC = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectD = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 0 ]
+  } );
+  blockWidthProperty.link( width => {
+    rectA.rectWidth = width;
+    rectB.rectWidth = width * 0.5;
+    rectC.rectWidth = width * 2;
+    rectD.rectWidth = width * 0.5;
   } );
 
-  constraint.insertCell( 0, new FlowCell( rectA, {
+  const justifyBox = new VBox( { spacing: 1 } );
+  leftBox.addChild( justifyBox );
 
-  } ) );
+  [
+    'left',
+    'right',
+    'center',
+    'spaceBetween',
+    'spaceAround',
+    'spaceEvenly'
+  ].forEach( justify => {
+    const flowBox = new FlowBox( {
+      children: [
+        new Node( { children: [ rectA ] } ),
+        new Node( { children: [ rectB ] } ),
+        new Node( { children: [ rectC ] } ),
+        new Node( { children: [ rectD ] } )
+      ],
+      justify: justify
+    } );
+    preferredWidthProperty.link( width => { flowBox.preferredWidth = width; } );
 
-  constraint.insertCell( 1, new FlowCell( rectB, {
+    justifyBox.addChild( new Node( {
+      children: [
+        flowBox,
+        new Text( justify, {
+          fill: 'black',
+          centerY: 15 / 2,
+          left: 5
+        } )
+      ]
+    } ) );
+  } );
 
-  } ) );
-
-  constraint.insertCell( 2, new FlowCell( rectC, {
-
-  } ) );
-
-  constraint.insertCell( 3, new FlowCell( rectD, {
-
-  } ) );
-
-  constraint.preferredWidthProperty.value = 500;
-  constraint.updateLayout();
-
-  return base;
+  return scene;
 }
 
 // Creates a demo for MeasuringTapeNode
