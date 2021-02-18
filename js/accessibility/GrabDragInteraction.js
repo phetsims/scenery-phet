@@ -38,6 +38,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
@@ -58,12 +59,6 @@ const gestureHelpTextPatternString = sceneryPhetStrings.a11y.grabDrag.gestureHel
 const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
-
-// wrap in a function because phet.joist.sim doesn't exist while modules are being loaded
-const supportsGestureDescription = () => {
-  assert && assert( phet.joist && phet.joist.sim && typeof phet.joist.sim.supportsGestureDescription === 'boolean', 'boolean expected' );
-  return phet.joist.sim.supportsGestureDescription;
-};
 
 class GrabDragInteraction {
 
@@ -119,11 +114,14 @@ class GrabDragInteraction {
       listenersForDragState: [],
       listenersForGrabState: [],
 
+      // {boolean} - if this instance will support specific gesture description behavior.
+      supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
+
       // {function(numberOfGrabs:number} - Add an aria-describedby link between the description
       // sibling and the primary sibling, only when grabbable. By default this should only be done when supporting
       // gesture interactive description before two success grabs. This function is called with one parameters: the number of
       // successful grabs that has occurred thus far.
-      addAriaDescribedbyPredicate: numberOfGrabs => supportsGestureDescription() && numberOfGrabs < 2,
+      addAriaDescribedbyPredicate: numberOfGrabs => options.supportsGestureDescription && numberOfGrabs < 2,
 
       // {string} - Help text is treated as the same for the grabbable and draggable items, but is different based on if the
       // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
@@ -155,6 +153,8 @@ class GrabDragInteraction {
         objectToGrab: options.objectToGrabString
       } )
     }, options );
+
+    assert && assert( typeof options.supportsGestureDescription === 'boolean', 'supportsGestureDescription must be provided' );
 
     if ( node.focusHighlightLayerable ) {
 
@@ -234,7 +234,7 @@ class GrabDragInteraction {
 
     // @private
     this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
-                                   ( supportsGestureDescription() ? options.objectToGrabString : // otherwise if supporting gesture
+                                   ( options.supportsGestureDescription ? options.objectToGrabString : // otherwise if supporting gesture
                                      StringUtils.fillIn( grabPatternString, { // default case
                                        objectToGrab: options.objectToGrabString
                                      } ) );
@@ -252,6 +252,7 @@ class GrabDragInteraction {
     this.onGrabbable = options.onGrabbable;
     this.onDraggable = options.onDraggable;
     this.addAriaDescribedbyPredicate = options.addAriaDescribedbyPredicate;
+    this.supportsGestureDescription = options.supportsGestureDescription;
 
     // @private {number} - the number of times the component has been picked up for dragging, regardless
     // of pickup method for things like determining content for "hints" describing the interaction
@@ -264,7 +265,7 @@ class GrabDragInteraction {
 
     // @private {string|null}
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
-    this.node.descriptionContent = supportsGestureDescription() ? options.gestureHelpText : options.keyboardHelpText;
+    this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.keyboardHelpText;
 
     // @private {Object} - The aria-describedby association object that will associate "grabbable" with its
     // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -321,7 +322,7 @@ class GrabDragInteraction {
 
         // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
-        if ( supportsGestureDescription() ) {
+        if ( this.supportsGestureDescription ) {
           return;
         }
 
@@ -483,7 +484,7 @@ class GrabDragInteraction {
     this.grabbable = true;
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-    if ( supportsGestureDescription() ) {
+    if ( this.supportsGestureDescription ) {
       this.node.setPDOMAttribute( 'aria-roledescription', movableString );
     }
     else if ( this.node.hasPDOMAttribute( 'aria-roledescription' ) ) {
