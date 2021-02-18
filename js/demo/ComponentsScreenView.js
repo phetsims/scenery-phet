@@ -47,6 +47,7 @@ import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -823,6 +824,45 @@ function demoFlowBox( layoutBounds ) {
       new HSlider( preferredSizeProperty, preferredSizeProperty.range )
     ]
   } ) );
+
+  class HackySizableHSlider extends Sizable( MutableOptionsNode ) {
+    constructor( property, options ) {
+      const trackSizeProperty = new Property( new Dimension2( 100, 5 ) );
+
+      super( HSlider, [ property, property.range ], {}, {
+        trackSize: trackSizeProperty
+      }, options );
+
+      this.minimumWidth = this.width;
+      this.minimumHeight = this.height;
+
+      this.preferredWidthProperty.lazyLink( preferredWidth => {
+        const delta = Math.max( preferredWidth, this.minimumWidth ) - this.width;
+
+        trackSizeProperty.value = new Dimension2( trackSizeProperty.value.width + delta, 5 );
+      } );
+    }
+  }
+
+  const hackyProperty = new NumberProperty( 0, {
+    range: new Range( 0, 100 )
+  } );
+  const hackyBox = new FlowBox( {
+    children: [
+      new Text( 'Example slider:', {
+        fontSize: 16,
+        layoutOptions: { rightMargin: 10 }
+      } ),
+      new HackySizableHSlider( hackyProperty, {
+        layoutOptions: { grow: 1 }
+      } ),
+      new NumberDisplay( hackyProperty, hackyProperty.range, {
+        layoutOptions: { leftMargin: 5 }
+      } )
+    ]
+  } );
+  rightBox.addChild( hackyBox );
+  preferredSizeProperty.link( size => { hackyBox.preferredWidth = size; } );
 
   const niceColors = [
     new Color( 62, 171, 3 ),
