@@ -39,12 +39,13 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
+import HSizable from '../../../scenery/js/util/HSizable.js';
 import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
-import Sizable from '../../../scenery/js/util/Sizable.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
+import VSizable from '../../../scenery/js/util/VSizable.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
@@ -825,7 +826,7 @@ function demoFlowBox( layoutBounds ) {
     ]
   } ) );
 
-  class HackySizableHSlider extends Sizable( MutableOptionsNode ) {
+  class HackySizableHSlider extends HSizable( MutableOptionsNode ) {
     constructor( property, options ) {
       const trackSizeProperty = new Property( new Dimension2( 100, 5 ) );
 
@@ -834,7 +835,6 @@ function demoFlowBox( layoutBounds ) {
       }, options );
 
       this.minimumWidth = this.width;
-      this.minimumHeight = this.height;
 
       this.preferredWidthProperty.lazyLink( preferredWidth => {
         const delta = Math.max( preferredWidth, this.minimumWidth ) - this.width;
@@ -877,7 +877,7 @@ function demoFlowBox( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
-  class ExampleExpandingRectangle extends Sizable( Rectangle ) {
+  class ExampleExpandingRectangle extends HSizable( VSizable( Rectangle ) ) {
     constructor( ...args ) {
       super( ...args );
 
