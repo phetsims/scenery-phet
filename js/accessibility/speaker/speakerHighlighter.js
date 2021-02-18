@@ -12,12 +12,14 @@
  * @author Jesse Greenberg
  */
 
+import Property from '../../../../axon/js/Property.js';
+import getGlobal from '../../../../phet-core/js/getGlobal.js';
+import merge from '../../../../phet-core/js/merge.js';
+import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
+import Display from '../../../../scenery/js/display/Display.js';
+import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
 import SelfVoicingFocusHighlight from './SelfVoicingFocusHighlight.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
-import sceneryPhet from '../../sceneryPhet.js';
-import Property from '../../../../axon/js/Property.js';
-import Display from '../../../../scenery/js/display/Display.js';
 
 class SpeakerHighlighter {
   constructor() {
@@ -35,8 +37,15 @@ class SpeakerHighlighter {
   /**
    * Initialize the highlighter, attaching listeners that control visibility of highlights.
    * @public
+   * @param {Object} [options]
    */
-  initialize() {
+  initialize( options ) {
+
+    options = merge( {
+      display: getGlobal( 'phet.joist.display' )
+    }, options );
+
+    assert && assert( options.display instanceof Display, 'display must be provided' );
 
     // the current Trail for which there is an active Pointer over or focused on a Node
     let activeHighlightTrail = null;
@@ -64,7 +73,7 @@ class SpeakerHighlighter {
 
     // if we aren't showing interactive highlights, make sure that the highlight disappears
     // when we use a mouse
-    phet.joist.display.addInputListener( {
+    options.display.addInputListener( {
       down: event => {
 
         // in the self-voicing prototype we want the focus highlight to remain with
@@ -83,11 +92,11 @@ class SpeakerHighlighter {
         // under the over trail
         const trailToHighlight = speakingTrail || overTrail;
         if ( trailToHighlight ) {
-          if ( phet.joist.display._focusOverlay.hasHighlight() ) {
+          if ( options.display._focusOverlay.hasHighlight() ) {
 
             // deactivate whatever trail is being used, it may be the activeHighlightTrail, but
             // it could also be trail that has DOM focus
-            phet.joist.display._focusOverlay.deactivateHighlight( phet.joist.display._focusOverlay.trail );
+            options.display._focusOverlay.deactivateHighlight( options.display._focusOverlay.trail );
           }
 
           // SelfVoicingFocusHighlights are always show, but only show default highlights if option is selected by user
@@ -96,13 +105,13 @@ class SpeakerHighlighter {
 
           activeHighlightTrail = trailToHighlight;
           if ( showHighlight ) {
-            phet.joist.display._focusOverlay.activateHighlight( activeHighlightTrail );
+            options.display._focusOverlay.activateHighlight( activeHighlightTrail );
           }
         }
         else {
-          if ( phet.joist.display._focusOverlay.hasHighlight() ) {
+          if ( options.display._focusOverlay.hasHighlight() ) {
             assert && assert( activeHighlightTrail, 'trail to active highlight required' );
-            phet.joist.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+            options.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
 
             activeHighlightTrail = null;
           }
