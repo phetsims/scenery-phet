@@ -39,6 +39,7 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
+import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sizable from '../../../scenery/js/util/Sizable.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
@@ -139,6 +140,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+      { label: 'ManualConstraint', createNode: demoManualConstraint },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
@@ -804,34 +806,15 @@ function demoFlowBox( layoutBounds ) {
     range: new Range( 200, 800 )
   } );
 
-  const leftBox = new VBox( { spacing: 5, align: 'left' } );
-  scene.addChild( leftBox );
+  const leftBox = new HBox( { spacing: 5, align: 'top' } );
+  const rightBox = new VBox( { spacing: 5, align: 'left' } );
+  scene.addChild( new HBox( {
+    children: [ leftBox, rightBox ],
+    spacing: 10,
+    align: 'top'
+  } ) );
 
-  // const base = new Node();
-  // const transformedContainer = new Node( {
-  //   scale: 2,
-  //   x: 100,
-  //   y: -50
-  // } );
-
-  // const nodeA = new Text( 'A' );
-  // const nodeB = new Text( 'B' );
-
-  // base.addChild( nodeA );
-  // base.addChild( transformedContainer );
-  // transformedContainer.addChild( nodeB );
-
-  // ManualConstraint.create( base, [ nodeA ], a => {
-  //   a.left = 200;
-  //   a.top = 200;
-  // } );
-  // ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
-  //   b.left = a.right + 10;
-  //   b.centerY = a.centerY;
-  // } );
-  // leftBox.addChild( base );
-
-  leftBox.addChild( new HBox( {
+  rightBox.addChild( new HBox( {
     spacing: 5,
     children: [
       new Text( 'Block Size' ),
@@ -893,9 +876,16 @@ function demoFlowBox( layoutBounds ) {
     rectD.rectWidth = size * 0.5;
   } );
 
-  function demoBox( box, title, usePreferred = true ) {
+  function demoBox( box, title, usePreferred = true, isHorizontal = true ) {
     if ( usePreferred ) {
-      preferredSizeProperty.link( width => { box.preferredWidth = width; } );
+      preferredSizeProperty.link( size => {
+        if ( isHorizontal ) {
+          box.preferredWidth = size;
+        }
+        else {
+          box.preferredHeight = size;
+        }
+      } );
     }
 
     const backgroundRect = new Rectangle( {
@@ -909,11 +899,11 @@ function demoFlowBox( layoutBounds ) {
       children: [
         backgroundRect,
         box,
-        new Text( title, {
+        ...( title ? [ new Text( title, {
           fill: 'black',
           centerY: 15 / 2,
           left: 5
-        } )
+        } ) ] : [] )
       ]
     } );
   }
@@ -926,10 +916,10 @@ function demoFlowBox( layoutBounds ) {
       new Node( { children: [ rectD ] } )
     ]
   } );
-  leftBox.addChild( demoBox( noPreferredBox, 'no-preferred', false ) );
+  rightBox.addChild( demoBox( noPreferredBox, 'no-preferred', false ) );
 
   const justifyBox = new VBox( { spacing: 1, align: 'left' } );
-  leftBox.addChild( justifyBox );
+  rightBox.addChild( justifyBox );
 
   [
     'left',
@@ -975,7 +965,7 @@ function demoFlowBox( layoutBounds ) {
   } );
 
   const alignBox = new VBox( { spacing: 1, align: 'left' } );
-  leftBox.addChild( alignBox );
+  rightBox.addChild( alignBox );
 
   [
     'top',
@@ -1025,7 +1015,7 @@ function demoFlowBox( layoutBounds ) {
       new Node( { children: [ rectD ] } )
     ]
   } );
-  leftBox.addChild( demoBox( singleGrowBox, 'Single Grow' ) );
+  rightBox.addChild( demoBox( singleGrowBox, 'Single Grow' ) );
 
   const doubleGrowBox = new FlowBox( {
     children: [
@@ -1043,7 +1033,7 @@ function demoFlowBox( layoutBounds ) {
       new Node( { children: [ rectD ] } )
     ]
   } );
-  leftBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
+  rightBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
 
   const maxWidthBox = new FlowBox( {
     children: [
@@ -1057,7 +1047,7 @@ function demoFlowBox( layoutBounds ) {
       new Node( { children: [ rectD ] } )
     ]
   } );
-  leftBox.addChild( demoBox( maxWidthBox, 'maxCellWidth' ) );
+  rightBox.addChild( demoBox( maxWidthBox, 'maxCellWidth' ) );
 
   const spacingBox = new FlowBox( {
     children: [
@@ -1071,7 +1061,7 @@ function demoFlowBox( layoutBounds ) {
     wrap: true,
     justify: 'left'
   } );
-  leftBox.addChild( demoBox( spacingBox, 'spacing+lineSpacing+wrap+left' ) );
+  rightBox.addChild( demoBox( spacingBox, 'spacing+lineSpacing+wrap+left' ) );
 
   const marginBox = new FlowBox( {
     children: [
@@ -1083,9 +1073,68 @@ function demoFlowBox( layoutBounds ) {
     justify: 'left',
     align: 'top'
   } );
-  leftBox.addChild( demoBox( marginBox, 'margins+justify:left+align:top' ) );
+  rightBox.addChild( demoBox( marginBox, 'margins+justify:left+align:top' ) );
+
+  // Left (vertical)
+  const rectE = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectF = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectG = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectH = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 0 ]
+  } );
+  blockSizeProperty.link( size => {
+    rectE.rectHeight = size;
+    rectF.rectHeight = size * 0.5;
+    rectG.rectHeight = size * 2;
+    rectH.rectHeight = size * 0.5;
+  } );
+
+  const verticalBox = new FlowBox( {
+    orientation: 'vertical',
+    children: [
+      new Node( { children: [ rectE ] } ),
+      new Node( { children: [ rectF ] } ),
+      new Node( { children: [ rectG ] } ),
+      new Node( { children: [ rectH ] } )
+    ]
+  } );
+  leftBox.addChild( demoBox( verticalBox, null, true, false ) );
 
   return scene;
+}
+
+function demoManualConstraint( layoutBounds ) {
+
+  const base = new Node();
+  const transformedContainer = new Node( {
+    scale: 2,
+    x: 100,
+    y: -50
+  } );
+
+  const nodeA = new Text( 'A' );
+  const nodeB = new Text( 'B' );
+
+  base.addChild( nodeA );
+  base.addChild( transformedContainer );
+  transformedContainer.addChild( nodeB );
+
+  ManualConstraint.create( base, [ nodeA ], a => {
+    a.left = 200;
+    a.top = 200;
+  } );
+  ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
+    b.left = a.right + 10;
+    b.centerY = a.centerY;
+  } );
+
+  return base;
 }
 
 // Creates a demo for MeasuringTapeNode
