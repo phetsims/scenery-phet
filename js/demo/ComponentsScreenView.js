@@ -39,7 +39,6 @@ import Sprites from '../../../scenery/js/nodes/Sprites.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Color from '../../../scenery/js/util/Color.js';
-import ManualConstraint from '../../../scenery/js/util/ManualConstraint.js';
 import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sizable from '../../../scenery/js/util/Sizable.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
@@ -130,6 +129,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
+      { label: 'FlowBox', createNode: demoFlowBox },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
       { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
@@ -139,7 +139,6 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
-      { label: 'Layout', createNode: demoLayout },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
@@ -794,9 +793,9 @@ function demoLaserPointerNode( layoutBounds ) {
   return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
 }
 
-function demoLayout( layoutBounds ) {
+function demoFlowBox( layoutBounds ) {
 
-  const scene = new Node( { y: 50 } );
+  const scene = new Node( { y: 50, scale: 0.8 } );
 
   const blockSizeProperty = new NumberProperty( 50, {
     range: new Range( 50, 200 )
@@ -805,34 +804,32 @@ function demoLayout( layoutBounds ) {
     range: new Range( 200, 800 )
   } );
 
-  const leftBox = new VBox( { spacing: 10, align: 'left' } );
+  const leftBox = new VBox( { spacing: 5, align: 'left' } );
   scene.addChild( leftBox );
 
+  // const base = new Node();
+  // const transformedContainer = new Node( {
+  //   scale: 2,
+  //   x: 100,
+  //   y: -50
+  // } );
 
+  // const nodeA = new Text( 'A' );
+  // const nodeB = new Text( 'B' );
 
-  const base = new Node();
-  const transformedContainer = new Node( {
-    scale: 2,
-    x: 100,
-    y: -50
-  } );
+  // base.addChild( nodeA );
+  // base.addChild( transformedContainer );
+  // transformedContainer.addChild( nodeB );
 
-  const nodeA = new Text( 'A' );
-  const nodeB = new Text( 'B' );
-
-  base.addChild( nodeA );
-  base.addChild( transformedContainer );
-  transformedContainer.addChild( nodeB );
-
-  ManualConstraint.create( base, [ nodeA ], a => {
-    a.left = 200;
-    a.top = 200;
-  } );
-  ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
-    b.left = a.right + 10;
-    b.centerY = a.centerY;
-  } );
-  leftBox.addChild( base );
+  // ManualConstraint.create( base, [ nodeA ], a => {
+  //   a.left = 200;
+  //   a.top = 200;
+  // } );
+  // ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
+  //   b.left = a.right + 10;
+  //   b.centerY = a.centerY;
+  // } );
+  // leftBox.addChild( base );
 
   leftBox.addChild( new HBox( {
     spacing: 5,
@@ -992,16 +989,16 @@ function demoLayout( layoutBounds ) {
         new Rectangle( 0, 0, 50, 15, {
           fill: niceColors[ 9 ]
         } ),
-        new Rectangle( 0, 0, 50, 25, {
+        new Rectangle( 0, 0, 50, 20, {
           fill: niceColors[ 6 ]
         } ),
-        new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        new ExampleExpandingRectangle( 0, 0, 50, 10, {
           fill: 'gray'
         } ),
-        new Rectangle( 0, 0, 50, 10, {
+        new Rectangle( 0, 0, 50, 5, {
           fill: niceColors[ 4 ]
         } ),
-        new Rectangle( 0, 0, 50, 20, {
+        new Rectangle( 0, 0, 50, 15, {
           fill: niceColors[ 2 ]
         } ),
         new Circle( 7, {
