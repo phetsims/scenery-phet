@@ -30,6 +30,7 @@ import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragList
 import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import FlowBox from '../../../scenery/js/nodes/FlowBox.js';
+import GridBox from '../../../scenery/js/nodes/GridBox.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
@@ -135,6 +136,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'FlowBox', createNode: demoFlowBox },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
+      { label: 'GridBox', createNode: demoGridBox },
       { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
@@ -515,6 +517,44 @@ function demoGaugeNode( layoutBounds ) {
     ],
     center: layoutBounds.center
   } );
+}
+
+// Creates a demo for GridBox
+function demoGridBox( layoutBounds ) {
+  const scene = new Node( { y: 50 } );
+
+  const gridBox = new GridBox( {
+    preferredWidth: 500,
+    grow: 1,
+    children: [
+      new Rectangle( 0, 0, 100, 50, {
+        fill: 'red',
+        layoutOptions: {
+          x: 0,
+          y: 0
+        }
+      } ),
+      new Rectangle( 0, 0, 50, 50, {
+        fill: 'green',
+        layoutOptions: {
+          x: 1,
+          y: 0
+        }
+      } ),
+      new Rectangle( 0, 0, 100, 50, {
+        fill: 'blue',
+        layoutOptions: {
+          x: 2,
+          y: 0
+        }
+      } )
+    ]
+  } );
+  scene.addChild( gridBox );
+
+  window.gridBox = gridBox;
+
+  return scene;
 }
 
 // Creates a demo for HandleNode
