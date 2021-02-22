@@ -523,34 +523,135 @@ function demoGaugeNode( layoutBounds ) {
 function demoGridBox( layoutBounds ) {
   const scene = new Node( { y: 50 } );
 
-  const gridBox = new GridBox( {
-    preferredWidth: 500,
-    grow: 1,
+  const niceColors = [
+    new Color( 62, 171, 3 ),
+    new Color( 23, 180, 77 ),
+    new Color( 24, 183, 138 ),
+    new Color( 23, 178, 194 ),
+    new Color( 20, 163, 238 ),
+    new Color( 71, 136, 255 ),
+    new Color( 171, 101, 255 ),
+    new Color( 228, 72, 235 ),
+    new Color( 252, 66, 186 ),
+    new Color( 252, 82, 127 )
+  ];
+
+  class ExampleExpandingRectangle extends HSizable( VSizable( Rectangle ) ) {
+    constructor( ...args ) {
+      super( ...args );
+
+      this.minimumWidth = 50;
+      this.minimumHeight = 50;
+
+      this.preferredWidthProperty.lazyLink( width => {
+        if ( width ) {
+          this.rectWidth = Math.max( this.minimumWidth, width );
+        }
+      } );
+      this.preferredHeightProperty.lazyLink( height => {
+        if ( height ) {
+          this.rectHeight = Math.max( this.minimumHeight, height );
+        }
+      } );
+    }
+  }
+
+  const blockSizeProperty = new NumberProperty( 50, {
+    range: new Range( 50, 200 )
+  } );
+  const preferredWidthProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+  const preferredHeightProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+
+  const rectA = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectB = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectC = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectD = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 0 ]
+  } );
+  blockSizeProperty.link( size => {
+    rectA.rectWidth = size;
+    rectB.rectWidth = size * 0.5;
+    rectC.rectWidth = size * 2;
+    rectD.rectWidth = size * 0.5;
+    rectA.rectHeight = size;
+    rectB.rectHeight = size * 0.5;
+    rectC.rectHeight = size * 2;
+    rectD.rectHeight = size * 0.5;
+  } );
+
+  const mainBox = new VBox( {
+    spacing: 10,
+    align: 'left',
     children: [
-      new Rectangle( 0, 0, 100, 50, {
-        fill: 'red',
-        layoutOptions: {
-          x: 0,
-          y: 0
-        }
-      } ),
-      new Rectangle( 0, 0, 50, 50, {
-        fill: 'green',
-        layoutOptions: {
-          x: 1,
-          y: 0
-        }
-      } ),
-      new Rectangle( 0, 0, 100, 50, {
-        fill: 'blue',
-        layoutOptions: {
-          x: 2,
-          y: 0
-        }
+      new HBox( {
+        children: [
+          new Text( 'Block Size' ),
+          new HSlider( blockSizeProperty, blockSizeProperty.range ),
+          new Text( 'Preferred Width' ),
+          new HSlider( preferredWidthProperty, preferredWidthProperty.range ),
+          new Text( 'Preferred Height' ),
+          new HSlider( preferredHeightProperty, preferredHeightProperty.range )
+        ]
       } )
     ]
   } );
-  scene.addChild( gridBox );
+  scene.addChild( mainBox );
+
+  const gridBox = new GridBox( {
+    spacing: 10,
+    children: [
+      new Node( {
+        children: [ rectA ],
+        layoutOptions: { x: 0, y: 0, xAlign: 'left' }
+      } ),
+      new Node( {
+        children: [ rectB ],
+        layoutOptions: { x: 1, y: 0 }
+      } ),
+      new Node( {
+        children: [ rectC ],
+        layoutOptions: { x: 2, y: 0 }
+      } ),
+      new Node( {
+        children: [ rectD ],
+        layoutOptions: { x: 0, y: 2 }
+      } ),
+      new Node( {
+        children: [ rectD ],
+        layoutOptions: { x: 1, y: 1, width: 2, yAlign: 'bottom' }
+      } ),
+      new ExampleExpandingRectangle( {
+        fill: 'gray',
+        layoutOptions: { x: 0, y: 1, xAlign: 'stretch', yAlign: 'stretch', grow: 1 }
+      } ),
+      new ExampleExpandingRectangle( {
+        fill: 'gray',
+        layoutOptions: { x: 3, y: 0, height: 3, yAlign: 'stretch', leftMargin: 20, yMargin: 10 }
+      } )
+    ]
+  } );
+  const backgroundRect = new Rectangle( {
+    fill: 'rgba(0,0,0,0.1)'
+  } );
+  gridBox.localBoundsProperty.link( localBounds => {
+    backgroundRect.rectBounds = localBounds.copy();
+  } );
+  mainBox.addChild( new Node( {
+    children: [ backgroundRect, gridBox ]
+  } ) );
+
+  preferredWidthProperty.link( width => { gridBox.preferredWidth = width; } );
+  preferredHeightProperty.link( height => { gridBox.preferredHeight = height; } );
 
   window.gridBox = gridBox;
 
