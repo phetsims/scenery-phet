@@ -121,7 +121,6 @@ class PlayControlButton extends BooleanRoundToggleButton {
       globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
     }
 
-
     // @private
     this.disposePlayStopButton = () => {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
