@@ -159,7 +159,7 @@ class SelfVoicingQuickControl extends Node {
     // the webSpeaker uses enabledProperty, the push button uses "muted" terminology -
     // dynamic Property maps between the two so that the button can be pressed when
     // it it is actually not enabled
-    const dynamicProperty = new DynamicProperty( new Property( webSpeaker.enabledProperty ), {
+    const mutedProperty = new DynamicProperty( new Property( webSpeaker.enabledProperty ), {
       bidirectional: true,
       map: enabled => !enabled,
       inverseMap: muted => !muted
@@ -169,7 +169,7 @@ class SelfVoicingQuickControl extends Node {
     const overviewButton = createSpeechButton( simOverviewContent, simOverviewString, this.speakOverviewContent.bind( this ) );
     const detailsButton = createSpeechButton( detailsContent, currentDetailsString, this.speakDetailsContent.bind( this ) );
     const stopSpeechButton = createSpeechButton( stopSpeechContent, stopSpeechString, webSpeaker.cancel.bind( webSpeaker ) );
-    const muteSpeechButton = new BooleanRectangularStickyToggleButton( dynamicProperty, {
+    const muteSpeechButton = new BooleanRectangularStickyToggleButton( mutedProperty, {
       content: muteSpeechContent
     } );
     const preferencesButton = createSpeechButton( preferencesContent, preferencesString, () => {
