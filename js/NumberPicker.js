@@ -181,7 +181,6 @@ class NumberPicker extends Node {
 
     // compute max width of text based on the width of all possible values.
     // See https://github.com/phetsims/area-model-common/issues/5
-    // TODO: Recalculate maximum width on range changes, see https://github.com/phetsims/scenery-phet/issues/306
     let currentSampleValue = rangeProperty.get().min;
     const sampleValues = [];
     while ( currentSampleValue <= rangeProperty.get().max ) {
