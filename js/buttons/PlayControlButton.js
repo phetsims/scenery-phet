@@ -80,11 +80,11 @@ class PlayControlButton extends BooleanRoundToggleButton {
     endPlayingIcon.centerX = 0;
     endPlayingIcon.centerY = 0;
 
-    const stopCircle = new Circle( options.radius, {
+    const endPlayingCircle = new Circle( options.radius, {
       children: [ endPlayingIcon ]
     } );
 
-    super( stopCircle, playCircle, isPlayingProperty, options );
+    super( endPlayingCircle, playCircle, isPlayingProperty, options );
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
