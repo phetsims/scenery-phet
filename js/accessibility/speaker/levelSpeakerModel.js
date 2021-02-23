@@ -39,34 +39,6 @@ class LevelSpeakerModel {
   }
 
   /**
-   * On the "levels" prototype, there is different behavior for highlighting and output depending on whether a Node
-   * is interactive or not. That information is registered on the Node here.
-   *
-   * NOTE: I am not sure the best place to do this yet, but this will do for rapid prototyping.
-   * - Another Mixin with this (and other) data?
-   * @public
-   *
-   * - property for Node directly?
-   * @param {Node} node
-   * @param {boolean} interactive
-   */
-  setNodeInteractive( node, interactive ) {
-    node.consideredInteractive = interactive;
-  }
-
-  /**
-   * Get whether the node is considered "interactive" for the self voicing prototype, which will indiciate that
-   * it has different behavior for highlighting and voicing.
-   * @public
-   *
-   * @param {Node} node
-   * @returns {boolean|undefined} - could be undefined until there is a value set (or its built in more thoroughly)
-   */
-  getNodeInteractive( node ) {
-    return node.consideredInteractive;
-  }
-
-  /**
    * Prepares final output with an object response, a context response, and a hint. Each response
    * will only be added to the final string if that response type is included by the user. Rather than using
    * unique utterances, we use string interpolation so that the highlight around the abject being spoken
