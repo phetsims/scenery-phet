@@ -63,6 +63,11 @@ class Keypad extends Node {
       // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implementations
       // for examples
       accumulator: null,
+
+      // {Object|null} Options passed to NumberAccumulator, ignored if options.accumulator is provided
+      accumulatorOptions: null,
+
+      // phet-io
       tandem: Tandem.REQUIRED
     }, options );
 
@@ -71,7 +76,7 @@ class Keypad extends Node {
     // @private {AbstractKeyAccumulator}
     this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( merge( {
       tandem: options.tandem.createTandem( 'numberAccumulator' )
-    }, _.omit( options, 'tandem' ) ) );
+    }, options.accumulatorOptions ) );
 
     // @public {Property.<Array.<KeyID>>} (read-only) - array of the keys that have been accumulated
     this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty;

@@ -1054,7 +1054,9 @@ function demoKeypad( layoutBounds ) {
   const integerKeyPad = new Keypad( Keypad.PositiveAndNegativeIntegerLayout, {
     buttonWidth: 35,
     buttonHeight: 35,
-    maxDigits: 5
+    accumulatorOptions: {
+      maxDigits: 5
+    }
   } );
 
   const integerStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
