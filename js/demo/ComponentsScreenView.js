@@ -18,13 +18,18 @@ import StringProperty from '../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Bounds3 from '../../../dot/js/Bounds3.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import dotRandom from '../../../dot/js/dotRandom.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
 import Shape from '../../../kite/js/Shape.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
+import FlowBox from '../../../scenery/js/layout/FlowBox.js';
+import GridBox from '../../../scenery/js/layout/GridBox.js';
+import HeightSizable from '../../../scenery/js/layout/HeightSizable.js';
+import ManualConstraint from '../../../scenery/js/layout/ManualConstraint.js';
+import WidthSizable from '../../../scenery/js/layout/WidthSizable.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
@@ -42,25 +47,21 @@ import NodeProperty from '../../../scenery/js/util/NodeProperty.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance from '../../../scenery/js/util/SpriteInstance.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import flameImage from '../../images/flame_png.js';
 import iceCubeStackImage from '../../images/ice-cube-stack_png.js';
 import measuringTapeImage from '../../images/measuringTape_png.js';
-import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
 import ArrowNode from '../ArrowNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
 import BracketNode from '../BracketNode.js';
-import ResetButton from '../buttons/ResetButton.js';
-import CapacitorConstants from '../capacitor/CapacitorConstants.js';
-import CapacitorNode from '../capacitor/CapacitorNode.js';
-import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
 import ComboBoxDisplay from '../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../ConductivityTesterNode.js';
 import Drawer from '../Drawer.js';
@@ -70,14 +71,6 @@ import FormulaNode from '../FormulaNode.js';
 import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
-import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
-import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
-import LetterKeyNode from '../keyboard/LetterKeyNode.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
-import Keypad from '../keypad/Keypad.js';
 import LaserPointerNode from '../LaserPointerNode.js';
 import MeasuringTapeNode from '../MeasuringTapeNode.js';
 import NumberControl from '../NumberControl.js';
@@ -87,8 +80,6 @@ import PaperAirplaneNode from '../PaperAirplaneNode.js';
 import PhetFont from '../PhetFont.js';
 import ProbeNode from '../ProbeNode.js';
 import RulerNode from '../RulerNode.js';
-import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 import ScientificNotationNode from '../ScientificNotationNode.js';
 import SpectrumNode from '../SpectrumNode.js';
 import StarNode from '../StarNode.js';
@@ -98,6 +89,21 @@ import ThermometerNode from '../ThermometerNode.js';
 import TimeControlNode from '../TimeControlNode.js';
 import TimeSpeed from '../TimeSpeed.js';
 import WireNode from '../WireNode.js';
+import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
+import ResetButton from '../buttons/ResetButton.js';
+import CapacitorConstants from '../capacitor/CapacitorConstants.js';
+import CapacitorNode from '../capacitor/CapacitorNode.js';
+import YawPitchModelViewTransform3 from '../capacitor/YawPitchModelViewTransform3.js';
+import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
+import LetterKeyNode from '../keyboard/LetterKeyNode.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
+import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
+import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import Keypad from '../keypad/Keypad.js';
+import sceneryPhet from '../sceneryPhet.js';
+import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
 // constants
 
@@ -127,8 +133,10 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
+      { label: 'FlowBox', createNode: demoFlowBox },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
+      { label: 'GridBox', createNode: demoGridBox },
       { label: 'GrabDragInteraction', createNode: getDemoGrabDragInteraction( options.tandem ) },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
@@ -136,6 +144,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+      { label: 'ManualConstraint', createNode: demoManualConstraint },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'NumberKeypad', createNode: demoNumberKeypad },
@@ -510,6 +519,145 @@ function demoGaugeNode( layoutBounds ) {
   } );
 }
 
+// Creates a demo for GridBox
+function demoGridBox( layoutBounds ) {
+  const scene = new Node( { y: 50 } );
+
+  const niceColors = [
+    new Color( 62, 171, 3 ),
+    new Color( 23, 180, 77 ),
+    new Color( 24, 183, 138 ),
+    new Color( 23, 178, 194 ),
+    new Color( 20, 163, 238 ),
+    new Color( 71, 136, 255 ),
+    new Color( 171, 101, 255 ),
+    new Color( 228, 72, 235 ),
+    new Color( 252, 66, 186 ),
+    new Color( 252, 82, 127 )
+  ];
+
+  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
+    constructor( ...args ) {
+      super( ...args );
+
+      this.minimumWidth = 50;
+      this.minimumHeight = 50;
+
+      this.preferredWidthProperty.lazyLink( width => {
+        if ( width ) {
+          this.rectWidth = Math.max( this.minimumWidth, width );
+        }
+      } );
+      this.preferredHeightProperty.lazyLink( height => {
+        if ( height ) {
+          this.rectHeight = Math.max( this.minimumHeight, height );
+        }
+      } );
+    }
+  }
+
+  const blockSizeProperty = new NumberProperty( 50, {
+    range: new Range( 50, 200 )
+  } );
+  const preferredWidthProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+  const preferredHeightProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+
+  const rectA = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectB = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectC = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectD = new Rectangle( 0, 0, 50, 50, {
+    fill: niceColors[ 0 ]
+  } );
+  blockSizeProperty.link( size => {
+    rectA.rectWidth = size;
+    rectB.rectWidth = size * 0.5;
+    rectC.rectWidth = size * 2;
+    rectD.rectWidth = size * 0.5;
+    rectA.rectHeight = size;
+    rectB.rectHeight = size * 0.5;
+    rectC.rectHeight = size * 2;
+    rectD.rectHeight = size * 0.5;
+  } );
+
+  const mainBox = new VBox( {
+    spacing: 10,
+    align: 'left',
+    children: [
+      new HBox( {
+        children: [
+          new Text( 'Block Size' ),
+          new HSlider( blockSizeProperty, blockSizeProperty.range ),
+          new Text( 'Preferred Width' ),
+          new HSlider( preferredWidthProperty, preferredWidthProperty.range ),
+          new Text( 'Preferred Height' ),
+          new HSlider( preferredHeightProperty, preferredHeightProperty.range )
+        ]
+      } )
+    ]
+  } );
+  scene.addChild( mainBox );
+
+  const gridBox = new GridBox( {
+    spacing: 10,
+    children: [
+      new Node( {
+        children: [ rectA ],
+        layoutOptions: { x: 0, y: 0, xAlign: 'left' }
+      } ),
+      new Node( {
+        children: [ rectB ],
+        layoutOptions: { x: 1, y: 0 }
+      } ),
+      new Node( {
+        children: [ rectC ],
+        layoutOptions: { x: 2, y: 0 }
+      } ),
+      new Node( {
+        children: [ rectD ],
+        layoutOptions: { x: 0, y: 2 }
+      } ),
+      new Node( {
+        children: [ rectD ],
+        layoutOptions: { x: 1, y: 1, width: 2, yAlign: 'bottom' }
+      } ),
+      new ExampleExpandingRectangle( {
+        fill: 'gray',
+        layoutOptions: { x: 0, y: 1, xAlign: 'stretch', yAlign: 'stretch', grow: 1 }
+      } ),
+      new ExampleExpandingRectangle( {
+        fill: 'gray',
+        layoutOptions: { x: 3, y: 0, height: 3, yAlign: 'stretch', leftMargin: 20, yMargin: 10 }
+      } )
+    ]
+  } );
+  const backgroundRect = new Rectangle( {
+    fill: 'rgba(0,0,0,0.1)'
+  } );
+  gridBox.localBoundsProperty.link( localBounds => {
+    backgroundRect.rectBounds = localBounds.copy();
+  } );
+  mainBox.addChild( new Node( {
+    children: [ backgroundRect, gridBox ]
+  } ) );
+
+  preferredWidthProperty.link( width => { gridBox.preferredWidth = width; } );
+  preferredHeightProperty.link( height => { gridBox.preferredHeight = height; } );
+
+  window.gridBox = gridBox;
+
+  return scene;
+}
+
 // Creates a demo for HandleNode
 function demoHandleNode( layoutBounds ) {
   const handleNode = new HandleNode( { scale: 4.0 } );
@@ -788,6 +936,386 @@ function demoLaserPointerNode( layoutBounds ) {
   } );
 
   return new Node( { children: [ leftBeamNode, leftLaserNode, rightBeamNode, rightLaserNode ] } );
+}
+
+function demoFlowBox( layoutBounds ) {
+
+  const scene = new Node( { y: 50, scale: 0.8 } );
+
+  const blockSizeProperty = new NumberProperty( 50, {
+    range: new Range( 50, 200 )
+  } );
+  const preferredSizeProperty = new NumberProperty( 500, {
+    range: new Range( 200, 800 )
+  } );
+
+  const leftBox = new HBox( { spacing: 5, align: 'top' } );
+  const rightBox = new VBox( { spacing: 5, align: 'left' } );
+  scene.addChild( new HBox( {
+    children: [ leftBox, rightBox ],
+    spacing: 10,
+    align: 'top'
+  } ) );
+
+  rightBox.addChild( new HBox( {
+    spacing: 5,
+    children: [
+      new Text( 'Block Size' ),
+      new HSlider( blockSizeProperty, blockSizeProperty.range ),
+      new Text( 'Preferred Size' ),
+      new HSlider( preferredSizeProperty, preferredSizeProperty.range )
+    ]
+  } ) );
+
+  class HackySizableHSlider extends WidthSizable( MutableOptionsNode ) {
+    constructor( property, options ) {
+      const trackSizeProperty = new Property( new Dimension2( 100, 5 ) );
+
+      super( HSlider, [ property, property.range ], {}, {
+        trackSize: trackSizeProperty
+      }, options );
+
+      this.minimumWidth = this.width;
+
+      this.preferredWidthProperty.lazyLink( preferredWidth => {
+        const delta = Math.max( preferredWidth, this.minimumWidth ) - this.width;
+
+        trackSizeProperty.value = new Dimension2( trackSizeProperty.value.width + delta, 5 );
+      } );
+    }
+  }
+
+  const hackyProperty = new NumberProperty( 0, {
+    range: new Range( 0, 100 )
+  } );
+  const hackyBox = new FlowBox( {
+    children: [
+      new Text( 'Example slider:', {
+        fontSize: 16,
+        layoutOptions: { rightMargin: 10 }
+      } ),
+      new HackySizableHSlider( hackyProperty, {
+        layoutOptions: { grow: 1 }
+      } ),
+      new NumberDisplay( hackyProperty, hackyProperty.range, {
+        layoutOptions: { leftMargin: 5 }
+      } )
+    ]
+  } );
+  rightBox.addChild( hackyBox );
+  preferredSizeProperty.link( size => { hackyBox.preferredWidth = size; } );
+
+  const niceColors = [
+    new Color( 62, 171, 3 ),
+    new Color( 23, 180, 77 ),
+    new Color( 24, 183, 138 ),
+    new Color( 23, 178, 194 ),
+    new Color( 20, 163, 238 ),
+    new Color( 71, 136, 255 ),
+    new Color( 171, 101, 255 ),
+    new Color( 228, 72, 235 ),
+    new Color( 252, 66, 186 ),
+    new Color( 252, 82, 127 )
+  ];
+
+  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
+    constructor( ...args ) {
+      super( ...args );
+
+      this.minimumWidth = 50;
+      this.minimumHeight = 15;
+
+      this.preferredWidthProperty.lazyLink( width => {
+        if ( width ) {
+          this.rectWidth = Math.max( this.minimumWidth, width );
+        }
+      } );
+      this.preferredHeightProperty.lazyLink( height => {
+        if ( height ) {
+          this.rectHeight = Math.max( this.minimumHeight, height );
+        }
+      } );
+    }
+  }
+
+  const rectA = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectB = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectC = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectD = new Rectangle( 0, 0, 50, 15, {
+    fill: niceColors[ 0 ]
+  } );
+  blockSizeProperty.link( size => {
+    rectA.rectWidth = size;
+    rectB.rectWidth = size * 0.5;
+    rectC.rectWidth = size * 2;
+    rectD.rectWidth = size * 0.5;
+  } );
+
+  function demoBox( box, title, usePreferred = true, isHorizontal = true ) {
+    if ( usePreferred ) {
+      preferredSizeProperty.link( size => {
+        if ( isHorizontal ) {
+          box.preferredWidth = size;
+        }
+        else {
+          box.preferredHeight = size;
+        }
+      } );
+    }
+
+    const backgroundRect = new Rectangle( {
+      fill: 'rgba(0,0,0,0.1)'
+    } );
+    box.localBoundsProperty.link( localBounds => {
+      backgroundRect.rectBounds = localBounds.copy();
+    } );
+
+    return new Node( {
+      children: [
+        backgroundRect,
+        box,
+        ...( title ? [ new Text( title, {
+          fill: 'black',
+          centerY: 15 / 2,
+          left: 5
+        } ) ] : [] )
+      ]
+    } );
+  }
+
+  const noPreferredBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  rightBox.addChild( demoBox( noPreferredBox, 'no-preferred', false ) );
+
+  const justifyBox = new VBox( { spacing: 1, align: 'left' } );
+  rightBox.addChild( justifyBox );
+
+  [
+    'left',
+    'right',
+    'center',
+    'spaceBetween',
+    'spaceAround',
+    'spaceEvenly'
+  ].forEach( justify => {
+    const flowBox = new FlowBox( {
+      children: [
+        new Node( { children: [ rectA ] } ),
+        new Node( { children: [ rectB ] } ),
+        new Node( { children: [ rectC ] } ),
+        new Node( { children: [ rectD ] } )
+      ],
+      justify: justify
+    } );
+
+    justifyBox.addChild( demoBox( flowBox, `justify:${justify}` ) );
+  } );
+
+  [
+    'left',
+    'right',
+    'center',
+    'spaceBetween',
+    'spaceAround',
+    'spaceEvenly'
+  ].forEach( justify => {
+    const wrapBox = new FlowBox( {
+      children: [
+        new Node( { children: [ rectA ] } ),
+        new Node( { children: [ rectB ] } ),
+        new Node( { children: [ rectC ] } ),
+        new Node( { children: [ rectD ] } )
+      ],
+      justify: justify,
+      wrap: true
+    } );
+
+    justifyBox.addChild( demoBox( wrapBox, `wrap+justify:${justify}` ) );
+  } );
+
+  const alignBox = new VBox( { spacing: 1, align: 'left' } );
+  rightBox.addChild( alignBox );
+
+  [
+    'top',
+    'bottom',
+    'center',
+    'stretch',
+    'origin'
+  ].forEach( align => {
+    const flowBox = new FlowBox( {
+      children: [
+        new Rectangle( 0, 0, 50, 15, {
+          fill: niceColors[ 9 ]
+        } ),
+        new Rectangle( 0, 0, 50, 20, {
+          fill: niceColors[ 6 ]
+        } ),
+        new ExampleExpandingRectangle( 0, 0, 50, 10, {
+          fill: 'gray'
+        } ),
+        new Rectangle( 0, 0, 50, 5, {
+          fill: niceColors[ 4 ]
+        } ),
+        new Rectangle( 0, 0, 50, 15, {
+          fill: niceColors[ 2 ]
+        } ),
+        new Circle( 7, {
+          fill: niceColors[ 0 ]
+        } ),
+        new Text( 'Some text' )
+      ],
+      justify: 'left',
+      align: align
+    } );
+
+    justifyBox.addChild( demoBox( flowBox, `align:${align}` ) );
+  } );
+
+  const singleGrowBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1 }
+      } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  rightBox.addChild( demoBox( singleGrowBox, 'Single Grow' ) );
+
+  const doubleGrowBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1 }
+      } ),
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 4 }
+      } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  rightBox.addChild( demoBox( doubleGrowBox, 'Double Grow, 1,4' ) );
+
+  const maxWidthBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new ExampleExpandingRectangle( 0, 0, 50, 15, {
+        fill: 'gray',
+        layoutOptions: { grow: 1, maxContentWidth: 150 }
+      } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ]
+  } );
+  rightBox.addChild( demoBox( maxWidthBox, 'maxContentWidth' ) );
+
+  const spacingBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ] } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ] } )
+    ],
+    spacing: 10,
+    lineSpacing: 10,
+    wrap: true,
+    justify: 'left'
+  } );
+  rightBox.addChild( demoBox( spacingBox, 'spacing+lineSpacing+wrap+left' ) );
+
+  const marginBox = new FlowBox( {
+    children: [
+      new Node( { children: [ rectA ] } ),
+      new Node( { children: [ rectB ], layoutOptions: { xMargin: 10 } } ),
+      new Node( { children: [ rectC ] } ),
+      new Node( { children: [ rectD ], layoutOptions: { topMargin: 10 } } )
+    ],
+    justify: 'left',
+    align: 'top'
+  } );
+  rightBox.addChild( demoBox( marginBox, 'margins+justify:left+align:top' ) );
+
+  // Left (vertical)
+  const rectE = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 9 ]
+  } );
+  const rectF = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 6 ]
+  } );
+  const rectG = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 3 ]
+  } );
+  const rectH = new Rectangle( 0, 0, 15, 50, {
+    fill: niceColors[ 0 ]
+  } );
+  blockSizeProperty.link( size => {
+    rectE.rectHeight = size;
+    rectF.rectHeight = size * 0.5;
+    rectG.rectHeight = size * 2;
+    rectH.rectHeight = size * 0.5;
+  } );
+
+  const verticalBox = new FlowBox( {
+    orientation: 'vertical',
+    children: [
+      new Node( { children: [ rectE ] } ),
+      new Node( { children: [ rectF ] } ),
+      new Node( { children: [ rectG ] } ),
+      new Node( { children: [ rectH ] } )
+    ]
+  } );
+  leftBox.addChild( demoBox( verticalBox, null, true, false ) );
+
+  return scene;
+}
+
+function demoManualConstraint( layoutBounds ) {
+
+  const base = new Node();
+  const transformedContainer = new Node( {
+    scale: 2,
+    x: 100,
+    y: -50
+  } );
+
+  const nodeA = new Text( 'A' );
+  const nodeB = new Text( 'B' );
+
+  base.addChild( nodeA );
+  base.addChild( transformedContainer );
+  transformedContainer.addChild( nodeB );
+
+  ManualConstraint.create( base, [ nodeA ], nodeAWrapper => {
+    nodeAWrapper.left = 200;
+    nodeAWrapper.top = 200;
+  } );
+  ManualConstraint.create( base, [ nodeA, nodeB ], ( nodeAWrapper, nodeBWrapper ) => {
+    nodeBWrapper.left = nodeAWrapper.right + 10;
+    nodeBWrapper.centerY = nodeAWrapper.centerY;
+  } );
+
+  return base;
 }
 
 // Creates a demo for MeasuringTapeNode
