@@ -1306,13 +1306,13 @@ function demoManualConstraint( layoutBounds ) {
   base.addChild( transformedContainer );
   transformedContainer.addChild( nodeB );
 
-  ManualConstraint.create( base, [ nodeA ], a => {
-    a.left = 200;
-    a.top = 200;
+  ManualConstraint.create( base, [ nodeA ], nodeAWrapper => {
+    nodeAWrapper.left = 200;
+    nodeAWrapper.top = 200;
   } );
-  ManualConstraint.create( base, [ nodeA, nodeB ], ( a, b ) => {
-    b.left = a.right + 10;
-    b.centerY = a.centerY;
+  ManualConstraint.create( base, [ nodeA, nodeB ], ( nodeAWrapper, nodeBWrapper ) => {
+    nodeBWrapper.left = nodeAWrapper.right + 10;
+    nodeBWrapper.centerY = nodeAWrapper.centerY;
   } );
 
   return base;
