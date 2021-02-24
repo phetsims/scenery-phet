@@ -1222,13 +1222,13 @@ function demoFlowBox( layoutBounds ) {
       new Node( { children: [ rectB ] } ),
       new ExampleExpandingRectangle( 0, 0, 50, 15, {
         fill: 'gray',
-        layoutOptions: { grow: 1, maxCellWidth: 150 }
+        layoutOptions: { grow: 1, maxContentWidth: 150 }
       } ),
       new Node( { children: [ rectC ] } ),
       new Node( { children: [ rectD ] } )
     ]
   } );
-  rightBox.addChild( demoBox( maxWidthBox, 'maxCellWidth' ) );
+  rightBox.addChild( demoBox( maxWidthBox, 'maxContentWidth' ) );
 
   const spacingBox = new FlowBox( {
     children: [
