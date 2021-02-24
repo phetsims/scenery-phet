@@ -27,9 +27,9 @@ import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
 import FlowBox from '../../../scenery/js/layout/FlowBox.js';
 import GridBox from '../../../scenery/js/layout/GridBox.js';
-import HSizable from '../../../scenery/js/layout/HSizable.js';
+import HeightSizable from '../../../scenery/js/layout/HeightSizable.js';
 import ManualConstraint from '../../../scenery/js/layout/ManualConstraint.js';
-import VSizable from '../../../scenery/js/layout/VSizable.js';
+import WidthSizable from '../../../scenery/js/layout/WidthSizable.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 import SpriteListenable from '../../../scenery/js/listeners/SpriteListenable.js';
@@ -536,7 +536,7 @@ function demoGridBox( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
-  class ExampleExpandingRectangle extends HSizable( VSizable( Rectangle ) ) {
+  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
     constructor( ...args ) {
       super( ...args );
 
@@ -967,7 +967,7 @@ function demoFlowBox( layoutBounds ) {
     ]
   } ) );
 
-  class HackySizableHSlider extends HSizable( MutableOptionsNode ) {
+  class HackySizableHSlider extends WidthSizable( MutableOptionsNode ) {
     constructor( property, options ) {
       const trackSizeProperty = new Property( new Dimension2( 100, 5 ) );
 
@@ -1018,7 +1018,7 @@ function demoFlowBox( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
-  class ExampleExpandingRectangle extends HSizable( VSizable( Rectangle ) ) {
+  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
     constructor( ...args ) {
       super( ...args );
 
