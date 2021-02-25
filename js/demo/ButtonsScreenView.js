@@ -35,6 +35,7 @@ import StepBackwardButton from '../buttons/StepBackwardButton.js';
 import StepForwardButton from '../buttons/StepForwardButton.js';
 import TimerToggleButton from '../buttons/TimerToggleButton.js';
 import ZoomButton from '../buttons/ZoomButton.js';
+import MagnifyingGlassZoomButtonGroup from '../MagnifyingGlassZoomButtonGroup.js';
 import MoveToTrashButton from '../MoveToTrashButton.js';
 import PhetFont from '../PhetFont.js';
 import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
@@ -198,7 +199,7 @@ class ButtonsScreenView extends ScreenView {
     // See https://github.com/phetsims/scenery-phet/issues/650
     const spacing = 0;
 
-    const verticalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+    const verticalPlusMinusZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
       orientation: 'vertical',
       spacing: spacing,
       mouseAreaXDilation: 5,
@@ -206,9 +207,9 @@ class ButtonsScreenView extends ScreenView {
       touchAreaXDilation: 5,
       touchAreaYDilation: 10
     } );
-    buttonGroups.push( verticalZoomButtonGroup );
+    buttonGroups.push( verticalPlusMinusZoomButtonGroup );
 
-    const horizontalZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+    const horizontalPlusMinusZoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
       orientation: 'horizontal',
       spacing: spacing,
       mouseAreaXDilation: 10,
@@ -216,7 +217,27 @@ class ButtonsScreenView extends ScreenView {
       touchAreaXDilation: 10,
       touchAreaYDilation: 5
     } );
-    buttonGroups.push( horizontalZoomButtonGroup );
+    buttonGroups.push( horizontalPlusMinusZoomButtonGroup );
+
+    const verticalMagnifyingGlassZoomButtonGroup = new MagnifyingGlassZoomButtonGroup( zoomLevelProperty, {
+      orientation: 'vertical',
+      spacing: spacing,
+      mouseAreaXDilation: 5,
+      mouseAreaYDilation: 10,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 10
+    } );
+    buttonGroups.push( verticalMagnifyingGlassZoomButtonGroup );
+
+    const horizontalMagnifyingGlassZoomButtonGroup = new MagnifyingGlassZoomButtonGroup( zoomLevelProperty, {
+      orientation: 'horizontal',
+      spacing: spacing,
+      mouseAreaXDilation: 10,
+      mouseAreaYDilation: 5,
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 5
+    } );
+    buttonGroups.push( horizontalMagnifyingGlassZoomButtonGroup );
 
     const buttonGroupsHBox = new HBox( {
       children: buttonGroups,
