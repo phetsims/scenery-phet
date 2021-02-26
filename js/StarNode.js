@@ -37,7 +37,7 @@ class StarNode extends Node {
 
       // Fill parameters for the part of the star that is unfilled.  Should be bland.
       emptyFill: '#e1e1e1', //pretty gray
-      emptyStroke: '#d3d1d1 ',//darker gray than the fill, but still pretty faint
+      emptyStroke: '#d3d1d1 ', //darker gray than the fill, but still pretty faint
       emptyLineWidth: 1.5,
       emptyLineJoin: 'round'
     }, options );
