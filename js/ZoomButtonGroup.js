@@ -25,8 +25,8 @@ class ZoomButtonGroup extends LayoutBox {
    */
   constructor( zoomInIcon, zoomOutIcon, zoomLevelProperty, options ) {
 
-    assert && assert(zoomInIcon instanceof Node,'icons are required in the base class');
-    assert && assert(zoomOutIcon instanceof Node,'icons are required in the base class');
+    assert && assert( zoomInIcon instanceof Node, 'icons are required in the base class' );
+    assert && assert( zoomOutIcon instanceof Node, 'icons are required in the base class' );
     assert && assert( zoomLevelProperty instanceof NumberProperty, 'invalid zoomLevelProperty' );
     assert && assert( zoomLevelProperty.range, 'missing zoomLevelProperty.range' );
 

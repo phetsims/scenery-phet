@@ -55,11 +55,11 @@ class GaugeNode extends Node {
 
       needleLineWidth: 3,
 
-      // {boolean} 
+      // {boolean}
       // true - always updates, even when invisible
       // false - does not update when invisible, use to optimize performance
       updateWhenInvisible: true,
-      
+
       tandem: Tandem.REQUIRED
     }, options );
 
@@ -129,7 +129,7 @@ class GaugeNode extends Node {
       }
     };
     valueProperty.link( updateNeedle );
-    
+
     if ( options.updateOnlyWhenVisible ) {
       this.visibleProperty.link( visible => {
         visible && updateNeedle();

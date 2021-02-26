@@ -451,7 +451,7 @@ function createConeNode( pumpBodyWidth, height, fill ) {
 
   const coneShape = new Shape()
 
-  // start in upper right corner of shape, draw top ellipse right to left
+    // start in upper right corner of shape, draw top ellipse right to left
     .ellipticalArc( 0, 0, coneTopRadiusX, coneTopRadiusY, 0, 0, Math.PI, false )
     .lineTo( -coneBottomRadiusX, height ) // line to bottom left corner of shape
 

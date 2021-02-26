@@ -293,7 +293,7 @@ class StopwatchNode extends Node {
    * @param {Object} [options]
    * @returns {function(time:number):string} - see NumberDisplay options.numberFormatter
    */
-  static createRichTextNumberFormatter( options ){
+  static createRichTextNumberFormatter( options ) {
 
     options = merge( {
 

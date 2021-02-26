@@ -136,6 +136,7 @@ class FormulaNode extends DOM {
 
     return this;
   }
+
   set formula( value ) { this.setFormula( value ); }
 
   /**
@@ -146,6 +147,7 @@ class FormulaNode extends DOM {
   getFormula() {
     return this._formula;
   }
+
   get formula() { return this.getFormula(); }
 
   /**
@@ -169,6 +171,7 @@ class FormulaNode extends DOM {
 
     return this;
   }
+
   set displayMode( value ) { this.setDisplayMode( value ); }
 
   /**
@@ -180,6 +183,7 @@ class FormulaNode extends DOM {
   getDisplayMode() {
     return this._displayMode;
   }
+
   get displayMode() { return this.getDisplayMode(); }
 
   /**
