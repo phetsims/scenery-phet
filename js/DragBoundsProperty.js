@@ -11,6 +11,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Vector2 from '../../dot/js/Vector2.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -19,22 +20,28 @@ class DragBoundsProperty extends DerivedProperty {
   //TODO https://github.com/phetsims/scenery-phet/issues/656 assumes that targetNode and boundsProperty are in the same coordinate frame
   /**
    * @param {Node} targetNode - the Node that is to be constrained
-   * @param {Property.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds
+   * @param {Property.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds. Should be given in the
+   *                                              parent coordinate frame of the targetNode
    */
   constructor( targetNode, boundsProperty ) {
     assert && assert( targetNode instanceof Node, `invalid targetNode: ${targetNode}` );
     assert && assert( boundsProperty instanceof Property, `invalid boundsProperty: ${boundsProperty}` );
 
     super( [ targetNode.boundsProperty, boundsProperty ], ( targetNodeBounds, bounds ) => {
+      // We'll grab the origin in the parent coordinate frame, to determine our bounds offsets in that coordinate frame.
+      // This way we'll properly handle scaling/rotation/etc.
+      const targetOriginInParentCoordinates = targetNode.localToParentPoint( Vector2.ZERO );
 
-      //TODO https://github.com/phetsims/scenery-phet/issues/656 assumes that targetNode's origin is a the upper-left corner of its bounds
-      // account for the bounds of targetNode
+      // We'll adjust the bounds based on the target's bounds relative to its origin.
       return new Bounds2(
-        bounds.minX,
-        bounds.minY,
-        bounds.maxX - targetNodeBounds.width,
-        bounds.maxY - targetNodeBounds.height
+        bounds.minX - ( targetNodeBounds.minX - targetOriginInParentCoordinates.x ),
+        bounds.minY - ( targetNodeBounds.minY - targetOriginInParentCoordinates.y ),
+        bounds.maxX - ( targetNodeBounds.maxX - targetOriginInParentCoordinates.x ),
+        bounds.maxY - ( targetNodeBounds.maxY - targetOriginInParentCoordinates.y )
       );
+    }, {
+      // Don't make spurious changes, we often won't be changing
+      useDeepEquality: true
     } );
   }
 }
