@@ -4,11 +4,12 @@
  * Node for up/down buttons.  Used in the Fractions sims to increase/decrease numerator/denominator.  See also LeftRightSpinner.
  *
  * TODO press to hold, see https://github.com/phetsims/scenery-phet/issues/584
- *
+ * @deprecated - Please use NumberPicker or generalize RoundNumberSpinner, see https://github.com/phetsims/scenery-phet/issues/584
  * @author Sam Reid
  */
 
 import Shape from '../../kite/js/Shape.js';
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -26,7 +27,7 @@ class UpDownSpinner extends VBox {
    * @param {Object} [options]
    */
   constructor( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
-
+    deprecationWarning( 'Please use NumberPicker or generalize RoundNumberSpinner, see https://github.com/phetsims/scenery-phet/issues/584' );
     options = merge( {
       spacing: 6
     }, options );
