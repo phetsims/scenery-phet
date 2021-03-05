@@ -94,18 +94,9 @@ class EFieldNode extends CanvasNode {
         self.invalidatePaint();
       }
     } );
-  }
 
-  /**
-   * Update the node when it becomes visible.  Overrides setVisible in Node.
-   * @public
-   * @override
-   */
-  setVisible( visible ) {
-    super.setVisible( visible );
-    if ( visible ) {
-      this.invalidatePaint();
-    }
+    // Update when this Node becomes visible.
+    this.visibleProperty.link( visible => visible && this.invalidatePaint() );
   }
 
   /**
