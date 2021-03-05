@@ -230,8 +230,12 @@ class ConductivityTesterNode extends Node {
     negativeProbePositionProperty.link( negativeProbeObserver );
 
     // @private
-    this.lightBulbNode = lightBulbNode;
     this.shortCircuitNode = shortCircuitNode;
+
+    // To prevent light from updating when invisible
+    this.visibleProperty.link( visible => {
+      lightBulbNode.visible = visible;
+    } );
 
     this.disposeConductivityTesterNode = () => {
 
@@ -296,17 +300,6 @@ class ConductivityTesterNode extends Node {
   dispose() {
     this.disposeConductivityTesterNode();
     super.dispose();
-  }
-
-  /**
-   * Sets visibility.
-   * @param {boolean} visible
-   * @public
-   * @override
-   */
-  setVisible( visible ) {
-    super.setVisible( visible );
-    this.lightBulbNode.visible = visible; // to prevent light from updating when invisible
   }
 }
 
