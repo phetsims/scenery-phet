@@ -62,6 +62,9 @@ class LightBulbNode extends Node {
     const brightnessObserver = brightness => this.update();
     brightnessProperty.link( brightnessObserver );
 
+    // Updates this Node when it becomes visible.
+    this.visibleProperty.link( visible => visible && this.update() );
+
     // @private
     this.disposeLightBulbNode = () => {
       brightnessProperty.unlink( brightnessObserver );
@@ -93,19 +96,6 @@ class LightBulbNode extends Node {
         this.onNode.opacity = Utils.linear( 0, 1, 0.3, 1, brightness );
       }
       this.raysNode.setBrightness( brightness );
-    }
-  }
-
-  /**
-   * @param {boolean} visible
-   * @public
-   * @override
-   */
-  setVisible( visible ) {
-    const wasVisible = this.visible;
-    super.setVisible( visible );
-    if ( !wasVisible && visible ) {
-      this.update();
     }
   }
 }
