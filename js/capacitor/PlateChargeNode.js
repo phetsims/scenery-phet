@@ -82,6 +82,9 @@ class PlateChargeNode extends CanvasNode {
         capacitor.plateChargeProperty
       ], () => self.isVisible() && self.invalidatePaint()
     );
+
+    // Update when this Node becomes visible.
+    this.visibleProperty.link( visible => visible && this.invalidatePaint() );
   }
 
   /**
@@ -165,20 +168,6 @@ class PlateChargeNode extends CanvasNode {
   isPositivelyCharged() {
     return ( this.getPlateCharge() >= 0 && this.polarity === CapacitorConstants.POLARITY.POSITIVE ) ||
            ( this.getPlateCharge() < 0 && this.polarity === CapacitorConstants.POLARITY.NEGATIVE );
-  }
-
-  /**
-   * Update the node when it becomes visible.
-   *
-   * @param {boolean} visible
-   * @public
-   * @override
-   */
-  setVisible( visible ) {
-    super.setVisible( visible );
-    if ( visible ) {
-      this.invalidatePaint();
-    }
   }
 
   /**
