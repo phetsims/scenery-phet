@@ -20,12 +20,10 @@ import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../FineCoarseSpinner.js';
-import LeftRightSpinner from '../LeftRightSpinner.js';
 import NumberPicker from '../NumberPicker.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
-import UpDownSpinner from '../UpDownSpinner.js';
 
 class SpinnersScreenView extends DemosScreenView {
 
@@ -42,9 +40,7 @@ class SpinnersScreenView extends DemosScreenView {
        * {function(Bounds2): Node} createNode - creates the scene graph for the demo
        */
       { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
-      { label: 'LeftRightSpinner', createNode: demoLeftRightSpinner },
-      { label: 'NumberPicker', createNode: demoNumberPicker },
-      { label: 'UpDownSpinner', createNode: demoUpDownSpinner }
+      { label: 'NumberPicker', createNode: demoNumberPicker }
     ], merge( {
       selectedDemoLabel: sceneryPhetQueryParameters.component,
       tandem: Tandem.REQUIRED
@@ -98,62 +94,6 @@ function demoNumberPicker( layoutBounds ) {
     children: [ numberPicker, enabledCheckbox ],
     center: layoutBounds.center
   } );
-}
-
-// creates a demo for LeftRightSpinner
-function demoLeftRightSpinner( layoutBounds ) {
-
-  const leftRightSpinnerProperty = new Property( 1 );
-  const leftEnabledProperty = new Property( true );
-  const rightEnabledProperty = new Property( true );
-
-  const leftRightSpinner = new LeftRightSpinner( leftRightSpinnerProperty, leftEnabledProperty, rightEnabledProperty, {
-    center: layoutBounds.center
-  } );
-
-  leftRightSpinnerProperty.lazyLink( value => {
-    console.log( 'LeftRightSpinner: ' + value );
-    if ( value >= 10 ) {
-      rightEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      leftEnabledProperty.set( false );
-    }
-    else {
-      rightEnabledProperty.set( true );
-      leftEnabledProperty.set( true );
-    }
-  } );
-
-  return leftRightSpinner;
-}
-
-// creates a demo for UpDownSpinner
-function demoUpDownSpinner( layoutBounds ) {
-
-  const upDownSpinnerProperty = new Property( 1 );
-  const upEnabledProperty = new Property( true );
-  const downEnabledProperty = new Property( true );
-
-  const upDownSpinner = new UpDownSpinner( upDownSpinnerProperty, upEnabledProperty, downEnabledProperty, {
-    center: layoutBounds.center
-  } );
-
-  upDownSpinnerProperty.lazyLink( value => {
-    console.log( 'UpDownSpinner: ' + value );
-    if ( value >= 10 ) {
-      upEnabledProperty.set( false );
-    }
-    else if ( value <= 0 ) {
-      downEnabledProperty.set( false );
-    }
-    else {
-      upEnabledProperty.set( true );
-      downEnabledProperty.set( true );
-    }
-  } );
-
-  return upDownSpinner;
 }
 
 sceneryPhet.register( 'SpinnersScreenView', SpinnersScreenView );
