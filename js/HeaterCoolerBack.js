@@ -40,17 +40,17 @@ class HeaterCoolerBack extends Node {
     super();
 
     options = merge( {
-      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the stove
     }, options );
 
     // Dimensions for the rest of the stove, dependent on the desired stove width.
-    const burnerOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
+    const stoveOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
 
-    // Create the inside bowl of the burner, which is an ellipse.
+    // Create the inside bowl of the stove, which is an ellipse.
     const stoveBaseColor = Color.toColor( options.baseColor );
-    const burnerInteriorShape = new Shape()
-      .ellipse( DEFAULT_WIDTH / 2, burnerOpeningHeight / 4, DEFAULT_WIDTH / 2, burnerOpeningHeight / 2, 0, 0, Math.PI, false );
-    const burnerInterior = new Path( burnerInteriorShape, {
+    const stoveInteriorShape = new Shape()
+      .ellipse( DEFAULT_WIDTH / 2, stoveOpeningHeight / 4, DEFAULT_WIDTH / 2, stoveOpeningHeight / 2, 0, 0, Math.PI, false );
+    const stoveInterior = new Path( stoveInteriorShape, {
       stroke: 'black',
       fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
         .addColorStop( 0, stoveBaseColor.darkerColor( 0.5 ) )
@@ -58,14 +58,14 @@ class HeaterCoolerBack extends Node {
     } );
 
     const fireNode = new Image( fireImage, {
-      centerX: burnerInterior.centerX,
-      top: burnerInterior.bottom,
+      centerX: stoveInterior.centerX,
+      top: stoveInterior.bottom,
       scale: DEFAULT_WIDTH / DEFAULT_WIDTH
     } );
 
     const iceNode = new Image( iceImage, {
-      centerX: burnerInterior.centerX,
-      top: burnerInterior.bottom,
+      centerX: stoveInterior.centerX,
+      top: stoveInterior.bottom,
       scale: DEFAULT_WIDTH / DEFAULT_WIDTH
     } );
 
@@ -75,16 +75,16 @@ class HeaterCoolerBack extends Node {
       assert && assert( Math.abs( heatCoolAmount ) <= 1 );
 
       if ( heatCoolAmount > 0 ) {
-        fireNode.setTranslation( ( burnerInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * .85 );
+        fireNode.setTranslation( ( stoveInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * .85 );
       }
       else if ( heatCoolAmount < 0 ) {
-        iceNode.setTranslation( ( burnerInterior.width - iceNode.width ) / 2, heatCoolAmount * iceImage.height * 0.85 );
+        iceNode.setTranslation( ( stoveInterior.width - iceNode.width ) / 2, heatCoolAmount * iceImage.height * 0.85 );
       }
       iceNode.setVisible( heatCoolAmount < 0 );
       fireNode.setVisible( heatCoolAmount > 0 );
     } );
 
-    this.addChild( burnerInterior );
+    this.addChild( stoveInterior );
     this.addChild( fireNode );
     this.addChild( iceNode );
 
@@ -93,7 +93,7 @@ class HeaterCoolerBack extends Node {
 
   /**
    * Convenience function that returns the correct position for the front of the HeaterCoolerNode.  Specifically,
-   * this returns the left center of the burner opening.
+   * this returns the left center of the stove opening.
    *
    * @returns {Vector2}
    * @public
