@@ -111,11 +111,12 @@ class HeaterCoolerFront extends Node {
       .ellipticalArc( DEFAULT_WIDTH / 2, height + burnerOpeningHeight / 4, bottomWidth / 2, burnerOpeningHeight,
         0, Math.PI, 0, true ).lineTo( DEFAULT_WIDTH, burnerOpeningHeight / 2 );
 
+    const stoveBaseColor = Color.toColor( options.baseColor );
     const stoveBody = new Path( stoveBodyShape, {
       stroke: 'black',
       fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
-        .addColorStop( 0, Color.toColor( options.baseColor ).brighterColor( 0.5 ) )
-        .addColorStop( 1, Color.toColor( options.baseColor ).darkerColor( 0.5 ) )
+        .addColorStop( 0, stoveBaseColor.brighterColor( 0.5 ) )
+        .addColorStop( 1, stoveBaseColor.darkerColor( 0.5 ) )
     } );
 
     // @private {BooleanProperty}
