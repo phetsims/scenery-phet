@@ -20,9 +20,6 @@ import HeaterCoolerBack from './HeaterCoolerBack.js';
 import HeaterCoolerFront from './HeaterCoolerFront.js';
 import sceneryPhet from './sceneryPhet.js';
 
-// const
-const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
-
 class HeaterCoolerNode extends Node {
 
   /**
@@ -35,8 +32,8 @@ class HeaterCoolerNode extends Node {
 
     options = merge( {
 
-      // {Color|string} color of the body, applied to HeaterCoolerBack and HeaterCoolerFront
-      baseColor: DEFAULT_BASE_COLOR,
+      // {Color|string} color of the stove body, applied to HeaterCoolerFront and HeaterCoolerBack
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
 
       // {*|null} options passed to HeaterCoolerFront
       frontOptions: null,

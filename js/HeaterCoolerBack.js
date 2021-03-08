@@ -19,6 +19,7 @@ import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import fireImage from '../images/flame_png.js';
 import iceImage from '../images/ice-cube-stack_png.js';
+import HeaterCoolerFront from './HeaterCoolerFront.js';
 import sceneryPhet from './sceneryPhet.js';
 
 //images
@@ -27,7 +28,6 @@ import sceneryPhet from './sceneryPhet.js';
 // Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
 const OPENING_HEIGHT_SCALE = 0.1;
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
-const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
 class HeaterCoolerBack extends Node {
 
@@ -40,7 +40,7 @@ class HeaterCoolerBack extends Node {
     super();
 
     options = merge( {
-      baseColor: DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the burner
     }, options );
 
     // Dimensions for the rest of the stove, dependent on the desired stove width.

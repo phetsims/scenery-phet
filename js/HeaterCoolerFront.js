@@ -31,7 +31,6 @@ const heatString = sceneryPhetStrings.heat;
 
 // constants
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
-const DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
 class HeaterCoolerFront extends Node {
 
@@ -44,7 +43,7 @@ class HeaterCoolerFront extends Node {
     super();
 
     options = merge( {
-      baseColor: DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
       width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
       heatEnabled: true, // Allows slider to reach positive values (corresponding to heating)
       coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
@@ -204,6 +203,9 @@ class HeaterCoolerFront extends Node {
     } );
   }
 }
+
+// @public Defined here instead of in HeaterCoolerNode to prevent circular dependency.
+HeaterCoolerFront.DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
 sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );
 export default HeaterCoolerFront;
