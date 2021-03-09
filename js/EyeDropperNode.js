@@ -40,9 +40,9 @@ class EyeDropperNode extends Node {
 
     options = merge( {
 
-      dispensingProperty: new Property( false ), // is the dropper dispensing?
+      isDispensingProperty: new Property( false ), // is the dropper dispensing?
+      isEmptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonEnabledProperty: new Property( true ), // is the button enabled?
-      emptyProperty: new Property( false ), // does the dropper appear to be empty?
       buttonTouchAreaDilation: 15, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
 
@@ -56,9 +56,9 @@ class EyeDropperNode extends Node {
     super();
 
     // @public
-    this.dispensingProperty = options.dispensingProperty;
+    this.isDispensingProperty = options.isDispensingProperty;
     this.buttonEnabledProperty = options.buttonEnabledProperty;
-    this.emptyProperty = options.emptyProperty;
+    this.isEmptyProperty = options.isEmptyProperty;
 
     // @private fluid fills the glass portion of the dropper, shape is specific to the dropper image file
     this.fluidNode = new Path( new Shape()
@@ -83,7 +83,7 @@ class EyeDropperNode extends Node {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    const button = new RoundMomentaryButton( false, true, this.dispensingProperty, {
+    const button = new RoundMomentaryButton( false, true, this.isDispensingProperty, {
       baseColor: 'red',
       radius: 18,
       listenerOptions: {
@@ -103,7 +103,7 @@ class EyeDropperNode extends Node {
       this.fluidNode.visible = !empty;
       background.visible = empty;
     };
-    this.emptyProperty.link( emptyObserver );
+    this.isEmptyProperty.link( emptyObserver );
 
     assert && assert( !options.children, 'EyeDropperNode sets children' );
     options.children = [ this.fluidNode, background, foreground, button ];
@@ -119,7 +119,7 @@ class EyeDropperNode extends Node {
     this.disposeEyeDropperNode = () => {
       button.dispose();
       this.buttonEnabledProperty.unlink( enabledObserver );
-      this.emptyProperty.unlink( emptyObserver );
+      this.isEmptyProperty.unlink( emptyObserver );
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
