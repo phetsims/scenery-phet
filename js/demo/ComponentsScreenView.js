@@ -435,14 +435,16 @@ function demoEyeDropperNode( layoutBounds ) {
   const buttonEnabledProperty = new BooleanProperty( true );
 
   const dropperNode = new EyeDropperNode( {
-    buttonEnabledProperty: buttonEnabledProperty,
+    buttonOptions: {
+      enabledProperty: buttonEnabledProperty
+    },
     fluidColor: 'purple',
     center: layoutBounds.center
   } );
 
   const buttonEnabledCheckbox = new Checkbox( new Text( 'button enabled', { font: new PhetFont( 20 ) } ), buttonEnabledProperty );
 
-  dropperNode.dispensingProperty.lazyLink(
+  dropperNode.isDispensingProperty.lazyLink(
     dispensing => console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) )
   );
 

@@ -42,9 +42,18 @@ class EyeDropperNode extends Node {
 
       isDispensingProperty: new Property( false ), // is the dropper dispensing?
       isEmptyProperty: new Property( false ), // does the dropper appear to be empty?
-      buttonEnabledProperty: new Property( true ), // is the button enabled?
-      buttonTouchAreaDilation: 15, // dilation of the button's radius for touchArea
       fluidColor: 'yellow', // {Color|String} color of the fluid in the glass
+
+      // RoundMomentaryButton options
+      buttonOptions: {
+        touchAreaDilation: 15,
+        baseColor: 'red',
+        radius: 18,
+        listenerOptions: {
+          // We want to be able to drag the dropper WHILE dispensing, see https://github.com/phetsims/ph-scale/issues/86
+          attach: false
+        }
+      },
 
       // Node options
       cursor: 'pointer',
@@ -57,7 +66,6 @@ class EyeDropperNode extends Node {
 
     // @public
     this.isDispensingProperty = options.isDispensingProperty;
-    this.buttonEnabledProperty = options.buttonEnabledProperty;
     this.isEmptyProperty = options.isEmptyProperty;
 
     // @private fluid fills the glass portion of the dropper, shape is specific to the dropper image file
@@ -83,20 +91,11 @@ class EyeDropperNode extends Node {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    const button = new RoundMomentaryButton( false, true, this.isDispensingProperty, {
-      baseColor: 'red',
-      radius: 18,
-      listenerOptions: {
-        // We want to be able to drag the dropper WHILE dispensing, see https://github.com/phetsims/ph-scale/issues/86
-        attach: false
-      },
+    const button = new RoundMomentaryButton( false, true, this.isDispensingProperty, merge( {
+      centerX: foreground.centerX,
+      centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
       tandem: options.tandem.createTandem( 'button' )
-    } );
-    const enabledObserver = function( enabled ) { button.enabled = enabled; };
-    this.buttonEnabledProperty.link( enabledObserver );
-    button.touchArea = Shape.circle( 0, 0, ( button.width / 2 ) + options.buttonTouchAreaDilation );
-    button.centerX = foreground.centerX;
-    button.centerY = foreground.top + BUTTON_CENTER_Y_OFFSET;
+    }, options.buttonOptions ) );
 
     // make the background visible only when the dropper is empty
     const emptyObserver = empty => {
@@ -118,7 +117,6 @@ class EyeDropperNode extends Node {
     // @private
     this.disposeEyeDropperNode = () => {
       button.dispose();
-      this.buttonEnabledProperty.unlink( enabledObserver );
       this.isEmptyProperty.unlink( emptyObserver );
     };
 
