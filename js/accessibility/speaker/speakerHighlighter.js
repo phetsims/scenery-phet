@@ -19,7 +19,6 @@ import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.
 import Display from '../../../../scenery/js/display/Display.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
-import SelfVoicingFocusHighlight from './SelfVoicingFocusHighlight.js';
 
 class SpeakerHighlighter {
   constructor() {
@@ -32,20 +31,27 @@ class SpeakerHighlighter {
     // the 'overTrail' becomes the 'speakingTrail' when the webSpeaker starts speaking while there
     // is an 'overTrail'.
     this.speakingTrailProperty = new Property( null );
+
+    // @private {Property.<boolean>|null} - Whether or not the speakerHighlighter is enabled and activating
+    // highlights around what is being spoken - provided on initialize, null otherwise
+    this.enabledProperty = null;
   }
 
   /**
    * Initialize the highlighter, attaching listeners that control visibility of highlights.
    * @public
+   *
+   * @param {BooleanProperty} enabledProperty
    * @param {Object} [options]
    */
-  initialize( options ) {
+  initialize( enabledProperty, options ) {
 
     options = merge( {
       display: getGlobal( 'phet.joist.display' )
     }, options );
-
     assert && assert( options.display instanceof Display, 'display must be provided' );
+
+    this.enabledProperty = enabledProperty;
 
     // the current Trail for which there is an active Pointer over or focused on a Node
     let activeHighlightTrail = null;
@@ -86,7 +92,7 @@ class SpeakerHighlighter {
 
     // activate highlights for self-voicing
     Property.multilink( [ this.overTrailProperty, this.speakingTrailProperty ], ( overTrail, speakingTrail ) => {
-      if ( levelSpeakerModel.showHoverHighlightsProperty.get() ) {
+      if ( this.enabledProperty.get() ) {
 
         // prioritize the speakingHighlightTrail as long as the webSpeaker is speaking - otherwise show highlights
         // under the over trail
@@ -99,19 +105,16 @@ class SpeakerHighlighter {
             options.display._focusOverlay.deactivateHighlight( options.display._focusOverlay.trail );
           }
 
-          // SelfVoicingFocusHighlights are always show, but only show default highlights if option is selected by user
-          const instanceOfSelfVoicingHighlight = trailToHighlight.lastNode().focusHighlight instanceof SelfVoicingFocusHighlight;
-          const showHighlight = instanceOfSelfVoicingHighlight || levelSpeakerModel.showHoverHighlightsProperty.get();
-
           activeHighlightTrail = trailToHighlight;
-          if ( showHighlight ) {
-            options.display._focusOverlay.activateHighlight( activeHighlightTrail );
-          }
+          options.display._focusOverlay.activateHighlight( activeHighlightTrail );
         }
         else {
           if ( options.display._focusOverlay.hasHighlight() ) {
-            assert && assert( activeHighlightTrail, 'trail to active highlight required' );
-            options.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+
+            // first activation may not have an activeHighlightTrail
+            if ( activeHighlightTrail ) {
+              options.display._focusOverlay.deactivateHighlight( activeHighlightTrail );
+            }
 
             activeHighlightTrail = null;
           }
