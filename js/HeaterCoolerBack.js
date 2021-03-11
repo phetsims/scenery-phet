@@ -75,7 +75,7 @@ class HeaterCoolerBack extends Node {
       assert && assert( Math.abs( heatCoolAmount ) <= 1 );
 
       if ( heatCoolAmount > 0 ) {
-        fireNode.setTranslation( ( stoveInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * .85 );
+        fireNode.setTranslation( ( stoveInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * 0.85 );
       }
       else if ( heatCoolAmount < 0 ) {
         iceNode.setTranslation( ( stoveInterior.width - iceNode.width ) / 2, heatCoolAmount * iceImage.height * 0.85 );

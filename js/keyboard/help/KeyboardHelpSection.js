@@ -215,7 +215,7 @@ class KeyboardHelpSection extends VBox {
 
     assert && assert( !options.iconsVBoxOptions.innerContent, 'should be specified as an argument' );
     options.iconsVBoxOptions = merge( {
-      spacing: DEFAULT_VERTICAL_ICON_SPACING * .75, // less than the normal vertical icon spacing since it is a group
+      spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
       tagName: 'li',
       innerContent: labelInnerContent
