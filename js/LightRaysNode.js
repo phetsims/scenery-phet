@@ -94,7 +94,7 @@ class LightRaysNode extends Path {
     const shape = new Shape();
 
     // rays fill part of a circle, incrementing clockwise
-    for ( var i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
+    for ( let i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
       if ( i < numberOfRays ) {
 
         // determine the end points of the ray

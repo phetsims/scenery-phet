@@ -200,7 +200,7 @@ class FaucetNode extends Node {
         this.phetioEndEvent();
       }
     };
-    var endTapToDispense = () => {
+    const endTapToDispense = () => {
       this.phetioStartEvent( 'endTapToDispense', { data: { flowRate: 0 } } );
       flowRateProperty.set( 0 );
       if ( timeoutID !== null ) {

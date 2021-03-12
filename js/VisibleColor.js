@@ -200,7 +200,7 @@ function createColorTable( reduceIntensityAtExtrema ) {
     }
 
     // Let the intensity fall off near the vision limits.
-    var intensity;
+    let intensity;
     if ( reduceIntensityAtExtrema && wavelength > 645 ) {
       intensity = 0.3 + 0.7 * ( 780 - wavelength ) / ( 780 - 645 );
     }

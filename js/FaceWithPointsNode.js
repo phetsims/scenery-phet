@@ -104,7 +104,7 @@ class FaceWithPointsNode extends Node {
         break;
 
       case 'rightBottom':
-        var position = new Vector2( this.faceNode.right + this.spacing, this.faceNode.centerY );
+        var position = new Vector2( this.faceNode.right + this.spacing, this.faceNode.centerY ); // eslint-disable-line no-var
         position.rotate( Math.PI / 4 );
         this.pointsNode.left = position.x;
         this.pointsNode.centerY = position.y;
