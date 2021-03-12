@@ -105,7 +105,7 @@ class ColorProfile {
 
         // Create a Property for the color
         const colorProperty = new Property( initialColor );
-        this[ key + 'Property' ] = colorProperty;
+        this[ `${key}Property` ] = colorProperty;
 
         // Update the Property on profile name changes
         this.profileNameProperty.lazyLink( profileName => {
@@ -129,7 +129,7 @@ class ColorProfile {
       }
 
       if ( data && data.type === 'setColor' ) {
-        this[ data.name + 'Property' ].value = new Color( data.value );
+        this[ `${data.name}Property` ].value = new Color( data.value );
       }
     } );
   }
@@ -143,7 +143,7 @@ class ColorProfile {
     ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
       type: 'reportColor',
       name: key,
-      value: this[ key + 'Property' ].value.toHexString()
+      value: this[ `${key}Property` ].value.toHexString()
     } ), '*' );
   }
 

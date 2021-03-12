@@ -177,7 +177,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
       // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
       returnValue = parseFloat( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ) );
-      assert && assert( !isNaN( returnValue ), 'invalid number: ' + returnValue );
+      assert && assert( !isNaN( returnValue ), `invalid number: ${returnValue}` );
     }
 
     return returnValue;

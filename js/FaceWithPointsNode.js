@@ -89,7 +89,7 @@ class FaceWithPointsNode extends Node {
       this.pointsNode.text = '';
     }
     else {
-      this.pointsNode.text = '+' + points;
+      this.pointsNode.text = `+${points}`;
     }
     this.updatePointsPosition();
   }
@@ -118,7 +118,7 @@ class FaceWithPointsNode extends Node {
       // Add other alignments here as needed, please document in options.
 
       default:
-        throw new Error( 'unsupported pointsAlignment: ' + this.pointsAlignment );
+        throw new Error( `unsupported pointsAlignment: ${this.pointsAlignment}` );
     }
   }
 }

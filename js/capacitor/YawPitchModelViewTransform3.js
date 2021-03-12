@@ -63,7 +63,7 @@ class YawPitchModelViewTransform3 {
    * @returns {Vector2}
    */
   modelToViewPosition( modelPoint ) {
-    assert && assert( modelPoint instanceof Vector3, 'modelPoint must be of type Vector3. Received ' + modelPoint );
+    assert && assert( modelPoint instanceof Vector3, `modelPoint must be of type Vector3. Received ${modelPoint}` );
     scratchVector2.setPolar( modelPoint.z * Math.sin( this.pitch ), this.yaw );
     scratchVector2.addXY( modelPoint.x, modelPoint.y );
     return this.modelToViewTransform2D.transformPosition2( scratchVector2 );

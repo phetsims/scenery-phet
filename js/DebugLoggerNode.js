@@ -69,7 +69,7 @@ class DebugLoggerNode extends RichText {
 
     // munge the messages together and set the value of the text
     this.text = _.reduce( this.messages, ( memo, compositeMessage ) => {
-      return memo + '<br>' + compositeMessage;
+      return `${memo}<br>${compositeMessage}`;
     } );
   }
 }

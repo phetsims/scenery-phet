@@ -406,7 +406,7 @@ class HelpSectionRow {
    * @param {Node} icon
    */
   constructor( text, label, icon ) {
-    assert && assert( text instanceof Text || text instanceof RichText, 'unsupported label type: ' + text );
+    assert && assert( text instanceof Text || text instanceof RichText, `unsupported label type: ${text}` );
 
     // @public (read-only)
     this.label = label;

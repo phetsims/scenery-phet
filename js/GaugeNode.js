@@ -63,8 +63,8 @@ class GaugeNode extends Node {
       tandem: Tandem.REQUIRED
     }, options );
 
-    assert && assert( range instanceof Range, 'range must be of type Range: ' + range );
-    assert && assert( options.span <= 2 * Math.PI, 'options.span must be <= 2 * Math.PI: ' + options.span );
+    assert && assert( range instanceof Range, `range must be of type Range: ${range}` );
+    assert && assert( options.span <= 2 * Math.PI, `options.span must be <= 2 * Math.PI: ${options.span}` );
 
     super();
 

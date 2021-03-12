@@ -36,7 +36,7 @@ class PhetFont extends Font {
 
     // Guarantee a fallback family
     assert && assert( options.family );
-    options.family = options.family + ', sans-serif';
+    options.family = `${options.family}, sans-serif`;
 
     super( options );
   }

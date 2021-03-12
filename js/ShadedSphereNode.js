@@ -30,11 +30,11 @@ class ShadedSphereNode extends Circle {
 
     // validate option values
     assert && assert( options.highlightDiameter < diameter,
-      'highlightDiameter must be < diameter: ' + options.highlightDiameter );
+      `highlightDiameter must be < diameter: ${options.highlightDiameter}` );
     assert && assert( options.highlightXOffset >= -1 && options.highlightXOffset <= 1,
-      'highlightXOffset out of range: ' + options.highlightXOffset );
+      `highlightXOffset out of range: ${options.highlightXOffset}` );
     assert && assert( options.highlightYOffset >= -1 && options.highlightYOffset <= 1,
-      'highlightYOffset out of range: ' + options.highlightYOffset );
+      `highlightYOffset out of range: ${options.highlightYOffset}` );
 
     const radius = diameter / 2;
     const highlightX = radius * options.highlightXOffset;

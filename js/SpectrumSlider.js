@@ -52,7 +52,7 @@ class SpectrumSlider extends Node {
       maxValue: 1,
 
       // {function} Maps {number} to text that is optionally displayed by the slider
-      valueToString: function( value ) {return value + '';},
+      valueToString: function( value ) {return `${value}`;},
 
       // {function} Maps {number} to Color that is rendered in the spectrum and in the thumb
       valueToColor: function( value ) {return new Color( 0, 0, 255 * value );},

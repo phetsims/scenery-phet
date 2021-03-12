@@ -60,7 +60,7 @@ class ThermometerNode extends Node {
     super();
 
     assert && assert( options.zeroLevel === 'bulbCenter' || options.zeroLevel === 'bulbTop',
-      'Invalid zeroLevel: ' + options.zeroLevel );
+      `Invalid zeroLevel: ${options.zeroLevel}` );
 
     // Create a shaded sphere to act as the bulb fluid
     const bulbFluidDiameter = options.bulbDiameter - options.glassThickness - options.lineWidth / 2;
@@ -175,7 +175,7 @@ class ThermometerNode extends Node {
       minFluidHeight = -tubeFluidBottom;
     }
     else {
-      throw new Error( 'Invalid zeroLevel: ' + options.zeroLevel );
+      throw new Error( `Invalid zeroLevel: ${options.zeroLevel}` );
     }
 
     // @private

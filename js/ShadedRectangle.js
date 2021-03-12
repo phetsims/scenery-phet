@@ -58,7 +58,7 @@ class ShadedRectangle extends Node {
                       options.lightSource === 'rightTop' ||
                       options.lightSource === 'leftBottom' ||
                       options.lightSource === 'rightBottom',
-      'The lightSource ' + options.lightSource + ' is not supported' );
+      `The lightSource ${options.lightSource} is not supported` );
     assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
     assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
 

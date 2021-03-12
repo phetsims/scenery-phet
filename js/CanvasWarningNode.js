@@ -49,7 +49,7 @@ class CanvasWarningNode extends HBox {
 
     this.addInputListener( {
       up: function() {
-        openPopup( 'http://phet.colorado.edu/webgl-disabled-page?simLocale=' + phet.joist.sim.locale );
+        openPopup( `http://phet.colorado.edu/webgl-disabled-page?simLocale=${phet.joist.sim.locale}` );
       }
     } );
   }

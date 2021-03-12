@@ -104,11 +104,11 @@ class NumberDisplay extends Node {
     assert && assert( !options.hasOwnProperty( 'unitsNode' ), 'unitsNode is not a supported option' );
 
     // Set default alignments and validate
-    assert && assert( _.includes( ALIGN_VALUES, options.align ), 'invalid align: ' + options.align );
+    assert && assert( _.includes( ALIGN_VALUES, options.align ), `invalid align: ${options.align}` );
     if ( !options.noValueAlign ) {
       options.noValueAlign = options.align;
     }
-    assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), 'invalid noValueAlign: ' + options.noValueAlign );
+    assert && assert( _.includes( ALIGN_VALUES, options.noValueAlign ), `invalid noValueAlign: ${options.noValueAlign}` );
     assert && assert( options.textOptions, 'did you accidentally set textOptions to null?' );
 
     // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
@@ -118,7 +118,7 @@ class NumberDisplay extends Node {
     }
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
-      'missing value placeholder in options.valuePattern: ' + options.valuePattern );
+      `missing value placeholder in options.valuePattern: ${options.valuePattern}` );
 
     // Set default and validate
     if ( !options.noValuePattern ) {
@@ -126,7 +126,7 @@ class NumberDisplay extends Node {
     }
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
-      'missing value placeholder in options.noValuePattern: ' + options.noValuePattern );
+      `missing value placeholder in options.noValuePattern: ${options.noValuePattern}` );
 
     // determine the widest value
     const minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString, options.numberFormatter );
@@ -304,7 +304,7 @@ const valueToString = ( value, decimalPlaces, noValueString, numberFormatter ) =
       stringValue = numberFormatter( value );
     }
     else if ( decimalPlaces === null ) {
-      stringValue = '' + value;
+      stringValue = `${value}`;
     }
     else {
       stringValue = Utils.toFixed( value, decimalPlaces );

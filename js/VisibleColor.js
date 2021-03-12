@@ -66,7 +66,7 @@ const VisibleColor = {
       color = colorTable[ Utils.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
     }
 
-    assert && assert( color, 'color not found for wavelength ' + wavelength );
+    assert && assert( color, `color not found for wavelength ${wavelength}` );
     return color;
   },
 
@@ -139,7 +139,7 @@ const VisibleColor = {
       }
     }
 
-    assert && assert( wavelength !== -1, 'no wavelength found for color ' + color.toString() );
+    assert && assert( wavelength !== -1, `no wavelength found for color ${color.toString()}` );
     return wavelength;
   }
 };

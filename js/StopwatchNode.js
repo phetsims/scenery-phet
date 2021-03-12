@@ -280,11 +280,11 @@ class StopwatchNode extends Node {
     time = Utils.roundSymmetric( time * max ) / max;
 
     // Rounding after mod, in case there is floating-point error
-    let decimalValue = Utils.roundSymmetric( time % 1 * max ) + '';
+    let decimalValue = `${Utils.roundSymmetric( time % 1 * max )}`;
     while ( decimalValue.length < numberDecimalPlaces ) {
-      decimalValue = '0' + decimalValue;
+      decimalValue = `0${decimalValue}`;
     }
-    return '.' + decimalValue;
+    return `.${decimalValue}`;
   }
 
   /**
@@ -385,12 +385,12 @@ function toMinutesAndSeconds( time ) {
   let seconds = Math.floor( timeInSeconds ) % 60;
 
   if ( seconds < 10 ) {
-    seconds = '0' + seconds;
+    seconds = `0${seconds}`;
   }
   if ( minutes < 10 ) {
-    minutes = '0' + minutes;
+    minutes = `0${minutes}`;
   }
-  return minutes + ':' + seconds;
+  return `${minutes}:${seconds}`;
 }
 
 sceneryPhet.register( 'StopwatchNode', StopwatchNode );

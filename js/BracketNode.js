@@ -83,7 +83,7 @@ class BracketNode extends Node {
         bracketNode.rotation = -Math.PI / 2;
         break;
       default:
-        throw new Error( 'unsupported orientation: ' + options.orientation );
+        throw new Error( `unsupported orientation: ${options.orientation}` );
     }
 
     // optional label, positioned near the bracket's tip
@@ -107,7 +107,7 @@ class BracketNode extends Node {
           options.labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
           break;
         default:
-          throw new Error( 'unsupported orientation: ' + options.orientation );
+          throw new Error( `unsupported orientation: ${options.orientation}` );
       }
     }
 

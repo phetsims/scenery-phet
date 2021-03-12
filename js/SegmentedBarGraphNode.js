@@ -59,7 +59,7 @@ class SegmentedBarGraphNode extends Node {
     // set the visibility and opacity of each of the segments based on the number and range
     Property.multilink( [ numberProperty, rangeProperty ], ( number, range ) => {
       assert && assert( range.min <= number && number <= range.max,
-        'numberProperty is out of range, ' + number );
+        `numberProperty is out of range, ${number}` );
 
       const proportion = 1 - number / range.max;
       const numVisibleIndicators = Math.ceil( options.numSegments * proportion );

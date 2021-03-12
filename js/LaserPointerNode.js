@@ -89,7 +89,7 @@ class LaserPointerNode extends Node {
 
     // validate options
     assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
-      'invalid buttonType: ' + options.buttonType );
+      `invalid buttonType: ${options.buttonType}` );
 
     const children = [];
 

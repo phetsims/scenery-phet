@@ -48,8 +48,8 @@ class FineCoarseSpinner extends Node {
       options.range = numberProperty.range;
     }
 
-    assert && assert( options.deltaFine > 0, 'invalid deltaFine: ' + options.deltaFine );
-    assert && assert( options.deltaCoarse > 0, 'invalid deltaCoarse: ' + options.deltaCoarse );
+    assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
+    assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
     assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.numberOfArrows === undefined,
       'FineCoarseSpinner sets arrowButtonOptions.numberOfArrows' );
     assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.tandem === undefined,

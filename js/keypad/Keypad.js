@@ -38,7 +38,7 @@ const _8 = new Key( '8', KeyID.EIGHT );
 const _9 = new Key( '9', KeyID.NINE );
 const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } );
 const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE );
-const PLUS_MINUS_KEY = new Key( PLUS_CHAR + '/' + MINUS_CHAR, KeyID.PLUS_MINUS );
+const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS );
 const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL );
 
 class Keypad extends Node {

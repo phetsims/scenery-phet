@@ -182,7 +182,7 @@ class NumberKeypad extends Node {
     options = merge( {
       maxDigits: 8 // {number} the maximum number of digits (numbers)
     }, options );
-    assert && assert( options.maxDigits > 0, 'invalid maxDigits: ' + options.maxDigits );
+    assert && assert( options.maxDigits > 0, `invalid maxDigits: ${options.maxDigits}` );
 
     /**
      * Creates the new string that results from pressing a key.

@@ -445,7 +445,7 @@ function demoEyeDropperNode( layoutBounds ) {
   const buttonEnabledCheckbox = new Checkbox( new Text( 'button enabled', { font: new PhetFont( 20 ) } ), buttonEnabledProperty );
 
   dropperNode.isDispensingProperty.lazyLink(
-    dispensing => console.log( 'dropper ' + ( dispensing ? 'dispensing' : 'not dispensing' ) )
+    dispensing => console.log( `dropper ${dispensing ? 'dispensing' : 'not dispensing'}` )
   );
 
   return new VBox( {
@@ -486,11 +486,11 @@ function demoFormulaNode( layoutBounds ) {
   const leftVert = '\\left\\lVert';
   const rightVert = '\\right\\rVert';
   const matrix = '\\begin{bmatrix} \\cos\\theta & \\sin\\theta \\\\ -\\sin\\theta & \\cos\\theta \\end{bmatrix}^{k+1}';
-  const sumExpr = leftVert + '\\sum_{k=1}^{\\infty}kx^{k-1}' + matrix + rightVert;
+  const sumExpr = `${leftVert}\\sum_{k=1}^{\\infty}kx^{k-1}${matrix}${rightVert}`;
   const integral = '\\int_{0}^{2\\pi}\\overline{f(\\theta)}\\cos\\theta\\,\\mathrm{d}\\theta';
   const invCos = '\\cos^{-1}\\left( \\frac{\\sqrt{\\varphi_2}}{\\sqrt{x_2^2+x_3^2}} \\right)';
 
-  const formulaNode = new FormulaNode( conditional + '\\quad ' + sumExpr + ' = ' + invCos + ' + ' + integral, {
+  const formulaNode = new FormulaNode( `${conditional}\\quad ${sumExpr} = ${invCos} + ${integral}`, {
     center: layoutBounds.center,
     scale: 1.3,
     displayMode: true
@@ -1593,11 +1593,11 @@ function demoKeypad( layoutBounds ) {
   const integerValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   integerKeyPad.stringProperty.link( value => {
-    integerStringRepresentation.text = 'string: ' + value;
+    integerStringRepresentation.text = `string: ${value}`;
   } );
 
   integerKeyPad.valueProperty.link( value => {
-    integerValueRepresentation.text = 'number: ' + value;
+    integerValueRepresentation.text = `number: ${value}`;
   } );
 
   const integerClearButton = new RectangularPushButton( {
@@ -1643,11 +1643,11 @@ function demoKeypad( layoutBounds ) {
   const floatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   floatingPointKeyPad.stringProperty.link( value => {
-    floatingPointStringRepresentation.text = 'string: ' + value;
+    floatingPointStringRepresentation.text = `string: ${value}`;
   } );
 
   floatingPointKeyPad.valueProperty.link( value => {
-    floatingPointValueRepresentation.text = 'number: ' + value;
+    floatingPointValueRepresentation.text = `number: ${value}`;
   } );
 
   const floatingPointClearButton = new RectangularPushButton( {
@@ -1693,11 +1693,11 @@ function demoKeypad( layoutBounds ) {
   const positiveAndNegativeFloatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   positiveAndNegativeFloatingPointKeyPad.stringProperty.link( value => {
-    positiveAndNegativeFloatingPointStringRepresentation.text = 'string: ' + value;
+    positiveAndNegativeFloatingPointStringRepresentation.text = `string: ${value}`;
   } );
 
   positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
-    positiveAndNegativeFloatingPointValueRepresentation.text = 'number: ' + value;
+    positiveAndNegativeFloatingPointValueRepresentation.text = `number: ${value}`;
   } );
 
   const positiveAndNegativeFloatingPointClearButton = new RectangularPushButton( {
@@ -1780,7 +1780,7 @@ function demoRulerNode( layoutBounds ) {
   const majorTickLabels = [];
   const numberOfTicks = Math.floor( rulerLength / majorTickWidth ) + 1;
   for ( let i = 0; i < numberOfTicks; i++ ) {
-    majorTickLabels[ i ] = '' + ( i * majorTickWidth );
+    majorTickLabels[ i ] = `${i * majorTickWidth}`;
   }
 
   return new RulerNode( rulerLength, 0.15 * rulerLength, majorTickWidth, majorTickLabels, 'm', {

@@ -60,7 +60,7 @@ class StepButton extends RoundPushButton {
 
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
-      'unsupported direction: ' + options.direction );
+      `unsupported direction: ${options.direction}` );
 
     // step icon is sized relative to the radius
     const BAR_WIDTH = options.radius * 0.15;

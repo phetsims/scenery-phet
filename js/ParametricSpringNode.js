@@ -224,7 +224,7 @@ class ParametricSpringNode extends Node {
           backShape.lineToPoint( p );
         }
         assert && assert( springPoints.length === coilPoints.length + 2,
-          'missing some points, have ' + springPoints.length + ', expected ' + coilPoints.length + 2 ); // +2 for horizontal ends
+          `missing some points, have ${springPoints.length}, expected ${coilPoints.length}${2}` ); // +2 for horizontal ends
 
         frontPath.shape = frontShape;
         backPath.shape = backShape;
@@ -246,7 +246,7 @@ class ParametricSpringNode extends Node {
         // number of points in the coil
         const numberOfCoilPoints = computeNumberOfCoilPoints( loops, pointsPerLoop );
         assert && assert( numberOfCoilPoints === springPoints.length - 2,
-          'unexpected number of coil points: ' + numberOfCoilPoints + ', expected ' + ( springPoints.length - 2 ) ); // -2 for horizontal ends
+          `unexpected number of coil points: ${numberOfCoilPoints}, expected ${springPoints.length - 2}` ); // -2 for horizontal ends
 
         // mutate the coil points
         for ( let index = 0; index < numberOfCoilPoints; index++ ) {
