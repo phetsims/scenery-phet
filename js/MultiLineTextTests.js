@@ -12,7 +12,7 @@ import MultiLineText from './MultiLineText.js';
 
 QUnit.module( 'MultiLineText' );
 
-QUnit.test( 'Test setText', function( assert ) {
+QUnit.test( 'Test setText', assert => {
   //assert.equal( p.changedEmitter.listeners.length, 2, 'should have removed an item' );
   const multiLineText = new MultiLineText( 'test' );
   assert.ok( true, 'constructed a MultiLineText' );

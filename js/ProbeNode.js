@@ -160,9 +160,9 @@ class ProbeNode extends Node {
       // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
       scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
       centerX: mainPath.centerX,
-      stroke: new DerivedProperty( [ this.brighter3 ], function( color ) {
+      stroke: new DerivedProperty( [ this.brighter3 ], ( color => {
         return color.withAlpha( 0.5 );
-      } ),
+      } ) ),
       lineWidth: 1.2,
       y: 2 // Shift it down a bit to make the face look a bit more 3d
     } );

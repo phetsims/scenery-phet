@@ -69,7 +69,7 @@ class HeaterCoolerBack extends Node {
       scale: DEFAULT_WIDTH / DEFAULT_WIDTH
     } );
 
-    heatCoolAmountProperty.link( function( heatCoolAmount ) {
+    heatCoolAmountProperty.link( heatCoolAmount => {
 
       // max heating and cooling is limited to +/- 1
       assert && assert( Math.abs( heatCoolAmount ) <= 1 );

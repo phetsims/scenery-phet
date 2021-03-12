@@ -77,7 +77,7 @@ class NextPreviousNavigationNode extends Node {
         }
       }
     } ) );
-    this.hasPreviousProperty.link( function( available ) {
+    this.hasPreviousProperty.link( available => {
       previousKitNode.visible = available;
     } );
 
@@ -112,7 +112,7 @@ class NextPreviousNavigationNode extends Node {
         }
       }
     } ) );
-    this.hasNextProperty.link( function( available ) {
+    this.hasNextProperty.link( available => {
       nextKitNode.visible = available;
     } );
 

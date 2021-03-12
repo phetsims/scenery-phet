@@ -93,29 +93,29 @@ class FineCoarseSpinner extends Node {
     } );
 
     // <
-    const decrementFineButton = new ArrowButton( 'left', function() {
+    const decrementFineButton = new ArrowButton( 'left', ( () => {
       numberProperty.value = numberProperty.value - options.deltaFine;
-    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
+    } ), merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
-    const decrementCoarseButton = new ArrowButton( 'left', function() {
+    const decrementCoarseButton = new ArrowButton( 'left', ( () => {
       const delta = Math.min( options.deltaCoarse, numberProperty.value - options.range.min );
       numberProperty.value = numberProperty.value - delta;
-    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
+    } ), merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
 
     // [ value ]
     const numberDisplay = new NumberDisplay( numberProperty, options.range, options.numberDisplayOptions );
 
     // >
-    const incrementFineButton = new ArrowButton( 'right', function() {
+    const incrementFineButton = new ArrowButton( 'right', ( () => {
       numberProperty.value = numberProperty.value + options.deltaFine;
-    }, merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
+    } ), merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
-    const incrementCoarseButton = new ArrowButton( 'right', function() {
+    const incrementCoarseButton = new ArrowButton( 'right', ( () => {
       const delta = Math.min( options.deltaCoarse, options.range.max - numberProperty.value );
       numberProperty.value = numberProperty.value + delta;
-    }, merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
+    } ), merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
     const layoutBox = new HBox( {

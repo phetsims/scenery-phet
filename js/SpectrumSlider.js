@@ -164,22 +164,22 @@ class SpectrumSlider extends Node {
     let minusButton;
     if ( options.tweakersVisible ) {
 
-      plusButton = new ArrowButton( 'right', function() {
+      plusButton = new ArrowButton( 'right', ( () => {
 
         // Increase the value, but keep it in range
         valueProperty.set( Math.min( options.maxValue, valueProperty.get() + options.tweakerValueDelta ) );
-      }, {
+      } ), {
         left: track.right + options.tweakersXSpacing,
         centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,
         tandem: options.tandem.createTandem( 'plusButton' )
       } );
 
-      minusButton = new ArrowButton( 'left', function() {
+      minusButton = new ArrowButton( 'left', ( () => {
 
         // Decrease the value, but keep it in range
         valueProperty.set( Math.max( options.minValue, valueProperty.get() - options.tweakerValueDelta ) );
-      }, {
+      } ), {
         right: track.left - options.tweakersXSpacing,
         centerY: track.centerY,
         maxHeight: options.maxTweakersHeight,

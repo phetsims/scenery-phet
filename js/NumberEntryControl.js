@@ -39,7 +39,7 @@ class NumberEntryControl extends Node {
 
     // Add the number readout background.
     const testString = new Text( '', { font: options.readoutFont } );
-    _.times( options.maxDigits, function() { testString.text = testString.text + '9'; } );
+    _.times( options.maxDigits, () => { testString.text = testString.text + '9'; } );
     const readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
       fill: 'white',
       stroke: '#777777',

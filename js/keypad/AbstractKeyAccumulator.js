@@ -83,7 +83,7 @@ class AbstractKeyAccumulator {
     let valid = !!proposedKeys;
 
     // If any validator returns false then the proposedKey is not valid
-    this.validators.forEach( function( validator ) {
+    this.validators.forEach( validator => {
       valid = valid && validator( proposedKeys );
     } );
     return valid;

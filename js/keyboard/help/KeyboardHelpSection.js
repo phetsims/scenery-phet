@@ -336,10 +336,10 @@ class KeyboardHelpSection extends VBox {
   static alignHelpSectionIcons( sectionArray ) {
 
     // left edge of icons farthest to the right in the array of KeyboardHelpSection
-    const maxLeftEdge = _.maxBy( sectionArray, function( section ) { return section.iconVBox.left; } ).iconVBox.left;
+    const maxLeftEdge = _.maxBy( sectionArray, section => section.iconVBox.left ).iconVBox.left;
 
     // adjust the spacing of all section HBoxes so that they align
-    sectionArray.forEach( function( section ) {
+    sectionArray.forEach( section => {
       section.contentHBox.spacing = section.contentHBox.spacing + maxLeftEdge - section.iconVBox.left;
     } );
   }

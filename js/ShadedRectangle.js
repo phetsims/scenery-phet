@@ -101,12 +101,12 @@ class ShadedRectangle extends Node {
 
     verticalNode.fill = new LinearGradient( 0, verticalNode.top, 0, verticalNode.bottom )
       .addColorStop( 0, topColorProperty )
-      .addColorStop( topOffset / verticalNode.height, new DerivedProperty( [ topColorProperty ], function( color ) {
+      .addColorStop( topOffset / verticalNode.height, new DerivedProperty( [ topColorProperty ], ( color => {
         return color.withAlpha( 0 );
-      } ) )
-      .addColorStop( 1 - bottomOffset / verticalNode.height, new DerivedProperty( [ bottomColorProperty ], function( color ) {
+      } ) ) )
+      .addColorStop( 1 - bottomOffset / verticalNode.height, new DerivedProperty( [ bottomColorProperty ], ( color => {
         return color.withAlpha( 0 );
-      } ) )
+      } ) ) )
       .addColorStop( 1, bottomColorProperty );
 
     // shape of our corner (in this case, top-right)
@@ -149,9 +149,9 @@ class ShadedRectangle extends Node {
 
     // the stroke around the outside
     const panelStroke = Rectangle.roundedBounds( rectBounds, cornerRadius, cornerRadius, {
-      stroke: new DerivedProperty( [ rightColorProperty ], function( color ) {
+      stroke: new DerivedProperty( [ rightColorProperty ], ( color => {
         return color.withAlpha( 0.4 );
-      } )
+      } ) )
     } );
 
     // layout
