@@ -330,7 +330,7 @@ class StopwatchNode extends Node {
 // Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
 // wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
 // and it seemed to work nicely, with no jitter.
-StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
+StopwatchNode.NUMBER_FONT_FAMILY = 'monospace';
 
 // @public
 StopwatchNode.DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
