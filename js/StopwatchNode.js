@@ -144,9 +144,6 @@ class StopwatchNode extends Node {
 
     super( options );
 
-    // @public (read-only) - Target for drag listeners
-    this.dragTarget = backgroundNode;
-
     // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
     const timeListener = time => {
       resetButton.enabled = time > 0;
@@ -215,7 +212,7 @@ class StopwatchNode extends Node {
       // Dragging, added to background so that other UI components get input events on touch devices.
       // If added to 'this', touchSnag will lock out listeners for other UI components.
       this.dragListener = new DragListener( dragListenerOptions );
-      this.dragTarget.addInputListener( this.dragListener );
+      backgroundNode.addInputListener( this.dragListener );
 
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
       this.addInputListener( {
@@ -238,7 +235,7 @@ class StopwatchNode extends Node {
       playPauseButton.dispose();
 
       if ( this.dragListener ) {
-        this.dragTarget.removeInputListener( this.dragListener );
+        backgroundNode.removeInputListener( this.dragListener );
         this.dragListener.dispose();
       }
 
