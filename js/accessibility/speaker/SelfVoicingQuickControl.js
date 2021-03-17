@@ -115,14 +115,14 @@ class SelfVoicingQuickControl extends Node {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
         } );
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
       },
       highlightTarget: this.expandCollapseButton
     } ) );
 
     openProperty.lazyLink( open => {
       const response = open ? selfVoicingQuickMenuShown : selfVoicingQuickMenuHidden;
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
     } );
 
     // creates content for each button and puts it into an AlignGroup so that
@@ -148,7 +148,7 @@ class SelfVoicingQuickControl extends Node {
 
       button.addInputListener( new SelfVoicingInputListener( {
         onFocusIn: () => {
-          phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
+          phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
         },
         highlightTarget: button
       } ) );
@@ -189,13 +189,13 @@ class SelfVoicingQuickControl extends Node {
         alert: selfVoicingDialogAlert,
         cancelOther: false
       } );
-      phet.joist.sim.selfVoicingUtteranceQueue.addToBack( utterance );
+      phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
     } );
 
     // other listeners are added in createSpeechButton
     muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.selfVoicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
+        phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
       },
       highlightTarget: muteSpeechButton
     } ) );
@@ -269,7 +269,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakHintContent() {
-    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createHintContent() );
+    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createHintContent() );
   }
 
   /**
@@ -277,7 +277,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakOverviewContent() {
-    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createOverviewContent() );
+    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createOverviewContent() );
   }
 
   /**
@@ -286,7 +286,7 @@ class SelfVoicingQuickControl extends Node {
    * @private
    */
   speakDetailsContent() {
-    phet.joist.sim.selfVoicingUtteranceQueue.addToBack( this.createDetailsContent() );
+    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createDetailsContent() );
   }
 
   /**

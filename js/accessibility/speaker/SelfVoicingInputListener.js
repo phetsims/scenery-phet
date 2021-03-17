@@ -44,7 +44,7 @@ class SelfVoicingInputListener {
       highlightTarget: null
     }, options );
 
-    assert && assert( phet.joist.sim.selfVoicingUtteranceQueue, 'Listener requires the utteranceQueue for self-voicing, is the feature enabled?' );
+    assert && assert( phet.joist.sim.voicingUtteranceQueue, 'Listener requires the utteranceQueue for self-voicing, is the feature enabled?' );
 
     // @private - see options
     this.onPress = options.onPress;
@@ -79,9 +79,9 @@ class SelfVoicingInputListener {
                 // have specific behavior on down that we should speak - we don't want to speak
                 // down content and focus
                 // I am actually not sure about this, should check with Taliesin.
-                phet.joist.sim.selfVoicingUtteranceQueue.enabled = false;
+                phet.joist.sim.voicingUtteranceQueue.enabled = false;
                 event.trail.nodes[ i ].focus();
-                phet.joist.sim.selfVoicingUtteranceQueue.enabled = true;
+                phet.joist.sim.voicingUtteranceQueue.enabled = true;
               }
             }
           }
