@@ -71,7 +71,8 @@ class StopwatchNode extends Node {
         pickable: false // allow dragging by the number display
       },
 
-      visibleBoundsProperty: null, // {Property.<Bounds2>|null} if provided, the node is draggable within the bounds
+      // {Property.<Bounds2>|null} If provided, the stopwatch is draggable within the bounds.  If null, the stopwatch is not draggable.
+      visibleBoundsProperty: null,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
