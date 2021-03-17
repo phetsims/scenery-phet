@@ -207,7 +207,7 @@ class StopwatchNode extends Node {
       dragListenerOptions.start = () => {
         this.moveToFront();
         optionsStart();
-      }
+      };
 
       // Dragging, added to background so that other UI components get input events on touch devices.
       // If added to 'this', touchSnag will lock out listeners for other UI components.
