@@ -177,18 +177,18 @@ class StopwatchNode extends Node {
     // events when dragging out of a toolbox.
     this.dragListener = null;
 
-    let dragBoundsProperty = null;
+    let adjustedDragBoundsProperty = null;
 
     if ( options.visibleBoundsProperty ) {
 
       // drag bounds, adjusted to keep this entire Node inside visible bounds
-      dragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
+      adjustedDragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
 
       // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
       options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
 
       // If the stopwatch is outside the drag bounds, move it inside.
-      dragBoundsProperty.link( dragBounds => {
+      adjustedDragBoundsProperty.link( dragBounds => {
         if ( !dragBounds.containsPoint( stopwatch.positionProperty.value ) ) {
           stopwatch.positionProperty.value = dragBounds.closestPointTo( stopwatch.positionProperty.value );
         }
@@ -198,7 +198,7 @@ class StopwatchNode extends Node {
       const dragListenerOptions = merge( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
-        dragBoundsProperty: dragBoundsProperty,
+        dragBoundsProperty: adjustedDragBoundsProperty,
         tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions );
 
@@ -239,7 +239,7 @@ class StopwatchNode extends Node {
         this.dragListener.dispose();
       }
 
-      dragBoundsProperty && dragBoundsProperty.dispose();
+      adjustedDragBoundsProperty && adjustedDragBoundsProperty.dispose();
     };
 
     // @private
