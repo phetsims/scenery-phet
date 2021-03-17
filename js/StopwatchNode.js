@@ -72,7 +72,7 @@ class StopwatchNode extends Node {
       },
 
       // {Property.<Bounds2>|null} If provided, the stopwatch is draggable within the bounds.  If null, the stopwatch is not draggable.
-      visibleBoundsProperty: null,
+      dragBoundsProperty: null,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
@@ -179,13 +179,13 @@ class StopwatchNode extends Node {
 
     let adjustedDragBoundsProperty = null;
 
-    if ( options.visibleBoundsProperty ) {
+    if ( options.dragBoundsProperty ) {
 
       // drag bounds, adjusted to keep this entire Node inside visible bounds
-      adjustedDragBoundsProperty = new DragBoundsProperty( this, options.visibleBoundsProperty );
+      adjustedDragBoundsProperty = new DragBoundsProperty( this, options.dragBoundsProperty );
 
       // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
-      options.visibleBoundsProperty.link( () => this.interruptSubtreeInput() );
+      options.dragBoundsProperty.link( () => this.interruptSubtreeInput() );
 
       // If the stopwatch is outside the drag bounds, move it inside.
       adjustedDragBoundsProperty.link( dragBounds => {
