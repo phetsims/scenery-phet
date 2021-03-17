@@ -78,7 +78,9 @@ class StopwatchNode extends Node {
       tandem: Tandem.REQUIRED,
 
       // options propagated to the DragListener.
-      dragListenerOptions: null
+      dragListenerOptions: {
+        start: _.noop
+      }
     }, options );
     assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
@@ -200,18 +202,22 @@ class StopwatchNode extends Node {
         tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions );
 
+      // Add moveToFront to any start function that the client provided.
+      const optionsStart = dragListenerOptions.start;
+      dragListenerOptions.start = () => {
+        this.moveToFront();
+        optionsStart();
+      }
+
       // Dragging, added to background so that other UI components get input events on touch devices.
       // If added to 'this', touchSnag will lock out listeners for other UI components.
       this.dragListener = new DragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
-      // This needs to be a DragListener so that touchSnag works.
-      this.addInputListener( new DragListener( {
-        attach: false, // so that this DragListener won't be ignored
-        start: () => this.moveToFront(),
-        tandem: options.tandem.createTandem( 'moveToFrontListener' )
-      } ) );
+      this.addInputListener( {
+        down: () => this.moveToFront()
+      } );
     }
 
     this.addLinkedElement( stopwatch, {
