@@ -120,6 +120,9 @@ class EyeDropperNode extends Node {
       this.isEmptyProperty.unlink( emptyObserver );
     };
 
+    // @public for clients who want to hide the button
+    this.button = button;
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeDropperNode', this );
   }
