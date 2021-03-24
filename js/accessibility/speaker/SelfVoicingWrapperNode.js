@@ -10,7 +10,7 @@
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import SelfVoicingFocusHighlight from './SelfVoicingFocusHighlight.js';
+import VoicingHighlight from './VoicingHighlight.js';
 import SelfVoicingInputListener from './SelfVoicingInputListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 
@@ -35,7 +35,7 @@ class SelfVoicingWrapperNode extends Node {
       // (of ParallelDOM) to remove this node from the focus order
       tagName: 'button',
 
-      focusHighlight: new SelfVoicingFocusHighlight( node )
+      focusHighlight: new VoicingHighlight( node )
     }, options );
 
     super( options );

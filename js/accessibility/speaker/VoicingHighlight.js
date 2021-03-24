@@ -21,7 +21,7 @@ import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 
-class SelfVoicingFocusHighlight extends FocusHighlightFromNode {
+class VoicingHighlight extends FocusHighlightFromNode {
   constructor( node, options ) {
 
     options = merge( {
@@ -56,5 +56,5 @@ class SelfVoicingFocusHighlight extends FocusHighlightFromNode {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingFocusHighlight', SelfVoicingFocusHighlight );
-export default SelfVoicingFocusHighlight;
+sceneryPhet.register( 'VoicingHighlight', VoicingHighlight );
+export default VoicingHighlight;
