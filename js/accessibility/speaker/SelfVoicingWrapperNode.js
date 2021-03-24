@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 /**
  * Wraps a Node with another that is better for hit testing for the purpses
- * of the self-voicing prototype. Also adds a SelfVoicingInputListener to the
+ * of the self-voicing prototype. Also adds a VoicingInputListener to the
  * Node so that it creates speech and highlighting
  *
  * @author Jesse Greenberg
@@ -11,7 +11,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VoicingHighlight from './VoicingHighlight.js';
-import SelfVoicingInputListener from './SelfVoicingInputListener.js';
+import VoicingInputListener from './VoicingInputListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 
 class SelfVoicingWrapperNode extends Node {
@@ -24,7 +24,7 @@ class SelfVoicingWrapperNode extends Node {
 
     options = merge( {
 
-      // {Object} - options passed along to the SelfVoicingInputListener
+      // {Object} - options passed along to the VoicingInputListener
       listenerOptions: {},
 
       // a custom hit target to be used instead of the default one, if a unique
@@ -48,7 +48,7 @@ class SelfVoicingWrapperNode extends Node {
       // by default, visibility of this Node will control speech output
       representedNode: this
     }, options.listenerOptions );
-    const listener = new SelfVoicingInputListener( options.listenerOptions );
+    const listener = new VoicingInputListener( options.listenerOptions );
 
     if ( options.customNode === null ) {
       const wrapperRectangle = new Rectangle( {} );

@@ -2,7 +2,7 @@
 
 /**
  * Manages highlights to indicate the state of self-voicing speech, as well as what objects have self-voicing content.
- * This is coupled with SelfVoicingInputListener, which updates the Properties tracking the pointer's over Trail.
+ * This is coupled with VoicingInputListener, which updates the Properties tracking the pointer's over Trail.
  *
  * Very rough, prototype code. Uncertain whether this design will be around long-term.
  * For now, goes through FocusOverlay to display the highlight for a Node, but does so by accessing private things.
@@ -24,7 +24,7 @@ class SpeakerHighlighter {
   constructor() {
 
     // @private {Property.<boolean|null>} - the current trail which has a Pointer over it - updated in
-    // SelfVoicingInputListener
+    // VoicingInputListener
     this.overTrailProperty = new Property( null );
 
     // @private {Property.<boolean|null>} - the current trail to wich the webSpeaker is curently speaking about

@@ -32,7 +32,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import selfVoicingIconImage from '../../../images/self-voicing-icon_png.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
-import SelfVoicingInputListener from './SelfVoicingInputListener.js';
+import VoicingInputListener from './VoicingInputListener.js';
 
 // strings for self-voicing content - these should not be translatable and are therefore not
 // added to the strings file - I also don't know if "prototype" strings can go into translatable files
@@ -110,7 +110,7 @@ class SelfVoicingQuickControl extends Node {
       sideLength: 20
     } );
 
-    this.expandCollapseButton.addInputListener( new SelfVoicingInputListener( {
+    this.expandCollapseButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
@@ -146,7 +146,7 @@ class SelfVoicingQuickControl extends Node {
         listener: listener
       } );
 
-      button.addInputListener( new SelfVoicingInputListener( {
+      button.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
           phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
         },
@@ -193,7 +193,7 @@ class SelfVoicingQuickControl extends Node {
     } );
 
     // other listeners are added in createSpeechButton
-    muteSpeechButton.addInputListener( new SelfVoicingInputListener( {
+    muteSpeechButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
       },

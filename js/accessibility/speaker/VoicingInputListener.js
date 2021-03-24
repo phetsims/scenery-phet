@@ -22,7 +22,7 @@ import speakerHighlighter from './speakerHighlighter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
-class SelfVoicingInputListener {
+class VoicingInputListener {
   constructor( options ) {
     options = merge( {
 
@@ -208,5 +208,5 @@ class SelfVoicingInputListener {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingInputListener', SelfVoicingInputListener );
-export default SelfVoicingInputListener;
+sceneryPhet.register( 'VoicingInputListener', VoicingInputListener );
+export default VoicingInputListener;

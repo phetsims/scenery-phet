@@ -26,7 +26,7 @@ import VoicingUtterance from '../../../../utterance-queue/js/VoicingUtterance.js
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
-import SelfVoicingInputListener from './SelfVoicingInputListener.js';
+import VoicingInputListener from './VoicingInputListener.js';
 
 // constants
 const TITLE_FONT = new PhetFont( { size: 16, weight: 'bold' } );
@@ -92,7 +92,7 @@ class VoicingPreferencesDialog extends Dialog {
     // This is just a proof of concept so I would rather hack this here than put in ComboBox/
     // ComboBoxListItemNode. self-voicing ends up being a long term feature we will move this
     // kind of thing to those types with more consideration.
-    voiceComboBox.listBox.addInputListener( new SelfVoicingInputListener( {
+    voiceComboBox.listBox.addInputListener( new VoicingInputListener( {
       onFocusIn: event => {
         const response = levelSpeakerModel.collectResponses( Display.focusedNode.innerContent );
         phet.joist.sim.voicingUtteranceQueue.addToBack( response );
@@ -124,7 +124,7 @@ class VoicingPreferencesDialog extends Dialog {
       phet.joist.sim.voicingUtteranceQueue.addToBack( content );
     } );
 
-    voiceComboBox.addInputListener( new SelfVoicingInputListener( {
+    voiceComboBox.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
         const response = levelSpeakerModel.collectResponses( changeVoiceString );
 
@@ -249,7 +249,7 @@ class LevelModeControls extends VBox {
 
     // self-voicing behavior for the checkboxes themselves
     levelsCheckboxGroup.children.forEach( child => {
-      child.addInputListener( new SelfVoicingInputListener( {
+      child.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
           const response = levelSpeakerModel.collectResponses( child.labelContent );
           phet.joist.sim.voicingUtteranceQueue.addToBack( response );
@@ -258,7 +258,7 @@ class LevelModeControls extends VBox {
     } );
 
     generalCheckboxGroup.children.forEach( child => {
-      child.addInputListener( new SelfVoicingInputListener( {
+      child.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
           const response = levelSpeakerModel.collectResponses( child.labelContent );
           phet.joist.sim.voicingUtteranceQueue.addToBack( response );
