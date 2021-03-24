@@ -14,7 +14,7 @@ import VoicingHighlight from './VoicingHighlight.js';
 import VoicingInputListener from './VoicingInputListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 
-class SelfVoicingWrapperNode extends Node {
+class VoicingWrapperNode extends Node {
 
   /**
    * @param {Node} node
@@ -66,5 +66,5 @@ class SelfVoicingWrapperNode extends Node {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingWrapperNode', SelfVoicingWrapperNode );
-export default SelfVoicingWrapperNode;
+sceneryPhet.register( 'VoicingWrapperNode', VoicingWrapperNode );
+export default VoicingWrapperNode;
