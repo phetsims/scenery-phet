@@ -477,7 +477,7 @@
         "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
       }
     },
-    "selfVoicing": {
+    "voicing": {
       "simSection": {
         "screenSummary": {
           "singleScreenIntroPattern": {
