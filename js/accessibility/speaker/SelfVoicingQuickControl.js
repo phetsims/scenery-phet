@@ -17,7 +17,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import VoicingUtterance from '../../../../utterance-queue/js/VoicingUtterance.js';
-import SelfVoicingPreferencesDialog from './SelfVoicingPreferencesDialog.js';
+import VoicingPreferencesDialog from './VoicingPreferencesDialog.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -174,7 +174,7 @@ class SelfVoicingQuickControl extends Node {
     } );
     const preferencesButton = createSpeechButton( preferencesContent, preferencesString, () => {
       if ( !preferencesDialog ) {
-        preferencesDialog = new SelfVoicingPreferencesDialog( {
+        preferencesDialog = new VoicingPreferencesDialog( {
           hideCallback: () => {
             preferencesButton.focus();
           }

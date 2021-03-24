@@ -65,15 +65,15 @@ const speakingHintsString = 'Speaking hints.';
 const mutingHintsString = 'Muting hints.';
 
 
-class SelfVoicingPreferencesDialog extends Dialog {
+class VoicingPreferencesDialog extends Dialog {
   constructor( options ) {
 
     // controls which layer of content will be spoken (object, context, hints)
     const modeControls = new LevelModeControls();
 
     // controls for speech synthesis, such as the rate, pitch, and voice
-    const voiceRateSlider = SelfVoicingPreferencesDialog.createLabelledSlider( webSpeaker.voiceRateProperty, rateString, voiceRateString, newVoiceRateString );
-    const voicePitchSlider = SelfVoicingPreferencesDialog.createLabelledSlider( webSpeaker.voicePitchProperty, pitchString, voicePitchString, newVoicePitchString );
+    const voiceRateSlider = VoicingPreferencesDialog.createLabelledSlider( webSpeaker.voiceRateProperty, rateString, voiceRateString, newVoiceRateString );
+    const voicePitchSlider = VoicingPreferencesDialog.createLabelledSlider( webSpeaker.voicePitchProperty, pitchString, voicePitchString, newVoicePitchString );
 
     const comboBoxItems = [];
 
@@ -144,7 +144,7 @@ class SelfVoicingPreferencesDialog extends Dialog {
 
 // @private
 // @static
-SelfVoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, selfVoicingLabel, changeSuccessDescription ) => {
+VoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, selfVoicingLabel, changeSuccessDescription ) => {
 
   const slider = new GestureControlledSlider( numberProperty, numberProperty.range, {
     selfVoicingLabel: selfVoicingLabel
@@ -299,6 +299,6 @@ class LevelModeControls extends VBox {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingPreferencesDialog', SelfVoicingPreferencesDialog );
+sceneryPhet.register( 'VoicingPreferencesDialog', VoicingPreferencesDialog );
 
-export default SelfVoicingPreferencesDialog;
+export default VoicingPreferencesDialog;
