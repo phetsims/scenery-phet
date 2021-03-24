@@ -29,7 +29,7 @@ import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/Boo
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import ExpandCollapseButton from '../../../../sun/js/ExpandCollapseButton.js';
 import Panel from '../../../../sun/js/Panel.js';
-import selfVoicingIconImage from '../../../images/self-voicing-icon_png.js';
+import voicingIconImage from '../../../images/self-voicing-icon_png.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
 import VoicingInputListener from './VoicingInputListener.js';
@@ -84,7 +84,7 @@ class VoicingQuickControl extends Node {
     let preferencesDialog = null;
 
     // a placeholder icon until we get a more thorough design
-    const iconImage = new Image( selfVoicingIconImage, {
+    const iconImage = new Image( voicingIconImage, {
       scale: 0.18
     } );
 
