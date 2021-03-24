@@ -22,7 +22,7 @@ import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import GestureControlledSlider from '../../../../tappi/js/view/GestureControlledSlider.js';
-import SelfVoicingUtterance from '../../../../utterance-queue/js/SelfVoicingUtterance.js';
+import VoicingUtterance from '../../../../utterance-queue/js/VoicingUtterance.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
@@ -130,7 +130,7 @@ class SelfVoicingPreferencesDialog extends Dialog {
 
         // this utterance is polite because we want to hear 'New Voice Selected' when
         // a new voice is chosen
-        const changeVoiceUtterance = new SelfVoicingUtterance( {
+        const changeVoiceUtterance = new VoicingUtterance( {
           alert: response,
           cancelOther: false
         } );
@@ -150,7 +150,7 @@ SelfVoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, sel
     selfVoicingLabel: selfVoicingLabel
   } );
 
-  const utterance = new SelfVoicingUtterance( {
+  const utterance = new VoicingUtterance( {
     alertStableDelay: 500,
     alertMaximumDelay: 1000
   } );
