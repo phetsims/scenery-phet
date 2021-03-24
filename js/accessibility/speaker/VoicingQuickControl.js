@@ -50,7 +50,7 @@ const selfVoicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
 const selfVoicingQuickMenuHidden = 'Self-Voicing Quick Menu hidden.';
 const selfVoicingDialogAlert = 'Self Voicing Preferences shown.';
 
-class SelfVoicingQuickControl extends Node {
+class VoicingQuickControl extends Node {
 
   /**
    * @param {WebSpeaker} webSpeaker
@@ -299,5 +299,5 @@ class SelfVoicingQuickControl extends Node {
   }
 }
 
-sceneryPhet.register( 'SelfVoicingQuickControl', SelfVoicingQuickControl );
-export default SelfVoicingQuickControl;
+sceneryPhet.register( 'VoicingQuickControl', VoicingQuickControl );
+export default VoicingQuickControl;
