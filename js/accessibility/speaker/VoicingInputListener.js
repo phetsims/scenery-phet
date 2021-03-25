@@ -1,9 +1,9 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A basic listener to assist with the self-voicing project. For a particular Node, you
+ * A basic listener to assist with the voicing project. For a particular Node, you
  * can specify what should happen on the various input methods that may trigger some
- * self-voicing content.
+ * voicing content.
  *
  * PROTOTYPE! Not to be used in production code!
  *
@@ -32,7 +32,7 @@ class VoicingInputListener {
       // {function} - called when the Node receives the focus event
       onFocusIn: () => {},
 
-      // the Node represented for self-voicing - state of this Node will
+      // the Node represented for voicing - state of this Node will
       // control the output of speech. For instance, if the representedNode
       // is not visible in a display no speech will be generated on
       // various input. If null, no such checks will be made
@@ -44,7 +44,7 @@ class VoicingInputListener {
       highlightTarget: null
     }, options );
 
-    assert && assert( phet.joist.sim.voicingUtteranceQueue, 'Listener requires the utteranceQueue for self-voicing, is the feature enabled?' );
+    assert && assert( phet.joist.sim.voicingUtteranceQueue, 'Listener requires the utteranceQueue for voicing, is the feature enabled?' );
 
     // @private - see options
     this.onPress = options.onPress;

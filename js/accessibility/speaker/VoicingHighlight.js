@@ -1,13 +1,13 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A focus highlight for the self-voicing prototype. Has a different color than the
+ * A focus highlight for the voicing prototype. Has a different color than the
  * default focus highlight and includes an icon to indicate that interacting with
  * the object will result in some speech. This highlight may also appear on
  * mouse over as well as focus in the SpeakerHighlighter
  *
  * This should generally be used for otherwise NON interactive things that
- * have self-voicing. Normally focusable things should have the default
+ * have voicing. Normally focusable things should have the default
  * focus highlight.
  * @author Jesse Greenberg
  */

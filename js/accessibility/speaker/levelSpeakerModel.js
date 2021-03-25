@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A model for the "Speaking Levels" prototype of the self-voicing output. User can layer on different levels
+ * A model for the "Speaking Levels" prototype of the voicing output. User can layer on different levels
  * of helpful output. See the Properties below for the kinds of output that is added on in each level.
  *
  * This is a singleton model as it controls output for the entire simulation.
@@ -29,7 +29,7 @@ class LevelSpeakerModel {
     // appears around interactive nodes from mouse hover
     this.showHoverHighlightsProperty = new BooleanProperty( true );
 
-    // @public {BooleanProperty} - whether or not the "Self-Voicing Quick Menu" is visible
+    // @public {BooleanProperty} - whether or not the "Voicing Quick Menu" is visible
     // and available to the user
     this.showQuickMenuProperty = new BooleanProperty( true );
 

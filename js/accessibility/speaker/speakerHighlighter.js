@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Manages highlights to indicate the state of self-voicing speech, as well as what objects have self-voicing content.
+ * Manages highlights to indicate the state of voicing speech, as well as what objects have voicing content.
  * This is coupled with VoicingInputListener, which updates the Properties tracking the pointer's over Trail.
  *
  * Very rough, prototype code. Uncertain whether this design will be around long-term.
@@ -82,7 +82,7 @@ class SpeakerHighlighter {
     options.display.addInputListener( {
       down: event => {
 
-        // in the self-voicing prototype we want the focus highlight to remain with
+        // in the voicing prototype we want the focus highlight to remain with
         // mouse/touch presses, only if 'interactive highlights' or custom gestures are enabled
         if ( !levelSpeakerModel.showHoverHighlightsProperty.get() && !levelSpeakerModel.gestureControlProperty.get() ) {
           Display.focus = null;
@@ -90,7 +90,7 @@ class SpeakerHighlighter {
       }
     } );
 
-    // activate highlights for self-voicing
+    // activate highlights for voicing
     Property.multilink( [ this.overTrailProperty, this.speakingTrailProperty ], ( overTrail, speakingTrail ) => {
       if ( this.enabledProperty.get() ) {
 

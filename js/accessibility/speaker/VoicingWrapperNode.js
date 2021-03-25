@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 /**
  * Wraps a Node with another that is better for hit testing for the purpses
- * of the self-voicing prototype. Also adds a VoicingInputListener to the
+ * of the voicing prototype. Also adds a VoicingInputListener to the
  * Node so that it creates speech and highlighting
  *
  * @author Jesse Greenberg

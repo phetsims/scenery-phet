@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Content for an "Options" dialog, only used if the ?selfVoicing query parameter is used to explore prototype
- * "self voicing" feature set. This dialog allows control of output verbosity and settings for the speech synthesizer.
+ * Content for an "Options" dialog, only used if the ?supportsVoicing query parameter is used to explore prototype
+ * "voicing" feature set. This dialog allows control of output verbosity and settings for the speech synthesizer.
  *
  * PROTOTYPE! Do not use in production code.
  *
@@ -41,7 +41,7 @@ const objectChangesString = 'Voice Object Changes & On-Screen Text';
 const contextChangesString = 'Voice Context Changes';
 const hintsString = 'Voice Helpful Hints';
 const interactiveHighlightsString = 'Show Interactive Highlights';
-const quickMenuString = 'Show Self Voicing Quick Menu';
+const quickMenuString = 'Show Voicing Quick Menu';
 const gestureControlString = 'Enable Gesture Control';
 const generalOptionsString = 'General Options';
 const outputString = 'Speech Output Levels';
@@ -53,8 +53,8 @@ const newVoiceRateString = 'New Voice Rate';
 const newVoicePitchString = 'New Voice Pitch';
 const highlightsShownString = 'Interactive Highlights Shown';
 const highlightsHiddenString = 'Interactive Highlights hidden';
-const menuShownString = 'Self Voicing Quick Menu Shown';
-const menuHiddenString = 'Self Voicing Quick Menu Hidden';
+const menuShownString = 'Voicing Quick Menu Shown';
+const menuHiddenString = 'Voicing Quick Menu Hidden';
 const gestureControlsEnabledString = 'Custom gesture controls enabled.';
 const gestureControlsDisabledString = 'Custom gesture controls disabled.';
 const speakingObjectChangesString = 'Speaking object changes and on screen text.';
@@ -90,7 +90,7 @@ class VoicingPreferencesDialog extends Dialog {
 
     // Hack alert - The listBox is private but we need to be able to speak the selected voice.
     // This is just a proof of concept so I would rather hack this here than put in ComboBox/
-    // ComboBoxListItemNode. self-voicing ends up being a long term feature we will move this
+    // ComboBoxListItemNode. voicing ends up being a long term feature we will move this
     // kind of thing to those types with more consideration.
     voiceComboBox.listBox.addInputListener( new VoicingInputListener( {
       onFocusIn: event => {
@@ -144,10 +144,10 @@ class VoicingPreferencesDialog extends Dialog {
 
 // @private
 // @static
-VoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, selfVoicingLabel, changeSuccessDescription ) => {
+VoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, voicingLabel, changeSuccessDescription ) => {
 
   const slider = new GestureControlledSlider( numberProperty, numberProperty.range, {
-    selfVoicingLabel: selfVoicingLabel
+    voicingLabel: voicingLabel
   } );
 
   const utterance = new VoicingUtterance( {
@@ -247,7 +247,7 @@ class LevelModeControls extends VBox {
       spacing: 20
     } );
 
-    // self-voicing behavior for the checkboxes themselves
+    // voicing behavior for the checkboxes themselves
     levelsCheckboxGroup.children.forEach( child => {
       child.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {

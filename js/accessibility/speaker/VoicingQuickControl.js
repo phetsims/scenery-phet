@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Controls that appear if self-voicing content is enabled. Allows user to mute all speech.
+ * Controls that appear if voicing content is enabled. Allows user to mute all speech.
  * Also has buttons to read other content.
  *
  * This is a prototype, and is still under active design and development.
@@ -34,7 +34,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
 import VoicingInputListener from './VoicingInputListener.js';
 
-// strings for self-voicing content - these should not be translatable and are therefore not
+// strings for voicing content - these should not be translatable and are therefore not
 // added to the strings file - I also don't know if "prototype" strings can go into translatable files
 // so keeping these here for now
 const hintPleaseString = 'Hint Please!';
@@ -45,10 +45,10 @@ const muteSpeechString = 'Mute Speech';
 const hideString = 'Hide';
 const showString = 'Show';
 const preferencesString = 'Preferences';
-const expandCollapseButtonPatternString = '{{action}} Self-Voicing Quick Menu';
-const selfVoicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
-const selfVoicingQuickMenuHidden = 'Self-Voicing Quick Menu hidden.';
-const selfVoicingDialogAlert = 'Self Voicing Preferences shown.';
+const expandCollapseButtonPatternString = '{{action}} Voicing Quick Menu';
+const voicingQuickMenuShown = 'Read-me buttons & speech controls shown.';
+const voicingQuickMenuHidden = 'Voicing Quick Menu hidden.';
+const voicingDialogAlert = 'Voicing Preferences shown.';
 
 class VoicingQuickControl extends Node {
 
@@ -60,11 +60,11 @@ class VoicingQuickControl extends Node {
 
     options = merge( {
 
-      // {function} - Returns string, callback that creates the content for a self-voicing hint when the
+      // {function} - Returns string, callback that creates the content for a voicing hint when the
       // hint button is pressed
       createHintContent: () => '',
 
-      // {function} - Returns string, callback that creates the content for a self-voicing overview when the
+      // {function} - Returns string, callback that creates the content for a voicing overview when the
       // overview button is pressed
       createOverviewContent: () => '',
 
@@ -121,7 +121,7 @@ class VoicingQuickControl extends Node {
     } ) );
 
     openProperty.lazyLink( open => {
-      const response = open ? selfVoicingQuickMenuShown : selfVoicingQuickMenuHidden;
+      const response = open ? voicingQuickMenuShown : voicingQuickMenuHidden;
       phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
     } );
 
@@ -186,7 +186,7 @@ class VoicingQuickControl extends Node {
       // object response describing the open dialog - polite so the first focusable element
       // to be described
       const utterance = new VoicingUtterance( {
-        alert: selfVoicingDialogAlert,
+        alert: voicingDialogAlert,
         cancelOther: false
       } );
       phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
@@ -249,7 +249,7 @@ class VoicingQuickControl extends Node {
     } );
 
     // the quick menu can be hidden independently from user settings (the speech icon remains
-    // visible to indicate that self-voicing is enabled, but the menu button is removed)
+    // visible to indicate that voicing is enabled, but the menu button is removed)
     levelSpeakerModel.showQuickMenuProperty.link( visible => {
 
       // close the menu if we are making the button invisible
