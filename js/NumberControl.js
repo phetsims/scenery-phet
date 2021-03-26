@@ -25,7 +25,6 @@ import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider from '../../sun/js/Slider.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay from './NumberDisplay.js';
@@ -71,9 +70,6 @@ class NumberControl extends Node {
       delta: 1,
 
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-
-      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
-      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
 
       // A {function} that handles layout of subcomponents.
       // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
@@ -176,8 +172,6 @@ class NumberControl extends Node {
     // validate options
     assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
     assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
-    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
-      `invalid disabledOpacity: ${options.disabledOpacity}` );
     assert && assert( !options.tagName,
       'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
@@ -358,9 +352,6 @@ class NumberControl extends Node {
     ];
 
     this.mutate( options );
-
-    // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this, { disabledOpacity: options.disabledOpacity } ) );
 
     // @private
     this.disposeNumberControl = () => {

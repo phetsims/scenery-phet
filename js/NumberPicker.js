@@ -80,9 +80,6 @@ class NumberPicker extends Node {
       arrowLineWidth: 0.25,
       valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
 
-      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
-      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
-
       /**
        * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
        * to the same value depending on external state, it is recommended to rebuild the NumberPicker when that state
@@ -141,9 +138,6 @@ class NumberPicker extends Node {
       // No reference needs to be kept, since we dispose its dependency.
       options.pressedColor = new DerivedProperty( [ colorProperty ], color => color.darkerColor() );
     }
-
-    assert && assert( options.disabledOpacity > 0 && options.disabledOpacity < 1,
-      `invalid disabledOpacity: ${options.disabledOpacity}` );
 
     super();
 
@@ -391,9 +385,6 @@ class NumberPicker extends Node {
     } );
 
     this.mutate( options );
-
-    // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this, { disabledOpacity: options.disabledOpacity } ) );
 
     // Dilate based on consistent technique which brings into account transform of this node.
     const focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );

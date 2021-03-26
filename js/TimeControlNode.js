@@ -91,8 +91,8 @@ class TimeControlNode extends Node {
         yMargin: 6
       },
 
-      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
-      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
+      // {number} - opt into Node's disabled opacity when enabled:false
+      disabledOpacity: SunConstants.DISABLED_OPACITY,
 
       // phet-io
       tandem: Tandem.REQUIRED, // {Tandem}
@@ -188,9 +188,6 @@ class TimeControlNode extends Node {
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
     this.mutate( options );
-
-    // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this ) );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimeControlNode', this );

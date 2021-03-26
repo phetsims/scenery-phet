@@ -13,7 +13,6 @@ import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -34,9 +33,6 @@ class FineCoarseSpinner extends Node {
       deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
       spacing: 10, // {number} horizontal space between subcomponents
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-
-      // {function(boolean, Node, Object:options):void} - function for controlling the appearance when toggling enabled.
-      enabledAppearanceStrategy: SunConstants.componentEnabledListener,
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -139,9 +135,6 @@ class FineCoarseSpinner extends Node {
       incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== options.range.max );
     };
     numberProperty.link( numberPropertyListener ); // unlink required in dispose
-
-    // No need to dispose because enabledProperty is disposed in Node
-    this.enabledProperty.link( enabled => options.enabledAppearanceStrategy( enabled, this, { disabledOpacity: options.disabledOpacity } ) );
 
     // @private
     this.disposeFineCoarseSpinner = () => {
