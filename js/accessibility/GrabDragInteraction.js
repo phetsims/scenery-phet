@@ -561,7 +561,7 @@ class GrabDragInteraction {
 
   /**
    * Update the focusHighlights according to if we are in grabbable or draggable state
-   * No need to set visibility to true, because that will happen for us by FocusOverlay on focus.
+   * No need to set visibility to true, because that will happen for us by HighlightOverlay on focus.
    *
    * @private
    */

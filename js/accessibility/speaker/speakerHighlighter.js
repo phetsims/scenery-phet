@@ -5,8 +5,8 @@
  * This is coupled with VoicingInputListener, which updates the Properties tracking the pointer's over Trail.
  *
  * Very rough, prototype code. Uncertain whether this design will be around long-term.
- * For now, goes through FocusOverlay to display the highlight for a Node, but does so by accessing private things.
- * If we want to continue with this feature, we should reconsider the solution. Either FocusOverlay should
+ * For now, goes through HighlightOverlay to display the highlight for a Node, but does so by accessing private things.
+ * If we want to continue with this feature, we should reconsider the solution. Either HighlightOverlay should
  * be changed to support this more thoroghly, or a different strategy should be used entirely.
  *
  * @author Jesse Greenberg
