@@ -13,7 +13,6 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import PhetFont from '../../PhetFont.js';
@@ -40,16 +39,6 @@ class VoicingHighlight extends FocusHighlightFromNode {
 
     node.localBoundsProperty.link( bounds => {
       speakableIcon.rightBottom = node.localBounds.rightBottom;
-    } );
-
-    // while the speaker is talking, fill it in to show the user
-    // this is what is being described
-    webSpeaker.startSpeakingEmitter.addListener( () => {
-      this.fill = 'rgba(255,255,0,0.4)';
-    } );
-
-    webSpeaker.endSpeakingEmitter.addListener( () => {
-      this.fill = null;
     } );
 
     this.addChild( speakableIcon );
