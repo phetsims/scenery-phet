@@ -185,7 +185,7 @@ class MovementDescriber {
 
       // make sure that these alerts exist
       if ( assert ) {
-        directions.map( direction => { assert( this.movementAlerts[ direction ] && typeof this.movementAlerts[ direction ] === 'string' ); } );
+        directions.forEach( direction => { assert( this.movementAlerts[ direction ] && typeof this.movementAlerts[ direction ] === 'string' ); } );
       }
       this.alertDirections( directions );
     }
