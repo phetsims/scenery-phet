@@ -104,7 +104,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
       globalKeyboardListener = event => {
 
         // only enabled if the sim supports interactive descriptions
-        if ( phet.joist.sim.supportsInteractiveDescription &&
+        if ( phet.chipper.queryParameters.supportsInteractiveDescription &&
              this.buttonModel.enabledProperty.get() &&
              KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K ) &&
              globalKeyStateTracker.altKeyDown &&
