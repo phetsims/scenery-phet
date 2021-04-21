@@ -124,7 +124,7 @@ class NumberPicker extends Node {
       tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
       visiblePropertyOptions: { phetioFeatured: true },
-      enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
+      phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // pdom (passed to AccessibleNumberSpinner)
       pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner

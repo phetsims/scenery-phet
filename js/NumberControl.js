@@ -87,7 +87,7 @@ class NumberControl extends Node {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: NumberControl.NumberControlIO,
-      enabledPropertyPhetioInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
+      phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
       // pdom
       groupFocusHighlight: true
