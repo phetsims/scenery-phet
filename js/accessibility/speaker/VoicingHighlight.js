@@ -1,24 +1,17 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A focus highlight for the voicing prototype. Has a different color than the
- * default focus highlight and includes an icon to indicate that interacting with
- * the object will result in some speech. This highlight may also appear on
- * mouse over as well as focus in the SpeakerHighlighter
+ * A focus highlight for the voicing prototype. Has a unique color to indicate that focus is not around something
+ * that is interactive, but can be read with activation.
  *
- * This should generally be used for otherwise NON interactive things that
- * have voicing. Normally focusable things should have the default
- * focus highlight.
+ * This should generally be used for otherwise NON interactive things that have voicing. Normally focusable things
+ * should have the default focus highlight.
  * @author Jesse Greenberg
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import PhetFont from '../../PhetFont.js';
-import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
-import sceneryPhet from '../../sceneryPhet.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
+import sceneryPhet from '../../sceneryPhet.js';
 
 class VoicingHighlight extends FocusHighlightFromNode {
   constructor( node, options ) {
@@ -29,19 +22,6 @@ class VoicingHighlight extends FocusHighlightFromNode {
     }, options );
 
     super( node, options );
-
-    // icon to indicate that the Node being focused has some content
-    const bubbleIcon = new FontAwesomeNode( 'comment', { fill: 'grey', scale: 0.55 } );
-    const rText = new Text( 'R', { font: new PhetFont( { size: 8 } ), fill: 'white', center: bubbleIcon.center.plusXY( 1, -2 ) } );
-    const speakableIcon = new Node( {
-      children: [ bubbleIcon, rText ]
-    } );
-
-    node.localBoundsProperty.link( bounds => {
-      speakableIcon.rightBottom = node.localBounds.rightBottom;
-    } );
-
-    this.addChild( speakableIcon );
   }
 }
 
