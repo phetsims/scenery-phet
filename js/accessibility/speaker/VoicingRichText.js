@@ -12,8 +12,7 @@
 
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Voicing from '../../../../scenery/js/accessibility/speaker/Voicing.js';
-import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
+import ReadingBlock from '../../../../scenery/js/accessibility/speaker/ReadingBlock.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import VoicingHighlight from './VoicingHighlight.js';
@@ -38,7 +37,7 @@ class VoicingRichText extends RichText {
 
     super( text, options );
 
-    this.initializeVoicing();
+    this.initializeReadingBlock();
 
     this.mutate( {
 
@@ -48,19 +47,15 @@ class VoicingRichText extends RichText {
       },
 
       // specify the hit shape for the RichText for mouse/touch presses
-      voicingHitShape: Shape.bounds( this.localBounds ),
+      readingBlockHitShape: Shape.bounds( this.localBounds ),
 
       // unique highlight for non-interactive components
-      focusHighlight: new VoicingHighlight( this ),
-
-      // makes the text focusable when voicing is enabled
-      voicingTagName: 'button',
-      voicingFocusableProperty: webSpeaker.enabledProperty
+      focusHighlight: new VoicingHighlight( this )
     } );
   }
 }
 
-Voicing.compose( VoicingRichText );
+ReadingBlock.compose( VoicingRichText );
 
 sceneryPhet.register( 'VoicingRichText', VoicingRichText );
 export default VoicingRichText;
