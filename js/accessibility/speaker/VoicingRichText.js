@@ -42,7 +42,7 @@ class VoicingRichText extends RichText {
     this.mutate( {
 
       // reads the text (or alternative voicingText) on focus, click, and mouse press
-      voicingCreateObjectResponse: event => {
+      voicingCreateOverrideResponse: event => {
         return options.voicingText || text;
       },
 

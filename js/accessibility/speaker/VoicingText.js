@@ -42,7 +42,7 @@ class VoicingText extends Text {
     this.mutate( {
 
       // reads teh text (or alternative voicingText) on focus, click, and mouse press
-      voicingCreateObjectResponse: event => {
+      voicingCreateOverrideResponse: event => {
         return options.voicingText || text;
       },
 
