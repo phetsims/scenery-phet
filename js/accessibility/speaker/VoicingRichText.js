@@ -32,7 +32,12 @@ class VoicingRichText extends RichText {
 
       // pdom
       tagName: 'p',
-      innerContent: text
+      innerContent: text,
+
+      // voicing
+      // default tag name for a ReadingBlock, but there are cases where you may want to override this (such as
+      // RichText links)
+      voicingTagName: 'button'
     }, options );
 
     super( text, options );
@@ -50,7 +55,9 @@ class VoicingRichText extends RichText {
       readingBlockHitShape: Shape.bounds( this.localBounds ),
 
       // unique highlight for non-interactive components
-      focusHighlight: new VoicingHighlight( this )
+      focusHighlight: new VoicingHighlight( this ),
+
+      voicingTagName: options.voicingTagName
     } );
   }
 }
