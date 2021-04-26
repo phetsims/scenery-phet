@@ -485,6 +485,13 @@
           }
         }
       },
+      "keyboardHelpDialog":{
+        "general": {
+          "descriptionPattern": {
+            "value": "{{title}}. {{nextItem}} {{previousItem}} {{groupItem}} {{pressButtons}} {{exit}}"
+          }
+        }
+      },
       "grabDragHintPattern": {
         "value": "Tap, hold, and drag to {{manipulation}}."
       },
