@@ -70,8 +70,10 @@ class Stopwatch extends PhetioObject {
 
     // When the stopwatch visibility changes, stop it and reset its value.
     const visibilityListener = () => {
-      this.isRunningProperty.value = false;
-      this.timeProperty.value = 0;
+      if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
+        this.isRunningProperty.value = false;
+        this.timeProperty.value = 0;
+      }
     };
     this.isVisibleProperty.link( visibilityListener );
 
