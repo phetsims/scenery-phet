@@ -10,7 +10,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ReadingBlock from '../../../../scenery/js/accessibility/speaker/ReadingBlock.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -45,9 +44,6 @@ class VoicingText extends Text {
       voicingCreateOverrideResponse: event => {
         return options.voicingText || text;
       },
-
-      // specify the hit shape for the RichText for mouse/touch presses
-      readingBlockHitShape: Shape.bounds( this.localBounds ),
 
       // unique highlight for non-interactive components
       focusHighlight: new VoicingHighlight( this )

@@ -10,7 +10,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ReadingBlock from '../../../../scenery/js/accessibility/speaker/ReadingBlock.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -37,7 +36,7 @@ class VoicingRichText extends RichText {
       // voicing
       // default tag name for a ReadingBlock, but there are cases where you may want to override this (such as
       // RichText links)
-      voicingTagName: 'button'
+      readingBlockTagName: 'button'
     }, options );
 
     super( text, options );
@@ -51,13 +50,10 @@ class VoicingRichText extends RichText {
         return options.voicingText || text;
       },
 
-      // specify the hit shape for the RichText for mouse/touch presses
-      readingBlockHitShape: Shape.bounds( this.localBounds ),
-
       // unique highlight for non-interactive components
       focusHighlight: new VoicingHighlight( this ),
 
-      voicingTagName: options.voicingTagName
+      readingBlockTagName: options.readingBlockTagName
     } );
   }
 }
