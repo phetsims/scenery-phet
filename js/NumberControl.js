@@ -147,7 +147,7 @@ class NumberControl extends Node {
         constrainValue: defaultConstrainValue,
 
         // phet-io
-        tandem: options.tandem.createTandem( 'slider' )
+        tandem: options.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME )
       },
 
       // Options propagated to NumberDisplay
@@ -585,6 +585,9 @@ class NumberControl extends Node {
     };
   }
 }
+
+// @public
+NumberControl.SLIDER_TANDEM_NAME = 'slider';
 
 /**
  * Validate all of the callback related options. There are two types of callbacks. The "start/endCallback" pair
