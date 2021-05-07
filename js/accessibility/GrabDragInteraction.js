@@ -3,12 +3,12 @@
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
  * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
- * will mutate the accessible content (pdom) of the passed in Node (sometimes referred to "wrappedNode"), toggling
- * between a grabbable state and a draggable state. When each state changes, the underlying PDOM element and general
+ * will mutate the accessible content (PDOM) of the passed in Node (sometimes referred to "wrappedNode"), toggling
+ * between a "grabbable" state and a "draggable" state. When each state changes, the underlying PDOM element and general
  * interaction does as well.
- * To accomplish this there are options to be filled in that keeps track of the scenery inputListeners for each state,
- * as well as the options to mutate the Node by for each state. By default the grabbable is a button with a parent div,
- * and the draggable is a focusable div with an "application" aria role. It is up to the client to supply dragging
+ * To accomplish this there are options to be filled in that keep track of the scenery inputListeners for each state,
+ * as well as options to mutate the Node for each state. By default the grabbable is a `button` with a containing  `div`,
+ * and the draggable is a focusable `div` with an "application" aria role. It is up to the client to supply dragging
  * listeners via options.
  *
  * As a note on terminology, mostly things are referred to by their current "interaction state" which is either grabbable
@@ -29,10 +29,10 @@
  * NOTE: problems may occur if you change the focusHighlight of the Node passed in after creating this type.
  *
  * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have added the
- * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this Type's constructor.
+ * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this type's constructor.
  *
- * NOTE on positioning the grab "cue" Node: transforming the Node adding the grab/drag interaction after running this code
- * will not update the layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
+ * NOTE on positioning the grab "cue" Node: transforming the wrappedNode after creating this type will not update the
+ * layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
  * result, currently you must correctly position node before the cue Node is created.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
