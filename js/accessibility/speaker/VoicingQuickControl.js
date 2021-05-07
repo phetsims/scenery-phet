@@ -15,9 +15,8 @@ import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
-import VoicingUtterance from '../../../../utterance-queue/js/VoicingUtterance.js';
-import VoicingPreferencesDialog from './VoicingPreferencesDialog.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -29,10 +28,12 @@ import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/Boo
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import ExpandCollapseButton from '../../../../sun/js/ExpandCollapseButton.js';
 import Panel from '../../../../sun/js/Panel.js';
+import VoicingUtterance from '../../../../utterance-queue/js/VoicingUtterance.js';
 import voicingIconImage from '../../../images/voicing-icon_png.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
 import VoicingInputListener from './VoicingInputListener.js';
+import VoicingPreferencesDialog from './VoicingPreferencesDialog.js';
 
 // strings for voicing content - these should not be translatable and are therefore not
 // added to the strings file - I also don't know if "prototype" strings can go into translatable files
@@ -115,14 +116,14 @@ class VoicingQuickControl extends Node {
         const string = StringUtils.fillIn( expandCollapseButtonPatternString, {
           action: openProperty.get() ? hideString : showString
         } );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
+        voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( string ) );
       },
       highlightTarget: this.expandCollapseButton
     } ) );
 
     openProperty.lazyLink( open => {
       const response = open ? voicingQuickMenuShown : voicingQuickMenuHidden;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( response ) );
     } );
 
     // creates content for each button and puts it into an AlignGroup so that
@@ -148,7 +149,7 @@ class VoicingQuickControl extends Node {
 
       button.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
-          phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
+          voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( contentString ) );
         },
         highlightTarget: button
       } ) );
@@ -189,13 +190,13 @@ class VoicingQuickControl extends Node {
         alert: voicingDialogAlert,
         cancelOther: false
       } );
-      phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
+      voicingUtteranceQueue.addToBack( utterance );
     } );
 
     // other listeners are added in createSpeechButton
     muteSpeechButton.addInputListener( new VoicingInputListener( {
       onFocusIn: () => {
-        phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
+        voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( muteSpeechString ) );
       },
       highlightTarget: muteSpeechButton
     } ) );
@@ -269,7 +270,7 @@ class VoicingQuickControl extends Node {
    * @private
    */
   speakHintContent() {
-    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createHintContent() );
+    voicingUtteranceQueue.addToBack( this.createHintContent() );
   }
 
   /**
@@ -277,7 +278,7 @@ class VoicingQuickControl extends Node {
    * @private
    */
   speakOverviewContent() {
-    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createOverviewContent() );
+    voicingUtteranceQueue.addToBack( this.createOverviewContent() );
   }
 
   /**
@@ -286,7 +287,7 @@ class VoicingQuickControl extends Node {
    * @private
    */
   speakDetailsContent() {
-    phet.joist.sim.voicingUtteranceQueue.addToBack( this.createDetailsContent() );
+    voicingUtteranceQueue.addToBack( this.createDetailsContent() );
   }
 
   /**

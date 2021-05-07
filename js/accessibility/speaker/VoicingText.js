@@ -27,7 +27,7 @@ class VoicingText extends Text {
 
       // {string|null} - if provided, alternative text that will be spoken that is different from the
       // visually displayed text
-      voicingText: null,
+      readingBlockContent: null,
 
       // pdom
       tagName: 'p',
@@ -40,10 +40,7 @@ class VoicingText extends Text {
     this.initializeReadingBlock();
     this.mutate( {
 
-      // reads teh text (or alternative voicingText) on focus, click, and mouse press
-      voicingCreateOverrideResponse: event => {
-        return options.voicingText || text;
-      },
+      readingBlockContent: options.readingBlockContent || text,
 
       // unique highlight for non-interactive components
       focusHighlight: new VoicingHighlight( this )

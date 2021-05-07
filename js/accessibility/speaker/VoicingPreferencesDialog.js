@@ -12,6 +12,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import webSpeaker from '../../../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../../../scenery/js/display/Display.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -95,7 +96,7 @@ class VoicingPreferencesDialog extends Dialog {
     voiceComboBox.listBox.addInputListener( new VoicingInputListener( {
       onFocusIn: event => {
         const response = levelSpeakerModel.collectResponses( Display.focusedNode.innerContent );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+        voicingUtteranceQueue.addToBack( response );
       }
     } ) );
 
@@ -121,7 +122,7 @@ class VoicingPreferencesDialog extends Dialog {
 
     webSpeaker.voiceProperty.lazyLink( voice => {
       const content = levelSpeakerModel.collectResponses( newVoiceSelectedString );
-      phet.joist.sim.voicingUtteranceQueue.addToBack( content );
+      voicingUtteranceQueue.addToBack( content );
     } );
 
     voiceComboBox.addInputListener( new VoicingInputListener( {
@@ -134,7 +135,7 @@ class VoicingPreferencesDialog extends Dialog {
           alert: response,
           cancelOther: false
         } );
-        phet.joist.sim.voicingUtteranceQueue.addToBack( changeVoiceUtterance );
+        voicingUtteranceQueue.addToBack( changeVoiceUtterance );
       }
     } ) );
 
@@ -160,7 +161,7 @@ VoicingPreferencesDialog.createLabelledSlider = ( numberProperty, label, voicing
       newValue: Utils.toFixed( value, 2 )
     } );
     utterance.alert = levelSpeakerModel.collectResponses( content );
-    phet.joist.sim.voicingUtteranceQueue.addToBack( utterance );
+    voicingUtteranceQueue.addToBack( utterance );
   } );
 
   return new HBox( {
@@ -252,7 +253,7 @@ class LevelModeControls extends VBox {
       child.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
           const response = levelSpeakerModel.collectResponses( child.labelContent );
-          phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+          voicingUtteranceQueue.addToBack( response );
         }
       } ) );
     } );
@@ -261,7 +262,7 @@ class LevelModeControls extends VBox {
       child.addInputListener( new VoicingInputListener( {
         onFocusIn: () => {
           const response = levelSpeakerModel.collectResponses( child.labelContent );
-          phet.joist.sim.voicingUtteranceQueue.addToBack( response );
+          voicingUtteranceQueue.addToBack( response );
         }
       } ) );
     } );
@@ -269,32 +270,32 @@ class LevelModeControls extends VBox {
     // speak when the various Properties change
     levelSpeakerModel.showHoverHighlightsProperty.lazyLink( shown => {
       const content = shown ? highlightsShownString : highlightsHiddenString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
 
     levelSpeakerModel.showQuickMenuProperty.lazyLink( shown => {
       const content = shown ? menuShownString : menuHiddenString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
 
     levelSpeakerModel.gestureControlProperty.lazyLink( enabled => {
       const content = enabled ? gestureControlsEnabledString : gestureControlsDisabledString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
 
     levelSpeakerModel.objectChangesProperty.lazyLink( enabled => {
       const content = enabled ? speakingObjectChangesString : mutingObjectChangesString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
 
     levelSpeakerModel.contextChangesProperty.lazyLink( enabled => {
       const content = enabled ? speakingContextChangesString : mutingContextChangesString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
 
     levelSpeakerModel.hintsProperty.lazyLink( enabled => {
       const content = enabled ? speakingHintsString : mutingHintsString;
-      phet.joist.sim.voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
+      voicingUtteranceQueue.addToBack( levelSpeakerModel.collectResponses( content ) );
     } );
   }
 }

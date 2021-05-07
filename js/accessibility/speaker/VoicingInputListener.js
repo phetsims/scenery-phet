@@ -16,11 +16,12 @@
  * @author Jesse Greenberg
  */
 
+import merge from '../../../../phet-core/js/merge.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/speaker/voicingUtteranceQueue.js';
 import Display from '../../../../scenery/js/display/Display.js';
+import sceneryPhet from '../../sceneryPhet.js';
 import levelSpeakerModel from './levelSpeakerModel.js';
 import speakerHighlighter from './speakerHighlighter.js';
-import merge from '../../../../phet-core/js/merge.js';
-import sceneryPhet from '../../sceneryPhet.js';
 
 class VoicingInputListener {
   constructor( options ) {
@@ -44,7 +45,7 @@ class VoicingInputListener {
       highlightTarget: null
     }, options );
 
-    assert && assert( phet.joist.sim.voicingUtteranceQueue, 'Listener requires the utteranceQueue for voicing, is the feature enabled?' );
+    assert && assert( voicingUtteranceQueue, 'Listener requires the utteranceQueue for voicing, is the feature enabled?' );
 
     // @private - see options
     this.onPress = options.onPress;
@@ -79,9 +80,9 @@ class VoicingInputListener {
                 // have specific behavior on down that we should speak - we don't want to speak
                 // down content and focus
                 // I am actually not sure about this, should check with Taliesin.
-                phet.joist.sim.voicingUtteranceQueue.enabled = false;
+                voicingUtteranceQueue.enabled = false;
                 event.trail.nodes[ i ].focus();
-                phet.joist.sim.voicingUtteranceQueue.enabled = true;
+                voicingUtteranceQueue.enabled = true;
               }
             }
           }

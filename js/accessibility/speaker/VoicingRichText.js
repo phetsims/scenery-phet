@@ -27,7 +27,7 @@ class VoicingRichText extends RichText {
 
       // {string|null} - if provided, alternative text that will be read that is different from the
       // visually displayed text
-      voicingText: null,
+      readingBlockContent: null,
 
       // pdom
       tagName: 'p',
@@ -45,10 +45,7 @@ class VoicingRichText extends RichText {
 
     this.mutate( {
 
-      // reads the text (or alternative voicingText) on focus, click, and mouse press
-      voicingCreateOverrideResponse: event => {
-        return options.voicingText || text;
-      },
+      readingBlockContent: options.voicingText || text,
 
       // unique highlight for non-interactive components
       focusHighlight: new VoicingHighlight( this ),
