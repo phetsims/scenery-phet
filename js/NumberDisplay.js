@@ -167,19 +167,23 @@ class NumberDisplay extends Node {
     // @private
     this.numberFormatter = options.numberFormatter;
 
-    // display the value
+    // Display the value.
     const numberObserver = value => {
-
       const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
       const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, this.numberFormatter );
-      const align = ( value === null ) ? options.noValueAlign : options.align;
-
-      // update the value
       valueText.text = StringUtils.fillIn( valuePattern, {
         value: stringValue
       } );
+    };
+    numberProperty.link( numberObserver );
 
-      // horizontally align value in background
+    // Align the value in the background.
+    valueText.boundsProperty.link( () => {
+
+      // Alignment depends on whether we have a non-null value.
+      const align = ( numberProperty.value === null ) ? options.noValueAlign : options.align;
+
+      // horizontal alignment
       if ( align === 'center' ) {
         valueText.centerX = backgroundNode.centerX;
       }
@@ -189,9 +193,10 @@ class NumberDisplay extends Node {
       else { // right
         valueText.right = backgroundNode.right - options.xMargin;
       }
+
+      // vertical alignment
       valueText.centerY = backgroundNode.centerY;
-    };
-    numberProperty.link( numberObserver );
+    } );
 
     this.mutate( options );
 
