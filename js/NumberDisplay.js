@@ -151,7 +151,7 @@ class NumberDisplay extends Node {
     const backgroundWidth = Math.max( options.minBackgroundWidth, valueText.width + 2 * options.xMargin );
     const backgroundHeight = ( options.useFullHeight ? originalTextHeight : valueText.height ) + 2 * options.yMargin;
 
-    // @private background
+    // background rectangle
     const backgroundNode = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, {
       cornerRadius: options.cornerRadius,
       fill: options.backgroundFill,
