@@ -30,7 +30,6 @@ class VoicingRichText extends RichText {
       readingBlockContent: null,
 
       // pdom
-      tagName: 'p',
       innerContent: text,
 
       // voicing
