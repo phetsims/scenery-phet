@@ -64,14 +64,9 @@ class SoundToggleButton extends BooleanRectangularToggleButton {
 
     super( soundOnNode, soundOffNode, property, options );
 
-    // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
-    // on construction and must be unlinked in dispose
+    // pdom attribute lets user know when the toggle is pressed
     const pressedListener = value => {
       this.setPDOMAttribute( 'aria-pressed', !value );
-
-      const alertString = value ? sceneryPhetStrings.a11y.soundToggle.alert.simSoundOn
-                                : sceneryPhetStrings.a11y.soundToggle.alert.simSoundOff;
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
     };
     property.lazyLink( pressedListener );
     this.setPDOMAttribute( 'aria-pressed', !property.get() );
