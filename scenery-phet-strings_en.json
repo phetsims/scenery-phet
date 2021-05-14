@@ -485,7 +485,7 @@
           }
         }
       },
-      "keyboardHelpDialog":{
+      "keyboardHelpDialog": {
         "general": {
           "descriptionPattern": {
             "value": "{{title}}. {{nextItem}} {{previousItem}} {{groupItem}} {{pressButtons}} {{exit}}"
@@ -500,6 +500,11 @@
       },
       "draggableAlert": {
         "value": "Draggable"
+      },
+      "resetAll": {
+        "contextResponse": {
+          "value": "Everything Reset."
+        }
       }
     }
   }
