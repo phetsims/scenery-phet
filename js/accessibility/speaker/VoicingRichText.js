@@ -44,7 +44,7 @@ class VoicingRichText extends RichText {
 
     this.mutate( {
 
-      readingBlockContent: options.voicingText || text,
+      readingBlockContent: options.readingBlockContent || text,
 
       // unique highlight for non-interactive components
       focusHighlight: new VoicingHighlight( this ),
