@@ -36,14 +36,12 @@ class VoicingText extends Text {
 
     super( text, options );
 
+    // unique highlight for non-interactive components
+    this.focusHighlight = new VoicingHighlight( this );
+
     // voicing
-    this.initializeReadingBlock();
-    this.mutate( {
-
-      readingBlockContent: options.readingBlockContent || text,
-
-      // unique highlight for non-interactive components
-      focusHighlight: new VoicingHighlight( this )
+    this.initializeReadingBlock( {
+      readingBlockContent: options.readingBlockContent || text
     } );
   }
 }

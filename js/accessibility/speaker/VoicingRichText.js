@@ -1,11 +1,9 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * WARNING: This is using a prototype trait called Voicing with speech synthesis. Do not use in production code yet.
- *
- * RichText that composes Voicing, supporting speech synthesis. VoicingRichText is added to the focus
- * order when Voicing is enabled, and a highlight will surround it that indicates it can be clicked on
- * to hear the text with speech synthesis.
+ * RichText that composes ReadingBlock so that it can have Voicing content and listener that are called on it.
+ * VoicingRichText is added to the focus order when Voicing is enabled, and a highlight will surround it that indicates
+ * it can be clicked on to hear the text with speech synthesis.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -40,15 +38,10 @@ class VoicingRichText extends RichText {
 
     super( text, options );
 
-    this.initializeReadingBlock();
+    this.focusHighlight = new VoicingHighlight( this );
 
-    this.mutate( {
-
+    this.initializeReadingBlock( {
       readingBlockContent: options.readingBlockContent || text,
-
-      // unique highlight for non-interactive components
-      focusHighlight: new VoicingHighlight( this ),
-
       readingBlockTagName: options.readingBlockTagName
     } );
   }
