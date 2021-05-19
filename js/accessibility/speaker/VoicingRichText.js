@@ -1,9 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * RichText that composes ReadingBlock so that it can have Voicing content and listener that are called on it.
- * VoicingRichText is added to the focus order when Voicing is enabled, and a highlight will surround it that indicates
- * it can be clicked on to hear the text with speech synthesis.
+ * RichText that composes ReadingBlock, adding support for Voicing and input listeners that speak content upon
+ * user activation.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */

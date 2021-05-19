@@ -1,11 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * WARNING: This is using a prototype trait called Voicing with speech synthesis. Do not use in production code yet.
- *
- * Text that mixes Voicing, creating a "Reading Block" which can be clicked to read the associated text
- * with speech synthesis. VoicingRichText is added to the focus order when Voicing is enabled,
- * and a highlight will surround it that indicates it can be clicked on to hear the text.
+ * Text that mixes ReadingBLock, supporting features of Voicing and adding listeners that speak upon user activation.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
