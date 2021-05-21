@@ -9,6 +9,7 @@
  * If we want to continue with this feature, we should reconsider the solution. Either HighlightOverlay should
  * be changed to support this more thoroghly, or a different strategy should be used entirely.
  *
+ * REVIEW: Delete this file? https://github.com/phetsims/scenery/issues/1223
  * @author Jesse Greenberg
  */
 
