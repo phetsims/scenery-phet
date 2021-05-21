@@ -49,6 +49,8 @@ import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZ
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import AriaHerald from '../../../utterance-queue/js/AriaHerald.js';
+import Utterance from '../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
@@ -282,7 +284,16 @@ class GrabDragInteraction {
     // @private - wrap the optional onRelease in logic that is needed for the core type.
     this.onRelease = () => {
       options.onRelease && options.onRelease();
-      phet.joist.sim.utteranceQueue.addToBack( releasedString );
+
+      // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
+      // https://github.com/phetsims/balloons-and-static-electricity/issues/491
+      const releasedUtterance = new Utterance( {
+        alert: releasedString,
+        announcerOptions: {
+          ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+        }
+      } );
+      phet.joist.sim.utteranceQueue.addToBack( releasedUtterance );
     };
     this.onGrab = options.onGrab; // @private
 
