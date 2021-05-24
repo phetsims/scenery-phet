@@ -44,6 +44,14 @@ class VoicingRichText extends RichText {
       readingBlockTagName: options.readingBlockTagName
     } );
   }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeReadingBlock();
+    super.dispose();
+  }
 }
 
 ReadingBlock.compose( VoicingRichText );

@@ -40,6 +40,14 @@ class VoicingText extends Text {
       readingBlockContent: options.readingBlockContent || text
     } );
   }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeReadingBlock();
+    super.dispose();
+  }
 }
 
 ReadingBlock.compose( VoicingText );
