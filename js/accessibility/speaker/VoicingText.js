@@ -10,7 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ReadingBlock from '../../../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import VoicingHighlight from '../../../../scenery/js/accessibility/voicing/VoicingHighlight.js';
+import ReadingBlockHighlight from '../../../../scenery/js/accessibility/voicing/ReadingBlockHighlight.js';
 
 class VoicingText extends Text {
 
@@ -33,7 +33,7 @@ class VoicingText extends Text {
     super( text, options );
 
     // unique highlight for non-interactive components
-    this.focusHighlight = new VoicingHighlight( this );
+    this.focusHighlight = new ReadingBlockHighlight( this );
 
     // voicing
     this.initializeReadingBlock( {
