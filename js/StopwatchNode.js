@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2014-2021, University of Colorado Boulder
 
 /**
  * Shows a readout of the elapsed time, with play and pause buttons.  By default there are no units (which could be used

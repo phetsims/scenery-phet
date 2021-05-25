@@ -1,4 +1,4 @@
-// Copyright 2013-2020, University of Colorado Boulder
+// Copyright 2013-2021, University of Colorado Boulder
 
 /**
  * SpectrumSlider is a slider-like control used for choosing a value that corresponds to a displayed color.

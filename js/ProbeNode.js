@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * ProbeNode is a physical-looking probe with a handle and a circular sensor region. It is used in simulations like

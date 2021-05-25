@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * DragBoundsProperty derives drag bounds that will keep an entire Node inside some specified bounds.
