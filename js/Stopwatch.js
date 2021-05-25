@@ -40,7 +40,8 @@ class Stopwatch extends PhetioObject {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      phetioType: ReferenceIO( IOType.ObjectIO )
+      phetioType: ReferenceIO( IOType.ObjectIO ),
+      phetioState: false
     }, options );
 
     super( options );
