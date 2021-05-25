@@ -10,7 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ReadingBlock from '../../../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import VoicingHighlight from './VoicingHighlight.js';
+import VoicingHighlight from '../../../../scenery/js/accessibility/voicing/VoicingHighlight.js';
 
 class VoicingText extends Text {
 

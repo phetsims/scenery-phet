@@ -11,7 +11,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ReadingBlock from '../../../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import VoicingHighlight from './VoicingHighlight.js';
+import VoicingHighlight from '../../../../scenery/js/accessibility/voicing/VoicingHighlight.js';
 
 class VoicingRichText extends RichText {
 
