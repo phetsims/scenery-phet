@@ -50,7 +50,7 @@ class StepButton extends RoundPushButton {
       // use the step-forward sound by default
       soundPlayer: stepForwardSoundPlayer,
 
-      // PDOM
+      // pdom
       innerContent: sceneryPhetStrings.a11y.stepButton.stepForward,
       appendDescription: true
     }, options );

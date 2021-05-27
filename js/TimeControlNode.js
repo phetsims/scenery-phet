@@ -99,7 +99,7 @@ class TimeControlNode extends Node {
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
-      // PDOM
+      // pdom
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: timeControlLabelString
@@ -165,7 +165,7 @@ class TimeControlNode extends Node {
     this.buttonGroupXSpacing = options.buttonGroupXSpacing;
     this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
 
-    // PDOM - dynamic or component dependent descriptions
+    // pdom - dynamic or component dependent descriptions
     const playingListener = playing => {
       let description;
       if ( playing ) {
@@ -339,7 +339,7 @@ class PlayPauseStepButtons extends HBox {
       // don't change layout if playPauseButton resizes with scaleFactorWhenNotPlaying
       resize: false,
 
-      // PDOM
+      // pdom
       tagName: 'div', // so that it can receive descriptions
       appendDescription: true
     } );
@@ -422,7 +422,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
       },
       tandem: tandem,
 
-      // PDOM
+      // pdom
       labelTagName: 'h4',
       labelContent: simSpeedsString,
       descriptionContent: simSpeedDescriptionString

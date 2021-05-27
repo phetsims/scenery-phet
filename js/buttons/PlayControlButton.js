@@ -88,7 +88,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
 
     const isPlayingListener = ( isPlaying, oldValue ) => {
 
-      // PDOM - accessible name for the button
+      // pdom - accessible name for the button
       this.innerContent = isPlaying ? options.endPlayingLabel
                                     : options.startPlayingLabel;
 
