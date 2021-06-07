@@ -12,14 +12,20 @@
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import MultiClip from '../../../tambo/js/sound-generators/MultiClip.js';
+import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';
-import backButtonSound001 from '../../sounds/back-button-001_mp3.js';
-import backButtonSound002 from '../../sounds/back-button-002_mp3.js';
-import backButtonSound003 from '../../sounds/back-button-003_mp3.js';
 import ArrowShape from '../ArrowShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import backButtonSound001 from '../../sounds/back-button-001_mp3.js';
+import backButtonSound002 from '../../sounds/back-button-002_mp3.js';
+import backButtonSound003 from '../../sounds/back-button-003_mp3.js';
+
+// constants
+
+// TODO: The following two constants are temporary as we work to decide upon a "back" sound, see https://github.com/phetsims/vegas/issues/91.
+const BACK_BUTTON_SOUND_CHOICES = [ backButtonSound001, backButtonSound002, backButtonSound003 ];
+const BACK_BUTTON_INDEX = 0;
 
 class BackButton extends RectangularPushButton {
 
@@ -31,17 +37,6 @@ class BackButton extends RectangularPushButton {
     // TODO: See https://github.com/phetsims/vegas/issues/91. The creation and registration of the sound player below is
     //       in a temporary state and will be finalized, probably into a shared sound player, once a sound has been
     //       chosen.
-    const backButtonMultiClip = new MultiClip( new Map( [
-      [ 0, backButtonSound001 ],
-      [ 1, backButtonSound002 ],
-      [ 2, backButtonSound003 ]
-    ] ) );
-    soundManager.addSoundGenerator( backButtonMultiClip );
-    const backButtonSoundPlayer = {
-      play() {
-        backButtonMultiClip.playAssociatedSound( phet.vegas.soundIndexForBackButtonProperty.value );
-      }
-    };
 
     options = merge( {
 
@@ -53,9 +48,11 @@ class BackButton extends RectangularPushButton {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
       // sound generation
-      soundPlayer: backButtonSoundPlayer
+      soundPlayer: new SoundClip( BACK_BUTTON_SOUND_CHOICES[ BACK_BUTTON_INDEX ] )
 
     }, options );
+
+    soundManager.addSoundGenerator( options.soundPlayer );
 
     const arrowShape = new ArrowShape( 0, 0, -28.5, 0, {
       tailWidth: 8,
