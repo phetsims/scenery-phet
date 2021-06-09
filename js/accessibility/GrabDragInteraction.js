@@ -188,19 +188,19 @@ class GrabDragInteraction {
       assert && assert( options.dragCueNode.visible === true, 'dragCueNode should be visible to begin with' );
     }
 
-    // GrabDragInteraction has its own api for description content.
+    // GrabDragInteraction has its own API for description content.
     assert && assert( !options.grabbableOptions.descriptionContent,
-      'set grabbableOptions.descriptionContent through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set grabbableOptions.descriptionContent through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
     assert && assert( !options.grabbableOptions.helpText,
-      'set grabbableOptions.helpText through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set grabbableOptions.helpText through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
     assert && assert( !options.grabbableOptions.descriptionTagName,
-      'set grabbableOptions.descriptionTagName through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set grabbableOptions.descriptionTagName through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
     assert && assert( !options.draggableOptions.descriptionTagName,
-      'set draggableOptions.descriptionTagName through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set draggableOptions.descriptionTagName through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
     assert && assert( !options.draggableOptions.descriptionContent,
-      'set draggableOptions.descriptionContent through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set draggableOptions.descriptionContent through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
     assert && assert( !options.draggableOptions.helpText,
-      'set draggableOptions.helpText through custom Grab/Drag api, (see keyboardHelpText and gestureHelpText option).' );
+      'set draggableOptions.helpText through custom Grab/Drag API, (see keyboardHelpText and gestureHelpText option).' );
 
     assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
     assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
