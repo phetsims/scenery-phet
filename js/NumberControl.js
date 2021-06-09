@@ -102,13 +102,6 @@ class NumberControl extends Node {
       return options.enabledRangeProperty ? options.enabledRangeProperty.value : numberRange;
     };
 
-    // By default, constrain to multiples of delta, see #384
-    const defaultConstrainValue = value => {
-      const newValue = Utils.roundToInterval( value, options.delta );
-
-      return getCurrentRange().constrainValue( newValue );
-    };
-
     // Merge all nested options in one block.
     options = merge( {
 
@@ -143,8 +136,12 @@ class NumberControl extends Node {
         majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
         minorTickSpacing: 0, // zero indicates no minor ticks
 
-        // constrain the slider value to the provided range and the same delta as the arrow buttons
-        constrainValue: defaultConstrainValue,
+        // constrain the slider value to the provided range and the same delta as the arrow buttons,
+        // see https://github.com/phetsims/scenery-phet/issues/384
+        constrainValue: value => {
+          const newValue = Utils.roundToInterval( value, options.delta );
+          return getCurrentRange().constrainValue( newValue );
+        },
 
         // phet-io
         tandem: options.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME )
@@ -228,18 +225,6 @@ class NumberControl extends Node {
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
       options.sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
-    }
-
-    // Support shift key stepping based on the arrow key delta, but that may be more minute than constrainValue allows
-    // for the slider.
-    if ( options.sliderOptions.constrainValue ) {
-      const oldConstrainValue = options.sliderOptions.constrainValue;
-      options.sliderOptions.constrainValue = value => {
-        if ( this.slider.getShiftKeyDown() ) {
-          return defaultConstrainValue( value );
-        }
-        return oldConstrainValue( value );
-      };
     }
 
     const titleNode = new Text( title, options.titleNodeOptions );
