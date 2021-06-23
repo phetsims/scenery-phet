@@ -73,12 +73,11 @@ const DirectionEnum = Enumeration.byKeys( [
     /**
      * Support for converting a key to a direction. Arrow keys and WASD will return a primary relative direction.
      * Return null if unrecognized key is given.
-     * @param {KeyDef} key
+     * @param {string} key
      * @returns {DirectionEnum|null}
      */
     DirectionEnum.keyToDirection = function( key ) {
       assert && assert( typeof key === 'string' );
-      assert && assert( KeyboardUtils.isKeyDef( key ), 'should be a KeyDef' );
 
       if ( key === KeyboardUtils.KEY_UP_ARROW || key === KeyboardUtils.KEY_W ) {
         return DirectionEnum.UP;

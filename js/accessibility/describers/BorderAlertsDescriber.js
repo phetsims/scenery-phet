@@ -63,7 +63,7 @@ class BorderAlertsDescriber {
    * @private
    *
    * @param {Vector2} position
-   * @param {KeyDef} [key] - prefer this direction key if provided
+   * @param {string} [key] - prefer this direction key if provided
    */
   alertAtBorder( position, key ) {
     let alertDirection;
@@ -123,7 +123,7 @@ class BorderAlertsDescriber {
   endDrag( position, domEvent ) {
     let key;
     if ( domEvent ) {
-      key = KeyboardUtils.getKeyDef( domEvent );
+      key = KeyboardUtils.getEventCode( domEvent );
     }
     this.alertAtBorder( position, key );
   }
