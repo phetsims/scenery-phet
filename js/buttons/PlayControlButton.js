@@ -98,19 +98,18 @@ class PlayControlButton extends BooleanRoundToggleButton {
     };
     isPlayingProperty.link( isPlayingListener );
 
-    // a listener that toggles the isPlayingProperty with a hotkey, regardless of where focus is in the document
+    // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
     let globalKeyboardListener;
     if ( options.includeGlobalHotKey ) {
       globalKeyboardListener = event => {
 
-        // only enabled if the sim supports interactive descriptions
-        if ( phet.chipper.queryParameters.supportsInteractiveDescription &&
-             this.buttonModel.enabledProperty.get() &&
-             KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K ) &&
-             globalKeyStateTracker.altKeyDown &&
-
-             // only allow hotkey if this Node is accessibleDisplayed, so it cannot be used if removed from PDOM
-             this.pdomDisplayed
+        // Only enabled if the sim supports interactive descriptions, and this Node is in the PDOM.
+        if (
+          phet.chipper.queryParameters.supportsInteractiveDescription &&
+          this.pdomDisplayed &&
+          this.buttonModel.enabledProperty.get() &&
+          globalKeyStateTracker.altKeyDown &&
+          KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K )
         ) {
           isPlayingProperty.set( !isPlayingProperty.get() );
 
