@@ -50,7 +50,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
       // pdom
       // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
       // of where focus is in the document
-      includeGlobalHotKey: false,
+      includeGlobalHotkey: false,
 
       // {string|null} - Label for the button in the PDOM when the button will set isPlayingProperty to true
       startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.play,
@@ -100,7 +100,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
 
     // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
     let globalKeyboardListener;
-    if ( options.includeGlobalHotKey ) {
+    if ( options.includeGlobalHotkey ) {
       globalKeyboardListener = event => {
 
         // Only enabled if the sim supports interactive descriptions, and this Node is in the PDOM.

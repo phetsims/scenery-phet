@@ -31,11 +31,12 @@ class PlayPauseButton extends PlayControlButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
 
       // by default the PlayPauseButton adds a global key command that will toggle the isPlayingProperty
-      includeGlobalHotKey: true,
+      includeGlobalHotkey: true,
 
       // pdom - label for the button when the "pause" icon is displayed
       endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.pause
     }, options );
+
 
     // icon sized relative to the radius
     const pauseHeight = options.radius;
