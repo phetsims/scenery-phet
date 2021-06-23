@@ -24,11 +24,11 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -113,7 +113,7 @@ class NumberPicker extends Node {
       decrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
 
       // Opacity used to indicate disabled, [0,1] exclusive
-      disabledOpacity: SunConstants.DISABLED_OPACITY,
+      disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
       // {Playable} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
       // Use Playable.NO_SOUND to disable.

@@ -15,8 +15,8 @@ import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import Panel from '../../sun/js/Panel.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseButton from './buttons/PlayPauseButton.js';
@@ -92,7 +92,7 @@ class TimeControlNode extends Node {
       },
 
       // {number} - opt into Node's disabled opacity when enabled:false
-      disabledOpacity: SunConstants.DISABLED_OPACITY,
+      disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
       // phet-io
       tandem: Tandem.REQUIRED, // {Tandem}

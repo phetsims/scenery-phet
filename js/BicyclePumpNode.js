@@ -20,9 +20,9 @@ import Circle from '../../scenery/js/nodes/Circle.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
-import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
@@ -241,8 +241,8 @@ class BicyclePumpNode extends Node {
       this.pumpHandleNode.interruptSubtreeInput();
       this.pumpHandleNode.pickable = enabled;
       this.pumpHandleNode.cursor = enabled ? options.handleCursor : 'default';
-      this.pumpHandleNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
-      this.pumpShaftNode.opacity = enabled ? 1 : SunConstants.DISABLED_OPACITY;
+      this.pumpHandleNode.opacity = enabled ? 1 : SceneryConstants.DISABLED_OPACITY;
+      this.pumpShaftNode.opacity = enabled ? 1 : SceneryConstants.DISABLED_OPACITY;
     };
     this.nodeEnabledProperty.link( enabledListener );
 
