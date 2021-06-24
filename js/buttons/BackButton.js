@@ -12,15 +12,9 @@
 import merge from '../../../phet-core/js/merge.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import MultiClip from '../../../tambo/js/sound-generators/MultiClip.js';
+import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';
-import backButtonSound001 from '../../sounds/back-button-001_mp3.js';
-import backButtonSound002 from '../../sounds/back-button-002_mp3.js';
-import backButtonSound003 from '../../sounds/back-button-003_mp3.js';
-import backButtonSound004 from '../../sounds/back-button-004_mp3.js';
-import backButtonSound005 from '../../sounds/back-button-005_mp3.js';
-import backButtonSound006 from '../../sounds/back-button-006_mp3.js';
-import backButtonSound007 from '../../sounds/back-button-007_mp3.js';
+import goBackSound from '../../sounds/go-back_mp3.js';
 import ArrowShape from '../ArrowShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -32,29 +26,6 @@ class BackButton extends RectangularPushButton {
    */
   constructor( options ) {
 
-    // TODO: See https://github.com/phetsims/vegas/issues/91. The creation and registration of the sound player below is
-    //       in a temporary state and will be finalized, probably into a shared sound player, once a sound has been
-    //       chosen.
-    const backButtonMultiClip = new MultiClip( new Map( [
-      [ 0, backButtonSound001 ],
-      [ 1, backButtonSound002 ],
-      [ 2, backButtonSound003 ],
-      [ 3, backButtonSound004 ],
-      [ 4, backButtonSound005 ],
-      [ 5, backButtonSound006 ],
-      [ 6, backButtonSound007 ]
-    ] ) );
-    soundManager.addSoundGenerator( backButtonMultiClip );
-    const backButtonSoundPlayer = {
-      play() {
-        let soundIndex = 0;
-        if ( phet && phet.vegas && phet.vegas.soundIndexForBackButtonProperty ) {
-          soundIndex = phet.vegas.soundIndexForBackButtonProperty.value;
-        }
-        backButtonMultiClip.playAssociatedSound( soundIndex );
-      }
-    };
-
     options = merge( {
 
       // Default margin values were set up to make this button match the size of the refresh button, since these
@@ -64,8 +35,8 @@ class BackButton extends RectangularPushButton {
 
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
-      // sound generation
-      soundPlayer: backButtonSoundPlayer
+      // sound generation, default sound player will be created if nothing is provided
+      soundPlayer: null
 
     }, options );
 
@@ -74,6 +45,13 @@ class BackButton extends RectangularPushButton {
       headWidth: 18,
       headHeight: 15
     } );
+
+    // Create and add the default sound generator if none was provided.
+    if ( !options.soundPlayer ) {
+      const goBackSoundClip = new SoundClip( goBackSound, { initialOutputLevel: 0.5 } );
+      soundManager.addSoundGenerator( goBackSoundClip );
+      options.soundPlayer = goBackSoundClip;
+    }
 
     super( merge( {
       content: new Path( arrowShape, { fill: 'black' } )
