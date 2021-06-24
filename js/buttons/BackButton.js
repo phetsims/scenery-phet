@@ -17,6 +17,10 @@ import soundManager from '../../../tambo/js/soundManager.js';
 import backButtonSound001 from '../../sounds/back-button-001_mp3.js';
 import backButtonSound002 from '../../sounds/back-button-002_mp3.js';
 import backButtonSound003 from '../../sounds/back-button-003_mp3.js';
+import backButtonSound004 from '../../sounds/back-button-004_mp3.js';
+import backButtonSound005 from '../../sounds/back-button-005_mp3.js';
+import backButtonSound006 from '../../sounds/back-button-006_mp3.js';
+import backButtonSound007 from '../../sounds/back-button-007_mp3.js';
 import ArrowShape from '../ArrowShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -34,7 +38,11 @@ class BackButton extends RectangularPushButton {
     const backButtonMultiClip = new MultiClip( new Map( [
       [ 0, backButtonSound001 ],
       [ 1, backButtonSound002 ],
-      [ 2, backButtonSound003 ]
+      [ 2, backButtonSound003 ],
+      [ 3, backButtonSound004 ],
+      [ 4, backButtonSound005 ],
+      [ 5, backButtonSound006 ],
+      [ 6, backButtonSound007 ]
     ] ) );
     soundManager.addSoundGenerator( backButtonMultiClip );
     const backButtonSoundPlayer = {
