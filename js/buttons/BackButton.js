@@ -48,7 +48,7 @@ class BackButton extends RectangularPushButton {
 
     // Create and add the default sound generator if none was provided.
     if ( !options.soundPlayer ) {
-      const goBackSoundClip = new SoundClip( goBackSound, { initialOutputLevel: 0.5 } );
+      const goBackSoundClip = new SoundClip( goBackSound, { initialOutputLevel: 0.35 } );
       soundManager.addSoundGenerator( goBackSoundClip );
       options.soundPlayer = goBackSoundClip;
     }
