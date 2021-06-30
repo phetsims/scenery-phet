@@ -115,6 +115,10 @@ class NumberControl extends Node {
         mouseAreaXDilation: 0,
         mouseAreaYDilation: 0,
 
+        // If the value is within this amount of the respective min/max, it will be treated as if it was at that value
+        // (for determining whether the arrow button is enabled).
+        enabledEpsilon: 0,
+
         // callbacks
         leftStart: options.startCallback, // called when left arrow is pressed
         leftEnd: options.endCallback, // called when left arrow is released
@@ -299,11 +303,14 @@ class NumberControl extends Node {
         .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
       // Disable the arrow buttons if the slider currently has focus
-      arrowEnabledListener = value => {
-        leftArrowButton.enabled = ( value > getCurrentRange().min && !this.slider.isFocused() );
-        rightArrowButton.enabled = ( value < getCurrentRange().max && !this.slider.isFocused() );
+      arrowEnabledListener = () => {
+        const value = numberProperty.value;
+        leftArrowButton.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
+        rightArrowButton.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
       };
-      numberProperty.link( arrowEnabledListener );
+      numberProperty.lazyLink( arrowEnabledListener );
+      options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
+      arrowEnabledListener();
 
       this.slider.addInputListener( {
         focus: () => {
@@ -349,6 +356,7 @@ class NumberControl extends Node {
       leftArrowButton && leftArrowButton.dispose();
       rightArrowButton && rightArrowButton.dispose();
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
+      arrowEnabledListener && options.enabledRangeProperty && options.enabledRangeProperty.unlink( arrowEnabledListener );
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
