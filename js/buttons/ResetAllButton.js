@@ -9,6 +9,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
@@ -20,6 +21,7 @@ import ResetButton from './ResetButton.js';
 
 const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
+const resetAllContextResponseString = sceneryPhetStrings.a11y.voicing.resetAll.contextResponse;
 
 const resetAllButtonMarginCoefficient = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
@@ -49,7 +51,11 @@ class ResetAllButton extends ResetButton {
       soundPlayer: resetAllSoundPlayer,
 
       // pdom
-      innerContent: resetAllButtonNameString
+      innerContent: resetAllButtonNameString,
+
+      // voicing
+      voicingNameResponse: resetAllButtonNameString,
+      voicingContextResponse: resetAllContextResponseString
     }, options );
 
     const passedInListener = options.listener;
@@ -72,18 +78,20 @@ class ResetAllButton extends ResetButton {
 
     super( options );
 
-    // pdom - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
+    // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     this.buttonModel.isFiringProperty.lazyLink( isFiring => {
       phet.joist.sim.utteranceQueue.enabled = !isFiring;
+      voicingUtteranceQueue.enabled = !isFiring;
 
       if ( isFiring ) {
         phet.joist.sim.utteranceQueue.clear();
       }
       else {
         phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
+        this.voicingSpeakFullResponse();
       }
     } );
   }
