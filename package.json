@@ -10,7 +10,6 @@
     "grunt": "~1.4.0"
   },
   "phet": {
-    "supportsSound": true,
     "generatedUnitTests": true,
     "requirejsNamespace": "SCENERY_PHET",
     "preload": [
@@ -22,6 +21,7 @@
     ],
     "runnable": true,
     "features":{
+      "supportsSound": true,
       "supportsInteractiveDescription": true
     },
     "supportedBrands": [
