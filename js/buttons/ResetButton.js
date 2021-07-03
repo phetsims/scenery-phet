@@ -34,7 +34,7 @@ class ResetButton extends RoundPushButton {
       xMargin: 6,
       yMargin: 6,
 
-      //TODO this should be handled by RoundButton.ThreeDAppearanceStrategy, see https://github.com/phetsims/sun/issues/236
+      // NOTE: this should be handled by RoundButton.ThreeDAppearanceStrategy, see https://github.com/phetsims/sun/issues/236
       // The icon doesn't look right when perfectly centered, account for that here, and see docs in RoundButton.
       // The multiplier values were empirically determined.
       xContentOffset: -0.03 * BUTTON_RADIUS,
