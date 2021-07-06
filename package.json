@@ -20,7 +20,7 @@
       "twixt"
     ],
     "runnable": true,
-    "features":{
+    "features": {
       "supportsSound": true,
       "supportsInteractiveDescription": true
     },
