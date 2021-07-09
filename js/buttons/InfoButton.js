@@ -8,8 +8,9 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
-import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 class InfoButton extends RoundPushButton {
@@ -29,7 +30,8 @@ class InfoButton extends RoundPushButton {
     }, options );
 
     assert && assert( !options.content, 'InfoButton sets content' );
-    options.content = new FontAwesomeNode( 'info_circle', {
+    options.content = new Path( infoCircleSolidShape, {
+      scale: 0.08,
       fill: options.iconFill
     } );
 

@@ -13,8 +13,9 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import volumeOffSolidShape from '../../../sherpa/js/fontawesome-5/volumeOffSolidShape.js';
+import volumeUpSolidShape from '../../../sherpa/js/fontawesome-5/volumeUpSolidShape.js';
 import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
-import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -47,13 +48,18 @@ class SoundToggleButton extends BooleanRectangularToggleButton {
     }, options );
 
     // 'on' icon is a font-awesome icon
-    const soundOnNode = new FontAwesomeNode( 'volume_up' );
+    const soundOnNode = new Path( volumeUpSolidShape, {
+      fill: 'black'
+    } );
     const contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
     soundOnNode.scale( contentScale );
 
     // 'off' icon is a font-awesome icon, with an 'x' added to the right.
     const soundOffNode = new Node();
-    soundOffNode.addChild( new FontAwesomeNode( 'volume_off', { scale: contentScale } ) );
+    soundOffNode.addChild( new Path( volumeOffSolidShape, {
+      scale: contentScale,
+      fill: 'black'
+    } ) );
     const soundOffX = new Path( new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ), {
       stroke: 'black',
       lineWidth: 3,
