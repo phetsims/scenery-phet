@@ -9,10 +9,11 @@
 
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
+import Path from '../../scenery/js/nodes/Path.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog from '../../sun/js/Dialog.js';
-import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
@@ -40,9 +41,9 @@ class ContextLossFailureDialog extends Dialog {
 
     }, options );
 
-    const warningSign = new FontAwesomeNode( 'warning_sign', {
+    const warningSign = new Path( exclamationTriangleSolidShape, {
       fill: '#E87600', // "safety orange", according to Wikipedia
-      scale: 0.6
+      scale: 0.048
     } );
 
     const text = new Text( sceneryPhetStrings.webglWarning.contextLossFailure, { font: new PhetFont( 12 ) } );

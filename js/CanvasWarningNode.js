@@ -8,9 +8,10 @@
 
 import openPopup from '../../phet-core/js/openPopup.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
+import Path from '../../scenery/js/nodes/Path.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
-import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
+import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
@@ -21,9 +22,9 @@ class CanvasWarningNode extends HBox {
 
     super( {
       children: [
-        new FontAwesomeNode( 'warning_sign', {
+        new Path( exclamationTriangleSolidShape, {
           fill: '#E87600', // "safety orange", according to Wikipedia
-          scale: 0.6
+          scale: 0.048
         } ),
         new VBox( {
           children: [
