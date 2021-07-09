@@ -36,7 +36,7 @@ import StepForwardButton from '../buttons/StepForwardButton.js';
 import TimerToggleButton from '../buttons/TimerToggleButton.js';
 import ZoomButton from '../buttons/ZoomButton.js';
 import MagnifyingGlassZoomButtonGroup from '../MagnifyingGlassZoomButtonGroup.js';
-import MoveToTrashButton from '../MoveToTrashButton.js';
+import MoveToTrashButton from '../buttons/MoveToTrashButton.js';
 import PhetFont from '../PhetFont.js';
 import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../sceneryPhet.js';

@@ -8,15 +8,15 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
-import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
-import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
-import CurvedArrowShape from './CurvedArrowShape.js';
-import sceneryPhet from './sceneryPhet.js';
+import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import merge from '../../../phet-core/js/merge.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
+import CurvedArrowShape from '../CurvedArrowShape.js';
+import sceneryPhet from '../sceneryPhet.js';
 
 class MoveToTrashButton extends RectangularPushButton {
 
