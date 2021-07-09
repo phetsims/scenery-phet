@@ -12,9 +12,9 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import FontAwesomeNode from '../../../sun/js/FontAwesomeNode.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -38,7 +38,10 @@ class MoveToTrashButton extends RectangularPushButton {
       yMargin: 3
     }, options );
 
-    const trashNode = new FontAwesomeNode( 'trash' );
+    const trashNode = new Path( trashAltRegularShape, {
+      fill: 'black',
+      scale: 0.08
+    } );
 
     const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {
       headWidth: 12,
