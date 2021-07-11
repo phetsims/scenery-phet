@@ -1337,7 +1337,7 @@ function demoMeasuringTapeNode( layoutBounds ) {
   } );
 }
 
-// Creates a demo for MeterBodyNode - two circles connected by a wire.
+// Creates a demo for WireNode - two circles connected by a wire.
 function demoWireNode( layoutBounds ) {
 
   const greenCircle = new Circle( 20, {
