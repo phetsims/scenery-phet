@@ -346,6 +346,9 @@ class NumberControl extends Node {
     this.mutate( options );
 
     // @private
+    this.numberDisplay = numberDisplay;
+
+    // @private
     this.disposeNumberControl = () => {
       numberDisplay.dispose();
       this.slider.dispose();
@@ -361,6 +364,15 @@ class NumberControl extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberControl', this );
+  }
+
+  /**
+   * Redraws the NumberDisplay. This is useful when you have additional Properties that determine the format
+   * of the displayed value.
+   * @public
+   */
+  redrawNumberDisplay() {
+    this.numberDisplay.recomputeText();
   }
 
   /**
