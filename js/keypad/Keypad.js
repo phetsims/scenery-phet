@@ -243,6 +243,13 @@ Keypad.PositiveIntegerLayout = [
   [ WIDE_ZERO, BACKSPACE_KEY ]
 ];
 
+Keypad.PositiveDecimalLayout = [
+  [ _7, _8, _9 ],
+  [ _4, _5, _6 ],
+  [ _1, _2, _3 ],
+  [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
+];
+
 Keypad.PositiveAndNegativeIntegerLayout = [
   [ _7, _8, _9 ],
   [ _4, _5, _6 ],
