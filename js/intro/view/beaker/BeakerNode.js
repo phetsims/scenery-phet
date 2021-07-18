@@ -11,13 +11,13 @@ import merge from '../../../../../phet-core/js/merge.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../../scenery/js/nodes/Path.js';
 import LinearGradient from '../../../../../scenery/js/util/LinearGradient.js';
-import FractionsCommonColorProfile from '../../../common/view/FractionsCommonColorProfile.js';
+import fractionsCommonColorProfile from '../../../common/view/fractionsCommonColorProfile.js';
 import fractionsCommon from '../../../fractionsCommon.js';
 
 // constants
-const EMPTY_BEAKER_COLOR = FractionsCommonColorProfile.emptyBeakerProperty;
-const WATER_COLOR = FractionsCommonColorProfile.waterProperty;
-const BEAKER_SHINE_COLOR = FractionsCommonColorProfile.beakerShineProperty;
+const EMPTY_BEAKER_COLOR = fractionsCommonColorProfile.emptyBeakerProperty;
+const WATER_COLOR = fractionsCommonColorProfile.waterProperty;
+const BEAKER_SHINE_COLOR = fractionsCommonColorProfile.beakerShineProperty;
 
 class BeakerNode extends Node {
   /**
