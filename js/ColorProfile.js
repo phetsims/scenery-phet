@@ -54,7 +54,7 @@
 import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
 import Color from '../../scenery/js/util/Color.js';
-import colorProfileNameProperty from '../../scenery/js/util/colorProfileNameProperty.js';
+import colorProfileProperty from '../../scenery/js/util/colorProfileProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -84,7 +84,7 @@ class ColorProfile {
 
     // @public {Property.<string>}
     // The current profile name. Change this Property's value to change which profile is currently active.
-    this.profileNameProperty = colorProfileNameProperty;
+    this.profileNameProperty = colorProfileProperty;
 
     Object.keys( colors ).sort().forEach( key => {
       if ( colors.hasOwnProperty( key ) ) {
