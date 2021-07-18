@@ -3,7 +3,7 @@
 /**
  * Main file for the scenery-phet library demo.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Property from '../../axon/js/Property.js';

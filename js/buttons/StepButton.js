@@ -4,7 +4,7 @@
  * Generalized button for stepping forward or back.  While this class is not private, clients will generally use the
  * convenience subclasses: StepForwardButton and StepBackwardButton
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

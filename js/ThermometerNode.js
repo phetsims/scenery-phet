@@ -4,7 +4,7 @@
  * Thermometer node, see https://github.com/phetsims/scenery-phet/issues/43
  *
  * @author Aaron Davis
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

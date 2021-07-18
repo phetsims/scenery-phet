@@ -8,7 +8,7 @@
  * size for a PhET HTML5 simulation.
  *
  * @author John Blanco
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Node from '../../scenery/js/nodes/Node.js';

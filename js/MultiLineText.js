@@ -7,7 +7,7 @@
  * Lines are separated with the newline character '\n', which will be converted to '<br>'.
  * This was reimplemented as a subclass of RichText, see https://github.com/phetsims/scenery-phet/issues/392.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  * @deprecated - this has been supplanted by SCENERY/nodes/RichText
  */

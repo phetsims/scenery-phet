@@ -3,7 +3,7 @@
 /**
  * Star that fills in from left to right.  Can be used in games to show the score.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco
  */
 

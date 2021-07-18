@@ -3,7 +3,7 @@
 /**
  * Star shape (full, 5-pointed)
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Shape from '../../kite/js/Shape.js';

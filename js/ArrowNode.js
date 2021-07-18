@@ -6,7 +6,7 @@
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Aaron Davis
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Shape from '../../kite/js/Shape.js';

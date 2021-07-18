@@ -6,7 +6,7 @@
  * pointing to the left.
  *
  * @author John Blanco
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import merge from '../../../phet-core/js/merge.js';

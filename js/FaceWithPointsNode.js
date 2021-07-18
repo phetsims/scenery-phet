@@ -4,7 +4,7 @@
  * A face that either smiles or frowns.  When the face is smiling, it displays points awarded next to it.
  *
  * @author John Blanco
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

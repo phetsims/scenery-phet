@@ -5,7 +5,7 @@
  * some sort of gradient to it.  Example include ground and sky.
  *
  * @author John Blanco
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
