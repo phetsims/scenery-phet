@@ -124,7 +124,7 @@ class BicyclePumpNode extends Node {
     const coneNode = createConeNode( pumpBodyWidth, coneHeight, baseFillColorProperty );
     coneNode.bottom = pumpBaseNode.top + 8;
 
-    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+    // use PaintColorProperty so that colors can be updated dynamically
     const bodyFillColorProperty = new PaintColorProperty( options.bodyFill );
     const bodyFillBrighterColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: 0.2 } );
     const bodyFillDarkerColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: -0.2 } );
@@ -139,7 +139,7 @@ class BicyclePumpNode extends Node {
     this.pumpBodyNode.centerX = coneNode.centerX;
     this.pumpBodyNode.bottom = coneNode.top + 18;
 
-    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+    // use PaintColorProperty so that colors can be updated dynamically
     const bodyTopFillColorProperty = new PaintColorProperty( options.bodyTopFill );
     const bodyTopStrokeColorProperty = new PaintColorProperty( bodyTopFillColorProperty, { luminanceFactor: -0.3 } );
 
@@ -214,7 +214,7 @@ class BicyclePumpNode extends Node {
     const pumpShaftWidth = width * PUMP_SHAFT_WIDTH_PROPORTION;
     const pumpShaftHeight = height * PUMP_SHAFT_HEIGHT_PROPORTION;
 
-    // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+    // use PaintColorProperty so that colors can be updated dynamically
     const shaftFillColorProperty = new PaintColorProperty( options.shaftFill );
     const shaftStrokeColorProperty = new PaintColorProperty( shaftFillColorProperty, { luminanceFactor: -0.38 } );
 
@@ -335,7 +335,7 @@ function createPumpBaseNode( width, height, fill ) {
   const topOfBaseHeight = height * 0.7;
   const halfOfBaseWidth = width / 2;
 
-  // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+  // use PaintColorProperty so that colors can be updated dynamically
   const baseFillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.05 } );
   const baseFillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
   const baseFillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -417,7 +417,7 @@ function createBodyTopHalfNode( width, sign, fill, stroke ) {
  */
 function createHoseConnectorNode( width, height, fill ) {
 
-  // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+  // use PaintColorProperty so that colors can be updated dynamically
   const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
   const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.2 } );
   const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
@@ -459,7 +459,7 @@ function createConeNode( pumpBodyWidth, height, fill ) {
     .ellipticalArc( 0, height, coneBottomRadiusX, coneBottomRadiusY, 0, Math.PI, 0, true )
     .lineTo( coneTopRadiusX, 0 ); // line to upper right corner of shape
 
-  // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+  // use PaintColorProperty so that colors can be updated dynamically
   const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
   const fillDarkerColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.4 } );
   const fillDarkestColorProperty = new PaintColorProperty( fill, { luminanceFactor: -0.5 } );
@@ -586,7 +586,7 @@ function createPumpHandleNode( fill ) {
   const pumpHandleWidth = pumpHandleShape.bounds.width;
   const pumpHandleGradient = new LinearGradient( -pumpHandleWidth / 2, 0, pumpHandleWidth / 2, 0 );
 
-  // use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+  // use PaintColorProperty so that colors can be updated dynamically
   const handleFillColorProperty = new PaintColorProperty( fill );
   const handleFillDarkerColorProperty = new PaintColorProperty( handleFillColorProperty, { luminanceFactor: -0.35 } );
 

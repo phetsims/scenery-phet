@@ -88,7 +88,7 @@ class HandleNode extends Node {
       .lineTo( 0, GRIP_HEIGHT / 2 )
       .close();
 
-    // Use PaintColorProperty so that colors can be updated dynamically via ColorProfile
+    // Use PaintColorProperty so that colors can be updated dynamically
     const gripBaseColorProperty = new PaintColorProperty( options.gripBaseColor );
     const brighterColorProperty = new PaintColorProperty( gripBaseColorProperty, { luminanceFactor: 0.95 } );
     const darkerColorProperty = new PaintColorProperty( gripBaseColorProperty, { luminanceFactor: -0.35 } );
