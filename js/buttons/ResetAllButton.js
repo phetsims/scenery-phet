@@ -82,14 +82,25 @@ class ResetAllButton extends ResetButton {
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
+    let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
+    let ariaEnabledOnFire = phet.joist.sim.utteranceQueue.enabled;
     this.buttonModel.isFiringProperty.lazyLink( isFiring => {
-      phet.joist.sim.utteranceQueue.enabled = !isFiring;
-      voicingUtteranceQueue.enabled = !isFiring;
-
       if ( isFiring ) {
+        voicingEnabledOnFire = voicingUtteranceQueue.enabled;
+        ariaEnabledOnFire = phet.joist.sim.utteranceQueue.enabled;
+
+        // mute and clear the utteranceQueue
+        phet.joist.sim.utteranceQueue.enabled = false;
+        voicingUtteranceQueue.enabled = false;
         phet.joist.sim.utteranceQueue.clear();
+        voicingUtteranceQueue.clear();
       }
       else {
+
+        // restore the enabled state to each utteranceQueue after resetting
+        phet.joist.sim.utteranceQueue.enabled = ariaEnabledOnFire;
+        voicingUtteranceQueue.enabled = voicingEnabledOnFire;
+
         phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
         this.voicingSpeakFullResponse();
       }
