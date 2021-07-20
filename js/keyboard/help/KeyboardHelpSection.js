@@ -18,6 +18,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import ReadingBlock from '../../../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -137,6 +138,43 @@ class KeyboardHelpSection extends VBox {
     // @private used by static methods to adjust spacing if necessary
     this.iconVBox = iconVBox;
     this.contentHBox = contentHBox;
+
+    // @private {string}
+    this.headingString = headingString;
+
+    // @private {Node[]} - collection of icons in this section
+    this.icons = icons;
+
+    // voicing - initialize this section as a ReadingBlock
+    this.initializeReadingBlock( {
+      readingBlockContent: this.generateReadingBlockContent()
+    } );
+  }
+
+  /**
+   * Assemble the content that is read for this KeyboardHelpSection as a ReadingBlock. When
+   * Voicing is enabled, activating the section will read all of the content to the user.
+   *
+   * NOTE: This probably doesn't hold up for i18n, but Voicing does not support translation and
+   * that will have to be worked on another time.
+   * @private
+   *
+   * @returns {string}
+   */
+  generateReadingBlockContent() {
+
+    // include the section heading
+    let readingBlockContent = '';
+    readingBlockContent += `${this.headingString}. `;
+
+    // append the readingBlockContent assigned to each icon
+    this.icons.forEach( icon => {
+      if ( icon.readingBlockContent ) {
+        readingBlockContent += `${icon.readingBlockContent} `;
+      }
+    } );
+
+    return readingBlockContent;
   }
 
   /**
@@ -168,7 +206,14 @@ class KeyboardHelpSection extends VBox {
 
       // options for the AlignBox surrounding the icon
       iconOptions: {
-        tagName: 'li'
+
+        // pdom
+        tagName: 'li',
+
+        // voicing
+        // {string} - Content for this icon that is read by the Voicing feature
+        // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
+        readingBlockContent: null
       }
     }, options );
     assert && assert( !options.children, 'children are not optional' );
@@ -182,6 +227,9 @@ class KeyboardHelpSection extends VBox {
     const labelIconGroup = new AlignGroup( options );
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
+
+    // set the ReadingBlock content for the icon - default
+    iconBox.readingBlockContent = options.iconOptions.readingBlockContent || options.iconOptions.innerContent;
 
     return new HelpSectionRow( labelText, labelBox, iconBox );
   }
@@ -388,6 +436,8 @@ class KeyboardHelpSection extends VBox {
     return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
   }
 }
+
+ReadingBlock.compose( KeyboardHelpSection );
 
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
