@@ -14,6 +14,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
 class CloseButton extends RectangularPushButton {
 
@@ -37,8 +38,13 @@ class CloseButton extends RectangularPushButton {
       // RectangularPushButton options
       baseColor: PhetColorScheme.RED_COLORBLIND,
       xMargin: 4, // {number} x margin around the icon
-      yMargin: 4 // {number} y margin around the icon
+      yMargin: 4, // {number} y margin around the icon
 
+      // pdom
+      innerContent: sceneryPhetStrings.a11y.close,
+
+      //voicing
+      voicingNameResponse: sceneryPhetStrings.a11y.close
     }, options );
 
     // 'X' icon

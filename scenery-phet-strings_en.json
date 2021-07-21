@@ -506,6 +506,9 @@
           "value": "Everything Reset."
         }
       }
+    },
+    "close": {
+      "value": "Close"
     }
   }
 }
