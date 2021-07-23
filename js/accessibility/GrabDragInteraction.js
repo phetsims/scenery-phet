@@ -45,6 +45,7 @@ import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighl
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -281,19 +282,21 @@ class GrabDragInteraction {
     // for both grabbing and dragging, the node with this interaction must be focusable
     this.node.focusable = true;
 
+    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/491
+    const releasedUtterance = new Utterance( {
+      alert: releasedString,
+      announcerOptions: {
+        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+      }
+    } );
+
     // @private - wrap the optional onRelease in logic that is needed for the core type.
     this.onRelease = () => {
       options.onRelease && options.onRelease();
 
-      // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
-      // https://github.com/phetsims/balloons-and-static-electricity/issues/491
-      const releasedUtterance = new Utterance( {
-        alert: releasedString,
-        announcerOptions: {
-          ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
-        }
-      } );
       phet.joist.sim.utteranceQueue.addToBack( releasedUtterance );
+      voicingUtteranceQueue.addToBack( releasedUtterance );
     };
     this.onGrab = options.onGrab; // @private
 
