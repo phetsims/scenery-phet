@@ -9,8 +9,8 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
-import eyeRegularShape from '../../../sherpa/js/fontawesome-5/eyeRegularShape.js';
-import eyeSlashRegularShape from '../../../sherpa/js/fontawesome-5/eyeSlashRegularShape.js';
+import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
+import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import RectangularToggleButton from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -29,8 +29,8 @@ class EyeToggleButton extends RectangularToggleButton {
       scale: 0.08,
       fill: 'black'
     };
-    const eyeOpenNode = new Path( eyeRegularShape, iconOptions );
-    const eyeCloseNode = new Path( eyeSlashRegularShape, iconOptions );
+    const eyeOpenNode = new Path( eyeSolidShape, iconOptions );
+    const eyeCloseNode = new Path( eyeSlashSolidShape, iconOptions );
     eyeCloseNode.center = eyeOpenNode.center;
 
     // button content
