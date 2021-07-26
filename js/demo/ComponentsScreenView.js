@@ -1578,8 +1578,10 @@ function demoKeypad( layoutBounds ) {
   const floatingPointKeyPad = new Keypad( Keypad.PositiveFloatingPointLayout, {
     buttonWidth: 35,
     buttonHeight: 35,
-    maxDigits: 4,
-    maxDigitsRightOfMantissa: 2
+    accumulatorOptions: {
+      maxDigits: 4,
+      maxDigitsRightOfMantissa: 2
+    }
   } );
 
   const floatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
@@ -1628,8 +1630,10 @@ function demoKeypad( layoutBounds ) {
   let positiveAndNegativeFloatingPointKeyPad = new Keypad( Keypad.PositiveAndNegativeFloatingPointLayout, {
     buttonWidth: 35,
     buttonHeight: 35,
-    maxDigits: 4,
-    maxDigitsRightOfMantissa: 2
+    accumulatorOptions: {
+      maxDigits: 4,
+      maxDigitsRightOfMantissa: 2
+    }
   } );
 
   const positiveAndNegativeFloatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
