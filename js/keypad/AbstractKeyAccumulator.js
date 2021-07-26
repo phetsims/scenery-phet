@@ -8,7 +8,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import merge from '../../../phet-core/js/merge.js';
 import sceneryPhet from '../sceneryPhet.js';
 import KeyID from './KeyID.js';
 
@@ -16,25 +15,14 @@ class AbstractKeyAccumulator {
 
   /**
    * @param {Array.<function>} validators
-   * @param {Object} [options]
    */
-  constructor( validators, options ) {
-    options = merge( {
-
-      // a function that, if non-null, is used in addition to the default validation function to validate the user input
-      // type spec: additionalValidator(Array.<KeyID>) { return true/false }
-      additionalValidator: null
-
-    }, options );
+  constructor( validators ) {
 
     // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
     this.accumulatedKeysProperty = new Property( [] );
 
     // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
     this._clearOnNextKeyPress = false;
-
-    // @private {function|null}
-    this.additionalValidator = options.additionalValidator;
 
     // @protected {function}
     this.validators = validators;
@@ -97,33 +85,6 @@ class AbstractKeyAccumulator {
   updateKeys( proposedKeys ) {
     this.accumulatedKeysProperty.set( proposedKeys );
   }
-
-  // TODO: Remove after changes are complete. See https://github.com/phetsims/scenery-phet/issues/283
-  // validateAndUpdate( proposedKeys ) {
-  //
-  //   // if alternative validation is provided it is called here
-  //   if ( this.alternativeValidator ) {
-  //     if ( this.alternativeValidator( proposedKeys ) ) {
-  //       this.accumulatedKeysProperty.set( proposedKeys );
-  //     }
-  //   }
-  //   else {
-  //
-  //     // default validation for the accumulator
-  //     if ( this.defaultValidator( proposedKeys ) ) {
-  //
-  //       // if additional validation is provided it is called here
-  //       if ( this.additionalValidator ) {
-  //         if ( this.additionalValidator( proposedKeys ) ) {
-  //           this.accumulatedKeysProperty.set( proposedKeys );
-  //         }
-  //       }
-  //       else {
-  //         this.accumulatedKeysProperty.set( proposedKeys );
-  //       }
-  //     }
-  //   }
-  // }
 
   /**
    * Called by the key accumulator when this key is pressed.
