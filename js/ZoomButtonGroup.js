@@ -32,8 +32,8 @@ class ZoomButtonGroup extends LayoutBox {
 
     options = merge( {
 
-      zoomInDelta: 1,   // delta applied when the '+' button is pressed, must be > 0
-      zoomOutDelta: -1, // delta applied when the '-' button is pressed, must be < 0
+      applyZoomIn: currentZoom => currentZoom + 1, // function applied when the '+' button is pressed
+      applyZoomOut: currentZoom => currentZoom - 1, // function applied when the '-' button is pressed
 
       // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
       touchAreaXDilation: 0,
@@ -57,8 +57,6 @@ class ZoomButtonGroup extends LayoutBox {
       tandem: Tandem.REQUIRED
     }, options );
 
-    assert && assert( options.zoomInDelta > 0, 'zoomInDelta must be > 0' );
-    assert && assert( options.zoomOutDelta < 0, 'zoomOutDelta must be > 0' );
     assert && assert( !options.buttonOptions.content, 'ZoomButtonGroup sets buttonOptions.content' );
     assert && assert( !options.buttonOptions.listener, 'ZoomButtonGroup sets buttonOptions.listener' );
     assert && assert( options.spacing >= 0, `invalid spacing: ${options.spacing}` );
@@ -67,7 +65,7 @@ class ZoomButtonGroup extends LayoutBox {
     const zoomInButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
       content: zoomInIcon,
       listener: () => {
-        zoomLevelProperty.value += options.zoomInDelta;
+        zoomLevelProperty.value = options.applyZoomIn( zoomLevelProperty.value );
       },
       tandem: options.tandem.createTandem( 'zoomInButton' )
     } ) );
@@ -76,7 +74,7 @@ class ZoomButtonGroup extends LayoutBox {
     const zoomOutButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
       content: zoomOutIcon,
       listener: () => {
-        zoomLevelProperty.value += options.zoomOutDelta;
+        zoomLevelProperty.value = options.applyZoomOut( zoomLevelProperty.value );
       },
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     } ) );
