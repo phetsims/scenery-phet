@@ -25,15 +25,25 @@ class NumberEntryControl extends Node {
   constructor( options ) {
 
     options = merge( {
-      maxDigits: 5, //TODO replace with validateKey, see https://github.com/phetsims/scenery-phet/issues/272
+      maxDigits: 5, // Used for spacing of the readout, and for the default validateKey.
       readoutFont: new PhetFont( 20 )
+    }, options );
+
+    // options that depend on other options
+    options = merge( {
+
+      // See NumberKeypad for details, if specifying this, make sure that it works with the provided maxDigits, as that
+      // is used to create to display background.
+      validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
     }, options );
 
     super();
 
+    assert && assert( typeof options.maxDigits === 'number', 'maxDigits must be a number' );
+
     // {NumberKeypad} Add the keypad.
     this.keypad = new NumberKeypad( {
-      validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
+      validateKey: options.validateKey
     } );
     this.addChild( this.keypad );
 
