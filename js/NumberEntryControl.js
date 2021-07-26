@@ -31,7 +31,7 @@ class NumberEntryControl extends Node {
 
     super();
 
-    // Add the keypad.
+    // {NumberKeypad} Add the keypad.
     this.keypad = new NumberKeypad( {
       validateKey: NumberKeypad.validateMaxDigits( { maxDigits: options.maxDigits } )
     } );
@@ -96,7 +96,17 @@ class NumberEntryControl extends Node {
     this.keypad.clear();
   }
 
-  //TODO https://github.com/phetsims/scenery-phet/issues/272 add ES5 setter/getter, ala NumberKeypad?
+  /**
+   * Will pressing a key (except for the backspace point) clear the existing value?
+   * @returns {boolean}
+   * @public
+   */
+  getClearOnNextKeyPress() {
+    return this.keypad.getClearOnNextKeyPress();
+  }
+
+  get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
+
   /**
    * Determines whether pressing a key (except for the backspace) will clear the existing value.
    * @public
@@ -106,6 +116,8 @@ class NumberEntryControl extends Node {
   setClearOnNextKeyPress( clearOnNextKeyPress ) {
     this.keypad.clearOnNextKeyPress = clearOnNextKeyPress;
   }
+
+  set clearOnNextKeyPress( clearOnNextKeyPress ) { this.setClearOnNextKeyPress( clearOnNextKeyPress ); }
 }
 
 sceneryPhet.register( 'NumberEntryControl', NumberEntryControl );
