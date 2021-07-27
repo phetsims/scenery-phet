@@ -115,8 +115,8 @@ class NumberPicker extends Node {
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
-      // {Playable} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
-      // Use Playable.NO_SOUND to disable.
+      // {SoundPlayer} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
+      // Use SoundPlayer.NO_SOUND to disable.
       valueChangedSoundPlayer: generalSoftClickSoundPlayer,
       boundarySoundPlayer: generalBoundaryBoopSoundPlayer,
 
