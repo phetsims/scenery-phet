@@ -7,11 +7,11 @@
  */
 
 import Display from '../../../scenery/js/display/Display.js';
+import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
-import KeyboardDragListener from '../../../scenery/js/listeners/KeyboardDragListener.js';
 
 // constants
 const thingString = 'thing';
@@ -51,7 +51,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     assert.ok( interaction.grabbable, 'default to grabbable' );
     assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
     assert.ok( a.ariaRole === null, 'no role for grabbable' );
-    assert.ok( a.ariaLabel === null, 'no aria-label for grabbable' );
+    assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string for grabbable' );
 
     const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
     assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
