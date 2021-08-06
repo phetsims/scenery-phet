@@ -60,6 +60,7 @@ import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
 const grabPatternString = sceneryPhetStrings.a11y.grabDrag.grabPattern;
 const gestureHelpTextPatternString = sceneryPhetStrings.a11y.grabDrag.gestureHelpTextPattern;
 const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
+const buttonString = sceneryPhetStrings.a11y.grabDrag.button;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
@@ -222,6 +223,7 @@ class GrabDragInteraction {
 
     assert && assert( !options.grabbableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
     assert && assert( !options.grabbableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
+    assert && assert( !options.grabbableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see objectToGrabString' );
 
     options.grabbableOptions = merge( {
       containerTagName: 'div',
@@ -231,8 +233,8 @@ class GrabDragInteraction {
       // position the PDOM elements when grabbable for drag and drop on touch-based screen readers
       positionInPDOM: true,
 
-      accessibleName: null,
-      ariaLabel: null // also since many use ariaLabel to set accessibleName
+      // {string}
+      accessibleName: null
     }, options.grabbableOptions );
 
     // @private
@@ -242,6 +244,10 @@ class GrabDragInteraction {
                                        objectToGrab: options.objectToGrabString
                                      } ) );
     options.grabbableOptions.innerContent = this.grabbableAccessibleName;
+
+    // Setting the aria-label on the grabbable element fixes a bug with VoiceOver in Safari where the aria role
+    // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
+    options.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
     // @private
     this.grabbable = true; // If false, then instead this type is in the draggable interaction state.
@@ -503,8 +509,11 @@ class GrabDragInteraction {
     }
     else if ( this.node.hasPDOMAttribute( 'aria-roledescription' ) ) {
 
-      // by default, the grabbable has no roledescription. Can be overwritten in `onGrabbable()`
-      this.node.removePDOMAttribute( 'aria-roledescription' );
+      // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+      // where it fails to update the role after turning back into a grabbable.
+      // See https://github.com/phetsims/scenery-phet/issues/688.
+      // You can override this with onGrabbable() if necessary.
+      this.node.setPDOMAttribute( 'aria-roledescription', buttonString );
     }
 
     if ( this.addAriaDescribedbyPredicate( this.numberOfGrabs ) ) {

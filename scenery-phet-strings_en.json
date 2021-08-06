@@ -467,6 +467,9 @@
       "movable": {
         "value": "movable"
       },
+      "button": {
+        "value": "button"
+      },
       "defaultObjectToGrab": {
         "value": "Object"
       },
