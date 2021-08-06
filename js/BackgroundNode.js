@@ -25,7 +25,7 @@ class BackgroundNode extends Node {
       yMargin: 2, // set the y margin between the Node content and background edge
 
       // Options passed to the background Rectangle
-      backgroundOptions: {
+      rectangleOptions: {
         fill: 'white',
         opacity: 0.75
       }
@@ -34,7 +34,7 @@ class BackgroundNode extends Node {
     super();
 
     // @public (read-only) {Rectangle} - translucent rectangle
-    this.background = new Rectangle( 0, 0, 1, 1, options.backgroundOptions );
+    this.background = new Rectangle( 0, 0, 1, 1, options.rectangleOptions );
 
     // Wrap the provided node in a parent to avoid multiple bounds changes notifications in the following link.
     const wrapperNode = new Node( { children: [ node ] } );
