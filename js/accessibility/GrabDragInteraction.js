@@ -301,7 +301,7 @@ class GrabDragInteraction {
     this.onRelease = () => {
       options.onRelease && options.onRelease();
 
-      phet.joist.sim.utteranceQueue.addToBack( releasedUtterance );
+      this.node.alertDescriptionUtterance( releasedUtterance );
       voicingUtteranceQueue.addToBack( releasedUtterance );
     };
     this.onGrab = options.onGrab; // @private
