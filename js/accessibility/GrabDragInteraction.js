@@ -80,7 +80,7 @@ class GrabDragInteraction {
       // {string|null} - if not provided, a default will be applied, see this.grabbableAccessibleName
       grabbableAccessibleName: null,
 
-      // {function} - called when the node is "grabbed" (when the grab button fires); button -> draggable
+      // {function(SceneryEvent):} - called when the node is "grabbed" (when the grab button fires); button -> draggable
       onGrab: _.noop,
 
       // {function} - called when the node is "released" (when the draggable is "let go"); draggable -> button
@@ -338,7 +338,7 @@ class GrabDragInteraction {
 
     // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
     const grabButtonListener = {
-      click: () => {
+      click: event => {
 
         // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
@@ -355,7 +355,7 @@ class GrabDragInteraction {
 
           this.node.focus();
 
-          this.onGrab();
+          this.onGrab( event );
 
           // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
           // original focus highlight was added. By doing this on click, we make sure that the node's
@@ -425,7 +425,7 @@ class GrabDragInteraction {
       press: event => {
         if ( !event.isFromPDOM() ) {
           this.turnToDraggable();
-          this.onGrab();
+          this.onGrab( event );
         }
       },
       release: event => {
