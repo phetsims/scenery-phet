@@ -45,6 +45,7 @@ import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighl
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
@@ -63,6 +64,12 @@ const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
 const buttonString = sceneryPhetStrings.a11y.grabDrag.button;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
+
+const voicingFocusUtterance = new Utterance( {
+  announcerOptions: {
+    cancelOther: false
+  }
+} );
 
 class GrabDragInteraction {
 
@@ -373,6 +380,17 @@ class GrabDragInteraction {
 
         // "grab" the draggable on the next click event
         guardKeyPressFromDraggable = false;
+      },
+
+      focus: () => {
+        this.updateVisibilityForCues();
+
+        if ( this.node.isVoicing && this.showGrabCueNode() ) {
+          voicingFocusUtterance.alert = responseCollector.collectResponses( {
+            hintResponse: sceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease
+          } );
+          voicingUtteranceQueue.addToBack( voicingFocusUtterance );
+        }
       },
 
       blur: () => {

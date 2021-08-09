@@ -478,6 +478,9 @@
       },
       "gestureHelpTextPattern": {
         "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
+      },
+      "spaceToGrabOrRelease": {
+        "value": "Space to Grab or Release."
       }
     },
     "voicing": {
