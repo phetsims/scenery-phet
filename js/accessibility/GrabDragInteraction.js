@@ -186,6 +186,7 @@ class GrabDragInteraction {
     assert && assert( typeof options.showGrabCueNode === 'function' );
     assert && assert( Array.isArray( options.listenersForDragState ) );
     assert && assert( Array.isArray( options.listenersForGrabState ) );
+    assert && assert( !_.find( options.listenersForGrabState, listener => _.has( listener, 'blur' ) ), 'listenersForGrabState cannot include a blur listener' );
     assert && assert( options.grabbableOptions instanceof Object );
     assert && assert( options.grabCueOptions instanceof Object );
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
@@ -356,10 +357,15 @@ class GrabDragInteraction {
         // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
         // and pick it up immediately again.
         if ( !guardKeyPressFromDraggable ) {
+
+          // blur as a grabbable so that we geta new focus event after we turn into a draggable
+          this.node.blur();
+
           this.turnToDraggable();
 
           this.numberOfKeyboardGrabs++;
 
+          // focus after the transition
           this.node.focus();
 
           this.onGrab( event );
