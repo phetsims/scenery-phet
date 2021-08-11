@@ -427,6 +427,8 @@ class GrabDragInteraction {
         this.updateVisibilityForCues();
       },
       blur: () => this.releaseDraggable(),
+
+      // TODO: this is not called right now, see https://github.com/phetsims/scenery-phet/issues/693
       focus: () => {
 
         // if successfully dragged, then make the cue node invisible
