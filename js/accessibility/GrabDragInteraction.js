@@ -18,9 +18,10 @@
  * This is because in usages so far, that alert has been custom, context specific, and easier to just supply through
  * the onGrab callback option.
  *
- * NOTE: You CANNOT add listeners directly to the Node where it is constructed, instead see
+ * NOTE: You SHOULD NOT add listeners directly to the Node where it is constructed, instead see
  * `options.listenersForGrab/DragState`. These will keep track of the listeners for each interaction state, and
- * will set them accordingly.
+ * will set them accordingly. In rare cases it may be desirable to have a listener attached no matter the state, but that
+ * has not come up so far.
  *
  * NOTE: There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
  * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
@@ -28,12 +29,17 @@
  *
  * NOTE: problems may occur if you change the focusHighlight of the Node passed in after creating this type.
  *
- * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have added the
+ * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have set the
  * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this type's constructor.
  *
  * NOTE on positioning the grab "cue" Node: transforming the wrappedNode after creating this type will not update the
  * layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
  * result, currently you must correctly position node before the cue Node is created.
+ *
+ * NOTE: upon "activation" of this type, meaning that the user grabs the object and it turns into a draggable, the
+ * wrappedNode is blurred and refocused. This means that the input event "blur()" set in listenersForGrabState will
+ * not just fire when navigating through the sim, but also upon activation. This weirdness is to make sure that the
+ * input event "focus()" is called and supported for within listenersForDragState
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -121,7 +127,9 @@ class GrabDragInteraction {
       // {Object[]} - GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and
       // draggable one. We need to keep track of all listeners that need to be attached to each PDOM manifestation.
       // Note: when these are removed while converting to/from grabbable/draggable, they are interrupted. Other
-      // listeners that are attached to this.node but aren't in these lists will not be interrupted.
+      // listeners that are attached to this.node but aren't in these lists will not be interrupted. The grabbable
+      // will blur() when activated from a grabbable to a draggable. The draggable will focus when activated
+      // from grabbable.
       listenersForDragState: [],
       listenersForGrabState: [],
 
@@ -186,7 +194,6 @@ class GrabDragInteraction {
     assert && assert( typeof options.showGrabCueNode === 'function' );
     assert && assert( Array.isArray( options.listenersForDragState ) );
     assert && assert( Array.isArray( options.listenersForGrabState ) );
-    assert && assert( !_.find( options.listenersForGrabState, listener => _.has( listener, 'blur' ) ), 'listenersForGrabState cannot include a blur listener' );
     assert && assert( options.grabbableOptions instanceof Object );
     assert && assert( options.grabCueOptions instanceof Object );
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
