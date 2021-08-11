@@ -13,6 +13,8 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import responseCollector from '../../../../scenery/js/accessibility/voicing/responseCollector.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -124,7 +126,11 @@ class MovementDescriber {
 
     // @private {Utterance} - single utterance to describe direction changes so that when this
     // happens frequently only the last change is announced
-    this.directionChangeUtterance = new Utterance();
+    this.directionChangeUtterance = new Utterance( {
+      announcerOptions: {
+        cancelOther: false
+      }
+    } );
 
     // @private
     this.initialFirstPosition = positionProperty.get();
@@ -142,6 +148,11 @@ class MovementDescriber {
    */
   alert( alertable ) {
     phet.joist.sim.utteranceQueue.addToBack( alertable );
+
+    // direction changes are an object response; support other alertable, not just Utterance.
+    voicingUtteranceQueue.addToBack( responseCollector.collectResponses( {
+      objectResponse: alertable instanceof Utterance ? alertable.alert : alertable
+    } ) );
     this.lastAlertedPosition = this.positionProperty.get();
   }
 
