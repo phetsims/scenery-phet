@@ -72,12 +72,12 @@ class NumberControl extends Node {
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
 
       // A {function} that handles layout of subcomponents.
-      // It has signature function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton )
+      // It has signature function( titleNode, numberDisplay, slider, decrementButton, incrementButton )
       // and returns a Node. If you want to customize the layout, use one of the predefined creators
       // (see createLayoutFunction*) or create your own function. Arrow buttons will be null if `includeArrowButtons:false`
       layoutFunction: NumberControl.createLayoutFunction1(),
 
-      // {boolean} If set to true, then no arrow buttons will be added to the NumberControl
+      // {boolean} If set to true, then increment/decrement arrow buttons will be added to the NumberControl
       includeArrowButtons: true,
 
       // {Property.<Range>|null} - If provided, this will be provided to the slider and arrow buttons in order to
@@ -123,7 +123,13 @@ class NumberControl extends Node {
         leftStart: options.startCallback, // called when left arrow is pressed
         leftEnd: options.endCallback, // called when left arrow is released
         rightStart: options.startCallback, // called when right arrow is pressed
-        rightEnd: options.endCallback // called when right arrow is released
+        rightEnd: options.endCallback, // called when right arrow is released
+
+        // phet-io
+        enabledPropertyOptions: {
+          phetioReadOnly: true,
+          phetioFeatured: false
+        }
       },
 
       // Options propagated to HSlider
@@ -239,13 +245,13 @@ class NumberControl extends Node {
     this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
     // set below, see options.includeArrowButtons
-    let leftArrowButton = null;
-    let rightArrowButton = null;
+    let decrementButton = null;
+    let incrementButton = null;
     let arrowEnabledListener = null;
 
     if ( options.includeArrowButtons ) {
 
-      leftArrowButton = new ArrowButton( 'left', () => {
+      decrementButton = new ArrowButton( 'left', () => {
         let value = numberProperty.get() - options.delta;
         value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.max( value, getCurrentRange().min ); // constrain to range
@@ -253,10 +259,10 @@ class NumberControl extends Node {
       }, merge( {
         startCallback: options.arrowButtonOptions.leftStart,
         endCallback: options.arrowButtonOptions.leftEnd,
-        tandem: options.tandem.createTandem( 'leftArrowButton' )
+        tandem: options.tandem.createTandem( 'decrementButton' )
       }, options.arrowButtonOptions ) );
 
-      rightArrowButton = new ArrowButton( 'right', () => {
+      incrementButton = new ArrowButton( 'right', () => {
         let value = numberProperty.get() + options.delta;
         value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.min( value, getCurrentRange().max ); // constrain to range
@@ -264,7 +270,7 @@ class NumberControl extends Node {
       }, merge( {
         startCallback: options.arrowButtonOptions.rightStart,
         endCallback: options.arrowButtonOptions.rightEnd,
-        tandem: options.tandem.createTandem( 'rightArrowButton' )
+        tandem: options.tandem.createTandem( 'incrementButton' )
       }, options.arrowButtonOptions ) );
 
       // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
@@ -272,7 +278,7 @@ class NumberControl extends Node {
       if ( !arrowButtonScaleProvided ) {
 
         // Remove the current button scaling so we can determine the desired final scale factor
-        leftArrowButton.setScaleMagnitude( 1 );
+        decrementButton.setScaleMagnitude( 1 );
 
         // Set the tweaker button height to match the height of the numberDisplay. Lengthy text can shrink a numberDisplay
         // with maxWidth--if we match the scaled height of the numberDisplay the arrow buttons would shrink too, as
@@ -280,33 +286,33 @@ class NumberControl extends Node {
         // Instead, to keep the tweaker buttons a uniform and reasonable size, we match their height to the unscaled
         // height of the numberDisplay (ignores maxWidth and scale).
         const numberDisplayHeight = numberDisplay.localBounds.height;
-        const arrowButtonsScale = numberDisplayHeight / leftArrowButton.height;
+        const arrowButtonsScale = numberDisplayHeight / decrementButton.height;
 
-        leftArrowButton.setScaleMagnitude( arrowButtonsScale );
-        rightArrowButton.setScaleMagnitude( arrowButtonsScale );
+        decrementButton.setScaleMagnitude( arrowButtonsScale );
+        incrementButton.setScaleMagnitude( arrowButtonsScale );
       }
 
       // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
-      leftArrowButton.touchArea = leftArrowButton.localBounds
+      decrementButton.touchArea = decrementButton.localBounds
         .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
         .shiftedX( -arrowButtonPointerAreaOptions.touchAreaXDilation );
-      rightArrowButton.touchArea = rightArrowButton.localBounds
+      incrementButton.touchArea = incrementButton.localBounds
         .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
         .shiftedX( arrowButtonPointerAreaOptions.touchAreaXDilation );
 
       // arrow button mouseAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
-      leftArrowButton.mouseArea = leftArrowButton.localBounds
+      decrementButton.mouseArea = decrementButton.localBounds
         .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
         .shiftedX( -arrowButtonPointerAreaOptions.mouseAreaXDilation );
-      rightArrowButton.mouseArea = rightArrowButton.localBounds
+      incrementButton.mouseArea = incrementButton.localBounds
         .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
         .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
       // Disable the arrow buttons if the slider currently has focus
       arrowEnabledListener = () => {
         const value = numberProperty.value;
-        leftArrowButton.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
-        rightArrowButton.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
+        decrementButton.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
+        incrementButton.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
       };
       numberProperty.lazyLink( arrowEnabledListener );
       options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
@@ -314,8 +320,8 @@ class NumberControl extends Node {
 
       this.slider.addInputListener( {
         focus: () => {
-          leftArrowButton.enabled = false;
-          rightArrowButton.enabled = false;
+          decrementButton.enabled = false;
+          incrementButton.enabled = false;
         },
         blur: () => arrowEnabledListener( numberProperty.value ) // recompute if the arrow buttons should be enabled
       } );
@@ -340,7 +346,7 @@ class NumberControl extends Node {
     assert && assert( !options.hasOwnProperty( 'children' ),
       'NumberControl sets its own children via options.layoutFunction' );
     options.children = [
-      options.layoutFunction( titleNode, numberDisplay, this.slider, leftArrowButton, rightArrowButton )
+      options.layoutFunction( titleNode, numberDisplay, this.slider, decrementButton, incrementButton )
     ];
 
     this.mutate( options );
@@ -356,8 +362,8 @@ class NumberControl extends Node {
       this.thumbFillProperty && this.thumbFillProperty.dispose();
 
       // only defined if options.includeArrowButtons
-      leftArrowButton && leftArrowButton.dispose();
-      rightArrowButton && rightArrowButton.dispose();
+      decrementButton && decrementButton.dispose();
+      incrementButton && incrementButton.dispose();
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
       arrowEnabledListener && options.enabledRangeProperty && options.enabledRangeProperty.unlink( arrowEnabledListener );
     };
@@ -430,7 +436,7 @@ class NumberControl extends Node {
       ySpacing: 5 // {number} vertical spacing between rows
     }, options );
 
-    return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+    return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
@@ -442,7 +448,7 @@ class NumberControl extends Node {
           new HBox( {
             spacing: options.arrowButtonsXSpacing,
             resize: false, // prevent slider from causing a resize when thumb is at min or max
-            children: [ leftArrowButton, slider, rightArrowButton ]
+            children: [ decrementButton, slider, incrementButton ]
           } )
         ]
       } );
@@ -468,7 +474,7 @@ class NumberControl extends Node {
       ySpacing: 5 // {number} vertical spacing between rows
     }, options );
 
-    return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+    return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
@@ -476,7 +482,7 @@ class NumberControl extends Node {
         children: [
           new HBox( {
             spacing: options.xSpacing,
-            children: [ titleNode, leftArrowButton, numberDisplay, rightArrowButton ]
+            children: [ titleNode, decrementButton, numberDisplay, incrementButton ]
           } ),
           slider
         ]
@@ -506,7 +512,7 @@ class NumberControl extends Node {
       ySpacing: 5 // {number} vertical spacing between rows
     }, options );
 
-    return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+    return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
       const titleAndContentVBox = new VBox( {
         spacing: options.ySpacing,
         resize: false, // prevent slider from causing a resize when thumb is at min or max
@@ -520,7 +526,7 @@ class NumberControl extends Node {
             children: [
               new HBox( {
                 spacing: options.xSpacing,
-                children: [ leftArrowButton, numberDisplay, rightArrowButton ]
+                children: [ decrementButton, numberDisplay, incrementButton ]
               } ),
               slider
             ]
@@ -559,15 +565,15 @@ class NumberControl extends Node {
       createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
     }, options );
 
-    return ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
-      const includeArrowButtons = !!leftArrowButton; // if there aren't arrow buttons, then exclude them
+    return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+      const includeArrowButtons = !!decrementButton; // if there aren't arrow buttons, then exclude them
       const bottomBox = new HBox( {
         resize: false, // prevent slider from causing resize?
         spacing: options.arrowButtonSpacing,
         children: !includeArrowButtons ? [ slider ] : [
-          leftArrowButton,
+          decrementButton,
           slider,
-          rightArrowButton
+          incrementButton
         ]
       } );
       const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
