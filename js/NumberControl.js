@@ -10,6 +10,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -353,6 +354,25 @@ class NumberControl extends Node {
 
     // @private
     this.numberDisplay = numberDisplay;
+
+    // @private for use via PhET-iO, see https://github.com/phetsims/sun/issues/451
+    // This is not generally controlled by the user, so it is not reset when the Reset All button is pressed.
+    const displayOnlyProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'displayOnlyProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'disables interaction with the NumberControl and ' +
+                           'makes it appear like a display that shows the current numeric value'
+    } );
+    displayOnlyProperty.link( displayOnly => {
+      this.slider.visible = !displayOnly;
+      if ( decrementButton ) {
+        decrementButton.visible = !displayOnly;
+      }
+      if ( incrementButton ) {
+        incrementButton.visible = !displayOnly;
+      }
+    } );
+
 
     // @private
     this.disposeNumberControl = () => {
