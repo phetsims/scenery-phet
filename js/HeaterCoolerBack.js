@@ -17,8 +17,8 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-import fireImage from '../images/flame_png.js';
-import iceImage from '../images/ice-cube-stack_png.js';
+import flame_png from '../images/flame_png.js';
+import iceCubeStack_png from '../images/iceCubeStack_png.js';
 import HeaterCoolerFront from './HeaterCoolerFront.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -57,13 +57,13 @@ class HeaterCoolerBack extends Node {
         .addColorStop( 1, stoveBaseColor.brighterColor( 0.5 ) )
     } );
 
-    const fireNode = new Image( fireImage, {
+    const fireNode = new Image( flame_png, {
       centerX: stoveInterior.centerX,
       top: stoveInterior.bottom,
       scale: DEFAULT_WIDTH / DEFAULT_WIDTH
     } );
 
-    const iceNode = new Image( iceImage, {
+    const iceNode = new Image( iceCubeStack_png, {
       centerX: stoveInterior.centerX,
       top: stoveInterior.bottom,
       scale: DEFAULT_WIDTH / DEFAULT_WIDTH
@@ -75,10 +75,10 @@ class HeaterCoolerBack extends Node {
       assert && assert( Math.abs( heatCoolAmount ) <= 1 );
 
       if ( heatCoolAmount > 0 ) {
-        fireNode.setTranslation( ( stoveInterior.width - fireNode.width ) / 2, -heatCoolAmount * fireImage.height * 0.85 );
+        fireNode.setTranslation( ( stoveInterior.width - fireNode.width ) / 2, -heatCoolAmount * flame_png.height * 0.85 );
       }
       else if ( heatCoolAmount < 0 ) {
-        iceNode.setTranslation( ( stoveInterior.width - iceNode.width ) / 2, heatCoolAmount * iceImage.height * 0.85 );
+        iceNode.setTranslation( ( stoveInterior.width - iceNode.width ) / 2, heatCoolAmount * iceCubeStack_png.height * 0.85 );
       }
       iceNode.setVisible( heatCoolAmount < 0 );
       fireNode.setVisible( heatCoolAmount > 0 );

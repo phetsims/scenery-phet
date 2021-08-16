@@ -13,7 +13,7 @@ import HBox from '../../scenery/js/nodes/HBox.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Dialog from '../../sun/js/Dialog.js';
-import phetGirlWaggingFingerImage from '../images/phet-girl-wagging-finger_png.js';
+import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -48,7 +48,7 @@ class OopsDialog extends Dialog {
       maxHeight: 400
     }, options.richTextOptions ) );
 
-    const iconNode = options.iconNode || new Image( phetGirlWaggingFingerImage, {
+    const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {
       maxHeight: 132 // determined empirically
     } );
 

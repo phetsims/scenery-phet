@@ -56,9 +56,9 @@ import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import flameImage from '../../images/flame_png.js';
-import iceCubeStackImage from '../../images/ice-cube-stack_png.js';
-import measuringTapeImage from '../../images/measuringTape_png.js';
+import flame_png from '../../images/flame_png.js';
+import iceCubeStack_png from '../../images/iceCubeStack_png.js';
+import measuringTape_png from '../../images/measuringTape_png.js';
 import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
 import ArrowNode from '../ArrowNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
@@ -2021,9 +2021,9 @@ function demoSprites( layoutBounds ) {
   const getAvailableHeight = () => layoutBounds.height / spriteScaleProperty.value;
 
   // SpriteImage references
-  const flameSpriteImage = new SpriteImage( flameImage, new Vector2( 44, 42 ), { hitTestPixels: true } );
-  const measuringTapeSpriteImage = new SpriteImage( measuringTapeImage, new Vector2( 50, 40 ), { hitTestPixels: true } );
-  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStackImage, new Vector2( 25, 25 ), { hitTestPixels: true } );
+  const flameSpriteImage = new SpriteImage( flame_png, new Vector2( 44, 42 ), { hitTestPixels: true } );
+  const measuringTapeSpriteImage = new SpriteImage( measuringTape_png, new Vector2( 50, 40 ), { hitTestPixels: true } );
+  const iceCubeStackSpriteImage = new SpriteImage( iceCubeStack_png, new Vector2( 25, 25 ), { hitTestPixels: true } );
 
   // Sprites
   const sprite0 = new Sprite( flameSpriteImage );

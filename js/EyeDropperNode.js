@@ -16,8 +16,8 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import backgroundImage from '../images/eye_dropper_background_png.js';
-import foregroundImage from '../images/eye_dropper_foreground_png.js';
+import eyeDropperBackground_png from '../images/eyeDropperBackground_png.js';
+import eyeDropperForeground_png from '../images/eyeDropperForeground_png.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -83,8 +83,8 @@ class EyeDropperNode extends Node {
     } );
 
     // images, origin moved to bottom center
-    const foreground = new Image( foregroundImage );
-    const background = new Image( backgroundImage );
+    const foreground = new Image( eyeDropperForeground_png );
+    const background = new Image( eyeDropperBackground_png );
     foreground.x = -foreground.width / 2;
     foreground.y = -foreground.height;
     background.x = -background.width / 2;

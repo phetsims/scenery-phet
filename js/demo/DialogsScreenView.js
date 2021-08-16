@@ -12,7 +12,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
-import batteryDCellImage from '../../images/battery-D-cell_png.js';
+import batteryDCell_png from '../../images/batteryDCell_png.js';
 import CanvasWarningNode from '../CanvasWarningNode.js';
 import ContextLossFailureDialog from '../ContextLossFailureDialog.js';
 import IE11StencilWarningNode from '../IE11StencilWarningNode.js';
@@ -79,7 +79,7 @@ class DialogsScreenView extends ScreenView {
       listener: () => {
         if ( !oopsDialog ) {
           oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
-            iconNode: new Image( batteryDCellImage, { rotation: -Math.PI / 2 } )
+            iconNode: new Image( batteryDCell_png, { rotation: -Math.PI / 2 } )
           } );
         }
         oopsDialog.show();

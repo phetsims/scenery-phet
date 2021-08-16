@@ -10,7 +10,7 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import merge from '../../../phet-core/js/merge.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import eraserImage from '../../images/eraser_png.js';
+import eraser_png from '../../images/eraser_png.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -27,7 +27,7 @@ class EraserButton extends RectangularPushButton {
     }, options );
 
     // eraser icon
-    options.content = new Image( eraserImage );
+    options.content = new Image( eraser_png );
     options.content.scale( options.iconWidth / options.content.width );
 
     super( options );

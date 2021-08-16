@@ -11,8 +11,8 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import merge from '../../phet-core/js/merge.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import offImage from '../mipmaps/light-bulb-off_png.js';
-import onImage from '../mipmaps/light-bulb-on_png.js';
+import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
+import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
 import LightRaysNode from './LightRaysNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -30,13 +30,13 @@ class LightBulbNode extends Node {
       // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
     }, options );
 
-    const onNode = new Image( onImage, {
+    const onNode = new Image( lightBulbOn_png, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
     } ); // @private
 
-    const offNode = new Image( offImage, {
+    const offNode = new Image( lightBulbOff_png, {
       scale: options.bulbImageScale,
       centerX: onNode.centerX,
       bottom: onNode.bottom

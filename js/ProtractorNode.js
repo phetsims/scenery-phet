@@ -13,7 +13,7 @@ import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import sceneryPhet from '../../scenery-phet/js/sceneryPhet.js';
-import protractorImage from '../../scenery-phet/mipmaps/protractor_png.js';
+import protractor_png from '../../scenery-phet/mipmaps/protractor_png.js';
 import DragListener from '../../scenery/js/listeners/DragListener.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -38,10 +38,10 @@ class ProtractorNode extends Node {
     const showProtractorListener = showProtractorProperty.linkAttribute( this, 'visible' );
 
     // Image
-    const protractorImageNode = new Image( protractorImage, {
+    const protractor_pngNode = new Image( protractor_png, {
       hitTestPixels: true // hit test only non-transparent pixels in the image
     } );
-    this.addChild( protractorImageNode );
+    this.addChild( protractor_pngNode );
 
     if ( options.rotatable ) {
 
@@ -49,10 +49,10 @@ class ProtractorNode extends Node {
       this.protractorAngleProperty = new Property( 0.0 );
 
       // Use nicknames for width and height, to make the Shape code easier to understand.
-      const w = protractorImageNode.getWidth();
-      const h = protractorImageNode.getHeight();
+      const w = protractor_pngNode.getWidth();
+      const h = protractor_pngNode.getHeight();
 
-      // Outer ring of the protractor. Shape must match protractorImage!
+      // Outer ring of the protractor. Shape must match protractor_png!
       const outerRingShape = new Shape()
         .moveTo( w, h / 2 )
         .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
@@ -125,7 +125,7 @@ class ProtractorNode extends Node {
    * @public
    */
   static createIcon( options ) {
-    return new Image( protractorImage, options );
+    return new Image( protractor_png, options );
   }
 }
 

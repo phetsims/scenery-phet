@@ -1,5 +1,5 @@
 {
-  "battery-D-cell.png": {
+  "batteryDCell.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "eye_dropper_background.png": {
+  "eyeDropperBackground.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Noah Podolefsky"
   },
-  "eye_dropper_foreground.png": {
+  "eyeDropperForeground.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -31,7 +31,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Noah Podolefsky"
   },
-  "faucet_body.png": {
+  "faucetBody.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -39,7 +39,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_flange.png": {
+  "faucetFlange.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -47,7 +47,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_flange_disabled.png": {
+  "faucetFlangeDisabled.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -55,7 +55,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_horizontal_pipe.png": {
+  "faucetHorizontalPipe.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -63,7 +63,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_knob.png": {
+  "faucetKnob.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -71,7 +71,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_knob_disabled.png": {
+  "faucetKnobDisabled.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -79,7 +79,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_shaft.png": {
+  "faucetShaft.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -87,7 +87,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_spout.png": {
+  "faucetSpout.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -95,7 +95,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_stop.png": {
+  "faucetStop.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -103,7 +103,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_track.png": {
+  "faucetTrack.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -111,7 +111,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mike Fowler and Amanda McGarry"
   },
-  "faucet_vertical_pipe.png": {
+  "faucetVerticalPipe.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -135,7 +135,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "From States of Matter"
   },
-  "ice-cube-stack.png": {
+  "iceCubeStack.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -151,7 +151,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Bryce Gruneich"
   },
-  "phet-girl-wagging-finger.png": {
+  "phetGirlWaggingFinger.png": {
     "text": [
       "Copyright 2002-2019 University of Colorado Boulder"
     ],
@@ -159,7 +159,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mariah Hermsmeyer"
   },
-  "voicing-icon.png": {
+  "voicingIcon.png": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
