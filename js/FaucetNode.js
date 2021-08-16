@@ -38,29 +38,29 @@ import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHa
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
-import bodyImage from '../images/faucet_body_png.js';
-import flangeDisabledImage from '../images/faucet_flange_disabled_png.js';
-import flangeImage from '../images/faucet_flange_png.js';
-import horizontalPipeImage from '../images/faucet_horizontal_pipe_png.js';
-import knobDisabledImage from '../images/faucet_knob_disabled_png.js';
-import knobImage from '../images/faucet_knob_png.js';
-import shaftImage from '../images/faucet_shaft_png.js';
-import spoutImage from '../images/faucet_spout_png.js';
-import stopImage from '../images/faucet_stop_png.js';
-import trackImage from '../images/faucet_track_png.js';
-import verticalPipeImage from '../images/faucet_vertical_pipe_png.js';
+import faucetBody_png from '../images/faucetBody_png.js';
+import faucetFlange_png from '../images/faucetFlange_png.js';
+import faucetFlangeDisabled_png from '../images/faucetFlangeDisabled_png.js';
+import faucetHorizontalPipe_png from '../images/faucetHorizontalPipe_png.js';
+import faucetKnob_png from '../images/faucetKnob_png.js';
+import faucetKnobDisabled_png from '../images/faucetKnobDisabled_png.js';
+import faucetShaft_png from '../images/faucetShaft_png.js';
+import faucetSpout_png from '../images/faucetSpout_png.js';
+import faucetStop_png from '../images/faucetStop_png.js';
+import faucetTrack_png from '../images/faucetTrack_png.js';
+import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
-const SPOUT_OUTPUT_CENTER_X = 112; // center of spout in bodyImage
+const SPOUT_OUTPUT_CENTER_X = 112; // center of spout in faucetBody_png
 const HORIZONTAL_PIPE_X_OVERLAP = 1; // overlap between horizontal pipe and faucet body, so vertical seam is not visible
 const VERTICAL_PIPE_Y_OVERLAP = 1; // overlap between vertical pipe and faucet body/spout, so horizontal seam is not visible
-const SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in trackImage
-const SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in trackImage
-const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in trackImage
-const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in bodyImage, through which you see the shooter handle
-const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of bodyImage
+const SHOOTER_MIN_X_OFFSET = 4; // x-offset of shooter's off position in faucetTrack_png
+const SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in faucetTrack_png
+const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in faucetTrack_png
+const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in faucetBody_png, through which you see the shooter handle
+const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
 
 class FaucetNode extends Node {
   /**
@@ -110,26 +110,26 @@ class FaucetNode extends Node {
     const shooterNode = new ShooterNode( enabledProperty, options.shooterOptions );
 
     // track that the shooter moves in
-    const trackNode = new Image( trackImage );
+    const trackNode = new Image( faucetTrack_png );
 
     // horizontal pipe, tiled horizontally
-    let horizontalPipeNode = new Image( horizontalPipeImage );
+    let horizontalPipeNode = new Image( faucetHorizontalPipe_png );
     const horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
     assert && assert( horizontalPipeWidth > 0 );
-    horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / horizontalPipeImage.width, 1 );
+    horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / faucetHorizontalPipe_png.width, 1 );
     if ( options.rasterizeHorizontalPipeNode ) {
       horizontalPipeNode = horizontalPipeNode.rasterized();
     }
 
     // vertical pipe
-    const verticalPipeNode = new Image( verticalPipeImage );
+    const verticalPipeNode = new Image( faucetVerticalPipe_png );
     const verticalPipeNodeHeight = options.verticalPipeLength + ( 2 * VERTICAL_PIPE_Y_OVERLAP );
     assert && assert( verticalPipeNodeHeight > 0 );
     verticalPipeNode.setScaleMagnitude( 1, verticalPipeNodeHeight / verticalPipeNode.height );
 
     // other nodes
-    const spoutNode = new Image( spoutImage );
-    const bodyNode = new Image( bodyImage );
+    const spoutNode = new Image( faucetSpout_png );
+    const bodyNode = new Image( faucetBody_png );
 
     const shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
@@ -356,25 +356,25 @@ class ShooterNode extends Node {
   constructor( enabledProperty, config ) {
 
     // knob
-    const knobNode = new Image( knobImage );
+    const knobNode = new Image( faucetKnob_png );
 
     // set pointer areas before scaling
     knobNode.touchArea = knobNode.localBounds.dilatedXY( config.touchAreaXDilation, config.touchAreaYDilation );
     knobNode.mouseArea = knobNode.localBounds.dilatedXY( config.mouseAreaXDilation, config.mouseAreaYDilation );
 
     knobNode.scale( config.knobScale );
-    const knobDisabledNode = new Image( knobDisabledImage );
+    const knobDisabledNode = new Image( faucetKnobDisabled_png );
     knobDisabledNode.scale( knobNode.getScaleVector() );
 
     // shaft
-    const shaftNode = new Image( shaftImage );
+    const shaftNode = new Image( faucetShaft_png );
 
     // flange
-    const flangeNode = new Image( flangeImage );
-    const flangeDisabledNode = new Image( flangeDisabledImage );
+    const flangeNode = new Image( faucetFlange_png );
+    const flangeDisabledNode = new Image( faucetFlangeDisabled_png );
 
     // stop
-    const stopNode = new Image( stopImage );
+    const stopNode = new Image( faucetStop_png );
 
     super( {
       children: [

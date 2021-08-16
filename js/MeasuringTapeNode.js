@@ -34,7 +34,7 @@ import Text from '../../scenery/js/nodes/Text.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
-import measuringTapeImage from '../images/measuringTape_png.js';
+import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
@@ -141,7 +141,7 @@ class MeasuringTapeNode extends Node {
     const tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
     // @private
-    this.baseImage = new Image( measuringTapeImage, {
+    this.baseImage = new Image( measuringTape_png, {
       scale: options.baseScale,
       cursor: 'pointer'
     } );

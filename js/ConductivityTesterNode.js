@@ -24,7 +24,7 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
-import batteryImage from '../images/battery-D-cell_png.js';
+import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
@@ -55,7 +55,7 @@ class ConductivityTesterNode extends Node {
       modelViewTransform: ModelViewTransform2.createIdentity(),
       interactive: true, // set to false if you're creating an icon
       bulbImageScale: 0.33,
-      batteryImageScale: 0.6,
+      batteryDCell_pngScale: 0.6,
 
       // common to both probes
       probeSize: new Dimension2( 20, 68 ), // {Dimension2} probe dimensions, in view coordinates
@@ -99,8 +99,8 @@ class ConductivityTesterNode extends Node {
     } );
 
     // battery
-    const battery = new Image( batteryImage, {
-      scale: options.batteryImageScale,
+    const battery = new Image( batteryDCell_png, {
+      scale: options.batteryDCell_pngScale,
       left: options.bulbToBatteryWireLength,
       centerY: 0
     } );
