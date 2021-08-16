@@ -355,15 +355,15 @@ class NumberControl extends Node {
     // @private
     this.numberDisplay = numberDisplay;
 
-    // @private for use via PhET-iO, see https://github.com/phetsims/sun/issues/451
+    // @public, for use via PhET-iO, see https://github.com/phetsims/sun/issues/686
     // This is not generally controlled by the user, so it is not reset when the Reset All button is pressed.
-    const displayOnlyProperty = new BooleanProperty( false, {
+    this.displayOnlyProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'displayOnlyProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'disables interaction with the NumberControl and ' +
                            'makes it appear like a display that shows the current numeric value'
     } );
-    displayOnlyProperty.link( displayOnly => {
+    this.displayOnlyProperty.link( displayOnly => {
       this.slider.visible = !displayOnly;
       if ( decrementButton ) {
         decrementButton.visible = !displayOnly;
@@ -372,7 +372,6 @@ class NumberControl extends Node {
         incrementButton.visible = !displayOnly;
       }
     } );
-
 
     // @private
     this.disposeNumberControl = () => {
