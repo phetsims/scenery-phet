@@ -10,8 +10,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 class AlertManager {
 
   /**
-   *
-   * @param node
+   * @param {Node} node
    */
   constructor( node ) {
 
