@@ -83,28 +83,51 @@ class ResetAllButton extends ResetButton {
     // alert that everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
-    let ariaEnabledOnFire = phet.joist.sim.utteranceQueue.enabled;
+    const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.buttonModel.isFiringProperty.lazyLink( isFiring => {
+
+      // Handle voicingUtteranceQueue
       if ( isFiring ) {
         voicingEnabledOnFire = voicingUtteranceQueue.enabled;
-        ariaEnabledOnFire = phet.joist.sim.utteranceQueue.enabled;
-
-        // mute and clear the utteranceQueue
-        phet.joist.sim.utteranceQueue.enabled = false;
         voicingUtteranceQueue.enabled = false;
-        phet.joist.sim.utteranceQueue.clear();
         voicingUtteranceQueue.clear();
       }
       else {
 
         // restore the enabled state to each utteranceQueue after resetting
-        phet.joist.sim.utteranceQueue.enabled = ariaEnabledOnFire;
         voicingUtteranceQueue.enabled = voicingEnabledOnFire;
-
-        phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
         this.voicingSpeakFullResponse();
       }
+
+      // Handle each connected description UtteranceQueue
+      this.forEachUtteranceQueue( utteranceQueue => {
+
+        if ( isFiring ) {
+
+          // mute and clear the utteranceQueue
+          ariaEnabledOnFirePerUtteranceQueueMap.set( utteranceQueue, utteranceQueue.enabled );
+          phet.joist.sim.utteranceQueue.enabled = false;
+          phet.joist.sim.utteranceQueue.clear();
+        }
+        else {
+          utteranceQueue.enabled = ariaEnabledOnFirePerUtteranceQueueMap.get( utteranceQueue ) || utteranceQueue.enabled;
+          phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
+        }
+      } );
     } );
+
+    // @private
+    this.disposeResetAllButton = () => {
+      ariaEnabledOnFirePerUtteranceQueueMap.clear();
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeResetAllButton();
+    super.dispose();
   }
 }
 
