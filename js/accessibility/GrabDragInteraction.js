@@ -308,7 +308,8 @@ class GrabDragInteraction {
     const releasedUtterance = new Utterance( {
       alert: releasedString,
       announcerOptions: {
-        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE, // for AriaHerald
+        cancelOther: false // for voicingManager
       }
     } );
 
