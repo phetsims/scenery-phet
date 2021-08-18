@@ -8,7 +8,6 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -43,17 +42,55 @@ class BorderAlertsDescriber {
       leftAlert: leftBorderAlertString,
       rightAlert: rightBorderAlertString,
       topAlert: DEFAULT_TOP_BORDER_ALERT,
-      bottomAlert: bottomBorderAlertString
+      bottomAlert: bottomBorderAlertString,
+
+      // Applied to any Utterances created from the Alert options above. Utterances are only created to wrap the above
+      // options if an Utterance is not already provided
+      utteranceOptions: {
+        announcerOptions: {
+          cancelOther: false
+        }
+      }
     }, options );
 
-    // @public - these keys should stay the same as keys from DirectionEnum
-    this[ DirectionEnum.LEFT ] = new BorderAlert( options.leftAlert );
-    this[ DirectionEnum.RIGHT ] = new BorderAlert( options.rightAlert );
-    this[ DirectionEnum.UP ] = new BorderAlert( options.topAlert );
-    this[ DirectionEnum.DOWN ] = new BorderAlert( options.bottomAlert );
+
+    // @public (Utterance) - these keys should stay the same as keys from DirectionEnum,
+    this[ DirectionEnum.LEFT ] = null;
+    this[ DirectionEnum.RIGHT ] = null;
+    this[ DirectionEnum.UP ] = null;
+    this[ DirectionEnum.DOWN ] = null;
+
+    this.setDirectionUtterance( options.leftAlert, DirectionEnum.LEFT, options.utteranceOptions );
+    this.setDirectionUtterance( options.rightAlert, DirectionEnum.RIGHT, options.utteranceOptions );
+    this.setDirectionUtterance( options.topAlert, DirectionEnum.UP, options.utteranceOptions );
+    this.setDirectionUtterance( options.bottomAlert, DirectionEnum.DOWN, options.utteranceOptions );
 
     // @private
     this.bounds = options.bounds; // The drag border
+  }
+
+  /**
+   * Wrap the direction property in an Utterance if not already one. Null is supported.
+   * @private
+   * @param {AlertableDef|null} alert
+   * @param {DirectionEnum} direction
+   * @param {Object} [utteranceOptions] - if creating an Utterance, options to pass to it
+   */
+  setDirectionUtterance( alert, direction, utteranceOptions ) {
+
+    // Nothing to set if null;
+    if ( !alert === null ) {
+      if ( alert instanceof Utterance ) {
+        this[ direction ] = alert;
+      }
+      else {
+        assert && utteranceOptions && assert( !utteranceOptions.alert, ' setDirectionUtterance sets its own alert' );
+        this[ direction ] = new Utterance( merge( {
+            alert: alert
+          }, utteranceOptions )
+        );
+      }
+    }
   }
 
   /**
@@ -108,10 +145,12 @@ class BorderAlertsDescriber {
     // Then we are potentially going to alert
     if ( alertDirection ) {
       assert && assert( DirectionEnum.isRelativeDirection( alertDirection ), `unsupported direction: ${alertDirection}` );
-      const borderAlert = this[ alertDirection ];
-      assert && assert( borderAlert instanceof BorderAlert, 'sanity check' );
+      const utterance = this[ alertDirection ];
 
-      borderAlert.alert();
+      // Null means unsupported direction, no alert to be had here.
+      if ( utterance ) {
+        phet.joist.sim.utteranceQueue.addToBack( utterance );
+      }
     }
   }
 
@@ -132,10 +171,10 @@ class BorderAlertsDescriber {
    * @public
    */
   reset() {
-    this[ DirectionEnum.LEFT ].reset();
-    this[ DirectionEnum.RIGHT ].reset();
-    this[ DirectionEnum.UP ].reset();
-    this[ DirectionEnum.DOWN ].reset();
+    this[ DirectionEnum.LEFT ] && this[ DirectionEnum.LEFT ].reset();
+    this[ DirectionEnum.RIGHT ] && this[ DirectionEnum.RIGHT ].reset();
+    this[ DirectionEnum.UP ] && this[ DirectionEnum.UP ].reset();
+    this[ DirectionEnum.DOWN ] && this[ DirectionEnum.DOWN ].reset();
   }
 
   /**
@@ -148,58 +187,6 @@ class BorderAlertsDescriber {
     return DEFAULT_TOP_BORDER_ALERT;
   }
 }
-
-
-/**
- * Data structure type that holds structure about a single alert that happens at the border of a describer.
- * @param alert {Utterance|string|Array.<string>|null}
- */
-class BorderAlert {
-  constructor( alert ) {
-    assert && assert( alert instanceof Utterance || Array.isArray( alert ) || alert === null || typeof alert === 'string' );
-
-
-    // @private
-    // {number} - the number of times that alert has been alerted. It is assumed that every time you get an alert this is incremented
-    this._numberOfTimesAlerted = 0;
-    this._alert = alert; // {AlertDef|null}
-  }
-
-  /**
-   * Manages all the different supported types of alert and will get the appropriate alert.
-   * @private
-   * @returns {string}
-   */
-  getAlert() {
-    let alert = this._alert;
-    if ( Array.isArray( alert ) ) {
-      const index = Utils.clamp( this._numberOfTimesAlerted, 0, alert.length - 1 );
-      alert = alert[ index ];
-    }
-    return alert;
-  }
-
-  /**
-   * Send the alert for this describer to the UtteranceQueue, and update state variables that are tracking descriptions.
-   * @public
-   */
-  alert() {
-    phet.joist.sim.utteranceQueue.addToBackIfDefined( this.getAlert() );
-    this._numberOfTimesAlerted++;
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-
-    // If the alert is an Utterance, reset it
-    this._alert && this._alert.reset && this._alert.reset();
-    this._numberOfTimesAlerted = 0;
-  }
-}
-
-sceneryPhet.register( 'BorderAlert', BorderAlert );
 
 sceneryPhet.register( 'BorderAlertsDescriber', BorderAlertsDescriber );
 export default BorderAlertsDescriber;
