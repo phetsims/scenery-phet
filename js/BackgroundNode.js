@@ -24,7 +24,7 @@ class BackgroundNode extends Node {
       xMargin: 2, // set the x margin between the Node content and background edge
       yMargin: 2, // set the y margin between the Node content and background edge
 
-      // Options passed to the background Rectangle
+      // options passed to the background Rectangle
       rectangleOptions: {
         fill: 'white',
         opacity: 0.75
@@ -33,13 +33,13 @@ class BackgroundNode extends Node {
 
     super();
 
-    // @public (read-only) {Rectangle} - translucent rectangle
+    // @public (read-only) {Rectangle} - translucent rectangle, initial size is arbitrary since it is resized below
     this.background = new Rectangle( 0, 0, 1, 1, options.rectangleOptions );
 
-    // Wrap the provided node in a parent to avoid multiple bounds changes notifications in the following link.
+    // Wrap the provided node in a parent to avoid unneeded bounds changes notifications in the bounds change handler.
     const wrapperNode = new Node( { children: [ node ] } );
 
-    // size the rectangle to fit the node
+    // Size the rectangle to fit the node.
     node.boundsProperty.link( bounds => {
       if ( !bounds.isEmpty() ) {
         this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
