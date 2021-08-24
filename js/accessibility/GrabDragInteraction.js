@@ -51,7 +51,7 @@ import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighl
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
-import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';

@@ -13,7 +13,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import responseCollector from '../../../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -150,9 +149,7 @@ class MovementDescriber {
     phet.joist.sim.utteranceQueue.addToBack( alertable );
 
     // direction changes are an object response; support other alertable, not just Utterance.
-    voicingUtteranceQueue.addToBack( responseCollector.collectResponses( {
-      objectResponse: alertable instanceof Utterance ? alertable.alert : alertable
-    } ) );
+    voicingUtteranceQueue.addToBack( alertable );
     this.lastAlertedPosition = this.positionProperty.get();
   }
 
