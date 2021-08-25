@@ -10,6 +10,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -36,7 +37,7 @@ class BorderAlertsDescriber {
       // {Bounds2} - The bounds that makes the border we alert when against
       bounds: new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ),
 
-      // {string|null|Array.<string>} left, right, top, with values to alert if you reach that bound null if you don't want it alerted.
+      // {null|AlertableDef} left, right, top, with values to alert if you reach that bound null if you don't want it alerted.
       // If an array of string, each alert in the array will be read each new time that alert occurs. The last alert in
       // the list will be read out each subsequent time if the alert occurs more than the number of items in the list.
       leftAlert: leftBorderAlertString,
@@ -77,9 +78,10 @@ class BorderAlertsDescriber {
    * @param {Object} [utteranceOptions] - if creating an Utterance, options to pass to it
    */
   setDirectionUtterance( alert, direction, utteranceOptions ) {
+    assert && assert( alert === null || AlertableDef.isAlertableDef( alert ) );
 
     // Nothing to set if null;
-    if ( !alert === null ) {
+    if ( alert !== null ) {
       if ( alert instanceof Utterance ) {
         this[ direction ] = alert;
       }
@@ -101,8 +103,9 @@ class BorderAlertsDescriber {
    *
    * @param {Vector2} position
    * @param {string} [key] - prefer this direction key if provided
+   * @returns{null|AlertableDef} - null if there is nothing to alert
    */
-  alertAtBorder( position, key ) {
+  getAlertAtBorder( position, key ) {
     let alertDirection;
 
     const bordersTouching = [];
@@ -149,22 +152,24 @@ class BorderAlertsDescriber {
 
       // Null means unsupported direction, no alert to be had here.
       if ( utterance ) {
-        phet.joist.sim.utteranceQueue.addToBack( utterance );
+        return utterance;
       }
     }
+    return null;
   }
 
   /**
    * @public
    * @param {Vector2} position
-   * @param {KeyboardEvent} [domEvent] - we don'tget this from a mouse drag listener
+   * @param {KeyboardEvent} [domEvent] - we don't get this from a mouse drag listener
+   * @returns{null|AlertableDef} - null if there is nothing to alert
    */
-  endDrag( position, domEvent ) {
+  getAlertOnEndDrag( position, domEvent ) {
     let key;
     if ( domEvent ) {
       key = KeyboardUtils.getEventCode( domEvent );
     }
-    this.alertAtBorder( position, key );
+    return this.getAlertAtBorder( position, key );
   }
 
   /**

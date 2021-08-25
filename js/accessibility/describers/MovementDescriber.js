@@ -1,8 +1,10 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
 /**
- * A generic accessibility type that will alert positional alerts based on a positionProperty and bounds (see
+ * A generic alerting type that will alert positional alerts based on a positionProperty and bounds (see
  * BorderAlertsDescriber) encapsulating the draggable area.
+ *
+ * This alerter supports respones to description (see options.descriptionAlertNode), and voicing (see options.alertToVoicing).
  *
  * General usage involves calling this endDrag() function from all dragListeners that you want this functionality to describe
  *
@@ -97,7 +99,16 @@ class MovementDescriber {
 
       // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
       // i.e. UP_LEFT becomes "UP" and "LEFT"
-      alertDiagonal: false
+      alertDiagonal: false,
+
+      // When true, movement alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
+      // descriptionAlertNode, but for voicing.
+      alertToVoicing: true,
+
+      // {Node|null} If provided, use this Node to send description alerts to the Display's UtteranceQueue. Unlike for
+      // Voicing, description alerts must occur through a Node connected to a Display through the scene graph. If null,
+      // do not alert for description (same as alertToVoicing:false). NOTE: No description will alert without this option!
+      descriptionAlertNode: null
     }, options );
 
     assert && assert( options.movementAlerts instanceof Object );
@@ -118,6 +129,8 @@ class MovementDescriber {
     this.movementAlerts = options.movementAlerts;
     this.alertDiagonal = options.alertDiagonal;
     this.modelViewTransform = options.modelViewTransform;
+    this.alertToVoicing = options.alertToVoicing;
+    this.descriptionAlertNode = options.descriptionAlertNode;
 
     // @private
     // This sub-describer handles the logic for alerting when an item is on the edge of the movement space
@@ -146,10 +159,8 @@ class MovementDescriber {
    * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
    */
   alert( alertable ) {
-    phet.joist.sim.utteranceQueue.addToBack( alertable );
-
-    // direction changes are an object response; support other alertable, not just Utterance.
-    voicingUtteranceQueue.addToBack( alertable );
+    this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
+    this.alertToVoicing && voicingUtteranceQueue.addToBack( alertable );
     this.lastAlertedPosition = this.positionProperty.get();
   }
 
@@ -301,7 +312,11 @@ class MovementDescriber {
 
     // better to have the movement alerts, then the alert about the border
     this.alertDirectionalMovement();
-    this.borderAlertsDescriber.endDrag( this.positionProperty.get(), domEvent );
+    const alert = this.borderAlertsDescriber.getAlertOnEndDrag( this.positionProperty.get(), domEvent );
+    if ( alert ) {
+      this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alert );
+      this.alertToVoicing && voicingUtteranceQueue.addToBack( alert );
+    }
   }
 
   /**
