@@ -422,7 +422,7 @@
         }
       }
     },
-    "movementDescriber": {
+    "movementAlerter": {
       "down": {
         "value": "down"
       },

@@ -24,14 +24,14 @@ import BorderAlertsDescriber from './BorderAlertsDescriber.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const downString = sceneryPhetStrings.a11y.movementDescriber.down;
-const leftString = sceneryPhetStrings.a11y.movementDescriber.left;
-const rightString = sceneryPhetStrings.a11y.movementDescriber.right;
-const upString = sceneryPhetStrings.a11y.movementDescriber.up;
-const upAndToTheLeftString = sceneryPhetStrings.a11y.movementDescriber.upAndToTheLeft;
-const upAndToTheRightString = sceneryPhetStrings.a11y.movementDescriber.upAndToTheRight;
-const downAndToTheLeftString = sceneryPhetStrings.a11y.movementDescriber.downAndToTheLeft;
-const downAndToTheRightString = sceneryPhetStrings.a11y.movementDescriber.downAndToTheRight;
+const downString = sceneryPhetStrings.a11y.movementAlerter.down;
+const leftString = sceneryPhetStrings.a11y.movementAlerter.left;
+const rightString = sceneryPhetStrings.a11y.movementAlerter.right;
+const upString = sceneryPhetStrings.a11y.movementAlerter.up;
+const upAndToTheLeftString = sceneryPhetStrings.a11y.movementAlerter.upAndToTheLeft;
+const upAndToTheRightString = sceneryPhetStrings.a11y.movementAlerter.upAndToTheRight;
+const downAndToTheLeftString = sceneryPhetStrings.a11y.movementAlerter.downAndToTheLeft;
+const downAndToTheRightString = sceneryPhetStrings.a11y.movementAlerter.downAndToTheRight;
 
 // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
 const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
@@ -76,7 +76,7 @@ const DEFAULT_MOVEMENT_DESCRIPTIONS = {
   DOWN_RIGHT: downAndToTheRightString
 };
 
-class MovementDescriber {
+class MovementAlerter {
 
   /**
    * @param {Property.<Vector2>} positionProperty - Property that drives movement, in model coordinate frame
@@ -188,7 +188,7 @@ class MovementDescriber {
    * (1) get the current value of the position property, and make sure it has changed enough from the lastAlertedPosition
    * (2) get the directions from the difference,
    * (3) alert those directions by calling this.alertDirections or this.alert,
-   * see friction/view/describers/BookMovementDescriber.
+   * see friction/view/describers/BookMovementAlerter.
    *
    * NOTE: don't call UtteranceQueue from the subtype!!!
    * NOTE: PhET a11y convention suggests that this should be called on drag end.
@@ -224,7 +224,7 @@ class MovementDescriber {
    */
   getDirections( newPoint, oldPoint ) {
 
-    const direction = MovementDescriber.getDirectionEnumerable( newPoint, oldPoint, this.modelViewTransform );
+    const direction = MovementAlerter.getDirectionEnumerable( newPoint, oldPoint, this.modelViewTransform );
 
     // This includes complex directions like "UP_LEFT"
     if ( this.alertDiagonal ) {
@@ -300,7 +300,7 @@ class MovementDescriber {
     const modelStartPoint = new Vector2( 0, 0 );
     const modelEndPoint = new Vector2( Math.cos( angle ), Math.sin( angle ) );
 
-    const direction = MovementDescriber.getDirectionEnumerable( modelEndPoint, modelStartPoint, options.modelViewTransform );
+    const direction = MovementAlerter.getDirectionEnumerable( modelEndPoint, modelStartPoint, options.modelViewTransform );
     return DEFAULT_MOVEMENT_DESCRIPTIONS[ direction ];
   }
 
@@ -344,5 +344,5 @@ class MovementDescriber {
   }
 }
 
-sceneryPhet.register( 'MovementDescriber', MovementDescriber );
-export default MovementDescriber;
+sceneryPhet.register( 'MovementAlerter', MovementAlerter );
+export default MovementAlerter;

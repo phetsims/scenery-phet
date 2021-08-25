@@ -1,7 +1,7 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
 /**
- * BorderAlertsDescriber is "sub-describer" used in MovementDescriber to manage its border alerts. Border alerts will
+ * BorderAlertsDescriber is "sub-describer" used in MovementAlerter to manage its border alerts. Border alerts will
  * be alerted either once when object movement intersects with the bounds. With the addition of an option, the
  * border alert will be repeated for as long as the moving object is dragged against that bound, see repeatBorderAlerts.
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -17,10 +17,10 @@ import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const leftBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.leftBorderAlert;
-const rightBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.rightBorderAlert;
-const topBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.topBorderAlert;
-const bottomBorderAlertString = sceneryPhetStrings.a11y.movementDescriber.bottomBorderAlert;
+const leftBorderAlertString = sceneryPhetStrings.a11y.movementAlerter.leftBorderAlert;
+const rightBorderAlertString = sceneryPhetStrings.a11y.movementAlerter.rightBorderAlert;
+const topBorderAlertString = sceneryPhetStrings.a11y.movementAlerter.topBorderAlert;
+const bottomBorderAlertString = sceneryPhetStrings.a11y.movementAlerter.bottomBorderAlert;
 
 const DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 
