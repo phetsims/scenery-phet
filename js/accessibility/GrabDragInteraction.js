@@ -51,13 +51,13 @@ import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighl
 import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMPeer from '../../../scenery/js/accessibility/pdom/PDOMPeer.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaHerald from '../../../utterance-queue/js/AriaHerald.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -182,9 +182,19 @@ class GrabDragInteraction {
       assert && assert( node.focusHighlight.parent, 'if focusHighlightLayerable, the highlight must be added to the ' +
                                                     'scene graph before grab/drag construction.' );
     }
+    if ( node.mouseHighlightLayerable ) {
+      assert && assert( node.mouseHighlight, 'An interactive highlight must be set to the Node before construcion when' +
+                                             'using mouseHighlightLayerable' );
+      assert && assert( node.mouseHighlight.parent, 'if mouseHighlightLayerable, the highlight must be added to the' +
+                                                    'scene graph before construction' );
+    }
     if ( node.focusHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
         'if provided, focusHighlight must be a Path' );
+    }
+    if ( node.mouseHighlight ) {
+      assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+        'if provided, mouseHighlight must be a Path' );
     }
     assert && assert( typeof options.onGrab === 'function' );
     assert && assert( typeof options.onRelease === 'function' );
@@ -344,11 +354,22 @@ class GrabDragInteraction {
     this.dragFocusHighlight.makeDashed();
     this.dragInteractiveHighlight.makeDashed();
 
+    // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
+    // way the grabInteractiveHighlight was added
+    if ( node.mouseHighlightLayerable ) {
+      this.grabInteractiveHighlight.parent.addChild( this.dragInteractiveHighlight );
+    }
+
     // if ever we update the node's focusHighlight, then update the grab button's too to keep in syn.
-    const onHighlightChange = () => {
+    const onFocusHighlightChange = () => {
       this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
     };
-    this.grabFocusHighlight.highlightChangedEmitter.addListener( onHighlightChange );
+    this.grabFocusHighlight.highlightChangedEmitter.addListener( onFocusHighlightChange );
+
+    const onInteractiveHighlightChange = () => {
+      this.dragInteractiveHighlight.setShape( this.grabInteractiveHighlight.shape );
+    };
+    this.grabInteractiveHighlight.highlightChangedEmitter.addListener( onInteractiveHighlightChange );
 
     this.grabCueNode.prependMatrix( node.getMatrix() );
     this.grabFocusHighlight.addChild( this.grabCueNode );
@@ -512,14 +533,21 @@ class GrabDragInteraction {
         this.removeInputListeners( this.listenersForDragState );
       }
 
-      this.grabFocusHighlight.highlightChangedEmitter.removeListener( onHighlightChange );
+      this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
+      this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
 
-      // Remove child if focusHighlightLayerable
+      // Remove children if they were added to support layerable highlights
       if ( node.focusHighlightLayerable ) {
         assert && assert( this.grabFocusHighlight.parent, 'how can we have focusHighlightLayerable with a ' +
                                                           'node that is not in the scene graph?' );
         if ( this.grabFocusHighlight.parent.hasChild( this.dragFocusHighlight ) ) {
           this.grabFocusHighlight.parent.removeChild( this.dragFocusHighlight );
+        }
+      }
+
+      if ( node.mouseHighlightLayerable ) {
+        if ( this.grabInteractiveHighlight.parent.hasChild( this.dragInteractiveHighlight ) ) {
+          this.grabInteractiveHighlight.parent.removeChild( this.dragInteractiveHighlight );
         }
       }
 
