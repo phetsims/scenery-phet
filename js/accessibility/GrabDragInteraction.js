@@ -182,19 +182,19 @@ class GrabDragInteraction {
       assert && assert( node.focusHighlight.parent, 'if focusHighlightLayerable, the highlight must be added to the ' +
                                                     'scene graph before grab/drag construction.' );
     }
-    if ( node.mouseHighlightLayerable ) {
-      assert && assert( node.mouseHighlight, 'An interactive highlight must be set to the Node before construcion when' +
-                                             'using mouseHighlightLayerable' );
-      assert && assert( node.mouseHighlight.parent, 'if mouseHighlightLayerable, the highlight must be added to the' +
+    if ( node.interactiveHighlightLayerable ) {
+      assert && assert( node.interactiveHighlight, 'An interactive highlight must be set to the Node before construcion when' +
+                                             'using interactiveHighlightLayerable' );
+      assert && assert( node.interactiveHighlight.parent, 'if interactiveHighlightLayerable, the highlight must be added to the' +
                                                     'scene graph before construction' );
     }
     if ( node.focusHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
         'if provided, focusHighlight must be a Path' );
     }
-    if ( node.mouseHighlight ) {
+    if ( node.interactiveHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
-        'if provided, mouseHighlight must be a Path' );
+        'if provided, interactiveHighlight must be a Path' );
     }
     assert && assert( typeof options.onGrab === 'function' );
     assert && assert( typeof options.onRelease === 'function' );
@@ -336,8 +336,8 @@ class GrabDragInteraction {
     this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
     node.focusHighlight = this.grabFocusHighlight;
 
-    this.grabInteractiveHighlight = node.mouseHighlight || new FocusHighlightFromNode( node );
-    node.mouseHighlight = this.grabInteractiveHighlight;
+    this.grabInteractiveHighlight = node.interactiveHighlight || new FocusHighlightFromNode( node );
+    node.interactiveHighlight = this.grabInteractiveHighlight;
 
     const dragHighlightOptions = {
       visible: false,
@@ -356,7 +356,7 @@ class GrabDragInteraction {
 
     // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
     // way the grabInteractiveHighlight was added
-    if ( node.mouseHighlightLayerable ) {
+    if ( node.interactiveHighlightLayerable ) {
       this.grabInteractiveHighlight.parent.addChild( this.dragInteractiveHighlight );
     }
 
@@ -545,7 +545,7 @@ class GrabDragInteraction {
         }
       }
 
-      if ( node.mouseHighlightLayerable ) {
+      if ( node.interactiveHighlightLayerable ) {
         if ( this.grabInteractiveHighlight.parent.hasChild( this.dragInteractiveHighlight ) ) {
           this.grabInteractiveHighlight.parent.removeChild( this.dragInteractiveHighlight );
         }
@@ -663,12 +663,12 @@ class GrabDragInteraction {
     if ( this.grabbable ) {
       this.dragFocusHighlight.visible = false;
       this.node.focusHighlight = this.grabFocusHighlight;
-      this.node.mouseHighlight = this.grabInteractiveHighlight;
+      this.node.interactiveHighlight = this.grabInteractiveHighlight;
     }
     else {
       this.grabFocusHighlight.visible = false;
       this.node.focusHighlight = this.dragFocusHighlight;
-      this.node.mouseHighlight = this.dragInteractiveHighlight;
+      this.node.interactiveHighlight = this.dragInteractiveHighlight;
     }
   }
 
