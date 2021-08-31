@@ -10,7 +10,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -355,6 +354,7 @@ class NumberControl extends Node {
     // @private
     this.numberDisplay = numberDisplay;
 
+<<<<<<< HEAD
     // @public, for use via PhET-iO, see https://github.com/phetsims/sun/issues/686
     // This is not generally controlled by the user, so it is not reset when the Reset All button is pressed.
     this.displayOnlyProperty = new BooleanProperty( false, {
@@ -373,6 +373,8 @@ class NumberControl extends Node {
       }
     } );
 
+=======
+>>>>>>> parent of 043f2a3e (add NumberControl.displayOnlyProperty, https://github.com/phetsims/sun/issues/686`)
     // @private
     this.disposeNumberControl = () => {
       numberDisplay.dispose();
