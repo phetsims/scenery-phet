@@ -31,7 +31,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   phet = phet || {}; // eslint-disable-line no-global-assign
   phet.joist = phet.joist || {};
-  phet.joist.sim = phet.joist.sim || { utteranceQueue: display.utteranceQueue }; // stub utteranceQueue global
+  phet.joist.sim = phet.joist.sim || {};
 
   // GrabDragInteraction requires a sim
   phet.joist.sim.supportsGestureDescription = phet.joist.sim.supportsGestureDescription || false;
