@@ -7,7 +7,7 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 
-class AlertManager {
+class Alerter {
 
   /**
    * @param {Node} node
@@ -37,5 +37,5 @@ class AlertManager {
   }
 }
 
-sceneryPhet.register( 'AlertManager', AlertManager );
-export default AlertManager;
+sceneryPhet.register( 'Alerter', Alerter );
+export default Alerter;
