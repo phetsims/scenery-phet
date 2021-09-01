@@ -20,6 +20,7 @@ import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import Alerter from './Alerter.js';
 import BorderAlertsDescriber from './BorderAlertsDescriber.js';
 import DirectionEnum from './DirectionEnum.js';
 
@@ -76,7 +77,7 @@ const DEFAULT_MOVEMENT_DESCRIPTIONS = {
   DOWN_RIGHT: downAndToTheRightString
 };
 
-class MovementAlerter {
+class MovementAlerter extends Alerter {
 
   /**
    * @param {Property.<Vector2>} positionProperty - Property that drives movement, in model coordinate frame
@@ -99,20 +100,13 @@ class MovementAlerter {
 
       // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
       // i.e. UP_LEFT becomes "UP" and "LEFT"
-      alertDiagonal: false,
-
-      // When true, movement alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
-      // descriptionAlertNode, but for voicing.
-      alertToVoicing: true,
-
-      // {Node|null} If provided, use this Node to send description alerts to the Display's UtteranceQueue. Unlike for
-      // Voicing, description alerts must occur through a Node connected to a Display through the scene graph. If null,
-      // do not alert for description (same as alertToVoicing:false). NOTE: No description will alert without this option!
-      descriptionAlertNode: null
+      alertDiagonal: false
     }, options );
 
     assert && assert( options.movementAlerts instanceof Object );
     assert && assert( !Array.isArray( options.movementAlerts ) ); // should not be an Array
+
+    super( options );
 
     // @private
     this.movementAlertKeys = Object.keys( options.movementAlerts );
@@ -153,14 +147,14 @@ class MovementAlerter {
   }
 
   /**
-   * Simple alert for the Describer
+   * Override to keep track of positioning between alerts
    * @public
+   * @override
    *
    * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
    */
   alert( alertable ) {
-    this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
-    this.alertToVoicing && voicingUtteranceQueue.addToBack( alertable );
+    super.alert( alertable );
     this.lastAlertedPosition = this.positionProperty.get();
   }
 

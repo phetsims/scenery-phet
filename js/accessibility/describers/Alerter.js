@@ -5,35 +5,60 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import merge from '../../../../phet-core/js/merge.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
 class Alerter {
 
   /**
-   * @param {Node} node
+   * @param {Object} [options]
    */
-  constructor( node ) {
+  constructor( options ) {
 
-    // @private - this node is only to be used to access the UtteranceQueues needed for alerting
-    this.node = node;
+    options = merge( {
+
+      // When true, movement alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
+      // descriptionAlertNode, but for voicing.
+      alertToVoicing: true,
+
+      // {Node|null} If provided, use this Node to send description alerts to one or more Display's UtteranceQueue. Unlike for
+      // Voicing, description alerts must occur through a Node connected to a Display through the scene graph. If null,
+      // do not alert for description (same as alertToVoicing:false). NOTE: No description will alert without this option!
+      descriptionAlertNode: null
+
+    }, options );
+
+    this.alertToVoicing = options.alertToVoicing;
+    this.descriptionAlertNode = options.descriptionAlertNode;
+  }
+
+  /**
+   * Alert to both description and voicing utteranceQueues, depending on if both are supported by this instance
+   * @public
+   * @param {AlertableDef} alertable
+   */
+  alert( alertable ) {
+    this.alertToVoicing && voicingUtteranceQueue.addToBack( alertable );
+    this.alertDescriptionUtterance( alertable );
   }
 
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.alertDescriptionUtterance() for details.
-   * @param {AlertableDef} utterance
+   * @param {AlertableDef} alertable
    * @public
    */
-  alertDescriptionUtterance( utterance ) {
-    this.node.alertDescriptionUtterance( utterance );
+  alertDescriptionUtterance( alertable ) {
+    this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
   }
 
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.forEachUtteranceQueue() for details.
-   * @param {function(UtteranceQueue):} utteranceCallback
+   * @param {function(UtteranceQueue):} utteranceQueueCallback
    * @public
    */
-  forEachUtteranceQueue( utteranceCallback ) {
-    this.node.forEachUtteranceQueue( utteranceCallback );
+  forEachUtteranceQueue( utteranceQueueCallback ) {
+    this.descriptionAlertNode && this.descriptionAlertNode.forEachUtteranceQueue( utteranceQueueCallback );
   }
 }
 
