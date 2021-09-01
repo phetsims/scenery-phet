@@ -215,13 +215,12 @@ class NumberControl extends Node {
       }, options.sliderOptions );
     }
 
-    assert && assert( !options.sliderOptions.hasOwnProperty( 'shiftKeyboardStep' ), 'NumberControl sets shiftKeyboardStep' );
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
     options.sliderOptions = merge( {
 
-      // pdom - shiftKeyboardStep should be the same as clicking the arrow buttons
+      // pdom - by default, shiftKeyboardStep should most likely be the same as clicking the arrow buttons.
       shiftKeyboardStep: options.delta,
 
       // Make sure Slider gets created with the right IO Type
