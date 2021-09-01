@@ -106,12 +106,12 @@ class ResetAllButton extends ResetButton {
 
           // mute and clear the utteranceQueue
           ariaEnabledOnFirePerUtteranceQueueMap.set( utteranceQueue, utteranceQueue.enabled );
-          phet.joist.sim.utteranceQueue.enabled = false;
-          phet.joist.sim.utteranceQueue.clear();
+          utteranceQueue.enabled = false;
+          utteranceQueue.clear();
         }
         else {
           utteranceQueue.enabled = ariaEnabledOnFirePerUtteranceQueueMap.get( utteranceQueue ) || utteranceQueue.enabled;
-          phet.joist.sim.utteranceQueue.addToBack( resetUtterance );
+          utteranceQueue.addToBack( resetUtterance );
         }
       } );
     } );
