@@ -125,6 +125,10 @@ class ZoomButtonGroup extends LayoutBox {
     };
     zoomLevelProperty.link( zoomLevelListener );
 
+    this.addLinkedElement( zoomLevelProperty, {
+      tandem: options.tandem.createTandem( 'zoomProperty' )
+    } );
+
     // @private
     this.disposeZoomButtonGroup = () => {
       zoomInButton.dispose();
