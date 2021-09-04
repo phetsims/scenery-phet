@@ -1,0 +1,34 @@
+{
+  "extends": "../chipper/tsconfig-core.json",
+  "references": [
+    {
+      "path": "../sun"
+    }
+  ],
+  "include": [
+    "js/**/*",
+    "sounds/**/*",
+    "mipmaps/**/*",
+    "images/**/*"
+  ],
+  "exclude": [
+    "js/**/*tests.js", // ConductivityTesterNode.js
+    "js/scenery-phet-main.js",
+    "js/demo/**/*",
+
+    // Unfortunately, these had to be put in sun layer
+    "js/NumberDisplay.js",
+    "js/PhetFont.js",
+    "js/MathSymbols.js",
+    "js/sceneryPhetStrings.js",
+    "js/sceneryPhet.js",
+
+    // has to wait for joist layer
+    "js/ContextLossFailureDialog.js",
+    "js/OopsDialog.js",
+//
+//    // Included in scenery for now
+//    "js/SunConstants.js",
+//    "js/scenery-phet.js"
+  ]
+}
