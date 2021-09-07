@@ -123,8 +123,6 @@ class MovementAlerter extends Alerter {
     this.movementAlerts = options.movementAlerts;
     this.alertDiagonal = options.alertDiagonal;
     this.modelViewTransform = options.modelViewTransform;
-    this.alertToVoicing = options.alertToVoicing;
-    this.descriptionAlertNode = options.descriptionAlertNode;
 
     // @private
     // This sub-describer handles the logic for alerting when an item is on the edge of the movement space

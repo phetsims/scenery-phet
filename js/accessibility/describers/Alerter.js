@@ -29,6 +29,7 @@ class Alerter {
 
     }, options );
 
+    // @public (read-only)
     this.alertToVoicing = options.alertToVoicing;
     this.descriptionAlertNode = options.descriptionAlertNode;
   }
