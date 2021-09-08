@@ -15,7 +15,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -100,7 +99,11 @@ class MovementAlerter extends Alerter {
 
       // if false then diagonal alerts will be converted to two primary direction alerts that are alerted back to back
       // i.e. UP_LEFT becomes "UP" and "LEFT"
-      alertDiagonal: false
+      alertDiagonal: false,
+
+      // A way to turn off movement alerts (not border alerts) that would be sent to voicing, this will still send these
+      // alerts to description.
+      alertMovementToVoicing: true
     }, options );
 
     assert && assert( options.movementAlerts instanceof Object );
@@ -123,6 +126,7 @@ class MovementAlerter extends Alerter {
     this.movementAlerts = options.movementAlerts;
     this.alertDiagonal = options.alertDiagonal;
     this.modelViewTransform = options.modelViewTransform;
+    this.alertMovementToVoicing = options.alertMovementToVoicing;
 
     // @private
     // This sub-describer handles the logic for alerting when an item is on the edge of the movement space
@@ -152,7 +156,15 @@ class MovementAlerter extends Alerter {
    * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
    */
   alert( alertable ) {
+    let turnOffVoicingThisAlert = false;
+    if ( !this.alertMovementToVoicing && this.alertToVoicing ) {
+      this.alertToVoicing = false;
+      turnOffVoicingThisAlert = true;
+    }
     super.alert( alertable );
+    if ( turnOffVoicingThisAlert ) {
+      this.alertToVoicing = true;
+    }
     this.lastAlertedPosition = this.positionProperty.get();
   }
 
@@ -306,8 +318,10 @@ class MovementAlerter extends Alerter {
     this.alertDirectionalMovement();
     const alert = this.borderAlertsDescriber.getAlertOnEndDrag( this.positionProperty.get(), domEvent );
     if ( alert ) {
-      this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alert );
-      this.alertToVoicing && voicingUtteranceQueue.addToBack( alert );
+
+      // NOTE: to support options.alertMovementToVoicing (which specifically doesn't apply to border alerts, do not
+      // call this.alert() here and instead use super instead.
+      super.alert( alert );
     }
   }
 

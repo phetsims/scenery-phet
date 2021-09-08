@@ -29,8 +29,10 @@ class Alerter {
 
     }, options );
 
-    // @public (read-only)
+    // @public - only subtypes can mutate
     this.alertToVoicing = options.alertToVoicing;
+
+    // @public (read-only)
     this.descriptionAlertNode = options.descriptionAlertNode;
   }
 
