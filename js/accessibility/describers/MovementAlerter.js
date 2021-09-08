@@ -134,11 +134,7 @@ class MovementAlerter extends Alerter {
 
     // @private {Utterance} - single utterance to describe direction changes so that when this
     // happens frequently only the last change is announced
-    this.directionChangeUtterance = new Utterance( {
-      announcerOptions: {
-        cancelOther: false
-      }
-    } );
+    this.directionChangeUtterance = new Utterance();
 
     // @private
     this.initialFirstPosition = positionProperty.get();

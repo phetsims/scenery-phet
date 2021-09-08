@@ -47,11 +47,7 @@ class BorderAlertsDescriber {
 
       // Applied to any Utterances created from the Alert options above. Utterances are only created to wrap the above
       // options if an Utterance is not already provided
-      utteranceOptions: {
-        announcerOptions: {
-          cancelOther: false
-        }
-      }
+      utteranceOptions: {}
     }, options );
 
 
