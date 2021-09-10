@@ -343,11 +343,11 @@ class GrabDragInteraction {
     };
     this.onGrab = options.onGrab; // @private
 
-    // @private - Take the focusHighlight from the node for the grab button interaction highlight.
+    // @private - Take highlights from the node for the grab button interaction.
     this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
-    node.focusHighlight = this.grabFocusHighlight;
-
     this.grabInteractiveHighlight = node.interactiveHighlight || new FocusHighlightFromNode( node );
+
+    node.focusHighlight = this.grabFocusHighlight;
     node.interactiveHighlight = this.grabInteractiveHighlight;
 
     const dragHighlightOptions = {
@@ -355,10 +355,8 @@ class GrabDragInteraction {
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
     };
 
-    // @private - Make the draggable focusHighlight in the spitting image of the node's
+    // @private - Make the draggable highlights in the spitting image of the node's grabbable highlights
     this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, dragHighlightOptions );
-
-    // @private - The "Interactive Highlight" used when the Node is in its draggable state
     this.dragInteractiveHighlight = new FocusHighlightPath( this.grabInteractiveHighlight.shape, dragHighlightOptions );
 
     // Update the passed in node's focusHighlight to make it dashed for the "grabbed" state
@@ -371,7 +369,7 @@ class GrabDragInteraction {
       this.grabInteractiveHighlight.parent.addChild( this.dragInteractiveHighlight );
     }
 
-    // if ever we update the node's focusHighlight, then update the grab button's too to keep in syn.
+    // if ever we update the node's highlights, then update the grab button's too to keep in syn.
     const onFocusHighlightChange = () => {
       this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
     };
