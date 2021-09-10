@@ -343,7 +343,9 @@ class GrabDragInteraction {
     };
     this.onGrab = options.onGrab; // @private
 
-    // @private - Take highlights from the node for the grab button interaction.
+    // @private - Take highlights from the node for the grab button interaction. The Interactive Highlights cannot
+    // fall back to the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
+    // to the focus highlights that should not be displayed when using Interactive Highlights.
     this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
     this.grabInteractiveHighlight = node.interactiveHighlight || new FocusHighlightFromNode( node );
 
