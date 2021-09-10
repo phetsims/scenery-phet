@@ -183,10 +183,10 @@ class GrabDragInteraction {
                                                     'scene graph before grab/drag construction.' );
     }
     if ( node.interactiveHighlightLayerable ) {
-      assert && assert( node.interactiveHighlight, 'An interactive highlight must be set to the Node before construcion when' +
-                                             'using interactiveHighlightLayerable' );
-      assert && assert( node.interactiveHighlight.parent, 'if interactiveHighlightLayerable, the highlight must be added to the' +
-                                                    'scene graph before construction' );
+      assert && assert( node.interactiveHighlight,
+        'An interactive highlight must be set to the Node before construcion when using interactiveHighlightLayerable' );
+      assert && assert( node.interactiveHighlight.parent,
+        'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
     if ( node.focusHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
@@ -312,6 +312,17 @@ class GrabDragInteraction {
 
     // for both grabbing and dragging, the node with this interaction must be focusable
     this.node.focusable = true;
+
+    assert && node.isVoicing && assert( node.voicingFocusListener === node.defaultFocusListener,
+      'GrabDragInteraction sets its own voicingFocusListener.' );
+
+    if ( node.isVoicing ) {
+      node.voicingFocusListener = event => {
+
+        // When swapping from grabbable to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
+        this.grabbable && node.defaultFocusListener( event );
+      };
+    }
 
     // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/491
