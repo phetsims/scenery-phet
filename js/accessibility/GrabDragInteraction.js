@@ -44,6 +44,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -317,6 +318,10 @@ class GrabDragInteraction {
       'GrabDragInteraction sets its own voicingFocusListener.' );
 
     if ( node.isVoicing ) {
+
+      // sanity check on the voicing interface API.
+      assertHasProperties( node, [ 'voicingFocusListener' ] );
+
       node.voicingFocusListener = event => {
 
         // When swapping from grabbable to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
