@@ -194,7 +194,7 @@ class GrabDragInteraction {
         'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
     }
     if ( node.interactiveHighlight ) {
-      assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+      assert && assert( node.interactiveHighlight instanceof phet.scenery.FocusHighlightPath,
         'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
     }
     assert && assert( typeof options.onGrab === 'function' );
