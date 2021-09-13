@@ -60,7 +60,7 @@ import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaHerald from '../../../utterance-queue/js/AriaHerald.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
+import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -73,12 +73,6 @@ const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
 const buttonString = sceneryPhetStrings.a11y.grabDrag.button;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
-
-const voicingFocusUtterance = new Utterance( {
-  announcerOptions: {
-    cancelOther: false
-  }
-} );
 
 class GrabDragInteraction {
 
@@ -313,6 +307,14 @@ class GrabDragInteraction {
       otherElementName: PDOMPeer.DESCRIPTION_SIBLING
     };
 
+    // @private
+    this.voicingFocusUtterance = new Utterance( {
+      alert: new ResponsePacket(),
+      announcerOptions: {
+        cancelOther: false
+      }
+    } );
+
     // for both grabbing and dragging, the node with this interaction must be focusable
     this.node.focusable = true;
 
@@ -450,10 +452,8 @@ class GrabDragInteraction {
         this.updateVisibilityForCues();
 
         if ( this.node.isVoicing && this.showGrabCueNode() ) {
-          voicingFocusUtterance.alert = responseCollector.collectResponses( {
-            hintResponse: sceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease
-          } );
-          voicingUtteranceQueue.addToBack( voicingFocusUtterance );
+          this.voicingFocusUtterance.alert.hintResponse = sceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease;
+          voicingUtteranceQueue.addToBack( this.voicingFocusUtterance );
         }
       },
 
@@ -764,6 +764,8 @@ class GrabDragInteraction {
     // reset numberOfGrabs for turnToGrabbable
     this.numberOfGrabs = 0;
     this.turnToGrabbable();
+
+    this.voicingFocusUtterance.reset();
 
     // turnToGrabbable will increment this, so reset it again
     this.numberOfGrabs = 0;
