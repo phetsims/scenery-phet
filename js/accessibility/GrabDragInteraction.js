@@ -190,11 +190,11 @@ class GrabDragInteraction {
     }
     if ( node.focusHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
-        'if provided, focusHighlight must be a Path' );
+        'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
     }
     if ( node.interactiveHighlight ) {
       assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
-        'if provided, interactiveHighlight must be a Path' );
+        'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
     }
     assert && assert( typeof options.onGrab === 'function' );
     assert && assert( typeof options.onRelease === 'function' );
@@ -361,7 +361,7 @@ class GrabDragInteraction {
     this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, dragHighlightOptions );
     this.dragInteractiveHighlight = new FocusHighlightPath( this.grabInteractiveHighlight.shape, dragHighlightOptions );
 
-    // Update the passed in node's focusHighlight to make it dashed for the "grabbed" state
+    // Update the passed in node's focusHighlight to make it dashed for the "draggable" state
     this.dragFocusHighlight.makeDashed();
     this.dragInteractiveHighlight.makeDashed();
 
