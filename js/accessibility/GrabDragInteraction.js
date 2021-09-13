@@ -564,6 +564,9 @@ class GrabDragInteraction {
       }
 
       if ( node.interactiveHighlightLayerable ) {
+        assert && assert( this.grabInteractiveHighlight.parent, 'how can we have interactiveHighlightLayerable with a ' +
+                                                                'node that is not in the scene graph?' );
+
         if ( this.grabInteractiveHighlight.parent.hasChild( this.dragInteractiveHighlight ) ) {
           this.grabInteractiveHighlight.parent.removeChild( this.dragInteractiveHighlight );
         }
