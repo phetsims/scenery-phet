@@ -540,7 +540,7 @@ class GrabDragInteraction {
     this.turnToGrabbable();
 
     // @private
-    this.disposeA11yGrabDragNode = () => {
+    this.disposeGrabDragInteraction = () => {
 
       this.node.removeInputListener( this.pressListener );
       keyboardDragListener.dragEmitter.removeListener( dragListener );
@@ -743,7 +743,7 @@ class GrabDragInteraction {
    * @public
    */
   dispose() {
-    this.disposeA11yGrabDragNode();
+    this.disposeGrabDragInteraction();
   }
 
   /**
