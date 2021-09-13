@@ -16,6 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -134,7 +135,9 @@ class MovementAlerter extends Alerter {
 
     // @private {Utterance} - single utterance to describe direction changes so that when this
     // happens frequently only the last change is announced
-    this.directionChangeUtterance = new Utterance();
+    this.directionChangeUtterance = new Utterance( {
+      alert: new ResponsePacket()
+    } );
 
     // @private
     this.initialFirstPosition = positionProperty.get();
@@ -176,7 +179,7 @@ class MovementAlerter extends Alerter {
 
     // support if an instance doesn't want to alert in all directions
     directions.forEach( direction => {
-      this.directionChangeUtterance.alert = this.movementAlerts[ direction ];
+      this.directionChangeUtterance.alert.objectResponse = this.movementAlerts[ direction ];
       this.alert( this.directionChangeUtterance );
     } );
   }
