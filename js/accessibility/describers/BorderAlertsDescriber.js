@@ -11,6 +11,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -37,9 +38,10 @@ class BorderAlertsDescriber {
       // {Bounds2} - The bounds that makes the border we alert when against
       bounds: new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ),
 
-      // {null|AlertableDef} left, right, top, with values to alert if you reach that bound null if you don't want it alerted.
-      // If an array of string, each alert in the array will be read each new time that alert occurs. The last alert in
-      // the list will be read out each subsequent time if the alert occurs more than the number of items in the list.
+      // {null|AlertableDef} At left edge, right edge, top, and bottom with values to alert if you reach that bound.
+      // Pass in null if you don't want that border alerted. By default, if these are non-Utterances, they will be wrapped
+      // in utterances, and for voicing classified as "object responses", if passing in a custom utterance, it is up to
+      // the client to divide into voicing response categories.
       leftAlert: leftBorderAlertString,
       rightAlert: rightBorderAlertString,
       topAlert: DEFAULT_TOP_BORDER_ALERT,
@@ -49,7 +51,6 @@ class BorderAlertsDescriber {
       // options if an Utterance is not already provided
       utteranceOptions: {}
     }, options );
-
 
     // @public (Utterance) - these keys should stay the same as keys from DirectionEnum,
     this[ DirectionEnum.LEFT ] = null;
@@ -84,7 +85,7 @@ class BorderAlertsDescriber {
       else {
         assert && utteranceOptions && assert( !utteranceOptions.alert, ' setDirectionUtterance sets its own alert' );
         this[ direction ] = new Utterance( merge( {
-            alert: alert
+            alert: new ResponsePacket( { objectResponse: alert } ) // each alert is an object response
           }, utteranceOptions )
         );
       }
