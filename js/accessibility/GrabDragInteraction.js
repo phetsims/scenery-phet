@@ -388,6 +388,7 @@ class GrabDragInteraction {
     };
     this.grabInteractiveHighlight.highlightChangedEmitter.addListener( onInteractiveHighlightChange );
 
+    // only the focus highlights have "cue" Nodes so we do not need to do any work here for the Interactive Highlights
     this.grabCueNode.prependMatrix( node.getMatrix() );
     this.grabFocusHighlight.addChild( this.grabCueNode );
     if ( this.dragCueNode ) {
