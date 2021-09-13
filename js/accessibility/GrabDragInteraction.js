@@ -357,14 +357,15 @@ class GrabDragInteraction {
     node.focusHighlight = this.grabFocusHighlight;
     node.interactiveHighlight = this.grabInteractiveHighlight;
 
-    const dragHighlightOptions = {
+    // @private - Make the draggable highlights in the spitting image of the node's grabbable highlights
+    this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, {
       visible: false,
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
-    };
-
-    // @private - Make the draggable highlights in the spitting image of the node's grabbable highlights
-    this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, dragHighlightOptions );
-    this.dragInteractiveHighlight = new FocusHighlightPath( this.grabInteractiveHighlight.shape, dragHighlightOptions );
+    } );
+    this.dragInteractiveHighlight = new FocusHighlightPath( this.grabInteractiveHighlight.shape, {
+      visible: false,
+      transformSourceNode: this.grabInteractiveHighlight.transformSourceNode || node
+    } );
 
     // Update the passed in node's focusHighlight to make it dashed for the "draggable" state
     this.dragFocusHighlight.makeDashed();
