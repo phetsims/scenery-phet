@@ -336,7 +336,7 @@ class GrabDragInteraction {
     // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/491
     const releasedUtterance = new Utterance( {
-      alert: releasedString,
+      alert: new ResponsePacket( { objectResponse: releasedString } ),
       announcerOptions: {
         ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE, // for AriaHerald
         cancelOther: false // for voicingManager
