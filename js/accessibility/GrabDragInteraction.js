@@ -27,10 +27,12 @@
  * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
  * callbacks.
  *
- * NOTE: problems may occur if you change the focusHighlight of the Node passed in after creating this type.
+ * NOTE: problems may occur if you change the focusHighlight or interactiveHighlight of the Node passed in after
+ * creating this type.
  *
- * NOTE: focusHighlightLayerable is finicky with this type. In order to support it, you must have set the
- * focusHighlight to the wrappedNode and added the focusHighlight to the scene graph before calling this type's constructor.
+ * NOTE: focusHighlightLayerable and interactiveHighlightLayerable is finicky with this type. In order to support
+ * it, you must have set the focusHighlight or interactiveHighlight to the wrappedNode and added the focusHighlight
+ * to the scene graph before calling this type's constructor.
  *
  * NOTE on positioning the grab "cue" Node: transforming the wrappedNode after creating this type will not update the
  * layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
