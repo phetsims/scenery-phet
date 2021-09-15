@@ -163,9 +163,10 @@ class KeyboardHelpSection extends VBox {
    */
   generateReadingBlockContent() {
 
-    // include the section heading
+    // include the section heading - headings typically don't have punctuation, but don't use a period because
+    // it may appear to the synth as an abbreviation and change the pronunciation
     let readingBlockContent = '';
-    readingBlockContent += `${this.headingString}. `;
+    readingBlockContent += `${this.headingString}, `;
 
     // append the readingBlockContent assigned to each icon
     this.icons.forEach( icon => {
