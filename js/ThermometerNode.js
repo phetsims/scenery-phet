@@ -8,7 +8,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
+import Range from '../../dot/js/Range.js';
+import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
@@ -16,6 +19,8 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import NumberIO from '../../tandem/js/types/NumberIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode from './ShadedSphereNode.js';
 
@@ -54,10 +59,14 @@ class ThermometerNode extends Node {
       // all the default colors are shades of red
       fluidMainColor: '#850e0e', // the main color of the bulb fluid, and the left side of the tube gradient
       fluidHighlightColor: '#ff7575', // the highlight color of the bulb fluid and the middle of the tube gradient
-      fluidRightSideColor: '#c41515' // the right side of the tube gradient, not used currently
+      fluidRightSideColor: '#c41515', // the right side of the tube gradient, not used currently
+
+      tandem: Tandem.OPTIONAL
     }, options );
 
     super();
+
+    const thermometerRange = new Range( minTemperature, maxTemperature );
 
     assert && assert( options.zeroLevel === 'bulbCenter' || options.zeroLevel === 'bulbTop',
       `Invalid zeroLevel: ${options.zeroLevel}` );
@@ -199,6 +208,14 @@ class ThermometerNode extends Node {
 
     temperatureProperty.link( temperaturePropertyObserver );
 
+    const percentProperty = new DerivedProperty( [ temperatureProperty ], temp => {
+      return thermometerRange.getNormalizedValue( Utils.clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
+    }, {
+      tandem: options.tandem.createTandem( 'percentProperty' ),
+      phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature',
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+    } );
+
     this.mutate( options );
 
     // @private
@@ -206,6 +223,7 @@ class ThermometerNode extends Node {
       if ( temperatureProperty.hasListener( temperaturePropertyObserver ) ) {
         temperatureProperty.unlink( temperaturePropertyObserver );
       }
+      percentProperty.dispose();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
