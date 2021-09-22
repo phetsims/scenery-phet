@@ -4,7 +4,7 @@
  * A generic alerting type that will alert positional alerts based on a positionProperty and bounds (see
  * BorderAlertsDescriber) encapsulating the draggable area.
  *
- * This alerter supports respones to description (see options.descriptionAlertNode), and voicing (see options.alertToVoicing).
+ * This alerter supports response to description (see options.descriptionAlertNode), and voicing (see options.alertToVoicing).
  *
  * General usage involves calling this endDrag() function from all dragListeners that you want this functionality to describe
  *
