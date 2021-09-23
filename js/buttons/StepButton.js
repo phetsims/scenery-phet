@@ -42,11 +42,6 @@ class StepButton extends RoundPushButton {
       // shift the content to center align, assumes 3D appearance and specific content
       xContentOffset: ( options.direction === 'forward' ) ? ( 0.075 * options.radius ) : ( -0.15 * options.radius ),
 
-      // {Property.<boolean>|null} is the sim playing? This is a convenience option.
-      // If this Property is provided, it will disable the button while the sim is playing,
-      // and you should avoid using the button's native 'enabled' property.
-      isPlayingProperty: null,
-
       // use the step-forward sound by default
       soundPlayer: stepForwardSoundPlayer,
 
@@ -57,7 +52,6 @@ class StepButton extends RoundPushButton {
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'stepButton sets margins' );
     options.xMargin = options.yMargin = options.radius * marginCoefficient;
-
 
     assert && assert( options.direction === 'forward' || options.direction === 'backward',
       `unsupported direction: ${options.direction}` );
@@ -88,31 +82,8 @@ class StepButton extends RoundPushButton {
 
     super( options );
 
-    // Disable the button when the sim is playing
-    let playingObserver = null;
-    if ( options.isPlayingProperty ) {
-      playingObserver = playing => {
-        this.enabled = !playing;
-      };
-      options.isPlayingProperty.link( playingObserver );
-    }
-
-    // @private
-    this.disposeStepButton = () => {
-      options.isPlayingProperty && options.isPlayingProperty.unlink( playingObserver );
-    };
-
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StepButton', this );
-  }
-
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
-    this.disposeStepButton();
-    super.dispose();
   }
 }
 

@@ -10,6 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
@@ -19,6 +20,7 @@ import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import Panel from '../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import BooleanIO from '../../tandem/js/types/BooleanIO.js';
 import PlayPauseButton from './buttons/PlayPauseButton.js';
 import StepBackwardButton from './buttons/StepBackwardButton.js';
 import StepForwardButton from './buttons/StepForwardButton.js';
@@ -75,7 +77,7 @@ class TimeControlNode extends Node {
       // is included
       buttonGroupXSpacing: 40,
 
-      // {Object|null} - options passed along to the PlayPauseStepButtons
+      // {Object|null} - options passed along to the PlayPauseStepButtons, see the inner class for defaults
       playPauseStepButtonOptions: null,
 
       // {Object|null} - options passed along to the SpeedRadioButtonGroup, if included
@@ -278,7 +280,6 @@ class PlayPauseStepButtons extends HBox {
     }
 
     const defaultStepButtonOptions = {
-      isPlayingProperty: isPlayingProperty,
       radius: 15,
       touchAreaDilation: 5
     };
@@ -314,6 +315,22 @@ class PlayPauseStepButtons extends HBox {
         tandem: tandem.createTandem( 'stepForwardButton' )
       }, defaultStepButtonOptions )
     }, options );
+
+    // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented
+    // Property if it is going to be used
+    if ( ( !options.stepForwardButtonOptions.enabledProperty ) || ( !options.stepBackwardButtonOptions.enabledProperty ) ) {
+      const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
+        tandem: tandem.createTandem( 'enabledProperty' ),
+        phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+      } );
+
+      if ( !options.stepForwardButtonOptions.enabledProperty ) {
+        options.stepForwardButtonOptions.enabledProperty = defaultEnabledProperty;
+      }
+      if ( !options.stepBackwardButtonOptions.enabledProperty ) {
+        options.stepBackwardButtonOptions.enabledProperty = defaultEnabledProperty;
+      }
+    }
 
     const buttons = [];
 
