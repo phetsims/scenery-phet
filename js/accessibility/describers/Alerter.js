@@ -18,7 +18,7 @@ class Alerter {
 
     options = merge( {
 
-      // When true, movement alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
+      // When true, alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
       // descriptionAlertNode, but for voicing.
       alertToVoicing: true,
 
