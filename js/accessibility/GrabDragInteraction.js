@@ -59,7 +59,7 @@ import animatedPanZoomSingleton from '../../../scenery/js/listeners/animatedPanZ
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import AriaHerald from '../../../utterance-queue/js/AriaHerald.js';
+import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -338,7 +338,7 @@ class GrabDragInteraction {
     const releasedUtterance = new Utterance( {
       alert: new ResponsePacket( { objectResponse: releasedString } ),
       announcerOptions: {
-        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE, // for AriaHerald
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE, // for AriaLiveAnnouncer
         cancelOther: false // for voicingManager
       }
     } );
