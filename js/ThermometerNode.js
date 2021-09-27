@@ -20,6 +20,7 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode from './ShadedSphereNode.js';
@@ -35,7 +36,7 @@ class ThermometerNode extends Node {
   /**
    * @param {number} minTemperature
    * @param {number} maxTemperature
-   * @param {Property.<number>} temperatureProperty
+   * @param {Property.<number|null>} temperatureProperty - null means there is no temperature to measure
    * @param {Object} [options]
    */
   constructor( minTemperature, maxTemperature, temperatureProperty, options ) {
@@ -209,11 +210,12 @@ class ThermometerNode extends Node {
     temperatureProperty.link( temperaturePropertyObserver );
 
     const percentProperty = new DerivedProperty( [ temperatureProperty ], temp => {
-      return thermometerRange.getNormalizedValue( Utils.clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
+      return temp === null ? 0 :
+             thermometerRange.getNormalizedValue( Utils.clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
     }, {
       tandem: options.tandem.createTandem( 'percentProperty' ),
-      phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature. If temperature is null, then percent will be 0',
+      phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
     } );
 
     this.mutate( options );
