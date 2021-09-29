@@ -66,6 +66,14 @@ class ContextLossFailureDialog extends Dialog {
   }
 
   /**
+   * Allow the ability to hide without reloading.
+   * @public
+   */
+  hideWithoutReload() {
+    super.hide();
+  }
+
+  /**
    * Perform reload (or provided callback) regardless of how the dialog is hidden.
    * See https://github.com/phetsims/scenery-phet/issues/373.
    * @public
