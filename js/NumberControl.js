@@ -87,11 +87,12 @@ class NumberControl extends Node {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: NumberControl.NumberControlIO,
-      phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
-
-      // pdom
-      groupFocusHighlight: true
+      phetioEnabledPropertyInstrumented: true // opt into default PhET-iO instrumented enabledProperty
     }, options );
+
+    // A groupFocusHighlight is only included if using arrowButtons. When there are arrowButtons it is important
+    // to indicate that the whole control is only one stop in the traversal order. This is set by NumberControl.
+    assert && assert( options.groupFocusHighlight === undefined, 'NumberControl sets groupFocusHighlight' );
 
     super();
 
@@ -198,6 +199,10 @@ class NumberControl extends Node {
       'NumberControl\'s accessible content is just the slider, do not set accessible content on the buttons. Instead ' +
       'set a11y through options.sliderOptions.' );
     options.arrowButtonOptions.tagName = null;
+
+    // pdom - if we include arrow buttons, use a groupFocusHighlight to surround the NumberControl to make it clear
+    // that it is a composite component and there is only one stop in the traversal order.
+    this.groupFocusHighlight = options.includeArrowButtons;
 
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
