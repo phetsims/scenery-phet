@@ -14,8 +14,8 @@ import ComboBox from '../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../sun/js/ComboBoxItem.js';
 import NumberDisplay from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 // constants
 const comboBoxDisplayValueUnitsString = sceneryPhetStrings.comboBoxDisplay.valueUnits;
@@ -79,7 +79,9 @@ class ComboBoxDisplay extends ComboBox {
       itemNode.maxWidth = itemNode.width;
       itemNode.maxHeight = itemNode.height;
 
-      comboBoxItems.push( new ComboBoxItem( itemNode, item.choice ) );
+      comboBoxItems.push( new ComboBoxItem( itemNode, item.choice, {
+        tandemName: item.tandemName || null
+      } ) );
     } );
 
     super( comboBoxItems, choiceProperty, listParent, options );
