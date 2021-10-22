@@ -33,8 +33,8 @@ class KeyboardHelpIconFactory {
    * Get two icons horizontally aligned and separated by 'or' text.
    * @public
    *
-   * @param {Node} iconA - to the left of 'or' text
-   * @param {Node} iconB - to the right of 'or' text
+   * @param {../../../../scenery/js/nodes/Node} iconA - to the left of 'or' text
+   * @param {../../../../scenery/js/nodes/Node} iconB - to the right of 'or' text
    * @param {Object} [options]
    *
    * @returns {HBox}
@@ -59,8 +59,8 @@ class KeyboardHelpIconFactory {
    * Get two icons horizontally aligned and separated by '-' text. This is useful for a range, like 0-9.
    * @public
    *
-   * @param {Node} iconA - to the left of '-' text
-   * @param {Node} iconB - to the right of '-' text
+   * @param {../../../../scenery/js/nodes/Node} iconA - to the left of '-' text
+   * @param {../../../../scenery/js/nodes/Node} iconB - to the right of '-' text
    * @param {Object} [options]
    *
    * @returns {HBox}
@@ -85,8 +85,8 @@ class KeyboardHelpIconFactory {
    * Get two icons horizontally aligned and separated by '+' text.
    * @public
    *
-   * @param {Node} iconA - to the left of '+' text
-   * @param {Node} iconB - to the right of '+' text
+   * @param {../../../../scenery/js/nodes/Node} iconA - to the left of '+' text
+   * @param {../../../../scenery/js/nodes/Node} iconB - to the right of '+' text
    * @param {Object} [options]
    *
    * @returns {HBox}
@@ -115,7 +115,7 @@ class KeyboardHelpIconFactory {
    * of shift, plus icon, and desired icon.
    * @public
    *
-   * @param {Node} icon - icon to right of 'shift +'
+   * @param {../../../../scenery/js/nodes/Node} icon - icon to right of 'shift +'
    * @param {Object} [options]
    *
    * @returns {HBox}
@@ -145,7 +145,7 @@ class KeyboardHelpIconFactory {
   /**
    * "Space or Enter" icon
    * @public
-   * @returns {Node}
+   * @returns {../../../../scenery/js/nodes/Node}
    */
   static spaceOrEnter() {
     return KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() );
@@ -154,7 +154,7 @@ class KeyboardHelpIconFactory {
   /**
    * "Up or down" icon
    * @public
-   * @returns {Node}
+   * @returns {../../../../scenery/js/nodes/Node}
    */
   static upOrDown() {
     return KeyboardHelpIconFactory.iconOrIcon( new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) );
@@ -162,7 +162,7 @@ class KeyboardHelpIconFactory {
 
   /**
    * @public
-   * @param {Node[]} icons
+   * @param {../../../../scenery/js/nodes/Node[]} icons
    * @param {Object} [options]
    */
   static iconRow( icons, options ) {
