@@ -184,7 +184,7 @@ class KeyboardHelpSection extends VBox {
    * @public
    *
    * @param {string} labelString - string for the label Text
-   * @param {Node} icon
+   * @param {../../../../scenery/js/nodes/Node} icon
    * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
    * @param {Object} [options]
    * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups

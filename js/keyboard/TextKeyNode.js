@@ -11,8 +11,8 @@ import merge from '../../../phet-core/js/merge.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import KeyNode from './KeyNode.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import KeyNode from './KeyNode.js';
 
 class TextKeyNode extends KeyNode {
 
@@ -52,7 +52,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static alt( options ) {
@@ -61,7 +61,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static capsLock( options ) {
@@ -70,7 +70,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static esc( options ) {
@@ -79,7 +79,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static end( options ) {
@@ -88,7 +88,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static enter( options ) {
@@ -97,7 +97,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static fn( options ) {
@@ -106,7 +106,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static home( options ) {
@@ -115,7 +115,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static pageDown( options ) {
@@ -124,7 +124,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static pageUp( options ) {
@@ -133,7 +133,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static space( options ) {
@@ -142,7 +142,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static shift( options ) {
@@ -151,7 +151,7 @@ class TextKeyNode extends KeyNode {
 
   /**
    * @param {Object} [options]
-   * @returns {Node}
+   * @returns {../../../scenery/js/nodes/Node}
    * @public
    */
   static tab( options ) {
