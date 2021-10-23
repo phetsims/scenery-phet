@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Reusable icons to be created for keyboard help shortcuts dialogs. This type is only a collection of static methods, and

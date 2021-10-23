@@ -1,4 +1,4 @@
-// Copyright 2017-2020, University of Colorado Boulder
+// Copyright 2017-2021, University of Colorado Boulder
 
 /**
  * TextKeyNode is a keyboard key with text that is generally more than a single character. By default, a key
