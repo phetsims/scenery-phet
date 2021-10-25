@@ -684,14 +684,10 @@ class GrabDragInteraction {
    */
   updateFocusHighlights() {
     if ( this.grabbable ) {
-      this.dragFocusHighlight.visible = false;
-      this.dragInteractiveHighlight.visible = false;
       this.node.focusHighlight = this.grabFocusHighlight;
       this.node.interactiveHighlight = this.grabInteractiveHighlight;
     }
     else {
-      this.grabFocusHighlight.visible = false;
-      this.grabInteractiveHighlight.visible = false;
       this.node.focusHighlight = this.dragFocusHighlight;
       this.node.interactiveHighlight = this.dragInteractiveHighlight;
     }
