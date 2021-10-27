@@ -30,7 +30,7 @@ import sceneryPhet from './sceneryPhet.js';
 class MatrixNode extends Node {
 
   /**
-   * @param {number[][]} matrix - an MxN matrix, in row-major order
+   * @param {Array.<Array[number|string]>} matrix - an MxN matrix, in row-major order
    * @param {Object} [options]
    */
   constructor( matrix, options ) {
@@ -38,7 +38,7 @@ class MatrixNode extends Node {
     assert && assert( Array.isArray( matrix ) && matrix.length > 0, 'matrix must be an array with length > 0' );
     assert && assert( _.every( matrix, row => Array.isArray( row ) && row.length > 0 ), 'each element of matrix must be an array with length > 0' );
     assert && assert( _.every( matrix, row => row.length === matrix[ 0 ].length ), 'each row of the matrix must have the same number of values' );
-    assert && assert( _.every( matrix, row => _.every( row, value => ( typeof value === 'number' ) ) ), 'all values must be numbers' );
+    assert && assert( _.every( matrix, row => _.every( row, value => ( typeof value === 'number' || typeof value === 'string' ) ) ), 'all values must be numbers or strings' );
 
     options = merge( {
       font: new PhetFont( 20 ), // font for the values
@@ -46,7 +46,8 @@ class MatrixNode extends Node {
       stripTrailingZeros: true, // whether to strip trailing zeros, e.g. 1.20 -> 1.2
       cellXSpacing: 25, // horizontal spacing between cells in the matrix
       cellYSpacing: 5, // vertical spacing between cells in the matrix
-      bracketXSpacing: 10, // horizontal spacing between the brackets and the values
+      leftBracketXSpacing: 10, // horizontal spacing between left bracket and the values
+      rightBracketXSpacing: 10, // horizontal spacing between right bracket and the values
       bracketWidth: 8, // width of the brackets
       bracketHeightPadding: 5, // extra height added to the brackets, 0 is the same height as the grid of values
 
@@ -69,10 +70,19 @@ class MatrixNode extends Node {
 
       row.forEach( value => {
 
-        // {string} Rounded the value to the desired number of decimal places.
-        const valueString = options.stripTrailingZeros ?
-                             '' + Utils.toFixedNumber( value, options.decimalPlaces ) :
-                             Utils.toFixed( value, options.decimalPlaces );
+        let valueString;
+        if ( typeof value === 'string' ) {
+
+          // value is a string, use it as is.
+          valueString = value;
+        }
+        else {
+          // value is a number, round it to the desired number of decimal places.
+          valueString = options.stripTrailingZeros ?
+                        '' + Utils.toFixedNumber( value, options.decimalPlaces ) :
+                        Utils.toFixed( value, options.decimalPlaces );
+        }
+
         // Cell value
         const cellNode = new Text( valueString, {
           font: options.font
@@ -103,14 +113,14 @@ class MatrixNode extends Node {
       .lineTo( -options.bracketWidth, bracketHeight )
       .lineTo( 0, bracketHeight );
     const leftBracketNode = new Path( leftBracketShape, merge( {
-      right: gridNode.left - options.bracketXSpacing / 2, // half spacing looks balanced on the left side
+      right: gridNode.left - options.leftBracketXSpacing,
       centerY: gridNode.centerY
     }, options.bracketNodeOptions ) );
 
     // Right bracket, which reuses leftBracketShape.
     const rightBracketShape = leftBracketShape.transformed( new Matrix3().setToScale( -1, 1 ) );
     const rightBracketNode = new Path( rightBracketShape, merge( {
-      left: gridNode.right + options.bracketXSpacing,
+      left: gridNode.right + options.rightBracketXSpacing,
       centerY: gridNode.centerY
     }, options.bracketNodeOptions ) );
 
