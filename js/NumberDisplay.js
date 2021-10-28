@@ -32,7 +32,7 @@ class NumberDisplay extends Node {
 
   /**
    * @param {Property.<number|null>} numberProperty
-   * @param {Range} displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
+   * @param {../dot/Range} displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
    *                             - the display width. It is unrelated to the range of numberProperty.
    * @param {Object} [options]
    */
