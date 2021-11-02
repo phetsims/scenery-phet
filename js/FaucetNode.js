@@ -240,7 +240,7 @@ class FaucetNode extends Node {
 
           // offsetToFlowRate is relative to bodyNode.left, so account for it
           const xOffset = listener.currentTarget.globalToParentPoint( event.pointer.point ).x - startXOffset - bodyNode.left;
-          const flowRate = offsetToFlowRate( xOffset );
+          const flowRate = offsetToFlowRate.evaluate( xOffset );
 
           flowRateProperty.set( flowRate );
         }

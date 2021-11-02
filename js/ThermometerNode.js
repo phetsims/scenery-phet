@@ -251,7 +251,7 @@ class ThermometerNode extends Node {
     // treat null as zero - this is a "legacy requirement", needed by the States of Matter sims
     const compensatedTemperature = temperature === null ? 0 : temperature;
 
-    return this.temperatureLinearFunction( compensatedTemperature );
+    return this.temperatureLinearFunction.evaluate( compensatedTemperature );
   }
 
   /**
