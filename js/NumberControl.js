@@ -26,7 +26,7 @@ import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider from '../../sun/js/Slider.js';
 // For TypeScript support
-import Range from '../../dot/js/Range.js'; // eslint-disable-line
+import Range from '../../dot/js/Range.js'; // eslint-disable-line no-unused-vars
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay from './NumberDisplay.js';
