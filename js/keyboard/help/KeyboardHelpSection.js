@@ -267,7 +267,12 @@ class KeyboardHelpSection extends VBox {
       spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
       tagName: 'li',
-      innerContent: labelInnerContent
+      innerContent: labelInnerContent,
+
+      // voicing
+      // {string} - Content for this icon that is read by the Voicing feature
+      // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
+      readingBlockContent: null
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, { font: LABEL_FONT } );
@@ -304,6 +309,9 @@ class KeyboardHelpSection extends VBox {
     const labelIconListGroup = new AlignGroup( { matchHorizontal: false } );
     const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
+
+    // set the ReadingBlock content for the icon - default
+    iconsBox.readingBlockContent = options.iconsVBoxOptions.readingBlockContent || options.iconsVBoxOptions.innerContent;
 
     return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
   }
