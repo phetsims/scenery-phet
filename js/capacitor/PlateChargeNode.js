@@ -243,7 +243,7 @@ class PlateChargeNode extends CanvasNode {
     if ( absCharge > 0 && numberOfCharges < NUMBER_OF_PLATE_CHARGES.min ) {
       numberOfCharges = NUMBER_OF_PLATE_CHARGES.min;
     }
-    return numberOfCharges;
+    return Math.min( NUMBER_OF_PLATE_CHARGES.max, numberOfCharges );
   }
 }
 
