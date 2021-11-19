@@ -1,0 +1,12 @@
+{
+  "extends": "../chipper/tsconfig-core.json",
+  "references": [
+    {
+      "path": "../joist"
+    }
+  ],
+  "include": [
+    "js/scenery-phet-main.js",
+    "js/demo/**/*",
+  ]
+}
