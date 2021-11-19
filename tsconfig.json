@@ -20,7 +20,7 @@
     "js/NumberDisplay.js",
     "js/PhetFont.js",
     "js/MathSymbols.js",
-    "js/sceneryPhetStrings.js",
+    "js/sceneryPhetStrings.ts",
     "js/sceneryPhet.js",
 
     // has to wait for joist layer
