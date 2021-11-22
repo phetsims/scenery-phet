@@ -2,7 +2,7 @@
   "extends": "../chipper/tsconfig-core.json",
   "references": [
     {
-      "path": "../sun"
+      "path": "../sun/tsconfig-module.json"
     }
   ],
   "include": [
