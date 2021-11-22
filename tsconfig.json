@@ -8,5 +8,6 @@
   "include": [
     "js/scenery-phet-main.js",
     "js/demo/**/*",
+    "js/**/*tests.js"
   ]
 }
