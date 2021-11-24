@@ -13,6 +13,7 @@
   ],
   "exclude": [
     "js/**/*tests.js", // ConductivityTesterNode.js
+    "js/**/*Tests.js", // ConductivityTesterNode.js
     "js/scenery-phet-main.js",
     "js/demo/**/*",
 
