@@ -52,7 +52,7 @@ class MathSymbolFont extends Font {
    * @public
    */
   static getRichTextMarkup( text, style = DEFAULT_OPTIONS.style ) {
-    assert && assert( Font.VALID_STYLES.includes( style ), `invalid style: ${style}` );
+    assert && assert( Font.isFontStyle( style ), `invalid style: ${style}` );
     return StringUtils.fillIn( '<span style=\'font-family: {{face}};font-style: {{style}}\'>{{text}}</span>', {
       face: FAMILY,
       style: style,
