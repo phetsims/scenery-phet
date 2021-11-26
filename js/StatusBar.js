@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * StatusBar is the base class for the status bar that appears at the top of games. It sizes itself to match the bounds
