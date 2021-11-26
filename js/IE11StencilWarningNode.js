@@ -9,10 +9,10 @@
  */
 
 import openPopup from '../../phet-core/js/openPopup.js';
-import HBox from '../../scenery/js/nodes/HBox.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Text from '../../scenery/js/nodes/Text.js';
-import VBox from '../../scenery/js/nodes/VBox.js';
+import { HBox } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { Text } from '../../scenery/js/imports.js';
+import { VBox } from '../../scenery/js/imports.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

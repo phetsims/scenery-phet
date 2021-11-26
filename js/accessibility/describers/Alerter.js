@@ -6,7 +6,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
+import { voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
 class Alerter {

@@ -8,7 +8,7 @@
 
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import { Rectangle } from '../../../scenery/js/imports.js';
 import ResetAllButton from '../buttons/ResetAllButton.js';
 import ParametricSpringNode from '../ParametricSpringNode.js';
 import sceneryPhet from '../sceneryPhet.js';

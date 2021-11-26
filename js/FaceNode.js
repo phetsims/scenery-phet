@@ -12,10 +12,10 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import Circle from '../../scenery/js/nodes/Circle.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import { Circle } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { PaintColorProperty } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class FaceNode extends Node {

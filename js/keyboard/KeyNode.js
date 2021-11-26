@@ -13,9 +13,9 @@
 
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import merge from '../../../phet-core/js/merge.js';
-import AlignBox from '../../../scenery/js/nodes/AlignBox.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import { AlignBox } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Rectangle } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // Default option values for KeyNode. All widths, offsets, and height values are in the ScreenView coordinate frame.

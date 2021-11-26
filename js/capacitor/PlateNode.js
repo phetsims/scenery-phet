@@ -9,7 +9,7 @@
  */
 
 import Bounds3 from '../../../dot/js/Bounds3.js';
-import Color from '../../../scenery/js/util/Color.js';
+import { Color } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import BoxNode from './BoxNode.js';
 import CapacitorConstants from './CapacitorConstants.js';

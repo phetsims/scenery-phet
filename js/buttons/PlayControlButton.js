@@ -8,10 +8,10 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { globalKeyStateTracker } from '../../../scenery/js/imports.js';
+import { KeyboardUtils } from '../../../scenery/js/imports.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { Path } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
 import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';

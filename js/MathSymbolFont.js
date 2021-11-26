@@ -9,7 +9,7 @@
 
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import Font from '../../scenery/js/util/Font.js';
+import { Font } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

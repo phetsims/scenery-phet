@@ -12,7 +12,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Color from '../../scenery/js/util/Color.js';
+import { Color } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // Colors that are used for one or more things in the color scheme.

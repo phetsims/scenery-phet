@@ -1,9 +1,9 @@
 // Copyright 2020, University of Colorado Boulder
 
 import merge from '../../phet-core/js/merge.js';
-import Circle from '../../scenery/js/nodes/Circle.js';
-import Line from '../../scenery/js/nodes/Line.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Circle } from '../../scenery/js/imports.js';
+import { Line } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 /**

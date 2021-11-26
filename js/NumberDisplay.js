@@ -9,10 +9,10 @@
 import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import RichText from '../../scenery/js/nodes/RichText.js';
-import Text from '../../scenery/js/nodes/Text.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { RichText } from '../../scenery/js/imports.js';
+import { Text } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';

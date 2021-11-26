@@ -8,8 +8,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Text from '../../../scenery/js/nodes/Text.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Text } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';

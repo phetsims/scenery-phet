@@ -7,9 +7,9 @@
  */
 
 import ScreenView from '../../../joist/js/ScreenView.js';
-import Image from '../../../scenery/js/nodes/Image.js';
-import Text from '../../../scenery/js/nodes/Text.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
+import { Image } from '../../../scenery/js/imports.js';
+import { Text } from '../../../scenery/js/imports.js';
+import { VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import batteryDCell_png from '../../images/batteryDCell_png.js';

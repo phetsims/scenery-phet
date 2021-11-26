@@ -11,8 +11,8 @@
 import Shape from '../../../kite/js/Shape.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Path } from '../../../scenery/js/imports.js';
 import volumeOffSolidShape from '../../../sherpa/js/fontawesome-5/volumeOffSolidShape.js';
 import volumeUpSolidShape from '../../../sherpa/js/fontawesome-5/volumeUpSolidShape.js';
 import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';

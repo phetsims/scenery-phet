@@ -12,7 +12,7 @@
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import Path from '../../scenery/js/nodes/Path.js';
+import { Path } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrowShape from './ArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';

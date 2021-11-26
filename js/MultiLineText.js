@@ -14,7 +14,7 @@
 
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import merge from '../../phet-core/js/merge.js';
-import RichText from '../../scenery/js/nodes/RichText.js';
+import { RichText } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

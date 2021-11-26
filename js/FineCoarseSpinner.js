@@ -10,8 +10,8 @@
 
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import HBox from '../../scenery/js/nodes/HBox.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { HBox } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay from './NumberDisplay.js';

@@ -12,7 +12,7 @@ import Bounds2 from '../../../dot/js/Bounds2.js';
 import deprecationWarning from '../../../phet-core/js/deprecationWarning.js';
 import merge from '../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
+import { SimpleDragHandler } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
 

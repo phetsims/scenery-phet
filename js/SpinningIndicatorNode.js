@@ -11,11 +11,11 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import Circle from '../../scenery/js/nodes/Circle.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import Color from '../../scenery/js/util/Color.js';
-import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import { Circle } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { Color } from '../../scenery/js/imports.js';
+import { PaintColorProperty } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class SpinningIndicatorNode extends Node {

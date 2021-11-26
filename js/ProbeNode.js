@@ -19,13 +19,13 @@ import EllipticalArc from '../../kite/js/segments/EllipticalArc.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import Circle from '../../scenery/js/nodes/Circle.js';
-import Line from '../../scenery/js/nodes/Line.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
-import RadialGradient from '../../scenery/js/util/RadialGradient.js';
+import { Circle } from '../../scenery/js/imports.js';
+import { Line } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { LinearGradient } from '../../scenery/js/imports.js';
+import { PaintColorProperty } from '../../scenery/js/imports.js';
+import { RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

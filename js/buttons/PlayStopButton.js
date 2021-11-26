@@ -10,7 +10,7 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';

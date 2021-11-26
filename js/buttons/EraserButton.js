@@ -8,7 +8,7 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import Image from '../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import eraser_png from '../../images/eraser_png.js';
 import PhetColorScheme from '../PhetColorScheme.js';

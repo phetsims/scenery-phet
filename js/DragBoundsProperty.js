@@ -12,7 +12,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Node } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class DragBoundsProperty extends DerivedProperty {

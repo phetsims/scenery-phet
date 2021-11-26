@@ -17,7 +17,7 @@
 
 import Bounds2 from '../../dot/js/Bounds2.js';
 import merge from '../../phet-core/js/merge.js';
-import DOM from '../../scenery/js/nodes/DOM.js';
+import { DOM } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class FormulaNode extends DOM {

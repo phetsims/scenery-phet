@@ -8,7 +8,7 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import { Rectangle } from '../../scenery/js/imports.js';
 import SliderTrack from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';

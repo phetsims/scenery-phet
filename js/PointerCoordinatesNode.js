@@ -11,10 +11,10 @@
 import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import merge from '../../phet-core/js/merge.js';
-import Display from '../../scenery/js/display/Display.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import RichText from '../../scenery/js/nodes/RichText.js';
+import { Display } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { RichText } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

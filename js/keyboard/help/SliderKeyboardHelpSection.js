@@ -10,7 +10,7 @@ import validate from '../../../../axon/js/validate.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
+import { HBox } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';

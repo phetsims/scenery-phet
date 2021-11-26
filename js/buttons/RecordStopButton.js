@@ -8,8 +8,8 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { Rectangle } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';

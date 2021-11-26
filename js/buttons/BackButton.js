@@ -10,7 +10,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';

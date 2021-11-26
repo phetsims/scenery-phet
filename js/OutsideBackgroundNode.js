@@ -11,7 +11,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Node from '../../scenery/js/nodes/Node.js';
+import { Node } from '../../scenery/js/imports.js';
 import GroundNode from './GroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SkyNode from './SkyNode.js';

@@ -9,8 +9,8 @@
 
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import { Path } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
 

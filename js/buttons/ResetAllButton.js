@@ -9,7 +9,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
+import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';

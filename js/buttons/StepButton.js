@@ -11,9 +11,9 @@
 import Shape from '../../../kite/js/Shape.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import HBox from '../../../scenery/js/nodes/HBox.js';
-import Path from '../../../scenery/js/nodes/Path.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import { HBox } from '../../../scenery/js/imports.js';
+import { Path } from '../../../scenery/js/imports.js';
+import { Rectangle } from '../../../scenery/js/imports.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';

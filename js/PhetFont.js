@@ -12,7 +12,7 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import Font from '../../scenery/js/util/Font.js';
+import { Font } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class PhetFont extends Font {

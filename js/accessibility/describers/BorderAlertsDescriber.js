@@ -9,7 +9,7 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import { KeyboardUtils } from '../../../../scenery/js/imports.js';
 import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';

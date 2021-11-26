@@ -9,13 +9,13 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import Color from '../../scenery/js/util/Color.js';
-import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
-import RadialGradient from '../../scenery/js/util/RadialGradient.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { Color } from '../../scenery/js/imports.js';
+import { LinearGradient } from '../../scenery/js/imports.js';
+import { PaintColorProperty } from '../../scenery/js/imports.js';
+import { RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class ShadedRectangle extends Node {

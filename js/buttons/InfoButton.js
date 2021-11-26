@@ -8,7 +8,7 @@
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../../phet-core/js/merge.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { Path } from '../../../scenery/js/imports.js';
 import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';

@@ -9,9 +9,9 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import HBox from '../../scenery/js/nodes/HBox.js';
-import Image from '../../scenery/js/nodes/Image.js';
-import RichText from '../../scenery/js/nodes/RichText.js';
+import { HBox } from '../../scenery/js/imports.js';
+import { Image } from '../../scenery/js/imports.js';
+import { RichText } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';

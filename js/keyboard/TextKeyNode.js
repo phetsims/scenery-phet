@@ -8,7 +8,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import RichText from '../../../scenery/js/nodes/RichText.js';
+import { RichText } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';

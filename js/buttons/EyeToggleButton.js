@@ -7,8 +7,8 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Path } from '../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import RectangularToggleButton from '../../../sun/js/buttons/RectangularToggleButton.js';

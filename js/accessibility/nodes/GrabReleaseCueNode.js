@@ -6,8 +6,8 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { RichText } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import PhetFont from '../../PhetFont.js';

@@ -2,8 +2,8 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
-import AlignBox from '../../scenery/js/nodes/AlignBox.js';
-import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
+import { AlignBox } from '../../scenery/js/imports.js';
+import { AlignGroup } from '../../scenery/js/imports.js';
 import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
 import MinusNode from './MinusNode.js';
 import PlusNode from './PlusNode.js';

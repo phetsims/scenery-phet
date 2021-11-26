@@ -7,9 +7,9 @@
  */
 
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Path from '../../../scenery/js/nodes/Path.js';
-import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Path } from '../../../scenery/js/imports.js';
+import { LinearGradient } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 class BucketHole extends Node {

@@ -13,7 +13,7 @@
 import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Enumeration from '../../../phet-core/js/Enumeration.js';
-import CanvasNode from '../../../scenery/js/nodes/CanvasNode.js';
+import { CanvasNode } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // constants

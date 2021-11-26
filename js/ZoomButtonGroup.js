@@ -9,8 +9,8 @@
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import LayoutBox from '../../scenery/js/nodes/LayoutBox.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { LayoutBox } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';

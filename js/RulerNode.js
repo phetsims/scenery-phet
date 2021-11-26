@@ -10,10 +10,10 @@
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import Text from '../../scenery/js/nodes/Text.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

@@ -8,8 +8,8 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import FireListener from '../../scenery/js/listeners/FireListener.js';
-import Plane from '../../scenery/js/nodes/Plane.js';
+import { FireListener } from '../../scenery/js/imports.js';
+import { Plane } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';

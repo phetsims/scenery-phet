@@ -11,7 +11,7 @@ import Screen from '../../joist/js/Screen.js';
 import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import { Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';

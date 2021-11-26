@@ -9,7 +9,7 @@
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
-import Path from '../../scenery/js/nodes/Path.js';
+import { Path } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 

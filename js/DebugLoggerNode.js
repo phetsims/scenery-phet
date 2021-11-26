@@ -18,8 +18,8 @@
 
 import Vector2 from '../../dot/js/Vector2.js';
 import merge from '../../phet-core/js/merge.js';
-import RichText from '../../scenery/js/nodes/RichText.js';
-import Color from '../../scenery/js/util/Color.js';
+import { RichText } from '../../scenery/js/imports.js';
+import { Color } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

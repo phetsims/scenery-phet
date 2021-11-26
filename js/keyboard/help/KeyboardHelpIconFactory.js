@@ -8,8 +8,8 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';

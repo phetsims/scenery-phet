@@ -9,8 +9,8 @@
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import Image from '../../scenery/js/nodes/Image.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Image } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
 import LightRaysNode from './LightRaysNode.js';

@@ -14,7 +14,7 @@ import Bounds2 from '../../../dot/js/Bounds2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import Orientation from '../../../phet-core/js/Orientation.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import CapacitorConstants from './CapacitorConstants.js';
 import EFieldNode from './EFieldNode.js';
