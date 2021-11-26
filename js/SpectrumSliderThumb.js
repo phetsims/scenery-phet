@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * This slider thumb has (a) a thin cursor that lies on the track and (b) a teardrop-shaped handle that drops

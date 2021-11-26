@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Pseudo-3D representation of a box, using parallelograms.  Only the three visible faces are shown: top, front,

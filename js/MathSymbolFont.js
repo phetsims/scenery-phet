@@ -1,4 +1,4 @@
-// Copyright 2016-2020, University of Colorado Boulder
+// Copyright 2016-2021, University of Colorado Boulder
 
 /**
  * MathSymbolFont is the font used for math symbols (e.g. 'x', 'y') in PhET sims.

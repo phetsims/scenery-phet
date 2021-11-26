@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 import merge from '../../phet-core/js/merge.js';
 import { Circle } from '../../scenery/js/imports.js';

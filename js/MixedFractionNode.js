@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Capable of displaying a mixed-fraction display with three spots that can be filled with numbers (numerator,
