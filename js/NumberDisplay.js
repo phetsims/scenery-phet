@@ -80,7 +80,7 @@ class NumberDisplay extends Node {
       minBackgroundWidth: 0,
 
       // options related to display when numberProperty.value === null
-      noValueString: MathSymbols.NO_VALUE, // {string} default is the PhET standard, do no override lightly.
+      noValueString: MathSymbols.NO_VALUE, // {string} default is the PhET standard, do not override lightly.
       noValueAlign: null, // {string|null} see ALIGN_VALUES. If null, defaults to options.align
       noValuePattern: null, // {string|null} If null, defaults to options.valuePattern
 
