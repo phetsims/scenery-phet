@@ -17,13 +17,7 @@ import Shape from '../../kite/js/Shape.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { FocusHighlightFromNode } from '../../scenery/js/imports.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
+import { Color, DragListener, FocusHighlightFromNode, Node, Path, Rectangle, Text } from '../../scenery/js/imports.js';
 import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -301,8 +295,6 @@ class SpectrumSlider extends Node {
     this.addChild( strut );
     strut.moveToBack();
 
-    this.mutate( options );
-
     // @private - called by dispose
     this.disposeSpectrumSlider = () => {
       valueDisplay && valueDisplay.dispose();
@@ -317,6 +309,8 @@ class SpectrumSlider extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
+
+    this.mutate( options );
   }
 
   /**

@@ -28,11 +28,7 @@ import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Image, Node, Rectangle } from '../../scenery/js/imports.js';
 import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
 import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
 import EventType from '../../tandem/js/EventType.js';
@@ -279,8 +275,6 @@ class FaucetNode extends Node {
     };
     enabledProperty.link( enabledObserver );
 
-    this.mutate( options );
-
     // mix accessible slider functionality into this node
     this.initializeAccessibleSlider(
       flowRateProperty,
@@ -288,6 +282,8 @@ class FaucetNode extends Node {
       enabledProperty,
       options
     );
+
+    this.mutate( options );
 
     // flow rate control is visible only when the faucet is interactive
     const interactiveObserver = interactive => {

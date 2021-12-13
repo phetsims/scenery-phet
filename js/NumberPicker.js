@@ -384,8 +384,6 @@ class NumberPicker extends Node {
       updateColors( state, enabled, decrementBackgroundNode, this.decrementArrow, backgroundColors, arrowColors );
     } );
 
-    this.mutate( options );
-
     // Dilate based on consistent technique which brings into account transform of this node.
     const focusBounds = this.localBounds.dilated( FocusHighlightPath.getDilationCoefficient( this ) );
 
@@ -439,6 +437,8 @@ class NumberPicker extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberPicker', this );
+
+    this.mutate( options );
   }
 
   /**
