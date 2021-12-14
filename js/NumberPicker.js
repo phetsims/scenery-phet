@@ -18,16 +18,7 @@ import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import merge from '../../phet-core/js/merge.js';
-import { FocusHighlightPath } from '../../scenery/js/imports.js';
-import { FireListener } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { SceneryConstants } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
+import { Color, FireListener, FocusHighlightPath, LinearGradient, Node, PaintColorProperty, Path, Rectangle, SceneryConstants, Text } from '../../scenery/js/imports.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
@@ -416,6 +407,8 @@ class NumberPicker extends Node {
       decrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
     } );
 
+    this.mutate( options );
+
     this.addLinkedElement( valueProperty, {
       tandem: options.tandem.createTandem( 'valueProperty' )
     } );
@@ -437,8 +430,6 @@ class NumberPicker extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberPicker', this );
-
-    this.mutate( options );
   }
 
   /**
