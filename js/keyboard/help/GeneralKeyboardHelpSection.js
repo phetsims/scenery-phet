@@ -13,7 +13,6 @@
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
-import TabKeyNode from '../TextKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
@@ -55,7 +54,7 @@ class GeneralKeyboardHelpSection extends KeyboardHelpSection {
     // 'toggle checkboxes' content
     let toggleCheckboxes = null;
     if ( options.withCheckboxContent ) {
-      toggleCheckboxes = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TabKeyNode.space(),
+      toggleCheckboxes = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TextKeyNode.space(),
         toggleCheckboxesDescriptionString );
     }
 

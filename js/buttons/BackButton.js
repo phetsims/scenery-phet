@@ -14,7 +14,7 @@ import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';
-import goBackSound from '../../sounds/go-back_mp3.js';
+import goBack_mp3 from '../../sounds/goBack_mp3.js';
 import ArrowShape from '../ArrowShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -48,7 +48,7 @@ class BackButton extends RectangularPushButton {
 
     // Create and add the default sound generator if none was provided.
     if ( !options.soundPlayer ) {
-      const goBackSoundClip = new SoundClip( goBackSound, { initialOutputLevel: 0.35 } );
+      const goBackSoundClip = new SoundClip( goBack_mp3, { initialOutputLevel: 0.35 } );
       soundManager.addSoundGenerator( goBackSoundClip, { categoryName: 'user-interface' } );
       options.soundPlayer = goBackSoundClip;
     }
