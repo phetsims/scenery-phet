@@ -41,7 +41,7 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       }
     }, options );
 
-    // convencience funtion for all the filling in done below
+    // convenience function for all the filling in done below
     const fillIn = stringPattern => StringUtils.fillIn( stringPattern, {
       thingPlural: options.thingAsLowerCasePlural,
       thingSingular: options.thingAsLowerCaseSingular
