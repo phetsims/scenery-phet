@@ -19,7 +19,7 @@ import KeyboardHelpSection from './KeyboardHelpSection.js';
 
 const ArrowKeyIconDisplay = Enumeration.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
 
-class SliderKeyboardHelpSection extends KeyboardHelpSection {
+class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
    * @param {Object} [options]
@@ -152,7 +152,7 @@ class SliderKeyboardHelpSection extends KeyboardHelpSection {
 }
 
 // @public - for use in defining a component-specific option.
-SliderKeyboardHelpSection.ArrowKeyIconDisplay = ArrowKeyIconDisplay;
+SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay = ArrowKeyIconDisplay;
 
-sceneryPhet.register( 'SliderKeyboardHelpSection', SliderKeyboardHelpSection );
-export default SliderKeyboardHelpSection;
+sceneryPhet.register( 'SliderControlsKeyboardHelpSection', SliderControlsKeyboardHelpSection );
+export default SliderControlsKeyboardHelpSection;

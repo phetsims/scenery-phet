@@ -80,7 +80,7 @@ import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
 import BasicActionsKeyboardHelpSection from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import SliderControlsKeyboardHelpSection from '../keyboard/help/SliderControlsKeyboardHelpSection.js';
 import LetterKeyNode from '../keyboard/LetterKeyNode.js';
 import TextKeyNode from '../keyboard/TextKeyNode.js';
 import Keypad from '../keypad/Keypad.js';
@@ -1506,7 +1506,7 @@ function demoKeyboardHelp( layoutBounds ) {
       ) ),
 
       // Individual help content subtypes
-      new Panel( new SliderKeyboardHelpSection() ),
+      new Panel( new SliderControlsKeyboardHelpSection() ),
       new VBox( {
         children: [
           new Panel( new BasicActionsKeyboardHelpSection() ),

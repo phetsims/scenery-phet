@@ -8,7 +8,7 @@
 import merge from '../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
+import SliderControlsKeyboardHelpSection from '../keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../keyboard/help/TwoColumnKeyboardHelpContent.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -25,13 +25,13 @@ class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const basicActionsHelpContent = new BasicActionsKeyboardHelpSection( merge( helpContentOptions, {
       withCheckboxContent: true
     } ) );
-    const sliderKeyboardHelpSection = new SliderKeyboardHelpSection( helpContentOptions );
+    const sliderControlsKeyboardHelpSection = new SliderControlsKeyboardHelpSection( helpContentOptions );
 
     const grabDragHelpContent = KeyboardHelpSection.getGrabReleaseHelpSection( 'Grabbable', 'grabbable', helpContentOptions );
     const leftHelpContent = [ basicActionsHelpContent ];
 
-    KeyboardHelpSection.alignHelpSectionIcons( [ grabDragHelpContent, sliderKeyboardHelpSection ] );
-    const rightHelpContent = [ grabDragHelpContent, sliderKeyboardHelpSection ];
+    KeyboardHelpSection.alignHelpSectionIcons( [ grabDragHelpContent, sliderControlsKeyboardHelpSection ] );
+    const rightHelpContent = [ grabDragHelpContent, sliderControlsKeyboardHelpSection ];
 
     super( leftHelpContent, rightHelpContent );
   }
