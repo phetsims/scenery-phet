@@ -32,7 +32,7 @@ const keyboardHelpDialogGroupNavigationDescriptionString = sceneryPhetStrings.a1
 const keyboardHelpDialogExitDialogDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescription;
 const toggleCheckboxesDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescription;
 
-class GeneralKeyboardHelpSection extends KeyboardHelpSection {
+class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
    * @param {Object} [options]
@@ -92,5 +92,5 @@ class GeneralKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-sceneryPhet.register( 'GeneralKeyboardHelpSection', GeneralKeyboardHelpSection );
-export default GeneralKeyboardHelpSection;
+sceneryPhet.register( 'BasicActionsKeyboardHelpSection', BasicActionsKeyboardHelpSection );
+export default BasicActionsKeyboardHelpSection;

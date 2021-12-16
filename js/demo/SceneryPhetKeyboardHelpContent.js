@@ -6,7 +6,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
 import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../keyboard/help/TwoColumnKeyboardHelpContent.js';
@@ -22,13 +22,13 @@ class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       labelMaxWidth: 130
     };
 
-    const generalNavigationHelpContent = new GeneralKeyboardHelpSection( merge( helpContentOptions, {
+    const basicActionsHelpContent = new BasicActionsKeyboardHelpSection( merge( helpContentOptions, {
       withCheckboxContent: true
     } ) );
     const sliderKeyboardHelpSection = new SliderKeyboardHelpSection( helpContentOptions );
 
     const grabDragHelpContent = KeyboardHelpSection.getGrabReleaseHelpSection( 'Grabbable', 'grabbable', helpContentOptions );
-    const leftHelpContent = [ generalNavigationHelpContent ];
+    const leftHelpContent = [ basicActionsHelpContent ];
 
     KeyboardHelpSection.alignHelpSectionIcons( [ grabDragHelpContent, sliderKeyboardHelpSection ] );
     const rightHelpContent = [ grabDragHelpContent, sliderKeyboardHelpSection ];

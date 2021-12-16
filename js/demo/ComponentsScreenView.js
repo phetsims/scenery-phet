@@ -77,7 +77,7 @@ import GaugeNode from '../GaugeNode.js';
 import HandleNode from '../HandleNode.js';
 import HeaterCoolerNode from '../HeaterCoolerNode.js';
 import ArrowKeyNode from '../keyboard/ArrowKeyNode.js';
-import GeneralKeyboardHelpSection from '../keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
 import SliderKeyboardHelpSection from '../keyboard/help/SliderKeyboardHelpSection.js';
@@ -1509,8 +1509,8 @@ function demoKeyboardHelp( layoutBounds ) {
       new Panel( new SliderKeyboardHelpSection() ),
       new VBox( {
         children: [
-          new Panel( new GeneralKeyboardHelpSection() ),
-          new Panel( new GeneralKeyboardHelpSection( { withCheckboxContent: true } ) )
+          new Panel( new BasicActionsKeyboardHelpSection() ),
+          new Panel( new BasicActionsKeyboardHelpSection( { withCheckboxContent: true } ) )
         ],
         spacing: 10
       } )

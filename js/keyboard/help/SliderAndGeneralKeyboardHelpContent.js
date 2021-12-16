@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * Content for a KeyboardHelpDialog that contains a GeneralKeyboardHelpSection and a SliderKeyboardHelpSection.
+ * Content for a KeyboardHelpDialog that contains a BasicActionsKeyboardHelpSection and a SliderKeyboardHelpSection.
  * Often sim interaction only involves sliders and basic tab and button interaction. For those sims, this
  * content will be usable for the Dialog.
  *
@@ -10,7 +10,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import GeneralKeyboardHelpSection from './GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from './BasicActionsKeyboardHelpSection.js';
 import SliderKeyboardHelpSection from './SliderKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from './TwoColumnKeyboardHelpContent.js';
 
@@ -26,7 +26,7 @@ class SliderAndGeneralKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       // {null|*} - options passed to the SliderKeyboardHelpSection
       sliderSectionOptions: null,
 
-      // {null|*} - options passed to the GeneralKeyboardHelpSection
+      // {null|*} - options passed to the BasicActionsKeyboardHelpSection
       generalSectionOptions: null,
 
       // i18n, a bit shorter than default so general and slider sections fits side by side
@@ -34,9 +34,9 @@ class SliderAndGeneralKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     }, options );
 
     const sliderHelpSection = new SliderKeyboardHelpSection( options.sliderSectionOptions );
-    const generalNavigationHelpSection = new GeneralKeyboardHelpSection( options.generalSectionOptions );
+    const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( options.generalSectionOptions );
 
-    super( [ sliderHelpSection ], [ generalNavigationHelpSection ], options );
+    super( [ sliderHelpSection ], [ basicActionsHelpSection ], options );
   }
 }
 
