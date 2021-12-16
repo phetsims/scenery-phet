@@ -14,7 +14,7 @@ import BasicActionsKeyboardHelpSection from './BasicActionsKeyboardHelpSection.j
 import SliderControlsKeyboardHelpSection from './SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from './TwoColumnKeyboardHelpContent.js';
 
-class SliderAndGeneralKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   /**
    * @param {Object} [options]
@@ -40,5 +40,5 @@ class SliderAndGeneralKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   }
 }
 
-sceneryPhet.register( 'SliderAndGeneralKeyboardHelpContent', SliderAndGeneralKeyboardHelpContent );
-export default SliderAndGeneralKeyboardHelpContent;
+sceneryPhet.register( 'SliderControlsAndBasicActionsKeyboardHelpContent', SliderControlsAndBasicActionsKeyboardHelpContent );
+export default SliderControlsAndBasicActionsKeyboardHelpContent;
