@@ -122,7 +122,9 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
         adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
-    const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, keyboardHelpDialogDefaultStepsString );
+    const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, {
+      labelInnerContent: keyboardHelpDialogDefaultStepsString
+    } );
 
     const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsString,
       adjustSliderSmallerStepsIcons, {
@@ -136,15 +138,21 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     } );
-    const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbInLargerStepsString, pageUpPageDownIcon, keyboardHelpDialogLargerStepsString );
+    const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbInLargerStepsString, pageUpPageDownIcon, {
+      labelInnerContent: keyboardHelpDialogLargerStepsString
+    } );
 
     // 'move to minimum value' content
     const homeKeyNode = TextKeyNode.home();
-    const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( jumpToMinimumString, homeKeyNode, jumpToMinimumDescriptionString );
+    const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( jumpToMinimumString, homeKeyNode, {
+      labelInnerContent: jumpToMinimumDescriptionString
+    } );
 
     // 'move to maximum value' content
     const endKeyNode = TextKeyNode.end();
-    const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( jumpToMaximumString, endKeyNode, jumpToMaximumDescriptionString );
+    const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( jumpToMaximumString, endKeyNode, {
+      labelInnerContent: jumpToMaximumDescriptionString
+    } );
 
     // assemble final content for KeyboardHelpSection
     const content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];

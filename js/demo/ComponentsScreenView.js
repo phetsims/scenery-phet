@@ -1453,7 +1453,9 @@ function demoKeyNode( layoutBounds ) {
 // creates a demo for KeyboardHelp
 function demoKeyboardHelp( layoutBounds ) {
 
-  const labelWithIcon = KeyboardHelpSection.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), 'Label With Icon Hi' );
+  const labelWithIcon = KeyboardHelpSection.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), {
+    labelInnerContent: 'Label With Icon Hi'
+  } );
   const labelWithIconList = KeyboardHelpSection.labelWithIconList( 'Label With Icon List:', [
     new TextKeyNode( 'Hi' ),
     new TextKeyNode( 'Hello' ),
@@ -1463,11 +1465,17 @@ function demoKeyboardHelp( layoutBounds ) {
   } );
 
   const labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:',
-    KeyboardHelpIconFactory.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );
+    KeyboardHelpIconFactory.arrowKeysRowIcon(), {
+      labelInnerContent: 'Label with arrows, up, left, down, right'
+    } );
   const labelWithUpDownArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with up down arrows:',
-    KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), 'Label with up down arrows' );
+    KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
+      labelInnerContent: 'Label with up down arrows'
+    } );
   const labelWithLeftRightArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with left right arrows:',
-    KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), 'Label with left right arrows' );
+    KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), {
+      labelInnerContent: 'Label with left right arrows'
+    } );
 
   // Display all of the Help Contents. A custom one for the above components, and KeyboardHelpSection subtypes as well, each
   // in their own panel

@@ -179,16 +179,17 @@ class KeyboardHelpSection extends VBox {
    * @public
    *
    * @param {string} labelString - string for the label Text
-   * @param {../../../../scenery/js/nodes/Node} icon
-   * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog, use '' if not supporting description
+   * @param {Node} icon
    * @param {Object} [options]
    * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
-  static labelWithIcon( labelString, icon, labelInnerContent, options ) {
+  static labelWithIcon( labelString, icon, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
-    assert && assert( typeof labelInnerContent === 'string', 'labelInnerContent should be a string.' );
 
     options = merge( {
+
+      // {string|null} to provide the PDOM description of this row
+      labelInnerContent: null,
 
       // options passed for layout, passed to AlignGroup
       spacing: DEFAULT_LABEL_ICON_SPACING,
@@ -215,7 +216,7 @@ class KeyboardHelpSection extends VBox {
     assert && assert( !options.children, 'children are not optional' );
     assert && assert( !options.iconOptions.innerContent, 'should be specified as an parameter, see labelInnerContent' );
 
-    options.iconOptions.innerContent = labelInnerContent;
+    options.iconOptions.innerContent = options.labelInnerContent;
 
     const labelText = new RichText( labelString, options.labelOptions );
 
@@ -321,17 +322,18 @@ class KeyboardHelpSection extends VBox {
    *
    * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
    * @param {string} labelString - visual label
-   * @param {string} labelInnerContent - PDOM description, use '' if not supporting description
+   * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createJumpKeyRow( keyString, labelString, labelInnerContent ) {
+  static createJumpKeyRow( keyString, labelString, options ) {
 
     // Not translated because it maps directly to a specific key code.
     const jKey = new LetterKeyNode( 'J' );
     const otherKey = new LetterKeyNode( keyString );
 
     const jPlusOtherKey = KeyboardHelpIconFactory.iconPlusIcon( jKey, otherKey );
-    return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, labelInnerContent );
+
+    return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, options );
   }
 
   /**
@@ -339,12 +341,11 @@ class KeyboardHelpSection extends VBox {
    * @public
    *
    * @param {string} labelString - visual label string for the "Alt" + "K" icon
-   * @param labelInnerContent - description for screen readers in the PDOM
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createPlayPauseKeyRow( labelString, labelInnerContent, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'K' ), options );
+  static createPlayPauseKeyRow( labelString, options ) {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, new LetterKeyNode( 'K' ), options );
   }
 
   /**
@@ -352,12 +353,11 @@ class KeyboardHelpSection extends VBox {
    * @public
    *
    * @param {string} labelString
-   * @param {string} labelInnerContent
-   * @param {}options
+   * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createStepForwardKeyRow( labelString, labelInnerContent, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, labelInnerContent, new LetterKeyNode( 'L' ), options );
+  static createStepForwardKeyRow( labelString, options ) {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, new LetterKeyNode( 'L' ), options );
   }
 
   /**
@@ -366,16 +366,14 @@ class KeyboardHelpSection extends VBox {
    * @public
    *
    * @param {string} labelString - visual label in the row
-   * @param {string} labelInnerContent - label to be read by the screen reader
    * @param {Node} keyIcon - icon to be used in addition to AltKeyNode
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createGlobalHotkeyRow( labelString, labelInnerContent, keyIcon, options ) {
+  static createGlobalHotkeyRow( labelString, keyIcon, options ) {
     return KeyboardHelpSection.labelWithIcon(
       labelString,
       KeyboardHelpIconFactory.iconPlusIcon( TextKeyNode.alt(), keyIcon ),
-      labelInnerContent,
       options
     );
   }
@@ -434,7 +432,8 @@ class KeyboardHelpSection extends VBox {
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, descriptionString, {
+    const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, {
+      labelInnerContent: descriptionString,
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }

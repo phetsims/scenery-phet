@@ -45,17 +45,23 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
     // 'press buttons' content
     const spaceIcon = TextKeyNode.space();
-    const pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, keyboardHelpDialogPressButtonsDescriptionString );
+    const pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, {
+      labelInnerContent: keyboardHelpDialogPressButtonsDescriptionString
+    } );
 
     // 'exit a dialog' content
     const exitADialogIcon = TextKeyNode.esc();
-    const exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, keyboardHelpDialogExitDialogDescriptionString );
+    const exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, {
+      labelInnerContent: keyboardHelpDialogExitDialogDescriptionString
+    } );
 
     // 'toggle checkboxes' content
     let toggleCheckboxes = null;
     if ( options.withCheckboxContent ) {
       toggleCheckboxes = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TextKeyNode.space(),
-        toggleCheckboxesDescriptionString );
+        {
+          labelInnerContent: toggleCheckboxesDescriptionString
+        } );
     }
 
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
@@ -63,19 +69,25 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
     const moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon(
       keyboardHelpDialogMoveBetweenItemsInAGroupString,
       KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ),
-      keyboardHelpDialogGroupNavigationDescriptionString
+      {
+        labelInnerContent: keyboardHelpDialogGroupNavigationDescriptionString
+      }
     );
 
     const moveToNextItemRow = KeyboardHelpSection.labelWithIcon(
       keyboardHelpDialogMoveToNextItemOrGroupString,
       TextKeyNode.tab(),
-      keyboardHelpDialogTabGroupDescriptionString
+      {
+        labelInnerContent: keyboardHelpDialogTabGroupDescriptionString
+      }
     );
 
     const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon(
       keyboardHelpDialogMoveToPreviousItemOrGroupString,
       KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ),
-      keyboardHelpDialogShiftTabGroupDescriptionString
+      {
+        labelInnerContent: keyboardHelpDialogShiftTabGroupDescriptionString
+      }
     );
 
     const content = [

@@ -48,20 +48,24 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     } );
 
     const popUpList = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPattern ),
-      KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ),
-      fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescription ) );
+      KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ), {
+        labelInnerContent: fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescription )
+      } );
 
     const moveThrough = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPattern ),
-      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
-      fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescription ) );
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
+        labelInnerContent: fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescription )
+      } );
 
     const chooseNew = KeyboardHelpSection.labelWithIcon( fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPattern ),
-      TextKeyNode.enter(),
-      fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescription ) );
+      TextKeyNode.enter(), {
+        labelInnerContent: fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescription )
+      } );
 
     const closeWithoutChanging = KeyboardHelpSection.labelWithIcon( sceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChanging,
-      TextKeyNode.esc(),
-      sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescription );
+      TextKeyNode.esc(), {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescription
+      } );
 
     // order the rows of content
     super( options.headingString, [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
