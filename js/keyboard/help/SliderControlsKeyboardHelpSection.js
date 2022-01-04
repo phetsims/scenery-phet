@@ -125,7 +125,9 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
     const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, keyboardHelpDialogDefaultStepsString );
 
     const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsString,
-      adjustSliderSmallerStepsIcons, keyboardHelpDialogSmallerStepsString );
+      adjustSliderSmallerStepsIcons, {
+        labelInnerContent: keyboardHelpDialogSmallerStepsString
+      } );
 
     // 'move in larger steps' content
     const pageUpKeyNode = TextKeyNode.pageUp();

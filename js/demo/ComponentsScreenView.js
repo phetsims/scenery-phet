@@ -25,28 +25,7 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import Shape from '../../../kite/js/Shape.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
-import { FlowBox } from '../../../scenery/js/imports.js';
-import { GridBox } from '../../../scenery/js/imports.js';
-import { HeightSizable } from '../../../scenery/js/imports.js';
-import { ManualConstraint } from '../../../scenery/js/imports.js';
-import { WidthSizable } from '../../../scenery/js/imports.js';
-import { DragListener } from '../../../scenery/js/imports.js';
-import { KeyboardDragListener } from '../../../scenery/js/imports.js';
-import { SpriteListenable } from '../../../scenery/js/imports.js';
-import { Circle } from '../../../scenery/js/imports.js';
-import { HBox } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import { RichText } from '../../../scenery/js/imports.js';
-import { Sprites } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
-import { Color } from '../../../scenery/js/imports.js';
-import { NodeProperty } from '../../../scenery/js/imports.js';
-import { Sprite } from '../../../scenery/js/imports.js';
-import { SpriteImage } from '../../../scenery/js/imports.js';
-import { SpriteInstance } from '../../../scenery/js/imports.js';
+import { Circle, Color, DragListener, FlowBox, GridBox, HBox, HeightSizable, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
@@ -1479,7 +1458,9 @@ function demoKeyboardHelp( layoutBounds ) {
     new TextKeyNode( 'Hi' ),
     new TextKeyNode( 'Hello' ),
     new TextKeyNode( 'Ahoy\' Manatee' )
-  ], 'Label with icon list of hi, hello, Ahoy Manatee.' );
+  ], {
+    labelInnerContent: 'Label with icon list of hi, hello, Ahoy Manatee.'
+  } );
 
   const labelWithArrowKeysRowIcon = KeyboardHelpSection.labelWithIcon( 'Label with arrows:',
     KeyboardHelpIconFactory.arrowKeysRowIcon(), 'Label with arrows, up, left, down, right' );

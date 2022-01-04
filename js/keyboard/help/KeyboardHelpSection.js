@@ -180,7 +180,7 @@ class KeyboardHelpSection extends VBox {
    *
    * @param {string} labelString - string for the label Text
    * @param {../../../../scenery/js/nodes/Node} icon
-   * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog
+   * @param {string} labelInnerContent - required to have the PDOM description of this row in the dialog, use '' if not supporting description
    * @param {Object} [options]
    * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
@@ -244,15 +244,18 @@ class KeyboardHelpSection extends VBox {
    *
    * @param {string} labelString - string for the visible label RichText
    * @param {Node[]} icons
-   * @param {string} labelInnerContent - content for the parallel DOM, read by a screen reader
    * @param {Object} [options] - cannot pass in children
    *
    * @returns {HelpSectionRow} -  so KeyboardHelpSection can layout content groups
    */
-  static labelWithIconList( labelString, icons, labelInnerContent, options ) {
+  static labelWithIconList( labelString, icons, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
 
     options = merge( {
+
+      // {string|null} content for the parallel DOM, read by a screen reader
+      labelInnerContent: null,
+
       iconsVBoxOptions: {} // options for the iconsVBox, extended below
     }, options );
     assert && assert( !options.children, 'labelWithIconList adds its own children' );
@@ -262,7 +265,7 @@ class KeyboardHelpSection extends VBox {
       spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
       tagName: 'li',
-      innerContent: labelInnerContent,
+      innerContent: options.labelInnerContent,
 
       // voicing
       // {string} - Content for this icon that is read by the Voicing feature
@@ -318,7 +321,7 @@ class KeyboardHelpSection extends VBox {
    *
    * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
    * @param {string} labelString - visual label
-   * @param {string} labelInnerContent - PDOM description
+   * @param {string} labelInnerContent - PDOM description, use '' if not supporting description
    * @returns {HelpSectionRow}
    */
   static createJumpKeyRow( keyString, labelString, labelInnerContent ) {
