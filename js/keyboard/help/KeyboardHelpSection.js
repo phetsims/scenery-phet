@@ -19,6 +19,7 @@
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { AlignGroup, HBox, ReadingBlock, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js'; // eslint-disable-line
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
