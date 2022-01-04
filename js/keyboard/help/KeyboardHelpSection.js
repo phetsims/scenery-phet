@@ -319,7 +319,7 @@ class KeyboardHelpSection extends VBox {
    * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
    * @param {string} labelString - visual label
    * @param {string} labelInnerContent - PDOM description
-   * @returns {HBox}
+   * @returns {HelpSectionRow}
    */
   static createJumpKeyRow( keyString, labelString, labelInnerContent ) {
 
@@ -365,7 +365,7 @@ class KeyboardHelpSection extends VBox {
    * @param {string} labelString - visual label in the row
    * @param {string} labelInnerContent - label to be read by the screen reader
    * @param {Node} keyIcon - icon to be used in addition to AltKeyNode
-   * @param {object} options
+   * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
   static createGlobalHotkeyRow( labelString, labelInnerContent, keyIcon, options ) {
