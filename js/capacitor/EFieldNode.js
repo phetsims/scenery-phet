@@ -12,7 +12,7 @@
 //modules
 import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import Enumeration from '../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
 import { CanvasNode } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -20,7 +20,7 @@ import sceneryPhet from '../sceneryPhet.js';
 const ARROW_SIZE = new Dimension2( 6, 7 );
 const LINE_WIDTH = 1;
 const ARROW_COLOR = 'black';
-const ArrowDirection = Enumeration.byKeys( [ 'UP', 'DOWN' ] );
+const ArrowDirection = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN' ] );
 
 // determines spacing of electric field lines, chosen by inspection to match spacing from Java
 const SPACING_CONSTANT = 0.0258;

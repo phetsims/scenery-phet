@@ -7,10 +7,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import sceneryPhet from './sceneryPhet.js';
 
-const TimeSpeed = Enumeration.byKeys( [ 'FAST', 'NORMAL', 'SLOW' ] );
+const TimeSpeed = EnumerationDeprecated.byKeys( [ 'FAST', 'NORMAL', 'SLOW' ] );
 
 sceneryPhet.register( 'TimeSpeed', TimeSpeed );
 export default TimeSpeed;

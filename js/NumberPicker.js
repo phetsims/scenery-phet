@@ -16,7 +16,7 @@ import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../phet-core/js/merge.js';
 import { Color, FireListener, FocusHighlightPath, LinearGradient, Node, PaintColorProperty, Path, Rectangle, SceneryConstants, Text } from '../../scenery/js/imports.js';
 import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
@@ -29,7 +29,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
-const ButtonState = Enumeration.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
+const ButtonState = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 
 class NumberPicker extends Node {
 

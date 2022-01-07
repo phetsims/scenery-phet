@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../phet-core/js/merge.js';
 import MixedFractionNode from './MixedFractionNode.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -88,8 +88,8 @@ class PropertyFractionNode extends MixedFractionNode {
   }
 }
 
-// @public {Enumeration}
-PropertyFractionNode.DisplayType = Enumeration.byKeys( [
+// @public {EnumerationDeprecated}
+PropertyFractionNode.DisplayType = EnumerationDeprecated.byKeys( [
   'IMPROPER', // e.g. 3/2
   'MIXED' // e.g. 1 1/2
 ] );

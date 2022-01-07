@@ -7,7 +7,7 @@
  */
 
 import validate from '../../../../axon/js/validate.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
@@ -17,7 +17,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-const ArrowKeyIconDisplay = Enumeration.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
+const ArrowKeyIconDisplay = EnumerationDeprecated.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
 
 class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
 
