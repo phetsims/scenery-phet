@@ -61,7 +61,7 @@ class TimeControlNode extends Node {
 
     options = merge( {
 
-      // {EnumerationProperty.<TimeSpeed>|null} - Play speed Property for the radio button group. If null,
+      // {EnumerationDeprecatedProperty.<TimeSpeed>|null} - Play speed Property for the radio button group. If null,
       // no radio buttons included in this control.
       timeSpeedProperty: null,
 
@@ -397,7 +397,7 @@ class PlayPauseStepButtons extends HBox {
 class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
   /**
-   * @param {EnumerationProperty.<TimeSpeed>} timeSpeedProperty
+   * @param {EnumerationDeprecatedProperty.<TimeSpeed>} timeSpeedProperty
    * @param {TimeSpeed[]} timeSpeeds - array of speeds to be included in this button group
    * @param {Tandem} tandem
    * @param {Object} [options]

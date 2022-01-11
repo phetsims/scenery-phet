@@ -8,7 +8,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -149,8 +149,8 @@ class NumberPicker extends Node {
     //------------------------------------------------------------
     // Properties
 
-    const incrementButtonStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
-    const decrementButtonStateProperty = new EnumerationProperty( ButtonState, ButtonState.UP );
+    const incrementButtonStateProperty = new EnumerationDeprecatedProperty( ButtonState, ButtonState.UP );
+    const decrementButtonStateProperty = new EnumerationDeprecatedProperty( ButtonState, ButtonState.UP );
 
     // must be disposed
     const incrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.incrementEnabledFunction );
@@ -502,7 +502,7 @@ sceneryPhet.register( 'NumberPicker', NumberPicker );
 class NumberPickerInputListener extends FireListener {
 
   /**
-   * @param {EnumerationProperty.<ButtonState>} buttonStateProperty
+   * @param {EnumerationDeprecatedProperty.<ButtonState>} buttonStateProperty
    * @param {Object} [options]
    */
   constructor( buttonStateProperty, options ) {
