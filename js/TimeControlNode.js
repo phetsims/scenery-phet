@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * TimeControlNode provides a UI for controlling time.  It includes a play/pause button, step-forward button,
