@@ -50,7 +50,7 @@ class PlateChargeNode extends CanvasNode {
       canvasBounds: null // Bounds2|null
     }, options );
 
-    validate( options.orientation, { validValues: Orientation.VALUES } );
+    validate( options.orientation, { validValues: Orientation.enumeration.values } );
 
     super( { canvasBounds: options.canvasBounds } );
     const self = this; // extend scope for nested callbacks

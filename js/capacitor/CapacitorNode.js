@@ -41,7 +41,7 @@ class CapacitorNode extends Node {
     }, options );
     super();
 
-    validate( options.orientation, { validValues: Orientation.VALUES } );
+    validate( options.orientation, { validValues: Orientation.enumeration.values } );
 
     // @private
     this.capacitor = circuit.capacitor;
