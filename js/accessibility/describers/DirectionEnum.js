@@ -24,13 +24,7 @@ const DirectionEnum = EnumerationDeprecated.byKeys( [
   'DOWN_RIGHT'
 ], {
   beforeFreeze: DirectionEnum => {
-
-
-    /**
-     * @type {string[]} - the keys tha make up the enum
-     */
-    DirectionEnum.keys = Object.keys( DirectionEnum );
-
+    
     /**
      * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
      *
