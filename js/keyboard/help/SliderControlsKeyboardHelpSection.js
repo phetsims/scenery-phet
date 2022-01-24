@@ -7,7 +7,8 @@
  */
 
 import validate from '../../../../axon/js/validate.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
@@ -17,7 +18,13 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-const ArrowKeyIconDisplay = EnumerationDeprecated.byKeys( [ 'UP_DOWN', 'LEFT_RIGHT', 'BOTH' ] );
+class ArrowKeyIconDisplay extends EnumerationValue {
+  static UP_DOWN = new ArrowKeyIconDisplay();
+  static LEFT_RIGHT = new ArrowKeyIconDisplay();
+  static BOTH = new ArrowKeyIconDisplay();
+
+  static enumeration = new Enumeration( ArrowKeyIconDisplay );
+}
 
 class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
 
@@ -161,7 +168,7 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-// @public - for use in defining a component-specific option.
+// @public {ArrowKeyIconDisplay} - for use in defining a component-specific option.
 SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay = ArrowKeyIconDisplay;
 
 sceneryPhet.register( 'SliderControlsKeyboardHelpSection', SliderControlsKeyboardHelpSection );
