@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { KeyboardUtils } from '../../../../scenery/js/imports.js';
@@ -35,8 +36,8 @@ class BorderAlertsDescriber {
 
     options = merge( {
 
-      // {Bounds2} - The bounds that makes the border we alert when against
-      bounds: new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ),
+      // {Property<Bounds2>} - The bounds that makes the border we alert when against
+      boundsProperty: new Property( new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ) ),
 
       // {null|AlertableDef} At left edge, right edge, top, and bottom with values to alert if you reach that bound.
       // Pass in null if you don't want that border alerted. By default, if these are non-Utterances, they will be wrapped
@@ -64,7 +65,7 @@ class BorderAlertsDescriber {
     this.setDirectionUtterance( options.bottomAlert, DirectionEnum.DOWN, options.utteranceOptions );
 
     // @private
-    this.bounds = options.bounds; // The drag border
+    this.boundsProperty = options.boundsProperty; // The drag border
   }
 
   /**
@@ -108,22 +109,22 @@ class BorderAlertsDescriber {
     const bordersTouching = [];
 
     // at left now, but wasn't last position
-    if ( position.x === this.bounds.left ) {
+    if ( position.x === this.boundsProperty.value.left ) {
       bordersTouching.push( DirectionEnum.LEFT );
     }
 
     // at right now, but wasn't last position
-    if ( position.x === this.bounds.right ) {
+    if ( position.x === this.boundsProperty.value.right ) {
       bordersTouching.push( DirectionEnum.RIGHT );
     }
 
     // at top now, but wasn't last position
-    if ( position.y === this.bounds.top ) {
+    if ( position.y === this.boundsProperty.value.top ) {
       bordersTouching.push( DirectionEnum.UP );
     }
 
     // at bottom now, but wasn't last position
-    if ( position.y === this.bounds.bottom ) {
+    if ( position.y === this.boundsProperty.value.bottom ) {
       bordersTouching.push( DirectionEnum.DOWN );
     }
 
