@@ -46,7 +46,7 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
-class KeyboardHelpSection extends VBox {
+class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
   /**
    * @param {string} headingString - the translatable label for this content
@@ -141,8 +141,6 @@ class KeyboardHelpSection extends VBox {
     // @private {Node[]} - collection of icons in this section
     this.icons = icons;
 
-    // voicing - initialize this section as a ReadingBlock
-    this.initializeReadingBlock();
     this.readingBlockContent = this.generateReadingBlockContent();
   }
 
@@ -442,8 +440,6 @@ class KeyboardHelpSection extends VBox {
     return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
   }
 }
-
-ReadingBlock.compose( KeyboardHelpSection );
 
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
