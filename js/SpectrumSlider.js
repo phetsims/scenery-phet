@@ -25,7 +25,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
 
-class SpectrumSlider extends Node {
+class SpectrumSlider extends AccessibleSlider( Node ) {
 
   /**
    * @param {Property.<number>} valueProperty
@@ -93,7 +93,9 @@ class SpectrumSlider extends Node {
     // validate values
     assert && assert( options.minValue < options.maxValue );
 
-    super();
+    // mix accessible slider functionality into HSlider
+    const rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
+    super( valueProperty, rangeProperty, new BooleanProperty( true ), options );
 
     const track = new SpectrumNode( {
       valueToColor: options.valueToColor,
@@ -303,14 +305,8 @@ class SpectrumSlider extends Node {
       valueProperty.unlink( valueListener );
     };
 
-    // mix accessible slider functionality into HSlider
-    const rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
-    this.initializeAccessibleSlider( valueProperty, rangeProperty, new BooleanProperty( true ), options );
-
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
-
-    this.mutate( options );
   }
 
   /**
@@ -319,7 +315,6 @@ class SpectrumSlider extends Node {
    */
   dispose() {
     this.disposeSpectrumSlider();
-    this.disposeAccessibleSlider();
     super.dispose();
   }
 }
@@ -424,9 +419,6 @@ class Cursor extends Rectangle {
     super( -width / 2, 0, width, height, options );
   }
 }
-
-// mix accessibility in
-AccessibleSlider.mixInto( SpectrumSlider );
 
 sceneryPhet.register( 'SpectrumSlider', SpectrumSlider );
 export default SpectrumSlider;

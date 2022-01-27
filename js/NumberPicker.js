@@ -10,6 +10,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
+import EnabledProperty from '../../axon/js/EnabledProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
@@ -31,7 +32,7 @@ import sceneryPhet from './sceneryPhet.js';
 // constants
 const ButtonState = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 
-class NumberPicker extends Node {
+class NumberPicker extends AccessibleNumberSpinner( Node ) {
 
   /**
    * @param {Property.<number>} valueProperty
@@ -106,6 +107,9 @@ class NumberPicker extends Node {
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
+      // TODO: could this blow away some enabledPropertyOptions somewhere? `https://github.com/phetsims/scenery/issues/1340
+      enabledProperty: new EnabledProperty( true ),
+
       // {SoundPlayer} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
       // Use SoundPlayer.NO_SOUND to disable.
       valueChangedSoundPlayer: generalSoftClickSoundPlayer,
@@ -130,8 +134,6 @@ class NumberPicker extends Node {
       options.pressedColor = new DerivedProperty( [ colorProperty ], color => color.darkerColor() );
     }
 
-    super();
-
     // Overwrite the passed in change listener to make sure that sound implementation can't be blown away in the defaults.
     const passedInChangeListener = options.onChange;
     options.onChange = () => {
@@ -145,6 +147,18 @@ class NumberPicker extends Node {
         options.valueChangedSoundPlayer.play();
       }
     };
+
+    assert && assert( !options.keyboardStep, 'NumberPicker sets its own keyboardStep' );
+    assert && assert( !options.shiftKeyboardStep, 'NumberPicker sets its own shiftKeyboardStep' );
+
+    // AccessibleNumberSpinner options that depend on other options.
+    // Initialize accessibility features. This must reach into incrementFunction to get the delta.
+    // Both normal arrow and shift arrow keys use the delta computed with incrementFunction.
+    const keyboardStep = options.incrementFunction( valueProperty.get() ) - valueProperty.get();
+    options.keyboardStep = keyboardStep;
+    options.shiftKeyboardStep = keyboardStep;
+
+    super( valueProperty, rangeProperty, options.enabledProperty, options );
 
     //------------------------------------------------------------
     // Properties
@@ -391,14 +405,6 @@ class NumberPicker extends Node {
       } )
     );
 
-    // Initialize accessibility features. This must reach into incrementFunction to get the delta.
-    // Both normal arrow and shift arrow keys use the delta computed with incrementFunction.
-    const keyboardStep = options.incrementFunction( valueProperty.get() ) - valueProperty.get();
-    this.initializeAccessibleNumberSpinner( valueProperty, rangeProperty, this.enabledProperty, merge( {
-      keyboardStep: keyboardStep,
-      shiftKeyboardStep: keyboardStep
-    }, options ) );
-
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
     this.incrementDownEmitter.addListener( isDown => {
       incrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
@@ -406,8 +412,6 @@ class NumberPicker extends Node {
     this.decrementDownEmitter.addListener( isDown => {
       decrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
     } );
-
-    this.mutate( options );
 
     this.addLinkedElement( valueProperty, {
       tandem: options.tandem.createTandem( 'valueProperty' )
@@ -423,9 +427,6 @@ class NumberPicker extends Node {
       if ( valueProperty.hasListener( valueObserver ) ) {
         valueProperty.unlink( valueObserver );
       }
-
-      // pdom mixin
-      this.disposeAccessibleNumberSpinner();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -574,7 +575,5 @@ function updateColors( buttonState, enabled, background, arrow, backgroundColors
     arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
   }
 }
-
-AccessibleNumberSpinner.mixInto( NumberPicker );
 
 export default NumberPicker;

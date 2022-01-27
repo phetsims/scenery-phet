@@ -58,7 +58,7 @@ const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in faucetTrack_png
 const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in faucetBody_png, through which you see the shooter handle
 const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
 
-class FaucetNode extends Node {
+class FaucetNode extends AccessibleSlider( Node ) {
   /**
    *
    * @param {number} maxFlowRate
@@ -100,8 +100,6 @@ class FaucetNode extends Node {
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
-    super();
-
     // shooter
     const shooterNode = new ShooterNode( enabledProperty, options.shooterOptions );
 
@@ -130,6 +128,13 @@ class FaucetNode extends Node {
     const shooterWindowNode = new Rectangle( SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.minY,
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
+
+    super(
+      flowRateProperty,
+      new Property( new Range( 0, maxFlowRate ) ),
+      enabledProperty,
+      options
+    );
 
     // rendering order
     this.addChild( shooterWindowNode );
@@ -275,21 +280,11 @@ class FaucetNode extends Node {
     };
     enabledProperty.link( enabledObserver );
 
-    // mix accessible slider functionality into this node
-    this.initializeAccessibleSlider(
-      flowRateProperty,
-      new Property( new Range( 0, maxFlowRate ) ),
-      enabledProperty,
-      options
-    );
-
-    this.mutate( options );
-
     // flow rate control is visible only when the faucet is interactive
     const interactiveObserver = interactive => {
       shooterNode.visible = trackNode.visible = interactive;
 
-      // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after initializeAccessibleSlider()
+      // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after super() (to AccessibleSlider)
       this.tagName = interactive ? AccessibleValueHandler.DEFAULT_TAG_NAME : null;
     };
     options.interactiveProperty.link( interactiveObserver );
@@ -317,8 +312,6 @@ class FaucetNode extends Node {
       // Subcomponents
       dragListener.dispose();
       shooterNode.dispose();
-
-      this.disposeAccessibleSlider();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
@@ -334,9 +327,6 @@ class FaucetNode extends Node {
     super.dispose();
   }
 }
-
-// mix accessibility into FaucetNode
-AccessibleSlider.mixInto( FaucetNode );
 
 sceneryPhet.register( 'FaucetNode', FaucetNode );
 
