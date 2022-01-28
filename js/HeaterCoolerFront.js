@@ -89,7 +89,7 @@ class HeaterCoolerFront extends Node {
 
       // HeaterCoolerFront is sometimes instrumented as a parent component, and is sometimes a sub-compoent to
       // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
-      // instrumented tree. This doesn't effect the instrumentation of sub-components like the slider.
+      // instrumented tree. This doesn't affect the instrumentation of sub-components like the slider.
       phetioInstrument: true,
       phetioType: Node.NodeIO
     }, options );
