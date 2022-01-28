@@ -31,7 +31,7 @@ import sceneryPhet from './sceneryPhet.js';
 // constants
 const ButtonState = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
 
-class NumberPicker extends AccessibleNumberSpinner( Node ) {
+class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
 
   /**
    * @param {Property.<number>} valueProperty

@@ -24,7 +24,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
 
-class SpectrumSlider extends AccessibleSlider( Node ) {
+class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
   /**
    * @param {Property.<number>} valueProperty

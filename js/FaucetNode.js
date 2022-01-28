@@ -58,7 +58,7 @@ const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in faucetTrack_png
 const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in faucetBody_png, through which you see the shooter handle
 const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
 
-class FaucetNode extends AccessibleSlider( Node ) {
+class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
   /**
    *
