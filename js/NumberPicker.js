@@ -10,7 +10,6 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import EnabledProperty from '../../axon/js/EnabledProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
@@ -107,9 +106,6 @@ class NumberPicker extends AccessibleNumberSpinner( Node ) {
       // Opacity used to indicate disabled, [0,1] exclusive
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
-      // TODO: could this blow away some enabledPropertyOptions somewhere? `https://github.com/phetsims/scenery/issues/1340
-      enabledProperty: new EnabledProperty( true ),
-
       // {SoundPlayer} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
       // Use SoundPlayer.NO_SOUND to disable.
       valueChangedSoundPlayer: generalSoftClickSoundPlayer,
@@ -121,7 +117,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node ) {
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
-      // pdom (passed to AccessibleNumberSpinner)
+      // (passed to AccessibleNumberSpinner)
+      valueProperty: valueProperty,
+      enabledRangeProperty: rangeProperty,
       pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
     }, options );
 
@@ -158,7 +156,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node ) {
     options.keyboardStep = keyboardStep;
     options.shiftKeyboardStep = keyboardStep;
 
-    super( valueProperty, rangeProperty, options.enabledProperty, options );
+    super( options );
 
     //------------------------------------------------------------
     // Properties

@@ -8,7 +8,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
@@ -94,8 +93,13 @@ class SpectrumSlider extends AccessibleSlider( Node ) {
     assert && assert( options.minValue < options.maxValue );
 
     // mix accessible slider functionality into HSlider
-    const rangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
-    super( valueProperty, rangeProperty, new BooleanProperty( true ), options );
+    assert && assert( !options.valueProperty, 'SpectrumSlider sets its own valueProperty' );
+    options.valueProperty = valueProperty;
+
+    assert && assert( !options.enabledRangeProperty, 'SpectrumSlider sets its own enabledRangeProperty' );
+    options.enabledRangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
+
+    super( options );
 
     const track = new SpectrumNode( {
       valueToColor: options.valueToColor,

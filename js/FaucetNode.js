@@ -59,6 +59,7 @@ const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the wi
 const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
 
 class FaucetNode extends AccessibleSlider( Node ) {
+
   /**
    *
    * @param {number} maxFlowRate
@@ -93,6 +94,12 @@ class FaucetNode extends AccessibleSlider( Node ) {
         mouseAreaYDilation: 0
       },
 
+      // AccessibleSlider
+      valueProperty: flowRateProperty,
+      enabledRangeProperty: new Property( new Range( 0, maxFlowRate ) ),
+      enabledProperty: enabledProperty,
+
+      // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: FaucetNode.FaucetNodeIO,
       phetioEventType: EventType.USER
@@ -129,12 +136,7 @@ class FaucetNode extends AccessibleSlider( Node ) {
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
 
-    super(
-      flowRateProperty,
-      new Property( new Range( 0, maxFlowRate ) ),
-      enabledProperty,
-      options
-    );
+    super( options );
 
     // rendering order
     this.addChild( shooterWindowNode );
