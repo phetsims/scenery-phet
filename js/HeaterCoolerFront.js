@@ -156,6 +156,8 @@ class HeaterCoolerFront extends Node {
           setSliderToZero();
         }
       },
+      centerY: stoveBody.centerY,
+      right: stoveBody.right - DEFAULT_WIDTH / 8,
       tandem: options.tandem.createTandem( 'slider' )
     }, options.sliderOptions );
 
@@ -165,10 +167,6 @@ class HeaterCoolerFront extends Node {
       sliderRange,
       sliderOptions
     );
-
-    // TODO: positioning is broken because options are mutated before there are children, https://github.com/phetsims/scenery/issues/1340
-    this.slider.right = stoveBody.right - DEFAULT_WIDTH / 8;
-    this.slider.centerY = stoveBody.centerY;
 
     // Create the tick labels.
     const labelOptions = {

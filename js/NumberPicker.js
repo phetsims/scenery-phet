@@ -156,6 +156,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     options.keyboardStep = keyboardStep;
     options.shiftKeyboardStep = keyboardStep;
 
+    const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+
     super( options );
 
     //------------------------------------------------------------
@@ -414,6 +417,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     this.addLinkedElement( valueProperty, {
       tandem: options.tandem.createTandem( 'valueProperty' )
     } );
+
+    // Mutate options that require bounds after we have children
+    this.mutate( boundsRequiredOptionKeys );
 
     // @private
     this.disposeNumberPicker = () => {
