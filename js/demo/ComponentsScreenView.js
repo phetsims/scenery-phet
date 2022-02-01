@@ -922,7 +922,7 @@ function demoFlowBox( layoutBounds ) {
   const scene = new Node( { y: 50, scale: 0.8 } );
 
   const blockSizeProperty = new NumberProperty( 50, {
-    range: new Range( 50, 200 )
+    range: new Range( 50, 100 )
   } );
   const preferredSizeProperty = new NumberProperty( 500, {
     range: new Range( 200, 800 )
