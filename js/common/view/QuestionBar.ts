@@ -10,10 +10,15 @@
 import optionize from '../../../../phet-core/js/optionize.js';
 import centerAndSpread from '../../centerAndSpread.js';
 import StatusBar from '../../../../vegas/js/StatusBar.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import CASConstants from '../CASConstants.js';
 
-type QuestionBarSelfOptions = {};
+type QuestionBarSelfOptions = {
+  labelText: string
+};
 type StatusBarOptions = {}; // TODO: Add Options in StatusBar
 export type QuestionBarOptions = QuestionBarSelfOptions & Omit<StatusBarOptions, 'floatToTop'>
 
@@ -25,6 +30,19 @@ class QuestionBar extends StatusBar {
       floatToTop: true
     }, providedOptions );
     super( layoutBounds, boundsProperty, options );
+
+    const labelText = new Text( options.labelText, {
+      font: new PhetFont( {
+        weight: 'bold',
+        size: '18px'
+      } )
+    } );
+    this.addChild( labelText );
+
+    this.positioningBoundsProperty.link( bounds2 => {
+      labelText.centerY = bounds2.centerY;
+      labelText.left = CASConstants.SCREEN_VIEW_X_MARGIN;
+    } );
   }
 }
 
