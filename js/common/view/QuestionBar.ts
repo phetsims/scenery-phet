@@ -14,7 +14,6 @@ import { Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import CASConstants from '../CASConstants.js';
 
 type QuestionBarSelfOptions = {
   labelText: string
@@ -27,21 +26,22 @@ class QuestionBar extends StatusBar {
   constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
 
     const options = optionize<QuestionBarOptions>( {
-      floatToTop: true
+      floatToTop: true,
+      barHeight: 70
     }, providedOptions );
     super( layoutBounds, boundsProperty, options );
 
     const labelText = new Text( options.labelText, {
       font: new PhetFont( {
         weight: 'bold',
-        size: '18px'
+        size: '23px'
       } )
     } );
     this.addChild( labelText );
 
     this.positioningBoundsProperty.link( bounds2 => {
       labelText.centerY = bounds2.centerY;
-      labelText.left = CASConstants.SCREEN_VIEW_X_MARGIN;
+      labelText.left = 30;
     } );
   }
 }
