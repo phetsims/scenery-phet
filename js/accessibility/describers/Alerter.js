@@ -39,7 +39,7 @@ class Alerter {
   /**
    * Alert to both description and voicing utteranceQueues, depending on if both are supported by this instance
    * @public
-   * @param {AlertableDef} alertable
+   * @param {TAlertableDef} alertable
    */
   alert( alertable ) {
     this.alertToVoicing && voicingUtteranceQueue.addToBack( alertable );
@@ -48,7 +48,7 @@ class Alerter {
 
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.alertDescriptionUtterance() for details.
-   * @param {AlertableDef} alertable
+   * @param {TAlertableDef} alertable
    * @public
    */
   alertDescriptionUtterance( alertable ) {

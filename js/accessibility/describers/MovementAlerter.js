@@ -90,7 +90,7 @@ class MovementAlerter extends Alerter {
       // see BorderAlertsDescriber
       borderAlertsOptions: null,
 
-      // {Object.<DIRECTION, AlertableDef> see DirectionEnum for allowed keys. Any missing keys will not be alerted.
+      // {Object.<DIRECTION, TAlertableDef> see DirectionEnum for allowed keys. Any missing keys will not be alerted.
       // Use `{}` to omit movementAlerts.
       movementAlerts: DEFAULT_MOVEMENT_DESCRIPTIONS,
 
@@ -147,7 +147,7 @@ class MovementAlerter extends Alerter {
    * @public
    * @override
    *
-   * @param {AlertableDef} alertable - anything that can be passed to UtteranceQueue
+   * @param {TAlertableDef} alertable - anything that can be passed to UtteranceQueue
    */
   alert( alertable ) {
     super.alert( alertable );
