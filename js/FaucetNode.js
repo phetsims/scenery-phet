@@ -136,6 +136,9 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
       SHOOTER_WINDOW_BOUNDS.maxX - SHOOTER_WINDOW_BOUNDS.minX, SHOOTER_WINDOW_BOUNDS.maxY - SHOOTER_WINDOW_BOUNDS.minY,
       { fill: 'rgb(107,107,107)' } );
 
+    const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+
     super( options );
 
     // rendering order
@@ -281,6 +284,8 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
       }
     };
     enabledProperty.link( enabledObserver );
+
+    this.mutate( boundsRequiredOptionKeys );
 
     // flow rate control is visible only when the faucet is interactive
     const interactiveObserver = interactive => {

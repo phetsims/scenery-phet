@@ -99,6 +99,9 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && assert( !options.enabledRangeProperty, 'SpectrumSlider sets its own enabledRangeProperty' );
     options.enabledRangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
 
+    const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
+
     super( options );
 
     const track = new SpectrumNode( {
@@ -308,6 +311,8 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       minusButton && minusButton.dispose();
       valueProperty.unlink( valueListener );
     };
+
+    this.mutate( boundsRequiredOptionKeys );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );

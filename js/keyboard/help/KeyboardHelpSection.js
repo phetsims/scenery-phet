@@ -46,7 +46,7 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
-class KeyboardHelpSection extends ReadingBlock( VBox ) {
+class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
   /**
    * @param {string} headingString - the translatable label for this content
