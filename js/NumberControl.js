@@ -89,7 +89,8 @@ class NumberControl extends Node {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: NumberControl.NumberControlIO,
-      phetioEnabledPropertyInstrumented: true // opt into default PhET-iO instrumented enabledProperty
+      phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
+      visiblePropertyOptions: { phetioFeatured: true }
     }, options );
 
     // A groupFocusHighlight is only included if using arrowButtons. When there are arrowButtons it is important
@@ -163,11 +164,13 @@ class NumberControl extends Node {
       // Options propagated to NumberDisplay
       numberDisplayOptions: {
         textOptions: {
-          font: new PhetFont( 12 )
+          font: new PhetFont( 12 ),
+          textPropertyOptions: { phetioFeatured: true }
         },
 
         // phet-io
-        tandem: options.tandem.createTandem( 'numberDisplay' )
+        tandem: options.tandem.createTandem( 'numberDisplay' ),
+        visiblePropertyOptions: { phetioFeatured: true }
       },
 
       // Options propagated to the title Text Node
@@ -175,7 +178,8 @@ class NumberControl extends Node {
         font: new PhetFont( 12 ),
         maxWidth: null, // {null|number} maxWidth to use for title, to constrain width for i18n
         fill: 'black',
-        tandem: options.tandem.createTandem( 'titleNode' )
+        tandem: options.tandem.createTandem( 'titleNode' ),
+        textPropertyOptions: { phetioFeatured: true }
       }
     }, options );
 
