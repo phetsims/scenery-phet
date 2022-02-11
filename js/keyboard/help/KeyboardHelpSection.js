@@ -18,8 +18,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { AlignGroup, HBox, ReadingBlock, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js'; // eslint-disable-line no-unused-vars
+import { AlignGroup, HBox, Node, ReadingBlock, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -317,21 +316,23 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * Creates a row with one or more keys, with keys separated by '+'.
    * @public
    *
-   * @param {string[]} keyStrings
+   * @param {Array.<string|Node>} keys - if string, the icon Node will be created with LetterKeyNode
    * @param {string} labelString
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createKeysRow( keyStrings, labelString, options ) {
+  static createKeysRow( keys, labelString, options ) {
+    assert && assert( keys.length > 0, 'expected keys' );
     let keysNode = null;
-    for ( let i = 0; i < keyStrings.length; i++ ) {
-      const keyNode = new LetterKeyNode( keyStrings[ i ] );
-      if ( keysNode ) {
-        keysNode = KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode );
+    for ( let i = 0; i < keys.length; i++ ) {
+      let keyNode = keys[ i ];
+      if ( typeof keyNode === 'string' ) {
+        keyNode = new LetterKeyNode( keys[ i ] );
       }
-      else {
-        keysNode = keyNode;
-      }
+
+      assert && assert( keyNode instanceof Node, 'should be a Node icon now' );
+
+      keysNode = keysNode ? KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode ) : keyNode;
     }
     return KeyboardHelpSection.labelWithIcon( labelString, keysNode, options );
   }
@@ -359,7 +360,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @returns {HelpSectionRow}
    */
   static createPlayPauseKeyRow( labelString, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, new LetterKeyNode( 'K' ), options );
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'K', options );
   }
 
   /**
@@ -371,7 +372,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @returns {HelpSectionRow}
    */
   static createStepForwardKeyRow( labelString, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, new LetterKeyNode( 'L' ), options );
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'L', options );
   }
 
   /**
@@ -380,16 +381,12 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @public
    *
    * @param {string} labelString - visual label in the row
-   * @param {Node} keyIcon - icon to be used in addition to AltKeyNode
+   * @param {string|Node} key - Key to be used in addition to AltKeyNode.
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createGlobalHotkeyRow( labelString, keyIcon, options ) {
-    return KeyboardHelpSection.labelWithIcon(
-      labelString,
-      KeyboardHelpIconFactory.iconPlusIcon( TextKeyNode.alt(), keyIcon ),
-      options
-    );
+  static createGlobalHotkeyRow( labelString, keyString, options ) {
+    return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), keyString ], labelString, options );
   }
 
   /**
