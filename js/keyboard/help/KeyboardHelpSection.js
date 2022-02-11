@@ -314,6 +314,29 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
   }
 
   /**
+   * Creates a row with one or more keys, with keys separated by '+'.
+   * @public
+   *
+   * @param {string[]} keyStrings
+   * @param {string} labelString
+   * @param {Object} [options]
+   * @returns {HelpSectionRow}
+   */
+  static createKeysRow( keyStrings, labelString, options ) {
+    let keysNode = null;
+    for ( let i = 0; i < keyStrings.length; i++ ) {
+      const keyNode = new LetterKeyNode( keyStrings[ i ] );
+      if ( keysNode ) {
+        keysNode = KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode );
+      }
+      else {
+        keysNode = keyNode;
+      }
+    }
+    return KeyboardHelpSection.labelWithIcon( labelString, keysNode, options );
+  }
+
+  /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
    * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
    * @public
@@ -324,14 +347,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @returns {HelpSectionRow}
    */
   static createJumpKeyRow( keyString, labelString, options ) {
-
-    // Not translated because it maps directly to a specific key code.
-    const jKey = new LetterKeyNode( 'J' );
-    const otherKey = new LetterKeyNode( keyString );
-
-    const jPlusOtherKey = KeyboardHelpIconFactory.iconPlusIcon( jKey, otherKey );
-
-    return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, options );
+    return KeyboardHelpSection.createKeysRow( [ 'J', keyString ], labelString, options );
   }
 
   /**
