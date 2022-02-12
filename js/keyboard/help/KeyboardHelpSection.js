@@ -316,19 +316,29 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * Creates a row with one or more keys, with keys separated by '+'.
    * @public
    *
-   * @param {Array.<string|Node>} keys - if string, the icon Node will be created with LetterKeyNode
+   * @param {Array.<string>} keyStrings - each should be a letter key
    * @param {string} labelString
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
-  static createKeysRow( keys, labelString, options ) {
-    assert && assert( keys.length > 0, 'expected keys' );
+  static createKeysRowFromStrings( keyStrings, labelString, options ) {
+    return KeyboardHelpSection.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, options );
+  }
+
+  /**
+   * Creates a row with one or more keys, with keys separated by '+'.
+   * @public
+   *
+   * @param {Array.<Node>} keyIcons
+   * @param {string} labelString
+   * @param {Object} [options]
+   * @returns {HelpSectionRow}
+   */
+  static createKeysRow( keyIcons, labelString, options ) {
+    assert && assert( keyIcons.length > 0, 'expected keys' );
     let keysNode = null;
-    for ( let i = 0; i < keys.length; i++ ) {
-      let keyNode = keys[ i ];
-      if ( typeof keyNode === 'string' ) {
-        keyNode = new LetterKeyNode( keys[ i ] );
-      }
+    for ( let i = 0; i < keyIcons.length; i++ ) {
+      const keyNode = keyIcons[ i ];
 
       assert && assert( keyNode instanceof Node, 'should be a Node icon now' );
 
@@ -348,7 +358,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @returns {HelpSectionRow}
    */
   static createJumpKeyRow( keyString, labelString, options ) {
-    return KeyboardHelpSection.createKeysRow( [ 'J', keyString ], labelString, options );
+    return KeyboardHelpSection.createKeysRowFromStrings( [ 'J', keyString ], labelString, options );
   }
 
   /**
@@ -381,12 +391,12 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @public
    *
    * @param {string} labelString - visual label in the row
-   * @param {string|Node} key - Key to be used in addition to AltKeyNode.
+   * @param {string} keyString - Key to be used in addition to AltKeyNode.
    * @param {Object} [options]
    * @returns {HelpSectionRow}
    */
   static createGlobalHotkeyRow( labelString, keyString, options ) {
-    return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), keyString ], labelString, options );
+    return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, options );
   }
 
   /**
