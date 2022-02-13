@@ -9,7 +9,7 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import centerAndSpread from '../../centerAndSpread.js';
-import StatusBar from '../../../../vegas/js/StatusBar.js';
+import StatusBar, { StatusBarOptions } from '../../../../vegas/js/StatusBar.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
@@ -18,7 +18,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 type QuestionBarSelfOptions = {
   labelText: string
 };
-type StatusBarOptions = {}; // TODO: Add Options in StatusBar
 export type QuestionBarOptions = QuestionBarSelfOptions & Omit<StatusBarOptions, 'floatToTop'>
 
 class QuestionBar extends StatusBar {
