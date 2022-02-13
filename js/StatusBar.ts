@@ -8,27 +8,43 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Node } from '../../scenery/js/imports.js';
+import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import vegas from './vegas.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
 
+// Documented at optionize
+type StatusBarSelfOptions = {
+  barHeight?: number;
+  xMargin?: number;
+  yMargin?: number;
+  barFill?: ColorDef;
+  barStroke?: ColorDef,
+  floatToTop?: boolean,
+  dynamicAlignment?: boolean
+};
+export type StatusBarOptions = StatusBarSelfOptions & NodeOptions;
+
 class StatusBar extends Node {
+  readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
+  private readonly disposeStatusBar: () => void;
+  static DEFAULT_FONT: PhetFont;
 
   /**
-   * @param {Bounds2} layoutBounds
-   * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the parent ScreenView
-   * @param {Object} [options]
+   * @param layoutBounds
+   * @param visibleBoundsProperty - visible bounds of the parent ScreenView
+   * @param [providedOptions]
    */
-  constructor( layoutBounds, visibleBoundsProperty, options ) {
+  constructor( layoutBounds: Bounds2, visibleBoundsProperty: Property<Bounds2>, providedOptions?: StatusBarOptions ) {
 
-    options = merge( {
+    const options = optionize<StatusBarOptions, StatusBarSelfOptions, NodeOptions>( {
       barHeight: 50,
       xMargin: 10,
       yMargin: 8,
@@ -42,7 +58,7 @@ class StatusBar extends Node {
       // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
       // false: keeps things on the status bar aligned with left and right edges of layoutBounds
       dynamicAlignment: true
-    }, options );
+    }, providedOptions );
 
     // size will be set by visibleBoundsListener
     const barNode = new Rectangle( {
@@ -51,23 +67,25 @@ class StatusBar extends Node {
     } );
 
     // Support decoration, with the bar behind everything else
-    options.children = [ barNode ].concat( options.children || [] );
+    const rectangles: Node[] = [ barNode ];
+    options.children = rectangles.concat( options.children || [] );
 
     super( options );
 
     // @public (read-only) for layout of UI components on the status bar, compensated for margins
-    this.positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
+    const positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
       valueType: Bounds2
     } );
+    this.positioningBoundsProperty = positioningBoundsProperty;
 
-    const visibleBoundsListener = visibleBounds => {
+    const visibleBoundsListener = ( visibleBounds: Bounds2 ) => {
 
       // Resize and position the bar to match the visible bounds.
       const y = ( options.floatToTop ) ? visibleBounds.top : layoutBounds.top;
       barNode.setRect( visibleBounds.minX, y, visibleBounds.width, options.barHeight );
 
       // Update the bounds inside which components on the status bar should be positioned.
-      this.positioningBoundsProperty.value = new Bounds2(
+      positioningBoundsProperty.value = new Bounds2(
         ( ( options.dynamicAlignment ) ? barNode.left : layoutBounds.minX ) + options.xMargin,
         barNode.top,
         ( ( options.dynamicAlignment ) ? barNode.right : layoutBounds.maxX ) - options.xMargin,
@@ -76,7 +94,6 @@ class StatusBar extends Node {
     };
     visibleBoundsProperty.link( visibleBoundsListener );
 
-    // @private
     this.disposeStatusBar = () => {
       if ( visibleBoundsProperty.hasListener( visibleBoundsListener ) ) {
         visibleBoundsProperty.unlink( visibleBoundsListener );
@@ -84,17 +101,13 @@ class StatusBar extends Node {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  dispose(): void {
     this.disposeStatusBar();
     super.dispose();
   }
 }
 
-// @public Default font for things text that appears in the status bar subtypes
+// Default font for things text that appears in the status bar subtypes
 StatusBar.DEFAULT_FONT = DEFAULT_FONT;
 
 vegas.register( 'StatusBar', StatusBar );
