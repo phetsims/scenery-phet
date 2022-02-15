@@ -20,14 +20,11 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
    * @param {string} thingAsTitle - the item being changed by the combo box, capitalized as a title
    * @param {Object} [options]
    */
-  constructor( thingAsTitle, options ) {
-    assert && assert( typeof thingAsTitle === 'string' );
+  constructor( options ) {
 
     options = merge( {
 
-      headingString: StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseAThingPattern, {
-        thingTitle: thingAsTitle
-      } ),
+      headingString: sceneryPhetStrings.keyboardHelpDialog.comboBox.headingString,
 
       // the item being changed by the combo box, lower case as used in a sentence.
       thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.option,

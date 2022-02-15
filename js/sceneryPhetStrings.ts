@@ -75,7 +75,7 @@ type StringsType = {
     'grabOrReleaseHeadingPattern': string,
     'grabOrReleaseLabelPattern': string,
     'comboBox': {
-      'chooseAThingPattern': string,
+      'titleString': string,
       'popUpListPattern': string,
       'moveThroughPattern': string,
       'chooseNewPattern': string,
