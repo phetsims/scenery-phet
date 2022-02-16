@@ -1,7 +1,8 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * Help section for explaining how to use a keyboard to change a combo box.
+ * Help section for explaining how to use a keyboard to interact with a menu. This could be a ComboBox,
+ * PhETMenu, or any kind of pop-up menu.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -14,7 +15,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
+class MenuKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
    * @param {Object} [options]
@@ -69,5 +70,5 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-sceneryPhet.register( 'ComboBoxKeyboardHelpSection', ComboBoxKeyboardHelpSection );
-export default ComboBoxKeyboardHelpSection;
+sceneryPhet.register( 'MenuKeyboardHelpSection', MenuKeyboardHelpSection );
+export default MenuKeyboardHelpSection;
