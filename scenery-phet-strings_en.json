@@ -170,6 +170,9 @@
   "keyboardHelpDialog.grabOrReleaseLabelPattern": {
     "value": "Grab or release {{thing}}"
   },
+  "keyboardHelpDialog.comboBox.chooseAThingPattern": {
+    "value": "Choose a {{thingTitle}}"
+  },
   "keyboardHelpDialog.comboBox.headingString": {
     "value": "Use a Combo Box"
   },
