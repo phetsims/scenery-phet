@@ -17,13 +17,13 @@ import KeyboardHelpSection from './KeyboardHelpSection.js';
 class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
-   * @param {string} thingAsTitle - the item being changed by the combo box, capitalized as a title
    * @param {Object} [options]
    */
   constructor( options ) {
 
     options = merge( {
 
+      // Heading for the section, should be capitalized as a title
       headingString: sceneryPhetStrings.keyboardHelpDialog.comboBox.headingString,
 
       // the item being changed by the combo box, lower case as used in a sentence.
