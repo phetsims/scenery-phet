@@ -24,7 +24,7 @@ class QuestionBar extends StatusBar {
 
   constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
 
-    const options = optionize<QuestionBarOptions>( {
+    const options = optionize<QuestionBarOptions, {}>( {
       floatToTop: true,
       barHeight: 70
     }, providedOptions );
