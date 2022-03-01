@@ -59,6 +59,7 @@ import { animatedPanZoomSingleton } from '../../../scenery/js/imports.js';
 import { PressListener } from '../../../scenery/js/imports.js';
 import { Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import EnabledComponent from '../../../axon/js/EnabledComponent.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
@@ -74,7 +75,7 @@ const buttonString = sceneryPhetStrings.a11y.grabDrag.button;
 const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
 const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
 
-class GrabDragInteraction {
+class GrabDragInteraction extends EnabledComponent {
 
   /**
    * @param {Node} node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
@@ -157,6 +158,10 @@ class GrabDragInteraction {
         return true;
       },
 
+      // EnabledComponent
+      // By default, does not have an instrumented enabledProperty, but you can opt in with this option.
+      phetioEnabledPropertyInstrumented: false,
+
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
     }, options );
@@ -229,6 +234,8 @@ class GrabDragInteraction {
     assert && assert( !options.draggableOptions.accessibleName, 'GrabDragInteraction sets its own accessible name, see objectToGrabString' );
     assert && assert( !options.draggableOptions.innerContent, 'GrabDragInteraction sets its own innerContent, see objectToGrabString' );
     assert && assert( !options.draggableOptions.ariaLabel, 'GrabDragInteraction sets its own ariaLabel, see objectToGrabString' );
+
+    super( options );
 
     options.draggableOptions = merge( {
       tagName: 'div',
@@ -315,7 +322,7 @@ class GrabDragInteraction {
       }
     } );
 
-    // for both grabbing and dragging, the node with this interaction must be focusable
+    // for both grabbing and dragging, the node with this interaction must be focusable, except when disabled.
     this.node.focusable = true;
 
     assert && node.isVoicing && assert( node.voicingFocusListener === node.defaultFocusListener,
@@ -525,7 +532,7 @@ class GrabDragInteraction {
       // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
       // whether or not the pointer is already attached
       attach: false,
-
+      enabledProperty: this.enabledProperty,
       tandem: options.tandem.createTandem( 'pressListener' )
     } );
     this.node.addInputListener( this.pressListener );
@@ -538,6 +545,13 @@ class GrabDragInteraction {
 
     // Initialize the Node as a grabbable (button) to begin with
     this.turnToGrabbable();
+
+    this.enabledProperty.lazyLink( enabled => {
+      !enabled && this.interrupt();
+
+      // Disabled GrabDragInteractions will be unable to be interacted with.
+      this.node.focusable = enabled;
+    } );
 
     // @private
     this.disposeGrabDragInteraction = () => {
@@ -668,7 +682,7 @@ class GrabDragInteraction {
 
     // update the PDOM of the node
     this.node.mutate( optionsToMutate );
-    assert && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
+    assert && this.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
     this.addInputListeners( listenersToAdd );
 
