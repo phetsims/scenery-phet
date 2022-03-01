@@ -1924,7 +1924,8 @@ function getDemoGrabDragInteraction( tandem ) {
     } );
     rect.addInputListener( listener );
     const keyboardDragListener = new KeyboardDragListener( {
-      positionProperty: positionProperty
+      positionProperty: positionProperty,
+      tandem: tandem.createTandem( 'keyboardDragListener' )
     } );
     rect.addInputListener( keyboardDragListener );
 

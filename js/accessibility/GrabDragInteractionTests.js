@@ -40,7 +40,9 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   rootNode.addChild( a );
 
-  const keyboardDragListener = new KeyboardDragListener();
+  const keyboardDragListener = new KeyboardDragListener( {
+    tandem: Tandem.ROOT_TEST.createTandem( 'myKeyboardDragListener' )
+  } );
   const interaction = new GrabDragInteraction( a, keyboardDragListener, {
     tandem: Tandem.ROOT_TEST.createTandem( 'myGrabDragInteraction' ),
     objectToGrabString: thingString
