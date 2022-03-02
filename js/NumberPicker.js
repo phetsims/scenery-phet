@@ -111,6 +111,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       valueChangedSoundPlayer: generalSoftClickSoundPlayer,
       boundarySoundPlayer: generalBoundaryBoopSoundPlayer,
 
+      // voicing
+      voicingObjectResponse: () => valueProperty.value, // by default, just speak the value
+
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
@@ -331,6 +334,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       fire: event => {
         valueProperty.set( Math.min( options.incrementFunction( valueProperty.get() ), rangeProperty.get().max ) );
         options.onChange( event );
+
+        // voicing - speak the object/context responses on value change from user input
+        this.voicingSpeakFullResponse( { nameResponse: null, hintResponse: null } );
       }
     }, inputListenerOptions ) );
     incrementParent.addInputListener( this.incrementInputListener );
@@ -341,6 +347,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       fire: event => {
         valueProperty.set( Math.max( options.decrementFunction( valueProperty.get() ), rangeProperty.get().min ) );
         options.onChange( event );
+
+        // voicing - speak the object/context responses on value change from user input
+        this.voicingSpeakFullResponse( { nameResponse: null, hintResponse: null } );
       }
     }, inputListenerOptions ) );
     decrementParent.addInputListener( this.decrementInputListener );
