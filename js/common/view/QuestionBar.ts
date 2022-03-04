@@ -15,10 +15,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
-type QuestionBarSelfOptions = {
+type SelfOptions = {
   labelText: string
 };
-export type QuestionBarOptions = QuestionBarSelfOptions & Omit<StatusBarOptions, 'floatToTop'>
+export type QuestionBarOptions = SelfOptions & Omit<StatusBarOptions, 'floatToTop'>
 
 class QuestionBar extends StatusBar {
 
