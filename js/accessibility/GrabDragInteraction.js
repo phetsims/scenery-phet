@@ -148,7 +148,7 @@ class GrabDragInteraction extends EnabledComponent {
       // controls whether or not to show the "Grab" cue node that is displayed on focus - by
       // default it will be shown on focus until it has been successfully grabbed with a keyboard
       showGrabCueNode: () => {
-        return this.numberOfKeyboardGrabs < 1;
+        return this.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
 
       // whether or not to display the Node for the "Drag" cue node once the grabbable Node has been picked up,
@@ -553,10 +553,16 @@ class GrabDragInteraction extends EnabledComponent {
       this.node.focusable = enabled;
     } );
 
+    const boundUpdateVisibilityForCues = this.updateVisibilityForCues.bind( this );
+
+    this.node.inputEnabledProperty.lazyLink( boundUpdateVisibilityForCues );
+
     // @private
     this.disposeGrabDragInteraction = () => {
 
       this.node.removeInputListener( this.pressListener );
+      this.node.inputEnabledProperty.unlink( boundUpdateVisibilityForCues );
+
       keyboardDragListener.dragEmitter.removeListener( dragListener );
 
       // Remove listeners according to what state we are in
