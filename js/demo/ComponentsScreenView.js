@@ -22,7 +22,7 @@ import dotRandom from '../../../dot/js/dotRandom.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
-import Shape from '../../../kite/js/Shape.js';
+import { Shape } from '../../../kite/js/imports.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
 import { Circle, Color, DragListener, FlowBox, GridBox, HBox, HeightSizable, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';

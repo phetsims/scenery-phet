@@ -12,7 +12,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import Shape from '../../kite/js/Shape.js';
+import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';

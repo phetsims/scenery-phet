@@ -15,17 +15,10 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Ray2 from '../../dot/js/Ray2.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import EllipticalArc from '../../kite/js/segments/EllipticalArc.js';
-import Shape from '../../kite/js/Shape.js';
+import { EllipticalArc, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
-import { RadialGradient } from '../../scenery/js/imports.js';
+import { Circle, Line, LinearGradient, Node, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

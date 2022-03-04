@@ -10,7 +10,7 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import Shape from '../../../kite/js/Shape.js';
+import { Shape } from '../../../kite/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import YawPitchModelViewTransform3 from './YawPitchModelViewTransform3.js';
 

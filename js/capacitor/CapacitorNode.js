@@ -11,7 +11,7 @@
 import Property from '../../../axon/js/Property.js';
 import validate from '../../../axon/js/validate.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
-import Shape from '../../../kite/js/Shape.js';
+import { Shape } from '../../../kite/js/imports.js';
 import merge from '../../../phet-core/js/merge.js';
 import Orientation from '../../../phet-core/js/Orientation.js';
 import { Node } from '../../../scenery/js/imports.js';

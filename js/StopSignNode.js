@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Shape from '../../kite/js/Shape.js';
+import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';

@@ -10,7 +10,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import Shape from '../../kite/js/Shape.js';
+import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
