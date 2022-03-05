@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Mostly like a normal Rectangle (Node), but instead of a hard transition from "in" to "out", it has a defined region

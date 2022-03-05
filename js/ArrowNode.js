@@ -1,4 +1,4 @@
-// Copyright 2013-2021, University of Colorado Boulder
+// Copyright 2013-2022, University of Colorado Boulder
 
 /**
  * A single- or double-headed arrow. This is a convenience class, most of the work is done in ArrowShape.
