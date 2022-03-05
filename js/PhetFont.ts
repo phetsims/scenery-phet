@@ -12,21 +12,25 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import { Font } from '../../scenery/js/imports.js';
+import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class PhetFont extends Font {
 
   /**
-   * @param {number|string|Object} [options] number or string indicate the font size, otherwise same options as scenery.Font
+   * @param [options] number or string indicate the font size, otherwise same options as scenery.Font
    */
-  constructor( options ) {
+  constructor( providedOptions?: number | string | FontOptions ) {
 
     assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
 
     // convenience constructor: new PhetFont( {number|string} size )
-    if ( typeof options === 'number' || typeof options === 'string' ) {
-      options = { size: options };
+    let options: FontOptions;
+    if ( typeof providedOptions === 'number' || typeof providedOptions === 'string' ) {
+      options = { size: providedOptions };
+    }
+    else {
+      options = providedOptions || {};
     }
 
     // PhET defaults

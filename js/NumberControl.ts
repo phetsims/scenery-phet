@@ -62,7 +62,7 @@ type SelfOptions = {
   // Subcomponent options objects
   numberDisplayOptions?: NumberDisplayOptions;
   sliderOptions?: SliderOptions;
-  arrowButtonOptions?: ArrowButtonOptions;
+  arrowButtonOptions?: ArrowButtonOptions & { enabledEpsilon?: number }; // We stuffed enabledEpsilon here
   titleNodeOptions?: TextOptions;
 
   // If provided, this will be provided to the slider and arrow buttons in order to
