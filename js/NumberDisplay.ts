@@ -6,10 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Node } from '../../scenery/js/imports.js';
+import { Font, IPaint, Node, NodeOptions, RichTextOptions, TextOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import { RichText } from '../../scenery/js/imports.js';
 import { Text } from '../../scenery/js/imports.js';
@@ -24,45 +27,81 @@ import sceneryPhet from './sceneryPhet.js';
 const DEFAULT_FONT = new PhetFont( 20 );
 
 // valid values for options.align and options.noValueAlign
-const ALIGN_VALUES = [ 'center', 'left', 'right' ];
+const ALIGN_VALUES = [ 'center', 'left', 'right' ] as const;
+type NumberDisplayAlign = typeof ALIGN_VALUES[number];
 
 const DEFAULT_DECIMAL_PLACES = 0;
 
+type NumberFormatter = ( n: number ) => string;
+type NumberFormatterOption = NumberFormatter | null;
+
+type SelfOptions = {
+  // see ALIGN_VALUES
+  align?: NumberDisplayAlign;
+
+  // Pattern used to format the value.
+  // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
+  valuePattern?: string;
+
+  // The number of decimal places to show. If null, the full value is displayed.
+  // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
+  // See https://github.com/phetsims/scenery-phet/issues/511
+  decimalPlaces?: number | null;
+
+  // Takes a {number} and returns a {string} for full control. Mutually exclusive with valuePattern and
+  // decimalPlaces.  Named "numberFormatter" instead of "formatter" to help clarify that it is separate from the
+  // noValueString/Align/Pattern defined below.
+  numberFormatter?: ( ( n: number ) => string ) | null;
+
+  useRichText?: boolean;
+
+  // If set to true, the smaller text height (from applying the maxWidth) will NOT be used, and instead
+  // the height of the text (as if there was no maxWidth) will be used for layout and the background.
+  // See https://github.com/phetsims/density/issues/34.
+  useFullHeight?: boolean;
+
+  // // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
+  textOptions?: TextOptions | RichTextOptions;
+
+  xMargin?: number;
+  yMargin?: number;
+  cornerRadius?: number;
+  backgroundFill?: IPaint;
+  backgroundStroke?: IPaint;
+  backgroundLineWidth?: number;
+  backgroundLineDash?: number[];
+  minBackgroundWidth?: number;
+
+  // options related to display when numberProperty.value === null
+  noValueString?: string; // default is the PhET standard, do not override lightly.
+  noValueAlign?: NumberDisplayAlign | null; // see ALIGN_VALUES. If null, defaults to options.align
+  noValuePattern?: string | null; // If null, defaults to options.valuePattern
+};
+export type NumberDisplayOptions = SelfOptions & NodeOptions;
+
 class NumberDisplay extends Node {
 
+  private numberFormatter: ( ( n: number ) => string ) | null;
+  private valueText: RichText | Text;
+  private backgroundNode: Rectangle;
+  private _recomputeText: () => void;
+  private disposeNumberDisplay: () => void; // called by dispose
+
   /**
-   * @param {Property.<number|null>} numberProperty
-   * @param {../dot/Range} displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
-   *                             - the display width. It is unrelated to the range of numberProperty.
-   * @param {Object} [options]
+   * @param numberProperty
+   * @param displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
+   *                     - the display width. It is unrelated to the range of numberProperty.
+   * @param [options]
    */
-  constructor( numberProperty, displayRange, options ) {
+  constructor( numberProperty: IReadOnlyProperty<number | null>, displayRange: Range, providedOptions?: NumberDisplayOptions ) {
 
-    options = merge( {
-      align: 'right', // see ALIGN_VALUES
-
-      // {string} Pattern used to format the value.
-      // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
+    const options = optionize<NumberDisplayOptions, SelfOptions, NodeOptions, 'tandem'>( {
+      align: 'right',
       valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
-
-      // {number|null} the number of decimal places to show. If null, the full value is displayed.
-      // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
-      // See https://github.com/phetsims/scenery-phet/issues/511
       decimalPlaces: DEFAULT_DECIMAL_PLACES,
-
-      // {function} Takes a {number} and returns a {string} for full control. Mutually exclusive with valuePattern and
-      // decimalPlaces.  Named "numberFormatter" instead of "formatter" to help clarify that it is separate from the
-      // noValueString/Align/Pattern defined below.
       numberFormatter: null,
-
       useRichText: false,
-
-      // {boolean} - If set to true, the smaller text height (from applying the maxWidth) will NOT be used, and instead
-      // the height of the text (as if there was no maxWidth) will be used for layout and the background.
-      // See https://github.com/phetsims/density/issues/34.
       useFullHeight: false,
-
-      // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
       textOptions: {
         font: DEFAULT_FONT,
         fill: 'black',
@@ -79,15 +118,14 @@ class NumberDisplay extends Node {
       backgroundLineDash: [],
       minBackgroundWidth: 0,
 
-      // options related to display when numberProperty.value === null
-      noValueString: MathSymbols.NO_VALUE, // {string} default is the PhET standard, do not override lightly.
-      noValueAlign: null, // {string|null} see ALIGN_VALUES. If null, defaults to options.align
-      noValuePattern: null, // {string|null} If null, defaults to options.valuePattern
+      noValueString: MathSymbols.NO_VALUE,
+      noValueAlign: null,
+      noValuePattern: null,
 
       // phet-io
       tandem: Tandem.OPTIONAL,
       phetioType: NumberDisplay.NumberDisplayIO
-    }, options );
+    }, providedOptions );
 
     // valuePattern|decimalPlaces is mutually exclusive with numberFormatter
     if ( assert ) {
@@ -116,6 +154,7 @@ class NumberDisplay extends Node {
     if ( options.valuePattern.indexOf( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) !== -1 ) {
       options.valuePattern = StringUtils.format( options.valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
     }
+    // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
       `missing value placeholder in options.valuePattern: ${options.valuePattern}` );
@@ -124,6 +163,7 @@ class NumberDisplay extends Node {
     if ( !options.noValuePattern ) {
       options.noValuePattern = options.valuePattern;
     }
+    // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
       `missing value placeholder in options.noValuePattern: ${options.noValuePattern}` );
@@ -137,7 +177,7 @@ class NumberDisplay extends Node {
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
-    const valueText = new Constructor( longestString, merge( {
+    const valueText: Text | RichText = new Constructor( longestString, merge( {
       tandem: options.tandem.createTandem( 'valueText' )
     }, options.textOptions, {
       maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.
@@ -146,7 +186,7 @@ class NumberDisplay extends Node {
     const originalTextHeight = valueText.height;
 
     // Manually set maxWidth later, adjusting it to the width of the longest string if it's null
-    valueText.maxWidth = options.textOptions.maxWidth === null ? valueText.width : options.textOptions.maxWidth;
+    valueText.maxWidth = options.textOptions.maxWidth === null ? valueText.width : options.textOptions.maxWidth!;
 
     const backgroundWidth = Math.max( options.minBackgroundWidth, valueText.width + 2 * options.xMargin );
     const backgroundHeight = ( options.useFullHeight ? originalTextHeight : valueText.height ) + 2 * options.yMargin;
@@ -164,12 +204,11 @@ class NumberDisplay extends Node {
 
     super();
 
-    // @private
     this.numberFormatter = options.numberFormatter;
 
     // Display the value.
-    const numberObserver = value => {
-      const valuePattern = ( value === null ) ? options.noValuePattern : options.valuePattern;
+    const numberObserver = ( value: number | null ) => {
+      const valuePattern = ( value === null && options.noValuePattern ) ? options.noValuePattern : options.valuePattern;
       const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, this.numberFormatter );
       valueText.text = StringUtils.fillIn( valuePattern, {
         value: stringValue
@@ -200,34 +239,23 @@ class NumberDisplay extends Node {
 
     this.mutate( options );
 
-    // @private
     this.valueText = valueText;
-
-    // @private
     this.backgroundNode = backgroundNode;
 
-    // @private
     this._recomputeText = () => numberObserver( numberProperty.value );
-
-    // @private called by dispose
     this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
   }
 
-  /**
-   * @param {function(number):string} numberFormatter
-   * @public
-   */
-  setNumberFormatter( numberFormatter ) {
+  setNumberFormatter( numberFormatter: ( n: number ) => string ) {
     this.numberFormatter = numberFormatter;
     this.recomputeText();
   }
 
-  // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
+  // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
   recomputeText() {
     this._recomputeText();
   }
 
-  // @public
   dispose() {
     this.disposeNumberDisplay();
     super.dispose();
@@ -235,74 +263,65 @@ class NumberDisplay extends Node {
 
   /**
    * Sets the number text font.
-   * @param {Font} font
-   * @public
    */
-  setNumberFont( font ) {
+  setNumberFont( font: Font ) {
     this.valueText.font = font;
   }
 
-  set numberFont( value ) { this.setNumberFont( value ); }
+  set numberFont( value: Font ) { this.setNumberFont( value ); }
 
   /**
    * Sets the number text fill.
-   * @param {ColorDef} fill
-   * @public
    */
-  setNumberFill( fill ) {
+  setNumberFill( fill: IPaint ) {
     this.valueText.fill = fill;
   }
 
-  set numberFill( value ) { this.setNumberFill( value ); }
+  set numberFill( value: IPaint ) { this.setNumberFill( value ); }
 
   /**
    * Sets the background fill.
-   * @param {ColorDef} fill
-   * @public
    */
-  setBackgroundFill( fill ) {
+  setBackgroundFill( fill: IPaint ) {
     this.backgroundNode.fill = fill;
   }
 
-  set backgroundFill( value ) { this.setBackgroundFill( value ); }
+  set backgroundFill( value: IPaint ) { this.setBackgroundFill( value ); }
 
   /**
    * Gets the background fill.
-   * @returns {ColorDef}
-   * @public
    */
-  getBackgroundFill() {
+  getBackgroundFill(): IPaint {
     return this.backgroundNode.fill;
   }
 
-  get backgroundFill() {
+  get backgroundFill(): IPaint {
     return this.getBackgroundFill();
   }
 
   /**
    * Sets the background stroke.
-   * @param {ColorDef} stroke
-   * @public
    */
-  setBackgroundStroke( stroke ) {
+  setBackgroundStroke( stroke: IPaint ) {
     this.backgroundNode.stroke = stroke;
   }
 
-  set backgroundStroke( value ) { this.setBackgroundStroke( value ); }
+  set backgroundStroke( value: IPaint ) { this.setBackgroundStroke( value ); }
 
+  static NumberDisplayIO: IOType;
 }
 
 sceneryPhet.register( 'NumberDisplay', NumberDisplay );
 
 /**
  * Converts a numeric value to a string.
- * @param {number|null} value
- * @param {number|null} decimalPlaces - if null, use the full value
- * @param {string} noValueString
- * @param {function|null} numberFormatter - if provided, function that converts {number} => {string}
+ * @param value
+ * @param decimalPlaces - if null, use the full value
+ * @param noValueString
+ * @param numberFormatter - if provided, function that converts {number} => {string}
  * @returns {*|string}
  */
-const valueToString = ( value, decimalPlaces, noValueString, numberFormatter ) => {
+const valueToString = <S extends number | null>( value: S, decimalPlaces: number | null, noValueString: string, numberFormatter: NumberFormatterOption ): ( S extends null ? ( string | null ) : string ) => {
   let stringValue = noValueString;
   if ( value !== null ) {
     if ( numberFormatter ) {

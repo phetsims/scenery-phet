@@ -15,23 +15,21 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { AlignBox } from '../../scenery/js/imports.js';
-import { AlignGroup } from '../../scenery/js/imports.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
-import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { AlignBox, AlignGroup, HBox, LayoutBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
+import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
-import Slider from '../../sun/js/Slider.js';
-// For TypeScript support
-import Range from '../../dot/js/Range.js'; // eslint-disable-line no-unused-vars
+import Slider, { SliderOptions } from '../../sun/js/Slider.js';
+import Range from '../../dot/js/Range.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
-import NumberDisplay from './NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import IProperty from '../../axon/js/IProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import IntentionalAny from '../../phet-core/js/IntentionalAny.js';
+import { PickRequired } from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -42,28 +40,60 @@ const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
   'rightStart',
   'rightEnd'
 ];
-const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ];
+const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ] as const;
+
+type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
+
+type SelfOptions = {
+  // called when interaction begins, default value set in validateCallbacks()
+  startCallback?: ( event: Event ) => void;
+
+  // called when interaction ends, default value set in validateCallbacks()
+  endCallback?: ( event: Event ) => void;
+
+  delta?: number;
+
+  // opacity used to make the control look disabled
+  disabledOpacity?: number;
+
+  // If set to true, then increment/decrement arrow buttons will be added to the NumberControl
+  includeArrowButtons?: boolean;
+
+  // Subcomponent options objects
+  numberDisplayOptions?: NumberDisplayOptions;
+  sliderOptions?: SliderOptions;
+  arrowButtonOptions?: ArrowButtonOptions;
+  titleNodeOptions?: TextOptions;
+
+  // If provided, this will be provided to the slider and arrow buttons in order to
+  // constrain the range of actual values to within this range.
+  enabledRangeProperty?: IReadOnlyProperty<Range> | null;
+
+  // A {function} that handles layout of subcomponents.
+  // It has signature function( titleNode, numberDisplay, slider, decrementButton, incrementButton )
+  // and returns a Node. If you want to customize the layout, use one of the predefined creators
+  // (see createLayoutFunction*) or create your own function. Arrow buttons will be null if `includeArrowButtons:false`
+  layoutFunction?: LayoutFunction;
+};
+
+export type NumberControlOptions = SelfOptions & NodeOptions;
 
 class NumberControl extends Node {
 
-  /**
-   * @param {string} title
-   * @param {Property.<number>} numberProperty
-   * @param {Range} numberRange
-   * @param {Object} [options] - subcomponent options objects:
-   *                               sliderOptions,
-   *                               numberDisplayOptions,
-   *                               arrowButtonOptions,
-   *                               titleNodeOptions
-   */
-  constructor( title, numberProperty, numberRange, options ) {
+  slider: HSlider; // for a11y API
+
+  private thumbFillProperty?: PaintColorProperty;
+  private numberDisplay: NumberDisplay;
+  private disposeNumberControl: () => void;
+
+  constructor( title: string, numberProperty: IProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
-    validateCallbacks( options || {} );
+    validateCallbacks( providedOptions || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    options = merge( {
+    const initialOptions = optionize<NumberControlOptions, Omit<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions, 'tandem' >( {
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()
@@ -91,23 +121,23 @@ class NumberControl extends Node {
       phetioType: NumberControl.NumberControlIO,
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
       visiblePropertyOptions: { phetioFeatured: true }
-    }, options );
+    }, providedOptions );
 
     // A groupFocusHighlight is only included if using arrowButtons. When there are arrowButtons it is important
     // to indicate that the whole control is only one stop in the traversal order. This is set by NumberControl.
-    assert && assert( options.groupFocusHighlight === undefined, 'NumberControl sets groupFocusHighlight' );
+    assert && assert( initialOptions.groupFocusHighlight === undefined, 'NumberControl sets groupFocusHighlight' );
 
     super();
 
     // If the arrow button scale is not provided, the arrow button height will match the number display height
-    const arrowButtonScaleProvided = options.arrowButtonOptions && options.arrowButtonOptions.hasOwnProperty( 'scale' );
+    const arrowButtonScaleProvided = initialOptions.arrowButtonOptions && initialOptions.arrowButtonOptions.hasOwnProperty( 'scale' );
 
     const getCurrentRange = () => {
       return options.enabledRangeProperty ? options.enabledRangeProperty.value : numberRange;
     };
 
     // Merge all nested options in one block.
-    options = merge( {
+    const options = merge( {
 
       // Options propagated to ArrowButton
       arrowButtonOptions: {
@@ -124,10 +154,10 @@ class NumberControl extends Node {
         enabledEpsilon: 0,
 
         // callbacks
-        leftStart: options.startCallback, // called when left arrow is pressed
-        leftEnd: options.endCallback, // called when left arrow is released
-        rightStart: options.startCallback, // called when right arrow is pressed
-        rightEnd: options.endCallback, // called when right arrow is released
+        leftStart: initialOptions.startCallback, // called when left arrow is pressed
+        leftEnd: initialOptions.endCallback, // called when left arrow is released
+        rightStart: initialOptions.startCallback, // called when right arrow is pressed
+        rightEnd: initialOptions.endCallback, // called when right arrow is released
 
         // phet-io
         enabledPropertyOptions: {
@@ -138,8 +168,8 @@ class NumberControl extends Node {
 
       // Options propagated to HSlider
       sliderOptions: {
-        startDrag: options.startCallback, // called when dragging starts on the slider
-        endDrag: options.endCallback, // called when dragging ends on the slider
+        startDrag: initialOptions.startCallback, // called when dragging starts on the slider
+        endDrag: initialOptions.endCallback, // called when dragging ends on the slider
 
         // With the exception of startDrag and endDrag (use startCallback and endCallback respectively),
         // all HSlider options may be used. These are the ones that NumberControl overrides:
@@ -147,18 +177,19 @@ class NumberControl extends Node {
         minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
 
         // other slider options that are specific to NumberControl
+        // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
         majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
         minorTickSpacing: 0, // zero indicates no minor ticks
 
         // constrain the slider value to the provided range and the same delta as the arrow buttons,
         // see https://github.com/phetsims/scenery-phet/issues/384
-        constrainValue: value => {
+        constrainValue: ( value: number ) => {
           const newValue = Utils.roundToInterval( value, options.delta );
           return getCurrentRange().constrainValue( newValue );
         },
 
         // phet-io
-        tandem: options.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME )
+        tandem: initialOptions.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME )
       },
 
       // Options propagated to NumberDisplay
@@ -169,7 +200,7 @@ class NumberControl extends Node {
         },
 
         // phet-io
-        tandem: options.tandem.createTandem( 'numberDisplay' ),
+        tandem: initialOptions.tandem.createTandem( 'numberDisplay' ),
         visiblePropertyOptions: { phetioFeatured: true }
       },
 
@@ -178,14 +209,14 @@ class NumberControl extends Node {
         font: new PhetFont( 12 ),
         maxWidth: null, // {null|number} maxWidth to use for title, to constrain width for i18n
         fill: 'black',
-        tandem: options.tandem.createTandem( 'titleNode' ),
+        tandem: initialOptions.tandem.createTandem( 'titleNode' ),
         textPropertyOptions: { phetioFeatured: true }
       }
-    }, options );
+    }, initialOptions );
 
     // validate options
-    assert && assert( !options.startDrag, 'use options.startCallback instead of options.startDrag' );
-    assert && assert( !options.endDrag, 'use options.endCallback instead of options.endDrag' );
+    assert && assert( !( options as IntentionalAny ).startDrag, 'use options.startCallback instead of options.startDrag' );
+    assert && assert( !( options as IntentionalAny ).endDrag, 'use options.endCallback instead of options.endDrag' );
     assert && assert( !options.tagName,
       'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
@@ -196,7 +227,8 @@ class NumberControl extends Node {
     // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
     // And do not propagate those options to ArrowButton instances.
-    const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
+    const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES ) as PickRequired<ArrowButtonOptions, typeof POINTER_AREA_OPTION_NAMES[number]>;
+    // @ts-ignore How to handle this?
     options.arrowButtonOptions = _.omit( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
 
     // pdom - for alternative input, the number control is accessed entirely through slider interaction and these
@@ -251,13 +283,12 @@ class NumberControl extends Node {
 
     const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
-    // @public {HSlider} - for access to accessibility API
     this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
 
     // set below, see options.includeArrowButtons
-    let decrementButton = null;
-    let incrementButton = null;
-    let arrowEnabledListener = null;
+    let decrementButton: ArrowButton | null = null;
+    let incrementButton: ArrowButton | null = null;
+    let arrowEnabledListener: ( () => void ) | null = null;
 
     if ( options.includeArrowButtons ) {
 
@@ -321,8 +352,8 @@ class NumberControl extends Node {
       // Disable the arrow buttons if the slider currently has focus
       arrowEnabledListener = () => {
         const value = numberProperty.value;
-        decrementButton.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
-        incrementButton.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
+        decrementButton!.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
+        incrementButton!.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
       };
       numberProperty.lazyLink( arrowEnabledListener );
       options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
@@ -330,15 +361,16 @@ class NumberControl extends Node {
 
       this.slider.addInputListener( {
         focus: () => {
-          decrementButton.enabled = false;
-          incrementButton.enabled = false;
+          decrementButton!.enabled = false;
+          incrementButton!.enabled = false;
         },
-        blur: () => arrowEnabledListener( numberProperty.value ) // recompute if the arrow buttons should be enabled
+        blur: () => arrowEnabledListener!() // recompute if the arrow buttons should be enabled
       } );
     }
 
     // major ticks for the slider
-    const majorTicks = options.sliderOptions.majorTicks;
+    // NOTE: Typing for majorTicks should be improved
+    const majorTicks = options.sliderOptions.majorTicks as { value: number, label: Node }[];
     for ( let i = 0; i < majorTicks.length; i++ ) {
       this.slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
@@ -361,10 +393,8 @@ class NumberControl extends Node {
 
     this.mutate( options );
 
-    // @private
     this.numberDisplay = numberDisplay;
 
-    // @private
     this.disposeNumberControl = () => {
       numberDisplay.dispose();
       this.slider.dispose();
@@ -385,16 +415,11 @@ class NumberControl extends Node {
   /**
    * Redraws the NumberDisplay. This is useful when you have additional Properties that determine the format
    * of the displayed value.
-   * @public
    */
   redrawNumberDisplay() {
     this.numberDisplay.recomputeText();
   }
 
-  /**
-   * @public
-   * @override
-   */
   dispose() {
     this.disposeNumberControl();
     super.dispose();
@@ -402,19 +427,12 @@ class NumberControl extends Node {
 
   /**
    * Creates a NumberControl with default tick marks for min and max values.
-   * @param {string} label
-   * @param {Property.<number>} property
-   * @param {Range} range
-   * @param {Object} [options]
-   * @returns {NumberControl}
-   * @static
-   * @public
    */
-  static withMinMaxTicks( label, property, range, options ) {
+  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: NumberControlOptions ) {
 
-    options = merge( {
+    const options = merge( {
       tickLabelFont: new PhetFont( 12 )
-    }, options );
+    }, providedOptions );
 
     options.sliderOptions = merge( {
       majorTicks: [
@@ -433,20 +451,32 @@ class NumberControl extends Node {
    *  title number
    *  < ------|------ >
    *
-   * @param {Object} [options]
-   * @returns {function}
-   * @public
    */
-  static createLayoutFunction1( options ) {
+  static createLayoutFunction1( providedOptions?: {
+    // horizontal alignment of rows, 'left'|'right'|'center'
+    align?: 'center' | 'left' | 'right';
 
-    options = merge( {
-      align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
-      titleXSpacing: 5, // {number} horizontal spacing between title and number
-      arrowButtonsXSpacing: 15, // {number} horizontal spacing between arrow buttons and slider
-      ySpacing: 5 // {number} vertical spacing between rows
-    }, options );
+    // horizontal spacing between title and number
+    titleXSpacing?: number;
+
+    // horizontal spacing between arrow buttons and slider
+    arrowButtonsXSpacing?: number;
+
+    // vertical spacing between rows
+    ySpacing?: number;
+  } ): LayoutFunction {
+
+    const options = merge( {
+      align: 'center',
+      titleXSpacing: 5,
+      arrowButtonsXSpacing: 15,
+      ySpacing: 5
+    }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+      assert && assert( decrementButton );
+      assert && assert( incrementButton );
+
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
@@ -458,7 +488,7 @@ class NumberControl extends Node {
           new HBox( {
             spacing: options.arrowButtonsXSpacing,
             resize: false, // prevent slider from causing a resize when thumb is at min or max
-            children: [ decrementButton, slider, incrementButton ]
+            children: [ decrementButton!, slider, incrementButton! ]
           } )
         ]
       } );
@@ -471,20 +501,28 @@ class NumberControl extends Node {
    *
    *  title < number >
    *  ------|------
-   *
-   * @param {Object} [options]
-   * @returns {function}
-   * @public
    */
-  static createLayoutFunction2( options ) {
+  static createLayoutFunction2( providedOptions?: {
+    // horizontal alignment of rows, 'left'|'right'|'center'
+    align?: 'center' | 'left' | 'right';
 
-    options = merge( {
-      align: 'center', // {string} horizontal alignment of rows, 'left'|'right'|'center'
-      xSpacing: 5, // {number} horizontal spacing in top row
-      ySpacing: 5 // {number} vertical spacing between rows
-    }, options );
+    // horizontal spacing in top row
+    xSpacing?: number;
+
+    // vertical spacing between rows
+    ySpacing?: number;
+  } ): LayoutFunction {
+
+    const options = merge( {
+      align: 'center',
+      xSpacing: 5,
+      ySpacing: 5
+    }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+      assert && assert( decrementButton );
+      assert && assert( incrementButton );
+
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
@@ -492,7 +530,7 @@ class NumberControl extends Node {
         children: [
           new HBox( {
             spacing: options.xSpacing,
-            children: [ titleNode, decrementButton, numberDisplay, incrementButton ]
+            children: [ titleNode, decrementButton!, numberDisplay, incrementButton! ]
           } ),
           slider
         ]
@@ -507,22 +545,36 @@ class NumberControl extends Node {
    *  title
    *  < number >
    *  -------|-------
-   *
-   * @param {Object} [options]
-   * @returns {function}
-   * @public
    */
-  static createLayoutFunction3( options ) {
+  static createLayoutFunction3( providedOptions?: {
+    // horizontal alignment of title, relative to slider, 'left'|'right'|'center'
+    alignTitle?: 'center' | 'left' | 'right';
 
-    options = merge( {
-      alignTitle: 'center', // {string} horizontal alignment of title, relative to slider, 'left'|'right'|'center'
-      alignNumber: 'center', // {string} horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
-      titleLeftIndent: 0, // {number|null}  if provided, indent the title on the left to push the title to the right
-      xSpacing: 5, // {number} horizontal spacing between arrow buttons and slider
-      ySpacing: 5 // {number} vertical spacing between rows
-    }, options );
+    // horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
+    alignNumber?: 'center' | 'left' | 'right';
+
+    // if provided, indent the title on the left to push the title to the right
+    titleLeftIndent?: number;
+
+    // horizontal spacing between arrow buttons and slider
+    xSpacing?: number;
+
+    // vertical spacing between rows
+    ySpacing?: number;
+  } ): LayoutFunction {
+
+    const options = merge( {
+      alignTitle: 'center',
+      alignNumber: 'center',
+      titleLeftIndent: 0,
+      xSpacing: 5,
+      ySpacing: 5
+    }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+      assert && assert( decrementButton );
+      assert && assert( incrementButton );
+
       const titleAndContentVBox = new VBox( {
         spacing: options.ySpacing,
         resize: false, // prevent slider from causing a resize when thumb is at min or max
@@ -536,7 +588,7 @@ class NumberControl extends Node {
             children: [
               new HBox( {
                 spacing: options.xSpacing,
-                children: [ decrementButton, numberDisplay, incrementButton ]
+                children: [ decrementButton!, numberDisplay, incrementButton! ]
               } ),
               slider
             ]
@@ -555,13 +607,24 @@ class NumberControl extends Node {
   /**
    * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
    * Like createLayoutFunction1, but the title and value go all the way to the edges.
-   * @param {Object} [options]
-   * @returns {Function}
-   * @public
    */
-  static createLayoutFunction4( options ) {
+  static createLayoutFunction4( providedOptions?: {
+    // adds additional horizontal space between title and NumberDisplay
+    sliderPadding?: number;
 
-    options = merge( {
+    // vertical spacing between slider and title/NumberDisplay
+    verticalSpacing?: number;
+
+    // spacing between slider and arrow buttons
+    arrowButtonSpacing?: number;
+
+    hasReadoutProperty?: IReadOnlyProperty<boolean> | null,
+
+    // Supports Pendulum Lab's questionText where a question is substituted for the slider
+    createBottomContent?: ( ( box: LayoutBox ) => void ) | null
+  } ): LayoutFunction {
+
+    const options = merge( {
 
       // adds additional horizontal space between title and NumberDisplay
       sliderPadding: 0,
@@ -573,7 +636,7 @@ class NumberControl extends Node {
       arrowButtonSpacing: 5,
       hasReadoutProperty: null,
       createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
-    }, options );
+    }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
       const includeArrowButtons = !!decrementButton; // if there aren't arrow buttons, then exclude them
@@ -581,12 +644,12 @@ class NumberControl extends Node {
         resize: false, // prevent slider from causing resize?
         spacing: options.arrowButtonSpacing,
         children: !includeArrowButtons ? [ slider ] : [
-          decrementButton,
+          decrementButton!,
           slider,
-          incrementButton
+          incrementButton!
         ]
       } );
-      const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
+      const bottomContent = options.createBottomContent ? ( options.createBottomContent as any )( bottomBox ) : bottomBox;
 
       const group = new AlignGroup( { matchHorizontal: false } );
       const titleBox = new AlignBox( titleNode, {
@@ -600,15 +663,15 @@ class NumberControl extends Node {
       numberBox.right = bottomContent.right + options.sliderPadding;
       const node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
       if ( options.hasReadoutProperty ) {
-        options.hasReadoutProperty.link( hasReadout => { numberBox.visible = hasReadout; } );
+        ( options.hasReadoutProperty as IReadOnlyProperty<boolean> ).link( hasReadout => { numberBox.visible = hasReadout; } );
       }
       return node;
     };
   }
-}
 
-// @public
-NumberControl.SLIDER_TANDEM_NAME = 'slider';
+  static NumberControlIO: IOType;
+  static SLIDER_TANDEM_NAME = 'slider' as const;
+}
 
 /**
  * Validate all of the callback related options. There are two types of callbacks. The "start/endCallback" pair
@@ -620,9 +683,8 @@ NumberControl.SLIDER_TANDEM_NAME = 'slider';
  * function.
  *
  * Only general or specific callbacks are allowed, but not both.
- * @param {Object} [options]
  */
-function validateCallbacks( options ) {
+function validateCallbacks( options: { [ key: string ]: any } ) {
   const normalCallbacksPresent = !!( options.startCallback ||
                                      options.endCallback );
   let arrowCallbacksPresent = false;
@@ -647,11 +709,8 @@ function validateCallbacks( options ) {
  * Check for an intersection between the array of callback option keys and those
  * passed in the options object. These callback options are only the specific component callbacks, not the general
  * start/end that are called for every component's interaction
- *
- * @param {Object} [options]
- * @returns {boolean}
  */
-function specificCallbackKeysInOptions( options ) {
+function specificCallbackKeysInOptions( options: { [ key: string ]: any } ): boolean {
   const optionKeys = Object.keys( options );
   const intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
   return intersection.length > 0;
