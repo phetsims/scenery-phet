@@ -9,27 +9,45 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrowShape from './ArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
+type SelfOptions = {
+  headHeight?: number;
+  headWidth?: number;
+  tailWidth?: number;
+  isHeadDynamic?: boolean;
+  scaleTailToo?: boolean;
+
+  // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
+  fractionalHeadHeight?: number;
+
+  // true puts heads on both ends of the arrow, false puts a head at the tip
+  doubleHead?: boolean;
+};
+
+export type ArrowNodeOptions = SelfOptions & PathOptions;
+
 class ArrowNode extends Path {
 
-  /**
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
-   * @param {Object} [options]
-   */
-  constructor( tailX, tailY, tipX, tipY, options ) {
+  tailX: number;
+  tailY: number;
+  tipX: number;
+  tipY: number;
+
+  private options: Required<SelfOptions>;
+  private shapePoints: Vector2[];
+
+  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
 
     // default options
-    options = merge( {
+    const options = optionize<ArrowNodeOptions, SelfOptions, PathOptions>( {
       headHeight: 10,
       headWidth: 10,
       tailWidth: 5,
@@ -37,24 +55,24 @@ class ArrowNode extends Path {
       scaleTailToo: false,
       fractionalHeadHeight: 0.5, // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
       doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
+
+      // Path options
       fill: 'black',
       stroke: 'black',
       lineWidth: 1,
 
       // phet-io
       tandem: Tandem.OPTIONAL
-    }, options );
+    }, providedOptions );
 
     // things you're likely to mess up, add more as needed
     assert && assert( options.headWidth > options.tailWidth );
 
     super( null );
 
-    // @private
     this.options = options;
-    this.shapePoints = []; // {Vector2[]}
+    this.shapePoints = [];
 
-    // @public {read-only}
     this.tailX = tailX;
     this.tailY = tailY;
     this.tipX = tipX;
@@ -65,16 +83,15 @@ class ArrowNode extends Path {
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    // @ts-ignore chipper query parameters
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ArrowNode', this );
   }
 
   /**
    * Update the internal shapePoints array which is used to populate the points in the Shape instance.
-   * @private
-   * @returns {boolean} true if the number of points in the array has changed, which would require building a new
-   *                    shape instance.
+   * @returns true if the number of points in the array has changed, which would require building a new shape instance.
    */
-  updateShapePoints() {
+  private updateShapePoints(): boolean {
     const numberOfPoints = this.shapePoints.length;
     this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
     return ( this.shapePoints.length !== numberOfPoints );
@@ -82,9 +99,8 @@ class ArrowNode extends Path {
 
   /**
    * Initialize or update the shape. Only called if the number of points in the shape changes.
-   * @private
    */
-  updateShape() {
+  private updateShape() {
 
     const shape = new Shape();
 
@@ -102,13 +118,8 @@ class ArrowNode extends Path {
   /**
    * Sets the tail and tip positions to update the arrow shape.
    * If the tail and tip are at the same point, the arrow is not shown.
-   * @public
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
    */
-  setTailAndTip( tailX, tailY, tipX, tipY ) {
+  setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ) {
 
     this.tailX = tailX;
     this.tailY = tailY;
@@ -131,30 +142,22 @@ class ArrowNode extends Path {
 
   /**
    * Sets the tail position.
-   * @param {number} tailX
-   * @param {number} tailY
-   * @public
    */
-  setTail( tailX, tailY ) {
+  setTail( tailX: number, tailY: number ) {
     this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
   }
 
   /**
    * Sets the tip position.
-   * @param {number} tipX
-   * @param {number} tipY
-   * @public
    */
-  setTip( tipX, tipY ) {
+  setTip( tipX: number, tipY: number ) {
     this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
   }
 
   /**
    * Sets the tail width.
-   * @public
-   * @param {number} tailWidth
    */
-  setTailWidth( tailWidth ) {
+  setTailWidth( tailWidth: number ) {
     this.options.tailWidth = tailWidth;
     this.updateShapePoints();
     this.updateShape();
@@ -162,10 +165,8 @@ class ArrowNode extends Path {
 
   /**
    * Sets whether the arrow has one or two heads.
-   * @public
-   * @param {boolean} doubleHead
    */
-  setDoubleHead( doubleHead ) {
+  setDoubleHead( doubleHead: boolean ) {
     this.options.doubleHead = doubleHead;
     this.updateShapePoints();
     this.updateShape();
