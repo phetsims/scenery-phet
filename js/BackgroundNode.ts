@@ -12,12 +12,12 @@ import { Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  xMargin?: 2, // set the x margin between the Node content and background edge
-  yMargin?: 2, // set the y margin between the Node content and background edge
+  xMargin?: number, // set the x margin between the Node content and background edge
+  yMargin?: number, // set the y margin between the Node content and background edge
   rectangleOptions?: RectangleOptions // options passed to the background scenery.Rectangle
 }
 
-type BackgroundNodeOptions = SelfOptions;
+export type BackgroundNodeOptions = SelfOptions & NodeOptions;
 
 class BackgroundNode extends Node {
 
