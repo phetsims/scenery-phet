@@ -13,7 +13,7 @@ import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Node, NodeOptions } from '../../scenery/js/imports.js';
+import { IColor, Node, NodeOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import vegas from './vegas.js';
 
@@ -25,8 +25,8 @@ type StatusBarSelfOptions = {
   barHeight?: number;
   xMargin?: number;
   yMargin?: number;
-  barFill?: ColorDef;
-  barStroke?: ColorDef,
+  barFill?: IColor;
+  barStroke?: IColor,
   floatToTop?: boolean,
   dynamicAlignment?: boolean
 };
