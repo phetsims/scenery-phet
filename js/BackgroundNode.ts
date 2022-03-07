@@ -27,7 +27,7 @@ class BackgroundNode extends Node {
    * @param node - the Node that will be put on the background
    * @param providedOptions
    */
-  constructor( node: Node, providedOptions: BackgroundNodeOptions ) {
+  constructor( node: Node, providedOptions?: BackgroundNodeOptions ) {
 
     const options = optionize<BackgroundNodeOptions, SelfOptions, NodeOptions>( {
 
