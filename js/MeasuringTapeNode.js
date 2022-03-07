@@ -250,7 +250,7 @@ class MeasuringTapeNode extends Node {
           }
         },
 
-        end: ( event, trail ) => {
+        end: () => {
           this._isBaseUserControlledProperty.set( false );
           options.baseDragEnded();
         }
@@ -286,7 +286,7 @@ class MeasuringTapeNode extends Node {
         }
       },
 
-      end: event => {
+      end: () => {
         this._isTipUserControlledProperty.set( false );
       }
     } ) );

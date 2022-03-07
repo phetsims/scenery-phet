@@ -2078,7 +2078,7 @@ function demoSprites( layoutBounds ) {
         sprites.invalidatePaint();
       },
 
-      end: listener => {
+      end: () => {
         selectedInstance = null;
       }
     } ) ]
