@@ -29,7 +29,7 @@ import sceneryPhet from './sceneryPhet.js';
 import IProperty from '../../axon/js/IProperty.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import { PickRequired } from '../../phet-core/js/types/PickRequired.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
