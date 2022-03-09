@@ -45,15 +45,15 @@ class ScreenSummaryNode extends Node {
   /**
    * The parameters are not known in the constructor, so the intro string can filled in later on during initialization.
    * @param {string} simName
-   * @param {string} screenName - with the word "Screen" in it, like "Explore Screen"
+   * @param {string|null} screenDisplayName - with the word "Screen" in it, like "Explore Screen"
    * @param {boolean} isMultiScreen - if the sim has multiple screens
    * @public
    */
-  setIntroString( simName, screenName, isMultiScreen ) {
+  setIntroString( simName, screenDisplayName, isMultiScreen ) {
 
     // different default string depending on if there are multiple screens
-    this.openingSummaryNode.innerContent = isMultiScreen ?
-                                           StringUtils.fillIn( screenSummaryMultiScreenIntroString, { screen: screenName } ) :
+    this.openingSummaryNode.innerContent = isMultiScreen && screenDisplayName ?
+                                           StringUtils.fillIn( screenSummaryMultiScreenIntroString, { screen: screenDisplayName } ) :
                                            StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, { sim: simName } );
   }
 }
