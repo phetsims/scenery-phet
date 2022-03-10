@@ -9,13 +9,14 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import IProperty from '../../axon/js/IProperty.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Node, NodeOptions } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import { LinearGradient } from '../../scenery/js/imports.js';
@@ -25,52 +26,84 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode from './ShadedSphereNode.js';
 
-// constants
 const FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
+
 // center of the bulb is at (0,0), let the client code move to the correct position
 const BULB_CENTER_X = 0;
 const BULB_CENTER_Y = 0;
 
+type ZeroLevel = 'bulbCenter' | 'bulbTop';
+
+type SelfOptions = {
+  bulbDiameter?: number,
+  tubeWidth?: number,
+  tubeHeight?: number,
+  lineWidth?: number,
+  outlineStroke?: IColor,
+  tickSpacing?: number,
+
+  // overrides tickSpacing to space ticks by units of temperature
+  tickSpacingTemperature?: number | null,
+  majorTickLength?: number,
+  minorTickLength?: number,
+
+  // space between the thermometer outline and the fluid inside it
+  glassThickness?: number,
+
+  // defines where level is at temperature zero - 'bulbCenter' or 'bulbTop'
+  zeroLevel?: ZeroLevel,
+
+  // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
+  backgroundFill?: IColor,
+
+  // the main color of the bulb fluid, and the left side of the tube gradient
+  fluidMainColor?: IColor,
+
+  // the highlight color of the bulb fluid and the middle of the tube gradient
+  fluidHighlightColor?: IColor,
+
+  // the right side of the tube gradient, not used currently
+  fluidRightSideColor?: IColor,
+};
+
+export type ThermometerNodeOptions = SelfOptions & NodeOptions;
+
 class ThermometerNode extends Node {
+  private readonly temperatureLinearFunction: LinearFunction;
+  private readonly disposeThermometerNode: () => void;
 
   /**
-   * @param {number} minTemperature
-   * @param {number} maxTemperature
-   * @param {Property.<number|null>} temperatureProperty - null means there is no temperature to measure
-   * @param {Object} [options]
+   * @param minTemperature
+   * @param maxTemperature
+   * @param temperatureProperty - null means there is no temperature to measure, treated as minTemperature
+   * @param [providedOptions]
    */
-  constructor( minTemperature, maxTemperature, temperatureProperty, options ) {
+  constructor( minTemperature: number, maxTemperature: number, temperatureProperty: IProperty<number | null>, providedOptions?: ThermometerNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 100,
       lineWidth: 4,
       outlineStroke: 'black',
       tickSpacing: 15,
-      tickSpacingTemperature: null, // {number} overrides tickSpacing to space ticks by units of temperature
+      tickSpacingTemperature: null,
       majorTickLength: 15,
       minorTickLength: 7.5,
-      glassThickness: 4, // space between the thermometer outline and the fluid inside it
-      zeroLevel: 'bulbCenter', // defines where level is at temperature zero - 'bulbCenter' or 'bulbTop'
-
-      // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
+      glassThickness: 4,
+      zeroLevel: 'bulbCenter',
       backgroundFill: null,
 
       // all the default colors are shades of red
-      fluidMainColor: '#850e0e', // the main color of the bulb fluid, and the left side of the tube gradient
-      fluidHighlightColor: '#ff7575', // the highlight color of the bulb fluid and the middle of the tube gradient
-      fluidRightSideColor: '#c41515', // the right side of the tube gradient, not used currently
-
+      fluidMainColor: '#850e0e',
+      fluidHighlightColor: '#ff7575',
+      fluidRightSideColor: '#c41515',
       tandem: Tandem.OPTIONAL
-    }, options );
+    }, providedOptions );
 
     super();
 
     const thermometerRange = new Range( minTemperature, maxTemperature );
-
-    assert && assert( options.zeroLevel === 'bulbCenter' || options.zeroLevel === 'bulbTop',
-      `Invalid zeroLevel: ${options.zeroLevel}` );
 
     // Create a shaded sphere to act as the bulb fluid
     const bulbFluidDiameter = options.bulbDiameter - options.glassThickness - options.lineWidth / 2;
@@ -177,7 +210,7 @@ class ThermometerNode extends Node {
     // Temperature determines the height of the fluid in the tube
     const maxFluidHeight = new Path( fluidClipArea ).height;
 
-    let minFluidHeight;
+    let minFluidHeight: number;
     if ( options.zeroLevel === 'bulbCenter' ) {
       minFluidHeight = 0;
     }
@@ -188,7 +221,6 @@ class ThermometerNode extends Node {
       throw new Error( `Invalid zeroLevel: ${options.zeroLevel}` );
     }
 
-    // @private
     this.temperatureLinearFunction = new LinearFunction(
       minTemperature,
       maxTemperature,
@@ -196,7 +228,7 @@ class ThermometerNode extends Node {
       maxFluidHeight + minFluidHeight
     );
 
-    const temperaturePropertyObserver = temperature => {
+    const temperaturePropertyObserver = ( temperature: number | null ): void => {
       const fluidHeight = this.temperatureToYPos( temperature );
       tubeFluidNode.visible = ( fluidHeight > 0 );
       tubeFluidNode.setRect(
@@ -220,7 +252,6 @@ class ThermometerNode extends Node {
 
     this.mutate( options );
 
-    // @private
     this.disposeThermometerNode = () => {
       if ( temperatureProperty.hasListener( temperaturePropertyObserver ) ) {
         temperatureProperty.unlink( temperaturePropertyObserver );
@@ -232,21 +263,16 @@ class ThermometerNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ThermometerNode', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  override dispose(): void {
     this.disposeThermometerNode();
     super.dispose();
   }
 
   /**
    * Get y position at temperature to allow accurate tick placement
-   * @param {Number|null} temperature - temperature at which to find y position
-   * @public
+   * @param temperature - temperature at which to find y position, null is treated as the provided minTemperature
    */
-  temperatureToYPos( temperature ) {
+  temperatureToYPos( temperature: number | null ): number {
 
     // treat null as zero - this is a "legacy requirement", needed by the States of Matter sims
     const compensatedTemperature = temperature === null ? 0 : temperature;
@@ -256,10 +282,9 @@ class ThermometerNode extends Node {
 
   /**
    * Get temperature at y position to allow temperature thumb mapping
-   * @param {number} y - y position on thermometer node
-   * @public
+   * @param y - y position on thermometer node
    */
-  yPosToTemperature( y ) {
+  yPosToTemperature( y: number ): number {
     return this.temperatureLinearFunction.inverse( y );
   }
 }
