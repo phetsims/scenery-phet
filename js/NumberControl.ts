@@ -194,9 +194,9 @@ class NumberControl extends Node {
 
         soundGeneratorOptions: {
 
-          // By default the slider should generate a sound for each slider step.
-          numberOfMiddleThresholds: Utils.roundSymmetric( numberRange.getLength() / initialOptions.delta ) - 1,
-          constrainThresholds: constrainValue
+          // By default, the slider will generate a sound at each valid value for this number control.
+          interThresholdDelta: initialOptions.delta,
+          constrainValues: constrainValue
         },
 
         // phet-io
