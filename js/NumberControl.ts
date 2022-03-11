@@ -136,6 +136,13 @@ class NumberControl extends Node {
       return options.enabledRangeProperty ? options.enabledRangeProperty.value : numberRange;
     };
 
+    // Create a function that will be used to constrain the slider value to the provided range and the same delta as
+    // the arrow buttons, see https://github.com/phetsims/scenery-phet/issues/384.
+    const constrainValue = ( value: number ) => {
+      const newValue = Utils.roundToInterval( value, options.delta );
+      return getCurrentRange().constrainValue( newValue );
+    };
+
     // Merge all nested options in one block.
     const options = merge( {
 
@@ -183,9 +190,13 @@ class NumberControl extends Node {
 
         // constrain the slider value to the provided range and the same delta as the arrow buttons,
         // see https://github.com/phetsims/scenery-phet/issues/384
-        constrainValue: ( value: number ) => {
-          const newValue = Utils.roundToInterval( value, options.delta );
-          return getCurrentRange().constrainValue( newValue );
+        constrainValue: constrainValue,
+
+        soundGeneratorOptions: {
+
+          // By default the slider should generate a sound for each slider step.
+          numberOfMiddleThresholds: Utils.roundSymmetric( numberRange.getLength() / initialOptions.delta ) - 1,
+          constrainThresholds: constrainValue
         },
 
         // phet-io
