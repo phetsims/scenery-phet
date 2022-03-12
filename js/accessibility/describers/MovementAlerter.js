@@ -15,7 +15,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import AlertableDef from '../../../../utterance-queue/js/AlertableDef.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -115,7 +114,6 @@ class MovementAlerter extends Alerter {
       for ( let i = 0; i < this.movementAlertKeys.length; i++ ) {
         const key = this.movementAlertKeys[ i ];
         assert( DirectionEnum.keys.indexOf( key ) >= 0, `unexpected key: ${key}. Keys should be the same as those in DirectionEnum` );
-        assert( AlertableDef.isAlertableDef( options.movementAlerts[ key ] ) );
       }
     }
 
