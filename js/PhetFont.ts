@@ -15,7 +15,7 @@ import merge from '../../phet-core/js/merge.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PhetFont extends Font {
+export default class PhetFont extends Font {
 
   /**
    * @param [options] number or string indicate the font size, otherwise same options as scenery.Font
@@ -47,4 +47,3 @@ class PhetFont extends Font {
 }
 
 sceneryPhet.register( 'PhetFont', PhetFont );
-export default PhetFont;

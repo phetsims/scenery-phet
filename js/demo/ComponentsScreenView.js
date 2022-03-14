@@ -2021,7 +2021,7 @@ function demoSprites( layoutBounds ) {
   const sprite2 = new Sprite( iceCubeStackSpriteImage );
 
   const createSpriteInstance = () => {
-    const instance = SpriteInstance.createFromPool();
+    const instance = SpriteInstance.pool.create();
     instance.sprite = dotRandom.sample( [ sprite0, sprite1, sprite2 ] );
     instance.matrix.setToTranslation( dotRandom.nextDouble() * getAvailableWidth(), dotRandom.nextDouble() * getAvailableHeight() );
 

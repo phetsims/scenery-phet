@@ -34,7 +34,7 @@ type SelfOptions = {
 
 export type ArrowNodeOptions = SelfOptions & PathOptions;
 
-class ArrowNode extends Path {
+export default class ArrowNode extends Path {
 
   tailX: number;
   tailY: number;
@@ -174,4 +174,3 @@ class ArrowNode extends Path {
 }
 
 sceneryPhet.register( 'ArrowNode', ArrowNode );
-export default ArrowNode;

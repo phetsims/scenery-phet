@@ -78,7 +78,7 @@ type SelfOptions = {
 
 export type NumberControlOptions = SelfOptions & NodeOptions;
 
-class NumberControl extends Node {
+export default class NumberControl extends Node {
 
   slider: HSlider; // for a11y API
 
@@ -734,4 +734,3 @@ NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
 } );
 
 sceneryPhet.register( 'NumberControl', NumberControl );
-export default NumberControl;

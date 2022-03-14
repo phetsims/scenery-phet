@@ -79,7 +79,7 @@ type SelfOptions = {
 };
 export type NumberDisplayOptions = SelfOptions & NodeOptions;
 
-class NumberDisplay extends Node {
+export default class NumberDisplay extends Node {
 
   private numberFormatter: ( ( n: number ) => string ) | null;
   private valueText: RichText | Text;
@@ -342,5 +342,3 @@ NumberDisplay.NumberDisplayIO = new IOType( 'NumberDisplayIO', {
   supertype: Node.NodeIO,
   documentation: 'A numeric readout with a background'
 } );
-
-export default NumberDisplay;
