@@ -192,7 +192,7 @@ export default class NumberControl extends Node {
         // see https://github.com/phetsims/scenery-phet/issues/384
         constrainValue: constrainValue,
 
-        soundGeneratorOptions: {
+        valueChangeSoundGeneratorOptions: {
 
           // By default, the slider will generate a sound at each valid value for this number control.
           interThresholdDelta: initialOptions.delta,
