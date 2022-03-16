@@ -1,6 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Checkbox for showing/hiding grid lines for a graph.
  * See https://github.com/phetsims/graphing-lines/issues/91.
@@ -8,21 +7,30 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
-import Checkbox from '../../sun/js/Checkbox.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Path } from '../../scenery/js/imports.js';
+import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type SelfOptions = {
+  gridSize?: number, // {number} square grid with this width and height
+  gridStroke?: IColor,
+  gridLineWidth?: number,
+};
+
+export type GridCheckboxOptions = SelfOptions & CheckboxOptions;
 
 class GridCheckbox extends Checkbox {
 
   /**
-   * @param {Property.<boolean>} property
-   * @param {Object} [options]
+   * @param property
+   * @param providedOptions
    */
-  constructor( property, options ) {
+  constructor( property: Property<boolean>, providedOptions?: GridCheckboxOptions ) {
 
-    options = merge( {
+    const options = optionize<GridCheckboxOptions, SelfOptions, CheckboxOptions>( {
 
       // options for the grid icon
       gridSize: 30, // {number} square grid with this width and height
@@ -32,7 +40,7 @@ class GridCheckbox extends Checkbox {
       // superclass options
       spacing: 10
 
-    }, options );
+    }, providedOptions );
 
     const iconSize = options.gridSize;
 
@@ -62,7 +70,7 @@ class GridCheckbox extends Checkbox {
 
     const iconNode = new Path( iconShape, {
       stroke: options.gridStroke,
-      lineWidth: options.lineWidth
+      lineWidth: options.gridLineWidth
     } );
 
     super( iconNode, property, options );
