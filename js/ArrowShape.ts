@@ -1,6 +1,5 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * An arrow shape, either single or double headed.
  * ArrowShape has an optimization that allows you to reuse an array of Vector2.
@@ -14,40 +13,40 @@
 
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
+
+export type ArrowShapeOptions = {
+  tailWidth?: number;
+  headWidth?: number;
+  headHeight?: number;
+  fractionalHeadHeight?: number; // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
+  doubleHead?: boolean; // determines whether the arrow has a head at both ends of the tail
+  isHeadDynamic?: boolean; // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
+  scaleTailToo?: boolean;  // determines whether to also scale arrow head width and tail width when scaling head height
+};
 
 class ArrowShape extends Shape {
 
   /**
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
-   * @param {Object} [options]
+   * @param tailX
+   * @param tailY
+   * @param tipX
+   * @param tipY
+   * @param providedOptions
    */
-  constructor( tailX, tailY, tipX, tipY, options ) {
-
-    options = merge( {
-      tailWidth: 5,
-      headWidth: 10,
-      headHeight: 10,
-      doubleHead: false, // determines whether the arrow has a head at both ends of the tail
-      isHeadDynamic: false, // determines whether to scale down the arrow head height for fractionalHeadHeight constraint
-      scaleTailToo: false,  // determines whether to also scale arrow head width and tail width when scaling head height
-      fractionalHeadHeight: 0.5 // head will be scaled when headHeight is greater than fractionalHeadHeight * arrow length
-    }, options );
+  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions: ArrowShapeOptions ) {
 
     super();
 
     if ( tipX !== tailX || tipY !== tailY ) {
 
-      const points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], options );
+      const points = ArrowShape.getArrowShapePoints( tailX, tailY, tipX, tipY, [], providedOptions );
 
       // Describe the shape
       this.moveTo( points[ 0 ].x, points[ 0 ].y );
       const tail = _.tail( points );
-      _.each( tail, element => this.lineTo( element.x, element.y ) );
+      _.each( tail, ( point: Vector2 ) => this.lineTo( point.x, point.y ) );
       this.close();
     }
   }
@@ -55,19 +54,29 @@ class ArrowShape extends Shape {
   /**
    * This method is static so it can be used in ArrowShape as well as in ArrowNode.  If the tail and tip are at the
    * same position, there are no points and the arrow will not be shown.
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
-   * @param {Vector2[]} shapePoints - if provided, values will be overwritten. This is to achieve
-   *                                  high performance and is used by ArrowNode to avoid re-creating shapes.
-   *                                  Tested this implementation vs the old one by creating hundreds of arrows and
-   *                                  saw significant performance gains.
-   * @param {Object} [options]
-   * @returns {Vector2[]}
-   * @public
+   * @param tailX
+   * @param tailY
+   * @param tipX
+   * @param tipY
+   * @param shapePoints - if provided, values will be overwritten. This is to achieve high performance and is used
+   *   by ArrowNode to avoid re-creating shapes. Tested this implementation vs the old one by creating hundreds of
+   *   arrows and saw significant performance gains.
+   * @param providedOptions
    */
-  static getArrowShapePoints( tailX, tailY, tipX, tipY, shapePoints, options ) {
+  public static getArrowShapePoints( tailX: number, tailY: number, tipX: number, tipY: number, shapePoints: Vector2[],
+                                     providedOptions: ArrowShapeOptions ): Vector2[] {
+
+    const options = optionize<ArrowShapeOptions>( {
+
+      // ArrowShapeOptions
+      tailWidth: 5,
+      headWidth: 10,
+      headHeight: 10,
+      fractionalHeadHeight: 0.5,
+      doubleHead: false,
+      isHeadDynamic: false,
+      scaleTailToo: false
+    }, providedOptions );
 
     // default shapePoints to empty array if it isn't passed in
     if ( !shapePoints ) {
@@ -120,7 +129,7 @@ class ArrowShape extends Shape {
       const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
 
       // Function to add a point to shapePoints
-      const addPoint = function( xHat, yHat ) {
+      const addPoint = function( xHat: number, yHat: number ) {
         const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
         const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
         if ( shapePoints[ index ] ) {
