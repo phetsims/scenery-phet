@@ -1,5 +1,6 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Checkbox for showing/hiding grid lines for a graph.
  * See https://github.com/phetsims/graphing-lines/issues/91.
