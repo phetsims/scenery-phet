@@ -196,7 +196,7 @@ export default class NumberControl extends Node {
 
           // By default, the slider will generate a sound at each valid value for this number control.
           interThresholdDelta: initialOptions.delta,
-          constrainValues: constrainValue
+          constrainValue: constrainValue
         },
 
         // phet-io
