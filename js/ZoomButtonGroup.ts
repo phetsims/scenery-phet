@@ -24,7 +24,7 @@ type SelfOptions = {
   applyZoomOut?: ( currentZoom: number ) => number;
 
   // propagated to the '+' and '-' push buttons
-  buttonOptions?: Omit<RectangularPushButtonOptions, 'content' | 'listener'>;
+  buttonOptions?: Omit<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>;
 
   // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
   touchAreaXDilation?: number;
@@ -74,22 +74,22 @@ class ZoomButtonGroup extends LayoutBox {
     }, providedOptions );
 
     // zoom in
-    const zoomInButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
+    const zoomInButton = new RectangularPushButton( merge( {
       content: zoomInIcon,
       listener: () => {
         zoomLevelProperty.value = options.applyZoomIn( zoomLevelProperty.value );
       },
       tandem: options.tandem.createTandem( 'zoomInButton' )
-    } ) );
+    }, options.buttonOptions ) );
 
     // zoom out
-    const zoomOutButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
+    const zoomOutButton = new RectangularPushButton( merge( {
       content: zoomOutIcon,
       listener: () => {
         zoomLevelProperty.value = options.applyZoomOut( zoomLevelProperty.value );
       },
       tandem: options.tandem.createTandem( 'zoomOutButton' )
-    } ) );
+    }, options.buttonOptions ) );
 
     assert && assert( !options.children, 'ZoomButtonGroup sets children' );
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
@@ -131,7 +131,7 @@ class ZoomButtonGroup extends LayoutBox {
     super( options );
 
     // disable a button if we reach the min or max
-    const zoomLevelListener = ( zoomLevel : number ) => {
+    const zoomLevelListener = ( zoomLevel: number ) => {
       zoomOutButton.enabled = ( zoomLevel > zoomLevelRange.min );
       zoomInButton.enabled = ( zoomLevel < zoomLevelRange.max );
     };
