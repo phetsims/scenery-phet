@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * An arrow shape, either single or double headed.
  * ArrowShape has an optimization that allows you to reuse an array of Vector2.
