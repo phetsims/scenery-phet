@@ -1,5 +1,6 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
+// @ts-nocheck
 import merge from '../../phet-core/js/merge.js';
 import { Circle } from '../../scenery/js/imports.js';
 import { Line } from '../../scenery/js/imports.js';
