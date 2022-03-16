@@ -1,6 +1,5 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Plus sign, created using scenery.Path because scenery.Text("+") cannot be accurately centered.
  * Origin at upper left.
@@ -9,25 +8,35 @@
  */
 
 import Dimension2 from '../../dot/js/Dimension2.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
 import PlusShape from './PlusShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const DEFAULT_SIZE = new Dimension2( 20, 5 );
 
+type SelfOptions = {
+  size?: Dimension2; // width = width & height of '+', height = thickness of '+'
+};
+
+export type PlusNodeOptions = SelfOptions & PathOptions;
+
 class PlusNode extends Path {
 
   /**
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( options ) {
+  constructor( providedOptions: PlusNodeOptions ) {
 
-    options = merge( {
-      size: DEFAULT_SIZE, // width of the plus sign, height of the horizontal line in plus sign
+    const options = optionize<PlusNodeOptions, SelfOptions, PathOptions>( {
+
+      // SelfOptions
+      size: DEFAULT_SIZE,
+
+      // PathOptions
       fill: 'black'
-    }, options );
+    }, providedOptions );
 
     super( new PlusShape( options.size ), options );
   }
