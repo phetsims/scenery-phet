@@ -1,5 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
+// ts-nocheck
+
 import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
 import MagnifyingGlassNode from './MagnifyingGlassNode.js';
