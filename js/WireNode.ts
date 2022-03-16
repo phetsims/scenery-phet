@@ -19,7 +19,7 @@ export type WireNodeOptions = PathOptions;
 
 class WireNode extends Path {
 
-  private multilink: Multilink<[ Vector2, Vector2, Vector2, Vector2 ]>
+  private readonly multilink: Multilink<[ Vector2, Vector2, Vector2, Vector2 ]>
 
   /**
    * @param position1Property - connects to one object, often this is a DerivedProperty

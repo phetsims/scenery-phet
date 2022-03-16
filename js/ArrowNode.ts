@@ -41,7 +41,7 @@ export default class ArrowNode extends Path {
   tipX: number;
   tipY: number;
 
-  private options: Required<SelfOptions>;
+  private readonly options: Required<SelfOptions>;
   private shapePoints: Vector2[];
 
   constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
