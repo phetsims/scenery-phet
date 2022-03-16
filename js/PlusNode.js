@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Plus sign, created using scenery.Path because scenery.Text("+") cannot be accurately centered.
  * Origin at upper left.
