@@ -80,11 +80,11 @@ export type NumberControlOptions = SelfOptions & NodeOptions;
 
 export default class NumberControl extends Node {
 
-  slider: HSlider; // for a11y API
+  public readonly slider: HSlider; // for a11y API
 
-  private thumbFillProperty?: PaintColorProperty;
-  private numberDisplay: NumberDisplay;
-  private disposeNumberControl: () => void;
+  private readonly thumbFillProperty?: PaintColorProperty;
+  private readonly numberDisplay: NumberDisplay;
+  private readonly disposeNumberControl: () => void;
 
   constructor( title: string, numberProperty: IProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 

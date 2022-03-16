@@ -82,10 +82,10 @@ export type NumberDisplayOptions = SelfOptions & NodeOptions;
 export default class NumberDisplay extends Node {
 
   private numberFormatter: ( ( n: number ) => string ) | null;
-  private valueText: RichText | Text;
-  private backgroundNode: Rectangle;
-  private _recomputeText: () => void;
-  private disposeNumberDisplay: () => void; // called by dispose
+  private readonly valueText: RichText | Text;
+  private readonly backgroundNode: Rectangle;
+  private readonly _recomputeText: () => void;
+  private readonly disposeNumberDisplay: () => void; // called by dispose
 
   /**
    * @param numberProperty
