@@ -46,20 +46,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnabledComponent from '../../../axon/js/EnabledComponent.js';
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode } from '../../../scenery/js/imports.js';
-import { FocusHighlightPath } from '../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../scenery/js/imports.js';
-import { PDOMPeer } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { animatedPanZoomSingleton } from '../../../scenery/js/imports.js';
-import { PressListener } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import EnabledComponent from '../../../axon/js/EnabledComponent.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
@@ -537,12 +530,6 @@ class GrabDragInteraction extends EnabledComponent {
     } );
     this.node.addInputListener( this.pressListener );
 
-    // upon successful drag with the KeyboardDragListener, keep this Node in view
-    const dragListener = () => {
-      animatedPanZoomSingleton.listener.keepNodeInView( this.node );
-    };
-    keyboardDragListener.dragEmitter.addListener( dragListener );
-
     // Initialize the Node as a grabbable (button) to begin with
     this.turnToGrabbable();
 
@@ -562,8 +549,6 @@ class GrabDragInteraction extends EnabledComponent {
 
       this.node.removeInputListener( this.pressListener );
       this.node.inputEnabledProperty.unlink( boundUpdateVisibilityForCues );
-
-      keyboardDragListener.dragEmitter.removeListener( dragListener );
 
       // Remove listeners according to what state we are in
       if ( this.grabbable ) {
