@@ -91,7 +91,7 @@ export default class NumberDisplay extends Node {
    * @param numberProperty
    * @param displayRange - this range, with options.decimals or numberFormatter applied, is used to determine
    *                     - the display width. It is unrelated to the range of numberProperty.
-   * @param [options]
+   * @param providedOptions
    */
   constructor( numberProperty: IReadOnlyProperty<number | null>, displayRange: Range, providedOptions?: NumberDisplayOptions ) {
 
