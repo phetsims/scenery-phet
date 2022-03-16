@@ -11,9 +11,11 @@ import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+
+export type WireNodeOptions = PathOptions;
 
 class WireNode extends Path {
 
@@ -26,9 +28,9 @@ class WireNode extends Path {
    * @param normal2Property - defines the control point of the cubic curve, relative to the position2
    * @param [options]
    */
-  constructor( position1Property: IReadOnlyProperty<Vector2>, normal1Property: IReadOnlyProperty<Vector2>, position2Property: IReadOnlyProperty<Vector2>, normal2Property: IReadOnlyProperty<Vector2>, options?: PathOptions ) {
+  constructor( position1Property: IReadOnlyProperty<Vector2>, normal1Property: IReadOnlyProperty<Vector2>, position2Property: IReadOnlyProperty<Vector2>, normal2Property: IReadOnlyProperty<Vector2>, options?: WireNodeOptions ) {
 
-    options = merge( {
+    options = optionize<WireNodeOptions, {}, PathOptions>( {
       stroke: 'black'
     }, options );
 
