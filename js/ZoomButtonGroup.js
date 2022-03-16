@@ -1,6 +1,6 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
-// ts-nocheck
+// @ts-nocheck
 /**
  * ZoomButtonGroup is a general 'modern' button group for zooming in and out.
  * It was conceived and first used in natural-selection.

@@ -1,6 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
-// ts-nocheck
+// @ts-nocheck
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import merge from '../../phet-core/js/merge.js';
