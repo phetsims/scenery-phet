@@ -64,7 +64,7 @@ class ArrowShape extends Shape {
    * @param providedOptions
    */
   public static getArrowShapePoints( tailX: number, tailY: number, tipX: number, tipY: number, shapePoints: Vector2[],
-                                     providedOptions: ArrowShapeOptions ): Vector2[] {
+                                     providedOptions?: ArrowShapeOptions ): Vector2[] {
 
     const options = optionize<ArrowShapeOptions>( {
 
