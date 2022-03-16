@@ -1,20 +1,15 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * Visual representation of a ruler.
- * Lots of options, see default options in constructor.
+ * RulerNode is the visual representation of a ruler.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Font, IColor, Node, NodeOptions, Path, Rectangle, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -22,52 +17,78 @@ import sceneryPhet from './sceneryPhet.js';
 // constants
 const DEFAULT_FONT = new PhetFont( 18 );
 
+type SelfOptions = {
+
+  // body of the ruler
+  backgroundFill?: IColor;
+  backgroundStroke?: IColor;
+  backgroundLineWidth?: number;
+  insetsWidth?: number; // space between the ends of the ruler and the first and last tick marks
+
+  // major tick options
+  majorTickFont?: Font;
+  majorTickHeight?: number;
+  majorTickStroke?: IColor;
+  majorTickLineWidth?: number;
+
+  // minor tick options
+  minorTickFont?: Font;
+  minorTickHeight?: number;
+  minorTickStroke?: IColor;
+  minorTickLineWidth?: number;
+  minorTicksPerMajorTick?: number;
+
+  // units options
+  unitsFont?: Font;
+  unitsMajorTickIndex?: number; // units will be placed to the right of this major tick
+  unitsSpacing?: number; // horizontal space between the tick label and the units
+
+  // appearance options
+  tickMarksOnTop?: boolean;
+  tickMarksOnBottom?: boolean;
+};
+
+export type RulerNodeOptions = SelfOptions & NodeOptions;
+
 class RulerNode extends Node {
 
   /**
-   * @param {number} rulerWidth  distance between left-most and right-most tick, insets will be added to this
-   * @param {number} rulerHeight
-   * @param {number} majorTickWidth
-   * @param {string[]} majorTickLabels
-   * @param {string} units
-   * @param {Object} [options]
+   * @param rulerWidth  distance between left-most and right-most tick, insets will be added to this
+   * @param rulerHeight
+   * @param majorTickWidth
+   * @param majorTickLabels
+   * @param units
+   * @param providedOptions
    */
-  constructor( rulerWidth, rulerHeight, majorTickWidth, majorTickLabels, units, options ) {
+  constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: string[],
+               units: string, providedOptions?: RulerNodeOptions ) {
 
     // default options
-    options = merge( {
+    const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
 
-      // body of the ruler
+      // SelfOptions
       backgroundFill: 'rgb(236, 225, 113)',
       backgroundStroke: 'black',
       backgroundLineWidth: 1,
-      insetsWidth: 14, // space between the ends of the ruler and the first and last tick marks
-
-      // major tick options
+      insetsWidth: 14,
       majorTickFont: DEFAULT_FONT,
       majorTickHeight: ( 0.4 * rulerHeight ) / 2,
       majorTickStroke: 'black',
       majorTickLineWidth: 1,
-
-      // minor tick options
       minorTickFont: DEFAULT_FONT,
       minorTickHeight: ( 0.2 * rulerHeight ) / 2,
       minorTickStroke: 'black',
       minorTickLineWidth: 1,
       minorTicksPerMajorTick: 0,
-
-      // units options
       unitsFont: DEFAULT_FONT,
-      unitsMajorTickIndex: 0, // units will be place to the right of this major tick
-      unitsSpacing: 3, // horizontal space between the tick label and the units
-
-      // appearance options
+      unitsMajorTickIndex: 0,
+      unitsSpacing: 3,
       tickMarksOnTop: true,
       tickMarksOnBottom: true,
 
-      // phet-io
+      // NodeOptions
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // things you're likely to mess up, add more as needed
     assert && assert( Math.floor( rulerWidth / majorTickWidth ) + 1 === majorTickLabels.length ); // do we have enough major tick labels?
