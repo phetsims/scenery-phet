@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Visual representation of a ruler.
  * Lots of options, see default options in constructor.
