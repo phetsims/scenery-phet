@@ -1,27 +1,35 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
-// @ts-nocheck
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
-
 /**
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, IColor, Line, Node, NodeOptions } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
+
+type SelfOptions = {
+  glassRadius?: number;
+  glassFill?: IColor; // center of the glass
+  glassStroke?: IColor; // rim and handle
+  icon?: Node | null; // optional icon will be centered in the glass area, if provided
+};
+
+export type MagnifyingGlassNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
 class MagnifyingGlassNode extends Node {
 
-  constructor( options ) {
+  constructor( providedOptions: MagnifyingGlassNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<MagnifyingGlassNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       glassRadius: 15,
-      glassFill: 'white', // center of the glass
-      glassStroke: 'black', // rim and handle
-      icon: null // optional icon will be centered in the glass area, if provided
-    }, options );
+      glassFill: 'white',
+      glassStroke: 'black',
+      icon: null
+    }, providedOptions );
 
     // the magnifying glass
     const glassLineWidth = 0.25 * options.glassRadius;

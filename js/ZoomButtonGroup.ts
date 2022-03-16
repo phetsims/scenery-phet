@@ -1,6 +1,5 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * ZoomButtonGroup is a general 'modern' button group for zooming in and out.
  * It was conceived and first used in natural-selection.
@@ -10,57 +9,69 @@
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import { LayoutBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
+import { LayoutBox, LayoutBoxOptions, Node } from '../../scenery/js/imports.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type SelfOptions = {
+
+  // function applied when the '+' button is pressed
+  applyZoomIn?: ( currentZoom: number ) => number;
+
+  // function applied when the '-' button is pressed
+  applyZoomOut?: ( currentZoom: number ) => number;
+
+  // propagated to the '+' and '-' push buttons
+  buttonOptions?: Omit<RectangularPushButtonOptions, 'content' | 'listener'>;
+
+  // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
+  touchAreaXDilation?: number;
+  touchAreaYDilation?: number;
+  mouseAreaXDilation?: number;
+  mouseAreaYDilation?: number;
+};
+
+export type ZoomButtonGroupOptions = SelfOptions & LayoutBoxOptions;
 
 class ZoomButtonGroup extends LayoutBox {
 
+  private readonly disposeZoomButtonGroup: () => void;
+
   /**
-   * @param {Node} zoomInIcon
-   * @param {Node} zoomOutIcon
-   * @param {NumberProperty} zoomLevelProperty - smaller value means more zoomed out
-   * @param {Object} [options]
+   * @param zoomInIcon
+   * @param zoomOutIcon
+   * @param zoomLevelProperty - smaller value means more zoomed out
+   * @param providedOptions
    */
-  constructor( zoomInIcon, zoomOutIcon, zoomLevelProperty, options ) {
+  constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: NumberProperty, providedOptions?: ZoomButtonGroupOptions ) {
 
-    assert && assert( zoomInIcon instanceof Node, 'icons are required in the base class' );
-    assert && assert( zoomOutIcon instanceof Node, 'icons are required in the base class' );
-    assert && assert( zoomLevelProperty instanceof NumberProperty, 'invalid zoomLevelProperty' );
     assert && assert( zoomLevelProperty.range, 'missing zoomLevelProperty.range' );
+    const zoomLevelRange = zoomLevelProperty.range!;
 
-    options = merge( {
+    const options = optionize<ZoomButtonGroupOptions, SelfOptions, LayoutBoxOptions,
+      'spacing' | 'tandem'>( {
 
-      applyZoomIn: currentZoom => currentZoom + 1, // function applied when the '+' button is pressed
-      applyZoomOut: currentZoom => currentZoom - 1, // function applied when the '-' button is pressed
-
-      // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
+      // ZoomButtonGroupOptions
+      applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
+      applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
       mouseAreaXDilation: 0,
       mouseAreaYDilation: 0,
-
-      // RectangularPushButton options
       buttonOptions: {
         fireOnHold: true,
         fireOnHoldDelay: 600, // ms
         fireOnHoldInterval: 250 // ms
       },
 
-      // LayoutBox options
+      // LayoutBoxOptions
       spacing: 0,
       orientation: 'horizontal',
       align: 'center',
-
-      // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
-
-    assert && assert( !options.buttonOptions.content, 'ZoomButtonGroup sets buttonOptions.content' );
-    assert && assert( !options.buttonOptions.listener, 'ZoomButtonGroup sets buttonOptions.listener' );
-    assert && assert( options.spacing >= 0, `invalid spacing: ${options.spacing}` );
+    }, providedOptions );
 
     // zoom in
     const zoomInButton = new RectangularPushButton( merge( {}, options.buttonOptions, {
@@ -120,9 +131,9 @@ class ZoomButtonGroup extends LayoutBox {
     super( options );
 
     // disable a button if we reach the min or max
-    const zoomLevelListener = zoomLevel => {
-      zoomOutButton.enabled = ( zoomLevel > zoomLevelProperty.range.min );
-      zoomInButton.enabled = ( zoomLevel < zoomLevelProperty.range.max );
+    const zoomLevelListener = ( zoomLevel : number ) => {
+      zoomOutButton.enabled = ( zoomLevel > zoomLevelRange.min );
+      zoomInButton.enabled = ( zoomLevel < zoomLevelRange.max );
     };
     zoomLevelProperty.link( zoomLevelListener );
 
