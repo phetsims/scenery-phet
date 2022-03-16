@@ -18,7 +18,7 @@ import sceneryPhet from './sceneryPhet.js';
 export default class PhetFont extends Font {
 
   /**
-   * @param [options] number or string indicate the font size, otherwise same options as scenery.Font
+   * @param providedOptions - number or string indicate the font size, otherwise same options as scenery.Font
    */
   constructor( providedOptions?: number | string | FontOptions ) {
 
