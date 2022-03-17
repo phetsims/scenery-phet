@@ -52,6 +52,8 @@ export type RulerNodeOptions = SelfOptions & NodeOptions;
 
 class RulerNode extends Node {
 
+  public static DEFAULT_FILL = 'rgb(236, 225, 113)';
+
   /**
    * @param rulerWidth  distance between left-most and right-most tick, insets will be added to this
    * @param rulerHeight
@@ -67,7 +69,7 @@ class RulerNode extends Node {
     const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
 
       // SelfOptions
-      backgroundFill: 'rgb(236, 225, 113)',
+      backgroundFill: RulerNode.DEFAULT_FILL,
       backgroundStroke: 'black',
       backgroundLineWidth: 1,
       insetsWidth: 14,
