@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
 /**
  * ZoomButtonGroup is a general 'modern' button group for zooming in and out.
