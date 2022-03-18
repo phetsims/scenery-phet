@@ -8,7 +8,7 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import centerAndSpread from '../../centerAndSpread.js';
+import centerAndVariability from '../../centerAndVariability.js';
 import StatusBar, { StatusBarOptions } from '../../../../vegas/js/StatusBar.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -45,5 +45,5 @@ class QuestionBar extends StatusBar {
   }
 }
 
-centerAndSpread.register( 'QuestionBar', QuestionBar );
+centerAndVariability.register( 'QuestionBar', QuestionBar );
 export default QuestionBar;
