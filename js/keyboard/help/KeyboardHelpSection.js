@@ -140,7 +140,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     // @private {Node[]} - collection of icons in this section
     this.icons = icons;
 
-    this.readingBlockContent = this.generateReadingBlockContent();
+    this.readingBlockNameResponse = this.generateReadingBlockNameResponse();
   }
 
   /**
@@ -153,21 +153,21 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    *
    * @returns {string}
    */
-  generateReadingBlockContent() {
+  generateReadingBlockNameResponse() {
 
     // include the section heading - headings typically don't have punctuation, but don't use a period because
     // it may appear to the synth as an abbreviation and change the pronunciation
-    let readingBlockContent = '';
-    readingBlockContent += `${this.headingString}, `;
+    let readingBlockNameResponse = '';
+    readingBlockNameResponse += `${this.headingString}, `;
 
-    // append the readingBlockContent assigned to each icon
+    // append the readingBlockNameResponse assigned to each icon
     this.icons.forEach( icon => {
-      if ( icon.readingBlockContent ) {
-        readingBlockContent += `${icon.readingBlockContent} `;
+      if ( icon.readingBlockNameResponse ) {
+        readingBlockNameResponse += `${icon.readingBlockNameResponse} `;
       }
     } );
 
-    return readingBlockContent;
+    return readingBlockNameResponse;
   }
 
   /**
@@ -207,7 +207,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
         // voicing
         // {string} - Content for this icon that is read by the Voicing feature
         // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
-        readingBlockContent: null
+        readingBlockNameResponse: null
       }
     }, options );
     assert && assert( !options.children, 'children are not optional' );
@@ -223,7 +223,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
     // set the ReadingBlock content for the icon - default
-    iconBox.readingBlockContent = options.iconOptions.readingBlockContent || options.iconOptions.innerContent;
+    iconBox.readingBlockNameResponse = options.iconOptions.readingBlockNameResponse || options.iconOptions.innerContent;
 
     return new HelpSectionRow( labelText, labelBox, iconBox );
   }
@@ -268,7 +268,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       // voicing
       // {string} - Content for this icon that is read by the Voicing feature
       // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
-      readingBlockContent: null
+      readingBlockNameResponse: null
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, { font: LABEL_FONT } );
@@ -307,7 +307,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
     // set the ReadingBlock content for the icon - default
-    iconsBox.readingBlockContent = options.iconsVBoxOptions.readingBlockContent || options.iconsVBoxOptions.innerContent;
+    iconsBox.readingBlockNameResponse = options.iconsVBoxOptions.readingBlockNameResponse || options.iconsVBoxOptions.innerContent;
 
     return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
   }
