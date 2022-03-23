@@ -16,7 +16,7 @@ import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type SelfOptions = {
-  labelText: string
+  labelText: string;
 };
 export type QuestionBarOptions = SelfOptions & Omit<StatusBarOptions, 'floatToTop'>
 
