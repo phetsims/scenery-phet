@@ -35,35 +35,35 @@ const BULB_CENTER_Y = 0;
 type ZeroLevel = 'bulbCenter' | 'bulbTop';
 
 type SelfOptions = {
-  bulbDiameter?: number,
-  tubeWidth?: number,
-  tubeHeight?: number,
-  lineWidth?: number,
-  outlineStroke?: IColor,
-  tickSpacing?: number,
+  bulbDiameter?: number;
+  tubeWidth?: number;
+  tubeHeight?: number;
+  lineWidth?: number;
+  outlineStroke?: IColor;
+  tickSpacing?: number;
 
   // overrides tickSpacing to space ticks by units of temperature
-  tickSpacingTemperature?: number | null,
-  majorTickLength?: number,
-  minorTickLength?: number,
+  tickSpacingTemperature?: number | null;
+  majorTickLength?: number;
+  minorTickLength?: number;
 
   // space between the thermometer outline and the fluid inside it
-  glassThickness?: number,
+  glassThickness?: number;
 
   // defines where level is at temperature zero - 'bulbCenter' or 'bulbTop'
-  zeroLevel?: ZeroLevel,
+  zeroLevel?: ZeroLevel;
 
   // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
-  backgroundFill?: IColor,
+  backgroundFill?: IColor;
 
   // the main color of the bulb fluid, and the left side of the tube gradient
-  fluidMainColor?: IColor,
+  fluidMainColor?: IColor;
 
   // the highlight color of the bulb fluid and the middle of the tube gradient
-  fluidHighlightColor?: IColor,
+  fluidHighlightColor?: IColor;
 
   // the right side of the tube gradient, not used currently
-  fluidRightSideColor?: IColor,
+  fluidRightSideColor?: IColor;
 };
 
 export type ThermometerNodeOptions = SelfOptions & NodeOptions;

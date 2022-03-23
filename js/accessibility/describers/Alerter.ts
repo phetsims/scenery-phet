@@ -17,12 +17,12 @@ export type AlerterOptions = {
 
   // When true, alerts will be sent to the voicingUtteranceQueue. This shutoff valve is similar to
   // descriptionAlertNode, but for voicing.
-  alertToVoicing?: boolean,
+  alertToVoicing?: boolean;
 
   // If provided, use this Node to send description alerts to one or more Display's UtteranceQueue. Unlike for
   // Voicing, description alerts must occur through a Node connected to a Display through the scene graph. If null,
   // do not alert for description (same as alertToVoicing:false). NOTE: No description will alert without this option!
-  descriptionAlertNode?: Node | null
+  descriptionAlertNode?: Node | null;
 }
 
 class Alerter {

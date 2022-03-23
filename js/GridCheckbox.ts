@@ -15,9 +15,9 @@ import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  gridSize?: number, // {number} square grid with this width and height
-  gridStroke?: IColor,
-  gridLineWidth?: number,
+  gridSize?: number; // {number} square grid with this width and height
+  gridStroke?: IColor;
+  gridLineWidth?: number;
 };
 
 export type GridCheckboxOptions = SelfOptions & CheckboxOptions;

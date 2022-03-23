@@ -381,7 +381,7 @@ export default class NumberControl extends Node {
 
     // major ticks for the slider
     // NOTE: Typing for majorTicks should be improved
-    const majorTicks = options.sliderOptions.majorTicks as { value: number, label: Node }[];
+    const majorTicks = options.sliderOptions.majorTicks as { value: number; label: Node }[];
     for ( let i = 0; i < majorTicks.length; i++ ) {
       this.slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
@@ -629,10 +629,10 @@ export default class NumberControl extends Node {
     // spacing between slider and arrow buttons
     arrowButtonSpacing?: number;
 
-    hasReadoutProperty?: IReadOnlyProperty<boolean> | null,
+    hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
 
     // Supports Pendulum Lab's questionText where a question is substituted for the slider
-    createBottomContent?: ( ( box: LayoutBox ) => void ) | null
+    createBottomContent?: ( ( box: LayoutBox ) => void ) | null;
   } ): LayoutFunction {
 
     const options = merge( {
