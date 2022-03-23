@@ -26,9 +26,9 @@ type StatusBarSelfOptions = {
   xMargin?: number;
   yMargin?: number;
   barFill?: IColor;
-  barStroke?: IColor,
-  floatToTop?: boolean,
-  dynamicAlignment?: boolean
+  barStroke?: IColor;
+  floatToTop?: boolean;
+  dynamicAlignment?: boolean;
 };
 export type StatusBarOptions = StatusBarSelfOptions & NodeOptions;
 
