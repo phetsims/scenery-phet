@@ -17,25 +17,29 @@ import { IColor, Node, NodeOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import vegas from './vegas.js';
 
-// constants
-const DEFAULT_FONT = new PhetFont( 20 );
-
-// Documented at optionize
-type StatusBarSelfOptions = {
+type SelfOptions = {
+  barFill?: IColor;
+  barStroke?: IColor;
   barHeight?: number;
   xMargin?: number;
   yMargin?: number;
-  barFill?: IColor;
-  barStroke?: IColor;
+
+  // true: float bar to top of visible bounds
+  // false: bar at top of layoutBounds
   floatToTop?: boolean;
+
+  // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
+  // false: keeps things on the status bar aligned with left and right edges of layoutBounds
   dynamicAlignment?: boolean;
 };
-export type StatusBarOptions = StatusBarSelfOptions & NodeOptions;
+
+export type StatusBarOptions = SelfOptions & NodeOptions;
 
 class StatusBar extends Node {
+
   readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
   private readonly disposeStatusBar: () => void;
-  static DEFAULT_FONT: PhetFont;
+  static DEFAULT_FONT = new PhetFont( 20 );
 
   /**
    * @param layoutBounds
@@ -44,19 +48,15 @@ class StatusBar extends Node {
    */
   constructor( layoutBounds: Bounds2, visibleBoundsProperty: Property<Bounds2>, providedOptions?: StatusBarOptions ) {
 
-    const options = optionize<StatusBarOptions, StatusBarSelfOptions, NodeOptions>( {
+    const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>( {
+
+      // StatusBarOptions
+      barFill: 'lightGray',
+      barStroke: null,
       barHeight: 50,
       xMargin: 10,
       yMargin: 8,
-      barFill: 'lightGray',
-      barStroke: null,
-
-      // true: float bar to top of visible bounds
-      // false: bar at top of layoutBounds
       floatToTop: false,
-
-      // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
-      // false: keeps things on the status bar aligned with left and right edges of layoutBounds
       dynamicAlignment: true
     }, providedOptions );
 
@@ -106,9 +106,6 @@ class StatusBar extends Node {
     super.dispose();
   }
 }
-
-// Default font for things text that appears in the status bar subtypes
-StatusBar.DEFAULT_FONT = DEFAULT_FONT;
 
 vegas.register( 'StatusBar', StatusBar );
 export default StatusBar;
