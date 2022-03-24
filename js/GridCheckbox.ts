@@ -22,7 +22,7 @@ type SelfOptions = {
 
 export type GridCheckboxOptions = SelfOptions & CheckboxOptions;
 
-class GridCheckbox extends Checkbox {
+export default class GridCheckbox extends Checkbox {
 
   /**
    * @param property
@@ -78,4 +78,3 @@ class GridCheckbox extends Checkbox {
 }
 
 sceneryPhet.register( 'GridCheckbox', GridCheckbox );
-export default GridCheckbox;

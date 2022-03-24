@@ -26,7 +26,7 @@ export type ArrowShapeOptions = {
   scaleTailToo?: boolean;  // determines whether to also scale arrow head width and tail width when scaling head height
 };
 
-class ArrowShape extends Shape {
+export default class ArrowShape extends Shape {
 
   /**
    * @param tailX
@@ -174,4 +174,3 @@ class ArrowShape extends Shape {
 }
 
 sceneryPhet.register( 'ArrowShape', ArrowShape );
-export default ArrowShape;

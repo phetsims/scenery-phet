@@ -17,7 +17,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 export type WireNodeOptions = PathOptions;
 
-class WireNode extends Path {
+export default class WireNode extends Path {
 
   private readonly multilink: Multilink<[ Vector2, Vector2, Vector2, Vector2 ]>
 
@@ -57,4 +57,3 @@ class WireNode extends Path {
 }
 
 sceneryPhet.register( 'WireNode', WireNode );
-export default WireNode;

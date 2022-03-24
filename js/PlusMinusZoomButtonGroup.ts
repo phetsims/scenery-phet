@@ -29,7 +29,7 @@ type SelfOptions = {
 
 export type PlusMinusZoomButtonGroupOptions = SelfOptions & ZoomButtonGroupOptions;
 
-class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
+export default class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
 
   /**
    * @param zoomLevelProperty - smaller value means more zoomed out
@@ -66,4 +66,3 @@ class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
 }
 
 sceneryPhet.register( 'PlusMinusZoomButtonGroup', PlusMinusZoomButtonGroup );
-export default PlusMinusZoomButtonGroup;

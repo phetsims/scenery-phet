@@ -19,7 +19,7 @@ type SelfOptions = {
 
 export type BackgroundNodeOptions = SelfOptions & NodeOptions;
 
-class BackgroundNode extends Node {
+export default class BackgroundNode extends Node {
 
   public readonly background: Rectangle; // Unfortunate that this is public :(
 
@@ -63,4 +63,3 @@ class BackgroundNode extends Node {
 }
 
 sceneryPhet.register( 'BackgroundNode', BackgroundNode );
-export default BackgroundNode;

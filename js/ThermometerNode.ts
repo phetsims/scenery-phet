@@ -68,7 +68,7 @@ type SelfOptions = {
 
 export type ThermometerNodeOptions = SelfOptions & NodeOptions;
 
-class ThermometerNode extends Node {
+export default class ThermometerNode extends Node {
   private readonly temperatureLinearFunction: LinearFunction;
   private readonly disposeThermometerNode: () => void;
 
@@ -290,4 +290,3 @@ class ThermometerNode extends Node {
 }
 
 sceneryPhet.register( 'ThermometerNode', ThermometerNode );
-export default ThermometerNode;

@@ -18,7 +18,7 @@ type SelfOptions = {
 
 export type MagnifyingGlassNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
-class MagnifyingGlassNode extends Node {
+export default class MagnifyingGlassNode extends Node {
 
   constructor( providedOptions: MagnifyingGlassNodeOptions ) {
 
@@ -61,4 +61,3 @@ class MagnifyingGlassNode extends Node {
 }
 
 sceneryPhet.register( 'MagnifyingGlassNode', MagnifyingGlassNode );
-export default MagnifyingGlassNode;

@@ -35,7 +35,7 @@ type SelfOptions = {
 
 export type ZoomButtonGroupOptions = SelfOptions & LayoutBoxOptions;
 
-class ZoomButtonGroup extends LayoutBox {
+export default class ZoomButtonGroup extends LayoutBox {
 
   private readonly disposeZoomButtonGroup: () => void;
 
@@ -160,4 +160,3 @@ class ZoomButtonGroup extends LayoutBox {
 }
 
 sceneryPhet.register( 'ZoomButtonGroup', ZoomButtonGroup );
-export default ZoomButtonGroup;

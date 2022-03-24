@@ -24,7 +24,7 @@ type SelfOptions = {
 
 export type MagnifyingGlassZoomButtonGroupOptions = SelfOptions & ZoomButtonGroupOptions;
 
-class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
+export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
 
   /**
    * @param zoomLevelProperty - smaller value means more zoomed out
@@ -67,4 +67,3 @@ class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
 }
 
 sceneryPhet.register( 'MagnifyingGlassZoomButtonGroup', MagnifyingGlassZoomButtonGroup );
-export default MagnifyingGlassZoomButtonGroup;
