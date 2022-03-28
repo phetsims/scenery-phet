@@ -25,7 +25,7 @@ type SelfOptions = {
 
 export type FaceNodeOptions = SelfOptions & NodeOptions;
 
-class FaceNode extends Node {
+export default class FaceNode extends Node {
 
   private readonly smileMouth: Path;
   private readonly frownMouth: Path;
@@ -116,4 +116,3 @@ class FaceNode extends Node {
 }
 
 sceneryPhet.register( 'FaceNode', FaceNode );
-export default FaceNode;
