@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * U-Turn arrow shape, for use with "reset" or "undo" purposes
  *
@@ -10,11 +9,12 @@
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class UTurnArrowShape extends Shape {
+export default class UTurnArrowShape extends Shape {
+
   /**
    * @param {number} size A size factor (it'll be a bit bigger)
    */
-  constructor( size ) {
+  constructor( size: number ) {
     super();
 
     const strokeWidth = size * 0.3;
@@ -46,5 +46,3 @@ class UTurnArrowShape extends Shape {
 }
 
 sceneryPhet.register( 'UTurnArrowShape', UTurnArrowShape );
-
-export default UTurnArrowShape;
