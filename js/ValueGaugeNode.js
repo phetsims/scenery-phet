@@ -1,5 +1,6 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A GaugeNode with a NumberDisplay located in the center bottom half of the GaugeNode to
  * display the numerical value. The NumberDisplay can be hidden but is visible by default.

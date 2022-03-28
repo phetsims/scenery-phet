@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * GaugeNode is a circular gauge that depicts some dynamic value.
  * This was originally ported from the speedometer node in forces-and-motion-basics.
