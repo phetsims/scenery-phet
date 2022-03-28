@@ -1,6 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * An octagonal, red stop sign node with a white internal border
  *
@@ -9,33 +8,45 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const NUMBER_OF_SIDES = 8;
 
-class StopSignNode extends Node {
+type SelfOptions = {
+  fillRadius?: number;
+  innerStrokeWidth?: number;
+  outerStrokeWidth?: number;
+  fill?: IColor;
+  innerStroke?: IColor;
+  outerStroke?: IColor;
+};
+
+export type StopSignNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
+export default class StopSignNode extends Node {
 
   /**
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( options ) {
+  constructor( providedOptions?: StopSignNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<StopSignNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       fillRadius: 23,
       innerStrokeWidth: 2,
       outerStrokeWidth: 1,
-
       fill: 'red',
       innerStroke: 'white',
       outerStroke: 'black',
 
+      // NodeOptions
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     options.children = [
       createStopSignPath( options.outerStroke, options.fillRadius + options.innerStrokeWidth + options.outerStrokeWidth ),
@@ -47,7 +58,7 @@ class StopSignNode extends Node {
   }
 }
 
-function createStopSignPath( fill, radius ) {
+function createStopSignPath( fill: IColor, radius: number ) {
   return new Path( Shape.regularPolygon( NUMBER_OF_SIDES, radius ), {
     fill: fill,
     rotation: Math.PI / NUMBER_OF_SIDES,
@@ -59,4 +70,3 @@ function createStopSignPath( fill, radius ) {
 }
 
 sceneryPhet.register( 'StopSignNode', StopSignNode );
-export default StopSignNode;
