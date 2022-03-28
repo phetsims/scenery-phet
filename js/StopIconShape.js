@@ -1,5 +1,6 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Shape for the 'stop' icon that appears on buttons and other UI components.
  *
