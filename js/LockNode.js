@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * LockNode shows a padlock that is either open or closed, depending on the state of a Property<boolean>.
  *
