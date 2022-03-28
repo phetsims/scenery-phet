@@ -1,27 +1,31 @@
 // Copyright 2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * LockNode shows a padlock that is either open or closed, depending on the state of a Property<boolean>.
+ * LockNode shows a padlock that is either open or closed, depending on the state of a boolean Property.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { AlignBox, AlignGroup, Image } from '../../scenery/js/imports.js';
-import BooleanToggleNode from '../../sun/js/BooleanToggleNode.js';
+import Property from '../../axon/js/Property.js';
+import { AlignBox, AlignBoxOptions, AlignGroup, Image } from '../../scenery/js/imports.js';
+import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
 import lockClosed_png from '../images/lockClosed_png.js';
 import lockOpened_png from '../images/lockOpened_png.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class LockNode extends BooleanToggleNode {
+type SelfOptions = {};
+
+export type LockNodeOptions = SelfOptions & BooleanToggleNodeOptions;
+
+export default class LockNode extends BooleanToggleNode {
 
   /**
-   * @param {Property<boolean>} isLockedProperty - true=lock closed, false=lock open
-   * @param {Object} [options]
+   * @param isLockedProperty - true=lock closed, false=lock open
+   * @param providedOptions
    */
-  constructor( isLockedProperty, options ) {
+  constructor( isLockedProperty: Property<boolean>, providedOptions?: LockNodeOptions ) {
 
-    const alignBoxOptions = {
+    const alignBoxOptions: AlignBoxOptions = {
 
       // To make both icons have the same effective dimensions
       group: new AlignGroup(),
@@ -35,10 +39,9 @@ class LockNode extends BooleanToggleNode {
       new AlignBox( new Image( lockClosed_png ), alignBoxOptions ), // trueNode
       new AlignBox( new Image( lockOpened_png ), alignBoxOptions ), // falseNode
       isLockedProperty,
-      options
+      providedOptions
     );
   }
 }
 
 sceneryPhet.register( 'LockNode', LockNode );
-export default LockNode;
