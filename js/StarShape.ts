@@ -13,13 +13,13 @@ import sceneryPhet from './sceneryPhet.js';
 type SelfOptions = {
 
   // Distance from the center to the tip of a star limb
-  outerRadius: number;
+  outerRadius?: number;
 
   // Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-  innerRadius: number;
+  innerRadius?: number;
 
   // Number of star points, must be an integer
-  numberStarPoints: number;
+  numberStarPoints?: number;
 };
 
 export type StarShapeOptions = SelfOptions;
