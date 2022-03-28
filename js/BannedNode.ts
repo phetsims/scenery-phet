@@ -1,34 +1,37 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * The symbol is the universal "no" symbol, which shows a circle with a line through it, see
+ * BannedNode is the universal "no" symbol, which shows a circle with a line through it, see
  * https://en.wikipedia.org/wiki/No_symbol. It's known by a number of  different emoji names, include "banned", see
  * https://emojipedia.org/no-entry-sign/.  It is also referred to as a prohibition sign.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import { Circle, Line, Node, NodeOptions, PaintableOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class BannedNode extends Node {
+type SelfOptions = {
+  radius?: number;
+} & PickOptional<PaintableOptions, 'lineWidth' | 'stroke' | 'fill'>;
+
+export type BannedNodeOptions = SelfOptions & NodeOptions;
+
+export default class BannedNode extends Node {
 
   /**
-   * @param {Object} [options]
-   * @constructor
+   * @param providedOptions
    */
-  constructor( options ) {
+  constructor( providedOptions?: BannedNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<BannedNodeOptions, SelfOptions, NodeOptions>( {
       radius: 20,
       lineWidth: 5,
       stroke: 'red',
       fill: null
-    }, options );
+    }, providedOptions );
 
     const circleNode = new Circle( options.radius, {
       lineWidth: options.lineWidth,
@@ -52,5 +55,3 @@ class BannedNode extends Node {
 }
 
 sceneryPhet.register( 'BannedNode', BannedNode );
-
-export default BannedNode;
