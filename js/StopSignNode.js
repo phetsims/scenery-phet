@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * An octagonal, red stop sign node with a white internal border
  *
