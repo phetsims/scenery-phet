@@ -1,6 +1,5 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * GaugeNode is a circular gauge that depicts some dynamic value.
  * This was originally ported from the speedometer node in forces-and-motion-basics.
@@ -9,62 +8,83 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, IColor, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class GaugeNode extends Node {
+type SelfOptions = {
+
+  radius?: number;
+  backgroundFill?: IColor;
+  backgroundStroke?: IColor;
+  backgroundLineWidth?: number;
+  maxLabelWidthScale?: number; // defines max width of the label, relative to the radius
+
+  // ticks
+  numberOfTicks?: number;
+  majorTickStroke?: IColor;
+  minorTickStroke?: IColor;
+  majorTickLength?: number;
+  minorTickLength?: number;
+  majorTickLineWidth?: number;
+  minorTickLineWidth?: number;
+
+  // the top half of the gauge, plus PI/8 extended below the top half on each side
+  span?: number; // the visible span of the gauge value range, in radians
+
+  needleLineWidth?: number;
+
+  // true - always updates, even when invisible
+  // false - does not update when invisible, use to optimize performance
+  updateWhenInvisible?: boolean;
+};
+
+export type GaugeNodeOptions = SelfOptions & NodeOptions;
+
+export default class GaugeNode extends Node {
+
+  public readonly radius: number;
+  private readonly disposeGaugeNode: () => void;
 
   /**
-   * @param {Property.<number>} valueProperty
-   * @param {string} label - label to display, scaled to fit if necessary
-   * @param {Range} range - range of the needle. If valueProperty exceeds this range, the needle will stop at min or max.
-   * @param {Object} [options]
+   * @param valueProperty
+   * @param label - label to display, scaled to fit if necessary
+   * @param range - range of the needle. If valueProperty exceeds this range, the needle will stop at min or max.
+   * @param providedOptions
    */
-  constructor( valueProperty, label, range, options ) {
+  constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range, providedOptions?: GaugeNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
 
-      // Defaults
+      // SelfOptions
       radius: 100,
       backgroundFill: 'white',
       backgroundStroke: 'rgb( 85, 85, 85 )',
       backgroundLineWidth: 2,
-      maxLabelWidthScale: 1.3, // {number} defines max width of the label, relative to the radius
-
-      // ticks
-      numberOfTicks: 21, // 10 ticks each on the right side and left side, plus one in the center
+      maxLabelWidthScale: 1.3,
+      numberOfTicks: 21, // 10 ticks each on the right side and left side, plus 1 in the center
       majorTickStroke: 'gray',
       minorTickStroke: 'gray',
       majorTickLength: 10,
       minorTickLength: 5,
       majorTickLineWidth: 2,
       minorTickLineWidth: 1,
-
-      // the top half of the gauge, plus PI/8 extended below the top half on each side
-      span: Math.PI + Math.PI / 4, // {number} the visible span of the gauge value range, in radians
-
+      span: Math.PI + Math.PI / 4,
       needleLineWidth: 3,
-
-      // {boolean}
-      // true - always updates, even when invisible
-      // false - does not update when invisible, use to optimize performance
       updateWhenInvisible: true,
 
+      // NodeOptions
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
-    assert && assert( range instanceof Range, `range must be of type Range: ${range}` );
     assert && assert( options.span <= 2 * Math.PI, `options.span must be <= 2 * Math.PI: ${options.span}` );
 
     super();
@@ -131,7 +151,9 @@ class GaugeNode extends Node {
     };
     valueProperty.link( updateNeedle );
 
-    if ( options.updateOnlyWhenVisible ) {
+    // If options.updateWhenInvisible is true, updateNeedle will be called by the valueProperty listener above.
+    // Otherwise, we need to listen to visibleProperty, and call updateNeedle when the gauge becomes visible.
+    if ( !options.updateWhenInvisible ) {
       this.visibleProperty.link( visible => {
         visible && updateNeedle();
       } );
@@ -190,15 +212,10 @@ class GaugeNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'GaugeNode', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeGaugeNode();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'GaugeNode', GaugeNode );
-export default GaugeNode;
