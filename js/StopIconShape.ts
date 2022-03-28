@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shape for the 'stop' icon that appears on buttons and other UI components.
  *
@@ -10,12 +9,12 @@
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class StopIconShape extends Shape {
+export default class StopIconShape extends Shape {
 
   /**
-   * @param {number} width
+   * @param width
    */
-  constructor( width ) {
+  constructor( width: number ) {
     super();
 
     // rectangle
@@ -24,4 +23,3 @@ class StopIconShape extends Shape {
 }
 
 sceneryPhet.register( 'StopIconShape', StopIconShape );
-export default StopIconShape;
