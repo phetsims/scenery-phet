@@ -1,8 +1,7 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * A face that can smile or frown.  This is generally used for indicating success or failure.
+ * FaceNode is a face that can smile or frown.  This is generally used for indicating success or failure.
  * This was ported from a version that was originally written in Java.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -12,38 +11,49 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, Color, IColor, Node, NodeOptions, PaintColorProperty, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type SelfOptions = {
+  headFill?: IColor;
+  headStroke?: IColor;
+  eyeFill?: IColor;
+  mouthStroke?: IColor;
+  headLineWidth?: number;
+};
+
+export type FaceNodeOptions = SelfOptions & NodeOptions;
 
 class FaceNode extends Node {
 
+  private readonly smileMouth: Path;
+  private readonly frownMouth: Path;
+
   /**
-   * @param {number} headDiameter
-   * @param {Object} [options]
+   * @param headDiameter
+   * @param providedOptions
    */
-  constructor( headDiameter, options ) {
+  constructor( headDiameter: number, providedOptions?: FaceNodeOptions ) {
 
     // default options
-    options = merge( {
-      headFill: 'yellow',
+    const options = optionize<FaceNodeOptions, SelfOptions, NodeOptions>( {
+      headFill: Color.YELLOW,
       headStroke: null,
       eyeFill: 'black',
       mouthStroke: 'black',
       headLineWidth: 1
-    }, options );
+    }, providedOptions );
 
     super();
 
-    // @private {Property.<Color>}
-    this.headFillProperty = new PaintColorProperty( options.headFill );
+    // Wrap headFill in a Property, so that we can use darkerColor below.
+    // See https://github.com/phetsims/scenery-phet/issues/623
+    const headFillProperty = new PaintColorProperty( options.headFill );
 
     // The derived property listens to our headFillProperty which will be disposed. We don't need to keep a reference.
     options.headStroke = options.headStroke ||
-                         new DerivedProperty( [ this.headFillProperty ],
+                         new DerivedProperty( [ headFillProperty ],
                            color => color.darkerColor()
                          );
 
@@ -70,7 +80,6 @@ class FaceNode extends Node {
     // Add the mouths.
     const mouthLineWidth = headDiameter * 0.05;
 
-    // @private
     this.smileMouth = new Path( new Shape().arc( 0, headDiameter * 0.05, headDiameter * 0.25, Math.PI * 0.2, Math.PI * 0.8 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
@@ -78,7 +87,6 @@ class FaceNode extends Node {
     } );
     this.addChild( this.smileMouth );
 
-    // @private
     this.frownMouth = new Path( new Shape().arc( 0, headDiameter * 0.4, headDiameter * 0.20, -Math.PI * 0.75, -Math.PI * 0.25 ), {
       stroke: options.mouthStroke,
       lineWidth: mouthLineWidth,
@@ -94,27 +102,16 @@ class FaceNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FaceNode', this );
   }
 
-  // @public
-  smile() {
+  public smile(): FaceNode {
     this.smileMouth.visible = true;
     this.frownMouth.visible = false;
-    return this; // allow chaining
+    return this;
   }
 
-  // @public
-  frown() {
+  public frown(): FaceNode {
     this.smileMouth.visible = false;
     this.frownMouth.visible = true;
-    return this; // allow chaining
-  }
-
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
-    this.headFillProperty.dispose();
-    super.dispose();
+    return this;
   }
 }
 
