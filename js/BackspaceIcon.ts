@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * BackspaceIcon draws a backspace icon.
  * This was originally created for use on keypads, but may have other applications.
@@ -11,24 +10,34 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class BackspaceIcon extends Path {
+type SelfOptions = {
+  size?: Dimension2;
+};
+
+export type BackspaceIconOptions = SelfOptions & PathOptions;
+
+export default class BackspaceIcon extends Path {
 
   /**
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( options ) {
+  constructor( providedOptions?: BackspaceIconOptions ) {
 
-    options = merge( {
+    const options = optionize<BackspaceIconOptions, SelfOptions, PathOptions>( {
+
+      // SelfOptions
+      size: new Dimension2( 15, 10 ),
+
+      // PathOptions
       stroke: 'black',
       lineWidth: 1,
       lineJoin: 'round',
-      lineCap: 'square',
-      size: new Dimension2( 15, 10 )
-    }, options );
+      lineCap: 'square'
+    }, providedOptions );
 
     const iconShape = new Shape();
 
@@ -56,4 +65,3 @@ class BackspaceIcon extends Path {
 }
 
 sceneryPhet.register( 'BackspaceIcon', BackspaceIcon );
-export default BackspaceIcon;
