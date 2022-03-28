@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * BackspaceIcon draws a backspace icon.
  * This was originally created for use on keypads, but may have other applications.
