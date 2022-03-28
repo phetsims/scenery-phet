@@ -7,15 +7,12 @@
  */
 
 import ScreenView from '../../../joist/js/ScreenView.js';
-import { Image } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { Image, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import batteryDCell_png from '../../images/batteryDCell_png.js';
 import CanvasWarningNode from '../CanvasWarningNode.js';
 import ContextLossFailureDialog from '../ContextLossFailureDialog.js';
-import IE11StencilWarningNode from '../IE11StencilWarningNode.js';
 import OopsDialog from '../OopsDialog.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -60,18 +57,6 @@ class DialogsScreenView extends ScreenView {
       }
     } );
 
-    // IE11 Stencil Warning
-    let ie11StencilWarningDialog = null;
-    const ie11StencilWarningButton = new RectangularPushButton( {
-      content: new Text( 'IE11 Stencil Warning', TEXT_OPTIONS ),
-      listener: () => {
-        if ( !ie11StencilWarningDialog ) {
-          ie11StencilWarningDialog = new Dialog( new IE11StencilWarningNode() );
-        }
-        ie11StencilWarningDialog.show();
-      }
-    } );
-
     // Oops!
     let oopsDialog = null;
     const oopsButton = new RectangularPushButton( {
@@ -90,7 +75,6 @@ class DialogsScreenView extends ScreenView {
       children: [
         contextLossFailureButton,
         canvasWarningButton,
-        ie11StencilWarningButton,
         oopsButton
       ],
       spacing: 20,
