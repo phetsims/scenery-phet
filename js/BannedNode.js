@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * The symbol is the universal "no" symbol, which shows a circle with a line through it, see
  * https://en.wikipedia.org/wiki/No_symbol. It's known by a number of  different emoji names, include "banned", see
