@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A face that can smile or frown.  This is generally used for indicating success or failure.
  * This was ported from a version that was originally written in Java.
