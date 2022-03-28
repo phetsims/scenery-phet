@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * BracketNode draws a bracket with an optional label.
  *
@@ -9,32 +8,66 @@
 
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type BracketOrientation = 'left' | 'right' | 'up' | 'down';
+
+type SelfOptions = {
+
+  // refers to the direction that the tip of the bracket points
+  orientation?: BracketOrientation;
+
+  // optional label that will be centered below bracket's tip
+  labelNode?: Node | null;
+
+  // length of the bracket
+  bracketLength?: number;
+
+  // [0,1] exclusive, determines where along the width of the bracket the tip (and optional label) are placed
+  bracketTipPosition?: number;
+
+  // radius of the arcs at the ends of the bracket
+  bracketEndRadius?: number;
+
+  // radius of the arcs at the tip (center) of the bracket
+  bracketTipRadius?: number;
+
+  // color of the bracket
+  bracketStroke?: IPaint;
+
+  // line width (thickness) of the bracket
+  bracketLineWidth?: number;
+
+  // space between optional label and tip of bracket
+  spacing?: number;
+};
+
+type BracketNodeOptions = SelfOptions & NodeOptions;
 
 class BracketNode extends Node {
 
   /**
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( options ) {
+  constructor( providedOptions?: BracketNodeOptions ) {
 
-    options = merge( {
-      orientation: 'down', // refers to the direction that the tip of the bracket points, 'up'|'down'|'left'|'right'
-      labelNode: null, // {Node|null} optional label that will be centered below bracket's tip
-      bracketLength: 100, // {number} length of the bracket
-      bracketTipPosition: 0.5, // {number} [0,1] exclusive, determines where along the width of the bracket the tip (and optional label) are placed
-      bracketEndRadius: 5, // {number} radius of the arcs at the ends of the bracket
-      bracketTipRadius: 6, // {number} radius of the arcs at the tip (center) of the bracket
-      bracketStroke: 'black', // {Color|string} color of the bracket
-      bracketLineWidth: 1, // {number} line width (thickness) of the bracket
-      spacing: 2 // {number} space between optional label and tip of bracket
-    }, options );
+    const options = optionize<BracketNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
+      orientation: 'down',
+      labelNode: null,
+      bracketLength: 100,
+      bracketTipPosition: 0.5,
+      bracketEndRadius: 5,
+      bracketTipRadius: 6,
+      bracketStroke: 'black',
+      bracketLineWidth: 1,
+      spacing: 2
+    }, providedOptions );
 
     // validate options
-    assert && assert( options.orientation === 'up' || options.orientation === 'down' || options.orientation === 'left' || options.orientation === 'right' );
     assert && assert( options.bracketTipPosition > 0 && options.bracketTipPosition < 1 );
 
     super();
@@ -89,23 +122,26 @@ class BracketNode extends Node {
 
     // optional label, positioned near the bracket's tip
     if ( options.labelNode ) {
-      this.addChild( options.labelNode );
+
+      const labelNode = options.labelNode;
+      this.addChild( labelNode );
+
       switch( options.orientation ) {
         case 'up':
-          options.labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
-          options.labelNode.bottom = bracketNode.top - options.spacing;
+          labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
+          labelNode.bottom = bracketNode.top - options.spacing;
           break;
         case 'down':
-          options.labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
-          options.labelNode.top = bracketNode.bottom + options.spacing;
+          labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
+          labelNode.top = bracketNode.bottom + options.spacing;
           break;
         case 'left':
-          options.labelNode.right = bracketNode.left - options.spacing;
-          options.labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
+          labelNode.right = bracketNode.left - options.spacing;
+          labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
           break;
         case 'right':
-          options.labelNode.left = bracketNode.right + options.spacing;
-          options.labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
+          labelNode.left = bracketNode.right + options.spacing;
+          labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
           break;
         default:
           throw new Error( `unsupported orientation: ${options.orientation}` );
