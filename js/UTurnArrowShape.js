@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * U-Turn arrow shape, for use with "reset" or "undo" purposes
  *
