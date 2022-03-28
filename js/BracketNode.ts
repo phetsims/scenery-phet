@@ -12,12 +12,12 @@ import optionize from '../../phet-core/js/optionize.js';
 import { IPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-type BracketOrientation = 'left' | 'right' | 'up' | 'down';
+type BracketNodeOrientation = 'left' | 'right' | 'up' | 'down';
 
 type SelfOptions = {
 
   // refers to the direction that the tip of the bracket points
-  orientation?: BracketOrientation;
+  orientation?: BracketNodeOrientation;
 
   // optional label that will be centered below bracket's tip
   labelNode?: Node | null;
@@ -44,9 +44,9 @@ type SelfOptions = {
   spacing?: number;
 };
 
-type BracketNodeOptions = SelfOptions & NodeOptions;
+export type BracketNodeOptions = SelfOptions & NodeOptions;
 
-class BracketNode extends Node {
+export default class BracketNode extends Node {
 
   /**
    * @param providedOptions
@@ -156,4 +156,3 @@ class BracketNode extends Node {
 }
 
 sceneryPhet.register( 'BracketNode', BracketNode );
-export default BracketNode;
