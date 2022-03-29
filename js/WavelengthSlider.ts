@@ -1,6 +1,5 @@
 // Copyright 2013-2020, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Slider that shows a spectrum of colors for selecting a wavelength.
  *
@@ -8,37 +7,47 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
-import SpectrumSlider from './SpectrumSlider.js';
+import SpectrumSlider, { SpectrumSliderOptions } from './SpectrumSlider.js';
 import VisibleColor from './VisibleColor.js';
 
-class WavelengthSlider extends SpectrumSlider {
+type SelfOptions = {
+  minWavelength?: number;
+  maxWavelength?: number;
+};
+
+export type WavelengthSliderOptions = SelfOptions & Omit<SpectrumSliderOptions, 'minValue' | 'maxValue'>;
+
+export default class WavelengthSlider extends SpectrumSlider {
 
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength, in nm
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( wavelengthProperty, options ) {
+  constructor( wavelengthProperty: Property<number>, providedOptions?: WavelengthSliderOptions ) {
 
     // options that are specific to this type
-    options = merge( {
+    const options = optionize<WavelengthSliderOptions, SelfOptions, SpectrumSliderOptions>( {
 
+      // SelfOptions
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
-      valueToString: function( value ) {
+
+      // SpectrumSliderOptions
+      valueToString: function( value: number ) {
         return StringUtils.format( sceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1units,
           Utils.toFixed( value, 0 ), sceneryPhetStrings.units_nm );
       },
-      valueToColor: function( value ) {
+      valueToColor: function( value: number ) {
         return VisibleColor.wavelengthToColor( value );
       }
-    }, options );
-    assert && assert( options.minValue === undefined, 'minValue is supplied by WavelengthSlider' );
-    assert && assert( options.maxValue === undefined, 'maxValue is supplied by WavelengthSlider' );
+    }, providedOptions );
+
     options.minValue = options.minWavelength;
     options.maxValue = options.maxWavelength;
 
@@ -47,4 +56,3 @@ class WavelengthSlider extends SpectrumSlider {
 }
 
 sceneryPhet.register( 'WavelengthSlider', WavelengthSlider );
-export default WavelengthSlider;
