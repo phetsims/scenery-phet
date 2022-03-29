@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Shows the model and view coordinates that correspond to the cursor position.
  * Originally implemented for use in gas-properties, where it was used exclusively for debugging.
