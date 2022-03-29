@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * The lovechild of a ComboBox and a NumberDisplay. Allows the user to choose one of N dynamic numeric values.
  * ComboBox was designed to display static choices, so this component ensures that none of its items grow wider/taller
