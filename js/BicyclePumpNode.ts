@@ -1,6 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * This is a graphical representation of a bicycle pump. A user can move the handle up and down.
  *
@@ -11,19 +10,15 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import IProperty from '../../axon/js/IProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
+import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { SceneryConstants } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, DragListener, DragListenerOptions, IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressedDragListener, PressListenerEvent, Rectangle, SceneryConstants } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
@@ -44,22 +39,80 @@ const SHAFT_OPENING_TILT_FACTOR = 0.33;
 const BODY_TO_HOSE_ATTACH_POINT_X = 13;
 const BODY_TO_HOSE_ATTACH_POINT_Y = -26;
 
-class BicyclePumpNode extends Node {
+type SelfOptions = {
+
+  width?: number;
+  height?: number;
+
+  // various colors used by the pump
+  handleFill?: IColor;
+  shaftFill?: IColor;
+  bodyFill?: IColor;
+  bodyTopFill?: IColor;
+  indicatorBackgroundFill?: IColor;
+  indicatorRemainingFill?: IColor;
+  hoseFill?: IColor;
+  baseFill?: IColor; // this color is also used for the cone shape and hose connectors
+
+  // greater value = curvy hose, smaller value = straighter hose
+  hoseCurviness?: number;
+
+  // where the hose will attach externally relative to the origin of the pump
+  hoseAttachmentOffset?: Vector2;
+
+  // Determines whether the pump will interactive. If the pump's range changes, the pumps
+  // indicator will update regardless of enabledProperty. If null, this Property will be created.
+  nodeEnabledProperty?: IProperty<boolean> | null;
+
+  // {BooleanProperty} - determines whether the pump is able to inject particles when the pump is still interactive.
+  // This is needed for when a user is pumping in particles too quickly for a model to handle (so the injection
+  // needs throttling), but the pump should not become non-interactive as a result,
+  // see https://github.com/phetsims/states-of-matter/issues/276
+  injectionEnabledProperty?: IProperty<boolean>;
+
+  // pointer areas
+  handleTouchAreaXDilation?: number;
+  handleTouchAreaYDilation?: number;
+  handleMouseAreaXDilation?: number;
+  handleMouseAreaYDilation?: number;
+
+  dragListenerOptions?: HandleDragListenerOptions;
+
+  // cursor for the pump handle when it's enabled
+  handleCursor?: 'ns-resize';
+};
+
+export type BicyclePumpNodeOptions = SelfOptions & NodeOptions;
+
+export default class BicyclePumpNode extends Node {
+
+  public readonly nodeEnabledProperty: IProperty<boolean>;
+  public readonly hoseAttachmentOffset: Vector2;
+
+  // parts of the pump needed by setPumpHandleToInitialPosition
+  private readonly pumpBodyNode: Node;
+  private readonly pumpShaftNode: Node;
+  private readonly pumpHandleNode: Node;
+
+  // DragListener for the pump handle
+  private readonly handleDragListener: HandleDragListener;
+
+  private readonly disposeBicyclePumpNode: () => void;
 
   /**
-   * @param {NumberProperty} numberProperty - number of particles in the simulation
-   * @param {Property.<Range>} rangeProperty - allowed range
-   * @param {Object} [options]
+   * @param numberProperty - number of particles in the simulation
+   * @param rangeProperty - allowed range
+   * @param providedOptions
    */
-  constructor( numberProperty, rangeProperty, options ) {
+  constructor( numberProperty: IProperty<number>,
+               rangeProperty: IReadOnlyProperty<Range>,
+               providedOptions?: BicyclePumpNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
 
-      // {number} sizing
+      // SelfOptions
       width: 200,
       height: 250,
-
-      // {ColorDef} various colors used by the pump
       handleFill: '#adafb1',
       shaftFill: '#cacaca',
       bodyFill: '#d50000',
@@ -67,34 +120,21 @@ class BicyclePumpNode extends Node {
       indicatorBackgroundFill: '#443333',
       indicatorRemainingFill: '#999999',
       hoseFill: '#b3b3b3',
-      baseFill: '#aaaaaa', // this color is also used for the cone shape and hose connectors
-      hoseCurviness: 1, // {number} - greater value = curvy hose, smaller value = straighter hose
-
-      // {Vector2} where the hose will attach externally relative to the origin of the pump
+      baseFill: '#aaaaaa',
+      hoseCurviness: 1,
       hoseAttachmentOffset: new Vector2( 100, 100 ),
-
-      // {BooleanProperty} - determines whether the pump will interactive. If the pump's range changes, the pumps
-      // indicator will update regardless of enabledProperty. Created below if not provided.
       nodeEnabledProperty: null,
-
-      // {BooleanProperty} - determines whether the pump is able to inject particles when the pump is still interactive.
-      // This is needed for when a user is pumping in particles too quickly for a model to handle (so the injection
-      // needs throttling), but the pump should not become non-interactive as a result, see https://github.com/phetsims/states-of-matter/issues/276
       injectionEnabledProperty: new BooleanProperty( true ),
-
-      // pointer areas
       handleTouchAreaXDilation: 15,
       handleTouchAreaYDilation: 15,
       handleMouseAreaXDilation: 0,
       handleMouseAreaYDilation: 0,
+      dragListenerOptions: {},
+      handleCursor: 'ns-resize',
 
-      dragListenerOptions: null, // see HandleDragListener
-      handleCursor: 'ns-resize', // curose style for the pump handle when it's enabled
-
-      // phet-io
+      // NodeOptions
       tandem: Tandem.REQUIRED
-
-    }, options );
+    }, providedOptions );
 
     const width = options.width;
     const height = options.height;
@@ -104,10 +144,8 @@ class BicyclePumpNode extends Node {
     // does this instance own nodeEnabledProperty?
     const ownsEnabledProperty = !options.nodeEnabledProperty;
 
-    // @public (read-only)
     this.nodeEnabledProperty = options.nodeEnabledProperty || new BooleanProperty( true );
 
-    // @public (read-only)
     this.hoseAttachmentOffset = options.hoseAttachmentOffset;
 
     // create the base of the pump
@@ -130,7 +168,6 @@ class BicyclePumpNode extends Node {
     const bodyFillBrighterColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: 0.2 } );
     const bodyFillDarkerColorProperty = new PaintColorProperty( bodyFillColorProperty, { luminanceFactor: -0.2 } );
 
-    // @private create the body of the pump
     this.pumpBodyNode = new Rectangle( 0, 0, pumpBodyWidth, pumpBodyHeight, 0, 0, {
       fill: new LinearGradient( 0, 0, pumpBodyWidth, 0 )
         .addColorStop( 0, bodyFillBrighterColorProperty )
@@ -155,18 +192,14 @@ class BicyclePumpNode extends Node {
     bodyTopFrontNode.top = bodyTopBackNode.bottom - 0.4; // tweak slightly to prevent pump body from showing through
 
     // create the bottom cap on the body
-    const bodyBottomCapNode = new Path( new Shape()
-      .ellipse( 0, 0, bodyTopFrontNode.width * 0.55, 3, 0, 0, true ), {
+    const bodyBottomCapNode = new Path( new Shape().ellipse( 0, 0, bodyTopFrontNode.width * 0.55, 3, 0 ), {
       fill: new PaintColorProperty( baseFillColorProperty, { luminanceFactor: -0.3 } ),
       centerX: bodyTopFrontNode.centerX,
       bottom: coneNode.top + 4
     } );
 
     // create the node that will be used to indicate the remaining capacity
-    const remainingCapacityIndicator = new SegmentedBarGraphNode(
-      numberProperty,
-      rangeProperty,
-      {
+    const remainingCapacityIndicator = new SegmentedBarGraphNode( numberProperty, rangeProperty, {
         width: pumpBodyWidth * 0.6,
         height: pumpBodyHeight * 0.7,
         centerX: this.pumpBodyNode.centerX,
@@ -238,7 +271,7 @@ class BicyclePumpNode extends Node {
     this.setPumpHandleToInitialPosition();
 
     // enable/disable behavior and appearance for the handle
-    const enabledListener = enabled => {
+    const enabledListener = ( enabled: boolean ) => {
       this.pumpHandleNode.interruptSubtreeInput();
       this.pumpHandleNode.pickable = enabled;
       this.pumpHandleNode.cursor = enabled ? options.handleCursor : 'default';
@@ -251,12 +284,12 @@ class BicyclePumpNode extends Node {
     const maxHandleYOffset = this.pumpHandleNode.centerY;
     const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-    // @private create and add a drag listener to the handle
     this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
       options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-      merge( {
+      optionize<HandleDragListenerOptions, {}, HandleDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
-      }, options.dragListenerOptions ) );
+      }, options.dragListenerOptions )
+    );
     this.pumpHandleNode.addInputListener( this.handleDragListener );
 
     // add the pieces with the correct layering
@@ -296,26 +329,18 @@ class BicyclePumpNode extends Node {
 
   /**
    * Sets handle and shaft to their initial position
-   * @private
    */
-  setPumpHandleToInitialPosition() {
+  private setPumpHandleToInitialPosition(): void {
     this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
     this.pumpShaftNode.top = this.pumpHandleNode.bottom;
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.setPumpHandleToInitialPosition();
     this.handleDragListener.reset();
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeBicyclePumpNode();
     super.dispose();
   }
@@ -330,7 +355,7 @@ class BicyclePumpNode extends Node {
  * @returns {Node}
  * @private
  */
-function createPumpBaseNode( width, height, fill ) {
+function createPumpBaseNode( width: number, height: number, fill: IColor ): Node {
 
   // 3D effect is being used, so most of the height makes up the surface
   const topOfBaseHeight = height * 0.7;
@@ -382,14 +407,12 @@ function createPumpBaseNode( width, height, fill ) {
  * Creates half of the opening at the top of the pump body. Passing in -1 for the sign creates the back half, and
  * passing in 1 creates the front.
  *
- * @param {number} width
- * @param {number} sign
- * @param {ColorDef} fill
- * @param {ColorDef} stroke
- * @returns {Path}
- * @private
+ * @param width
+ * @param sign
+ * @param fill
+ * @param stroke
  */
-function createBodyTopHalfNode( width, sign, fill, stroke ) {
+function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: IColor, stroke: IColor ): Node {
   const bodyTopShape = new Shape()
     .moveTo( 0, 0 )
     .cubicCurveTo(
@@ -409,14 +432,11 @@ function createBodyTopHalfNode( width, sign, fill, stroke ) {
 
 /**
  * Creates a hose connector. The hose has one on each of its ends.
- *
- * @param {number} width
- * @param {number} height
- * @param {ColorDef} fill
- * @returns {Rectangle}
- * @private
+ * @param width
+ * @param height
+ * @param fill
  */
-function createHoseConnectorNode( width, height, fill ) {
+function createHoseConnectorNode( width: number, height: number, fill: IColor ): Node {
 
   // use PaintColorProperty so that colors can be updated dynamically
   const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
@@ -435,14 +455,11 @@ function createHoseConnectorNode( width, height, fill ) {
 
 /**
  * Creates the cone, which connects the pump base to the pump body.
- *
- * @param {number} pumpBodyWidth - the width of the pump body (not quite as wide as the top of the cone)
- * @param {number} height
- * @param {ColorDef} fill
- * @returns {Path}
- * @private
+ * @param pumpBodyWidth - the width of the pump body (not quite as wide as the top of the cone)
+ * @param height
+ * @param fill
  */
-function createConeNode( pumpBodyWidth, height, fill ) {
+function createConeNode( pumpBodyWidth: number, height: number, fill: IColor ): Node {
   const coneTopWidth = pumpBodyWidth * 1.2;
   const coneTopRadiusY = 3;
   const coneTopRadiusX = coneTopWidth / 2;
@@ -480,12 +497,9 @@ function createConeNode( pumpBodyWidth, height, fill ) {
 
 /**
  * Create the handle of the pump. This is the node that the user will interact with in order to use the pump.
- *
- * @param {ColorDef} fill
- * @returns {Path}
- * @private
+ * @param fill
  */
-function createPumpHandleNode( fill ) {
+function createPumpHandleNode( fill: IColor ): Node {
 
   // empirically determined constants
   const centerSectionWidth = 35;
@@ -502,10 +516,10 @@ function createPumpHandleNode( fill ) {
 
   /**
    * Add a "bump" to the top or bottom of the grip
-   * @param {Shape} shape - the shape to append to
-   * @param {number} sign - +1 for bottom side of grip, -1 for top side of grip
+   * @param shape - the shape to append to
+   * @param sign - +1 for bottom side of grip, -1 for top side of grip
    */
-  const addGripBump = ( shape, sign ) => {
+  const addGripBump = ( shape: Shape, sign: 1 | -1 ) => {
 
     // control points for quadratic curve shape on grip
     const controlPointX = gripSingleBumpWidth / 2;
@@ -568,13 +582,12 @@ function createPumpHandleNode( fill ) {
 
   /**
    * Adds a color stop to the given gradient at
-   *
-   * @param {LinearGradient} gradient - the gradient being appended to
-   * @param {number} deltaDistance - the distance of this added color stop
-   * @param {number} totalDistance - the total width of the gradient
-   * @param {ColorDef} color - the color of this color stop
+   * @param gradient - the gradient being appended to
+   * @param deltaDistance - the distance of this added color stop
+   * @param totalDistance - the total width of the gradient
+   * @param color - the color of this color stop
    */
-  const addRelativeColorStop = ( gradient, deltaDistance, totalDistance, color ) => {
+  const addRelativeColorStop = ( gradient: LinearGradient, deltaDistance: number, totalDistance: number, color: IColor ) => {
     const newPosition = handleGradientPosition + deltaDistance;
     let ratio = newPosition / totalDistance;
     ratio = ratio > 1 ? 1 : ratio;
@@ -621,110 +634,118 @@ function createPumpHandleNode( fill ) {
   } );
 }
 
+type HandleDragListenerSelfOptions = {
+
+  // {number} number of particles released by the pump during one pumping action
+  numberOfParticlesPerPumpAction?: number;
+
+  // {boolean} if false, particles are added as a batch at the end of each pumping motion
+  addParticlesOneAtATime?: boolean;
+};
+
+type HandleDragListenerOptions = HandleDragListenerSelfOptions & Omit<DragListenerOptions<PressedDragListener>, 'drag'>;
+
 /**
  * Drag listener for the pump's handle.
  */
 class HandleDragListener extends DragListener {
 
+  private lastHandlePosition: number | null;
+
   /**
    *
-   * @param {NumberProperty} numberProperty
-   * @param {Property.<Range>} rangeProperty
-   * @param {BooleanProperty} nodeEnabledProperty
-   * @param {number} minHandleYOffset
-   * @param {number} maxHandleYOffset
-   * @param {Path} pumpHandleNode
-   * @param {Rectangle} pumpShaftNode
-   * @param {Object} [options]
+   * @param numberProperty
+   * @param rangeProperty
+   * @param nodeEnabledProperty
+   * @param injectionEnabledProperty
+   * @param minHandleYOffset
+   * @param maxHandleYOffset
+   * @param pumpHandleNode
+   * @param pumpShaftNode
+   * @param providedOptions
    */
-  constructor( numberProperty,
-               rangeProperty,
-               nodeEnabledProperty,
-               injectionEnabledProperty,
-               minHandleYOffset,
-               maxHandleYOffset,
-               pumpHandleNode,
-               pumpShaftNode,
-               options
+  constructor( numberProperty: IProperty<number>,
+               rangeProperty: IReadOnlyProperty<Range>,
+               nodeEnabledProperty: IReadOnlyProperty<boolean>,
+               injectionEnabledProperty: IReadOnlyProperty<boolean>,
+               minHandleYOffset: number,
+               maxHandleYOffset: number,
+               pumpHandleNode: Node,
+               pumpShaftNode: Node,
+               providedOptions?: HandleDragListenerOptions
   ) {
 
     assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
-    options = merge( {
-      // {number} number of particles released by the pump during one pumping action
+    const options = optionize<HandleDragListenerOptions, HandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>( {
+
+      // HandleDragListenerSelfOptions
       numberOfParticlesPerPumpAction: 10,
-
-      // {boolean} if false, particles are added as a batch at the end of each pumping motion
       addParticlesOneAtATime: true
-    }, options );
+    }, providedOptions );
 
-    let handlePosition = null;
     let pumpingDistanceAccumulation = 0;
 
-    // How far the pump shaft needs to travel before the pump releases a particle. The subtracted constant was
-    // empirically determined to ensure that numberOfParticlesPerPumpAction is correct
-    const pumpingDistanceRequiredToAddParticle = ( maxHandleYOffset - minHandleYOffset ) /
-                                                 options.numberOfParticlesPerPumpAction - 0.01;
+    // How far the pump shaft needs to travel before the pump releases a particle.
+    // The subtracted constant was empirically determined to ensure that numberOfParticlesPerPumpAction is correct.
+    const pumpingDistanceRequiredToAddParticle =
+      ( maxHandleYOffset - minHandleYOffset ) / options.numberOfParticlesPerPumpAction - 0.01;
 
-    super( merge( {
-      drag: ( event, listener ) => {
+    options.drag = ( event: PressListenerEvent ) => {
 
-        // update the handle and shaft position based on the user's pointer position
-        const dragPositionY = pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
-        handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
-        pumpHandleNode.centerY = handlePosition;
-        pumpShaftNode.top = pumpHandleNode.bottom;
+      // update the handle and shaft position based on the user's pointer position
+      const dragPositionY = pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
+      const handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
+      pumpHandleNode.centerY = handlePosition;
+      pumpShaftNode.top = pumpHandleNode.bottom;
 
-        let numberOfBatchParticles = 0; // number of particles to add all at once
+      let numberOfBatchParticles = 0; // number of particles to add all at once
 
-        if ( this.lastHandlePosition !== null ) {
-          const travelDistance = handlePosition - this.lastHandlePosition;
-          if ( travelDistance > 0 ) {
+      if ( this.lastHandlePosition !== null ) {
+        const travelDistance = handlePosition - this.lastHandlePosition;
+        if ( travelDistance > 0 ) {
 
-            // This motion is in the downward direction, so add its distance to the pumping distance.
-            pumpingDistanceAccumulation += travelDistance;
-            while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
+          // This motion is in the downward direction, so add its distance to the pumping distance.
+          pumpingDistanceAccumulation += travelDistance;
+          while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
 
-              // add a particle
-              if ( nodeEnabledProperty.value && injectionEnabledProperty.value &&
-                   numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
-                if ( options.addParticlesOneAtATime ) {
-                  numberProperty.value++;
-                }
-                else {
-                  numberOfBatchParticles++;
-                }
+            // add a particle
+            if ( nodeEnabledProperty.value && injectionEnabledProperty.value &&
+                 numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
+              if ( options.addParticlesOneAtATime ) {
+                numberProperty.value++;
               }
-              pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
+              else {
+                numberOfBatchParticles++;
+              }
             }
+            pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
           }
-          else {
-            pumpingDistanceAccumulation = 0;
-          }
-        }
-
-        // Add particles in one batch.
-        if ( !options.addParticlesOneAtATime ) {
-          numberProperty.value += numberOfBatchParticles;
         }
         else {
-          assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
+          pumpingDistanceAccumulation = 0;
         }
-
-        this.lastHandlePosition = handlePosition;
       }
-    }, options ) );
+
+      // Add particles in one batch.
+      if ( !options.addParticlesOneAtATime ) {
+        numberProperty.value += numberOfBatchParticles;
+      }
+      else {
+        assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
+      }
+
+      this.lastHandlePosition = handlePosition;
+    };
+
+    super( options );
 
     this.lastHandlePosition = null;
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.lastHandlePosition = null;
   }
 }
 
 sceneryPhet.register( 'BicyclePumpNode', BicyclePumpNode );
-export default BicyclePumpNode;

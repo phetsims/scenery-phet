@@ -1,6 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A node that represents a quantity as a segmented bar graph.
  *
@@ -8,34 +7,59 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Range from '../../dot/js/Range.js';
 import Property from '../../axon/js/Property.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
-class SegmentedBarGraphNode extends Node {
+type SelfOptions = {
+
+  width?: number;
+  height?: number;
+  numSegments?: number;
+  backgroundColor?: IColor;
+  fullyLitIndicatorColor?: IColor;
+
+  // proportion of the width consumed by the indicator in the vertical direction, must be > 0 and <= to 1
+  indicatorWidthProportion?: number;
+
+  // proportion of the each segment consumed by the indicator in the vertical direction, must be > 0 and <= to 1
+  indicatorHeightProportion?: number;
+};
+
+export type SegmentedBarGraphNodeOptions = SelfOptions & NodeOptions;
+
+export default class SegmentedBarGraphNode extends Node {
 
   /**
-   * @param {NumberProperty} numberProperty
-   * @param {Property.<Range>} rangeProperty
-   * @param {Object} [options]
+   * @param numberProperty
+   * @param rangeProperty
+   * @param providedOptions
    */
-  constructor( numberProperty, rangeProperty, options ) {
-    options = merge( {
+  constructor( numberProperty: IReadOnlyProperty<number>,
+               rangeProperty: IReadOnlyProperty<Range>,
+               providedOptions?: SegmentedBarGraphNodeOptions ) {
+
+    const options = optionize<SegmentedBarGraphNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       width: 10,
       height: 100,
       numSegments: 10,
       backgroundColor: 'black',
       fullyLitIndicatorColor: '#1EC700',
-
-      // proportion of the width consumed by the indicator in the vertical direction, must be > 0 and <= to 1
       indicatorWidthProportion: 0.8,
-
-      // proportion of the each segment consumed by the indicator in the vertical direction, must be > 0 and <= to 1
       indicatorHeightProportion: 0.8
-    }, options );
+    }, providedOptions );
+
+    // Validate options
+    assert && assert( options.indicatorWidthProportion > 0 && options.indicatorWidthProportion <= 1,
+      `indicatorWidthProportion is out of range: ${options.indicatorWidthProportion}` );
+    assert && assert( options.indicatorHeightProportion > 0 && options.indicatorHeightProportion <= 1,
+      `indicatorHeightProportion is out of range: ${options.indicatorHeightProportion}` );
 
     super();
 
@@ -46,7 +70,7 @@ class SegmentedBarGraphNode extends Node {
     const indicatorWidth = options.width * options.indicatorWidthProportion;
     const segmentHeight = options.height / options.numSegments;
     const indicatorHeight = segmentHeight * options.indicatorHeightProportion;
-    const indicators = [];
+    const indicators: Rectangle[] = [];
     _.times( options.numSegments, index => {
       const indicator = new Rectangle( 0, 0, indicatorWidth, indicatorHeight, {
         centerX: options.width / 2,
@@ -57,12 +81,12 @@ class SegmentedBarGraphNode extends Node {
       indicators.push( indicator );
     } );
 
-    // set the visibility and opacity of each of the segments based on the number and range
-    Property.multilink( [ numberProperty, rangeProperty ], ( number, range ) => {
-      assert && assert( range.min <= number && number <= range.max,
-        `numberProperty is out of range, ${number}` );
+    // set the visibility and opacity of each of the segments based on the value and range
+    Property.multilink( [ numberProperty, rangeProperty ], ( value: number, range: Range ) => {
+      assert && assert( range.min <= value && value <= range.max,
+        `numberProperty is out of range: ${value}` );
 
-      const proportion = 1 - number / range.max;
+      const proportion = 1 - value / range.max;
       const numVisibleIndicators = Math.ceil( options.numSegments * proportion );
       for ( let i = 0; i < options.numSegments; i++ ) {
         indicators[ i ].visible = i < numVisibleIndicators;
@@ -82,4 +106,3 @@ class SegmentedBarGraphNode extends Node {
 }
 
 sceneryPhet.register( 'SegmentedBarGraphNode', SegmentedBarGraphNode );
-export default SegmentedBarGraphNode;
