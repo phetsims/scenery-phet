@@ -1,6 +1,5 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * ElectronChargeNode renders a shaded 2d electron with a "-" sign in the middle.
  *
@@ -8,28 +7,31 @@
  */
 
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { RadialGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, Node, NodeOptions, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class ElectronChargeNode extends Node {
+type SelfOptions = {
+  sphereOpacity?: number;
+  minusSignOpacity?: number;
+  radius?: number;
+};
 
-  constructor( options ) {
+export type ElectronChargeNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
-    // No options supported yet
-    options = merge( {
+export default class ElectronChargeNode extends Node {
+
+  constructor( providedOptions?: ElectronChargeNodeOptions ) {
+
+    const options = optionize<ElectronChargeNodeOptions, SelfOptions, NodeOptions>( {
 
       // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
       sphereOpacity: 1,
       minusSignOpacity: 1,
       radius: 10
 
-    }, options );
+    }, providedOptions );
 
-    assert && assert( !options.children, 'ElectronChargeNode sets children' );
     options.children = [
 
       // The blue shaded sphere
@@ -60,4 +62,3 @@ class ElectronChargeNode extends Node {
 }
 
 sceneryPhet.register( 'ElectronChargeNode', ElectronChargeNode );
-export default ElectronChargeNode;
