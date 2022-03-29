@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Eye dropper, with a button for dispensing whatever is in the dropper.
  *
