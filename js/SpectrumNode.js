@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * SpectrumNode displays a spectrum from one value to another.  The displayed colors are computed by a
  * required valueToColor function.
