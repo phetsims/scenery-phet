@@ -1,5 +1,6 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * PlusShape is the Shape for a mathematical plus symbol.
  *
