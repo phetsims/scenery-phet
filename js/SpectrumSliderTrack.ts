@@ -1,31 +1,38 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * This SliderTrack depicts a spectrum of colors in the track.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Range from '../../dot/js/Range.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import merge from '../../phet-core/js/merge.js';
 import { Rectangle } from '../../scenery/js/imports.js';
-import SliderTrack from '../../sun/js/SliderTrack.js';
+import SliderTrack, { SliderTrackOptions } from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
-import SpectrumNode from './SpectrumNode.js';
+import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
+import IProperty from '../../axon/js/IProperty.js';
+import optionize from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
-class SpectrumSliderTrack extends SliderTrack {
+type SelfOptions = PickOptional<SpectrumNodeOptions, 'valueToColor'>;
+
+export type SpectrumSliderTrackOptions = SelfOptions & SliderTrackOptions;
+
+export default class SpectrumSliderTrack extends SliderTrack {
 
   /**
-   * @param {Property.<number>} property
-   * @param {Range} range
-   * @param {Object} [options]
+   * @param property
+   * @param range
+   * @param providedOptions
    */
-  constructor( property, range, options ) {
-    options = merge( {
+  constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
+
+    const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>( {
       size: new Dimension2( 150, 30 ),
       valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
-    }, options );
+    }, providedOptions );
 
     const spectrumNode = new SpectrumNode( {
       minValue: range.min,
@@ -39,9 +46,9 @@ class SpectrumSliderTrack extends SliderTrack {
       stroke: 'black',
       lineWidth: 1
     } ) );
+
     super( spectrumNode, property, range, options );
   }
 }
 
 sceneryPhet.register( 'SpectrumSliderTrack', SpectrumSliderTrack );
-export default SpectrumSliderTrack;

@@ -1,39 +1,48 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * This slider thumb has (a) a thin cursor that lies on the track and (b) a teardrop-shaped handle that drops
- * down below the track and depicts the selected color.
+ * SpectrumSliderThumb has (a) a thin cursor that lies on the track and (b) a teardrop-shaped handle that drops
+ * down below the track and depicts the selected color. Origin is at top center.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import { Node, Path, PathOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import SpectrumNode from './SpectrumNode.js';
+import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
 
-class SpectrumSliderThumb extends Path {
+type SelfOptions = {
+  width?: number;
+  height?: number;
+  cursorHeight?: number;
+} & PickOptional<SpectrumNodeOptions, 'valueToColor'>;
 
-  /**
-   * The slider thumb, origin at top center.
-   *
-   * @param {Property} property
-   * @param {Object} [options]
-   */
-  constructor( property, options ) {
+export type SpectrumSliderThumbOptions = SelfOptions & PathOptions;
 
-    options = merge( {
+export default class SpectrumSliderThumb extends Path {
+
+  private readonly windowCursor: Node;
+  private readonly disposeSpectrumSliderThumb: () => void;
+
+  constructor( property: IReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
+
+    const options = optionize<SpectrumSliderThumbOptions, SelfOptions, PathOptions>( {
+
+      // SelfOptions
       width: 35,
       height: 45,
-      stroke: 'black',
-      lineWidth: 1,
-      fill: 'black',
       valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR,
-      cursorHeight: 30
-    }, options );
+      cursorHeight: 30,
+
+      // PathOptions
+      fill: 'black',
+      stroke: 'black',
+      lineWidth: 1
+    }, providedOptions );
 
     const width = options.width;
     const height = options.height;
@@ -60,7 +69,8 @@ class SpectrumSliderThumb extends Path {
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
     // Save the coordinates for the point above the left side arc, for use on the other side.
-    const sideArcPoint = handleShape.getLastPoint();
+    const sideArcPoint = handleShape.getLastPoint()!;
+    assert && assert( sideArcPoint );
 
     handleShape.lineTo( 0, 0 )
       .lineTo( -sideArcPoint.x, sideArcPoint.y )
@@ -77,7 +87,7 @@ class SpectrumSliderThumb extends Path {
     } );
     this.addChild( this.windowCursor );
 
-    const listener = value => this.setFill( options.valueToColor( value ) );
+    const listener = ( value: number ) => this.setFill( options.valueToColor( value ) );
     property.link( listener );
 
     // @private
@@ -86,23 +96,16 @@ class SpectrumSliderThumb extends Path {
 
   /**
    * Position the thumb in the track.
-   * @param {number} centerY
-   * @override
-   * @public
+   * @param centerY
    */
-  setCenterY( centerY ) {
-    super.setY( centerY + this.windowCursor.height / 2 );
+  public override setCenterY( centerY: number ): this {
+    return super.setY( centerY + this.windowCursor.height / 2 );
   }
 
-  /**
-   * Unlink and prepare for garbage collection.
-   * @public
-   */
-  dispose() {
+  public override dispose() {
     this.disposeSpectrumSliderThumb();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'SpectrumSliderThumb', SpectrumSliderThumb );
-export default SpectrumSliderThumb;
