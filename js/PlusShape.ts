@@ -1,21 +1,18 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * PlusShape is the Shape for a mathematical plus symbol.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PlusShape extends Shape {
+export default class PlusShape extends Shape {
 
-  /**
-   * @param {Dimension2} size
-   */
-  constructor( size ) {
+  constructor( size: Dimension2 ) {
 
     super();
 
@@ -39,4 +36,3 @@ class PlusShape extends Shape {
 }
 
 sceneryPhet.register( 'PlusShape', PlusShape );
-export default PlusShape;
