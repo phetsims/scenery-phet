@@ -76,6 +76,10 @@ type SelfOptions = {
 
 export type SpectrumSliderOptions = SelfOptions & AccessibleSliderOptions;
 
+/**
+ * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSlideTrack and SpectrumSlideTrack,
+ *   see https://github.com/phetsims/scenery-phet/issues/729
+ */
 class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
   private readonly disposeSpectrumSlider: () => void;
@@ -84,8 +88,6 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
    * @param valueProperty
    * @param providedOptions
    * @mixes AccessibleSlider
-   * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSlideTrack and SpectrumSlideTrack,
-   *   see https://github.com/phetsims/scenery-phet/issues/729
    */
   constructor( valueProperty: Property<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
