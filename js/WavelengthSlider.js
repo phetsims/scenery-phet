@@ -1,5 +1,6 @@
 // Copyright 2013-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Slider that shows a spectrum of colors for selecting a wavelength.
  *
