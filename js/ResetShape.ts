@@ -1,6 +1,5 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shape used to indicate 'reset' of something, used on ResetButton.
  * Origin is at the center of the circle.
@@ -11,11 +10,12 @@
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class ResetShape extends Shape {
+export default class ResetShape extends Shape {
+
   /**
-   * @param {number} radius of the center of the reset arrow
+   * @param radius of the center of the reset arrow
    */
-  constructor( radius ) {
+  constructor( radius: number ) {
 
     super();
 
@@ -59,5 +59,3 @@ class ResetShape extends Shape {
 }
 
 sceneryPhet.register( 'ResetShape', ResetShape );
-
-export default ResetShape;

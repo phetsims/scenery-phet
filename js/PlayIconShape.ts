@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shape for the 'play' icon that appears on buttons and other UI components.
  *
@@ -10,13 +9,9 @@
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PlayIconShape extends Shape {
+export default class PlayIconShape extends Shape {
 
-  /**
-   * @param {number} width
-   * @param {number} height
-   */
-  constructor( width, height ) {
+  constructor( width: number, height: number ) {
     super();
 
     // triangle that points to the right
@@ -28,4 +23,3 @@ class PlayIconShape extends Shape {
 }
 
 sceneryPhet.register( 'PlayIconShape', PlayIconShape );
-export default PlayIconShape;

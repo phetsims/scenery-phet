@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shape for the 'pause' icon that appears on buttons and other UI components.
  *
@@ -10,13 +9,9 @@
 import { Shape } from '../../kite/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PauseIconShape extends Shape {
+export default class PauseIconShape extends Shape {
 
-  /**
-   * @param {number} width
-   * @param {number} height
-   */
-  constructor( width, height ) {
+  constructor( width: number, height: number ) {
     super();
 
     // 2 vertical bars
@@ -27,4 +22,3 @@ class PauseIconShape extends Shape {
 }
 
 sceneryPhet.register( 'PauseIconShape', PauseIconShape );
-export default PauseIconShape;
