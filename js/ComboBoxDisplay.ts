@@ -1,80 +1,109 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * The lovechild of a ComboBox and a NumberDisplay. Allows the user to choose one of N dynamic numeric values.
- * ComboBox was designed to display static choices, so this component ensures that none of its items grow wider/taller
- * than their initial size.
+ * ComboBoxDisplay is the lovechild of a ComboBox and a NumberDisplay. It allows the user to choose one of N dynamic
+ * numeric values. ComboBox was designed to display static choices, so this component ensures that none of its items
+ * grow wider/taller than their initial size.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
+import Range from '../../dot/js/Range.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
+import Property from '../../axon/js/Property.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import ComboBox from '../../sun/js/ComboBox.js';
+import { Node } from '../../scenery/js/imports.js';
+import ComboBox, { ComboBoxOptions } from '../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../sun/js/ComboBoxItem.js';
-import NumberDisplay from './NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 // constants
-const comboBoxDisplayValueUnitsString = sceneryPhetStrings.comboBoxDisplay.valueUnits;
+const DEFAULT_FONT = new PhetFont( 14 );
 
-class ComboBoxDisplay extends ComboBox {
+type SubsetOfNumberDisplayOptions = Omit<NumberDisplayOptions, 'valuePattern'>;
+
+// Describes an item in the ComboBoxDisplay
+export type ComboBoxDisplayItem = {
+
+  // a value of choiceProperty that corresponds to the item
+  choice: number;
+
+  // the selected value
+  numberProperty: NumberProperty;
+
+  // the range of the item's value, required if numberProperty.range is null
+  range?: Range | null;
+
+  // the units used to label the item's value
+  units: string;
+
+  // options passed to this item's NumberDisplay, these override ComboBoxDisplayOptions.numberDisplayOptions
+  numberDisplayOptions?: SubsetOfNumberDisplayOptions;
+
+  // tandem name for the item
+  tandemName?: string;
+}
+
+type SelfOptions = {
+
+  // propagated to all NumberDisplay subcomponents, will be overridden by ComboBoxDisplayItem.numberDisplayOptions
+  numberDisplayOptions?: SubsetOfNumberDisplayOptions;
+};
+
+export type ComboBoxDisplayOptions = SelfOptions & ComboBoxOptions;
+
+class ComboBoxDisplay extends ComboBox<number> {
 
   /**
-   * @param {Object[]} items - describes items in the ComboBox, each Object has these fields:
-   *   {*} choice - a value of choiceProperty that corresponds to the item
-   *   {NumberProperty} numberProperty - the value of the item
-   *   {Range} [range] - the range of the item's value, required if numberProperty.range is null
-   *   {string} units - the units used to label the item's value
-   *   {Object} [numberDisplayOptions] - options passed to this item's NumberDisplay
-   * @param {Property} choiceProperty - determines which item is currently selected
-   * @param {Node} listParent - parent for the ComboBox list
-   * @param {Object} [options]
+   * @param items - describes the items that appear in the ComboBox
+   * @param choiceProperty - determines which item is currently selected
+   * @param listParent - parent for the ComboBox list
+   * @param providedOptions
    */
-  constructor( items, choiceProperty, listParent, options ) {
+  constructor( items: ComboBoxDisplayItem[], choiceProperty: Property<number>, listParent: Node,
+               providedOptions?: ComboBoxDisplayOptions ) {
 
-    options = merge( {
+    const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>( {
 
-      numberDisplayOptions: null, // {*|null} propagated to all NumberDisplay subcomponents
+      // SelfOptions
+      numberDisplayOptions: {
+        backgroundFill: null,
+        backgroundStroke: null,
+        textOptions: {
+          font: DEFAULT_FONT
+        },
+        align: 'right',
+        xMargin: 0,
+        yMargin: 0
+      },
 
-      // ComboBox options
+      // ComboBoxOptions
       align: 'right' // we typically want numbers to be right aligned
 
-    }, options );
+    }, providedOptions );
 
-    // defaults for NumberDisplay
-    options.numberDisplayOptions = merge( {
-      backgroundFill: null,
-      backgroundStroke: null,
-      textOptions: {
-        font: new PhetFont( 14 )
-      },
-      align: 'right',
-      xMargin: 0,
-      yMargin: 0
-    }, options.numberDisplayOptions );
-
-    assert && assert( !options.numberDisplayOptions.valuePattern,
-      'ComboBoxDisplay sets numberDisplayOptions.valuePattern' );
-
-    // Convert ComboBoxDisplay items to ComboBox items
-    const comboBoxItems = [];
+    // Convert ComboBoxDisplayItems to ComboBoxItems
+    const comboBoxItems: ComboBoxItem<number>[] = [];
     items.forEach( item => {
 
-      assert && assert( item.choice !== undefined, 'missing item.choice' );
-      assert && assert( item.numberProperty, 'missing item.numberProperty' );
-      assert && assert( item.range || item.numberProperty.range, 'range or numberProperty.range must be provided' );
-      assert && assert( item.units !== undefined, 'missing item.units' );
-      assert && assert( !item.numberDisplayOptions || !item.numberDisplayOptions.valuePattern,
-        'ComboBoxDisplay sets item.numberDisplayOptions.valuePattern' );
+      const range = item.range ? item.range : item.numberProperty.range!;
+      assert && assert( range, 'range or numberProperty.range must be provided' );
 
-      const itemNode = new NumberDisplay( item.numberProperty, item.range || item.numberProperty.range,
-        merge( {}, options.numberDisplayOptions, item.numberDisplayOptions, {
-          valuePattern: StringUtils.fillIn( comboBoxDisplayValueUnitsString, { units: item.units } )
-        } ) );
+      // optionize only supports 2 sources of option values, and we have 3.
+      // So use 2 optionize calls to assemble the options for the item's NumberDisplay.
+      // Order is important here, so that we don't write to options.numberDisplayOptions or item.numberDisplayOptions,
+      // and so that item.numberDisplayOptions overrides options.numberDisplayOptions.
+      const numberDisplayOptions = optionize<NumberDisplayOptions, {}, NumberDisplayOptions>( {
+        valuePattern: StringUtils.fillIn( sceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
+      }, options.numberDisplayOptions );
+
+      const itemNode = new NumberDisplay( item.numberProperty, range,
+        optionize<NumberDisplayOptions, {}, NumberDisplayOptions>( numberDisplayOptions, item.numberDisplayOptions )
+      );
 
       // Don't allow the NumberDisplay to grow, since it's in a ComboBox
       itemNode.maxWidth = itemNode.width;
