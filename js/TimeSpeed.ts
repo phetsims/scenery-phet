@@ -1,6 +1,5 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * TimeSpeed is an enumeration of time speeds. These are supported by TimeControlNode, when it includes speed controls.
  *
