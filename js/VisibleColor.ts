@@ -1,6 +1,5 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Provides a 2-way mapping between wavelength and Color.
  * The mapping is performed using a color lookup table.
@@ -12,45 +11,52 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import merge from '../../phet-core/js/merge.js';
-import { Color } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, IColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const COLOR_MATCH_DELTA = 2; // Two colors match if their RGB components each differ by less than this amount.
-const SPEED_OF_LIGHT = 299792458; // The speed of light in a vacuum in meters/second
+const SPEED_OF_LIGHT = 299792458; // speed of light in a vacuum, in m/s
 
-const VIOLET_WAVELENGTH = 380; // nanometers
-const RED_WAVELENGTH = 780; // nanometers
+const VIOLET_WAVELENGTH = 380; // nm
+const RED_WAVELENGTH = 780; // nm
 
-// Create the color tables on demand, since they take up 282kb per table or so
-let REDUCED_INTENSITY_COLOR_TABLE = null;
-let FULL_INTENSITY_COLOR_TABLE = null;
+// Create the color tables on demand, since they take up 282kb per table or so.
+let REDUCED_INTENSITY_COLOR_TABLE: Color[] | null = null;
+let FULL_INTENSITY_COLOR_TABLE: Color[] | null = null;
+
+// IColor would be preferable, but Color.toColor does not currently support IColor.
+type IColorSubset = Color | string | null;
+
+export type WavelengthToColorOptions = {
+  irColor?: IColorSubset; // color to use for IR wavelengths
+  uvColor?: IColorSubset; // color to use for UV wavelengths
+  reduceIntensityAtExtrema?: boolean; // whether intensity should fall off at min and max wavelengths
+};
 
 const VisibleColor = {
 
   // public constants
-  MIN_WAVELENGTH: VIOLET_WAVELENGTH, // in nanometers
-  MAX_WAVELENGTH: RED_WAVELENGTH, // in nanometers
+  MIN_WAVELENGTH: VIOLET_WAVELENGTH, // in nm
+  MAX_WAVELENGTH: RED_WAVELENGTH, // in nm
   MIN_FREQUENCY: SPEED_OF_LIGHT / RED_WAVELENGTH * 1E9, // in Hz
   MAX_FREQUENCY: SPEED_OF_LIGHT / VIOLET_WAVELENGTH * 1E9, // in Hz
-  SPEED_OF_LIGHT: SPEED_OF_LIGHT, // The speed of light in a vacuum in meters/second
+  SPEED_OF_LIGHT: SPEED_OF_LIGHT, // speed of light in a vacuum, in m/s
   WHITE_WAVELENGTH: 0,
 
   /**
-   * Converts a wavelength to a visible color.
-   *
-   * @param {number} wavelength in nanometers will be rounded to the closest integer value
-   * @param {Object} [options]
-   * @returns {Color|null}
+   * Converts a wavelength (in nm, rounded to the nearest integer) to a visible color.
+   * @param wavelength
+   * @param providedOptions
    */
-  wavelengthToColor: function( wavelength, options ) {
+  wavelengthToColor: function( wavelength: number, providedOptions?: WavelengthToColorOptions ) {
 
-    options = merge( {
-      irColor: null, // {Color|string|null} color to use for IR wavelengths
-      uvColor: null,  // {Color|string|null} color to use for UV wavelengths
-      reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
-    }, options );
+    const options = optionize<WavelengthToColorOptions>( {
+      irColor: null,
+      uvColor: null,
+      reduceIntensityAtExtrema: true
+    }, providedOptions );
 
     let color = null;
     if ( wavelength === VisibleColor.WHITE_WAVELENGTH ) { // white light
@@ -62,8 +68,8 @@ const VisibleColor = {
     else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) { // UV
       color = Color.toColor( options.uvColor );
     }
-    else { // lookup visible color
-      const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
+    else { // look up visible color
+      const colorTable = getColorTable( options.reduceIntensityAtExtrema );
       color = colorTable[ Utils.roundSymmetric( wavelength ) - VisibleColor.MIN_WAVELENGTH ];
     }
 
@@ -73,53 +79,22 @@ const VisibleColor = {
 
   /**
    * Converts a frequency (in Hz) to a visible color.
-   *
-   * @param {number} frequency - frequency in Hz
-   * @param {Object} [options]
-   * @returns {Color|null}
+   * @param frequency
+   * @param providedOptions
    */
-  frequencyToColor: function( frequency, options ) {
+  frequencyToColor: function( frequency: number, providedOptions?: WavelengthToColorOptions ): IColor {
     const wavelengthInMeters = SPEED_OF_LIGHT / frequency;
     const wavelengthInNanometers = wavelengthInMeters * 1E9;
-    return VisibleColor.wavelengthToColor( wavelengthInNanometers, options );
-  },
-
-  /**
-   * Determines which color table to use based on the options.  This assumes options have been filled in by the call
-   * site, hence uses config instead of options.
-   * @param {boolean} reduceIntensityAtExtrema
-   * @returns {Color[]} the color table
-   * @private
-   */
-  getColorTable: function( reduceIntensityAtExtrema ) {
-    if ( reduceIntensityAtExtrema ) {
-
-      // cache for future use
-      REDUCED_INTENSITY_COLOR_TABLE = REDUCED_INTENSITY_COLOR_TABLE || createColorTable( true );
-      return REDUCED_INTENSITY_COLOR_TABLE;
-    }
-    else {
-
-      // cache for future use
-      FULL_INTENSITY_COLOR_TABLE = FULL_INTENSITY_COLOR_TABLE || createColorTable( false );
-      return FULL_INTENSITY_COLOR_TABLE;
-    }
+    return VisibleColor.wavelengthToColor( wavelengthInNanometers, providedOptions );
   },
 
   /**
    * Converts a Color to its corresponding wavelength. Relies on a color lookup table that is initialized the first
    * time that this method is called.  Color lookup is based on RGB component value; the alpha value is ignored.
-   *
-   * @param {Color|string} color - the color
-   * @param {Object} [options]
-   * @returns {number} the wavelength in nanometers
-   * @public
+   * @param color
+   * @param reduceIntensityAtExtrema
    */
-  colorToWavelength: function( color, options ) {
-
-    options = merge( {
-      reduceIntensityAtExtrema: true // {boolean} whether intensity should fall off at high and low wavelength
-    }, options );
+  colorToWavelength: function( color: IColorSubset, reduceIntensityAtExtrema: boolean = true ): number {
 
     color = Color.toColor( color );
 
@@ -129,7 +104,7 @@ const VisibleColor = {
       wavelength = VisibleColor.WHITE_WAVELENGTH;
     }
     else {
-      const colorTable = VisibleColor.getColorTable( options.reduceIntensityAtExtrema );
+      const colorTable = getColorTable( reduceIntensityAtExtrema );
       for ( let i = 0; i < colorTable.length; i++ ) {
         if ( Math.abs( color.getRed() - colorTable[ i ].getRed() ) < COLOR_MATCH_DELTA &&
              Math.abs( color.getGreen() - colorTable[ i ].getGreen() ) < COLOR_MATCH_DELTA &&
@@ -146,11 +121,10 @@ const VisibleColor = {
 };
 
 /**
- * Creates a table that is used to map wavelength in nanometers to Color.
- * @param {boolean} reduceIntensityAtExtrema - whether the intensity should be reduced and high and low wavelength
- * @returns {Color[]}
+ * Creates a table that is used to map wavelength (in nm) to Color.
+ * @param reduceIntensityAtExtrema - whether the intensity should be reduced and high and low wavelength
  */
-function createColorTable( reduceIntensityAtExtrema ) {
+function createColorTable( reduceIntensityAtExtrema: boolean ): Color[] {
 
   const colorTable = [];
 
@@ -221,6 +195,26 @@ function createColorTable( reduceIntensityAtExtrema ) {
   }
 
   return colorTable;
+}
+
+/**
+ * Determines which color table to use based on the options.  This assumes options have been filled in by the call
+ * site, hence uses config instead of options.
+ * @param reduceIntensityAtExtrema
+ */
+function getColorTable( reduceIntensityAtExtrema: boolean ): Color[] {
+  if ( reduceIntensityAtExtrema ) {
+
+    // cache for future use
+    REDUCED_INTENSITY_COLOR_TABLE = REDUCED_INTENSITY_COLOR_TABLE || createColorTable( true );
+    return REDUCED_INTENSITY_COLOR_TABLE;
+  }
+  else {
+
+    // cache for future use
+    FULL_INTENSITY_COLOR_TABLE = FULL_INTENSITY_COLOR_TABLE || createColorTable( false );
+    return FULL_INTENSITY_COLOR_TABLE;
+  }
 }
 
 sceneryPhet.register( 'VisibleColor', VisibleColor );
