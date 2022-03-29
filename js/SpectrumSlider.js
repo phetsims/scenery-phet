@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * SpectrumSlider is a slider-like control used for choosing a value that corresponds to a displayed color.
  * It is the base class for WavelengthSlider.
