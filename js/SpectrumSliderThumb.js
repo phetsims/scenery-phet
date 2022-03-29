@@ -1,5 +1,6 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * This slider thumb has (a) a thin cursor that lies on the track and (b) a teardrop-shaped handle that drops
  * down below the track and depicts the selected color.

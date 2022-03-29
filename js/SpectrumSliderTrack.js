@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * This SliderTrack depicts a spectrum of colors in the track.
  *
