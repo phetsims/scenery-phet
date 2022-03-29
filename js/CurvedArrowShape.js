@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * CurvedArrowShape draws a single- or double-headed curved arrow.
  * Arrow heads are not curved, their tips are perpendicular to the ends of the arrow tail.
