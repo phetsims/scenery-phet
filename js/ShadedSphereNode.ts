@@ -1,33 +1,44 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A 3D-looking sphere with a specular highlight.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { RadialGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, CircleOptions, IColor, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class ShadedSphereNode extends Circle {
+type SelfOptions = {
+  mainColor?: IColor;
+  highlightColor?: IColor;
+  shadowColor?: IColor;
+  highlightDiameter?: number;
+  highlightXOffset?: number; // x-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
+  highlightYOffset?: number; // y-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
+};
+
+export type ShadedSphereNodeOptions = SelfOptions & CircleOptions;
+
+export default class ShadedSphereNode extends Circle {
 
   /**
-   * @param {number} diameter
-   * @param {Object} [options]
+   * @param diameter
+   * @param providedOptions
    */
-  constructor( diameter, options ) {
+  constructor( diameter: number, providedOptions?: ShadedSphereNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<ShadedSphereNodeOptions, SelfOptions, CircleOptions>( {
+
+      // SelfOptions
       mainColor: 'gray',
       highlightColor: 'white',
       shadowColor: 'black',
       highlightDiameter: 0.5 * diameter,
-      highlightXOffset: -0.4, // x-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
-      highlightYOffset: -0.4  // y-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
-    }, options );
+      highlightXOffset: -0.4,
+      highlightYOffset: -0.4
+    }, providedOptions );
 
     // validate option values
     assert && assert( options.highlightDiameter < diameter,
@@ -50,4 +61,3 @@ class ShadedSphereNode extends Circle {
 }
 
 sceneryPhet.register( 'ShadedSphereNode', ShadedSphereNode );
-export default ShadedSphereNode;
