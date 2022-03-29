@@ -1,9 +1,8 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * SpectrumNode displays a spectrum from one value to another.  The displayed colors are computed by a
- * required valueToColor function.
+ * SpectrumNode displays a color spectrum for a range of values. By default, it maps values in the range [0,1] to
+ * the grayscale spectrum. The client can provide a different range, and different method of mapping value to color.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -12,45 +11,55 @@
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
-import merge from '../../phet-core/js/merge.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-// constants
 const DEFAULT_SIZE = new Dimension2( 150, 30 );
-const DEFAULT_VALUE_TO_COLOR = value => new Color( 255 * value, 255 * value, 255 * value ); // grayscale spectrum
 
-class SpectrumNode extends Node {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  constructor( options ) {
+  // dimensions of the spectrum
+  size?: Dimension2;
 
-    options = merge( {
+  // maps value to Color, range of value is determined by the client
+  valueToColor?: ( value: number ) => Color;
 
-      // {Dimension2} dimensions of the spectrum
+  // min value to be mapped to Color via valueToColor
+  minValue?: number;
+
+  // max value to be mapped to Color via valueToColor
+  maxValue?: number;
+};
+
+export type SpectrumNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
+export default class SpectrumNode extends Node {
+
+  // value is [0,1] and maps to the grayscale spectrum
+  public static DEFAULT_VALUE_TO_COLOR = ( value: number ) => {
+    assert && assert( value >= 0 && value <= 1, `value is out of range [0,1]: ${value}` );
+    return new Color( 255 * value, 255 * value, 255 * value );
+  }
+
+  constructor( providedOptions?: SpectrumNodeOptions ) {
+
+    const options = optionize<SpectrumNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       size: DEFAULT_SIZE,
-
-      // {function(number): Color} maps value to Color
-      valueToColor: DEFAULT_VALUE_TO_COLOR,
-
-      // {number} min value to be mapped to Color via valueToColor
+      valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR,
       minValue: 0,
-
-      // {number} max value to be mapped to Color via valueToColor
       maxValue: 1
-    }, options );
+    }, providedOptions );
 
     // validate option values
     assert && assert( options.minValue < options.maxValue, 'minValue should be < maxValue' );
 
     // Draw the spectrum directly to a canvas, to improve performance.
     const canvas = document.createElement( 'canvas' );
-    const context = canvas.getContext( '2d' );
+    const context = canvas.getContext( '2d' )!;
+    assert && assert( context, `expected a CanvasRenderingContext2D, got ${context}` );
 
     // Size the canvas a bit larger, using integer width and height, as required by canvas.
     canvas.width = 1.1 * Math.ceil( options.size.width );
@@ -71,18 +80,10 @@ class SpectrumNode extends Node {
     // Scale the Image to match the requested options.size
     image.setScaleMagnitude( options.size.width / canvas.width, options.size.height / canvas.height );
 
-    assert && assert( !options.children, 'SpectrumNode sets options' );
     options.children = [ image ];
 
     super( options );
   }
 }
 
-/**
- * @static
- * @public
- */
-SpectrumNode.DEFAULT_VALUE_TO_COLOR = DEFAULT_VALUE_TO_COLOR;
-
 sceneryPhet.register( 'SpectrumNode', SpectrumNode );
-export default SpectrumNode;
