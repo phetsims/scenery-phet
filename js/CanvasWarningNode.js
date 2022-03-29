@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Warning displayed when we have to fall back to Canvas
  *
