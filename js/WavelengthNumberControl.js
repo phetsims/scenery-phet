@@ -1,5 +1,6 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * NumberControl that shows a spectrum of colors for selecting a wavelength.
  *
