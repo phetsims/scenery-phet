@@ -1,6 +1,5 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Colors that are specific to PhET simulations.
  * Reuse these in sims whenever possible to facilitate uniformity across sims.
