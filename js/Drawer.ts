@@ -1,74 +1,112 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A drawer that opens/closes to show/hide its contents.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import Emitter from '../../axon/js/Emitter.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import TinyEmitter from '../../axon/js/TinyEmitter.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { PressListener } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../../scenery/js/imports.js';
 import Animation from '../../twixt/js/Animation.js';
 import Easing from '../../twixt/js/Easing.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class Drawer extends Node {
+type SelfOptions = {
+
+  // drawer
+  size?: Dimension2 | null; // !null: contents sized to fit in container, null: container sized to fit contents
+  cornerRadius?: number;
+  xMargin?: number;
+  yMargin?: number;
+  open?: boolean; // is the drawer initially open?
+
+  // handle
+  handlePosition?: 'top' | 'bottom';
+  handleSize?: Dimension2;
+  handleCornerRadius?: number;
+  handleFill?: IColor;
+  handleTouchAreaXDilation?: number;
+  handleTouchAreaYDilation?: number;
+  handleMouseAreaXDilation?: number;
+  handleMouseAreaYDilation?: number;
+
+  // grippy dots on handle
+  grippyDotRadius?: number;
+  grippyDotColor?: IColor;
+  grippyDotRows?: number;
+  grippyDotColumns?: number;
+  grippyDotXSpacing?: number;
+  grippyDotYSpacing?: number;
+
+  // Callbacks. The default behavior is to make contentNode visible only while the drawer is open.
+  // This can provide performance gains if your contentNode updates only while visible.
+  beforeOpen?: () => void; // called immediately before the drawer is opened
+  afterClose?: () => void; // called immediately after the drawer is closed
+
+  // animation
+  animationEnabled?: boolean; // is animation enabled when opening/closing the drawer?
+  animationDuration?: number; // duration of animation (drawer opening and closing) in seconds
+  stepEmitter?: Emitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
+};
+
+export type DrawerOptions = SelfOptions & Omit<NodeOptions, 'children' | 'clipArea'>;
+
+export default class Drawer extends Node {
+
+  // is the drawer open?
+  public readonly openProperty: Property<boolean>;
+
+  // what's in the drawer
+  public readonly contentsNode: Node;
+
+  // whether the drawer animates open/closed
+  private _animationEnabled: boolean;
+
+  private readonly disposeDrawer: () => void;
 
   /**
-   * @param {Node} contentsNode - contents of the drawer
-   * @param {Object} [options]
+   * @param contentsNode - contents of the drawer
+   * @param provideOptions
    */
-  constructor( contentsNode, options ) {
+  constructor( contentsNode: Node, provideOptions?: DrawerOptions ) {
 
-    options = merge( {
+    const options = optionize<DrawerOptions, SelfOptions, NodeOptions>( {
 
-      size: null, // {Dimension2|null} !null: contents sized to fit in container, null: container sized to fit contents
+      // SelfOptions
+      size: null,
       cornerRadius: 0,
       xMargin: 0,
       yMargin: 0,
-      open: true, // {boolean} is the drawer initially open?
-      animationEnabled: true, // {boolean} is animation enabled when opening/closing the drawer?
-
-      // handle
-      handlePosition: 'top', // {string} 'top'|'bottom'
+      open: true,
+      handlePosition: 'top',
       handleSize: new Dimension2( 70, 20 ),
       handleCornerRadius: 5,
-      handleFill: 'rgb( 230, 230, 230 )', // {Color|string}
-      handleTouchAreaXDilation: 0, // {number} touchArea for the drawer's handle
-      handleTouchAreaYDilation: 0, // {number} touchArea for the drawer's handle
-      handleMouseAreaXDilation: 0, // {number} touchArea for the drawer's handle
-      handleMouseAreaYDilation: 0, // {number} touchArea for the drawer's handle
-
-      // grippy dots on handle
+      handleFill: 'rgb( 230, 230, 230 )',
+      handleTouchAreaXDilation: 0,
+      handleTouchAreaYDilation: 0,
+      handleMouseAreaXDilation: 0,
+      handleMouseAreaYDilation: 0,
       grippyDotRadius: 1,
-      grippyDotColor: 'black', // {Color|string}
+      grippyDotColor: 'black',
       grippyDotRows: 2,
       grippyDotColumns: 4,
       grippyDotXSpacing: 9,
       grippyDotYSpacing: 5,
-
-      /**
-       * Callbacks. The default behavior is to make contentNode visible only while the drawer is open.
-       * This can provide performance gains if your contentNode updates only while visible.
-       */
-      beforeOpen: function() { contentsNode.visible = true; }, // {function} called immediately before the drawer is opened
-      afterClose: function() { contentsNode.visible = false; }, // {function} called immediately after the drawer is closed
-
-      // animation of the drawer opening and closing
-      animationDuration: 0.5, // seconds
-      stepEmitter: stepTimer // {Emitter|null} see Animation options.stepEmitter
-    }, options );
-
-    assert && assert( options.handlePosition === 'top' || options.handlePosition === 'bottom' );
+      beforeOpen: () => { contentsNode.visible = true; },
+      afterClose: () => { contentsNode.visible = false; },
+      animationEnabled: true,
+      animationDuration: 0.5,
+      stepEmitter: stepTimer
+    }, provideOptions );
 
     // size of contents, adjusted for margins
     const CONTENTS_WIDTH = contentsNode.width + ( 2 * options.xMargin );
@@ -159,24 +197,21 @@ class Drawer extends Node {
     } );
 
     // wrap the drawer with a clipping area, to show/hide the container
-    assert && assert( !options.children, 'Drawer sets children' );
     options.children = [ drawerNode ];
-    assert && assert( !options.clipArea, 'Drawer sets clipArea' );
     options.clipArea = Shape.bounds( drawerNode.bounds );
 
     super( options );
 
-    this.contentsNode = contentsNode; // @public (read-only)
-    this._animationEnabled = options.animationEnabled; // @private
+    this.contentsNode = contentsNode;
+    this._animationEnabled = options.animationEnabled;
 
     const yOpen = 0;
     const yClosed = ( options.handlePosition === 'top' ) ? backgroundNode.height : -backgroundNode.height;
     drawerNode.y = options.open ? yOpen : yClosed;
 
-    let animation = null; // {Animation} animation that opens/closes the drawer
+    let animation: Animation | null = null; // animation that opens/closes the drawer
 
-    // @public is the drawer open?
-    this.openProperty = new Property( options.open );
+    this.openProperty = new BooleanProperty( options.open );
 
     // click on the handle to toggle between open and closed
     handleNode.addInputListener( new PressListener( {
@@ -184,7 +219,7 @@ class Drawer extends Node {
     } ) );
 
     // open/close the drawer
-    const openObserver = open => {
+    const openObserver = ( open: boolean ) => {
 
       // stop any animation that's in progress
       animation && animation.stop();
@@ -198,8 +233,8 @@ class Drawer extends Node {
           stepEmitter: options.stepEmitter,
           duration: options.animationDuration,
           easing: Easing.QUADRATIC_IN_OUT,
-          setValue: function( value ) { drawerNode.y = value; },
-          getValue: function() { return drawerNode.y; },
+          setValue: ( value: number ) => { drawerNode.y = value; },
+          getValue: () => drawerNode.y,
           to: open ? yOpen : yClosed
         } );
         animation.start();
@@ -217,61 +252,48 @@ class Drawer extends Node {
     this.disposeDrawer = () => {
       this.openProperty.unlink( openObserver );
       this.openProperty.dispose(); // will fail if clients haven't removed observers
-      this.openProperty = null;
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'Drawer', this );
   }
 
-  get animationEnabled() { return this.getAnimationEnabled(); }
-
-  set animationEnabled( value ) { this.setAnimationEnabled( value ); }
-
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeDrawer();
     super.dispose();
   }
 
   /**
-   * @param {Object} [options]
-   * @public
+   * @param [animationEnabled]
    */
-  reset( options ) {
+  public reset( animationEnabled?: boolean ): void {
 
-    options = merge( {
-      animationEnabled: this.animationEnabled
-    }, options );
+    animationEnabled = ( animationEnabled === undefined ) ? this.animationEnabled : animationEnabled;
 
     // set the drawer to it's initial open/closed state, with or without animation
     const saveAnimationEnabled = this.animationEnabled;
-    this.animationEnabled = options.animationEnabled;
+    this.animationEnabled = animationEnabled;
     this.openProperty.reset();
     this.animationEnabled = saveAnimationEnabled;
   }
 
   /**
    * Determines whether animation is enabled for opening/closing drawer.
-   * @param {boolean} animationEnabled
-   * @public
    */
-  setAnimationEnabled( animationEnabled ) {
+  public setAnimationEnabled( animationEnabled: boolean ): void {
     this._animationEnabled = animationEnabled;
   }
 
+  set animationEnabled( value ) { this.setAnimationEnabled( value ); }
+
   /**
    * Is animation enabled for opening/closing drawer?
-   * @returns {boolean}
-   * @public
    */
-  getAnimationEnabled() {
+  public getAnimationEnabled(): boolean {
     return this._animationEnabled;
   }
+
+  get animationEnabled() { return this.getAnimationEnabled(); }
 }
 
 sceneryPhet.register( 'Drawer', Drawer );
-export default Drawer;
