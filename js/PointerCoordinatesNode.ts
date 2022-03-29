@@ -1,6 +1,5 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shows the model and view coordinates that correspond to the cursor position.
  * Originally implemented for use in gas-properties, where it was used exclusively for debugging.
@@ -12,33 +11,52 @@
 import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import merge from '../../phet-core/js/merge.js';
-import { Display } from '../../scenery/js/imports.js';
+import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
+import { Display, Font, IColor, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import { RichText } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PointerCoordinatesNode extends Node {
+const DEFAULT_FONT = new PhetFont( 14 );
+
+type SelfOptions = {
+
+  display?: Display;
+  pickable?: boolean;
+
+  // RichText
+  font?: Font;
+  textColor?: IColor;
+  align?: RichTextAlign;
+  modelDecimalPlaces?: number;
+  viewDecimalPlaces?: number;
+
+  // Rectangle
+  backgroundColor?: IColor;
+};
+
+export type PointerCoordinatesNodeOptions = SelfOptions; // not propagated to super!
+
+export default class PointerCoordinatesNode extends Node {
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options] - not propagated to super
+   * @param modelViewTransform
+   * @param providedOptions - not propagated to super!
    */
-  constructor( modelViewTransform, options ) {
+  constructor( modelViewTransform: ModelViewTransform2, providedOptions?: PointerCoordinatesNodeOptions ) {
 
-    options = merge( {
+    const options = merge( {
+      display: getGlobal( 'phet.joist.display' ),
+      pickable: false,
+      font: DEFAULT_FONT,
       textColor: 'black',
-      backgroundColor: 'rgba( 255, 255, 255, 0.5 )',
-      font: new PhetFont( 14 ),
+      align: 'center',
       modelDecimalPlaces: 1,
       viewDecimalPlaces: 0,
-      align: 'center',
-      pickable: false,
-
-      // {Display}
-      display: getGlobal( 'phet.joist.display' )
-    }, options );
+      backgroundColor: 'rgba( 255, 255, 255, 0.5 )'
+    }, providedOptions );
 
     assert && assert( options.display instanceof Display, 'display must be provided to support this move listener' );
 
@@ -58,11 +76,11 @@ class PointerCoordinatesNode extends Node {
     } );
 
     // Update the coordinates to match the pointer position.
-    // Add the input listener to the Display, so that things behind the grid will received events.
+    // Add the input listener to the Display, so that other things in the sim will receive events.
     // Scenery does not support having one event sent through two different trails.
-    // Note that this will continue to receive events when the current screen is inactive.
+    // Note that this will continue to receive events when the current screen is inactive!
     options.display.addInputListener( {
-      move: event => {
+      move: ( event: SceneryEvent ) => {
 
         // (x,y) in view coordinates
         const viewPoint = this.globalToParentPoint( event.pointer.point );
@@ -90,4 +108,3 @@ class PointerCoordinatesNode extends Node {
 }
 
 sceneryPhet.register( 'PointerCoordinatesNode', PointerCoordinatesNode );
-export default PointerCoordinatesNode;
