@@ -56,7 +56,7 @@ type SelfOptions = {
 
 export type ComboBoxDisplayOptions = SelfOptions & ComboBoxOptions;
 
-class ComboBoxDisplay extends ComboBox<number> {
+export default class ComboBoxDisplay extends ComboBox<number> {
 
   /**
    * @param items - describes the items that appear in the ComboBox
@@ -119,4 +119,3 @@ class ComboBoxDisplay extends ComboBox<number> {
 }
 
 sceneryPhet.register( 'ComboBoxDisplay', ComboBoxDisplay );
-export default ComboBoxDisplay;
