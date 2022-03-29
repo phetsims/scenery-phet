@@ -1,6 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * NumberControl that shows a spectrum of colors for selecting a wavelength.
  *
@@ -9,20 +8,29 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import merge from '../../phet-core/js/merge.js';
-import NumberControl from './NumberControl.js';
+import NumberControl, { NumberControlOptions } from './NumberControl.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumSliderThumb from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
+import IProperty from '../../axon/js/IProperty.js';
+import optionize from '../../phet-core/js/optionize.js';
 
 const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
 const wavelengthString = sceneryPhetStrings.wavelength;
 
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+
+type SelfOptions = {
+  title?: string;
+  range?: Range; // in nm
+  trackHeight?: number; // in view coordinates
+};
+
+export type WavelengthNumberControlOptions = SelfOptions & NumberControlOptions;
 
 /**
  * @param {Property.<number>} wavelengthProperty - wavelength, in nm
@@ -32,45 +40,46 @@ const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_W
 class WavelengthNumberControl extends NumberControl {
 
   /**
-   * @param {Property.<number>} property - for the wavelength, in nm
-   * @param {Object} [options]
+   * @param wavelengthProperty - in nm
+   * @param providedOptions
    */
-  constructor( property, options ) {
+  constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
-    options = merge( {
-      trackHeight: 20, // in view coordinates
+    const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>( {
       title: wavelengthString,
-      range: DEFAULT_RANGE // in nm
-    }, options );
+      range: DEFAULT_RANGE, // in nm
+      trackHeight: 20 // in view coordinates
+    }, providedOptions );
 
     const trackHeight = options.trackHeight;
 
-    super( options.title, property, options.range, merge( {
-      titleNodeOptions: {
-        font: new PhetFont( 15 ),
-        maxWidth: 175
-      },
-      numberDisplayOptions: {
-        textOptions: {
-          font: new PhetFont( 14 )
+    super( options.title, wavelengthProperty, options.range,
+      optionize<NumberControlOptions, {}, NumberControlOptions>( {
+        titleNodeOptions: {
+          font: new PhetFont( 15 ),
+          maxWidth: 175
         },
-        valuePattern: wavelengthNMValuePatternString,
-        maxWidth: 120
-      },
-      sliderOptions: {
-        trackNode: new SpectrumSliderTrack( property, options.range, {
-          valueToColor: VisibleColor.wavelengthToColor,
-          size: new Dimension2( 160, trackHeight )
-        } ),
-        thumbNode: new SpectrumSliderThumb( property, {
-          valueToColor: VisibleColor.wavelengthToColor,
-          width: 25,
-          height: 25,
-          cursorHeight: trackHeight
-        } )
-      },
-      layoutFunction: NumberControl.createLayoutFunction3()
-    }, options ) );
+        numberDisplayOptions: {
+          textOptions: {
+            font: new PhetFont( 14 )
+          },
+          valuePattern: wavelengthNMValuePatternString,
+          maxWidth: 120
+        },
+        sliderOptions: {
+          trackNode: new SpectrumSliderTrack( wavelengthProperty, options.range, {
+            valueToColor: VisibleColor.wavelengthToColor,
+            size: new Dimension2( 160, trackHeight )
+          } ),
+          thumbNode: new SpectrumSliderThumb( wavelengthProperty, {
+            valueToColor: VisibleColor.wavelengthToColor,
+            width: 25,
+            height: 25,
+            cursorHeight: trackHeight
+          } )
+        },
+        layoutFunction: NumberControl.createLayoutFunction3()
+      }, options ) );
   }
 }
 
