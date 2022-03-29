@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * CurvedArrowShape draws a single- or double-headed curved arrow.
  * Arrow heads are not curved, their tips are perpendicular to the ends of the arrow tail.
@@ -10,25 +9,38 @@
 
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class CurvedArrowShape extends Shape {
+type SelfOptions = {
+  doubleHead?: boolean; // false = single head at endAngle, true = heads at startAngle and endAngle
+  headWidth?: number;
+  headHeight?: number;
+  tailWidth?: number;
+  anticlockwise?: boolean;
+};
+
+export type CurvedArrowShapeOptions = SelfOptions;
+
+export default class CurvedArrowShape extends Shape {
 
   /**
-   * @param {number} radius radius at the center of the arrow's tail
-   * @param {number} startAngle starting angle, in radians (at tail, or optional 2nd head)
-   * @param {number} endAngle end angle, in radians (at head of arrow)
-   * @param {Object} [options]
+   * @param radius - radius at the center of the arrow's tail
+   * @param startAngle - starting angle, in radians (at tail, or optional 2nd head)
+   * @param endAngle - end angle, in radians (at head of arrow)
+   * @param providedOptions
    */
-  constructor( radius, startAngle, endAngle, options ) {
+  constructor( radius: number, startAngle: number, endAngle: number, providedOptions?: CurvedArrowShapeOptions ) {
 
-    options = merge( {
-      doubleHead: false, // false = single head at endAngle, true = heads at startAngle and endAngle
+    const options = optionize<CurvedArrowShapeOptions, SelfOptions>( {
+
+      // SelfOptions
+      doubleHead: false,
       headWidth: 10,
       headHeight: 10,
-      tailWidth: 5
-    }, options );
+      tailWidth: 5,
+      anticlockwise: false
+    }, providedOptions );
 
     super();
 
@@ -94,9 +106,8 @@ class CurvedArrowShape extends Shape {
  * @param x2
  * @param y2
  * @param distance
- * @returns {Vector2}
  */
-const computePerpendicularPoint = function( x1, y1, x2, y2, distance ) {
+const computePerpendicularPoint = function( x1: number, y1: number, x2: number, y2: number, distance: number ): Vector2 {
   const dx = x1 - x2;
   const dy = y1 - y2;
   const r = Math.sqrt( dx * dx + dy * dy );
@@ -108,4 +119,3 @@ const computePerpendicularPoint = function( x1, y1, x2, y2, distance ) {
 };
 
 sceneryPhet.register( 'CurvedArrowShape', CurvedArrowShape );
-export default CurvedArrowShape;
