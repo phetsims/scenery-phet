@@ -1,6 +1,5 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * SpectrumSlider is a slider-like control used for choosing a value that corresponds to a displayed color.
  * It is the base class for WavelengthSlider.
@@ -9,6 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
@@ -16,40 +16,87 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Color, DragListener, FocusHighlightFromNode, Node, Path, Rectangle, Text } from '../../scenery/js/imports.js';
-import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
 
+type SelfOptions = {
+
+  // The minimum value to be displayed
+  minValue?: number;
+
+  // The maximum value to be displayed
+  maxValue?: number;
+
+  // Maps value to string that is optionally displayed by the slider
+  valueToString?: ( value: number ) => string;
+
+  // Maps value to Color that is rendered in the spectrum and in the thumb
+  valueToColor?: ( value: number ) => Color;
+
+  // track properties
+  trackWidth?: number;
+  trackHeight?: number;
+  trackOpacity?: number; // [0,1]
+  trackBorderStroke?: IColor;
+
+  // thumb
+  thumbWidth?: number;
+  thumbHeight?: number;
+  thumbTouchAreaXDilation?: number;
+  thumbTouchAreaYDilation?: number;
+  thumbMouseAreaXDilation?: number;
+  thumbMouseAreaYDilation?: number;
+
+  // value
+  valueFont?: Font;
+  valueFill?: IColor;
+  valueVisible?: boolean;
+  valueYSpacing?: number; // space between value and top of track
+
+  // tweakers
+  tweakersVisible?: boolean;
+  tweakerValueDelta?: number; // the amount that value changes when a tweaker button is pressed
+  tweakersXSpacing?: number; // space between tweakers and track
+  maxTweakersHeight?: number;
+  tweakersTouchAreaXDilation?: number;
+  tweakersTouchAreaYDilation?: number;
+  tweakersMouseAreaXDilation?: number;
+  tweakersMouseAreaYDilation?: number;
+
+  // cursor, the rectangle than follows the thumb in the track
+  cursorVisible?: boolean;
+  cursorStroke?: IColor;
+};
+
+export type SpectrumSliderOptions = SelfOptions & AccessibleSliderOptions;
+
 class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
+  private readonly disposeSpectrumSlider: () => void;
+
   /**
-   * @param {Property.<number>} valueProperty
-   * @param {Object} [options]
+   * @param valueProperty
+   * @param providedOptions
    * @mixes AccessibleSlider
    * @deprecated - please use Slider.js with SpectrumSlideTrack/Thumb (or the composite WavelengthNumberControl)
    */
-  constructor( valueProperty, options ) {
+  constructor( valueProperty: Property<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
-    options = merge( {
+    const options = optionize<SpectrumSliderOptions, SelfOptions, AccessibleSliderOptions, 'tandem'>( {
 
-      // {number} The minimum value to be displayed
+      // SelfOptions
       minValue: 0,
-
-      // {number} The minimum value to be displayed
       maxValue: 1,
-
-      // {function} Maps {number} to text that is optionally displayed by the slider
-      valueToString: function( value ) {return `${value}`;},
-
-      // {function} Maps {number} to Color that is rendered in the spectrum and in the thumb
-      valueToColor: function( value ) {return new Color( 0, 0, 255 * value );},
+      valueToString: ( value: number ) => `${value}`,
+      valueToColor: ( value: number ) => new Color( 0, 0, 255 * value ),
 
       // track
       trackWidth: 150,
@@ -88,7 +135,7 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       // phet-io
       tandem: Tandem.REQUIRED
 
-    }, options );
+    }, providedOptions );
 
     // validate values
     assert && assert( options.minValue < options.maxValue );
@@ -100,10 +147,10 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && assert( !options.enabledRangeProperty, 'SpectrumSlider sets its own enabledRangeProperty' );
     options.enabledRangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
 
+    // These options require valid Bounds, and will be applied later via mutate.
     const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
-    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
 
-    super( options );
+    super( _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS ) );
 
     const track = new SpectrumNode( {
       valueToColor: options.valueToColor,
@@ -127,7 +174,7 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       pickable: false
     } );
 
-    let valueDisplay;
+    let valueDisplay: Node | null = null;
     if ( options.valueVisible ) {
       valueDisplay = new ValueDisplay( valueProperty, options.valueToString, {
         font: options.valueFont,
@@ -136,7 +183,7 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       } );
     }
 
-    let cursor;
+    let cursor: Cursor | null = null;
     if ( options.cursorVisible ) {
       cursor = new Cursor( 3, track.height, {
         stroke: options.cursorStroke,
@@ -164,8 +211,8 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     }
 
     // tweaker buttons for single-unit increments
-    let plusButton;
-    let minusButton;
+    let plusButton: Node | null = null;
+    let minusButton: Node | null = null;
     if ( options.tweakersVisible ) {
 
       plusButton = new ArrowButton( 'right', ( () => {
@@ -217,33 +264,23 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     minusButton && this.addChild( minusButton );
 
     // transforms between position and value
-    const positionToValue = function( x ) {
-      return Utils.clamp( Utils.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
-    };
-    const valueToPosition = function( value ) {
-      return Utils.clamp( Utils.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
-    };
+    const positionToValue = ( x: number ) =>
+      Utils.clamp( Utils.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
+    const valueToPosition = ( value: number ) =>
+      Utils.clamp( Utils.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
 
     // click in the track to change the value, continue dragging if desired
-    const handleTrackEvent = function( event ) {
+    const handleTrackEvent = ( event: SceneryEvent ) => {
       const x = thumb.globalToParentPoint( event.pointer.point ).x;
       const value = positionToValue( x );
       valueProperty.set( value );
     };
 
     track.addInputListener( new DragListener( {
-
-      tandem: options.tandem.createTandem( 'dragListener' ),
-
       allowTouchSnag: false,
-
-      start: event => {
-        handleTrackEvent( event );
-      },
-
-      drag: event => {
-        handleTrackEvent( event );
-      }
+      start: event => handleTrackEvent( event ),
+      drag: event => handleTrackEvent( event ),
+      tandem: options.tandem.createTandem( 'dragListener' )
     } ) );
 
     // thumb drag handler
@@ -263,27 +300,30 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       }
     } ) );
 
-    // @public (a11y) - custom focus highlight that surrounds and moves with the thumb
+    // custom focus highlight that surrounds and moves with the thumb
     this.focusHighlight = new FocusHighlightFromNode( thumb );
 
     // sync with model
-    const updateUI = function( value ) {
+    const updateUI = ( value: number ) => {
+
       // positions
       const x = valueToPosition( value );
       thumb.centerX = x;
       if ( cursor ) { cursor.centerX = x; }
       if ( valueDisplay ) { valueDisplay.centerX = x; }
+
       // thumb color
       thumb.fill = options.valueToColor( value );
+
       // tweaker buttons
-      if ( options.tweakersVisible ) {
+      if ( plusButton ) {
         plusButton.enabled = ( value < options.maxValue );
+      }
+      if ( minusButton ) {
         minusButton.enabled = ( value > options.minValue );
       }
     };
-    const valueListener = function( value ) {
-      updateUI( value );
-    };
+    const valueListener = ( value: number ) => updateUI( value );
     valueProperty.link( valueListener );
 
     /*
@@ -305,7 +345,6 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     this.addChild( strut );
     strut.moveToBack();
 
-    // @private - called by dispose
     this.disposeSpectrumSlider = () => {
       valueDisplay && valueDisplay.dispose();
       plusButton && plusButton.dispose();
@@ -313,17 +352,14 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       valueProperty.unlink( valueListener );
     };
 
+    // We already set other options via super(). Now that we have valid Bounds, apply these options.
     this.mutate( boundsRequiredOptionKeys );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose() {
     this.disposeSpectrumSlider();
     super.dispose();
   }
@@ -334,18 +370,13 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
  */
 class Thumb extends Path {
 
-  /**
-   * @param {number} width
-   * @param {number} height
-   * @param {Object} [options]
-   */
-  constructor( width, height, options ) {
+  constructor( width: number, height: number, providedOptions?: PathOptions ) {
 
-    options = merge( {
+    const options = optionize<PathOptions, {}, PathOptions>( {
+      fill: 'black',
       stroke: 'black',
-      lineWidth: 1,
-      fill: 'black'
-    }, options );
+      lineWidth: 1
+    }, providedOptions );
 
     // Set the radius of the arcs based on the height or width, whichever is smaller.
     const radiusScale = 0.15;
@@ -369,7 +400,8 @@ class Thumb extends Path {
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
     // Save the coordinates for the point above the left side arc, for use on the other side.
-    const sideArcPoint = shape.getLastPoint();
+    const sideArcPoint = shape.getLastPoint()!;
+    assert && assert( sideArcPoint );
 
     shape.lineTo( 0, 0 )
       .lineTo( -sideArcPoint.x, sideArcPoint.y )
@@ -385,31 +417,28 @@ class Thumb extends Path {
  */
 class ValueDisplay extends Text {
 
+  private readonly disposeValueDisplay: () => void;
+
   /**
-   * @param {Property} valueProperty
-   * @param {function} valueToString converts value {number} to text {string} for display
-   * @param {Object} [options]
+   * @param valueProperty
+   * @param valueToString - converts value {number} to text {string} for display
+   * @param providedOptions
    */
-  constructor( valueProperty, valueToString, options ) {
+  constructor( valueProperty: IReadOnlyProperty<number>,
+               valueToString: ( value: number ) => string,
+               providedOptions?: TextOptions ) {
 
-    super( '?', options );
+    super( '?', providedOptions );
 
-    const valueObserver = value => {
+    const valueObserver = ( value: number ) => {
       this.text = valueToString( value );
     };
     valueProperty.link( valueObserver );
 
-    // @private called by dispose
-    this.disposeValueDisplay = function() {
-      valueProperty.unlink( valueObserver );
-    };
+    this.disposeValueDisplay = () => valueProperty.unlink( valueObserver );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose() {
     this.disposeValueDisplay();
     super.dispose();
   }
@@ -419,14 +448,8 @@ class ValueDisplay extends Text {
  * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center.
  */
 class Cursor extends Rectangle {
-
-  /**
-   * @param {number} width
-   * @param {number} height
-   * @param {Object} [options]
-   */
-  constructor( width, height, options ) {
-    super( -width / 2, 0, width, height, options );
+  constructor( width: number, height: number, providedOptions: RectangleOptions ) {
+    super( -width / 2, 0, width, height, providedOptions );
   }
 }
 
