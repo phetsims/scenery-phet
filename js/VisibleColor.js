@@ -1,5 +1,6 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Provides a 2-way mapping between wavelength and Color.
  * The mapping is performed using a color lookup table.
