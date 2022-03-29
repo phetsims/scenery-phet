@@ -1,5 +1,6 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Shape used to indicate 'reset' of something, used on ResetButton.
  * Origin is at the center of the circle.
