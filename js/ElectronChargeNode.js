@@ -1,5 +1,6 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * ElectronChargeNode renders a shaded 2d electron with a "-" sign in the middle.
  *
