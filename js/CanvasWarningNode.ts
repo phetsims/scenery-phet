@@ -1,6 +1,5 @@
-// Copyright 2015-2021, University of Colorado Boulder
+// Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Warning displayed when we have to fall back to Canvas
  *
@@ -8,16 +7,13 @@
  */
 
 import openPopup from '../../phet-core/js/openPopup.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { HBox, Path, Text, VBox } from '../../scenery/js/imports.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
-class CanvasWarningNode extends HBox {
+export default class CanvasWarningNode extends HBox {
 
   constructor() {
 
@@ -58,4 +54,3 @@ class CanvasWarningNode extends HBox {
 }
 
 sceneryPhet.register( 'CanvasWarningNode', CanvasWarningNode );
-export default CanvasWarningNode;
