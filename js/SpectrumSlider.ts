@@ -17,7 +17,9 @@ import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Color, Text, TextOptions } from '../../scenery/js/imports.js';
+import { DragListener, FocusHighlightFromNode, SceneryEvent } from '../../scenery/js/imports.js';
+import { Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -74,7 +76,9 @@ type SelfOptions = {
   cursorStroke?: IColor;
 };
 
-export type SpectrumSliderOptions = SelfOptions & AccessibleSliderOptions;
+export type SpectrumSliderOptions =
+  SelfOptions
+  & Omit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 /**
  * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSlideTrack and SpectrumSlideTrack,
