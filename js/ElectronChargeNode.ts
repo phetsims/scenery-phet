@@ -1,4 +1,4 @@
-// Copyright 2017-2021, University of Colorado Boulder
+// Copyright 2017-2022, University of Colorado Boulder
 
 /**
  * ElectronChargeNode renders a shaded 2d electron with a "-" sign in the middle.
