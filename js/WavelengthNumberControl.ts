@@ -65,7 +65,7 @@ class WavelengthNumberControl extends NumberControl {
       }
     }, providedOptions );
 
-    //TOD https://github.com/phetsims/scenery-phet/issues/730 it would be preferable to omit these from WavelengthNumberControlOptions
+    //TODO https://github.com/phetsims/scenery-phet/issues/730 it would be preferable to omit these from WavelengthNumberControlOptions
     if ( options.sliderOptions ) {
       assert && assert( !options.sliderOptions.trackNode, 'WavelengthNumberControl sets trackNode' );
       assert && assert( !options.sliderOptions.thumbNode, 'WavelengthNumberControl sets thumbNode' );
