@@ -24,7 +24,7 @@ type SelfOptions = {
 export type WavelengthSliderOptions = SelfOptions & Omit<SpectrumSliderOptions, 'minValue' | 'maxValue'>;
 
 /**
- * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSlideTrack and SpectrumSlideTrack,
+ * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,
  *   see https://github.com/phetsims/scenery-phet/issues/729
  */
 export default class WavelengthSlider extends SpectrumSlider {

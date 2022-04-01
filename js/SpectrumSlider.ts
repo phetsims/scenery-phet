@@ -81,7 +81,7 @@ export type SpectrumSliderOptions =
   & Omit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 /**
- * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSlideTrack and SpectrumSlideTrack,
+ * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,
  *   see https://github.com/phetsims/scenery-phet/issues/729
  */
 class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
