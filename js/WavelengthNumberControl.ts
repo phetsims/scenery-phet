@@ -12,8 +12,8 @@ import NumberControl, { NumberControlOptions } from './NumberControl.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
-import SpectrumSliderThumb from './SpectrumSliderThumb.js';
-import SpectrumSliderTrack from './SpectrumSliderTrack.js';
+import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSliderThumb.js';
+import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
 import IProperty from '../../axon/js/IProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -23,11 +23,16 @@ const wavelengthString = sceneryPhetStrings.wavelength;
 
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+const DEFAULT_TRACK_SIZE = new Dimension2( 160, 20 );
+const DEFAULT_THUMB_WIDTH = 25;
+const DEFAULT_THUMB_HEIGHT = 25;
+const DEFAULT_VALUE_TO_COLOR = VisibleColor.wavelengthToColor;
 
 type SelfOptions = {
   title?: string;
   range?: Range; // in nm
-  trackHeight?: number; // in view coordinates
+  spectrumSliderTrackOptions?: SpectrumSliderTrackOptions;
+  spectrumSliderThumbOptions?: SpectrumSliderThumbOptions;
 };
 
 export type WavelengthNumberControlOptions = SelfOptions & NumberControlOptions;
@@ -47,11 +52,24 @@ class WavelengthNumberControl extends NumberControl {
 
     const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>( {
       title: wavelengthString,
-      range: DEFAULT_RANGE, // in nm
-      trackHeight: 20 // in view coordinates
+      range: DEFAULT_RANGE,
+      spectrumSliderTrackOptions: {
+        valueToColor: DEFAULT_VALUE_TO_COLOR,
+        size: DEFAULT_TRACK_SIZE
+      },
+      spectrumSliderThumbOptions: {
+        valueToColor: DEFAULT_VALUE_TO_COLOR,
+        width: DEFAULT_THUMB_WIDTH,
+        height: DEFAULT_THUMB_HEIGHT,
+        cursorHeight: DEFAULT_TRACK_SIZE.height
+      }
     }, providedOptions );
 
-    const trackHeight = options.trackHeight;
+    //TOD https://github.com/phetsims/scenery-phet/issues/730 it would be preferable to omit these from WavelengthNumberControlOptions
+    if ( options.sliderOptions ) {
+      assert && assert( !options.sliderOptions.trackNode, 'WavelengthNumberControl sets trackNode' );
+      assert && assert( !options.sliderOptions.thumbNode, 'WavelengthNumberControl sets thumbNode' );
+    }
 
     super( options.title, wavelengthProperty, options.range,
       optionize<NumberControlOptions, {}, NumberControlOptions>( {
@@ -67,16 +85,8 @@ class WavelengthNumberControl extends NumberControl {
           maxWidth: 120
         },
         sliderOptions: {
-          trackNode: new SpectrumSliderTrack( wavelengthProperty, options.range, {
-            valueToColor: VisibleColor.wavelengthToColor,
-            size: new Dimension2( 160, trackHeight )
-          } ),
-          thumbNode: new SpectrumSliderThumb( wavelengthProperty, {
-            valueToColor: VisibleColor.wavelengthToColor,
-            width: 25,
-            height: 25,
-            cursorHeight: trackHeight
-          } )
+          trackNode: new SpectrumSliderTrack( wavelengthProperty, options.range, options.spectrumSliderTrackOptions ),
+          thumbNode: new SpectrumSliderThumb( wavelengthProperty, options.spectrumSliderThumbOptions )
         },
         layoutFunction: NumberControl.createLayoutFunction3()
       }, options ) );
