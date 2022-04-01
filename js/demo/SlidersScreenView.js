@@ -40,7 +40,7 @@ class SlidersScreenView extends DemosScreenView {
        * {function(Bounds2): Node} createNode - creates the scene graph for the demo
        */
       { label: 'NumberControl', createNode: demoNumberControl },
-      { label: 'WavelengthNumberControl', createNode: demoWavelengthSlider },
+      { label: 'WavelengthNumberControl', createNode: demoWavelengthNumberControl },
       { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
     ], {
@@ -119,7 +119,7 @@ function demoNumberControl( layoutBounds ) {
 }
 
 // Creates a demo for WavelengthNumberControl
-function demoWavelengthSlider( layoutBounds ) {
+function demoWavelengthNumberControl( layoutBounds ) {
   const wavelengthProperty = new Property( 500 );
   return new WavelengthNumberControl( wavelengthProperty, {
     center: layoutBounds.center
