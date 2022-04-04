@@ -17,6 +17,8 @@ import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSlide
 import VisibleColor from './VisibleColor.js';
 import IProperty from '../../axon/js/IProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import Slider from '../../sun/js/Slider.js';
 
 const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
 const wavelengthString = sceneryPhetStrings.wavelength;
@@ -62,7 +64,8 @@ class WavelengthNumberControl extends NumberControl {
         width: DEFAULT_THUMB_WIDTH,
         height: DEFAULT_THUMB_HEIGHT,
         cursorHeight: DEFAULT_TRACK_SIZE.height
-      }
+      },
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/730 it would be preferable to omit these from WavelengthNumberControlOptions
@@ -70,6 +73,16 @@ class WavelengthNumberControl extends NumberControl {
       assert && assert( !options.sliderOptions.trackNode, 'WavelengthNumberControl sets trackNode' );
       assert && assert( !options.sliderOptions.thumbNode, 'WavelengthNumberControl sets thumbNode' );
     }
+
+    const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,
+      optionize<SpectrumSliderTrackOptions, {}, SpectrumSliderTrackOptions>( {
+        tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.TRACK_NODE_TANDEM_NAME )
+      }, options.spectrumSliderTrackOptions ) );
+
+    const thumbNode = new SpectrumSliderThumb( wavelengthProperty,
+      optionize<SpectrumSliderThumbOptions, {}, SpectrumSliderThumbOptions>( {
+        tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.THUMB_NODE_TANDEM_NAME )
+      }, options.spectrumSliderThumbOptions ) );
 
     super( options.title, wavelengthProperty, options.range,
       optionize<NumberControlOptions, {}, NumberControlOptions>( {
@@ -85,8 +98,8 @@ class WavelengthNumberControl extends NumberControl {
           maxWidth: 120
         },
         sliderOptions: {
-          trackNode: new SpectrumSliderTrack( wavelengthProperty, options.range, options.spectrumSliderTrackOptions ),
-          thumbNode: new SpectrumSliderThumb( wavelengthProperty, options.spectrumSliderThumbOptions )
+          trackNode: trackNode,
+          thumbNode: thumbNode
         },
         layoutFunction: NumberControl.createLayoutFunction3()
       }, options ) );
