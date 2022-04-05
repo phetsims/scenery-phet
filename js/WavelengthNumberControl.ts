@@ -44,7 +44,7 @@ export type WavelengthNumberControlOptions = SelfOptions & NumberControlOptions;
  * @param {Object} [options]
  * @constructor
  */
-class WavelengthNumberControl extends NumberControl {
+export default class WavelengthNumberControl extends NumberControl {
 
   /**
    * @param wavelengthProperty - in nm
@@ -107,4 +107,3 @@ class WavelengthNumberControl extends NumberControl {
 }
 
 sceneryPhet.register( 'WavelengthNumberControl', WavelengthNumberControl );
-export default WavelengthNumberControl;
