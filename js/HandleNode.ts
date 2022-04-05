@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Scenery node that shows a handle, which is made of two parts: the "grip" which is where you would grab it and the
  * "attachment" which are elbow-shaped bars that attach the handle to another surface.
@@ -12,12 +11,8 @@
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -28,31 +23,42 @@ const GRIP_CORNER_RADIUS = GRIP_WIDTH * 0.03;
 const GRIP_END_PAD = GRIP_WIDTH * 0.03; // horizontal line between the edge of the grip and the cubic curves
 const GRIP_SINGLE_FINGER_INDENT_DEPTH = GRIP_HEIGHT * 0.11;
 const GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS * 2 - GRIP_END_PAD * 2 ) / 8;
-const DEFAULT_GRIP_BASE_COLOR = new Color( 183, 184, 185 );
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-class HandleNode extends Node {
+type SelfOptions = {
 
-  constructor( options ) {
+  // options for the grip
+  gripBaseColor?: IColor; // base color of gradient on the grip
+  gripStroke?: IColor; // stroke color of the grip
+  gripLineWidth?: number;
 
-    options = merge( {
+  // options for the attachment(s)
+  attachmentFill?: IColor; // solid fill color for the attachments
+  attachmentStroke?: IColor; // stroke color of the attachments
+  attachmentLineWidth?: number;
+  hasLeftAttachment?: boolean;
+  hasRightAttachment?: boolean;
+};
 
-      // options for the grip
-      gripBaseColor: DEFAULT_GRIP_BASE_COLOR, // {ColorDef} base color of gradient on the grip
-      gripStroke: 'black', // {ColorDef} stroke color of the grip
+export type HandleNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
+export default class HandleNode extends Node {
+
+  private readonly disposeHandleNode: () => void;
+
+  constructor( providedOptions?: HandleNodeOptions ) {
+
+    const options = optionize<HandleNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
+      gripBaseColor: 'rgb( 183, 184, 185 )',
+      gripStroke: 'black',
       gripLineWidth: 3,
-
-      // options for the attachment(s)
-      attachmentFill: 'gray', // {ColorDef} solid fill color for the attachments
-      attachmentStroke: 'black', // {ColorDef} stroke color of the attachments
+      attachmentFill: 'gray',
+      attachmentStroke: 'black',
       attachmentLineWidth: 3,
       hasLeftAttachment: true,
       hasRightAttachment: true
-
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.hasLeftAttachment || options.hasRightAttachment, 'at least one attachment is required' );
 
@@ -105,10 +111,7 @@ class HandleNode extends Node {
         .addColorStop( 1.0, darkerColorProperty )
     } );
 
-    assert && assert( !options.hasOwnProperty( 'children' ), 'HandleNode sets children' );
-    options = merge( {
-      children: [ gripPath ]
-    }, options );
+    options.children = [ gripPath ];
 
     // handle attachment shape vars
     const attachmentShaftWidth = GRIP_HEIGHT * 0.35;
@@ -118,7 +121,7 @@ class HandleNode extends Node {
     const attachmentMiddleHeight = attachmentHeight * 0.5;
     const attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
 
-    const attachmentOptions = {
+    const attachmentOptions: Omit<PathOptions, 'left' | 'right'> = {
       fill: options.attachmentFill,
       stroke: options.attachmentStroke,
       lineWidth: options.attachmentLineWidth,
@@ -161,7 +164,7 @@ class HandleNode extends Node {
     // left attachment
     if ( options.hasLeftAttachment ) {
 
-      const leftAttachmentPath = new Path( leftAttachmentShape, merge( {
+      const leftAttachmentPath = new Path( leftAttachmentShape, optionize<PathOptions, {}, PathOptions>( {
         right: gripPath.left + options.gripLineWidth
       }, attachmentOptions ) );
 
@@ -174,7 +177,7 @@ class HandleNode extends Node {
       const rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
       // handle right attachment
-      const rightAttachmentPath = new Path( rightAttachmentShape, merge( {
+      const rightAttachmentPath = new Path( rightAttachmentShape, optionize<PathOptions, {}, PathOptions>( {
         left: gripPath.right - options.gripLineWidth
       }, attachmentOptions ) );
 
@@ -194,21 +197,18 @@ class HandleNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'HandleNode', this );
   }
 
-  // @public
-  dispose() {
+  public override dispose(): void {
     this.disposeHandleNode();
     super.dispose();
   }
 }
 
-sceneryPhet.register( 'HandleNode', HandleNode );
-
 /**
  * Add an "up/down" combination to either the top or bottom of the grip.
- * @param {Shape} shape - the shape to append to
- * @param {number} sign - +1 for top side of grip, -1 for bottom side of grip
+ * @param shape - the shape to append to
+ * @param sign - +1 for top side of grip, -1 for bottom side of grip
  */
-function addGripIndent( shape, sign ) {
+function addGripIndent( shape: Shape, sign: 1 | -1 ) {
 
   // control points for cubic curve shape on grip
   // each single-finger indent is made of two cubic curves that are mirrored over the y-axis
@@ -234,4 +234,4 @@ function addGripIndent( shape, sign ) {
       sign * -GRIP_SINGLE_FINGER_INDENT_DEPTH );
 }
 
-export default HandleNode;
+sceneryPhet.register( 'HandleNode', HandleNode );
