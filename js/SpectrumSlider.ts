@@ -83,7 +83,7 @@ export type SpectrumSliderOptions =
  * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,
  *   see https://github.com/phetsims/scenery-phet/issues/729
  */
-class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
+export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
   private readonly disposeSpectrumSlider: () => void;
 
@@ -460,4 +460,3 @@ class Cursor extends Rectangle {
 }
 
 sceneryPhet.register( 'SpectrumSlider', SpectrumSlider );
-export default SpectrumSlider;

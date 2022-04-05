@@ -22,7 +22,7 @@ type SelfOptions = {
 
 export type PlusNodeOptions = SelfOptions & PathOptions;
 
-class PlusNode extends Path {
+export default class PlusNode extends Path {
 
   /**
    * @param providedOptions
@@ -43,4 +43,3 @@ class PlusNode extends Path {
 }
 
 sceneryPhet.register( 'PlusNode', PlusNode );
-export default PlusNode;
