@@ -1,6 +1,5 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Scenery node that represents a simple, non-interactive clock.  It is
  * intended for use in situations where an icon representing time is needed.
@@ -8,31 +7,39 @@
  * @author John Blanco
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, IPaint, Line, LineOptions, Node, NodeOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type SelfOptions = {
+  fill?: IPaint;
+  stroke?: IPaint;
+  lineWidth?: number;
+};
+
+export type SimpleClockIconOptions = SelfOptions & NodeOptions;
 
 class SimpleClockIcon extends Node {
 
   /**
-   * @param {number} radius
-   * @param {Object} [options]
+   * @param radius
+   * @param providedOptions
    */
-  constructor( radius, options ) {
+  constructor( radius: number, providedOptions?: SimpleClockIconOptions ) {
 
     super();
 
-    options = merge( {
+    const options = optionize<SimpleClockIconOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       fill: 'white',
       stroke: 'black',
       lineWidth: 2
-    }, options );
+    }, providedOptions );
 
     this.addChild( new Circle( radius, options ) );
     this.addChild( new Circle( radius * 0.15, { fill: options.stroke } ) );
-    const lineOptionsForClockHands = {
+    const lineOptionsForClockHands: LineOptions = {
       stroke: options.stroke,
       lineWidth: options.lineWidth,
       lineCap: 'round',
