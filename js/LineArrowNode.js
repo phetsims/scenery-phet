@@ -1,5 +1,6 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * An arrow that is composed of 3 line segments: one for the tail, and 2 for a V-shaped head
  *
