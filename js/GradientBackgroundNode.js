@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Base type for nodes that are used as the background on a tab and that have
  * some sort of gradient to it.  Example include ground and sky.
