@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Shows a readout of the elapsed time, with play and pause buttons.  By default there are no units (which could be used
  * if all of a simulations time units are in 'seconds'), or you can specify a selection of units to choose from.
