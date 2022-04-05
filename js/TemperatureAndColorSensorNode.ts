@@ -1,6 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A Scenery Node that portrays a thermometer and a triangular indicator of the precise position where the temperature
  * is being sensed. The triangular indicator can be filled with a color to make it more clear what exactly is being
@@ -11,28 +10,50 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
+import Range from '../../dot/js/Range.js';
+import { Color, IColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import ThermometerNode from './ThermometerNode.js';
+import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
+import IProperty from '../../axon/js/IProperty.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
+import optionize from '../../phet-core/js/optionize.js';
 
-class TemperatureAndColorSensorNode extends Node {
+type SelfOptions = {
+
+  // horizontal spacing between color indicator and thermometer
+  horizontalSpace?: number;
+
+  // vertical difference between bottom of color indicator and thermometer
+  bottomOffset?: number;
+
+  thermometerNodeOptions?: Omit<ThermometerNodeOptions, 'left' | 'bottom'>;
+
+  colorIndicatorOptions?: { sideLength?: number } & PathOptions;
+};
+
+export type TemperatureAndColorSensorNodeOptions = SelfOptions & NodeOptions;
+
+export default class TemperatureAndColorSensorNode extends Node {
+
+  private readonly colorIndicatorNode: Path;
+  private readonly thermometerNode: Node;
 
   /**
-   * @param {Range} temperatureRange
-   * @param {Property.<number>} temperatureProperty
-   * @param {Property.<Color>} colorProperty
-   * @param {Object} [options]
+   * @param temperatureRange
+   * @param temperatureProperty
+   * @param colorProperty
+   * @param providedOptions
    * @public
    */
-  constructor( temperatureRange, temperatureProperty, colorProperty, options ) {
+  constructor( temperatureRange: Range, temperatureProperty: IProperty<number>, colorProperty: IProperty<IColor>,
+               providedOptions?: TemperatureAndColorSensorNodeOptions ) {
     super();
 
-    options = merge( {
-      horizontalSpace: 3, // horizontal spacing between color indicator and thermometer
-      bottomOffset: 5, // vertical difference between bottom of color indicator and thermometer
+    const options = optionize<TemperatureAndColorSensorNodeOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
+      horizontalSpace: 3,
+      bottomOffset: 5,
       thermometerNodeOptions: {
         bulbDiameter: 30,
         tubeWidth: 18,
@@ -49,54 +70,41 @@ class TemperatureAndColorSensorNode extends Node {
         lineJoin: 'round',
         sideLength: 18
       }
-    }, options );
+    }, providedOptions );
 
-    // Add the triangle that will display the sensed color.  The leftmost point of this triangle will correspond to
-    // the position of the sensor in the model.
-    const triangleShape = new Shape();
-    const s = options.colorIndicatorOptions.sideLength;
-    triangleShape.moveTo( 0, 0 )
+    // Add the triangle that will display the sensed color.
+    // The leftmost point of this triangle will correspond to the position of the sensor in the model.
+    const s = options.colorIndicatorOptions.sideLength!;
+    const triangleShape = new Shape()
+      .moveTo( 0, 0 )
       .lineTo( Math.cos( Math.PI / 6 ) * s, -Math.sin( Math.PI / 6 ) * s )
       .lineTo( Math.cos( Math.PI / 6 ) * s, Math.sin( Math.PI / 6 ) * s )
       .close();
-
-    // @private {Path}
     this.colorIndicatorNode = new Path( triangleShape, options.colorIndicatorOptions );
     colorProperty.link( color => { this.colorIndicatorNode.fill = color; } );
     this.addChild( this.colorIndicatorNode );
 
-    // @private {ThermometerNode}
     this.thermometerNode = new ThermometerNode(
       temperatureRange.min,
       temperatureRange.max,
       temperatureProperty,
-      merge( options.thermometerNodeOptions, {
+      optionize<ThermometerNodeOptions, {}, ThermometerNodeOptions>( {
         left: this.colorIndicatorNode.right + options.horizontalSpace,
         bottom: this.colorIndicatorNode.bottom + options.bottomOffset
-      } )
+      }, options.thermometerNodeOptions )
     );
     this.addChild( this.thermometerNode );
 
     this.mutate( options );
   }
 
-  /**
-   * returns bounds for thermometer node
-   * @returns {Bounds2}
-   * @public
-   */
-  getThermometerBounds() {
+  public getThermometerBounds(): Bounds2 {
     return this.thermometerNode.bounds;
   }
 
   get thermometerBounds() { return this.getThermometerBounds(); }
 
-  /**
-   * Returns bounds for color indicator arrow node
-   * @returns {Bounds2}
-   * @public
-   */
-  getColorIndicatorBounds() {
+  public getColorIndicatorBounds(): Bounds2 {
     return this.colorIndicatorNode.bounds;
   }
 
@@ -104,4 +112,3 @@ class TemperatureAndColorSensorNode extends Node {
 }
 
 sceneryPhet.register( 'TemperatureAndColorSensorNode', TemperatureAndColorSensorNode );
-export default TemperatureAndColorSensorNode;
