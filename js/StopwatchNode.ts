@@ -1,6 +1,5 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Shows a readout of the elapsed time, with play and pause buttons.  By default there are no units (which could be used
  * if all of a simulations time units are in 'seconds'), or you can specify a selection of units to choose from.
@@ -10,22 +9,20 @@
  * @author Anton Ulyanov (Mlearner)
  */
 
+import Property from '../../axon/js/Property.js';
+import Range from '../../dot/js/Range.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
+import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, DragListenerOptions, HBox, IColor, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import DragBoundsProperty from './DragBoundsProperty.js';
-import NumberDisplay from './NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
 import PlayIconShape from './PlayIconShape.js';
@@ -35,20 +32,97 @@ import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
 
-class StopwatchNode extends Node {
+type SelfOptions = {
+
+  cursor?: string;
+  numberDisplayRange?: Range; // used to size the NumberDisplay
+  iconHeight?: number;
+  iconFill?: IColor;
+  iconLineWidth?: number;
+  backgroundBaseColor?: IColor;
+  buttonBaseColor?: IColor;
+  xSpacing?: number; // horizontal space between the buttons
+  ySpacing?: number; // vertical space between readout and buttons
+  xMargin?: number;
+  yMargin?: number;
+
+  numberDisplayOptions?: NumberDisplayOptions;
+
+  // If provided, the stopwatch is draggable within the bounds. If null, the stopwatch is not draggable.
+  dragBoundsProperty?: Property<Bounds2> | null;
+
+  // options propagated to the DragListener
+  dragListenerOptions?: DragListenerOptions<PressedDragListener>;
+};
+
+export type StopwatchNodeOptions = SelfOptions & NodeOptions;
+
+type FormatterOptions = {
+
+  // If true, the time value is converted to minutes and seconds, and the format looks like 59:59.00.
+  // If false, time is formatted as a decimal value, like 123.45
+  showAsMinutesAndSeconds?: boolean;
+  numberOfDecimalPlaces?: number;
+  bigNumberFont?: number;
+  smallNumberFont?: number;
+  unitsFont?: number;
+  units?: string;
+  valueUnitsPattern?: string;
+};
+
+export default class StopwatchNode extends Node {
+
+  // options propagated to the NumberDisplay
+  private readonly numberDisplay: NumberDisplay;
+
+  // Non-null if draggable. Can be used for forwarding press events when dragging out of a toolbox.
+  public readonly dragListener: DragListener | null;
+
+  private readonly disposeStopwatchNode: () => void;
+
+  // We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing jitter.
+  // Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
+  // Use Trebuchet first, since it has broader cross-platform support.
+  // Another advantage of using a non-monospace font (with monospace digits) is that the : and . symbols aren't as
+  // wide as the numerals. @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
+  // and it seemed to work nicely, with no jitter.
+  public static NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
+
+  public static DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
 
   /**
-   * @param {Stopwatch} stopwatch
-   * @param {Object} [options]
+   * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
+   * The format is MM:SS.CC, where M=minutes, S=seconds, C=centiseconds. The returned string is plain text, so all
+   * digits will be the same size, and the client is responsible for setting the font size.
    */
-  constructor( stopwatch, options ) {
-    assert && assert( stopwatch instanceof Stopwatch, `invalid stopwatch: ${stopwatch}` );
+  public static PLAIN_TEXT_MINUTES_AND_SECONDS = ( time: number ) => {
+    const minutesAndSeconds = toMinutesAndSeconds( time );
+    const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
+    return minutesAndSeconds + centiseconds;
+  };
 
-    options = merge( {
+  /**
+   * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
+   * The format is format MM:SS.cc, where M=minutes, S=seconds, c=centiseconds. The string returned is in RichText
+   * format, with the 'c' digits in a smaller font.
+   */
+  public static RICH_TEXT_MINUTES_AND_SECONDS = StopwatchNode.createRichTextNumberFormatter( {
+    showAsMinutesAndSeconds: true,
+    numberOfDecimalPlaces: 2
+  } );
 
+  /**
+   * @param stopwatch
+   * @param providedOptions
+   */
+  constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
+
+    const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+
+      // SelfOptions
       cursor: 'pointer',
+      numberDisplayRange: Stopwatch.ZERO_TO_ALMOST_SIXTY, // sized for 59:59.99 (mm:ss) or 3599.99 (decimal)
       iconHeight: 10,
-      numberDisplayRange: Stopwatch.ZERO_TO_ALMOST_SIXTY, // Just for sizing the display, sized for 59:59.99 (mm:ss) or 3599.99 (decimal)
       iconFill: 'black',
       iconLineWidth: 1,
       backgroundBaseColor: 'rgb( 80, 130, 230 )',
@@ -57,8 +131,6 @@ class StopwatchNode extends Node {
       ySpacing: 6, // vertical space between readout and buttons
       xMargin: 8,
       yMargin: 8,
-
-      // options propagated to the NumberDisplay
       numberDisplayOptions: {
         numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
         useRichText: true,
@@ -71,18 +143,14 @@ class StopwatchNode extends Node {
         yMargin: 2,
         pickable: false // allow dragging by the number display
       },
-
-      // {Property.<Bounds2>|null} If provided, the stopwatch is draggable within the bounds.  If null, the stopwatch is not draggable.
       dragBoundsProperty: null,
-
-      // Tandem is required to make sure the buttons are instrumented
-      tandem: Tandem.REQUIRED,
-
-      // options propagated to the DragListener.
       dragListenerOptions: {
         start: _.noop
-      }
-    }, options );
+      },
+
+      // Tandem is required to make sure the buttons are instrumented
+      tandem: Tandem.REQUIRED
+    }, providedOptions );
     assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 
     assert && assert( options.xSpacing >= 0, 'Buttons cannot overlap' );
@@ -146,9 +214,9 @@ class StopwatchNode extends Node {
     super( options );
 
     // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
-    const timeListener = time => {
-      resetButton.enabled = time > 0;
-      playPauseButton.enabled = time < stopwatch.timeProperty.range.max;
+    const timeListener = ( time: number ) => {
+      resetButton.enabled = ( time > 0 );
+      playPauseButton.enabled = ( time < stopwatch.timeProperty.range!.max );
     };
     stopwatch.timeProperty.link( timeListener );
 
@@ -157,7 +225,7 @@ class StopwatchNode extends Node {
       this.addChild( new Circle( 3, { fill: 'red' } ) );
     }
 
-    const stopwatchVisibleListener = visible => {
+    const stopwatchVisibleListener = ( visible: boolean ) => {
       this.visible = visible;
       if ( visible ) {
         this.moveToFront();
@@ -171,15 +239,12 @@ class StopwatchNode extends Node {
     stopwatch.isVisibleProperty.link( stopwatchVisibleListener );
 
     // Move to the stopwatch's position
-    const stopwatchPositionListener = position => this.setTranslation( position );
+    const stopwatchPositionListener = ( position: Vector2 ) => this.setTranslation( position );
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
-    // @public (read-only) {DragListener|null} -- reassigned below, if draggable.  Can be used for forwarding press
-    // events when dragging out of a toolbox.
     this.dragListener = null;
 
-    let adjustedDragBoundsProperty = null;
-
+    let adjustedDragBoundsProperty: DragBoundsProperty | null = null;
     if ( options.dragBoundsProperty ) {
 
       // drag bounds, adjusted to keep this entire Node inside visible bounds
@@ -196,7 +261,7 @@ class StopwatchNode extends Node {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      const dragListenerOptions = merge( {
+      const dragListenerOptions = optionize<DragListenerOptions<PressedDragListener>, {}, DragListenerOptions<PressedDragListener>>( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
@@ -204,10 +269,10 @@ class StopwatchNode extends Node {
       }, options.dragListenerOptions );
 
       // Add moveToFront to any start function that the client provided.
-      const optionsStart = dragListenerOptions.start;
-      dragListenerOptions.start = () => {
+      const optionsStart = dragListenerOptions.start!;
+      dragListenerOptions.start = ( event: PressListenerEvent, listener: PressedDragListener ) => {
         this.moveToFront();
-        optionsStart();
+        optionsStart( event, listener );
       };
 
       // Dragging, added to background so that other UI components get input events on touch devices.
@@ -251,36 +316,27 @@ class StopwatchNode extends Node {
   }
 
   /**
-   * @param {function(number):string} numberFormatter
-   * @public
+   * Sets the formatter for the NumberDisplay.
+   * @param numberFormatter
    */
-  setNumberFormatter( numberFormatter ) {
+  public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
     this.numberDisplay.setNumberFormatter( numberFormatter );
   }
 
-  // @public - redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
-  redrawNumberDisplay() {
+  // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
+  public redrawNumberDisplay(): void {
     this.numberDisplay.recomputeText();
   }
 
-  /**
-   * Release resources when no longer be used.
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeStopwatchNode();
     super.dispose();
   }
 
   /**
    * Gets the centiseconds (hundredths-of-a-second) string for a time value.
-   * @public (read-only, unit-tests)
-   * @param {number} time
-   * @param {number} numberDecimalPlaces
-   * @returns {string}
    */
-  static getDecimalPlaces( time, numberDecimalPlaces ) {
+  static getDecimalPlaces( time: number, numberDecimalPlaces: number ): string {
 
     const max = Math.pow( 10, numberDecimalPlaces );
 
@@ -297,13 +353,10 @@ class StopwatchNode extends Node {
 
   /**
    * Creates a custom value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
-   * @public
-   * @param {Object} [options]
-   * @returns {function(time:number):string} - see NumberDisplay options.numberFormatter
    */
-  static createRichTextNumberFormatter( options ) {
+  public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => string {
 
-    options = merge( {
+    const options = optionize<FormatterOptions>( {
 
       // If true, the time value is converted to minutes and seconds, and the format looks like 59:59.00.
       // If false, time is formatted as a decimal value, like 123.45
@@ -316,9 +369,9 @@ class StopwatchNode extends Node {
 
       // Units cannot be baked into the i18n string because they can change independently
       valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
-    }, options );
+    }, providedOptions );
 
-    return time => {
+    return ( time: number ) => {
       const minutesAndSeconds = options.showAsMinutesAndSeconds ? toMinutesAndSeconds( time ) : Math.floor( time );
       const centiseconds = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces );
 
@@ -332,54 +385,10 @@ class StopwatchNode extends Node {
   }
 }
 
-// @public - We used to use Lucida Console, Arial, but Arial has smaller number width for "11" and hence was causing
-// jitter. Neither Trebuchet MS and Lucida Grande is a monospace font, but the digits all appear to be monospace.
-// Use Trebuchet first, since it has broader cross-platform support.
-// Another advantage of using a non-monospace font (that has monospace digits) is that the : and . symbols aren't as
-// wide as the numerals.  @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
-// and it seemed to work nicely, with no jitter.
-StopwatchNode.NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
-
-// @public
-StopwatchNode.DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
-
-/**
- * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
- * The format is MM:SS.CC, where M=minutes, S=seconds, C=centiseconds. The returned string is plain text, so all
- * digits will be the same size, and the client is responsible for setting the font size.
- *
- * @public
- * @static
- * @param {number} time
- * @returns {string} - plain text
- */
-StopwatchNode.PLAIN_TEXT_MINUTES_AND_SECONDS = time => {
-  const minutesAndSeconds = toMinutesAndSeconds( time );
-  const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
-  return minutesAndSeconds + centiseconds;
-};
-
-/**
- * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.
- * The format is format MM:SS.cc, where M=minutes, S=seconds, c=centiseconds. The string returned is in RichText
- * format, with the 'c' digits in a smaller font.
- *
- * @public
- * @static
- * @param {number} time
- * @returns {string} - RichText format
- */
-StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS = StopwatchNode.createRichTextNumberFormatter( {
-  showAsMinutesAndSeconds: true,
-  numberOfDecimalPlaces: 2
-} );
-
 /**
  * Converts a time to a string in {{minutes}}:{{seconds}} format.
- * @param {number} time
- * @returns {string}
  */
-function toMinutesAndSeconds( time ) {
+function toMinutesAndSeconds( time: number ): string {
 
   // Round to the nearest centi-part (if time is in seconds, this would be centiseconds)
   // see https://github.com/phetsims/masses-and-springs/issues/156
@@ -389,17 +398,12 @@ function toMinutesAndSeconds( time ) {
   const timeInSeconds = time;
 
   // If no units are provided, then we assume the time is in seconds, and should be shown in mm:ss.cs
-  let minutes = Math.floor( timeInSeconds / 60 );
-  let seconds = Math.floor( timeInSeconds ) % 60;
+  const minutes = Math.floor( timeInSeconds / 60 );
+  const seconds = Math.floor( timeInSeconds ) % 60;
 
-  if ( seconds < 10 ) {
-    seconds = `0${seconds}`;
-  }
-  if ( minutes < 10 ) {
-    minutes = `0${minutes}`;
-  }
-  return `${minutes}:${seconds}`;
+  const minutesString = ( minutes < 10 ) ? `0${minutes}` : `${minutes}`;
+  const secondsString = ( seconds < 10 ) ? `0${seconds}` : `${seconds}`;
+  return `${minutesString}:${secondsString}`;
 }
 
 sceneryPhet.register( 'StopwatchNode', StopwatchNode );
-export default StopwatchNode;

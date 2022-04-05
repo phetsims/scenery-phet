@@ -1,6 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Stopwatch is the model for the stopwatch. It is responsible for time, position, and visibility.
  *
@@ -8,65 +7,83 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../axon/js/NumberProperty.js';
+import NumberProperty, { NumberPropertyOptions } from '../../axon/js/NumberProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Range from '../../dot/js/Range.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
-import merge from '../../phet-core/js/merge.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import sceneryPhet from './sceneryPhet.js';
+import Property from '../../axon/js/Property.js';
+import optionize from '../../phet-core/js/optionize.js';
 
-class Stopwatch extends PhetioObject {
+const DEFAULT_TIME_RANGE = new Range( 0, Number.POSITIVE_INFINITY );
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+type SelfOptions = {
+  position?: Vector2;
+  isVisible?: boolean;
+  timePropertyOptions?: Omit<NumberPropertyOptions, 'tandem'>;
+};
 
-    options = merge( {
+export type StopwatchOptions = SelfOptions & PhetioObjectOptions;
+
+export default class Stopwatch extends PhetioObject {
+
+  // position of the stopwatch, in view coordinates
+  public readonly positionProperty: Property<Vector2>;
+
+  // whether the stopwatch is visible
+  public readonly isVisibleProperty: Property<boolean>;
+
+  // whether the stopwatch is running
+  public readonly isRunningProperty: Property<boolean>;
+
+  // time displayed on the stopwatch, in units as specified by the client
+  public readonly timeProperty: NumberProperty;
+
+  private readonly disposeStopwatch: () => void;
+
+  public static ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // works out to be 59:59.99
+
+  constructor( providedOptions?: StopwatchOptions ) {
+
+    const options = optionize<StopwatchOptions, SelfOptions, PhetioObjectOptions, 'tandem'>( {
+
+      // SelfOptions
       position: Vector2.ZERO,
       isVisible: false,
       timePropertyOptions: {
-
-        // when time reaches range.max, the Stopwatch automatically pauses.
-        range: new Range( 0, Number.POSITIVE_INFINITY ),
+        range: DEFAULT_TIME_RANGE, // When time reaches range.max, the Stopwatch automatically pauses.
         units: 's',
-        isValidValue: value => value >= 0,
+        isValidValue: ( value: number ) => value >= 0,
         phetioReadOnly: true,
         phetioHighFrequency: true
       },
 
-      // phet-io
+      // PhetioObjectOptions
       tandem: Tandem.REQUIRED,
       phetioType: ReferenceIO( IOType.ObjectIO ),
       phetioState: false
-    }, options );
+    }, providedOptions );
 
     super( options );
 
-    // @public - position of the stopwatch, in view coordinates
     this.positionProperty = new Vector2Property( options.position, {
       tandem: options.tandem.createTandem( 'positionProperty' ),
       phetioDocumentation: `view coordinates for the upper-left of the stopwatch (initially ${options.position.x},${options.position.y})`
     } );
 
-    // @public - whether the stopwatch is visible
     this.isVisibleProperty = new BooleanProperty( options.isVisible, {
       tandem: options.tandem.createTandem( 'isVisibleProperty' )
     } );
 
-    // @public - whether the stopwatch is running
     this.isRunningProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'isRunningProperty' )
     } );
 
-    assert && assert( !options.timePropertyOptions.hasOwnProperty( 'tandem' ), 'Time property provides its own tandem' );
-
-    // @public (read-only) time displayed on the stopwatch
-    this.timeProperty = new NumberProperty( 0, merge( {
+    this.timeProperty = new NumberProperty( 0, optionize<NumberPropertyOptions, {}, NumberPropertyOptions>( {
       tandem: options.tandem.createTandem( 'timeProperty' )
     }, options.timePropertyOptions ) );
 
@@ -79,7 +96,6 @@ class Stopwatch extends PhetioObject {
     };
     this.isVisibleProperty.link( visibilityListener );
 
-    // @private
     this.disposeStopwatch = () => {
       this.isVisibleProperty.unlink( visibilityListener );
       this.positionProperty.dispose();
@@ -89,20 +105,12 @@ class Stopwatch extends PhetioObject {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeStopwatch();
     super.dispose();
   }
 
-  /**
-   * Resets the stopwatch.
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.positionProperty.reset();
     this.isVisibleProperty.reset();
     this.isRunningProperty.reset();
@@ -111,27 +119,22 @@ class Stopwatch extends PhetioObject {
 
   /**
    * Steps the stopwatch.
-   * @param {number} dt - time delta, in the units appropriate for the corresponding model
-   * @public
+   * @param dt - time delta, in units as specified by the client
    */
-  step( dt ) {
-    assert && assert( typeof dt === 'number' && dt > 0, `invalid dt: ${dt}` );
+  public step( dt: number ): void {
+    assert && assert( dt > 0, `invalid dt: ${dt}` );
 
     if ( this.isRunningProperty.value ) {
 
-      // Increment time, but don't exceed the range
-      this.timeProperty.value = this.timeProperty.range.constrainValue( this.timeProperty.value + dt );
+      // Increment time, but don't exceed the range.
+      this.timeProperty.value = this.timeProperty.range!.constrainValue( this.timeProperty.value + dt );
 
-      // If the max is reached, then pause
-      if ( this.timeProperty.value === this.timeProperty.range.max ) {
+      // If the max is reached, then pause.
+      if ( this.timeProperty.value >= this.timeProperty.range!.max ) {
         this.isRunningProperty.value = false;
       }
     }
   }
 }
 
-// @public
-Stopwatch.ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // Works out to be 59:59.99
-
 sceneryPhet.register( 'Stopwatch', Stopwatch );
-export default Stopwatch;
