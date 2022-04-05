@@ -1,5 +1,6 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Scenery node that represents a simple, non-interactive clock.  It is
  * intended for use in situations where an icon representing time is needed.
