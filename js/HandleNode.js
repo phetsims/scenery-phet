@@ -1,5 +1,6 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Scenery node that shows a handle, which is made of two parts: the "grip" which is where you would grab it and the
  * "attachment" which are elbow-shaped bars that attach the handle to another surface.
