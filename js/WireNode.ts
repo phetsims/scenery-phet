@@ -50,7 +50,7 @@ export default class WireNode extends Path {
     } );
   }
 
-  dispose() {
+  public override dispose(): void {
     this.multilink.dispose();
     super.dispose();
   }

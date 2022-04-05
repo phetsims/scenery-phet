@@ -256,7 +256,7 @@ export default class NumberDisplay extends Node {
     this._recomputeText();
   }
 
-  dispose() {
+  public override dispose(): void {
     this.disposeNumberDisplay();
     super.dispose();
   }

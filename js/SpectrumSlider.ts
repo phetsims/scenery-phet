@@ -365,7 +365,7 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
   }
 
-  public override dispose() {
+  public override dispose(): void {
     this.disposeSpectrumSlider();
     super.dispose();
   }
@@ -444,7 +444,7 @@ class ValueDisplay extends Text {
     this.disposeValueDisplay = () => valueProperty.unlink( valueObserver );
   }
 
-  public override dispose() {
+  public override dispose(): void {
     this.disposeValueDisplay();
     super.dispose();
   }

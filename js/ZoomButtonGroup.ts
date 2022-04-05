@@ -149,11 +149,7 @@ export default class ZoomButtonGroup extends LayoutBox {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeZoomButtonGroup();
     super.dispose();
   }

@@ -431,7 +431,7 @@ export default class NumberControl extends Node {
     this.numberDisplay.recomputeText();
   }
 
-  dispose() {
+  public override dispose(): void {
     this.disposeNumberControl();
     super.dispose();
   }

@@ -102,7 +102,7 @@ export default class SpectrumSliderThumb extends Path {
     return super.setY( centerY + this.windowCursor.height / 2 );
   }
 
-  public override dispose() {
+  public override dispose(): void {
     this.disposeSpectrumSliderThumb();
     super.dispose();
   }
