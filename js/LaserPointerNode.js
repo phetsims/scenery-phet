@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A laser pointer, with optional on/off button (toggle or momentary).
  * Default orientation is pointing to the right. Origin is at right center (the edge of the output nozzle).
