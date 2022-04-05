@@ -20,7 +20,7 @@ type SelfOptions = {
 
 export type WavelengthSpectrumNodeOptions = SelfOptions & Omit<SpectrumNodeOptions, 'minValue' | 'maxValue'>;
 
-class WavelengthSpectrumNode extends SpectrumNode {
+export default class WavelengthSpectrumNode extends SpectrumNode {
 
   constructor( providedOptions?: WavelengthSpectrumNodeOptions ) {
 
@@ -44,4 +44,3 @@ class WavelengthSpectrumNode extends SpectrumNode {
 }
 
 sceneryPhet.register( 'WavelengthSpectrumNode', WavelengthSpectrumNode );
-export default WavelengthSpectrumNode;
