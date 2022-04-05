@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Property from '../../axon/js/Property.js';
+import IProperty from '../../axon/js/IProperty.js';
 import { AlignBox, AlignBoxOptions, AlignGroup, Image } from '../../scenery/js/imports.js';
 import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
 import lockClosed_png from '../images/lockClosed_png.js';
@@ -23,7 +23,7 @@ export default class LockNode extends BooleanToggleNode {
    * @param isLockedProperty - true=lock closed, false=lock open
    * @param providedOptions
    */
-  constructor( isLockedProperty: Property<boolean>, providedOptions?: LockNodeOptions ) {
+  constructor( isLockedProperty: IProperty<boolean>, providedOptions?: LockNodeOptions ) {
 
     const alignBoxOptions: AlignBoxOptions = {
 

@@ -8,6 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IProperty from '../../axon/js/IProperty.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -17,9 +18,7 @@ import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, Text, TextOptions } from '../../scenery/js/imports.js';
-import { DragListener, FocusHighlightFromNode, SceneryEvent } from '../../scenery/js/imports.js';
-import { Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -93,7 +92,7 @@ class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
    * @param providedOptions
    * @mixes AccessibleSlider
    */
-  constructor( valueProperty: Property<number>, providedOptions?: SpectrumSliderOptions ) {
+  constructor( valueProperty: IProperty<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type

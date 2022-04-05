@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Property from '../../axon/js/Property.js';
+import IProperty from '../../axon/js/IProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { IColor, Path } from '../../scenery/js/imports.js';
@@ -28,7 +28,7 @@ export default class GridCheckbox extends Checkbox {
    * @param property
    * @param providedOptions
    */
-  constructor( property: Property<boolean>, providedOptions?: GridCheckboxOptions ) {
+  constructor( property: IProperty<boolean>, providedOptions?: GridCheckboxOptions ) {
 
     const options = optionize<GridCheckboxOptions, SelfOptions, CheckboxOptions>( {
 

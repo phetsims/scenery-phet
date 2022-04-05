@@ -10,7 +10,6 @@
 
 import Range from '../../dot/js/Range.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../scenery/js/imports.js';
@@ -20,6 +19,7 @@ import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
+import IProperty from '../../axon/js/IProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -64,7 +64,7 @@ export default class ComboBoxDisplay extends ComboBox<number> {
    * @param listParent - parent for the ComboBox list
    * @param providedOptions
    */
-  constructor( items: ComboBoxDisplayItem[], choiceProperty: Property<number>, listParent: Node,
+  constructor( items: ComboBoxDisplayItem[], choiceProperty: IProperty<number>, listParent: Node,
                providedOptions?: ComboBoxDisplayOptions ) {
 
     const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>( {
