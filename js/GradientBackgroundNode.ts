@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Base type for nodes that are used as the background on a tab and that have
  * some sort of gradient to it.  Example include ground and sky.
@@ -9,23 +8,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Rectangle } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
+import { IColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class GradientBackgroundNode extends Rectangle {
-
-  /**
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {string||Color} color1
-   * @param {string||Color} color2
-   * @param {number} y1
-   * @param {number} y2
-   */
-  constructor( x, y, width, height, color1, color2, y1, y2 ) {
+export default class GradientBackgroundNode extends Rectangle {
+  constructor( x: number, y: number, width: number, height: number, color1: IColor, color2: IColor, y1: number, y2: number ) {
     const centerX = x + width / 2;
     const gradient = new LinearGradient( centerX, y1, centerX, y2 );
     gradient.addColorStop( 0, color1 );
@@ -35,4 +22,3 @@ class GradientBackgroundNode extends Rectangle {
 }
 
 sceneryPhet.register( 'GradientBackgroundNode', GradientBackgroundNode );
-export default GradientBackgroundNode;

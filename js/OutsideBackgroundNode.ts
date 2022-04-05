@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * This node is intended for use as a background on a screen, and shows the
  * ground on the bottom and the sky on the top.
@@ -18,15 +17,7 @@ import sceneryPhet from './sceneryPhet.js';
 import SkyNode from './SkyNode.js';
 
 class OutsideBackgroundNode extends Node {
-
-  /**
-   * @param {number} centerX
-   * @param {number} centerY
-   * @param {number} width
-   * @param {number} skyHeight
-   * @param {number} groundDepth
-   */
-  constructor( centerX, centerY, width, skyHeight, groundDepth ) {
+  constructor( centerX: number, centerY: number, width: number, skyHeight: number, groundDepth: number ) {
     super();
 
     // sky

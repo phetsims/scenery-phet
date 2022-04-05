@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Node that can be used to represent the sky.
  *
@@ -8,29 +7,26 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Color } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, IColor } from '../../scenery/js/imports.js';
 import GradientBackgroundNode from './GradientBackgroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class SkyNode extends GradientBackgroundNode {
+type SelfOptions = {
+  topColor: IColor;
+  bottomColor: IColor;
+};
 
-  /**
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {number} gradientEndHeight
-   * @param {Object} [options]
-   */
-  constructor( x, y, width, height, gradientEndHeight, options ) {
-    options = merge( {
+export type SkyNodeOptions = SelfOptions; // superclass GradientBackgroundNode has no options
+
+export default class SkyNode extends GradientBackgroundNode {
+  constructor( x: number, y: number, width: number, height: number, gradientEndHeight: number, providedOptions?: SkyNodeOptions ) {
+    const options = optionize<SkyNodeOptions, SelfOptions>( {
       topColor: new Color( 1, 172, 228 ),
       bottomColor: new Color( 208, 236, 251 )
-    }, options );
+    }, providedOptions );
     super( x, y, width, height, options.bottomColor, options.topColor, gradientEndHeight, y );
   }
 }
 
 sceneryPhet.register( 'SkyNode', SkyNode );
-export default SkyNode;

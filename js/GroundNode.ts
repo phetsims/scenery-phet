@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Node that can be used to represent the ground.
  *
@@ -8,26 +7,24 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Color } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, IColor } from '../../scenery/js/imports.js';
 import GradientBackgroundNode from './GradientBackgroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class GroundNode extends GradientBackgroundNode {
+type SelfOptions = {
+  topColor: IColor;
+  bottomColor: IColor;
+};
 
-  /**
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {number} gradientEndDepth
-   * @param {Object} [options]
-   */
-  constructor( x, y, width, height, gradientEndDepth, options ) {
-    options = merge( {
+export type GroundNodeOptions = SelfOptions; // superclass GradientBackgroundNode has no options
+
+class GroundNode extends GradientBackgroundNode {
+  constructor( x: number, y: number, width: number, height: number, gradientEndDepth: number, providedOptions?: GroundNodeOptions ) {
+    const options = optionize<GroundNodeOptions, SelfOptions>( {
       topColor: new Color( 144, 199, 86 ),
       bottomColor: new Color( 103, 162, 87 )
-    }, options );
+    }, providedOptions );
     super( x, y, width, height, options.topColor, options.bottomColor, y, gradientEndDepth );
   }
 }
