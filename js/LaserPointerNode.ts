@@ -1,6 +1,5 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A laser pointer, with optional on/off button (toggle or momentary).
  * Default orientation is pointing to the right. Origin is at right center (the edge of the output nozzle).
@@ -8,21 +7,71 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IProperty from '../../axon/js/IProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
+import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
-import ShadedSphereNode from './ShadedSphereNode.js';
+import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js';
 
-// constants
-const DEFAULT_OPTIONS = {
+type ButtonType = 'toggle' | 'momentary';
+
+type SelfOptions = {
+
+  // nozzle and body options
+  bodySize?: Dimension2;
+  nozzleSize?: Dimension2;
+  topColor?: IColor;
+  bottomColor?: IColor;
+  highlightColor?: IColor;
+  highlightColorStop?: number;  // color stop for highlight, (0,1) exclusive range
+  stroke?: IColor;
+  lineWidth?: number;
+  cornerRadius?: number;
+
+  // button options
+  hasButton?: boolean; // other button options are ignored if this is false
+  buttonType?: ButtonType;
+  buttonColor?: IColor;
+  buttonRadius?: number;
+  buttonXMargin?: number;
+  buttonYMargin?: number;
+  buttonTouchAreaDilation?: number;
+  buttonMouseAreaDilation?: number;
+  buttonRotation?: number; // use this to adjust lighting on the button
+  buttonAccessibleName?: string;
+  buttonDescriptionContent?: string;
+
+  // where to position the button within the body
+  getButtonLocation?: ( bodyNode: Node ) => Vector2;
+
+  // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
+  // It does not change the origin of the laser pointer node, which is at the center of the casing.  The glass is
+  // sometimes used to help cue the user that it is a non-laser light source.
+  // See https://github.com/phetsims/scenery-phet/issues/366
+  hasGlass?: boolean;
+
+  // propagated to ShadedSphereNode, used to draw the lens at the output of the laser pointer
+  glassOptions?: {
+
+    // The fraction of the nozzle height, between 0 (no height) and 1 (the nozzle height)
+    heightProportion?: number;
+
+    // The amount the glass "sticks out" between 0 (not at all) and 1 (hemisphere)
+    proportionStickingOut?: number;
+  } & ShadedSphereNodeOptions;
+};
+
+export type LaserPointerNodeOptions = SelfOptions & NodeOptions;
+
+const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>( {
 
   // nozzle and body options
   bodySize: new Dimension2( 110, 78 ),
@@ -48,49 +97,43 @@ const DEFAULT_OPTIONS = {
   buttonAccessibleName: '',
   buttonDescriptionContent: '',
 
-  // {function(bodyNode:Node):Vector2} where to position the button within the body
-  getButtonLocation: bodyNode => bodyNode.center,
+  // where to position the button within the body
+  getButtonLocation: ( bodyNode: Node ) => bodyNode.center,
 
-  // When enabled, the glass shows a semi-circular blue-ish lens on the output of the laser pointer node.
-  // It does not change the origin of the laser pointer node, which is at the center of the casing.  The glass is
-  // sometimes used to help cue the user that it is a non-laser light source.
-  // See https://github.com/phetsims/scenery-phet/issues/366
   hasGlass: false,
-  glassOptions: null, // {Object|null} to be filled in with defaults below, or overridden, see DEFAULT_GLASS_OPTIONS
 
-  // PhET-iO
+  // Glass options, nested as discussed in https://github.com/phetsims/tasks/issues/730
+  glassOptions: {
+    mainColor: 'rgb(188,225,238)',
+    highlightColor: 'white',
+    shadowColor: 'white',
+    stroke: 'black',
+    heightProportion: 0.7,
+    proportionStickingOut: 0.5
+  },
+
   tandem: Tandem.REQUIRED
-};
+} );
 assert && Object.freeze( DEFAULT_OPTIONS );
 
-// Glass options, nested as discussed in https://github.com/phetsims/tasks/issues/730
-const DEFAULT_GLASS_OPTIONS = {
-  mainColor: 'rgb(188,225,238)',
-  highlightColor: 'white',
-  shadowColor: 'white',
-  stroke: 'black',
-  heightProportion: 0.7, // The fraction of the nozzle height, between 0 (no height) and 1 (the nozzle height)
-  proportionStickingOut: 0.5 // The amount the glass "sticks out" between 0 (not at all) and 1 (hemisphere)
-};
-assert && Object.freeze( DEFAULT_GLASS_OPTIONS );
+export default class LaserPointerNode extends Node {
 
-class LaserPointerNode extends Node {
+  private readonly disposeLaserPointerNode: () => void;
+
+  public static DEFAULT_OPTIONS = DEFAULT_OPTIONS;
 
   /**
-   * @param {Property.<boolean>} onProperty - is the laser on?
-   * @param {Object} [options]
+   * @param onProperty - is the laser on?
+   * @param providedOptions
    */
-  constructor( onProperty, options ) {
+  constructor( onProperty: IProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
 
-    options = merge( {}, DEFAULT_OPTIONS, options );
-
-    options.glassOptions = merge( {}, DEFAULT_GLASS_OPTIONS, options.glassOptions );
+    const options = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>(
+      {}, DEFAULT_OPTIONS, providedOptions );
 
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );
-
-    // validate options
-    assert && assert( options.buttonType === 'toggle' || options.buttonType === 'momentary',
-      `invalid buttonType: ${options.buttonType}` );
+    assert && assert( options.glassOptions.heightProportion! >= 0 && options.glassOptions.heightProportion! <= 1 );
+    assert && assert( options.glassOptions.proportionStickingOut! >= 0 && options.glassOptions.proportionStickingOut! <= 1 );
 
     const children = [];
 
@@ -123,7 +166,7 @@ class LaserPointerNode extends Node {
     children.push( bodyNode );
 
     // the optional button that controls whether the laser is on or off
-    let onOffButton = null;
+    let onOffButton: Node | null = null;
     if ( options.hasButton ) {
 
       const buttonOptions = {
@@ -135,7 +178,7 @@ class LaserPointerNode extends Node {
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
         center: options.getButtonLocation( bodyNode ),
-        tandem: options.tandem.createTandem( 'button' ),
+        tandem: options.tandem!.createTandem( 'button' ),
 
         // pdom
         labelContent: options.buttonAccessibleName,
@@ -150,13 +193,13 @@ class LaserPointerNode extends Node {
       children.push( onOffButton );
     }
 
-    // Add the glass, if any
+    // optional glass (lens)
     if ( options.hasGlass ) {
-      const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion;
+      const glassDiameter = options.nozzleSize.height * options.glassOptions.heightProportion!;
       const glassOptions = merge( {}, options.glassOptions, {
 
         // The origin is at the output point of the nozzle, translate accordingly
-        centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut ),
+        centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut! ),
 
         // Center vertically
         centerY: 0
@@ -172,7 +215,6 @@ class LaserPointerNode extends Node {
 
     super( options );
 
-    // @private called by dispose
     this.disposeLaserPointerNode = () => {
       onOffButton && onOffButton.dispose();
     };
@@ -185,17 +227,10 @@ class LaserPointerNode extends Node {
 
   set enabled( value ) { this.setEnabled( value ); }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeLaserPointerNode();
     super.dispose();
   }
 }
 
-LaserPointerNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
-
 sceneryPhet.register( 'LaserPointerNode', LaserPointerNode );
-export default LaserPointerNode;
