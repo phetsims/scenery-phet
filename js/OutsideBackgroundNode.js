@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * This node is intended for use as a background on a screen, and shows the
  * ground on the bottom and the sky on the top.
