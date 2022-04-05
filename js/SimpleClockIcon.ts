@@ -19,7 +19,7 @@ type SelfOptions = {
 
 export type SimpleClockIconOptions = SelfOptions & NodeOptions;
 
-class SimpleClockIcon extends Node {
+export default class SimpleClockIcon extends Node {
 
   /**
    * @param radius
@@ -57,4 +57,3 @@ class SimpleClockIcon extends Node {
 }
 
 sceneryPhet.register( 'SimpleClockIcon', SimpleClockIcon );
-export default SimpleClockIcon;
