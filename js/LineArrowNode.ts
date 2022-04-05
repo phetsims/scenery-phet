@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * An arrow that is composed of 3 line segments: one for the tail, and 2 for a V-shaped head
  *
@@ -10,47 +9,54 @@
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class LineArrowNode extends Node {
+type SelfOptions = {
+  stroke?: IColor;
 
-  /**
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
-   * @param {Object} [options]
-   */
-  constructor( tailX, tailY, tipX, tipY, options ) {
+  // head
+  headHeight?: number;
+  headWidth?: number;
+  headLineWidth?: number;
 
-    // default options
-    options = merge( {
+  // tail
+  tailLineWidth?: number;
+  tailLineDash?: number[];
+};
+
+export type LineArrowNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
+export default class LineArrowNode extends Node {
+
+  private readonly headWidth: number;
+  private readonly headHeight: number;
+  private readonly tailNode: Path;
+  private readonly headNode: Path;
+
+  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: LineArrowNodeOptions ) {
+
+    const options = optionize<LineArrowNodeOptions, SelfOptions, NodeOptions>( {
+      stroke: 'black',
       headHeight: 10,
       headWidth: 10,
       headLineWidth: 1,
       tailLineWidth: 1,
-      tailLineDash: [],
-      doubleHead: false, // true puts heads on both ends of the arrow, false puts a head at the tip
-      stroke: 'black'
-    }, options );
+      tailLineDash: []
+    }, providedOptions );
 
     super();
 
-    // @private
-    this.headHeight = options.headHeight;
     this.headWidth = options.headWidth;
+    this.headHeight = options.headHeight;
 
-    // @private
     this.tailNode = new Path( null, {
       stroke: options.stroke,
       lineWidth: options.tailLineWidth,
       lineDash: options.tailLineDash
     } );
 
-    // @private
     this.headNode = new Path( null, {
       stroke: options.stroke,
       lineWidth: options.headLineWidth
@@ -58,7 +64,6 @@ class LineArrowNode extends Node {
 
     this.setTailAndTip( tailX, tailY, tipX, tipY );
 
-    assert && assert( !options.children, 'LineArrowNode sets children' );
     options.children = [ this.tailNode, this.headNode ];
 
     this.mutate( options );
@@ -69,13 +74,8 @@ class LineArrowNode extends Node {
 
   /**
    * Set the tail and tip positions to update the arrow shape.
-   * @param {number} tailX
-   * @param {number} tailY
-   * @param {number} tipX
-   * @param {number} tipY
-   * @public
    */
-  setTailAndTip( tailX, tailY, tipX, tipY ) {
+  public setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
 
     this.tailNode.shape = Shape.lineSegment( tailX, tailY, tipX, tipY );
 
@@ -84,7 +84,7 @@ class LineArrowNode extends Node {
     const xHatUnit = vector.normalized();
     const yHatUnit = xHatUnit.rotated( Math.PI / 2 );
     const length = vector.magnitude;
-    const getPoint = function( xHat, yHat ) {
+    const getPoint = function( xHat: number, yHat: number ) {
       const x = xHatUnit.x * xHat + yHatUnit.x * yHat + tailX;
       const y = xHatUnit.y * xHat + yHatUnit.y * yHat + tailY;
       return new Vector2( x, y );
@@ -101,4 +101,3 @@ class LineArrowNode extends Node {
 }
 
 sceneryPhet.register( 'LineArrowNode', LineArrowNode );
-export default LineArrowNode;
