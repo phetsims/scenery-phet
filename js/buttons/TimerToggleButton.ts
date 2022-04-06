@@ -19,7 +19,6 @@ import SimpleClockIcon from '../SimpleClockIcon.js';
 const WIDTH = 45;
 const HEIGHT = 45;
 const MARGIN = 4;
-const X_STROKE_WIDTH = 6;
 
 type SelfOptions = {};
 
@@ -70,10 +69,9 @@ function createOffIcon( clockRadius: number ): Node {
   const xNode = new Path( xShape, {
     stroke: 'red',
     opacity: 0.55,
-    lineWidth: X_STROKE_WIDTH,
+    lineWidth: 6,
     lineCap: 'round',
-    centerX: clockIcon.width / 2,
-    centerY: clockIcon.height / 2
+    center: clockIcon.center
   } );
 
   return new Node( {
