@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * PaperAirplaneNode draws the paper airplane that is part of the PhET logo.
  *
