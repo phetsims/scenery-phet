@@ -23,7 +23,7 @@ const triangleHeight = 18 * scale * vscale;
 
 type SelfOptions = {};
 
-export type RestartButtonOptions = SelfOptions & Omit<RoundPushButton, 'content'>;
+export type RestartButtonOptions = SelfOptions & Omit<RoundPushButtonOptions, 'content'>;
 
 export default class RestartButton extends RoundPushButton {
 
