@@ -1,6 +1,5 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Standard PhET button for 'info', uses the international symbol for 'information'.
  *
@@ -8,27 +7,34 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Path } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { IColor, Path } from '../../../scenery/js/imports.js';
 import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class InfoButton extends RoundPushButton {
+type SelfOptions = {
+  iconFill?: IColor;
+};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type InfoButtonOptions = SelfOptions & Omit<RoundPushButtonOptions, 'content'>;
 
-    options = merge( {
+export default class InfoButton extends RoundPushButton {
+
+  constructor( providedOptions?: InfoButtonOptions ) {
+
+    const options = optionize<InfoButtonOptions, SelfOptions, RoundPushButtonOptions>( {
+
+      // SelfOptions
+      iconFill: 'black',
+
+      // RoundPushButtonOptions
+      baseColor: 'rgb( 238, 238, 238 )',
       xMargin: 10,
       yMargin: 10,
       touchAreaXDilation: 10,
-      touchAreaYDilation: 5,
-      baseColor: 'rgb( 238, 238, 238 )',
-      iconFill: 'black'
-    }, options );
+      touchAreaYDilation: 5
+    }, providedOptions );
 
     assert && assert( !options.content, 'InfoButton sets content' );
     options.content = new Path( infoCircleSolidShape, {
@@ -44,4 +50,3 @@ class InfoButton extends RoundPushButton {
 }
 
 sceneryPhet.register( 'InfoButton', InfoButton );
-export default InfoButton;

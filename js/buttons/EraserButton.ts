@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button with an eraser icon.
  *
@@ -8,24 +7,31 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Image } from '../../../scenery/js/imports.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import eraser_png from '../../images/eraser_png.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class EraserButton extends RectangularPushButton {
+type SelfOptions = {
+  iconWidth?: number; // width of eraser icon, used for scaling, the aspect ratio will determine height
+};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type EraserButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
 
-    options = merge( {
-      baseColor: PhetColorScheme.BUTTON_YELLOW,
-      iconWidth: 20 // width of eraser icon, used for scaling, the aspect ratio will determine height
-    }, options );
+export default class EraserButton extends RectangularPushButton {
+
+  constructor( providedOptions?: EraserButtonOptions ) {
+
+    const options = optionize<EraserButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+
+      // SelfOptions
+      iconWidth: 20,
+
+      // RectangularPushButtonOptions
+      baseColor: PhetColorScheme.BUTTON_YELLOW
+    }, providedOptions );
 
     // eraser icon
     options.content = new Image( eraser_png );
@@ -39,4 +45,3 @@ class EraserButton extends RectangularPushButton {
 }
 
 sceneryPhet.register( 'EraserButton', EraserButton );
-export default EraserButton;

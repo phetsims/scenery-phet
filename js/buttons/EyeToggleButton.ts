@@ -1,29 +1,35 @@
-// Copyright 2016-2021, University of Colorado Boulder
+// Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button that toggles between an open and closed eyeball, used to control the visibility of something.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Node, Path } from '../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
-import RectangularToggleButton from '../../../sun/js/buttons/RectangularToggleButton.js';
+import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class EyeToggleButton extends RectangularToggleButton {
+type SelfOptions = {};
+
+export type EyeToggleButtonOptions = SelfOptions & RectangularToggleButtonOptions;
+
+export default class EyeToggleButton extends RectangularToggleButton<boolean> {
+
+  private readonly disposeEyeToggleButton: () => void;
 
   /**
-   * @param {Property.<boolean>} eyeOpenProperty - true: eye is open; false: eye is closed
-   * @param {Object} [options]
+   * @param eyeOpenProperty - true: eye is open; false: eye is closed
+   * @param providedOptions
    */
-  constructor( eyeOpenProperty, options ) {
+  constructor( eyeOpenProperty: IProperty<boolean>, providedOptions?: EyeToggleButtonOptions ) {
 
-    options = options || {};
+    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>( {}, providedOptions );
 
     // icons
     const iconOptions = {
@@ -41,7 +47,7 @@ class EyeToggleButton extends RectangularToggleButton {
     } );
 
     // toggle which icon is shown
-    const eyeOpenObserver = eyeOpen => {
+    const eyeOpenObserver = ( eyeOpen: boolean ) => {
       eyeOpenNode.visible = eyeOpen;
       eyeCloseNode.visible = !eyeOpen;
     };
@@ -49,7 +55,6 @@ class EyeToggleButton extends RectangularToggleButton {
 
     super( true, false, eyeOpenProperty, options );
 
-    // @private
     this.disposeEyeToggleButton = () => {
       eyeOpenProperty.unlink( eyeOpenObserver );
     };
@@ -58,15 +63,10 @@ class EyeToggleButton extends RectangularToggleButton {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'EyeToggleButton', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeEyeToggleButton();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'EyeToggleButton', EyeToggleButton );
-export default EyeToggleButton;
