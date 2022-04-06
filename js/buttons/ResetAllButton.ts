@@ -1,6 +1,5 @@
-// Copyright 2013-2021, University of Colorado Boulder
+// Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Reset All button, typically used to reset everything ('reset all') on a Screen.
  * Extends ResetButton, adding things that are specific to 'reset all'.
@@ -9,31 +8,36 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../../phet-core/js/merge.js';
 import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
-import ResetButton from './ResetButton.js';
+import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
 const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
 const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
 const resetAllContextResponseString = sceneryPhetStrings.a11y.voicing.resetAll.contextResponse;
 
-const resetAllButtonMarginCoefficient = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
+const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
-class ResetAllButton extends ResetButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type ResetAllButtonOptions = SelfOptions & Omit<ResetButtonOptions, 'xMargin' | 'yMargin'>;
 
-    options = merge( {
+export default class ResetAllButton extends ResetButton {
+
+  private readonly disposeResetAllButton: () => void;
+
+  constructor( providedOptions?: ResetAllButtonOptions ) {
+
+    const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions, 'radius'>( {
+
+      // ResetAllButtonOptions
       radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
 
       // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly
@@ -57,11 +61,11 @@ class ResetAllButton extends ResetButton {
       // voicing
       voicingNameResponse: resetAllButtonNameString,
       voicingContextResponse: resetAllContextResponseString
-    }, options );
+    }, providedOptions );
 
+    // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super
+    // call is complete.
     const passedInListener = options.listener;
-
-    // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super call is complete.
     options.listener = () => {
       passedInListener();
 
@@ -75,7 +79,7 @@ class ResetAllButton extends ResetButton {
     };
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
-    options.xMargin = options.yMargin = options.radius * resetAllButtonMarginCoefficient;
+    options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
 
     super( options );
 
@@ -85,7 +89,7 @@ class ResetAllButton extends ResetButton {
     const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
-    this.buttonModel.isFiringProperty.lazyLink( isFiring => {
+    this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {
 
       // Handle voicingUtteranceQueue
       if ( isFiring ) {
@@ -117,20 +121,15 @@ class ResetAllButton extends ResetButton {
       } );
     } );
 
-    // @private
     this.disposeResetAllButton = () => {
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeResetAllButton();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'ResetAllButton', ResetAllButton );
-export default ResetAllButton;
