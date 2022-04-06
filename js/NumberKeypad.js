@@ -7,10 +7,6 @@
  * @author John Blanco
  * @author Andrey Zelenkov (MLearner)
  * @author Chris Malley (PixelZoom, Inc.)
- *
- * @deprecated - This keypad has been replaced by a more flexible and general version.
- * While there are no plans to go back and replace existing usages, new implementations should use Keypad.js.
- * See https://github.com/phetsims/scenery-phet/issues/283 for the history of this. -jbphet, Aug 2017
  */
 
 import Property from '../../axon/js/Property.js';
@@ -29,6 +25,11 @@ import sceneryPhet from './sceneryPhet.js';
 // string
 const DECIMAL_POINT = '.'; //TODO localize, https://github.com/phetsims/scenery-phet/issues/333
 
+/**
+ * @deprecated - This keypad has been replaced by a more flexible and general version.
+ * While there are no plans to go back and replace existing usages, new implementations should use Keypad.js.
+ * See https://github.com/phetsims/scenery-phet/issues/283 for the history of this. -jbphet, Aug 2017
+ */
 class NumberKeypad extends Node {
 
   /**

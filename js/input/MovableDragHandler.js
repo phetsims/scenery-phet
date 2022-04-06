@@ -5,7 +5,6 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
- * @deprecated - please use DragListener for new code
  */
 
 import Bounds2 from '../../../dot/js/Bounds2.js';
@@ -16,6 +15,9 @@ import { SimpleDragHandler } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
 
+/**
+ * @deprecated - please use DragListener for new code
+ */
 class MovableDragHandler extends SimpleDragHandler {
 
   /**
