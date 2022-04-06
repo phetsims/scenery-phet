@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * PaperAirplaneNode draws the paper airplane that is part of the PhET logo.
  *
@@ -8,21 +7,22 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
 import PhetColorScheme from './PhetColorScheme.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class PaperAirplaneNode extends Path {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type PaperAirplaneNodeOptions = SelfOptions & PathOptions;
 
-    options = merge( {
+export default class PaperAirplaneNode extends Path {
+
+  constructor( providedOptions?: PaperAirplaneNodeOptions ) {
+
+    const options = optionize<PaperAirplaneNodeOptions, SelfOptions, PathOptions>( {
       fill: PhetColorScheme.PHET_LOGO_YELLOW
-    }, options );
+    }, providedOptions );
 
     // Define the shape, from the points in the PhET Logo AI file, see https://github.com/phetsims/scenery-phet/issues/75
     // The bounds offset were determined by getting bodyShape.bounds.minX, bodyShape.bounds.minY, and the shape
@@ -49,4 +49,3 @@ class PaperAirplaneNode extends Path {
 }
 
 sceneryPhet.register( 'PaperAirplaneNode', PaperAirplaneNode );
-export default PaperAirplaneNode;
