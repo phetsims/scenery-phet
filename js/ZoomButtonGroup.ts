@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberProperty from '../../axon/js/NumberProperty.js';
+import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import { LayoutBox, LayoutBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
@@ -45,10 +45,9 @@ export default class ZoomButtonGroup extends LayoutBox {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: NumberProperty, providedOptions?: ZoomButtonGroupOptions ) {
+  constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: RangedProperty, providedOptions?: ZoomButtonGroupOptions ) {
 
-    assert && assert( zoomLevelProperty.range, 'missing zoomLevelProperty.range' );
-    const zoomLevelRange = zoomLevelProperty.range!;
+    const zoomLevelRange = zoomLevelProperty.range;
 
     const options = optionize<ZoomButtonGroupOptions, SelfOptions, LayoutBoxOptions,
       'spacing' | 'tandem'>( {
@@ -132,8 +131,8 @@ export default class ZoomButtonGroup extends LayoutBox {
 
     // disable a button if we reach the min or max
     const zoomLevelListener = ( zoomLevel: number ) => {
-      zoomOutButton.enabled = ( zoomLevel > zoomLevelRange.min );
-      zoomInButton.enabled = ( zoomLevel < zoomLevelRange.max );
+      zoomOutButton.enabled = zoomLevelRange.contains( options.applyZoomOut( zoomLevel ) );
+      zoomInButton.enabled = zoomLevelRange.contains( options.applyZoomIn( zoomLevel ) );
     };
     zoomLevelProperty.link( zoomLevelListener );
 
@@ -141,7 +140,6 @@ export default class ZoomButtonGroup extends LayoutBox {
       tandem: options.tandem.createTandem( 'zoomProperty' )
     } );
 
-    // @private
     this.disposeZoomButtonGroup = () => {
       zoomInButton.dispose();
       zoomOutButton.dispose();

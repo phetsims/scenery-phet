@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../axon/js/NumberProperty.js';
+import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from './MagnifyingGlassNode.js';
 import MinusNode from './MinusNode.js';
@@ -30,7 +30,7 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  constructor( zoomLevelProperty: NumberProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
+  constructor( zoomLevelProperty: RangedProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
 
     const options = optionize<MagnifyingGlassZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>( {
 
