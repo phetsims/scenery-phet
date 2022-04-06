@@ -1,5 +1,6 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Reset All button, typically used to reset everything ('reset all') on a Screen.
  * Extends ResetButton, adding things that are specific to 'reset all'.

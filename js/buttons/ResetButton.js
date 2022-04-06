@@ -1,5 +1,6 @@
 // Copyright 2016-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A general button, typically used to reset something.
  * Drawn programmatically, does not use any image files.
