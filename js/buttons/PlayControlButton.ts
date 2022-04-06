@@ -21,7 +21,7 @@ import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
 type SelfOptions = {
 
-  radius: number;
+  radius?: number;
 
   // {Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
   // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause the sim.
@@ -38,8 +38,8 @@ type SelfOptions = {
   endPlayingLabel?: string | null;
 
   // sound generation
-  valueOffSoundPlayer: ISoundPlayer;
-  valueOnSoundPlayer: ISoundPlayer;
+  valueOffSoundPlayer?: ISoundPlayer;
+  valueOnSoundPlayer?: ISoundPlayer;
 };
 
 export type PlayControlButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;

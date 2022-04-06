@@ -28,10 +28,8 @@ export default class PlayStopButton extends PlayControlButton {
 
     const options = merge( {
 
-      // {number}
+      // PlayStopButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
-
-      // pdom - label for the button when the "stop" icon is displayed
       endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.stop
     }, providedOptions );
 

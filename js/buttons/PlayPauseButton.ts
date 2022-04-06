@@ -18,9 +18,7 @@ import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import PlayControlButton, { PlayControlButtonOptions } from './PlayControlButton.js';
 
-type SelfOptions = {
-  radius?: number;
-};
+type SelfOptions = {};
 
 export type PlayPauseButtonOptions = SelfOptions & PlayControlButtonOptions;
 
@@ -28,7 +26,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
   constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseButtonOptions ) {
 
-    const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>( {
+    const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions, 'radius'>( {
 
       // PlayPauseButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
