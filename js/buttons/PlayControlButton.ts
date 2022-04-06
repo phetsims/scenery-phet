@@ -1,6 +1,5 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A round toggle button that displays some custom icon when playing and a triangular "Play" icon when not playing.
  *
@@ -8,12 +7,11 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { globalKeyStateTracker } from '../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../scenery/js/imports.js';
-import { Circle } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
+import IProperty from '../../../axon/js/IProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path } from '../../../scenery/js/imports.js';
+import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
+import ISoundPlayer from '../../../tambo/js/ISoundPlayer.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
 import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
@@ -21,44 +19,59 @@ import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
 
-class PlayControlButton extends BooleanRoundToggleButton {
+type SelfOptions = {
+
+  radius: number;
+
+  // {Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
+  // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause the sim.
+  scaleFactorWhenNotPlaying?: number;
+
+  // pdom: If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
+  // of where focus is in the document.
+  includeGlobalHotkey?: boolean;
+
+  // Label for the button in the PDOM when the button will set isPlayingProperty to true
+  startPlayingLabel?: string;
+
+  // Label for the button in the PDOM when the button will set isPlayingProperty to false
+  endPlayingLabel?: string | null;
+
+  // sound generation
+  valueOffSoundPlayer: ISoundPlayer;
+  valueOnSoundPlayer: ISoundPlayer;
+};
+
+export type PlayControlButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;
+
+export default class PlayControlButton extends BooleanRoundToggleButton {
+
+  private readonly disposePlayStopButton: () => void;
 
   /**
-   * @param {Property.<boolean>} isPlayingProperty
-   * @param {Node} endPlayingIcon - icon for the button when pressing it will stop play
-   * @param {Object} [options]
+   * @param isPlayingProperty
+   * @param endPlayingIcon - icon for the button when pressing it will stop play
+   * @param providedOptions
    */
-  constructor( isPlayingProperty, endPlayingIcon, options ) {
-    options = merge( {
+  constructor( isPlayingProperty: IProperty<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
 
-      // {number}
+    const options = optionize<PlayControlButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>( {
+
+      // SelfOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
+      scaleFactorWhenNotPlaying: 1,
+      includeGlobalHotkey: false,
+      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.play,
+      endPlayingLabel: null,
+      valueOffSoundPlayer: pauseSoundPlayer,
+      valueOnSoundPlayer: playSoundPlayer,
 
       // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
       // in sync.
       xMargin: 0,
-      yMargin: 0,
+      yMargin: 0
 
-      // {number} - Scale factor applied to the button when the "Play" button is shown (isPlayingProperty is false).
-      // PhET convention is to increase the size of the "Play" button when interaction with the sim does NOT unpause
-      // the sim.
-      scaleFactorWhenNotPlaying: 1,
-
-      // sound generation
-      valueOffSoundPlayer: pauseSoundPlayer,
-      valueOnSoundPlayer: playSoundPlayer,
-
-      // pdom
-      // {boolean} - If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
-      // of where focus is in the document
-      includeGlobalHotkey: false,
-
-      // {string|null} - Label for the button in the PDOM when the button will set isPlayingProperty to true
-      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.play,
-
-      // {string|null} - Label for the button in the PDOM when the button will set isPlayingProperty to false
-      endPlayingLabel: null
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.scaleFactorWhenNotPlaying > 0, 'button scale factor must be greater than 0' );
 
@@ -87,7 +100,7 @@ class PlayControlButton extends BooleanRoundToggleButton {
 
     super( endPlayingCircle, playCircle, isPlayingProperty, options );
 
-    const isPlayingListener = ( isPlaying, oldValue ) => {
+    const isPlayingListener = ( isPlaying: boolean, oldValue: boolean | null ) => {
 
       // pdom - accessible name for the button
       this.innerContent = isPlaying ? options.endPlayingLabel
@@ -100,9 +113,10 @@ class PlayControlButton extends BooleanRoundToggleButton {
     isPlayingProperty.link( isPlayingListener );
 
     // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
+    // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
     let globalKeyboardListener;
     if ( options.includeGlobalHotkey ) {
-      globalKeyboardListener = event => {
+      globalKeyboardListener = ( event: Event ) => {
 
         // Only enabled if the sim supports interactive descriptions, and this Node is in the PDOM.
         if (
@@ -118,29 +132,29 @@ class PlayControlButton extends BooleanRoundToggleButton {
           if ( soundPlayer ) { soundPlayer.play(); }
         }
       };
+      // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
       globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
     }
+    else {
+      globalKeyboardListener = null;
+    }
 
-    // @private
     this.disposePlayStopButton = () => {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
+      // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
       if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
+        // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
         globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
       }
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposePlayStopButton();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'PlayControlButton', PlayControlButton );
-export default PlayControlButton;

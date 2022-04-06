@@ -1,33 +1,38 @@
 // Copyright 2016-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button for toggling 'recording' state on/off.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Circle } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import BooleanRoundToggleButton from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
+import { Circle, Rectangle } from '../../../scenery/js/imports.js';
+import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
-class RecordStopButton extends BooleanRoundToggleButton {
+type SelfOptions = {
+  radius?: number;
+};
 
-  /**
-   * @param {Property.<boolean>} recordingProperty - true: recording, false: not recording
-   * @param {Object} [options] node options
-   */
-  constructor( recordingProperty, options ) {
+export type RecordStopButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;
 
-    options = merge( {
+export default class RecordStopButton extends BooleanRoundToggleButton {
+
+  constructor( recordingProperty: IProperty<boolean>, providedOptions?: RecordStopButtonOptions ) {
+
+    const options = optionize<RecordStopButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>( {
+
+      // RecordStopButtonOptions
       radius: 30,
+
+      // BooleanRoundToggleButtonOptions
       xMargin: 16.5,
       yMargin: 16.5
-    }, options );
+    }, providedOptions );
 
     const squareLength = 0.75 * options.radius;
 
@@ -48,4 +53,3 @@ class RecordStopButton extends BooleanRoundToggleButton {
 }
 
 sceneryPhet.register( 'RecordStopButton', RecordStopButton );
-export default RecordStopButton;

@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button for toggling sound on and off.
  *
@@ -9,14 +8,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Node, Path } from '../../../scenery/js/imports.js';
 import volumeOffSolidShape from '../../../sherpa/js/fontawesome-5/volumeOffSolidShape.js';
 import volumeUpSolidShape from '../../../sherpa/js/fontawesome-5/volumeUpSolidShape.js';
-import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
+import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -27,26 +26,27 @@ const HEIGHT = 45;
 const MARGIN = 4;
 const X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
-class SoundToggleButton extends BooleanRectangularToggleButton {
+type SelfOptions = {};
 
-  /**
-   *
-   * @param {Property.<boolean>} property
-   * @param {Object} [options]
-   */
-  constructor( property, options ) {
+export type SoundToggleButtonOptions = SelfOptions & BooleanRectangularToggleButtonOptions;
 
-    options = merge( {
+export default class SoundToggleButton extends BooleanRectangularToggleButton {
+
+  private readonly disposeSoundToggleButton: () => void;
+
+  constructor( property: IProperty<boolean>, provideOptions?: SoundToggleButtonOptions ) {
+
+    const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>( {
+
+      // BooleanRectangularToggleButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
       yMargin: MARGIN,
-
-      // pdom
       tagName: 'button',
       innerContent: sceneryPhetStrings.a11y.soundToggle.label
-    }, options );
+    }, provideOptions );
 
     // 'on' icon is a font-awesome icon
     const soundOnNode = new Path( volumeUpSolidShape, {
@@ -72,13 +72,12 @@ class SoundToggleButton extends BooleanRectangularToggleButton {
     super( soundOnNode, soundOffNode, property, options );
 
     // pdom attribute lets user know when the toggle is pressed
-    const pressedListener = value => {
+    const pressedListener = ( value: boolean ) => {
       this.setPDOMAttribute( 'aria-pressed', !value );
     };
     property.lazyLink( pressedListener );
     this.setPDOMAttribute( 'aria-pressed', !property.get() );
 
-    // @private - make eligible for garbage collection
     this.disposeSoundToggleButton = () => {
       property.unlink( pressedListener );
     };
@@ -87,15 +86,10 @@ class SoundToggleButton extends BooleanRectangularToggleButton {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SoundToggleButton', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeSoundToggleButton();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'SoundToggleButton', SoundToggleButton );
-export default SoundToggleButton;

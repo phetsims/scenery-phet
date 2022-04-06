@@ -1,6 +1,5 @@
-// Copyright 2016-2021, University of Colorado Boulder
+// Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Step forward button.
  *
@@ -8,25 +7,28 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import sceneryPhet from '../sceneryPhet.js';
-import StepButton from './StepButton.js';
+import StepButton, { StepButtonOptions } from './StepButton.js';
 
-class StepForwardButton extends StepButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type StepForwardButtonOptions = SelfOptions & Omit<StepButtonOptions, 'direction'>;
 
-    assert && assert( !options || !options.direction, 'StepForwardButton sets direction' );
-    options = merge( {
+export default class StepForwardButton extends StepButton {
+
+  constructor( providedOptions?: StepForwardButtonOptions ) {
+
+    assert && assert( !providedOptions || !providedOptions.direction, 'StepForwardButton sets direction' );
+
+    const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>( {
+
+      // StepButtonOptions
       direction: 'forward'
-    }, options );
+    }, providedOptions );
 
     super( options );
   }
 }
 
 sceneryPhet.register( 'StepForwardButton', StepForwardButton );
-export default StepForwardButton;

@@ -1,17 +1,16 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button for toggling timer on and off.
  *
  * @author John Blanco
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import { Shape } from '../../../kite/js/imports.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import BooleanRectangularToggleButton from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Node, Path } from '../../../scenery/js/imports.js';
+import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SimpleClockIcon from '../SimpleClockIcon.js';
@@ -22,48 +21,64 @@ const HEIGHT = 45;
 const MARGIN = 4;
 const X_STROKE_WIDTH = 6;
 
-class TimerToggleButton extends BooleanRectangularToggleButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Property.<boolean>} timerRunningProperty
-   * @param {Object} [options]
-   */
-  constructor( timerRunningProperty, options ) {
+export type TimerToggleButtonOptions = SelfOptions & BooleanRectangularToggleButtonOptions;
 
-    options = merge( {
+export default class TimerToggleButton extends BooleanRectangularToggleButton {
+
+  constructor( timerRunningProperty: IProperty<boolean>, provideOptions?: TimerToggleButtonOptions ) {
+
+    const options = optionize<TimerToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>( {
+
+      // BooleanRectangularToggleButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
       yMargin: MARGIN
-    }, options );
+    }, provideOptions );
 
-    // Create the node that represents the timer being on.
     const clockRadius = WIDTH * 0.35;
-    const timerOnNode = new SimpleClockIcon( clockRadius );
 
-    // Create the node that represents the timer being off.
-    const timerOffNode = new Node();
-    const timerOffNodeBackground = new SimpleClockIcon( clockRadius, { opacity: 0.8 } );
-    timerOffNode.addChild( timerOffNodeBackground );
-    const xNode = new Shape();
-    const xNodeWidth = timerOffNode.width * 0.8;
-    xNode.moveTo( 0, 0 );
-    xNode.lineTo( xNodeWidth, xNodeWidth );
-    xNode.moveTo( 0, xNodeWidth );
-    xNode.lineTo( xNodeWidth, 0 );
-    timerOffNode.addChild( new Path( xNode, {
-      stroke: 'red',
-      opacity: 0.55,
-      lineWidth: X_STROKE_WIDTH,
-      lineCap: 'round',
-      centerX: timerOffNode.width / 2,
-      centerY: timerOffNode.height / 2
-    } ) );
-
-    super( timerOnNode, timerOffNode, timerRunningProperty, options );
+    super( createOnIcon( clockRadius ), createOffIcon( clockRadius ), timerRunningProperty, options );
   }
 }
 
+/**
+ * Creates the icon for the 'on' state.
+ * @param clockRadius
+ */
+function createOnIcon( clockRadius: number ): Node {
+  return new SimpleClockIcon( clockRadius );
+}
+
+/**
+ * Creates the icon for the 'off' state.
+ * @param clockRadius
+ */
+function createOffIcon( clockRadius: number ): Node {
+
+  const clockIcon = new SimpleClockIcon( clockRadius, { opacity: 0.8 } );
+
+  const xShapeWidth = clockIcon.width * 0.8;
+  const xShape = new Shape()
+    .moveTo( 0, 0 )
+    .lineTo( xShapeWidth, xShapeWidth )
+    .moveTo( 0, xShapeWidth )
+    .lineTo( xShapeWidth, 0 );
+  const xNode = new Path( xShape, {
+    stroke: 'red',
+    opacity: 0.55,
+    lineWidth: X_STROKE_WIDTH,
+    lineCap: 'round',
+    centerX: clockIcon.width / 2,
+    centerY: clockIcon.height / 2
+  } );
+
+  return new Node( {
+    children: [ clockIcon, xNode ]
+  } );
+}
+
 sceneryPhet.register( 'TimerToggleButton', TimerToggleButton );
-export default TimerToggleButton;

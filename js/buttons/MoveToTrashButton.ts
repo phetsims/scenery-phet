@@ -1,6 +1,5 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * MoveToTrashButton is a push button whose icon means 'move to trash'.
  * The arrow can be color-coded to the thing being deleted by setting options.arrowColor.
@@ -10,34 +9,36 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { IColor, Node, Path } from '../../../scenery/js/imports.js';
 import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class MoveToTrashButton extends RectangularPushButton {
+type SelfOptions = {
+  arrowColor?: IColor;
+};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type MoveToTrashButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
 
-    options = merge( {
+export default class MoveToTrashButton extends RectangularPushButton {
 
-      // MoveToTrashButton options
+  constructor( providedOptions?: MoveToTrashButtonOptions ) {
+
+    const options = optionize<MoveToTrashButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+
+      // MoveToTrashButtonOptions
       arrowColor: 'black',
 
-      // RectangularPushButton options
+      // RectangularPushButtonOptions
       baseColor: 'rgb( 230, 230, 240 )',
       buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
       cornerRadius: 6,
       xMargin: 7,
       yMargin: 3
-    }, options );
+    }, providedOptions );
 
     const trashNode = new Path( trashAltRegularShape, {
       fill: 'black',
@@ -69,4 +70,3 @@ class MoveToTrashButton extends RectangularPushButton {
 }
 
 sceneryPhet.register( 'MoveToTrashButton', MoveToTrashButton );
-export default MoveToTrashButton;

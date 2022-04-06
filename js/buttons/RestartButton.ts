@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Restart button.
  *
@@ -9,9 +8,8 @@
 
 import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import { HBox } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { HBox, Path, Rectangle } from '../../../scenery/js/imports.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -23,14 +21,15 @@ const barHeight = 18 * scale * vscale;
 const triangleWidth = 14 * scale;
 const triangleHeight = 18 * scale * vscale;
 
-class RestartButton extends RoundPushButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options] - see RoundPushButton
-   */
-  constructor( options ) {
+export type RestartButtonOptions = SelfOptions & Omit<RoundPushButton, 'content'>;
 
-    options = options || {};
+export default class RestartButton extends RoundPushButton {
+
+  constructor( providedOptions?: RestartButtonOptions ) {
+
+    const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>( {}, providedOptions );
 
     const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
     const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
@@ -55,4 +54,3 @@ class RestartButton extends RoundPushButton {
 }
 
 sceneryPhet.register( 'RestartButton', RestartButton );
-export default RestartButton;

@@ -1,33 +1,35 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Button for returning to the level selection screen.
  *
  * @author John Blanco
  */
 
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StarShape from '../StarShape.js';
 
-class StarButton extends RectangularPushButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type StarButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
 
-    options = merge( {
+export default class StarButton extends RectangularPushButton {
+
+  constructor( providedOptions?: StarButtonOptions ) {
+
+    const options = optionize<StarButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+
+      // RectangularPushButtonOptions
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
 
       // Match the size of the star button to the refresh buttons, since they often appear together.
       // see https://github.com/phetsims/scenery-phet/issues/44
-      xMargin: 8.134152255572697,
-      baseColor: PhetColorScheme.BUTTON_YELLOW
-    }, options );
+      xMargin: 8.134152255572697
+    }, providedOptions );
 
     assert && assert( !options.content, 'StarButton sets content' );
     options.content = new Path( new StarShape(), { fill: 'black' } );
@@ -37,4 +39,3 @@ class StarButton extends RectangularPushButton {
 }
 
 sceneryPhet.register( 'StarButton', StarButton );
-export default StarButton;

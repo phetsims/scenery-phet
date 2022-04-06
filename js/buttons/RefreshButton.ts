@@ -1,6 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Standard PhET button for 'refresh'.
  *
@@ -8,24 +7,31 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
 import syncAltSolidShape from '../../../sherpa/js/fontawesome-5/syncAltSolidShape.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class RefreshButton extends RectangularPushButton {
+type SelfOptions = {
+  iconHeight?: number;
+};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type RefreshButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
 
-    options = merge( {
-      baseColor: PhetColorScheme.BUTTON_YELLOW,
-      iconHeight: 35
-    }, options );
+export default class RefreshButton extends RectangularPushButton {
+
+  constructor( providedOptions?: RefreshButtonOptions ) {
+
+    const options = optionize<RefreshButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+
+      // RefreshButtonOptions
+      iconHeight: 35,
+
+      // RectangularPushButtonOptions
+      baseColor: PhetColorScheme.BUTTON_YELLOW
+    }, providedOptions );
 
     assert && assert( !options.content, 'RefreshButton sets content' );
     options.content = new Path( syncAltSolidShape, {
@@ -41,4 +47,3 @@ class RefreshButton extends RectangularPushButton {
 }
 
 sceneryPhet.register( 'RefreshButton', RefreshButton );
-export default RefreshButton;

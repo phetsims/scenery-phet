@@ -1,33 +1,35 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Step backward button.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import stepBackwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepBackwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
-import StepButton from './StepButton.js';
+import StepButton, { StepButtonOptions } from './StepButton.js';
 
-class StepBackwardButton extends StepButton {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type StepBackwardButtonOptions = SelfOptions & Omit<StepButtonOptions, 'direction'>;
 
-    assert && assert( !options || !options.direction, 'StepBackwardButton sets direction' );
-    options = merge( {
+export default class StepBackwardButton extends StepButton {
+
+  constructor( providedOptions?: StepBackwardButtonOptions ) {
+
+    assert && assert( !providedOptions || !providedOptions.direction, 'StepBackwardButton sets direction' );
+
+    const options = optionize<StepBackwardButtonOptions, SelfOptions, StepButtonOptions>( {
+
+      // StepButtonOptions
       direction: 'backward',
       soundPlayer: stepBackwardSoundPlayer
-    }, options );
+    }, providedOptions );
 
     super( options );
   }
 }
 
 sceneryPhet.register( 'StepBackwardButton', StepBackwardButton );
-export default StepBackwardButton;
