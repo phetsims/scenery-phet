@@ -1,5 +1,6 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Zoom button, has an icon with a magnifying glass, with either a plus or minus sign in the center of the glass.
  *

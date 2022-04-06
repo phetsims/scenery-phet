@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Button for returning to the level selection screen.
  *

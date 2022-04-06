@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Generalized button for stepping forward or back.  While this class is not private, clients will generally use the
  * convenience subclasses: StepForwardButton and StepBackwardButton
