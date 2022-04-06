@@ -1,5 +1,6 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * MoveToTrashButton is a push button whose icon means 'move to trash'.
  * The arrow can be color-coded to the thing being deleted by setting options.arrowColor.

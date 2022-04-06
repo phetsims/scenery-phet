@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Play pause button for starting/stopping the sim.  Often appears at the bottom center of the screen.
  * Generated programmatically using RoundPushButton (as opposed to using raster images).

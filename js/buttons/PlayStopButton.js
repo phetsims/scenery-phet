@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Button for starting/stopping some behavior. Unlike the PlayPauseButton, this indicates that play will re-start
  * from the beginning after switch from play to stop.

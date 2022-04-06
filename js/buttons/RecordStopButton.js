@@ -1,5 +1,6 @@
 // Copyright 2016-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Button for toggling 'recording' state on/off.
  *
