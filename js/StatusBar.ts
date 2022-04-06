@@ -101,7 +101,7 @@ class StatusBar extends Node {
     };
   }
 
-  dispose(): void {
+  override dispose(): void {
     this.disposeStatusBar();
     super.dispose();
   }
