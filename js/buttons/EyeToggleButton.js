@@ -1,5 +1,6 @@
 // Copyright 2016-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Button that toggles between an open and closed eyeball, used to control the visibility of something.
  *

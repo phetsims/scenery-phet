@@ -1,5 +1,6 @@
 // Copyright 2014-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Button that is intended to indicate going backwards, much like the back button on a web browser.  It was originally
  * created for returning to the level selection screen when playing a game.  It looks like a button with an arrow
