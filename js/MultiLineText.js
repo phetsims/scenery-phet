@@ -9,7 +9,6 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
- * @deprecated - this has been supplanted by SCENERY/nodes/RichText
  */
 
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
@@ -18,6 +17,9 @@ import { RichText } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
+/**
+ * @deprecated please use SCENERY/nodes/RichText
+ */
 class MultiLineText extends RichText {
 
   /**
