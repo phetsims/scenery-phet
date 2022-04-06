@@ -46,7 +46,7 @@ export default class TimerToggleButton extends BooleanRectangularToggleButton {
 }
 
 /**
- * Creates the icon for the 'on' state.
+ * Creates the icon for the 'on' state. This is a clock icon.
  * @param clockRadius
  */
 function createOnIcon( clockRadius: number ): Node {
@@ -54,7 +54,7 @@ function createOnIcon( clockRadius: number ): Node {
 }
 
 /**
- * Creates the icon for the 'off' state.
+ * Creates the icon for the 'off' state. This is a clock icon with a red 'X' over it.
  * @param clockRadius
  */
 function createOffIcon( clockRadius: number ): Node {
