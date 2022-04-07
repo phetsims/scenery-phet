@@ -113,10 +113,9 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     isPlayingProperty.link( isPlayingListener );
 
     // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
-    // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
-    let globalKeyboardListener;
+    let globalKeyboardListener: ( ( event: KeyboardEvent ) => void ) | null;
     if ( options.includeGlobalHotkey ) {
-      globalKeyboardListener = ( event: Event ) => {
+      globalKeyboardListener = ( event: KeyboardEvent ) => {
 
         // Only enabled if the sim supports interactive descriptions, and this Node is in the PDOM.
         if (
@@ -132,7 +131,6 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
           if ( soundPlayer ) { soundPlayer.play(); }
         }
       };
-      // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
       globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
     }
     else {
