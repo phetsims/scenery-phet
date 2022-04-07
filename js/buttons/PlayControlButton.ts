@@ -141,9 +141,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
-      // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
-      if ( globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
-        // @ts-ignore https://github.com/phetsims/scenery-phet/issues/731
+      if ( globalKeyboardListener && globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
         globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
       }
     };
