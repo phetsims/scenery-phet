@@ -11,8 +11,8 @@
 import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { HBox, Path, Rectangle } from '../../../scenery/js/imports.js';
-import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import { HBox, IPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
+import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -25,6 +25,7 @@ type Direction = 'forward' | 'backward';
 type SelfOptions = {
   radius?: number;
   direction?: Direction;
+  iconFill?: IPaint;
 };
 
 export type StepButtonOptions = SelfOptions &
@@ -40,10 +41,10 @@ export default class StepButton extends RoundPushButton {
       // SelfOptions
       radius: DEFAULT_RADIUS,
       direction: 'forward',
+      iconFill: 'black',
 
       // RoundPushButtonOptions
       fireOnHold: true,
-      iconFill: 'black',
       soundPlayer: stepForwardSoundPlayer,
       innerContent: sceneryPhetStrings.a11y.stepButton.stepForward,
       appendDescription: true

@@ -10,7 +10,7 @@ import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { HBox, Path, Rectangle } from '../../../scenery/js/imports.js';
-import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // constants

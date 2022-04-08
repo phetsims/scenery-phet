@@ -12,7 +12,7 @@ import Matrix3 from '../../../dot/js/Matrix3.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { IColor, Path } from '../../../scenery/js/imports.js';
-import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ResetShape from '../ResetShape.js';
 import sceneryPhet from '../sceneryPhet.js';

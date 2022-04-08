@@ -19,8 +19,6 @@ export default class StepBackwardButton extends StepButton {
 
   constructor( providedOptions?: StepBackwardButtonOptions ) {
 
-    assert && assert( !providedOptions || !providedOptions.direction, 'StepBackwardButton sets direction' );
-
     const options = optionize<StepBackwardButtonOptions, SelfOptions, StepButtonOptions>( {
 
       // StepButtonOptions

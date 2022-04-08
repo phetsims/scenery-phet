@@ -25,7 +25,9 @@ const resetAllContextResponseString = sceneryPhetStrings.a11y.voicing.resetAll.c
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
-type SelfOptions = {};
+type SelfOptions = {
+  phetioRestoreScreenStateOnReset?: boolean;
+};
 
 export type ResetAllButtonOptions = SelfOptions & Omit<ResetButtonOptions, 'xMargin' | 'yMargin'>;
 
@@ -40,15 +42,17 @@ export default class ResetAllButton extends ResetButton {
       // ResetAllButtonOptions
       radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
 
+      // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
+      // previous PhET-iO state, if applicable.
+      phetioRestoreScreenStateOnReset: true,
+
       // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
       listener: _.noop, // {function}
 
-      // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
-      // previous PhET-iO state, if applicable.
-      phetioRestoreScreenStateOnReset: true,
+      // phet-io
       tandem: Tandem.REQUIRED,
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
 
@@ -67,7 +71,7 @@ export default class ResetAllButton extends ResetButton {
     // call is complete.
     const passedInListener = options.listener;
     options.listener = () => {
-      passedInListener();
+      passedInListener && passedInListener();
 
       // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
       if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
