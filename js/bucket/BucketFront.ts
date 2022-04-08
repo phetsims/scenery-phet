@@ -1,40 +1,42 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /*
  * The front of a bucket (does not include the hole)
  *
  * @author Jonathan Olson
  */
 
+import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../../scenery/js/imports.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import { LinearGradient, Node, NodeOptions, PaintColorProperty, Path, Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
-class BucketFront extends Node {
+type SelfOptions = {
+  labelNode?: Node;
+};
 
-  /**
-   * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   */
-  constructor( bucket, modelViewTransform, options ) {
+export type BucketFrontOptions = SelfOptions & NodeOptions;
 
-    options = merge( {
+export default class BucketFront extends Node {
+
+  public readonly bucket: Bucket; // public (a11y)
+  private labelNode: Node;
+  private readonly disposeBucketFront: () => void;
+
+  constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
+
+    const options = optionize<BucketFrontOptions, Omit<SelfOptions, 'labelNode'>, NodeOptions, 'tandem'>( {
       tandem: Tandem.REQUIRED,
       cursor: 'pointer'
-    }, options );
+    }, providedOptions );
 
     super();
 
-    // This is basically like extending the options with the labelNode, but with dynamic content in the tandem.
+    // If the client didn't provide a label for the bucket, create one.
     if ( !options.labelNode ) {
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
@@ -43,27 +45,23 @@ class BucketFront extends Node {
       } );
     }
 
-    // @public (a11y)
     this.bucket = bucket;
 
+    // shape
     const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     const transformedShape = bucket.containerShape.transformed( scaleMatrix );
 
-    // @private {Property.<Color>}
-    this.baseBrighter5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
-    this.baseDarker5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
+    // fill
+    const baseBrighter5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
+    const baseDarker5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
+    const frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 )
+      .addColorStop( 0, baseBrighter5 )
+      .addColorStop( 1, baseDarker5 );
 
-    const frontGradient = new LinearGradient( transformedShape.bounds.getMinX(),
-      0,
-      transformedShape.bounds.getMaxX(),
-      0 );
-    frontGradient.addColorStop( 0, this.baseBrighter5 );
-    frontGradient.addColorStop( 1, this.baseDarker5 );
     this.addChild( new Path( transformedShape, {
       fill: frontGradient
     } ) );
 
-    // @public
     this.labelNode = options.labelNode;
     this.setLabel( this.labelNode );
 
@@ -71,14 +69,18 @@ class BucketFront extends Node {
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
 
     this.mutate( options );
+
+    this.disposeBucketFront = () => {
+      this.labelNode && this.labelNode.dispose();
+      baseBrighter5.dispose();
+      baseDarker5.dispose();
+    };
   }
 
   /**
    * Set a scenery node to appear in front of the bucket.
-   * @public
-   * @param {Node} labelNode
    */
-  setLabel( labelNode ) {
+  public setLabel( labelNode: Node ): void {
 
     if ( this.hasChild( this.labelNode ) ) {
       this.removeChild( this.labelNode );
@@ -93,19 +95,10 @@ class BucketFront extends Node {
     }
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
-    this.labelNode && this.labelNode.dispose();
-
-    this.baseBrighter5.dispose();
-    this.baseDarker5.dispose();
-
+  public override dispose(): void {
+    this.disposeBucketFront();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'BucketFront', BucketFront );
-export default BucketFront;

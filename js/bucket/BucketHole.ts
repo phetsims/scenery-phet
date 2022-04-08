@@ -1,28 +1,26 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /*
  * The hole of a bucket
  *
  * @author Jonathan Olson
  */
 
+import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../scenery/js/imports.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import { LinearGradient, Node, NodeOptions, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class BucketHole extends Node {
+type SelfOptions = {};
 
-  /**
-   * @param {Bucket} bucket - Model of a bucket, type definition found in phetcommon/model as of this writing.
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   */
-  constructor( bucket, modelViewTransform, options ) {
+export type BucketHoleOptions = SelfOptions & NodeOptions;
 
-    super( options );
+export default class BucketHole extends Node {
+
+  constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketHoleOptions ) {
+
+    super( providedOptions );
 
     const scaleMatrix = Matrix3.scaling( modelViewTransform.getMatrix().m00(), modelViewTransform.getMatrix().m11() );
     const transformedShape = bucket.holeShape.transformed( scaleMatrix );
@@ -42,4 +40,3 @@ class BucketHole extends Node {
 }
 
 sceneryPhet.register( 'BucketHole', BucketHole );
-export default BucketHole;
