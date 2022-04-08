@@ -54,11 +54,11 @@ export default class BucketFront extends Node {
     const transformedShape = bucket.containerShape.transformed( scaleMatrix );
 
     // fill
-    const baseBrighter5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
-    const baseDarker5 = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
+    const baseBrighter5Property = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
+    const baseDarker5Property = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
     const frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 )
-      .addColorStop( 0, baseBrighter5 )
-      .addColorStop( 1, baseDarker5 );
+      .addColorStop( 0, baseBrighter5Property )
+      .addColorStop( 1, baseDarker5Property );
 
     this.addChild( new Path( transformedShape, {
       fill: frontGradient
@@ -76,8 +76,8 @@ export default class BucketFront extends Node {
 
       //TOO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should not be disposing it here
       this.labelNode && this.labelNode.dispose();
-      baseBrighter5.dispose();
-      baseDarker5.dispose();
+      baseBrighter5Property.dispose();
+      baseDarker5Property.dispose();
     };
   }
 
