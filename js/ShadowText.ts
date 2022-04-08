@@ -1,34 +1,45 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Text with a drop shadow.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Font, IPaint, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class ShadowText extends Node {
+type SelfOptions = {
 
-  /**
-   * @param {string} text
-   * @param {Object} [options]
-   */
-  constructor( text, options ) {
+  // for foreground Text node
+  font?: Font;
+  fill?: IPaint;
+  stroke?: IPaint;
 
-    options = merge( {
+  // for background (shadow) Text node
+  shadowFill?: IPaint;
+  shadowXOffset?: number;
+  shadowYOffset?: number;
+};
+
+export type ShadowTextOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+
+export default class ShadowText extends Node {
+
+  constructor( text: string, providedOptions?: ShadowTextOptions ) {
+
+    const options = optionize<ShadowTextOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
       font: new PhetFont( 24 ),
       fill: 'lightGray',
       stroke: null,
+      shadowFill: 'black',
       shadowXOffset: 3,
-      shadowYOffset: 1,
-      shadowFill: 'black'
-    }, options );
+      shadowYOffset: 1
+    }, providedOptions );
 
     options.children = [
 
@@ -49,4 +60,3 @@ class ShadowText extends Node {
 }
 
 sceneryPhet.register( 'ShadowText', ShadowText );
-export default ShadowText;
