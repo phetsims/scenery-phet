@@ -52,7 +52,11 @@ export default class ShadowText extends Node {
       } ),
 
       // foreground
-      new Text( text, { font: options.font, fill: options.fill, stroke: options.stroke } )
+      new Text( text, {
+        font: options.font,
+        fill: options.fill,
+        stroke: options.stroke
+      } )
     ];
 
     super( options );
