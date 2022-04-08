@@ -13,8 +13,9 @@ import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
 
-  // for foreground Text node
   font?: Font;
+
+  // for foreground Text node
   fill?: IPaint;
   stroke?: IPaint;
 
