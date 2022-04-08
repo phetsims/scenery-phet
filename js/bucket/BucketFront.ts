@@ -38,6 +38,8 @@ export default class BucketFront extends Node {
 
     // If the client didn't provide a label for the bucket, create one.
     if ( !options.labelNode ) {
+
+      //TODO https://github.com/phetsims/scenery-phet/issues/732 BuckFront owns this instance, and must dispose it
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
@@ -71,6 +73,8 @@ export default class BucketFront extends Node {
     this.mutate( options );
 
     this.disposeBucketFront = () => {
+
+      //TOO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should not be disposing it here
       this.labelNode && this.labelNode.dispose();
       baseBrighter5.dispose();
       baseDarker5.dispose();
@@ -83,6 +87,8 @@ export default class BucketFront extends Node {
   public setLabel( labelNode: Node ): void {
 
     if ( this.hasChild( this.labelNode ) ) {
+
+      //TODO https://github.com/phetsims/scenery-phet/issues/732 memory leak - if BucketFront created this instance of labelNode, it needs to dispose it
       this.removeChild( this.labelNode );
     }
 
