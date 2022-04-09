@@ -15,7 +15,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { IColor, Node, NodeOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
-import vegas from './vegas.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   barFill?: IColor;
@@ -107,5 +107,5 @@ class StatusBar extends Node {
   }
 }
 
-vegas.register( 'StatusBar', StatusBar );
+sceneryPhet.register( 'StatusBar', StatusBar );
 export default StatusBar;
