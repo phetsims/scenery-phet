@@ -9,7 +9,7 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import centerAndVariability from '../../centerAndVariability.js';
-import StatusBar, { StatusBarOptions } from '../../../../vegas/js/StatusBar.js';
+import StatusBar, { StatusBarOptions } from '../../../../scenery-phet/js/StatusBar.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
