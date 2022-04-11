@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Front of the HeaterCoolerNode.  It is independent from the HeaterCoolerBack so that one can easily layer objects
  * inside of the HeaterCoolerNode.  The HeaterCoolerFront contains the heater body, labels, and control slider.
@@ -11,15 +10,14 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
+import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, Font, IColor, LinearGradient, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
+import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HeaterCoolerBack from './HeaterCoolerBack.js';
@@ -30,50 +28,87 @@ import sceneryPhetStrings from './sceneryPhetStrings.js';
 const coolString = sceneryPhetStrings.cool;
 const heatString = sceneryPhetStrings.heat;
 
-// constants
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 
-class HeaterCoolerFront extends Node {
+type SelfOptions = {
+
+  baseColor?: Color | string; // Base color used for the stove body.
+  width?: number; // In screen coords, much of the rest of the size of the stove derives from this value.
+  heatEnabled?: boolean; // Allows slider to reach positive values (corresponding to heating)
+  coolEnabled?: boolean; // Allows slider to reach negative values (corresponding to cooling)
+  snapToZero?: boolean; // see doc at this.snapToZeroProperty
+
+  // the percentage of the slider's minimum and maximum range at which the slider should snap to zero when
+  // released. Note that it's only used when this.snapToZeroProperty is false and when both heating and cooling
+  // are enabled. A value of 1 is the same as snapToZero: true, and a value of 0 removes snapping entirely.
+  // Default value empirically determined, see https://github.com/phetsims/scenery-phet/issues/568
+  snapToZeroThreshold?: number;
+
+  // slider label options
+  heatString?: string; // label for +1 end of slider
+  coolString?: string; // {string} label for -1 end of slider
+  labelFont?: Font;
+  labelMaxWidth?: number; // maxWidth of the Heat and Cool labels, determined empirically
+
+  // slider options
+  thumbSize?: Dimension2;
+  thumbTouchAreaXDilation?: number;
+  thumbTouchAreaYDilation?: number;
+  thumbMouseAreaXDilation?: number;
+  thumbMouseAreaYDilation?: number;
+  thumbFill?: IColor;
+  thumbFillHighlighted?: IColor;
+
+  // links the NodeIO Properties of the provided HeaterCoolerBack to this HeaterCoolerFront
+  heaterCoolerBack?: HeaterCoolerBack | null;
+
+  sliderOptions?: SliderOptions;
+
+  // HeaterCoolerFront is sometimes instrumented as a parent component, and is sometimes a sub-compoent to
+  // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
+  // instrumented tree. This doesn't affect the instrumentation of sub-components like the slider.
+  phetioInstrument?: boolean;
+};
+
+export type HeaterCoolerFrontOptions = SelfOptions & NodeOptions;
+
+export default class HeaterCoolerFront extends Node {
+
+  // please use judiciously, see https://github.com/phetsims/scenery-phet/issues/442
+  public readonly slider: VSlider;
+
+  private readonly snapToZeroProperty: Property<boolean>;
+
+  public static DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   /**
-   * @param {NumberProperty} heatCoolAmountProperty // +1 for max heating, -1 for max cooling
-   * @param {Object} [options]
-   * @constructor
+   * @param heatCoolAmountProperty +1 for max heating, -1 for max cooling
+   * @param providedOptions
    */
-  constructor( heatCoolAmountProperty, options ) {
+  constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerFrontOptions ) {
     super();
 
-    options = merge( {
-      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR, // {Color|string} Base color used for the stove body.
-      width: 120, // In screen coords, much of the rest of the size of the stove derives from this value.
-      heatEnabled: true, // Allows slider to reach positive values (corresponding to heating)
-      coolEnabled: true, // Allows slider to reach negative values (corresponding to cooling)
-      snapToZero: true, // see doc at this.snapToZeroProperty
+    const options = optionize<HeaterCoolerFrontOptions, SelfOptions, NodeOptions, 'tandem'>( {
 
-      // the percentage of the slider's minimum and maximum range at which the slider should snap to zero when
-      // released. Note that it's only used when this.snapToZeroProperty is false and when both heating and cooling
-      // are enabled. A value of 1 is the same as snapToZero: true, and a value of 0 removes snapping entirely.
-      // Default value empirically determined, see https://github.com/phetsims/scenery-phet/issues/568
+      // SelfOptions
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
+      width: 120,
+      heatEnabled: true,
+      coolEnabled: true,
+      snapToZero: true,
       snapToZeroThreshold: 0.1,
-
-      // slider label options
-      heatString: heatString, // {string} label for +1 end of slider
-      coolString: coolString, // {string} label for -1 end of slider
-      labelFont: new PhetFont( 14 ), // {Font}
-      labelMaxWidth: 35, // {number} maxWidth of the Heat and Cool labels, determined empirically
-
-      // slider options
-      thumbSize: new Dimension2( 45, 22 ), // {Dimension2}
-      thumbTouchAreaXDilation: 11, // {number}
-      thumbTouchAreaYDilation: 11, // {number}
-      thumbMouseAreaXDilation: 0, // {number}
-      thumbMouseAreaYDilation: 0, // {number}
-      thumbFill: '#71edff', // {Color|string|null}
-      thumbFillHighlighted: '#bff7ff', // {Color|string|null}
-
-      // {null|HeaterCoolerBack} links the NodeIO Properties of the provided HeaterCoolerBack to this HeaterCoolerFront
+      heatString: heatString,
+      coolString: coolString,
+      labelFont: new PhetFont( 14 ),
+      labelMaxWidth: 35,
+      thumbSize: new Dimension2( 45, 22 ),
+      thumbTouchAreaXDilation: 11,
+      thumbTouchAreaYDilation: 11,
+      thumbMouseAreaXDilation: 0,
+      thumbMouseAreaYDilation: 0,
+      thumbFill: '#71edff',
+      thumbFillHighlighted: '#bff7ff',
       heaterCoolerBack: null,
-
       sliderOptions: {
         trackSize: new Dimension2( 10, DEFAULT_WIDTH / 2 ), // height of the track depends on the width
         trackFillEnabled: new LinearGradient( 0, 0, DEFAULT_WIDTH / 2, 0 )
@@ -84,16 +119,12 @@ class HeaterCoolerFront extends Node {
         majorTickLength: 15,
         minorTickLength: 12
       },
-
-      // phet-io
-      tandem: Tandem.REQUIRED,
-
-      // HeaterCoolerFront is sometimes instrumented as a parent component, and is sometimes a sub-compoent to
-      // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
-      // instrumented tree. This doesn't affect the instrumentation of sub-components like the slider.
       phetioInstrument: true,
+
+      // NodeOptions
+      tandem: Tandem.REQUIRED,
       phetioType: Node.NodeIO
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.heatEnabled || options.coolEnabled, 'Either heat or cool must be enabled.' );
     assert && assert( options.snapToZeroThreshold >= 0 && options.snapToZeroThreshold <= 1,
@@ -120,23 +151,19 @@ class HeaterCoolerFront extends Node {
         .addColorStop( 1, stoveBaseColor.darkerColor( 0.5 ) )
     } );
 
-    // @private {BooleanProperty}
     this.snapToZeroProperty = new BooleanProperty( options.snapToZero, {
       tandem: options.tandem.createTandem( 'snapToZeroProperty' ),
       phetioDocumentation: 'whether the slider will snap to the off position when released',
       phetioFeatured: true
     } );
 
-    const setSliderToZero = () => {
-      heatCoolAmountProperty.set( 0 );
-    };
     const sliderRange = new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 );
 
     /**
      * determines if the slider is close enough to zero to snap to zero (even when snapToZeroProperty is false). It's
      * only applicable when both heating and cooling are enabled because that is the only configuration where it was
-     * difficult for a user to set the slider to 0. This feature was requested by designers, see https://github.com/phetsims/scenery-phet/issues/568.
-     * @returns {boolean}
+     * difficult for a user to set the slider to 0. This feature was requested by designers,
+     * see https://github.com/phetsims/scenery-phet/issues/568.
      */
     const sliderIsCloseToZero = () => {
       return options.coolEnabled && options.heatEnabled && (
@@ -144,29 +171,28 @@ class HeaterCoolerFront extends Node {
         heatCoolAmountProperty.value > 0 && heatCoolAmountProperty.value / sliderRange.max < options.snapToZeroThreshold );
     };
 
-    const sliderOptions = merge( {
-      thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
-      thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
-      thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
-      thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
-      thumbFill: options.thumbFill,
-      thumbSize: options.thumbSize,
-      thumbFillHighlighted: options.thumbFillHighlighted,
-      endDrag: () => {
-        if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
-          setSliderToZero();
-        }
-      },
-      centerY: stoveBody.centerY,
-      right: stoveBody.right - DEFAULT_WIDTH / 8,
-      tandem: options.tandem.createTandem( 'slider' )
-    }, options.sliderOptions );
+    const setSliderToZero = () => {
+      heatCoolAmountProperty.set( 0 );
+    };
 
-    // @public (read-only), please use judiciously, see https://github.com/phetsims/scenery-phet/issues/442
-    this.slider = new VSlider(
-      heatCoolAmountProperty,
-      sliderRange,
-      sliderOptions
+    this.slider = new VSlider( heatCoolAmountProperty, sliderRange,
+      optionize<SliderOptions, {}, SliderOptions>( {
+        thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
+        thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
+        thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
+        thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
+        thumbFill: options.thumbFill,
+        thumbSize: options.thumbSize,
+        thumbFillHighlighted: options.thumbFillHighlighted,
+        endDrag: () => {
+          if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
+            setSliderToZero();
+          }
+        },
+        centerY: stoveBody.centerY,
+        right: stoveBody.right - DEFAULT_WIDTH / 8,
+        tandem: options.tandem.createTandem( 'slider' )
+      }, options.sliderOptions )
     );
 
     // Create the tick labels.
@@ -188,14 +214,15 @@ class HeaterCoolerFront extends Node {
 
     // update the back component if provided
     if ( options.heaterCoolerBack ) {
-      this.opacityProperty.lazyLink( () => {
-        options.heaterCoolerBack.opacity = this.opacity;
+      const heaterCoolerBack = options.heaterCoolerBack!;
+      this.opacityProperty.lazyLink( opacity => {
+        heaterCoolerBack.opacity = opacity;
       } );
-      this.pickableProperty.lazyLink( () => {
-        options.heaterCoolerBack.pickable = this.pickable;
+      this.pickableProperty.lazyLink( pickable => {
+        heaterCoolerBack.pickable = pickable;
       } );
-      this.visibleProperty.lazyLink( () => {
-        options.heaterCoolerBack.visible = this.visible;
+      this.visibleProperty.lazyLink( visible => {
+        heaterCoolerBack.visible = visible;
       } );
     }
 
@@ -206,8 +233,4 @@ class HeaterCoolerFront extends Node {
   }
 }
 
-// @public Defined here instead of in HeaterCoolerNode to prevent circular dependency.
-HeaterCoolerFront.DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
-
 sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );
-export default HeaterCoolerFront;

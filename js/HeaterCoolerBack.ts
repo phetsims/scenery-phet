@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Representation of the back of a HeaterCoolerNode.  It is independent from the front of the HeaterCoolerNode so that
  * one can easily layer objects between the heater/cooler front and back.  The back contains the elliptical hole and the
@@ -10,47 +9,49 @@
  * @author Jesse Greenberg
  */
 
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, Image, LinearGradient, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import flame_png from '../images/flame_png.js';
 import iceCubeStack_png from '../images/iceCubeStack_png.js';
 import HeaterCoolerFront from './HeaterCoolerFront.js';
 import sceneryPhet from './sceneryPhet.js';
 
-//images
-
-// constants
-// Scale factor that determines the height of the heater opening.  Can be made an optional parameter if necessary.
-const OPENING_HEIGHT_SCALE = 0.1;
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 
-class HeaterCoolerBack extends Node {
+type SelfOptions = {
+  baseColor?: Color | string; // Base color used for the bowl of the stove
+};
+
+export type HeaterCoolerBackOptions = SelfOptions & NodeOptions;
+
+export default class HeaterCoolerBack extends Node {
+
+  // Scale factor that determines the height of the heater opening. Can be made an optional parameter if necessary.
+  public static OPENING_HEIGHT_SCALE = 0.1;
 
   /**
-   * @param {NumberProperty} heatCoolAmountProperty // +1 for max heating, -1 for max cooling
-   * @param {Object} [options]
-   * @constructor
+   * @param heatCoolAmountProperty // +1 for max heating, -1 for max cooling
+   * @param providedOptions
    */
-  constructor( heatCoolAmountProperty, options ) {
+  constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerBackOptions ) {
     super();
 
-    options = merge( {
-      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR // {Color|string} Base color used for the bowl of the stove
-    }, options );
+    const options = optionize<HeaterCoolerBackOptions, SelfOptions, NodeOptions>( {
+
+      // SelfOptions
+      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR
+    }, providedOptions );
 
     // Dimensions for the rest of the stove, dependent on the desired stove width.
-    const stoveOpeningHeight = DEFAULT_WIDTH * OPENING_HEIGHT_SCALE;
+    const stoveOpeningHeight = DEFAULT_WIDTH * HeaterCoolerBack.OPENING_HEIGHT_SCALE;
 
     // Create the inside bowl of the stove, which is an ellipse.
     const stoveBaseColor = Color.toColor( options.baseColor );
     const stoveInteriorShape = new Shape()
-      .ellipse( DEFAULT_WIDTH / 2, stoveOpeningHeight / 4, DEFAULT_WIDTH / 2, stoveOpeningHeight / 2, 0, 0, Math.PI, false );
+      .ellipse( DEFAULT_WIDTH / 2, stoveOpeningHeight / 4, DEFAULT_WIDTH / 2, stoveOpeningHeight / 2, 0 );
     const stoveInterior = new Path( stoveInteriorShape, {
       stroke: 'black',
       fill: new LinearGradient( 0, 0, DEFAULT_WIDTH, 0 )
@@ -93,20 +94,12 @@ class HeaterCoolerBack extends Node {
   }
 
   /**
-   * Convenience function that returns the correct position for the front of the HeaterCoolerNode.  Specifically,
-   * this returns the left center of the stove opening.
-   *
-   * @returns {Vector2}
-   * @public
+   * Convenience function that returns the correct position for the front of the HeaterCoolerNode.
+   * Specifically, this returns the left center of the stove opening.
    */
-  getHeaterFrontPosition() {
-    return new Vector2( this.leftTop.x, this.leftTop.y + this.width * OPENING_HEIGHT_SCALE / 2 );
+  public getHeaterFrontPosition(): Vector2 {
+    return new Vector2( this.leftTop.x, this.leftTop.y + this.width * HeaterCoolerBack.OPENING_HEIGHT_SCALE / 2 );
   }
 }
 
-// Shape of heater front depends on this value.
-// @static
-HeaterCoolerBack.OPENING_HEIGHT_SCALE = OPENING_HEIGHT_SCALE;
-
 sceneryPhet.register( 'HeaterCoolerBack', HeaterCoolerBack );
-export default HeaterCoolerBack;
