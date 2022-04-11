@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A type of spinner UI component that supports 'fine' and 'coarse' changes to a numeric value.
  *
