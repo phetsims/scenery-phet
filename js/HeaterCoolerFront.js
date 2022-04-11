@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Front of the HeaterCoolerNode.  It is independent from the HeaterCoolerBack so that one can easily layer objects
  * inside of the HeaterCoolerNode.  The HeaterCoolerFront contains the heater body, labels, and control slider.

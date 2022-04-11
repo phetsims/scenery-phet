@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * This is the graphical representation of a stove that can be used to heat or cool things.  The HeaterCoolerNode is
  * composed of HeaterCoolerFront and HeaterCoolerBack so that objects can be layered inside of the heater to create a

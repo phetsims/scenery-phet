@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Representation of the back of a HeaterCoolerNode.  It is independent from the front of the HeaterCoolerNode so that
  * one can easily layer objects between the heater/cooler front and back.  The back contains the elliptical hole and the
