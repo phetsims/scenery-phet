@@ -1,5 +1,6 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Mostly like a normal Rectangle (Node), but instead of a hard transition from "in" to "out", it has a defined region
  * of gradients around the edges.
