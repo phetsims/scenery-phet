@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Conductivity tester. Light bulb connected to a battery, with draggable probes.
  * When the probes are both immersed in solution, the circuit is completed, and the bulb glows.
@@ -9,22 +8,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IProperty from '../../axon/js/IProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
+import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, IColor, Image, Node, NodeOptions, Path, PathOptions, Rectangle, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
@@ -38,20 +33,63 @@ const shortCircuitString = sceneryPhetStrings.shortCircuit;
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
 const SHOW_PROBE_ORIGIN = false; // draws a red circle at the origin of probes, for debugging
+const DEFAULT_SHORT_CIRCUIT_FONT = new PhetFont( 14 );
+
+type SelfOptions = {
+
+  modelViewTransform?: ModelViewTransform2;
+  interactive?: boolean; // set to false if you're creating an icon
+  bulbImageScale?: number;
+  batteryDCell_pngScale?: number;
+
+  // common to both probes
+  probeSize?: Dimension2; // probe dimensions, in view coordinates
+  probeLineWidth?: number;
+  probeDragYRange?: Range | null; // y-axis drag range, relative to positionProperty, in view coordinates. null means no constraint.
+  probeCursor?: string;
+
+  // positive probe
+  positiveProbeFill?: IColor;
+  positiveProbeStroke?: IColor;
+  positiveLabelFill?: IColor;
+
+  // negative probe
+  negativeProbeFill?: IColor;
+  negativeProbeStroke?: IColor;
+  negativeLabelFill?: IColor;
+
+  // wires
+  wireStroke?: IColor;
+  wireLineWidth?: number;
+  bulbToBatteryWireLength?: number; // length of the wire between bulb and battery, in view coordinates
+
+  // short-circuit indicator
+  shortCircuitFont?: Font;
+  shortCircuitFill?: IColor;
+};
+
+export type ConductivityTesterNodeOptions = SelfOptions & NodeOptions;
 
 class ConductivityTesterNode extends Node {
+
+  private readonly shortCircuitNode: Node;
+  private readonly disposeConductivityTesterNode: () => void;
 
   /**
    * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
    * @param {Property.<Vector2>} positionProperty position of the tester, at bottom-center of the bulb (model coordinate frame)
    * @param {Property.<Vector2>} positiveProbePositionProperty position of bottom-center of the positive probe (model coordinate frame)
    * @param {Property.<Vector2>} negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
-   * @param {Object} [options]
+   * @param providedOptions
    */
-  constructor( brightnessProperty, positionProperty, positiveProbePositionProperty, negativeProbePositionProperty, options ) {
+  constructor( brightnessProperty: IProperty<number>,
+               positionProperty: IProperty<Vector2>,
+               positiveProbePositionProperty: IProperty<Vector2>,
+               negativeProbePositionProperty: IProperty<Vector2>,
+               providedOptions?: ConductivityTesterNodeOptions ) {
 
-    // NOTE! Since positionProperty determines translation, so avoid options related to translation!
-    options = merge( {
+    // NOTE! Since positionProperty determines translation, avoid options related to translation!
+    const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>( {
 
       modelViewTransform: ModelViewTransform2.createIdentity(),
       interactive: true, // set to false if you're creating an icon
@@ -59,9 +97,9 @@ class ConductivityTesterNode extends Node {
       batteryDCell_pngScale: 0.6,
 
       // common to both probes
-      probeSize: new Dimension2( 20, 68 ), // {Dimension2} probe dimensions, in view coordinates
+      probeSize: new Dimension2( 20, 68 ),
       probeLineWidth: 0.5,
-      probeDragYRange: null, // {DOT.Range} y-axis drag range, relative to positionProperty, in view coordinates. null means no constraint.
+      probeDragYRange: null,
       probeCursor: 'pointer',
 
       // positive probe
@@ -77,12 +115,12 @@ class ConductivityTesterNode extends Node {
       // wires
       wireStroke: 'black',
       wireLineWidth: 1.5,
-      bulbToBatteryWireLength: 40, // length of the wire between bulb and battery, in view coordinates
+      bulbToBatteryWireLength: 40,
 
       // short-circuit indicator
-      shortCircuitFont: new PhetFont( 14 ),
+      shortCircuitFont: DEFAULT_SHORT_CIRCUIT_FONT,
       shortCircuitFill: 'black'
-    }, options );
+    }, providedOptions );
 
     // bulb, origin at bottom center of base
     const lightBulbNode = new LightBulbNode( brightnessProperty, {
@@ -147,7 +185,8 @@ class ConductivityTesterNode extends Node {
     const probeDragListener = new DragListener( {
 
       start: event => {
-        clickYOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).y - event.currentTarget.y;
+        const currentTarget = event.currentTarget!;
+        clickYOffset = currentTarget.globalToParentPoint( event.pointer.point ).y - currentTarget.y;
       },
 
       // probes move together
@@ -193,7 +232,7 @@ class ConductivityTesterNode extends Node {
     super( options );
 
     // when the position changes ...
-    const positionObserver = ( position, oldPosition ) => {
+    const positionObserver = ( position: Vector2, oldPosition: Vector2 | null ) => {
 
       // move the entire tester
       this.translation = options.modelViewTransform.modelToViewPosition( position );
@@ -211,7 +250,7 @@ class ConductivityTesterNode extends Node {
     positionProperty.link( positionObserver );
 
     // update positive wire if end point was changed
-    const positiveProbeObserver = positiveProbePosition => {
+    const positiveProbeObserver = ( positiveProbePosition: Vector2 ) => {
       positiveProbe.centerX = options.modelViewTransform.modelToViewX( positiveProbePosition.x ) -
                               options.modelViewTransform.modelToViewX( positionProperty.get().x );
       positiveProbe.bottom = options.modelViewTransform.modelToViewY( positiveProbePosition.y ) -
@@ -221,7 +260,7 @@ class ConductivityTesterNode extends Node {
     positiveProbePositionProperty.link( positiveProbeObserver );
 
     // update negative wire if end point was changed
-    const negativeProbeObserver = negativeProbePosition => {
+    const negativeProbeObserver = ( negativeProbePosition: Vector2 ) => {
       negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbePosition.x ) -
                               options.modelViewTransform.modelToViewX( positionProperty.get().x );
       negativeProbe.bottom = options.modelViewTransform.modelToViewY( negativeProbePosition.y ) -
@@ -230,7 +269,6 @@ class ConductivityTesterNode extends Node {
     };
     negativeProbePositionProperty.link( negativeProbeObserver );
 
-    // @private
     this.shortCircuitNode = shortCircuitNode;
 
     // To prevent light from updating when invisible
@@ -255,35 +293,31 @@ class ConductivityTesterNode extends Node {
 
   /**
    * Is 'Short circuit' shown above the light bulb?
-   * @returns {boolean}
-   * @public
    */
-  get shortCircuit() { return this.shortCircuitNode.visible; }
+  public get shortCircuit(): boolean { return this.shortCircuitNode.visible; }
 
   /**
    * Determines whether 'Short circuit' is shown above the light bulb. Note that it is the client's responsibility
    * to ensure that the bulb's brightness (as set by brightnessProperty) is appropriate for a short circuit.
-   * @param {boolean} value
-   * @public
    */
-  set shortCircuit( value ) { this.shortCircuitNode.visible = value; }
+  public set shortCircuit( value ) { this.shortCircuitNode.visible = value; }
 
   /**
    * Convenience function for creating an icon.
-   * @param {number} brightness 0-1 (off to full on)
-   * @param {number} positiveProbeXOffset x-offset of the positive probe, relative to the bulb's tip
-   * @param {number} negativeProbeXOffset x-offset of the negative probe, relative to the bulb's tip
-   * @param {number} bothProbesYOffset y-offset of both probes, relative to the bulb's tip
-   * @param {Object} [options] same options as ConductivityTesterNode constructor
-   * @returns {ConductivityTesterNode}
-   * @public
+   * @param brightness 0-1 (off to full on)
+   * @param positiveProbeXOffset x-offset of the positive probe, relative to the bulb's tip
+   * @param negativeProbeXOffset x-offset of the negative probe, relative to the bulb's tip
+   * @param bothProbesYOffset y-offset of both probes, relative to the bulb's tip
+   * @param providedOptions
    */
-  static createIcon( brightness, positiveProbeXOffset, negativeProbeXOffset, bothProbesYOffset, options ) {
+  public static createIcon( brightness: number,
+                            positiveProbeXOffset: number, negativeProbeXOffset: number,
+                            bothProbesYOffset: number,
+                            providedOptions: Omit<ConductivityTesterNodeOptions, 'interactive'> ): Node {
 
-    options = options || {};
-
-    assert && assert( options.interactive === undefined, 'ConductivityTesterNode sets interactive' );
-    options.interactive = false;
+    const options = optionize<ConductivityTesterNodeOptions, {}, ConductivityTesterNodeOptions>( {
+      interactive: false
+    }, providedOptions );
 
     return new ConductivityTesterNode(
       new Property( brightness ),
@@ -294,11 +328,7 @@ class ConductivityTesterNode extends Node {
     );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeConductivityTesterNode();
     super.dispose();
   }
@@ -306,23 +336,28 @@ class ConductivityTesterNode extends Node {
 
 sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
 
+type ProbeNodeSelfOptions = {
+  size?: Dimension2;
+  fill?: IColor;
+  stroke?: IColor;
+  lineWidth?: number;
+};
+
+type ProbeNodeOptions = ProbeNodeSelfOptions & NodeOptions;
+
 /**
  * Conductivity probe, origin at bottom center.
  */
 class ProbeNode extends Node {
 
-  /**
-   * @param {Node} labelNode
-   * @param {Object} [options]
-   */
-  constructor( labelNode, options ) {
+  constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>( {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',
       lineWidth: 1.5
-    }, options );
+    }, providedOptions );
 
     super();
 
@@ -352,26 +387,23 @@ class ProbeNode extends Node {
   }
 }
 
+type WirePoint = { x: number; y: number };
+
 /**
  * Wires that connect to the probes.
  */
 class WireNode extends Path {
 
-  /**
-   * @param startX
-   * @param startY
-   * @param endX
-   * @param endY
-   * @param {Object} [options]
-   */
-  constructor( startX, startY, endX, endY, options ) {
+  private readonly startPoint: WirePoint;
+  private readonly controlPointOffset: WirePoint;
+
+  constructor( startX: number, startY: number, endX: number, endY: number, providedOptions?: PathOptions ) {
 
     super( null );
 
-    // @private
     this.startPoint = { x: startX, y: startY };
 
-    // @private control point offsets for when probe is to left of light bulb
+    // control point offsets for when probe is to left of light bulb
     this.controlPointOffset = { x: 30, y: -50 };
     if ( endX < startX ) {
       // probe is to right of light bulb, flip sign on control point x-offset
@@ -380,11 +412,11 @@ class WireNode extends Path {
 
     this.setEndPoint( endX, endY );
 
-    this.mutate( options );
+    this.mutate( providedOptions );
   }
 
-  // @private Sets the end point coordinates, the point attached to the probe.
-  setEndPoint( endX, endY ) {
+  // Sets the end point coordinates, the point attached to the probe.
+  public setEndPoint( endX: number, endY: number ): void {
 
     const startX = this.startPoint.x;
     const startY = this.startPoint.y;
