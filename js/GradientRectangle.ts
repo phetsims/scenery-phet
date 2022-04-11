@@ -1,9 +1,27 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Mostly like a normal Rectangle (Node), but instead of a hard transition from "in" to "out", it has a defined region
  * of gradients around the edges.
+ *
+ * Has options for controlling the margin amounts for each side. This will control the area that will be covered
+ * by a gradient.
+ *
+ * You can control the margin amounts for each side individually with:
+ * - leftMargin
+ * - rightMargin
+ * - topMargin
+ * - bottomMargin
+ *
+ * Additionally, the horizontal/vertical margins can also be controlled together with:
+ * - xMargin
+ * - yMargin
+ *
+ * And all margins can be controlled together with:
+ * - margin
+ *
+ * These options can be provided in the options object, or can be used with setters/getters (like normal Node
+ * options). Note that the getters only work if all equivalent values are the same.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -11,12 +29,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { ColorDef } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
-import { RadialGradient } from '../../scenery/js/imports.js';
+import { ColorDef, IColor, IPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -33,52 +46,52 @@ const GRADIENT_RECTANGLE_OPTION_KEYS = [
   'bottomMargin'
 ];
 
-class GradientRectangle extends Rectangle {
-  /**
-   * Has options for controlling the margin amounts for each side. This will control the area that will be covered
-   * by a gradient.
-   *
-   * You can control the margin amounts for each side individually with:
-   * - leftMargin
-   * - rightMargin
-   * - topMargin
-   * - bottomMargin
-   *
-   * Additionally, the horizontal/vertical margins can also be controlled together with:
-   * - xMargin
-   * - yMargin
-   *
-   * And all margins can be controlled together with:
-   * - margin
-   *
-   * These options can be provided in the options object, or can be used with setters/getters (like normal Node
-   * options). Note that the getters only work if all of the equivalent values are the sa3me.
-   *
-   * @param {Object} [options] - Uses Rectangle's options, along with the options in GRADIENT_RECTANGLE_OPTION_KEYS.
-   *                             See above for more information.
-   */
-  constructor( options ) {
+type SelfOptions = {};
+
+export type GradientRectangleOptions = SelfOptions & RectangleOptions;
+
+export default class GradientRectangle extends Rectangle {
+
+  // Margin amounts for each individual side
+  private _leftMargin: number;
+  private _rightMargin: number;
+  private _topMargin: number;
+  private _bottomMargin: number;
+
+  // The starting color stop ratio.
+  private _extension: number;
+
+  private _roundMargins: boolean;
+
+  private readonly _fillProperty: PaintColorProperty;
+  private readonly _borderOverrideProperty: PaintColorProperty;
+  private readonly _borderProperty: IColor;
+
+  private readonly roundedShape: Shape;
+  private readonly rectangularShape: Shape;
+
+  private readonly leftSide: Rectangle;
+  private readonly rightSide: Rectangle;
+  private readonly topSide: Rectangle;
+  private readonly bottomSide: Rectangle;
+
+  private readonly topLeftCorner: Path;
+  private readonly topRightCorner: Path;
+  private readonly bottomLeftCorner: Path;
+  private readonly bottomRightCorner: Path;
+
+  constructor( providedOptions?: GradientRectangleOptions ) {
     super( {} );
 
-    // @private {number} - Margin amounts for each individual side
     this._leftMargin = 0;
     this._rightMargin = 0;
-    this._topMarginMargin = 0;
-    this._bottomMarginMargin = 0;
-
-    // @private {number} - The starting color stop ratio.
+    this._topMargin = 0;
+    this._bottomMargin = 0;
     this._extension = 0;
-
-    // @private {boolean}
     this._roundMargins = true;
-
-    // @private {PaintColorProperty}
     this._fillProperty = new PaintColorProperty( this.fill );
-
-    // @private {PaintColorProperty}
     this._borderOverrideProperty = new PaintColorProperty( null );
 
-    // @private {Property.<Color>}
     this._borderProperty = new DerivedProperty( [
       this._fillProperty, this._borderOverrideProperty
     ], ( fill, borderOverride ) => {
@@ -105,14 +118,14 @@ class GradientRectangle extends Rectangle {
     this.invalidateGradients();
     this.invalidateRoundMargins();
     this.invalidateMargin();
-    this.mutate( options );
+
+    this.mutate( providedOptions );
   }
 
   /**
    * Updates the rounded-ness of the margins.
-   * @private
    */
-  invalidateRoundMargins() {
+  private invalidateRoundMargins(): void {
     if ( this._roundMargins ) {
       this.topLeftCorner.shape = this.roundedShape;
       this.topRightCorner.shape = this.roundedShape;
@@ -129,9 +142,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Updates the rounded-ness of the margins.
-   * @private
    */
-  invalidateGradients() {
+  private invalidateGradients(): void {
     const linearGradient = new LinearGradient( 0, 0, 1, 0 )
       .addColorStop( this._extension, this._fillProperty )
       .addColorStop( 1, this._borderProperty );
@@ -152,10 +164,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Custom behavior so we can see when the rectangle dimensions change.
-   * @protected
-   * @override
    */
-  invalidateRectangle() {
+  protected override invalidateRectangle(): void {
     super.invalidateRectangle();
 
     // Update our margins
@@ -164,9 +174,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Handles repositioning of the margins.
-   * @private
    */
-  invalidateMargin() {
+  private invalidateMargin(): void {
     this.children = [
       ...( this._leftMargin > 0 && this.rectHeight > 0 ? [ this.leftSide ] : [] ),
       ...( this._rightMargin > 0 && this.rectHeight > 0 ? [ this.rightSide ] : [] ),
@@ -246,10 +255,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Overrides disposal to clean up some extra things.
-   * @public
-   * @override
    */
-  dispose() {
+  public override dispose(): void {
     this._fillProperty.dispose();
     this._borderOverrideProperty.dispose();
 
@@ -258,13 +265,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * We want to be notified of fill changes.
-   * @public
-   * @override
-   *
-   * @param {ColorDef} stroke
-   * @returns {GradientRectangle} - For chaining
    */
-  setFill( fill ) {
+  public override setFill( fill: IPaint ): this {
     assert && assert( ColorDef.isColorDef( fill ), 'GradientRectangle only supports ColorDef as a fill' );
 
     super.setFill( fill );
@@ -276,13 +278,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * We don't want to allow strokes.
-   * @public
-   * @override
-   *
-   * @param {PaintDef} stroke
-   * @returns {GradientRectangle} - For chaining
    */
-  setStroke( stroke ) {
+  public override setStroke( stroke: IPaint ): this {
     assert && assert( stroke === null, 'GradientRectangle only supports a null stroke' );
 
     super.setStroke( stroke );
@@ -298,11 +295,8 @@ class GradientRectangle extends Rectangle {
   /**
    * Sets the left-side margin amount (the amount in local-coordinate units from the left edge of the rectangle to
    * where the margin ends).
-   * @public
-   *
-   * @param {number} value
    */
-  set leftMargin( value ) {
+  public set leftMargin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'leftMargin should be a finite non-negative number' );
 
@@ -315,22 +309,16 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the left-side margin amount.
-   * @public
-   *
-   * @returns {number}
    */
-  get leftMargin() {
+  public get leftMargin(): number {
     return this._leftMargin;
   }
 
   /**
    * Sets the right-side margin amount (the amount in local-coordinate units from the right edge of the rectangle to
    * where the margin ends).
-   * @public
-   *
-   * @param {number} value
    */
-  set rightMargin( value ) {
+  public set rightMargin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'rightMargin should be a finite non-negative number' );
 
@@ -343,22 +331,16 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the right-side margin amount.
-   * @public
-   *
-   * @returns {number}
    */
-  get rightMargin() {
+  public get rightMargin(): number {
     return this._rightMargin;
   }
 
   /**
    * Sets the top-side margin amount (the amount in local-coordinate units from the top edge of the rectangle to
    * where the margin ends).
-   * @public
-   *
-   * @param {number} value
    */
-  set topMargin( value ) {
+  public set topMargin( value ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'topMargin should be a finite non-negative number' );
 
@@ -375,18 +357,15 @@ class GradientRectangle extends Rectangle {
    *
    * @returns {number}
    */
-  get topMargin() {
+  public get topMargin(): number {
     return this._topMargin;
   }
 
   /**
    * Sets the bottom-side margin amount (the amount in local-coordinate units from the bottom edge of the rectangle to
    * where the margin ends).
-   * @public
-   *
-   * @param {number} value
    */
-  set bottomMargin( value ) {
+  public set bottomMargin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'bottomMargin should be a finite non-negative number' );
 
@@ -399,21 +378,15 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the bottom-side margin amount.
-   * @public
-   *
-   * @returns {number}
    */
-  get bottomMargin() {
+  public get bottomMargin(): number {
     return this._bottomMargin;
   }
 
   /**
    * Sets the left and right margin amounts.
-   * @public
-   *
-   * @param {number} value
    */
-  set xMargin( value ) {
+  public set xMargin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'xMargin should be a finite non-negative number' );
 
@@ -427,11 +400,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the left and right margin amounts.
-   * @public
-   *
-   * @returns {number}
    */
-  get xMargin() {
+  public get xMargin(): number {
     assert && assert( this._leftMargin === this._rightMargin,
       'leftMargin and rightMargin differ, so getting xMargin is not well-defined' );
 
@@ -440,11 +410,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Sets the top and bottom margin amounts.
-   * @public
-   *
-   * @param {number} value
    */
-  set yMargin( value ) {
+  public set yMargin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'yMargin should be a finite non-negative number' );
 
@@ -458,11 +425,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the top and bottom margin amounts.
-   * @public
-   *
-   * @returns {number}
    */
-  get yMargin() {
+  public get yMargin(): number {
     assert && assert( this._topMargin === this._bottomMargin,
       'leftMargin and rightMargin differ, so getting yMargin is not well-defined' );
 
@@ -471,11 +435,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Sets all of the margin amounts.
-   * @public
-   *
-   * @param {number} value
    */
-  set margin( value ) {
+  public set margin( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
       'margin should be a finite non-negative number' );
 
@@ -491,11 +452,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Gets the top and bottom margin amounts.
-   * @public
-   *
-   * @returns {number}
    */
-  get margin() {
+  public get margin(): number {
     assert && assert( this._leftMargin === this._rightMargin && this._rightMargin === this._topMargin && this._topMargin === this._bottomMargin,
       'Some margins differ, so getting margin is not well-defined' );
 
@@ -504,11 +462,8 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Sets whether the corners of the margin will be rounded or not.
-   * @public
-   *
-   * @param {boolean} value
    */
-  set roundMargins( value ) {
+  public set roundMargins( value: boolean ) {
     assert && assert( typeof value === 'boolean' );
 
     if ( this._roundMargins !== value ) {
@@ -520,21 +475,15 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Returns whether the corners of the margin are rounded or not.
-   * @public
-   *
-   * @returns {boolean}
    */
-  get roundMargins() {
+  public get roundMargins(): boolean {
     return this._roundMargins;
   }
 
   /**
    * Sets the border "fade" color (that is on the other side of the gradient).
-   * @public
-   *
-   * @param {ColorDef} value
    */
-  set border( value ) {
+  public set border( value: IPaint ) {
     assert && assert( ColorDef.isColorDef( value ) );
 
     if ( this._borderOverrideProperty.paint !== value ) {
@@ -544,21 +493,15 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Returns the border color (see the setter)
-   * @public
-   *
-   * @returns {ColorDef}
    */
-  get border() {
-    return this._border;
+  public get border(): IPaint {
+    return this._borderOverrideProperty.paint;
   }
 
   /**
    * Sets the extension amount (from 0 to <1) of where the "starting" gradient amount should be.
-   * @public
-   *
-   * @param {number} value
    */
-  set extension( value ) {
+  public set extension( value: number ) {
     assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0 && value < 1 );
 
     if ( this._extension !== value ) {
@@ -570,16 +513,11 @@ class GradientRectangle extends Rectangle {
 
   /**
    * Returns the extension amount (see the setter).
-   * @public
-   *
-   * @returns {number}
    */
-  get extension() {
+  public get extension(): number {
     return this._extension;
   }
 }
-
-sceneryPhet.register( 'GradientRectangle', GradientRectangle );
 
 // We use the Node system for mutator keys, so they get added here
 GradientRectangle.prototype._mutatorKeys = [
@@ -587,4 +525,4 @@ GradientRectangle.prototype._mutatorKeys = [
   ...Rectangle.prototype._mutatorKeys
 ];
 
-export default GradientRectangle;
+sceneryPhet.register( 'GradientRectangle', GradientRectangle );
