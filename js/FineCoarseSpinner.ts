@@ -1,6 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A type of spinner UI component that supports 'fine' and 'coarse' changes to a numeric value.
  *
@@ -9,57 +8,56 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import NumberProperty from '../../axon/js/NumberProperty.js';
+import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
+import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import NumberDisplay from './NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class FineCoarseSpinner extends Node {
+type SelfOptions = {
+  range?: Range | null; // if null, numberProperty.range is used and must exist
+  deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
+  deltaCoarse?: number; // amount to increment/decrement when the 'coarse' tweakers are pressed
+  spacing?: number; // horizontal space between subcomponents
+  numberDisplayOptions?: Omit<NumberDisplayOptions, 'tandem'>;
+  arrowButtonOptions?: Omit<ArrowButtonOptions, 'numberOfArrows' | 'tandem'>;
+};
 
-  /**
-   * @param {NumberProperty} numberProperty
-   * @param {Object} [options]
-   */
-  constructor( numberProperty, options ) {
+export type FineCoarseSpinnerOptions = SelfOptions & NodeOptions;
 
-    options = merge( {
-      range: null, // {Range|null} if null, numberProperty.range must exist
-      numberDisplayOptions: null, // {*|null} options propagated to the NumberDisplay subcomponent
-      arrowButtonOptions: null, // {*|null} options propagated to all ArrowButton subcomponents
-      deltaFine: 1, // {number} amount to increment/decrement when the 'fine' tweakers are pressed
-      deltaCoarse: 10, // {number} amount to increment/decrement when the 'coarse' tweakers are pressed
-      spacing: 10, // {number} horizontal space between subcomponents
+export default class FineCoarseSpinner extends Node {
+
+  private readonly disposeFineCoarseSpinner: () => void;
+
+  constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
+
+    const options = optionize<FineCoarseSpinnerOptions,
+      Omit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions, 'tandem'>( {
+
+      // SelfOptions
+      range: null,
+      deltaFine: 1,
+      deltaCoarse: 10,
+      spacing: 10,
+
+      // NodeOptions
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
-
-      // phet-io
       tandem: Tandem.REQUIRED,
-      phetioEnabledPropertyInstrumented: true // opt into default PhET-iO instrumented enabledProperty
-    }, options );
+      phetioEnabledPropertyInstrumented: true
+    }, providedOptions );
 
-    if ( !options.range ) {
-      assert && assert( numberProperty.range, 'numberProperty.range or options.range must be provided' );
-      options.range = numberProperty.range;
-    }
+    const range = options.range ? options.range : numberProperty.range!;
+    assert && assert( range, 'numberProperty.range or options.range must be provided' );
 
     assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
     assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
-    assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.numberOfArrows === undefined,
-      'FineCoarseSpinner sets arrowButtonOptions.numberOfArrows' );
-    assert && assert( !options.arrowButtonOptions || options.arrowButtonOptions.tandem === undefined,
-      'FineCoarseSpinner sets arrowButtonOptions.tandem' );
-    assert && assert( !options.numberDisplayOptions || options.numberDisplayOptions.tandem === undefined,
-      'FineCoarseSpinner sets numberDisplayOptions.tandem' );
-
-    options.numberDisplayOptions = merge( {
-      tandem: options.tandem.createTandem( 'numberDisplay' )
-    }, options.numberDisplayOptions );
 
     // options for the 'fine' arrow buttons, which show 1 arrow
-    const fineButtonOptions = merge( {
+    const fineButtonOptions: ArrowButtonOptions = optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {
       numberOfArrows: 1,
       arrowWidth: 12, // width of base
       arrowHeight: 14, // from tip to base
@@ -77,10 +75,13 @@ class FineCoarseSpinner extends Node {
       }
     }, options.arrowButtonOptions );
 
+    assert && assert( fineButtonOptions.arrowHeight !== undefined );
+    const fineButtonArrowHeight = fineButtonOptions.arrowHeight!;
+
     // options for the 'coarse' arrow buttons, which show 2 arrows
-    const coarseButtonOptions = merge( {}, fineButtonOptions, {
+    const coarseButtonOptions = optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions, {
       numberOfArrows: 2,
-      arrowSpacing: -0.5 * fineButtonOptions.arrowHeight, // arrows overlap
+      arrowSpacing: -0.5 * fineButtonArrowHeight, // arrows overlap
 
       // phet-io, as requested in https://github.com/phetsims/sun/issues/575
       enabledPropertyOptions: {
@@ -92,27 +93,34 @@ class FineCoarseSpinner extends Node {
     // <
     const decrementFineButton = new ArrowButton( 'left', ( () => {
       numberProperty.value = numberProperty.value - options.deltaFine;
-    } ), merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
+    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions,
+      { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
     const decrementCoarseButton = new ArrowButton( 'left', ( () => {
-      const delta = Math.min( options.deltaCoarse, numberProperty.value - options.range.min );
+      const delta = Math.min( options.deltaCoarse, numberProperty.value - range.min );
       numberProperty.value = numberProperty.value - delta;
-    } ), merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
+    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, coarseButtonOptions,
+      { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
 
     // [ value ]
-    const numberDisplay = new NumberDisplay( numberProperty, options.range, options.numberDisplayOptions );
+    const numberDisplay = new NumberDisplay( numberProperty, range,
+      optionize<NumberDisplayOptions, {}, NumberDisplayOptions>( {
+        tandem: options.tandem.createTandem( 'numberDisplay' )
+      }, options.numberDisplayOptions ) );
 
     // >
     const incrementFineButton = new ArrowButton( 'right', ( () => {
       numberProperty.value = numberProperty.value + options.deltaFine;
-    } ), merge( {}, fineButtonOptions, { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
+    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions,
+      { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
     const incrementCoarseButton = new ArrowButton( 'right', ( () => {
-      const delta = Math.min( options.deltaCoarse, options.range.max - numberProperty.value );
+      const delta = Math.min( options.deltaCoarse, range.max - numberProperty.value );
       numberProperty.value = numberProperty.value + delta;
-    } ), merge( {}, coarseButtonOptions, { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
+    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, coarseButtonOptions,
+      { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
     const layoutBox = new HBox( {
@@ -127,17 +135,16 @@ class FineCoarseSpinner extends Node {
     super( options );
 
     // Disable the buttons when the value is at min or max of the range
-    const numberPropertyListener = value => {
+    const numberPropertyListener = ( value: number ) => {
 
       // left buttons
-      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== options.range.min );
+      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== range.min );
 
       // right buttons
-      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== options.range.max );
+      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== range.max );
     };
     numberProperty.link( numberPropertyListener ); // unlink required in dispose
 
-    // @private
     this.disposeFineCoarseSpinner = () => {
 
       if ( numberProperty.hasListener( numberPropertyListener ) ) {
@@ -161,12 +168,10 @@ class FineCoarseSpinner extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FineCoarseSpinner', this );
   }
 
-  // @public
-  dispose() {
+  public override dispose(): void {
     this.disposeFineCoarseSpinner();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'FineCoarseSpinner', FineCoarseSpinner );
-export default FineCoarseSpinner;
