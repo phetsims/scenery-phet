@@ -15,6 +15,9 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { Node } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
+/**
+ * @deprecated Don't use this, it's a bad approach. See https://github.com/phetsims/scenery-phet/issues/656
+ */
 class DragBoundsProperty extends DerivedProperty {
 
   /**
