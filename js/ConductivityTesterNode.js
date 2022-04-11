@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Conductivity tester. Light bulb connected to a battery, with draggable probes.
  * When the probes are both immersed in solution, the circuit is completed, and the bulb glows.
