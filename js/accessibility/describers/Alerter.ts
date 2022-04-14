@@ -6,8 +6,8 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import { Node, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
-import { IAlertable } from '../../../../utterance-queue/js/Utterance.js';
+import { Node, Voicing } from '../../../../scenery/js/imports.js';
+import Utterance, { IAlertable } from '../../../../utterance-queue/js/Utterance.js';
 import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
@@ -47,7 +47,12 @@ class Alerter {
    * Alert to both description and voicing utteranceQueues, depending on if both are supported by this instance
    */
   alert( alertable: IAlertable ): void {
-    this.alertToVoicing && voicingUtteranceQueue.addToBack( alertable );
+    if ( this.alertToVoicing ) {
+      assert && assert( alertable instanceof Utterance,
+        'If alerting to Voicing, the alertable needs to be an Utterance and have canAnounceProperties' );
+      Voicing.alertUtterance( alertable as Utterance );
+    }
+
     this.alertDescriptionUtterance( alertable );
   }
 
