@@ -51,7 +51,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -352,7 +352,7 @@ class GrabDragInteraction extends EnabledComponent {
       options.onRelease && options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
-      voicingUtteranceQueue.addToBack( releasedUtterance );
+      Voicing.alertUtterance( releasedUtterance );
     };
     this.onGrab = options.onGrab; // @private
 
@@ -457,7 +457,7 @@ class GrabDragInteraction extends EnabledComponent {
 
         if ( this.node.isVoicing && this.showGrabCueNode() ) {
           this.voicingFocusUtterance.alert.hintResponse = sceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease;
-          voicingUtteranceQueue.addToBack( this.voicingFocusUtterance );
+          Voicing.alertUtterance( this.voicingFocusUtterance );
         }
       },
 
