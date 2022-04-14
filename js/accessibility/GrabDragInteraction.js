@@ -51,7 +51,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -321,6 +321,16 @@ class GrabDragInteraction extends EnabledComponent {
     assert && node.isVoicing && assert( node.voicingFocusListener === node.defaultFocusListener,
       'GrabDragInteraction sets its own voicingFocusListener.' );
 
+    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/491
+    const releasedUtterance = new Utterance( {
+      alert: new ResponsePacket( { objectResponse: releasedString } ),
+      announcerOptions: {
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE, // for AriaLiveAnnouncer
+        cancelOther: false // for voicingManager
+      }
+    } );
+
     if ( node.isVoicing ) {
 
       // sanity check on the voicing interface API.
@@ -331,17 +341,11 @@ class GrabDragInteraction extends EnabledComponent {
         // When swapping from grabbable to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
         this.grabbable && node.defaultFocusListener( event );
       };
-    }
 
-    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
-    // https://github.com/phetsims/balloons-and-static-electricity/issues/491
-    const releasedUtterance = new Utterance( {
-      alert: new ResponsePacket( { objectResponse: releasedString } ),
-      announcerOptions: {
-        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE, // for AriaLiveAnnouncer
-        cancelOther: false // for voicingManager
-      }
-    } );
+      // These Utterances should only be announced if the Node is globally visible and voicingVisible.
+      Voicing.registerUtteranceToVoicingNode( releasedUtterance, node );
+      Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, node );
+    }
 
     // @private - wrap the optional onRelease in logic that is needed for the core type.
     this.onRelease = () => {
@@ -577,6 +581,11 @@ class GrabDragInteraction extends EnabledComponent {
         if ( this.grabInteractiveHighlight.parent.hasChild( this.dragInteractiveHighlight ) ) {
           this.grabInteractiveHighlight.parent.removeChild( this.dragInteractiveHighlight );
         }
+      }
+
+      if ( node.isVoicing ) {
+        Voicing.unregisterUtteranceToVoicingNode( releasedUtterance, node );
+        Voicing.unregisterUtteranceToVoicingNode( this.voicingFocusUtterance, node );
       }
 
       // remove cue references
