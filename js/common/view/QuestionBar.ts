@@ -20,6 +20,8 @@ type SelfOptions = {
 };
 export type QuestionBarOptions = SelfOptions & Omit<StatusBarOptions, 'floatToTop'>
 
+const QUESTION_TEXT_MARGIN = 30;
+
 class QuestionBar extends StatusBar {
 
   constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
@@ -34,13 +36,14 @@ class QuestionBar extends StatusBar {
       font: new PhetFont( {
         weight: 'bold',
         size: '23px'
-      } )
+      } ),
+      maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2
     } );
     this.addChild( labelText );
 
     this.positioningBoundsProperty.link( bounds2 => {
       labelText.centerY = bounds2.centerY;
-      labelText.left = 30;
+      labelText.left = QUESTION_TEXT_MARGIN;
     } );
   }
 }
