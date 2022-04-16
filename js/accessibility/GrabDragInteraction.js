@@ -352,7 +352,7 @@ class GrabDragInteraction extends EnabledComponent {
       options.onRelease && options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
-      Voicing.alertUtterance( releasedUtterance );
+      node.isVoicing && Voicing.alertUtterance( releasedUtterance );
     };
     this.onGrab = options.onGrab; // @private
 
