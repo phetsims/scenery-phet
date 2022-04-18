@@ -89,7 +89,7 @@ export default class ArrowNode extends Path {
 
   /**
    * Update the internal shapePoints array which is used to populate the points in the Shape instance.
-   * @returns true if the number of points in the array has changed, which would require building a new shape instance.
+   * Returns true if the number of points in the array has changed, which would require building a new shape instance.
    */
   private updateShapePoints(): boolean {
     const numberOfPoints = this.shapePoints.length;

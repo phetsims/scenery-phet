@@ -319,7 +319,6 @@ sceneryPhet.register( 'NumberDisplay', NumberDisplay );
  * @param decimalPlaces - if null, use the full value
  * @param noValueString
  * @param numberFormatter - if provided, function that converts {number} => {string}
- * @returns {*|string}
  */
 const valueToString = <S extends number | null>( value: S, decimalPlaces: number | null, noValueString: string, numberFormatter: NumberFormatterOption ): ( S extends null ? ( string | null ) : string ) => {
   let stringValue = noValueString;

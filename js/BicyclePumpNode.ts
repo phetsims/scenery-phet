@@ -351,7 +351,6 @@ export default class BicyclePumpNode extends Node {
  * @param {number} width - the width of the base
  * @param {number} height - the height of the base
  * @param {ColorDef} fill
- * @returns {Node}
  */
 function createPumpBaseNode( width: number, height: number, fill: IColor ): Node {
 
