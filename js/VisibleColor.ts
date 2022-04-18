@@ -94,7 +94,7 @@ const VisibleColor = {
    * @param color
    * @param reduceIntensityAtExtrema
    */
-  colorToWavelength: function( color: IColorSubset, reduceIntensityAtExtrema = true ): number {
+  colorToWavelength: function( color: IColorSubset, reduceIntensityAtExtrema: boolean = true ): number {
 
     color = Color.toColor( color );
 
