@@ -283,7 +283,6 @@ export default class NumberControl extends Node {
     // highlight color for thumb defaults to a brighter version of the thumb color
     if ( options.sliderOptions.thumbFill && !options.sliderOptions.thumbFillHighlighted ) {
 
-      // @private {Property.<Color>}
       this.thumbFillProperty = new PaintColorProperty( options.sliderOptions.thumbFill );
 
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.

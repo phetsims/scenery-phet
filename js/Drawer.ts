@@ -248,7 +248,6 @@ export default class Drawer extends Node {
     };
     this.openProperty.lazyLink( openObserver ); // unlink in dispose
 
-    // @private
     this.disposeDrawer = () => {
       this.openProperty.unlink( openObserver );
       this.openProperty.dispose(); // will fail if clients haven't removed observers

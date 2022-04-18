@@ -36,7 +36,6 @@ export default class WireNode extends Path {
 
     super( null, options );
 
-    // @private
     this.multilink = Property.multilink( [
       position1Property, normal1Property, position2Property, normal2Property
     ], ( position1, normal1, position2, normal2 ) => {

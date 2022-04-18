@@ -72,7 +72,7 @@ class StatusBar extends Node {
 
     super( options );
 
-    // @public (read-only) for layout of UI components on the status bar, compensated for margins
+    // for layout of UI components on the status bar, compensated for margins
     const positioningBoundsProperty = new Property( Bounds2.EVERYTHING, {
       valueType: Bounds2
     } );

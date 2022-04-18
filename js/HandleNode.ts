@@ -186,7 +186,6 @@ export default class HandleNode extends Node {
 
     super( options );
 
-    // @private
     this.disposeHandleNode = () => {
       gripBaseColorProperty.dispose();
       brighterColorProperty.dispose();

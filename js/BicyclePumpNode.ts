@@ -252,7 +252,7 @@ export default class BicyclePumpNode extends Node {
     const shaftFillColorProperty = new PaintColorProperty( options.shaftFill );
     const shaftStrokeColorProperty = new PaintColorProperty( shaftFillColorProperty, { luminanceFactor: -0.38 } );
 
-    // @private create the pump shaft, which is the part below the handle and inside the body
+    // create the pump shaft, which is the part below the handle and inside the body
     this.pumpShaftNode = new Rectangle( 0, 0, pumpShaftWidth, pumpShaftHeight, {
       fill: shaftFillColorProperty,
       stroke: shaftStrokeColorProperty,
@@ -260,7 +260,7 @@ export default class BicyclePumpNode extends Node {
     } );
     this.pumpShaftNode.x = -pumpShaftWidth / 2;
 
-    // @private create the handle of the pump
+    // create the handle of the pump
     this.pumpHandleNode = createPumpHandleNode( options.handleFill );
     const pumpHandleHeight = height * PUMP_HANDLE_HEIGHT_PROPORTION;
     this.pumpHandleNode.touchArea =
@@ -314,7 +314,6 @@ export default class BicyclePumpNode extends Node {
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
 
-    // @private
     this.disposeBicyclePumpNode = () => {
       this.handleDragListener.dispose(); // to unregister tandem
 
@@ -353,7 +352,6 @@ export default class BicyclePumpNode extends Node {
  * @param {number} height - the height of the base
  * @param {ColorDef} fill
  * @returns {Node}
- * @private
  */
 function createPumpBaseNode( width: number, height: number, fill: IColor ): Node {
 

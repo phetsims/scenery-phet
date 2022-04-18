@@ -141,13 +141,11 @@ export default class EyeDropperNode extends Node {
 
     this.mutate( options );
 
-    // @private
     this.disposeEyeDropperNode = () => {
       button.dispose();
       this.isEmptyProperty.unlink( emptyObserver );
     };
 
-    // @public for clients who want to hide the button
     this.button = button;
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified

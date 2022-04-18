@@ -90,7 +90,6 @@ export default class SpectrumSliderThumb extends Path {
     const listener = ( value: number ) => this.setFill( options.valueToColor( value ) );
     property.link( listener );
 
-    // @private
     this.disposeSpectrumSliderThumb = () => property.unlink( listener );
   }
 

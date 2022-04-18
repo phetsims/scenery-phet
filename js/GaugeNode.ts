@@ -89,7 +89,6 @@ export default class GaugeNode extends Node {
 
     super();
 
-    // @public (read-only) {number}
     this.radius = options.radius;
 
     const anglePerTick = options.span / options.numberOfTicks;
@@ -197,7 +196,6 @@ export default class GaugeNode extends Node {
 
     this.mutate( options );
 
-    // @private
     this.disposeGaugeNode = () => {
       if ( valueProperty.hasListener( updateNeedle ) ) {
         valueProperty.unlink( updateNeedle );

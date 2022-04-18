@@ -42,7 +42,7 @@ export default class BackgroundNode extends Node {
 
     super();
 
-    // @public (read-only) {Rectangle} - translucent rectangle, initial size is arbitrary since it is resized below
+    // translucent rectangle, initial size is arbitrary since it is resized below
     this.background = new Rectangle( 0, 0, 1, 1, options.rectangleOptions );
 
     // Wrap the provided Node in a parent to avoid unneeded notifications in the bounds-change listener.

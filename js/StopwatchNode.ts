@@ -290,7 +290,6 @@ export default class StopwatchNode extends Node {
       tandem: options.tandem.createTandem( 'stopwatch' )
     } );
 
-    // @private
     this.disposeStopwatchNode = () => {
       stopwatch.isVisibleProperty.unlink( stopwatchVisibleListener );
       stopwatch.timeProperty.unlink( timeListener );
@@ -308,7 +307,6 @@ export default class StopwatchNode extends Node {
       adjustedDragBoundsProperty && adjustedDragBoundsProperty.dispose();
     };
 
-    // @private
     this.numberDisplay = numberDisplay;
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified

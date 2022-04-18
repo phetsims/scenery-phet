@@ -43,7 +43,6 @@ export default class TemperatureAndColorSensorNode extends Node {
    * @param temperatureProperty
    * @param colorProperty
    * @param providedOptions
-   * @public
    */
   constructor( temperatureRange: Range, temperatureProperty: IProperty<number>, colorProperty: IProperty<IColor>,
                providedOptions?: TemperatureAndColorSensorNodeOptions ) {

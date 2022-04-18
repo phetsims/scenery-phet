@@ -353,9 +353,6 @@ export default class GradientRectangle extends Rectangle {
 
   /**
    * Gets the top-side margin amount.
-   * @public
-   *
-   * @returns {number}
    */
   public get topMargin(): number {
     return this._topMargin;
