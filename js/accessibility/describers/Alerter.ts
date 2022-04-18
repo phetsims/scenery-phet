@@ -26,8 +26,9 @@ export type AlerterOptions = {
 }
 
 class Alerter {
-  alertToVoicing: boolean;
-  descriptionAlertNode: Node | null;
+
+  readonly alertToVoicing: boolean;
+  readonly descriptionAlertNode: Node | null;
 
   constructor( providedOptions?: AlerterOptions ) {
 
@@ -36,10 +37,7 @@ class Alerter {
       descriptionAlertNode: null
     }, providedOptions );
 
-    // @public - only subtypes can mutate
     this.alertToVoicing = options.alertToVoicing;
-
-    // @public (read-only)
     this.descriptionAlertNode = options.descriptionAlertNode;
   }
 
