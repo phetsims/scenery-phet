@@ -44,7 +44,7 @@ export default class SpectrumNode extends Node {
 
   constructor( providedOptions?: SpectrumNodeOptions ) {
 
-    const options = optionize<SpectrumNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<SpectrumNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       size: DEFAULT_SIZE,

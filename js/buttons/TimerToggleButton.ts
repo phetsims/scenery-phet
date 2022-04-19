@@ -28,7 +28,7 @@ export default class TimerToggleButton extends BooleanRectangularToggleButton {
 
   constructor( timerRunningProperty: IProperty<boolean>, provideOptions?: TimerToggleButtonOptions ) {
 
-    const options = optionize<TimerToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>( {
+    const options = optionize<TimerToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 
       // BooleanRectangularToggleButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,

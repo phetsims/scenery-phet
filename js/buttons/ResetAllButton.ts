@@ -37,7 +37,7 @@ export default class ResetAllButton extends ResetButton {
 
   constructor( providedOptions?: ResetAllButtonOptions ) {
 
-    const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions, 'radius'>( {
+    const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions>()( {
 
       // ResetAllButtonOptions
       radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,

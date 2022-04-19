@@ -37,7 +37,7 @@ export default class LineArrowNode extends Node {
 
   constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: LineArrowNodeOptions ) {
 
-    const options = optionize<LineArrowNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<LineArrowNodeOptions, SelfOptions, NodeOptions>()( {
       stroke: 'black',
       headHeight: 10,
       headWidth: 10,

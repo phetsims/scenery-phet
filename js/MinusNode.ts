@@ -28,7 +28,7 @@ class MinusNode extends Rectangle {
    */
   constructor( providedOptions: MinusNodeOptions ) {
 
-    const options = optionize<MinusNodeOptions, SelfOptions, RectangleOptions>( {
+    const options = optionize<MinusNodeOptions, SelfOptions, RectangleOptions>()( {
 
       // SelfOptions
       size: DEFAULT_SIZE,

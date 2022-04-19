@@ -29,7 +29,7 @@ export default class BucketFront extends Node {
 
   constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
 
-    const options = optionize<BucketFrontOptions, Omit<SelfOptions, 'labelNode'>, NodeOptions, 'tandem'>( {
+    const options = optionize<BucketFrontOptions, Omit<SelfOptions, 'labelNode'>, NodeOptions>()( {
       tandem: Tandem.REQUIRED,
       cursor: 'pointer'
     }, providedOptions );

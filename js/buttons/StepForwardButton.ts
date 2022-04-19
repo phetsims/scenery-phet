@@ -19,7 +19,7 @@ export default class StepForwardButton extends StepButton {
 
   constructor( providedOptions?: StepForwardButtonOptions ) {
 
-    const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>( {
+    const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>()( {
 
       // StepButtonOptions
       direction: 'forward'

@@ -29,7 +29,7 @@ export default class SimpleClockIcon extends Node {
 
     super();
 
-    const options = optionize<SimpleClockIconOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<SimpleClockIconOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       fill: 'white',

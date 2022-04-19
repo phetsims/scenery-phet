@@ -49,8 +49,7 @@ export default class ZoomButtonGroup extends LayoutBox {
 
     const zoomLevelRange = zoomLevelProperty.range;
 
-    const options = optionize<ZoomButtonGroupOptions, SelfOptions, LayoutBoxOptions,
-      'spacing' | 'tandem'>( {
+    const options = optionize<ZoomButtonGroupOptions, SelfOptions, LayoutBoxOptions>()( {
 
       // ZoomButtonGroupOptions
       applyZoomIn: ( currentZoom: number ) => currentZoom + 1,

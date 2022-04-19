@@ -52,7 +52,7 @@ export default class WavelengthNumberControl extends NumberControl {
    */
   constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
-    const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>( {
+    const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>()( {
       title: wavelengthString,
       range: DEFAULT_RANGE,
       spectrumSliderTrackOptions: {
@@ -75,17 +75,17 @@ export default class WavelengthNumberControl extends NumberControl {
     }
 
     const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,
-      optionize<SpectrumSliderTrackOptions, {}, SpectrumSliderTrackOptions>( {
+      optionize<SpectrumSliderTrackOptions, {}, SpectrumSliderTrackOptions>()( {
         tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.TRACK_NODE_TANDEM_NAME )
       }, options.spectrumSliderTrackOptions ) );
 
     const thumbNode = new SpectrumSliderThumb( wavelengthProperty,
-      optionize<SpectrumSliderThumbOptions, {}, SpectrumSliderThumbOptions>( {
+      optionize<SpectrumSliderThumbOptions, {}, SpectrumSliderThumbOptions>()( {
         tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.THUMB_NODE_TANDEM_NAME )
       }, options.spectrumSliderThumbOptions ) );
 
     super( options.title, wavelengthProperty, options.range,
-      optionize<NumberControlOptions, {}, NumberControlOptions>( {
+      optionize<NumberControlOptions, {}, NumberControlOptions>()( {
         titleNodeOptions: {
           font: new PhetFont( 15 ),
           maxWidth: 175

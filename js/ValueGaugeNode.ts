@@ -40,7 +40,7 @@ export default class ValueGaugeNode extends GaugeNode {
    */
   constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range, providedOptions?: ValueGaugeNodeOptions ) {
 
-    const options = optionize<ValueGaugeNodeOptions, SelfOptions, GaugeNodeOptions>( {
+    const options = optionize<ValueGaugeNodeOptions, SelfOptions, GaugeNodeOptions>()( {
 
       // SelfOptions
       numberDisplayOptions: {

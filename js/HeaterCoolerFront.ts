@@ -88,7 +88,7 @@ export default class HeaterCoolerFront extends Node {
   constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerFrontOptions ) {
     super();
 
-    const options = optionize<HeaterCoolerFrontOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<HeaterCoolerFrontOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
@@ -176,7 +176,7 @@ export default class HeaterCoolerFront extends Node {
     };
 
     this.slider = new VSlider( heatCoolAmountProperty, sliderRange,
-      optionize<SliderOptions, {}, SliderOptions>( {
+      optionize<SliderOptions, {}, SliderOptions>()( {
         thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
         thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
         thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,

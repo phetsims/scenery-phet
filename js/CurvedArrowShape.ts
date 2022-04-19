@@ -32,7 +32,7 @@ export default class CurvedArrowShape extends Shape {
    */
   constructor( radius: number, startAngle: number, endAngle: number, providedOptions?: CurvedArrowShapeOptions ) {
 
-    const options = optionize<CurvedArrowShapeOptions, SelfOptions>( {
+    const options = optionize<CurvedArrowShapeOptions, SelfOptions>()( {
 
       // SelfOptions
       doubleHead: false,

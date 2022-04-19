@@ -36,7 +36,7 @@ export default class WavelengthSlider extends SpectrumSlider {
   constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthSliderOptions ) {
 
     // options that are specific to this type
-    const options = optionize<WavelengthSliderOptions, SelfOptions, SpectrumSliderOptions>( {
+    const options = optionize<WavelengthSliderOptions, SelfOptions, SpectrumSliderOptions>()( {
 
       // SelfOptions
       minWavelength: VisibleColor.MIN_WAVELENGTH,

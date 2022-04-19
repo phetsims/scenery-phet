@@ -79,7 +79,7 @@ export default class Drawer extends Node {
    */
   constructor( contentsNode: Node, provideOptions?: DrawerOptions ) {
 
-    const options = optionize<DrawerOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<DrawerOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       size: null,

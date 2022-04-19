@@ -32,7 +32,7 @@ class Alerter {
 
   constructor( providedOptions?: AlerterOptions ) {
 
-    const options = optionize<AlerterOptions>( {
+    const options = optionize<AlerterOptions>()( {
       alertToVoicing: true,
       descriptionAlertNode: null
     }, providedOptions );

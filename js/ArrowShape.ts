@@ -66,7 +66,7 @@ export default class ArrowShape extends Shape {
   public static getArrowShapePoints( tailX: number, tailY: number, tipX: number, tipY: number, shapePoints: Vector2[],
                                      providedOptions?: ArrowShapeOptions ): Vector2[] {
 
-    const options = optionize<ArrowShapeOptions>( {
+    const options = optionize<ArrowShapeOptions>()( {
 
       // ArrowShapeOptions
       tailWidth: 5,

@@ -29,7 +29,7 @@ export default class RestartButton extends RoundPushButton {
 
   constructor( providedOptions?: RestartButtonOptions ) {
 
-    const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>( {}, providedOptions );
+    const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>()( {}, providedOptions );
 
     const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
     const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {

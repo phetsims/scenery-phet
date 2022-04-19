@@ -48,7 +48,7 @@ export default class TemperatureAndColorSensorNode extends Node {
                providedOptions?: TemperatureAndColorSensorNodeOptions ) {
     super();
 
-    const options = optionize<TemperatureAndColorSensorNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<TemperatureAndColorSensorNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       horizontalSpace: 3,
@@ -87,7 +87,7 @@ export default class TemperatureAndColorSensorNode extends Node {
       temperatureRange.min,
       temperatureRange.max,
       temperatureProperty,
-      optionize<ThermometerNodeOptions, {}, ThermometerNodeOptions>( {
+      optionize<ThermometerNodeOptions, {}, ThermometerNodeOptions>()( {
         left: this.colorIndicatorNode.right + options.horizontalSpace,
         bottom: this.colorIndicatorNode.bottom + options.bottomOffset
       }, options.thermometerNodeOptions )

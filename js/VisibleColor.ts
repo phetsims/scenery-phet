@@ -52,7 +52,7 @@ const VisibleColor = {
    */
   wavelengthToColor: function( wavelength: number, providedOptions?: WavelengthToColorOptions ) {
 
-    const options = optionize<WavelengthToColorOptions>( {
+    const options = optionize<WavelengthToColorOptions>()( {
       irColor: null,
       uvColor: null,
       reduceIntensityAtExtrema: true

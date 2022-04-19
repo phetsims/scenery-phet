@@ -43,7 +43,7 @@ export default class SegmentedBarGraphNode extends Node {
                rangeProperty: IReadOnlyProperty<Range>,
                providedOptions?: SegmentedBarGraphNodeOptions ) {
 
-    const options = optionize<SegmentedBarGraphNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<SegmentedBarGraphNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       width: 10,

@@ -30,7 +30,7 @@ export default class WireNode extends Path {
    */
   constructor( position1Property: IReadOnlyProperty<Vector2>, normal1Property: IReadOnlyProperty<Vector2>, position2Property: IReadOnlyProperty<Vector2>, normal2Property: IReadOnlyProperty<Vector2>, options?: WireNodeOptions ) {
 
-    options = optionize<WireNodeOptions, {}, PathOptions>( {
+    options = optionize<WireNodeOptions, {}, PathOptions>()( {
       stroke: 'black'
     }, options );
 

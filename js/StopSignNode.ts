@@ -34,7 +34,7 @@ export default class StopSignNode extends Node {
    */
   constructor( providedOptions?: StopSignNodeOptions ) {
 
-    const options = optionize<StopSignNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<StopSignNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       fillRadius: 23,

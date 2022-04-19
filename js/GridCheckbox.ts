@@ -30,7 +30,7 @@ export default class GridCheckbox extends Checkbox {
    */
   constructor( property: IProperty<boolean>, providedOptions?: GridCheckboxOptions ) {
 
-    const options = optionize<GridCheckboxOptions, SelfOptions, CheckboxOptions>( {
+    const options = optionize<GridCheckboxOptions, SelfOptions, CheckboxOptions>()( {
 
       // options for the grid icon
       gridSize: 30, // {number} square grid with this width and height

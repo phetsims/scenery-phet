@@ -28,7 +28,7 @@ export default class ZoomButton extends RectangularPushButton {
 
   constructor( providedOptions?: ZoomButtonOptions ) {
 
-    const options = optionize<ZoomButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<ZoomButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // SelfOptions
       in: true,
@@ -47,7 +47,7 @@ export default class ZoomButton extends RectangularPushButton {
     const icon = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
     const magnifyingGlassNode = new MagnifyingGlassNode(
-      optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>( {
+      optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
         icon: icon
       }, options.magnifyingGlassOptions ) );
 

@@ -24,7 +24,7 @@ export default class WavelengthSpectrumNode extends SpectrumNode {
 
   constructor( providedOptions?: WavelengthSpectrumNodeOptions ) {
 
-    const options = optionize<WavelengthSpectrumNodeOptions, SelfOptions, SpectrumNodeOptions>( {
+    const options = optionize<WavelengthSpectrumNodeOptions, SelfOptions, SpectrumNodeOptions>()( {
       valueToColor: ( value: number ) => VisibleColor.wavelengthToColor( value ),
       minWavelength: VisibleColor.MIN_WAVELENGTH,
       maxWavelength: VisibleColor.MAX_WAVELENGTH,

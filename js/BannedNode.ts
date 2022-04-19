@@ -26,7 +26,7 @@ export default class BannedNode extends Node {
    */
   constructor( providedOptions?: BannedNodeOptions ) {
 
-    const options = optionize<BannedNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<BannedNodeOptions, SelfOptions, NodeOptions>()( {
       radius: 20,
       lineWidth: 5,
       stroke: 'red',

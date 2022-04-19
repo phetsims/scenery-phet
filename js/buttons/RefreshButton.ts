@@ -24,7 +24,7 @@ export default class RefreshButton extends RectangularPushButton {
 
   constructor( providedOptions?: RefreshButtonOptions ) {
 
-    const options = optionize<RefreshButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<RefreshButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // RefreshButtonOptions
       iconHeight: 35,

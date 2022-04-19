@@ -27,7 +27,7 @@ export default class CloseButton extends RectangularPushButton {
 
   constructor( providedOptions?: CloseButtonOptions ) {
 
-    const options = optionize<CloseButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<CloseButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // SelfOptions
       iconLength: 16,

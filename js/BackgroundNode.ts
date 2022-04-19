@@ -29,7 +29,7 @@ export default class BackgroundNode extends Node {
    */
   constructor( node: Node, providedOptions?: BackgroundNodeOptions ) {
 
-    const options = optionize<BackgroundNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<BackgroundNodeOptions, SelfOptions, NodeOptions>()( {
 
       // BackgroundNodeOptions
       xMargin: 2,

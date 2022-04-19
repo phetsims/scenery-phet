@@ -54,7 +54,7 @@ export default class HeaterCoolerNode extends Node {
   constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerNodeOptions ) {
     super();
 
-    const options = optionize<HeaterCoolerNodeOptions, Omit<SelfOptions, 'frontOptions' | 'backOptions'>, NodeOptions>( {
+    const options = optionize<HeaterCoolerNodeOptions, Omit<SelfOptions, 'frontOptions' | 'backOptions'>, NodeOptions>()( {
 
       // SelfOptions
       baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,

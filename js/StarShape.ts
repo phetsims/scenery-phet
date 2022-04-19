@@ -31,7 +31,7 @@ export default class StarShape extends Shape {
    */
   constructor( providedOptions?: StarShapeOptions ) {
 
-    const options = optionize<StarShapeOptions, SelfOptions>( {
+    const options = optionize<StarShapeOptions, SelfOptions>()( {
 
       // SelfOptions
       outerRadius: 15,

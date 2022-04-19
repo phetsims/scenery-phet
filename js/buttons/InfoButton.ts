@@ -23,7 +23,7 @@ export default class InfoButton extends RoundPushButton {
 
   constructor( providedOptions?: InfoButtonOptions ) {
 
-    const options = optionize<InfoButtonOptions, SelfOptions, RoundPushButtonOptions>( {
+    const options = optionize<InfoButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
 
       // SelfOptions
       iconFill: 'black',

@@ -13,7 +13,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
 import { IColor, LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
@@ -71,7 +71,7 @@ type SelfOptions = {
 
 export type LaserPointerNodeOptions = SelfOptions & NodeOptions;
 
-const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>( {
+const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>()( {
 
   // nozzle and body options
   bodySize: new Dimension2( 110, 78 ),
@@ -128,7 +128,7 @@ export default class LaserPointerNode extends Node {
    */
   constructor( onProperty: IProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
 
-    const options = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>(
+    const options = optionize3<LaserPointerNodeOptions, SelfOptions, NodeOptions>()(
       {}, DEFAULT_OPTIONS, providedOptions );
 
     assert && assert( options.highlightColorStop > 0 && options.highlightColorStop < 1 );

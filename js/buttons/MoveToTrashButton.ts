@@ -27,7 +27,7 @@ export default class MoveToTrashButton extends RectangularPushButton {
 
   constructor( providedOptions?: MoveToTrashButtonOptions ) {
 
-    const options = optionize<MoveToTrashButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<MoveToTrashButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // MoveToTrashButtonOptions
       arrowColor: 'black',

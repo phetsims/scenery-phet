@@ -21,7 +21,7 @@ export default class StarButton extends RectangularPushButton {
 
   constructor( providedOptions?: StarButtonOptions ) {
 
-    const options = optionize<StarButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<StarButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // RectangularPushButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,

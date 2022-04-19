@@ -27,7 +27,7 @@ export default class BackspaceIcon extends Path {
    */
   constructor( providedOptions?: BackspaceIconOptions ) {
 
-    const options = optionize<BackspaceIconOptions, SelfOptions, PathOptions>( {
+    const options = optionize<BackspaceIconOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
       size: new Dimension2( 15, 10 ),

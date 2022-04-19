@@ -29,7 +29,7 @@ export default class SpectrumSliderTrack extends SliderTrack {
    */
   constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
 
-    const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>( {
+    const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>()( {
       size: new Dimension2( 150, 30 ),
       valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
     }, providedOptions );

@@ -108,7 +108,7 @@ export default class BicyclePumpNode extends Node {
                rangeProperty: IReadOnlyProperty<Range>,
                providedOptions?: BicyclePumpNodeOptions ) {
 
-    const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       width: 200,
@@ -286,7 +286,7 @@ export default class BicyclePumpNode extends Node {
 
     this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
       options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-      optionize<HandleDragListenerOptions, {}, HandleDragListenerOptions>( {
+      optionize<HandleDragListenerOptions, {}, HandleDragListenerOptions>()( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
       }, options.dragListenerOptions )
     );
@@ -674,7 +674,7 @@ class HandleDragListener extends DragListener {
 
     assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
-    const options = optionize<HandleDragListenerOptions, HandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>( {
+    const options = optionize<HandleDragListenerOptions, HandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>()( {
 
       // HandleDragListenerSelfOptions
       numberOfParticlesPerPumpAction: 10,

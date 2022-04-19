@@ -53,7 +53,7 @@ export default class BracketNode extends Node {
    */
   constructor( providedOptions?: BracketNodeOptions ) {
 
-    const options = optionize<BracketNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<BracketNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       orientation: 'down',

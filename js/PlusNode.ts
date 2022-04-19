@@ -29,7 +29,7 @@ export default class PlusNode extends Path {
    */
   constructor( providedOptions: PlusNodeOptions ) {
 
-    const options = optionize<PlusNodeOptions, SelfOptions, PathOptions>( {
+    const options = optionize<PlusNodeOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
       size: DEFAULT_SIZE,

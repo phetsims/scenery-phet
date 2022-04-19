@@ -24,7 +24,7 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
 
   constructor( recordingProperty: IProperty<boolean>, providedOptions?: RecordStopButtonOptions ) {
 
-    const options = optionize<RecordStopButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>( {
+    const options = optionize<RecordStopButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 
       // RecordStopButtonOptions
       radius: 30,

@@ -93,7 +93,7 @@ export default class NumberControl extends Node {
     validateCallbacks( providedOptions || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    const initialOptions = optionize<NumberControlOptions, Omit<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions, 'tandem' >( {
+    const initialOptions = optionize<NumberControlOptions, Omit<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions >()( {
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()

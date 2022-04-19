@@ -89,7 +89,7 @@ class ConductivityTesterNode extends Node {
                providedOptions?: ConductivityTesterNodeOptions ) {
 
     // NOTE! Since positionProperty determines translation, avoid options related to translation!
-    const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>()( {
 
       modelViewTransform: ModelViewTransform2.createIdentity(),
       interactive: true, // set to false if you're creating an icon
@@ -315,7 +315,7 @@ class ConductivityTesterNode extends Node {
                             bothProbesYOffset: number,
                             providedOptions: Omit<ConductivityTesterNodeOptions, 'interactive'> ): Node {
 
-    const options = optionize<ConductivityTesterNodeOptions, {}, ConductivityTesterNodeOptions>( {
+    const options = optionize<ConductivityTesterNodeOptions, {}, ConductivityTesterNodeOptions>()( {
       interactive: false
     }, providedOptions );
 
@@ -352,7 +352,7 @@ class ProbeNode extends Node {
 
   constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
 
-    const options = optionize<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>( {
+    const options = optionize<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>()( {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',

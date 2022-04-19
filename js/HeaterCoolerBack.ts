@@ -39,7 +39,7 @@ export default class HeaterCoolerBack extends Node {
   constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerBackOptions ) {
     super();
 
-    const options = optionize<HeaterCoolerBackOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<HeaterCoolerBackOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR

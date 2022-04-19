@@ -32,7 +32,7 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
    */
   constructor( zoomLevelProperty: RangedProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
 
-    const options = optionize<MagnifyingGlassZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>( {
+    const options = optionize<MagnifyingGlassZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>()( {
 
       // SelfOptions
       magnifyingGlassNodeOptions: {
@@ -53,12 +53,12 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
     };
 
     // magnifying glass with '+'
-    const zoomInIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>( {
+    const zoomInIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
       icon: new PlusNode( signOptions )
     }, options.magnifyingGlassNodeOptions ) );
 
     // magnifying glass with '-'
-    const zoomOutIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>( {
+    const zoomOutIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
       icon: new MinusNode( signOptions )
     }, options.magnifyingGlassNodeOptions ) );
 

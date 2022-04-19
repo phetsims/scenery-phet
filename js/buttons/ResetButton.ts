@@ -31,7 +31,7 @@ export default class ResetButton extends RoundPushButton {
     // radius is used in computation of defaults for other options
     const BUTTON_RADIUS = ( providedOptions && providedOptions.radius ) ? providedOptions.radius : 24;
 
-    const options = optionize<ResetButtonOptions, SelfOptions, RoundPushButtonOptions>( {
+    const options = optionize<ResetButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
 
       // SelfOptions
       radius: BUTTON_RADIUS,

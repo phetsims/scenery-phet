@@ -48,7 +48,7 @@ class StatusBar extends Node {
    */
   constructor( layoutBounds: Bounds2, visibleBoundsProperty: IProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
 
-    const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>()( {
 
       // StatusBarOptions
       barFill: 'lightGray',

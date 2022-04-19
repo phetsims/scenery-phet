@@ -49,7 +49,7 @@ export default class Stopwatch extends PhetioObject {
 
   constructor( providedOptions?: StopwatchOptions ) {
 
-    const options = optionize<StopwatchOptions, SelfOptions, PhetioObjectOptions, 'tandem'>( {
+    const options = optionize<StopwatchOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // SelfOptions
       position: Vector2.ZERO,
@@ -83,7 +83,7 @@ export default class Stopwatch extends PhetioObject {
       tandem: options.tandem.createTandem( 'isRunningProperty' )
     } );
 
-    this.timeProperty = new NumberProperty( 0, optionize<NumberPropertyOptions, {}, NumberPropertyOptions>( {
+    this.timeProperty = new NumberProperty( 0, optionize<NumberPropertyOptions, {}, NumberPropertyOptions>()( {
       tandem: options.tandem.createTandem( 'timeProperty' )
     }, options.timePropertyOptions ) );
 

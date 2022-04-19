@@ -47,7 +47,7 @@ export default class HandleNode extends Node {
 
   constructor( providedOptions?: HandleNodeOptions ) {
 
-    const options = optionize<HandleNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<HandleNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       gripBaseColor: 'rgb( 183, 184, 185 )',
@@ -164,7 +164,7 @@ export default class HandleNode extends Node {
     // left attachment
     if ( options.hasLeftAttachment ) {
 
-      const leftAttachmentPath = new Path( leftAttachmentShape, optionize<PathOptions, {}, PathOptions>( {
+      const leftAttachmentPath = new Path( leftAttachmentShape, optionize<PathOptions, {}, PathOptions>()( {
         right: gripPath.left + options.gripLineWidth
       }, attachmentOptions ) );
 
@@ -177,7 +177,7 @@ export default class HandleNode extends Node {
       const rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
       // handle right attachment
-      const rightAttachmentPath = new Path( rightAttachmentShape, optionize<PathOptions, {}, PathOptions>( {
+      const rightAttachmentPath = new Path( rightAttachmentShape, optionize<PathOptions, {}, PathOptions>()( {
         left: gripPath.right - options.gripLineWidth
       }, attachmentOptions ) );
 

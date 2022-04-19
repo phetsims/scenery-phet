@@ -68,7 +68,7 @@ export default class EyeDropperNode extends Node {
    */
   constructor( provideOptions?: EyeDropperNodeOptions ) {
 
-    const options = optionize<EyeDropperNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<EyeDropperNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       isDispensingProperty: new Property<boolean>( false ),
@@ -118,7 +118,7 @@ export default class EyeDropperNode extends Node {
 
     // button, centered in the dropper's bulb
     const button = new RoundMomentaryButton( false, true, this.isDispensingProperty,
-      optionize<RoundMomentaryButtonOptions, {}, RoundMomentaryButtonOptions>( {
+      optionize<RoundMomentaryButtonOptions, {}, RoundMomentaryButtonOptions>()( {
         centerX: foreground.centerX,
         centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
         tandem: options.tandem.createTandem( 'button' )

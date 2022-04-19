@@ -51,7 +51,7 @@ export default class FaceWithPointsNode extends Node {
    */
   constructor( providedOptions?: FaceWithPointsNodeOptions ) {
 
-    const options = optionize<FaceWithPointsNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<FaceWithPointsNodeOptions, SelfOptions, NodeOptions>()( {
 
       // FaceWithPointsNodeOptions
       spacing: 2,

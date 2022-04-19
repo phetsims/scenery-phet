@@ -11,7 +11,7 @@
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
 import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -36,7 +36,7 @@ export default class FineCoarseSpinner extends Node {
   constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
 
     const options = optionize<FineCoarseSpinnerOptions,
-      Omit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions, 'tandem'>( {
+      Omit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
 
       // SelfOptions
       range: null,
@@ -57,7 +57,7 @@ export default class FineCoarseSpinner extends Node {
     assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
 
     // options for the 'fine' arrow buttons, which show 1 arrow
-    const fineButtonOptions: ArrowButtonOptions = optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {
+    const fineButtonOptions: ArrowButtonOptions = optionize<ArrowButtonOptions, {}, ArrowButtonOptions>()( {
       numberOfArrows: 1,
       arrowWidth: 12, // width of base
       arrowHeight: 14, // from tip to base
@@ -79,7 +79,7 @@ export default class FineCoarseSpinner extends Node {
     const fineButtonArrowHeight = fineButtonOptions.arrowHeight!;
 
     // options for the 'coarse' arrow buttons, which show 2 arrows
-    const coarseButtonOptions = optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions, {
+    const coarseButtonOptions = optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, fineButtonOptions, {
       numberOfArrows: 2,
       arrowSpacing: -0.5 * fineButtonArrowHeight, // arrows overlap
 
@@ -93,33 +93,33 @@ export default class FineCoarseSpinner extends Node {
     // <
     const decrementFineButton = new ArrowButton( 'left', ( () => {
       numberProperty.value = numberProperty.value - options.deltaFine;
-    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions,
+    } ), optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, fineButtonOptions,
       { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
     const decrementCoarseButton = new ArrowButton( 'left', ( () => {
       const delta = Math.min( options.deltaCoarse, numberProperty.value - range.min );
       numberProperty.value = numberProperty.value - delta;
-    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, coarseButtonOptions,
+    } ), optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, coarseButtonOptions,
       { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
 
     // [ value ]
     const numberDisplay = new NumberDisplay( numberProperty, range,
-      optionize<NumberDisplayOptions, {}, NumberDisplayOptions>( {
+      optionize<NumberDisplayOptions, {}, NumberDisplayOptions>()( {
         tandem: options.tandem.createTandem( 'numberDisplay' )
       }, options.numberDisplayOptions ) );
 
     // >
     const incrementFineButton = new ArrowButton( 'right', ( () => {
       numberProperty.value = numberProperty.value + options.deltaFine;
-    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, fineButtonOptions,
+    } ), optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, fineButtonOptions,
       { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
     const incrementCoarseButton = new ArrowButton( 'right', ( () => {
       const delta = Math.min( options.deltaCoarse, range.max - numberProperty.value );
       numberProperty.value = numberProperty.value + delta;
-    } ), optionize<ArrowButtonOptions, {}, ArrowButtonOptions>( {}, coarseButtonOptions,
+    } ), optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, coarseButtonOptions,
       { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >

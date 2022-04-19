@@ -26,7 +26,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
   constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseButtonOptions ) {
 
-    const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions, 'radius'>( {
+    const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 
       // PlayPauseButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,

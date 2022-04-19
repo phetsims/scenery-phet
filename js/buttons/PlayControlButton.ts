@@ -55,7 +55,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
    */
   constructor( isPlayingProperty: IProperty<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
 
-    const options = optionize<PlayControlButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>( {
+    const options = optionize<PlayControlButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 
       // SelfOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,

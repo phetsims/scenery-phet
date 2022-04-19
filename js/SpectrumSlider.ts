@@ -96,7 +96,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
-    const options = optionize<SpectrumSliderOptions, SelfOptions, AccessibleSliderOptions, 'tandem'>( {
+    const options = optionize<SpectrumSliderOptions, SelfOptions, AccessibleSliderOptions>()( {
 
       // SelfOptions
       minValue: 0,
@@ -378,7 +378,7 @@ class Thumb extends Path {
 
   constructor( width: number, height: number, providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}, PathOptions>( {
+    const options = optionize<PathOptions, {}, PathOptions>()( {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1

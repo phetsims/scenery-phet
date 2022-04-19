@@ -24,7 +24,7 @@ export default class EraserButton extends RectangularPushButton {
 
   constructor( providedOptions?: EraserButtonOptions ) {
 
-    const options = optionize<EraserButtonOptions, SelfOptions, RectangularPushButtonOptions>( {
+    const options = optionize<EraserButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 
       // SelfOptions
       iconWidth: 20,

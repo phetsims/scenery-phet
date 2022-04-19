@@ -47,7 +47,7 @@ export default class ArrowNode extends Path {
   constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
 
     // default options
-    const options = optionize<ArrowNodeOptions, SelfOptions, PathOptions>( {
+    const options = optionize<ArrowNodeOptions, SelfOptions, PathOptions>()( {
       headHeight: 10,
       headWidth: 10,
       tailWidth: 5,

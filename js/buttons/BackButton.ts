@@ -30,7 +30,7 @@ export default class BackButton extends RectangularPushButton {
 
   constructor( providedOptions?: BackButtonOptions ) {
 
-    const options = optionize<BackButtonOptions, Omit<SelfOptions, 'soundPlayer'>, RectangularPushButtonOptions>( {
+    const options = optionize<BackButtonOptions, Omit<SelfOptions, 'soundPlayer'>, RectangularPushButtonOptions>()( {
 
       // Default margin values were set up to make this button match the size of the refresh button, since these
       // buttons often appear together.  See see https://github.com/phetsims/scenery-phet/issues/44.

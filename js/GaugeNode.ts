@@ -62,7 +62,7 @@ export default class GaugeNode extends Node {
    */
   constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range, providedOptions?: GaugeNodeOptions ) {
 
-    const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       radius: 100,

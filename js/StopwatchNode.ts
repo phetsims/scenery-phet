@@ -117,7 +117,7 @@ export default class StopwatchNode extends Node {
    */
   constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
-    const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       cursor: 'pointer',
@@ -261,7 +261,7 @@ export default class StopwatchNode extends Node {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      const dragListenerOptions = optionize<DragListenerOptions<PressedDragListener>, {}, DragListenerOptions<PressedDragListener>>( {
+      const dragListenerOptions = optionize<DragListenerOptions<PressedDragListener>, {}, DragListenerOptions<PressedDragListener>>()( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
@@ -354,7 +354,7 @@ export default class StopwatchNode extends Node {
    */
   public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => string {
 
-    const options = optionize<FormatterOptions>( {
+    const options = optionize<FormatterOptions>()( {
 
       // If true, the time value is converted to minutes and seconds, and the format looks like 59:59.00.
       // If false, time is formatted as a decimal value, like 123.45

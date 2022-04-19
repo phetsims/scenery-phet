@@ -95,7 +95,7 @@ export default class NumberDisplay extends Node {
    */
   constructor( numberProperty: IReadOnlyProperty<number | null>, displayRange: Range, providedOptions?: NumberDisplayOptions ) {
 
-    const options = optionize<NumberDisplayOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<NumberDisplayOptions, SelfOptions, NodeOptions>()( {
       align: 'right',
       valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
       decimalPlaces: DEFAULT_DECIMAL_PLACES,

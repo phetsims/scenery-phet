@@ -37,7 +37,7 @@ export default class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
    */
   constructor( zoomLevelProperty: RangedProperty, providedOptions?: PlusMinusZoomButtonGroupOptions ) {
 
-    const options = optionize<PlusMinusZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>( {
+    const options = optionize<PlusMinusZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>()( {
 
       // SelfOptions
       iconOptions: {

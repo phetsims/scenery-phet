@@ -30,7 +30,7 @@ export default class SpectrumSliderThumb extends Path {
 
   constructor( property: IReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
 
-    const options = optionize<SpectrumSliderThumbOptions, SelfOptions, PathOptions>( {
+    const options = optionize<SpectrumSliderThumbOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
       width: 35,

@@ -37,7 +37,7 @@ export default class FaceNode extends Node {
   constructor( headDiameter: number, providedOptions?: FaceNodeOptions ) {
 
     // default options
-    const options = optionize<FaceNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<FaceNodeOptions, SelfOptions, NodeOptions>()( {
       headFill: Color.YELLOW,
       headStroke: null,
       eyeFill: 'black',

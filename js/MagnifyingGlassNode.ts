@@ -22,7 +22,7 @@ export default class MagnifyingGlassNode extends Node {
 
   constructor( providedOptions: MagnifyingGlassNodeOptions ) {
 
-    const options = optionize<MagnifyingGlassNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<MagnifyingGlassNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       glassRadius: 15,

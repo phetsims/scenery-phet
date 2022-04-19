@@ -80,7 +80,7 @@ export default class ThermometerNode extends Node {
    */
   constructor( minTemperature: number, maxTemperature: number, temperatureProperty: IProperty<number | null>, providedOptions?: ThermometerNodeOptions ) {
 
-    const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions>()( {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 100,

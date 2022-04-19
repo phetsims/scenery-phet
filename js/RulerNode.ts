@@ -66,7 +66,7 @@ class RulerNode extends Node {
                units: string, providedOptions?: RulerNodeOptions ) {
 
     // default options
-    const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       backgroundFill: RulerNode.DEFAULT_FILL,

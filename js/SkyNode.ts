@@ -21,7 +21,7 @@ export type SkyNodeOptions = SelfOptions; // superclass GradientBackgroundNode h
 
 export default class SkyNode extends GradientBackgroundNode {
   constructor( x: number, y: number, width: number, height: number, gradientEndHeight: number, providedOptions?: SkyNodeOptions ) {
-    const options = optionize<SkyNodeOptions, SelfOptions>( {
+    const options = optionize<SkyNodeOptions, SelfOptions>()( {
       topColor: new Color( 1, 172, 228 ),
       bottomColor: new Color( 208, 236, 251 )
     }, providedOptions );

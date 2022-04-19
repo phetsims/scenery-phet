@@ -31,7 +31,7 @@ export default class ShadowText extends Node {
 
   constructor( text: string, providedOptions?: ShadowTextOptions ) {
 
-    const options = optionize<ShadowTextOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<ShadowTextOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       font: new PhetFont( 24 ),

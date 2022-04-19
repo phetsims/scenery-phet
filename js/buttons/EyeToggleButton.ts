@@ -29,7 +29,7 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
    */
   constructor( eyeOpenProperty: IProperty<boolean>, providedOptions?: EyeToggleButtonOptions ) {
 
-    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>( {}, providedOptions );
+    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {}, providedOptions );
 
     // icons
     const iconOptions = {

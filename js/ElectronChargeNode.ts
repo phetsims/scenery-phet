@@ -23,7 +23,7 @@ export default class ElectronChargeNode extends Node {
 
   constructor( providedOptions?: ElectronChargeNodeOptions ) {
 
-    const options = optionize<ElectronChargeNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<ElectronChargeNodeOptions, SelfOptions, NodeOptions>()( {
 
       // Workaround for https://github.com/phetsims/circuit-construction-kit-dc/issues/160
       sphereOpacity: 1,

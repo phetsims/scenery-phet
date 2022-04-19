@@ -36,7 +36,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
   constructor( property: IProperty<boolean>, provideOptions?: SoundToggleButtonOptions ) {
 
-    const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>( {
+    const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 
       // BooleanRectangularToggleButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
