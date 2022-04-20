@@ -124,14 +124,13 @@ class TimeControlNode extends Node {
     const children = [ playPauseStepButtons ];
 
     let speedRadioButtonGroup = null; // reference necessary for disposal
-    let speedRadioButtonGroupParent = null; // either the SpeedRadioButtonGroup or its containing panel,  for layout
+    let speedRadioButtonGroupParent = null; // either the SpeedRadioButtonGroup or its containing panel, for layout
     if ( options.timeSpeedProperty !== null ) {
-      speedRadioButtonGroup = new SpeedRadioButtonGroup(
-        options.timeSpeedProperty,
-        options.timeSpeeds,
-        options.tandem.createTandem( 'speedRadioButtonGroup' ),
-        options.speedRadioButtonGroupOptions
-      );
+
+      speedRadioButtonGroup = new SpeedRadioButtonGroup( options.timeSpeedProperty, options.timeSpeeds,
+        merge( {}, options.speedRadioButtonGroupOptions, {
+          tandem: options.tandem.createTandem( 'speedRadioButtonGroup' )
+        } ) );
 
       speedRadioButtonGroupParent = speedRadioButtonGroup;
       if ( options.wrapSpeedRadioButtonGroupInPanel ) {
@@ -399,10 +398,9 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
   /**
    * @param {EnumerationDeprecatedProperty.<TimeSpeed>} timeSpeedProperty
    * @param {TimeSpeed[]} timeSpeeds - array of speeds to be included in this button group
-   * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( timeSpeedProperty, timeSpeeds, tandem, options ) {
+  constructor( timeSpeedProperty, timeSpeeds, options ) {
     options = merge( {
 
       // {Object} - options for the Normal/Slow/Fast text labels
@@ -411,10 +409,22 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
         maxWidth: 130 // i18n
       },
 
-      // {Object|null} - options for the radio button group, defaults defined below because they are dependent on
-      // size of label text
-      radioButtonGroupOptions: null
+      spacing: 9,
+      touchAreaDilation: 10,
+
+      // phetio
+      tandem: Tandem.REQUIRED,
+
+      // pdom
+      labelTagName: 'h4',
+      labelContent: simSpeedsString,
+      descriptionContent: simSpeedDescriptionString
     }, options );
+
+    // by default, radio buttons match height of label before maxWidth scaling adjustments
+    if ( options.radius === undefined ) {
+      options.radius = new Text( 'test', options.labelOptions ).height / 2;
+    }
 
     const radioButtons = [];
     timeSpeeds.forEach( speed => {
@@ -429,23 +439,7 @@ class SpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup {
       } );
     } );
 
-    const radioButtonGroupOptions = merge( {
-      spacing: 9,
-      touchAreaDilation: 10,
-      radioButtonOptions: {
-
-        // by default, radio buttons match height of label before maxWidth scaling adjustments
-        radius: new Text( 'test', options.labelOptions ).height / 2
-      },
-      tandem: tandem,
-
-      // pdom
-      labelTagName: 'h4',
-      labelContent: simSpeedsString,
-      descriptionContent: simSpeedDescriptionString
-    }, options.radioButtonGroupOptions );
-
-    super( timeSpeedProperty, radioButtons, radioButtonGroupOptions );
+    super( timeSpeedProperty, radioButtons, options );
   }
 }
 
