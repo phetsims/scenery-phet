@@ -12,6 +12,7 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import StringProperty from '../../../axon/js/StringProperty.js';
@@ -1959,14 +1960,14 @@ function demoTimeControlNode( layoutBounds ) {
 
   // a TimeControlNode with default speed radio buttons
   const speedTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
-    timeSpeedProperty: new Property( TimeSpeed.NORMAL )
+    timeSpeedProperty: new EnumerationProperty( TimeSpeed.NORMAL )
   } );
 
   const enabledProperty = new BooleanProperty( true );
 
   // a TimeControlNode with swapped layout for radio buttons with radio buttons wrapped in a panel
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
-    timeSpeedProperty: new Property( TimeSpeed.SLOW ),
+    timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
     timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
     speedRadioButtonGroupOnLeft: true,
     wrapSpeedButtonsInPanel: true,

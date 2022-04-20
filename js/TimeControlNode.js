@@ -11,12 +11,10 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { SceneryConstants } from '../../scenery/js/imports.js';
+import { HBox, Node, SceneryConstants, Text } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -61,7 +59,7 @@ class TimeControlNode extends Node {
 
     options = merge( {
 
-      // {EnumerationDeprecatedProperty.<TimeSpeed>|null} - Play speed Property for the radio button group. If null,
+      // {EnumerationProperty.<TimeSpeed>|null} - Play speed Property for the radio button group. If null,
       // no radio buttons included in this control.
       timeSpeedProperty: null,
 
@@ -107,14 +105,7 @@ class TimeControlNode extends Node {
       labelContent: timeControlLabelString
     }, options );
 
-    // options validation
-    if ( options.timeSpeedProperty !== null ) {
-      assert && assert( options.timeSpeeds.length > 1, 'must be at least two speed options' );
-      assert && assert(
-        _.every( options.timeSpeeds, speed => TimeSpeed.includes( speed ) ),
-        'speeds must be one of TimeSpeed'
-      );
-    }
+    assert && assert( options.timeSpeedProperty === null || options.timeSpeedProperty instanceof EnumerationProperty );
 
     const playPauseStepButtons = new PlayPauseStepButtons(
       isPlayingProperty,

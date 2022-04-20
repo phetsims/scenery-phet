@@ -7,10 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import sceneryPhet from './sceneryPhet.js';
 
-const TimeSpeed = EnumerationDeprecated.byKeys( [ 'FAST', 'NORMAL', 'SLOW' ] );
+export default class TimeSpeed extends EnumerationValue {
+
+  static FAST = new TimeSpeed();
+  static NORMAL = new TimeSpeed();
+  static SLOW = new TimeSpeed();
+
+  // Gets a list of keys, values and mapping between them. For use in EnumerationProperty and PhET-iO
+  static enumeration = new Enumeration( TimeSpeed );
+}
 
 sceneryPhet.register( 'TimeSpeed', TimeSpeed );
-export default TimeSpeed;
