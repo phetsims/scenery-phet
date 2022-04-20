@@ -12,7 +12,7 @@
 
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, IColor } from '../../scenery/js/imports.js';
+import { Color } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -50,7 +50,7 @@ const VisibleColor = {
    * @param wavelength
    * @param providedOptions
    */
-  wavelengthToColor: function( wavelength: number, providedOptions?: WavelengthToColorOptions ) {
+  wavelengthToColor: function( wavelength: number, providedOptions?: WavelengthToColorOptions ): Color {
 
     const options = optionize<WavelengthToColorOptions>()( {
       irColor: null,
@@ -82,7 +82,7 @@ const VisibleColor = {
    * @param frequency
    * @param providedOptions
    */
-  frequencyToColor: function( frequency: number, providedOptions?: WavelengthToColorOptions ): IColor {
+  frequencyToColor: function( frequency: number, providedOptions?: WavelengthToColorOptions ): Color {
     const wavelengthInMeters = SPEED_OF_LIGHT / frequency;
     const wavelengthInNanometers = wavelengthInMeters * 1E9;
     return VisibleColor.wavelengthToColor( wavelengthInNanometers, providedOptions );
