@@ -1,5 +1,6 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * TimeControlNode provides a UI for controlling time.  It includes a play/pause button, step-forward button,
  * optional step-backward button, and optional radio buttons for time speed. Various layouts are supported via options.
