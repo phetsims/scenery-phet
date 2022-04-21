@@ -1958,9 +1958,15 @@ function demoTimeControlNode( layoutBounds ) {
     }
   } );
 
-  // a TimeControlNode with default speed radio buttons
+  // a TimeControlNode with default speed radio buttons, with large font to show that radio button size changes
+  // to match height of radio button labels.
   const speedTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
-    timeSpeedProperty: new EnumerationProperty( TimeSpeed.NORMAL )
+    timeSpeedProperty: new EnumerationProperty( TimeSpeed.NORMAL ),
+    speedRadioButtonGroupOptions: {
+      labelOptions: {
+        font: new PhetFont( 30 )
+      }
+    }
   } );
 
   const enabledProperty = new BooleanProperty( true );
