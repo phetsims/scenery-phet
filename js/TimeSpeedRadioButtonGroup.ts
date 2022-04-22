@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * TimeSpeedRadioButtonGroup is a radio button group for selecting TimeSpeed.
