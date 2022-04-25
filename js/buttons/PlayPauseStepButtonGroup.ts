@@ -121,8 +121,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
     if ( options.includeStepForwardButton ) {
       stepForwardButton = new StepForwardButton(
         optionize<StepForwardButtonOptions, {}, StepForwardButtonOptions>()( {
-          tandem: options.tandem.createTandem( 'stepBackwardButton' ),
-          phetioDocumentation: 'Progress the simulation a single model step backwards.'
+          tandem: options.tandem.createTandem( 'stepForwardButton' ),
+          phetioDocumentation: 'Progress the simulation a single model step forwards.'
         }, options.stepForwardButtonOptions ) );
       children.push( stepForwardButton );
     }
@@ -131,8 +131,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
     if ( options.includeStepBackwardButton ) {
       stepBackwardButton = new StepBackwardButton(
         optionize<StepBackwardButtonOptions, {}, StepBackwardButtonOptions>()( {
-          phetioDocumentation: 'Progress the simulation a single model step forwards.',
-          tandem: options.tandem.createTandem( 'stepForwardButton' )
+          phetioDocumentation: 'Progress the simulation a single model step backwards.',
+          tandem: options.tandem.createTandem( 'stepBackwardButton' )
         }, options.stepBackwardButtonOptions ) );
       children.unshift( stepBackwardButton );
     }
