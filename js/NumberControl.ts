@@ -426,7 +426,7 @@ export default class NumberControl extends Node {
    * Redraws the NumberDisplay. This is useful when you have additional Properties that determine the format
    * of the displayed value.
    */
-  redrawNumberDisplay() {
+  redrawNumberDisplay(): void {
     this.numberDisplay.recomputeText();
   }
 
@@ -438,7 +438,7 @@ export default class NumberControl extends Node {
   /**
    * Creates a NumberControl with default tick marks for min and max values.
    */
-  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: NumberControlOptions ) {
+  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: NumberControlOptions ): NumberControl {
 
     const options = merge( {
       tickLabelFont: new PhetFont( 12 )

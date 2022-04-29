@@ -160,7 +160,7 @@ export default class EyeDropperNode extends Node {
   /**
    * Sets the color of the fluid in the dropper.
    */
-  public setFluidColor( color: IPaint ) {
+  public setFluidColor( color: IPaint ): void {
     this.fluidNode.fill = color;
   }
 

@@ -100,7 +100,7 @@ export default class ArrowNode extends Path {
   /**
    * Initialize or update the shape. Only called if the number of points in the shape changes.
    */
-  private updateShape() {
+  private updateShape(): void {
 
     const shape = new Shape();
 
@@ -119,7 +119,7 @@ export default class ArrowNode extends Path {
    * Sets the tail and tip positions to update the arrow shape.
    * If the tail and tip are at the same point, the arrow is not shown.
    */
-  setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ) {
+  setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
 
     this.tailX = tailX;
     this.tailY = tailY;
@@ -143,21 +143,21 @@ export default class ArrowNode extends Path {
   /**
    * Sets the tail position.
    */
-  setTail( tailX: number, tailY: number ) {
+  setTail( tailX: number, tailY: number ): void {
     this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
   }
 
   /**
    * Sets the tip position.
    */
-  setTip( tipX: number, tipY: number ) {
+  setTip( tipX: number, tipY: number ): void {
     this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
   }
 
   /**
    * Sets the tail width.
    */
-  setTailWidth( tailWidth: number ) {
+  setTailWidth( tailWidth: number ): void {
     this.options.tailWidth = tailWidth;
     this.updateShapePoints();
     this.updateShape();
@@ -166,7 +166,7 @@ export default class ArrowNode extends Path {
   /**
    * Sets whether the arrow has one or two heads.
    */
-  setDoubleHead( doubleHead: boolean ) {
+  setDoubleHead( doubleHead: boolean ): void {
     this.options.doubleHead = doubleHead;
     this.updateShapePoints();
     this.updateShape();

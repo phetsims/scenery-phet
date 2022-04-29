@@ -204,7 +204,7 @@ export default class TimeControlNode extends Node {
    * edge to edge for each Node. This will move the SpeedRadioButtonGroup relative to the edge of the
    * PlayPauseStepButtons. No-op if there is no SpeedRadioButtonGroup for this TimeControlNode.
    */
-  public setButtonGroupXSpacing( spacing: number ) {
+  public setButtonGroupXSpacing( spacing: number ): void {
     this.buttonGroupXSpacing = spacing;
     if ( this.speedRadioButtonGroupParent ) {
       if ( this.speedRadioButtonGroupOnLeft ) {

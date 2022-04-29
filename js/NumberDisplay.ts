@@ -246,13 +246,13 @@ export default class NumberDisplay extends Node {
     this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
   }
 
-  setNumberFormatter( numberFormatter: ( n: number ) => string ) {
+  setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
     this.numberFormatter = numberFormatter;
     this.recomputeText();
   }
 
   // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
-  recomputeText() {
+  recomputeText(): void {
     this._recomputeText();
   }
 
@@ -264,7 +264,7 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the number text font.
    */
-  setNumberFont( font: Font ) {
+  setNumberFont( font: Font ): void {
     this.valueText.font = font;
   }
 
@@ -273,7 +273,7 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the number text fill.
    */
-  setNumberFill( fill: IPaint ) {
+  setNumberFill( fill: IPaint ): void {
     this.valueText.fill = fill;
   }
 
@@ -282,7 +282,7 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the background fill.
    */
-  setBackgroundFill( fill: IPaint ) {
+  setBackgroundFill( fill: IPaint ): void {
     this.backgroundNode.fill = fill;
   }
 
@@ -302,7 +302,7 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the background stroke.
    */
-  setBackgroundStroke( stroke: IPaint ) {
+  setBackgroundStroke( stroke: IPaint ): void {
     this.backgroundNode.stroke = stroke;
   }
 
