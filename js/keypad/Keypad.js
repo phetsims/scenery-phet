@@ -210,7 +210,8 @@ function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, 
     buttonFont: DEFAULT_BUTTON_FONT
   }, options );
 
-  const content = ( keyObject.label instanceof Node ) ? keyObject.label :
+  // Wrapping the keyObject's label so that we're not DAG'ing this badly and causing infinite loops
+  const content = ( keyObject.label instanceof Node ) ? new Node( { children: [ keyObject.label ] } ) :
                   new Text( keyObject.label, { font: options.buttonFont } );
 
   const keyNode = new RectangularPushButton( {
@@ -225,6 +226,12 @@ function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, 
     listener: () => keyAccumulator.handleKeyPressed( keyObject.identifier ),
     tandem: keyPadTandem.createTandem( keyObject.buttonTandemName )
   } );
+  keyNode.dispose = function() {
+    // Release the reference to the key
+    content.dispose();
+
+    RectangularPushButton.prototype.dispose.call( this );
+  };
   keyNode.scale( width / keyNode.width, height / keyNode.height );
   return keyNode;
 }
