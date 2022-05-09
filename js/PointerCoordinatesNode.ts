@@ -10,12 +10,9 @@
 
 import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Display, Font, IColor, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { RichText } from '../../scenery/js/imports.js';
+import { Display, Font, IColor, Node, Rectangle, RichText, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -47,7 +44,7 @@ export default class PointerCoordinatesNode extends Node {
    */
   constructor( modelViewTransform: ModelViewTransform2, providedOptions?: PointerCoordinatesNodeOptions ) {
 
-    const options = merge( {
+    const options = optionize<PointerCoordinatesNodeOptions, SelfOptions, {}>()( {
       display: getGlobal( 'phet.joist.display' ),
       pickable: false,
       font: DEFAULT_FONT,
@@ -57,8 +54,6 @@ export default class PointerCoordinatesNode extends Node {
       viewDecimalPlaces: 0,
       backgroundColor: 'rgba( 255, 255, 255, 0.5 )'
     }, providedOptions );
-
-    assert && assert( options.display instanceof Display, 'display must be provided to support this move listener' );
 
     const textNode = new RichText( '', {
       font: options.font,

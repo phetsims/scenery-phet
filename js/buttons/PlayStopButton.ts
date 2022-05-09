@@ -10,7 +10,7 @@
 
 import IProperty from '../../../axon/js/IProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
@@ -26,7 +26,7 @@ export default class PlayStopButton extends PlayControlButton {
 
   constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayStopButtonOptions ) {
 
-    const options = merge( {
+    const options = optionize<PlayStopButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 
       // PlayStopButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
