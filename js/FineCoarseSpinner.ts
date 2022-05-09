@@ -11,7 +11,7 @@
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
+import optionize, { assignOptions3, optionize3 } from '../../phet-core/js/optionize.js';
 import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -100,8 +100,9 @@ export default class FineCoarseSpinner extends Node {
     const decrementCoarseButton = new ArrowButton( 'left', ( () => {
       const delta = Math.min( options.deltaCoarse, numberProperty.value - range.min );
       numberProperty.value = numberProperty.value - delta;
-    } ), optionize3<ArrowButtonOptions, {}, ArrowButtonOptions>()( {}, coarseButtonOptions,
-      { tandem: options.tandem.createTandem( 'decrementCoarseButton' ) } ) );
+    } ), assignOptions3<ArrowButtonOptions>( {}, coarseButtonOptions, {
+      tandem: options.tandem.createTandem( 'decrementCoarseButton' )
+    } ) );
 
     // [ value ]
     const numberDisplay = new NumberDisplay( numberProperty, range,

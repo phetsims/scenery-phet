@@ -17,7 +17,7 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { assignOptions } from '../../phet-core/js/optionize.js';
 import { Circle, DragListener, DragListenerOptions, IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressedDragListener, PressListenerEvent, Rectangle, SceneryConstants } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -286,7 +286,7 @@ export default class BicyclePumpNode extends Node {
 
     this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
       options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-      optionize<HandleDragListenerOptions, {}, HandleDragListenerOptions>()( {
+      assignOptions<HandleDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
       }, options.dragListenerOptions )
     );
