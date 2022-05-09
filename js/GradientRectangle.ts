@@ -297,7 +297,7 @@ export default class GradientRectangle extends Rectangle {
    * where the margin ends).
    */
   public set leftMargin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'leftMargin should be a finite non-negative number' );
 
     if ( this._leftMargin !== value ) {
@@ -319,7 +319,7 @@ export default class GradientRectangle extends Rectangle {
    * where the margin ends).
    */
   public set rightMargin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'rightMargin should be a finite non-negative number' );
 
     if ( this._rightMargin !== value ) {
@@ -341,7 +341,7 @@ export default class GradientRectangle extends Rectangle {
    * where the margin ends).
    */
   public set topMargin( value ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'topMargin should be a finite non-negative number' );
 
     if ( this._topMargin !== value ) {
@@ -363,7 +363,7 @@ export default class GradientRectangle extends Rectangle {
    * where the margin ends).
    */
   public set bottomMargin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'bottomMargin should be a finite non-negative number' );
 
     if ( this._bottomMargin !== value ) {
@@ -384,7 +384,7 @@ export default class GradientRectangle extends Rectangle {
    * Sets the left and right margin amounts.
    */
   public set xMargin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'xMargin should be a finite non-negative number' );
 
     if ( this._leftMargin !== value || this._rightMargin !== value ) {
@@ -409,7 +409,7 @@ export default class GradientRectangle extends Rectangle {
    * Sets the top and bottom margin amounts.
    */
   public set yMargin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'yMargin should be a finite non-negative number' );
 
     if ( this._topMargin !== value || this._bottomMargin !== value ) {
@@ -434,7 +434,7 @@ export default class GradientRectangle extends Rectangle {
    * Sets all of the margin amounts.
    */
   public set margin( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0,
+    assert && assert( isFinite( value ) && value >= 0,
       'margin should be a finite non-negative number' );
 
     if ( this._leftMargin !== value || this._rightMargin !== value || this._topMargin !== value || this._bottomMargin !== value ) {
@@ -461,8 +461,6 @@ export default class GradientRectangle extends Rectangle {
    * Sets whether the corners of the margin will be rounded or not.
    */
   public set roundMargins( value: boolean ) {
-    assert && assert( typeof value === 'boolean' );
-
     if ( this._roundMargins !== value ) {
       this._roundMargins = value;
 
@@ -499,7 +497,7 @@ export default class GradientRectangle extends Rectangle {
    * Sets the extension amount (from 0 to <1) of where the "starting" gradient amount should be.
    */
   public set extension( value: number ) {
-    assert && assert( typeof value === 'number' && isFinite( value ) && value >= 0 && value < 1 );
+    assert && assert( isFinite( value ) && value >= 0 && value < 1 );
 
     if ( this._extension !== value ) {
       this._extension = value;
