@@ -47,7 +47,7 @@ class Alerter {
   alert( alertable: IAlertable ): void {
     if ( this.alertToVoicing ) {
       assert && assert( alertable instanceof Utterance,
-        'If alerting to Voicing, the alertable needs to be an Utterance and have canAnounceProperties' );
+        'If alerting to Voicing, the alertable needs to be an Utterance and have canAnnounceProperties' );
       Voicing.alertUtterance( alertable as Utterance );
     }
 
