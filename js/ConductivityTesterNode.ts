@@ -68,7 +68,7 @@ type SelfOptions = {
   shortCircuitFill?: IColor;
 };
 
-export type ConductivityTesterNodeOptions = SelfOptions & NodeOptions;
+export type ConductivityTesterNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 class ConductivityTesterNode extends Node {
 
@@ -226,7 +226,6 @@ class ConductivityTesterNode extends Node {
       negativeProbe.addInputListener( probeDragListener );
     }
 
-    assert && assert( !options.children, 'ConductivityTesterNode sets children' );
     options.children = [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ];
 
     super( options );

@@ -36,7 +36,7 @@ type SelfOptions = {
   buttonOptions?: RoundMomentaryButtonOptions;
 };
 
-export type EyeDropperNodeOptions = SelfOptions & NodeOptions;
+export type EyeDropperNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class EyeDropperNode extends Node {
 
@@ -131,7 +131,6 @@ export default class EyeDropperNode extends Node {
     };
     this.isEmptyProperty.link( emptyObserver );
 
-    assert && assert( !options.children, 'EyeDropperNode sets children' );
     options.children = [ this.fluidNode, background, foreground, button ];
 
     // add a red dot at the origin

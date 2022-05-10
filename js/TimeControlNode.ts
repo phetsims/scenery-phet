@@ -143,7 +143,6 @@ export default class TimeControlNode extends Node {
       this.speedRadioButtonGroupParent.centerY = this.playPauseStepButtons.centerY;
     }
 
-    assert && assert( !options.children, 'TimeControlNode sets children' );
     options.children = children;
 
     this.speedRadioButtonGroupOnLeft = options.speedRadioButtonGroupOnLeft;

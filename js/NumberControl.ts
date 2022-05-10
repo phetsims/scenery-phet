@@ -76,7 +76,7 @@ type SelfOptions = {
   layoutFunction?: LayoutFunction;
 };
 
-export type NumberControlOptions = SelfOptions & NodeOptions;
+export type NumberControlOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class NumberControl extends Node {
 
@@ -395,8 +395,6 @@ export default class NumberControl extends Node {
       }
     }
 
-    assert && assert( !options.hasOwnProperty( 'children' ),
-      'NumberControl sets its own children via options.layoutFunction' );
     options.children = [
       options.layoutFunction( titleNode, numberDisplay, this.slider, decrementButton, incrementButton )
     ];

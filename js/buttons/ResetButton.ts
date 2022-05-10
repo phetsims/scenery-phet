@@ -57,7 +57,6 @@ export default class ResetButton extends RoundPushButton {
     const reflectedIcon = new Path( resetShape.transformed( Matrix3.scaling( -1, -1 ) ) );
     resetIcon.localBounds = resetIcon.localBounds.union( reflectedIcon.localBounds );
 
-    assert && assert( !options.content, 'content is not customizable' );
     options.content = resetIcon;
 
     super( options );

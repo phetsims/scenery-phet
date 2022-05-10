@@ -33,7 +33,6 @@ export default class RefreshButton extends RectangularPushButton {
       baseColor: PhetColorScheme.BUTTON_YELLOW
     }, providedOptions );
 
-    assert && assert( !options.content, 'RefreshButton sets content' );
     options.content = new Path( syncAltSolidShape, {
       fill: 'black'
     } );

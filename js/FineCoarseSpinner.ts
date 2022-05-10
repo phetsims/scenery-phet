@@ -27,7 +27,7 @@ type SelfOptions = {
   arrowButtonOptions?: Omit<ArrowButtonOptions, 'numberOfArrows' | 'tandem'>;
 };
 
-export type FineCoarseSpinnerOptions = SelfOptions & NodeOptions;
+export type FineCoarseSpinnerOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class FineCoarseSpinner extends Node {
 
@@ -130,7 +130,6 @@ export default class FineCoarseSpinner extends Node {
     } );
 
     // Wrap in Node to hide HBox API.
-    assert && assert( !options.children, 'FineCoarseSpinner sets children' );
     options.children = [ layoutBox ];
 
     super( options );

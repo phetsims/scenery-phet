@@ -74,14 +74,11 @@ export default class StepButton extends RoundPushButton {
       .close(), {
       fill: options.iconFill
     } );
-    const stepIcon = new HBox( {
+    options.content = new HBox( {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
       rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
     } );
-
-    assert && assert( !options.content, 'button creates its own content' );
-    options.content = stepIcon;
 
     super( options );
 

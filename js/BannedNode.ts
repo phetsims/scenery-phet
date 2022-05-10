@@ -17,7 +17,7 @@ type SelfOptions = {
   radius?: number;
 } & PickOptional<PaintableOptions, 'lineWidth' | 'stroke' | 'fill'>;
 
-export type BannedNodeOptions = SelfOptions & NodeOptions;
+export type BannedNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class BannedNode extends Node {
 
@@ -45,8 +45,6 @@ export default class BannedNode extends Node {
       rotation: Math.PI / 4,
       center: circleNode.center
     } );
-
-    assert && assert( !options.children, 'decoration not supported' );
 
     options.children = [ circleNode, slashNode ];
 
