@@ -1132,7 +1132,6 @@ function demoFlowBox( layoutBounds ) {
     'top',
     'bottom',
     'center',
-    'stretch',
     'origin'
   ].forEach( align => {
     const flowBox = new FlowBox( {
