@@ -35,7 +35,6 @@ export default class InfoButton extends RoundPushButton {
       touchAreaDilation: 10
     }, providedOptions );
 
-    assert && assert( !options.content, 'InfoButton sets content' );
     options.content = new Path( infoCircleSolidShape, {
       scale: 0.08,
       fill: options.iconFill

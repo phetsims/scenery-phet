@@ -33,7 +33,7 @@ type SelfOptions = {
   mouseAreaYDilation?: number;
 };
 
-export type ZoomButtonGroupOptions = SelfOptions & LayoutBoxOptions;
+export type ZoomButtonGroupOptions = SelfOptions & Omit<LayoutBoxOptions, 'children'>;
 
 export default class ZoomButtonGroup extends LayoutBox {
 
@@ -89,7 +89,6 @@ export default class ZoomButtonGroup extends LayoutBox {
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
-    assert && assert( !options.children, 'ZoomButtonGroup sets children' );
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
 
     // Pointer areas. Dependent on options.spacing, pointer areas will be shifted to prevent overlap.

@@ -56,7 +56,6 @@ export default class MoveToTrashButton extends RectangularPushButton {
       bottom: trashNode.top
     } );
 
-    assert && assert( !options.content, 'MoveToTrashButton sets content' );
     options.content = new Node( {
       children: [ trashNode, arrowPath ],
       scale: 0.4

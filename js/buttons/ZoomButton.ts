@@ -46,13 +46,10 @@ export default class ZoomButton extends RectangularPushButton {
     };
     const icon = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-    const magnifyingGlassNode = new MagnifyingGlassNode(
+    options.content = new MagnifyingGlassNode(
       optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
         icon: icon
       }, options.magnifyingGlassOptions ) );
-
-    assert && assert( !options.content, 'ZoomButton sets content' );
-    options.content = magnifyingGlassNode;
 
     super( options );
 

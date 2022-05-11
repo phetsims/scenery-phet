@@ -35,7 +35,7 @@ type SelfOptions = {
   backOptions?: HeaterCoolerBackOptions;
 };
 
-export type HeaterCoolerNodeOptions = SelfOptions & NodeOptions;
+export type HeaterCoolerNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class HeaterCoolerNode extends Node {
 
@@ -88,7 +88,6 @@ export default class HeaterCoolerNode extends Node {
 
     this.slider = heaterCoolerFront.slider;
 
-    assert && assert( !options.children, 'HeaterCoolerNode sets children' );
     options.children = [ heaterCoolerBack, heaterCoolerFront ];
 
     this.mutate( options );

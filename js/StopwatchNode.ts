@@ -55,7 +55,7 @@ type SelfOptions = {
   dragListenerOptions?: DragListenerOptions<PressedDragListener>;
 };
 
-export type StopwatchNodeOptions = SelfOptions & NodeOptions;
+export type StopwatchNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 type FormatterOptions = {
 
@@ -208,7 +208,6 @@ export default class StopwatchNode extends Node {
     } );
     contents.center = backgroundNode.center;
 
-    assert && assert( !options.children, 'StopwatchNode sets children' );
     options.children = [ backgroundNode, contents ];
 
     super( options );

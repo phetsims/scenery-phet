@@ -17,7 +17,7 @@ import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {};
 
-export type EyeToggleButtonOptions = SelfOptions & RectangularToggleButtonOptions;
+export type EyeToggleButtonOptions = SelfOptions & Omit<RectangularToggleButtonOptions, 'content'>;
 
 export default class EyeToggleButton extends RectangularToggleButton<boolean> {
 
@@ -41,7 +41,6 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
     eyeCloseNode.center = eyeOpenNode.center;
 
     // button content
-    assert && assert( !options.content, 'EyeToggleButton sets content' );
     options.content = new Node( {
       children: [ eyeCloseNode, eyeOpenNode ]
     } );

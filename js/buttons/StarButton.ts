@@ -31,7 +31,6 @@ export default class StarButton extends RectangularPushButton {
       xMargin: 8.134152255572697
     }, providedOptions );
 
-    assert && assert( !options.content, 'StarButton sets content' );
     options.content = new Path( new StarShape(), { fill: 'black' } );
 
     super( options );

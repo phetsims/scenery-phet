@@ -520,17 +520,17 @@ function demoGridBox( layoutBounds ) {
     constructor( ...args ) {
       super( ...args );
 
-      this.minimumWidth = 50;
-      this.minimumHeight = 50;
+      this.localMinimumWidth = 50;
+      this.localMinimumHeight = 50;
 
-      this.preferredWidthProperty.lazyLink( width => {
+      this.localPreferredWidthProperty.lazyLink( width => {
         if ( width ) {
-          this.rectWidth = Math.max( this.minimumWidth, width );
+          this.rectWidth = Math.max( this.localMinimumWidth, width );
         }
       } );
-      this.preferredHeightProperty.lazyLink( height => {
+      this.localPreferredHeightProperty.lazyLink( height => {
         if ( height ) {
-          this.rectHeight = Math.max( this.minimumHeight, height );
+          this.rectHeight = Math.max( this.localMinimumHeight, height );
         }
       } );
     }
@@ -955,10 +955,10 @@ function demoFlowBox( layoutBounds ) {
         trackSize: trackSizeProperty
       }, options );
 
-      this.minimumWidth = this.width;
+      this.localMinimumWidth = this.width;
 
-      this.preferredWidthProperty.lazyLink( preferredWidth => {
-        const delta = Math.max( preferredWidth, this.minimumWidth ) - this.width;
+      this.localPreferredWidthProperty.lazyLink( preferredWidth => {
+        const delta = Math.max( preferredWidth, this.localMinimumWidth ) - this.width;
 
         trackSizeProperty.value = new Dimension2( trackSizeProperty.value.width + delta, 5 );
       } );
@@ -1002,17 +1002,17 @@ function demoFlowBox( layoutBounds ) {
     constructor( ...args ) {
       super( ...args );
 
-      this.minimumWidth = 50;
-      this.minimumHeight = 15;
+      this.localMinimumWidth = 50;
+      this.localMinimumHeight = 15;
 
-      this.preferredWidthProperty.lazyLink( width => {
+      this.localPreferredWidthProperty.lazyLink( width => {
         if ( width ) {
-          this.rectWidth = Math.max( this.minimumWidth, width );
+          this.rectWidth = Math.max( this.localMinimumWidth, width );
         }
       } );
-      this.preferredHeightProperty.lazyLink( height => {
+      this.localPreferredHeightProperty.lazyLink( height => {
         if ( height ) {
-          this.rectHeight = Math.max( this.minimumHeight, height );
+          this.rectHeight = Math.max( this.localMinimumHeight, height );
         }
       } );
     }

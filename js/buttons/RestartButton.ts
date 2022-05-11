@@ -43,7 +43,6 @@ export default class RestartButton extends RoundPushButton {
       lineWidth: 1
     } );
 
-    assert && assert( !options.content, 'RestartButton sets content' );
     options.content = new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } );
 
     super( options );

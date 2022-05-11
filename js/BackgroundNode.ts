@@ -17,7 +17,7 @@ type SelfOptions = {
   rectangleOptions?: RectangleOptions; // options passed to the background scenery.Rectangle
 }
 
-export type BackgroundNodeOptions = SelfOptions & NodeOptions;
+export type BackgroundNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
 
 export default class BackgroundNode extends Node {
 
@@ -56,7 +56,6 @@ export default class BackgroundNode extends Node {
       }
     } );
 
-    assert && assert( !options.children, 'BackgroundNode sets children' );
     options.children = [ this.background, wrapperNode ];
     this.mutate( options );
   }
