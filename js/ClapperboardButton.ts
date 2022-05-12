@@ -19,10 +19,11 @@ import { Node, NodeOptions, Path, RichText } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import BackgroundNode from './BackgroundNode.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = {
   visualNode?: Node;
-  synchronizeButtonOptions?: Omit<RectangularPushButtonOptions, 'listener'>;
+  synchronizeButtonOptions?: Omit<RectangularPushButtonOptions, 'listener' | 'tandem'>;
 }
 
 type ClapperboardButtonOptions = SelfOptions & NodeOptions;
@@ -51,7 +52,10 @@ class ClapperboardButton extends Node {
           },
           stop: _.noop
         }
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
     super( options );
@@ -63,7 +67,8 @@ class ClapperboardButton extends Node {
           this.removeChild( options.visualNode );
           this.visible = false;
         }, 1000 ); // TODO: how long to wait? https://github.com/phetsims/scenery-phet/issues/739
-      }
+      },
+      tandem: options.tandem.createTandem( 'synchronizeButton' )
     }, options.synchronizeButtonOptions ) );
     this.addChild( synchronizeButton );
   }
