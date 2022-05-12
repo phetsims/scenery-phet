@@ -9,7 +9,7 @@
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { assignOptions } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { Circle, Image, IPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import RoundMomentaryButton, { RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -118,7 +118,7 @@ export default class EyeDropperNode extends Node {
 
     // button, centered in the dropper's bulb
     const button = new RoundMomentaryButton( false, true, this.isDispensingProperty,
-      assignOptions<RoundMomentaryButtonOptions>( {
+      combineOptions<RoundMomentaryButtonOptions>( {
         centerX: foreground.centerX,
         centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
         tandem: options.tandem.createTandem( 'button' )

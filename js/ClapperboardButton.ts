@@ -10,7 +10,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import optionize, { assignOptions } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import PitchedPopGenerator from '../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import videoSolidShape from '../../sherpa/js/fontawesome-5/videoSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
@@ -60,7 +60,7 @@ class ClapperboardButton extends Node {
 
     super( options );
 
-    const synchronizeButton = new RectangularPushButton( assignOptions<RectangularPushButtonOptions>( {
+    const synchronizeButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: () => {
         this.addChild( options.visualNode );
         stepTimer.setTimeout( () => {
