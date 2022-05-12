@@ -10,7 +10,7 @@
 
 import Range from '../../dot/js/Range.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../scenery/js/imports.js';
 import ComboBox, { ComboBoxOptions } from '../../sun/js/ComboBox.js';
@@ -97,12 +97,12 @@ export default class ComboBoxDisplay extends ComboBox<number> {
       // So use 2 optionize calls to assemble the options for the item's NumberDisplay.
       // Order is important here, so that we don't write to options.numberDisplayOptions or item.numberDisplayOptions,
       // and so that item.numberDisplayOptions overrides options.numberDisplayOptions.
-      const numberDisplayOptions = optionize<NumberDisplayOptions, {}, NumberDisplayOptions>()( {
+      const numberDisplayOptions = combineOptions<NumberDisplayOptions>( {
         valuePattern: StringUtils.fillIn( sceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
       }, options.numberDisplayOptions );
 
       const itemNode = new NumberDisplay( item.numberProperty, range,
-        optionize<NumberDisplayOptions, {}, NumberDisplayOptions>()( numberDisplayOptions, item.numberDisplayOptions )
+        combineOptions<NumberDisplayOptions>( numberDisplayOptions, item.numberDisplayOptions )
       );
 
       // Don't allow the NumberDisplay to grow, since it's in a ComboBox

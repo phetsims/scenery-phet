@@ -8,7 +8,7 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from '../MagnifyingGlassNode.js';
@@ -46,10 +46,9 @@ export default class ZoomButton extends RectangularPushButton {
     };
     const icon = options.in ? new PlusNode( signOptions ) : new MinusNode( signOptions );
 
-    options.content = new MagnifyingGlassNode(
-      optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
-        icon: icon
-      }, options.magnifyingGlassOptions ) );
+    options.content = new MagnifyingGlassNode( combineOptions<MagnifyingGlassNodeOptions>( {
+      icon: icon
+    }, options.magnifyingGlassOptions ) );
 
     super( options );
 

@@ -16,7 +16,7 @@ import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSlide
 import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
 import IProperty from '../../axon/js/IProperty.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Slider from '../../sun/js/Slider.js';
 
@@ -75,34 +75,33 @@ export default class WavelengthNumberControl extends NumberControl {
     }
 
     const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,
-      optionize<SpectrumSliderTrackOptions, {}, SpectrumSliderTrackOptions>()( {
+      combineOptions<SpectrumSliderTrackOptions>( {
         tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.TRACK_NODE_TANDEM_NAME )
       }, options.spectrumSliderTrackOptions ) );
 
     const thumbNode = new SpectrumSliderThumb( wavelengthProperty,
-      optionize<SpectrumSliderThumbOptions, {}, SpectrumSliderThumbOptions>()( {
+      combineOptions<SpectrumSliderThumbOptions>( {
         tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.THUMB_NODE_TANDEM_NAME )
       }, options.spectrumSliderThumbOptions ) );
 
-    super( options.title, wavelengthProperty, options.range,
-      optionize<NumberControlOptions, {}, NumberControlOptions>()( {
-        titleNodeOptions: {
-          font: new PhetFont( 15 ),
-          maxWidth: 175
+    super( options.title, wavelengthProperty, options.range, combineOptions<NumberControlOptions>( {
+      titleNodeOptions: {
+        font: new PhetFont( 15 ),
+        maxWidth: 175
+      },
+      numberDisplayOptions: {
+        textOptions: {
+          font: new PhetFont( 14 )
         },
-        numberDisplayOptions: {
-          textOptions: {
-            font: new PhetFont( 14 )
-          },
-          valuePattern: wavelengthNMValuePatternString,
-          maxWidth: 120
-        },
-        sliderOptions: {
-          trackNode: trackNode,
-          thumbNode: thumbNode
-        },
-        layoutFunction: NumberControl.createLayoutFunction3()
-      }, options ) );
+        valuePattern: wavelengthNMValuePatternString,
+        maxWidth: 120
+      },
+      sliderOptions: {
+        trackNode: trackNode,
+        thumbNode: thumbNode
+      },
+      layoutFunction: NumberControl.createLayoutFunction3()
+    }, options ) );
   }
 }
 

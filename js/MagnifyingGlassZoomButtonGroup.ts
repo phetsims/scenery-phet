@@ -14,7 +14,7 @@ import PhetColorScheme from './PhetColorScheme.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import ZoomButtonGroup, { ZoomButtonGroupOptions } from './ZoomButtonGroup.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 
 type SelfOptions = {
 
@@ -53,12 +53,12 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
     };
 
     // magnifying glass with '+'
-    const zoomInIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
+    const zoomInIcon = new MagnifyingGlassNode( combineOptions<MagnifyingGlassNodeOptions>( {
       icon: new PlusNode( signOptions )
     }, options.magnifyingGlassNodeOptions ) );
 
     // magnifying glass with '-'
-    const zoomOutIcon = new MagnifyingGlassNode( optionize<MagnifyingGlassNodeOptions, {}, MagnifyingGlassNodeOptions>()( {
+    const zoomOutIcon = new MagnifyingGlassNode( combineOptions<MagnifyingGlassNodeOptions>( {
       icon: new MinusNode( signOptions )
     }, options.magnifyingGlassNodeOptions ) );
 

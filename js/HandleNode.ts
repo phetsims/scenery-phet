@@ -11,7 +11,7 @@
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -164,7 +164,7 @@ export default class HandleNode extends Node {
     // left attachment
     if ( options.hasLeftAttachment ) {
 
-      const leftAttachmentPath = new Path( leftAttachmentShape, optionize<PathOptions, {}, PathOptions>()( {
+      const leftAttachmentPath = new Path( leftAttachmentShape, combineOptions<PathOptions>( {
         right: gripPath.left + options.gripLineWidth
       }, attachmentOptions ) );
 
@@ -177,7 +177,7 @@ export default class HandleNode extends Node {
       const rightAttachmentShape = leftAttachmentShape.transformed( Matrix3.scaling( -1, 1 ) );
 
       // handle right attachment
-      const rightAttachmentPath = new Path( rightAttachmentShape, optionize<PathOptions, {}, PathOptions>()( {
+      const rightAttachmentPath = new Path( rightAttachmentShape, combineOptions<PathOptions>( {
         left: gripPath.right - options.gripLineWidth
       }, attachmentOptions ) );
 

@@ -17,7 +17,7 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
@@ -378,7 +378,7 @@ class Thumb extends Path {
 
   constructor( width: number, height: number, providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}, PathOptions>()( {
+    const options = combineOptions<PathOptions>( {
       fill: 'black',
       stroke: 'black',
       lineWidth: 1

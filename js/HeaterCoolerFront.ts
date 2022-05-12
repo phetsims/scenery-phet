@@ -15,7 +15,7 @@ import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { Color, Font, IColor, LinearGradient, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
 import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
@@ -175,25 +175,23 @@ export default class HeaterCoolerFront extends Node {
       heatCoolAmountProperty.set( 0 );
     };
 
-    this.slider = new VSlider( heatCoolAmountProperty, sliderRange,
-      optionize<SliderOptions, {}, SliderOptions>()( {
-        thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
-        thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
-        thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
-        thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
-        thumbFill: options.thumbFill,
-        thumbSize: options.thumbSize,
-        thumbFillHighlighted: options.thumbFillHighlighted,
-        endDrag: () => {
-          if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
-            setSliderToZero();
-          }
-        },
-        centerY: stoveBody.centerY,
-        right: stoveBody.right - DEFAULT_WIDTH / 8,
-        tandem: options.tandem.createTandem( 'slider' )
-      }, options.sliderOptions )
-    );
+    this.slider = new VSlider( heatCoolAmountProperty, sliderRange, combineOptions<SliderOptions>( {
+      thumbTouchAreaXDilation: options.thumbTouchAreaXDilation,
+      thumbTouchAreaYDilation: options.thumbTouchAreaYDilation,
+      thumbMouseAreaXDilation: options.thumbMouseAreaXDilation,
+      thumbMouseAreaYDilation: options.thumbMouseAreaYDilation,
+      thumbFill: options.thumbFill,
+      thumbSize: options.thumbSize,
+      thumbFillHighlighted: options.thumbFillHighlighted,
+      endDrag: () => {
+        if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
+          setSliderToZero();
+        }
+      },
+      centerY: stoveBody.centerY,
+      right: stoveBody.right - DEFAULT_WIDTH / 8,
+      tandem: options.tandem.createTandem( 'slider' )
+    }, options.sliderOptions ) );
 
     // Create the tick labels.
     const labelOptions = {

@@ -15,7 +15,9 @@ import optionize from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-export type WireNodeOptions = PathOptions;
+type SelfOptions = {};
+
+export type WireNodeOptions = SelfOptions & PathOptions;
 
 export default class WireNode extends Path {
 
@@ -30,7 +32,7 @@ export default class WireNode extends Path {
    */
   constructor( position1Property: IReadOnlyProperty<Vector2>, normal1Property: IReadOnlyProperty<Vector2>, position2Property: IReadOnlyProperty<Vector2>, normal2Property: IReadOnlyProperty<Vector2>, options?: WireNodeOptions ) {
 
-    options = optionize<WireNodeOptions, {}, PathOptions>()( {
+    options = optionize<WireNodeOptions, SelfOptions, PathOptions>()( {
       stroke: 'black'
     }, options );
 

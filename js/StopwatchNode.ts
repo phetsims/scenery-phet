@@ -15,7 +15,7 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Circle, DragListener, DragListenerOptions, HBox, IColor, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
@@ -260,7 +260,7 @@ export default class StopwatchNode extends Node {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      const dragListenerOptions = optionize<DragListenerOptions<PressedDragListener>, {}, DragListenerOptions<PressedDragListener>>()( {
+      const dragListenerOptions = combineOptions<DragListenerOptions<PressedDragListener>>( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,

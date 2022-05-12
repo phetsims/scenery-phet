@@ -13,7 +13,7 @@
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../sun/js/Panel.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -112,7 +112,7 @@ export default class TimeControlNode extends Node {
     const children = [];
 
     this.playPauseStepButtons = new PlayPauseStepButtonGroup( isPlayingProperty,
-      optionize<PlayPauseStepButtonGroupOptions, {}, PlayPauseStepButtonGroupOptions>()( {
+      combineOptions<PlayPauseStepButtonGroupOptions>( {
         tandem: options.tandem.createTandem( 'playPauseStepButtons' )
       }, options.playPauseStepButtonOptions ) );
     children.push( this.playPauseStepButtons );
@@ -122,7 +122,7 @@ export default class TimeControlNode extends Node {
     if ( options.timeSpeedProperty !== null ) {
 
       this.speedRadioButtonGroup = new TimeSpeedRadioButtonGroup( options.timeSpeedProperty, options.timeSpeeds,
-        optionize<TimeSpeedRadioButtonGroupOptions, {}, TimeSpeedRadioButtonGroupOptions>()( {
+        combineOptions<TimeSpeedRadioButtonGroupOptions>( {
           tandem: options.tandem.createTandem( 'speedRadioButtonGroup' )
         }, options.speedRadioButtonGroupOptions ) );
 

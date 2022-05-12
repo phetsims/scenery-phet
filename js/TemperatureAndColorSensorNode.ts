@@ -16,7 +16,7 @@ import sceneryPhet from './sceneryPhet.js';
 import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
 import IProperty from '../../axon/js/IProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 
 type SelfOptions = {
 
@@ -87,7 +87,7 @@ export default class TemperatureAndColorSensorNode extends Node {
       temperatureRange.min,
       temperatureRange.max,
       temperatureProperty,
-      optionize<ThermometerNodeOptions, {}, ThermometerNodeOptions>()( {
+      combineOptions<ThermometerNodeOptions>( {
         left: this.colorIndicatorNode.right + options.horizontalSpace,
         bottom: this.colorIndicatorNode.bottom + options.bottomOffset
       }, options.thermometerNodeOptions )

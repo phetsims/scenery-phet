@@ -17,7 +17,7 @@ import IOType from '../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import Property from '../../axon/js/Property.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 
 const DEFAULT_TIME_RANGE = new Range( 0, Number.POSITIVE_INFINITY );
 
@@ -83,7 +83,7 @@ export default class Stopwatch extends PhetioObject {
       tandem: options.tandem.createTandem( 'isRunningProperty' )
     } );
 
-    this.timeProperty = new NumberProperty( 0, optionize<NumberPropertyOptions, {}, NumberPropertyOptions>()( {
+    this.timeProperty = new NumberProperty( 0, combineOptions<NumberPropertyOptions>( {
       tandem: options.tandem.createTandem( 'timeProperty' )
     }, options.timePropertyOptions ) );
 

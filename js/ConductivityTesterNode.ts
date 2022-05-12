@@ -17,7 +17,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, DragListener, Font, IColor, Image, Node, NodeOptions, Path, PathOptions, Rectangle, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
@@ -314,7 +314,7 @@ class ConductivityTesterNode extends Node {
                             bothProbesYOffset: number,
                             providedOptions: Omit<ConductivityTesterNodeOptions, 'interactive'> ): Node {
 
-    const options = optionize<ConductivityTesterNodeOptions, {}, ConductivityTesterNodeOptions>()( {
+    const options = combineOptions<ConductivityTesterNodeOptions>( {
       interactive: false
     }, providedOptions );
 

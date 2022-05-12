@@ -16,7 +16,7 @@ import StepBackwardButton, { StepBackwardButtonOptions } from './StepBackwardBut
 import StepForwardButton, { StepForwardButtonOptions } from './StepForwardButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 import { HBox, HBoxOptions } from '../../../scenery/js/imports.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
@@ -111,7 +111,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     const children = [];
 
     const playPauseButton = new PlayPauseButton( isPlayingProperty,
-      optionize<PlayPauseButtonOptions, {}, PlayPauseButtonOptions>()( {
+      combineOptions<PlayPauseButtonOptions>( {
         tandem: options.tandem.createTandem( 'playPauseButton' ),
         phetioDocumentation: 'Button to control the animation in the simulation. This will also stop the model from stepping.'
       }, options.playPauseButtonOptions ) );
@@ -120,7 +120,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     let stepForwardButton: StepForwardButton | null = null;
     if ( options.includeStepForwardButton ) {
       stepForwardButton = new StepForwardButton(
-        optionize<StepForwardButtonOptions, {}, StepForwardButtonOptions>()( {
+        combineOptions<StepForwardButtonOptions>( {
           tandem: options.tandem.createTandem( 'stepForwardButton' ),
           phetioDocumentation: 'Progress the simulation a single model step forwards.'
         }, options.stepForwardButtonOptions ) );
@@ -130,7 +130,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     let stepBackwardButton: StepBackwardButton | null = null;
     if ( options.includeStepBackwardButton ) {
       stepBackwardButton = new StepBackwardButton(
-        optionize<StepBackwardButtonOptions, {}, StepBackwardButtonOptions>()( {
+        combineOptions<StepBackwardButtonOptions>( {
           phetioDocumentation: 'Progress the simulation a single model step backwards.',
           tandem: options.tandem.createTandem( 'stepBackwardButton' )
         }, options.stepBackwardButtonOptions ) );
