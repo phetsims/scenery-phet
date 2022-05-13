@@ -1,14 +1,9 @@
 {
   "extends": "../chipper/tsconfig-core.json",
-  "references": [
-    {
-      "path": "../joist/tsconfig-module.json"
-    }
-  ],
   "include": [
-    "js/scenery-phet-main.js",
-    "js/demo/**/*",
-    "js/**/*tests.js",
-    "js/**/*Tests.js"
+    "js/**/*",
+    "images/**/*",
+    "mipmaps/**/*",
+    "sounds/**/*"
   ]
 }
