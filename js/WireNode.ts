@@ -7,7 +7,7 @@
  */
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import Multilink from '../../axon/js/Multilink.js';
+import { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
@@ -21,7 +21,7 @@ export type WireNodeOptions = SelfOptions & PathOptions;
 
 export default class WireNode extends Path {
 
-  private readonly multilink: Multilink<[ Vector2, Vector2, Vector2, Vector2 ]>
+  private readonly multilink: UnknownMultilink;
 
   /**
    * @param position1Property - connects to one object, often this is a DerivedProperty

@@ -82,7 +82,7 @@ export default class SegmentedBarGraphNode extends Node {
     } );
 
     // set the visibility and opacity of each of the segments based on the value and range
-    Property.multilink( [ numberProperty, rangeProperty ], ( value: number, range: Range ) => {
+    Property.multilink( [ numberProperty, rangeProperty ], ( value, range ) => {
       assert && assert( range.min <= value && value <= range.max,
         `numberProperty is out of range: ${value}` );
 
