@@ -101,9 +101,11 @@ export default class PlayPauseStepButtonGroup extends HBox {
       } );
 
       if ( !options.stepForwardButtonOptions.enabledProperty ) {
+
         options.stepForwardButtonOptions.enabledProperty = defaultEnabledProperty;
       }
       if ( !options.stepBackwardButtonOptions.enabledProperty ) {
+
         options.stepBackwardButtonOptions.enabledProperty = defaultEnabledProperty;
       }
     }
