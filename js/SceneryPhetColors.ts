@@ -14,16 +14,13 @@ import sceneryPhet from './sceneryPhet.js';
 // tweaks with the top-level files)
 
 const SceneryPhetColors = {
-  emptyBeakerProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeaker', { default: new Color( 150, 150, 150, 0.1 ) } ),
-  waterProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 30, 163, 255, 0.8 ) } ),
-  beakerShineProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.7 ) } ),
-  waterFrontEdgeFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
+  emptyBeakerFillProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeaker', { default: new Color( 249, 253, 255, 0.2 ) } ),
+  liquidFillProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 165, 217, 242 ) } ),
+  beakerShineFillProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.4 ) } ),
+  liquidShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
     default: '#8EC6DD'
   } ),
-  waterBackEdgeFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DBackEdgeFill', {
-    default: '#9CD0E5'
-  } ),
-  waterCrescentFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
+  liquidShineFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
     default: '#B4E5F9'
   } )
 };
