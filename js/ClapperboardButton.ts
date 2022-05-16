@@ -62,6 +62,10 @@ class ClapperboardButton extends Node {
 
     const synchronizeButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: () => {
+
+        // so that this listener cannot be called more than once
+        synchronizeButton.visible = false;
+
         this.addChild( options.visualNode );
         stepTimer.setTimeout( () => {
           this.removeChild( options.visualNode );
