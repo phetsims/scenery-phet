@@ -15,12 +15,12 @@ import sceneryPhet from './sceneryPhet.js';
 
 const SceneryPhetColors = {
   emptyBeakerFillProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeaker', { default: new Color( 249, 253, 255, 0.2 ) } ),
-  liquidFillProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 165, 217, 242 ) } ),
+  solutionFillProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 165, 217, 242 ) } ),
   beakerShineFillProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.4 ) } ),
-  liquidShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
+  solutionShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
     default: '#8EC6DD'
   } ),
-  liquidShineFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
+  solutionShineFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
     default: '#B4E5F9'
   } )
 };

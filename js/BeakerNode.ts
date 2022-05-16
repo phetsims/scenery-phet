@@ -15,28 +15,30 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   emptyBeakerFill?: ProfileColorProperty;
-  liquidFill?: ProfileColorProperty;
-  liquidShadowFill?: ProfileColorProperty;
-  liquidShineFill?: ProfileColorProperty;
-  beakerShineFill?: ProfileColorProperty;
+  solutionFill?: ProfileColorProperty;
+  solutionShadowFill?: ProfileColorProperty;
+  solutionGlareFill?: ProfileColorProperty;
+  beakerGlareFill?: ProfileColorProperty;
   beakerHeight?: number;
   xRadius?: number;
   yRadius?: number;
   showTicks?: boolean;
+
+  // Denominator of tick marks distance
   numTicks?: number;
 };
 export type BeakerNodeOptions = SelfOptions & NodeOptions;
 
 export default class BeakerNode extends Node {
-  constructor( waterLevelProperty: NumberProperty,
+  constructor( solutionLevelProperty: NumberProperty,
                providedOptions?: BeakerNodeOptions ) {
 
     const options = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( {
       emptyBeakerFill: SceneryPhetColors.emptyBeakerFillProperty,
-      liquidFill: SceneryPhetColors.liquidFillProperty,
-      liquidShadowFill: SceneryPhetColors.liquidShadowFillProperty,
-      liquidShineFill: SceneryPhetColors.liquidShineFillProperty,
-      beakerShineFill: SceneryPhetColors.beakerShineFillProperty,
+      solutionFill: SceneryPhetColors.solutionFillProperty,
+      solutionShadowFill: SceneryPhetColors.solutionShadowFillProperty,
+      solutionGlareFill: SceneryPhetColors.solutionShineFillProperty,
+      beakerGlareFill: SceneryPhetColors.beakerShineFillProperty,
       beakerHeight: 100,
       xRadius: 30,
       yRadius: 12,
@@ -70,25 +72,25 @@ export default class BeakerNode extends Node {
       .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, 2 * Math.PI, false );
 
     // Water fill and shading paths
-    const liquidSide = new Path( null, {
-      fill: options.liquidFill,
+    const solutionSide = new Path( null, {
+      fill: options.solutionFill,
       pickable: false
     } );
-    const liquidTop = new Path( null, {
-      fill: options.liquidFill,
+    const solutionTop = new Path( null, {
+      fill: options.solutionFill,
       pickable: false
     } );
-    const liquidFrontEdge = new Path( null, {
-      fill: options.liquidShadowFill,
+    const solutionFrontEdge = new Path( null, {
+      fill: options.solutionShadowFill,
       pickable: false
     } );
-    const liquidBackEdge = new Path( null, {
-      fill: options.liquidShadowFill,
+    const solutionBackEdge = new Path( null, {
+      fill: options.solutionShadowFill,
       opacity: 0.6,
       pickable: false
     } );
-    const liquidCrescent = new Path( null, {
-      fill: options.liquidShineFill
+    const solutionGlare = new Path( null, {
+      fill: options.solutionGlareFill
     } );
 
     // Beaker structure and glare paths
@@ -106,12 +108,12 @@ export default class BeakerNode extends Node {
     beakerBack.setScaleMagnitude( -1, 1 );
     const beakerBottom = new Path( beakerBottomShape, {
       stroke: 'black',
-      fill: 'white',
+      fill: options.emptyBeakerFill,
       pickable: false
     } );
 
     const beakerGlare = new Path( beakerGlareShape.getOffsetShape( 2 ), {
-      fill: options.beakerShineFill
+      fill: options.beakerGlareFill
     } );
 
     const ticksShape = new Shape();
@@ -123,49 +125,71 @@ export default class BeakerNode extends Node {
       ticksShape.ellipticalArc( 0, y, options.xRadius, options.yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
     }
 
-    // water level adjustment listener
-    waterLevelProperty.link( waterLevel => {
-      const centerLiquidY = centerBottom - options.beakerHeight * waterLevel;
-      const waterTopShape = new Shape()
+    const ticks = new Path( ticksShape, {
+      stroke: 'black',
+      lineWidth: 1.5,
+      pickable: false
+    } );
+
+    // solution level adjustment listener
+    solutionLevelProperty.link( solutionLevel => {
+      const centerLiquidY = centerBottom - options.beakerHeight * solutionLevel;
+      const solutionTopShape = new Shape()
         .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, 0, Math.PI * 2, false )
         .close();
-      const waterSideShape = new Shape()
+      const solutionSideShape = new Shape()
         .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, Math.PI, 0, true )
         .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, Math.PI, false )
         .close();
-      const waterFrontEdgeShape = new Shape()
+      const solutionFrontEdgeShape = new Shape()
         .ellipticalArc( 0, centerLiquidY + 1, options.xRadius, options.yRadius + 2, 0, Math.PI, 0, true )
         .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, 0, Math.PI, false );
-      const waterBackEdgeShape = new Shape()
+      const solutionBackEdgeShape = new Shape()
         .ellipticalArc( 0, centerBottom - 1, options.xRadius, options.yRadius + 4, Math.PI, Math.PI, 0, true )
         .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, Math.PI, 0, Math.PI, false );
-      const waterCrescentShape = new Shape()
+      const solutionCrescentShape = new Shape()
         .ellipticalArc( 8, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
         .ellipticalArc( 8, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
 
-      liquidTop.shape = waterTopShape;
-      liquidSide.shape = waterSideShape;
-      liquidFrontEdge.shape = waterFrontEdgeShape;
-      liquidBackEdge.shape = waterBackEdgeShape;
-      liquidCrescent.shape = waterCrescentShape;
+      solutionTop.shape = solutionTopShape;
+      solutionSide.shape = solutionSideShape;
+      solutionFrontEdge.shape = solutionFrontEdgeShape;
+      solutionBackEdge.shape = solutionBackEdgeShape;
+      solutionGlare.shape = solutionCrescentShape;
 
-      //Prevents back edge from appearing when water level empty.
-      liquidBackEdge.clipArea = Shape.union( [ waterTopShape, waterSideShape ] );
+      //Prevents back edge from appearing when solution level empty.
+      solutionBackEdge.clipArea = Shape.union( [ solutionTopShape, solutionSideShape ] );
 
+      // Set solution visibility based on solution level
+      if ( solutionLevel < 0.001 ) {
+        solutionTop.visible = false;
+        solutionSide.visible = false;
+        solutionFrontEdge.visible = false;
+        solutionBackEdge.visible = false;
+        solutionGlare.visible = false;
+      }
+      else {
+        solutionTop.visible = true;
+        solutionSide.visible = true;
+        solutionFrontEdge.visible = true;
+        solutionBackEdge.visible = true;
+        solutionGlare.visible = true;
+      }
     } );
 
-    // Prevents front edge from dipping below cup boundary when dragged all the way down.
-    liquidFrontEdge.clipArea = Shape.union( [ beakerFrontShape, beakerBottomShape ] );
+    // Prevents front edge from dipping below beaker boundary when dragged all the way down.
+    solutionFrontEdge.clipArea = Shape.union( [ beakerFrontShape, beakerBottomShape ] );
 
     const children = [
       beakerBack,
       beakerBottom,
-      liquidSide,
-      liquidBackEdge,
-      liquidTop,
-      liquidCrescent,
-      liquidFrontEdge,
+      solutionSide,
+      solutionBackEdge,
+      solutionTop,
+      solutionGlare,
+      solutionFrontEdge,
       beakerFront,
+      ...( options.showTicks ? [ ticks ] : [] ),
       beakerGlare
     ];
 
