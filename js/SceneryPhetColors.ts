@@ -12,11 +12,20 @@ import sceneryPhet from './sceneryPhet.js';
 
 // Initial colors for each profile, by string key. Only profile currently is default (still helpful for making color
 // tweaks with the top-level files)
-const SceneryPhetColors = {
 
+const SceneryPhetColors = {
   emptyBeakerProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeaker', { default: new Color( 150, 150, 150, 0.1 ) } ),
   waterProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 30, 163, 255, 0.8 ) } ),
-  beakerShineProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.7 ) } )
+  beakerShineProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.7 ) } ),
+  waterFrontEdgeFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
+    default: '#8EC6DD'
+  } ),
+  waterBackEdgeFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DBackEdgeFill', {
+    default: '#9CD0E5'
+  } ),
+  waterCrescentFillColorProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
+    default: '#B4E5F9'
+  } )
 };
 
 sceneryPhet.register( 'SceneryPhetColors', SceneryPhetColors );

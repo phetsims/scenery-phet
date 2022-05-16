@@ -7,130 +7,159 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
+import { Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
+
+type SelfOptions = {};
+type BeakerNodeOptions = SelfOptions & NodeOptions
 
 // constants
 const EMPTY_BEAKER_COLOR = SceneryPhetColors.emptyBeakerProperty;
 const WATER_COLOR = SceneryPhetColors.waterProperty;
+const WATER_FRONT_EDGE = SceneryPhetColors.waterFrontEdgeFillColorProperty;
+const WATER_BACK_EDGE = SceneryPhetColors.waterBackEdgeFillColorProperty;
+const WATER_CRESCENT = SceneryPhetColors.waterCrescentFillColorProperty;
 const BEAKER_SHINE_COLOR = SceneryPhetColors.beakerShineProperty;
+const CUP_HEIGHT = 50;
 
-class BeakerNode extends Node {
-  /**
-   * @param {number} numerator
-   * @param {number} denominator
-   * @param {Object} [options]
-   */
-  constructor( numerator, denominator, options ) {
-    assert && assert( typeof numerator === 'number' && numerator >= 0 && numerator % 1 === 0 );
-    assert && assert( typeof denominator === 'number' && denominator >= 1 && denominator % 1 === 0 );
+export default class BeakerNode extends Node {
+  constructor( waterLevelProperty: NumberProperty,
+               providedOptions?: BeakerNodeOptions ) {
 
-    options = merge( {
-      // {number}
-      fullHeight: BeakerNode.DEFAULT_BEAKER_HEIGHT,
-      xRadius: 40,
-      yRadius: 12,
+    const xRadius = 30;
+    const yRadius = 12;
+    const centerTop = -CUP_HEIGHT / 2;
+    const centerBottom = CUP_HEIGHT / 2;
+    const numTicks = 5;
 
-      // {ColorDef} - If non-null, it will override the given color for the water
-      colorOverride: null
-    }, options );
+    // Cup structure and glare shapes
+    const cupGlareShape = new Shape()
+      .moveTo( -20, centerTop + 18 )
+      .verticalLineTo( 50 )
+      .lineTo( -15, 52 )
+      .verticalLineTo( centerTop + 21 )
+      .close();
 
-    const height = options.fullHeight * numerator / denominator;
-    const xRadius = options.xRadius;
-    const yRadius = options.yRadius;
-    const numTicks = denominator;
-
-    const glassGradient = new LinearGradient( -xRadius, 0, xRadius, 0 )
-      .addColorStop( 0, EMPTY_BEAKER_COLOR )
-      .addColorStop( 0.666, BEAKER_SHINE_COLOR )
-      .addColorStop( 0.782, BEAKER_SHINE_COLOR )
-      .addColorStop( 1, EMPTY_BEAKER_COLOR );
-
-    const centerTop = -options.fullHeight / 2;
-    const centerBottom = options.fullHeight / 2;
-    const centerLiquidY = centerBottom - height;
-
-    const bucketFrontShape = new Shape()
+    const cupFrontShape = new Shape()
       .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, false )
       .ellipticalArc( 0, centerTop, xRadius, yRadius, 0, Math.PI, 0, true )
       .close();
-    const bucketBackShape = new Shape()
+
+    const cupBackShape = new Shape()
       .ellipticalArc( 0, centerTop, xRadius, yRadius, 0, Math.PI, 0, false )
       .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, true )
       .close();
-    const bucketBottomShape = new Shape()
+
+    const cupBottomShape = new Shape()
       .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
-    const waterTopShape = new Shape()
-      .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, 0, Math.PI * 2, false )
-      .close();
-    const waterSideShape = new Shape()
-      .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, Math.PI, 0, true )
-      .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, false )
-      .close();
+
+    // Water fill and shading paths
+    const waterSide = new Path( null, {
+      fill: WATER_COLOR,
+      pickable: false
+    } );
+    const waterTop = new Path( null, {
+      fill: WATER_COLOR,
+      pickable: false
+    } );
+    const waterFrontEdge = new Path( null, {
+      fill: WATER_FRONT_EDGE,
+      pickable: false
+    } );
+    const waterBackEdge = new Path( null, {
+      fill: WATER_BACK_EDGE,
+      pickable: false
+    } );
+    const waterCrescent = new Path( null, {
+      fill: WATER_CRESCENT
+    } );
+
+    // Water cup structure and glare paths
+    const cupFront = new Path( cupFrontShape, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+
+    const cupBack = new Path( cupBackShape, {
+      stroke: 'black',
+      lineWidth: 2,
+      fill: EMPTY_BEAKER_COLOR
+    } );
+
+    cupBack.setScaleMagnitude( -1, 1 );
+    const cupBottom = new Path( cupBottomShape, {
+      stroke: 'black',
+      fill: 'white',
+      pickable: false
+    } );
+
+    const cupGlare = new Path( cupGlareShape.getOffsetShape( 2 ), {
+      fill: BEAKER_SHINE_COLOR,
+      opacity: 0.35
+    } );
 
     const ticksShape = new Shape();
     let y = centerBottom;
     for ( let i = 0; i < numTicks - 1; i++ ) {
-      y -= options.fullHeight / numTicks;
+      y -= CUP_HEIGHT / numTicks;
       const centralAngle = Math.PI * 0.83;
       const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
       ticksShape.ellipticalArc( 0, y, xRadius, yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
     }
 
-    const waterColor = options.colorOverride ? options.colorOverride : WATER_COLOR;
+    // water level adjustment listener
+    waterLevelProperty.link( waterLevel => {
+      const centerLiquidY = centerBottom - CUP_HEIGHT * waterLevel;
+      const waterTopShape = new Shape()
+        .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, 0, Math.PI * 2, false )
+        .close();
+      const waterSideShape = new Shape()
+        .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, 0, 0, Math.PI, false )
+        .close();
+      const waterFrontEdgeShape = new Shape()
+        .ellipticalArc( 0, centerLiquidY + 1, xRadius, yRadius + 2, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerLiquidY, xRadius, yRadius, 0, 0, Math.PI, false );
+      const waterBackEdgeShape = new Shape()
+        .ellipticalArc( 0, centerBottom - 1, xRadius, yRadius + 4, Math.PI, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, yRadius, Math.PI, 0, Math.PI, false );
+      const waterCrescentShape = new Shape()
+        .ellipticalArc( 8, centerLiquidY, yRadius * 0.75, xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
+        .ellipticalArc( 8, centerLiquidY, yRadius * 0.75, xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
 
-    const bucketFront = new Path( bucketFrontShape, {
-      stroke: 'grey',
-      fill: glassGradient
-    } );
-    const bucketBack = new Path( bucketBackShape, {
-      stroke: 'grey',
-      fill: glassGradient
-    } );
-    bucketBack.setScaleMagnitude( -1, 1 );
-    const bucketBottom = new Path( bucketBottomShape, {
-      stroke: 'grey',
-      fill: EMPTY_BEAKER_COLOR,
-      pickable: false
-    } );
-    const waterSide = new Path( waterSideShape, {
-      stroke: 'black',
-      fill: waterColor,
-      pickable: false
-    } );
-    const waterTop = new Path( waterTopShape, {
-      fill: waterColor,
-      pickable: false
-    } );
-    const ticks = new Path( ticksShape, {
-      stroke: 'black',
-      lineWidth: 1.5,
-      pickable: false
+      waterTop.shape = waterTopShape;
+      waterSide.shape = waterSideShape;
+      waterFrontEdge.shape = waterFrontEdgeShape;
+      waterBackEdge.shape = waterBackEdgeShape;
+      waterCrescent.shape = waterCrescentShape;
+
+      //Prevents back edge from appearing when water level empty.
+      waterBackEdge.clipArea = Shape.union( [ waterTopShape, waterSideShape ] );
+
     } );
 
-    super( {
+    // Prevents front edge from dipping below cup boundary when dragged all the way down.
+    waterFrontEdge.clipArea = Shape.union( [ cupFrontShape, cupBottomShape ] );
+
+    const options = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( {
       children: [
-        bucketBack,
-        bucketBottom,
-        ...( numerator > 0 ? [
-          waterSide,
-          waterTop
-        ] : [] ),
-        bucketFront,
-        ticks
+        cupBack,
+        cupBottom,
+        waterSide,
+        waterBackEdge,
+        waterTop,
+        waterCrescent,
+        waterFrontEdge,
+        cupFront,
+        cupGlare
       ]
-    } );
+    }, providedOptions );
 
-    this.mutate( options );
+    super( options );
   }
 }
 
-// @public {number} - The normal height of a beaker
-BeakerNode.DEFAULT_BEAKER_HEIGHT = 150;
-
 sceneryPhet.register( 'BeakerNode', BeakerNode );
-export default BeakerNode;
