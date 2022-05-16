@@ -6,18 +6,18 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import { Shape } from '../../../../../kite/js/imports.js';
-import merge from '../../../../../phet-core/js/merge.js';
-import { Node } from '../../../../../scenery/js/imports.js';
-import { Path } from '../../../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../../../scenery/js/imports.js';
-import FractionsCommonColors from '../../../common/view/FractionsCommonColors.js';
-import fractionsCommon from '../../../fractionsCommon.js';
+import { Shape } from '../../kite/js/imports.js';
+import merge from '../../phet-core/js/merge.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { LinearGradient } from '../../scenery/js/imports.js';
+import SceneryPhetColors from './SceneryPhetColors.js';
+import sceneryPhet from './sceneryPhet.js';
 
 // constants
-const EMPTY_BEAKER_COLOR = FractionsCommonColors.emptyBeakerProperty;
-const WATER_COLOR = FractionsCommonColors.waterProperty;
-const BEAKER_SHINE_COLOR = FractionsCommonColors.beakerShineProperty;
+const EMPTY_BEAKER_COLOR = SceneryPhetColors.emptyBeakerProperty;
+const WATER_COLOR = SceneryPhetColors.waterProperty;
+const BEAKER_SHINE_COLOR = SceneryPhetColors.beakerShineProperty;
 
 class BeakerNode extends Node {
   /**
@@ -132,5 +132,5 @@ class BeakerNode extends Node {
 // @public {number} - The normal height of a beaker
 BeakerNode.DEFAULT_BEAKER_HEIGHT = 150;
 
-fractionsCommon.register( 'BeakerNode', BeakerNode );
+sceneryPhet.register( 'BeakerNode', BeakerNode );
 export default BeakerNode;
