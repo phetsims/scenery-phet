@@ -14,18 +14,12 @@ import sceneryPhet from './sceneryPhet.js';
 // tweaks with the top-level files)
 
 const SceneryPhetColors = {
-  emptyBeakerFillProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeaker', { default: new Color( 249, 253, 255, 0.2 ) } ),
-  solutionFillProperty: new ProfileColorProperty( sceneryPhet, 'water', { default: new Color( 165, 217, 242 ) } ),
-  beakerShineFillProperty: new ProfileColorProperty( sceneryPhet, 'beakerShine', { default: new Color( 255, 255, 255, 0.4 ) } ),
-  solutionShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DFrontEdgeFill', {
-    default: '#8EC6DD'
-  } ),
-  solutionShineFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
-    default: '#B4E5F9'
-  } ),
-  stroke: new ProfileColorProperty( sceneryPhet, 'stroke', {
-    default: 'black'
-  } )
+  emptyBeakerFillProperty: new ProfileColorProperty( sceneryPhet, 'emptyBeakerFill', { default: new Color( 249, 253, 255, 0.2 ) } ),
+  solutionFillProperty: new ProfileColorProperty( sceneryPhet, 'solutionFill', { default: new Color( 165, 217, 242 ) } ),
+  beakerShineFillProperty: new ProfileColorProperty( sceneryPhet, 'beakerShineFill', { default: new Color( 255, 255, 255, 0.4 ) } ),
+  solutionShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'solutionShadowFill', { default: new Color( 142, 198, 221 ) } ),
+  solutionShineFillProperty: new ProfileColorProperty( sceneryPhet, 'solutionShineFill', { default: new Color( 180, 229, 249 ) } ),
+  stroke: new ProfileColorProperty( sceneryPhet, 'stroke', { default: 'black' } )
 };
 
 sceneryPhet.register( 'SceneryPhetColors', SceneryPhetColors );
