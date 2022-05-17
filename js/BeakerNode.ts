@@ -48,7 +48,7 @@ export default class BeakerNode extends Node {
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
-    const numTicks = 5;
+    const numTicks = options.numTicks;
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
