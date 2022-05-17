@@ -9,15 +9,15 @@
 import { Shape } from '../../kite/js/imports.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
-import { Node, NodeOptions, Path, ProfileColorProperty } from '../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Path, ProfileColorProperty } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   emptyBeakerFill?: ProfileColorProperty;
   solutionFill?: ProfileColorProperty;
-  solutionShadowFill?: ProfileColorProperty;
-  solutionGlareFill?: ProfileColorProperty;
+  solutionShadowFill?: ProfileColorProperty | Color;
+  solutionGlareFill?: ProfileColorProperty | Color;
   beakerGlareFill?: ProfileColorProperty;
   beakerHeight?: number;
   xRadius?: number;
@@ -34,12 +34,14 @@ export type BeakerNodeOptions = SelfOptions & NodeOptions;
 export default class BeakerNode extends Node {
   constructor( solutionLevelProperty: NumberProperty,
                providedOptions?: BeakerNodeOptions ) {
+    const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.5 );
+    const solutionShadowFill = providedOptions?.solutionFill?.value.colorUtilsDarker( 0.2 );
 
     const options = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( {
       emptyBeakerFill: SceneryPhetColors.emptyBeakerFillProperty,
       solutionFill: SceneryPhetColors.solutionFillProperty,
-      solutionShadowFill: SceneryPhetColors.solutionShadowFillProperty,
-      solutionGlareFill: SceneryPhetColors.solutionShineFillProperty,
+      solutionShadowFill: solutionShadowFill ? solutionShadowFill : SceneryPhetColors.solutionShadowFillProperty,
+      solutionGlareFill: solutionGlareFill ? solutionGlareFill : SceneryPhetColors.solutionShineFillProperty,
       beakerGlareFill: SceneryPhetColors.beakerShineFillProperty,
       stroke: SceneryPhetColors.stroke,
       lineWidth: 1,
