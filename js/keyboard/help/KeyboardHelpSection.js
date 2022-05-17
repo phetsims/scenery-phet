@@ -276,7 +276,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     // horizontally align the label with the first item in the list of icons, guarantees that the label and first
     // icon have identical heights
     const labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
-    labelFirstIconGroup.createBox( icons[ 0 ] ); // create the box to restrain bounds, but a reference isn't necessary
+    labelFirstIconGroup.createBox( new Node( { children: [ icons[ 0 ] ] } ) ); // create the box to restrain bounds, but a reference isn't necessary
     const labelBox = labelFirstIconGroup.createBox( labelText );
 
     // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
@@ -289,7 +289,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
       // place orText with the icon in an HBox
       iconsWithOrText.push( new HBox( {
-        children: [ icons[ i ], orText ],
+        children: [ new Node( { children: [ icons[ i ] ] } ), orText ],
         spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
       } ) );
     }
