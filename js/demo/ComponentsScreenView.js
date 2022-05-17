@@ -516,23 +516,14 @@ function demoGridBox( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
-  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
+  class ExampleExpandingRectangle extends Rectangle {
     constructor( ...args ) {
       super( ...args );
 
       this.localMinimumWidth = 50;
       this.localMinimumHeight = 50;
-
-      this.localPreferredWidthProperty.lazyLink( width => {
-        if ( width ) {
-          this.rectWidth = Math.max( this.localMinimumWidth, width );
-        }
-      } );
-      this.localPreferredHeightProperty.lazyLink( height => {
-        if ( height ) {
-          this.rectHeight = Math.max( this.localMinimumHeight, height );
-        }
-      } );
+      this.widthSizable = true;
+      this.heightSizable = true;
     }
   }
 
