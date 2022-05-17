@@ -22,6 +22,9 @@ const SceneryPhetColors = {
   } ),
   solutionShineFillProperty: new ProfileColorProperty( sceneryPhet, 'water3DCrescentFill', {
     default: '#B4E5F9'
+  } ),
+  stroke: new ProfileColorProperty( sceneryPhet, 'stroke', {
+    default: 'black'
   } )
 };
 

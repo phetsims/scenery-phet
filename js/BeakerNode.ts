@@ -23,7 +23,9 @@ type SelfOptions = {
   xRadius?: number;
   yRadius?: number;
   showTicks?: boolean;
-
+  tickStroke?: ProfileColorProperty;
+  stroke?: ProfileColorProperty;
+  lineWidth?: number;
   // Denominator of tick marks distance
   numTicks?: number;
 };
@@ -39,11 +41,14 @@ export default class BeakerNode extends Node {
       solutionShadowFill: SceneryPhetColors.solutionShadowFillProperty,
       solutionGlareFill: SceneryPhetColors.solutionShineFillProperty,
       beakerGlareFill: SceneryPhetColors.beakerShineFillProperty,
+      stroke: SceneryPhetColors.stroke,
+      lineWidth: 1,
       beakerHeight: 100,
       xRadius: 30,
       yRadius: 12,
       showTicks: false,
-      numTicks: 4
+      numTicks: 4,
+      tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
 
     const centerTop = -options.beakerHeight / 2;
@@ -52,10 +57,10 @@ export default class BeakerNode extends Node {
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
-      .moveTo( -20, centerTop + 18 )
-      .verticalLineTo( 50 )
-      .lineTo( -15, 52 )
-      .verticalLineTo( centerTop + 21 )
+      .moveTo( -options.xRadius * 0.6, centerTop * 0.6 )
+      .verticalLineTo( centerBottom * 0.85 )
+      .lineTo( -options.xRadius * 0.5, centerBottom * 0.9 )
+      .verticalLineTo( centerTop * 0.55 )
       .close();
 
     const beakerFrontShape = new Shape()
@@ -95,19 +100,19 @@ export default class BeakerNode extends Node {
 
     // Beaker structure and glare paths
     const beakerFront = new Path( beakerFrontShape, {
-      stroke: 'black',
-      lineWidth: 2
+      stroke: options.stroke,
+      lineWidth: options.lineWidth
     } );
 
     const beakerBack = new Path( beakerBackShape, {
-      stroke: 'black',
-      lineWidth: 2,
+      stroke: options.stroke,
+      lineWidth: options.lineWidth,
       fill: options.emptyBeakerFill
     } );
 
     beakerBack.setScaleMagnitude( -1, 1 );
     const beakerBottom = new Path( beakerBottomShape, {
-      stroke: 'black',
+      stroke: options.stroke,
       fill: options.emptyBeakerFill,
       pickable: false
     } );
@@ -126,7 +131,7 @@ export default class BeakerNode extends Node {
     }
 
     const ticks = new Path( ticksShape, {
-      stroke: 'black',
+      stroke: options.tickStroke,
       lineWidth: 1.5,
       pickable: false
     } );
@@ -148,8 +153,8 @@ export default class BeakerNode extends Node {
         .ellipticalArc( 0, centerBottom - 1, options.xRadius, options.yRadius + 4, Math.PI, Math.PI, 0, true )
         .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, Math.PI, 0, Math.PI, false );
       const solutionCrescentShape = new Shape()
-        .ellipticalArc( 8, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
-        .ellipticalArc( 8, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
+        .ellipticalArc( options.xRadius * 0.2, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
+        .ellipticalArc( options.xRadius * 0.2, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
 
       solutionTop.shape = solutionTopShape;
       solutionSide.shape = solutionSideShape;
