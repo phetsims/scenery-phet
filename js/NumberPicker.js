@@ -135,18 +135,28 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       options.pressedColor = new DerivedProperty( [ colorProperty ], color => color.darkerColor() );
     }
 
-    // Overwrite the passed in change listener to make sure that sound implementation can't be blown away in the defaults.
+    let previousValue = valueProperty.value;
+
+    // Overwrite the passed-in change listener to make sure that sound implementation can't be blown away in the defaults.
     const passedInChangeListener = options.onChange;
     options.onChange = () => {
       passedInChangeListener();
 
-      // Play the boundary sound If the value is at min or max, otherwise play the default sound.
-      if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
-        options.boundarySoundPlayer.play();
+      // Despite the name, the onChange listener may be called when no change to the value has actually happened, see
+      // https://github.com/phetsims/sun/issues/760.  We only want to play a sound on a change, so we need to check here
+      // and only play the sound when it's needed.
+      if ( valueProperty.value !== previousValue ) {
+
+        // Play the boundary sound If the value is at min or max, otherwise play the default sound.
+        if ( valueProperty.value === rangeProperty.get().max || valueProperty.value === rangeProperty.get().min ) {
+          options.boundarySoundPlayer.play();
+        }
+        else {
+          options.valueChangedSoundPlayer.play();
+        }
       }
-      else {
-        options.valueChangedSoundPlayer.play();
-      }
+
+      previousValue = valueProperty.value;
     };
 
     assert && assert( !options.keyboardStep, 'NumberPicker sets its own keyboardStep' );
