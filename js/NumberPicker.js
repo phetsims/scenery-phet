@@ -83,9 +83,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
 
       /**
        * {function(SceneryEvent)}
-       * Listener that is called when the value changes due to user interaction with this number picker.
+       * Listener that is called when the NumberPicker has input on it due to user interaction.
        */
-      onChange: _.noop,
+      onInput: _.noop,
 
       /**
        * Determines whether the increment arrow is enabled.
@@ -137,12 +137,13 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
 
     let previousValue = valueProperty.value;
 
-    // Overwrite the passed-in change listener to make sure that sound implementation can't be blown away in the defaults.
-    const passedInChangeListener = options.onChange;
-    options.onChange = () => {
-      passedInChangeListener();
+    // Overwrite the passed-in onInput listener to make sure that sound implementation can't be blown away in the
+    // defaults.
+    const providedOnInputListener = options.onInput;
+    options.onInput = () => {
+      providedOnInputListener();
 
-      // Despite the name, the onChange listener may be called when no change to the value has actually happened, see
+      // Despite the name, the onInput listener may be called when no change to the value has actually happened, see
       // https://github.com/phetsims/sun/issues/760.  We only want to play a sound on a change, so we need to check here
       // and only play the sound when it's needed.
       if ( valueProperty.value !== previousValue ) {
@@ -343,7 +344,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       tandem: options.tandem.createTandem( 'incrementInputListener' ),
       fire: event => {
         valueProperty.set( Math.min( options.incrementFunction( valueProperty.get() ), rangeProperty.get().max ) );
-        options.onChange( event );
+        options.onInput( event );
 
         // voicing - speak the object/context responses on value change from user input
         this.voicingSpeakFullResponse( { nameResponse: null, hintResponse: null } );
@@ -356,7 +357,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       tandem: options.tandem.createTandem( 'decrementInputListener' ),
       fire: event => {
         valueProperty.set( Math.max( options.decrementFunction( valueProperty.get() ), rangeProperty.get().min ) );
-        options.onChange( event );
+        options.onInput( event );
 
         // voicing - speak the object/context responses on value change from user input
         this.voicingSpeakFullResponse( { nameResponse: null, hintResponse: null } );
