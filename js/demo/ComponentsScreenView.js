@@ -603,11 +603,11 @@ function demoGridBox( layoutBounds ) {
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
-        layoutOptions: { x: 0, y: 1, xAlign: 'stretch', yAlign: 'stretch', grow: 1 }
+        layoutOptions: { x: 0, y: 1, stretch: true, grow: 1 }
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
-        layoutOptions: { x: 3, y: 0, height: 3, yAlign: 'stretch', leftMargin: 20, yMargin: 10 }
+        layoutOptions: { x: 3, y: 0, height: 3, yStretch: true, leftMargin: 20, yMargin: 10 }
       } )
     ]
   } );
