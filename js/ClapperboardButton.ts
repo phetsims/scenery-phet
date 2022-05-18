@@ -64,7 +64,7 @@ class ClapperboardButton extends Node {
       listener: () => {
 
         // so that this listener cannot be called more than once
-        synchronizeButton.visible = false;
+        synchronizeButton.enabled = false;
 
         this.addChild( options.visualNode );
         stepTimer.setTimeout( () => {
