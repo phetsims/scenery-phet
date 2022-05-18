@@ -14,11 +14,12 @@ import { Text } from '../../scenery/js/imports.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Property from '../../axon/js/Property.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = {
   labelText: string;
 };
-export type QuestionBarOptions = SelfOptions & Omit<StatusBarOptions, 'floatToTop'>
+export type QuestionBarOptions = SelfOptions & Omit<StatusBarOptions, 'floatToTop'>;
 
 const QUESTION_TEXT_MARGIN = 30;
 
@@ -26,9 +27,10 @@ class QuestionBar extends StatusBar {
 
   constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
 
-    const options = optionize<QuestionBarOptions, {}>()( {
+    const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
-      barHeight: 70
+      barHeight: 70,
+      tandem: Tandem.OPTIONAL
     }, providedOptions );
     super( layoutBounds, boundsProperty, options );
 
@@ -37,7 +39,8 @@ class QuestionBar extends StatusBar {
         weight: 'bold',
         size: '23px'
       } ),
-      maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2
+      maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2,
+      tandem: options.tandem.createTandem( 'labelText' )
     } );
     this.addChild( labelText );
 
