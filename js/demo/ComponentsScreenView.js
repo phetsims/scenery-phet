@@ -26,7 +26,7 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
-import { Circle, Color, DragListener, FlowBox, GridBox, HBox, HeightSizable, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
+import { Circle, Color, DragListener, FlowBox, GridBox, HBox, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
@@ -989,7 +989,7 @@ function demoFlowBox( layoutBounds ) {
     new Color( 252, 82, 127 )
   ];
 
-  class ExampleExpandingRectangle extends WidthSizable( HeightSizable( Rectangle ) ) {
+  class ExampleExpandingRectangle extends Rectangle {
     constructor( ...args ) {
       super( ...args );
 
