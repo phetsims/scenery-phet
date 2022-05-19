@@ -143,9 +143,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     options.onInput = () => {
       providedOnInputListener();
 
-      // Despite the name, the onInput listener may be called when no change to the value has actually happened, see
-      // https://github.com/phetsims/sun/issues/760.  We only want to play a sound on a change, so we need to check here
-      // and only play the sound when it's needed.
+      // The onInput listener may be called when no change to the value has actually happened, see
+      // https://github.com/phetsims/sun/issues/760.  We do some checks here to make sure the sound is only generated
+      // when a change occurs.
       if ( valueProperty.value !== previousValue ) {
 
         // Play the boundary sound If the value is at min or max, otherwise play the default sound.
