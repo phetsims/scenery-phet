@@ -8,7 +8,7 @@
  */
 
 import Range from '../../dot/js/Range.js';
-import Property from '../../axon/js/Property.js';
+import Multilink from '../../axon/js/Multilink.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
@@ -82,7 +82,7 @@ export default class SegmentedBarGraphNode extends Node {
     } );
 
     // set the visibility and opacity of each of the segments based on the value and range
-    Property.multilink( [ numberProperty, rangeProperty ], ( value, range ) => {
+    Multilink.multilink( [ numberProperty, rangeProperty ], ( value, range ) => {
       assert && assert( range.min <= value && value <= range.max,
         `numberProperty is out of range: ${value}` );
 

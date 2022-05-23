@@ -8,6 +8,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
@@ -401,12 +402,12 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     valueProperty.link( valueObserver ); // must be unlinked in dispose
 
     // @private update colors for increment components
-    Property.multilink( [ incrementButtonStateProperty, incrementEnabledProperty ], ( state, enabled ) => {
+    Multilink.multilink( [ incrementButtonStateProperty, incrementEnabledProperty ], ( state, enabled ) => {
       updateColors( state, enabled, incrementBackgroundNode, this.incrementArrow, backgroundColors, arrowColors );
     } );
 
     // @private update colors for decrement components
-    Property.multilink( [ decrementButtonStateProperty, decrementEnabledProperty ], ( state, enabled ) => {
+    Multilink.multilink( [ decrementButtonStateProperty, decrementEnabledProperty ], ( state, enabled ) => {
       updateColors( state, enabled, decrementBackgroundNode, this.decrementArrow, backgroundColors, arrowColors );
     } );
 
@@ -532,7 +533,7 @@ class NumberPickerInputListener extends FireListener {
    */
   constructor( buttonStateProperty, options ) {
     super( options );
-    Property.multilink(
+    Multilink.multilink(
       [ this.isOverProperty, this.isPressedProperty ],
       ( isOver, isPressed ) => {
         buttonStateProperty.set(

@@ -10,6 +10,7 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
@@ -670,7 +671,7 @@ function demoProbeNode( layoutBounds ) {
   const redProperty = new Property( color.red );
   const greenProperty = new Property( color.green );
   const blueProperty = new Property( color.blue );
-  Property.multilink( [ redProperty, greenProperty, blueProperty ],
+  Multilink.multilink( [ redProperty, greenProperty, blueProperty ],
     ( r, g, b ) => {
       colorProperty.value = new Color( r, g, b );
     } );
@@ -697,7 +698,7 @@ function demoProbeNode( layoutBounds ) {
   demoParent.addChild( radioButtonGroup );
 
   // When the model properties change, update the sensor node
-  Property.multilink( [
+  Multilink.multilink( [
       colorProperty,
       radiusProperty,
       innerRadiusProperty,

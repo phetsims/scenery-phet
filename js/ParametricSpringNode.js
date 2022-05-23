@@ -19,7 +19,7 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import Property from '../../axon/js/Property.js';
+import Multilink from '../../axon/js/Multilink.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
@@ -145,7 +145,7 @@ class ParametricSpringNode extends Node {
 
     // Changes to these properties require new points (Vector2) and Shapes, because they change
     // the number of points and/or how the points are allocated to frontShape and backShape.
-    Property.multilink( [
+    Multilink.multilink( [
         this.loopsProperty, this.pointsPerLoopProperty,
         this.aspectRatioProperty, this.phaseProperty, this.deltaPhaseProperty
       ],
@@ -232,7 +232,7 @@ class ParametricSpringNode extends Node {
 
     // Changes to these properties can be accomplished by mutating existing points (Vector2) and Shapes,
     // because the number of points remains the same, as does their allocation to frontShape and backShape.
-    Property.lazyMultilink(
+    Multilink.lazyMultilink(
       [ this.radiusProperty, this.xScaleProperty ],
       ( radius, xScale ) => {
 
@@ -269,7 +269,7 @@ class ParametricSpringNode extends Node {
       } );
 
     // Update the stroke gradients
-    Property.multilink(
+    Multilink.multilink(
       [ this.radiusProperty, this.aspectRatioProperty ],
       ( radius, aspectRatio ) => {
 

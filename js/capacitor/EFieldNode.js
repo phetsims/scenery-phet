@@ -10,7 +10,7 @@
 
 
 //modules
-import Property from '../../../axon/js/Property.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
 import { CanvasNode } from '../../../scenery/js/imports.js';
@@ -85,7 +85,7 @@ class EFieldNode extends CanvasNode {
     this.modelViewTransform = modelViewTransform;
     this.maxEffectiveEField = maxEffectiveEField;
 
-    Property.multilink( [
+    Multilink.multilink( [
       capacitor.plateSizeProperty,
       capacitor.plateSeparationProperty,
       capacitor.plateVoltageProperty

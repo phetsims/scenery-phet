@@ -13,6 +13,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -301,7 +302,7 @@ class MeasuringTapeNode extends Node {
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
-    const multilink = Property.multilink(
+    const multilink = Multilink.multilink(
       [ this.measuredDistanceProperty, unitsProperty, this.modelViewTransformProperty, this.tipPositionProperty, this.basePositionProperty ], (
         measuredDistance, units, modelViewTransform, tipPosition, basePosition ) => {
 

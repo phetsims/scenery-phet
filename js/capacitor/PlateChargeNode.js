@@ -13,7 +13,7 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import validate from '../../../axon/js/validate.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
@@ -77,7 +77,7 @@ class PlateChargeNode extends CanvasNode {
     this.addChild( this.parentNode );
 
     // No disposal required because the capacitor exists for the life of the sim
-    Property.multilink( [
+    Multilink.multilink( [
         capacitor.plateSizeProperty,
         capacitor.plateChargeProperty
       ], () => self.isVisible() && self.invalidatePaint()

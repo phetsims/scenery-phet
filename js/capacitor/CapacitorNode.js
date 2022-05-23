@@ -8,7 +8,7 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import validate from '../../../axon/js/validate.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import { Shape } from '../../../kite/js/imports.js';
@@ -58,7 +58,7 @@ class CapacitorNode extends Node {
     this.addChild( eFieldNode );
     this.addChild( this.topPlateNode );
 
-    const updateGeometry = Property.multilink( [
+    const updateGeometry = Multilink.multilink( [
       this.capacitor.plateSizeProperty,
       this.capacitor.plateSeparationProperty
     ], () => this.updateGeometry() );

@@ -7,8 +7,7 @@
  */
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import { UnknownMultilink } from '../../axon/js/Multilink.js';
-import Property from '../../axon/js/Property.js';
+import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -38,7 +37,7 @@ export default class WireNode extends Path {
 
     super( null, options );
 
-    this.multilink = Property.multilink( [
+    this.multilink = Multilink.multilink( [
       position1Property, normal1Property, position2Property, normal2Property
     ], ( position1, normal1, position2, normal2 ) => {
       this.shape = new Shape()
