@@ -167,6 +167,10 @@ export default class EyeDropperNode extends Node {
     this.setFluidColor( value );
   }
 
+  get fluidColor() {
+    return this.getFluidColor();
+  }
+
   /**
    * Gets the color of the fluid in the dropper.
    */
@@ -174,9 +178,6 @@ export default class EyeDropperNode extends Node {
     return this.fluidNode.fill;
   }
 
-  get fluidColor() {
-    return this.getFluidColor();
-  }
 }
 
 sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );

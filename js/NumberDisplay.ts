@@ -287,15 +287,15 @@ export default class NumberDisplay extends Node {
 
   set backgroundFill( value: IPaint ) { this.setBackgroundFill( value ); }
 
+  get backgroundFill(): IPaint {
+    return this.getBackgroundFill();
+  }
+
   /**
    * Gets the background fill.
    */
   getBackgroundFill(): IPaint {
     return this.backgroundNode.fill;
-  }
-
-  get backgroundFill(): IPaint {
-    return this.getBackgroundFill();
   }
 
   /**

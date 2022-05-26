@@ -285,6 +285,8 @@ export default class Drawer extends Node {
 
   set animationEnabled( value ) { this.setAnimationEnabled( value ); }
 
+  get animationEnabled() { return this.getAnimationEnabled(); }
+
   /**
    * Is animation enabled for opening/closing drawer?
    */
@@ -292,7 +294,6 @@ export default class Drawer extends Node {
     return this._animationEnabled;
   }
 
-  get animationEnabled() { return this.getAnimationEnabled(); }
 }
 
 sceneryPhet.register( 'Drawer', Drawer );

@@ -78,6 +78,8 @@ export default class ValueGaugeNode extends GaugeNode {
 
   set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
 
+  get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
+
   /**
    * Gets the visibility of the gauge's NumberDisplay.
    */
@@ -85,7 +87,6 @@ export default class ValueGaugeNode extends GaugeNode {
     return this._numberDisplayVisible;
   }
 
-  get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
 
   public override dispose(): void {
     this.numberDisplay.dispose();
