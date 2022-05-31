@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignGroup, HBox, LayoutBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -629,7 +629,7 @@ export default class NumberControl extends Node {
     hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
 
     // Supports Pendulum Lab's questionText where a question is substituted for the slider
-    createBottomContent?: ( ( box: LayoutBox ) => void ) | null;
+    createBottomContent?: ( ( box: HBox ) => void ) | null;
   } ): LayoutFunction {
 
     const options = merge( {
