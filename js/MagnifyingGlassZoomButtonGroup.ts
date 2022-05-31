@@ -1,7 +1,7 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * ZoomButtonGroup that shows magnifying glass icons
+ * A ZoomButtonGroup that shows magnifying glass icons on the buttons
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

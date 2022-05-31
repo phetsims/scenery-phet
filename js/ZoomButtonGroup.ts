@@ -1,15 +1,14 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * ZoomButtonGroup is a general 'modern' button group for zooming in and out.
- * It was conceived and first used in natural-selection.
+ * ZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import { LayoutBox, LayoutBoxOptions, Node } from '../../scenery/js/imports.js';
+import { FlowBox, FlowBoxOptions, LayoutBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -33,9 +32,9 @@ type SelfOptions = {
   mouseAreaYDilation?: number;
 };
 
-export type ZoomButtonGroupOptions = SelfOptions & Omit<LayoutBoxOptions, 'children'>;
+export type ZoomButtonGroupOptions = SelfOptions & Omit<FlowBoxOptions, 'children'>;
 
-export default class ZoomButtonGroup extends LayoutBox {
+export default class ZoomButtonGroup extends FlowBox {
 
   private readonly disposeZoomButtonGroup: () => void;
 
@@ -64,7 +63,7 @@ export default class ZoomButtonGroup extends LayoutBox {
         fireOnHoldInterval: 250 // ms
       },
 
-      // LayoutBoxOptions
+      // FlowBoxOptions
       spacing: 0,
       orientation: 'horizontal',
       align: 'center',
