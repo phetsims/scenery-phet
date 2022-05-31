@@ -8,6 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import { Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -17,7 +18,7 @@ type SelfOptions = {
   rectangleOptions?: RectangleOptions; // options passed to the background scenery.Rectangle
 }
 
-export type BackgroundNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type BackgroundNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class BackgroundNode extends Node {
 

@@ -11,6 +11,7 @@
  */
 
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import PlayPauseButton, { PlayPauseButtonOptions } from './PlayPauseButton.js';
 import StepBackwardButton, { StepBackwardButtonOptions } from './StepBackwardButton.js';
 import StepForwardButton, { StepForwardButtonOptions } from './StepForwardButton.js';
@@ -38,12 +39,12 @@ type SelfOptions = {
   playPauseStepXSpacing?: number;
 
   // options for button subcomponents
-  playPauseButtonOptions?: Omit<PlayPauseButtonOptions, 'tandem' | 'phetioDocumentation'>;
-  stepForwardButtonOptions?: Omit<StepForwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
-  stepBackwardButtonOptions?: Omit<StepBackwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
+  playPauseButtonOptions?: OmitStrict<PlayPauseButtonOptions, 'tandem' | 'phetioDocumentation'>;
+  stepForwardButtonOptions?: OmitStrict<StepForwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
+  stepBackwardButtonOptions?: OmitStrict<StepBackwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
 };
 
-export type PlayPauseStepButtonGroupOptions = SelfOptions & Omit<HBoxOptions, 'spacing' | 'children'>;
+export type PlayPauseStepButtonGroupOptions = SelfOptions & OmitStrict<HBoxOptions, 'spacing' | 'children'>;
 
 export default class PlayPauseStepButtonGroup extends HBox {
 

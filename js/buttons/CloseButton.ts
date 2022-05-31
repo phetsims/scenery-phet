@@ -9,6 +9,7 @@
  */
 
 import { Shape } from '../../../kite/js/imports.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -21,7 +22,7 @@ type SelfOptions = {
   pathOptions?: PathOptions; // options passed along to the Path for the 'X'
 };
 
-export type CloseButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
+export type CloseButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
 
 export default class CloseButton extends RectangularPushButton {
 

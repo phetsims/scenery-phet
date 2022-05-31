@@ -8,6 +8,7 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -25,7 +26,7 @@ type SelfOptions = {
   outerStroke?: IColor;
 };
 
-export type StopSignNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type StopSignNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class StopSignNode extends Node {
 

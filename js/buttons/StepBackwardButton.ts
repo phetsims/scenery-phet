@@ -7,13 +7,14 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import stepBackwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepBackwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
 
 type SelfOptions = {};
 
-export type StepBackwardButtonOptions = SelfOptions & Omit<StepButtonOptions, 'direction'>;
+export type StepBackwardButtonOptions = SelfOptions & OmitStrict<StepButtonOptions, 'direction'>;
 
 export default class StepBackwardButton extends StepButton {
 

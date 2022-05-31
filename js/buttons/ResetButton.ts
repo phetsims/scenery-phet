@@ -9,6 +9,7 @@
  */
 
 import Matrix3 from '../../../dot/js/Matrix3.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { IColor, Path } from '../../../scenery/js/imports.js';
@@ -22,7 +23,7 @@ type SelfOptions = {
   arrowColor?: IColor;
 };
 
-export type ResetButtonOptions = SelfOptions & Omit<RoundPushButtonOptions, 'content'>;
+export type ResetButtonOptions = SelfOptions & OmitStrict<RoundPushButtonOptions, 'content'>;
 
 export default class ResetButton extends RoundPushButton {
 

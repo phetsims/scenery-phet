@@ -8,12 +8,13 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
 
 type SelfOptions = {};
 
-export type StepForwardButtonOptions = SelfOptions & Omit<StepButtonOptions, 'direction'>;
+export type StepForwardButtonOptions = SelfOptions & OmitStrict<StepButtonOptions, 'direction'>;
 
 export default class StepForwardButton extends StepButton {
 

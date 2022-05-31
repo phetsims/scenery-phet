@@ -18,6 +18,7 @@ import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } fro
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
@@ -38,7 +39,7 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
                providedOptions?: TimeSpeedRadioButtonGroupOptions ) {
 
     const options = optionize<TimeSpeedRadioButtonGroupOptions,
-      Omit<SelfOptions, 'radius'>, VerticalAquaRadioButtonGroupOptions>()( {
+      OmitStrict<SelfOptions, 'radius'>, VerticalAquaRadioButtonGroupOptions>()( {
 
       // SelfOptions
       labelOptions: {

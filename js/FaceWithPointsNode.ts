@@ -9,6 +9,7 @@
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Font, IColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import FaceNode from './FaceNode.js';
@@ -34,7 +35,7 @@ type SelfOptions = {
   points?: number; // the number of points
 };
 
-export type FaceWithPointsNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type FaceWithPointsNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class FaceWithPointsNode extends Node {
 

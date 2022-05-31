@@ -9,6 +9,7 @@
  */
 
 import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -29,7 +30,7 @@ type SelfOptions = {
   phetioRestoreScreenStateOnReset?: boolean;
 };
 
-export type ResetAllButtonOptions = SelfOptions & Omit<ResetButtonOptions, 'xMargin' | 'yMargin'>;
+export type ResetAllButtonOptions = SelfOptions & OmitStrict<ResetButtonOptions, 'xMargin' | 'yMargin'>;
 
 export default class ResetAllButton extends ResetButton {
 

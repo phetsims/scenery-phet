@@ -7,6 +7,7 @@
  */
 
 import Bucket from '../../../phetcommon/js/model/Bucket.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { LinearGradient, Node, NodeOptions, PaintColorProperty, Path, Text } from '../../../scenery/js/imports.js';
@@ -29,7 +30,7 @@ export default class BucketFront extends Node {
 
   constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
 
-    const options = optionize<BucketFrontOptions, Omit<SelfOptions, 'labelNode'>, NodeOptions>()( {
+    const options = optionize<BucketFrontOptions, OmitStrict<SelfOptions, 'labelNode'>, NodeOptions>()( {
       tandem: Tandem.REQUIRED,
       cursor: 'pointer'
     }, providedOptions );

@@ -7,6 +7,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -36,7 +37,7 @@ type SelfOptions = {
   buttonOptions?: RoundMomentaryButtonOptions;
 };
 
-export type EyeDropperNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type EyeDropperNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class EyeDropperNode extends Node {
 

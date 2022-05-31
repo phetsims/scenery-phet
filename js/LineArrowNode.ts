@@ -7,6 +7,7 @@
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -26,7 +27,7 @@ type SelfOptions = {
   tailLineDash?: number[];
 };
 
-export type LineArrowNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type LineArrowNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class LineArrowNode extends Node {
 

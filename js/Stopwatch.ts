@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import NumberProperty, { NumberPropertyOptions } from '../../axon/js/NumberProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Range from '../../dot/js/Range.js';
@@ -24,7 +25,7 @@ const DEFAULT_TIME_RANGE = new Range( 0, Number.POSITIVE_INFINITY );
 type SelfOptions = {
   position?: Vector2;
   isVisible?: boolean;
-  timePropertyOptions?: Omit<NumberPropertyOptions, 'tandem'>;
+  timePropertyOptions?: OmitStrict<NumberPropertyOptions, 'tandem'>;
 };
 
 export type StopwatchOptions = SelfOptions & PhetioObjectOptions;

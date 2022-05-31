@@ -7,6 +7,7 @@
  */
 
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from './MagnifyingGlassNode.js';
 import MinusNode from './MinusNode.js';
@@ -19,7 +20,7 @@ import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 type SelfOptions = {
 
   // options propagated to MagnifyingGlassNode
-  magnifyingGlassNodeOptions?: Omit<MagnifyingGlassNodeOptions, 'icon'>;
+  magnifyingGlassNodeOptions?: OmitStrict<MagnifyingGlassNodeOptions, 'icon'>;
 };
 
 export type MagnifyingGlassZoomButtonGroupOptions = SelfOptions & ZoomButtonGroupOptions;

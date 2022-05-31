@@ -6,6 +6,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import { Circle, IColor, Line, Node, NodeOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -16,7 +17,7 @@ type SelfOptions = {
   icon?: Node | null; // optional icon will be centered in the glass area, if provided
 };
 
-export type MagnifyingGlassNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type MagnifyingGlassNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class MagnifyingGlassNode extends Node {
 

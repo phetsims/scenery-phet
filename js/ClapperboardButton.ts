@@ -13,6 +13,7 @@
  */
 
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import OscillatorSoundGenerator from '../../tambo/js/sound-generators/OscillatorSoundGenerator.js';
 import videoSolidShape from '../../sherpa/js/fontawesome-5/videoSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
@@ -27,7 +28,7 @@ const SOUND_DURATION = 1000;
 
 type SelfOptions = {
   visualNode?: Node;
-  synchronizeButtonOptions?: Omit<RectangularPushButtonOptions, 'listener' | 'tandem'>;
+  synchronizeButtonOptions?: OmitStrict<RectangularPushButtonOptions, 'listener' | 'tandem'>;
 }
 
 type ClapperboardButtonOptions = SelfOptions & NodeOptions;

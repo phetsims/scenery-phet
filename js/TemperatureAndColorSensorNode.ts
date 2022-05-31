@@ -10,6 +10,7 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import Range from '../../dot/js/Range.js';
 import { Color, IColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -26,7 +27,7 @@ type SelfOptions = {
   // vertical difference between bottom of color indicator and thermometer
   bottomOffset?: number;
 
-  thermometerNodeOptions?: Omit<ThermometerNodeOptions, 'left' | 'bottom'>;
+  thermometerNodeOptions?: OmitStrict<ThermometerNodeOptions, 'left' | 'bottom'>;
 
   colorIndicatorOptions?: { sideLength?: number } & PathOptions;
 };

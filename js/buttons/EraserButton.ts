@@ -7,6 +7,7 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Image } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -18,7 +19,7 @@ type SelfOptions = {
   iconWidth?: number; // width of eraser icon, used for scaling, the aspect ratio will determine height
 };
 
-export type EraserButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
+export type EraserButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
 
 export default class EraserButton extends RectangularPushButton {
 

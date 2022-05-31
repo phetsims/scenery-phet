@@ -9,6 +9,7 @@
  */
 
 import Range from '../../dot/js/Range.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -24,7 +25,7 @@ import IProperty from '../../axon/js/IProperty.js';
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
 
-type SubsetOfNumberDisplayOptions = Omit<NumberDisplayOptions, 'valuePattern'>;
+type SubsetOfNumberDisplayOptions = OmitStrict<NumberDisplayOptions, 'valuePattern'>;
 
 // Describes an item in the ComboBoxDisplay
 export type ComboBoxDisplayItem = {

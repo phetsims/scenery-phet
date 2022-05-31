@@ -9,6 +9,7 @@
  */
 
 import IProperty from '../../axon/js/IProperty.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -68,7 +69,7 @@ type SelfOptions = {
   shortCircuitFill?: IColor;
 };
 
-export type ConductivityTesterNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type ConductivityTesterNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 class ConductivityTesterNode extends Node {
 
@@ -312,7 +313,7 @@ class ConductivityTesterNode extends Node {
   public static createIcon( brightness: number,
                             positiveProbeXOffset: number, negativeProbeXOffset: number,
                             bothProbesYOffset: number,
-                            providedOptions: Omit<ConductivityTesterNodeOptions, 'interactive'> ): Node {
+                            providedOptions: OmitStrict<ConductivityTesterNodeOptions, 'interactive'> ): Node {
 
     const options = combineOptions<ConductivityTesterNodeOptions>( {
       interactive: false

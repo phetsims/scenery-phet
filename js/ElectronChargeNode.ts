@@ -7,6 +7,7 @@
  */
 
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Circle, Node, NodeOptions, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -17,7 +18,7 @@ type SelfOptions = {
   radius?: number;
 };
 
-export type ElectronChargeNodeOptions = SelfOptions & Omit<NodeOptions, 'children'>;
+export type ElectronChargeNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
 
 export default class ElectronChargeNode extends Node {
 

@@ -7,6 +7,7 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
@@ -15,7 +16,7 @@ import StarShape from '../StarShape.js';
 
 type SelfOptions = {};
 
-export type StarButtonOptions = SelfOptions & Omit<RectangularPushButtonOptions, 'content'>;
+export type StarButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
 
 export default class StarButton extends RectangularPushButton {
 

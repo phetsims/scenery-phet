@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
 import Emitter from '../../axon/js/Emitter.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
@@ -58,7 +59,7 @@ type SelfOptions = {
   stepEmitter?: Emitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
 };
 
-export type DrawerOptions = SelfOptions & Omit<NodeOptions, 'children' | 'clipArea'>;
+export type DrawerOptions = SelfOptions & OmitStrict<NodeOptions, 'children' | 'clipArea'>;
 
 export default class Drawer extends Node {
 

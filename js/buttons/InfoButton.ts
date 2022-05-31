@@ -7,6 +7,7 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { IColor, Path } from '../../../scenery/js/imports.js';
 import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
@@ -17,7 +18,7 @@ type SelfOptions = {
   iconFill?: IColor;
 };
 
-export type InfoButtonOptions = SelfOptions & Omit<RoundPushButtonOptions, 'content'>;
+export type InfoButtonOptions = SelfOptions & OmitStrict<RoundPushButtonOptions, 'content'>;
 
 export default class InfoButton extends RoundPushButton {
 
