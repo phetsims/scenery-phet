@@ -4,6 +4,8 @@
  * A Node that produces a variety of outputs to provide a mechanism to synchronize anything that may be recording from these.
  * This includes sound, visuals, and the PhET-iO data stream.
  *
+ * This is intended to be used in studies with users to assist with data collection. Not a typical UI component.
+ *
  * TODO: Instrument for PhET-iO, https://github.com/phetsims/scenery-phet/issues/739
  * TODO: Emit a PhET-iO state when triggered, https://github.com/phetsims/scenery-phet/issues/739
  *
