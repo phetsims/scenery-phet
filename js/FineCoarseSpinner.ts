@@ -124,13 +124,13 @@ export default class FineCoarseSpinner extends Node {
       { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
-    const layoutBox = new HBox( {
+    const hBox = new HBox( {
       spacing: options.spacing,
       children: [ decrementFineButton, decrementCoarseButton, numberDisplay, incrementCoarseButton, incrementFineButton ]
     } );
 
     // Wrap in Node to hide HBox API.
-    options.children = [ layoutBox ];
+    options.children = [ hBox ];
 
     super( options );
 
