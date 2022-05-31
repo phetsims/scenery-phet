@@ -20,6 +20,7 @@ type SelfOptions = {
   solutionGlareFill?: ProfileColorProperty | Color;
   beakerGlareFill?: ProfileColorProperty;
   beakerHeight?: number;
+  beakerWidth?: number;
   xRadius?: number;
   yRadius?: number;
   showTicks?: boolean;
@@ -46,12 +47,15 @@ export default class BeakerNode extends Node {
       stroke: SceneryPhetColors.stroke,
       lineWidth: 1,
       beakerHeight: 100,
+      beakerWidth: 60,
       xRadius: 30,
       yRadius: 12,
       showTicks: false,
       numTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
+
+    options.xRadius = providedOptions?.beakerWidth ? providedOptions.beakerWidth / 2 : options.xRadius;
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
