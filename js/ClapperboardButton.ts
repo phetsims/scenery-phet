@@ -11,7 +11,7 @@
  */
 
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import PitchedPopGenerator from '../../tambo/js/sound-generators/PitchedPopGenerator.js';
+import OscillatorSoundGenerator from '../../tambo/js/sound-generators/OscillatorSoundGenerator.js';
 import videoSolidShape from '../../sherpa/js/fontawesome-5/videoSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -20,6 +20,8 @@ import soundManager from '../../tambo/js/soundManager.js';
 import BackgroundNode from './BackgroundNode.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import Tandem from '../../tandem/js/Tandem.js';
+
+const SOUND_DURATION = 1000;
 
 type SelfOptions = {
   visualNode?: Node;
@@ -31,7 +33,11 @@ type ClapperboardButtonOptions = SelfOptions & NodeOptions;
 class ClapperboardButton extends Node {
   constructor( providedOptions?: ClapperboardButtonOptions ) {
 
-    const x = new PitchedPopGenerator();
+    // A single waveform with a high pitch should hopefully be easy to find in recordings,
+    // see https://github.com/phetsims/scenery-phet/issues/739#issuecomment-1142395903
+    const x = new OscillatorSoundGenerator( {
+      initialFrequency: 880
+    } );
     soundManager.addSoundGenerator( x );
 
     const options = optionize<ClapperboardButtonOptions, SelfOptions, NodeOptions>()( {
@@ -48,7 +54,7 @@ class ClapperboardButton extends Node {
         content: new RichText( 'Synchronize Recording' ),
         soundPlayer: {
           play: () => {
-            x.playPop( 1 );
+            x.play();
           },
           stop: _.noop
         }
@@ -70,7 +76,9 @@ class ClapperboardButton extends Node {
         stepTimer.setTimeout( () => {
           this.removeChild( options.visualNode );
           this.visible = false;
-        }, 1000 ); // TODO: how long to wait? https://github.com/phetsims/scenery-phet/issues/739
+
+          x.stop();
+        }, SOUND_DURATION );
       },
       tandem: options.tandem.createTandem( 'synchronizeButton' )
     }, options.synchronizeButtonOptions ) );
