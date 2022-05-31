@@ -8,7 +8,7 @@
 
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import { FlowBox, FlowBoxOptions, LayoutBoxOptions, Node } from '../../scenery/js/imports.js';
+import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -48,7 +48,7 @@ export default class ZoomButtonGroup extends FlowBox {
 
     const zoomLevelRange = zoomLevelProperty.range;
 
-    const options = optionize<ZoomButtonGroupOptions, SelfOptions, LayoutBoxOptions>()( {
+    const options = optionize<ZoomButtonGroupOptions, SelfOptions, FlowBoxOptions>()( {
 
       // ZoomButtonGroupOptions
       applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
