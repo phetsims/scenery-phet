@@ -9,7 +9,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import { Circle, Line, Node, NodeOptions, PaintableOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -18,7 +18,7 @@ type SelfOptions = {
   radius?: number;
 } & PickOptional<PaintableOptions, 'lineWidth' | 'stroke' | 'fill'>;
 
-export type BannedNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type BannedNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class BannedNode extends Node {
 

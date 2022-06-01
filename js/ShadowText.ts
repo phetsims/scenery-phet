@@ -7,7 +7,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Font, IPaint, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -26,7 +26,7 @@ type SelfOptions = {
   shadowYOffset?: number;
 };
 
-export type ShadowTextOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type ShadowTextOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class ShadowText extends Node {
 

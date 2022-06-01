@@ -9,7 +9,7 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -33,7 +33,7 @@ type SelfOptions = {
   maxValue?: number;
 };
 
-export type SpectrumNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type SpectrumNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class SpectrumNode extends Node {
 

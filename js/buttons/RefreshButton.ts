@@ -7,7 +7,7 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
 import syncAltSolidShape from '../../../sherpa/js/fontawesome-5/syncAltSolidShape.js';
@@ -19,7 +19,7 @@ type SelfOptions = {
   iconHeight?: number;
 };
 
-export type RefreshButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
+export type RefreshButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 export default class RefreshButton extends RectangularPushButton {
 

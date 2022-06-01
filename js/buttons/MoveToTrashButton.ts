@@ -9,7 +9,7 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { IColor, Node, Path } from '../../../scenery/js/imports.js';
 import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
@@ -22,7 +22,7 @@ type SelfOptions = {
   arrowColor?: IColor;
 };
 
-export type MoveToTrashButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
+export type MoveToTrashButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 export default class MoveToTrashButton extends RectangularPushButton {
 

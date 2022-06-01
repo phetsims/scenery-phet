@@ -9,7 +9,7 @@
  */
 
 import { Shape } from '../../../kite/js/imports.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { HBox, IPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
@@ -30,7 +30,7 @@ type SelfOptions = {
 };
 
 export type StepButtonOptions = SelfOptions &
-  OmitStrict<RoundPushButtonOptions, 'content' | 'xContentOffset' | 'xMargin' | 'yMargin'>;
+  StrictOmit<RoundPushButtonOptions, 'content' | 'xContentOffset' | 'xMargin' | 'yMargin'>;
 
 export default class StepButton extends RoundPushButton {
 

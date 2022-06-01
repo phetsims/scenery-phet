@@ -10,7 +10,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Range from '../../dot/js/Range.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
@@ -56,7 +56,7 @@ type SelfOptions = {
   dragListenerOptions?: DragListenerOptions<PressedDragListener>;
 };
 
-export type StopwatchNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type StopwatchNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 type FormatterOptions = {
 

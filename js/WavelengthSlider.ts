@@ -8,7 +8,7 @@
  */
 
 import IProperty from '../../axon/js/IProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -22,7 +22,7 @@ type SelfOptions = {
   maxWavelength?: number;
 };
 
-export type WavelengthSliderOptions = SelfOptions & OmitStrict<SpectrumSliderOptions, 'minValue' | 'maxValue'>;
+export type WavelengthSliderOptions = SelfOptions & StrictOmit<SpectrumSliderOptions, 'minValue' | 'maxValue'>;
 
 /**
  * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,

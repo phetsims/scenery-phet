@@ -13,7 +13,7 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -36,7 +36,7 @@ type SelfOptions = {
   backOptions?: HeaterCoolerBackOptions;
 };
 
-export type HeaterCoolerNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type HeaterCoolerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class HeaterCoolerNode extends Node {
 
@@ -55,7 +55,7 @@ export default class HeaterCoolerNode extends Node {
   constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerNodeOptions ) {
     super();
 
-    const options = optionize<HeaterCoolerNodeOptions, OmitStrict<SelfOptions, 'frontOptions' | 'backOptions'>, NodeOptions>()( {
+    const options = optionize<HeaterCoolerNodeOptions, StrictOmit<SelfOptions, 'frontOptions' | 'backOptions'>, NodeOptions>()( {
 
       // SelfOptions
       baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,

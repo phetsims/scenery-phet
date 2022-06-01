@@ -9,7 +9,7 @@
  */
 
 import IProperty from '../../axon/js/IProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -78,7 +78,7 @@ type SelfOptions = {
 
 export type SpectrumSliderOptions =
   SelfOptions
-  & OmitStrict<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
+  & StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 /**
  * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,

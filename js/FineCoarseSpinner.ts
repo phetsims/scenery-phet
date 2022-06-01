@@ -9,7 +9,7 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions, combineOptions3 } from '../../phet-core/js/optionize.js';
@@ -24,11 +24,11 @@ type SelfOptions = {
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
   deltaCoarse?: number; // amount to increment/decrement when the 'coarse' tweakers are pressed
   spacing?: number; // horizontal space between subcomponents
-  numberDisplayOptions?: OmitStrict<NumberDisplayOptions, 'tandem'>;
-  arrowButtonOptions?: OmitStrict<ArrowButtonOptions, 'numberOfArrows' | 'tandem'>;
+  numberDisplayOptions?: StrictOmit<NumberDisplayOptions, 'tandem'>;
+  arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'numberOfArrows' | 'tandem'>;
 };
 
-export type FineCoarseSpinnerOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type FineCoarseSpinnerOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class FineCoarseSpinner extends Node {
 
@@ -37,7 +37,7 @@ export default class FineCoarseSpinner extends Node {
   constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
 
     const options = optionize<FineCoarseSpinnerOptions,
-      OmitStrict<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
+      StrictOmit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
 
       // SelfOptions
       range: null,

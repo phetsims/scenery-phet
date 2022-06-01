@@ -10,7 +10,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import IProperty from '../../axon/js/IProperty.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
@@ -641,7 +641,7 @@ type HandleDragListenerSelfOptions = {
   addParticlesOneAtATime?: boolean;
 };
 
-type HandleDragListenerOptions = HandleDragListenerSelfOptions & OmitStrict<DragListenerOptions<PressedDragListener>, 'drag'>;
+type HandleDragListenerOptions = HandleDragListenerSelfOptions & StrictOmit<DragListenerOptions<PressedDragListener>, 'drag'>;
 
 /**
  * Drag listener for the pump's handle.

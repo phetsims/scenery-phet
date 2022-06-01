@@ -7,7 +7,7 @@
  */
 
 import { Shape } from '../../../kite/js/imports.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { HBox, Path, Rectangle } from '../../../scenery/js/imports.js';
@@ -24,7 +24,7 @@ const triangleHeight = 18 * scale * vscale;
 
 type SelfOptions = {};
 
-export type RestartButtonOptions = SelfOptions & OmitStrict<RoundPushButtonOptions, 'content'>;
+export type RestartButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;
 
 export default class RestartButton extends RoundPushButton {
 

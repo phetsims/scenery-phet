@@ -8,7 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from './sceneryPhet.js';
 import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js';
 import { Text } from '../../scenery/js/imports.js';
@@ -20,7 +20,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 type SelfOptions = {
   labelText: string;
 };
-export type QuestionBarOptions = SelfOptions & OmitStrict<StatusBarOptions, 'floatToTop'>;
+export type QuestionBarOptions = SelfOptions & StrictOmit<StatusBarOptions, 'floatToTop'>;
 
 const QUESTION_TEXT_MARGIN = 30;
 

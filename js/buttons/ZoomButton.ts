@@ -7,7 +7,7 @@
  */
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -20,10 +20,10 @@ import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
   in?: boolean; // true: zoom-in button, false: zoom-out button
-  magnifyingGlassOptions?: OmitStrict<MagnifyingGlassNodeOptions, 'icon'>;
+  magnifyingGlassOptions?: StrictOmit<MagnifyingGlassNodeOptions, 'icon'>;
 };
 
-export type ZoomButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
+export type ZoomButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 export default class ZoomButton extends RectangularPushButton {
 

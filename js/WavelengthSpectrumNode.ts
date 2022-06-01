@@ -8,7 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
@@ -19,7 +19,7 @@ type SelfOptions = {
   maxWavelength?: number;
 };
 
-export type WavelengthSpectrumNodeOptions = SelfOptions & OmitStrict<SpectrumNodeOptions, 'minValue' | 'maxValue'>;
+export type WavelengthSpectrumNodeOptions = SelfOptions & StrictOmit<SpectrumNodeOptions, 'minValue' | 'maxValue'>;
 
 export default class WavelengthSpectrumNode extends SpectrumNode {
 

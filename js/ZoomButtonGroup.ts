@@ -7,7 +7,7 @@
  */
 
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import merge from '../../phet-core/js/merge.js';
 import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
@@ -24,7 +24,7 @@ type SelfOptions = {
   applyZoomOut?: ( currentZoom: number ) => number;
 
   // propagated to the '+' and '-' push buttons
-  buttonOptions?: OmitStrict<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>;
+  buttonOptions?: StrictOmit<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>;
 
   // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
   touchAreaXDilation?: number;
@@ -33,7 +33,7 @@ type SelfOptions = {
   mouseAreaYDilation?: number;
 };
 
-export type ZoomButtonGroupOptions = SelfOptions & OmitStrict<FlowBoxOptions, 'children'>;
+export type ZoomButtonGroupOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
 
 export default class ZoomButtonGroup extends FlowBox {
 

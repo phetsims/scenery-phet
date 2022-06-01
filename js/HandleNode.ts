@@ -9,7 +9,7 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -40,7 +40,7 @@ type SelfOptions = {
   hasRightAttachment?: boolean;
 };
 
-export type HandleNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type HandleNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class HandleNode extends Node {
 
@@ -122,7 +122,7 @@ export default class HandleNode extends Node {
     const attachmentMiddleHeight = attachmentHeight * 0.5;
     const attachmentSmallArcRadius = attachmentShaftWidth * 0.5;
 
-    const attachmentOptions: OmitStrict<PathOptions, 'left' | 'right'> = {
+    const attachmentOptions: StrictOmit<PathOptions, 'left' | 'right'> = {
       fill: options.attachmentFill,
       stroke: options.attachmentStroke,
       lineWidth: options.attachmentLineWidth,

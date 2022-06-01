@@ -11,7 +11,7 @@
  */
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -44,10 +44,10 @@ type SelfOptions = {
   buttonGroupXSpacing?: number;
 
   // options passed along to the PlayPauseStepButtons, see the inner class for defaults
-  playPauseStepButtonOptions?: OmitStrict<PlayPauseStepButtonGroupOptions, 'tandem'>;
+  playPauseStepButtonOptions?: StrictOmit<PlayPauseStepButtonGroupOptions, 'tandem'>;
 
   // options passed along to the SpeedRadioButtonGroup, if included
-  speedRadioButtonGroupOptions?: OmitStrict<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
+  speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
 
   // if true, the SpeedRadioButtonGroup will be wrapped in a Panel
   wrapSpeedRadioButtonGroupInPanel?: boolean;
@@ -57,7 +57,7 @@ type SelfOptions = {
   speedRadioButtonGroupPanelOptions?: PanelOptions;
 };
 
-export type TimeControlNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class TimeControlNode extends Node {
 
@@ -81,7 +81,7 @@ export default class TimeControlNode extends Node {
   constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: TimeControlNodeOptions ) {
 
     const options = optionize<TimeControlNodeOptions,
-      OmitStrict<SelfOptions, 'playPauseStepButtonOptions' | 'speedRadioButtonGroupOptions'>, NodeOptions>()( {
+      StrictOmit<SelfOptions, 'playPauseStepButtonOptions' | 'speedRadioButtonGroupOptions'>, NodeOptions>()( {
 
       // TimeControlNodeOptions
       timeSpeedProperty: null,

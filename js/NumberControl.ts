@@ -11,7 +11,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -77,7 +77,7 @@ type SelfOptions = {
   layoutFunction?: LayoutFunction;
 };
 
-export type NumberControlOptions = SelfOptions & OmitStrict<NodeOptions, 'children'>;
+export type NumberControlOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class NumberControl extends Node {
 
@@ -94,7 +94,7 @@ export default class NumberControl extends Node {
     validateCallbacks( providedOptions || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    const initialOptions = optionize<NumberControlOptions, OmitStrict<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions >()( {
+    const initialOptions = optionize<NumberControlOptions, StrictOmit<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions >()( {
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()

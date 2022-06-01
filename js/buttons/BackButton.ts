@@ -10,7 +10,7 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import ISoundPlayer from '../../../tambo/js/ISoundPlayer.js';
@@ -25,13 +25,13 @@ type SelfOptions = {
   soundPlayer?: ISoundPlayer;
 };
 
-export type BackButtonOptions = SelfOptions & OmitStrict<RectangularPushButtonOptions, 'content'>;
+export type BackButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 export default class BackButton extends RectangularPushButton {
 
   constructor( providedOptions?: BackButtonOptions ) {
 
-    const options = optionize<BackButtonOptions, OmitStrict<SelfOptions, 'soundPlayer'>, RectangularPushButtonOptions>()( {
+    const options = optionize<BackButtonOptions, StrictOmit<SelfOptions, 'soundPlayer'>, RectangularPushButtonOptions>()( {
 
       // Default margin values were set up to make this button match the size of the refresh button, since these
       // buttons often appear together.  See see https://github.com/phetsims/scenery-phet/issues/44.
