@@ -9,7 +9,6 @@
  */
 
 import './accessibility/GrabDragInteractionTests.js';
-import './MultiLineTextTests.js';
 import './StopwatchNodeTests.js';
 import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 
