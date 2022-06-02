@@ -47,8 +47,6 @@ const VisibleColor = {
 
   /**
    * Converts a wavelength (in nm, rounded to the nearest integer) to a visible color.
-   * @param wavelength
-   * @param providedOptions
    */
   wavelengthToColor: function( wavelength: number, providedOptions?: WavelengthToColorOptions ): Color {
 
@@ -79,8 +77,6 @@ const VisibleColor = {
 
   /**
    * Converts a frequency (in Hz) to a visible color.
-   * @param frequency
-   * @param providedOptions
    */
   frequencyToColor: function( frequency: number, providedOptions?: WavelengthToColorOptions ): Color {
     const wavelengthInMeters = SPEED_OF_LIGHT / frequency;
@@ -91,8 +87,6 @@ const VisibleColor = {
   /**
    * Converts a Color to its corresponding wavelength. Relies on a color lookup table that is initialized the first
    * time that this method is called.  Color lookup is based on RGB component value; the alpha value is ignored.
-   * @param color
-   * @param reduceIntensityAtExtrema
    */
   colorToWavelength: function( color: IColorSubset, reduceIntensityAtExtrema = true ): number {
 
@@ -200,7 +194,6 @@ function createColorTable( reduceIntensityAtExtrema: boolean ): Color[] {
 /**
  * Determines which color table to use based on the options.  This assumes options have been filled in by the call
  * site, hence uses config instead of options.
- * @param reduceIntensityAtExtrema
  */
 function getColorTable( reduceIntensityAtExtrema: boolean ): Color[] {
   if ( reduceIntensityAtExtrema ) {

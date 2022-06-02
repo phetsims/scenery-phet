@@ -349,9 +349,9 @@ export default class BicyclePumpNode extends Node {
 /**
  * Draws the base of the pump. Many of the multipliers and point positions were arrived at empirically.
  *
- * @param {number} width - the width of the base
- * @param {number} height - the height of the base
- * @param {ColorDef} fill
+ * @param width - the width of the base
+ * @param height - the height of the base
+ * @param fill
  */
 function createPumpBaseNode( width: number, height: number, fill: IColor ): Node {
 
@@ -404,11 +404,6 @@ function createPumpBaseNode( width: number, height: number, fill: IColor ): Node
 /**
  * Creates half of the opening at the top of the pump body. Passing in -1 for the sign creates the back half, and
  * passing in 1 creates the front.
- *
- * @param width
- * @param sign
- * @param fill
- * @param stroke
  */
 function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: IColor, stroke: IColor ): Node {
   const bodyTopShape = new Shape()
@@ -430,9 +425,6 @@ function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: IColor, strok
 
 /**
  * Creates a hose connector. The hose has one on each of its ends.
- * @param width
- * @param height
- * @param fill
  */
 function createHoseConnectorNode( width: number, height: number, fill: IColor ): Node {
 
@@ -495,7 +487,6 @@ function createConeNode( pumpBodyWidth: number, height: number, fill: IColor ): 
 
 /**
  * Create the handle of the pump. This is the node that the user will interact with in order to use the pump.
- * @param fill
  */
 function createPumpHandleNode( fill: IColor ): Node {
 
@@ -650,18 +641,6 @@ class HandleDragListener extends DragListener {
 
   private lastHandlePosition: number | null;
 
-  /**
-   *
-   * @param numberProperty
-   * @param rangeProperty
-   * @param nodeEnabledProperty
-   * @param injectionEnabledProperty
-   * @param minHandleYOffset
-   * @param maxHandleYOffset
-   * @param pumpHandleNode
-   * @param pumpShaftNode
-   * @param providedOptions
-   */
   constructor( numberProperty: IProperty<number>,
                rangeProperty: IReadOnlyProperty<Range>,
                nodeEnabledProperty: IReadOnlyProperty<boolean>,

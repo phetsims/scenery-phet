@@ -30,10 +30,6 @@ export default class FaceNode extends Node {
   private readonly smileMouth: Path;
   private readonly frownMouth: Path;
 
-  /**
-   * @param headDiameter
-   * @param providedOptions
-   */
   constructor( headDiameter: number, providedOptions?: FaceNodeOptions ) {
 
     // default options

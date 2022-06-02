@@ -112,10 +112,6 @@ export default class StopwatchNode extends Node {
     numberOfDecimalPlaces: 2
   } );
 
-  /**
-   * @param stopwatch
-   * @param providedOptions
-   */
   constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
     const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions>()( {
@@ -315,7 +311,6 @@ export default class StopwatchNode extends Node {
 
   /**
    * Sets the formatter for the NumberDisplay.
-   * @param numberFormatter
    */
   public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
     this.numberDisplay.setNumberFormatter( numberFormatter );

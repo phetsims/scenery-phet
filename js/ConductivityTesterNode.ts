@@ -77,10 +77,10 @@ class ConductivityTesterNode extends Node {
   private readonly disposeConductivityTesterNode: () => void;
 
   /**
-   * @param {Property.<number>} brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
-   * @param {Property.<Vector2>} positionProperty position of the tester, at bottom-center of the bulb (model coordinate frame)
-   * @param {Property.<Vector2>} positiveProbePositionProperty position of bottom-center of the positive probe (model coordinate frame)
-   * @param {Property.<Vector2>} negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
+   * @param brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
+   * @param positionProperty position of the tester, at bottom-center of the bulb (model coordinate frame)
+   * @param positiveProbePositionProperty position of bottom-center of the positive probe (model coordinate frame)
+   * @param negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
    * @param providedOptions
    */
   constructor( brightnessProperty: IProperty<number>,

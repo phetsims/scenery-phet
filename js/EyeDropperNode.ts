@@ -64,9 +64,6 @@ export default class EyeDropperNode extends Node {
   public static GLASS_MIN_Y = -124;
   public static GLASS_MAX_Y = -18;
 
-  /**
-   * @param provideOptions
-   */
   constructor( provideOptions?: EyeDropperNodeOptions ) {
 
     const options = optionize<EyeDropperNodeOptions, SelfOptions, NodeOptions>()( {

@@ -95,7 +95,6 @@ export default class SpectrumSliderThumb extends Path {
 
   /**
    * Position the thumb in the track.
-   * @param centerY
    */
   public override setCenterY( centerY: number ): this {
     return super.setY( centerY + this.windowCursor.height / 2 );

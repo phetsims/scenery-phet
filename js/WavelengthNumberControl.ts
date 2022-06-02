@@ -40,8 +40,8 @@ type SelfOptions = {
 export type WavelengthNumberControlOptions = SelfOptions & NumberControlOptions;
 
 /**
- * @param {Property.<number>} wavelengthProperty - wavelength, in nm
- * @param {Object} [options]
+ * @param wavelengthProperty - wavelength, in nm
+ * @param [options]
  * @constructor
  */
 export default class WavelengthNumberControl extends NumberControl {
