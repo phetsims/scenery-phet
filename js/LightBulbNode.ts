@@ -1,41 +1,49 @@
-// Copyright 2015-2021, University of Colorado Boulder
+// Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Light bulb, made to 'glow' by modulating opacity of the 'on' image.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
 import LightRaysNode from './LightRaysNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class LightBulbNode extends Node {
+type SelfOptions = {
+  bulbImageScale?: number;
+};
+export type LightBulbNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+
+export default class LightBulbNode extends Node {
+
+  private readonly onNode: Node;
+  private readonly raysNode: LightRaysNode;
+  private readonly brightnessProperty: IReadOnlyProperty<number>;
+  private readonly disposeLightBulbNode: () => void;
 
   /**
-   * @param {Property.<number>} brightnessProperty - brightness of the bulb, 0 (off) to 1 (full brightness)
-   * @param {Object} [options]
+   * @param brightnessProperty - brightness of the bulb, 0 (off) to 1 (full brightness)
+   * @param [providedOptions]
    */
-  constructor( brightnessProperty, options ) {
+  constructor( brightnessProperty: IReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<LightBulbNodeOptions, SelfOptions, NodeOptions>()( {
       bulbImageScale: 0.33
-
-      // any options in LightRaysNode.DEFAULT_OPTIONS may also be passed in
-    }, options );
+    }, providedOptions );
 
     const onNode = new Image( lightBulbOn_png, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
-    } ); // @private
+    } );
 
     const offNode = new Image( lightBulbOff_png, {
       scale: options.bulbImageScale,
@@ -48,25 +56,22 @@ class LightBulbNode extends Node {
     const rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
     rayOptions.x = onNode.centerX;
     rayOptions.y = offNode.top + bulbRadius;
-    const raysNode = new LightRaysNode( bulbRadius, rayOptions ); // @private
+    const raysNode = new LightRaysNode( bulbRadius, rayOptions );
 
-    assert && assert( !options.children, 'LightBulbNode sets children' );
     options.children = [ raysNode, offNode, onNode ];
 
     super( options );
 
-    // @private needed by other methods
     this.onNode = onNode;
     this.raysNode = raysNode;
     this.brightnessProperty = brightnessProperty;
 
-    const brightnessObserver = brightness => this.update();
-    brightnessProperty.link( brightnessObserver );
-
     // Updates this Node when it becomes visible.
     this.visibleProperty.link( visible => visible && this.update() );
 
-    // @private
+    const brightnessObserver = ( brightness: number ) => this.update();
+    brightnessProperty.link( brightnessObserver );
+
     this.disposeLightBulbNode = () => {
       brightnessProperty.unlink( brightnessObserver );
     };
@@ -75,20 +80,15 @@ class LightBulbNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LightBulbNode', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeLightBulbNode();
     super.dispose();
   }
 
   /**
    * Updates the bulb. For performance, this is a no-op when the bulb is not visible.
-   * @private
    */
-  update() {
+  private update(): void {
     if ( this.visible ) {
       const brightness = this.brightnessProperty.value;
       assert && assert( brightness >= 0 && brightness <= 1 );
@@ -102,4 +102,3 @@ class LightBulbNode extends Node {
 }
 
 sceneryPhet.register( 'LightBulbNode', LightBulbNode );
-export default LightBulbNode;
