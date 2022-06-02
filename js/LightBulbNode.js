@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Light bulb, made to 'glow' by modulating opacity of the 'on' image.
  *
