@@ -25,6 +25,7 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 
 const SOUND_DURATION = 1000;
+const BUTTON_LABEL = 'Synchronize Recording';
 
 type SelfOptions = {
   visualNode?: Node;
@@ -54,7 +55,9 @@ class ClapperboardButton extends Node {
         }
       } ),
       synchronizeButtonOptions: {
-        content: new RichText( 'Synchronize Recording' ),
+        content: new RichText( BUTTON_LABEL ),
+        innerContent: BUTTON_LABEL,
+        voicingNameResponse: BUTTON_LABEL,
         soundPlayer: {
           play: () => {
             x.play();
