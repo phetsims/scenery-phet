@@ -12,7 +12,7 @@ import sceneryPhet from './sceneryPhet.js';
 export default class UTurnArrowShape extends Shape {
 
   /**
-   * @param {number} size A size factor (it'll be a bit bigger)
+   * @param size A size factor (it'll be a bit bigger)
    */
   constructor( size: number ) {
     super();

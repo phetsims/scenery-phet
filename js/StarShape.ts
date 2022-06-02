@@ -26,9 +26,6 @@ export type StarShapeOptions = SelfOptions;
 
 export default class StarShape extends Shape {
 
-  /**
-   * @param providedOptions
-   */
   constructor( providedOptions?: StarShapeOptions ) {
 
     const options = optionize<StarShapeOptions, SelfOptions>()( {

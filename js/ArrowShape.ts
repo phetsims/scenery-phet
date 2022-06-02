@@ -28,13 +28,6 @@ export type ArrowShapeOptions = {
 
 export default class ArrowShape extends Shape {
 
-  /**
-   * @param tailX
-   * @param tailY
-   * @param tipX
-   * @param tipY
-   * @param providedOptions
-   */
   constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions: ArrowShapeOptions ) {
 
     super();

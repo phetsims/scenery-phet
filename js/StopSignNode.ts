@@ -30,9 +30,6 @@ export type StopSignNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'childre
 
 export default class StopSignNode extends Node {
 
-  /**
-   * @param providedOptions
-   */
   constructor( providedOptions?: StopSignNodeOptions ) {
 
     const options = optionize<StopSignNodeOptions, SelfOptions, NodeOptions>()( {

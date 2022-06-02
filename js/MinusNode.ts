@@ -23,9 +23,6 @@ export type MinusNodeOptions = SelfOptions & RectangleOptions;
 
 class MinusNode extends Rectangle {
 
-  /**
-   * @param providedOptions
-   */
   constructor( providedOptions: MinusNodeOptions ) {
 
     const options = optionize<MinusNodeOptions, SelfOptions, RectangleOptions>()( {

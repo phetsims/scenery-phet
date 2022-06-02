@@ -24,10 +24,6 @@ export type GridCheckboxOptions = SelfOptions & CheckboxOptions;
 
 export default class GridCheckbox extends Checkbox {
 
-  /**
-   * @param property
-   * @param providedOptions
-   */
   constructor( property: IProperty<boolean>, providedOptions?: GridCheckboxOptions ) {
 
     const options = optionize<GridCheckboxOptions, SelfOptions, CheckboxOptions>()( {

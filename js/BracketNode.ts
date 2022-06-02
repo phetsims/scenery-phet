@@ -48,9 +48,6 @@ export type BracketNodeOptions = SelfOptions & NodeOptions;
 
 export default class BracketNode extends Node {
 
-  /**
-   * @param providedOptions
-   */
   constructor( providedOptions?: BracketNodeOptions ) {
 
     const options = optionize<BracketNodeOptions, SelfOptions, NodeOptions>()( {

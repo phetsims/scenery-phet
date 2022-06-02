@@ -22,11 +22,6 @@ export type SpectrumSliderTrackOptions = SelfOptions & SliderTrackOptions;
 
 export default class SpectrumSliderTrack extends SliderTrack {
 
-  /**
-   * @param property
-   * @param range
-   * @param providedOptions
-   */
   constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
 
     const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>()( {

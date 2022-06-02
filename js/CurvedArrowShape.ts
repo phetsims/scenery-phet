@@ -100,12 +100,6 @@ export default class CurvedArrowShape extends Shape {
  * Given 2 points that define a line segment (the arrow's base), compute the point (the tip) that
  * is a specified distance away from a perpendicular line that runs through the center point
  * of the line segment.
- *
- * @param x1
- * @param y1
- * @param x2
- * @param y2
- * @param distance
  */
 const computePerpendicularPoint = function( x1: number, y1: number, x2: number, y2: number, distance: number ): Vector2 {
   const dx = x1 - x2;

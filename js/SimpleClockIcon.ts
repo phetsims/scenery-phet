@@ -21,10 +21,6 @@ export type SimpleClockIconOptions = SelfOptions & NodeOptions;
 
 export default class SimpleClockIcon extends Node {
 
-  /**
-   * @param radius
-   * @param providedOptions
-   */
   constructor( radius: number, providedOptions?: SimpleClockIconOptions ) {
 
     super();
