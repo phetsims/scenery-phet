@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Light rays that indicate brightness of a light source such as a bulb.
  *
