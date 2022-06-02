@@ -14,11 +14,12 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
-import LightRaysNode from './LightRaysNode.js';
+import LightRaysNode, { LightRaysNodeOptions } from './LightRaysNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   bulbImageScale?: number;
+  lightRaysNodeOptions?: LightRaysNodeOptions;
 };
 export type LightBulbNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -33,9 +34,9 @@ export default class LightBulbNode extends Node {
    * @param brightnessProperty - brightness of the bulb, 0 (off) to 1 (full brightness)
    * @param [providedOptions]
    */
-  constructor( brightnessProperty: IReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
+  public constructor( brightnessProperty: IReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
 
-    const options = optionize<LightBulbNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<LightBulbNodeOptions, StrictOmit<SelfOptions, 'lightRaysNodeOptions'>, NodeOptions>()( {
       bulbImageScale: 0.33
     }, providedOptions );
 
@@ -53,10 +54,11 @@ export default class LightBulbNode extends Node {
 
     // rays
     const bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
-    const rayOptions = _.pick( options, _.keys( LightRaysNode.DEFAULT_OPTIONS ) ); // cherry-pick options that are specific to rays
-    rayOptions.x = onNode.centerX;
-    rayOptions.y = offNode.top + bulbRadius;
-    const raysNode = new LightRaysNode( bulbRadius, rayOptions );
+    const raysNode = new LightRaysNode( bulbRadius,
+      optionize<LightRaysNodeOptions, {}, LightRaysNodeOptions>()( {
+        x: onNode.centerX,
+        y: offNode.top + bulbRadius
+      }, options.lightRaysNodeOptions ) );
 
     options.children = [ raysNode, offNode, onNode ];
 

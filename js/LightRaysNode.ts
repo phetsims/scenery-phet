@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Light rays that indicate brightness of a light source such as a bulb.
  *
@@ -9,8 +8,8 @@
 
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Path } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -18,39 +17,59 @@ import sceneryPhet from './sceneryPhet.js';
 const RAYS_START_ANGLE = 3 * Math.PI / 4;
 const RAYS_ARC_ANGLE = 3 * Math.PI / 2;
 
-// default options, do not modify!
-const DEFAULT_OPTIONS = Object.freeze( {
-  stroke: 'yellow',
-  minRays: 8,
-  maxRays: 60,
-  minRayLength: 0,
-  maxRayLength: 200,
-  longRayLineWidth: 1.5, // for long rays
-  mediumRayLineWidth: 1, // for medium-length rays
-  shortRayLineWidth: 0.5 // for short rays
-} );
+type SelfOptions = {
+  minRays?: number;
+  maxRays?: number;
+  minRayLength?: number;
+  maxRayLength?: number;
+  longRayLineWidth?: number; // for long rays
+  mediumRayLineWidth?: number; // for medium-length rays
+  shortRayLineWidth?: number; // for short rays
+};
 
-class LightRaysNode extends Path {
+export type LightRaysNodeOptions = SelfOptions & PathOptions;
 
-  /**
-   * @param {number} bulbRadius
-   * @param {Object} [options]
-   */
-  constructor( bulbRadius, options ) {
+export default class LightRaysNode extends Path {
+
+  private readonly bulbRadius: number;
+  private readonly minRays: number;
+  private readonly maxRays: number;
+  private readonly minRayLength: number;
+  private readonly maxRayLength: number;
+  private readonly longRayLineWidth: number;
+  private readonly mediumRayLineWidth: number;
+  private readonly shortRayLineWidth: number;
+
+  public constructor( bulbRadius: number, provideOptions?: LightRaysNodeOptions ) {
 
     assert && assert( bulbRadius > 0 );
 
-    options = merge( {
+    const options = optionize<LightRaysNodeOptions, SelfOptions, PathOptions>()( {
+
+      // LightRaysNodeOptions
+      minRays: 8,
+      maxRays: 60,
+      minRayLength: 0,
+      maxRayLength: 200,
+      longRayLineWidth: 1.5, // for long rays
+      mediumRayLineWidth: 1, // for medium-length rays
+      shortRayLineWidth: 0.5, // for short rays
+
+      // PathOptions
+      stroke: 'yellow',
       tandem: Tandem.OPTIONAL
-    }, DEFAULT_OPTIONS, options );
+    }, provideOptions );
 
     super( null );
 
-    // @private
     this.bulbRadius = bulbRadius;
-
-    // @private cherry pick options specific to this type, needed other methods
-    this.lightRaysNodeOptions = _.pick( options, _.keys( DEFAULT_OPTIONS ) );
+    this.minRays = options.minRays;
+    this.maxRays = options.maxRays;
+    this.minRayLength = options.minRayLength;
+    this.maxRayLength = options.maxRayLength;
+    this.mediumRayLineWidth = options.mediumRayLineWidth;
+    this.longRayLineWidth = options.longRayLineWidth;
+    this.shortRayLineWidth = options.shortRayLineWidth;
 
     // Ensures there are well-defined bounds at initialization
     this.setBrightness( 0 );
@@ -59,43 +78,36 @@ class LightRaysNode extends Path {
   }
 
   /**
-   * Updates the number and length of light rays.
-   * @param {number} brightness - brightness, which varies from 0 to 1
-   * @public
+   * Sets the brightness, which updates the number and length of light rays.
+   * @param brightness -a value in the range [0,1]
    */
-  setBrightness( brightness ) {
+  public setBrightness( brightness: number ): void {
 
     assert && assert( brightness >= 0 && brightness <= 1 );
 
-    // local vars to improve readability
-    const minRays = this.lightRaysNodeOptions.minRays;
-    const maxRays = this.lightRaysNodeOptions.maxRays;
-    const minRayLength = this.lightRaysNodeOptions.minRayLength;
-    const maxRayLength = this.lightRaysNodeOptions.maxRayLength;
-
     // number of rays is a function of brightness
-    const numberOfRays = ( brightness === 0 ) ? 0 : minRays + Utils.roundSymmetric( brightness * ( maxRays - minRays ) );
+    const numberOfRays = ( brightness === 0 ) ? 0 : this.minRays + Utils.roundSymmetric( brightness * ( this.maxRays - this.minRays ) );
 
     // ray length is a function of brightness
-    const rayLength = minRayLength + ( brightness * ( maxRayLength - minRayLength ) );
+    const rayLength = this.minRayLength + ( brightness * ( this.maxRayLength - this.minRayLength ) );
 
     let angle = RAYS_START_ANGLE;
     const deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
     // The ray line width is a linear function within the allowed range
     const lineWidth = Utils.linear(
-      0.3 * maxRayLength,
-      0.6 * maxRayLength,
-      this.lightRaysNodeOptions.shortRayLineWidth,
-      this.lightRaysNodeOptions.longRayLineWidth,
+      0.3 * this.maxRayLength,
+      0.6 * this.maxRayLength,
+      this.shortRayLineWidth,
+      this.longRayLineWidth,
       rayLength
     );
-    this.lineWidth = Utils.clamp( lineWidth, this.lightRaysNodeOptions.shortRayLineWidth, this.lightRaysNodeOptions.longRayLineWidth );
+    this.lineWidth = Utils.clamp( lineWidth, this.shortRayLineWidth, this.longRayLineWidth );
 
     const shape = new Shape();
 
     // rays fill part of a circle, incrementing clockwise
-    for ( let i = 0, x1, x2, y1, y2; i < maxRays; i++ ) {
+    for ( let i = 0, x1, x2, y1, y2; i < this.maxRays; i++ ) {
       if ( i < numberOfRays ) {
 
         // determine the end points of the ray
@@ -122,7 +134,4 @@ class LightRaysNode extends Path {
   }
 }
 
-LightRaysNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
-
 sceneryPhet.register( 'LightRaysNode', LightRaysNode );
-export default LightRaysNode;
