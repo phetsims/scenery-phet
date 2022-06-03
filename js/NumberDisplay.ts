@@ -9,7 +9,7 @@
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
-import optionize, { combineOptions3 } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, IPaint, Node, NodeOptions, RichTextOptions, TextOptions } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
@@ -176,7 +176,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
-    const valueText: Text | RichText = new Constructor( longestString, combineOptions3<TextOptions | RichTextOptions>( {
+    const valueText: Text | RichText = new Constructor( longestString, combineOptions<TextOptions | RichTextOptions>( {
       tandem: options.tandem.createTandem( 'valueText' )
     }, options.textOptions, {
       maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.

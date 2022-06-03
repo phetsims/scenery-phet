@@ -12,7 +12,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { combineOptions, combineOptions3 } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -80,7 +80,7 @@ export default class FineCoarseSpinner extends Node {
     const fineButtonArrowHeight = fineButtonOptions.arrowHeight!;
 
     // options for the 'coarse' arrow buttons, which show 2 arrows
-    const coarseButtonOptions = combineOptions3<ArrowButtonOptions>( {}, fineButtonOptions, {
+    const coarseButtonOptions = combineOptions<ArrowButtonOptions>( {}, fineButtonOptions, {
       numberOfArrows: 2,
       arrowSpacing: -0.5 * fineButtonArrowHeight, // arrows overlap
 
@@ -94,14 +94,14 @@ export default class FineCoarseSpinner extends Node {
     // <
     const decrementFineButton = new ArrowButton( 'left', ( () => {
       numberProperty.value = numberProperty.value - options.deltaFine;
-    } ), combineOptions3<ArrowButtonOptions>( {}, fineButtonOptions,
+    } ), combineOptions<ArrowButtonOptions>( {}, fineButtonOptions,
       { tandem: options.tandem.createTandem( 'decrementFineButton' ) } ) );
 
     // <<
     const decrementCoarseButton = new ArrowButton( 'left', ( () => {
       const delta = Math.min( options.deltaCoarse, numberProperty.value - range.min );
       numberProperty.value = numberProperty.value - delta;
-    } ), combineOptions3<ArrowButtonOptions>( {}, coarseButtonOptions, {
+    } ), combineOptions<ArrowButtonOptions>( {}, coarseButtonOptions, {
       tandem: options.tandem.createTandem( 'decrementCoarseButton' )
     } ) );
 
@@ -114,14 +114,14 @@ export default class FineCoarseSpinner extends Node {
     // >
     const incrementFineButton = new ArrowButton( 'right', ( () => {
       numberProperty.value = numberProperty.value + options.deltaFine;
-    } ), combineOptions3<ArrowButtonOptions>( {}, fineButtonOptions,
+    } ), combineOptions<ArrowButtonOptions>( {}, fineButtonOptions,
       { tandem: options.tandem.createTandem( 'incrementFineButton' ) } ) );
 
     // >>
     const incrementCoarseButton = new ArrowButton( 'right', ( () => {
       const delta = Math.min( options.deltaCoarse, range.max - numberProperty.value );
       numberProperty.value = numberProperty.value + delta;
-    } ), combineOptions3<ArrowButtonOptions>( {}, coarseButtonOptions,
+    } ), combineOptions<ArrowButtonOptions>( {}, coarseButtonOptions,
       { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
 
     // <  <<  [ value ]  >>  >
