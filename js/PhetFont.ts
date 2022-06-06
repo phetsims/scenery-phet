@@ -11,7 +11,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
+import { combineOptions } from '../../phet-core/js/optionize.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -34,7 +34,7 @@ export default class PhetFont extends Font {
     }
 
     // PhET defaults
-    options = merge( {
+    options = combineOptions<FontOptions>( {
       family: 'Arial'
     }, options );
 
