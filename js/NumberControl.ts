@@ -15,9 +15,8 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import optionize from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignGroup, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import { AlignBox, AlignGroup, Font, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -45,12 +44,89 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 
 type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
+type ExtendedSliderOptions = SliderOptions & {
+  // other slider options that are specific to NumberControl
+  // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
+
+  // array of objects with these fields: { value: {number}, label: {Node} }
+  majorTicks?: {
+    value: number;
+    label: Node;
+  }[];
+
+  // zero indicates no minor ticks
+  minorTickSpacing?: number;
+};
+
+type WithMinMaxSelfOptions = {
+  tickLabelFont?: Font;
+};
+export type WithMinMaxOptions = NumberControlOptions & WithMinMaxSelfOptions;
+
+export type NumberControlLayoutFunction1Options = {
+  // horizontal alignment of rows, 'left'|'right'|'center'
+  align?: 'center' | 'left' | 'right';
+
+  // horizontal spacing between title and number
+  titleXSpacing?: number;
+
+  // horizontal spacing between arrow buttons and slider
+  arrowButtonsXSpacing?: number;
+
+  // vertical spacing between rows
+  ySpacing?: number;
+};
+
+export type NumberControlLayoutFunction2Options = {
+  // horizontal alignment of rows, 'left'|'right'|'center'
+  align?: 'center' | 'left' | 'right';
+
+  // horizontal spacing in top row
+  xSpacing?: number;
+
+  // vertical spacing between rows
+  ySpacing?: number;
+};
+
+export type NumberControlLayoutFunction3Options = {
+  // horizontal alignment of title, relative to slider, 'left'|'right'|'center'
+  alignTitle?: 'center' | 'left' | 'right';
+
+  // horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
+  alignNumber?: 'center' | 'left' | 'right';
+
+  // if provided, indent the title on the left to push the title to the right
+  titleLeftIndent?: number;
+
+  // horizontal spacing between arrow buttons and slider
+  xSpacing?: number;
+
+  // vertical spacing between rows
+  ySpacing?: number;
+};
+
+export type NumberControlLayoutFunction4Options = {
+  // adds additional horizontal space between title and NumberDisplay
+  sliderPadding?: number;
+
+  // vertical spacing between slider and title/NumberDisplay
+  verticalSpacing?: number;
+
+  // spacing between slider and arrow buttons
+  arrowButtonSpacing?: number;
+
+  hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
+
+  // Supports Pendulum Lab's questionText where a question is substituted for the slider
+  createBottomContent?: ( ( box: HBox ) => void ) | null;
+};
+
 type SelfOptions = {
   // called when interaction begins, default value set in validateCallbacks()
-  startCallback?: ( event: Event ) => void;
+  startCallback?: () => void;
 
   // called when interaction ends, default value set in validateCallbacks()
-  endCallback?: ( event: Event ) => void;
+  endCallback?: () => void;
 
   delta?: number;
 
@@ -62,8 +138,17 @@ type SelfOptions = {
 
   // Subcomponent options objects
   numberDisplayOptions?: NumberDisplayOptions;
-  sliderOptions?: SliderOptions;
-  arrowButtonOptions?: ArrowButtonOptions & { enabledEpsilon?: number }; // We stuffed enabledEpsilon here
+  sliderOptions?: ExtendedSliderOptions;
+  arrowButtonOptions?: ArrowButtonOptions & {
+    // We stuffed enabledEpsilon here
+    enabledEpsilon?: number;
+
+    leftStart?: () => void;
+    leftEnd?: ( over: boolean ) => void;
+
+    rightStart?: () => void;
+    rightEnd?: ( over: boolean ) => void;
+  };
   titleNodeOptions?: TextOptions;
 
   // If provided, this will be provided to the slider and arrow buttons in order to
@@ -94,7 +179,12 @@ export default class NumberControl extends Node {
     validateCallbacks( providedOptions || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    const initialOptions = optionize<NumberControlOptions, StrictOmit<SelfOptions, 'numberDisplayOptions' | 'sliderOptions' | 'arrowButtonOptions' | 'titleNodeOptions'>, NodeOptions >()( {
+    const initialOptions = optionize<NumberControlOptions, SelfOptions, NodeOptions>()( {
+
+      numberDisplayOptions: {},
+      sliderOptions: {},
+      arrowButtonOptions: {},
+      titleNodeOptions: {},
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()
@@ -140,12 +230,13 @@ export default class NumberControl extends Node {
     // Create a function that will be used to constrain the slider value to the provided range and the same delta as
     // the arrow buttons, see https://github.com/phetsims/scenery-phet/issues/384.
     const constrainValue = ( value: number ) => {
-      const newValue = Utils.roundToInterval( value, options.delta );
+      assert && assert( options.delta !== undefined );
+      const newValue = Utils.roundToInterval( value, options.delta! );
       return getCurrentRange().constrainValue( newValue );
     };
 
     // Merge all nested options in one block.
-    const options = merge( {
+    const options: typeof initialOptions = combineOptions<typeof initialOptions>( {
 
       // Options propagated to ArrowButton
       arrowButtonOptions: {
@@ -256,14 +347,14 @@ export default class NumberControl extends Node {
 
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
-      options.sliderOptions = merge( {
+      options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
         trackSize: new Dimension2( 180, 3 )
       }, options.sliderOptions );
     }
 
     // Slider options for thumb (if n ot specified as thumbNode)
     if ( !options.sliderOptions.thumbNode ) {
-      options.sliderOptions = merge( {
+      options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
         thumbSize: new Dimension2( 17, 34 ),
         thumbTouchAreaXDilation: 6
       }, options.sliderOptions );
@@ -272,7 +363,7 @@ export default class NumberControl extends Node {
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
-    options.sliderOptions = merge( {
+    options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
 
       // pdom - by default, shiftKeyboardStep should most likely be the same as clicking the arrow buttons.
       shiftKeyboardStep: options.delta,
@@ -304,14 +395,14 @@ export default class NumberControl extends Node {
     if ( options.includeArrowButtons ) {
 
       decrementButton = new ArrowButton( 'left', () => {
-        let value = numberProperty.get() - options.delta;
-        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
+        let value = numberProperty.get() - options.delta!;
+        value = Utils.roundToInterval( value, options.delta! ); // constrain to multiples of delta, see #384
         value = Math.max( value, getCurrentRange().min ); // constrain to range
         numberProperty.set( value );
-      }, merge( {
+      }, combineOptions<ArrowButtonOptions>( {
         startCallback: options.arrowButtonOptions.leftStart,
         endCallback: options.arrowButtonOptions.leftEnd,
-        tandem: options.tandem.createTandem( 'decrementButton' )
+        tandem: options.tandem!.createTandem( 'decrementButton' )
       }, options.arrowButtonOptions ) );
 
       incrementButton = new ArrowButton( 'right', () => {
@@ -319,10 +410,10 @@ export default class NumberControl extends Node {
         value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.min( value, getCurrentRange().max ); // constrain to range
         numberProperty.set( value );
-      }, merge( {
+      }, combineOptions<ArrowButtonOptions>( {
         startCallback: options.arrowButtonOptions.rightStart,
         endCallback: options.arrowButtonOptions.rightEnd,
-        tandem: options.tandem.createTandem( 'incrementButton' )
+        tandem: options.tandem!.createTandem( 'incrementButton' )
       }, options.arrowButtonOptions ) );
 
       // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
@@ -363,8 +454,9 @@ export default class NumberControl extends Node {
       // Disable the arrow buttons if the slider currently has focus
       arrowEnabledListener = () => {
         const value = numberProperty.value;
-        decrementButton!.enabled = ( value - options.arrowButtonOptions.enabledEpsilon > getCurrentRange().min && !this.slider.isFocused() );
-        incrementButton!.enabled = ( value + options.arrowButtonOptions.enabledEpsilon < getCurrentRange().max && !this.slider.isFocused() );
+        assert && assert( options.arrowButtonOptions!.enabledEpsilon !== undefined );
+        decrementButton!.enabled = ( value - options.arrowButtonOptions!.enabledEpsilon! > getCurrentRange().min && !this.slider.isFocused() );
+        incrementButton!.enabled = ( value + options.arrowButtonOptions!.enabledEpsilon! < getCurrentRange().max && !this.slider.isFocused() );
       };
       numberProperty.lazyLink( arrowEnabledListener );
       options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
@@ -387,12 +479,13 @@ export default class NumberControl extends Node {
     }
 
     // minor ticks, exclude values where we already have major ticks
-    if ( options.sliderOptions.minorTickSpacing > 0 ) {
+    assert && assert( options.sliderOptions.minorTickSpacing !== undefined );
+    if ( options.sliderOptions.minorTickSpacing! > 0 ) {
       for ( let minorTickValue = numberRange.min; minorTickValue <= numberRange.max; ) {
         if ( !_.find( majorTicks, majorTick => majorTick.value === minorTickValue ) ) {
           this.slider.addMinorTick( minorTickValue );
         }
-        minorTickValue += options.sliderOptions.minorTickSpacing;
+        minorTickValue += options.sliderOptions.minorTickSpacing!;
       }
     }
 
@@ -437,13 +530,13 @@ export default class NumberControl extends Node {
   /**
    * Creates a NumberControl with default tick marks for min and max values.
    */
-  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: NumberControlOptions ): NumberControl {
+  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: WithMinMaxOptions ): NumberControl {
 
-    const options = merge( {
+    const options = optionize<WithMinMaxOptions, WithMinMaxSelfOptions, NumberControlOptions>()( {
       tickLabelFont: new PhetFont( 12 )
     }, providedOptions );
 
-    options.sliderOptions = merge( {
+    options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
       majorTicks: [
         { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
         { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
@@ -461,21 +554,9 @@ export default class NumberControl extends Node {
    *  < ------|------ >
    *
    */
-  static createLayoutFunction1( providedOptions?: {
-    // horizontal alignment of rows, 'left'|'right'|'center'
-    align?: 'center' | 'left' | 'right';
+  static createLayoutFunction1( providedOptions?: NumberControlLayoutFunction1Options ): LayoutFunction {
 
-    // horizontal spacing between title and number
-    titleXSpacing?: number;
-
-    // horizontal spacing between arrow buttons and slider
-    arrowButtonsXSpacing?: number;
-
-    // vertical spacing between rows
-    ySpacing?: number;
-  } ): LayoutFunction {
-
-    const options = merge( {
+    const options = optionize<NumberControlLayoutFunction1Options>()( {
       align: 'center',
       titleXSpacing: 5,
       arrowButtonsXSpacing: 15,
@@ -511,18 +592,9 @@ export default class NumberControl extends Node {
    *  title < number >
    *  ------|------
    */
-  static createLayoutFunction2( providedOptions?: {
-    // horizontal alignment of rows, 'left'|'right'|'center'
-    align?: 'center' | 'left' | 'right';
+  static createLayoutFunction2( providedOptions?: NumberControlLayoutFunction2Options ): LayoutFunction {
 
-    // horizontal spacing in top row
-    xSpacing?: number;
-
-    // vertical spacing between rows
-    ySpacing?: number;
-  } ): LayoutFunction {
-
-    const options = merge( {
+    const options = optionize<NumberControlLayoutFunction2Options>()( {
       align: 'center',
       xSpacing: 5,
       ySpacing: 5
@@ -555,24 +627,9 @@ export default class NumberControl extends Node {
    *  < number >
    *  -------|-------
    */
-  static createLayoutFunction3( providedOptions?: {
-    // horizontal alignment of title, relative to slider, 'left'|'right'|'center'
-    alignTitle?: 'center' | 'left' | 'right';
+  static createLayoutFunction3( providedOptions?: NumberControlLayoutFunction3Options ): LayoutFunction {
 
-    // horizontal alignment of number display, relative to slider, 'left'|'right'|'center'
-    alignNumber?: 'center' | 'left' | 'right';
-
-    // if provided, indent the title on the left to push the title to the right
-    titleLeftIndent?: number;
-
-    // horizontal spacing between arrow buttons and slider
-    xSpacing?: number;
-
-    // vertical spacing between rows
-    ySpacing?: number;
-  } ): LayoutFunction {
-
-    const options = merge( {
+    const options = optionize<NumberControlLayoutFunction3Options>()( {
       alignTitle: 'center',
       alignNumber: 'center',
       titleLeftIndent: 0,
@@ -617,23 +674,9 @@ export default class NumberControl extends Node {
    * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
    * Like createLayoutFunction1, but the title and value go all the way to the edges.
    */
-  static createLayoutFunction4( providedOptions?: {
-    // adds additional horizontal space between title and NumberDisplay
-    sliderPadding?: number;
+  static createLayoutFunction4( providedOptions?: NumberControlLayoutFunction4Options ): LayoutFunction {
 
-    // vertical spacing between slider and title/NumberDisplay
-    verticalSpacing?: number;
-
-    // spacing between slider and arrow buttons
-    arrowButtonSpacing?: number;
-
-    hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
-
-    // Supports Pendulum Lab's questionText where a question is substituted for the slider
-    createBottomContent?: ( ( box: HBox ) => void ) | null;
-  } ): LayoutFunction {
-
-    const options = merge( {
+    const options = optionize<NumberControlLayoutFunction4Options>()( {
 
       // adds additional horizontal space between title and NumberDisplay
       sliderPadding: 0,
