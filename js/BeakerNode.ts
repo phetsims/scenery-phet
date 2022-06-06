@@ -33,6 +33,10 @@ type SelfOptions = {
 export type BeakerNodeOptions = SelfOptions & NodeOptions;
 
 export default class BeakerNode extends Node {
+
+  public static DEFAULT_X_RADIUS = 30;
+  public static DEFAULT_Y_RADIUS = 12;
+
   constructor( solutionLevelProperty: NumberProperty,
                providedOptions?: BeakerNodeOptions ) {
     const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.5 );
@@ -48,8 +52,8 @@ export default class BeakerNode extends Node {
       lineWidth: 1,
       beakerHeight: 100,
       beakerWidth: 60,
-      xRadius: 30,
-      yRadius: 12,
+      xRadius: BeakerNode.DEFAULT_X_RADIUS,
+      yRadius: BeakerNode.DEFAULT_Y_RADIUS,
       showTicks: false,
       numTicks: 4,
       tickStroke: SceneryPhetColors.stroke
