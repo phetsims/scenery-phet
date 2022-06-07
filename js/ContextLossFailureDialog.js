@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Failure message displayed when a WebGL context loss is experienced and we can't recover. Offers a button to reload
  * the simulation.

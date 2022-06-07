@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Message dialog displayed when some limitation of the simulation is encountered.
  * So named because the messages typically begin with 'Oops!', so that's how people referred to it.
