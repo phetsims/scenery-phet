@@ -118,7 +118,7 @@ export type NumberControlLayoutFunction4Options = {
   hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
 
   // Supports Pendulum Lab's questionText where a question is substituted for the slider
-  createBottomContent?: ( ( box: HBox ) => void ) | null;
+  createBottomContent?: ( ( box: HBox ) => Node ) | null;
 };
 
 type SelfOptions = {
@@ -701,7 +701,7 @@ export default class NumberControl extends Node {
           incrementButton!
         ]
       } );
-      const bottomContent = options.createBottomContent ? ( options.createBottomContent as any )( bottomBox ) : bottomBox;
+      const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
 
       const group = new AlignGroup( { matchHorizontal: false } );
       const titleBox = new AlignBox( titleNode, {
@@ -736,7 +736,7 @@ export default class NumberControl extends Node {
  *
  * Only general or specific callbacks are allowed, but not both.
  */
-function validateCallbacks( options: { [ key: string ]: any } ) {
+function validateCallbacks( options: NumberControlOptions ) {
   const normalCallbacksPresent = !!( options.startCallback ||
                                      options.endCallback );
   let arrowCallbacksPresent = false;
@@ -762,7 +762,7 @@ function validateCallbacks( options: { [ key: string ]: any } ) {
  * passed in the options object. These callback options are only the specific component callbacks, not the general
  * start/end that are called for every component's interaction
  */
-function specificCallbackKeysInOptions( options: { [ key: string ]: any } ): boolean {
+function specificCallbackKeysInOptions( options: Record<string, unknown> ): boolean {
   const optionKeys = Object.keys( options );
   const intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
   return intersection.length > 0;
