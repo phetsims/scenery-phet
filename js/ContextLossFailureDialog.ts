@@ -1,6 +1,5 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Failure message displayed when a WebGL context loss is experienced and we can't recover. Offers a button to reload
  * the simulation.
@@ -8,31 +7,35 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { HBox, Path, Text } from '../../scenery/js/imports.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
-import Dialog from '../../sun/js/Dialog.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
-class ContextLossFailureDialog extends Dialog {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // By default, pressing the Reload button reloads the simulation in the browser.
+  // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
+  // See https://github.com/phetsims/scenery-phet/issues/375
+  reload?: () => void;
+}
 
-    options = merge( {
+export type ContextLossFailureDialogOptions = SelfOptions & DialogOptions;
 
-      // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
-      // See https://github.com/phetsims/scenery-phet/issues/375
-      reload: function() {
-        window.location.reload();
-      },
+export default class ContextLossFailureDialog extends Dialog {
+
+  private readonly reload: () => void; // see SelfOptions.reload
+
+  constructor( providedOptions?: ContextLossFailureDialogOptions ) {
+
+    const options = optionize<ContextLossFailureDialogOptions, SelfOptions, DialogOptions>()( {
+
+      // ContextLossFailureDialogOptions
+      reload: () => window.location.reload(),
 
       // Dialog options
       xSpacing: 30,
@@ -40,7 +43,7 @@ class ContextLossFailureDialog extends Dialog {
       bottomMargin: 30,
       leftMargin: 30
 
-    }, options );
+    }, providedOptions );
 
     const warningSign = new Path( exclamationTriangleSolidShape, {
       fill: '#E87600', // "safety orange", according to Wikipedia
@@ -62,29 +65,24 @@ class ContextLossFailureDialog extends Dialog {
 
     super( content, options );
 
-    // @private
     this.reload = options.reload;
   }
 
   /**
-   * Allow the ability to hide without reloading.
-   * @public
+   * Invokes the reload callback when the dialog is hidden.
+   * See https://github.com/phetsims/scenery-phet/issues/373.
    */
-  hideWithoutReload() {
+  public override hide(): void {
+    this.reload();
     super.hide();
   }
 
   /**
-   * Perform reload (or provided callback) regardless of how the dialog is hidden.
-   * See https://github.com/phetsims/scenery-phet/issues/373.
-   * @public
-   * @override
+   * Hides the dialog without invoking the reload callback.
    */
-  hide() {
-    this.reload();
+  public hideWithoutReload(): void {
     super.hide();
   }
 }
 
 sceneryPhet.register( 'ContextLossFailureDialog', ContextLossFailureDialog );
-export default ContextLossFailureDialog;

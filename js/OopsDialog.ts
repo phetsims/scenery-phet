@@ -1,49 +1,51 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * Message dialog displayed when some limitation of the simulation is encountered.
+ * OopsDialog is displayed when some limitation of the simulation is encountered.
  * So named because the messages typically begin with 'Oops!', so that's how people referred to it.
  * See https://github.com/phetsims/equality-explorer/issues/48
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Image } from '../../scenery/js/imports.js';
-import { RichText } from '../../scenery/js/imports.js';
-import Dialog from '../../sun/js/Dialog.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class OopsDialog extends Dialog {
+type SelfOptions = {
+
+  // Optional icon that will be placed to the right of the image.
+  // If not provided, then a PhET Girl image is used.
+  // If provided, the caller is responsible for all aspects of the icon, including scale.
+  iconNode?: Node;
+
+  // Passed to RichText node that displays messageString
+  richTextOptions?: RichTextOptions;
+};
+
+export type OopsDialogOptions = SelfOptions & DialogOptions;
+
+export default class OopsDialog extends Dialog {
 
   /**
-   * @param {string} messageString - supports RichText formatting
-   * @param {Object} [options]
+   * @param messageString - supports RichText formatting
+   * @param [providedOptions]
    */
-  constructor( messageString, options ) {
+  constructor( messageString: string, providedOptions?: OopsDialogOptions ) {
 
-    options = merge( {
+    const options = optionize<OopsDialogOptions, StrictOmit<SelfOptions, 'iconNode' | 'richTextOptions'>, DialogOptions>()( {
 
-      // {Node|null} optional icon that will be placed to the right of the image.
-      // If this is null, then a PhET Girl image is used.
-      // If provided, the caller is responsible for all aspects of the icon, including scale.
-      iconNode: null,
-
-      // nested options
-      richTextOptions: null,
-
-      // Dialog options
+      // DialogOptions
       topMargin: 20,
-      bottomMargin: 20,
-      rightMargin: 20
+      bottomMargin: 20
 
-    }, options );
+    }, providedOptions );
 
-    const messageNode = new RichText( messageString, merge( {
+    const messageNode = new RichText( messageString, optionize<RichTextOptions, {}, RichTextOptions>()( {
       font: new PhetFont( 20 ),
       maxWidth: 600,
       maxHeight: 400
@@ -63,4 +65,3 @@ class OopsDialog extends Dialog {
 }
 
 sceneryPhet.register( 'OopsDialog', OopsDialog );
-export default OopsDialog;
