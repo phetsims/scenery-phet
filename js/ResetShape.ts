@@ -15,7 +15,7 @@ export default class ResetShape extends Shape {
   /**
    * @param radius of the center of the reset arrow
    */
-  constructor( radius: number ) {
+  public constructor( radius: number ) {
 
     super();
 

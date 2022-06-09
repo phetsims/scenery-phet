@@ -18,7 +18,7 @@ export type StepForwardButtonOptions = SelfOptions & StrictOmit<StepButtonOption
 
 export default class StepForwardButton extends StepButton {
 
-  constructor( providedOptions?: StepForwardButtonOptions ) {
+  public constructor( providedOptions?: StepForwardButtonOptions ) {
 
     const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>()( {
 

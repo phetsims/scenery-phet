@@ -48,7 +48,7 @@ export default class Stopwatch extends PhetioObject {
 
   public static ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // works out to be 59:59.99
 
-  constructor( providedOptions?: StopwatchOptions ) {
+  public constructor( providedOptions?: StopwatchOptions ) {
 
     const options = optionize<StopwatchOptions, SelfOptions, PhetioObjectOptions>()( {
 

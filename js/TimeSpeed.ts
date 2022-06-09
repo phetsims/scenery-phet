@@ -13,12 +13,12 @@ import sceneryPhet from './sceneryPhet.js';
 
 export default class TimeSpeed extends EnumerationValue {
 
-  static FAST = new TimeSpeed();
-  static NORMAL = new TimeSpeed();
-  static SLOW = new TimeSpeed();
+  public static FAST = new TimeSpeed();
+  public static NORMAL = new TimeSpeed();
+  public static SLOW = new TimeSpeed();
 
   // Gets a list of keys, values and mapping between them. For use in EnumerationProperty and PhET-iO
-  static enumeration = new Enumeration( TimeSpeed );
+  public static enumeration = new Enumeration( TimeSpeed );
 }
 
 sceneryPhet.register( 'TimeSpeed', TimeSpeed );

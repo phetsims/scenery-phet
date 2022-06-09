@@ -51,7 +51,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
   private readonly playPauseButton: PlayPauseButton;
   private readonly disposePlayPauseStepButtonGroup: () => void;
 
-  constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {
+  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {
 
     const options = optionize<PlayPauseStepButtonGroupOptions, SelfOptions, HBoxOptions>()( {
 

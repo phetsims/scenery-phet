@@ -28,7 +28,7 @@ export default class SpectrumSliderThumb extends Path {
   private readonly windowCursor: Node;
   private readonly disposeSpectrumSliderThumb: () => void;
 
-  constructor( property: IReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
+  public constructor( property: IReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
 
     const options = optionize<SpectrumSliderThumbOptions, SelfOptions, PathOptions>()( {
 

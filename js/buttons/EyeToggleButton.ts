@@ -28,7 +28,7 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
    * @param eyeOpenProperty - true: eye is open; false: eye is closed
    * @param providedOptions
    */
-  constructor( eyeOpenProperty: IProperty<boolean>, providedOptions?: EyeToggleButtonOptions ) {
+  public constructor( eyeOpenProperty: IProperty<boolean>, providedOptions?: EyeToggleButtonOptions ) {
 
     const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {}, providedOptions );
 

@@ -105,9 +105,9 @@ export default class BicyclePumpNode extends Node {
    * @param rangeProperty - allowed range
    * @param providedOptions
    */
-  constructor( numberProperty: IProperty<number>,
-               rangeProperty: IReadOnlyProperty<Range>,
-               providedOptions?: BicyclePumpNodeOptions ) {
+  public constructor( numberProperty: IProperty<number>,
+                      rangeProperty: IReadOnlyProperty<Range>,
+                      providedOptions?: BicyclePumpNodeOptions ) {
 
     const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -641,15 +641,15 @@ class HandleDragListener extends DragListener {
 
   private lastHandlePosition: number | null;
 
-  constructor( numberProperty: IProperty<number>,
-               rangeProperty: IReadOnlyProperty<Range>,
-               nodeEnabledProperty: IReadOnlyProperty<boolean>,
-               injectionEnabledProperty: IReadOnlyProperty<boolean>,
-               minHandleYOffset: number,
-               maxHandleYOffset: number,
-               pumpHandleNode: Node,
-               pumpShaftNode: Node,
-               providedOptions?: HandleDragListenerOptions
+  public constructor( numberProperty: IProperty<number>,
+                      rangeProperty: IReadOnlyProperty<Range>,
+                      nodeEnabledProperty: IReadOnlyProperty<boolean>,
+                      injectionEnabledProperty: IReadOnlyProperty<boolean>,
+                      minHandleYOffset: number,
+                      maxHandleYOffset: number,
+                      pumpHandleNode: Node,
+                      pumpShaftNode: Node,
+                      providedOptions?: HandleDragListenerOptions
   ) {
 
     assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );

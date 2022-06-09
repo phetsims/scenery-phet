@@ -46,7 +46,7 @@ export default class HandleNode extends Node {
 
   private readonly disposeHandleNode: () => void;
 
-  constructor( providedOptions?: HandleNodeOptions ) {
+  public constructor( providedOptions?: HandleNodeOptions ) {
 
     const options = optionize<HandleNodeOptions, SelfOptions, NodeOptions>()( {
 

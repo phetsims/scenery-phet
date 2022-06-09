@@ -28,7 +28,7 @@ export type RestartButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptio
 
 export default class RestartButton extends RoundPushButton {
 
-  constructor( providedOptions?: RestartButtonOptions ) {
+  public constructor( providedOptions?: RestartButtonOptions ) {
 
     const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>()( {}, providedOptions );
 

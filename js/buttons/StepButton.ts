@@ -34,7 +34,7 @@ export type StepButtonOptions = SelfOptions &
 
 export default class StepButton extends RoundPushButton {
 
-  constructor( providedOptions?: StepButtonOptions ) {
+  public constructor( providedOptions?: StepButtonOptions ) {
 
     // these options are used in computation of other default options
     const options = optionize<StepButtonOptions, SelfOptions, RoundPushButtonOptions>()( {

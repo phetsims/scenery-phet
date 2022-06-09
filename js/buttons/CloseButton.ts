@@ -26,7 +26,7 @@ export type CloseButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonO
 
 export default class CloseButton extends RectangularPushButton {
 
-  constructor( providedOptions?: CloseButtonOptions ) {
+  public constructor( providedOptions?: CloseButtonOptions ) {
 
     const options = optionize<CloseButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

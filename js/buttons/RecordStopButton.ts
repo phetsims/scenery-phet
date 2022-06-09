@@ -22,7 +22,7 @@ export type RecordStopButtonOptions = SelfOptions & BooleanRoundToggleButtonOpti
 
 export default class RecordStopButton extends BooleanRoundToggleButton {
 
-  constructor( recordingProperty: IProperty<boolean>, providedOptions?: RecordStopButtonOptions ) {
+  public constructor( recordingProperty: IProperty<boolean>, providedOptions?: RecordStopButtonOptions ) {
 
     const options = optionize<RecordStopButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 

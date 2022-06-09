@@ -22,7 +22,7 @@ export type BannedNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'
 
 export default class BannedNode extends Node {
 
-  constructor( providedOptions?: BannedNodeOptions ) {
+  public constructor( providedOptions?: BannedNodeOptions ) {
 
     const options = optionize<BannedNodeOptions, SelfOptions, NodeOptions>()( {
       radius: 20,

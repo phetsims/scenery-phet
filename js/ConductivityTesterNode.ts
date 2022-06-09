@@ -83,11 +83,11 @@ class ConductivityTesterNode extends Node {
    * @param negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
    * @param providedOptions
    */
-  constructor( brightnessProperty: IProperty<number>,
-               positionProperty: IProperty<Vector2>,
-               positiveProbePositionProperty: IProperty<Vector2>,
-               negativeProbePositionProperty: IProperty<Vector2>,
-               providedOptions?: ConductivityTesterNodeOptions ) {
+  public constructor( brightnessProperty: IProperty<number>,
+                      positionProperty: IProperty<Vector2>,
+                      positiveProbePositionProperty: IProperty<Vector2>,
+                      negativeProbePositionProperty: IProperty<Vector2>,
+                      providedOptions?: ConductivityTesterNodeOptions ) {
 
     // NOTE! Since positionProperty determines translation, avoid options related to translation!
     const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>()( {
@@ -350,7 +350,7 @@ type ProbeNodeOptions = ProbeNodeSelfOptions & NodeOptions;
  */
 class ProbeNode extends Node {
 
-  constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
+  public constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
 
     const options = optionize<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>()( {
       size: new Dimension2( 20, 60 ),
@@ -397,7 +397,7 @@ class WireNode extends Path {
   private readonly startPoint: WirePoint;
   private readonly controlPointOffset: WirePoint;
 
-  constructor( startX: number, startY: number, endX: number, endY: number, providedOptions?: PathOptions ) {
+  public constructor( startX: number, startY: number, endX: number, endY: number, providedOptions?: PathOptions ) {
 
     super( null );
 

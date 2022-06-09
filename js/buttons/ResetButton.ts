@@ -27,7 +27,7 @@ export type ResetButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions
 
 export default class ResetButton extends RoundPushButton {
 
-  constructor( providedOptions?: ResetButtonOptions ) {
+  public constructor( providedOptions?: ResetButtonOptions ) {
 
     // radius is used in computation of defaults for other options
     const BUTTON_RADIUS = ( providedOptions && providedOptions.radius ) ? providedOptions.radius : 24;

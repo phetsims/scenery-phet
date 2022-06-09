@@ -23,7 +23,7 @@ export type ShadedSphereNodeOptions = SelfOptions & CircleOptions;
 
 export default class ShadedSphereNode extends Circle {
 
-  constructor( diameter: number, providedOptions?: ShadedSphereNodeOptions ) {
+  public constructor( diameter: number, providedOptions?: ShadedSphereNodeOptions ) {
 
     const options = optionize<ShadedSphereNodeOptions, SelfOptions, CircleOptions>()( {
 

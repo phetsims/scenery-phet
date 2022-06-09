@@ -64,7 +64,7 @@ export default class EyeDropperNode extends Node {
   public static GLASS_MIN_Y = -124;
   public static GLASS_MAX_Y = -18;
 
-  constructor( provideOptions?: EyeDropperNodeOptions ) {
+  public constructor( provideOptions?: EyeDropperNodeOptions ) {
 
     const options = optionize<EyeDropperNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -161,11 +161,11 @@ export default class EyeDropperNode extends Node {
     this.fluidNode.fill = color;
   }
 
-  set fluidColor( value ) {
+  public set fluidColor( value ) {
     this.setFluidColor( value );
   }
 
-  get fluidColor() {
+  public get fluidColor() {
     return this.getFluidColor();
   }
 

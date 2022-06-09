@@ -112,7 +112,7 @@ export default class StopwatchNode extends Node {
     numberOfDecimalPlaces: 2
   } );
 
-  constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
+  public constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
     const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -329,7 +329,7 @@ export default class StopwatchNode extends Node {
   /**
    * Gets the centiseconds (hundredths-of-a-second) string for a time value.
    */
-  static getDecimalPlaces( time: number, numberDecimalPlaces: number ): string {
+  public static getDecimalPlaces( time: number, numberDecimalPlaces: number ): string {
 
     const max = Math.pow( 10, numberDecimalPlaces );
 

@@ -24,7 +24,7 @@ export type PlayPauseButtonOptions = SelfOptions & PlayControlButtonOptions;
 
 export default class PlayPauseButton extends PlayControlButton {
 
-  constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseButtonOptions ) {
+  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseButtonOptions ) {
 
     const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 

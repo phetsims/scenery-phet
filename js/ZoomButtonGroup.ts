@@ -45,7 +45,8 @@ export default class ZoomButtonGroup extends FlowBox {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: RangedProperty, providedOptions?: ZoomButtonGroupOptions ) {
+  public constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: RangedProperty,
+                      providedOptions?: ZoomButtonGroupOptions ) {
 
     const zoomLevelRange = zoomLevelProperty.range;
 

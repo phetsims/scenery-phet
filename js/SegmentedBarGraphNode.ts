@@ -34,9 +34,9 @@ export type SegmentedBarGraphNodeOptions = SelfOptions & NodeOptions;
 
 export default class SegmentedBarGraphNode extends Node {
 
-  constructor( numberProperty: IReadOnlyProperty<number>,
-               rangeProperty: IReadOnlyProperty<Range>,
-               providedOptions?: SegmentedBarGraphNodeOptions ) {
+  public constructor( numberProperty: IReadOnlyProperty<number>,
+                      rangeProperty: IReadOnlyProperty<Range>,
+                      providedOptions?: SegmentedBarGraphNodeOptions ) {
 
     const options = optionize<SegmentedBarGraphNodeOptions, SelfOptions, NodeOptions>()( {
 

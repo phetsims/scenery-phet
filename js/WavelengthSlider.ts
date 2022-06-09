@@ -34,7 +34,7 @@ export default class WavelengthSlider extends SpectrumSlider {
    * @param wavelengthProperty - wavelength, in nm
    * @param providedOptions
    */
-  constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthSliderOptions ) {
+  public constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthSliderOptions ) {
 
     // options that are specific to this type
     const options = optionize<WavelengthSliderOptions, SelfOptions, SpectrumSliderOptions>()( {

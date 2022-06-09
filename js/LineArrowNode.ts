@@ -36,7 +36,7 @@ export default class LineArrowNode extends Node {
   private readonly tailNode: Path;
   private readonly headNode: Path;
 
-  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: LineArrowNodeOptions ) {
+  public constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: LineArrowNodeOptions ) {
 
     const options = optionize<LineArrowNodeOptions, SelfOptions, NodeOptions>()( {
       stroke: 'black',

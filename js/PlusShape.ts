@@ -12,7 +12,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 export default class PlusShape extends Shape {
 
-  constructor( size: Dimension2 ) {
+  public constructor( size: Dimension2 ) {
 
     super();
 

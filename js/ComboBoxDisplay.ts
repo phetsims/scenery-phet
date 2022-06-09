@@ -65,8 +65,8 @@ export default class ComboBoxDisplay extends ComboBox<number> {
    * @param listParent - parent for the ComboBox list
    * @param providedOptions
    */
-  constructor( items: ComboBoxDisplayItem[], choiceProperty: IProperty<number>, listParent: Node,
-               providedOptions?: ComboBoxDisplayOptions ) {
+  public constructor( items: ComboBoxDisplayItem[], choiceProperty: IProperty<number>, listParent: Node,
+                      providedOptions?: ComboBoxDisplayOptions ) {
 
     const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>()( {
 

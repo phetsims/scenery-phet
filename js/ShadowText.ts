@@ -30,7 +30,7 @@ export type ShadowTextOptions = SelfOptions & StrictOmit<NodeOptions, 'children'
 
 export default class ShadowText extends Node {
 
-  constructor( text: string, providedOptions?: ShadowTextOptions ) {
+  public constructor( text: string, providedOptions?: ShadowTextOptions ) {
 
     const options = optionize<ShadowTextOptions, SelfOptions, NodeOptions>()( {
 

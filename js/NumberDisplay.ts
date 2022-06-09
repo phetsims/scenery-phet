@@ -92,7 +92,7 @@ export default class NumberDisplay extends Node {
    *                     - the display width. It is unrelated to the range of numberProperty.
    * @param providedOptions
    */
-  constructor( numberProperty: IReadOnlyProperty<number | null>, displayRange: Range, providedOptions?: NumberDisplayOptions ) {
+  public constructor( numberProperty: IReadOnlyProperty<number | null>, displayRange: Range, providedOptions?: NumberDisplayOptions ) {
 
     const options = optionize<NumberDisplayOptions, SelfOptions, NodeOptions>()( {
       align: 'right',
@@ -245,13 +245,13 @@ export default class NumberDisplay extends Node {
     this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
   }
 
-  setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
+  public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
     this.numberFormatter = numberFormatter;
     this.recomputeText();
   }
 
   // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
-  recomputeText(): void {
+  public recomputeText(): void {
     this._recomputeText();
   }
 
@@ -263,51 +263,51 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the number text font.
    */
-  setNumberFont( font: Font ): void {
+  public setNumberFont( font: Font ): void {
     this.valueText.font = font;
   }
 
-  set numberFont( value: Font ) { this.setNumberFont( value ); }
+  public set numberFont( value: Font ) { this.setNumberFont( value ); }
 
   /**
    * Sets the number text fill.
    */
-  setNumberFill( fill: IPaint ): void {
+  public setNumberFill( fill: IPaint ): void {
     this.valueText.fill = fill;
   }
 
-  set numberFill( value: IPaint ) { this.setNumberFill( value ); }
+  public set numberFill( value: IPaint ) { this.setNumberFill( value ); }
 
   /**
    * Sets the background fill.
    */
-  setBackgroundFill( fill: IPaint ): void {
+  public setBackgroundFill( fill: IPaint ): void {
     this.backgroundNode.fill = fill;
   }
 
-  set backgroundFill( value: IPaint ) { this.setBackgroundFill( value ); }
+  public set backgroundFill( value: IPaint ) { this.setBackgroundFill( value ); }
 
-  get backgroundFill(): IPaint {
+  public get backgroundFill(): IPaint {
     return this.getBackgroundFill();
   }
 
   /**
    * Gets the background fill.
    */
-  getBackgroundFill(): IPaint {
+  public getBackgroundFill(): IPaint {
     return this.backgroundNode.fill;
   }
 
   /**
    * Sets the background stroke.
    */
-  setBackgroundStroke( stroke: IPaint ): void {
+  public setBackgroundStroke( stroke: IPaint ): void {
     this.backgroundNode.stroke = stroke;
   }
 
-  set backgroundStroke( value: IPaint ) { this.setBackgroundStroke( value ); }
+  public set backgroundStroke( value: IPaint ) { this.setBackgroundStroke( value ); }
 
-  static NumberDisplayIO: IOType;
+  public static NumberDisplayIO: IOType;
 }
 
 sceneryPhet.register( 'NumberDisplay', NumberDisplay );

@@ -62,8 +62,8 @@ class RulerNode extends Node {
    * @param units
    * @param providedOptions
    */
-  constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: string[],
-               units: string, providedOptions?: RulerNodeOptions ) {
+  public constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: string[],
+                      units: string, providedOptions?: RulerNodeOptions ) {
 
     // default options
     const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions>()( {

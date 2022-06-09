@@ -34,7 +34,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
   private readonly disposeSoundToggleButton: () => void;
 
-  constructor( property: IProperty<boolean>, provideOptions?: SoundToggleButtonOptions ) {
+  public constructor( property: IProperty<boolean>, provideOptions?: SoundToggleButtonOptions ) {
 
     const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 

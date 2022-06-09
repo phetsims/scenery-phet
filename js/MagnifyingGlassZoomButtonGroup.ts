@@ -31,7 +31,7 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  constructor( zoomLevelProperty: RangedProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
+  public constructor( zoomLevelProperty: RangedProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
 
     const options = optionize<MagnifyingGlassZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>()( {
 

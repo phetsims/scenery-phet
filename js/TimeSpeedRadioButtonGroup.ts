@@ -35,8 +35,8 @@ export type TimeSpeedRadioButtonGroupOptions = SelfOptions & VerticalAquaRadioBu
 
 export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGroup<TimeSpeed> {
 
-  constructor( timeSpeedProperty: EnumerationProperty<TimeSpeed>, timeSpeeds: TimeSpeed[],
-               providedOptions?: TimeSpeedRadioButtonGroupOptions ) {
+  public constructor( timeSpeedProperty: EnumerationProperty<TimeSpeed>, timeSpeeds: TimeSpeed[],
+                      providedOptions?: TimeSpeedRadioButtonGroupOptions ) {
 
     const options = optionize<TimeSpeedRadioButtonGroupOptions,
       StrictOmit<SelfOptions, 'radius'>, VerticalAquaRadioButtonGroupOptions>()( {

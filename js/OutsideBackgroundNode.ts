@@ -17,7 +17,7 @@ import sceneryPhet from './sceneryPhet.js';
 import SkyNode from './SkyNode.js';
 
 class OutsideBackgroundNode extends Node {
-  constructor( centerX: number, centerY: number, width: number, skyHeight: number, groundDepth: number ) {
+  public constructor( centerX: number, centerY: number, width: number, skyHeight: number, groundDepth: number ) {
     super();
 
     // sky

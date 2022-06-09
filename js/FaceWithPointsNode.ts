@@ -47,7 +47,7 @@ export default class FaceWithPointsNode extends Node {
   private readonly faceNode: FaceNode;
   private readonly pointsNode: Text;
 
-  constructor( providedOptions?: FaceWithPointsNodeOptions ) {
+  public constructor( providedOptions?: FaceWithPointsNodeOptions ) {
 
     const options = optionize<FaceWithPointsNodeOptions, SelfOptions, NodeOptions>()( {
 

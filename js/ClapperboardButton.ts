@@ -35,7 +35,7 @@ type SelfOptions = {
 type ClapperboardButtonOptions = SelfOptions & NodeOptions;
 
 class ClapperboardButton extends Node {
-  constructor( providedOptions?: ClapperboardButtonOptions ) {
+  public constructor( providedOptions?: ClapperboardButtonOptions ) {
 
     // A single waveform with a high pitch should hopefully be easy to find in recordings,
     // see https://github.com/phetsims/scenery-phet/issues/739#issuecomment-1142395903

@@ -80,7 +80,7 @@ export default class GradientRectangle extends Rectangle {
   private readonly bottomLeftCorner: Path;
   private readonly bottomRightCorner: Path;
 
-  constructor( providedOptions?: GradientRectangleOptions ) {
+  public constructor( providedOptions?: GradientRectangleOptions ) {
     super( {} );
 
     this._leftMargin = 0;

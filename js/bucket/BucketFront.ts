@@ -28,7 +28,7 @@ export default class BucketFront extends Node {
   private labelNode: Node;
   private readonly disposeBucketFront: () => void;
 
-  constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
+  public constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
 
     const options = optionize<BucketFrontOptions, StrictOmit<SelfOptions, 'labelNode'>, NodeOptions>()( {
       tandem: Tandem.REQUIRED,

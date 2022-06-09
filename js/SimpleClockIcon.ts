@@ -21,7 +21,7 @@ export type SimpleClockIconOptions = SelfOptions & NodeOptions;
 
 export default class SimpleClockIcon extends Node {
 
-  constructor( radius: number, providedOptions?: SimpleClockIconOptions ) {
+  public constructor( radius: number, providedOptions?: SimpleClockIconOptions ) {
 
     super();
 

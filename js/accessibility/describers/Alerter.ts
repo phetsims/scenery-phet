@@ -27,10 +27,10 @@ export type AlerterOptions = {
 
 class Alerter {
 
-  readonly alertToVoicing: boolean;
-  readonly descriptionAlertNode: Node | null;
+  public readonly alertToVoicing: boolean;
+  public readonly descriptionAlertNode: Node | null;
 
-  constructor( providedOptions?: AlerterOptions ) {
+  public constructor( providedOptions?: AlerterOptions ) {
 
     const options = optionize<AlerterOptions>()( {
       alertToVoicing: true,
@@ -44,7 +44,7 @@ class Alerter {
   /**
    * Alert to both description and voicing utteranceQueues, depending on if both are supported by this instance
    */
-  alert( alertable: IAlertable ): void {
+  public alert( alertable: IAlertable ): void {
     if ( this.alertToVoicing ) {
       assert && assert( alertable instanceof Utterance,
         'If alerting to Voicing, the alertable needs to be an Utterance' );
@@ -57,14 +57,14 @@ class Alerter {
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.alertDescriptionUtterance() for details.
    */
-  alertDescriptionUtterance( alertable: IAlertable ): void {
+  public alertDescriptionUtterance( alertable: IAlertable ): void {
     this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
   }
 
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.forEachUtteranceQueue() for details.
    */
-  forEachUtteranceQueue( utteranceQueueCallback: UtteranceQueueCallback ): void {
+  public forEachUtteranceQueue( utteranceQueueCallback: UtteranceQueueCallback ): void {
     this.descriptionAlertNode && this.descriptionAlertNode.forEachUtteranceQueue( utteranceQueueCallback );
   }
 }

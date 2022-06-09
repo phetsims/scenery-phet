@@ -32,7 +32,8 @@ export default class ValueGaugeNode extends GaugeNode {
   private _numberDisplayVisible: boolean;
   private readonly numberDisplay: NumberDisplay;
 
-  constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range, providedOptions?: ValueGaugeNodeOptions ) {
+  public constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range,
+                      providedOptions?: ValueGaugeNodeOptions ) {
 
     const options = optionize<ValueGaugeNodeOptions, SelfOptions, GaugeNodeOptions>()( {
 
@@ -69,9 +70,9 @@ export default class ValueGaugeNode extends GaugeNode {
     }
   }
 
-  set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
+  public set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
 
-  get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
+  public get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
 
   /**
    * Gets the visibility of the gauge's NumberDisplay.

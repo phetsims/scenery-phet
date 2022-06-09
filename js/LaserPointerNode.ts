@@ -126,7 +126,7 @@ export default class LaserPointerNode extends Node {
    * @param onProperty - is the laser on?
    * @param providedOptions
    */
-  constructor( onProperty: IProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
+  public constructor( onProperty: IProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
 
     const options = optionize3<LaserPointerNodeOptions, SelfOptions, NodeOptions>()(
       {}, DEFAULT_OPTIONS, providedOptions );
@@ -223,9 +223,9 @@ export default class LaserPointerNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
   }
 
-  override get enabled() { return this.isEnabled(); }
+  public override get enabled() { return this.isEnabled(); }
 
-  override set enabled( value ) { this.setEnabled( value ); }
+  public override set enabled( value ) { this.setEnabled( value ); }
 
   public override dispose(): void {
     this.disposeLaserPointerNode();

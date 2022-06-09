@@ -20,7 +20,7 @@ export default class PhetFont extends Font {
   /**
    * @param providedOptions - number or string indicate the font size, otherwise same options as scenery.Font
    */
-  constructor( providedOptions?: number | string | FontOptions ) {
+  public constructor( providedOptions?: number | string | FontOptions ) {
 
     assert && assert( arguments.length === 0 || arguments.length === 1, 'Too many arguments' );
 

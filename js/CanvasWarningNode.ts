@@ -15,7 +15,7 @@ import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 export default class CanvasWarningNode extends HBox {
 
-  constructor() {
+  public constructor() {
 
     super( {
       children: [

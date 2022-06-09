@@ -42,7 +42,7 @@ export default class PointerCoordinatesNode extends Node {
    * @param modelViewTransform
    * @param providedOptions - not propagated to super!
    */
-  constructor( modelViewTransform: ModelViewTransform2, providedOptions?: PointerCoordinatesNodeOptions ) {
+  public constructor( modelViewTransform: ModelViewTransform2, providedOptions?: PointerCoordinatesNodeOptions ) {
 
     const options = optionize<PointerCoordinatesNodeOptions, SelfOptions, {}>()( {
       display: getGlobal( 'phet.joist.display' ),

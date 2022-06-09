@@ -27,7 +27,7 @@ export type ZoomButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOp
 
 export default class ZoomButton extends RectangularPushButton {
 
-  constructor( providedOptions?: ZoomButtonOptions ) {
+  public constructor( providedOptions?: ZoomButtonOptions ) {
 
     const options = optionize<ZoomButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

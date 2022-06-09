@@ -11,7 +11,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 export default class StopIconShape extends Shape {
 
-  constructor( width: number ) {
+  public constructor( width: number ) {
     super();
 
     // rectangle

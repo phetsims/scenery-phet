@@ -22,7 +22,7 @@ export type ElectronChargeNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'c
 
 export default class ElectronChargeNode extends Node {
 
-  constructor( providedOptions?: ElectronChargeNodeOptions ) {
+  public constructor( providedOptions?: ElectronChargeNodeOptions ) {
 
     const options = optionize<ElectronChargeNodeOptions, SelfOptions, NodeOptions>()( {
 

@@ -23,7 +23,7 @@ export type WavelengthSpectrumNodeOptions = SelfOptions & StrictOmit<SpectrumNod
 
 export default class WavelengthSpectrumNode extends SpectrumNode {
 
-  constructor( providedOptions?: WavelengthSpectrumNodeOptions ) {
+  public constructor( providedOptions?: WavelengthSpectrumNodeOptions ) {
 
     const options = optionize<WavelengthSpectrumNodeOptions, SelfOptions, SpectrumNodeOptions>()( {
       valueToColor: ( value: number ) => VisibleColor.wavelengthToColor( value ),

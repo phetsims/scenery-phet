@@ -14,7 +14,7 @@ export default class UTurnArrowShape extends Shape {
   /**
    * @param size A size factor (it'll be a bit bigger)
    */
-  constructor( size: number ) {
+  public constructor( size: number ) {
     super();
 
     const strokeWidth = size * 0.3;

@@ -22,7 +22,7 @@ export type SpectrumSliderTrackOptions = SelfOptions & SliderTrackOptions;
 
 export default class SpectrumSliderTrack extends SliderTrack {
 
-  constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
+  public constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
 
     const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>()( {
       size: new Dimension2( 150, 30 ),

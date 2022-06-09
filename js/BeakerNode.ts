@@ -37,8 +37,8 @@ export default class BeakerNode extends Node {
   public static DEFAULT_X_RADIUS = 30;
   public static DEFAULT_Y_RADIUS = 12;
 
-  constructor( solutionLevelProperty: NumberProperty,
-               providedOptions?: BeakerNodeOptions ) {
+  public constructor( solutionLevelProperty: NumberProperty,
+                      providedOptions?: BeakerNodeOptions ) {
     const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.5 );
     const solutionShadowFill = providedOptions?.solutionFill?.value.colorUtilsDarker( 0.2 );
 

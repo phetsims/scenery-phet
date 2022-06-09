@@ -172,7 +172,7 @@ export default class NumberControl extends Node {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  constructor( title: string, numberProperty: IProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string, numberProperty: IProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
@@ -518,7 +518,7 @@ export default class NumberControl extends Node {
    * Redraws the NumberDisplay. This is useful when you have additional Properties that determine the format
    * of the displayed value.
    */
-  redrawNumberDisplay(): void {
+  public redrawNumberDisplay(): void {
     this.numberDisplay.recomputeText();
   }
 
@@ -530,7 +530,8 @@ export default class NumberControl extends Node {
   /**
    * Creates a NumberControl with default tick marks for min and max values.
    */
-  static withMinMaxTicks( label: string, property: IProperty<number>, range: Range, providedOptions?: WithMinMaxOptions ): NumberControl {
+  public static withMinMaxTicks( label: string, property: IProperty<number>, range: Range,
+                                 providedOptions?: WithMinMaxOptions ): NumberControl {
 
     const options = optionize<WithMinMaxOptions, WithMinMaxSelfOptions, NumberControlOptions>()( {
       tickLabelFont: new PhetFont( 12 )
@@ -554,7 +555,7 @@ export default class NumberControl extends Node {
    *  < ------|------ >
    *
    */
-  static createLayoutFunction1( providedOptions?: NumberControlLayoutFunction1Options ): LayoutFunction {
+  public static createLayoutFunction1( providedOptions?: NumberControlLayoutFunction1Options ): LayoutFunction {
 
     const options = optionize<NumberControlLayoutFunction1Options>()( {
       align: 'center',
@@ -592,7 +593,7 @@ export default class NumberControl extends Node {
    *  title < number >
    *  ------|------
    */
-  static createLayoutFunction2( providedOptions?: NumberControlLayoutFunction2Options ): LayoutFunction {
+  public static createLayoutFunction2( providedOptions?: NumberControlLayoutFunction2Options ): LayoutFunction {
 
     const options = optionize<NumberControlLayoutFunction2Options>()( {
       align: 'center',
@@ -627,7 +628,7 @@ export default class NumberControl extends Node {
    *  < number >
    *  -------|-------
    */
-  static createLayoutFunction3( providedOptions?: NumberControlLayoutFunction3Options ): LayoutFunction {
+  public static createLayoutFunction3( providedOptions?: NumberControlLayoutFunction3Options ): LayoutFunction {
 
     const options = optionize<NumberControlLayoutFunction3Options>()( {
       alignTitle: 'center',
@@ -674,7 +675,7 @@ export default class NumberControl extends Node {
    * Creates one of the pre-defined layout functions that can be used for options.layoutFunction.
    * Like createLayoutFunction1, but the title and value go all the way to the edges.
    */
-  static createLayoutFunction4( providedOptions?: NumberControlLayoutFunction4Options ): LayoutFunction {
+  public static createLayoutFunction4( providedOptions?: NumberControlLayoutFunction4Options ): LayoutFunction {
 
     const options = optionize<NumberControlLayoutFunction4Options>()( {
 
@@ -721,8 +722,8 @@ export default class NumberControl extends Node {
     };
   }
 
-  static NumberControlIO: IOType;
-  static SLIDER_TANDEM_NAME = 'slider' as const;
+  public static NumberControlIO: IOType;
+  public static SLIDER_TANDEM_NAME = 'slider' as const;
 }
 
 /**

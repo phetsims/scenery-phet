@@ -36,7 +36,7 @@ export default class HeaterCoolerBack extends Node {
    * @param heatCoolAmountProperty // +1 for max heating, -1 for max cooling
    * @param providedOptions
    */
-  constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerBackOptions ) {
+  public constructor( heatCoolAmountProperty: NumberProperty, providedOptions?: HeaterCoolerBackOptions ) {
     super();
 
     const options = optionize<HeaterCoolerBackOptions, SelfOptions, NodeOptions>()( {

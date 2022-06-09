@@ -50,7 +50,7 @@ export default class WavelengthNumberControl extends NumberControl {
    * @param wavelengthProperty - in nm
    * @param providedOptions
    */
-  constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthNumberControlOptions ) {
+  public constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
     const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>()( {
       title: wavelengthString,

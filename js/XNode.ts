@@ -29,7 +29,7 @@ export type XNodeOptions = SelfOptions & StrictOmit<PlusNodeOptions, 'size' | 'r
 
 export default class XNode extends PlusNode {
 
-  constructor( providedOptions?: XNodeOptions ) {
+  public constructor( providedOptions?: XNodeOptions ) {
 
     const options = optionize<XNodeOptions, SelfOptions, PlusNodeOptions>()( {
 

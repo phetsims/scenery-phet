@@ -53,7 +53,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
    * @param endPlayingIcon - icon for the button when pressing it will stop play
    * @param providedOptions
    */
-  constructor( isPlayingProperty: IProperty<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
+  public constructor( isPlayingProperty: IProperty<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
 
     const options = optionize<PlayControlButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 

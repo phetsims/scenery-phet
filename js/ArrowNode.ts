@@ -36,15 +36,15 @@ export type ArrowNodeOptions = SelfOptions & PathOptions;
 
 export default class ArrowNode extends Path {
 
-  tailX: number;
-  tailY: number;
-  tipX: number;
-  tipY: number;
+  private tailX: number;
+  private tailY: number;
+  private tipX: number;
+  private tipY: number;
 
   private readonly options: Required<SelfOptions>;
   private shapePoints: Vector2[];
 
-  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
+  public constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
 
     // default options
     const options = optionize<ArrowNodeOptions, SelfOptions, PathOptions>()( {
@@ -119,7 +119,7 @@ export default class ArrowNode extends Path {
    * Sets the tail and tip positions to update the arrow shape.
    * If the tail and tip are at the same point, the arrow is not shown.
    */
-  setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
+  public setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
 
     this.tailX = tailX;
     this.tailY = tailY;
@@ -143,21 +143,21 @@ export default class ArrowNode extends Path {
   /**
    * Sets the tail position.
    */
-  setTail( tailX: number, tailY: number ): void {
+  public setTail( tailX: number, tailY: number ): void {
     this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
   }
 
   /**
    * Sets the tip position.
    */
-  setTip( tipX: number, tipY: number ): void {
+  public setTip( tipX: number, tipY: number ): void {
     this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
   }
 
   /**
    * Sets the tail width.
    */
-  setTailWidth( tailWidth: number ): void {
+  public setTailWidth( tailWidth: number ): void {
     this.options.tailWidth = tailWidth;
     this.updateShapePoints();
     this.updateShape();
@@ -166,7 +166,7 @@ export default class ArrowNode extends Path {
   /**
    * Sets whether the arrow has one or two heads.
    */
-  setDoubleHead( doubleHead: boolean ): void {
+  public setDoubleHead( doubleHead: boolean ): void {
     this.options.doubleHead = doubleHead;
     this.updateShapePoints();
     this.updateShape();

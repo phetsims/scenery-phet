@@ -39,8 +39,8 @@ export default class TemperatureAndColorSensorNode extends Node {
   private readonly colorIndicatorNode: Path;
   private readonly thermometerNode: Node;
 
-  constructor( temperatureRange: Range, temperatureProperty: IProperty<number>, colorProperty: IProperty<IColor>,
-               providedOptions?: TemperatureAndColorSensorNodeOptions ) {
+  public constructor( temperatureRange: Range, temperatureProperty: IProperty<number>, colorProperty: IProperty<IColor>,
+                      providedOptions?: TemperatureAndColorSensorNodeOptions ) {
     super();
 
     const options = optionize<TemperatureAndColorSensorNodeOptions, SelfOptions, NodeOptions>()( {
@@ -96,13 +96,13 @@ export default class TemperatureAndColorSensorNode extends Node {
     return this.thermometerNode.bounds;
   }
 
-  get thermometerBounds() { return this.getThermometerBounds(); }
+  public get thermometerBounds() { return this.getThermometerBounds(); }
 
   public getColorIndicatorBounds(): Bounds2 {
     return this.colorIndicatorNode.bounds;
   }
 
-  get colorIndicatorBounds() { return this.getColorIndicatorBounds(); }
+  public get colorIndicatorBounds() { return this.getColorIndicatorBounds(); }
 }
 
 sceneryPhet.register( 'TemperatureAndColorSensorNode', TemperatureAndColorSensorNode );

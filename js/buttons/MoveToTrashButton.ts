@@ -26,7 +26,7 @@ export type MoveToTrashButtonOptions = SelfOptions & StrictOmit<RectangularPushB
 
 export default class MoveToTrashButton extends RectangularPushButton {
 
-  constructor( providedOptions?: MoveToTrashButtonOptions ) {
+  public constructor( providedOptions?: MoveToTrashButtonOptions ) {
 
     const options = optionize<MoveToTrashButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

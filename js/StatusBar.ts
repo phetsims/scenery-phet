@@ -37,16 +37,16 @@ export type StatusBarOptions = SelfOptions & NodeOptions;
 
 class StatusBar extends Node {
 
-  readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
+  public readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
   private readonly disposeStatusBar: () => void;
-  static DEFAULT_FONT = new PhetFont( 20 );
+  public static DEFAULT_FONT = new PhetFont( 20 );
 
   /**
    * @param layoutBounds
    * @param visibleBoundsProperty - visible bounds of the parent ScreenView
    * @param [providedOptions]
    */
-  constructor( layoutBounds: Bounds2, visibleBoundsProperty: IProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
+  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: IProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
 
     const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>()( {
 
@@ -101,7 +101,7 @@ class StatusBar extends Node {
     };
   }
 
-  override dispose(): void {
+  public override dispose(): void {
     this.disposeStatusBar();
     super.dispose();
   }

@@ -23,7 +23,7 @@ export type RefreshButtonOptions = SelfOptions & StrictOmit<RectangularPushButto
 
 export default class RefreshButton extends RectangularPushButton {
 
-  constructor( providedOptions?: RefreshButtonOptions ) {
+  public constructor( providedOptions?: RefreshButtonOptions ) {
 
     const options = optionize<RefreshButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

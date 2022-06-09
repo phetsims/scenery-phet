@@ -23,7 +23,7 @@ export type EraserButtonOptions = SelfOptions & StrictOmit<RectangularPushButton
 
 export default class EraserButton extends RectangularPushButton {
 
-  constructor( providedOptions?: EraserButtonOptions ) {
+  public constructor( providedOptions?: EraserButtonOptions ) {
 
     const options = optionize<EraserButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

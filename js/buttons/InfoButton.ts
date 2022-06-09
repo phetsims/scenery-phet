@@ -22,7 +22,7 @@ export type InfoButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions,
 
 export default class InfoButton extends RoundPushButton {
 
-  constructor( providedOptions?: InfoButtonOptions ) {
+  public constructor( providedOptions?: InfoButtonOptions ) {
 
     const options = optionize<InfoButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
 

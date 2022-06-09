@@ -78,7 +78,8 @@ export default class ThermometerNode extends Node {
    * @param temperatureProperty - null means there is no temperature to measure, treated as minTemperature
    * @param [providedOptions]
    */
-  constructor( minTemperature: number, maxTemperature: number, temperatureProperty: IProperty<number | null>, providedOptions?: ThermometerNodeOptions ) {
+  public constructor( minTemperature: number, maxTemperature: number, temperatureProperty: IProperty<number | null>,
+                      providedOptions?: ThermometerNodeOptions ) {
 
     const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions>()( {
       bulbDiameter: 50,
@@ -263,7 +264,7 @@ export default class ThermometerNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ThermometerNode', this );
   }
 
-  override dispose(): void {
+  public override dispose(): void {
     this.disposeThermometerNode();
     super.dispose();
   }
@@ -272,7 +273,7 @@ export default class ThermometerNode extends Node {
    * Get y position at temperature to allow accurate tick placement
    * @param temperature - temperature at which to find y position, null is treated as the provided minTemperature
    */
-  temperatureToYPos( temperature: number | null ): number {
+  public temperatureToYPos( temperature: number | null ): number {
 
     // treat null as zero - this is a "legacy requirement", needed by the States of Matter sims
     const compensatedTemperature = temperature === null ? 0 : temperature;
@@ -284,7 +285,7 @@ export default class ThermometerNode extends Node {
    * Get temperature at y position to allow temperature thumb mapping
    * @param y - y position on thermometer node
    */
-  yPosToTemperature( y: number ): number {
+  public yPosToTemperature( y: number ): number {
     return this.temperatureLinearFunction.inverse( y );
   }
 }

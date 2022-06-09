@@ -35,7 +35,7 @@ export default class OopsDialog extends Dialog {
    * @param messageString - supports RichText formatting
    * @param [providedOptions]
    */
-  constructor( messageString: string, providedOptions?: OopsDialogOptions ) {
+  public constructor( messageString: string, providedOptions?: OopsDialogOptions ) {
 
     const options = optionize<OopsDialogOptions, StrictOmit<SelfOptions, 'iconNode' | 'richTextOptions'>, DialogOptions>()( {
 

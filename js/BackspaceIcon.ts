@@ -22,7 +22,7 @@ export type BackspaceIconOptions = SelfOptions & PathOptions;
 
 export default class BackspaceIcon extends Path {
 
-  constructor( providedOptions?: BackspaceIconOptions ) {
+  public constructor( providedOptions?: BackspaceIconOptions ) {
 
     const options = optionize<BackspaceIconOptions, SelfOptions, PathOptions>()( {
 

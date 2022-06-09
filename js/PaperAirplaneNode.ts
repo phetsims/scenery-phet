@@ -18,7 +18,7 @@ export type PaperAirplaneNodeOptions = SelfOptions & PathOptions;
 
 export default class PaperAirplaneNode extends Path {
 
-  constructor( providedOptions?: PaperAirplaneNodeOptions ) {
+  public constructor( providedOptions?: PaperAirplaneNodeOptions ) {
 
     const options = optionize<PaperAirplaneNodeOptions, SelfOptions, PathOptions>()( {
       fill: PhetColorScheme.PHET_LOGO_YELLOW

@@ -43,7 +43,7 @@ export default class SpectrumNode extends Node {
     return new Color( 255 * value, 255 * value, 255 * value );
   }
 
-  constructor( providedOptions?: SpectrumNodeOptions ) {
+  public constructor( providedOptions?: SpectrumNodeOptions ) {
 
     const options = optionize<SpectrumNodeOptions, SelfOptions, NodeOptions>()( {
 

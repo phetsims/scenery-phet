@@ -36,7 +36,7 @@ export default class ResetAllButton extends ResetButton {
 
   private readonly disposeResetAllButton: () => void;
 
-  constructor( providedOptions?: ResetAllButtonOptions ) {
+  public constructor( providedOptions?: ResetAllButtonOptions ) {
 
     const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions>()( {
 

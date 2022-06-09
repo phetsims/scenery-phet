@@ -34,7 +34,7 @@ export default class FineCoarseSpinner extends Node {
 
   private readonly disposeFineCoarseSpinner: () => void;
 
-  constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
+  public constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
 
     const options = optionize<FineCoarseSpinnerOptions,
       StrictOmit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {

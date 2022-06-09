@@ -30,7 +30,7 @@ export default class ContextLossFailureDialog extends Dialog {
 
   private readonly reload: () => void; // see SelfOptions.reload
 
-  constructor( providedOptions?: ContextLossFailureDialogOptions ) {
+  public constructor( providedOptions?: ContextLossFailureDialogOptions ) {
 
     const options = optionize<ContextLossFailureDialogOptions, SelfOptions, DialogOptions>()( {
 

@@ -28,7 +28,7 @@ export type ArrowShapeOptions = {
 
 export default class ArrowShape extends Shape {
 
-  constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions: ArrowShapeOptions ) {
+  public constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions: ArrowShapeOptions ) {
 
     super();
 

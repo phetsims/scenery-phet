@@ -11,7 +11,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 export default class PlayIconShape extends Shape {
 
-  constructor( width: number, height: number ) {
+  public constructor( width: number, height: number ) {
     super();
 
     // triangle that points to the right

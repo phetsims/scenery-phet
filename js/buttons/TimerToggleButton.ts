@@ -26,7 +26,7 @@ export type TimerToggleButtonOptions = SelfOptions & BooleanRectangularToggleBut
 
 export default class TimerToggleButton extends BooleanRectangularToggleButton {
 
-  constructor( timerRunningProperty: IProperty<boolean>, provideOptions?: TimerToggleButtonOptions ) {
+  public constructor( timerRunningProperty: IProperty<boolean>, provideOptions?: TimerToggleButtonOptions ) {
 
     const options = optionize<TimerToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 

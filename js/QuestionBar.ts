@@ -26,7 +26,7 @@ const QUESTION_TEXT_MARGIN = 30;
 
 class QuestionBar extends StatusBar {
 
-  constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
+  public constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
 
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,

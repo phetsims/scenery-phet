@@ -30,7 +30,7 @@ export default class CurvedArrowShape extends Shape {
    * @param endAngle - end angle, in radians (at head of arrow)
    * @param providedOptions
    */
-  constructor( radius: number, startAngle: number, endAngle: number, providedOptions?: CurvedArrowShapeOptions ) {
+  public constructor( radius: number, startAngle: number, endAngle: number, providedOptions?: CurvedArrowShapeOptions ) {
 
     const options = optionize<CurvedArrowShapeOptions, SelfOptions>()( {
 

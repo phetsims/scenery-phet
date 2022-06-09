@@ -78,7 +78,7 @@ export default class TimeControlNode extends Node {
 
   private readonly disposeTimeControlNode: () => void;
 
-  constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: TimeControlNodeOptions ) {
+  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: TimeControlNodeOptions ) {
 
     const options = optionize<TimeControlNodeOptions,
       StrictOmit<SelfOptions, 'playPauseStepButtonOptions' | 'speedRadioButtonGroupOptions'>, NodeOptions>()( {

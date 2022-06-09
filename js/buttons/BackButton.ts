@@ -29,7 +29,7 @@ export type BackButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOp
 
 export default class BackButton extends RectangularPushButton {
 
-  constructor( providedOptions?: BackButtonOptions ) {
+  public constructor( providedOptions?: BackButtonOptions ) {
 
     const options = optionize<BackButtonOptions, StrictOmit<SelfOptions, 'soundPlayer'>, RectangularPushButtonOptions>()( {
 

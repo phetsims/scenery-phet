@@ -78,7 +78,7 @@ export default class Drawer extends Node {
    * @param contentsNode - contents of the drawer
    * @param provideOptions
    */
-  constructor( contentsNode: Node, provideOptions?: DrawerOptions ) {
+  public constructor( contentsNode: Node, provideOptions?: DrawerOptions ) {
 
     const options = optionize<DrawerOptions, SelfOptions, NodeOptions>()( {
 
@@ -284,9 +284,9 @@ export default class Drawer extends Node {
     this._animationEnabled = animationEnabled;
   }
 
-  set animationEnabled( value ) { this.setAnimationEnabled( value ); }
+  public set animationEnabled( value ) { this.setAnimationEnabled( value ); }
 
-  get animationEnabled() { return this.getAnimationEnabled(); }
+  public get animationEnabled() { return this.getAnimationEnabled(); }
 
   /**
    * Is animation enabled for opening/closing drawer?

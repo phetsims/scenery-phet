@@ -11,7 +11,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 export default class PauseIconShape extends Shape {
 
-  constructor( width: number, height: number ) {
+  public constructor( width: number, height: number ) {
     super();
 
     // 2 vertical bars

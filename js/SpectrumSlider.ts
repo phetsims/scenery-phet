@@ -93,7 +93,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
    * @param providedOptions
    * @mixes AccessibleSlider
    */
-  constructor( valueProperty: IProperty<number>, providedOptions?: SpectrumSliderOptions ) {
+  public constructor( valueProperty: IProperty<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
@@ -377,7 +377,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
  */
 class Thumb extends Path {
 
-  constructor( width: number, height: number, providedOptions?: PathOptions ) {
+  public constructor( width: number, height: number, providedOptions?: PathOptions ) {
 
     const options = combineOptions<PathOptions>( {
       fill: 'black',
@@ -431,9 +431,9 @@ class ValueDisplay extends Text {
    * @param valueToString - converts value {number} to text {string} for display
    * @param providedOptions
    */
-  constructor( valueProperty: IReadOnlyProperty<number>,
-               valueToString: ( value: number ) => string,
-               providedOptions?: TextOptions ) {
+  public constructor( valueProperty: IReadOnlyProperty<number>,
+                      valueToString: ( value: number ) => string,
+                      providedOptions?: TextOptions ) {
 
     super( '?', providedOptions );
 
@@ -455,7 +455,7 @@ class ValueDisplay extends Text {
  * Rectangular 'cursor' that appears in the track directly above the thumb. Origin is at top center.
  */
 class Cursor extends Rectangle {
-  constructor( width: number, height: number, providedOptions: RectangleOptions ) {
+  public constructor( width: number, height: number, providedOptions: RectangleOptions ) {
     super( -width / 2, 0, width, height, providedOptions );
   }
 }

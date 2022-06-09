@@ -20,7 +20,7 @@ export type StarButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOp
 
 export default class StarButton extends RectangularPushButton {
 
-  constructor( providedOptions?: StarButtonOptions ) {
+  public constructor( providedOptions?: StarButtonOptions ) {
 
     const options = optionize<StarButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
 

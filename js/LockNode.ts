@@ -23,7 +23,7 @@ export default class LockNode extends BooleanToggleNode {
    * @param isLockedProperty - true=lock closed, false=lock open
    * @param providedOptions
    */
-  constructor( isLockedProperty: IProperty<boolean>, providedOptions?: LockNodeOptions ) {
+  public constructor( isLockedProperty: IProperty<boolean>, providedOptions?: LockNodeOptions ) {
 
     const alignBoxOptions: AlignBoxOptions = {
 

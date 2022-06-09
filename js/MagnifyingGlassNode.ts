@@ -21,7 +21,7 @@ export type MagnifyingGlassNodeOptions = SelfOptions & StrictOmit<NodeOptions, '
 
 export default class MagnifyingGlassNode extends Node {
 
-  constructor( providedOptions: MagnifyingGlassNodeOptions ) {
+  public constructor( providedOptions: MagnifyingGlassNodeOptions ) {
 
     const options = optionize<MagnifyingGlassNodeOptions, SelfOptions, NodeOptions>()( {
 

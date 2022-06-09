@@ -18,7 +18,7 @@ export type BucketHoleOptions = SelfOptions & NodeOptions;
 
 export default class BucketHole extends Node {
 
-  constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketHoleOptions ) {
+  public constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketHoleOptions ) {
 
     super( providedOptions );
 
