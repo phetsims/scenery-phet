@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import { Circle, Rectangle } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = {
   radius?: number;
@@ -22,7 +22,7 @@ export type RecordStopButtonOptions = SelfOptions & BooleanRoundToggleButtonOpti
 
 export default class RecordStopButton extends BooleanRoundToggleButton {
 
-  public constructor( recordingProperty: IProperty<boolean>, providedOptions?: RecordStopButtonOptions ) {
+  public constructor( recordingProperty: Property<boolean>, providedOptions?: RecordStopButtonOptions ) {
 
     const options = optionize<RecordStopButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 

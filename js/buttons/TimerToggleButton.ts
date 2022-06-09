@@ -6,7 +6,7 @@
  * @author John Blanco
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
@@ -26,7 +26,7 @@ export type TimerToggleButtonOptions = SelfOptions & BooleanRectangularToggleBut
 
 export default class TimerToggleButton extends BooleanRectangularToggleButton {
 
-  public constructor( timerRunningProperty: IProperty<boolean>, provideOptions?: TimerToggleButtonOptions ) {
+  public constructor( timerRunningProperty: Property<boolean>, provideOptions?: TimerToggleButtonOptions ) {
 
     const options = optionize<TimerToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 

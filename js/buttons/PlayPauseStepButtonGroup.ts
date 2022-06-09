@@ -22,7 +22,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
 
 const DEFAULT_STEP_BUTTON_RADIUS = 15;
 const DEFAULT_STEP_BUTTON_TOUCH_AREA_DILATION = 5;
@@ -51,7 +51,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
   private readonly playPauseButton: PlayPauseButton;
   private readonly disposePlayPauseStepButtonGroup: () => void;
 
-  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {
+  public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {
 
     const options = optionize<PlayPauseStepButtonGroupOptions, SelfOptions, HBoxOptions>()( {
 

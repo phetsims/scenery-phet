@@ -26,10 +26,10 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import IProperty from '../../axon/js/IProperty.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import Property from '../../axon/js/Property.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -172,7 +172,7 @@ export default class NumberControl extends Node {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  public constructor( title: string, numberProperty: IProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string, numberProperty: Property<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
@@ -530,7 +530,7 @@ export default class NumberControl extends Node {
   /**
    * Creates a NumberControl with default tick marks for min and max values.
    */
-  public static withMinMaxTicks( label: string, property: IProperty<number>, range: Range,
+  public static withMinMaxTicks( label: string, property: Property<number>, range: Range,
                                  providedOptions?: WithMinMaxOptions ): NumberControl {
 
     const options = optionize<WithMinMaxOptions, WithMinMaxSelfOptions, NumberControlOptions>()( {

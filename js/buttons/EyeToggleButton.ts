@@ -6,7 +6,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -15,6 +14,7 @@ import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidSh
 import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
+import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = {};
 
@@ -28,7 +28,7 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
    * @param eyeOpenProperty - true: eye is open; false: eye is closed
    * @param providedOptions
    */
-  public constructor( eyeOpenProperty: IProperty<boolean>, providedOptions?: EyeToggleButtonOptions ) {
+  public constructor( eyeOpenProperty: Property<boolean>, providedOptions?: EyeToggleButtonOptions ) {
 
     const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {}, providedOptions );
 

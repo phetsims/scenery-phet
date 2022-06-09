@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
@@ -53,7 +53,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
    * @param endPlayingIcon - icon for the button when pressing it will stop play
    * @param providedOptions
    */
-  public constructor( isPlayingProperty: IProperty<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
+  public constructor( isPlayingProperty: Property<boolean>, endPlayingIcon: Node, providedOptions?: PlayControlButtonOptions ) {
 
     const options = optionize<PlayControlButtonOptions, SelfOptions, BooleanRoundToggleButtonOptions>()( {
 

@@ -20,7 +20,7 @@ import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
-import IProperty from '../../axon/js/IProperty.js';
+import Property from '../../axon/js/Property.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -65,7 +65,7 @@ export default class ComboBoxDisplay extends ComboBox<number> {
    * @param listParent - parent for the ComboBox list
    * @param providedOptions
    */
-  public constructor( items: ComboBoxDisplayItem[], choiceProperty: IProperty<number>, listParent: Node,
+  public constructor( items: ComboBoxDisplayItem[], choiceProperty: Property<number>, listParent: Node,
                       providedOptions?: ComboBoxDisplayOptions ) {
 
     const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>()( {

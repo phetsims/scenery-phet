@@ -8,7 +8,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
@@ -24,7 +24,7 @@ export type PlayStopButtonOptions = SelfOptions & PlayControlButtonOptions;
 
 export default class PlayStopButton extends PlayControlButton {
 
-  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: PlayStopButtonOptions ) {
+  public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayStopButtonOptions ) {
 
     const options = optionize<PlayStopButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 

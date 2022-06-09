@@ -23,7 +23,7 @@ import sceneryPhetStrings from './sceneryPhetStrings.js';
 import TimeSpeed from './TimeSpeed.js';
 import TimeSpeedRadioButtonGroup, { TimeSpeedRadioButtonGroupOptions } from './TimeSpeedRadioButtonGroup.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
-import IProperty from '../../axon/js/IProperty.js';
+import Property from '../../axon/js/Property.js';
 
 // default speeds for SpeedRadioButtonGroup
 const DEFAULT_TIME_SPEEDS = [ TimeSpeed.NORMAL, TimeSpeed.SLOW ];
@@ -78,7 +78,7 @@ export default class TimeControlNode extends Node {
 
   private readonly disposeTimeControlNode: () => void;
 
-  public constructor( isPlayingProperty: IProperty<boolean>, providedOptions?: TimeControlNodeOptions ) {
+  public constructor( isPlayingProperty: Property<boolean>, providedOptions?: TimeControlNodeOptions ) {
 
     const options = optionize<TimeControlNodeOptions,
       StrictOmit<SelfOptions, 'playPauseStepButtonOptions' | 'speedRadioButtonGroupOptions'>, NodeOptions>()( {

@@ -15,10 +15,10 @@ import sceneryPhet from './sceneryPhet.js';
 import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
-import IProperty from '../../axon/js/IProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Slider from '../../sun/js/Slider.js';
+import Property from '../../axon/js/Property.js';
 
 const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
 const wavelengthString = sceneryPhetStrings.wavelength;
@@ -50,7 +50,7 @@ export default class WavelengthNumberControl extends NumberControl {
    * @param wavelengthProperty - in nm
    * @param providedOptions
    */
-  public constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthNumberControlOptions ) {
+  public constructor( wavelengthProperty: Property<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
     const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>()( {
       title: wavelengthString,

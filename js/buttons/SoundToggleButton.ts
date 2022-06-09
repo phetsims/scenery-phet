@@ -8,7 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -34,7 +34,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
   private readonly disposeSoundToggleButton: () => void;
 
-  public constructor( property: IProperty<boolean>, provideOptions?: SoundToggleButtonOptions ) {
+  public constructor( property: Property<boolean>, provideOptions?: SoundToggleButtonOptions ) {
 
     const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 
