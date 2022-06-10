@@ -584,23 +584,23 @@ function demoGridBox( layoutBounds ) {
     children: [
       new Node( {
         children: [ rectA ],
-        layoutOptions: { x: 0, y: 0, xAlign: 'left' }
+        layoutOptions: { column: 0, row: 0, xAlign: 'left' }
       } ),
       new Node( {
         children: [ rectB ],
-        layoutOptions: { x: 1, y: 0 }
+        layoutOptions: { column: 1, row: 0 }
       } ),
       new Node( {
         children: [ rectC ],
-        layoutOptions: { x: 2, y: 0 }
+        layoutOptions: { column: 2, row: 0 }
       } ),
       new Node( {
         children: [ rectD ],
-        layoutOptions: { x: 0, y: 2 }
+        layoutOptions: { column: 0, row: 2 }
       } ),
       new Node( {
         children: [ rectD ],
-        layoutOptions: { x: 1, y: 1, width: 2, yAlign: 'bottom' }
+        layoutOptions: { column: 1, row: 1, width: 2, yAlign: 'bottom' }
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
