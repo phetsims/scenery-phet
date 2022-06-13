@@ -8,24 +8,36 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type selfOptions = {
+  startAngle?: number;
+  endAngle?: number;
+  arrowHeadSize?: number;
+}
 
 export default class ResetShape extends Shape {
 
   /**
    * @param radius of the center of the reset arrow
    */
-  public constructor( radius: number ) {
-
+  public constructor( radius: number, providedOptions?: selfOptions ) {
+    const options = optionize<selfOptions>()( {
+      startAngle: -Math.PI * 0.35,
+      endAngle: ( -2 * Math.PI * 0.95 ),
+      // Measured in circle's angular span, should therefore be the result of theta/360.
+      arrowHeadSize: 0.18
+    }, providedOptions );
     super();
 
     // Adjust these parameters to tweak the appearance of the arrow.
     const INNER_RADIUS = radius * 0.4;
     const OUTER_RADIUS = radius * 0.625;
     const HEAD_WIDTH = 2.25 * ( OUTER_RADIUS - INNER_RADIUS );
-    const START_ANGLE = -Math.PI * 0.35;
-    const END_TO_NECK_ANGULAR_SPAN = -2 * Math.PI * 0.85;
-    const ARROW_HEAD_ANGULAR_SPAN = -Math.PI * 0.18;
+    const START_ANGLE = options.startAngle;
+    const ARROW_HEAD_ANGULAR_SPAN = -Math.PI * options.arrowHeadSize;
+    const END_TO_NECK_ANGULAR_SPAN = options.endAngle - ARROW_HEAD_ANGULAR_SPAN;
 
     // Create the curved arrow shape, starting at the inside of the non-pointed end.
     // Inner edge of end.
