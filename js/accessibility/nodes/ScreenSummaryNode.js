@@ -1,5 +1,6 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A node that creates a summary of the screen in the PDOM. This type prevents duplicated code because
  * all screens have an instance of this node that is accessible on the ScreenView type.

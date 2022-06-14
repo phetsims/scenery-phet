@@ -1,5 +1,6 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A Node that displays a visual queue to use space to grab and release a component.
  * @author Michael Kauzmann (PhET Interactive Simulations)
