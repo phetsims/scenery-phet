@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Demonstration of scenery-phet sliders.
  * Demos are selected from a combo box, and are instantiated on demand.
