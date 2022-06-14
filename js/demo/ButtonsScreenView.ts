@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Demonstration of scenery-phet buttons
  *
@@ -8,17 +7,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import Range from '../../../dot/js/Range.js';
-import ScreenView from '../../../joist/js/ScreenView.js';
-import { HBox } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
-import { VStrut } from '../../../scenery/js/imports.js';
+import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
+import { HBox, Text, VBox, VStrut } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import BackButton from '../buttons/BackButton.js';
 import CloseButton from '../buttons/CloseButton.js';
@@ -43,21 +37,22 @@ import MoveToTrashButton from '../buttons/MoveToTrashButton.js';
 import PhetFont from '../PhetFont.js';
 import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../sceneryPhet.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 
-class ButtonsScreenView extends ScreenView {
+type SelfOptions = {};
+type ButtonsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
-  constructor( options ) {
+export default class ButtonsScreenView extends ScreenView {
 
-    options = merge( {
-      tandem: Tandem.REQUIRED
-    }, options );
+  public constructor( providedOptions: ButtonsScreenViewOptions ) {
 
-    super( options );
+    super( providedOptions );
 
     //------------------------------------------------------------------------------------------------------
     // Push buttons
 
-    const pushButtons = [];
+    const pushButtons: ButtonNode[] = [];
 
     const backButton = new BackButton( {
       listener: () => console.log( 'BackButton pressed' )
@@ -136,7 +131,7 @@ class ButtonsScreenView extends ScreenView {
     //------------------------------------------------------------------------------------------------------
     // Toggle buttons
 
-    const toggleButtons = [];
+    const toggleButtons: ButtonNode[] = [];
 
     // Add button properties here, so that resetAllButton functions properly.
     const toggleButtonProperties = {
@@ -199,7 +194,7 @@ class ButtonsScreenView extends ScreenView {
     // Property shared by ZoomButtonGroups
     const zoomLevelProperty = new NumberProperty( 0, {
       range: new Range( 0, 5 )
-    } );
+    } ).asRanged();
     zoomLevelProperty.lazyLink( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
 
     // Spacing shared by ZoomButtonGroups
@@ -295,4 +290,3 @@ class ButtonsScreenView extends ScreenView {
 }
 
 sceneryPhet.register( 'ButtonsScreenView', ButtonsScreenView );
-export default ButtonsScreenView;
