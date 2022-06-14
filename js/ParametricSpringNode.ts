@@ -11,8 +11,7 @@
  * the expense of layout accuracy. If you use this option, you can only rely on Node.x and Node.y for
  * doing layout.  See Path.boundsMethod for additional details.
  *
- * The "Experimental" screen provides an extensive test harness for ParametricSpringNode.
- * Run with query parameter "exp" to add the "Experimental" screen to the sim.
+ * The "Spring" screen in the scenery-demo application provides an extensive test harness for ParametricSpringNode.
  *
  * @author Martin Veillette (Berea College)
  * @author Chris Malley (PixelZoom, Inc.)
