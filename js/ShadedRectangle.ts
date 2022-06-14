@@ -32,7 +32,7 @@ type SelfOptions = {
 
 export type ShadedRectangleOptions = SelfOptions & NodeOptions;
 
-class ShadedRectangle extends Node {
+export default class ShadedRectangle extends Node {
 
   private readonly lighterPaint: PaintColorProperty;
   private readonly lightPaint: PaintColorProperty;
@@ -175,4 +175,3 @@ class ShadedRectangle extends Node {
 }
 
 sceneryPhet.register( 'ShadedRectangle', ShadedRectangle );
-export default ShadedRectangle;
