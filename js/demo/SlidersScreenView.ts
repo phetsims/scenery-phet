@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Demonstration of scenery-phet sliders.
  * Demos are selected from a combo box, and are instantiated on demand.
@@ -11,15 +10,17 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import Bounds2 from '../../../dot/js/Bounds2.js';
 import Range from '../../../dot/js/Range.js';
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import merge from '../../../phet-core/js/merge.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
+import DemosScreenView, { DemosScreenViewOptions } from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import NumberControl from '../NumberControl.js';
+import NumberControl, { NumberControlOptions } from '../NumberControl.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
@@ -28,14 +29,16 @@ import SpectrumSliderTrack from '../SpectrumSliderTrack.js';
 import VisibleColor from '../VisibleColor.js';
 import WavelengthNumberControl from '../WavelengthNumberControl.js';
 
+type SelfOptions = {};
+type SlidersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
+
 class SlidersScreenView extends DemosScreenView {
 
-  constructor( options ) {
+  public constructor( providedOptions: SlidersScreenViewOptions ) {
 
-    options = merge( {
-      selectedDemoLabel: sceneryPhetQueryParameters.slider,
-      tandem: Tandem.REQUIRED
-    }, options );
+    const options = optionize<SlidersScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
+      selectedDemoLabel: sceneryPhetQueryParameters.slider
+    }, providedOptions );
 
     super( [
 
@@ -54,7 +57,7 @@ class SlidersScreenView extends DemosScreenView {
 }
 
 // Creates a demo for NumberControl
-function demoNumberControl( layoutBounds ) {
+function demoNumberControl( layoutBounds: Bounds2 ) {
 
   const weightRange = new RangeWithValue( 0, 300, 100 );
 
@@ -101,15 +104,17 @@ function demoNumberControl( layoutBounds ) {
   }, numberControlOptions ) );
 
   // NumberControl with alternate layout provided by the client
-  const numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange, merge( {
-    layoutFunction: function( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) {
-      return new HBox( {
-        spacing: 8,
-        resize: false, // prevent sliders from causing a resize when thumb is at min or max
-        children: [ titleNode, numberDisplay, leftArrowButton, slider, rightArrowButton ]
-      } );
-    }
-  }, numberControlOptions ) );
+  const numberControl4 = new NumberControl( 'Weight:', weightProperty, weightRange,
+    combineOptions<NumberControlOptions>( {
+      layoutFunction: ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+        assert && assert( leftArrowButton && rightArrowButton );
+        return new HBox( {
+          spacing: 8,
+          resize: false, // prevent sliders from causing a resize when thumb is at min or max
+          children: [ titleNode, numberDisplay, leftArrowButton!, slider, rightArrowButton! ]
+        } );
+      }
+    }, numberControlOptions ) );
 
   // Checkbox that will disable all NumberControls
   const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
@@ -123,7 +128,7 @@ function demoNumberControl( layoutBounds ) {
 }
 
 // Creates a demo for WavelengthNumberControl
-function demoWavelengthNumberControl( layoutBounds ) {
+function demoWavelengthNumberControl( layoutBounds: Bounds2 ) {
   const wavelengthProperty = new Property( 500 );
   return new WavelengthNumberControl( wavelengthProperty, {
     center: layoutBounds.center
@@ -132,9 +137,8 @@ function demoWavelengthNumberControl( layoutBounds ) {
 
 /**
  * Creates a HSlider that uses a SpectrumSliderTrack and SpectrumSliderThumb.
- * @param layoutBounds
  */
-function demoSliderWithSpectrum( layoutBounds ) {
+function demoSliderWithSpectrum( layoutBounds: Bounds2 ) {
   const property = new Property( 380 );
   const wavelengthToColor = VisibleColor.wavelengthToColor;
   const range = new Range( 380, 780 );
@@ -147,9 +151,8 @@ function demoSliderWithSpectrum( layoutBounds ) {
 
 /**
  * Creates a NumberControl that uses SpectrumSliderTrack and SpectrumSliderThumb.
- * @param layoutBounds
  */
-function demoNumberControlWithSpectrum( layoutBounds ) {
+function demoNumberControlWithSpectrum( layoutBounds: Bounds2 ) {
   const property = new Property( 380 );
   const wavelengthToColor = VisibleColor.wavelengthToColor;
 
