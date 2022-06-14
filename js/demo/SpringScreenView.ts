@@ -1,6 +1,5 @@
-// Copyright 2015-2021, University of Colorado Boulder
+// Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * View for the "Spring" screen, a demo of ParametricSpringNode.
  *
@@ -8,23 +7,21 @@
  */
 
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
-import ScreenView from '../../../joist/js/ScreenView.js';
-import merge from '../../../phet-core/js/merge.js';
+import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import ResetAllButton from '../buttons/ResetAllButton.js';
 import ParametricSpringNode from '../ParametricSpringNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SpringControls from './SpringControls.js';
 
-class SpringScreenView extends ScreenView {
-  constructor( options ) {
+type SelfOptions = {};
+type SpringScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
-    options = merge( {
-      tandem: Tandem.REQUIRED
-    }, options );
+export default class SpringScreenView extends ScreenView {
+  public constructor( providedOptions: SpringScreenViewOptions ) {
 
-    super( options );
+    super( providedOptions );
 
     // A 200-unit vertical "wall", for comparison with the spring size
     const wallNode = new Rectangle( 0, 0, 25, 200, {
@@ -91,4 +88,3 @@ class SpringScreenView extends ScreenView {
 }
 
 sceneryPhet.register( 'SpringScreenView', SpringScreenView );
-export default SpringScreenView;
