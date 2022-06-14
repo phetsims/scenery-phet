@@ -1,18 +1,16 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Demonstration of scenery-phet dialogs.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView from '../../../joist/js/ScreenView.js';
-import merge from '../../../phet-core/js/merge.js';
+import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { Image, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import batteryDCell_png from '../../images/batteryDCell_png.js';
 import CanvasWarningNode from '../CanvasWarningNode.js';
 import ContextLossFailureDialog from '../ContextLossFailureDialog.js';
@@ -25,17 +23,16 @@ const TEXT_OPTIONS = {
   font: new PhetFont( 20 )
 };
 
+type SelfOptions = {};
+type DialogsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
+
 class DialogsScreenView extends ScreenView {
-  constructor( options ) {
+  public constructor( providedOptions: DialogsScreenViewOptions ) {
 
-    options = merge( {
-      tandem: Tandem.REQUIRED
-    }, options );
-
-    super( options );
+    super( providedOptions );
 
     // Context Loss Failure
-    let contextLossFailureDialog = null;
+    let contextLossFailureDialog: Dialog | null = null;
     const contextLossFailureButton = new RectangularPushButton( {
       content: new Text( 'Context Loss Failure', TEXT_OPTIONS ),
       listener: () => {
@@ -54,7 +51,7 @@ class DialogsScreenView extends ScreenView {
     } );
 
     // Canvas Warning
-    let canvasWarningDialog = null;
+    let canvasWarningDialog: Dialog | null = null;
     const canvasWarningButton = new RectangularPushButton( {
       content: new Text( 'Canvas Warning', TEXT_OPTIONS ),
       listener: () => {
@@ -66,7 +63,7 @@ class DialogsScreenView extends ScreenView {
     } );
 
     // Oops!
-    let oopsDialog = null;
+    let oopsDialog: Dialog | null = null;
     const oopsButton = new RectangularPushButton( {
       content: new Text( 'OopsDialog', TEXT_OPTIONS ),
       listener: () => {
