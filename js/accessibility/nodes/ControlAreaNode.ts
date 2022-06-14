@@ -1,8 +1,6 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- *
  * A node that creates a "Control Area" accessible section in the PDOM. This organizational Node should have accessible
  * content to be displayed under it in the PDOM. This content can be added as a child, or added via `pdomOrder`.
  * Items in this section are designed to be secondary to that in the PlayAreaNode. See ScreenView for more documentation
@@ -13,17 +11,15 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
-import PDOMSectionNode from '../PDOMSectionNode.js';
+import PDOMSectionNode, { PDOMSectionNodeOptions } from '../PDOMSectionNode.js';
 
-class ControlAreaNode extends PDOMSectionNode {
+type SelfOptions = {};
+export type ControlAreaNodeOptions = SelfOptions & PDOMSectionNodeOptions;
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
-    super( sceneryPhetStrings.a11y.simSection.controlArea, options );
+export default class ControlAreaNode extends PDOMSectionNode {
+  public constructor( providedOptions?: ControlAreaNodeOptions ) {
+    super( sceneryPhetStrings.a11y.simSection.controlArea, providedOptions );
   }
 }
 
 sceneryPhet.register( 'ControlAreaNode', ControlAreaNode );
-export default ControlAreaNode;

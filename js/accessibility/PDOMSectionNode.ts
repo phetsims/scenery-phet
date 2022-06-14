@@ -1,6 +1,5 @@
-// Copyright 2017-2021, University of Colorado Boulder
+// Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A container type for content in the PDOM for screen reader accessibility. The container is a Node
  * (Scenery display object), so its children will be other Nodes that may or may not have accessible content.
@@ -10,30 +9,27 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { Node, NodeOptions } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class PDOMSectionNode extends Node {
+type SelfOptions = {};
+export type PDOMSectionNodeOptions = SelfOptions &
+  StrictOmit<NodeOptions, 'containerTagName' | 'tagName' | 'labelContent' | 'labelTagName'>;
 
-  /**
-   * @param {string} label
-   * @param {Object} [options]
-   */
-  constructor( label, options ) {
-    assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
+export default class PDOMSectionNode extends Node {
 
-    // options for accessibility, but others can be passed to Node call
-    options = merge( {
+  public constructor( label: string, providedOptions?: PDOMSectionNodeOptions ) {
+    super( optionize<PDOMSectionNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // accessibility options controlled by PDOMSectionNode
       containerTagName: 'section',
       tagName: 'div',
       labelContent: label,
       labelTagName: 'h2'
-    }, options );
-
-    super( options );
+    }, providedOptions ) );
   }
 }
 
 sceneryPhet.register( 'PDOMSectionNode', PDOMSectionNode );
-export default PDOMSectionNode;
