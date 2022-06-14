@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Faucet with a pinball machine 'shooter'.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
