@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Spring described by a parametric equation. This implementation is a variation of the cycloid equation.
  * A prolate cycloid (see http://mathworld.wolfram.com/ProlateCycloid.html) comes closest to this implementation,
