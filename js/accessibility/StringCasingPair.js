@@ -1,5 +1,6 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A data structure that holds a string in its lowercase and capitalized form.
  * @author Michael Kauzmann (PhET Interactive Simulations)
