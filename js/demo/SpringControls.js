@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Controls for experimenting with a ParametricSpring.
  * Sliders with 'black' thumbs are parameters that result in instantiation of Vector2s and Shapes.
