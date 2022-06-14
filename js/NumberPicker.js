@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * NumberPicker is a UI component for picking a number value from a range.
  * This is actually a number spinner, but PhET refers to it as a 'picker', so that's what this class is named.
