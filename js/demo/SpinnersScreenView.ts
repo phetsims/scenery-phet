@@ -29,7 +29,7 @@ import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 type SelfOptions = {};
 type SpinnersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
-class SpinnersScreenView extends DemosScreenView {
+export default class SpinnersScreenView extends DemosScreenView {
 
   public constructor( providedOptions: SpinnersScreenViewOptions ) {
 
@@ -104,4 +104,3 @@ function demoNumberPicker( layoutBounds: Bounds2 ) {
 }
 
 sceneryPhet.register( 'SpinnersScreenView', SpinnersScreenView );
-export default SpinnersScreenView;

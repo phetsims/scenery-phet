@@ -32,7 +32,7 @@ import WavelengthNumberControl from '../WavelengthNumberControl.js';
 type SelfOptions = {};
 type SlidersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
-class SlidersScreenView extends DemosScreenView {
+export default class SlidersScreenView extends DemosScreenView {
 
   public constructor( providedOptions: SlidersScreenViewOptions ) {
 
@@ -180,4 +180,3 @@ function demoNumberControlWithSpectrum( layoutBounds: Bounds2 ) {
 }
 
 sceneryPhet.register( 'SlidersScreenView', SlidersScreenView );
-export default SlidersScreenView;

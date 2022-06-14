@@ -26,7 +26,7 @@ const TEXT_OPTIONS = {
 type SelfOptions = {};
 type DialogsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
-class DialogsScreenView extends ScreenView {
+export default class DialogsScreenView extends ScreenView {
   public constructor( providedOptions: DialogsScreenViewOptions ) {
 
     super( providedOptions );
@@ -89,4 +89,3 @@ class DialogsScreenView extends ScreenView {
 }
 
 sceneryPhet.register( 'DialogsScreenView', DialogsScreenView );
-export default DialogsScreenView;
