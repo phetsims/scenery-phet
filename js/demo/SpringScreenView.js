@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * View for the "Spring" screen, a demo of ParametricSpringNode.
  *
