@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A rectangle with pseudo-3D shading.
  *
@@ -8,58 +7,58 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
-import { RadialGradient } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+
+type LightSource = 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom';
+
+type SelfOptions = {
+  baseColor?: IColor;
+  lightFactor?: number; // how much lighter the "light" parts (top and left) are
+  lighterFactor?: number; // how much lighter is the top than the left
+  darkFactor?: number; // how much darker the "dark" parts (bottom and right) are
+  darkerFactor?: number; // how much darker the bottom is than the right
+  cornerRadius?: number; // the radius of curvature at the corners (also determines the size of the faux-3D shading)
+  lightSource?: LightSource; // relative position of the light source
+
+  // What fraction of the cornerRadius should the light and dark gradients extend into the rectangle?
+  // Should always be less than 1.
+  lightOffset?: number;
+  darkOffset?: number;
+};
+
+export type ShadedRectangleOptions = SelfOptions & NodeOptions;
 
 class ShadedRectangle extends Node {
 
+  private readonly lighterPaint: PaintColorProperty;
+  private readonly lightPaint: PaintColorProperty;
+  private readonly darkPaint: PaintColorProperty;
+  private readonly darkerPaint: PaintColorProperty;
+
   /**
-   * Creates a pseudo-3D shaded rounded rectangle that takes up rectBounds {Bounds2} in size. See below documentation
-   * for options (it is passed through to the Node also).
-   *
-   * @param {Bounds2} rectBounds
-   * @param {Object} [options]
+   * @param rectBounds - takes up rectBounds in size
+   * @param [providedOptions]
    */
-  constructor( rectBounds, options ) {
+  public constructor( rectBounds: Bounds2, providedOptions?: ShadedRectangleOptions ) {
 
     super();
 
-    options = merge( {
-      // {ColorDef} default base color
+    const options = optionize<ShadedRectangleOptions, SelfOptions, NodeOptions>()( {
       baseColor: new Color( 80, 130, 230 ),
-
-      // {number} how much lighter the "light" parts (top and left) are
       lightFactor: 0.5,
-      // {number} how much lighter is the top than the left
       lighterFactor: 0.1,
-      // {number} how much darker the "dark" parts (bottom and right) are
       darkFactor: 0.5,
-      // {number} how much darker the bottom is than the right
       darkerFactor: 0.1,
-      // the radius of curvature at the corners (also determines the size of the faux-3D shading)
       cornerRadius: 10,
-
-      lightSource: 'leftTop', // {string}, one of 'leftTop', 'rightTop', 'leftBottom', 'rightBottom',
-
-      // {number} What fraction of the cornerRadius should the light and dark gradients extend into the rectangle?
-      // Should always be less than 1.
+      lightSource: 'leftTop',
       lightOffset: 0.525,
       darkOffset: 0.375
-    }, options );
+    }, providedOptions );
 
-    assert && assert( options.lightSource === 'leftTop' ||
-                      options.lightSource === 'rightTop' ||
-                      options.lightSource === 'leftBottom' ||
-                      options.lightSource === 'rightBottom',
-      `The lightSource ${options.lightSource} is not supported` );
     assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
     assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
 
@@ -68,7 +67,7 @@ class ShadedRectangle extends Node {
 
     const cornerRadius = options.cornerRadius;
 
-    // @private {Property.<Color>} - compute our colors (properly handle color-Property cases for baseColor)
+    // compute our colors (properly handle color-Property cases for baseColor)
     this.lighterPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor + options.lighterFactor } );
     this.lightPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor } );
     this.darkPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor } );
@@ -165,11 +164,7 @@ class ShadedRectangle extends Node {
     this.mutate( options );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.lighterPaint.dispose();
     this.lightPaint.dispose();
     this.darkPaint.dispose();
