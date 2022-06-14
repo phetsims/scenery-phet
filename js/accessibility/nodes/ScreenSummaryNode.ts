@@ -44,7 +44,7 @@ export default class ScreenSummaryNode extends Node {
   }
 
   /**
-   * The parameters are not known in the constructor, so the intro string can filled in later on during initialization.
+   * The parameters are not known in the constructor, so the intro string can be filled in later on during initialization.
    * @param simName
    * @param screenDisplayName - with the word "Screen" in it, like "Explore Screen"
    * @param isMultiScreen - if the sim has multiple screens
