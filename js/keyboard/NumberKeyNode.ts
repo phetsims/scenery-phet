@@ -10,7 +10,6 @@
 import sceneryPhet from '../sceneryPhet.js';
 import LetterKeyNode from './LetterKeyNode.js';
 
-class NumberKeyNode extends LetterKeyNode {}
+export default class NumberKeyNode extends LetterKeyNode {}
 
 sceneryPhet.register( 'NumberKeyNode', NumberKeyNode );
-export default NumberKeyNode;
