@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Main file for the scenery-phet library demo.
  *
@@ -12,7 +11,7 @@ import Screen from '../../joist/js/Screen.js';
 import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import { IColor, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/ComponentsScreenView.js';
@@ -53,8 +52,8 @@ simLauncher.launch( () => {
   sim.start();
 } );
 
-class ButtonsScreen extends Screen {
-  constructor( tandem ) {
+class ButtonsScreen extends Screen<typeof MODEL, ButtonsScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -69,8 +68,8 @@ class ButtonsScreen extends Screen {
   }
 }
 
-class ComponentsScreen extends Screen {
-  constructor( tandem ) {
+class ComponentsScreen extends Screen<typeof MODEL, ComponentsScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -85,8 +84,8 @@ class ComponentsScreen extends Screen {
   }
 }
 
-class DialogsScreen extends Screen {
-  constructor( tandem ) {
+class DialogsScreen extends Screen<typeof MODEL, DialogsScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -101,8 +100,8 @@ class DialogsScreen extends Screen {
   }
 }
 
-class SlidersScreen extends Screen {
-  constructor( tandem ) {
+class SlidersScreen extends Screen<typeof MODEL, SlidersScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -117,8 +116,8 @@ class SlidersScreen extends Screen {
   }
 }
 
-class SpinnersScreen extends Screen {
-  constructor( tandem ) {
+class SpinnersScreen extends Screen<typeof MODEL, SpinnersScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -133,8 +132,8 @@ class SpinnersScreen extends Screen {
   }
 }
 
-class SpringScreen extends Screen {
-  constructor( tandem ) {
+class SpringScreen extends Screen<typeof MODEL, SpringScreenView> {
+  public constructor( tandem: Tandem ) {
     super(
       () => MODEL,
       () => new SpringScreenView( { tandem: tandem.createTandem( 'view' ) } ),
@@ -151,10 +150,8 @@ class SpringScreen extends Screen {
 
 /**
  * Creates a simple screen icon, a colored rectangle.
- * @param {ColorDef} color
- * @returns {ScreenIcon}
  */
-function createScreenIcon( color ) {
+function createScreenIcon( color: IColor ): ScreenIcon {
   return new ScreenIcon(
     new Rectangle( 0, 0, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
       fill: color
