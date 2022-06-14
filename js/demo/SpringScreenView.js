@@ -69,7 +69,7 @@ class SpringScreenView extends ScreenView {
     } );
 
     // control panel, scaled to fit across the bottom
-    const controls = new SpringControls( ranges, springNode );
+    const controls = new SpringControls( springNode, ranges );
     controls.setScaleMagnitude( Math.min( 1, this.layoutBounds.width / controls.width ) );
     controls.bottom = this.layoutBounds.bottom;
     controls.centerX = this.layoutBounds.centerX;
