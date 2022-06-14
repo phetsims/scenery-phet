@@ -7,9 +7,11 @@
  */
 
 import ScreenView from '../../../joist/js/ScreenView.js';
+import merge from '../../../phet-core/js/merge.js';
 import { Image, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../sun/js/Dialog.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import batteryDCell_png from '../../images/batteryDCell_png.js';
 import CanvasWarningNode from '../CanvasWarningNode.js';
 import ContextLossFailureDialog from '../ContextLossFailureDialog.js';
@@ -23,8 +25,13 @@ const TEXT_OPTIONS = {
 };
 
 class DialogsScreenView extends ScreenView {
-  constructor() {
-    super();
+  constructor( options ) {
+
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // Context Loss Failure
     let contextLossFailureDialog = null;

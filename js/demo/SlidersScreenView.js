@@ -13,12 +13,11 @@ import Property from '../../../axon/js/Property.js';
 import Range from '../../../dot/js/Range.js';
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import merge from '../../../phet-core/js/merge.js';
-import { HBox } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import NumberControl from '../NumberControl.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -30,7 +29,13 @@ import WavelengthNumberControl from '../WavelengthNumberControl.js';
 
 class SlidersScreenView extends DemosScreenView {
 
-  constructor() {
+  constructor( options ) {
+
+    options = merge( {
+      selectedDemoLabel: sceneryPhetQueryParameters.slider,
+      tandem: Tandem.REQUIRED
+    }, options );
+
     super( [
 
       /**
@@ -43,9 +48,7 @@ class SlidersScreenView extends DemosScreenView {
       { label: 'WavelengthNumberControl', createNode: demoWavelengthNumberControl },
       { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
-    ], {
-      selectedDemoLabel: sceneryPhetQueryParameters.slider
-    } );
+    ], options );
   }
 }
 

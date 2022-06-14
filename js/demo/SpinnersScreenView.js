@@ -31,6 +31,12 @@ class SpinnersScreenView extends DemosScreenView {
    * @param {Object} [options]
    */
   constructor( options ) {
+
+    options = merge( {
+      selectedDemoLabel: sceneryPhetQueryParameters.component,
+      tandem: Tandem.REQUIRED
+    }, options );
+
     super( [
 
       /**
@@ -41,10 +47,7 @@ class SpinnersScreenView extends DemosScreenView {
        */
       { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner },
       { label: 'NumberPicker', createNode: demoNumberPicker }
-    ], merge( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component,
-      tandem: Tandem.REQUIRED
-    }, options ) );
+    ], options );
   }
 }
 

@@ -8,16 +8,22 @@
 
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
+import merge from '../../../phet-core/js/merge.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import ResetAllButton from '../buttons/ResetAllButton.js';
 import ParametricSpringNode from '../ParametricSpringNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SpringControls from './SpringControls.js';
 
 class SpringScreenView extends ScreenView {
-  constructor() {
+  constructor( options ) {
 
-    super();
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // A 200-unit vertical "wall", for comparison with the spring size
     const wallNode = new Rectangle( 0, 0, 25, 200, {

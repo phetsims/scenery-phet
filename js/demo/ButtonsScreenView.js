@@ -7,6 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import merge from '../../../phet-core/js/merge.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
@@ -42,9 +44,14 @@ import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 class ButtonsScreenView extends ScreenView {
-  constructor() {
 
-    super();
+  constructor( options ) {
+
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     //------------------------------------------------------------------------------------------------------
     // Push buttons

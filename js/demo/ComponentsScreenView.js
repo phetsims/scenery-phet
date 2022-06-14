@@ -96,6 +96,12 @@ class ComponentsScreenView extends DemosScreenView {
    * @param {Object} [options]
    */
   constructor( options ) {
+
+    options = merge( {
+      selectedDemoLabel: sceneryPhetQueryParameters.component,
+      tandem: Tandem.REQUIRED
+    }, options );
+
     super( [
 
       /**
@@ -139,10 +145,7 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'TimeControlNode', createNode: demoTimeControlNode },
       { label: 'WireNode', createNode: demoWireNode }
-    ], merge( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component,
-      tandem: Tandem.REQUIRED
-    }, options ) );
+    ], options );
   }
 
   /**
