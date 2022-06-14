@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * NumberPicker is a UI component for picking a number value from a range.
  * This is actually a number spinner, but PhET refers to it as a 'picker', so that's what this class is named.
@@ -8,9 +7,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import StringEnumerationProperty from '../../axon/js/StringEnumerationProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
-import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -18,10 +17,9 @@ import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../phet-core/js/merge.js';
-import { Color, FireListener, FocusHighlightPath, LinearGradient, Node, PaintColorProperty, Path, Rectangle, SceneryConstants, Text } from '../../scenery/js/imports.js';
-import AccessibleNumberSpinner from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
+import { Color, FireListener, FireListenerOptions, FocusHighlightPath, Font, IColor, LinearGradient, Node, PaintColorProperty, Path, Rectangle, SceneryConstants, SceneryEvent, Text } from '../../scenery/js/imports.js';
+import AccessibleNumberSpinner, { AccessibleNumberSpinnerOptions } from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -29,38 +27,130 @@ import Tandem from '../../tandem/js/Tandem.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import ISoundPlayer from '../../tambo/js/ISoundPlayer.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import optionize from '../../phet-core/js/optionize.js';
 
-// constants
-const ButtonState = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN', 'OVER', 'OUT' ] );
+const ButtonStateValues = [ 'up', 'down', 'over', 'out' ] as const;
+type ButtonState = ( typeof ButtonStateValues )[number];
 
-class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
+type Align = 'center' | 'left' | 'right';
+
+type SelfOptions = {
+  color?: IColor; // color of arrows and top/bottom gradient on pointer over
+  pressedColor?: IColor; // color of arrows and top/bottom gradient when pressed, derived if not provided
+  backgroundColor?: IColor; // color of the background when pointer is not over it
+  cornerRadius?: number;
+  xMargin?: number;
+  yMargin?: number;
+  decimalPlaces?: number;
+  font?: Font;
+  incrementFunction?: ( value: number ) => number;
+  decrementFunction?: ( value: number ) => number;
+  timerDelay?: number; // start to fire continuously after pressing for this long (milliseconds)
+  timerInterval?: number; // fire continuously at this frequency (milliseconds),
+  noValueString?: string; // string to display if valueProperty.get is null or undefined
+  align?: Align; // horizontal alignment of the value
+  touchAreaXDilation?: number;
+  touchAreaYDilation?: number;
+  mouseAreaXDilation?: number;
+  mouseAreaYDilation?: number;
+  backgroundStroke?: IColor;
+  backgroundLineWidth?: number;
+  arrowHeight?: number;
+  arrowYSpacing?: number;
+  arrowStroke?: IColor;
+  arrowLineWidth?: number;
+  valueMaxWidth?: number | null; // If non-null, it will cap the value's maxWidth to this value
 
   /**
-   * @param {Property.<number>} valueProperty
-   * @param {Property.<Range>} rangeProperty - If the range is anticipated to change, it's best to have the range
-   *                                           Property contain the (maximum) union of all potential changes, so that
-   *                                           NumberPicker can iterate through all possible values and compute the
-   *                                           bounds of the labels.
-   * @param {Object} [options]
-   * @mixes AccessibleNumberSpinner
+   * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
+   * to the same value depending on external state, it is recommended to rebuild the NumberPicker when that state
+   * changes (as it uses formatValue over the initial range to determine the bounds that labels can take).
    */
-  constructor( valueProperty, rangeProperty, options ) {
+  formatValue?: ( value: number ) => string;
 
-    options = merge( {
-      cursor: 'pointer',
-      color: new Color( 0, 0, 255 ), // {ColorDef} color of arrows, and top/bottom gradient on pointer over
-      backgroundColor: 'white', // {ColorDef} color of the background when pointer is not over it
+  // Listener that is called when the NumberPicker has input on it due to user interaction.
+  onInput?: () => void;
+
+  // Determines when the increment arrow is enabled.
+  incrementEnabledFunction?: ( value: number, range: Range ) => boolean;
+
+  // Determines when the decrement arrow is enabled.
+  decrementEnabledFunction?: ( value: number, range: Range ) => boolean;
+
+  // Opacity used to indicate disabled, [0,1] exclusive
+  disabledOpacity?: number;
+
+  // Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
+  // Use nullSoundPlayer to disable.
+  valueChangedSoundPlayer?: ISoundPlayer;
+  boundarySoundPlayer?: ISoundPlayer;
+};
+
+type ParentOptions = AccessibleNumberSpinnerOptions; // includes NodeOptions
+
+export type NumberPickerOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
+
+// options to NumberPicker.createIcon
+type CreateIconOptions = {
+  highlightIncrement?: boolean; // whether to highlight the increment button
+  highlightDecrement?: false; // whether to highlight the decrement button
+  range?: Range; // range shown on the icon
+  numberPickerOptions?: NumberPickerOptions;
+};
+
+type ArrowColors = {
+  up: IColor;
+  over: IColor;
+  down: IColor;
+  out: IColor;
+  disabled: IColor;
+};
+
+type BackgroundColors = {
+  up: IColor;
+  over: LinearGradient;
+  down: LinearGradient;
+  out: LinearGradient;
+  disabled: IColor;
+};
+
+export default class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
+
+  private readonly incrementArrow: Path;
+  private readonly decrementArrow: Path;
+  private readonly incrementInputListener: NumberPickerInputListener;
+  private readonly decrementInputListener: NumberPickerInputListener;
+  private readonly disposeNumberPicker: () => void;
+
+  /**
+   * @param valueProperty
+   * @param rangeProperty - If the range is anticipated to change, it's best to have the range Property contain the
+   * (maximum) union of all potential changes, so that NumberPicker can iterate through all possible values and compute
+   * the bounds of the labels.
+   * @param [providedOptions]
+   */
+  public constructor( valueProperty: Property<number>, rangeProperty: IReadOnlyProperty<Range>,
+                      providedOptions?: NumberPickerOptions ) {
+
+    const options = optionize<NumberPickerOptions, StrictOmit<SelfOptions, 'pressedColor' | 'formatValue'>, ParentOptions>()( {
+
+      // SelfOptions
+      color: new Color( 0, 0, 255 ),
+      backgroundColor: 'white',
       cornerRadius: 6,
       xMargin: 3,
       yMargin: 3,
       decimalPlaces: 0,
       font: new PhetFont( 24 ),
-      incrementFunction: value => value + 1,
-      decrementFunction: value => value - 1,
-      timerDelay: 400, // start to fire continuously after pressing for this long (milliseconds)
-      timerInterval: 100, // fire continuously at this frequency (milliseconds),
-      noValueString: MathSymbols.NO_VALUE, // string to display if valueProperty.get is null or undefined
-      align: 'center', // horizontal alignment of the value, 'center'|'right'|'left'
+      incrementFunction: ( value: number ) => value + 1,
+      decrementFunction: ( value: number ) => value - 1,
+      timerDelay: 400,
+      timerInterval: 100,
+      noValueString: MathSymbols.NO_VALUE,
+      align: 'center',
       touchAreaXDilation: 10,
       touchAreaYDilation: 10,
       mouseAreaXDilation: 0,
@@ -71,65 +161,35 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       arrowYSpacing: 3,
       arrowStroke: 'black',
       arrowLineWidth: 0.25,
-      valueMaxWidth: null, // {number|null} - If non-null, it will cap the value's maxWidth to this value
-
-      /**
-       * Converts a value to a string to be displayed in a Text node. NOTE: If this function can give different strings
-       * to the same value depending on external state, it is recommended to rebuild the NumberPicker when that state
-       * changes (as it uses formatValue over the initial range to determine the bounds that labels can take).
-       *
-       * @param {number} value - the current value
-       * @returns {string}
-       */
-      formatValue: value => Utils.toFixed( value, options.decimalPlaces ),
-
-      /**
-       * {function(SceneryEvent)}
-       * Listener that is called when the NumberPicker has input on it due to user interaction.
-       */
+      valueMaxWidth: null,
       onInput: _.noop,
-
-      /**
-       * Determines whether the increment arrow is enabled.
-       * @param {number} value - the current value
-       * @param {Range} range - the picker's range
-       * @returns {boolean}
-       */
-      incrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value < range.max ),
-
-      /**
-       * Determines whether the decrement arrow is enabled.
-       * @param {number} value - the current value
-       * @param {Range} range - the picker's range
-       * @returns {boolean}
-       */
-      decrementEnabledFunction: ( value, range ) => ( value !== null && value !== undefined && value > range.min ),
-
-      // Opacity used to indicate disabled, [0,1] exclusive
+      incrementEnabledFunction: ( value: number, range: Range ) => ( value !== null && value !== undefined && value < range.max ),
+      decrementEnabledFunction: ( value: number, range: Range ) => ( value !== null && value !== undefined && value > range.min ),
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
-
-      // {ISoundPlayer} - Sound generators for when the NumberPicker's value changes, and when it hits range extremities.
-      // Use nullSoundPlayer to disable.
       valueChangedSoundPlayer: generalSoftClickSoundPlayer,
       boundarySoundPlayer: generalBoundaryBoopSoundPlayer,
 
-      // voicing
+      // ParentOptions
+      cursor: 'pointer',
+      valueProperty: valueProperty,
+      enabledRangeProperty: rangeProperty,
+      pageKeyboardStep: 2,
       voicingObjectResponse: () => valueProperty.value, // by default, just speak the value
 
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioReadOnly: PhetioObject.DEFAULT_OPTIONS.phetioReadOnly,
       visiblePropertyOptions: { phetioFeatured: true },
-      phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
+      phetioEnabledPropertyInstrumented: true
 
-      // (passed to AccessibleNumberSpinner)
-      valueProperty: valueProperty,
-      enabledRangeProperty: rangeProperty,
-      pageKeyboardStep: 2 // {number} - change in value when using page up/page down, see AccessibleNumberSpinner
-    }, options );
+    }, providedOptions );
 
-    // {ColorDef} color of arrows and top/bottom gradient when pressed
-    let colorProperty = null;
+    if ( !options.formatValue ) {
+      options.formatValue = ( value: number ) => Utils.toFixed( value, options.decimalPlaces );
+    }
+
+    // Color of arrows and top/bottom gradient when pressed
+    let colorProperty: PaintColorProperty | null = null;
     if ( options.pressedColor === undefined ) {
       colorProperty = new PaintColorProperty( options.color ); // dispose required!
 
@@ -173,21 +233,25 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     options.shiftKeyboardStep = keyboardStep;
 
     const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
-    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
-
-    super( options );
+    super( _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS ) );
 
     //------------------------------------------------------------
     // Properties
 
-    const incrementButtonStateProperty = new EnumerationDeprecatedProperty( ButtonState, ButtonState.UP );
-    const decrementButtonStateProperty = new EnumerationDeprecatedProperty( ButtonState, ButtonState.UP );
+    const incrementButtonStateProperty = new StringEnumerationProperty( 'up', {
+      validValues: ButtonStateValues
+    } );
+    const decrementButtonStateProperty = new StringEnumerationProperty( 'down', {
+      validValues: ButtonStateValues
+    } );
 
     // must be disposed
-    const incrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.incrementEnabledFunction );
+    const incrementEnabledProperty: IReadOnlyProperty<boolean> =
+      new DerivedProperty( [ valueProperty, rangeProperty ], options.incrementEnabledFunction );
 
     // must be disposed
-    const decrementEnabledProperty = new DerivedProperty( [ valueProperty, rangeProperty ], options.decrementEnabledFunction );
+    const decrementEnabledProperty: IReadOnlyProperty<boolean> =
+      new DerivedProperty( [ valueProperty, rangeProperty ], options.decrementEnabledFunction );
 
     //------------------------------------------------------------
     // Nodes
@@ -205,7 +269,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       assert && assert( sampleValues.length < 500000, 'Don\'t infinite loop here' );
     }
     let maxWidth = Math.max.apply( null, sampleValues.map( value => {
-      valueNode.text = options.formatValue( value );
+      valueNode.text = options.formatValue!( value );
       return valueNode.width;
     } ) );
     // Cap the maxWidth if valueMaxWidth is provided, see https://github.com/phetsims/scenery-phet/issues/297
@@ -258,7 +322,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       pickable: false
     };
 
-    // @private increment arrow, pointing up, described clockwise from tip
+    // increment arrow, pointing up, described clockwise from tip
     this.incrementArrow = new Path( new Shape()
         .moveTo( arrowButtonSize.width / 2, 0 )
         .lineTo( arrowButtonSize.width, arrowButtonSize.height )
@@ -268,7 +332,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     this.incrementArrow.centerX = incrementBackgroundNode.centerX;
     this.incrementArrow.bottom = incrementBackgroundNode.top - options.arrowYSpacing;
 
-    // @private decrement arrow, pointing down, described clockwise from the tip
+    // decrement arrow, pointing down, described clockwise from the tip
     this.decrementArrow = new Path( new Shape()
         .moveTo( arrowButtonSize.width / 2, arrowButtonSize.height )
         .lineTo( 0, 0 )
@@ -313,7 +377,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     // Colors
 
     // arrow colors, corresponding to ButtonState and incrementEnabledProperty/decrementEnabledProperty
-    const arrowColors = {
+    const arrowColors: ArrowColors = {
       up: options.color,
       over: options.color,
       down: options.pressedColor,
@@ -324,7 +388,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     // background colors, corresponding to ButtonState and enabledProperty.value
     const highlightGradient = createVerticalGradient( options.color, options.backgroundColor, options.color, backgroundHeight );
     const pressedGradient = createVerticalGradient( options.pressedColor, options.backgroundColor, options.pressedColor, backgroundHeight );
-    const backgroundColors = {
+    const backgroundColors: BackgroundColors = {
       up: options.backgroundColor,
       over: highlightGradient,
       down: pressedGradient,
@@ -341,10 +405,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
       fireOnHoldInterval: options.timerInterval
     };
 
-    // @private
     this.incrementInputListener = new NumberPickerInputListener( incrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'incrementInputListener' ),
-      fire: event => {
+      fire: ( event: SceneryEvent ) => {
         valueProperty.set( Math.min( options.incrementFunction( valueProperty.get() ), rangeProperty.get().max ) );
         options.onInput( event );
 
@@ -354,10 +417,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     }, inputListenerOptions ) );
     incrementParent.addInputListener( this.incrementInputListener );
 
-    // @private
     this.decrementInputListener = new NumberPickerInputListener( decrementButtonStateProperty, merge( {
       tandem: options.tandem.createTandem( 'decrementInputListener' ),
-      fire: event => {
+      fire: ( event: SceneryEvent ) => {
         valueProperty.set( Math.max( options.decrementFunction( valueProperty.get() ), rangeProperty.get().min ) );
         options.onInput( event );
 
@@ -378,13 +440,13 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     } );
 
     // Update text to match the value
-    const valueObserver = value => {
+    const valueObserver = ( value: number | null | undefined ) => {
       if ( value === null || value === undefined ) {
         valueNode.text = options.noValueString;
         valueNode.x = ( backgroundWidth - valueNode.width ) / 2; // horizontally centered
       }
       else {
-        valueNode.text = options.formatValue( value );
+        valueNode.text = options.formatValue!( value );
         if ( options.align === 'center' ) {
           valueNode.centerX = incrementBackgroundNode.centerX;
         }
@@ -402,12 +464,12 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     };
     valueProperty.link( valueObserver ); // must be unlinked in dispose
 
-    // @private update colors for increment components
+    // Update colors for increment components.
     Multilink.multilink( [ incrementButtonStateProperty, incrementEnabledProperty ], ( state, enabled ) => {
       updateColors( state, enabled, incrementBackgroundNode, this.incrementArrow, backgroundColors, arrowColors );
     } );
 
-    // @private update colors for decrement components
+    // Update colors for decrement components.
     Multilink.multilink( [ decrementButtonStateProperty, decrementEnabledProperty ], ( state, enabled ) => {
       updateColors( state, enabled, decrementBackgroundNode, this.decrementArrow, backgroundColors, arrowColors );
     } );
@@ -430,10 +492,10 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
 
     // update style with keyboard input, Emitters owned by this instance and disposed in AccessibleNumberSpinner
     this.incrementDownEmitter.addListener( isDown => {
-      incrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+      incrementButtonStateProperty.value = ( isDown ? 'down' : 'up' );
     } );
     this.decrementDownEmitter.addListener( isDown => {
-      decrementButtonStateProperty.value = ( isDown ? ButtonState.DOWN : ButtonState.UP );
+      decrementButtonStateProperty.value = ( isDown ? 'down' : 'up' );
     } );
 
     this.addLinkedElement( valueProperty, {
@@ -443,7 +505,6 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     // Mutate options that require bounds after we have children
     this.mutate( boundsRequiredOptionKeys );
 
-    // @private
     this.disposeNumberPicker = () => {
 
       colorProperty && colorProperty.dispose();
@@ -459,14 +520,9 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberPicker', this );
   }
 
-  /**
-   * @public
-   * @param {number} value
-   * @param {Object} [options]
-   * @returns {NumberPicker}
-   */
-  static createIcon( value, options ) {
-    options = merge( {
+  public static createIcon( value: number, providedOptions?: CreateIconOptions ): Node {
+
+    const options = optionize<CreateIconOptions, {}, CreateIconOptions>()( {
 
       // Highlight the increment button
       highlightIncrement: false,
@@ -481,7 +537,7 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
         // phet-io
         tandem: Tandem.OPT_OUT // by default, icons don't need instrumentation
       }
-    }, options );
+    }, providedOptions );
 
     const numberPicker = new NumberPicker( new NumberProperty( value ), new Property( options.range ), options.numberPickerOptions );
 
@@ -497,21 +553,15 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
     return numberPicker;
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeNumberPicker();
     super.dispose();
   }
 
   /**
    * Sets visibility of the arrows.
-   * @param {boolean} visible
-   * @public
    */
-  setArrowsVisible( visible ) {
+  public setArrowsVisible( visible: boolean ): void {
     if ( !visible ) {
       this.incrementInputListener.interrupt();
       this.decrementInputListener.interrupt();
@@ -521,28 +571,21 @@ class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
   }
 }
 
-sceneryPhet.register( 'NumberPicker', NumberPicker );
-
 /**
  * Converts FireListener events to state changes.
  */
 class NumberPickerInputListener extends FireListener {
 
-  /**
-   * @param {EnumerationDeprecatedProperty.<ButtonState>} buttonStateProperty
-   * @param {Object} [options]
-   */
-  constructor( buttonStateProperty, options ) {
+  public constructor( buttonStateProperty: StringEnumerationProperty<ButtonState>, options: FireListenerOptions<FireListener> ) {
     super( options );
     Multilink.multilink(
       [ this.isOverProperty, this.isPressedProperty ],
       ( isOver, isPressed ) => {
         buttonStateProperty.set(
-          isOver && !isPressed ? ButtonState.OVER :
-          isOver && isPressed ? ButtonState.DOWN :
-          !isOver && !isPressed ? ButtonState.UP :
-          !isOver && isPressed ? ButtonState.OUT :
-          assert && assert( false, 'bad state' )
+          isOver && !isPressed ? 'over' :
+          isOver && isPressed ? 'down' :
+          !isOver && !isPressed ? 'up' :
+          'out'
         );
       } );
   }
@@ -550,13 +593,8 @@ class NumberPickerInputListener extends FireListener {
 
 /**
  * Creates a vertical gradient.
- * @param {ColorDef} topColor
- * @param {ColorDef} centerColor
- * @param {ColorDef} bottomColor
- * @param {number} height
- * @returns {LinearGradient}
  */
-function createVerticalGradient( topColor, centerColor, bottomColor, height ) {
+function createVerticalGradient( topColor: IColor, centerColor: IColor, bottomColor: IColor, height: number ): LinearGradient {
   return new LinearGradient( 0, 0, 0, height )
     .addColorStop( 0, topColor )
     .addColorStop( 0.5, centerColor )
@@ -565,41 +603,36 @@ function createVerticalGradient( topColor, centerColor, bottomColor, height ) {
 
 /**
  * Updates arrow and background colors
- * @param {ButtonState} buttonState
- * @param {boolean} enabled
- * @param {ColorDef} background
- * @param {Path} arrow
- * @param {Object} backgroundColors - see backgroundColors in constructor
- * @param {Object} arrowColors - see arrowColors in constructor
  */
-function updateColors( buttonState, enabled, background, arrow, backgroundColors, arrowColors ) {
+function updateColors( buttonState: ButtonState, enabled: boolean, backgroundNode: Path, arrowNode: Path,
+                       backgroundColors: BackgroundColors, arrowColors: ArrowColors ): void {
   if ( enabled ) {
-    arrow.stroke = 'black';
-    if ( buttonState === ButtonState.UP ) {
-      background.fill = backgroundColors.up;
-      arrow.fill = arrowColors.up;
+    arrowNode.stroke = 'black';
+    if ( buttonState === 'up' ) {
+      backgroundNode.fill = backgroundColors.up;
+      arrowNode.fill = arrowColors.up;
     }
-    else if ( buttonState === ButtonState.OVER ) {
-      background.fill = backgroundColors.over;
-      arrow.fill = arrowColors.over;
+    else if ( buttonState === 'over' ) {
+      backgroundNode.fill = backgroundColors.over;
+      arrowNode.fill = arrowColors.over;
     }
-    else if ( buttonState === ButtonState.DOWN ) {
-      background.fill = backgroundColors.down;
-      arrow.fill = arrowColors.down;
+    else if ( buttonState === 'down' ) {
+      backgroundNode.fill = backgroundColors.down;
+      arrowNode.fill = arrowColors.down;
     }
-    else if ( buttonState === ButtonState.OUT ) {
-      background.fill = backgroundColors.out;
-      arrow.fill = arrowColors.out;
+    else if ( buttonState === 'out' ) {
+      backgroundNode.fill = backgroundColors.out;
+      arrowNode.fill = arrowColors.out;
     }
     else {
       throw new Error( `unsupported buttonState: ${buttonState}` );
     }
   }
   else {
-    background.fill = backgroundColors.disabled;
-    arrow.fill = arrowColors.disabled;
-    arrow.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
+    backgroundNode.fill = backgroundColors.disabled;
+    arrowNode.fill = arrowColors.disabled;
+    arrowNode.stroke = arrowColors.disabled; // stroke so that arrow size will look the same when it's enabled/disabled
   }
 }
 
-export default NumberPicker;
+sceneryPhet.register( 'NumberPicker', NumberPicker );
