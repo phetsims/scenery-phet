@@ -1,6 +1,5 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Displays a number in scientific notation, M x 10^E, where M is the mantissa and E is the exponent (e.g. 2.34 x 10^-4).
  * To conserve memory, creates one set of scenery.Text nodes, modifies their text as needed.
@@ -8,51 +7,94 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Font, IColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class ScientificNotationNode extends Node {
+type SelfOptions = {
+  fill?: IColor;
+  font?: Font;
+  exponent?: number | null;
+  mantissaDecimalPlaces?: number;
+  exponentScale?: number; // scale of the exponent, relative to the size of the '10'
+  showIntegersAsMantissaOnly?: boolean; // if true, show 8000 as '8000', otherwise '8 x 10^3'
+  showZeroAsInteger?: boolean; // if true, show '0 x 10^E' as '0'
+  showZeroExponent?: boolean; // if false, show 'M x 10^0' as 'M'
+  exponentXSpacing?: number; // space to left of exponent
+  exponentYOffset?: number; // offset of exponent's center from cap line
+  capHeightScale?: number; // fudge factor for computing cap height, compensates for inaccuracy of Text.height
+  nullValueString?: string; // if the value is null, display this string
+};
 
-  /**
-   * @param {Property.<number|null>} valueProperty
-   * @param {Object} [options]
-   */
-  constructor( valueProperty, options ) {
+export type ScientificNotationNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-    options = merge( {
+// options for toScientificNotation
+export type ScientificNotationOptions = {
+  mantissaDecimalPlaces: number;
+  exponent: number | null; // specific exponent to use
+};
+
+// type returned by toScientificNotation
+export type ScientificNotation = {
+  mantissa: string;
+  exponent: string;
+};
+
+export default class ScientificNotationNode extends Node {
+
+  public readonly valueProperty: IReadOnlyProperty<number | null>;
+  private readonly options: Required<SelfOptions>;
+
+  // width of space between mantissa and 'x 10'
+  private readonly mantissaXSpacing: number;
+
+  //  cap line offset from baseline
+  private readonly capLineYOffset: number;
+
+  private readonly mantissaNode: Text;
+  private readonly timesTenNode: Text;
+  private readonly exponentNode: Text;
+
+  private readonly disposeScientificNotationNode: () => void;
+
+  public constructor( valueProperty: IReadOnlyProperty<number | null>, providedOptions?: ScientificNotationNodeOptions ) {
+
+    const options = optionize<ScientificNotationNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
       fill: 'black',
       font: new PhetFont( 20 ),
       exponent: null,
       mantissaDecimalPlaces: 1,
-      exponentScale: 0.75, // scale of the exponent, relative to the size of the '10'
-      showIntegersAsMantissaOnly: false, // if true, show 8000 as '8000', otherwise '8 x 10^3'
-      showZeroAsInteger: true, // if true, show '0 x 10^E' as '0'
-      showZeroExponent: false, // if false, show 'M x 10^0' as 'M'
-      exponentXSpacing: 2, // space to left of exponent
-      exponentYOffset: 0, // offset of exponent's center from cap line
-      capHeightScale: 0.75, // fudge factor for computing cap height, compensates for inaccuracy of Text.height
-      nullValueString: MathSymbols.NO_VALUE // if the value is null, display this string
-    }, options );
+      exponentScale: 0.75,
+      showIntegersAsMantissaOnly: false,
+      showZeroAsInteger: true,
+      showZeroExponent: false,
+      exponentXSpacing: 2,
+      exponentYOffset: 0,
+      capHeightScale: 0.75,
+      nullValueString: MathSymbols.NO_VALUE
+    }, providedOptions );
 
     super();
 
-    this.options = options; // @private
+    this.valueProperty = valueProperty;
+    this.options = options;
 
     const textOptions = { font: options.font, fill: options.fill };
-    this.valueProperty = valueProperty; // @public
 
     // must be recomputed if font changes!
     const tmpText = new Text( ' ', textOptions );
-    this.mantissaXSpacing = tmpText.width; // @private width of space between mantissa and 'x 10'
-    this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y ); // @private cap line offset from baseline
+    this.mantissaXSpacing = tmpText.width;
+    this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y );
 
-    // scenery.Text nodes
     this.mantissaNode = new Text( '?', textOptions );
     this.timesTenNode = new Text( '?', textOptions );
     this.exponentNode = new Text( '?', merge( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
@@ -66,8 +108,7 @@ class ScientificNotationNode extends Node {
     const valuePropertyObserver = this.update.bind( this );
     valueProperty.link( valuePropertyObserver );
 
-    // @private
-    this.disposeScientificNotationNode = function() {
+    this.disposeScientificNotationNode = () => {
       if ( valueProperty.hasListener( valuePropertyObserver ) ) {
         valueProperty.unlink( valuePropertyObserver );
       }
@@ -80,30 +121,26 @@ class ScientificNotationNode extends Node {
   /**
    * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
    * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
-   *
-   * @public
-   * @param {number} value the number to be formatted
-   * @param {Object} [options]
-   * @returns {mantissa:{string}, exponent:{string}}
    */
-  static toScientificNotation( value, options ) {
+  public static toScientificNotation( value: number, providedOptions?: ScientificNotationOptions ): ScientificNotation {
 
-    options = merge( {
+    const options = optionize<ScientificNotationOptions, {}, ScientificNotationOptions>()( {
       mantissaDecimalPlaces: 1,
       exponent: null // specific exponent to use
-    }, options );
+    }, providedOptions );
 
-    let mantissa;
-    let exponent;
+    let mantissa: number;
+    let exponent: number;
     if ( value === 0 ) {
       mantissa = 0;
       exponent = 1;
     }
     else if ( options.exponent !== null && options.exponent === 0 ) {
-      mantissa = Utils.toFixed( value, options.mantissaDecimalPlaces );
+      mantissa = Utils.toFixedNumber( value, options.mantissaDecimalPlaces );
       exponent = 0;
     }
     else {
+
       // Convert to a string in exponential notation (eg 2e+2).
       // Request an additional decimal place, because toExponential uses toFixed, which doesn't round the same on all platforms.
       const exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
@@ -124,33 +161,27 @@ class ScientificNotationNode extends Node {
 
       // Convert if a specific exponent was requested.
       if ( options.exponent !== null ) {
-        mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ), Math.max( 0, options.mantissaDecimalPlaces ) );
+        mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ),
+          Math.max( 0, options.mantissaDecimalPlaces ) );
         exponent = options.exponent;
       }
     }
 
-    // restore precision in case toFixedNumber removed zeros to right of decimal
-    mantissa = Utils.toFixed( mantissa, options.mantissaDecimalPlaces );
-    exponent = exponent.toString();
-
     // mantissa x 10^exponent
-    return { mantissa: mantissa, exponent: exponent };
+    return {
+
+      // restore precision in case toFixedNumber removed zeros to right of decimal
+      mantissa: Utils.toFixed( mantissa, options.mantissaDecimalPlaces ),
+      exponent: exponent.toString()
+    };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeScientificNotationNode();
     super.dispose();
   }
 
-  /**
-   * @param {number|null} value
-   * @private
-   */
-  update( value ) {
+  private update( value: number | null ): void {
 
     const options = this.options;
 
@@ -161,12 +192,14 @@ class ScientificNotationNode extends Node {
     if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
 
     if ( value === null ) {
+
       // no value
       this.mantissaNode.text = options.nullValueString;
       this.removeChild( this.timesTenNode );
       this.removeChild( this.exponentNode );
     }
     else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
+
       // show integers as mantissa only
       this.mantissaNode.text = value;
       this.removeChild( this.timesTenNode );
@@ -174,22 +207,25 @@ class ScientificNotationNode extends Node {
     }
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-      const mantissaNumber = Utils.toFixedNumber( scientificNotation.mantissa, options.mantissaDecimalPlaces );
+      const mantissaNumber = Utils.toFixedNumber( parseInt( scientificNotation.mantissa, 10 ), options.mantissaDecimalPlaces );
       const exponentNumber = parseInt( scientificNotation.exponent, 10 );
 
       if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
+
         // show '0 x 10^E' as '0'
         this.mantissaNode.text = '0';
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );
       }
       else if ( exponentNumber === 0 && !options.showZeroExponent ) {
+
         // show 'M x 10^0' as 'M'
         this.mantissaNode.text = scientificNotation.mantissa;
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );
       }
       else {
+
         // show 'M x 10^E'
         this.mantissaNode.text = scientificNotation.mantissa;
         this.timesTenNode.text = 'x 10';
@@ -204,4 +240,3 @@ class ScientificNotationNode extends Node {
 }
 
 sceneryPhet.register( 'ScientificNotationNode', ScientificNotationNode );
-export default ScientificNotationNode;
