@@ -1,15 +1,14 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A Node that displays a visual queue to use space to grab and release a component.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { HBox, RichText } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -17,28 +16,38 @@ import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 
 const keyToGrabOrReleaseString = sceneryPhetStrings.key.toGrabOrRelease;
 
-class GrabReleaseCueNode extends Panel {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // properties of the space key
+  spaceKeyWidth?: number;
+  keyHeight?: number;
+};
+export type GrabReleaseCueNodeOptions = SelfOptions & PanelOptions;
 
-    options = merge( {
+export default class GrabReleaseCueNode extends Panel {
 
+  public constructor( providedOptions?: GrabReleaseCueNodeOptions ) {
+
+    const options = optionize<GrabReleaseCueNodeOptions, SelfOptions, PanelOptions>()( {
+
+      // SelfOptions
+      spaceKeyWidth: 50, // this space key is wider than default space key
+      keyHeight: 24, // height of the space key, larger than default KeyNode height
+
+      // PanelOptions
       fill: 'white',
       stroke: 'black',
       xMargin: 15,
       yMargin: 5,
-      cornerRadius: 0,
-
-      spaceKeyWidth: 50, // this space key is wider than default space key
-      keyHeight: 24 // height of the space key, larger than default KeyNode height
-    }, options );
+      cornerRadius: 0
+    }, providedOptions );
 
 
     // Create the help content for the space key to pick up the draggable item
-    const spaceKeyNode = TextKeyNode.space( { keyHeight: options.keyHeight, minKeyWidth: options.spaceKeyWidth } );
+    const spaceKeyNode = TextKeyNode.space( {
+      keyHeight: options.keyHeight,
+      minKeyWidth: options.spaceKeyWidth
+    } );
     const spaceLabelText = new RichText( keyToGrabOrReleaseString, { font: new PhetFont( 12 ) } );
     const spaceKeyHBox = new HBox( {
       children: [ spaceKeyNode, spaceLabelText ],
@@ -51,4 +60,3 @@ class GrabReleaseCueNode extends Panel {
 }
 
 sceneryPhet.register( 'GrabReleaseCueNode', GrabReleaseCueNode );
-export default GrabReleaseCueNode;

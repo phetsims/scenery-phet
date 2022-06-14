@@ -1,6 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A node that creates a summary of the screen in the PDOM. This type prevents duplicated code because
  * all screens have an instance of this node that is accessible on the ScreenView type.
@@ -22,13 +21,14 @@ const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.s
 const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
 const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
 
-class ScreenSummaryNode extends Node {
+export default class ScreenSummaryNode extends Node {
 
-  constructor() {
+  private readonly openingSummaryNode: Node;
+
+  public constructor() {
 
     super();
 
-    // @private
     this.openingSummaryNode = new Node( { tagName: 'p' } );
 
     const keyboardShortcutsHint = new Node( {
@@ -45,12 +45,11 @@ class ScreenSummaryNode extends Node {
 
   /**
    * The parameters are not known in the constructor, so the intro string can filled in later on during initialization.
-   * @param {string} simName
-   * @param {string|null} screenDisplayName - with the word "Screen" in it, like "Explore Screen"
-   * @param {boolean} isMultiScreen - if the sim has multiple screens
-   * @public
+   * @param simName
+   * @param screenDisplayName - with the word "Screen" in it, like "Explore Screen"
+   * @param isMultiScreen - if the sim has multiple screens
    */
-  setIntroString( simName, screenDisplayName, isMultiScreen ) {
+  public setIntroString( simName: string, screenDisplayName: string | null, isMultiScreen: boolean ): void {
 
     // different default string depending on if there are multiple screens
     this.openingSummaryNode.innerContent = isMultiScreen && screenDisplayName ?
@@ -60,4 +59,3 @@ class ScreenSummaryNode extends Node {
 }
 
 sceneryPhet.register( 'ScreenSummaryNode', ScreenSummaryNode );
-export default ScreenSummaryNode;
