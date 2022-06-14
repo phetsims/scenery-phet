@@ -1,7 +1,7 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
 /**
- * A data structure that holds a string in its lowercase and capitalized form.
+ * A data structure that holds a string in its lowercase and capitalized form. For example, 'more' and 'More'.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
