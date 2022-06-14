@@ -1,5 +1,6 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * ProbeNode is a physical-looking probe with a handle and a circular sensor region. It is used in simulations like
  * Bending Light and Beer's Law Lab to show how much light is being received. It is typically connected to a body
