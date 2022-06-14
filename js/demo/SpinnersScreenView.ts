@@ -1,6 +1,5 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Demonstration of various spinners.
  * Demos are selected from a combo box, and are instantiated on demand.
@@ -13,12 +12,13 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
+import Bounds2 from '../../../dot/js/Bounds2.js';
 import Range from '../../../dot/js/Range.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import { NodeOptions, Text, VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
+import DemosScreenView, { DemosScreenViewOptions } from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../FineCoarseSpinner.js';
 import NumberPicker from '../NumberPicker.js';
@@ -26,17 +26,16 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
+type SelfOptions = {};
+type SpinnersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
+
 class SpinnersScreenView extends DemosScreenView {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( providedOptions: SpinnersScreenViewOptions ) {
 
-    options = merge( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component,
-      tandem: Tandem.REQUIRED
-    }, options );
+    const options = optionize<SpinnersScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
+      selectedDemoLabel: sceneryPhetQueryParameters.component
+    }, providedOptions );
 
     super( [
 
@@ -53,7 +52,11 @@ class SpinnersScreenView extends DemosScreenView {
 }
 
 // Creates a demo for FineCoarseSpinner
-function demoFineCoarseSpinner( layoutBounds, options ) {
+function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: NodeOptions ) {
+
+  const options = optionize<NodeOptions, {}, NodeOptions>()( {
+    tandem: Tandem.OPTIONAL
+  }, providedOptions );
 
   const numberProperty = new NumberProperty( 0, {
     range: new Range( 0, 100 ),
@@ -82,7 +85,7 @@ function demoFineCoarseSpinner( layoutBounds, options ) {
 }
 
 // Creates a demo for NumberPicker
-function demoNumberPicker( layoutBounds ) {
+function demoNumberPicker( layoutBounds: Bounds2 ) {
 
   const enabledProperty = new BooleanProperty( true );
 
