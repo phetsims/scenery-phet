@@ -1,5 +1,6 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  *
  * A node that creates a "Control Area" accessible section in the PDOM. This organizational Node should have accessible

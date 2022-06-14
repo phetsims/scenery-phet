@@ -1,5 +1,6 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A container type for content in the PDOM for screen reader accessibility. The container is a Node
  * (Scenery display object), so its children will be other Nodes that may or may not have accessible content.
