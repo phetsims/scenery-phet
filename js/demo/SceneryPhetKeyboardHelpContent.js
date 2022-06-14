@@ -1,7 +1,8 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * Keyboard sections that are general, and defined in the scenery-phet repo.
+ * Keyboard-help content for the scenery-phet demo application.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
