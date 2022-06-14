@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * ProbeNode is a physical-looking probe with a handle and a circular sensor region. It is used in simulations like
  * Bending Light and Beer's Law Lab to show how much light is being received. It is typically connected to a body
@@ -18,17 +17,34 @@ import Ray2 from '../../dot/js/Ray2.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { EllipticalArc, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Circle, Line, LinearGradient, Node, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
+import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
+import { Circle, IColor, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-// constants
-const DEFAULT_OPTIONS = {
-  radius: 50,
-  innerRadius: 35,
-  handleWidth: 50,
-  handleHeight: 30,
-  handleCornerRadius: 10,
+// options for ProbeNode.glass
+type GlassOptions = {
+  centerColor?: IColor;
+  middleColor?: IColor;
+  edgeColor?: IColor;
+};
+
+// options for ProbeNode.crosshairs
+type CrosshairsOptions = {
+  stroke?: IColor;
+  lineWidth?: number;
+  intersectionRadius?: number; // The amount of blank space visible at the intersection of the 2 crosshairs lines
+}
+
+// type of SelfOptions.sensorTypeFunction
+type SensorTypeFunction = ( radius: number ) => Node;
+
+// options that are specific to ProbeNode
+type SelfOptions = {
+  radius?: number;
+  innerRadius?: number;
+  handleWidth?: number;
+  handleHeight?: number;
+  handleCornerRadius?: number;
 
   /**
    * in radians, the angle of the incoming light.  0 is from the right, PI/2 from the bottom, PI from the left, etc.
@@ -37,23 +53,45 @@ const DEFAULT_OPTIONS = {
    * to set properly.  The light in PhET simulations often comes from the top-left, so please set this value
    * accordingly depending on the context of how the probe is embedded in the simulation.
    */
-  lightAngle: 1.35 * Math.PI,
-  color: '#008541', // {Color|string} darkish green
+  lightAngle?: number;
+  color?: IColor;
 
-  // {null|function(radius:number):Node} Determines what is displayed in the sensor area, the circular cut-out part of
-  // the ProbeNode. Set this to null to display nothing in the sensor.
+  // Determines what is displayed in the sensor area, the circular cut-out part of the ProbeNode.
+  // Set this to null to display nothing in the sensor.
+  sensorTypeFunction?: SensorTypeFunction | null;
+};
+
+export type ProbeNodeOptions = SelfOptions & NodeOptions;
+
+const DEFAULT_OPTIONS: Required<SelfOptions> = {
+  radius: 50,
+  innerRadius: 35,
+  handleWidth: 50,
+  handleHeight: 30,
+  handleCornerRadius: 10,
+  lightAngle: 1.35 * Math.PI,
+  color: '#008541', // darkish green
   sensorTypeFunction: glass()
 };
 assert && Object.freeze( DEFAULT_OPTIONS );
 
-class ProbeNode extends Node {
+export default class ProbeNode extends Node {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // Colors used to create gradients
+  private readonly brighter5: PaintColorProperty;
+  private readonly brighter4: PaintColorProperty;
+  private readonly brighter3: PaintColorProperty;
+  private readonly brighter2: PaintColorProperty;
+  private readonly darker3: PaintColorProperty;
+  private readonly darker2: PaintColorProperty;
 
-    options = merge( {}, DEFAULT_OPTIONS, options );
+  public static override DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+  public static glass = glass;
+  public static crosshairs = crosshairs;
+
+  public constructor( providedOptions?: ProbeNodeOptions ) {
+
+    const options = optionize3<ProbeNodeOptions, SelfOptions, NodeOptions>()( {}, DEFAULT_OPTIONS, providedOptions );
 
     super();
 
@@ -122,7 +160,6 @@ class ProbeNode extends Node {
     const lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
     const gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
-    // @private {Property.<Color>}
     this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
     this.brighter4 = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
     this.brighter3 = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
@@ -184,11 +221,7 @@ class ProbeNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.brighter5.dispose();
     this.brighter4.dispose();
     this.brighter3.dispose();
@@ -202,47 +235,37 @@ class ProbeNode extends Node {
 
 /**
  * Creates a value for options.sensorTypeFunction. Shows a shiny reflective interior in the sensor area.
- * @param {Object} [options]
- * @returns {function(radius: number): Node}
- * @public
- * @static
  */
-function glass( options ) {
+function glass( providedOptions?: GlassOptions ): SensorTypeFunction {
 
-  options = merge( {
+  const options = optionize<GlassOptions, {}, GlassOptions>()( {
     centerColor: 'white',
     middleColor: '#E6F5FF', // light blue
-    edgeColor: '#C2E7FF'    // slightly darker blue, like glass
-  }, options );
+    edgeColor: '#C2E7FF' // slightly darker blue, like glass
+  }, providedOptions );
 
-  return function( radius ) {
+  return ( radius: number ): Node => {
     return new Circle( radius, {
       fill: new RadialGradient( -radius * 0.15, -radius * 0.15, 0, -radius * 0.15, -radius * 0.20, radius * 0.60 )
         .addColorStop( 0, options.centerColor )
-        .addColorStop( 0.4, options.middleColor ) // light blue
-        .addColorStop( 1, options.edgeColor ) // slightly darker blue, like glass
+        .addColorStop( 0.4, options.middleColor )
+        .addColorStop( 1, options.edgeColor )
     } );
   };
 }
 
 /**
  * Creates a value for options.sensorTypeFunction. Shows a crosshairs in the sensor area.
- * @param {Object} [options]
- * @returns {function(radius: number): Node}
- * @public
- * @static
  */
-function crosshairs( options ) {
+function crosshairs( providedOptions?: CrosshairsOptions ): SensorTypeFunction {
 
-  options = merge( {
+  const options = optionize<CrosshairsOptions, {}, CrosshairsOptions>()( {
     stroke: 'black',
     lineWidth: 3,
-
-    // The amount of blank space visible at the intersection of the 2 crosshairs lines
     intersectionRadius: 8
-  }, options );
+  }, providedOptions );
 
-  return function( radius ) {
+  return ( radius: number ): Node => {
     const lineOptions = { stroke: options.stroke, lineWidth: options.lineWidth };
     return new Node( {
       children: [
@@ -254,13 +277,4 @@ function crosshairs( options ) {
   };
 }
 
-// @public {read-only}, make the defaults publicly available to clients in case they need to make
-// customizations, such as 0.9 x the default width
-ProbeNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
-
-// @public pre-defined functions for creating a value for options.sensorTypeFunction
-ProbeNode.glass = glass;
-ProbeNode.crosshairs = crosshairs;
-
 sceneryPhet.register( 'ProbeNode', ProbeNode );
-export default ProbeNode;
