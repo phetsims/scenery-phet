@@ -1,6 +1,5 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Spring described by a parametric equation. This implementation is a variation of the cycloid equation.
  * A prolate cycloid (see http://mathworld.wolfram.com/ProlateCycloid.html) comes closest to this implementation,
@@ -25,114 +24,147 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { LinearGradient } from '../../scenery/js/imports.js';
+import { Circle, IColor, LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
 // constants
 const SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging
 
-class ParametricSpringNode extends Node {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // colors used for the gradient strokes
+  frontColor?: IColor;
+  middleColor?: IColor; // the dominant color
+  backColor?: IColor;
 
-    options = merge( {
+  // length of the horizontal line added to the left end of the coil
+  leftEndLength?: number;
 
-      // {Color|string} colors used for the gradient strokes. middleColor is the dominant color.
+  // {number} length of the horizontal line added to the right end of the coil
+  rightEndLength?: number;
+
+  // number of loops in the coil
+  loops?: number;
+
+  // number of points used to approximate 1 loop of the coil
+  pointsPerLoop?: number;
+
+  // radius of a loop with aspect ratio of 1:1
+  radius?: number;
+
+  // y:x aspect ratio of the loop radius
+  aspectRatio?: number;
+
+  // lineWidth used to stroke the Paths
+  lineWidth?: number;
+
+  // phase angle of where the loop starts, period is (0,2*PI) radians, counterclockwise
+  phase?: number;
+
+  // responsible for the leaning of the coil, variation on a Lissjoue curve, period is (0,2*PI) radians
+  deltaPhase?: number;
+
+  // multiplier for radius in the x dimension, makes the coil appear to get longer
+  xScale?: number;
+
+} & PickOptional<PathOptions, 'boundsMethod'>;
+
+export type ParametricSpringNodeOptions = SelfOptions & NodeOptions;
+
+export default class ParametricSpringNode extends Node {
+
+  public readonly loopsProperty: NumberProperty;
+  public readonly radiusProperty: NumberProperty;
+  public readonly aspectRatioProperty: NumberProperty;
+  public readonly pointsPerLoopProperty: NumberProperty;
+  public readonly lineWidthProperty: NumberProperty;
+  public readonly phaseProperty: NumberProperty;
+  public readonly deltaPhaseProperty: NumberProperty;
+  public readonly xScaleProperty: NumberProperty;
+
+  public constructor( providedOptions?: ParametricSpringNodeOptions ) {
+
+    const options = optionize<ParametricSpringNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
       frontColor: 'lightGray',
       middleColor: 'gray',
       backColor: 'black',
-
-      // {number} length of the horizontal line added to the left end of the coil
       leftEndLength: 15,
-
-      // {number} length of the horizontal line added to the right end of the coil
       rightEndLength: 25,
-
-      // {number} number of loops in the coil
       loops: 10,
-
-      // {number} number of points used to approximate 1 loop of the coil
       pointsPerLoop: 40,
-
-      // {number} radius of a loop with aspect ratio of 1:1
       radius: 10,
-
-      // {number} y:x aspect ratio of the loop radius
       aspectRatio: 4,
-
-      // {number} lineWidth used to stroke the Paths
       lineWidth: 3,
-
-      // {number} phase angle of where the loop starts, period is (0,2*PI) radians, counterclockwise
       phase: Math.PI,
-
-      // {number} responsible for the leaning of the coil, variation on a Lissjoue curve, period is (0,2*PI) radians
       deltaPhase: Math.PI / 2,
-
-      // {number} multiplier for radius in the x dimensions, makes the coil appear to get longer
       xScale: 2.5,
-
-      // {string} method used to compute bounds for scenery.Path components, see Path.boundsMethod
-      pathBoundsMethod: 'accurate',
+      boundsMethod: 'accurate', // method used to compute bounds for scenery.Path components, see Path.boundsMethod
 
       // phet-io
       tandem: Tandem.OPTIONAL
-    }, options );
+    }, providedOptions );
 
     super();
 
-    // @public
     this.loopsProperty = new NumberProperty( options.loops, {
       tandem: options.tandem.createTandem( 'loopsProperty' ),
       numberType: 'Integer',
       range: new Range( 1, Number.POSITIVE_INFINITY )
     } );
+
     this.radiusProperty = new NumberProperty( options.radius, {
       tandem: options.tandem.createTandem( 'radiusProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
+
     this.aspectRatioProperty = new NumberProperty( options.aspectRatio, {
       tandem: options.tandem.createTandem( 'aspectRatioProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
+
     this.pointsPerLoopProperty = new NumberProperty( options.pointsPerLoop, {
       tandem: options.tandem.createTandem( 'pointsPerLoopProperty' ),
       numberType: 'Integer',
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
+
     this.lineWidthProperty = new NumberProperty( options.lineWidth, {
       tandem: options.tandem.createTandem( 'lineWidthProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
+
     this.phaseProperty = new NumberProperty( options.phase, {
       tandem: options.tandem.createTandem( 'phaseProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
+
     this.deltaPhaseProperty = new NumberProperty( options.deltaPhase, {
       tandem: options.tandem.createTandem( 'deltaPhaseProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
+
     this.xScaleProperty = new NumberProperty( options.xScale, {
       tandem: options.tandem.createTandem( 'xScaleProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
 
     // Paths for the front (foreground) and back (background) parts of the spring
-    const pathOptions = {
-      boundsMethod: options.pathBoundsMethod,
+    const pathOptions: PathOptions = {
+      boundsMethod: options.boundsMethod,
       lineCap: 'round',
       lineJoin: 'round'
     };
-    const frontPath = new Path( null, merge( { tandem: options.tandem.createTandem( 'frontPath' ) }, pathOptions ) );
-    const backPath = new Path( null, merge( { tandem: options.tandem.createTandem( 'backPath' ) }, pathOptions ) );
+    const frontPath = new Path( null, combineOptions<PathOptions>( {
+      tandem: options.tandem.createTandem( 'frontPath' )
+    }, pathOptions ) );
+    const backPath = new Path( null, combineOptions<PathOptions>( {
+      tandem: options.tandem.createTandem( 'backPath' )
+    }, pathOptions ) );
 
     // Update the line width
     this.lineWidthProperty.link( lineWidth => {
@@ -140,9 +172,9 @@ class ParametricSpringNode extends Node {
     } );
 
     // Mutate these to improve performance
-    const springPoints = []; // {Vector2[]} points in the spring (includes the horizontal ends)
-    let frontShape; // {Shape}
-    let backShape; // {Shape}
+    const springPoints: Vector2[] = []; // points in the spring (includes the horizontal ends)
+    let frontShape: Shape;
+    let backShape: Shape;
 
     // Changes to these properties require new points (Vector2) and Shapes, because they change
     // the number of points and/or how the points are allocated to frontShape and backShape.
@@ -301,8 +333,7 @@ class ParametricSpringNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ParametricSpringNode', this );
   }
 
-  // @public
-  reset() {
+  public reset(): void {
     this.loopsProperty.reset();
     this.radiusProperty.reset();
     this.aspectRatioProperty.reset();
@@ -316,41 +347,25 @@ class ParametricSpringNode extends Node {
 
 /**
  * Gets the number of points in the coil part of the spring.
- * @param {number} loops
- * @param {number} pointsPerLoop
- * @returns {number}
  */
-function computeNumberOfCoilPoints( loops, pointsPerLoop ) {
+function computeNumberOfCoilPoints( loops: number, pointsPerLoop: number ): number {
   return loops * pointsPerLoop + 1;
 }
 
 /**
  * Computes the x coordinate for a point on the coil.
- * @param {number} index
- * @param {number} radius
- * @param {number} pointsPerLoop
- * @param {number} phase
- * @param {number} xScale
- * @param {number} leftEndLength
- * @returns {number}
  */
-function computeCoilX( index, radius, pointsPerLoop, phase, xScale, leftEndLength ) {
+function computeCoilX( index: number, radius: number, pointsPerLoop: number, phase: number, xScale: number,
+                       leftEndLength: number ): number {
   return ( leftEndLength + radius ) + radius * Math.cos( 2 * Math.PI * index / pointsPerLoop + phase ) + xScale * ( index / pointsPerLoop ) * radius;
 }
 
 /**
  * Computes the y coordinate for a point on the coil.
- * @param {number} index
- * @param {number} radius
- * @param {number} pointsPerLoop
- * @param {number} phase
- * @param {number} deltaPhase
- * @param {number} aspectRatio
- * @returns {number}
  */
-function computeCoilY( index, radius, pointsPerLoop, phase, deltaPhase, aspectRatio ) {
+function computeCoilY( index: number, radius: number, pointsPerLoop: number, phase: number, deltaPhase: number,
+                       aspectRatio: number ): number {
   return aspectRatio * radius * Math.cos( 2 * Math.PI * index / pointsPerLoop + deltaPhase + phase );
 }
 
 sceneryPhet.register( 'ParametricSpringNode', ParametricSpringNode );
-export default ParametricSpringNode;
