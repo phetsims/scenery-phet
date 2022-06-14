@@ -1,6 +1,5 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A data structure that holds a string in its lowercase and capitalized form.
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -8,22 +7,15 @@
 
 import sceneryPhet from '../sceneryPhet.js';
 
-class StringCasingPair {
+export default class StringCasingPair {
 
-  /**
-   * @param {string} lowercase
-   * @param {string} capitalized
-   */
-  constructor( lowercase, capitalized ) {
+  public readonly lowercase: string;
+  public readonly capitalized: string;
 
-    assert && assert( typeof lowercase === 'string' );
-    assert && assert( typeof capitalized === 'string' );
-
-    // @public (read-only)
+  public constructor( lowercase: string, capitalized: string ) {
     this.lowercase = lowercase;
     this.capitalized = capitalized;
   }
 }
 
 sceneryPhet.register( 'StringCasingPair', StringCasingPair );
-export default StringCasingPair;
