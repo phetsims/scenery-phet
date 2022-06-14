@@ -1,6 +1,5 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Faucet with a pinball machine 'shooter'.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
@@ -28,9 +27,8 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
 import { Circle, DragListener, Image, Node, Rectangle } from '../../scenery/js/imports.js';
-import AccessibleSlider from '../../sun/js/accessibility/AccessibleSlider.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -47,6 +45,10 @@ import faucetStop_png from '../images/faucetStop_png.js';
 import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { TimerListener } from '../../axon/js/Timer.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
@@ -59,43 +61,45 @@ const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in faucetTrack_png
 const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in faucetBody_png, through which you see the shooter handle
 const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
 
-class FaucetNode extends AccessibleSlider( Node, 0 ) {
+type SelfOptions = {
+  horizontalPipeLength?: number; // distance between left edge of horizontal pipe and spout's center
+  verticalPipeLength?: number; // length of the vertical pipe that connects the faucet body to the spout
+  tapToDispenseEnabled?: boolean; // tap-to-dispense feature: tapping the shooter dispenses some fluid
+  tapToDispenseAmount?: number; // tap-to-dispense feature: amount to dispense, in L
+  tapToDispenseInterval?: number; // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
+  closeOnRelease?: boolean; // when the shooter is released, close the faucet
+  interactiveProperty?: IReadOnlyProperty<boolean>; // when the faucet is interactive, the flow rate control is visible, see issue #67
 
-  /**
-   *
-   * @param {number} maxFlowRate
-   * @param {Property.<number>} flowRateProperty
-   * @param {Property.<boolean>} enabledProperty
-   * @param {Object} [options]
-   * @mixes AccessibleSlider
-   */
-  constructor( maxFlowRate, flowRateProperty, enabledProperty, options ) {
+  // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
+  rasterizeHorizontalPipeNode?: boolean;
 
-    options = merge( {
-      scale: 1,
-      horizontalPipeLength: SPOUT_OUTPUT_CENTER_X, // distance between left edge of horizontal pipe and spout's center
-      verticalPipeLength: 43, // length of the vertical pipe that connects the faucet body to the spout
-      tapToDispenseEnabled: true, // tap-to-dispense feature: tapping the shooter dispenses some fluid
-      tapToDispenseAmount: 0.25 * maxFlowRate, // tap-to-dispense feature: amount to dispense, in L
-      tapToDispenseInterval: 500, // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
-      closeOnRelease: true, // when the shooter is released, close the faucet
-      interactiveProperty: new Property( true ), // when the faucet is interactive, the flow rate control is visible, see issue #67
+  // options for the nested type ShooterNode
+  shooterOptions?: ShooterNodeOptions;
+};
+type ParentOptions = AccessibleSliderOptions; // AccessibleSliderOptions includes NodeOptions
+export type FaucetNodeOptions = SelfOptions & ParentOptions;
 
-      // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
+export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
+
+  private readonly disposeFaucetNode: () => void;
+
+  public constructor( maxFlowRate: number, flowRateProperty: Property<number>,
+                      enabledProperty: IReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
+
+    const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, ParentOptions>()( {
+
+      // SelfOptions
+      horizontalPipeLength: SPOUT_OUTPUT_CENTER_X,
+      verticalPipeLength: 43,
+      tapToDispenseEnabled: true,
+      tapToDispenseAmount: 0.25 * maxFlowRate,
+      tapToDispenseInterval: 500,
+      closeOnRelease: true,
+      interactiveProperty: new Property( true ),
       rasterizeHorizontalPipeNode: false,
 
-      // options for the nested type ShooterNode
-      shooterOptions: {
-        knobScale: 0.6, // values in the range 0.6 - 1.0 look decent
-
-        // pointer area dilation
-        touchAreaXDilation: 0,
-        touchAreaYDilation: 0,
-        mouseAreaXDilation: 0,
-        mouseAreaYDilation: 0
-      },
-
-      // AccessibleSlider
+      // ParentOptions
+      scale: 1,
       valueProperty: flowRateProperty,
       enabledRangeProperty: new Property( new Range( 0, maxFlowRate ) ),
       enabledProperty: enabledProperty,
@@ -104,7 +108,7 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
       tandem: Tandem.REQUIRED,
       phetioType: FaucetNode.FaucetNodeIO,
       phetioEventType: EventType.USER
-    }, options );
+    }, providedOptions );
 
     assert && assert( ( 1000 * options.tapToDispenseAmount / options.tapToDispenseInterval ) <= maxFlowRate );
 
@@ -115,7 +119,7 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
     const trackNode = new Image( faucetTrack_png );
 
     // horizontal pipe, tiled horizontally
-    let horizontalPipeNode = new Image( faucetHorizontalPipe_png );
+    let horizontalPipeNode: Node = new Image( faucetHorizontalPipe_png );
     const horizontalPipeWidth = options.horizontalPipeLength - SPOUT_OUTPUT_CENTER_X + HORIZONTAL_PIPE_X_OVERLAP;
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / faucetHorizontalPipe_png.width, 1 );
@@ -138,9 +142,8 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
       { fill: 'rgb(107,107,107)' } );
 
     const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
-    options = _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
 
-    super( options );
+    super( _.omit( options, Node.REQUIRES_BOUNDS_OPTION_KEYS ) );
 
     // rendering order
     this.addChild( shooterWindowNode );
@@ -192,8 +195,8 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
     // tap-to-dispense feature
     let tapToDispenseIsArmed = false; // should we do tap-to-dispense when the pointer is released?
     let tapToDispenseIsRunning = false; // is tap-to-dispense in progress?
-    let timeoutID = null;
-    let intervalID = null;
+    let timeoutID: TimerListener | null;
+    let intervalID: TimerListener | null;
     const startTapToDispense = () => {
       if ( enabledProperty.get() && tapToDispenseIsArmed ) { // redundant guard
         const flowRate = ( options.tapToDispenseAmount / options.tapToDispenseInterval ) * 1000; // L/ms -> L/sec
@@ -227,9 +230,11 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
       start: event => {
         if ( enabledProperty.get() ) {
+
           // prepare to do tap-to-dispense, will be canceled if the user drags before releasing the pointer
           tapToDispenseIsArmed = options.tapToDispenseEnabled;
-          startXOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).x - event.currentTarget.left;
+          assert && assert( event.currentTarget );
+          startXOffset = event.currentTarget!.globalToParentPoint( event.pointer.point ).x - event.currentTarget!.left;
         }
       },
 
@@ -271,12 +276,12 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
     } );
     shooterNode.addInputListener( dragListener );
 
-    const flowRateObserver = flowRate => {
+    const flowRateObserver = ( flowRate: number ) => {
       shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
     };
     flowRateProperty.link( flowRateObserver );
 
-    const enabledObserver = enabled => {
+    const enabledObserver = ( enabled: boolean ) => {
       if ( !enabled && dragListener.isPressed ) {
         dragListener.interrupt();
       }
@@ -289,7 +294,7 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
     this.mutate( boundsRequiredOptionKeys );
 
     // flow rate control is visible only when the faucet is interactive
-    const interactiveObserver = interactive => {
+    const interactiveObserver = ( interactive: boolean ) => {
       shooterNode.visible = trackNode.visible = interactive;
 
       // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after super() (to AccessibleSlider)
@@ -303,7 +308,6 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
       tandem: options.tandem.createTandem( 'flowRateProperty' )
     } );
 
-    // @private called by dispose
     this.disposeFaucetNode = () => {
 
       // Properties
@@ -326,37 +330,54 @@ class FaucetNode extends AccessibleSlider( Node, 0 ) {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FaucetNode', this );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeFaucetNode();
     super.dispose();
   }
+
+  public static FaucetNodeIO = new IOType( 'FaucetNodeIO', {
+    valueType: FaucetNode,
+    documentation: 'Faucet that emits fluid, typically user-controllable',
+    supertype: Node.NodeIO,
+    events: [ 'startTapToDispense', 'endTapToDispense' ]
+  } )
 }
 
-sceneryPhet.register( 'FaucetNode', FaucetNode );
+type ShooterNodeOptions = {
+  knobScale?: number; // values in the range 0.6 - 1.0 look decent
 
+  // pointer areas
+  touchAreaXDilation?: number;
+  touchAreaYDilation?: number;
+  mouseAreaXDilation?: number;
+  mouseAreaYDilation?: number;
+};
+
+/**
+ * The 'shooter' is the interactive part of the faucet.
+ */
 class ShooterNode extends Node {
 
-  /**
-   * The 'shooter' is the interactive part of the faucet.
-   * It's a relatively complicated node, so it's encapsulated in this nested type.
-   *
-   * @param {Property.<boolean>} enabledProperty
-   * @param {Object} config - see FaucetNode constructor for client options
-   */
-  constructor( enabledProperty, config ) {
+  private readonly disposeShooterNode: () => void;
+
+  public constructor( enabledProperty: IReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
+
+    const options = optionize<ShooterNodeOptions, {}, ShooterNodeOptions>()( {
+      knobScale: 0.6,
+      touchAreaXDilation: 0,
+      touchAreaYDilation: 0,
+      mouseAreaXDilation: 0,
+      mouseAreaYDilation: 0
+    }, providedOptions );
 
     // knob
     const knobNode = new Image( faucetKnob_png );
 
     // set pointer areas before scaling
-    knobNode.touchArea = knobNode.localBounds.dilatedXY( config.touchAreaXDilation, config.touchAreaYDilation );
-    knobNode.mouseArea = knobNode.localBounds.dilatedXY( config.mouseAreaXDilation, config.mouseAreaYDilation );
+    knobNode.touchArea = knobNode.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
+    knobNode.mouseArea = knobNode.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
 
-    knobNode.scale( config.knobScale );
+    knobNode.scale( options.knobScale );
     const knobDisabledNode = new Image( faucetKnobDisabled_png );
     knobDisabledNode.scale( knobNode.getScaleVector() );
 
@@ -391,7 +412,7 @@ class ShooterNode extends Node {
     knobNode.centerY = flangeNode.centerY;
     knobDisabledNode.translation = knobNode.translation;
 
-    const enabledObserver = enabled => {
+    const enabledObserver = ( enabled: boolean ) => {
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
       this.pickable = enabled;
       knobNode.cursor = flangeNode.cursor = enabled ? 'pointer' : 'default';
@@ -402,7 +423,6 @@ class ShooterNode extends Node {
     };
     enabledProperty.link( enabledObserver );
 
-    // @private called by dispose
     this.disposeShooterNode = () => {
       if ( enabledProperty.hasListener( enabledObserver ) ) {
         enabledProperty.unlink( enabledObserver );
@@ -410,21 +430,10 @@ class ShooterNode extends Node {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeShooterNode();
     super.dispose();
   }
 }
 
-FaucetNode.FaucetNodeIO = new IOType( 'FaucetNodeIO', {
-  valueType: FaucetNode,
-  documentation: 'Faucet that emits fluid, typically user-controllable',
-  supertype: Node.NodeIO,
-  events: [ 'startTapToDispense', 'endTapToDispense' ]
-} );
-
-export default FaucetNode;
+sceneryPhet.register( 'FaucetNode', FaucetNode );
