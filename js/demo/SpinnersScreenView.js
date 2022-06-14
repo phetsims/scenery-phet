@@ -1,5 +1,6 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Demonstration of various spinners.
  * Demos are selected from a combo box, and are instantiated on demand.
