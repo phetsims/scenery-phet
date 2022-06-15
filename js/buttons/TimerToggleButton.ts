@@ -9,6 +9,7 @@
 import Property from '../../../axon/js/Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
@@ -20,7 +21,7 @@ const WIDTH = 45;
 const HEIGHT = 45;
 const MARGIN = 4;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type TimerToggleButtonOptions = SelfOptions & BooleanRectangularToggleButtonOptions;
 

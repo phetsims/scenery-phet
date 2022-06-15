@@ -8,11 +8,12 @@
 
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import PhetColorScheme from './PhetColorScheme.js';
 import sceneryPhet from './sceneryPhet.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type PaperAirplaneNodeOptions = SelfOptions & PathOptions;
 

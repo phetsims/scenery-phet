@@ -29,6 +29,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { ColorDef, IColor, IPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -46,7 +47,7 @@ const GRADIENT_RECTANGLE_OPTION_KEYS = [
   'bottomMargin'
 ];
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type GradientRectangleOptions = SelfOptions & RectangleOptions;
 

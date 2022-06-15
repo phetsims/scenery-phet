@@ -10,6 +10,7 @@ import { Shape } from '../../../kite/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import { HBox, Path, Rectangle } from '../../../scenery/js/imports.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -22,7 +23,7 @@ const barHeight = 18 * scale * vscale;
 const triangleWidth = 14 * scale;
 const triangleHeight = 18 * scale * vscale;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type RestartButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;
 

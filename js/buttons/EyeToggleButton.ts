@@ -9,6 +9,7 @@
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
@@ -16,7 +17,7 @@ import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../.
 import sceneryPhet from '../sceneryPhet.js';
 import Property from '../../../axon/js/Property.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type EyeToggleButtonOptions = SelfOptions & StrictOmit<RectangularToggleButtonOptions, 'content'>;
 

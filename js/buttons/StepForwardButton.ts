@@ -8,11 +8,12 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type StepForwardButtonOptions = SelfOptions & StrictOmit<StepButtonOptions, 'direction'>;
 

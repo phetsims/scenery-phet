@@ -11,8 +11,9 @@ import Matrix3 from '../../../dot/js/Matrix3.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { LinearGradient, Node, NodeOptions, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type BucketHoleOptions = SelfOptions & NodeOptions;
 

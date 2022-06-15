@@ -10,6 +10,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
@@ -45,7 +46,7 @@ export default class OopsDialog extends Dialog {
 
     }, providedOptions );
 
-    const messageNode = new RichText( messageString, optionize<RichTextOptions, {}, RichTextOptions>()( {
+    const messageNode = new RichText( messageString, optionize<RichTextOptions, EmptyObjectType, RichTextOptions>()( {
       font: new PhetFont( 20 ),
       maxWidth: 600,
       maxHeight: 400
