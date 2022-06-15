@@ -39,8 +39,9 @@ import PlusMinusZoomButtonGroup from '../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../sceneryPhet.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type ButtonsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class ButtonsScreenView extends ScreenView {

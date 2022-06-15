@@ -9,11 +9,12 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import PDOMSectionNode, { PDOMSectionNodeOptions } from '../PDOMSectionNode.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 export type PlayAreaNodeOptions = SelfOptions & PDOMSectionNodeOptions;
 
 export default class PlayAreaNode extends PDOMSectionNode {

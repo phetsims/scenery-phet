@@ -15,6 +15,7 @@ import Range from '../../../dot/js/Range.js';
 import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
@@ -29,7 +30,7 @@ import SpectrumSliderTrack from '../SpectrumSliderTrack.js';
 import VisibleColor from '../VisibleColor.js';
 import WavelengthNumberControl from '../WavelengthNumberControl.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type SlidersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SlidersScreenView extends DemosScreenView {

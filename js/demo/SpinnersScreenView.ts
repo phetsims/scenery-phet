@@ -15,6 +15,7 @@ import Property from '../../../axon/js/Property.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Range from '../../../dot/js/Range.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { NodeOptions, Text, VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
@@ -26,7 +27,7 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type SpinnersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SpinnersScreenView extends DemosScreenView {

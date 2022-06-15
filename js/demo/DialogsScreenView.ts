@@ -7,6 +7,7 @@
  */
 
 import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { Image, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -23,7 +24,7 @@ const TEXT_OPTIONS = {
   font: new PhetFont( 20 )
 };
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type DialogsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class DialogsScreenView extends ScreenView {
