@@ -31,6 +31,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import ISoundPlayer from '../../tambo/js/ISoundPlayer.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 
 const ButtonStateValues = [ 'up', 'down', 'over', 'out' ] as const;
 type ButtonState = ( typeof ButtonStateValues )[number];
@@ -522,7 +523,7 @@ export default class NumberPicker extends AccessibleNumberSpinner( Node, 0 ) {
 
   public static createIcon( value: number, providedOptions?: CreateIconOptions ): Node {
 
-    const options = optionize<CreateIconOptions, {}, CreateIconOptions>()( {
+    const options = optionize<CreateIconOptions, EmptyObjectType, CreateIconOptions>()( {
 
       // Highlight the increment button
       highlightIncrement: false,

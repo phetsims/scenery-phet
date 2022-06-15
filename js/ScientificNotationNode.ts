@@ -12,6 +12,7 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Font, IColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
@@ -124,7 +125,7 @@ export default class ScientificNotationNode extends Node {
    */
   public static toScientificNotation( value: number, providedOptions?: ScientificNotationOptions ): ScientificNotation {
 
-    const options = optionize<ScientificNotationOptions, {}, ScientificNotationOptions>()( {
+    const options = optionize<ScientificNotationOptions, EmptyObjectType, ScientificNotationOptions>()( {
       mantissaDecimalPlaces: 1,
       exponent: null // specific exponent to use
     }, providedOptions );

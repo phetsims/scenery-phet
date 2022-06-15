@@ -55,7 +55,7 @@ export default class SpinnersScreenView extends DemosScreenView {
 // Creates a demo for FineCoarseSpinner
 function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: NodeOptions ) {
 
-  const options = optionize<NodeOptions, {}, NodeOptions>()( {
+  const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
     tandem: Tandem.OPTIONAL
   }, providedOptions );
 
