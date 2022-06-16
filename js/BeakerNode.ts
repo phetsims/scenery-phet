@@ -36,6 +36,7 @@ export default class BeakerNode extends Node {
 
   public static DEFAULT_X_RADIUS = 30;
   public static DEFAULT_Y_RADIUS = 12;
+  private readonly ticks: Path;
 
   public constructor( solutionLevelProperty: NumberProperty,
                       providedOptions?: BeakerNodeOptions ) {
@@ -58,6 +59,8 @@ export default class BeakerNode extends Node {
       numTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
+
+    super();
 
     options.xRadius = providedOptions?.beakerWidth ? providedOptions.beakerWidth / 2 : options.xRadius;
 
@@ -140,7 +143,7 @@ export default class BeakerNode extends Node {
       ticksShape.ellipticalArc( 0, y, options.xRadius, options.yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
     }
 
-    const ticks = new Path( ticksShape, {
+    this.ticks = new Path( ticksShape, {
       stroke: options.tickStroke,
       lineWidth: 1.5,
       pickable: false
@@ -204,12 +207,22 @@ export default class BeakerNode extends Node {
       solutionGlare,
       solutionFrontEdge,
       beakerFront,
-      ...( options.showTicks ? [ ticks ] : [] ),
+      this.ticks,
       beakerGlare
     ];
 
     const mergedOptions = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( options, { children: children } );
-    super( mergedOptions );
+    super.mutate( mergedOptions );
+    this.setShowTicks( options.showTicks );
+  }
+
+  public setShowTicks( value: boolean ): void {
+    if ( value && !this.children.includes( this.ticks ) ) {
+      this.addChild( this.ticks );
+    }
+    else if ( !value && this.children.includes( this.ticks ) ) {
+      this.removeChild( this.ticks );
+    }
   }
 }
 
