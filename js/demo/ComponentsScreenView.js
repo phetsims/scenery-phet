@@ -10,10 +10,10 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import Multilink from '../../../axon/js/Multilink.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import StringProperty from '../../../axon/js/StringProperty.js';
@@ -42,6 +42,7 @@ import iceCubeStack_png from '../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../images/measuringTape_png.js';
 import GrabDragInteraction from '../accessibility/GrabDragInteraction.js';
 import ArrowNode from '../ArrowNode.js';
+import BeakerNode from '../BeakerNode.js';
 import BicyclePumpNode from '../BicyclePumpNode.js';
 import BracketNode from '../BracketNode.js';
 import ResetButton from '../buttons/ResetButton.js';
@@ -111,6 +112,7 @@ class ComponentsScreenView extends DemosScreenView {
        * {function(Bounds2): Node} createNode - creates the scene graph for the demo
        */
       { label: 'ArrowNode', createNode: demoArrowNode },
+      { label: 'BeakerNode', createNode: demoBeakerNode },
       { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
       { label: 'BracketNode', createNode: demoBracketNode },
       { label: 'CapacitorNode', createNode: demoCapacitorNode },
@@ -181,6 +183,37 @@ function demoArrowNode( layoutBounds ) {
     ]
   } );
 
+}
+
+function demoBeakerNode( layoutBounds ) {
+
+  const ticksVisibleText = new Text( 'ticks visible', {
+    font: new PhetFont( 16 )
+  } );
+
+  const ticksVisibleProperty = new BooleanProperty( true );
+
+  const ticksVisibleCheckbox = new Checkbox( ticksVisibleText, ticksVisibleProperty );
+
+  const solutionLevelProperty = new NumberProperty( 0.5, {
+    range: new Range( 0, 1 )
+  } );
+
+  const solutionLevelSlider = new VSlider( solutionLevelProperty, solutionLevelProperty.range );
+
+  const beakerNode = new BeakerNode( solutionLevelProperty, {
+    showTicks: true
+  } );
+
+  ticksVisibleProperty.link( ticksVisible => {
+    beakerNode.setShowTicks( ticksVisible );
+  } );
+
+  return new HBox( {
+    children: [ ticksVisibleCheckbox, beakerNode, solutionLevelSlider ],
+    spacing: 50,
+    center: layoutBounds.center
+  } );
 }
 
 // Creates a demo for BicyclePumpNode
