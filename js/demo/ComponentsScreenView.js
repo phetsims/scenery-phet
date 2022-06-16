@@ -206,7 +206,7 @@ function demoBeakerNode( layoutBounds ) {
   } );
 
   ticksVisibleProperty.link( ticksVisible => {
-    beakerNode.setShowTicks( ticksVisible );
+    beakerNode.setTicksVisible( ticksVisible );
   } );
 
   return new HBox( {

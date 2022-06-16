@@ -24,7 +24,7 @@ type SelfOptions = {
   beakerWidth?: number;
   xRadius?: number;
   yRadius?: number;
-  showTicks?: boolean;
+  ticksVisible?: boolean;
   tickStroke?: ProfileColorProperty;
   stroke?: ProfileColorProperty;
   lineWidth?: number;
@@ -56,7 +56,7 @@ export default class BeakerNode extends Node {
       beakerWidth: 60,
       xRadius: BeakerNode.DEFAULT_X_RADIUS,
       yRadius: BeakerNode.DEFAULT_Y_RADIUS,
-      showTicks: false,
+      ticksVisible: false,
       numTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
@@ -145,7 +145,8 @@ export default class BeakerNode extends Node {
     const ticks = new Path( ticksShape, {
       stroke: options.tickStroke,
       lineWidth: 1.5,
-      pickable: false
+      pickable: false,
+      visible: options.ticksVisible
     } );
 
     // solution level adjustment listener
@@ -213,16 +214,10 @@ export default class BeakerNode extends Node {
     super( options );
 
     this.ticks = ticks;
-    this.setShowTicks( options.showTicks );
   }
 
-  public setShowTicks( value: boolean ): void {
-    if ( value && !this.children.includes( this.ticks ) ) {
-      this.addChild( this.ticks );
-    }
-    else if ( !value && this.children.includes( this.ticks ) ) {
-      this.removeChild( this.ticks );
-    }
+  public setTicksVisible( visible: boolean ): void {
+    this.ticks.visible = visible;
   }
 }
 
