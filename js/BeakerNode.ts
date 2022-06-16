@@ -9,24 +9,24 @@
 import { Shape } from '../../kite/js/imports.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
-import { Color, Node, NodeOptions, Path, ProfileColorProperty } from '../../scenery/js/imports.js';
+import { IColor, Node, NodeOptions, Path, ProfileColorProperty } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
-  emptyBeakerFill?: ProfileColorProperty;
+  emptyBeakerFill?: IColor;
   solutionFill?: ProfileColorProperty;
-  solutionShadowFill?: ProfileColorProperty | Color;
-  solutionGlareFill?: ProfileColorProperty | Color;
-  beakerGlareFill?: ProfileColorProperty;
+  solutionShadowFill?: IColor;
+  solutionGlareFill?: IColor;
+  beakerGlareFill?: IColor;
   beakerHeight?: number;
   beakerWidth?: number;
   xRadius?: number;
   yRadius?: number;
   ticksVisible?: boolean;
-  tickStroke?: ProfileColorProperty;
-  stroke?: ProfileColorProperty;
+  tickStroke?: IColor;
+  stroke?: IColor;
   lineWidth?: number;
   numberOfTicks?: number; // Denominator of tick marks distance
 };
