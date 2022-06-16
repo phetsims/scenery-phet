@@ -23,11 +23,7 @@ class StarNode extends Node {
 
     options = merge( {
 
-      //See StarShape for the other options, including:
-      // value -- 0=empty, 1=full
       value: 1,
-      // outerRadius
-      // innerRadius
 
       // Fill parameters for the part of the star that is filled in.  Should be bold and gold.
       filledFill: '#fcff03',
@@ -39,35 +35,37 @@ class StarNode extends Node {
       emptyFill: '#e1e1e1', //pretty gray
       emptyStroke: '#d3d1d1 ', //darker gray than the fill, but still pretty faint
       emptyLineWidth: 1.5,
-      emptyLineJoin: 'round'
+      emptyLineJoin: 'round',
+
+      // Options that are passed through to the star shape, see StarShape for details.
+      starShapeOptions: {}
     }, options );
 
     super();
 
-    // add the gray star behind the filled star, so it will look like it fills in
-    const backgroundStar = new Path( null, {
+    // Create the shape that will be used as the basis for both the background and foreground star nodes.
+    const starShape = new StarShape( options.starShapeOptions );
+
+    // Add the gray star behind the filled star, so it will look like it fills in.
+    const backgroundStar = new Path( starShape, {
       stroke: options.emptyStroke,
       fill: options.emptyFill,
       lineWidth: options.emptyLineWidth,
       lineJoin: options.emptyLineJoin,
       boundsMethod: 'none' // optimization for faster creation and usage
     } );
-    const o2 = _.clone( options );
-    o2.value = 1;
-    const backgroundStarShape = new StarShape( o2 );
-    backgroundStar.setShape( backgroundStarShape );
 
     function getBounds() {
-      return backgroundStarShape.bounds;
+      return starShape.bounds;
     }
 
     backgroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
 
     this.addChild( backgroundStar );
 
-    // add the foreground star
+    // Add the foreground star.
     if ( options.value !== 0 ) {
-      const foregroundStar = new Path( new StarShape( o2 ), {
+      const foregroundStar = new Path( starShape, {
         stroke: options.filledStroke,
         fill: options.filledFill,
         lineWidth: options.filledLineWidth,
@@ -75,13 +73,12 @@ class StarNode extends Node {
         boundsMethod: 'none' // optimization for faster creation and usage
       } );
       foregroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
-      foregroundStar.shape = new StarShape( o2 );
 
       // Apply a clipArea instead of actually adjusting the star's shape. This is faster for startup (potentially
       // important given the optimization documentation already in this file), and gives a cleaner appearance.
       // See https://github.com/phetsims/area-model-common/issues/131.
       if ( options.value !== 1 ) {
-        const unstrokedBounds = backgroundStarShape.bounds;
+        const unstrokedBounds = starShape.bounds;
         const overlySafeBounds = unstrokedBounds.dilated( options.filledLineWidth * 1.5 );
         foregroundStar.clipArea = Shape.bounds( overlySafeBounds.withMaxX( unstrokedBounds.left + options.value * unstrokedBounds.width ) );
       }
