@@ -22,8 +22,7 @@ type SelfOptions = {
   beakerGlareFill?: IColor;
   beakerHeight?: number;
   beakerWidth?: number;
-  xRadius?: number;
-  yRadius?: number;
+  yRadiusOfEnds?: number; // radius of the ellipses used for the ends, to provide 3D perspective
   ticksVisible?: boolean;
   tickStroke?: IColor;
   stroke?: IColor;
@@ -54,14 +53,13 @@ export default class BeakerNode extends Node {
       lineWidth: 1,
       beakerHeight: 100,
       beakerWidth: 60,
-      xRadius: BeakerNode.DEFAULT_X_RADIUS,
-      yRadius: BeakerNode.DEFAULT_Y_RADIUS,
+      yRadiusOfEnds: BeakerNode.DEFAULT_Y_RADIUS,
       ticksVisible: false,
       numberOfTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
 
-    options.xRadius = providedOptions?.beakerWidth ? providedOptions.beakerWidth / 2 : options.xRadius;
+    const xRadius = options.beakerWidth / 2;
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
@@ -69,24 +67,24 @@ export default class BeakerNode extends Node {
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
-      .moveTo( -options.xRadius * 0.6, centerTop * 0.6 )
+      .moveTo( -xRadius * 0.6, centerTop * 0.6 )
       .verticalLineTo( centerBottom * 0.85 )
-      .lineTo( -options.xRadius * 0.5, centerBottom * 0.9 )
+      .lineTo( -xRadius * 0.5, centerBottom * 0.9 )
       .verticalLineTo( centerTop * 0.55 )
       .close();
 
     const beakerFrontShape = new Shape()
-      .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, Math.PI, false )
-      .ellipticalArc( 0, centerTop, options.xRadius, options.yRadius, 0, Math.PI, 0, true )
+      .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI, false )
+      .ellipticalArc( 0, centerTop, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, true )
       .close();
 
     const beakerBackShape = new Shape()
-      .ellipticalArc( 0, centerTop, options.xRadius, options.yRadius, 0, Math.PI, 0, false )
-      .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, Math.PI, true )
+      .ellipticalArc( 0, centerTop, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, false )
+      .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI, true )
       .close();
 
     const beakerBottomShape = new Shape()
-      .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, 2 * Math.PI, false );
+      .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, 0, 0, 2 * Math.PI, false );
 
     // Water fill and shading paths
     const solutionSide = new Path( null, {
@@ -139,7 +137,7 @@ export default class BeakerNode extends Node {
       y -= options.beakerHeight / options.numberOfTicks;
       const centralAngle = Math.PI * 0.83;
       const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
-      ticksShape.ellipticalArc( 0, y, options.xRadius, options.yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
+      ticksShape.ellipticalArc( 0, y, xRadius, options.yRadiusOfEnds, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
     }
 
     const ticks = new Path( ticksShape, {
@@ -153,21 +151,21 @@ export default class BeakerNode extends Node {
     const solutionLevelListener = ( solutionLevel: number ) => {
       const centerLiquidY = centerBottom - options.beakerHeight * solutionLevel;
       const solutionTopShape = new Shape()
-        .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, 0, Math.PI * 2, false )
+        .ellipticalArc( 0, centerLiquidY, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI * 2, false )
         .close();
       const solutionSideShape = new Shape()
-        .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, Math.PI, 0, true )
-        .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, 0, 0, Math.PI, false )
+        .ellipticalArc( 0, centerLiquidY, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI, false )
         .close();
       const solutionFrontEdgeShape = new Shape()
-        .ellipticalArc( 0, centerLiquidY + 1, options.xRadius, options.yRadius + 2, 0, Math.PI, 0, true )
-        .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, 0, Math.PI, false );
+        .ellipticalArc( 0, centerLiquidY + 1, xRadius, options.yRadiusOfEnds + 2, 0, Math.PI, 0, true )
+        .ellipticalArc( 0, centerLiquidY, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI, false );
       const solutionBackEdgeShape = new Shape()
-        .ellipticalArc( 0, centerBottom - 1, options.xRadius, options.yRadius + 4, Math.PI, Math.PI, 0, true )
-        .ellipticalArc( 0, centerBottom, options.xRadius, options.yRadius, Math.PI, 0, Math.PI, false );
+        .ellipticalArc( 0, centerBottom - 1, xRadius, options.yRadiusOfEnds + 4, Math.PI, Math.PI, 0, true )
+        .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, Math.PI, 0, Math.PI, false );
       const solutionCrescentShape = new Shape()
-        .ellipticalArc( options.xRadius * 0.2, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
-        .ellipticalArc( options.xRadius * 0.2, centerLiquidY, options.yRadius * 0.75, options.xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
+        .ellipticalArc( xRadius * 0.2, centerLiquidY, options.yRadiusOfEnds * 0.75, xRadius * 0.4, Math.PI * 1.5, Math.PI, 0, true )
+        .ellipticalArc( xRadius * 0.2, centerLiquidY, options.yRadiusOfEnds * 0.75, xRadius * 0.6, Math.PI * 1.5, 0, Math.PI, false );
 
       solutionTop.shape = solutionTopShape;
       solutionSide.shape = solutionSideShape;
