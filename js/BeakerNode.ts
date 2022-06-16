@@ -38,6 +38,7 @@ export default class BeakerNode extends Node {
   public static DEFAULT_X_RADIUS = 30;
   public static DEFAULT_Y_RADIUS = 12;
   private readonly ticks: Path;
+  private readonly disposeBeakerNode: () => void;
 
   public constructor( solutionLevelProperty: NumberProperty, providedOptions?: BeakerNodeOptions ) {
 
@@ -150,7 +151,7 @@ export default class BeakerNode extends Node {
     } );
 
     // solution level adjustment listener
-    solutionLevelProperty.link( solutionLevel => {
+    const solutionLevelListener = ( solutionLevel: number ) => {
       const centerLiquidY = centerBottom - options.beakerHeight * solutionLevel;
       const solutionTopShape = new Shape()
         .ellipticalArc( 0, centerLiquidY, options.xRadius, options.yRadius, 0, 0, Math.PI * 2, false )
@@ -193,7 +194,8 @@ export default class BeakerNode extends Node {
         solutionBackEdge.visible = true;
         solutionGlare.visible = true;
       }
-    } );
+    };
+    solutionLevelProperty.link( solutionLevelListener );
 
     // Prevents front edge from dipping below beaker boundary when dragged all the way down.
     solutionFrontEdge.clipArea = Shape.union( [ beakerFrontShape, beakerBottomShape ] );
@@ -214,6 +216,17 @@ export default class BeakerNode extends Node {
     super( options );
 
     this.ticks = ticks;
+
+    this.disposeBeakerNode = () => {
+      if ( solutionLevelProperty.hasListener( solutionLevelListener ) ) {
+        solutionLevelProperty.unlink( solutionLevelListener );
+      }
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeBeakerNode();
+    super.dispose();
   }
 
   public setTicksVisible( visible: boolean ): void {
