@@ -28,8 +28,7 @@ type SelfOptions = {
   tickStroke?: ProfileColorProperty;
   stroke?: ProfileColorProperty;
   lineWidth?: number;
-  // Denominator of tick marks distance
-  numTicks?: number;
+  numberOfTicks?: number; // Denominator of tick marks distance
 };
 export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -58,7 +57,7 @@ export default class BeakerNode extends Node {
       xRadius: BeakerNode.DEFAULT_X_RADIUS,
       yRadius: BeakerNode.DEFAULT_Y_RADIUS,
       ticksVisible: false,
-      numTicks: 4,
+      numberOfTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
 
@@ -66,7 +65,7 @@ export default class BeakerNode extends Node {
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
-    const numTicks = options.numTicks;
+    const numberOfTicks = options.numberOfTicks;
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
@@ -136,8 +135,8 @@ export default class BeakerNode extends Node {
 
     const ticksShape = new Shape();
     let y = centerBottom;
-    for ( let i = 0; i < numTicks - 1; i++ ) {
-      y -= options.beakerHeight / options.numTicks;
+    for ( let i = 0; i < numberOfTicks - 1; i++ ) {
+      y -= options.beakerHeight / options.numberOfTicks;
       const centralAngle = Math.PI * 0.83;
       const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
       ticksShape.ellipticalArc( 0, y, options.xRadius, options.yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
