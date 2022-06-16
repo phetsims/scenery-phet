@@ -12,6 +12,7 @@ import sceneryPhet from './sceneryPhet.js';
 import { Color, Node, NodeOptions, Path, ProfileColorProperty } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   emptyBeakerFill?: ProfileColorProperty;
@@ -30,7 +31,7 @@ type SelfOptions = {
   // Denominator of tick marks distance
   numTicks?: number;
 };
-export type BeakerNodeOptions = SelfOptions & NodeOptions;
+export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class BeakerNode extends Node {
 
@@ -38,8 +39,8 @@ export default class BeakerNode extends Node {
   public static DEFAULT_Y_RADIUS = 12;
   private readonly ticks: Path;
 
-  public constructor( solutionLevelProperty: NumberProperty,
-                      providedOptions?: BeakerNodeOptions ) {
+  public constructor( solutionLevelProperty: NumberProperty, providedOptions?: BeakerNodeOptions ) {
+
     const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.5 );
     const solutionShadowFill = providedOptions?.solutionFill?.value.colorUtilsDarker( 0.2 );
 
@@ -59,8 +60,6 @@ export default class BeakerNode extends Node {
       numTicks: 4,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
-
-    super();
 
     options.xRadius = providedOptions?.beakerWidth ? providedOptions.beakerWidth / 2 : options.xRadius;
 
@@ -143,7 +142,7 @@ export default class BeakerNode extends Node {
       ticksShape.ellipticalArc( 0, y, options.xRadius, options.yRadius, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
     }
 
-    this.ticks = new Path( ticksShape, {
+    const ticks = new Path( ticksShape, {
       stroke: options.tickStroke,
       lineWidth: 1.5,
       pickable: false
@@ -198,7 +197,7 @@ export default class BeakerNode extends Node {
     // Prevents front edge from dipping below beaker boundary when dragged all the way down.
     solutionFrontEdge.clipArea = Shape.union( [ beakerFrontShape, beakerBottomShape ] );
 
-    const children = [
+    options.children = [
       beakerBack,
       beakerBottom,
       solutionSide,
@@ -207,12 +206,13 @@ export default class BeakerNode extends Node {
       solutionGlare,
       solutionFrontEdge,
       beakerFront,
-      this.ticks,
+      ticks,
       beakerGlare
     ];
 
-    const mergedOptions = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( options, { children: children } );
-    super.mutate( mergedOptions );
+    super( options );
+
+    this.ticks = ticks;
     this.setShowTicks( options.showTicks );
   }
 
