@@ -73,7 +73,8 @@ class StarNode extends Node {
         stroke: options.filledStroke,
         fill: options.filledFill,
         lineWidth: options.filledLineWidth,
-        lineJoin: options.filledLineJoin
+        lineJoin: options.filledLineJoin,
+        starShapeOptions: options.starShapeOptions
       } );
 
       // Apply a clipArea instead of actually adjusting the star's shape. This is faster for startup (potentially
