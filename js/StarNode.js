@@ -43,49 +43,69 @@ class StarNode extends Node {
 
     super();
 
-    // Create the shape that will be used as the basis for both the background and foreground star nodes.
-    const starShape = new StarShape( options.starShapeOptions );
-
     // Add the gray star behind the filled star, so it will look like it fills in.
-    const backgroundStar = new Path( starShape, {
+    const backgroundStar = new OptimizedStarPath( {
       stroke: options.emptyStroke,
       fill: options.emptyFill,
       lineWidth: options.emptyLineWidth,
       lineJoin: options.emptyLineJoin,
-      boundsMethod: 'none' // optimization for faster creation and usage
+      starShapeOptions: options.starShapeOptions
+
     } );
-
-    function getBounds() {
-      return starShape.bounds;
-    }
-
-    backgroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
 
     this.addChild( backgroundStar );
 
     // Add the foreground star.
-    if ( options.value !== 0 ) {
-      const foregroundStar = new Path( starShape, {
+    if ( options.value > 0 ) {
+      const foregroundStar = new OptimizedStarPath( {
         stroke: options.filledStroke,
         fill: options.filledFill,
         lineWidth: options.filledLineWidth,
-        lineJoin: options.filledLineJoin,
-        boundsMethod: 'none' // optimization for faster creation and usage
+        lineJoin: options.filledLineJoin
       } );
-      foregroundStar.computeShapeBounds = getBounds; // optimization - override bounds calculation to used pre-computed value
 
       // Apply a clipArea instead of actually adjusting the star's shape. This is faster for startup (potentially
       // important given the optimization documentation already in this file), and gives a cleaner appearance.
       // See https://github.com/phetsims/area-model-common/issues/131.
-      if ( options.value !== 1 ) {
-        const unstrokedBounds = starShape.bounds;
+      if ( options.value < 1 ) {
+        const unstrokedBounds = foregroundStar.starShapeBounds;
         const overlySafeBounds = unstrokedBounds.dilated( options.filledLineWidth * 1.5 );
-        foregroundStar.clipArea = Shape.bounds( overlySafeBounds.withMaxX( unstrokedBounds.left + options.value * unstrokedBounds.width ) );
+        foregroundStar.clipArea = Shape.bounds(
+          overlySafeBounds.withMaxX( unstrokedBounds.left + options.value * unstrokedBounds.width )
+        );
       }
       this.addChild( foregroundStar );
     }
 
     this.mutate( options );
+  }
+}
+
+class OptimizedStarPath extends Path {
+  constructor( options ) {
+
+    // parameter checking
+    assert && assert( options.boundsMethod === undefined, 'boundsMethod should not be specified, this class will do it' );
+
+    // optimization for faster creation and usage
+    options.boundsMethod = 'none';
+
+    // Create the shape that will be used for the path and the bounds.
+    const starShape = new StarShape( options.starShapeOptions );
+
+    super( starShape, options );
+
+    // Pre-compute the bounds as an optimization.
+    this.starShapeBounds = starShape.getBounds();
+  }
+
+  /**
+   * Override the method used to compute the bounds to use the pre-computed value.
+   * @returns {Bounds2}
+   * @public
+   */
+  computeShapeBounds() {
+    return this.starShapeBounds;
   }
 }
 
