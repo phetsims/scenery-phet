@@ -151,7 +151,7 @@ export default class ScientificNotationNode extends Node {
 
       // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
       mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
-      exponent = parseInt( tokens[ 1 ], 10 );
+      exponent = Number( tokens[ 1 ] );
 
       // If the mantissa is exactly 10, shift that power of 10 to the exponent.
       // See https://github.com/phetsims/scenery-phet/issues/613
@@ -208,8 +208,8 @@ export default class ScientificNotationNode extends Node {
     }
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-      const mantissaNumber = Utils.toFixedNumber( parseInt( scientificNotation.mantissa, 10 ), options.mantissaDecimalPlaces );
-      const exponentNumber = parseInt( scientificNotation.exponent, 10 );
+      const mantissaNumber = Utils.toFixedNumber( Number( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
+      const exponentNumber = Number( scientificNotation.exponent );
 
       if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
 

@@ -1788,8 +1788,10 @@ function demoStarNode( layoutBounds ) {
     starNodeContainer.children = [
       new StarNode( {
         value: value,
-        outerRadius: 30,
-        innerRadius: 15
+        starShapeOptions: {
+          outerRadius: 30,
+          innerRadius: 15
+        }
       } )
     ];
   } );
