@@ -7,6 +7,8 @@
  * @author John Blanco
  */
 
+// @ts-nocheck
+
 import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import { Node } from '../../scenery/js/imports.js';
