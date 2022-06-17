@@ -12,6 +12,7 @@ import { FireListener } from '../../scenery/js/imports.js';
 import { Plane } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import dotRandom from '../../dot/js/dotRandom.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class BarrierRectangle extends Plane {
@@ -44,7 +45,13 @@ class BarrierRectangle extends Plane {
       phetioReadOnly: options.phetioReadOnly,
       fire() {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
-        modalNodeStack.get( modalNodeStack.length - 1 ).hide();
+
+        // If fuzzing is enabled, close popups with a reduced probability, to improve testing coverage.
+        // As of this writing, this addresses Dialogs and the PhET menu.
+        // See https://github.com/phetsims/aqua/issues/136
+        if ( !phet.chipper.isFuzzEnabled() || dotRandom.nextDouble() < 0.005 ) {
+          modalNodeStack.get( modalNodeStack.length - 1 ).hide();
+        }
       }
     } ) );
 
