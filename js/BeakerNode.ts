@@ -33,8 +33,7 @@ export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'
 
 export default class BeakerNode extends Node {
 
-  public static DEFAULT_X_RADIUS = 30;
-  public static DEFAULT_Y_RADIUS = 12;
+  public static DEFAULT_Y_RADIUS_OF_ENDS = 12;
   private readonly ticks: Path;
   private readonly disposeBeakerNode: () => void;
 
@@ -53,7 +52,7 @@ export default class BeakerNode extends Node {
       lineWidth: 1,
       beakerHeight: 100,
       beakerWidth: 60,
-      yRadiusOfEnds: BeakerNode.DEFAULT_Y_RADIUS,
+      yRadiusOfEnds: BeakerNode.DEFAULT_Y_RADIUS_OF_ENDS,
       ticksVisible: false,
       numberOfTicks: 4,
       tickStroke: SceneryPhetColors.stroke
