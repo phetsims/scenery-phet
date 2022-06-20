@@ -40,6 +40,7 @@ import sceneryPhet from '../sceneryPhet.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import TrashButton from '../buttons/TrashButton.js';
 
 type SelfOptions = EmptyObjectType;
 type ButtonsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
@@ -109,6 +110,11 @@ export default class ButtonsScreenView extends ScreenView {
       listener: () => console.log( 'RefreshButton pressed' )
     } );
     pushButtons.push( refreshButton );
+
+    const trashButton = new TrashButton( {
+      listener: () => console.log( 'TrashButton pressed' )
+    } );
+    pushButtons.push( trashButton );
 
     const moveToTrashButton = new MoveToTrashButton( {
       arrowColor: 'red',
