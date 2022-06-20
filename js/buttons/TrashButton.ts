@@ -25,7 +25,7 @@ export default class TrashButton extends RectangularPushButton {
 
     const options = optionize<TrashButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
       iconOptions: {
-        scale: 0.052,
+        scale: 0.05,
         fill: 'black'
       }
     }, providedOptions );
