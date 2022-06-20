@@ -118,7 +118,6 @@ export default class ButtonsScreenView extends ScreenView {
 
     const moveToTrashButton = new MoveToTrashButton( {
       arrowColor: 'red',
-      scale: 2,
       listener: () => console.log( 'MoveToTrashButton pressed' )
     } );
     pushButtons.push( moveToTrashButton );
