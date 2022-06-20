@@ -15,7 +15,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../su
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
-  iconOptions?: PathOptions;
+  iconOptions?: PathOptions; // nested options for customizing the trash icon
 };
 
 export type TrashButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
