@@ -14,7 +14,7 @@ import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Color, IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
@@ -40,6 +40,7 @@ class StatusBar extends Node {
   public readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
   private readonly disposeStatusBar: () => void;
   public static DEFAULT_FONT = new PhetFont( 20 );
+  public static DEFAULT_TEXT_FILL = Color.BLACK;
 
   /**
    * @param layoutBounds
