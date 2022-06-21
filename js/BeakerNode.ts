@@ -3,7 +3,7 @@
 /**
  * Displays a beaker graphic
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Marla Schulz <marla.schulz@colorado.edu>
  */
 
 import { Shape } from '../../kite/js/imports.js';
@@ -27,7 +27,7 @@ type SelfOptions = {
   tickStroke?: IColor;
   stroke?: IColor;
   lineWidth?: number;
-  numberOfTicks?: number; // Denominator of tick marks distance
+  numberOfTicks?: number; // The number of tick marks shown on beaker.
 };
 export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -54,7 +54,7 @@ export default class BeakerNode extends Node {
       beakerWidth: 60,
       yRadiusOfEnds: 12,
       ticksVisible: false,
-      numberOfTicks: 4,
+      numberOfTicks: 3,
       tickStroke: SceneryPhetColors.stroke
     }, providedOptions );
 
@@ -62,7 +62,6 @@ export default class BeakerNode extends Node {
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
-    const numberOfTicks = options.numberOfTicks;
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
@@ -130,10 +129,11 @@ export default class BeakerNode extends Node {
       fill: options.beakerGlareFill
     } );
 
+    const tickDivision = 1 / ( options.numberOfTicks + 1 );
     const ticksShape = new Shape();
     let y = centerBottom;
-    for ( let i = 0; i < numberOfTicks - 1; i++ ) {
-      y -= options.beakerHeight / options.numberOfTicks;
+    for ( let i = 0; i < options.numberOfTicks; i++ ) {
+      y -= options.beakerHeight * tickDivision;
       const centralAngle = Math.PI * 0.83;
       const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
       ticksShape.ellipticalArc( 0, y, xRadius, options.yRadiusOfEnds, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
