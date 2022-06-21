@@ -136,7 +136,7 @@ export default class ScientificNotationNode extends Node {
     let exponent: number;
     if ( value === 0 ) {
       mantissa = 0;
-      exponent = 1;
+      exponent = ( options.exponent === null ) ? 0 : options.exponent; // use the exponent requested
     }
     else if ( options.exponent !== null && options.exponent === 0 ) {
       mantissa = Utils.toFixedNumber( value, options.mantissaDecimalPlaces );
