@@ -27,7 +27,7 @@ import sceneryPhet from './sceneryPhet.js';
 type SelfOptions = {
   fill?: IColor;
   font?: Font;
-  exponent?: number | null;
+  exponent?: number | null; // if null, exponent will be computed so that mantissa has 1 digit to the left of the decimal point
   mantissaDecimalPlaces?: number;
   exponentScale?: number; // scale of the exponent, relative to the size of the '10'
   showIntegersAsMantissaOnly?: boolean; // if true, show 8000 as '8000', otherwise '8 x 10^3'
