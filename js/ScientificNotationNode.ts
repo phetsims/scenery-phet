@@ -1,8 +1,13 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
 /**
- * Displays a number in scientific notation, M x 10^E, where M is the mantissa and E is the exponent (e.g. 2.34 x 10^-4).
- * To conserve memory, creates one set of scenery.Text nodes, modifies their text as needed.
+ * ScientificNotationNode displays a number in scientific notation, M x 10^E, where:
+ * - M is the mantissa, >= 1 and < 10 (1 digit to the left of the decimal place)
+ * - E is the exponent, a positive or negative integer
+ *
+ * For example, with 2 decimal places in the mantissa, 0.0002342 would be written as 2.34 x 10^-4.
+ *
+ * To conserve memory, this implementation creates one set of scenery.Text nodes, and modifies their text as needed.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
