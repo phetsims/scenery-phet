@@ -42,12 +42,9 @@ type SelfOptions = {
 export type ScientificNotationNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 // options for toScientificNotation
-export type ScientificNotationOptions = {
-  mantissaDecimalPlaces: number;
-  exponent: number | null; // specific exponent to use
-};
+export type ToScientificNotationOptions = Pick<ScientificNotationNodeOptions, 'mantissaDecimalPlaces' | 'exponent'>;
 
-// type returned by toScientificNotation
+// return type of toScientificNotation
 export type ScientificNotation = {
   mantissa: string;
   exponent: string;
@@ -77,7 +74,7 @@ export default class ScientificNotationNode extends Node {
       // SelfOptions
       fill: 'black',
       font: new PhetFont( 20 ),
-      exponent: null,
+      exponent: null, // exponent will be computed
       mantissaDecimalPlaces: 1,
       exponentScale: 0.75,
       showIntegersAsMantissaOnly: false,
@@ -128,11 +125,11 @@ export default class ScientificNotationNode extends Node {
    * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
    * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
    */
-  public static toScientificNotation( value: number, providedOptions?: ScientificNotationOptions ): ScientificNotation {
+  public static toScientificNotation( value: number, providedOptions?: ToScientificNotationOptions ): ScientificNotation {
 
-    const options = optionize<ScientificNotationOptions, EmptyObjectType, ScientificNotationOptions>()( {
+    const options = optionize<ToScientificNotationOptions, EmptyObjectType, ToScientificNotationOptions>()( {
       mantissaDecimalPlaces: 1,
-      exponent: null // specific exponent to use
+      exponent: null // exponent will be computed
     }, providedOptions );
 
     let mantissa: number;
