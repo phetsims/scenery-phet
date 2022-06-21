@@ -3,7 +3,7 @@
 /**
  * Displays a beaker graphic
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Marla Schulz <marla.schulz@colorado.edu>
  */
 
 import { Shape } from '../../kite/js/imports.js';
@@ -25,9 +25,9 @@ type SelfOptions = {
   yRadiusOfEnds?: number; // radius of the ellipses used for the ends, to provide 3D perspective
   ticksVisible?: boolean;
   tickStroke?: IColor;
-  stroke?: IColor;
+  beakerStroke?: IColor;
   lineWidth?: number;
-  numberOfTicks?: number; // Denominator of tick marks distance
+  numberOfTicks?: number; // The number of tick marks shown on beaker.
 };
 export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -39,8 +39,12 @@ export default class BeakerNode extends Node {
 
   public constructor( solutionLevelProperty: NumberProperty, providedOptions?: BeakerNodeOptions ) {
 
-    const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.5 );
+    const solutionGlareFill = providedOptions?.solutionFill?.value.colorUtilsBrighter( 0.2 );
     const solutionShadowFill = providedOptions?.solutionFill?.value.colorUtilsDarker( 0.2 );
+    // if ( providedOptions?.solutionFill ) {
+    //   solutionGlareFill = Color.toColor( providedOptions.solutionFill ).colorUtilsBrighter( 0.5 );
+    //   solutionShadowFill = providedOptions?.solutionFill?.value.colorUtilsDarker( 0.2 );
+    // }
 
     const options = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( {
       emptyBeakerFill: SceneryPhetColors.emptyBeakerFillProperty,
@@ -48,21 +52,20 @@ export default class BeakerNode extends Node {
       solutionShadowFill: solutionShadowFill ? solutionShadowFill : SceneryPhetColors.solutionShadowFillProperty,
       solutionGlareFill: solutionGlareFill ? solutionGlareFill : SceneryPhetColors.solutionShineFillProperty,
       beakerGlareFill: SceneryPhetColors.beakerShineFillProperty,
-      stroke: SceneryPhetColors.stroke,
+      beakerStroke: SceneryPhetColors.beakerStroke,
       lineWidth: 1,
       beakerHeight: 100,
       beakerWidth: 60,
       yRadiusOfEnds: 12,
       ticksVisible: false,
-      numberOfTicks: 4,
-      tickStroke: SceneryPhetColors.stroke
+      numberOfTicks: 3,
+      tickStroke: SceneryPhetColors.tickStroke
     }, providedOptions );
 
     const xRadius = options.beakerWidth / 2;
 
     const centerTop = -options.beakerHeight / 2;
     const centerBottom = options.beakerHeight / 2;
-    const numberOfTicks = options.numberOfTicks;
 
     // Beaker structure and glare shapes
     const beakerGlareShape = new Shape()
@@ -76,6 +79,9 @@ export default class BeakerNode extends Node {
       .ellipticalArc( 0, centerBottom, xRadius, options.yRadiusOfEnds, 0, 0, Math.PI, false )
       .ellipticalArc( 0, centerTop, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, true )
       .close();
+
+    const beakerBackTopShape = new Shape()
+      .ellipticalArc( 0, centerTop, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, false );
 
     const beakerBackShape = new Shape()
       .ellipticalArc( 0, centerTop, xRadius, options.yRadiusOfEnds, 0, Math.PI, 0, false )
@@ -109,19 +115,25 @@ export default class BeakerNode extends Node {
 
     // Beaker structure and glare paths
     const beakerFront = new Path( beakerFrontShape, {
-      stroke: options.stroke,
+      stroke: options.beakerStroke,
       lineWidth: options.lineWidth
     } );
 
     const beakerBack = new Path( beakerBackShape, {
-      stroke: options.stroke,
+      stroke: options.beakerStroke,
       lineWidth: options.lineWidth,
       fill: options.emptyBeakerFill
     } );
 
+    const beakerBackTop = new Path( beakerBackTopShape, {
+      stroke: options.beakerStroke,
+      lineWidth: options.lineWidth
+    } );
+
     beakerBack.setScaleMagnitude( -1, 1 );
+
     const beakerBottom = new Path( beakerBottomShape, {
-      stroke: options.stroke,
+      stroke: options.beakerStroke,
       fill: options.emptyBeakerFill,
       pickable: false
     } );
@@ -130,10 +142,11 @@ export default class BeakerNode extends Node {
       fill: options.beakerGlareFill
     } );
 
+    const tickDivision = 1 / ( options.numberOfTicks + 1 );
     const ticksShape = new Shape();
     let y = centerBottom;
-    for ( let i = 0; i < numberOfTicks - 1; i++ ) {
-      y -= options.beakerHeight / options.numberOfTicks;
+    for ( let i = 0; i < options.numberOfTicks; i++ ) {
+      y -= options.beakerHeight * tickDivision;
       const centralAngle = Math.PI * 0.83;
       const offsetAngle = Math.PI * ( i % 2 === 0 ? 0.07 : 0.1 );
       ticksShape.ellipticalArc( 0, y, xRadius, options.yRadiusOfEnds, 0, centralAngle + offsetAngle, centralAngle - offsetAngle, true ).newSubpath();
@@ -204,6 +217,7 @@ export default class BeakerNode extends Node {
       solutionTop,
       solutionGlare,
       solutionFrontEdge,
+      beakerBackTop,
       beakerFront,
       ticks,
       beakerGlare
