@@ -1,4 +1,4 @@
-// Copyright 2014-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * TrashButton is a rectangular push button with PhET's standard 'trash' icon.
