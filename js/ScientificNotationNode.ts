@@ -2,7 +2,7 @@
 
 /**
  * ScientificNotationNode displays a number in scientific notation, M x 10^E, where:
- * - M is the mantissa, >= 1 and < 10 (1 digit to the left of the decimal place)
+ * - M is the mantissa
  * - E is the exponent, a positive or negative integer
  *
  * For example, with 2 decimal places in the mantissa, 0.0002342 would be written as 2.34 x 10^-4.
