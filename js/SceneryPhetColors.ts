@@ -19,7 +19,8 @@ const SceneryPhetColors = {
   beakerShineFillProperty: new ProfileColorProperty( sceneryPhet, 'beakerShineFill', { default: new Color( 255, 255, 255, 0.4 ) } ),
   solutionShadowFillProperty: new ProfileColorProperty( sceneryPhet, 'solutionShadowFill', { default: new Color( 142, 198, 221 ) } ),
   solutionShineFillProperty: new ProfileColorProperty( sceneryPhet, 'solutionShineFill', { default: new Color( 180, 229, 249 ) } ),
-  stroke: new ProfileColorProperty( sceneryPhet, 'stroke', { default: 'black' } )
+  beakerStroke: new ProfileColorProperty( sceneryPhet, 'beakerStroke', { default: 'black' } ),
+  tickStroke: new ProfileColorProperty( sceneryPhet, 'tickStroke', { default: 'black' } )
 };
 
 sceneryPhet.register( 'SceneryPhetColors', SceneryPhetColors );
