@@ -173,7 +173,7 @@ export default class ScientificNotationNode extends Node {
     // mantissa x 10^exponent
     return {
 
-      // restore precision in case toFixedNumber removed zeros to right of decimal
+      // restore precision, in case toFixedNumber removed zeros to right of the decimal point
       mantissa: Utils.toFixed( mantissa, options.mantissaDecimalPlaces ),
       exponent: exponent.toString()
     };
