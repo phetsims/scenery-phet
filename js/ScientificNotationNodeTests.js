@@ -10,6 +10,9 @@ import ScientificNotationNode from './ScientificNotationNode.js';
 
 QUnit.module( 'ScientificNotationNode' );
 
+/**
+ * Tests for the 'if ( value === 0 )' code path in toScientificNotation
+ */
 QUnit.test( 'value === 0', assert => {
 
   // For value === 0, the specified exponent should be used.
@@ -25,6 +28,9 @@ QUnit.test( 'value === 0', assert => {
   } ), { mantissa: '0.0', exponent: '0' } );
 } );
 
+/**
+ * Tests for the 'if ( options.exponent === 0 )' code path in toScientificNotation
+ */
 QUnit.test( 'exponent === 0', assert => {
 
   // For exponent === 0, we use dot.Utils.toFixed to create the mantissa. This example adds zeros to decimal places.
@@ -40,6 +46,9 @@ QUnit.test( 'exponent === 0', assert => {
   } ), { mantissa: '424.9', exponent: '0' } );
 } );
 
+/**
+ * Tests for the 'else {...}' code path in toScientificNotation
+ */
 QUnit.test( 'rounding', assert => {
 
   // This case was reported in https://github.com/phetsims/build-a-nucleus/issues/24 with bad mantissa 4.3
