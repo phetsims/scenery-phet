@@ -138,7 +138,7 @@ export default class ScientificNotationNode extends Node {
       mantissa = 0;
       exponent = ( options.exponent === null ) ? 0 : options.exponent; // use the exponent requested
     }
-    else if ( options.exponent !== null && options.exponent === 0 ) {
+    else if ( options.exponent === 0 ) {
       mantissa = Utils.toFixedNumber( value, options.mantissaDecimalPlaces );
       exponent = 0;
     }
