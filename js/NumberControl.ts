@@ -44,7 +44,7 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 
 type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
-type ExtendedSliderOptions = SliderOptions & {
+type NumberControlSliderOptions = SliderOptions & {
   // other slider options that are specific to NumberControl
   // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
 
@@ -138,7 +138,7 @@ type SelfOptions = {
 
   // Subcomponent options objects
   numberDisplayOptions?: NumberDisplayOptions;
-  sliderOptions?: ExtendedSliderOptions;
+  sliderOptions?: NumberControlSliderOptions;
   arrowButtonOptions?: ArrowButtonOptions & {
     // We stuffed enabledEpsilon here
     enabledEpsilon?: number;
@@ -347,14 +347,14 @@ export default class NumberControl extends Node {
 
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
-      options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
+      options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
         trackSize: new Dimension2( 180, 3 )
       }, options.sliderOptions );
     }
 
     // Slider options for thumb (if n ot specified as thumbNode)
     if ( !options.sliderOptions.thumbNode ) {
-      options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
+      options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
         thumbSize: new Dimension2( 17, 34 ),
         thumbTouchAreaXDilation: 6
       }, options.sliderOptions );
@@ -363,7 +363,7 @@ export default class NumberControl extends Node {
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
-    options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
+    options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
 
       // pdom - by default, shiftKeyboardStep should most likely be the same as clicking the arrow buttons.
       shiftKeyboardStep: options.delta,
@@ -537,7 +537,7 @@ export default class NumberControl extends Node {
       tickLabelFont: new PhetFont( 12 )
     }, providedOptions );
 
-    options.sliderOptions = combineOptions<ExtendedSliderOptions>( {
+    options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
       majorTicks: [
         { value: range.min, label: new Text( range.min, { font: options.tickLabelFont } ) },
         { value: range.max, label: new Text( range.max, { font: options.tickLabelFont } ) }
