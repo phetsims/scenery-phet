@@ -1,8 +1,9 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
 /**
- * BeakerNode draws a psuedo-3D cylindrical beaker, with optional tick marks, containing a solution.
+ * BeakerNode draws a pseudo-3D cylindrical beaker, with optional tick marks, containing a solution.
  * Based on the value of solutionLevelProperty, it fills the beaker with solution from the bottom up.
+ * The Beaker and solution use flat style shading and highlights to provide pseudo-3D dimension.
  *
  * @author Marla Schulz <marla.schulz@colorado.edu>
  */
@@ -44,6 +45,8 @@ export default class BeakerNode extends Node {
 
     let solutionGlareFill;
     let solutionShadowFill;
+
+    // Generates highlight and shading when a custom solutionFill is provided.
     if ( providedOptions?.solutionFill ) {
       solutionGlareFill = Color.toColor( providedOptions.solutionFill ).colorUtilsBrighter( 0.5 );
       solutionShadowFill = Color.toColor( providedOptions?.solutionFill ).colorUtilsDarker( 0.2 );
