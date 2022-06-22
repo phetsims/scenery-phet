@@ -135,11 +135,28 @@ export default class ScientificNotationNode extends Node {
     let exponent: number;
     if ( value === 0 ) {
       mantissa = 0;
-      exponent = ( options.exponent === null ) ? 0 : options.exponent; // use the exponent requested
+      if ( options.exponent === null ) {
+
+        // 0 is represented as 0 x 10^0
+        exponent = 0;
+      }
+      else {
+
+        // 0 is represented as 0 x 10^E, where E is options.exponent
+        exponent = options.exponent;
+      }
     }
     else if ( options.exponent === 0 ) {
+
+      // M x 10^0
       mantissa = Utils.toFixedNumber( value, options.mantissaDecimalPlaces );
       exponent = 0;
+    }
+    else if ( options.exponent !== null ) {
+
+      // M x 10^E, where E is options.exponent
+      mantissa = Utils.toFixedNumber( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
+      exponent = options.exponent;
     }
     else {
 

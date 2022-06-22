@@ -47,6 +47,47 @@ QUnit.test( 'exponent === 0', assert => {
 } );
 
 /**
+ * Tests for the 'if ( options.exponent !== null )' code path in toScientificNotation
+ */
+QUnit.test( 'exponent !== 0 && exponent !== null', assert => {
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 1,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '964.8', exponent: '1' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 2,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '96.5', exponent: '2' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 3,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '9.6', exponent: '3' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 3,
+    mantissaDecimalPlaces: 2
+  } ), { mantissa: '9.65', exponent: '3' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 4,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '1.0', exponent: '4' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 4,
+    mantissaDecimalPlaces: 3
+  } ), { mantissa: '0.965', exponent: '4' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 9648, {
+    exponent: 5,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '0.1', exponent: '5' } );
+} );
+
+/**
  * Tests for the 'else {...}' code path in toScientificNotation
  */
 QUnit.test( 'rounding', assert => {
