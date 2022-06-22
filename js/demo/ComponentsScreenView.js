@@ -201,7 +201,7 @@ function demoBeakerNode( layoutBounds ) {
 
   const solutionLevelSlider = new VSlider( solutionLevelProperty, solutionLevelProperty.range );
 
-  const beakerNode = new BeakerNode( solutionLevelProperty, {
+  const beakerNode = new BeakerNode( solutionLevelProperty.asRanged(), {
     showTicks: true
   } );
 
