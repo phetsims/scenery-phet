@@ -122,8 +122,7 @@ export default class ScientificNotationNode extends Node {
   }
 
   /**
-   * Converts a number to scientific-notation format, consisting of a mantissa and exponent,
-   * such that the values is equal to (mantissa * Math.pow(10, exponent)).]
+   * Converts a number to scientific-notation format: M x 10^E, with mantissa M and exponent E.
    */
   public static toScientificNotation( value: number, providedOptions?: ToScientificNotationOptions ): ScientificNotation {
 
