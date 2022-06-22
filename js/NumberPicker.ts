@@ -18,7 +18,7 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { Color, FireListener, FireListenerOptions, FocusHighlightPath, Font, IColor, LinearGradient, Node, PaintColorProperty, Path, Rectangle, SceneryConstants, SceneryEvent, Text } from '../../scenery/js/imports.js';
+import { Color, FireListener, FireListenerOptions, FocusHighlightPath, Font, IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, Rectangle, SceneryConstants, SceneryEvent, Text } from '../../scenery/js/imports.js';
 import AccessibleNumberSpinner, { AccessibleNumberSpinnerOptions } from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
 import generalBoundaryBoopSoundPlayer from '../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
@@ -90,7 +90,7 @@ type SelfOptions = {
   boundarySoundPlayer?: ISoundPlayer;
 };
 
-type ParentOptions = AccessibleNumberSpinnerOptions; // includes NodeOptions
+type ParentOptions = AccessibleNumberSpinnerOptions & NodeOptions;
 
 export type NumberPickerOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
 

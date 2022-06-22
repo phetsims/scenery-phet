@@ -19,7 +19,7 @@ import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Color, DragListener, FocusHighlightFromNode, Font, IColor, Node, NodeOptions, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -75,10 +75,8 @@ type SelfOptions = {
   cursorVisible?: boolean;
   cursorStroke?: IColor;
 };
-
-export type SpectrumSliderOptions =
-  SelfOptions
-  & StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
+type ParentOptions = AccessibleSliderOptions & NodeOptions;
+export type SpectrumSliderOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 /**
  * @deprecated use WavelengthNumberControl, or Slider.js with SpectrumSliderTrack and SpectrumSliderTrack,
@@ -97,7 +95,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
-    const options = optionize<SpectrumSliderOptions, SelfOptions, AccessibleSliderOptions>()( {
+    const options = optionize<SpectrumSliderOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
       minValue: 0,

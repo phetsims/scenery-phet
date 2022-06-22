@@ -27,7 +27,7 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, DragListener, Image, Node, Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Image, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
 import EventType from '../../tandem/js/EventType.js';
@@ -77,7 +77,7 @@ type SelfOptions = {
   // options for the nested type ShooterNode
   shooterOptions?: ShooterNodeOptions;
 };
-type ParentOptions = AccessibleSliderOptions; // AccessibleSliderOptions includes NodeOptions
+type ParentOptions = AccessibleSliderOptions & NodeOptions;
 export type FaucetNodeOptions = SelfOptions & ParentOptions;
 
 export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
