@@ -19,6 +19,7 @@ import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Slider from '../../sun/js/Slider.js';
 import Property from '../../axon/js/Property.js';
+import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
 
 const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
 const wavelengthString = sceneryPhetStrings.wavelength;
@@ -37,7 +38,8 @@ type SelfOptions = {
   spectrumSliderThumbOptions?: SpectrumSliderThumbOptions;
 };
 
-export type WavelengthNumberControlOptions = SelfOptions & NumberControlOptions;
+export type WavelengthNumberControlOptions = SelfOptions &
+  NestedStrictOmit<NumberControlOptions, 'sliderOptions', 'trackNode' | 'thumbNode'>;
 
 /**
  * @param wavelengthProperty - wavelength, in nm
@@ -67,12 +69,6 @@ export default class WavelengthNumberControl extends NumberControl {
       },
       tandem: Tandem.REQUIRED
     }, providedOptions );
-
-    //TODO https://github.com/phetsims/scenery-phet/issues/730 it would be preferable to omit these from WavelengthNumberControlOptions
-    if ( options.sliderOptions ) {
-      assert && assert( !options.sliderOptions.trackNode, 'WavelengthNumberControl sets trackNode' );
-      assert && assert( !options.sliderOptions.thumbNode, 'WavelengthNumberControl sets thumbNode' );
-    }
 
     const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,
       combineOptions<SpectrumSliderTrackOptions>( {
