@@ -39,14 +39,14 @@ class ClapperboardButton extends Node {
 
     // A single waveform with a high pitch should hopefully be easy to find in recordings,
     // see https://github.com/phetsims/scenery-phet/issues/739#issuecomment-1142395903
-    const x = new OscillatorSoundGenerator( {
+    const soundGenerator = new OscillatorSoundGenerator( {
       initialFrequency: 880
     } );
-    soundManager.addSoundGenerator( x );
+    soundManager.addSoundGenerator( soundGenerator );
 
     const options = optionize<ClapperboardButtonOptions, SelfOptions, NodeOptions>()( {
       excludeInvisibleChildrenFromBounds: true,
-      visualNode: new BackgroundNode( new Path( videoSolidShape, { scale: 4, fill: 'red' } ), {
+      visualNode: new BackgroundNode( new Path( videoSolidShape, { scale: 2, fill: 'red' } ), {
         xMargin: 20,
         yMargin: 20,
         rectangleOptions: {
@@ -60,7 +60,7 @@ class ClapperboardButton extends Node {
         voicingNameResponse: BUTTON_LABEL,
         soundPlayer: {
           play: () => {
-            x.play();
+            soundGenerator.play();
           },
           stop: _.noop
         }
@@ -72,18 +72,19 @@ class ClapperboardButton extends Node {
 
     super( options );
 
+    options.visualNode.visible = false;
+    this.addChild( options.visualNode );
+
     const synchronizeButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: () => {
 
         // so that this listener cannot be called more than once
         synchronizeButton.enabled = false;
 
-        this.addChild( options.visualNode );
+        options.visualNode.visible = true;
         stepTimer.setTimeout( () => {
-          this.removeChild( options.visualNode );
-          this.visible = false;
-
-          x.stop();
+          options.visualNode.visible = false;
+          soundGenerator.stop();
         }, SOUND_DURATION );
       },
       tandem: options.tandem.createTandem( 'synchronizeButton' )
