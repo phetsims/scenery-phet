@@ -1,7 +1,8 @@
 // Copyright 2018-2022, University of Colorado Boulder
 
 /**
- * Displays a beaker graphic
+ * BeakerNode draws a psuedo-3D cylindrical beaker, with optional tick marks, containing a solution.
+ * Based on the value of solutionLevelProperty, it fills the beaker with solution from the bottom up.
  *
  * @author Marla Schulz <marla.schulz@colorado.edu>
  */
