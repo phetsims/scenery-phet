@@ -269,7 +269,7 @@ export default class ButtonsScreenView extends ScreenView {
     } );
 
     const enabledText = new Text( 'Enabled', { font: new PhetFont( 22 ) } );
-    const enabledCheckbox = new Checkbox( enabledText, buttonsEnabledProperty );
+    const enabledCheckbox = new Checkbox( buttonsEnabledProperty, enabledText );
 
     //------------------------------------------------------------------------------------------------------
     // ScreenView layout

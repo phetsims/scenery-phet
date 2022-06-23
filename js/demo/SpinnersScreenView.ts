@@ -73,10 +73,10 @@ function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: NodeOpt
     tandem: options.tandem.createTandem( 'spinner' )
   } );
 
-  const checkbox = new Checkbox( new Text( 'enabled', {
+  const checkbox = new Checkbox( enabledProperty, new Text( 'enabled', {
     font: new PhetFont( 20 ),
     tandem: options.tandem.createTandem( 'checkbox' )
-  } ), enabledProperty );
+  } ) );
 
   return new VBox( {
     spacing: 60,
@@ -95,7 +95,7 @@ function demoNumberPicker( layoutBounds: Bounds2 ) {
     enabledProperty: enabledProperty
   } );
 
-  const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+  const enabledCheckbox = new Checkbox( enabledProperty, new Text( 'enabled', { font: new PhetFont( 20 ) } ) );
 
   return new VBox( {
     spacing: 40,

@@ -171,7 +171,7 @@ function demoArrowNode( layoutBounds ) {
   const checkedProperty = new Property( false );
   checkedProperty.link( checked => arrowNode.setDoubleHead( checked ) );
 
-  const checkbox = new Checkbox( new Text( 'Double head', { font: new PhetFont( 20 ) } ), checkedProperty, {
+  const checkbox = new Checkbox( checkedProperty, new Text( 'Double head', { font: new PhetFont( 20 ) } ), {
     centerX: layoutBounds.centerX,
     top: arrowNode.bottom + 50
   } );
@@ -193,7 +193,7 @@ function demoBeakerNode( layoutBounds ) {
 
   const ticksVisibleProperty = new BooleanProperty( true );
 
-  const ticksVisibleCheckbox = new Checkbox( ticksVisibleText, ticksVisibleProperty );
+  const ticksVisibleCheckbox = new Checkbox( ticksVisibleProperty, ticksVisibleText );
 
   const solutionLevelProperty = new NumberProperty( 0.5, {
     range: new Range( 0, 1 )
@@ -404,7 +404,7 @@ function demoConductivityTesterNode( layoutBounds ) {
   shortCircuitProperty.link( shortCircuit => {
     conductivityTesterNode.shortCircuit = shortCircuit;
   } );
-  const shortCircuitCheckbox = new Checkbox( new Text( 'short circuit', { font: new PhetFont( 20 ) } ), shortCircuitProperty, {
+  const shortCircuitCheckbox = new Checkbox( shortCircuitProperty, new Text( 'short circuit', { font: new PhetFont( 20 ) } ), {
     centerX: brightnessSlider.centerX,
     bottom: brightnessSlider.bottom + 50
   } );
@@ -457,7 +457,7 @@ function demoEyeDropperNode( layoutBounds ) {
     center: layoutBounds.center
   } );
 
-  const buttonEnabledCheckbox = new Checkbox( new Text( 'button enabled', { font: new PhetFont( 20 ) } ), buttonEnabledProperty );
+  const buttonEnabledCheckbox = new Checkbox( buttonEnabledProperty, new Text( 'button enabled', { font: new PhetFont( 20 ) } ) );
 
   dropperNode.isDispensingProperty.lazyLink(
     dispensing => console.log( `dropper ${dispensing ? 'dispensing' : 'not dispensing'}` )
@@ -483,7 +483,7 @@ function demoFaucetNode( layoutBounds ) {
     }
   } );
 
-  const faucetEnabledCheckbox = new Checkbox( new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), faucetEnabledProperty, {
+  const faucetEnabledCheckbox = new Checkbox( faucetEnabledProperty, new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), {
     left: faucetNode.left,
     bottom: faucetNode.top - 20
   } );
@@ -1567,10 +1567,7 @@ function demoKeypad( layoutBounds ) {
 
   // For testing clearOnNextKeyPress feature
   const integerClearOnNextKeyPressProperty = new Property( integerKeyPad.getClearOnNextKeyPress() );
-  const integerClearOnNextKeyPressCheckbox = new Checkbox(
-    new Text( 'Clear On Next Key Press' ),
-    integerClearOnNextKeyPressProperty
-  );
+  const integerClearOnNextKeyPressCheckbox = new Checkbox( integerClearOnNextKeyPressProperty, new Text( 'Clear On Next Key Press' ) );
   integerClearOnNextKeyPressProperty.link(
     clearOnNextKeyPress => integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress )
   );
@@ -1619,10 +1616,7 @@ function demoKeypad( layoutBounds ) {
 
   // For testing clearOnNextKeyPress feature
   const floatingPointClearOnNextKeyPressProperty = new Property( floatingPointKeyPad.getClearOnNextKeyPress() );
-  const floatingPointClearOnNextKeyPressButton = new Checkbox(
-    new Text( 'Clear On Next Key Press' ),
-    floatingPointClearOnNextKeyPressProperty
-  );
+  const floatingPointClearOnNextKeyPressButton = new Checkbox( floatingPointClearOnNextKeyPressProperty, new Text( 'Clear On Next Key Press' ) );
   floatingPointClearOnNextKeyPressProperty.link(
     clearOnNextKeyPress => floatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress )
   );
@@ -1673,10 +1667,7 @@ function demoKeypad( layoutBounds ) {
   const positiveAndNegativeFloatingPointClearOnNextKeyPressProperty = new Property(
     positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress()
   );
-  const positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox = new Checkbox(
-    new Text( 'Clear On Next Key Press' ),
-    positiveAndNegativeFloatingPointClearOnNextKeyPressProperty
-  );
+  const positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox = new Checkbox( positiveAndNegativeFloatingPointClearOnNextKeyPressProperty, new Text( 'Clear On Next Key Press' ) );
 
   function handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged( clearOnNextKeyPress ) {
     positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
@@ -2015,7 +2006,7 @@ function demoTimeControlNode( layoutBounds ) {
   } );
 
   const enabledLabelNode = new Text( 'enabled', { font: new PhetFont( 20 ) } );
-  const enabledCheckbox = new Checkbox( enabledLabelNode, enabledProperty );
+  const enabledCheckbox = new Checkbox( enabledProperty, enabledLabelNode );
 
   return new VBox( {
     children: [

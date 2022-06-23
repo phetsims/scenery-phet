@@ -69,7 +69,7 @@ export default class GridCheckbox extends Checkbox {
       lineWidth: options.gridLineWidth
     } );
 
-    super( iconNode, property, options );
+    super( property, iconNode, options );
   }
 }
 

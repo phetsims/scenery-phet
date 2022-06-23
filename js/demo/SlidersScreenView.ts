@@ -118,7 +118,7 @@ function demoNumberControl( layoutBounds: Bounds2 ) {
     }, numberControlOptions ) );
 
   // Checkbox that will disable all NumberControls
-  const enabledCheckbox = new Checkbox( new Text( 'enabled', { font: new PhetFont( 20 ) } ), enabledProperty );
+  const enabledCheckbox = new Checkbox( enabledProperty, new Text( 'enabled', { font: new PhetFont( 20 ) } ) );
 
   return new VBox( {
     spacing: 30,
