@@ -60,12 +60,12 @@ export type ComboBoxDisplayOptions = SelfOptions & ComboBoxOptions;
 export default class ComboBoxDisplay extends ComboBox<number> {
 
   /**
-   * @param items - describes the items that appear in the ComboBox
    * @param choiceProperty - determines which item is currently selected
+   * @param items - describes the items that appear in the ComboBox
    * @param listParent - parent for the ComboBox list
-   * @param providedOptions
+   * @param providedOptions?
    */
-  public constructor( items: ComboBoxDisplayItem[], choiceProperty: Property<number>, listParent: Node,
+  public constructor( choiceProperty: Property<number>, items: ComboBoxDisplayItem[], listParent: Node,
                       providedOptions?: ComboBoxDisplayOptions ) {
 
     const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>()( {

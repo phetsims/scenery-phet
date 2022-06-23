@@ -341,7 +341,7 @@ function demoComboBoxDisplay( layoutBounds ) {
   const listParent = new Node();
 
   // ComboBoxDisplay
-  const display = new ComboBoxDisplay( items, choiceProperty, listParent, {
+  const display = new ComboBoxDisplay( choiceProperty, items, listParent, {
     xMargin: 10,
     yMargin: 8,
     highlightFill: 'rgb( 255, 200, 200 )', // pink
