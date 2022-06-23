@@ -41,8 +41,7 @@
           "**/*.ts"
         ],
         "rules": {
-          "@typescript-eslint/adjacent-overload-signatures": "error",
-          "@typescript-eslint/explicit-member-accessibility": "error"
+          "@typescript-eslint/adjacent-overload-signatures": "error"
         }
       }
     ]
