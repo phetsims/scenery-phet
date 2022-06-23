@@ -6,7 +6,6 @@
  *
  * This is intended to be used in studies with users to assist with data collection. Not a typical UI component.
  *
- * TODO: Instrument for PhET-iO, https://github.com/phetsims/scenery-phet/issues/739
  * TODO: Emit a PhET-iO state when triggered, https://github.com/phetsims/scenery-phet/issues/739
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -35,6 +34,8 @@ type SelfOptions = {
 type ClapperboardButtonOptions = SelfOptions & NodeOptions;
 
 class ClapperboardButton extends Node {
+  private readonly disposeClapperboardButton: () => void;
+
   public constructor( providedOptions?: ClapperboardButtonOptions ) {
 
     // A single waveform with a high pitch should hopefully be easy to find in recordings,
@@ -90,6 +91,15 @@ class ClapperboardButton extends Node {
       tandem: options.tandem.createTandem( 'synchronizeButton' )
     }, options.synchronizeButtonOptions ) );
     this.addChild( synchronizeButton );
+
+    this.disposeClapperboardButton = () => {
+      synchronizeButton.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeClapperboardButton();
+    super.dispose();
   }
 }
 
