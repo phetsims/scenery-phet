@@ -42,7 +42,7 @@ export default class SpectrumSliderTrack extends SliderTrack {
       lineWidth: 1
     } ) );
 
-    super( spectrumNode, property, range, options );
+    super( property, spectrumNode, range, options );
   }
 }
 
