@@ -57,11 +57,7 @@ export default class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
     // To make the icons have the same effective size
     const alignBoxOptions = { group: new AlignGroup() };
 
-    super(
-      new AlignBox( new PlusNode( options.iconOptions ), alignBoxOptions ),
-      new AlignBox( new MinusNode( options.iconOptions ), alignBoxOptions ),
-      zoomLevelProperty, options
-    );
+    super( zoomLevelProperty, new AlignBox( new PlusNode( options.iconOptions ), alignBoxOptions ), new AlignBox( new MinusNode( options.iconOptions ), alignBoxOptions ), options );
   }
 }
 

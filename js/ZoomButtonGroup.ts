@@ -40,12 +40,12 @@ export default class ZoomButtonGroup extends FlowBox {
   private readonly disposeZoomButtonGroup: () => void;
 
   /**
+   * @param zoomLevelProperty - smaller value means more zoomed out
    * @param zoomInIcon
    * @param zoomOutIcon
-   * @param zoomLevelProperty - smaller value means more zoomed out
-   * @param providedOptions
+   * @param providedOptions?
    */
-  public constructor( zoomInIcon: Node, zoomOutIcon: Node, zoomLevelProperty: RangedProperty,
+  public constructor( zoomLevelProperty: RangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
                       providedOptions?: ZoomButtonGroupOptions ) {
 
     const zoomLevelRange = zoomLevelProperty.range;

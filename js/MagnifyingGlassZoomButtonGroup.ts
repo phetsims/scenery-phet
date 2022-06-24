@@ -63,7 +63,7 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
       icon: new MinusNode( signOptions )
     }, options.magnifyingGlassNodeOptions ) );
 
-    super( zoomInIcon, zoomOutIcon, zoomLevelProperty, options );
+    super( zoomLevelProperty, zoomInIcon, zoomOutIcon, options );
   }
 }
 
