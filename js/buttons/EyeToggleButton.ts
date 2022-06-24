@@ -54,7 +54,7 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
     };
     eyeOpenProperty.link( eyeOpenObserver ); // unlink required by dispose
 
-    super( true, false, eyeOpenProperty, options );
+    super( eyeOpenProperty, true, false, options );
 
     this.disposeEyeToggleButton = () => {
       eyeOpenProperty.unlink( eyeOpenObserver );
