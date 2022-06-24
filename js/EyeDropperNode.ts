@@ -115,12 +115,11 @@ export default class EyeDropperNode extends Node {
     background.y = -background.height;
 
     // button, centered in the dropper's bulb
-    const button = new RoundMomentaryButton( false, true, this.isDispensingProperty,
-      combineOptions<RoundMomentaryButtonOptions>( {
-        centerX: foreground.centerX,
-        centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
-        tandem: options.tandem.createTandem( 'button' )
-      }, options.buttonOptions ) );
+    const button = new RoundMomentaryButton( this.isDispensingProperty, false, true, combineOptions<RoundMomentaryButtonOptions>( {
+      centerX: foreground.centerX,
+      centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
+      tandem: options.tandem.createTandem( 'button' )
+    }, options.buttonOptions ) );
 
     // make the background visible only when the dropper is empty
     const emptyObserver = ( empty: boolean ) => {
