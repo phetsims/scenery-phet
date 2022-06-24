@@ -36,12 +36,7 @@ export default class LockNode extends BooleanToggleNode {
       yAlign: 'bottom'
     };
 
-    super(
-      new AlignBox( new Image( lockClosed_png ), alignBoxOptions ), // trueNode
-      new AlignBox( new Image( lockOpened_png ), alignBoxOptions ), // falseNode
-      isLockedProperty,
-      providedOptions
-    );
+    super( isLockedProperty, new AlignBox( new Image( lockClosed_png ), alignBoxOptions ), new AlignBox( new Image( lockOpened_png ), alignBoxOptions ), providedOptions );
   }
 }
 
