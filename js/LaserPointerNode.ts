@@ -187,7 +187,7 @@ export default class LaserPointerNode extends Node {
       };
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
-                    new RoundStickyToggleButton( false, true, onProperty, buttonOptions ) :
+                    new RoundStickyToggleButton( onProperty, false, true, buttonOptions ) :
                     new RoundMomentaryButton( onProperty, false, true, buttonOptions );
 
       children.push( onOffButton );
