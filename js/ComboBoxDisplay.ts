@@ -115,7 +115,7 @@ export default class ComboBoxDisplay extends ComboBox<number> {
       } ) );
     } );
 
-    super( comboBoxItems, choiceProperty, listParent, options );
+    super( choiceProperty, comboBoxItems, listParent, options );
   }
 }
 
