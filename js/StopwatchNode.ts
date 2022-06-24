@@ -171,7 +171,7 @@ export default class StopwatchNode extends Node {
       fill: options.iconFill
     } );
 
-    const playPauseButton = new BooleanRectangularToggleButton( pausePath, playPath, stopwatch.isRunningProperty, {
+    const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath, {
       baseColor: options.buttonBaseColor,
       tandem: options.tandem.createTandem( 'playPauseButton' )
     } );

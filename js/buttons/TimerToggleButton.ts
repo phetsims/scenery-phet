@@ -41,7 +41,7 @@ export default class TimerToggleButton extends BooleanRectangularToggleButton {
 
     const clockRadius = WIDTH * 0.35;
 
-    super( createOnIcon( clockRadius ), createOffIcon( clockRadius ), timerRunningProperty, options );
+    super( timerRunningProperty, createOnIcon( clockRadius ), createOffIcon( clockRadius ), options );
   }
 }
 

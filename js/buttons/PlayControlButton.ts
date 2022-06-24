@@ -98,7 +98,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       children: [ endPlayingIcon ]
     } );
 
-    super( endPlayingCircle, playCircle, isPlayingProperty, options );
+    super( isPlayingProperty, endPlayingCircle, playCircle, options );
 
     const isPlayingListener = ( isPlaying: boolean, oldValue: boolean | null ) => {
 

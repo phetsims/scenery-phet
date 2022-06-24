@@ -70,7 +70,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
     } );
     soundOffNode.addChild( soundOffX );
 
-    super( soundOnNode, soundOffNode, property, options );
+    super( property, soundOnNode, soundOffNode, options );
 
     // pdom attribute lets user know when the toggle is pressed
     const pressedListener = ( value: boolean ) => {
