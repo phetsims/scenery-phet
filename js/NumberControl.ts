@@ -153,7 +153,7 @@ type SelfOptions = {
 
   // If provided, this will be provided to the slider and arrow buttons in order to
   // constrain the range of actual values to within this range.
-  enabledRangeProperty?: IReadOnlyProperty<Range> | null;
+  enabledRangeProperty?: SliderOptions[ 'enabledRangeProperty' ];
 
   // A {function} that handles layout of subcomponents.
   // It has signature function( titleNode, numberDisplay, slider, decrementButton, incrementButton )
@@ -179,7 +179,7 @@ export default class NumberControl extends Node {
     validateCallbacks( providedOptions || {} );
 
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    const initialOptions = optionize<NumberControlOptions, SelfOptions, NodeOptions>()( {
+    const initialOptions = optionize<NumberControlOptions, StrictOmit<SelfOptions, 'enabledRangeProperty'>, NodeOptions>()( {
 
       numberDisplayOptions: {},
       sliderOptions: {},
@@ -202,10 +202,6 @@ export default class NumberControl extends Node {
 
       // {boolean} If set to true, then increment/decrement arrow buttons will be added to the NumberControl
       includeArrowButtons: true,
-
-      // {Property.<Range>|null} - If provided, this will be provided to the slider and arrow buttons in order to
-      // constrain the range of actual values to within this range.
-      enabledRangeProperty: null,
 
       // phet-io
       tandem: Tandem.REQUIRED,
