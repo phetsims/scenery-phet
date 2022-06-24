@@ -78,15 +78,10 @@ export default class TemperatureAndColorSensorNode extends Node {
     colorProperty.link( color => { this.colorIndicatorNode.fill = color; } );
     this.addChild( this.colorIndicatorNode );
 
-    this.thermometerNode = new ThermometerNode(
-      temperatureRange.min,
-      temperatureRange.max,
-      temperatureProperty,
-      combineOptions<ThermometerNodeOptions>( {
-        left: this.colorIndicatorNode.right + options.horizontalSpace,
-        bottom: this.colorIndicatorNode.bottom + options.bottomOffset
-      }, options.thermometerNodeOptions )
-    );
+    this.thermometerNode = new ThermometerNode( temperatureProperty, temperatureRange.min, temperatureRange.max, combineOptions<ThermometerNodeOptions>( {
+      left: this.colorIndicatorNode.right + options.horizontalSpace,
+      bottom: this.colorIndicatorNode.bottom + options.bottomOffset
+    }, options.thermometerNodeOptions ) );
     this.addChild( this.thermometerNode );
 
     this.mutate( options );

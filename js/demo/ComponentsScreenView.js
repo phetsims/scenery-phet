@@ -1907,7 +1907,7 @@ function demoTemperatureNode( layoutBounds ) {
 
   const temperatureProperty = new Property( 50 );
 
-  const thermometer = new ThermometerNode( 0, 100, temperatureProperty, {
+  const thermometer = new ThermometerNode( temperatureProperty, 0, 100, {
     scale: 1.5
   } );
 

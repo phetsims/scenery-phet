@@ -73,12 +73,12 @@ export default class ThermometerNode extends Node {
   private readonly disposeThermometerNode: () => void;
 
   /**
+   * @param temperatureProperty - null means there is no temperature to measure, treated as minTemperature
    * @param minTemperature
    * @param maxTemperature
-   * @param temperatureProperty - null means there is no temperature to measure, treated as minTemperature
-   * @param [providedOptions]
+   * @param [providedOptions?]
    */
-  public constructor( minTemperature: number, maxTemperature: number, temperatureProperty: IProperty<number | null>,
+  public constructor( temperatureProperty: IProperty<number | null>, minTemperature: number, maxTemperature: number,
                       providedOptions?: ThermometerNodeOptions ) {
 
     const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions>()( {
