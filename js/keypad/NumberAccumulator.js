@@ -176,7 +176,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
               this.getNumberOfDigitsRightOfMantissa( this.accumulatedKeysProperty.get() ) > 0 ) ) {
 
       // replace Unicode minus with vanilla '-', or parseInt will fail for negative numbers
-      returnValue = parseFloat( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ) );
+      returnValue = Number( stringValue.replace( NEGATIVE_CHAR, '-' ).replace( DECIMAL_CHAR, '.' ) );
       assert && assert( !isNaN( returnValue ), `invalid number: ${returnValue}` );
     }
 
