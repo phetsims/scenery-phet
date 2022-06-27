@@ -14,8 +14,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../scenery/js/imports.js';
-import ComboBox, { ComboBoxOptions } from '../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../sun/js/ComboBoxItem.js';
+import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../sun/js/ComboBox.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -110,9 +109,11 @@ export default class ComboBoxDisplay extends ComboBox<number> {
       itemNode.maxWidth = itemNode.width;
       itemNode.maxHeight = itemNode.height;
 
-      comboBoxItems.push( new ComboBoxItem( itemNode, item.choice, {
+      comboBoxItems.push( {
+        value: item.choice,
+        node: itemNode,
         tandemName: item.tandemName || null
-      } ) );
+      } );
     } );
 
     super( choiceProperty, comboBoxItems, listParent, options );
