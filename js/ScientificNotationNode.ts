@@ -152,8 +152,8 @@ export default class ScientificNotationNode extends Node {
     }
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-      const mantissaNumber = Utils.toFixedNumber( Number( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
-      const exponentNumber = Number( scientificNotation.exponent );
+      const mantissaNumber = Utils.toFixedNumber( parseFloat( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
+      const exponentNumber = parseInt( scientificNotation.exponent, 10 );
 
       if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
 
@@ -193,67 +193,36 @@ export default class ScientificNotationNode extends Node {
       exponent: null // exponent will be computed
     }, providedOptions );
 
-    let mantissa: number;
-    let exponent: number;
-    if ( value === 0 ) {
-      mantissa = 0;
-      if ( options.exponent === null ) {
-
-        // 0 is represented as 0 x 10^0
-        exponent = 0;
-      }
-      else {
-
-        // 0 is represented as 0 x 10^E, where E is options.exponent
-        exponent = options.exponent;
-      }
-    }
-    else if ( options.exponent === 0 ) {
-
-      // M x 10^0
-      mantissa = Utils.toFixedNumber( value, options.mantissaDecimalPlaces );
-      exponent = 0;
-    }
-    else if ( options.exponent !== null ) {
+    let mantissa: string;
+    let exponent: string;
+    if ( options.exponent !== null ) {
 
       // M x 10^E, where E is options.exponent
-      mantissa = Utils.toFixedNumber( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
-      exponent = options.exponent;
+      //TODO https://github.com/phetsims/dot/issues/113 Utils.toFixed is subject to floating-point error
+      mantissa = Utils.toFixed( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
+      exponent = options.exponent.toString();
     }
     else {
 
-      // Convert to a string in exponential notation (eg 2e+2).
-      // Request an additional decimal place, because toExponential uses toFixed, which doesn't round the same on all platforms.
-      const exponentialString = value.toExponential( options.mantissaDecimalPlaces + 1 );
+      // Convert to a string in exponential notation, where the mantissa has 1 digit to the left of the decimal place.
+      //TODO https://github.com/phetsims/scenery-phet/issues/613 toExponential uses Number.toFixed, which doesn't round the same on all platforms
+      const exponentialString = value.toExponential( options.mantissaDecimalPlaces );
 
       // Break into mantissa and exponent tokens.
       const tokens = exponentialString.toLowerCase().split( 'e' );
+      mantissa = tokens[ 0 ];
+      exponent = tokens[ 1 ];
 
-      // Adjust the mantissa token to the correct number of decimal places, using nearest-neighbor rounding.
-      mantissa = Utils.toFixedNumber( parseFloat( tokens[ 0 ] ), options.mantissaDecimalPlaces );
-      exponent = Number( tokens[ 1 ] );
-
-      // If the mantissa is exactly 10, shift that power of 10 to the exponent.
-      // See https://github.com/phetsims/scenery-phet/issues/613
-      if ( mantissa === 10 ) {
-        mantissa = 1;
-        exponent += 1;
-      }
-
-      // Convert if a specific exponent was requested.
-      if ( options.exponent !== null ) {
-        mantissa = Utils.toFixedNumber( mantissa * Math.pow( 10, exponent - options.exponent ),
-          Math.max( 0, options.mantissaDecimalPlaces ) );
-        exponent = options.exponent;
+      // Remove the sign from the exponent.
+      if ( exponent[ 0 ] === '+' || exponent[ 0 ] === '-' ) {
+        exponent = exponent.substring( 1, exponent.length );
       }
     }
 
     // mantissa x 10^exponent
     return {
-
-      // restore precision, in case toFixedNumber removed zeros to right of the decimal point
-      mantissa: Utils.toFixed( mantissa, options.mantissaDecimalPlaces ),
-      exponent: exponent.toString()
+      mantissa: mantissa,
+      exponent: exponent
     };
   }
 }
