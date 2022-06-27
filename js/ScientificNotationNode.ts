@@ -152,6 +152,8 @@ export default class ScientificNotationNode extends Node {
     }
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
+
+      //TODO https://github.com/phetsims/dot/issues/113 division in Utils.toFixed can result in floating-point error that affects rounding
       const mantissaNumber = Utils.toFixedNumber( parseFloat( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
       const exponentNumber = parseInt( scientificNotation.exponent, 10 );
 
