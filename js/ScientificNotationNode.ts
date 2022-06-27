@@ -198,7 +198,7 @@ export default class ScientificNotationNode extends Node {
     if ( options.exponent !== null ) {
 
       // M x 10^E, where E is options.exponent
-      //TODO https://github.com/phetsims/dot/issues/113 division here can result in floating-point error that affects rounding
+      //TODO https://github.com/phetsims/dot/issues/113 division here and in Utils.toFixed can result in floating-point error that affects rounding
       mantissa = Utils.toFixed( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
       exponent = options.exponent.toString();
     }
