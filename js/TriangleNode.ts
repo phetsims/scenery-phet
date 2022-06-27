@@ -1,43 +1,59 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Triangle indicators used in the paint gradient and apple graph.
+ * Draws an equilateral or isosceles triangle pointing up by default.
+ * triangleWidth sets the base, while triangleHeight sets the altitude.
+ * The point of the triangle is drawn to be perpendicular from the halfway point of the base.
  *
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
-import Side from '../../proportion-playground/js/common/model/Side.js';
 import sceneryPhet from './sceneryPhet.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../phet-core/js/optionize.js';
 
-// constants
-const TRIANGLE_LENGTH = 17;
-const TRIANGLE_ALTITUDE = 10;
-const LEFT_TRIANGLE_SHAPE = new Shape().moveTo( 0, 0 )
-  .lineTo( TRIANGLE_ALTITUDE, TRIANGLE_LENGTH / 2 )
-  .lineTo( 0, TRIANGLE_LENGTH )
-  .lineTo( 0, 0 );
-const RIGHT_TRIANGLE_SHAPE = LEFT_TRIANGLE_SHAPE.transformed( Matrix3.scaling( -1, 1 ) );
-
-type SelfOptions = EmptyObjectType;
-export type TriangleNodeOptions = PathOptions;
+type SelfOptions = {
+  pointDirection?: string; // up, right, down, left
+  triangleWidth?: number;
+  triangleHeight?: number;
+}
+export type TriangleNodeOptions = SelfOptions & PathOptions;
 
 export default class TriangleNode extends Path {
 
-  public constructor( side: typeof Side, providedOptions: TriangleNodeOptions ) {
-    assert && assert( Side.includes( side ), 'Side should be Side.LEFT or Side.RIGHT' );
+  public constructor( providedOptions: TriangleNodeOptions ) {
 
     // defaults
     const options = optionize<TriangleNodeOptions, SelfOptions, PathOptions>()( {
+      pointDirection: 'up',
+      triangleWidth: 15,
+      triangleHeight: 13,
       stroke: 'black',
       lineWidth: 1
     }, providedOptions );
 
-    super( side === Side ? LEFT_TRIANGLE_SHAPE : RIGHT_TRIANGLE_SHAPE, options );
+    // Draws an equilateral or isosceles triangle
+    const triangleShape = new Shape().moveTo( 0, 0 )
+      .lineTo( options.triangleWidth / 2, options.triangleHeight )
+      .lineTo( options.triangleWidth, 0 )
+      .lineTo( 0, 0 );
+
+    super( triangleShape, options );
+
+    // rotate triangle according to provided options
+    if ( options.pointDirection === 'up' ) {
+      this.rotation = 0;
+    }
+    else if ( options.pointDirection === 'right' ) {
+      this.rotation = Math.PI / 2;
+    }
+    else if ( options.pointDirection === 'down' ) {
+      this.rotation = Math.PI;
+    }
+    else if ( options.pointDirection === 'left' ) {
+      this.rotation = -Math.PI / 2;
+    }
   }
 }
 
