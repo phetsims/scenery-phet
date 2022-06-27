@@ -121,6 +121,68 @@ export default class ScientificNotationNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ScientificNotationNode', this );
   }
 
+  public override dispose(): void {
+    this.disposeScientificNotationNode();
+    super.dispose();
+  }
+
+  private update( value: number | null ): void {
+
+    const options = this.options;
+
+    //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
+    // start will all nodes included
+    if ( !this.hasChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
+    if ( !this.hasChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
+    if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
+
+    if ( value === null ) {
+
+      // no value
+      this.mantissaNode.text = options.nullValueString;
+      this.removeChild( this.timesTenNode );
+      this.removeChild( this.exponentNode );
+    }
+    else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
+
+      // show integers as mantissa only
+      this.mantissaNode.text = value;
+      this.removeChild( this.timesTenNode );
+      this.removeChild( this.exponentNode );
+    }
+    else {
+      const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
+      const mantissaNumber = Utils.toFixedNumber( Number( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
+      const exponentNumber = Number( scientificNotation.exponent );
+
+      if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
+
+        // show '0 x 10^E' as '0'
+        this.mantissaNode.text = '0';
+        this.removeChild( this.timesTenNode );
+        this.removeChild( this.exponentNode );
+      }
+      else if ( exponentNumber === 0 && !options.showZeroExponent ) {
+
+        // show 'M x 10^0' as 'M'
+        this.mantissaNode.text = scientificNotation.mantissa;
+        this.removeChild( this.timesTenNode );
+        this.removeChild( this.exponentNode );
+      }
+      else {
+
+        // show 'M x 10^E'
+        this.mantissaNode.text = scientificNotation.mantissa;
+        this.timesTenNode.text = 'x 10';
+        this.exponentNode.text = scientificNotation.exponent;
+      }
+    }
+
+    // update layout
+    this.timesTenNode.left = this.mantissaNode.right + this.mantissaXSpacing;
+    this.exponentNode.left = this.timesTenNode.right + options.exponentXSpacing;
+  }
+
   /**
    * Converts a number to scientific-notation format: M x 10^E, with mantissa M and exponent E.
    */
@@ -193,68 +255,6 @@ export default class ScientificNotationNode extends Node {
       mantissa: Utils.toFixed( mantissa, options.mantissaDecimalPlaces ),
       exponent: exponent.toString()
     };
-  }
-
-  public override dispose(): void {
-    this.disposeScientificNotationNode();
-    super.dispose();
-  }
-
-  private update( value: number | null ): void {
-
-    const options = this.options;
-
-    //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
-    // start will all nodes included
-    if ( !this.hasChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
-    if ( !this.hasChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
-    if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
-
-    if ( value === null ) {
-
-      // no value
-      this.mantissaNode.text = options.nullValueString;
-      this.removeChild( this.timesTenNode );
-      this.removeChild( this.exponentNode );
-    }
-    else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
-
-      // show integers as mantissa only
-      this.mantissaNode.text = value;
-      this.removeChild( this.timesTenNode );
-      this.removeChild( this.exponentNode );
-    }
-    else {
-      const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
-      const mantissaNumber = Utils.toFixedNumber( Number( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
-      const exponentNumber = Number( scientificNotation.exponent );
-
-      if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
-
-        // show '0 x 10^E' as '0'
-        this.mantissaNode.text = '0';
-        this.removeChild( this.timesTenNode );
-        this.removeChild( this.exponentNode );
-      }
-      else if ( exponentNumber === 0 && !options.showZeroExponent ) {
-
-        // show 'M x 10^0' as 'M'
-        this.mantissaNode.text = scientificNotation.mantissa;
-        this.removeChild( this.timesTenNode );
-        this.removeChild( this.exponentNode );
-      }
-      else {
-
-        // show 'M x 10^E'
-        this.mantissaNode.text = scientificNotation.mantissa;
-        this.timesTenNode.text = 'x 10';
-        this.exponentNode.text = scientificNotation.exponent;
-      }
-    }
-
-    // update layout
-    this.timesTenNode.left = this.mantissaNode.right + this.mantissaXSpacing;
-    this.exponentNode.left = this.timesTenNode.right + options.exponentXSpacing;
   }
 }
 
