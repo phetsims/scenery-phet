@@ -22,7 +22,7 @@ import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../FineCoarseSpinner.js';
-import NumberPicker from '../NumberPicker.js';
+import NumberPicker from '../../../sun/js/NumberPicker.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
