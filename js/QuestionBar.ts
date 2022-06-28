@@ -26,14 +26,14 @@ const QUESTION_TEXT_MARGIN = 30;
 
 class QuestionBar extends StatusBar {
 
-  public constructor( layoutBounds: Bounds2, boundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
+  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: Property<Bounds2>, providedOptions: QuestionBarOptions ) {
 
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
       barHeight: 70,
       tandem: Tandem.OPTIONAL
     }, providedOptions );
-    super( layoutBounds, boundsProperty, options );
+    super( layoutBounds, visibleBoundsProperty, options );
 
     const labelText = new Text( options.labelText, {
       font: new PhetFont( {
