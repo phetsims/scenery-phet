@@ -19,7 +19,7 @@ import DialogsScreenView from './demo/dialogs/DialogsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/sliders/SlidersScreenView.js';
 import SpinnersScreenView from './demo/spinners/SpinnersScreenView.js';
-import SpringScreenView from './demo/springs/SpringScreenView.js';
+import SpringScreenView from './demo/spring/SpringScreenView.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
