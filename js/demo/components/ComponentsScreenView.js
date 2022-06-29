@@ -33,18 +33,17 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../../sun/js/demo/DemosScreenView.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
-import VSeparator from '../../../../sun/js/VSeparator.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../../sun/js/MutableOptionsNode.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
+import VSeparator from '../../../../sun/js/VSeparator.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import ArrowNode from '../../ArrowNode.js';
 import BeakerNode from '../../BeakerNode.js';
 import BicyclePumpNode from '../../BicyclePumpNode.js';
 import BracketNode from '../../BracketNode.js';
@@ -88,6 +87,7 @@ import ThermometerNode from '../../ThermometerNode.js';
 import TimeControlNode from '../../TimeControlNode.js';
 import TimeSpeed from '../../TimeSpeed.js';
 import WireNode from '../../WireNode.js';
+import demoArrowNode from './demoArrowNode.js';
 
 // constants
 
@@ -160,32 +160,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for ArrowNode
-function demoArrowNode( layoutBounds ) {
-
-  const arrowNode = new ArrowNode( 0, 0, 200, 200, {
-    headWidth: 30,
-    headHeight: 30,
-    center: layoutBounds.center
-  } );
-
-  const checkedProperty = new Property( false );
-  checkedProperty.link( checked => arrowNode.setDoubleHead( checked ) );
-
-  const checkbox = new Checkbox( checkedProperty, new Text( 'Double head', { font: new PhetFont( 20 ) } ), {
-    centerX: layoutBounds.centerX,
-    top: arrowNode.bottom + 50
-  } );
-
-  return new Node( {
-    children: [
-      checkbox,
-      arrowNode
-    ]
-  } );
-
 }
 
 function demoBeakerNode( layoutBounds ) {
