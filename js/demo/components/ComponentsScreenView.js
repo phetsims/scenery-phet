@@ -18,7 +18,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Bounds3 from '../../../../dot/js/Bounds3.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
@@ -41,9 +40,6 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import CapacitorConstants from '../../capacitor/CapacitorConstants.js';
-import CapacitorNode from '../../capacitor/CapacitorNode.js';
-import YawPitchModelViewTransform3 from '../../capacitor/YawPitchModelViewTransform3.js';
 import ComboBoxDisplay from '../../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import Drawer from '../../Drawer.js';
@@ -83,6 +79,7 @@ import demoArrowNode from './demoArrowNode.js';
 import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoBracketNode from './demoBracketNode.js';
+import demoCapacitorNode from './demoCapacitorNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -156,59 +153,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for BracketNode
-function demoCapacitorNode( layoutBounds ) {
-  const plateBounds = new Bounds3( 0, 0, 0, 0.01414213562373095, CapacitorConstants.PLATE_HEIGHT, 0.01414213562373095 );
-
-  // An object literal is fine in a demo like this, but we probably wouldn't do this in production code.
-  const circuit = {
-    maxPlateCharge: 2.6562e-12,
-    capacitor: {
-      plateSizeProperty: new Property( plateBounds ),
-      plateSeparationProperty: new NumberProperty( 0.006 ),
-      plateVoltageProperty: new NumberProperty( 1.5 ),
-      plateChargeProperty: new NumberProperty( 4.426999999999999e-13 / 10 * 4 ),
-      getEffectiveEField() {
-        return 0;
-      }
-    }
-  };
-  const modelViewTransform = new YawPitchModelViewTransform3();
-  const plateChargeVisibleProperty = new BooleanProperty( true );
-  const electricFieldVisibleProperty = new BooleanProperty( true );
-
-  const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, {
-    tandem: Tandem.OPTIONAL
-  } );
-
-  const controls = new VBox( {
-    children: [
-      new NumberControl( 'separation', circuit.capacitor.plateSeparationProperty, new Range( 0, 0.01 ), {
-        delta: 0.0001,
-        numberDisplayOptions: {
-          decimalPlaces: 5
-        }
-      } ),
-      new NumberControl( 'charge', circuit.capacitor.plateChargeProperty, new Range( -( 4.426999999999999e-13 ) * 1.5, ( 4.426999999999999e-13 ) * 1.5 ), {
-        delta: 4.426999999999999e-13 / 30,
-        numberDisplayOptions: {
-          decimalPlaces: 20
-        }
-      } )
-    ]
-  } );
-
-  return new VBox( {
-    spacing: 20,
-    resize: false,
-    children: [
-      capacitorNode,
-      controls
-    ],
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for ComboBoxDisplay that exercises layout functionality.
