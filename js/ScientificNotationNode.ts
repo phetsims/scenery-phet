@@ -130,8 +130,8 @@ export default class ScientificNotationNode extends Node {
 
     const options = this.options;
 
-    //NOTE: adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
-    // start will all nodes included
+    // NOTE: Adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
+    // Start will all nodes included.
     if ( !this.hasChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
     if ( !this.hasChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
     if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
@@ -153,18 +153,14 @@ export default class ScientificNotationNode extends Node {
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
 
-      //TODO https://github.com/phetsims/dot/issues/113 division in Utils.toFixed can result in floating-point error that affects rounding
-      const mantissaNumber = Utils.toFixedNumber( parseFloat( scientificNotation.mantissa ), options.mantissaDecimalPlaces );
-      const exponentNumber = parseInt( scientificNotation.exponent, 10 );
-
-      if ( mantissaNumber === 0 && options.showZeroAsInteger ) {
+      if ( parseFloat( scientificNotation.mantissa ) === 0 && options.showZeroAsInteger ) {
 
         // show '0 x 10^E' as '0'
         this.mantissaNode.text = '0';
         this.removeChild( this.timesTenNode );
         this.removeChild( this.exponentNode );
       }
-      else if ( exponentNumber === 0 && !options.showZeroExponent ) {
+      else if ( scientificNotation.exponent === '0' && !options.showZeroExponent ) {
 
         // show 'M x 10^0' as 'M'
         this.mantissaNode.text = scientificNotation.mantissa;
