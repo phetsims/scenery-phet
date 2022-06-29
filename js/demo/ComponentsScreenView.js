@@ -1849,7 +1849,7 @@ function demoScientificNotationNode( layoutBounds ) {
     align: 'left',
     spacing: 20,
     children: [
-      new Text( 'mantissa (M)', { font: titleFont } ),
+      new Text( 'mantissa options', { font: titleFont } ),
       mantissaControl,
       showIntegersAsMantissaOnlyCheckbox,
       showZeroAsIntegerCheckbox
@@ -1861,7 +1861,7 @@ function demoScientificNotationNode( layoutBounds ) {
     align: 'left',
     spacing: 20,
     children: [
-      new Text( 'exponent (E)', { font: titleFont } ),
+      new Text( 'exponent options', { font: titleFont } ),
       exponentControl,
       nullExponentCheckbox,
       showZeroExponentCheckbox
