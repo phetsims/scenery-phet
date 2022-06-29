@@ -58,9 +58,10 @@ export default class ScientificNotationNode extends Node {
   // width of space between mantissa and 'x 10'
   private readonly mantissaXSpacing: number;
 
-  //  cap line offset from baseline
+  // capLine offset from baseline
   private readonly capLineYOffset: number;
 
+  // parts of the representation, 'M x 10^E'
   private readonly mantissaNode: Text;
   private readonly timesTenNode: Text;
   private readonly exponentNode: Text;
@@ -131,24 +132,19 @@ export default class ScientificNotationNode extends Node {
     const options = this.options;
 
     // NOTE: Adding and removing nodes is more expensive than changing visibility, but results in correct bounds.
-    // Start will all nodes included.
-    if ( !this.hasChild( this.mantissaNode ) ) { this.addChild( this.mantissaNode ); }
-    if ( !this.hasChild( this.exponentNode ) ) { this.addChild( this.exponentNode ); }
-    if ( !this.hasChild( this.timesTenNode ) ) { this.addChild( this.timesTenNode ); }
+    // So this implementation sets this.children based on which child Nodes should be visible.
 
     if ( value === null ) {
 
       // no value
       this.mantissaNode.text = options.nullValueString;
-      this.removeChild( this.timesTenNode );
-      this.removeChild( this.exponentNode );
+      this.children = [ this.mantissaNode ];
     }
     else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
 
-      // show integers as mantissa only
+      // show integers as mantissa only, 'M'
       this.mantissaNode.text = value;
-      this.removeChild( this.timesTenNode );
-      this.removeChild( this.exponentNode );
+      this.children = [ this.mantissaNode ];
     }
     else {
       const scientificNotation = ScientificNotationNode.toScientificNotation( value, options );
@@ -157,15 +153,13 @@ export default class ScientificNotationNode extends Node {
 
         // show '0 x 10^E' as '0'
         this.mantissaNode.text = '0';
-        this.removeChild( this.timesTenNode );
-        this.removeChild( this.exponentNode );
+        this.children = [ this.mantissaNode ];
       }
       else if ( scientificNotation.exponent === '0' && !options.showZeroExponent ) {
 
         // show 'M x 10^0' as 'M'
         this.mantissaNode.text = scientificNotation.mantissa;
-        this.removeChild( this.timesTenNode );
-        this.removeChild( this.exponentNode );
+        this.children = [ this.mantissaNode ];
       }
       else {
 
@@ -173,12 +167,13 @@ export default class ScientificNotationNode extends Node {
         this.mantissaNode.text = scientificNotation.mantissa;
         this.timesTenNode.text = 'x 10';
         this.exponentNode.text = scientificNotation.exponent;
+        this.children = [ this.mantissaNode, this.exponentNode, this.timesTenNode ];
+
+        // adjust layout
+        this.timesTenNode.left = this.mantissaNode.right + this.mantissaXSpacing;
+        this.exponentNode.left = this.timesTenNode.right + options.exponentXSpacing;
       }
     }
-
-    // update layout
-    this.timesTenNode.left = this.mantissaNode.right + this.mantissaXSpacing;
-    this.exponentNode.left = this.timesTenNode.right + options.exponentXSpacing;
   }
 
   /**
