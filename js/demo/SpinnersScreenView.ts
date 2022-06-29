@@ -23,7 +23,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../FineCoarseSpinner.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
 
 type SelfOptions = EmptyObjectType;
 type SpinnersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -33,7 +32,7 @@ export default class SpinnersScreenView extends DemosScreenView {
   public constructor( providedOptions: SpinnersScreenViewOptions ) {
 
     const options = optionize<SpinnersScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component
+      // nothing for now
     }, providedOptions );
 
     super( [
