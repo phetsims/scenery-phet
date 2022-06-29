@@ -41,7 +41,6 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import BeakerNode from '../../BeakerNode.js';
 import BicyclePumpNode from '../../BicyclePumpNode.js';
 import BracketNode from '../../BracketNode.js';
 import ResetButton from '../../buttons/ResetButton.js';
@@ -84,6 +83,7 @@ import TimeControlNode from '../../TimeControlNode.js';
 import TimeSpeed from '../../TimeSpeed.js';
 import WireNode from '../../WireNode.js';
 import demoArrowNode from './demoArrowNode.js';
+import demoBeakerNode from './demoBeakerNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -157,37 +157,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-function demoBeakerNode( layoutBounds ) {
-
-  const ticksVisibleText = new Text( 'ticks visible', {
-    font: new PhetFont( 16 )
-  } );
-
-  const ticksVisibleProperty = new BooleanProperty( true );
-
-  const ticksVisibleCheckbox = new Checkbox( ticksVisibleProperty, ticksVisibleText );
-
-  const solutionLevelProperty = new NumberProperty( 0.5, {
-    range: new Range( 0, 1 )
-  } );
-
-  const solutionLevelSlider = new VSlider( solutionLevelProperty, solutionLevelProperty.range );
-
-  const beakerNode = new BeakerNode( solutionLevelProperty.asRanged(), {
-    showTicks: true
-  } );
-
-  ticksVisibleProperty.link( ticksVisible => {
-    beakerNode.setTicksVisible( ticksVisible );
-  } );
-
-  return new HBox( {
-    children: [ ticksVisibleCheckbox, beakerNode, solutionLevelSlider ],
-    spacing: 50,
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for BicyclePumpNode
