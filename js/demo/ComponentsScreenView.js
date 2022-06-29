@@ -33,6 +33,7 @@ import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadi
 import Checkbox from '../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
+import VSeparator from '../../../sun/js/VSeparator.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
 import NumberSpinner from '../../../sun/js/NumberSpinner.js';
@@ -1841,46 +1842,48 @@ function demoScientificNotationNode( layoutBounds ) {
   const showZeroExponentProperty = new BooleanProperty( false );
   const showZeroExponentCheckbox = new Checkbox( showZeroExponentProperty, new Text( 'showZeroExponent', textOptions ) );
 
-  const updateButton = new RectangularPushButton( {
-    content: new Text( 'Update', textOptions )
-  } );
-
-  const controlPanelContent = new VBox( {
+  // controls for mantissa
+  const mantissaBox = new VBox( {
     align: 'left',
     spacing: 20,
     children: [
-
-      // mantissa
+      new Text( 'mantissa (M)', { font: new PhetFont( { size: 16, weight: 'bold' } ) } ),
       mantissaControl,
       showIntegersAsMantissaOnlyCheckbox,
-      showZeroAsIntegerCheckbox,
-      new HSeparator( 250 ),
-
-      // exponent
-      exponentControl,
-      nullExponentCheckbox,
-      showZeroExponentCheckbox,
-      new HSeparator( 250 ),
-
-      // Update
-      updateButton
+      showZeroAsIntegerCheckbox
     ]
   } );
 
-  const controlPanel = new Panel( controlPanelContent, {
-    xMargin: 20,
-    yMargin: 20
+  // controls for exponent
+  const exponentBox = new VBox( {
+    align: 'left',
+    spacing: 20,
+    children: [
+      new Text( 'exponent (E)', { font: new PhetFont( { size: 16, weight: 'bold' } ) } ),
+      exponentControl,
+      nullExponentCheckbox,
+      showZeroExponentCheckbox
+    ]
+  } );
+
+  const hSeparatorWidth = Math.max( mantissaBox.width, exponentBox.width );
+  const leftContent = new VBox( {
+    align: 'left',
+    spacing: 20,
+    children: [
+      mantissaBox,
+      new HSeparator( hSeparatorWidth ),
+      exponentBox
+    ]
   } );
 
   const numberFont = new PhetFont( 20 );
 
-  let scientificNotationNode;
-  const scientificNotationNodeParent = new Node();
-
+  const maxDigits = mantissaDecimalPlacesProperty.range.max + 1;
   const keypad = new Keypad( Keypad.PositiveDecimalLayout, {
     accumulatorOptions: {
-      maxDigits: 12,
-      maxDigitsRightOfMantissa: 12
+      maxDigits: maxDigits,
+      maxDigitsRightOfMantissa: maxDigits
     },
     minButtonWidth: 35,
     minButtonHeight: 35,
@@ -1893,40 +1896,43 @@ function demoScientificNotationNode( layoutBounds ) {
 
   const valueProperty = new NumberProperty( 0 );
 
-  const enterButton = new RectangularPushButton( {
-    content: new Text( 'Enter', textOptions ),
-    listener: () => {
-      const keypadString = keypad.stringProperty.value;
-      if ( keypadString.length > 0 ) {
-        valueProperty.value = parseFloat( keypadString );
-      }
-    }
-  } );
-
   const clearButton = new RectangularPushButton( {
     content: new Text( 'Clear', textOptions ),
     listener: () => keypad.clear()
   } );
 
-  keypad.stringProperty.link( keypadString => {
-    keypadValueText.text = ( keypadString.length > 0 ) ? keypadString : '?';
-    enterButton.enabled = ( keypadString.length > 0 );
-  } );
-
   const keypadBox = new VBox( {
-    align: 'left',
+    align: 'center',
     spacing: 20,
     children: [
       keypadValueText,
       keypad,
-      new HBox( {
-        spacing: 20,
-        children: [ enterButton, clearButton ]
-      } )
+      clearButton
     ]
   } );
 
-  const update = () => {
+  const vSeparatorHeight = Math.max( leftContent.height, keypadBox.height );
+  const controlPanelContent = new HBox( {
+    align: 'center',
+    spacing: 20,
+    children: [ leftContent, new VSeparator( vSeparatorHeight ), keypadBox ]
+  } );
+
+  const controlPanel = new Panel( controlPanelContent, {
+    xMargin: 20,
+    yMargin: 20
+  } );
+
+  let scientificNotationNode;
+  const scientificNotationNodeParent = new Node();
+
+  const apply = () => {
+
+    const keypadString = keypad.stringProperty.value;
+    if ( keypadString.length > 0 ) {
+      valueProperty.value = parseFloat( keypadString );
+    }
+
     if ( scientificNotationNode ) {
       scientificNotationNode.dispose();
     }
@@ -1945,15 +1951,27 @@ function demoScientificNotationNode( layoutBounds ) {
     } );
     scientificNotationNodeParent.children = [ scientificNotationNode ];
   };
+  apply();
 
-  updateButton.addListener( () => update() );
-  update();
+  const applyButton = new RectangularPushButton( {
+    content: new Text( 'Apply \u2192', {
+      font: new PhetFont( 22 )
+    } ),
+    listener: () => apply()
+  } );
+
+  keypad.stringProperty.link( keypadString => {
+    const keypadIsEmpty = ( keypadString.length === 0 );
+    keypadValueText.text = keypadIsEmpty ? 'no value' : keypadString;
+    applyButton.enabled = !keypadIsEmpty;
+  } );
 
   // layout
   return new HBox( {
     spacing: 60,
-    children: [ controlPanel, keypadBox, scientificNotationNodeParent ],
-    center: layoutBounds.center
+    children: [ controlPanel, applyButton, scientificNotationNodeParent ],
+    left: layoutBounds.left + 40,
+    centerY: layoutBounds.centerY
   } );
 }
 
