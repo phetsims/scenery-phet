@@ -1798,19 +1798,6 @@ function demoStarNode( layoutBounds ) {
 // Creates a sample ScientificNotationNode
 function demoScientificNotationNode( layoutBounds ) {
 
-  // Controls, in a Dialog
-  // mantissaDecimalPlaces: spinner [0, 10]
-  // exponent: spinner [0, 10]
-  // showIntegersAsMantissaOnly: checkbox
-  // showZeroAsInteger: checkbox
-  // showZeroExponent: checkbox
-  // update button
-
-  // Display:
-  // value: HSlider [-1000,1000]
-  // actualValue: Text
-  // ScientificNotationNode
-
   const textOptions = {
     font: new PhetFont( 14 )
   };
