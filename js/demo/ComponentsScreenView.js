@@ -27,15 +27,15 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
-import { AlignBox, AlignGroup, Circle, Color, DragListener, FlowBox, GridBox, HBox, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
+import { Circle, Color, DragListener, FlowBox, GridBox, HBox, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import NumberSpinner from '../../../sun/js/NumberSpinner.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
-import HSlider from '../../../sun/js/HSlider.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
+import HSlider from '../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
+import NumberSpinner from '../../../sun/js/NumberSpinner.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -1872,39 +1872,59 @@ function demoScientificNotationNode( layoutBounds ) {
     yMargin: 20
   } );
 
-  const valueProperty = new NumberProperty( 42.45, {
-    range: new Range( -100, 100 )
-  } );
-
-  const valueControl = new NumberControl( '', valueProperty, valueProperty.range, {
-    delta: 0.001,
-    sliderOptions: {
-      trackSize: new Dimension2( 800, 5 )
-    },
-    layoutFunction: ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) =>
-      new HBox( {
-        spacing: 8,
-        children: [ decrementButton, slider, incrementButton ]
-      } )
-  } );
-
   const numberFont = new PhetFont( 20 );
-  const alignBoxOptions = {
-    xAlign: 'right',
-    group: new AlignGroup()
-  };
 
-  const valueText = new AlignBox( new Text( 'value:', { font: numberFont } ), alignBoxOptions );
-  const numberText = new Text( valueProperty.value, {
-    font: numberFont
-  } );
-  valueProperty.link( value => {
-    numberText.text = value.toString();
-  } );
-
-  const notationText = new AlignBox( new Text( 'notation:', { font: numberFont } ), alignBoxOptions );
   let scientificNotationNode;
   const scientificNotationNodeParent = new Node();
+
+  const keypad = new Keypad( Keypad.PositiveDecimalLayout, {
+    accumulatorOptions: {
+      maxDigits: 12,
+      maxDigitsRightOfMantissa: 12
+    },
+    minButtonWidth: 35,
+    minButtonHeight: 35,
+    buttonFont: new PhetFont( 20 )
+  } );
+
+  const keypadValueText = new Text( '', {
+    font: numberFont
+  } );
+
+  const valueProperty = new NumberProperty( 0 );
+
+  const enterButton = new RectangularPushButton( {
+    content: new Text( 'Enter', textOptions ),
+    listener: () => {
+      const keypadString = keypad.stringProperty.value;
+      if ( keypadString.length > 0 ) {
+        valueProperty.value = parseFloat( keypadString );
+      }
+    }
+  } );
+
+  const clearButton = new RectangularPushButton( {
+    content: new Text( 'Clear', textOptions ),
+    listener: () => keypad.clear()
+  } );
+
+  keypad.stringProperty.link( keypadString => {
+    keypadValueText.text = ( keypadString.length > 0 ) ? keypadString : '?';
+    enterButton.enabled = ( keypadString.length > 0 );
+  } );
+
+  const keypadBox = new VBox( {
+    align: 'left',
+    spacing: 20,
+    children: [
+      keypadValueText,
+      keypad,
+      new HBox( {
+        spacing: 20,
+        children: [ enterButton, clearButton ]
+      } )
+    ]
+  } );
 
   const update = () => {
     if ( scientificNotationNode ) {
@@ -1929,32 +1949,10 @@ function demoScientificNotationNode( layoutBounds ) {
   updateButton.addListener( () => update() );
   update();
 
-  const valuesBox = new VBox( {
-    align: 'left',
-    spacing: 20,
-    children: [
-      new HBox( {
-        spacing: 10,
-        children: [ valueText, numberText ]
-      } ),
-      new HBox( {
-        spacing: 10,
-        children: [ notationText, scientificNotationNodeParent ]
-      } )
-    ]
-  } );
-
   // layout
-  return new VBox( {
-    align: 'left',
-    spacing: 40,
-    children: [
-      new HBox( {
-        spacing: 60,
-        children: [ controlPanel, valuesBox ]
-      } ),
-      valueControl
-    ],
+  return new HBox( {
+    spacing: 60,
+    children: [ controlPanel, keypadBox, scientificNotationNodeParent ],
     center: layoutBounds.center
   } );
 }
