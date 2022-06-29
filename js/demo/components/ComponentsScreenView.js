@@ -37,7 +37,6 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import Drawer from '../../Drawer.js';
 import EyeDropperNode from '../../EyeDropperNode.js';
 import FaucetNode from '../../FaucetNode.js';
@@ -76,7 +75,8 @@ import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoBracketNode from './demoBracketNode.js';
 import demoCapacitorNode from './demoCapacitorNode.js';
-import { demoComboBoxDisplay } from './demoComboBoxDisplay.js';
+import demoComboBoxDisplay from './demoComboBoxDisplay.js';
+import demoConductivityTesterNode from './demoConductivityTesterNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -150,51 +150,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for ConductivityTesterNode
-function demoConductivityTesterNode( layoutBounds ) {
-
-  const brightnessProperty = new Property( 0 ); // 0-1
-  const testerPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
-  const positiveProbePositionProperty = new Vector2Property( new Vector2( testerPositionProperty.get().x + 140, testerPositionProperty.get().y + 100 ) );
-  const negativeProbePositionProperty = new Vector2Property( new Vector2( testerPositionProperty.get().x - 40, testerPositionProperty.get().y + 100 ) );
-
-  const conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
-    testerPositionProperty, positiveProbePositionProperty, negativeProbePositionProperty, {
-      positiveProbeFill: 'orange',
-      cursor: 'pointer'
-    }
-  );
-  conductivityTesterNode.addInputListener( new DragListener( {
-    positionProperty: testerPositionProperty
-  } ) );
-
-  // brightness slider
-  const brightnessSlider = new HSlider( brightnessProperty, new Range( 0, 1 ), {
-    trackSize: new Dimension2( 200, 5 ),
-    thumbSize: new Dimension2( 25, 45 ),
-    thumbFill: 'orange',
-    thumbFillHighlighted: 'rgb( 255, 210, 0 )',
-    thumbCenterLineStroke: 'black',
-    centerX: conductivityTesterNode.centerX,
-    bottom: conductivityTesterNode.bottom + 100
-  } );
-
-  // short-circuit checkbox
-  const shortCircuitProperty = new Property( false );
-  shortCircuitProperty.link( shortCircuit => {
-    conductivityTesterNode.shortCircuit = shortCircuit;
-  } );
-  const shortCircuitCheckbox = new Checkbox( shortCircuitProperty, new Text( 'short circuit', { font: new PhetFont( 20 ) } ), {
-    centerX: brightnessSlider.centerX,
-    bottom: brightnessSlider.bottom + 50
-  } );
-
-  return new Node( {
-    children: [ conductivityTesterNode, brightnessSlider, shortCircuitCheckbox ],
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for Drawer

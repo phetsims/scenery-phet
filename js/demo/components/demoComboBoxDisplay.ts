@@ -17,7 +17,7 @@ import VSlider from '../../../../sun/js/VSlider.js';
 import ComboBoxDisplay from '../../ComboBoxDisplay.js';
 import PhetFont from '../../PhetFont.js';
 
-export function demoComboBoxDisplay( layoutBounds: Bounds2 ) {
+export default function demoComboBoxDisplay( layoutBounds: Bounds2 ) {
 
   const numberOfDogsProperty = new NumberProperty( 0 ); // value to be displayed for dogs
   const numberOfCatsProperty = new DerivedProperty( [ numberOfDogsProperty ], () => numberOfDogsProperty.value * 2 );
