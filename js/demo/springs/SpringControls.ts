@@ -8,15 +8,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../../phet-core/js/optionize.js';
-import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
-import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
-import VSeparator from '../../../sun/js/VSeparator.js';
-import Range from '../../../dot/js/Range.js';
-import NumberControl from '../NumberControl.js';
-import ParametricSpringNode from '../ParametricSpringNode.js';
-import PhetFont from '../PhetFont.js';
-import sceneryPhet from '../sceneryPhet.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import VSeparator from '../../../../sun/js/VSeparator.js';
+import Range from '../../../../dot/js/Range.js';
+import NumberControl from '../../NumberControl.js';
+import ParametricSpringNode from '../../ParametricSpringNode.js';
+import PhetFont from '../../PhetFont.js';
+import sceneryPhet from '../../sceneryPhet.js';
 
 // strings - no need for i18n since this is a developer-only demo
 const aspectRatioString = 'aspect ratio:';

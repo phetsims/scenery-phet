@@ -14,7 +14,7 @@ import { Rectangle } from '../../../../scenery/js/imports.js';
 import ResetAllButton from '../../buttons/ResetAllButton.js';
 import ParametricSpringNode from '../../ParametricSpringNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SpringControls from '../SpringControls.js';
+import SpringControls from './SpringControls.js';
 
 type SelfOptions = EmptyObjectType;
 type SpringScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
