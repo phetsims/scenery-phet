@@ -10,13 +10,11 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -34,13 +32,11 @@ import DemosScreenView from '../../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../../sun/js/MutableOptionsNode.js';
 import Panel from '../../../../sun/js/Panel.js';
-import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import ComboBoxDisplay from '../../ComboBoxDisplay.js';
 import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import Drawer from '../../Drawer.js';
 import EyeDropperNode from '../../EyeDropperNode.js';
@@ -80,6 +76,7 @@ import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoBracketNode from './demoBracketNode.js';
 import demoCapacitorNode from './demoCapacitorNode.js';
+import { demoComboBoxDisplay } from './demoComboBoxDisplay.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -153,55 +150,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for ComboBoxDisplay that exercises layout functionality.
-// See https://github.com/phetsims/scenery-phet/issues/482
-function demoComboBoxDisplay( layoutBounds ) {
-
-  const numberOfDogsProperty = new NumberProperty( 0 ); // value to be displayed for dogs
-  const numberOfCatsProperty = new DerivedProperty( [ numberOfDogsProperty ], () => numberOfDogsProperty.value * 20 );
-  const choiceProperty = new StringProperty( 'cats' );  // selected choice in the combo box
-  const displayRange = new Range( 0, 1000 );
-  const sliderRange = new Range( 0, 1000 ); // larger than display range, to verify that display scales
-
-  // items in the ComboBoxDisplay
-  const items = [
-    { choice: 'cats', numberProperty: numberOfCatsProperty, range: displayRange, units: 'cats' },
-    { choice: 'dogs', numberProperty: numberOfDogsProperty, range: displayRange, units: 'dogs' }
-  ];
-
-  // parent for the ComboBoxDisplay's popup list
-  const listParent = new Node();
-
-  // ComboBoxDisplay
-  const display = new ComboBoxDisplay( choiceProperty, items, listParent, {
-    xMargin: 10,
-    yMargin: 8,
-    highlightFill: 'rgb( 255, 200, 200 )', // pink
-    numberDisplayOptions: {
-      textOptions: {
-        font: new PhetFont( 20 )
-      }
-    }
-  } );
-
-  // Slider
-  const slider = new VSlider( numberOfDogsProperty, sliderRange );
-
-  // Slider to left of display
-  const hBox = new HBox( {
-    spacing: 25,
-    children: [ slider, display ]
-  } );
-
-  return new Node( {
-    children: [ new VBox( {
-      children: [ new Text( 'There are twice as many cats as dogs in the world.' ), hBox ],
-      spacing: 20,
-      center: layoutBounds.center
-    } ), listParent ]
-  } );
 }
 
 // Creates a demo for ConductivityTesterNode
