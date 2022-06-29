@@ -9,26 +9,26 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Property from '../../../axon/js/Property.js';
-import Bounds2 from '../../../dot/js/Bounds2.js';
-import Range from '../../../dot/js/Range.js';
-import RangeWithValue from '../../../dot/js/RangeWithValue.js';
-import merge from '../../../phet-core/js/merge.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
-import Checkbox from '../../../sun/js/Checkbox.js';
-import DemosScreenView, { DemosScreenViewOptions } from '../../../sun/js/demo/DemosScreenView.js';
-import HSlider from '../../../sun/js/HSlider.js';
-import NumberControl, { NumberControlOptions } from '../NumberControl.js';
-import PhetFont from '../PhetFont.js';
-import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../sceneryPhetQueryParameters.js';
-import SpectrumSliderThumb from '../SpectrumSliderThumb.js';
-import SpectrumSliderTrack from '../SpectrumSliderTrack.js';
-import VisibleColor from '../VisibleColor.js';
-import WavelengthNumberControl from '../WavelengthNumberControl.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import merge from '../../../../phet-core/js/merge.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import NumberControl, { NumberControlOptions } from '../../NumberControl.js';
+import PhetFont from '../../PhetFont.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
+import SpectrumSliderThumb from '../../SpectrumSliderThumb.js';
+import SpectrumSliderTrack from '../../SpectrumSliderTrack.js';
+import VisibleColor from '../../VisibleColor.js';
+import WavelengthNumberControl from '../../WavelengthNumberControl.js';
 
 type SelfOptions = EmptyObjectType;
 type SlidersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;

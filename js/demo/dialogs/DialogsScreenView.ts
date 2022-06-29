@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { Image, Text, VBox } from '../../../scenery/js/imports.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
-import Dialog from '../../../sun/js/Dialog.js';
-import batteryDCell_png from '../../images/batteryDCell_png.js';
-import CanvasWarningNode from '../CanvasWarningNode.js';
-import ContextLossFailureDialog from '../ContextLossFailureDialog.js';
-import OopsDialog from '../OopsDialog.js';
-import PhetFont from '../PhetFont.js';
-import sceneryPhet from '../sceneryPhet.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Image, Text, VBox } from '../../../../scenery/js/imports.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Dialog from '../../../../sun/js/Dialog.js';
+import batteryDCell_png from '../../../images/batteryDCell_png.js';
+import CanvasWarningNode from '../../CanvasWarningNode.js';
+import ContextLossFailureDialog from '../../ContextLossFailureDialog.js';
+import OopsDialog from '../../OopsDialog.js';
+import PhetFont from '../../PhetFont.js';
+import sceneryPhet from '../../sceneryPhet.js';
 
 // constants
 const TEXT_OPTIONS = {
