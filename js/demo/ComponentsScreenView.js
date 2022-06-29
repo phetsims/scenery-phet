@@ -27,12 +27,14 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../kite/js/imports.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
-import { Circle, Color, DragListener, FlowBox, GridBox, HBox, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Circle, Color, DragListener, FlowBox, GridBox, HBox, KeyboardDragListener, ManualConstraint, Node, NodeProperty, Path, Rectangle, RichText, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, Text, VBox, WidthSizable } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
+import NumberSpinner from '../../../sun/js/NumberSpinner.js';
 import DemosScreenView from '../../../sun/js/demo/DemosScreenView.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import HSeparator from '../../../sun/js/HSeparator.js';
 import MutableOptionsNode from '../../../sun/js/MutableOptionsNode.js';
 import Panel from '../../../sun/js/Panel.js';
 import VSlider from '../../../sun/js/VSlider.js';
@@ -1795,16 +1797,178 @@ function demoStarNode( layoutBounds ) {
 
 // Creates a sample ScientificNotationNode
 function demoScientificNotationNode( layoutBounds ) {
-  const numberProperty = new Property( 1 );
 
-  const numberSlider = new HSlider( numberProperty, new Range( 0, 100 ) );
+  // Controls, in a Dialog
+  // mantissaDecimalPlaces: spinner [0, 10]
+  // exponent: spinner [0, 10]
+  // showIntegersAsMantissaOnly: checkbox
+  // showZeroAsInteger: checkbox
+  // showZeroExponent: checkbox
+  // update button
 
-  const scientificNotationNode = new ScientificNotationNode( numberProperty );
+  // Display:
+  // value: HSlider [-1000,1000]
+  // actualValue: Text
+  // ScientificNotationNode
 
-  return new VBox( {
+  const textOptions = {
+    font: new PhetFont( 14 )
+  };
+
+  const mantissaDecimalPlacesProperty = new NumberProperty( 2, {
+    numberType: 'Integer',
+    range: new Range( 0, 10 )
+  } );
+  const mantissaControl = new HBox( {
+    spacing: 10,
+    children: [
+      new NumberSpinner( mantissaDecimalPlacesProperty, mantissaDecimalPlacesProperty.rangeProperty ),
+      new Text( 'mantissaDecimalPlaces', textOptions )
+    ]
+  } );
+
+  const showIntegersAsMantissaOnlyProperty = new BooleanProperty( false );
+  const showIntegersAsMantissaOnlyCheckbox = new Checkbox( showIntegersAsMantissaOnlyProperty, new Text( 'showIntegersAsMantissaOnly', textOptions ) );
+
+  const showZeroAsIntegerProperty = new BooleanProperty( true );
+  const showZeroAsIntegerCheckbox = new Checkbox( showZeroAsIntegerProperty, new Text( 'showZeroAsInteger', textOptions ) );
+
+  const exponentProperty = new NumberProperty( 1, {
+    numberType: 'Integer',
+    range: new Range( 0, 10 )
+  } );
+  const exponentControl = new HBox( {
+    spacing: 10,
+    children: [
+      new NumberSpinner( exponentProperty, exponentProperty.rangeProperty ),
+      new Text( 'exponent', textOptions )
+    ]
+  } );
+
+  const nullExponentProperty = new BooleanProperty( false );
+  const nullExponentCheckbox = new Checkbox( nullExponentProperty, new Text( 'exponent: null', textOptions ) );
+  nullExponentProperty.link( nullExponent => {
+    exponentControl.enabled = !nullExponent;
+  } );
+
+  const showZeroExponentProperty = new BooleanProperty( false );
+  const showZeroExponentCheckbox = new Checkbox( showZeroExponentProperty, new Text( 'showZeroExponent', textOptions ) );
+
+  const updateButton = new RectangularPushButton( {
+    content: new Text( 'Update', textOptions )
+  } );
+
+  const controlPanelContent = new VBox( {
+    align: 'left',
     spacing: 20,
-    center: layoutBounds.center,
-    children: [ numberSlider, scientificNotationNode ]
+    children: [
+
+      // mantissa
+      mantissaControl,
+      showIntegersAsMantissaOnlyCheckbox,
+      showZeroAsIntegerCheckbox,
+      new HSeparator( 250 ),
+
+      // exponent
+      exponentControl,
+      nullExponentCheckbox,
+      showZeroExponentCheckbox,
+      new HSeparator( 250 ),
+
+      // Update
+      updateButton
+    ]
+  } );
+
+  const controlPanel = new Panel( controlPanelContent, {
+    xMargin: 20,
+    yMargin: 20
+  } );
+
+  const valueProperty = new NumberProperty( 42.45, {
+    range: new Range( -100, 100 )
+  } );
+
+  const valueControl = new NumberControl( '', valueProperty, valueProperty.range, {
+    delta: 0.001,
+    sliderOptions: {
+      trackSize: new Dimension2( 800, 5 )
+    },
+    layoutFunction: ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) =>
+      new HBox( {
+        spacing: 8,
+        children: [ decrementButton, slider, incrementButton ]
+      } )
+  } );
+
+  const numberFont = new PhetFont( 20 );
+  const alignBoxOptions = {
+    xAlign: 'right',
+    group: new AlignGroup()
+  };
+
+  const valueText = new AlignBox( new Text( 'value:', { font: numberFont } ), alignBoxOptions );
+  const numberText = new Text( valueProperty.value, {
+    font: numberFont
+  } );
+  valueProperty.link( value => {
+    numberText.text = value.toString();
+  } );
+
+  const notationText = new AlignBox( new Text( 'notation:', { font: numberFont } ), alignBoxOptions );
+  let scientificNotationNode;
+  const scientificNotationNodeParent = new Node();
+
+  const update = () => {
+    if ( scientificNotationNode ) {
+      scientificNotationNode.dispose();
+    }
+    scientificNotationNode = new ScientificNotationNode( valueProperty, {
+
+      font: numberFont,
+
+      // mantissa
+      mantissaDecimalPlaces: mantissaDecimalPlacesProperty.value,
+      showZeroAsInteger: showZeroAsIntegerProperty.value,
+      showIntegersAsMantissaOnly: showIntegersAsMantissaOnlyProperty.value,
+
+      // exponent
+      exponent: ( nullExponentProperty.value ) ? null : exponentProperty.value,
+      showZeroExponent: showZeroExponentProperty.value
+    } );
+    scientificNotationNodeParent.children = [ scientificNotationNode ];
+  };
+
+  updateButton.addListener( () => update() );
+  update();
+
+  const valuesBox = new VBox( {
+    align: 'left',
+    spacing: 20,
+    children: [
+      new HBox( {
+        spacing: 10,
+        children: [ valueText, numberText ]
+      } ),
+      new HBox( {
+        spacing: 10,
+        children: [ notationText, scientificNotationNodeParent ]
+      } )
+    ]
+  } );
+
+  // layout
+  return new VBox( {
+    align: 'left',
+    spacing: 40,
+    children: [
+      new HBox( {
+        spacing: 60,
+        children: [ controlPanel, valuesBox ]
+      } ),
+      valueControl
+    ],
+    center: layoutBounds.center
   } );
 }
 
