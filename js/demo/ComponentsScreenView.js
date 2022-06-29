@@ -1842,12 +1842,14 @@ function demoScientificNotationNode( layoutBounds ) {
   const showZeroExponentProperty = new BooleanProperty( false );
   const showZeroExponentCheckbox = new Checkbox( showZeroExponentProperty, new Text( 'showZeroExponent', textOptions ) );
 
+  const titleFont = new PhetFont( { size: 20, weight: 'bold' } );
+
   // controls for mantissa
   const mantissaBox = new VBox( {
     align: 'left',
     spacing: 20,
     children: [
-      new Text( 'mantissa (M)', { font: new PhetFont( { size: 16, weight: 'bold' } ) } ),
+      new Text( 'mantissa (M)', { font: titleFont } ),
       mantissaControl,
       showIntegersAsMantissaOnlyCheckbox,
       showZeroAsIntegerCheckbox
@@ -1859,7 +1861,7 @@ function demoScientificNotationNode( layoutBounds ) {
     align: 'left',
     spacing: 20,
     children: [
-      new Text( 'exponent (E)', { font: new PhetFont( { size: 16, weight: 'bold' } ) } ),
+      new Text( 'exponent (E)', { font: titleFont } ),
       exponentControl,
       nullExponentCheckbox,
       showZeroExponentCheckbox
@@ -1905,6 +1907,7 @@ function demoScientificNotationNode( layoutBounds ) {
     align: 'center',
     spacing: 20,
     children: [
+      new Text( 'value', { font: titleFont } ),
       keypadValueText,
       keypad,
       clearButton
