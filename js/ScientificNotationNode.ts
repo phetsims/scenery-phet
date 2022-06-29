@@ -15,11 +15,10 @@
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Font, IColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
+import { Font, IColor, Node, NodeOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -35,7 +34,7 @@ type SelfOptions = {
   showZeroExponent?: boolean; // if false, show 'M x 10^0' as 'M'
   exponentXSpacing?: number; // space to left of exponent
   exponentYOffset?: number; // offset of exponent's center from cap line
-  capHeightScale?: number; // fudge factor for computing cap height, compensates for inaccuracy of Text.height
+  capHeightScale?: number; // fudge factor for computing this.capHeight, compensates for inaccuracy of Text.height
   nullValueString?: string; // if the value is null, display this string
 };
 
@@ -58,8 +57,8 @@ export default class ScientificNotationNode extends Node {
   // width of space between mantissa and 'x 10'
   private readonly mantissaXSpacing: number;
 
-  // capLine offset from baseline
-  private readonly capLineYOffset: number;
+  // the height of capital letters (aka cap line)
+  private readonly capHeight: number;
 
   // parts of the representation, 'M x 10^E'
   private readonly mantissaNode: Text;
@@ -94,18 +93,21 @@ export default class ScientificNotationNode extends Node {
 
     const textOptions = { font: options.font, fill: options.fill };
 
-    // must be recomputed if font changes!
+    // Compute font metrics that we'll need for layout.
     const tmpText = new Text( ' ', textOptions );
     this.mantissaXSpacing = tmpText.width;
-    this.capLineYOffset = options.capHeightScale * ( tmpText.top - tmpText.y );
+    this.capHeight = options.capHeightScale * ( tmpText.top - tmpText.y );
 
     this.mantissaNode = new Text( '?', textOptions );
     this.timesTenNode = new Text( '?', textOptions );
-    this.exponentNode = new Text( '?', merge( { scale: options.exponentScale }, textOptions ) ); // exponent is scaled
-    this.exponentNode.centerY = this.timesTenNode.y + this.capLineYOffset + options.exponentYOffset;
+    this.exponentNode = new Text( '?', optionize<TextOptions, EmptyObjectType, TextOptions>()( {
+      scale: options.exponentScale, // exponent is scaled!
+      centerY: this.timesTenNode.y + this.capHeight + options.exponentYOffset
+    }, textOptions ) );
 
+    // We'll start with just the mantissaNode. update will add the other Nodes as appropriate.
     assert && assert( !options.children, 'ScientificNotationNode sets children' );
-    options.children = [ this.mantissaNode, this.exponentNode, this.timesTenNode ];
+    options.children = [ this.mantissaNode ];
 
     this.mutate( options );
 
