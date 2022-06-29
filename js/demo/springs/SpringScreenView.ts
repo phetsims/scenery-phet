@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RangeWithValue from '../../../dot/js/RangeWithValue.js';
-import ScreenView, { ScreenViewOptions } from '../../../joist/js/ScreenView.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import ResetAllButton from '../buttons/ResetAllButton.js';
-import ParametricSpringNode from '../ParametricSpringNode.js';
-import sceneryPhet from '../sceneryPhet.js';
-import SpringControls from './SpringControls.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import ResetAllButton from '../../buttons/ResetAllButton.js';
+import ParametricSpringNode from '../../ParametricSpringNode.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SpringControls from '../SpringControls.js';
 
 type SelfOptions = EmptyObjectType;
 type SpringScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
