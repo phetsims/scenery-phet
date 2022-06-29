@@ -41,7 +41,6 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import BracketNode from '../../BracketNode.js';
 import CapacitorConstants from '../../capacitor/CapacitorConstants.js';
 import CapacitorNode from '../../capacitor/CapacitorNode.js';
 import YawPitchModelViewTransform3 from '../../capacitor/YawPitchModelViewTransform3.js';
@@ -83,6 +82,7 @@ import WireNode from '../../WireNode.js';
 import demoArrowNode from './demoArrowNode.js';
 import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
+import demoBracketNode from './demoBracketNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -156,17 +156,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for BracketNode
-function demoBracketNode( layoutBounds ) {
-  return new BracketNode( {
-    orientation: 'left',
-    bracketTipPosition: 0.75,
-    labelNode: new Text( 'bracket', { font: new PhetFont( 20 ) } ),
-    spacing: 10,
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for BracketNode
