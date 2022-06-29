@@ -10,7 +10,6 @@
 
 import Range from '../../dot/js/Range.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import NumberProperty from '../../axon/js/NumberProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../scenery/js/imports.js';
@@ -20,6 +19,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import Property from '../../axon/js/Property.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -27,18 +27,18 @@ const DEFAULT_FONT = new PhetFont( 14 );
 type SubsetOfNumberDisplayOptions = StrictOmit<NumberDisplayOptions, 'valuePattern'>;
 
 // Describes an item in the ComboBoxDisplay
-export type ComboBoxDisplayItem = {
+export type ComboBoxDisplayItem<T> = {
 
   // a value of choiceProperty that corresponds to the item
-  choice: number;
+  choice: T;
 
-  // the selected value
-  numberProperty: NumberProperty;
+  // the item's numeric value
+  numberProperty: IReadOnlyProperty<number>;
 
-  // the range of the item's value, required if numberProperty.range is null
-  range?: Range | null;
+  // the range of the item's numeric value
+  range: Range;
 
-  // the units used to label the item's value
+  // the units used to label the item's numeric value
   units: string;
 
   // options passed to this item's NumberDisplay, these override ComboBoxDisplayOptions.numberDisplayOptions
@@ -56,7 +56,7 @@ type SelfOptions = {
 
 export type ComboBoxDisplayOptions = SelfOptions & ComboBoxOptions;
 
-export default class ComboBoxDisplay extends ComboBox<number> {
+export default class ComboBoxDisplay<T> extends ComboBox<T> {
 
   /**
    * @param choiceProperty - determines which item is currently selected
@@ -64,7 +64,7 @@ export default class ComboBoxDisplay extends ComboBox<number> {
    * @param listParent - parent for the ComboBox list
    * @param providedOptions?
    */
-  public constructor( choiceProperty: Property<number>, items: ComboBoxDisplayItem[], listParent: Node,
+  public constructor( choiceProperty: Property<T>, items: ComboBoxDisplayItem<T>[], listParent: Node,
                       providedOptions?: ComboBoxDisplayOptions ) {
 
     const options = optionize<ComboBoxDisplayOptions, SelfOptions, ComboBoxOptions>()( {
@@ -87,11 +87,8 @@ export default class ComboBoxDisplay extends ComboBox<number> {
     }, providedOptions );
 
     // Convert ComboBoxDisplayItems to ComboBoxItems
-    const comboBoxItems: ComboBoxItem<number>[] = [];
+    const comboBoxItems: ComboBoxItem<T>[] = [];
     items.forEach( item => {
-
-      const range = item.range ? item.range : item.numberProperty.range!;
-      assert && assert( range, 'range or numberProperty.range must be provided' );
 
       // optionize only supports 2 sources of option values, and we have 3.
       // So use 2 optionize calls to assemble the options for the item's NumberDisplay.
@@ -101,7 +98,7 @@ export default class ComboBoxDisplay extends ComboBox<number> {
         valuePattern: StringUtils.fillIn( sceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
       }, options.numberDisplayOptions );
 
-      const itemNode = new NumberDisplay( item.numberProperty, range,
+      const itemNode = new NumberDisplay( item.numberProperty, item.range,
         combineOptions<NumberDisplayOptions>( numberDisplayOptions, item.numberDisplayOptions )
       );
 
