@@ -14,7 +14,7 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import { IColor, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/ButtonsScreenView.js';
-import ComponentsScreenView from './demo/ComponentsScreenView.js';
+import ComponentsScreenView from './demo/components/ComponentsScreenView.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/SlidersScreenView.js';
