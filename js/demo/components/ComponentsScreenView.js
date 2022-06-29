@@ -32,12 +32,9 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import DemosScreenView from '../../../../sun/js/demo/DemosScreenView.js';
-import HSeparator from '../../../../sun/js/HSeparator.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import MutableOptionsNode from '../../../../sun/js/MutableOptionsNode.js';
-import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
-import VSeparator from '../../../../sun/js/VSeparator.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import flame_png from '../../../images/flame_png.js';
@@ -78,7 +75,6 @@ import ProbeNode from '../../ProbeNode.js';
 import RulerNode from '../../RulerNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
-import ScientificNotationNode from '../../ScientificNotationNode.js';
 import SpectrumNode from '../../SpectrumNode.js';
 import StarNode from '../../StarNode.js';
 import Stopwatch from '../../Stopwatch.js';
@@ -88,6 +84,7 @@ import TimeControlNode from '../../TimeControlNode.js';
 import TimeSpeed from '../../TimeSpeed.js';
 import WireNode from '../../WireNode.js';
 import demoArrowNode from './demoArrowNode.js';
+import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
 
@@ -1767,188 +1764,6 @@ function demoStarNode( layoutBounds ) {
   return new Node( {
     children: [ starNodeContainer, starSlider ],
     center: layoutBounds.center
-  } );
-}
-
-// Creates a sample ScientificNotationNode
-function demoScientificNotationNode( layoutBounds ) {
-
-  const textOptions = {
-    font: new PhetFont( 14 )
-  };
-
-  const mantissaDecimalPlacesProperty = new NumberProperty( 2, {
-    numberType: 'Integer',
-    range: new Range( 0, 10 )
-  } );
-  const mantissaControl = new HBox( {
-    spacing: 10,
-    children: [
-      new NumberSpinner( mantissaDecimalPlacesProperty, mantissaDecimalPlacesProperty.rangeProperty ),
-      new Text( 'mantissaDecimalPlaces', textOptions )
-    ]
-  } );
-
-  const showIntegersAsMantissaOnlyProperty = new BooleanProperty( false );
-  const showIntegersAsMantissaOnlyCheckbox = new Checkbox( showIntegersAsMantissaOnlyProperty, new Text( 'showIntegersAsMantissaOnly', textOptions ) );
-
-  const showZeroAsIntegerProperty = new BooleanProperty( true );
-  const showZeroAsIntegerCheckbox = new Checkbox( showZeroAsIntegerProperty, new Text( 'showZeroAsInteger', textOptions ) );
-
-  const exponentProperty = new NumberProperty( 1, {
-    numberType: 'Integer',
-    range: new Range( 0, 10 )
-  } );
-  const exponentControl = new HBox( {
-    spacing: 10,
-    children: [
-      new NumberSpinner( exponentProperty, exponentProperty.rangeProperty ),
-      new Text( 'exponent', textOptions )
-    ]
-  } );
-
-  const nullExponentProperty = new BooleanProperty( false );
-  const nullExponentCheckbox = new Checkbox( nullExponentProperty, new Text( 'exponent: null', textOptions ) );
-  nullExponentProperty.link( nullExponent => {
-    exponentControl.enabled = !nullExponent;
-  } );
-
-  const showZeroExponentProperty = new BooleanProperty( false );
-  const showZeroExponentCheckbox = new Checkbox( showZeroExponentProperty, new Text( 'showZeroExponent', textOptions ) );
-
-  const titleFont = new PhetFont( { size: 20, weight: 'bold' } );
-
-  // controls for mantissa
-  const mantissaBox = new VBox( {
-    align: 'left',
-    spacing: 20,
-    children: [
-      new Text( 'mantissa options', { font: titleFont } ),
-      mantissaControl,
-      showIntegersAsMantissaOnlyCheckbox,
-      showZeroAsIntegerCheckbox
-    ]
-  } );
-
-  // controls for exponent
-  const exponentBox = new VBox( {
-    align: 'left',
-    spacing: 20,
-    children: [
-      new Text( 'exponent options', { font: titleFont } ),
-      exponentControl,
-      nullExponentCheckbox,
-      showZeroExponentCheckbox
-    ]
-  } );
-
-  const hSeparatorWidth = Math.max( mantissaBox.width, exponentBox.width );
-  const leftContent = new VBox( {
-    align: 'left',
-    spacing: 20,
-    children: [
-      mantissaBox,
-      new HSeparator( hSeparatorWidth ),
-      exponentBox
-    ]
-  } );
-
-  const numberFont = new PhetFont( 20 );
-
-  const maxDigits = mantissaDecimalPlacesProperty.range.max + 1;
-  const keypad = new Keypad( Keypad.PositiveDecimalLayout, {
-    accumulatorOptions: {
-      maxDigits: maxDigits,
-      maxDigitsRightOfMantissa: maxDigits
-    },
-    minButtonWidth: 35,
-    minButtonHeight: 35,
-    buttonFont: new PhetFont( 20 )
-  } );
-
-  const keypadValueText = new Text( '', {
-    font: numberFont
-  } );
-
-  const valueProperty = new NumberProperty( 0 );
-
-  const clearButton = new RectangularPushButton( {
-    content: new Text( 'Clear', textOptions ),
-    listener: () => keypad.clear()
-  } );
-
-  const keypadBox = new VBox( {
-    align: 'center',
-    spacing: 20,
-    children: [
-      new Text( 'value', { font: titleFont } ),
-      keypadValueText,
-      keypad,
-      clearButton
-    ]
-  } );
-
-  const vSeparatorHeight = Math.max( leftContent.height, keypadBox.height );
-  const controlPanelContent = new HBox( {
-    align: 'center',
-    spacing: 20,
-    children: [ leftContent, new VSeparator( vSeparatorHeight ), keypadBox ]
-  } );
-
-  const controlPanel = new Panel( controlPanelContent, {
-    xMargin: 20,
-    yMargin: 20
-  } );
-
-  let scientificNotationNode;
-  const scientificNotationNodeParent = new Node();
-
-  const apply = () => {
-
-    const keypadString = keypad.stringProperty.value;
-    if ( keypadString.length > 0 ) {
-      valueProperty.value = parseFloat( keypadString );
-    }
-
-    if ( scientificNotationNode ) {
-      scientificNotationNode.dispose();
-    }
-    scientificNotationNode = new ScientificNotationNode( valueProperty, {
-
-      font: numberFont,
-
-      // mantissa
-      mantissaDecimalPlaces: mantissaDecimalPlacesProperty.value,
-      showZeroAsInteger: showZeroAsIntegerProperty.value,
-      showIntegersAsMantissaOnly: showIntegersAsMantissaOnlyProperty.value,
-
-      // exponent
-      exponent: ( nullExponentProperty.value ) ? null : exponentProperty.value,
-      showZeroExponent: showZeroExponentProperty.value
-    } );
-    scientificNotationNodeParent.children = [ scientificNotationNode ];
-  };
-  apply();
-
-  const applyButton = new RectangularPushButton( {
-    content: new Text( 'Apply \u2192', {
-      font: new PhetFont( 22 )
-    } ),
-    listener: () => apply()
-  } );
-
-  keypad.stringProperty.link( keypadString => {
-    const keypadIsEmpty = ( keypadString.length === 0 );
-    keypadValueText.text = keypadIsEmpty ? 'no value' : keypadString;
-    applyButton.enabled = !keypadIsEmpty;
-  } );
-
-  // layout
-  return new HBox( {
-    spacing: 60,
-    children: [ controlPanel, applyButton, scientificNotationNodeParent ],
-    left: layoutBounds.left + 40,
-    centerY: layoutBounds.centerY
   } );
 }
 
