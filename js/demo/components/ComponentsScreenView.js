@@ -41,9 +41,7 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import BicyclePumpNode from '../../BicyclePumpNode.js';
 import BracketNode from '../../BracketNode.js';
-import ResetButton from '../../buttons/ResetButton.js';
 import CapacitorConstants from '../../capacitor/CapacitorConstants.js';
 import CapacitorNode from '../../capacitor/CapacitorNode.js';
 import YawPitchModelViewTransform3 from '../../capacitor/YawPitchModelViewTransform3.js';
@@ -84,6 +82,7 @@ import TimeSpeed from '../../TimeSpeed.js';
 import WireNode from '../../WireNode.js';
 import demoArrowNode from './demoArrowNode.js';
 import demoBeakerNode from './demoBeakerNode.js';
+import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 // constants
@@ -157,47 +156,6 @@ class ComponentsScreenView extends DemosScreenView {
   step( dt ) {
     stepEmitter.emit( dt );
   }
-}
-
-// Creates a demo for BicyclePumpNode
-function demoBicyclePumpNode( layoutBounds ) {
-
-  const numberOfParticlesProperty = new NumberProperty( 0, {
-    numberType: 'Integer',
-    range: new Range( 0, 100 )
-  } );
-
-  const rangeProperty = new Property( numberOfParticlesProperty.range );
-
-  const bicyclePumpNode = new BicyclePumpNode( numberOfParticlesProperty, rangeProperty, {
-    hoseAttachmentOffset: new Vector2( 100, -100 )
-  } );
-
-  // Displays the number of particles, positioned next to the hose output
-  const displayNode = new Text( numberOfParticlesProperty.value, {
-    font: new PhetFont( 24 ),
-    left: bicyclePumpNode.x + bicyclePumpNode.hoseAttachmentOffset.x + 20,
-    centerY: bicyclePumpNode.y + bicyclePumpNode.hoseAttachmentOffset.y
-  } );
-
-  numberOfParticlesProperty.link( numberOfParticles => {
-    displayNode.text = numberOfParticles;
-  } );
-
-  const resetButton = new ResetButton( {
-    listener: () => {
-      numberOfParticlesProperty.reset();
-      bicyclePumpNode.reset();
-    },
-    scale: 0.75,
-    centerX: bicyclePumpNode.x,
-    top: bicyclePumpNode.bottom + 20
-  } );
-
-  return new Node( {
-    children: [ bicyclePumpNode, displayNode, resetButton ],
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for BracketNode
