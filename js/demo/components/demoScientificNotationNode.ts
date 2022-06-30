@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Demo for ScientificNotationNode.
+ * Demo for ScientificNotationNode. This also serves as a test harness.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
