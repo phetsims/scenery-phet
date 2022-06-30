@@ -182,9 +182,7 @@ type StringsType = {
     };
     'playPauseStepButtonGroup': {
       'playingDescription': string;
-      'playingWithSpeedDescription': string;
       'pausedDescription': string;
-      'pausedWithSpeedDescription': string;
     };
     'movementAlerter': {
       'down': string;
