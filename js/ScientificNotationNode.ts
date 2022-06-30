@@ -142,6 +142,13 @@ export default class ScientificNotationNode extends Node {
       this.mantissaNode.text = options.nullValueString;
       this.children = [ this.mantissaNode ];
     }
+    else if ( !isFinite( value ) ) {
+
+      // use built-in toFixed to format values that are not finite
+      // NaN -> 'NaN', Infinity -> 'Infinity', etc.
+      this.mantissaNode.text = value.toFixed( 0 ); // eslint-disable-line bad-sim-text
+      this.children = [ this.mantissaNode ];
+    }
     else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
 
       // show integers as mantissa only, 'M'
