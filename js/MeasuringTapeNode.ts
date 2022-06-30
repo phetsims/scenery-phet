@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A scenery node that is used to represent a draggable Measuring Tape. It contains a tip and a base that can be dragged
  * separately, with a text indicating the measurement. The motion of the measuring tape can be confined by drag bounds.
@@ -14,6 +13,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
@@ -22,17 +22,11 @@ import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener } from '../../scenery/js/imports.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, IColor, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
@@ -41,20 +35,89 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
+export type MeasuringTapeUnits = {
+  name: string;
+  multiplier: number;
+};
+
+type SelfOptions = {
+
+  // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
+  basePositionProperty?: Vector2Property;
+
+  // tip Position in model coordinate reference frame (center position of the tip)
+  tipPositionProperty?: Vector2Property;
+
+  // use this to omit the value and units displayed below the tape measure, useful with createIcon
+  hasValue?: boolean;
+
+  // bounds for the measuring tape (in model coordinate reference frame), default value is everything,
+  // effectively no bounds
+  dragBounds?: Bounds2;
+  textPosition?: Vector2; // position of the text relative to center of the base image in view units
+  modelViewTransform?: ModelViewTransform2;
+  significantFigures?: number; // number of significant figures in the length measurement
+  textColor?: IColor; // {ColorDef} color of the length measurement and unit
+  textBackgroundColor?: IColor; // {ColorDef} fill color of the text background
+  textBackgroundXMargin?: number;
+  textBackgroundYMargin?: number;
+  textBackgroundCornerRadius?: number;
+  textMaxWidth?: number;
+  textFont?: Font; // font for the measurement text
+  baseScale?: number; // control the size of the measuring tape Image (the base)
+  lineColor?: IColor; // color of the tapeline itself
+  tapeLineWidth?: number; // lineWidth of the tape line
+  tipCircleColor?: IColor; // color of the circle at the tip
+  tipCircleRadius?: number; // radius of the circle on the tip
+  crosshairColor?: IColor; // orange, color of the two crosshairs
+  crosshairSize?: number; // size of the crosshairs in scenery coordinates ( measured from center)
+  crosshairLineWidth?: number; // lineWidth of the crosshairs
+  isBaseCrosshairRotating?: boolean; // do crosshairs rotate around their own axis to line up with the tapeline
+  isTipCrosshairRotating?: boolean; // do crosshairs rotate around their own axis to line up with the tapeline
+  isTipDragBounded?: boolean; // is the tip subject to dragBounds
+  interactive?: boolean; // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
+  baseDragStarted?: () => void; // called when the base drag starts
+  baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
+};
+
+/**
+ * NOTE: NodeTranslationOptions are omitted because you must use basePositionProperty and tipPositionProperty to
+ * position this Node.
+ */
+export type MeasuringTapeNodeOptions = SelfOptions & StrictOmit<NodeOptions, keyof NodeTranslationOptions>;
+
+type MeasuringTapeIconSelfOptions = {
+  tapeLength?: number; // length of the measuring tape
+};
+
+export type MeasuringTapeIconOptions = MeasuringTapeIconSelfOptions & StrictOmit<NodeOptions, 'children'>;
+
 class MeasuringTapeNode extends Node {
 
-  /**
-   * WARNING: although the MeasuringTape will accept Scenery options such as x, y, left, etc., you should not use these
-   * to set the position of the tape. Use basePositionProperty and tipPositionProperty instead. However, because there
-   * are some Scenery options that might be useful, options are still propagated to the supertype.
-   *
-   * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string> and (2) multiplier <number>,
-   *                                            eg. {name: 'cm', multiplier: 100},
-   * @param {Property.<boolean>} isVisibleProperty
-   * @param {Object} [options]
-   */
-  constructor( unitsProperty, isVisibleProperty, options ) {
-    options = merge( {
+  // the distance measured by the tape
+  public readonly measuredDistanceProperty: IReadOnlyProperty<number>;
+  public readonly isTipUserControlledProperty: IReadOnlyProperty<boolean>;
+  public readonly isBaseUserControlledProperty: IReadOnlyProperty<boolean>;
+  public readonly basePositionProperty: Vector2Property;
+  public readonly tipPositionProperty: Vector2Property;
+  public readonly modelViewTransformProperty: Property<ModelViewTransform2>;
+
+  private readonly unitsProperty: Property<MeasuringTapeUnits>;
+  private readonly significantFigures: number;
+  public readonly _isTipUserControlledProperty: Property<boolean>;
+  public readonly _isBaseUserControlledProperty: Property<boolean>;
+  private dragBounds: Bounds2;
+  private readonly isTipDragBounded: boolean;
+  private readonly baseDragListener: DragListener | null;
+  private readonly baseImage: Image;
+  private readonly valueNode: Text;
+  private readonly valueBackgroundNode: Rectangle;
+  private readonly valueContainer: Node; // parent that displays the text and its background
+  private readonly disposeMeasuringTapeNode: () => void;
+
+  public constructor( unitsProperty: Property<MeasuringTapeUnits>, providedOptions?: MeasuringTapeNodeOptions ) {
+
+    const options = optionize<MeasuringTapeNodeOptions, SelfOptions, NodeOptions>()( {
 
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
       basePositionProperty: new Vector2Property( new Vector2( 0, 0 ) ),
@@ -93,27 +156,31 @@ class MeasuringTapeNode extends Node {
       baseDragStarted: _.noop, // called when the base drag starts
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       tandem: Tandem.OPTIONAL
-    }, options );
+    }, providedOptions );
 
     super();
 
     assert && assert( Math.abs( options.modelViewTransform.modelToViewDeltaX( 1 ) ) ===
                       Math.abs( options.modelViewTransform.modelToViewDeltaY( 1 ) ), 'The y and x scale factor are not identical' );
 
-    this.significantFigures = options.significantFigures; // @private
-    this.unitsProperty = unitsProperty; // @private
-    this._dragBounds = options.dragBounds; // @private
-    this.modelViewTransformProperty = new Property( options.modelViewTransform ); // @private
-    this.isTipDragBounded = options.isTipDragBounded; //@private
+    this.unitsProperty = unitsProperty;
+    this.significantFigures = options.significantFigures;
+    this.dragBounds = options.dragBounds;
+    this.modelViewTransformProperty = new Property( options.modelViewTransform );
+    this.isTipDragBounded = options.isTipDragBounded;
     this.basePositionProperty = options.basePositionProperty;
     this.tipPositionProperty = options.tipPositionProperty;
 
-    this._isTipUserControlledProperty = new Property( false );// @private
-    this._isBaseUserControlledProperty = new Property( false ); // @private
+    // private Property and its public read-only interface
+    this._isTipUserControlledProperty = new Property<boolean>( false );
+    this.isTipUserControlledProperty = this._isTipUserControlledProperty;
+
+    // private Property and its public read-only interface
+    this._isBaseUserControlledProperty = new Property<boolean>( false );
+    this.isBaseUserControlledProperty = this._isBaseUserControlledProperty;
 
     assert && assert( this.basePositionProperty.units === this.tipPositionProperty.units, 'units should match' );
 
-    // @public (read-only) the distance measured by the tape
     this.measuredDistanceProperty = new DerivedProperty(
       [ this.basePositionProperty, this.tipPositionProperty ],
       ( basePosition, tipPosition ) => basePosition.distance( tipPosition ), {
@@ -142,7 +209,6 @@ class MeasuringTapeNode extends Node {
 
     const tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
-    // @private
     this.baseImage = new Image( measuringTape_png, {
       scale: options.baseScale,
       cursor: 'pointer'
@@ -171,14 +237,12 @@ class MeasuringTapeNode extends Node {
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
-    // @private
     this.valueNode = new Text( readoutTextProperty.value, {
       font: options.textFont,
       fill: options.textColor,
       maxWidth: options.textMaxWidth
     } );
 
-    // @private
     this.valueBackgroundNode = new Rectangle( 0, 0, 1, 1, {
       cornerRadius: options.textBackgroundCornerRadius,
       fill: options.textBackgroundColor
@@ -203,33 +267,33 @@ class MeasuringTapeNode extends Node {
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
     this.addChild( this.baseImage ); // base of the measuring tape
 
-    // @private {Node} - parent that displays the text and its background
     this.valueContainer = new Node( { children: [ this.valueBackgroundNode, this.valueNode ] } );
     if ( options.hasValue ) {
       this.addChild( this.valueContainer );
     }
     this.addChild( tip ); // crosshair and circle at the tip (set at tipPosition)
 
-    let baseStartOffset;
+    let baseStartOffset: Vector2;
 
-    // @private
-    this.baseDragListener =
-      options.interactive ?
-      new DragListener( {
+    this.baseDragListener = null;
+    if ( options.interactive ) {
+
+      // Drag listener for base
+      this.baseDragListener = new DragListener( {
         tandem: options.tandem.createTandem( 'baseDragListener' ),
 
         start: event => {
           this.moveToFront();
           options.baseDragStarted();
-          this._isBaseUserControlledProperty.set( true );
+          this._isBaseUserControlledProperty.value = true;
           const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
-          baseStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
+          baseStartOffset = event.currentTarget!.globalToParentPoint( event.pointer.point ).minus( position );
         },
 
         drag: ( event, listener ) => {
           const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
           const unconstrainedBasePosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
-          const constrainedBasePosition = this._dragBounds.closestPointTo( unconstrainedBasePosition );
+          const constrainedBasePosition = this.dragBounds.closestPointTo( unconstrainedBasePosition );
 
           // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
           const translationDelta = constrainedBasePosition.minus( this.basePositionProperty.value ); // in model reference frame
@@ -239,10 +303,10 @@ class MeasuringTapeNode extends Node {
 
           // translate the position of the tip if it is not being dragged
           // when the user is not holding onto the tip, dragging the body will also drag the tip
-          if ( !this._isTipUserControlled ) {
+          if ( !this.isTipUserControlledProperty.value ) {
             const unconstrainedTipPosition = translationDelta.add( this.tipPositionProperty.value );
             if ( options.isTipDragBounded ) {
-              const constrainedTipPosition = this._dragBounds.closestPointTo( unconstrainedTipPosition );
+              const constrainedTipPosition = this.dragBounds.closestPointTo( unconstrainedTipPosition );
               // translation of the tipPosition (subject to the constraining drag bounds)
               this.tipPositionProperty.set( constrainedTipPosition );
             }
@@ -253,53 +317,49 @@ class MeasuringTapeNode extends Node {
         },
 
         end: () => {
-          this._isBaseUserControlledProperty.set( false );
+          this._isBaseUserControlledProperty.value = false;
           options.baseDragEnded();
         }
-      } ) :
-      null;
+      } );
+      this.baseImage.addInputListener( this.baseDragListener );
 
-    options.interactive && this.baseImage.addInputListener( this.baseDragListener );
+      // Drag listener for tip
+      let tipStartOffset: Vector2;
+      const tipDragListener = new DragListener( {
+        tandem: options.tandem.createTandem( 'tipDragListener' ),
 
-    let tipStartOffset;
+        start: event => {
+          this.moveToFront();
+          this._isTipUserControlledProperty.value = true;
+          const position = this.modelViewTransformProperty.value.modelToViewPosition( this.tipPositionProperty.value );
+          tipStartOffset = event.currentTarget!.globalToParentPoint( event.pointer.point ).minus( position );
+        },
 
-    // init drag and drop for tip
-    options.interactive && tip.addInputListener( new DragListener( {
-      tandem: options.tandem.createTandem( 'tipDragListener' ),
+        drag: ( event, listener ) => {
+          const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
+          const unconstrainedTipPosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
 
-      start: event => {
-        this.moveToFront();
-        this._isTipUserControlledProperty.set( true );
-        const position = this.modelViewTransformProperty.value.modelToViewPosition( this.tipPositionProperty.value );
-        tipStartOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( position );
-      },
+          if ( options.isTipDragBounded ) {
+            // translation of the tipPosition (subject to the constraining drag bounds)
+            this.tipPositionProperty.value = this.dragBounds.closestPointTo( unconstrainedTipPosition );
+          }
+          else {
+            this.tipPositionProperty.value = unconstrainedTipPosition;
+          }
+        },
 
-      drag: ( event, listener ) => {
-        const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( tipStartOffset );
-        const unconstrainedTipPosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
-
-        if ( options.isTipDragBounded ) {
-          const constrainedTipPosition = this._dragBounds.closestPointTo( unconstrainedTipPosition );
-          // translation of the tipPosition (subject to the constraining drag bounds)
-          this.tipPositionProperty.set( constrainedTipPosition );
+        end: () => {
+          this._isTipUserControlledProperty.value = false;
         }
-        else {
-          this.tipPositionProperty.set( unconstrainedTipPosition );
-        }
-      },
+      } );
+      tip.addInputListener( tipDragListener );
+    }
 
-      end: () => {
-        this._isTipUserControlledProperty.set( false );
-      }
-    } ) );
-
-    // set Text on on valueNode
-    const updateTextReadout = text => {
+    const updateTextReadout = ( text: string ) => {
       this.valueNode.setText( text );
-
-      // reset the text
       this.valueNode.centerTop = this.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
     };
+    readoutTextProperty.link( updateTextReadout );
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
@@ -339,20 +399,9 @@ class MeasuringTapeNode extends Node {
         updateTextReadout( readoutTextProperty.value );
       } );
 
-    const isVisiblePropertyObserver = isVisible => {
-      this.visible = isVisible;
-    };
-    isVisibleProperty.link( isVisiblePropertyObserver ); // must be unlinked in dispose
-
-    readoutTextProperty.link( updateTextReadout );
-
-    // @private
     this.disposeMeasuringTapeNode = () => {
       multilink.dispose();
-      if ( isVisibleProperty.hasListener( isVisiblePropertyObserver ) ) {
-        isVisibleProperty.unlink( isVisiblePropertyObserver );
-      }
-      readoutTextProperty.unlink( updateTextReadout );
+      readoutTextProperty.dispose();
     };
 
     this.mutate( options );
@@ -361,217 +410,85 @@ class MeasuringTapeNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'MeasuringTapeNode', this );
   }
 
-  /**
-   * Shows/hides the text and its background.  Operates by removing/adding children so that Node.rasterized() can
-   * be used to create icons that are not off-center.
-   *
-   * @param {boolean} visible
-   * @public
-   */
-  setTextVisible( visible ) {
-    this.valueContainer.visible = visible;
-  }
-
-  /**
-   * Resets the MeasuringTapeNode to its initial configuration
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.basePositionProperty.reset();
     this.tipPositionProperty.reset();
   }
 
-  /**
-   * Ensures that this node is subject to garbage collection
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeMeasuringTapeNode();
-    Node.prototype.dispose.call( this );
+    super.dispose();
   }
 
   /**
-   * Sets the color of the text label
-   * @public
-   * @param {Color|string|null} color
-   */
-  setTextColor( color ) {
-    this.valueNode.fill = color;
-  }
-
-  /**
-   * Returns a property indicating if the tip of the measuring tape is being dragged or not
-   * @public
-   * @returns {Property.<boolean>}
-   */
-  getIsTipUserControlledProperty() {
-    return this._isTipUserControlledProperty;
-  }
-
-  /**
-   * Returns a property indicating if the baseImage of the measuring tape is being dragged or not
-   * @public
-   * @returns {Property.<boolean>}
-   */
-  getIsBaseUserControlledProperty() {
-    return this._isBaseUserControlledProperty;
-  }
-
-  /**
-   * Sets the property indicating if the tip of the measuring tape is being dragged or not.
-   * (Useful to set externally if using a creator node to generate the measuring tape)
-   * @public
-   * @param {boolean} value
-   */
-  setIsBaseUserControlledProperty( value ) {
-    this._isBaseUserControlledProperty.set( value );
-  }
-
-  /**
-   * Sets the property indicating if the tip of the measuring tape is being dragged or not
-   * @public
-   * @param {boolean} value
-   */
-  setIsTipUserControlledProperty( value ) {
-    this._isBaseUserControlledProperty.set( value );
-  }
-
-  /**
-   * Sets the dragBounds of the of the measuring tape.
+   * Sets the dragBounds of the measuring tape.
    * In addition, it forces the tip and base of the measuring tape to be within the new bounds.
-   * @public
-   * @param {Bounds2} dragBounds
    */
-  setDragBounds( dragBounds ) {
-    this._dragBounds = dragBounds.copy();
+  public setDragBounds( dragBounds: Bounds2 ): void {
+    this.dragBounds = dragBounds.copy();
+
     // sets the base position of the measuring tape, which may have changed if it was outside of the dragBounds
-    this.basePositionProperty.set( this._dragBounds.closestPointTo( this.basePositionProperty.value ) );
+    this.basePositionProperty.value = this.dragBounds.closestPointTo( this.basePositionProperty.value );
+
     // sets a new tip position if the tip of the measuring tape is subject to dragBounds
     if ( this.isTipDragBounded ) {
-      this.tipPositionProperty.set( this._dragBounds.closestPointTo( this.tipPositionProperty.value ) );
+      this.tipPositionProperty.value = this.dragBounds.closestPointTo( this.tipPositionProperty.value );
     }
   }
 
   /**
-   * Returns the dragBounds of the sim.
-   * @public
-   * @returns {Bounds2}
+   * Gets the dragBounds of the measuring tape.
    */
-  getDragBounds() {
-    return this._dragBounds;
-  }
-
-  /**
-   * Sets the modelViewTransform.
-   * @public
-   * @param {ModelViewTransform2} modelViewTransform
-   */
-  setModelViewTransform( modelViewTransform ) {
-    this.modelViewTransformProperty.value = modelViewTransform;
-  }
-
-  /**
-   * Gets the modelViewTransform.
-   * @public
-   * @returns {ModelViewTransform2}
-   */
-  getModelViewTransform() {
-    return this.modelViewTransformProperty.value;
+  public getDragBounds(): Bounds2 {
+    return this.dragBounds.copy();
   }
 
   /**
    * Returns the center of the base in the measuring tape's local coordinate frame.
-   * @public
-   *
-   * @returns {Vector2}
    */
-  getLocalBaseCenter() {
+  public getLocalBaseCenter(): Vector2 {
     return new Vector2( -this.baseImage.imageWidth / 2, -this.baseImage.imageHeight / 2 );
   }
 
   /**
    * Returns the bounding box of the measuring tape's base within its local coordinate frame
-   * @public
-   *
-   * @returns {Bounds2}
    */
-  getLocalBaseBounds() {
+  public getLocalBaseBounds(): Bounds2 {
     return this.baseImage.bounds.copy();
   }
 
   /**
    * Initiates a drag of the base (whole measuring tape) from a Scenery event.
-   * @public
-   *
-   * @param {SceneryEvent} event
    */
-  startBaseDrag( event ) {
-    this.baseDragListener.press( event );
+  public startBaseDrag( event: PressListenerEvent ): void {
+    this.baseDragListener && this.baseDragListener.press( event );
   }
-
-  // @public ES5 getter and setter for the textColor
-  set textColor( value ) { this.setTextColor( value ); }
-
-  get textColor() { return this.valueNode.fill; }
-
-  // @public ES5 getter and setter for the modelViewTransform
-  set modelViewTransform( modelViewTransform ) { this.modelViewTransformProperty.value = modelViewTransform; }
-
-  get modelViewTransform() { return this.modelViewTransformProperty.value; }
-
-  // @public ES5 getter and setter for the dragBounds
-  set dragBounds( value ) { this.setDragBounds( value ); }
-
-  get dragBounds() { return this.getDragBounds(); }
-
-  // @public ES5 getters and setters
-  get isBaseUserControlledProperty() { return this.getIsBaseUserControlledProperty(); }
-
-  get isTipUserControlledProperty() { return this.getIsTipUserControlledProperty(); }
-
-  // @public
-  set isBaseUserControlledProperty( value ) { this.setIsBaseUserControlledProperty( value ); }
-
-  set isTipUserControlledProperty( value ) { this.setIsTipUserControlledProperty( value ); }
 
   /**
    * Creates an icon of the measuring tape.
-   *
-   * @param {Object} [measuringTapeOptions] - options applied to the 'look' of icon.
-   *    These options are not applied to the icon this returns. DO NOT use layout options!
-   * @param {Tandem} [tandem]
-   * @returns {Node}
-   * @static
-   * @public
    */
-  static createIcon( measuringTapeOptions, tandem = null ) {
+  public static createIcon( providedOptions?: MeasuringTapeIconOptions ): Node {
 
     // See documentation above!
-    measuringTapeOptions = merge( {
-      tipPositionProperty: new Vector2Property( new Vector2( 30, 0 ) ),
-      hasValue: false, // no value below the tape
-      interactive: false
-    }, measuringTapeOptions, {
-      pickable: false // MeasuringTapeNode has a drag handle, don't allow the user to interact with it
-    } );
-
-    assert && assert( !measuringTapeOptions.tandem, 'pass tandem as an arg for the icon, not as options' );
+    const options = optionize<MeasuringTapeIconOptions, MeasuringTapeIconSelfOptions, NodeOptions>()( {
+      tapeLength: 30
+    }, providedOptions );
 
     // Create an actual measuring tape.
-    const measuringTape = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), new Property( true ),
-      measuringTapeOptions );
+    const measuringTapeNode = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), {
+      tipPositionProperty: new Vector2Property( new Vector2( options.tapeLength, 0 ) ),
+      hasValue: false, // no value below the tape
+      interactive: false
+    } );
+    options.children = [ measuringTapeNode ];
 
     // Create the icon, with measuringTape as its initial child.  This child will be replaced once the image becomes
     // available in the callback to toImage (see below). Since toImage happens asynchronously, this ensures that
     // the icon has initial bounds that will match the icon once the image is available.
-    const measuringTapeIcon = new Node( { children: [ measuringTape ] } );
+    const measuringTapeIcon = new Node( options );
 
-    // Convert measuringTape to an image, and make it the child of measuringTapeIcon.
-    measuringTape.toImage( image => measuringTapeIcon.setChildren( [ new Image( image ) ] ) );
-
-    if ( tandem ) {
-      measuringTapeIcon.mutate( { tandem: tandem } ); // need to mutate, as there is no tandem setter for Node.
-    }
+    // Convert measuringTapeNode to an image, and make it the child of measuringTapeIcon.
+    measuringTapeNode.toImage( image => measuringTapeIcon.setChildren( [ new Image( image ) ] ) );
 
     return measuringTapeIcon;
   }
