@@ -15,7 +15,7 @@ export default function demoGrabDragInteraction( layoutBounds: Bounds2, provided
 
   const rect = new Rectangle( 0, 0, 100, 100, {
     tagName: 'div',
-    // @ts-ignore RectangleOptions.role does not exist
+    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/753 RectangleOptions.role does not exist
     role: 'application',
     fill: 'blue',
     cursor: 'pointer'
