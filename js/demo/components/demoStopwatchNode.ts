@@ -48,13 +48,13 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
   // StopwatchNode with rich text format and dynamic units.
   const unitsProperty = new Property( 'ms' );
   const customStopwatchNode = new StopwatchNode( stopwatch, {
+    backgroundBaseColor: 'red',
 
     // Supply the formatter on startup as well as on link, so it can detect widest/thinnest text, see NumberDisplay
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
         showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
-        // @ts-ignore numberFormatter.decimalPlaces does not exist
-        decimalPlaces: 1,
+        numberOfDecimalPlaces: 1,
         units: unitsProperty.value
       } )
     },
