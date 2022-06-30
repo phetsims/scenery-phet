@@ -56,7 +56,17 @@
         "extends": "../chipper/eslint/sim_eslintrc.js",
         "globals": {
           "katex": "readonly"
-        }
+        },
+        "overrides": [
+          {
+            "files": [
+              "**/*.ts"
+            ],
+            "rules": {
+              "@typescript-eslint/adjacent-overload-signatures": "error"
+            }
+          }
+        ]
       }
     };
   window.phet.chipper.stringRepos =
