@@ -22,11 +22,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PhetColorScheme from '../../PhetColorScheme.js';
 
-const KEYPAD_FONT = new PhetFont( 20 );
-const SCIENTIFIC_NOTATION_FONT = new PhetFont( 20 );
+const SCIENTIFIC_NOTATION_FONT = new PhetFont( 30 );
 const TITLE_FONT = new PhetFont( { size: 20, weight: 'bold' } );
 const CONTROL_FONT = new PhetFont( 14 );
+const KEYPAD_FONT = new PhetFont( 20 );
 
 export default function demoScientificNotationNode( layoutBounds: Bounds2 ): Node {
 
@@ -91,6 +92,7 @@ export default function demoScientificNotationNode( layoutBounds: Bounds2 ): Nod
     content: new Text( 'Apply \u2192', {
       font: new PhetFont( 22 )
     } ),
+    baseColor: PhetColorScheme.BUTTON_YELLOW,
     listener: () => apply(),
 
     // Disable the button if the keypad shows no value.
@@ -207,8 +209,14 @@ class ControlPanel extends Panel {
     } );
 
     const clearButton = new RectangularPushButton( {
-      content: new Text( 'Clear', textOptions ),
-      listener: () => keypad.clear()
+      content: new Text( 'Clear', { font: KEYPAD_FONT } ),
+      baseColor: 'white',
+      listener: () => keypad.clear(),
+
+      // Disabled if there is no value to clear
+      enabledProperty: new DerivedProperty( [ keypad.stringProperty ],
+        ( keypadString: string ) => ( keypadString.length !== 0 )
+      )
     } );
 
     const keypadBox = new VBox( {
@@ -223,7 +231,14 @@ class ControlPanel extends Panel {
     } );
 
     keypad.stringProperty.link( ( keypadString: string ) => {
-      keypadValueText.text = ( keypadString.length === 0 ) ? 'no value' : keypadString;
+      if ( keypadString.length === 0 ) {
+        keypadValueText.text = 'no value';
+        keypadValueText.fill = 'red';
+      }
+      else {
+        keypadValueText.text = keypadString;
+        keypadValueText.fill = 'black';
+      }
     } );
 
     const vSeparatorHeight = Math.max( leftContent.height, keypadBox.height );
