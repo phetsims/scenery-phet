@@ -17,7 +17,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import demoFineCoarseSpinner from './demoFineCoarseSpinner.js';
 
 type SelfOptions = EmptyObjectType;
-type SpinnersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
+type SpinnersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SpinnersScreenView extends DemosScreenView {
 

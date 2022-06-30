@@ -1,6 +1,5 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Demonstration of misc scenery-phet UI components.
  * Demos are selected from a combo box, and are instantiated on demand.
@@ -10,8 +9,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import DemosScreenView from '../../../../sun/js/demo/DemosScreenView.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
@@ -52,17 +53,17 @@ import demoThermometerNode from './demoThermometerNode.js';
 import demoTimeControlNode from './demoTimeControlNode.js';
 import demoWireNode from './demoWireNode.js';
 
+type SelfOptions = EmptyObjectType;
+type ComponentsScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
+
 export default class ComponentsScreenView extends DemosScreenView {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( providedOptions: ComponentsScreenViewOptions ) {
 
-    options = merge( {
+    const options = optionize<ComponentsScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
       selectedDemoLabel: sceneryPhetQueryParameters.component,
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // To add a demo, add an entry here of type SunDemo.
     const demos = [

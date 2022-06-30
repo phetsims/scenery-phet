@@ -21,7 +21,7 @@ import demoWavelengthNumberControl from './demoWavelengthNumberControl.js';
 import demoNumberControlWithSpectrum from './demoNumberControlWithSpectrum.js';
 
 type SelfOptions = EmptyObjectType;
-type SlidersScreenViewOptions = SelfOptions & DemosScreenViewOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
+type SlidersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SlidersScreenView extends DemosScreenView {
 

@@ -17,7 +17,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import SpringControls from './SpringControls.js';
 
 type SelfOptions = EmptyObjectType;
-type SpringScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
+type SpringScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class SpringScreenView extends ScreenView {
   public constructor( providedOptions: SpringScreenViewOptions ) {

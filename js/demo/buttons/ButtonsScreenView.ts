@@ -43,7 +43,7 @@ import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import TrashButton from '../../buttons/TrashButton.js';
 
 type SelfOptions = EmptyObjectType;
-type ButtonsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
+type ButtonsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class ButtonsScreenView extends ScreenView {
 

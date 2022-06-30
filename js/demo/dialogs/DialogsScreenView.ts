@@ -25,7 +25,7 @@ const TEXT_OPTIONS = {
 };
 
 type SelfOptions = EmptyObjectType;
-type DialogsScreenViewOptions = SelfOptions & ScreenViewOptions & PickRequired<ScreenViewOptions, 'tandem'>;
+type DialogsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class DialogsScreenView extends ScreenView {
   public constructor( providedOptions: DialogsScreenViewOptions ) {
