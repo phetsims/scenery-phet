@@ -1,5 +1,6 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A scenery node that is used to represent a draggable Measuring Tape. It contains a tip and a base that can be dragged
  * separately, with a text indicating the measurement. The motion of the measuring tape can be confined by drag bounds.
