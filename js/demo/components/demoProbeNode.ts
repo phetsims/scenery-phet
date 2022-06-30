@@ -6,7 +6,7 @@
 
 import { Color, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import NumberControl, { NumberControlOptions } from '../../NumberControl.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../NumberControl.js';
 import PhetFont from '../../PhetFont.js';
 import ProbeNode from '../../ProbeNode.js';
 import Property from '../../../../axon/js/Property.js';
@@ -18,7 +18,6 @@ import Range from '../../../../dot/js/Range.js';
 import Panel from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { NumberDisplayOptions } from '../../NumberDisplay.js';
-import { SliderOptions } from '../../../../sun/js/Slider.js';
 
 export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
 
@@ -173,8 +172,7 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
     decimalPlaces: 2
   }, numberControlOptions.numberDisplayOptions );
 
-  lightAngleNumberControlOptions.sliderOptions = combineOptions<SliderOptions>( {
-    // @ts-ignore SliderOptions.majorTicks does not exist
+  lightAngleNumberControlOptions.sliderOptions = combineOptions<NumberControlSliderOptions>( {
     majorTicks: [
       { value: 0, label: new Text( '0', tickLabelOptions ) },
       { value: 1, label: new Text( '\u03c0', tickLabelOptions ) },

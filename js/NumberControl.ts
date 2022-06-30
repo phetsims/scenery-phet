@@ -44,7 +44,7 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 
 type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
-type NumberControlSliderOptions = SliderOptions & {
+export type NumberControlSliderOptions = SliderOptions & {
   // other slider options that are specific to NumberControl
   // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
 
