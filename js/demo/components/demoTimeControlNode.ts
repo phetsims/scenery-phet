@@ -2,6 +2,8 @@
 
 /**
  * Demo for ThermometerNode
+ *
+ * @author Jesse Greenberg
  */
 
 import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
