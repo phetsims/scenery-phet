@@ -27,7 +27,7 @@ export default class SpinnersScreenView extends DemosScreenView {
       // nothing for now
     }, providedOptions );
 
-    // To add a demo, add an entry here.
+    // To add a demo, add an entry here of type SunDemo.
     const demos = [
       { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner }
     ];

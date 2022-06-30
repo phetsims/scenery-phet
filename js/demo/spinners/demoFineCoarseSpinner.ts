@@ -15,8 +15,9 @@ import { NodeOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../../FineCoarseSpinner.js';
 import PhetFont from '../../PhetFont.js';
+import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 
-export default function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: NodeOptions ) {
+export default function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: SunDemoOptions ) {
 
   const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
     tandem: Tandem.OPTIONAL

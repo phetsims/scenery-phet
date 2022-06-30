@@ -96,7 +96,7 @@ class ComponentsScreenView extends DemosScreenView {
       tandem: Tandem.REQUIRED
     }, options );
 
-    // To add a demo, add an entry here.
+    // To add a demo, add an entry here of type SunDemo.
     const demos = [
       { label: 'ArrowNode', createNode: demoArrowNode },
       { label: 'BeakerNode', createNode: demoBeakerNode },
