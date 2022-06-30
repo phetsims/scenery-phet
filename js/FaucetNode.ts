@@ -78,10 +78,7 @@ type SelfOptions = {
   shooterOptions?: ShooterNodeOptions;
 };
 type ParentOptions = AccessibleSliderOptions & NodeOptions;
-export type FaucetNodeOptions = SelfOptions &
-
-  // FaucetNode sets these options
-  StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
+export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
