@@ -44,7 +44,7 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 
 type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
-export type NumberControlSliderOptions = SliderOptions & {
+export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty'> & {
   // other slider options that are specific to NumberControl
   // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
 
@@ -320,6 +320,8 @@ export default class NumberControl extends Node {
       'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
     if ( options.enabledRangeProperty ) {
+
+      // @ts-ignore, this is not part of the public api, but can be set by this constructor
       options.sliderOptions.enabledRangeProperty = options.enabledRangeProperty;
     }
 
