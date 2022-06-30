@@ -1,5 +1,6 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * The protractor node is a circular device for measuring angles. In this sim it is used for measuring the angle of the
  * incident, reflected and refracted light.
