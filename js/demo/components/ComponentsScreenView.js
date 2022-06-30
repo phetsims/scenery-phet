@@ -37,11 +37,6 @@ import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
-import Drawer from '../../Drawer.js';
-import EyeDropperNode from '../../EyeDropperNode.js';
-import FaucetNode from '../../FaucetNode.js';
-import FormulaNode from '../../FormulaNode.js';
-import GaugeNode from '../../GaugeNode.js';
 import HandleNode from '../../HandleNode.js';
 import HeaterCoolerNode from '../../HeaterCoolerNode.js';
 import ArrowKeyNode from '../../keyboard/ArrowKeyNode.js';
@@ -77,6 +72,11 @@ import demoBracketNode from './demoBracketNode.js';
 import demoCapacitorNode from './demoCapacitorNode.js';
 import demoComboBoxDisplay from './demoComboBoxDisplay.js';
 import demoConductivityTesterNode from './demoConductivityTesterNode.js';
+import demoDrawer from './demoDrawer.js';
+import demoEyeDropperNode from './demoEyeDropperNode.js';
+import demoFaucetNode from './demoFaucetNode.js';
+import demoFormulaNode from './demoFormulaNode.js';
+import demoGaugeNode from './demoGaugeNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
 class ComponentsScreenView extends DemosScreenView {
@@ -133,127 +133,6 @@ class ComponentsScreenView extends DemosScreenView {
 
     super( demos, options );
   }
-}
-
-// Creates a demo for Drawer
-function demoDrawer( layoutBounds ) {
-
-  const rectangle = new Rectangle( 0, 0, 400, 50, {
-    fill: 'gray',
-    stroke: 'black',
-    cornerRadius: 10
-  } );
-
-  const textNode = new Text( 'Hello Drawer!', {
-    font: new PhetFont( 40 ),
-    fill: 'red'
-  } );
-
-  const drawer = new Drawer( textNode, {
-    handlePosition: 'bottom',
-    open: false,
-    xMargin: 30,
-    yMargin: 20,
-    centerX: rectangle.centerX,
-    top: rectangle.bottom - 1
-  } );
-
-  return new Node( {
-    children: [ drawer, rectangle ],
-    center: layoutBounds.center
-  } );
-}
-
-// Creates a demo for EyeDropperNode
-function demoEyeDropperNode( layoutBounds ) {
-
-  const buttonEnabledProperty = new BooleanProperty( true );
-
-  const dropperNode = new EyeDropperNode( {
-    buttonOptions: {
-      enabledProperty: buttonEnabledProperty
-    },
-    fluidColor: 'purple',
-    center: layoutBounds.center
-  } );
-
-  const buttonEnabledCheckbox = new Checkbox( buttonEnabledProperty, new Text( 'button enabled', { font: new PhetFont( 20 ) } ) );
-
-  dropperNode.isDispensingProperty.lazyLink(
-    dispensing => console.log( `dropper ${dispensing ? 'dispensing' : 'not dispensing'}` )
-  );
-
-  return new VBox( {
-    spacing: 15,
-    children: [ dropperNode, buttonEnabledCheckbox ],
-    center: layoutBounds.center
-  } );
-}
-
-// Creates a demo for FaucetNode
-function demoFaucetNode( layoutBounds ) {
-
-  const fluidRateProperty = new Property( 0 );
-  const faucetEnabledProperty = new Property( true );
-
-  const faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
-    shooterOptions: {
-      touchAreaXDilation: 37,
-      touchAreaYDilation: 60
-    }
-  } );
-
-  const faucetEnabledCheckbox = new Checkbox( faucetEnabledProperty, new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), {
-    left: faucetNode.left,
-    bottom: faucetNode.top - 20
-  } );
-
-  return new Node( {
-    children: [ faucetNode, faucetEnabledCheckbox ],
-    center: layoutBounds.center
-  } );
-}
-
-// Creates a demo for FormulaNode
-function demoFormulaNode( layoutBounds ) {
-
-  const conditional = '\\forall \\mathbf{p}\\in\\mathbb{R}^2';
-  const leftVert = '\\left\\lVert';
-  const rightVert = '\\right\\rVert';
-  const matrix = '\\begin{bmatrix} \\cos\\theta & \\sin\\theta \\\\ -\\sin\\theta & \\cos\\theta \\end{bmatrix}^{k+1}';
-  const sumExpr = `${leftVert}\\sum_{k=1}^{\\infty}kx^{k-1}${matrix}${rightVert}`;
-  const integral = '\\int_{0}^{2\\pi}\\overline{f(\\theta)}\\cos\\theta\\,\\mathrm{d}\\theta';
-  const invCos = '\\cos^{-1}\\left( \\frac{\\sqrt{\\varphi_2}}{\\sqrt{x_2^2+x_3^2}} \\right)';
-
-  const formulaNode = new FormulaNode( `${conditional}\\quad ${sumExpr} = ${invCos} + ${integral}`, {
-    center: layoutBounds.center,
-    scale: 1.3,
-    displayMode: true
-  } );
-  const bounds = Rectangle.bounds( formulaNode.bounds, {
-    fill: 'rgba(0,0,0,0.1)'
-  } );
-  return new Node( {
-    children: [ bounds, formulaNode ]
-  } );
-}
-
-// Creates a demo for GaugeNode
-function demoGaugeNode( layoutBounds ) {
-  const valueProperty = new Property( 0 );
-  const gaugeValueRange = new Range( -100, 100 );
-  const sliderValueRange = new Range( gaugeValueRange.min - 20, gaugeValueRange.max + 20 );
-
-  const gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', gaugeValueRange );
-
-  return new VBox( {
-    spacing: 15,
-    children: [
-      gaugeNode,
-      NumberControl.withMinMaxTicks( 'Value:', valueProperty, sliderValueRange )
-    ],
-    center: layoutBounds.center
-  } );
 }
 
 // Creates a demo for GridBox
