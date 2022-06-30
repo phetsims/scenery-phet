@@ -179,12 +179,12 @@ type StringsType = {
       'simSpeedDescription': string;
       'label': string;
       'simSpeeds': string;
-      'playPauseStepButtons': {
-        'playingDescription': string;
-        'playingWithSpeedDescription': string;
-        'pausedDescription': string;
-        'pausedWithSpeedDescription': string;
-      }
+    };
+    'playPauseStepButtonGroup': {
+      'playingDescription': string;
+      'playingWithSpeedDescription': string;
+      'pausedDescription': string;
+      'pausedWithSpeedDescription': string;
     };
     'movementAlerter': {
       'down': string;

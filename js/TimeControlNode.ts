@@ -151,27 +151,9 @@ export default class TimeControlNode extends Node {
 
     this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
 
-    // pdom - dynamic or component dependent descriptions
-    const playingListener = ( playing: boolean ) => {
-      let description;
-      if ( playing ) {
-        description = options.timeSpeedProperty ?
-                      sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.playingWithSpeedDescription :
-                      sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.playingDescription;
-      }
-      else {
-        description = options.timeSpeedProperty ?
-                      sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.pausedWithSpeedDescription :
-                      sceneryPhetStrings.a11y.timeControlNode.playPauseStepButtons.pausedDescription;
-      }
-      this.playPauseStepButtons.descriptionContent = description;
-    };
-    isPlayingProperty.link( playingListener );
-
     this.disposeTimeControlNode = () => {
       this.playPauseStepButtons.dispose();
       this.speedRadioButtonGroup && this.speedRadioButtonGroup.dispose();
-      isPlayingProperty.unlink( playingListener );
     };
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
