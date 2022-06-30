@@ -10,11 +10,11 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -79,11 +79,6 @@ import demoComboBoxDisplay from './demoComboBoxDisplay.js';
 import demoConductivityTesterNode from './demoConductivityTesterNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 
-// constants
-
-// fires when this screen is stepped
-const stepEmitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
-
 class ComponentsScreenView extends DemosScreenView {
 
   /**
@@ -137,14 +132,6 @@ class ComponentsScreenView extends DemosScreenView {
     ];
 
     super( demos, options );
-  }
-
-  /**
-   * @param {number} dt
-   * @public
-   */
-  step( dt ) {
-    stepEmitter.emit( dt );
   }
 }
 
@@ -1536,7 +1523,7 @@ function demoStopwatchNode( layoutBounds, options ) {
   } );
 
   const stepListener = dt => stopwatch.step( dt );
-  stepEmitter.addListener( stepListener );
+  stepTimer.addListener( stepListener );
 
   // StopwatchNode with plain text format MM:SS.CC
   const plainTextStopwatchNode = new StopwatchNode( stopwatch, {
@@ -1606,7 +1593,7 @@ function demoStopwatchNode( layoutBounds, options ) {
   // Swap out the dispose function for one that also removes the Emitter listener
   const demoDispose = vBox.dispose.bind( vBox );
   vBox.dispose = () => {
-    stepEmitter.removeListener( stepListener );
+    stepTimer.removeListener( stepListener );
     demoDispose();
   };
   return vBox;
@@ -1865,10 +1852,10 @@ function demoSprites( layoutBounds ) {
     sprites.invalidatePaint();
   };
 
-  stepEmitter.addListener( listener );
+  stepTimer.addListener( listener );
 
   sprites.dispose = () => {
-    stepEmitter.removeListener( listener );
+    stepTimer.removeListener( listener );
     Node.prototype.dispose.call( this );
   };
 
