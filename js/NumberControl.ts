@@ -30,6 +30,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Property from '../../axon/js/Property.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -178,8 +179,15 @@ export default class NumberControl extends Node {
     // used in tandem. This must be called before defaults are set.
     validateCallbacks( providedOptions || {} );
 
+    // Omit enabledRangeProperty from top-level, so that we don't need to provide a default.
+    // Then add enabledRangeProperty to sliderOptions, so that if we are given providedOptions.enabledRangeProperty,
+    // we can pass it to super via options.sliderOptions.enabledRangeProperty.
+    type RevisedSelfOptions = StrictOmit<SelfOptions, 'enabledRangeProperty'> & {
+      sliderOptions?: PickOptional<SliderOptions, 'enabledRangeProperty'>;
+    };
+
     // Extend NumberControl options before merging nested options because some nested defaults use these options.
-    const initialOptions = optionize<NumberControlOptions, StrictOmit<SelfOptions, 'enabledRangeProperty'>, NodeOptions>()( {
+    const initialOptions = optionize<NumberControlOptions, RevisedSelfOptions, NodeOptions>()( {
 
       numberDisplayOptions: {},
       sliderOptions: {},
@@ -320,8 +328,6 @@ export default class NumberControl extends Node {
       'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
     if ( options.enabledRangeProperty ) {
-
-      // @ts-ignore, this is not part of the public api, but can be set by this constructor
       options.sliderOptions.enabledRangeProperty = options.enabledRangeProperty;
     }
 
