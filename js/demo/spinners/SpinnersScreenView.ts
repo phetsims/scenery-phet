@@ -27,16 +27,12 @@ export default class SpinnersScreenView extends DemosScreenView {
       // nothing for now
     }, providedOptions );
 
-    super( [
-
-      /**
-       * To add a demo, add an object literal here. Each object has these properties:
-       *
-       * {string} label - label in the combo box
-       * {function(Bounds2): Node} createNode - creates the scene graph for the demo
-       */
+    // To add a demo, add an entry here.
+    const demos = [
       { label: 'FineCoarseSpinner', createNode: demoFineCoarseSpinner }
-    ], options );
+    ];
+
+    super( demos, options );
   }
 }
 

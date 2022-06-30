@@ -31,19 +31,15 @@ export default class SlidersScreenView extends DemosScreenView {
       selectedDemoLabel: sceneryPhetQueryParameters.slider
     }, providedOptions );
 
-    super( [
-
-      /**
-       * To add a demo, add an object literal here. Each object has these properties:
-       *
-       * {string} label - label in the combo box
-       * {function(Bounds2): Node} createNode - creates the scene graph for the demo
-       */
+    // To add a demo, add an entry here.
+    const demos = [
       { label: 'NumberControl', createNode: demoNumberControl },
       { label: 'WavelengthNumberControl', createNode: demoWavelengthNumberControl },
       { label: 'SpectrumSliderTrack', createNode: demoSliderWithSpectrum },
       { label: 'NumberControlWithSpectrum', createNode: demoNumberControlWithSpectrum }
-    ], options );
+    ];
+
+    super( demos, options );
   }
 }
 

@@ -96,14 +96,8 @@ class ComponentsScreenView extends DemosScreenView {
       tandem: Tandem.REQUIRED
     }, options );
 
-    super( [
-
-      /**
-       * To add a demo, add an object literal here. Each object has these properties:
-       *
-       * {string} label - label in the combo box
-       * {function(Bounds2): Node} createNode - creates the scene graph for the demo
-       */
+    // To add a demo, add an entry here.
+    const demos = [
       { label: 'ArrowNode', createNode: demoArrowNode },
       { label: 'BeakerNode', createNode: demoBeakerNode },
       { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
@@ -140,7 +134,9 @@ class ComponentsScreenView extends DemosScreenView {
       { label: 'ThermometerNode', createNode: demoTemperatureNode },
       { label: 'TimeControlNode', createNode: demoTimeControlNode },
       { label: 'WireNode', createNode: demoWireNode }
-    ], options );
+    ];
+
+    super( demos, options );
   }
 
   /**
