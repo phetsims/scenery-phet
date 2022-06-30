@@ -47,8 +47,6 @@ export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
     timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
     timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
     speedRadioButtonGroupOnLeft: true,
-    // @ts-ignore TimeControlNodeOptions.wrapSpeedButtonsInPanel does not exist
-    wrapSpeedButtonsInPanel: true,
     speedRadioButtonGroupPanelOptions: {
       fill: 'rgb(239,239,195)'
     },
