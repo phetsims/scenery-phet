@@ -223,7 +223,6 @@ class ControlPanel extends Panel {
       align: 'center',
       spacing: 20,
       children: [
-        new Text( 'value', { font: TITLE_FONT } ),
         keypadValueText,
         keypad,
         clearButton
