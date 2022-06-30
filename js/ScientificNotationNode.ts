@@ -182,6 +182,7 @@ export default class ScientificNotationNode extends Node {
    * Converts a number to scientific-notation format: M x 10^E, with mantissa M and exponent E.
    */
   public static toScientificNotation( value: number, providedOptions?: ToScientificNotationOptions ): ScientificNotation {
+    assert && assert( isFinite( value ), `value must be finite: ${value}` );
 
     const options = optionize<ToScientificNotationOptions, EmptyObjectType, ToScientificNotationOptions>()( {
       mantissaDecimalPlaces: 1,
