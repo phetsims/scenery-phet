@@ -7,8 +7,6 @@
  *
  * For example, with 2 decimal places in the mantissa, 0.0002342 would be written as 2.34 x 10^-4.
  *
- * To conserve memory, this implementation creates one set of scenery.Text nodes, and modifies their text as needed.
- *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
