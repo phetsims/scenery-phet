@@ -9,13 +9,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { DragListener, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import DemosScreenView from '../../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
 import demoArrowNode from './demoArrowNode.js';
@@ -31,6 +27,7 @@ import demoFaucetNode from './demoFaucetNode.js';
 import demoFlowBox from './demoFlowBox.js';
 import demoFormulaNode from './demoFormulaNode.js';
 import demoGaugeNode from './demoGaugeNode.js';
+import demoGrabDragInteraction from './demoGrabDragInteraction.js';
 import demoGridBox from './demoGridBox.js';
 import demoHandleNode from './demoHandleNode.js';
 import demoHeaterCoolerNode from './demoHeaterCoolerNode.js';
@@ -108,40 +105,6 @@ export default class ComponentsScreenView extends DemosScreenView {
 
     super( demos, options );
   }
-}
-
-// Creates a demo for GrabDragInteraction
-function demoGrabDragInteraction( layoutBounds, providedOptions ) {
-
-  const rect = new Rectangle( 0, 0, 100, 100, {
-    tagName: 'div',
-    role: 'application',
-    fill: 'blue',
-    cursor: 'pointer'
-  } );
-  const positionProperty = new Vector2Property( Vector2.ZERO );
-  positionProperty.linkAttribute( rect, 'translation' );
-
-  const listener = new DragListener( {
-    positionProperty: positionProperty
-  } );
-  rect.addInputListener( listener );
-  const keyboardDragListener = new KeyboardDragListener( {
-    positionProperty: positionProperty,
-    tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
-  } );
-  rect.addInputListener( keyboardDragListener );
-
-  new GrabDragInteraction( rect, keyboardDragListener, { // eslint-disable-line no-new
-    objectToGrabString: 'rectangle',
-    grabbableAccessibleName: 'grab rectangle',
-    tandem: providedOptions.tandem.createTandem( 'grabDragInteraction' )
-  } );
-
-  return new Node( {
-    children: [ rect ],
-    center: layoutBounds.center
-  } );
 }
 
 sceneryPhet.register( 'ComponentsScreenView', ComponentsScreenView );
