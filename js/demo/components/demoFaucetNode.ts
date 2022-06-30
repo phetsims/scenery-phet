@@ -16,7 +16,6 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
   const fluidRateProperty = new Property( 0 );
   const faucetEnabledProperty = new Property( true );
 
-  // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/752
   const faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
     shooterOptions: {
       touchAreaXDilation: 37,
