@@ -214,7 +214,7 @@ export default class ScientificNotationNode extends Node {
       mantissa = tokens[ 0 ];
       exponent = tokens[ 1 ];
 
-      // Remove the sign from the exponent.
+      // Remove the sign from the exponent. There should always be a sign following the 'e', but check just in case.
       if ( exponent[ 0 ] === '+' || exponent[ 0 ] === '-' ) {
         exponent = exponent.substring( 1, exponent.length );
       }
