@@ -1,16 +1,16 @@
 // Copyright 2022, University of Colorado Boulder
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { Color, GridBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import Range from '../../../../dot/js/Range.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-
 /**
  * Demo for GridBox
  *
  * @author Jonathan Olson
  */
+
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import { Color, GridBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import Range from '../../../../dot/js/Range.js';
+import HSlider from '../../../../sun/js/HSlider.js';
 
 export default function demoGridBox( layoutBounds ) {
   const scene = new Node( { y: 50 } );
