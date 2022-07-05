@@ -74,6 +74,7 @@ QUnit.test( 'exponent === null', assert => {
     mantissaDecimalPlaces: 2
   } ), { mantissa: '9.66', exponent: '3' } );
 
+  // This case was reported in https://github.com/phetsims/ph-scale/issues/235, with bad exponent sign.
   assert.deepEqual( ScientificNotationNode.toScientificNotation( 1.0484477197064377e-7, {
     exponent: NULL_EXPONENT,
     mantissaDecimalPlaces: 1
