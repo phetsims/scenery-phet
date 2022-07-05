@@ -73,6 +73,11 @@ QUnit.test( 'exponent === null', assert => {
     exponent: NULL_EXPONENT,
     mantissaDecimalPlaces: 2
   } ), { mantissa: '9.66', exponent: '3' } );
+
+  assert.deepEqual( ScientificNotationNode.toScientificNotation( 1.0484477197064377e-7, {
+    exponent: NULL_EXPONENT,
+    mantissaDecimalPlaces: 1
+  } ), { mantissa: '1.0', exponent: '-7' } );
 } );
 
 QUnit.test( 'exponent !== 0 && exponent !== null', assert => {
