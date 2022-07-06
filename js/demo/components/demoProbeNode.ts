@@ -63,8 +63,10 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
     right: layoutBounds.maxX - 5,
     top: layoutBounds.minY + 5,
     orientation: 'horizontal',
-    baseColor: 'white',
-    spacing: 5
+    spacing: 5,
+    radioButtonOptions: {
+      baseColor: 'white'
+    }
   } );
   demoParent.addChild( radioButtonGroup );
 
