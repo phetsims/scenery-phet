@@ -43,6 +43,10 @@
  * not just fire when navigating through the sim, but also upon activation. This weirdness is to make sure that the
  * input event "focus()" is called and supported for within listenersForDragState
  *
+ * NOTE: For PhET-iO instrumentation, GrabDragInteraction.enabledProperty is phetioReadOnly, it makes the most sense
+ * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
+ * changes. For example see Friction.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -152,8 +156,13 @@ class GrabDragInteraction extends EnabledComponent {
       },
 
       // EnabledComponent
-      // By default, does not have an instrumented enabledProperty, but you can opt in with this option.
-      phetioEnabledPropertyInstrumented: false,
+      phetioEnabledPropertyInstrumented: true,
+      enabledPropertyOptions: {
+
+        // It is best to wire up grab drag enabled to be in sync with mouse/touch inputEnabled (instead of having both
+        // editable by PhET-iO).
+        phetioReadOnly: true
+      },
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
