@@ -43,7 +43,7 @@ const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
 ];
 const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ] as const;
 
-type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
+export type LayoutFunction = ( titleNode: Text, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
 export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty'> & {
   // other slider options that are specific to NumberControl
