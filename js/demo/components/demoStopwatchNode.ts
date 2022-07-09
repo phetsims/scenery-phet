@@ -47,6 +47,7 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
 
   // StopwatchNode with rich text format and dynamic units.
   const unitsProperty = new Property( 'ms' );
+  const numberOfDecimalPlaces = 2;
   const customStopwatchNode = new StopwatchNode( stopwatch, {
     backgroundBaseColor: 'red',
 
@@ -54,7 +55,7 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
         showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
-        numberOfDecimalPlaces: 1,
+        numberOfDecimalPlaces: numberOfDecimalPlaces,
         units: unitsProperty.value
       } )
     },
@@ -62,9 +63,9 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
     tandem: tandem.createTandem( 'customStopwatchNode' )
   } );
   unitsProperty.link( units => {
-    // @ts-ignore customStopwatchNode.numberDisplay is private
-    customStopwatchNode.numberDisplay.setNumberFormatter( StopwatchNode.createRichTextNumberFormatter( {
+    customStopwatchNode.setNumberFormatter( StopwatchNode.createRichTextNumberFormatter( {
       showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
+      numberOfDecimalPlaces: numberOfDecimalPlaces,
       units: units
     } ) );
   } );
