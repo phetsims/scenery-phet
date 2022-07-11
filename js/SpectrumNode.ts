@@ -41,7 +41,7 @@ export default class SpectrumNode extends Node {
   public static DEFAULT_VALUE_TO_COLOR = ( value: number ) => {
     assert && assert( value >= 0 && value <= 1, `value is out of range [0,1]: ${value}` );
     return new Color( 255 * value, 255 * value, 255 * value );
-  }
+  };
 
   public constructor( providedOptions?: SpectrumNodeOptions ) {
 

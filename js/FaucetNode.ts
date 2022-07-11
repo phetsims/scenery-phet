@@ -341,7 +341,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     documentation: 'Faucet that emits fluid, typically user-controllable',
     supertype: Node.NodeIO,
     events: [ 'startTapToDispense', 'endTapToDispense' ]
-  } )
+  } );
 }
 
 type ShooterNodeOptions = {
