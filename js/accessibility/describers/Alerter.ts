@@ -23,7 +23,7 @@ export type AlerterOptions = {
   // Voicing, description alerts must occur through a Node connected to a Display through the scene graph. If null,
   // do not alert for description (same as alertToVoicing:false). NOTE: No description will alert without this option!
   descriptionAlertNode?: Node | null;
-}
+};
 
 class Alerter {
 

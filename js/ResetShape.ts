@@ -15,7 +15,7 @@ type selfOptions = {
   startAngle?: number;
   endAngle?: number;
   arrowHeadSize?: number;
-}
+};
 
 export default class ResetShape extends Shape {
 

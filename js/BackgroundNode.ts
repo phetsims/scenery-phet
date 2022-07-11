@@ -16,7 +16,7 @@ type SelfOptions = {
   xMargin?: number; // set the x margin between the Node content and background edge
   yMargin?: number; // set the y margin between the Node content and background edge
   rectangleOptions?: RectangleOptions; // options passed to the background scenery.Rectangle
-}
+};
 
 export type BackgroundNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 

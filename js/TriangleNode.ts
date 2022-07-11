@@ -17,7 +17,7 @@ type SelfOptions = {
   pointDirection?: string; // up, right, down, left
   triangleWidth?: number;
   triangleHeight?: number;
-}
+};
 export type TriangleNodeOptions = SelfOptions & PathOptions;
 
 export default class TriangleNode extends Path {

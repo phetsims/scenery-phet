@@ -34,7 +34,7 @@ type CrosshairsOptions = {
   stroke?: IColor;
   lineWidth?: number;
   intersectionRadius?: number; // The amount of blank space visible at the intersection of the 2 crosshairs lines
-}
+};
 
 // type of SelfOptions.sensorTypeFunction
 type SensorTypeFunction = ( radius: number ) => Node;

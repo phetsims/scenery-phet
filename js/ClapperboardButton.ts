@@ -29,7 +29,7 @@ const BUTTON_LABEL = 'Synchronize Recording';
 type SelfOptions = {
   visualNode?: Node;
   synchronizeButtonOptions?: StrictOmit<RectangularPushButtonOptions, 'listener' | 'tandem'>;
-}
+};
 
 type ClapperboardButtonOptions = SelfOptions & NodeOptions;
 

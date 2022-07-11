@@ -46,7 +46,7 @@ export type ComboBoxDisplayItem<T> = {
 
   // tandem name for the item
   tandemName?: string;
-}
+};
 
 type SelfOptions = {
 

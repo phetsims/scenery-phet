@@ -95,7 +95,7 @@ class StarNode extends Node {
 
 type OptimizedStarPathSelfOptions = {
   starShapeOptions?: StarShapeOptions;
-}
+};
 type OptimizedStarPathOptions = OptimizedStarPathSelfOptions & PathOptions;
 
 /**

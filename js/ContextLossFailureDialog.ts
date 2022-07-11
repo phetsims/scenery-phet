@@ -22,7 +22,7 @@ type SelfOptions = {
   // Provided as an option so that scenery-phet demo app can test without causing automated-testing failures.
   // See https://github.com/phetsims/scenery-phet/issues/375
   reload?: () => void;
-}
+};
 
 export type ContextLossFailureDialogOptions = SelfOptions & DialogOptions;
 
