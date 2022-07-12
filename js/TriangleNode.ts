@@ -34,10 +34,10 @@ export default class TriangleNode extends Path {
     }, providedOptions );
 
     // Draws an equilateral or isosceles triangle
-    const triangleShape = new Shape().moveTo( 0, 0 )
-      .lineTo( options.triangleWidth / 2, options.triangleHeight )
-      .lineTo( options.triangleWidth, 0 )
-      .lineTo( 0, 0 );
+    const triangleShape = new Shape().moveTo( options.triangleWidth / 2, 0 )
+      .lineTo( options.triangleWidth, options.triangleHeight )
+      .lineTo( 0, options.triangleHeight )
+      .lineTo( options.triangleWidth / 2, 0 );
 
     super( triangleShape, options );
 
