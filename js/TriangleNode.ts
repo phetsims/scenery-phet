@@ -30,7 +30,8 @@ export default class TriangleNode extends Path {
       triangleWidth: 15,
       triangleHeight: 13,
       stroke: 'black',
-      lineWidth: 1
+      lineWidth: 1,
+      cursor: 'pointer'
     }, providedOptions );
 
     // Draws an equilateral or isosceles triangle
