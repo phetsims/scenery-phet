@@ -212,7 +212,7 @@ export default class HeaterCoolerFront extends Node {
 
     // update the back component if provided
     if ( options.heaterCoolerBack ) {
-      const heaterCoolerBack = options.heaterCoolerBack!;
+      const heaterCoolerBack = options.heaterCoolerBack;
       this.opacityProperty.lazyLink( opacity => {
         heaterCoolerBack.opacity = opacity;
       } );

@@ -178,7 +178,7 @@ export default class LaserPointerNode extends Node {
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
         center: options.getButtonLocation( bodyNode ),
-        tandem: options.tandem!.createTandem( 'button' ),
+        tandem: options.tandem.createTandem( 'button' ),
 
         // pdom
         labelContent: options.buttonAccessibleName,

@@ -72,12 +72,12 @@ export default class WavelengthNumberControl extends NumberControl {
 
     const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,
       combineOptions<SpectrumSliderTrackOptions>( {
-        tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.TRACK_NODE_TANDEM_NAME )
+        tandem: options.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.TRACK_NODE_TANDEM_NAME )
       }, options.spectrumSliderTrackOptions ) );
 
     const thumbNode = new SpectrumSliderThumb( wavelengthProperty,
       combineOptions<SpectrumSliderThumbOptions>( {
-        tandem: options.tandem!.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.THUMB_NODE_TANDEM_NAME )
+        tandem: options.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME ).createTandem( Slider.THUMB_NODE_TANDEM_NAME )
       }, options.spectrumSliderThumbOptions ) );
 
     super( options.title, wavelengthProperty, options.range, combineOptions<NumberControlOptions>( {

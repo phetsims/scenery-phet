@@ -235,7 +235,7 @@ export default class NumberControl extends Node {
     // the arrow buttons, see https://github.com/phetsims/scenery-phet/issues/384.
     const constrainValue = ( value: number ) => {
       assert && assert( options.delta !== undefined );
-      const newValue = Utils.roundToInterval( value, options.delta! );
+      const newValue = Utils.roundToInterval( value, options.delta );
       return getCurrentRange().constrainValue( newValue );
     };
 
@@ -399,14 +399,14 @@ export default class NumberControl extends Node {
     if ( options.includeArrowButtons ) {
 
       decrementButton = new ArrowButton( 'left', () => {
-        let value = numberProperty.get() - options.delta!;
-        value = Utils.roundToInterval( value, options.delta! ); // constrain to multiples of delta, see #384
+        let value = numberProperty.get() - options.delta;
+        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
         value = Math.max( value, getCurrentRange().min ); // constrain to range
         numberProperty.set( value );
       }, combineOptions<ArrowButtonOptions>( {
         startCallback: options.arrowButtonOptions.leftStart,
         endCallback: options.arrowButtonOptions.leftEnd,
-        tandem: options.tandem!.createTandem( 'decrementButton' )
+        tandem: options.tandem.createTandem( 'decrementButton' )
       }, options.arrowButtonOptions ) );
 
       incrementButton = new ArrowButton( 'right', () => {
@@ -417,7 +417,7 @@ export default class NumberControl extends Node {
       }, combineOptions<ArrowButtonOptions>( {
         startCallback: options.arrowButtonOptions.rightStart,
         endCallback: options.arrowButtonOptions.rightEnd,
-        tandem: options.tandem!.createTandem( 'incrementButton' )
+        tandem: options.tandem.createTandem( 'incrementButton' )
       }, options.arrowButtonOptions ) );
 
       // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
@@ -458,9 +458,9 @@ export default class NumberControl extends Node {
       // Disable the arrow buttons if the slider currently has focus
       arrowEnabledListener = () => {
         const value = numberProperty.value;
-        assert && assert( options.arrowButtonOptions!.enabledEpsilon !== undefined );
-        decrementButton!.enabled = ( value - options.arrowButtonOptions!.enabledEpsilon! > getCurrentRange().min && !this.slider.isFocused() );
-        incrementButton!.enabled = ( value + options.arrowButtonOptions!.enabledEpsilon! < getCurrentRange().max && !this.slider.isFocused() );
+        assert && assert( options.arrowButtonOptions.enabledEpsilon !== undefined );
+        decrementButton!.enabled = ( value - options.arrowButtonOptions.enabledEpsilon! > getCurrentRange().min && !this.slider.isFocused() );
+        incrementButton!.enabled = ( value + options.arrowButtonOptions.enabledEpsilon! < getCurrentRange().max && !this.slider.isFocused() );
       };
       numberProperty.lazyLink( arrowEnabledListener );
       options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
@@ -701,7 +701,7 @@ export default class NumberControl extends Node {
         resize: false, // prevent slider from causing resize?
         spacing: options.arrowButtonSpacing,
         children: !includeArrowButtons ? [ slider ] : [
-          decrementButton!,
+          decrementButton,
           slider,
           incrementButton!
         ]
@@ -720,7 +720,7 @@ export default class NumberControl extends Node {
       numberBox.right = bottomContent.right + options.sliderPadding;
       const node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
       if ( options.hasReadoutProperty ) {
-        ( options.hasReadoutProperty as IReadOnlyProperty<boolean> ).link( hasReadout => { numberBox.visible = hasReadout; } );
+        ( options.hasReadoutProperty ).link( hasReadout => { numberBox.visible = hasReadout; } );
       }
       return node;
     };
