@@ -120,7 +120,7 @@ export default class LaserPointerNode extends Node {
 
   private readonly disposeLaserPointerNode: () => void;
 
-  public static override DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+  public static DEFAULT_LASER_NODE_OPTIONS = DEFAULT_OPTIONS;
 
   /**
    * @param onProperty - is the laser on?

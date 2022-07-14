@@ -86,7 +86,7 @@ export default class ProbeNode extends Node {
   private readonly darker3: PaintColorProperty;
   private readonly darker2: PaintColorProperty;
 
-  public static override DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+  public static DEFAULT_PROBE_NODE_OPTIONS = DEFAULT_OPTIONS;
   public static glass = glass;
   public static crosshairs = crosshairs;
 

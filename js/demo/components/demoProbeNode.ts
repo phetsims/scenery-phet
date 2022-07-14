@@ -28,14 +28,14 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
   demoParent.addChild( probeNodeLayer );
 
   // Properties that describe the probe's options
-  const colorProperty = new Property( ProbeNode.DEFAULT_OPTIONS.color );
-  const radiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.radius );
-  const innerRadiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.innerRadius );
-  const handleWidthProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleWidth );
-  const handleHeightProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleHeight );
-  const handleCornerRadiusProperty = new Property( ProbeNode.DEFAULT_OPTIONS.handleCornerRadius );
-  const lightAngleProperty = new Property( ProbeNode.DEFAULT_OPTIONS.lightAngle );
-  const sensorTypeFunctionProperty = new Property( ProbeNode.DEFAULT_OPTIONS.sensorTypeFunction );
+  const colorProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.color );
+  const radiusProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.radius );
+  const innerRadiusProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.innerRadius );
+  const handleWidthProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleWidth );
+  const handleHeightProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleHeight );
+  const handleCornerRadiusProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleCornerRadius );
+  const lightAngleProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.lightAngle );
+  const sensorTypeFunctionProperty = new Property( ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.sensorTypeFunction );
 
   // RGB color components, for setting the sensor color
   const color = Color.toColor( colorProperty.value );
@@ -132,15 +132,15 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
     spacing: 15,
     children: [
       NumberControl.withMinMaxTicks( 'Radius:', radiusProperty,
-        new Range( 1, ProbeNode.DEFAULT_OPTIONS.radius * 2 ), numberControlOptions ),
+        new Range( 1, ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.radius * 2 ), numberControlOptions ),
       NumberControl.withMinMaxTicks( 'Inner Radius:', innerRadiusProperty,
-        new Range( 1, ProbeNode.DEFAULT_OPTIONS.innerRadius * 2 ), numberControlOptions ),
+        new Range( 1, ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.innerRadius * 2 ), numberControlOptions ),
       NumberControl.withMinMaxTicks( 'Handle Width:', handleWidthProperty,
-        new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleWidth * 2 ), numberControlOptions ),
+        new Range( 1, ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleWidth * 2 ), numberControlOptions ),
       NumberControl.withMinMaxTicks( 'Handle Height:', handleHeightProperty,
-        new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleHeight * 2 ), numberControlOptions ),
+        new Range( 1, ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleHeight * 2 ), numberControlOptions ),
       NumberControl.withMinMaxTicks( 'Handle Corner Radius:', handleCornerRadiusProperty,
-        new Range( 1, ProbeNode.DEFAULT_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
+        new Range( 1, ProbeNode.DEFAULT_PROBE_NODE_OPTIONS.handleCornerRadius * 2 ), numberControlOptions )
     ],
     left: layoutBounds.left + 50,
     centerY: layoutBounds.centerY

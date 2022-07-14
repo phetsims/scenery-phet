@@ -19,9 +19,9 @@ export default function demoLaserPointerNode( layoutBounds: Bounds2 ): Node {
   const leftLaserNode = new LaserPointerNode( leftOnProperty, {
 
     // these options adjust the lighting
-    topColor: LaserPointerNode.DEFAULT_OPTIONS.bottomColor,
-    bottomColor: LaserPointerNode.DEFAULT_OPTIONS.topColor,
-    highlightColorStop: 1 - LaserPointerNode.DEFAULT_OPTIONS.highlightColorStop,
+    topColor: LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.bottomColor,
+    bottomColor: LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.topColor,
+    highlightColorStop: 1 - LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.highlightColorStop,
     buttonRotation: Math.PI,
 
     rotation: Math.PI,
