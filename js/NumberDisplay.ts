@@ -150,12 +150,12 @@ export default class NumberDisplay extends Node {
 
     // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
     // See https://github.com/phetsims/scenery-phet/issues/446
-    if ( options.valuePattern.indexOf( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) !== -1 ) {
+    if ( options.valuePattern.includes( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) ) {
       options.valuePattern = StringUtils.format( options.valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
     }
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
-                      options.valuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+                      options.valuePattern.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.valuePattern: ${options.valuePattern}` );
 
     // Set default and validate
@@ -164,7 +164,7 @@ export default class NumberDisplay extends Node {
     }
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
-                      options.noValuePattern.indexOf( SunConstants.VALUE_NAMED_PLACEHOLDER ) !== -1,
+                      options.noValuePattern.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.noValuePattern: ${options.noValuePattern}` );
 
     // determine the widest value

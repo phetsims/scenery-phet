@@ -62,8 +62,8 @@ export default class ShadedRectangle extends Node {
     assert && assert( options.lightOffset < 1, 'options.lightOffset needs to be less than 1' );
     assert && assert( options.darkOffset < 1, 'options.darkOffset needs to be less than 1' );
 
-    const lightFromLeft = options.lightSource.indexOf( 'left' ) >= 0;
-    const lightFromTop = options.lightSource.indexOf( 'Top' ) >= 0;
+    const lightFromLeft = options.lightSource.includes( 'left' );
+    const lightFromTop = options.lightSource.includes( 'Top' );
 
     const cornerRadius = options.cornerRadius;
 
