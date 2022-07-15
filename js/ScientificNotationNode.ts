@@ -215,7 +215,7 @@ export default class ScientificNotationNode extends Node {
       exponent = tokens[ 1 ];
 
       // The exponent token include a '+' or '-' sign. Remove the '+' sign from positive exponents.
-      if ( exponent[ 0 ] === '+' ) {
+      if ( exponent.startsWith( '+' ) ) {
         exponent = exponent.substring( 1, exponent.length );
       }
     }
