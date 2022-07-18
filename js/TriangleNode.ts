@@ -14,7 +14,7 @@ import sceneryPhet from './sceneryPhet.js';
 import optionize from '../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  pointDirection?: string; // up, right, down, left
+  pointDirection?: 'up' | 'down' | 'right' | 'left';
   triangleWidth?: number;
   triangleHeight?: number;
 };
@@ -24,7 +24,6 @@ export default class TriangleNode extends Path {
 
   public constructor( providedOptions: TriangleNodeOptions ) {
 
-    // defaults
     const options = optionize<TriangleNodeOptions, SelfOptions, PathOptions>()( {
       pointDirection: 'up',
       triangleWidth: 15,
@@ -35,26 +34,19 @@ export default class TriangleNode extends Path {
     }, providedOptions );
 
     // Draws an equilateral or isosceles triangle
-    const triangleShape = new Shape().moveTo( options.triangleWidth / 2, 0 )
+    const triangleShape = new Shape()
+      .moveTo( options.triangleWidth / 2, 0 )
       .lineTo( options.triangleWidth, options.triangleHeight )
       .lineTo( 0, options.triangleHeight )
-      .lineTo( options.triangleWidth / 2, 0 );
+      .close();
 
     super( triangleShape, options );
 
     // rotate triangle according to provided options
-    if ( options.pointDirection === 'up' ) {
-      this.rotation = 0;
-    }
-    else if ( options.pointDirection === 'right' ) {
-      this.rotation = Math.PI / 2;
-    }
-    else if ( options.pointDirection === 'down' ) {
-      this.rotation = Math.PI;
-    }
-    else if ( options.pointDirection === 'left' ) {
-      this.rotation = -Math.PI / 2;
-    }
+    this.rotation = options.pointDirection === 'up' ? 0 :
+                    options.pointDirection === 'right' ? Math.PI / 2 :
+                    options.pointDirection === 'down' ? Math.PI :
+                    -Math.PI / 2;
   }
 }
 
