@@ -1,6 +1,5 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Keyboard-help content for the scenery-phet demo application.
  *
@@ -14,9 +13,9 @@ import SliderControlsKeyboardHelpSection from '../keyboard/help/SliderControlsKe
 import TwoColumnKeyboardHelpContent from '../keyboard/help/TwoColumnKeyboardHelpContent.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+export default class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
-  constructor() {
+  public constructor() {
 
     const helpContentOptions = {
 
@@ -40,5 +39,3 @@ class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 }
 
 sceneryPhet.register( 'SceneryPhetKeyboardHelpContent', SceneryPhetKeyboardHelpContent );
-
-export default SceneryPhetKeyboardHelpContent;
