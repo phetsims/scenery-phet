@@ -22,11 +22,12 @@ class DemoNode extends HBox {
   public constructor( layoutBounds: Bounds2 ) {
 
     const spinningIndicatorNode1 = new SpinningIndicatorNode( {
-      indicatorSize: 100
+      diameter: 100
     } );
 
     const spinningIndicatorNode2 = new SpinningIndicatorNode( {
-      indicatorSize: 100,
+      diameter: 100,
+      numberOfElements: 30,
       elementFactory: SpinningIndicatorNode.circleFactory,
       activeColor: Color.RED,
       inactiveColor: Color.RED.withAlpha( 0.15 )
