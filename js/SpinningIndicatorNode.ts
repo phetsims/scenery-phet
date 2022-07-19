@@ -141,7 +141,7 @@ export default class SpinningIndicatorNode extends Node {
   }
 
   /**
-   * Factory method for creating rectangular-shaped elements, sized to fit.
+   * Factory method for creating rectangle-shaped elements, sized to fit.
    */
   public static rectangleFactory( diameter: number, numberOfElements: number ): Rectangle {
     return new Rectangle( 0, 0, diameter * 0.175, 1.2 * diameter / numberOfElements );
