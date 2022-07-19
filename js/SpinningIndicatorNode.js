@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * A spinnable busy indicator, to indicate something behind the scenes is in progress (but with no indication of how
  * far along it is).
