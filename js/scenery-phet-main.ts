@@ -23,7 +23,9 @@ import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
 // empty model used for all demo screens
-const MODEL = {};
+class Model {
+  public step(): void { /* no stepping here */ }
+}
 
 // Keyboard help used for all screens
 const keyboardHelpNode = new SceneryPhetKeyboardHelpContent();
@@ -50,10 +52,10 @@ simLauncher.launch( () => {
   sim.start();
 } );
 
-class ButtonsScreen extends Screen<typeof MODEL, ButtonsScreenView> {
+class ButtonsScreen extends Screen<Model, ButtonsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
-      () => MODEL,
+      () => new Model(),
       () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Buttons',
@@ -66,10 +68,10 @@ class ButtonsScreen extends Screen<typeof MODEL, ButtonsScreenView> {
   }
 }
 
-class ComponentsScreen extends Screen<typeof MODEL, ComponentsScreenView> {
+class ComponentsScreen extends Screen<Model, ComponentsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
-      () => MODEL,
+      () => new Model(),
       () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Components',
@@ -82,10 +84,10 @@ class ComponentsScreen extends Screen<typeof MODEL, ComponentsScreenView> {
   }
 }
 
-class DialogsScreen extends Screen<typeof MODEL, DialogsScreenView> {
+class DialogsScreen extends Screen<Model, DialogsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
-      () => MODEL,
+      () => new Model(),
       () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Dialogs',
@@ -98,10 +100,10 @@ class DialogsScreen extends Screen<typeof MODEL, DialogsScreenView> {
   }
 }
 
-class SlidersScreen extends Screen<typeof MODEL, SlidersScreenView> {
+class SlidersScreen extends Screen<Model, SlidersScreenView> {
   public constructor( tandem: Tandem ) {
     super(
-      () => MODEL,
+      () => new Model(),
       () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Sliders',
@@ -114,10 +116,10 @@ class SlidersScreen extends Screen<typeof MODEL, SlidersScreenView> {
   }
 }
 
-class SpinnersScreen extends Screen<typeof MODEL, SpinnersScreenView> {
+class SpinnersScreen extends Screen<Model, SpinnersScreenView> {
   public constructor( tandem: Tandem ) {
     super(
-      () => MODEL,
+      () => new Model(),
       () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Spinners',
