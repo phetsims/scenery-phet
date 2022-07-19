@@ -11,7 +11,7 @@ import Screen from '../../joist/js/Screen.js';
 import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import { IColor, Rectangle } from '../../scenery/js/imports.js';
+import { Color, IColor, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/buttons/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/components/ComponentsScreenView.js';
@@ -59,7 +59,7 @@ class ButtonsScreen extends Screen<typeof MODEL, ButtonsScreenView> {
       () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Buttons',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'red' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
@@ -75,7 +75,7 @@ class ComponentsScreen extends Screen<typeof MODEL, ComponentsScreenView> {
       () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Components',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'orange' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
@@ -91,7 +91,7 @@ class DialogsScreen extends Screen<typeof MODEL, DialogsScreenView> {
       () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Dialogs',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
@@ -107,7 +107,7 @@ class SlidersScreen extends Screen<typeof MODEL, SlidersScreenView> {
       () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Sliders',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
@@ -123,7 +123,7 @@ class SpinnersScreen extends Screen<typeof MODEL, SpinnersScreenView> {
       () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Spinners',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'green' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
@@ -139,7 +139,7 @@ class SpringScreen extends Screen<typeof MODEL, SpringScreenView> {
       () => new SpringScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
         name: 'Spring',
-        backgroundColorProperty: new Property( sceneryPhetQueryParameters.backgroundColor ),
+        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'blue' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
