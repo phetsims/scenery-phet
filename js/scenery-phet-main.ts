@@ -19,7 +19,6 @@ import DialogsScreenView from './demo/dialogs/DialogsScreenView.js';
 import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpContent.js';
 import SlidersScreenView from './demo/sliders/SlidersScreenView.js';
 import SpinnersScreenView from './demo/spinners/SpinnersScreenView.js';
-import SpringScreenView from './demo/spring/SpringScreenView.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 
@@ -37,8 +36,7 @@ simLauncher.launch( () => {
     new ComponentsScreen( Tandem.ROOT.createTandem( 'componentsScreen' ) ),
     new DialogsScreen( Tandem.ROOT.createTandem( 'dialogsScreen' ) ),
     new SlidersScreen( Tandem.ROOT.createTandem( 'slidersScreen' ) ),
-    new SpinnersScreen( Tandem.ROOT.createTandem( 'spinnersScreen' ) ),
-    new SpringScreen( Tandem.ROOT.createTandem( 'springScreen' ) )
+    new SpinnersScreen( Tandem.ROOT.createTandem( 'spinnersScreen' ) )
   ];
 
   const sim = new Sim( sceneryPhetStrings[ 'scenery-phet' ].title, screens, {
@@ -125,22 +123,6 @@ class SpinnersScreen extends Screen<typeof MODEL, SpinnersScreenView> {
         name: 'Spinners',
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'green' ),
-        tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
-      }
-    );
-  }
-}
-
-class SpringScreen extends Screen<typeof MODEL, SpringScreenView> {
-  public constructor( tandem: Tandem ) {
-    super(
-      () => MODEL,
-      () => new SpringScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
-        name: 'Spring',
-        backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
-        homeScreenIcon: createScreenIcon( 'blue' ),
         tandem: tandem,
         keyboardHelpNode: keyboardHelpNode
       }

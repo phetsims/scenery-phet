@@ -41,6 +41,7 @@ import demoManualConstraint from './demoManualConstraint.js';
 import demoMeasuringTapeNode from './demoMeasuringTapeNode.js';
 import demoNumberDisplay from './demoNumberDisplay.js';
 import demoPaperAirplaneNode from './demoPaperAirplaneNode.js';
+import demoParametricSpringNode from './demoParametricSpringNode.js';
 import demoProbeNode from './demoProbeNode.js';
 import demoRichText from './demoRichText.js';
 import demoRulerNode from './demoRulerNode.js';
@@ -92,6 +93,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
+      { label: 'ParametricSpringNode', createNode: demoParametricSpringNode },
       { label: 'ProbeNode', createNode: demoProbeNode },
       { label: 'RichText', createNode: demoRichText },
       { label: 'RulerNode', createNode: demoRulerNode },
