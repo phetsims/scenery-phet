@@ -47,6 +47,7 @@ import demoRichText from './demoRichText.js';
 import demoRulerNode from './demoRulerNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
 import demoSpectrumNode from './demoSpectrumNode.js';
+import demoSpinningIndicatorNode from './demoSpinningIndicatorNode.js';
 import demoSprites from './demoSprites.js';
 import demoStarNode from './demoStarNode.js';
 import demoStopwatchNode from './demoStopwatchNode.js';
@@ -99,6 +100,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'RulerNode', createNode: demoRulerNode },
       { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
       { label: 'SpectrumNode', createNode: demoSpectrumNode },
+      { label: 'SpinningIndicatorNode', createNode: demoSpinningIndicatorNode },
       { label: 'Sprites', createNode: demoSprites },
       { label: 'StarNode', createNode: demoStarNode },
       { label: 'StopwatchNode', createNode: demoStopwatchNode },
