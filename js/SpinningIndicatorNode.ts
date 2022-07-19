@@ -1,13 +1,14 @@
 // Copyright 2015-2022, University of Colorado Boulder
 
 /**
- * A spinnable busy indicator, to indicate something behind the scenes is in progress (but with no indication of how
- * far along it is).
+ * SpinningIndicatorNode is a spinning progress indicator, used to indicate operation is in progress (but with no
+ * indication of how far along it is).  It spins in a circular clockwise pattern.
  *
  * The actual rectangles/circles/etc. (called elements in the documentation) stay in fixed positions, but their fill is
  * changed to give the impression of rotation.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import optionize from '../../phet-core/js/optionize.js';
@@ -107,6 +108,7 @@ export default class SpinningIndicatorNode extends Node {
     // update each element
     let angle = this.indicatorRotation;
     for ( let i = 0; i < this.elements.length; i++ ) {
+
       // a number from 0 (active head) to 1 (inactive tail).
       let ratio = Math.pow( ( angle / ( 2 * Math.PI ) ) % 1, 0.5 );
 
