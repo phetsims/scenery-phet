@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade out
  * the background.
