@@ -1,6 +1,5 @@
-// Copyright 2015-2021, University of Colorado Boulder
+// Copyright 2015-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * A spinnable busy indicator, to indicate something behind the scenes is in progress (but with no indication of how
  * far along it is).
@@ -11,51 +10,75 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Circle } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
-import { PaintColorProperty } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Circle, Color, Node, NodeOptions, PaintColorProperty, Path, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-class SpinningIndicatorNode extends Node {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // The uniform width and height of the indicator. For a circular indicator, this is the diameter.
+  indicatorSize?: number;
 
-    // default options
-    options = merge( {
-      indicatorSize: 15, // {number} - The width/height taken up by the indicator.
-      indicatorSpeed: 1, // {number} - A multiplier for how fast/slow the indicator will spin.
-      elementFactory: SpinningIndicatorNode.rectangleFactory, // {function( options ) => {Node}} - To create the elements
-      elementQuantity: 16, // {number} - How many elements should exist
-      activeColor: 'rgba(0,0,0,1)', // {string|Color} - The active "mostly visible" color at the lead.
-      inactiveColor: 'rgba(0,0,0,0.15)' // {string|Color} - The inactive "mostly invisible" color at the tail.
-    }, options );
+  // A multiplier for how fast/slow the indicator will spin.
+  indicatorSpeed?: number;
+
+  // The number of Paths that make up the indicator
+  elementQuantity?: number;
+
+  // Creates one of the elements that make up the indicator
+  elementFactory?: ( indicatorSize: number, elementQuantity: number ) => Path;
+
+  // The active "mostly visible" color at the lead.
+  activeColor?: Color | string;
+
+  // The inactive "mostly invisible" color at the tail.
+  inactiveColor?: Color | string;
+};
+
+export type SpinningIndicatorNodeOptions = SelfOptions & NodeOptions;
+
+export default class SpinningIndicatorNode extends Node {
+
+  // Current angle of rotation
+  private indicatorRotation: number;
+
+  // The angle between each element
+  private readonly angleDelta: number;
+
+  // A multiplier for how fast/slow the indicator will spin.
+  private readonly indicatorSpeed: number;
+
+  // See SelfOptions
+  private readonly activeColorProperty: PaintColorProperty;
+  private readonly inactiveColorProperty: PaintColorProperty;
+
+  // Each element of the indicator must be Path or a subclass, because we set fill.
+  private readonly elements: Path[];
+
+  public constructor( providedOptions?: SpinningIndicatorNodeOptions ) {
+
+    const options = optionize<SpinningIndicatorNodeOptions, SelfOptions, NodeOptions>()( {
+      indicatorSize: 15,
+      indicatorSpeed: 1,
+      elementQuantity: 16,
+      elementFactory: SpinningIndicatorNode.rectangleFactory,
+      activeColor: 'rgba( 0, 0, 0, 1 )',
+      inactiveColor: 'rgba( 0, 0, 0, 0.15 )'
+    }, providedOptions );
 
     super( options );
 
-    // @private
-    this.options = options;
-
-    // @private Current angle of rotation (starts at 2pi so our modulo operation is safe below)
-    this.indicatorRotation = Math.PI * 2;
-
-    // parse the colors (if necessary) so we can quickly interpolate between the two
-    this.activeColorProperty = new PaintColorProperty( options.activeColor ); // @private
-    this.inactiveColorProperty = new PaintColorProperty( options.inactiveColor ); // @private
-
-    // @private the angle between each element
+    this.indicatorRotation = Math.PI * 2; // starts at 2pi so our modulo operation is safe below
     this.angleDelta = 2 * Math.PI / options.elementQuantity;
+    this.activeColorProperty = new PaintColorProperty( options.activeColor );
+    this.inactiveColorProperty = new PaintColorProperty( options.inactiveColor );
+    this.indicatorSpeed = options.indicatorSpeed;
 
-    // @private create and add all of the elements
+    // Create and add all of the elements
     this.elements = [];
     let angle = 0;
     for ( let i = 0; i < options.elementQuantity; i++ ) {
-      const element = options.elementFactory( this.options );
+      const element = options.elementFactory( options.indicatorSize, options.elementQuantity );
 
       // push the element to the outside of the circle
       element.right = options.indicatorSize / 2;
@@ -74,31 +97,10 @@ class SpinningIndicatorNode extends Node {
     this.step( 0 ); // initialize colors
   }
 
-  /**
-   * Factory method for creating rectangular-shaped elements, sized to fit.
-   * @public
-   * @param {Object} [options]
-   * @returns {Rectangle}
-   */
-  static rectangleFactory( options ) {
-    return new Rectangle( 0, 0, options.indicatorSize * 0.175, 1.2 * options.indicatorSize / options.elementQuantity );
-  }
+  public step( dt: number ): void {
 
-  /**
-   * Factory method for creating circle-shaped elements, sized to fit.
-   * @public
-   * @param {Object} [options]
-   * @returns {Circle}
-   */
-  static circleFactory( options ) {
-    return new Circle( 0.8 * options.indicatorSize / options.elementQuantity );
-  }
-
-  // @public
-  step( dt ) {
-
-    // increment rotation based on DT
-    this.indicatorRotation += dt * 10.0 * this.options.indicatorSpeed;
+    // increment rotation based on dt
+    this.indicatorRotation += dt * 10.0 * this.indicatorSpeed;
 
     // update each element
     let angle = this.indicatorRotation;
@@ -127,17 +129,26 @@ class SpinningIndicatorNode extends Node {
     }
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.activeColorProperty.dispose();
     this.inactiveColorProperty.dispose();
 
     super.dispose();
   }
+
+  /**
+   * Factory method for creating rectangular-shaped elements, sized to fit.
+   */
+  public static rectangleFactory( indicatorSize: number, elementQuantity: number ): Rectangle {
+    return new Rectangle( 0, 0, indicatorSize * 0.175, 1.2 * indicatorSize / elementQuantity );
+  }
+
+  /**
+   * Factory method for creating circle-shaped elements, sized to fit.
+   */
+  public static circleFactory( indicatorSize: number, elementQuantity: number ): Circle {
+    return new Circle( 0.8 * indicatorSize / elementQuantity );
+  }
 }
 
 sceneryPhet.register( 'SpinningIndicatorNode', SpinningIndicatorNode );
-export default SpinningIndicatorNode;

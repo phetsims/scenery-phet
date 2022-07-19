@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
+import { Color, HBox } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import SpinningIndicatorNode from '../../SpinningIndicatorNode.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
@@ -15,27 +15,39 @@ export default function demoSpinningIndicatorNode( layoutBounds: Bounds2 ) {
   return new DemoNode( layoutBounds );
 }
 
-class DemoNode extends Node {
+class DemoNode extends HBox {
 
   private readonly disposeDemoNode: () => void;
 
   public constructor( layoutBounds: Bounds2 ) {
 
-    const spinningIndicatorNode = new SpinningIndicatorNode( {
+    const spinningIndicatorNode1 = new SpinningIndicatorNode( {
       indicatorSize: 100
     } );
 
-    const stepTimerListener = ( dt: number ) => spinningIndicatorNode.step( dt );
+    const spinningIndicatorNode2 = new SpinningIndicatorNode( {
+      indicatorSize: 100,
+      elementFactory: SpinningIndicatorNode.circleFactory,
+      activeColor: Color.RED,
+      inactiveColor: Color.RED.withAlpha( 0.15 )
+    } );
+
+    const stepTimerListener = ( dt: number ) => {
+      spinningIndicatorNode1.step( dt );
+      spinningIndicatorNode2.step( dt );
+    };
 
     stepTimer.addListener( stepTimerListener );
 
     super( {
-      children: [ spinningIndicatorNode ],
+      children: [ spinningIndicatorNode1, spinningIndicatorNode2 ],
+      spacing: 100,
       center: layoutBounds.center
     } );
 
     this.disposeDemoNode = () => {
-      spinningIndicatorNode.dispose();
+      spinningIndicatorNode1.dispose();
+      spinningIndicatorNode2.dispose();
       if ( stepTimer.hasListener( stepTimerListener ) ) {
         stepTimer.removeListener( stepTimerListener );
       }
