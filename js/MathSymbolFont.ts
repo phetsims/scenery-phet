@@ -1,6 +1,5 @@
-// Copyright 2016-2021, University of Colorado Boulder
+// Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * MathSymbolFont is the font used for math symbols (e.g. 'x', 'y') in PhET sims.
  * See https://github.com/phetsims/scenery/issues/545
@@ -8,62 +7,53 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Font } from '../../scenery/js/imports.js';
+import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-// constants
-const FAMILY = '"Times New Roman", Times, serif';
-const DEFAULT_OPTIONS = {
-  style: 'italic'
-};
+const DEFAULT_STYLE = 'italic';
 
-class MathSymbolFont extends Font {
+type SelfOptions = EmptyObjectType;
 
-  /**
-   * @param {Object|number|string} [options] number or string indicate the font size, otherwise same options as scenery.Font
-   */
-  constructor( options ) {
+export type MathSymbolFontOptions = SelfOptions & StrictOmit<FontOptions, 'family'>;
 
-    assert && assert( arguments.length <= 1, 'Too many arguments' );
+export default class MathSymbolFont extends Font {
+
+  public static readonly FAMILY = '"Times New Roman", Times, serif';
+
+  public constructor( providedOptions?: number | string | MathSymbolFontOptions ) {
 
     // convenience constructor: new MathSymbolFont( {number|string} size )
-    if ( typeof options === 'number' || typeof options === 'string' ) {
-      options = merge( {}, DEFAULT_OPTIONS, {
-        size: options
-      } );
-    }
-    else {
-      options = merge( {}, DEFAULT_OPTIONS, options );
+    if ( typeof providedOptions === 'number' || typeof providedOptions === 'string' ) {
+      providedOptions = {
+        size: providedOptions
+      };
     }
 
-    assert && assert( !options.family, 'MathSymbolFont sets family' );
-    options.family = FAMILY;
+    const options = optionize<MathSymbolFontOptions, SelfOptions, FontOptions>()( {
+      family: MathSymbolFont.FAMILY,
+      style: DEFAULT_STYLE
+    }, providedOptions );
 
     super( options );
   }
 
   /**
-   * Converts a string to the markup needed to display that string with RichText,
-   * using the same family and style as MathSymbolFont.
-   * @param {string} text
-   * @param {string} [style] - see Font options.style
-   * @returns {string}
-   * @public
+   * Converts a string to the markup needed to display that string with RichText, using the same family as MathSymbolFont.
+   * @param text
+   * @param [style] - see Font options.style
    */
-  static getRichTextMarkup( text, style = DEFAULT_OPTIONS.style ) {
+  public static getRichTextMarkup( text: string, style = DEFAULT_STYLE ): string {
     assert && assert( Font.isFontStyle( style ), `invalid style: ${style}` );
-    return StringUtils.fillIn( '<span style=\'font-family: {{face}};font-style: {{style}}\'>{{text}}</span>', {
-      face: FAMILY,
+    return StringUtils.fillIn( '<span style=\'font-family: {{family}};font-style: {{style}}\'>{{text}}</span>', {
+      family: MathSymbolFont.FAMILY,
       style: style,
       text: text
     } );
   }
 }
 
-// @public
-MathSymbolFont.FAMILY = FAMILY;
-
 sceneryPhet.register( 'MathSymbolFont', MathSymbolFont );
-export default MathSymbolFont;
