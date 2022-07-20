@@ -14,6 +14,8 @@ import sceneryPhet from '../../sceneryPhet.js';
 import demoBasicActionsKeyboardHelpSection from './demoBasicActionsKeyboardHelpSection.js';
 import demoSliderControlsKeyboardHelpSection from './demoSliderControlsKeyboardHelpSection.js';
 import demoComboBoxKeyboardHelpSection from './demoComboBoxKeyboardHelpSection.js';
+import demoKeyNode from './demoKeyNode.js';
+import demoKeyboardHelp from './demoKeyboardHelp.js';
 
 type SelfOptions = EmptyObjectType;
 type KeyboardScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -30,6 +32,8 @@ export default class KeyboardScreenView extends DemosScreenView {
     const demos = [
       { label: 'BasicActionsKeyboardHelpSection', createNode: demoBasicActionsKeyboardHelpSection },
       { label: 'ComboBoxKeyboardHelpSection', createNode: demoComboBoxKeyboardHelpSection },
+      { label: 'KeyNode', createNode: demoKeyNode },
+      { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection }
     ];
 

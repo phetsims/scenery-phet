@@ -33,8 +33,6 @@ import demoGrabDragInteraction from './demoGrabDragInteraction.js';
 import demoGridBox from './demoGridBox.js';
 import demoHandleNode from './demoHandleNode.js';
 import demoHeaterCoolerNode from './demoHeaterCoolerNode.js';
-import demoKeyboardHelp from './demoKeyboardHelp.js';
-import demoKeyNode from './demoKeyNode.js';
 import demoKeypad from './demoKeypad.js';
 import demoLaserPointerNode from './demoLaserPointerNode.js';
 import demoManualConstraint from './demoManualConstraint.js';
@@ -86,8 +84,6 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'GrabDragInteraction', createNode: demoGrabDragInteraction },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
-      { label: 'KeyNode', createNode: demoKeyNode },
-      { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
       { label: 'ManualConstraint', createNode: demoManualConstraint },
