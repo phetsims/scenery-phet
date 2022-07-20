@@ -11,7 +11,7 @@
 import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
@@ -19,7 +19,7 @@ import sceneryPhetStrings from '../sceneryPhetStrings.js';
 import StopIconShape from '../StopIconShape.js';
 import PlayControlButton, { PlayControlButtonOptions } from './PlayControlButton.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type PlayStopButtonOptions = SelfOptions & PlayControlButtonOptions;
 

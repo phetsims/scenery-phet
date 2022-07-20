@@ -7,7 +7,7 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -15,7 +15,7 @@ import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StarShape from '../StarShape.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type StarButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 

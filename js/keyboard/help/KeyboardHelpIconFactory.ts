@@ -9,7 +9,7 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, HBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
@@ -25,10 +25,10 @@ const DEFAULT_HORIZONTAL_KEY_SPACING = 1.3;
 const OR_TEXT_MAX_WIDTH = 16;
 const LABEL_FONT = new PhetFont( 16 );
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 // Options for most static methods herein
-type KeyboardHelpIconFactoryOptions = EmptyObjectType & StrictOmit<HBoxOptions, 'children'>;
+type KeyboardHelpIconFactoryOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
 
 // Options for the handful of static methods that additionally involve PlusNode
 type WithPlusIconSelfOptions = {

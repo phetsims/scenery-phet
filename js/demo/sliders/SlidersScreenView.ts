@@ -10,7 +10,7 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -20,7 +20,7 @@ import demoSliderWithSpectrum from './demoSliderWithSpectrum.js';
 import demoWavelengthNumberControl from './demoWavelengthNumberControl.js';
 import demoNumberControlWithSpectrum from './demoNumberControlWithSpectrum.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type SlidersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SlidersScreenView extends DemosScreenView {

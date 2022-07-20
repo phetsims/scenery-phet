@@ -10,12 +10,12 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type PDOMSectionNodeOptions = SelfOptions &
   StrictOmit<NodeOptions, 'containerTagName' | 'tagName' | 'labelContent' | 'labelTagName'>;
 

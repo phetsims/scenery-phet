@@ -10,13 +10,13 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import demoFineCoarseSpinner from './demoFineCoarseSpinner.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type SpinnersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class SpinnersScreenView extends DemosScreenView {

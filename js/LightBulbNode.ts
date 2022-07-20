@@ -11,7 +11,7 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
@@ -56,7 +56,7 @@ export default class LightBulbNode extends Node {
     // rays
     const bulbRadius = offNode.width / 2; // use 'off' node, the 'on' node is wider because it has a glow around it.
     const raysNode = new LightRaysNode( bulbRadius,
-      optionize<LightRaysNodeOptions, EmptyObjectType, LightRaysNodeOptions>()( {
+      optionize<LightRaysNodeOptions, EmptySelfOptions, LightRaysNodeOptions>()( {
         x: onNode.centerX,
         y: offNode.top + bulbRadius
       }, options.lightRaysNodeOptions ) );

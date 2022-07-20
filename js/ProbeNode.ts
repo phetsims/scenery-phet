@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { EllipticalArc, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Circle, IColor, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -239,7 +239,7 @@ export default class ProbeNode extends Node {
  */
 function glass( providedOptions?: GlassOptions ): SensorTypeFunction {
 
-  const options = optionize<GlassOptions, EmptyObjectType, GlassOptions>()( {
+  const options = optionize<GlassOptions, EmptySelfOptions, GlassOptions>()( {
     centerColor: 'white',
     middleColor: '#E6F5FF', // light blue
     edgeColor: '#C2E7FF' // slightly darker blue, like glass
@@ -260,7 +260,7 @@ function glass( providedOptions?: GlassOptions ): SensorTypeFunction {
  */
 function crosshairs( providedOptions?: CrosshairsOptions ): SensorTypeFunction {
 
-  const options = optionize<CrosshairsOptions, EmptyObjectType, CrosshairsOptions>()( {
+  const options = optionize<CrosshairsOptions, EmptySelfOptions, CrosshairsOptions>()( {
     stroke: 'black',
     lineWidth: 3,
     intersectionRadius: 8

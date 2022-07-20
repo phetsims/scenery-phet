@@ -7,7 +7,7 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -18,7 +18,7 @@ import demoKeyNode from './demoKeyNode.js';
 import demoKeyboardHelpSection from './demoKeyboardHelpSection.js';
 import demoKeyboardHelpIconFactory from './demoKeyboardHelpIconFactory.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type KeyboardScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class KeyboardScreenView extends DemosScreenView {

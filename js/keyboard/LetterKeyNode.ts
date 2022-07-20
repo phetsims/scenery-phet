@@ -8,11 +8,11 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import sceneryPhet from '../sceneryPhet.js';
 import TextKeyNode, { TextKeyNodeOptions } from './TextKeyNode.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type LetterKeyNodeOptions = SelfOptions & TextKeyNodeOptions;
 

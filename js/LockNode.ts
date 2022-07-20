@@ -7,14 +7,14 @@
  */
 
 import IProperty from '../../axon/js/IProperty.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { AlignBox, AlignBoxOptions, AlignGroup, Image } from '../../scenery/js/imports.js';
 import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
 import lockClosed_png from '../images/lockClosed_png.js';
 import lockOpened_png from '../images/lockOpened_png.js';
 import sceneryPhet from './sceneryPhet.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type LockNodeOptions = SelfOptions & BooleanToggleNodeOptions;
 

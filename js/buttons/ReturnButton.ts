@@ -8,7 +8,7 @@
  * @author Luisa Vargas
  */
 
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
@@ -18,7 +18,7 @@ import { Shape } from '../../../kite/js/imports.js';
 
 const ICON_HEIGHT = 17;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type ReturnButtonSelfOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 class ReturnButton extends RectangularPushButton {

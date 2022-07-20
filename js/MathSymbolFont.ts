@@ -8,7 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
@@ -16,7 +16,7 @@ import sceneryPhet from './sceneryPhet.js';
 
 const DEFAULT_STYLE = 'italic';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type MathSymbolFontOptions = SelfOptions & StrictOmit<FontOptions, 'family'>;
 

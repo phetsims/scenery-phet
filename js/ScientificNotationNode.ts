@@ -14,7 +14,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Font, IColor, Node, NodeOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
@@ -98,7 +98,7 @@ export default class ScientificNotationNode extends Node {
 
     this.mantissaNode = new Text( '?', textOptions );
     this.timesTenNode = new Text( '?', textOptions );
-    this.exponentNode = new Text( '?', optionize<TextOptions, EmptyObjectType, TextOptions>()( {
+    this.exponentNode = new Text( '?', optionize<TextOptions, EmptySelfOptions, TextOptions>()( {
       scale: options.exponentScale, // exponent is scaled!
       centerY: this.timesTenNode.y + this.capHeight + options.exponentYOffset
     }, textOptions ) );
@@ -189,7 +189,7 @@ export default class ScientificNotationNode extends Node {
   public static toScientificNotation( value: number, providedOptions?: ToScientificNotationOptions ): ScientificNotation {
     assert && assert( isFinite( value ), `value must be finite: ${value}` );
 
-    const options = optionize<ToScientificNotationOptions, EmptyObjectType, ToScientificNotationOptions>()( {
+    const options = optionize<ToScientificNotationOptions, EmptySelfOptions, ToScientificNotationOptions>()( {
       mantissaDecimalPlaces: 1,
       exponent: null // exponent will be computed
     }, providedOptions );

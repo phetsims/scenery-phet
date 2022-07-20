@@ -11,11 +11,11 @@ import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 export type WireNodeOptions = SelfOptions & PathOptions;
 

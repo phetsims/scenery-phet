@@ -10,7 +10,7 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -53,7 +53,7 @@ import demoThermometerNode from './demoThermometerNode.js';
 import demoTimeControlNode from './demoTimeControlNode.js';
 import demoWireNode from './demoWireNode.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type ComponentsScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
 
 export default class ComponentsScreenView extends DemosScreenView {

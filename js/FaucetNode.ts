@@ -49,7 +49,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TimerListener } from '../../axon/js/Timer.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
@@ -363,7 +363,7 @@ class ShooterNode extends Node {
 
   public constructor( enabledProperty: IReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
 
-    const options = optionize<ShooterNodeOptions, EmptyObjectType, ShooterNodeOptions>()( {
+    const options = optionize<ShooterNodeOptions, EmptySelfOptions, ShooterNodeOptions>()( {
       knobScale: 0.6,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
