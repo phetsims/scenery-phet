@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Node that looks like an arrow key on the keyboard.  Default is a rounded triangle centered in a square key.
  *

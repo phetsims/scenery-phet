@@ -1,5 +1,6 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * LetterKeyNode looks like a keyboard key with a single letter. By default, a letter key is square, with a bit less
  * horizontal padding than a key with a full word.

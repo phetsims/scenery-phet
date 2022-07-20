@@ -1,5 +1,6 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * TextKeyNode is a keyboard key with text that is generally more than a single character. By default, a key
  * with text is more rectangular than a letter key (LetterKeyNode), and the key compactly surrounds the text content.

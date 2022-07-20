@@ -1,5 +1,6 @@
 // Copyright 2017-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * KeyNode looks like a keyboard key. It has a shadow rectangle under the key icon, with a slight offset so that it
  * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard

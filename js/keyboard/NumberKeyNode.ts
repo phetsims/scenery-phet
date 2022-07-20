@@ -1,5 +1,6 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * NumberKeyNode looks like a keyboard key with a single letter. See LetterKeyNode for implementation details. This is
  * a useful type to separate out usages for numbers in case we need to tweak all of them in the future.
