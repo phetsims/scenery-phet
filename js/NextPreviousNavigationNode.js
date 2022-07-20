@@ -10,10 +10,7 @@
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
-import { FireListener } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Color } from '../../scenery/js/imports.js';
+import { Color, FireListener, Node, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class NextPreviousNavigationNode extends Node {

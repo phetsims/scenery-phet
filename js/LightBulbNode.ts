@@ -9,9 +9,8 @@
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';

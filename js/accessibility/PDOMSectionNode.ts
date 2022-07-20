@@ -9,8 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import optionize from '../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';

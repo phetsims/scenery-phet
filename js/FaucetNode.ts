@@ -46,10 +46,9 @@ import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TimerListener } from '../../axon/js/Timer.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)

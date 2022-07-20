@@ -8,10 +8,10 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 import './accessibility/GrabDragInteractionTests.js';
 import './ScientificNotationNodeTests.js';
 import './StopwatchNodeTests.js';
-import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 
 // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
 qunitStart();

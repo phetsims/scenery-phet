@@ -9,11 +9,7 @@
 
 import Bounds2 from '../../dot/js/Bounds2.js';
 import merge from '../../phet-core/js/merge.js';
-import { AlignBox } from '../../scenery/js/imports.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Line } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { AlignBox, HBox, Line, Text, VBox } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

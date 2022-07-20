@@ -6,10 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import { Display } from '../../../scenery/js/imports.js';
-import { KeyboardDragListener } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import { Display, KeyboardDragListener, Node, Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
 

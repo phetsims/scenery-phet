@@ -17,8 +17,7 @@ import Ray2 from '../../dot/js/Ray2.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { EllipticalArc, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions, optionize3 } from '../../phet-core/js/optionize.js';
 import { Circle, IColor, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 

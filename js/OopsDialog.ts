@@ -8,9 +8,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';

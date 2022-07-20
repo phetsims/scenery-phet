@@ -6,19 +6,19 @@
  * @author Jonathan Olson
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
+import { DragListener, Node, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, VBox } from '../../../../scenery/js/imports.js';
+import Panel from '../../../../sun/js/Panel.js';
 import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import NumberControl from '../../NumberControl.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
-import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Range from '../../../../dot/js/Range.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import Panel from '../../../../sun/js/Panel.js';
-import { DragListener, Node, Sprite, Sprites, SpriteImage, SpriteInstance, SpriteListenable, VBox } from '../../../../scenery/js/imports.js';
 
 export default function demoSprites( layoutBounds ) {
 

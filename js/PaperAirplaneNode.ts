@@ -7,8 +7,7 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import optionize from '../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import PhetColorScheme from './PhetColorScheme.js';
 import sceneryPhet from './sceneryPhet.js';

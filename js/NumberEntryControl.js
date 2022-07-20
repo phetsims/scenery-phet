@@ -10,9 +10,7 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import { Node, Rectangle, Text } from '../../scenery/js/imports.js';
 import NumberKeypad from './NumberKeypad.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

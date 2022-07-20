@@ -11,8 +11,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
+import { Node, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import BoxShapeCreator from './BoxShapeCreator.js';
 

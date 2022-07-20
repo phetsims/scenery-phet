@@ -8,8 +8,7 @@
  * @author Luisa Vargas
  */
 
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';

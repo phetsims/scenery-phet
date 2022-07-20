@@ -8,8 +8,7 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, HBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';

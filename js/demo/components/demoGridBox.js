@@ -7,9 +7,8 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { Color, GridBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
+import { Color, GridBox, HBox, Node, Rectangle, Text, VBox } from '../../../../scenery/js/imports.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 
 export default function demoGridBox( layoutBounds ) {
