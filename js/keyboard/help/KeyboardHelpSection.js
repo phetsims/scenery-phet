@@ -36,7 +36,7 @@ const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHe
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
 const DEFAULT_HEADING_FONT = new PhetFont( { size: 19, weight: 'bold' } );
 
-const DEFAULT_LABEL_ICON_SPACING = 28; // spacing between Text labels and icons in a HelpSectionRow
+const DEFAULT_LABEL_ICON_SPACING = 28; // spacing between Text labels and icons in a KeyboardHelpSectionRow
 const DEFAULT_VERTICAL_ICON_SPACING = 13;
 
 // text fonts and max widths
@@ -49,7 +49,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
   /**
    * @param {string} headingString - the translatable label for this content
-   * @param {Array.<HelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
+   * @param {Array.<KeyboardHelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
    *                                            boxes are aligned horizontally. It is assumed that label and icon have
    *                                            identical bounds so that each row of content can be aligned by
    *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
@@ -178,7 +178,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param {string} labelString - string for the label Text
    * @param {Node} icon
    * @param {Object} [options]
-   * @returns {HelpSectionRow} - so KeyboardHelpSection can layout content groups
+   * @returns {KeyboardHelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
   static labelWithIcon( labelString, icon, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -225,7 +225,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     // set the ReadingBlock content for the icon - default
     iconBox.readingBlockNameResponse = options.iconOptions.readingBlockNameResponse || options.iconOptions.innerContent;
 
-    return new HelpSectionRow( labelText, labelBox, iconBox );
+    return new KeyboardHelpSectionRow( labelText, labelBox, iconBox );
   }
 
   /**
@@ -244,7 +244,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param {Node[]} icons
    * @param {Object} [options] - cannot pass in children
    *
-   * @returns {HelpSectionRow} -  so KeyboardHelpSection can layout content groups
+   * @returns {KeyboardHelpSectionRow} -  so KeyboardHelpSection can layout content groups
    */
   static labelWithIconList( labelString, icons, options ) {
     assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
@@ -309,7 +309,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     // set the ReadingBlock content for the icon - default
     iconsBox.readingBlockNameResponse = options.iconsVBoxOptions.readingBlockNameResponse || options.iconsVBoxOptions.innerContent;
 
-    return new HelpSectionRow( labelText, labelWithHeightBox, iconsBox );
+    return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox );
   }
 
   /**
@@ -319,7 +319,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param {Array.<string>} keyStrings - each should be a letter key
    * @param {string} labelString
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createKeysRowFromStrings( keyStrings, labelString, options ) {
     return KeyboardHelpSection.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, options );
@@ -332,7 +332,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param {Array.<Node>} keyIcons
    * @param {string} labelString
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createKeysRow( keyIcons, labelString, options ) {
     assert && assert( keyIcons.length > 0, 'expected keys' );
@@ -355,45 +355,45 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
    * @param {string} labelString - visual label
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createJumpKeyRow( keyString, labelString, options ) {
     return KeyboardHelpSection.createKeysRowFromStrings( [ 'J', keyString ], labelString, options );
   }
 
   /**
-   * Create a HelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
+   * Create a KeyboardHelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
    * @public
    *
    * @param {string} labelString - visual label string for the "Alt" + "K" icon
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createPlayPauseKeyRow( labelString, options ) {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'K', options );
   }
 
   /**
-   * Create a HelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
+   * Create a KeyboardHelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
    * @public
    *
    * @param {string} labelString
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createStepForwardKeyRow( labelString, options ) {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'L', options );
   }
 
   /**
-   * Create a HelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
+   * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
    * some other key, to be provided.
    * @public
    *
    * @param {string} labelString - visual label in the row
    * @param {string} keyString - Key to be used in addition to AltKeyNode.
    * @param {Object} [options]
-   * @returns {HelpSectionRow}
+   * @returns {KeyboardHelpSectionRow}
    */
   static createGlobalHotkeyRow( labelString, keyString, options ) {
     return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, options );
@@ -466,14 +466,14 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
- * will return a HelpSectionRow. The label and icon are often grouped in an AlignGroup for easy positioning
+ * will return a KeyboardHelpSectionRow. The label and icon are often grouped in an AlignGroup for easy positioning
  * in KeyboardHelpSection. This cannot be done in KeyboardHelpSection directly because different labels and icons will
  * have varying layout. For instance, see labelWithIcon vs labelWithIconList.
  *
  * Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
- * HelpSectionRows for i18n.
+ * KeyboardHelpSectionRows for i18n.
  */
-class HelpSectionRow {
+class KeyboardHelpSectionRow {
 
   /**
    * @param {Text|RichText} text - must be a child of the "label" Node, KeyboardHelpSection
