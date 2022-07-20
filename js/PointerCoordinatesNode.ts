@@ -11,7 +11,6 @@
 import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Display, Font, IColor, Node, Rectangle, RichText, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
@@ -45,7 +44,7 @@ export default class PointerCoordinatesNode extends Node {
    */
   public constructor( modelViewTransform: ModelViewTransform2, providedOptions?: PointerCoordinatesNodeOptions ) {
 
-    const options = optionize<PointerCoordinatesNodeOptions, SelfOptions, EmptyObjectType>()( {
+    const options = optionize<PointerCoordinatesNodeOptions, SelfOptions>()( {
       display: getGlobal( 'phet.joist.display' ),
       pickable: false,
       font: DEFAULT_FONT,
