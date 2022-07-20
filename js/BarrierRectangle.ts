@@ -1,6 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade out
  * the background.
@@ -8,36 +7,40 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { FireListener } from '../../scenery/js/imports.js';
-import { Plane } from '../../scenery/js/imports.js';
+import { FireListener, Plane, PlaneOptions } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import sceneryPhet from './sceneryPhet.js';
+import { ObservableArray } from '../../axon/js/createObservableArray.js';
+import { PopupableNode } from '../../sun/js/Popupable.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import optionize from '../../phet-core/js/optionize.js';
 
-class BarrierRectangle extends Plane {
+type SelfOptions = EmptyObjectType;
 
-  /**
-   * @param {ObservableArrayDef} modalNodeStack
-   * @param {Object} [options]
-   */
-  constructor( modalNodeStack, options ) {
+export type BarrierRectangleOptions = SelfOptions & PickRequired<PlaneOptions, 'tandem' | 'phetioDocumentation'>;
 
-    options = merge( {
-      tandem: Tandem.REQUIRED,
-      phetioDocumentation: 'Shown when a dialog is present, so that clicking on the invisible barrier rectangle will dismiss the dialog',
+export default class BarrierRectangle extends Plane {
+
+  private readonly disposeBarrierRectangle: () => void;
+
+  public constructor( modalNodeStack: ObservableArray<PopupableNode>, providedOptions: BarrierRectangleOptions ) {
+
+    const options = optionize<BarrierRectangleOptions, SelfOptions, PlaneOptions>()( {
+      fill: 'rgba( 0, 0, 0, 0.3 )',
+      pickable: true,
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioEventType: EventType.USER,
       visiblePropertyOptions: {
         phetioState: false
       }
-    }, options );
+    }, providedOptions );
 
     super( options );
 
-    const lengthListener = numberOfBarriers => {
-      this.visible = numberOfBarriers > 0;
+    const lengthListener = ( numberOfBarriers: number ) => {
+      this.visible = ( numberOfBarriers > 0 );
     };
     modalNodeStack.lengthProperty.link( lengthListener );
 
@@ -56,21 +59,17 @@ class BarrierRectangle extends Plane {
       }
     } ) );
 
-    // @private
     this.disposeBarrierRectangle = () => {
-      modalNodeStack.lengthProperty.unlink( lengthListener );
+      if ( modalNodeStack.lengthProperty.hasListener( lengthListener ) ) {
+        modalNodeStack.lengthProperty.unlink( lengthListener );
+      }
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeBarrierRectangle();
     super.dispose();
   }
 }
 
 sceneryPhet.register( 'BarrierRectangle', BarrierRectangle );
-export default BarrierRectangle;
