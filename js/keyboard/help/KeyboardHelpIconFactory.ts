@@ -8,7 +8,7 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, HBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
@@ -45,102 +45,7 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * Get two icons with horizontal layout, and separated by 'or' text.
-   */
-  public static iconOrIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
-
-    const orText = new Text( sceneryPhetStrings.keyboardHelpDialog.or, {
-      font: LABEL_FONT,
-      maxWidth: OR_TEXT_MAX_WIDTH
-    } );
-
-    const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING,
-      children: [ leftIcon, orText, rightIcon ]
-    }, providedOptions );
-
-    return new HBox( options );
-  }
-
-  /**
-   * Get two icons with horizontal layout, and separated by '-' text. This is useful for a range, like 0-9.
-   */
-  public static iconToIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
-
-    const hyphenText = new Text( sceneryPhetStrings.keyboardHelpDialog.hyphen, {
-      font: LABEL_FONT,
-      maxWidth: OR_TEXT_MAX_WIDTH
-    } );
-
-    const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING / 2,
-      children: [ leftIcon, hyphenText, rightIcon ]
-    }, providedOptions );
-
-    return new HBox( options );
-  }
-
-  /**
-   * Get two icons with horizontal layout, and separated by '+' text.
-   */
-  public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): Node {
-
-    const options = optionize<WithPlusIconOptions, WithPlusIconSelfOptions, HBoxOptions>()( {
-      plusIconSize: new Dimension2( 8, 1.2 ),
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    }, providedOptions );
-
-
-    // plus icon
-    const plusIconNode = new PlusNode( {
-      size: options.plusIconSize
-    } );
-
-    options.children = [ leftIcon, plusIconNode, rightIcon ];
-
-    return new HBox( options );
-  }
-
-  /**
-   * Get horizontally aligned shift key icon plus another icon node. Horizontally aligned in order
-   * of shift, plus icon, and desired icon.
-   */
-  public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
-
-    const options = optionize<WithPlusIconOptions, WithPlusIconSelfOptions, HBoxOptions>()( {
-      plusIconSize: new Dimension2( 8, 1.2 ),
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    }, providedOptions );
-
-    // shift key icon
-    const shiftKeyIcon = TextKeyNode.shift();
-
-    // plus icon
-    const plusIconNode = new PlusNode( {
-      size: options.plusIconSize
-    } );
-
-    options.children = [ shiftKeyIcon, plusIconNode, icon ];
-
-    return new HBox( options );
-  }
-
-  /**
-   * "Space or Enter" icon
-   */
-  public static spaceOrEnter(): Node {
-    return KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() );
-  }
-
-  /**
-   * "Up or down" icon
-   */
-  public static upOrDown(): Node {
-    return KeyboardHelpIconFactory.iconOrIcon( new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) );
-  }
-
-  /**
-   * Adds a set of icons to a horizontal layout.
+   * Horizontal layout of a set of icons, in left-to-right order.
    */
   public static iconRow( icons: Node[], providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
@@ -151,46 +56,120 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * An icon containing icons for the up and down arrow keys in a horizontal layout.
+   * Two icons with horizontal layout, separated by 'or' text.
+   */
+  public static iconOrIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+
+    const options = combineOptions<KeyboardHelpIconFactoryOptions>( {
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+    }, providedOptions );
+
+    const orText = new Text( sceneryPhetStrings.keyboardHelpDialog.or, {
+      font: LABEL_FONT,
+      maxWidth: OR_TEXT_MAX_WIDTH
+    } );
+
+    return KeyboardHelpIconFactory.iconRow( [ leftIcon, orText, rightIcon ], options );
+  }
+
+  /**
+   * Two icons with horizontal layout, and separated by '-' text. This is useful for a range, like 0-9.
+   */
+  public static iconToIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+
+    const options = combineOptions<KeyboardHelpIconFactoryOptions>( {
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING / 2
+    }, providedOptions );
+
+    const hyphenText = new Text( sceneryPhetStrings.keyboardHelpDialog.hyphen, {
+      font: LABEL_FONT,
+      maxWidth: OR_TEXT_MAX_WIDTH
+    } );
+
+    return KeyboardHelpIconFactory.iconRow( [ leftIcon, hyphenText, rightIcon ], options );
+  }
+
+  /**
+   * Two icons with horizontal layout, separated by '+' text.
+   */
+  public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): Node {
+
+    const options = combineOptions<WithPlusIconOptions>( {
+      plusIconSize: new Dimension2( 8, 1.2 ),
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+    }, providedOptions );
+
+    const plusIconNode = new PlusNode( {
+      size: options.plusIconSize
+    } );
+
+    return KeyboardHelpIconFactory.iconRow( [ leftIcon, plusIconNode, rightIcon ], options );
+  }
+
+  /**
+   * An icon with horizontal layout in order: shift, plus, and provided icon.
+   */
+  public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
+
+    const options = combineOptions<WithPlusIconOptions>( {
+      plusIconSize: new Dimension2( 8, 1.2 ),
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+    }, providedOptions );
+
+    const shiftKeyIcon = TextKeyNode.shift();
+
+    const plusIconNode = new PlusNode( {
+      size: options.plusIconSize
+    } );
+
+    return KeyboardHelpIconFactory.iconRow( [ shiftKeyIcon, plusIconNode, icon ], options );
+  }
+
+  /**
+   * "Space or Enter" icon
+   */
+  public static spaceOrEnter(): Node {
+    return KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() );
+  }
+
+  /**
+   * An icon with up and down arrows, separated by 'or', in horizontal layout.
+   */
+  public static upOrDown(): Node {
+    return KeyboardHelpIconFactory.iconOrIcon( new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) );
+  }
+
+  /**
+   * An icon with up and down arrow keys, in a horizontal layout.
    */
   public static wasdRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
 
-    // These are not translated because they map directly to specific key codes.
-    const wKeyNode = new LetterKeyNode( 'W' );
-    const aKeyNode = new LetterKeyNode( 'A' );
-    const sKeyNode = new LetterKeyNode( 'S' );
-    const dKeyNode = new LetterKeyNode( 'D' );
-
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
-      spacing: DEFAULT_HORIZONTAL_KEY_SPACING,
-      children: [ wKeyNode, aKeyNode, sKeyNode, dKeyNode ]
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/759 use KeyboardHelpIconFactory.iconRow?
-    return new HBox( options );
+    // Strings are not translated because they map directly to specific key codes.
+    const icons = [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'A' ), new LetterKeyNode( 'S' ), new LetterKeyNode( 'D' ) ];
+
+    return KeyboardHelpIconFactory.iconRow( icons, options );
   }
 
   /**
-   * Get horizontally aligned arrow keys, all in a row including up, left, down, and right arrow keys in that order.
+   * An icon with the 4 arrow keys, in a horizontal layout.
    */
   public static arrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
 
-    const upArrowKeyNode = new ArrowKeyNode( 'up' );
-    const leftArrowKeyNode = new ArrowKeyNode( 'left' );
-    const downArrowKeyNode = new ArrowKeyNode( 'down' );
-    const rightArrowKeyNode = new ArrowKeyNode( 'right' );
-
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
-      spacing: DEFAULT_HORIZONTAL_KEY_SPACING,
-      children: [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArrowKeyNode ]
+      spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/759 use KeyboardHelpIconFactory.iconRow?
-    return new HBox( options );
+    const icons = [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
+
+    return KeyboardHelpIconFactory.iconRow( icons, options );
   }
 
   /**
-   * An icon containing horizontally aligned arrow keys and horizontally aligned WASD keys, separated by an "or".
+   * An icon with the 4 arrow keys, WASD keys, separated by "or", in horizontal layout.
    */
   public static arrowOrWasdKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
 
@@ -205,31 +184,28 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * An icon containing icons for the page up/down keys aligned horizontally.
+   * An icon with page up/down keys, in horizontal layout.
    */
   public static pageUpPageDownRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
 
-    const pageUpKeyNode = TextKeyNode.pageUp();
-    const pageDownKeyNode = TextKeyNode.pageDown();
-
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING,
-      children: [ pageUpKeyNode, pageDownKeyNode ]
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/759 use KeyboardHelpIconFactory.iconRow?
-    return new HBox( options );
+    const icons = [ TextKeyNode.pageUp(), TextKeyNode.pageDown() ];
+
+    return KeyboardHelpIconFactory.iconRow( icons, options );
   }
 
   /**
-   * An icon containing icons for the up and down arrow keys aligned horizontally.
+   * An icon with up and down arrow keys, in horizontal layout.
    */
   public static upDownArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) ], providedOptions );
   }
 
   /**
-   * An icon containing the icons for the left and right arrow keys,  aligned horizontally.
+   * An icon with left and right arrow keys, in horizontal layout.
    */
   public static leftRightArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ], providedOptions );
