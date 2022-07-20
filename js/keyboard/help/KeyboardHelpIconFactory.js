@@ -1,5 +1,6 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Reusable icons to be created for keyboard help shortcuts dialogs. This type is only a collection of static methods, and
  * should not be instantiated.
