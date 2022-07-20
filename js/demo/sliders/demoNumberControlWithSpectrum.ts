@@ -12,8 +12,9 @@ import NumberControl from '../../NumberControl.js';
 import PhetFont from '../../PhetFont.js';
 import SpectrumSliderTrack from '../../SpectrumSliderTrack.js';
 import SpectrumSliderThumb from '../../SpectrumSliderThumb.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
-export default function demoNumberControlWithSpectrum( layoutBounds: Bounds2 ) {
+export default function demoNumberControlWithSpectrum( layoutBounds: Bounds2 ): Node {
   const property = new Property( 380 );
   const wavelengthToColor = VisibleColor.wavelengthToColor;
 

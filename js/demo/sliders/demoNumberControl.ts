@@ -10,10 +10,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 
-export default function demoNumberControl( layoutBounds: Bounds2 ) {
+export default function demoNumberControl( layoutBounds: Bounds2 ): Node {
 
   const weightRange = new RangeWithValue( 0, 300, 100 );
 

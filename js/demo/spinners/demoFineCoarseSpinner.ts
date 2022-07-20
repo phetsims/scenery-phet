@@ -11,13 +11,13 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
-import { NodeOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FineCoarseSpinner from '../../FineCoarseSpinner.js';
 import PhetFont from '../../PhetFont.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 
-export default function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: SunDemoOptions ) {
+export default function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOptions?: SunDemoOptions ): Node {
 
   const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
     tandem: Tandem.OPTIONAL
