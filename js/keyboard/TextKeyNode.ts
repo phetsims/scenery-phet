@@ -1,6 +1,5 @@
-// Copyright 2017-2021, University of Colorado Boulder
+// Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * TextKeyNode is a keyboard key with text that is generally more than a single character. By default, a key
  * with text is more rectangular than a letter key (LetterKeyNode), and the key compactly surrounds the text content.
@@ -8,23 +7,27 @@
  * @author Jesse Greenberg
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { RichText } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Font, IColor, RichText } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
-import KeyNode from './KeyNode.js';
+import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
-class TextKeyNode extends KeyNode {
+type SelfOptions = {
+  font?: Font;
+  fill?: IColor;
+  textMaxWidth?: number;
+};
 
-  /**
-   * @param {string} string
-   * @param {Object} [options]
-   */
-  constructor( string, options ) {
+export type TextKeyNodeOptions = SelfOptions & KeyNodeOptions;
+
+export default class TextKeyNode extends KeyNode {
+
+  public constructor( string: string, providedOptions?: TextKeyNodeOptions ) {
 
     // margins, width, and height in ScreenView coordinates
-    options = merge( {
+    const options = optionize<TextKeyNodeOptions, SelfOptions, KeyNodeOptions>()( {
 
       // text options
       font: new PhetFont( { size: 16 } ),
@@ -34,7 +37,7 @@ class TextKeyNode extends KeyNode {
       // by default, key should tightly surround the text, with a bit more horizontal space
       xPadding: 11
 
-    }, options );
+    }, providedOptions );
 
     // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
     const textNode = new RichText( string, {
@@ -51,114 +54,53 @@ class TextKeyNode extends KeyNode {
   // as their string keys. For example sceneryPhetStrings.key.alt is rendered by the alt method.
   //-------------------------------------------------------------------------------------------------
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static alt( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.alt, options );
+  public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.alt, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static capsLock( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.capsLock, options );
+  public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.capsLock, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static esc( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.esc, options );
+  public static esc( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.esc, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static end( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.end, options );
+  public static end( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.end, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static enter( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.enter, options );
+  public static enter( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.enter, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static fn( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.fn, options );
+  public static fn( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.fn, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static home( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.home, options );
+  public static home( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.home, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static pageDown( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.pageDown, options );
+  public static pageDown( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.pageDown, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static pageUp( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.pageUp, options );
+  public static pageUp( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.pageUp, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static space( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.space, options );
+  public static space( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.space, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static shift( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.shift, options );
+  public static shift( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.shift, providedOptions );
   }
 
-  /**
-   * @param {Object} [options]
-   * @returns {../../../scenery/js/nodes/Node}
-   * @public
-   */
-  static tab( options ) {
-    return new TextKeyNode( sceneryPhetStrings.key.tab, options );
+  public static tab( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( sceneryPhetStrings.key.tab, providedOptions );
   }
 }
 
 sceneryPhet.register( 'TextKeyNode', TextKeyNode );
-export default TextKeyNode;

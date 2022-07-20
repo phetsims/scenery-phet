@@ -1,21 +1,22 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Node that looks like an arrow key on the keyboard.  Default is a rounded triangle centered in a square key.
  *
  * @author Jesse Greenberg
  */
 
-import { Shape } from '../../../kite/js/imports.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Path } from '../../../scenery/js/imports.js';
+import { LineJoin, Shape } from '../../../kite/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { IColor, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
-import KeyNode from './KeyNode.js';
+import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
 // constants
 const DEFAULT_ARROW_HEIGHT = 10;
 const DEFAULT_ARROW_WIDTH = 0.6 * Math.sqrt( 3 ) * DEFAULT_ARROW_HEIGHT; // for an isosceles triangle
+
+type Direction = 'up' | 'down' | 'left' | 'right';
 
 // possible directions for the arrows in the key
 const DIRECTION_ANGLES = {
@@ -25,19 +26,26 @@ const DIRECTION_ANGLES = {
   right: Math.PI / 2
 };
 
-class ArrowKeyNode extends KeyNode {
+type SelfOptions = {
+  arrowFill?: IColor;
+  arrowStroke?: IColor;
+  arrowLineJoin?: LineJoin;
+  arrowLineWidth?: number;
+  arrowHeight?: number;
+  arrowWidth?: number;
+};
 
-  /**
-   * @param {string} direction - direction of arrow, 'up'|'down'|'left'|'right'
-   * @param {Object} [options]
-   */
-  constructor( direction, options ) {
+export type ArrowKeyNodeOptions = SelfOptions & KeyNodeOptions;
+
+export default class ArrowKeyNode extends KeyNode {
+
+  public constructor( direction: Direction, providedOptions?: ArrowKeyNodeOptions ) {
 
     assert && assert( DIRECTION_ANGLES[ direction ] !== undefined, 'Arrow direction must be one of DIRECTION_ANGLES' );
 
-    options = merge( {
+    const options = optionize<ArrowKeyNodeOptions, SelfOptions, KeyNodeOptions>()( {
 
-      // options for the arrow
+      // SelfOptions
       arrowFill: 'black',
       arrowStroke: 'black',
       arrowLineJoin: 'round',
@@ -45,9 +53,10 @@ class ArrowKeyNode extends KeyNode {
       arrowHeight: DEFAULT_ARROW_HEIGHT,
       arrowWidth: DEFAULT_ARROW_WIDTH,
 
+      // KeyNodeOptions
       yPadding: 13, // this way the arrows will be scaled down and given proper margin in the key
       forceSquareKey: true // arrow keys are typically square
-    }, options );
+    }, providedOptions );
 
     const arrowHeight = options.arrowHeight;
     const arrowWidth = options.arrowWidth;
@@ -74,4 +83,3 @@ class ArrowKeyNode extends KeyNode {
 }
 
 sceneryPhet.register( 'ArrowKeyNode', ArrowKeyNode );
-export default ArrowKeyNode;

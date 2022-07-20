@@ -1,6 +1,5 @@
-// Copyright 2017-2020, University of Colorado Boulder
+// Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * LetterKeyNode looks like a keyboard key with a single letter. By default, a letter key is square, with a bit less
  * horizontal padding than a key with a full word.
@@ -8,26 +7,26 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import sceneryPhet from '../sceneryPhet.js';
-import TextKeyNode from './TextKeyNode.js';
+import TextKeyNode, { TextKeyNodeOptions } from './TextKeyNode.js';
 
-class LetterKeyNode extends TextKeyNode {
+type SelfOptions = EmptyObjectType;
 
-  /**
-   * @param {string} letter
-   * @param {Object} [options]
-   */
-  constructor( letter, options ) {
+export type LetterKeyNodeOptions = SelfOptions & TextKeyNodeOptions;
 
-    options = merge( {
+export default class LetterKeyNode extends TextKeyNode {
+
+  public constructor( letter: string, providedOptions?: LetterKeyNodeOptions ) {
+
+    const options = optionize<LetterKeyNodeOptions, SelfOptions, TextKeyNodeOptions>()( {
       xPadding: 5,
       forceSquareKey: true
-    }, options );
+    }, providedOptions );
 
     super( letter, options );
   }
 }
 
 sceneryPhet.register( 'LetterKeyNode', LetterKeyNode );
-export default LetterKeyNode;

@@ -1,6 +1,5 @@
-// Copyright 2017-2021, University of Colorado Boulder
+// Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * KeyNode looks like a keyboard key. It has a shadow rectangle under the key icon, with a slight offset so that it
  * has a 3D appearance.  KeyNodes are primarily used for accessibility to provide extra information about keyboard
@@ -13,60 +12,75 @@
  */
 
 import Bounds2 from '../../../dot/js/Bounds2.js';
-import merge from '../../../phet-core/js/merge.js';
-import { AlignBox } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { AlignBox, IColor, Node, NodeOptions, Rectangle } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-// Default option values for KeyNode. All widths, offsets, and height values are in the ScreenView coordinate frame.
-const DEFAULT_OPTIONS = {
+type XAlign = 'left' | 'center' | 'right';
+type YAlign = 'top' | 'center' | 'bottom';
+
+// All widths, offsets, and height values are in the ScreenView coordinate frame.
+type SelfOptions = {
 
   // color and styling
-  keyFill: 'white',
-  keyShadowFill: 'black',
-  lineWidth: 1.3, // line width for the key icon
-  cornerRadius: 2, // corner radius applied to the key and its shadow
+  keyFill?: IColor;
+  keyShadowFill?: IColor;
+  lineWidth?: number; // line width for the key icon
+  cornerRadius?: number; // corner radius applied to the key and its shadow
 
   // offset for the shadow rectangle relative to the top left corner of the key
-  xShadowOffset: 1.7,
-  yShadowOffset: 1.7,
+  xShadowOffset?: number;
+  yShadowOffset?: number;
 
   // margins set by AlignBox
-  xMargin: 0, // sets the horizontal margin for the icon from the left/right edge
-  yMargin: 0, // set the vertical margin for the icon from the top/botton edges
+  xMargin?: number; // sets the horizontal margin for the icon from the left/right edge
+  yMargin?: number; // set the vertical margin for the icon from the top/botton edges
 
   // icon aligned in center of key by default
-  xAlign: 'center', // {string} 'left', 'center', or 'right'
-  yAlign: 'center', // {string} 'top', 'center', or 'bottom'
+  xAlign?: XAlign;
+  yAlign?: YAlign;
 
   // x and y padding around the icon, will increase the size of the key if there is available space,
   // or scale down the icon if key is at max width or height
-  xPadding: 4,
-  yPadding: 4,
+  xPadding?: number;
+  yPadding?: number;
 
   // Key will be at least this wide, making it possible to surround the icon with extra space if necessary.
   // The minimum width of the KeyNode allowed, if the icon is wider, than it will expand gracefully
-  minKeyWidth: 23, // default equal to the height, a square key as the minimum.
+  minKeyWidth?: number;
 
   // the desired height of the KeyNode; icon will be scaled down if too big
-  keyHeight: 23,
+  keyHeight?: number;
 
   // Force the width of the KeyNode to be the same width as height, based on the height.
   // Will scale down the icon if too wide.
-  forceSquareKey: false
+  forceSquareKey?: boolean;
 };
 
-class KeyNode extends Node {
+export type KeyNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-  /**
-   * @param {Node} keyIcon - icon placed in the key
-   * @param {Object} [options]
-   */
-  constructor( keyIcon, options ) {
+export default class KeyNode extends Node {
 
-    options = merge( {}, DEFAULT_OPTIONS, options );
-    assert && assert( !options.children, 'KeyNode cannot have additional children' );
+  public constructor( keyIcon: Node, providedOptions?: KeyNodeOptions ) {
+
+    const options = optionize<KeyNodeOptions, SelfOptions, NodeOptions>()( {
+      keyFill: 'white',
+      keyShadowFill: 'black',
+      lineWidth: 1.3,
+      cornerRadius: 2,
+      xShadowOffset: 1.7,
+      yShadowOffset: 1.7,
+      xMargin: 0,
+      yMargin: 0,
+      xAlign: 'center',
+      yAlign: 'center',
+      xPadding: 4,
+      yPadding: 4,
+      keyHeight: 23,
+      minKeyWidth: 23, // default equal to keyHeight, a square key as the minimum.
+      forceSquareKey: false
+    }, providedOptions );
 
     // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
     let heightScalar = 1;
@@ -133,4 +147,3 @@ class KeyNode extends Node {
 }
 
 sceneryPhet.register( 'KeyNode', KeyNode );
-export default KeyNode;
