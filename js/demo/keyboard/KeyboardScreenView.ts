@@ -15,7 +15,7 @@ import demoBasicActionsKeyboardHelpSection from './demoBasicActionsKeyboardHelpS
 import demoSliderControlsKeyboardHelpSection from './demoSliderControlsKeyboardHelpSection.js';
 import demoComboBoxKeyboardHelpSection from './demoComboBoxKeyboardHelpSection.js';
 import demoKeyNode from './demoKeyNode.js';
-import demoKeyboardHelp from './demoKeyboardHelp.js';
+import demoKeyboardHelpSection from './demoKeyboardHelpSection.js';
 
 type SelfOptions = EmptyObjectType;
 type KeyboardScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -32,8 +32,8 @@ export default class KeyboardScreenView extends DemosScreenView {
     const demos = [
       { label: 'BasicActionsKeyboardHelpSection', createNode: demoBasicActionsKeyboardHelpSection },
       { label: 'ComboBoxKeyboardHelpSection', createNode: demoComboBoxKeyboardHelpSection },
+      { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
       { label: 'KeyNode', createNode: demoKeyNode },
-      { label: 'KeyboardHelp', createNode: demoKeyboardHelp },
       { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection }
     ];
 

@@ -53,6 +53,6 @@ export default function demoKeyNode( layoutBounds: Bounds2 ): Node {
     center: layoutBounds.center,
     align: 'right',
     spacing: 3,
-    scale: 2
+    scale: 1.5
   } );
 }
