@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
@@ -16,7 +16,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 
-export default function demoBeakerNode( layoutBounds: Bounds2 ) {
+export default function demoBeakerNode( layoutBounds: Bounds2 ): Node {
 
   const ticksVisibleText = new Text( 'ticks visible', {
     font: new PhetFont( 16 )

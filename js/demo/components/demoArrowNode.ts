@@ -11,7 +11,7 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import ArrowNode from '../../ArrowNode.js';
 import PhetFont from '../../PhetFont.js';
 
-export default function demoArrowNode( layoutBounds: Bounds2 ) {
+export default function demoArrowNode( layoutBounds: Bounds2 ): Node {
 
   const arrowNode = new ArrowNode( 0, 0, 200, 200, {
     headWidth: 30,

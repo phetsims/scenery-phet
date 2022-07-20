@@ -14,7 +14,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
-export default function demoBicyclePumpNode( layoutBounds: Bounds2 ) {
+export default function demoBicyclePumpNode( layoutBounds: Bounds2 ): Node {
 
   const numberOfParticlesProperty = new NumberProperty( 0, {
     numberType: 'Integer',

@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Color, HBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import SpinningIndicatorNode from '../../SpinningIndicatorNode.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 
-export default function demoSpinningIndicatorNode( layoutBounds: Bounds2 ) {
+export default function demoSpinningIndicatorNode( layoutBounds: Bounds2 ): Node {
   return new DemoNode( layoutBounds );
 }
 

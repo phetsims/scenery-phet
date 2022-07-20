@@ -19,7 +19,7 @@ import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import PhetFont from '../../PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
-export default function demoConductivityTesterNode( layoutBounds: Bounds2 ) {
+export default function demoConductivityTesterNode( layoutBounds: Bounds2 ): Node {
 
   const brightnessProperty = new NumberProperty( 0, { range: new Range( 0, 1 ) } );
   const testerPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
