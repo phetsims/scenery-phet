@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Emitter from '../../axon/js/Emitter.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import TinyEmitter from '../../axon/js/TinyEmitter.js';
@@ -20,6 +19,7 @@ import { IColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../..
 import Animation from '../../twixt/js/Animation.js';
 import Easing from '../../twixt/js/Easing.js';
 import sceneryPhet from './sceneryPhet.js';
+import IEmitter from '../../axon/js/IEmitter.js';
 
 type SelfOptions = {
 
@@ -56,7 +56,7 @@ type SelfOptions = {
   // animation
   animationEnabled?: boolean; // is animation enabled when opening/closing the drawer?
   animationDuration?: number; // duration of animation (drawer opening and closing) in seconds
-  stepEmitter?: Emitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
+  stepEmitter?: IEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
 };
 
 export type DrawerOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'clipArea'>;
