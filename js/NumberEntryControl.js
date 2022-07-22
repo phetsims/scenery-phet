@@ -14,13 +14,18 @@ import { Node, Rectangle, Text } from '../../scenery/js/imports.js';
 import NumberKeypad from './NumberKeypad.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 
+/**
+ * @deprecated depends on NumberKeypad, which is deprecated. Modify this to use Keypad, or create something new.
+ */
 class NumberEntryControl extends Node {
 
   /**
    * @param {Object} [options]
    */
   constructor( options ) {
+    assert && deprecationWarning( 'NumberEntryControl is deprecated, a rewrite is needed' );
 
     options = merge( {
       maxDigits: 5, // Used for spacing of the readout, and for the default validateKey.
