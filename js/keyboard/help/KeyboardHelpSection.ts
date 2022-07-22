@@ -1,6 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * KeyboardHelpSection contains a section of text and icons for a KeyboardHelpDialog. Typically multiple KeyboardHelpSections
  * are assembled to describe the keyboard interactions for the sim. Takes a heading string for the section label and
@@ -18,8 +17,10 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { AlignGroup, HBox, Node, ReadingBlock, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBoxOptions, AlignGroup, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -46,25 +47,52 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
-class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
+type SelfOptions = {
+
+  // propagated to the Text for the section heading
+  headingOptions?: TextOptions;
+
+  // Used as maxWidth for each KeyboardHelpSectionRow.text
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 rename to textMaxWidth because it sets KeyboardHelpSectionRow.text.maxWidth, not KeyboardHelpSectionRow.label.maxWidth
+  labelMaxWidth?: number;
+
+  // propagated to VBox for layout
+  vBoxOptions?: StrictOmit<VBoxOptions, 'tagName'>;
+
+  // tag name for the entire content, usually content is a list of items
+  a11yContentTagName?: string | null;
+};
+
+type ParentOptions = ReadingBlockOptions & VBoxOptions;
+
+export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+
+export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
+
+  // the translatable heading for this section
+  private readonly headingString: string;
+
+  // collection of icons in this section
+  //TODO https://github.com/phetsims/scenery-phet/issues/762 type is likely incorrect here, because the implementation expects icon.readingBlockNameResponse
+  private readonly icons: Node[];
+
+  // used by static methods to adjust spacing if necessary
+  private readonly iconVBox: VBox;
+  private readonly contentHBox: HBox;
 
   /**
-   * @param {string} headingString - the translatable label for this content
-   * @param {Array.<KeyboardHelpSectionRow>} content -  icons and labels are each placed in their own VBox, and these layout
-   *                                            boxes are aligned horizontally. It is assumed that label and icon have
-   *                                            identical bounds so that each row of content can be aligned by
-   *                                            KeyboardHelpSection. Static functions in this file use AlignGroup to acheive
-   *                                            this. For examples, see labelWithIcon() and labelWithIconList().
-   * @param {Object} [options]
+   * @param headingString - the translatable heading for this section
+   * @param content -  icons and labels are each placed in their own VBox, and these layout boxes are aligned
+   *   horizontally. It is assumed that label and icon have identical bounds so that each row of content can be
+   *   aligned by KeyboardHelpSection. Static functions in this file use AlignGroup to achieve this. For examples,
+   *   see labelWithIcon() and labelWithIconList().
+   * @param [providedOptions]
    */
-  constructor( headingString, content, options ) {
+  public constructor( headingString: string, content: KeyboardHelpSectionRow[], providedOptions?: KeyboardHelpSectionOptions ) {
 
-    options = merge( {
+    const options = optionize<KeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
 
-      // vertical spacing between the heading and the content
-      spacing: DEFAULT_HEADING_CONTENT_SPACING,
-      align: 'left',
-
+      // SelfOptions
       headingOptions: {
         font: DEFAULT_HEADING_FONT,
         maxWidth: DEFAULT_HEADING_MAX_WIDTH,
@@ -73,22 +101,17 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
         tagName: 'h2',
         innerContent: headingString
       },
-
-      // {number} The max width for all labels in the KeyboardHelpSection. Used as the base sizing to layout the rest
-      // of the KeyboardHelpSection.
       labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
-
-      // Passed to each sub-vBox created
       vBoxOptions: {
-
-        // VBox options
         align: 'left',
         spacing: DEFAULT_VERTICAL_ICON_SPACING
       },
+      a11yContentTagName: 'ul',
 
-      // pdom - tag name for the entire content, usually content is a list of items
-      a11yContentTagName: 'ul'
-    }, options );
+      // ParentOptions
+      spacing: DEFAULT_HEADING_CONTENT_SPACING,
+      align: 'left'
+    }, providedOptions );
 
     // create the heading
     const headingText = new Text( headingString, options.headingOptions );
@@ -107,12 +130,12 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     }
 
     // parent for all labels
-    const labelVBox = new VBox( merge( {
+    const labelVBox = new VBox( combineOptions<VBoxOptions>( {
       children: labels
     }, options.vBoxOptions ) );
 
     // parent for all icons
-    const iconVBox = new VBox( merge( {
+    const iconVBox = new VBox( combineOptions<VBoxOptions>( {
       children: icons,
 
       // pdom
@@ -131,39 +154,33 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
     super( options );
 
-    // @private used by static methods to adjust spacing if necessary
+    this.headingString = headingString;
+    this.icons = icons;
     this.iconVBox = iconVBox;
     this.contentHBox = contentHBox;
 
-    // @private {string}
-    this.headingString = headingString;
-
-    // @private {Node[]} - collection of icons in this section
-    this.icons = icons;
-
-    this.readingBlockNameResponse = this.generateReadingBlockNameResponse();
+    this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
   }
 
   /**
    * Assemble the content that is read for this KeyboardHelpSection as a ReadingBlock. When
-   * Voicing is enabled, activating the section will read all of the content to the user.
+   * Voicing is enabled, activating the section will read all the content to the user.
    *
    * NOTE: This probably doesn't hold up for i18n, but Voicing does not support translation and
    * that will have to be worked on another time.
-   * @private
-   *
-   * @returns {string}
    */
-  generateReadingBlockNameResponse() {
+  private generateReadingBlockNameResponse(): string {
 
-    // include the section heading - headings typically don't have punctuation, but don't use a period because
-    // it may appear to the synth as an abbreviation and change the pronunciation
+    // Include the section heading. Headings typically don't have punctuation, but don't use a period because
+    // it may appear to the synth as an abbreviation and change the pronunciation.
     let readingBlockNameResponse = '';
     readingBlockNameResponse += `${this.headingString}, `;
 
-    // append the readingBlockNameResponse assigned to each icon
+    // Append the readingBlockNameResponse assigned to each icon.
     this.icons.forEach( icon => {
+      // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 icon of type Node has no readingBlockNameResponse field
       if ( icon.readingBlockNameResponse ) {
+        // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 icon of type Node has no readingBlockNameResponse field
         readingBlockNameResponse += `${icon.readingBlockNameResponse} `;
       }
     } );
@@ -174,17 +191,15 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
   /**
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
    * to give the label and icon identical dimensions for easy layout in KeyboardHelpSection.
-   * @public
-   *
-   * @param {string} labelString - string for the label Text
-   * @param {Node} icon
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow} - so KeyboardHelpSection can layout content groups
    */
-  static labelWithIcon( labelString, icon, options ) {
-    assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
+  public static labelWithIcon( labelString: string, icon: Node, providedOptions?: any ): KeyboardHelpSectionRow {
 
-    options = merge( {
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 these options are not propagated to KeyboardHelpSectionRow, and most are not used
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from the type of providedOptions?
+    // TODO https://github.com/phetsims/scenery-phet/issues/762 convert to optionize
+    // eslint-disable-next-line bad-typescript-text
+    const options = merge( {
 
       // {string|null} to provide the PDOM description of this row
       labelInnerContent: null,
@@ -210,8 +225,11 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
         // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
         readingBlockNameResponse: null
       }
-    }, options );
+    }, providedOptions );
+
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 'children' should be omitted from providedOptions type
     assert && assert( !options.children, 'children are not optional' );
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 'innerContent' should be omitted from providedOptions.iconOptions type
     assert && assert( !options.iconOptions.innerContent, 'should be specified as an parameter, see labelInnerContent' );
 
     options.iconOptions.innerContent = options.labelInnerContent;
@@ -224,6 +242,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
     // set the ReadingBlock content for the icon - default
+    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 iconBox is of type AlignBox, not ReadingBlock, and has no readingBlockNameResponse field
     iconBox.readingBlockNameResponse = options.iconOptions.readingBlockNameResponse || options.iconOptions.innerContent;
 
     return new KeyboardHelpSectionRow( labelText, labelBox, iconBox );
@@ -238,29 +257,30 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * This is the label: Icon1 or
    *                    Icon2 or
    *                    Icon3
-   *
-   * @public
-   *
-   * @param {string} labelString - string for the visible label RichText
-   * @param {Node[]} icons
-   * @param {Object} [options] - cannot pass in children
-   *
-   * @returns {KeyboardHelpSectionRow} -  so KeyboardHelpSection can layout content groups
    */
-  static labelWithIconList( labelString, icons, options ) {
-    assert && assert( typeof labelString === 'string', 'labelWithIcon creates Text label from string.' );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 type of icons is probably incorrect
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
+  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: any ): KeyboardHelpSectionRow {
 
-    options = merge( {
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 these options are not propagated to KeyboardHelpSectionRow
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from type of providedOptions?
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 convert to optionize
+    // eslint-disable-next-line bad-typescript-text
+    const options = merge( {
 
       // {string|null} content for the parallel DOM, read by a screen reader
       labelInnerContent: null,
 
       iconsVBoxOptions: {} // options for the iconsVBox, extended below
-    }, options );
-    assert && assert( !options.children, 'labelWithIconList adds its own children' );
+    }, providedOptions );
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 'children' should be omitted from providedOptions type
+    assert && assert( !options.children, 'labelWithIconList adds its own children' );
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 'innerContent' should be omitted from providedOptions.iconOptions type
     assert && assert( !options.iconsVBoxOptions.innerContent, 'should be specified as an argument' );
-    options.iconsVBoxOptions = merge( {
+
+    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from the type of options.iconsVBoxOptions, or can the caller override all of them?
+    options.iconsVBoxOptions = combineOptions<VBoxOptions>( {
       spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
       tagName: 'li',
@@ -269,6 +289,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       // voicing
       // {string} - Content for this icon that is read by the Voicing feature
       // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
+      // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 VBoxOptions has no readingBlockNameResponse, and options.iconsVBoxOptions is passed to a VBox, not a ReadingBlock
       readingBlockNameResponse: null
     }, options.iconsVBoxOptions );
 
@@ -297,17 +318,18 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     iconsWithOrText.push( icons[ icons.length - 1 ] );
 
     // place icons in a VBox, passing through optional spacing and a11y representation
-    const iconsVBox = new VBox( merge( {
+    const iconsVBox = new VBox( combineOptions<VBoxOptions>( {
       children: iconsWithOrText
     }, options.iconsVBoxOptions ) );
 
     // make the label the same height as the icon list by aligning them in a box that matches height
-    const groupOptions = { yAlign: 'top' };
+    const groupOptions: AlignBoxOptions = { yAlign: 'top' };
     const labelIconListGroup = new AlignGroup( { matchHorizontal: false } );
     const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
     // set the ReadingBlock content for the icon - default
+    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 iconsBox is of type AlignBox, not ReadingBlock, and has no readingBlockNameResponse field
     iconsBox.readingBlockNameResponse = options.iconsVBoxOptions.readingBlockNameResponse || options.iconsVBoxOptions.innerContent;
 
     return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox );
@@ -315,102 +337,77 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
   /**
    * Creates a row with one or more keys, with keys separated by '+'.
-   * @public
-   *
-   * @param {Array.<string>} keyStrings - each should be a letter key
-   * @param {string} labelString
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
+   * @param keyStrings - each should be a letter key
+   * @param labelString
+   * @param [providedOptions]
    */
-  static createKeysRowFromStrings( keyStrings, labelString, options ) {
-    return KeyboardHelpSection.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, options );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRow
+  public static createKeysRowFromStrings( keyStrings: string[], labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+    return KeyboardHelpSection.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, providedOptions );
   }
 
   /**
    * Creates a row with one or more keys, with keys separated by '+'.
-   * @public
-   *
-   * @param {Array.<Node>} keyIcons
-   * @param {string} labelString
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
    */
-  static createKeysRow( keyIcons, labelString, options ) {
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in labelWithIcon
+  public static createKeysRow( keyIcons: Node[], labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
     assert && assert( keyIcons.length > 0, 'expected keys' );
     let keysNode = null;
+    // TODO https://github.com/phetsims/scenery-phet/issues/762 should this loop exit when keyNode is found? I don't understand why it iterates over all keyIcons.
     for ( let i = 0; i < keyIcons.length; i++ ) {
       const keyNode = keyIcons[ i ];
-
-      assert && assert( keyNode instanceof Node, 'should be a Node icon now' );
-
       keysNode = keysNode ? KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode ) : keyNode;
     }
-    return KeyboardHelpSection.labelWithIcon( labelString, keysNode, options );
+    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 keyNode might be null, and there is no check to verify that it's non-null after the loop
+    return KeyboardHelpSection.labelWithIcon( labelString, keysNode, providedOptions );
   }
 
   /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
    * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
-   * @public
-   *
-   * @param {string} keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
-   * @param {string} labelString - visual label
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
+   * @param keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
+   * @param labelString - visual label
+   * @param [providedOptions]
    */
-  static createJumpKeyRow( keyString, labelString, options ) {
-    return KeyboardHelpSection.createKeysRowFromStrings( [ 'J', keyString ], labelString, options );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRowFromStrings
+  public static createJumpKeyRow( keyString: string, labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+    return KeyboardHelpSection.createKeysRowFromStrings( [ 'J', keyString ], labelString, providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
-   * @public
-   *
-   * @param {string} labelString - visual label string for the "Alt" + "K" icon
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
    */
-  static createPlayPauseKeyRow( labelString, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'K', options );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createGlobalHotkeyRow
+  public static createPlayPauseKeyRow( labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'K', providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
-   * @public
-   *
-   * @param {string} labelString
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
    */
-  static createStepForwardKeyRow( labelString, options ) {
-    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'L', options );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createGlobalHotkeyRow
+  public static createStepForwardKeyRow( labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+    return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'L', providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
    * some other key, to be provided.
-   * @public
-   *
-   * @param {string} labelString - visual label in the row
-   * @param {string} keyString - Key to be used in addition to AltKeyNode.
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSectionRow}
    */
-  static createGlobalHotkeyRow( labelString, keyString, options ) {
-    return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, options );
+  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRow
+  public static createGlobalHotkeyRow( labelString: string, keyString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+    return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
   }
 
   /**
    * Vertically align icons for a number of different KeyboardHelpSections. Useful when two KeyboardHelpSection
    * sections are stacked vertically in a Dialog. Loops through sectionArray and finds the max x value of the left
    * edge of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
-   * @public
-   *
-   * @param {KeyboardHelpSection[]} sectionArray
    */
-  static alignHelpSectionIcons( sectionArray ) {
+  public static alignHelpSectionIcons( sectionArray: KeyboardHelpSection[] ): void {
 
     // left edge of icons farthest to the right in the array of KeyboardHelpSection
+    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 TS2532: Object is possibly 'undefined'.
     const maxLeftEdge = _.maxBy( sectionArray, section => section.iconVBox.left ).iconVBox.left;
 
     // adjust the spacing of all section HBoxes so that they align
@@ -421,20 +418,18 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
   /**
    * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
-   * @public
-   *
-   * @param {string} thingAsTitle - the item being grabbed, capitalized as a title
-   * @param {string} thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
-   * @param {Object} [options]
-   * @returns {KeyboardHelpSection}
+   * @param thingAsTitle - the item being grabbed, capitalized as a title
+   * @param thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
+   * @param [providedOptions]
    */
-  static getGrabReleaseHelpSection( thingAsTitle, thingAsLowerCase, options ) {
+  public static getGrabReleaseHelpSection( thingAsTitle: string, thingAsLowerCase: string,
+                                           providedOptions?: KeyboardHelpSectionOptions ): KeyboardHelpSection {
 
-    options = merge( {
+    const options = combineOptions<KeyboardHelpSectionOptions>( {
 
       // just a paragraph for this section, no list
-      a11yContentTagName: null
-    }, options );
+      a11yContentTagName: null  //TODO https://github.com/phetsims/scenery-phet/issues/762 should 'a11yContentTagName' be omitted from providedOptions, or can the caller override it?
+    }, providedOptions );
 
     // the visible heading string
     const heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
@@ -457,7 +452,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const labelWithContentRow = KeyboardHelpSection.labelWithIcon( labelString, icons, {
       labelInnerContent: descriptionString,
       iconOptions: {
-        tagName: 'p' // it is the only item so it is a p rather than an li
+        tagName: 'p' // it is the only item, so it is 'p' rather than 'li'
       }
     } );
 
@@ -465,6 +460,7 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
   }
 }
 
+//TODO https://github.com/phetsims/scenery-phet/issues/762 I would move this to its own file, along with the static methods above that return KeyboardHelpSectionRow
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
  * will return a KeyboardHelpSectionRow. The label and icon are often grouped in an AlignGroup for easy positioning
@@ -477,19 +473,16 @@ class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 class KeyboardHelpSectionRow {
 
   /**
-   * @param {Text|RichText} text - must be a child of the "label" Node, KeyboardHelpSection
-   * @param {Node} label
-   * @param {Node} icon
+   * @param text - must be a child of the "label" Node, KeyboardHelpSection
+   * @param label
+   * @param icon
    */
-  constructor( text, label, icon ) {
-    assert && assert( text instanceof Text || text instanceof RichText, `unsupported label type: ${text}` );
-
-    // @public (read-only)
-    this.label = label;
-    this.icon = icon;
-    this.text = text;
+  public constructor( public readonly text: Text | RichText,
+                      public readonly label: Node,
+                      // TODO https://github.com/phetsims/scenery-phet/issues/762 type is probably not Node, since icon.readingBlockNameResponse is expected elsewhere
+                      public readonly icon: Node ) {
+    // Fields are automatically created and initialized via constructor assignment.
   }
 }
 
 sceneryPhet.register( 'KeyboardHelpSection', KeyboardHelpSection );
-export default KeyboardHelpSection;
