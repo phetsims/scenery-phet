@@ -3,7 +3,7 @@
 /**
  * DO NOT USE IN NEW DEVELOPMENT - see deprecation notice below
  *
- * MultiLine plain text, with alignment.
+ * MultiLine plain text.
  * Lines are separated with the newline character '\n', which will be converted to '<br>'.
  * This was reimplemented as a subclass of RichText, see https://github.com/phetsims/scenery-phet/issues/392.
  *
