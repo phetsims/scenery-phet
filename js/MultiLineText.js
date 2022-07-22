@@ -1,5 +1,6 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * DO NOT USE IN NEW DEVELOPMENT - see deprecation notice below
  *
