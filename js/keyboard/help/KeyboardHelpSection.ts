@@ -481,7 +481,7 @@ class KeyboardHelpSectionRow {
                       public readonly label: Node,
                       // TODO https://github.com/phetsims/scenery-phet/issues/762 type is probably not Node, since icon.readingBlockNameResponse is expected elsewhere
                       public readonly icon: Node ) {
-    // Fields are automatically created and initialized via constructor assignment.
+    // Fields are automatically created and initialized via constructor parameter properties.
   }
 }
 
