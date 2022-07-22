@@ -37,7 +37,7 @@ class MultiLineText extends RichText {
 
     const options = optionize<MultiLineTextOptions, SelfOptions, RichTextOptions>()( {
 
-      // RichText options
+      // RichTextOptions
       align: 'center',
       font: new PhetFont()
     }, providedOptions );
