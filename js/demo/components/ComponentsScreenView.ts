@@ -37,6 +37,7 @@ import demoLaserPointerNode from './demoLaserPointerNode.js';
 import demoLineArrowNode from './demoLineArrowNode.js';
 import demoManualConstraint from './demoManualConstraint.js';
 import demoMeasuringTapeNode from './demoMeasuringTapeNode.js';
+import demoNextPreviousNavigationNode from './demoNextPreviousNavigationNode.js';
 import demoNumberDisplay from './demoNumberDisplay.js';
 import demoPaperAirplaneNode from './demoPaperAirplaneNode.js';
 import demoParametricSpringNode from './demoParametricSpringNode.js';
@@ -89,6 +90,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'LineArrowNode', createNode: demoLineArrowNode },
       { label: 'ManualConstraint', createNode: demoManualConstraint },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
+      { label: 'NextPreviousNavigationNode', createNode: demoNextPreviousNavigationNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
       { label: 'ParametricSpringNode', createNode: demoParametricSpringNode },
