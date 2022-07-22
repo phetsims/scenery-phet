@@ -13,6 +13,10 @@ import merge from '../../phet-core/js/merge.js';
 import { Color, FireListener, Node, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
+/**
+ * @deprecated Do not use in new code until https://github.com/phetsims/scenery-phet/issues/763 is addressed.
+ * This is currently used only in build-a-molecule.
+ */
 class NextPreviousNavigationNode extends Node {
 
   /**
