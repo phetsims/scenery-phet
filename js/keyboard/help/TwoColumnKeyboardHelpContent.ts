@@ -1,45 +1,53 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * An HBox with content for a KeyboardHelpDialog. Most KeyboardHelpDialogs have two columns of
- * content, each with one or more KeyboardHelpSection.
+ * TwoColumnKeyboardHelpContentOptions handles layout of KeyboardHelpSections in 2 columns.
  *
  * @author Jesse Greenberg
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { HBox, Node, NodeOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-class TwoColumnKeyboardHelpContent extends Node {
+type SelfOptions = {
+
+  // spacing between the left and right columns of the help content
+  columnSpacing?: number;
+
+  // vertical spacing between KeyboardHelpSections in each column
+  sectionSpacing?: number;
+};
+
+export type TwoColumnKeyboardHelpContentOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+
+export default class TwoColumnKeyboardHelpContent extends Node {
 
   /**
-   * @param {[].<Node>} leftSections
-   * @param {[].<Node>} rightSections
-   * @param {Object} [options]
+   * @param leftSections - KeyboardHelpSections for the left column
+   * @param rightSections -  KeyboardHelpSections for the right column
+   * @param [providedOptions]
    */
-  constructor( leftSections, rightSections, options ) {
-    assert && assert( Array.isArray( leftSections ) && Array.isArray( rightSections ), 'sections must be passed in as arrays' );
+  public constructor( leftSections: KeyboardHelpSection[], rightSections: KeyboardHelpSection[],
+                      providedOptions?: TwoColumnKeyboardHelpContentOptions ) {
 
-    options = merge( {
-
-      // spacing between the left and right columns of the help content
+    const options = optionize<TwoColumnKeyboardHelpContentOptions, SelfOptions, NodeOptions>()( {
       columnSpacing: 40,
-
-      // vertical spacing between KeyboardHelpSections in each column
       sectionSpacing: 40
-    }, options );
+    }, providedOptions );
 
-    assert && assert( options.align === undefined, 'TwoColumnKeyboardHelpContent sets column alignment' );
-    options.align = 'top';
-
-    const columnOptions = {
+    const columnOptions: StrictOmit<VBoxOptions, 'children'> = {
       align: 'left',
       spacing: options.sectionSpacing
     };
-    const leftColumn = new VBox( merge( {}, columnOptions, { children: leftSections } ) );
-    const rightColumn = new VBox( merge( {}, columnOptions, { children: rightSections } ) );
+    const leftColumn = new VBox( combineOptions<VBoxOptions>( {
+      children: leftSections
+    }, columnOptions ) );
+    const rightColumn = new VBox( combineOptions<VBoxOptions>( {
+      children: rightSections
+    }, columnOptions ) );
 
     const hBox = new HBox( {
       children: [ leftColumn, rightColumn ],
@@ -47,7 +55,6 @@ class TwoColumnKeyboardHelpContent extends Node {
       align: 'top'
     } );
 
-    assert && assert( !options.children, 'TwoColumnKeyboardHelpContent sets children' );
     options.children = [ hBox ];
 
     super( options );
@@ -55,4 +62,3 @@ class TwoColumnKeyboardHelpContent extends Node {
 }
 
 sceneryPhet.register( 'TwoColumnKeyboardHelpContent', TwoColumnKeyboardHelpContent );
-export default TwoColumnKeyboardHelpContent;
