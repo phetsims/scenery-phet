@@ -1,5 +1,6 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * An HBox with content for a KeyboardHelpDialog. Most KeyboardHelpDialogs have two columns of
  * content, each with one or more KeyboardHelpSection.
