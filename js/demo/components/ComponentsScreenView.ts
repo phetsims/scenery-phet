@@ -34,6 +34,7 @@ import demoHandleNode from './demoHandleNode.js';
 import demoHeaterCoolerNode from './demoHeaterCoolerNode.js';
 import demoKeypad from './demoKeypad.js';
 import demoLaserPointerNode from './demoLaserPointerNode.js';
+import demoLineArrowNode from './demoLineArrowNode.js';
 import demoManualConstraint from './demoManualConstraint.js';
 import demoMeasuringTapeNode from './demoMeasuringTapeNode.js';
 import demoNumberDisplay from './demoNumberDisplay.js';
@@ -85,6 +86,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
+      { label: 'LineArrowNode', createNode: demoLineArrowNode },
       { label: 'ManualConstraint', createNode: demoManualConstraint },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },

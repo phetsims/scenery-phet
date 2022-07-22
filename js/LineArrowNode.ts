@@ -8,14 +8,18 @@
 
 import Vector2 from '../../dot/js/Vector2.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Shape } from '../../kite/js/imports.js';
+import { LineCap, LineJoin, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
+
+  // head & tail
   stroke?: IColor;
+  lineJoin?: LineJoin; // affects the appearance of the arrow tip
+  lineCap?: LineCap; // affects appears of the arrow tail, and outside ends of the head
 
   // head
   headHeight?: number;
@@ -40,6 +44,8 @@ export default class LineArrowNode extends Node {
 
     const options = optionize<LineArrowNodeOptions, SelfOptions, NodeOptions>()( {
       stroke: 'black',
+      lineJoin: 'miter',
+      lineCap: 'butt',
       headHeight: 10,
       headWidth: 10,
       headLineWidth: 1,
@@ -54,12 +60,16 @@ export default class LineArrowNode extends Node {
 
     this.tailNode = new Path( null, {
       stroke: options.stroke,
+      lineJoin: options.lineJoin,
+      lineCap: options.lineCap,
       lineWidth: options.tailLineWidth,
       lineDash: options.tailLineDash
     } );
 
     this.headNode = new Path( null, {
       stroke: options.stroke,
+      lineJoin: options.lineJoin,
+      lineCap: options.lineCap,
       lineWidth: options.headLineWidth
     } );
 
