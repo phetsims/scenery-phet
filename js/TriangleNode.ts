@@ -12,13 +12,15 @@ import { Shape } from '../../kite/js/imports.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   pointDirection?: 'up' | 'down' | 'right' | 'left';
   triangleWidth?: number;
   triangleHeight?: number;
 };
-export type TriangleNodeOptions = SelfOptions & PathOptions;
+
+export type TriangleNodeOptions = SelfOptions & StrictOmit<PathOptions, 'rotation'>;
 
 export default class TriangleNode extends Path {
 
