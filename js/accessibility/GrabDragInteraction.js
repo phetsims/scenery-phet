@@ -161,7 +161,8 @@ class GrabDragInteraction extends EnabledComponent {
 
         // It is best to wire up grab drag enabled to be in sync with mouse/touch inputEnabled (instead of having both
         // editable by PhET-iO).
-        phetioReadOnly: true
+        phetioReadOnly: true,
+        phetioFeatured: false
       },
 
       // {Tandem} - For instrumenting
