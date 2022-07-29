@@ -21,6 +21,7 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { AlignBoxOptions, AlignGroup, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
@@ -75,10 +76,11 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
   private readonly headingString: string;
 
   // collection of icons in this section
-  //TODO https://github.com/phetsims/scenery-phet/issues/762 type is likely incorrect here, because the implementation expects icon.readingBlockNameResponse
   private readonly icons: Node[];
 
-  // used by static methods to adjust spacing if necessary
+  private keyboardHelpSectionRows: KeyboardHelpSectionRow[];
+
+  // used by methods to adjust spacing if necessary
   private readonly iconVBox: VBox;
   private readonly contentHBox: HBox;
 
@@ -160,6 +162,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     this.icons = icons;
     this.iconVBox = iconVBox;
     this.contentHBox = contentHBox;
+    this.keyboardHelpSectionRows = content;
 
     this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
   }
@@ -178,12 +181,10 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     let readingBlockNameResponse = '';
     readingBlockNameResponse += `${this.headingString}, `;
 
-    // Append the readingBlockNameResponse assigned to each icon.
-    this.icons.forEach( icon => {
-      // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 icon of type Node has no readingBlockNameResponse field
-      if ( icon.readingBlockNameResponse ) {
-        // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 icon of type Node has no readingBlockNameResponse field
-        readingBlockNameResponse += `${icon.readingBlockNameResponse} `;
+    // Append the readingBlockNameResponse assigned to each row.
+    this.keyboardHelpSectionRows.forEach( row => {
+      if ( row.readingBlockContent ) {
+        readingBlockNameResponse += `${row.readingBlockContent} `;
       }
     } );
 
@@ -206,6 +207,11 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       // {string|null} to provide the PDOM description of this row
       labelInnerContent: null,
 
+      // voicing
+      // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
+      // will default to the options.labelInnerContent.
+      readingBlockContent: null,
+
       // options passed for layout, passed to AlignGroup
       spacing: DEFAULT_LABEL_ICON_SPACING,
       align: 'center',
@@ -220,12 +226,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       iconOptions: {
 
         // pdom
-        tagName: 'li',
-
-        // voicing
-        // {string} - Content for this icon that is read by the Voicing feature
-        // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
-        readingBlockNameResponse: null
+        tagName: 'li'
       }
     }, providedOptions );
 
@@ -243,11 +244,9 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
 
-    // set the ReadingBlock content for the icon - default
-    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 iconBox is of type AlignBox, not ReadingBlock, and has no readingBlockNameResponse field
-    iconBox.readingBlockNameResponse = options.iconOptions.readingBlockNameResponse || options.iconOptions.innerContent;
-
-    return new KeyboardHelpSectionRow( labelText, labelBox, iconBox );
+    return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
+      readingBlockContent: options.readingBlockContent || options.labelInnerContent
+    } );
   }
 
   /**
@@ -260,7 +259,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    *                    Icon2 or
    *                    Icon3
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 type of icons is probably incorrect
   // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
   public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: any ): KeyboardHelpSectionRow {
 
@@ -272,6 +270,11 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
 
       // {string|null} content for the parallel DOM, read by a screen reader
       labelInnerContent: null,
+
+      // voicing
+      // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
+      // will default to options.labelInnerContent.
+      readingBlockContent: null,
 
       iconsVBoxOptions: {} // options for the iconsVBox, extended below
     }, providedOptions );
@@ -286,13 +289,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
       tagName: 'li',
-      innerContent: options.labelInnerContent,
-
-      // voicing
-      // {string} - Content for this icon that is read by the Voicing feature
-      // when in a KeyboardHelpSection. If null, will default to the labelInnerContent.
-      // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 VBoxOptions has no readingBlockNameResponse, and options.iconsVBoxOptions is passed to a VBox, not a ReadingBlock
-      readingBlockNameResponse: null
+      innerContent: options.labelInnerContent
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, { font: LABEL_FONT } );
@@ -330,11 +327,9 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
     const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-    // set the ReadingBlock content for the icon - default
-    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 iconsBox is of type AlignBox, not ReadingBlock, and has no readingBlockNameResponse field
-    iconsBox.readingBlockNameResponse = options.iconsVBoxOptions.readingBlockNameResponse || options.iconsVBoxOptions.innerContent;
-
-    return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox );
+    return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
+      readingBlockContent: options.readingBlockContent || options.labelInnerContent
+    } );
   }
 
   /**
@@ -462,6 +457,13 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
   }
 }
 
+type KeyboardHelpSectionRowOptions = {
+
+  // voicing - The content that is read with the Voicing feature when enabled. When clicked, the readingBlockContent
+  // for every KeyboardHelpSectionRow in the KeyboardHelpSection is read.
+  readingBlockContent?: VoicingResponse | null;
+};
+
 //TODO https://github.com/phetsims/scenery-phet/issues/762 I would move this to its own file, along with the static methods above that return KeyboardHelpSectionRow
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of KeyboardHelpSection
@@ -473,17 +475,20 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
  * KeyboardHelpSectionRows for i18n.
  */
 class KeyboardHelpSectionRow {
+  public readonly text: Text | RichText;
+  public readonly label: Node;
+  public readonly icon: Node;
+  public readonly readingBlockContent: VoicingResponse | null;
 
-  /**
-   * @param text - must be a child of the "label" Node, KeyboardHelpSection
-   * @param label
-   * @param icon
-   */
-  public constructor( public readonly text: Text | RichText,
-                      public readonly label: Node,
-                      // TODO https://github.com/phetsims/scenery-phet/issues/762 type is probably not Node, since icon.readingBlockNameResponse is expected elsewhere
-                      public readonly icon: Node ) {
-    // Fields are automatically created and initialized via constructor parameter properties.
+  public constructor( text: Text | RichText, label: Node, icon: Node, providedOptions?: KeyboardHelpSectionRowOptions ) {
+    const options = optionize<KeyboardHelpSectionRowOptions>()( {
+      readingBlockContent: null
+    }, providedOptions );
+
+    this.text = text;
+    this.label = label;
+    this.icon = icon;
+    this.readingBlockContent = options.readingBlockContent;
   }
 }
 
