@@ -56,7 +56,6 @@ type SelfOptions = {
   headingOptions?: TextOptions;
 
   // Used as maxWidth for each KeyboardHelpSectionRow.text
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 rename to textMaxWidth because it sets KeyboardHelpSectionRow.text.maxWidth, not KeyboardHelpSectionRow.label.maxWidth
   textMaxWidth?: number;
 
   // propagated to VBox for layout
