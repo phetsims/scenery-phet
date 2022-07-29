@@ -28,6 +28,9 @@ import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
+// TODO: https://github.com/phetsims/scenery-phet/issues/762
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // constants
 const keyboardHelpDialogGrabOrReleaseHeadingPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPattern;
 const keyboardHelpDialogGrabOrReleaseLabelPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPattern;

@@ -18,9 +18,11 @@ const pauseOrPlayActionDescriptionString = 'Pause or play action with Alt key pl
 class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
 
   // TODO https://github.com/phetsims/scenery-phet/issues/762
+  // eslint-disable-next-line
   public constructor( providedOptions?: any ) {
 
     // TODO https://github.com/phetsims/scenery-phet/issues/762
+    // eslint-disable-next-line
     const options = optionize<any, EmptySelfOptions, any>()( {
       headingString: timingControlsString,
       pauseOrPlayActionString: pauseOrPlayActionString,
