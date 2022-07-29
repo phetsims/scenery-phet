@@ -57,7 +57,7 @@ type SelfOptions = {
 
   // Used as maxWidth for each KeyboardHelpSectionRow.text
   // TODO https://github.com/phetsims/scenery-phet/issues/762 rename to textMaxWidth because it sets KeyboardHelpSectionRow.text.maxWidth, not KeyboardHelpSectionRow.label.maxWidth
-  labelMaxWidth?: number;
+  textMaxWidth?: number;
 
   // propagated to VBox for layout
   vBoxOptions?: StrictOmit<VBoxOptions, 'tagName'>;
@@ -104,7 +104,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
         tagName: 'h2',
         innerContent: headingString
       },
-      labelMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
+      textMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
       vBoxOptions: {
         align: 'left',
         spacing: DEFAULT_VERTICAL_ICON_SPACING
@@ -126,7 +126,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
       const helpSectionRow = content[ i ];
 
       assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
-      helpSectionRow.text.maxWidth = options.labelMaxWidth;
+      helpSectionRow.text.maxWidth = options.textMaxWidth;
 
       icons.push( helpSectionRow.icon );
       labels.push( helpSectionRow.label );

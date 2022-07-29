@@ -30,7 +30,7 @@ class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboard
       generalSectionOptions: null,
 
       // i18n, a bit shorter than default so general and slider sections fits side by side
-      labelMaxWidth: 160
+      textMaxWidth: 160
     }, options );
 
     const sliderHelpSection = new SliderControlsKeyboardHelpSection( options.sliderSectionOptions );

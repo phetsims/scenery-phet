@@ -20,7 +20,7 @@ export default class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHel
     const helpContentOptions = {
 
       // i18n, restricts both labelText and maxWidth, see KeyboardHelpSection
-      labelMaxWidth: 130
+      textMaxWidth: 130
     };
 
     const basicActionsHelpContent = new BasicActionsKeyboardHelpSection( merge( helpContentOptions, {
