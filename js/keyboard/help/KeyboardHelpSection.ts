@@ -20,7 +20,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { AlignBoxOptions, AlignGroup, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBoxOptions, AlignGroup, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -51,6 +51,23 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
+// Options type for labelWithIcon, see that function
+type LabelWithIconOptions = {
+
+  // {string|null} to provide the PDOM description of this row
+  labelInnerContent?: string | null;
+
+  // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
+  // will default to the options.labelInnerContent.
+  readingBlockContent?: VoicingResponse | null;
+
+  // options passed to the RichText label
+  labelOptions?: RichTextOptions;
+
+  // options passed to the AlignBox surrounding the icon
+  iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;
+};
+
 type SelfOptions = {
 
   // propagated to the Text for the section heading
@@ -65,9 +82,7 @@ type SelfOptions = {
   // tag name for the entire content, usually content is a list of items
   a11yContentTagName?: string | null;
 };
-
 type ParentOptions = ReadingBlockOptions & VBoxOptions;
-
 export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
 export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
@@ -195,54 +210,28 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
    * to give the label and icon identical dimensions for easy layout in KeyboardHelpSection.
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
-  public static labelWithIcon( labelString: string, icon: Node, providedOptions?: any ): KeyboardHelpSectionRow {
-
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 these options are not propagated to KeyboardHelpSectionRow, and most are not used
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from the type of providedOptions?
-    // TODO https://github.com/phetsims/scenery-phet/issues/762 convert to optionize
-    // eslint-disable-next-line bad-typescript-text
-    const options = merge( {
-
-      // {string|null} to provide the PDOM description of this row
+  public static labelWithIcon( labelString: string, icon: Node, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+    const options = optionize<LabelWithIconOptions>()( {
       labelInnerContent: null,
-
-      // voicing
-      // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
-      // will default to the options.labelInnerContent.
       readingBlockContent: null,
 
-      // options passed for layout, passed to AlignGroup
-      spacing: DEFAULT_LABEL_ICON_SPACING,
-      align: 'center',
-      matchHorizontal: false,
-
-      // options passed along to the RichText label
       labelOptions: {
         font: LABEL_FONT
       },
 
-      // options for the AlignBox surrounding the icon
       iconOptions: {
-
-        // pdom
         tagName: 'li'
       }
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 'children' should be omitted from providedOptions type
-    assert && assert( !options.children, 'children are not optional' );
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 'innerContent' should be omitted from providedOptions.iconOptions type
-    assert && assert( !options.iconOptions.innerContent, 'should be specified as an parameter, see labelInnerContent' );
-
-    options.iconOptions.innerContent = options.labelInnerContent;
-
     const labelText = new RichText( labelString, options.labelOptions );
 
     // make the label and icon the same height so that they will align when we assemble help section group
-    const labelIconGroup = new AlignGroup( options );
+    const labelIconGroup = new AlignGroup( { matchHorizontal: false } );
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
+
+    iconBox.innerContent = options.labelInnerContent;
 
     return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
