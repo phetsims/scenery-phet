@@ -16,7 +16,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignGroup, Font, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
+import { AlignBox, Font, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -120,6 +120,9 @@ export type NumberControlLayoutFunction4Options = {
 
   // Supports Pendulum Lab's questionText where a question is substituted for the slider
   createBottomContent?: ( ( box: HBox ) => Node ) | null;
+
+  // Whether invisible increment/decrement buttons (or the slider itself) should be laid out as if they were there
+  layoutInvisibleButtons?: boolean;
 };
 
 type SelfOptions = {
@@ -692,37 +695,47 @@ export default class NumberControl extends Node {
       // spacing between slider and arrow buttons
       arrowButtonSpacing: 5,
       hasReadoutProperty: null,
+
+      layoutInvisibleButtons: false,
+
       createBottomContent: null // Supports Pendulum Lab's questionText where a question is substituted for the slider
     }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
       const includeArrowButtons = !!decrementButton; // if there aren't arrow buttons, then exclude them
       const bottomBox = new HBox( {
-        resize: false, // prevent slider from causing resize?
         spacing: options.arrowButtonSpacing,
         children: !includeArrowButtons ? [ slider ] : [
           decrementButton,
           slider,
           incrementButton!
+        ],
+        excludeInvisibleChildrenFromBounds: !options.layoutInvisibleButtons
+      } );
+
+      // Dynamic layout supported
+      return new VBox( {
+        spacing: options.verticalSpacing,
+        children: [
+          new HBox( {
+            children: [
+              titleNode,
+              new Node( {
+                children: [ numberDisplay ],
+                visibleProperty: options.hasReadoutProperty || null,
+                excludeInvisibleChildrenFromBounds: true
+              } )
+            ],
+            layoutOptions: { stretch: true }
+          } ),
+          new Node( {
+            children: [
+              options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox
+            ],
+            layoutOptions: { xMargin: options.sliderPadding }
+          } )
         ]
       } );
-      const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
-
-      const group = new AlignGroup( { matchHorizontal: false } );
-      const titleBox = new AlignBox( titleNode, {
-        group: group
-      } );
-      const numberBox = new AlignBox( numberDisplay, {
-        group: group
-      } );
-      titleBox.bottom = numberBox.bottom = bottomContent.top - options.verticalSpacing;
-      titleBox.left = bottomContent.left - options.sliderPadding;
-      numberBox.right = bottomContent.right + options.sliderPadding;
-      const node = new Node( { children: [ bottomContent, titleBox, numberBox ] } );
-      if ( options.hasReadoutProperty ) {
-        ( options.hasReadoutProperty ).link( hasReadout => { numberBox.visible = hasReadout; } );
-      }
-      return node;
     };
   }
 
