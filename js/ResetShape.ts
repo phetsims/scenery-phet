@@ -25,7 +25,7 @@ export default class ResetShape extends Shape {
   public constructor( radius: number, providedOptions?: selfOptions ) {
     const options = optionize<selfOptions>()( {
       startAngle: -Math.PI * 0.35,
-      endAngle: ( -2 * Math.PI * 0.94 ),
+      endAngle: ( -2 * Math.PI * 0.95 ),
       // Measured in circle's angular span, should therefore be the result of theta/360.
       arrowHeadSize: 0.18
     }, providedOptions );
