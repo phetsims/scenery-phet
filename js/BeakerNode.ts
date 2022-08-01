@@ -191,9 +191,6 @@ export default class BeakerNode extends Node {
       solutionBackEdge.shape = solutionBackEdgeShape;
       solutionGlare.shape = solutionCrescentShape;
 
-      //Prevents back edge from appearing when solution level empty.
-      solutionBackEdge.clipArea = Shape.union( [ solutionTopShape, solutionSideShape ] );
-
       // Set solution visibility based on solution level
       if ( solutionLevel < 0.001 ) {
         solutionTop.visible = false;
@@ -203,6 +200,12 @@ export default class BeakerNode extends Node {
         solutionGlare.visible = false;
       }
       else {
+
+        // Prevents back edge from appearing when solution level empty.  Only compute this when the solutionBackEdge
+        // will be shown, because when computed for very small solutionLevel it triggers a kite corner case problem
+        // see https://github.com/phetsims/kite/issues/98
+        solutionBackEdge.clipArea = Shape.union( [ solutionTopShape, solutionSideShape ] );
+
         solutionTop.visible = true;
         solutionSide.visible = true;
         solutionFrontEdge.visible = true;
