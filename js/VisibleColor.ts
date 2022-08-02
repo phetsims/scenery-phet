@@ -26,12 +26,12 @@ const RED_WAVELENGTH = 780; // nm
 let REDUCED_INTENSITY_COLOR_TABLE: Color[] | null = null;
 let FULL_INTENSITY_COLOR_TABLE: Color[] | null = null;
 
-// IColor would be preferable, but Color.toColor does not currently support IColor.
-type IColorSubset = Color | string | null;
+// TColor would be preferable, but Color.toColor does not currently support TColor.
+type TColorSubset = Color | string | null;
 
 export type WavelengthToColorOptions = {
-  irColor?: IColorSubset; // color to use for IR wavelengths
-  uvColor?: IColorSubset; // color to use for UV wavelengths
+  irColor?: TColorSubset; // color to use for IR wavelengths
+  uvColor?: TColorSubset; // color to use for UV wavelengths
   reduceIntensityAtExtrema?: boolean; // whether intensity should fall off at min and max wavelengths
 };
 
@@ -88,7 +88,7 @@ const VisibleColor = {
    * Converts a Color to its corresponding wavelength. Relies on a color lookup table that is initialized the first
    * time that this method is called.  Color lookup is based on RGB component value; the alpha value is ignored.
    */
-  colorToWavelength: function( color: IColorSubset, reduceIntensityAtExtrema = true ): number {
+  colorToWavelength: function( color: TColorSubset, reduceIntensityAtExtrema = true ): number {
 
     color = Color.toColor( color );
 

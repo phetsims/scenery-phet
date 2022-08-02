@@ -7,13 +7,13 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { Circle, CircleOptions, IColor, RadialGradient } from '../../scenery/js/imports.js';
+import { Circle, CircleOptions, TColor, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  mainColor?: IColor;
-  highlightColor?: IColor;
-  shadowColor?: IColor;
+  mainColor?: TColor;
+  highlightColor?: TColor;
+  shadowColor?: TColor;
   highlightDiameter?: number;
   highlightXOffset?: number; // x-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]
   highlightYOffset?: number; // y-offset of the highlight from the center of the sphere, percentage of radius, [-1,1]

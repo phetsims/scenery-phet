@@ -10,7 +10,7 @@
 import { Shape } from '../../kite/js/imports.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -21,9 +21,9 @@ type SelfOptions = {
   fillRadius?: number;
   innerStrokeWidth?: number;
   outerStrokeWidth?: number;
-  fill?: IColor;
-  innerStroke?: IColor;
-  outerStroke?: IColor;
+  fill?: TColor;
+  innerStroke?: TColor;
+  outerStroke?: TColor;
 };
 
 export type StopSignNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -56,7 +56,7 @@ export default class StopSignNode extends Node {
   }
 }
 
-function createStopSignPath( fill: IColor, radius: number ) {
+function createStopSignPath( fill: TColor, radius: number ) {
   return new Path( Shape.regularPolygon( NUMBER_OF_SIDES, radius ), {
     fill: fill,
     rotation: Math.PI / NUMBER_OF_SIDES,

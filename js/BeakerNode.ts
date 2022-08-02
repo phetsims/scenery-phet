@@ -11,23 +11,23 @@
 import { Shape } from '../../kite/js/imports.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
-import { Color, IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { Color, TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
-  emptyBeakerFill?: IColor;
-  solutionFill?: IColor;
-  solutionShadowFill?: IColor;
-  solutionGlareFill?: IColor;
-  beakerGlareFill?: IColor;
+  emptyBeakerFill?: TColor;
+  solutionFill?: TColor;
+  solutionShadowFill?: TColor;
+  solutionGlareFill?: TColor;
+  beakerGlareFill?: TColor;
   beakerHeight?: number;
   beakerWidth?: number;
   yRadiusOfEnds?: number; // radius of the ellipses used for the ends, to provide 3D perspective
   ticksVisible?: boolean;
-  tickStroke?: IColor;
-  beakerStroke?: IColor;
+  tickStroke?: TColor;
+  beakerStroke?: TColor;
   lineWidth?: number;
   numberOfTicks?: number; // The number of tick marks shown on beaker.
 };

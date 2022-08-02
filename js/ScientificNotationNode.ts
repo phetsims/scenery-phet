@@ -15,13 +15,13 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Font, IColor, Node, NodeOptions, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Font, TColor, Node, NodeOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  fill?: IColor;
+  fill?: TColor;
   font?: Font;
   exponent?: number | null; // if null, exponent will be computed so that mantissa has 1 digit to the left of the decimal point
   mantissaDecimalPlaces?: number;

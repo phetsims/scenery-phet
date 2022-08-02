@@ -14,12 +14,12 @@ import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Color, TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  barFill?: IColor;
-  barStroke?: IColor;
+  barFill?: TColor;
+  barStroke?: TColor;
   barHeight?: number;
   xMargin?: number;
   yMargin?: number;

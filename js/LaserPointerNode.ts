@@ -14,7 +14,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
-import { IColor, LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -28,18 +28,18 @@ type SelfOptions = {
   // nozzle and body options
   bodySize?: Dimension2;
   nozzleSize?: Dimension2;
-  topColor?: IColor;
-  bottomColor?: IColor;
-  highlightColor?: IColor;
+  topColor?: TColor;
+  bottomColor?: TColor;
+  highlightColor?: TColor;
   highlightColorStop?: number;  // color stop for highlight, (0,1) exclusive range
-  stroke?: IColor;
+  stroke?: TColor;
   lineWidth?: number;
   cornerRadius?: number;
 
   // button options
   hasButton?: boolean; // other button options are ignored if this is false
   buttonType?: ButtonType;
-  buttonColor?: IColor;
+  buttonColor?: TColor;
   buttonRadius?: number;
   buttonXMargin?: number;
   buttonYMargin?: number;

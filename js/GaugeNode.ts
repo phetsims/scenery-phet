@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Circle, IColor, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
+import { Circle, TColor, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -23,15 +23,15 @@ import sceneryPhet from './sceneryPhet.js';
 type SelfOptions = {
 
   radius?: number;
-  backgroundFill?: IColor;
-  backgroundStroke?: IColor;
+  backgroundFill?: TColor;
+  backgroundStroke?: TColor;
   backgroundLineWidth?: number;
   maxLabelWidthScale?: number; // defines max width of the label, relative to the radius
 
   // ticks
   numberOfTicks?: number;
-  majorTickStroke?: IColor;
-  minorTickStroke?: IColor;
+  majorTickStroke?: TColor;
+  minorTickStroke?: TColor;
   majorTickLength?: number;
   minorTickLength?: number;
   majorTickLineWidth?: number;

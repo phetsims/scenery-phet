@@ -12,7 +12,7 @@
 import { Shape } from '../../kite/js/imports.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Range from '../../dot/js/Range.js';
-import { Color, IColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
+import { Color, TColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
 import IProperty from '../../axon/js/IProperty.js';
@@ -39,7 +39,7 @@ export default class TemperatureAndColorSensorNode extends Node {
   private readonly colorIndicatorNode: Path;
   private readonly thermometerNode: Node;
 
-  public constructor( temperatureProperty: IProperty<number>, temperatureRange: Range, colorProperty: IProperty<IColor>,
+  public constructor( temperatureProperty: IProperty<number>, temperatureRange: Range, colorProperty: IProperty<TColor>,
                       providedOptions?: TemperatureAndColorSensorNodeOptions ) {
     super();
 

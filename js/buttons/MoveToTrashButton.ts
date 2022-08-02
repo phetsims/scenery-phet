@@ -11,7 +11,7 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { IColor, Node, Path } from '../../../scenery/js/imports.js';
+import { TColor, Node, Path } from '../../../scenery/js/imports.js';
 import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -19,7 +19,7 @@ import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
-  arrowColor?: IColor;
+  arrowColor?: TColor;
 };
 
 export type MoveToTrashButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;

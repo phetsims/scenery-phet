@@ -14,7 +14,7 @@
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, IColor, Node, NodeOptions, Rectangle } from '../../../scenery/js/imports.js';
+import { AlignBox, TColor, Node, NodeOptions, Rectangle } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type XAlign = 'left' | 'center' | 'right';
@@ -24,8 +24,8 @@ type YAlign = 'top' | 'center' | 'bottom';
 type SelfOptions = {
 
   // color and styling
-  keyFill?: IColor;
-  keyShadowFill?: IColor;
+  keyFill?: TColor;
+  keyShadowFill?: TColor;
   lineWidth?: number; // line width for the key icon
   cornerRadius?: number; // corner radius applied to the key and its shadow
 

@@ -16,7 +16,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, Font, IColor, LinearGradient, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
+import { Color, Font, TColor, LinearGradient, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
 import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -56,8 +56,8 @@ type SelfOptions = {
   thumbTouchAreaYDilation?: number;
   thumbMouseAreaXDilation?: number;
   thumbMouseAreaYDilation?: number;
-  thumbFill?: IColor;
-  thumbFillHighlighted?: IColor;
+  thumbFill?: TColor;
+  thumbFillHighlighted?: TColor;
 
   // links the NodeIO Properties of the provided HeaterCoolerBack to this HeaterCoolerFront
   heaterCoolerBack?: HeaterCoolerBack | null;

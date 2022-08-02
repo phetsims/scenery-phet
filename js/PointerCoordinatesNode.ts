@@ -12,7 +12,7 @@ import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Display, Font, IColor, Node, Rectangle, RichText, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
+import { Display, Font, TColor, Node, Rectangle, RichText, RichTextAlign, SceneryEvent } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -25,13 +25,13 @@ type SelfOptions = {
 
   // RichText
   font?: Font;
-  textColor?: IColor;
+  textColor?: TColor;
   align?: RichTextAlign;
   modelDecimalPlaces?: number;
   viewDecimalPlaces?: number;
 
   // Rectangle
-  backgroundColor?: IColor;
+  backgroundColor?: TColor;
 };
 
 export type PointerCoordinatesNodeOptions = SelfOptions; // not propagated to super!

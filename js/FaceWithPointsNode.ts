@@ -11,7 +11,7 @@
 import Vector2 from '../../dot/js/Vector2.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Font, IColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
+import { Font, TColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import FaceNode from './FaceNode.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -28,8 +28,8 @@ type SelfOptions = {
   // points options
   pointsAlignment?: PointsAlignment;
   pointsFont?: Font;
-  pointsFill?: IColor;
-  pointsStroke?: IColor;
+  pointsFill?: TColor;
+  pointsStroke?: TColor;
   pointsOpacity?: number; // 0 (transparent) to 1 (opaque)
   showZeroPoints?: boolean; // whether to show '0' points
   points?: number; // the number of points

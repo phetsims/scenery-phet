@@ -18,19 +18,19 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { EllipticalArc, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import { Circle, IColor, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
+import { Circle, TColor, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // options for ProbeNode.glass
 type GlassOptions = {
-  centerColor?: IColor;
-  middleColor?: IColor;
-  edgeColor?: IColor;
+  centerColor?: TColor;
+  middleColor?: TColor;
+  edgeColor?: TColor;
 };
 
 // options for ProbeNode.crosshairs
 type CrosshairsOptions = {
-  stroke?: IColor;
+  stroke?: TColor;
   lineWidth?: number;
   intersectionRadius?: number; // The amount of blank space visible at the intersection of the 2 crosshairs lines
 };
@@ -54,7 +54,7 @@ type SelfOptions = {
    * accordingly depending on the context of how the probe is embedded in the simulation.
    */
   lightAngle?: number;
-  color?: IColor;
+  color?: TColor;
 
   // Determines what is displayed in the sensor area, the circular cut-out part of the ProbeNode.
   // Set this to null to display nothing in the sensor.

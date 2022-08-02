@@ -20,7 +20,7 @@ import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, IColor, Image, Node, NodeOptions, Path, PathOptions, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, TColor, Image, Node, NodeOptions, Path, PathOptions, Rectangle, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
@@ -50,23 +50,23 @@ type SelfOptions = {
   probeCursor?: string;
 
   // positive probe
-  positiveProbeFill?: IColor;
-  positiveProbeStroke?: IColor;
-  positiveLabelFill?: IColor;
+  positiveProbeFill?: TColor;
+  positiveProbeStroke?: TColor;
+  positiveLabelFill?: TColor;
 
   // negative probe
-  negativeProbeFill?: IColor;
-  negativeProbeStroke?: IColor;
-  negativeLabelFill?: IColor;
+  negativeProbeFill?: TColor;
+  negativeProbeStroke?: TColor;
+  negativeLabelFill?: TColor;
 
   // wires
-  wireStroke?: IColor;
+  wireStroke?: TColor;
   wireLineWidth?: number;
   bulbToBatteryWireLength?: number; // length of the wire between bulb and battery, in view coordinates
 
   // short-circuit indicator
   shortCircuitFont?: Font;
-  shortCircuitFill?: IColor;
+  shortCircuitFill?: TColor;
 };
 
 export type ConductivityTesterNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -338,8 +338,8 @@ sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
 
 type ProbeNodeSelfOptions = {
   size?: Dimension2;
-  fill?: IColor;
-  stroke?: IColor;
+  fill?: TColor;
+  stroke?: TColor;
   lineWidth?: number;
 };
 

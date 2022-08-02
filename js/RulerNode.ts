@@ -9,7 +9,7 @@
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Font, IColor, Node, NodeOptions, Path, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Font, TColor, Node, NodeOptions, Path, Rectangle, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -20,21 +20,21 @@ const DEFAULT_FONT = new PhetFont( 18 );
 type SelfOptions = {
 
   // body of the ruler
-  backgroundFill?: IColor;
-  backgroundStroke?: IColor;
+  backgroundFill?: TColor;
+  backgroundStroke?: TColor;
   backgroundLineWidth?: number;
   insetsWidth?: number; // space between the ends of the ruler and the first and last tick marks
 
   // major tick options
   majorTickFont?: Font;
   majorTickHeight?: number;
-  majorTickStroke?: IColor;
+  majorTickStroke?: TColor;
   majorTickLineWidth?: number;
 
   // minor tick options
   minorTickFont?: Font;
   minorTickHeight?: number;
-  minorTickStroke?: IColor;
+  minorTickStroke?: TColor;
   minorTickLineWidth?: number;
   minorTicksPerMajorTick?: number;
 

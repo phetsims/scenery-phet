@@ -13,7 +13,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PathOptions } from '../../scenery/js/imports.js';
+import { TColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -28,13 +28,13 @@ const GRIP_SINGLE_FINGER_INDENT_HALF_WIDTH = ( GRIP_WIDTH - GRIP_CORNER_RADIUS *
 type SelfOptions = {
 
   // options for the grip
-  gripBaseColor?: IColor; // base color of gradient on the grip
-  gripStroke?: IColor; // stroke color of the grip
+  gripBaseColor?: TColor; // base color of gradient on the grip
+  gripStroke?: TColor; // stroke color of the grip
   gripLineWidth?: number;
 
   // options for the attachment(s)
-  attachmentFill?: IColor; // solid fill color for the attachments
-  attachmentStroke?: IColor; // stroke color of the attachments
+  attachmentFill?: TColor; // solid fill color for the attachments
+  attachmentStroke?: TColor; // stroke color of the attachments
   attachmentLineWidth?: number;
   hasLeftAttachment?: boolean;
   hasRightAttachment?: boolean;

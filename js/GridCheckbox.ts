@@ -10,13 +10,13 @@
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Path } from '../../scenery/js/imports.js';
+import { TColor, Path } from '../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   gridSize?: number; // {number} square grid with this width and height
-  gridStroke?: IColor;
+  gridStroke?: TColor;
   gridLineWidth?: number;
 };
 

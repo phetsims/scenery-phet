@@ -9,13 +9,13 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { IColor, Path } from '../../../scenery/js/imports.js';
+import { TColor, Path } from '../../../scenery/js/imports.js';
 import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
-  iconFill?: IColor;
+  iconFill?: TColor;
 };
 
 export type InfoButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;

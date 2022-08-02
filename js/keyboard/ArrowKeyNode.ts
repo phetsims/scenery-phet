@@ -8,7 +8,7 @@
 
 import { LineJoin, Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { IColor, Path } from '../../../scenery/js/imports.js';
+import { TColor, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
@@ -27,8 +27,8 @@ const DIRECTION_ANGLES = {
 };
 
 type SelfOptions = {
-  arrowFill?: IColor;
-  arrowStroke?: IColor;
+  arrowFill?: TColor;
+  arrowStroke?: TColor;
   arrowLineJoin?: LineJoin;
   arrowLineWidth?: number;
   arrowHeight?: number;

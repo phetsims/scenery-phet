@@ -8,7 +8,7 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import { Font, IColor, RichText } from '../../../scenery/js/imports.js';
+import { Font, TColor, RichText } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import sceneryPhetStrings from '../sceneryPhetStrings.js';
@@ -16,7 +16,7 @@ import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
 type SelfOptions = {
   font?: Font;
-  fill?: IColor;
+  fill?: TColor;
   textMaxWidth?: number;
 };
 

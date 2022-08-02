@@ -15,7 +15,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../../scenery/js/imports.js';
 import Animation from '../../twixt/js/Animation.js';
 import Easing from '../../twixt/js/Easing.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -34,7 +34,7 @@ type SelfOptions = {
   handlePosition?: 'top' | 'bottom';
   handleSize?: Dimension2;
   handleCornerRadius?: number;
-  handleFill?: IColor;
+  handleFill?: TColor;
   handleTouchAreaXDilation?: number;
   handleTouchAreaYDilation?: number;
   handleMouseAreaXDilation?: number;
@@ -42,7 +42,7 @@ type SelfOptions = {
 
   // grippy dots on handle
   grippyDotRadius?: number;
-  grippyDotColor?: IColor;
+  grippyDotColor?: TColor;
   grippyDotRows?: number;
   grippyDotColumns?: number;
   grippyDotXSpacing?: number;

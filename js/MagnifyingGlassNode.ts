@@ -7,13 +7,13 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, IColor, Line, Node, NodeOptions } from '../../scenery/js/imports.js';
+import { Circle, TColor, Line, Node, NodeOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   glassRadius?: number;
-  glassFill?: IColor; // center of the glass
-  glassStroke?: IColor; // rim and handle
+  glassFill?: TColor; // center of the glass
+  glassStroke?: TColor; // rim and handle
   icon?: Node | null; // optional icon will be centered in the glass area, if provided
 };
 

@@ -11,13 +11,13 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { LineCap, LineJoin, Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
 
   // head & tail
-  stroke?: IColor;
+  stroke?: TColor;
   lineJoin?: LineJoin; // affects the appearance of the arrow tip
   lineCap?: LineCap; // affects appears of the arrow tail, and outside ends of the head
 

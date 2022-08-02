@@ -23,7 +23,7 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, IColor, LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
+import { Circle, TColor, LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -35,9 +35,9 @@ const SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for la
 type SelfOptions = {
 
   // colors used for the gradient strokes
-  frontColor?: IColor;
-  middleColor?: IColor; // the dominant color
-  backColor?: IColor;
+  frontColor?: TColor;
+  middleColor?: TColor; // the dominant color
+  backColor?: TColor;
 
   // length of the horizontal line added to the left end of the coil
   leftEndLength?: number;

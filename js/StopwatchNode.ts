@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, DragListenerOptions, HBox, IColor, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, DragListenerOptions, HBox, TColor, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -38,10 +38,10 @@ type SelfOptions = {
   cursor?: string;
   numberDisplayRange?: Range; // used to size the NumberDisplay
   iconHeight?: number;
-  iconFill?: IColor;
+  iconFill?: TColor;
   iconLineWidth?: number;
-  backgroundBaseColor?: IColor;
-  buttonBaseColor?: IColor;
+  backgroundBaseColor?: TColor;
+  buttonBaseColor?: TColor;
   xSpacing?: number; // horizontal space between the buttons
   ySpacing?: number; // vertical space between readout and buttons
   xMargin?: number;

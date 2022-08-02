@@ -30,7 +30,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { ColorDef, IColor, IPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import { ColorDef, TColor, IPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -66,7 +66,7 @@ export default class GradientRectangle extends Rectangle {
 
   private readonly _fillProperty: PaintColorProperty;
   private readonly _borderOverrideProperty: PaintColorProperty;
-  private readonly _borderProperty: IColor;
+  private readonly _borderProperty: TColor;
 
   private readonly roundedShape: Shape;
   private readonly rectangularShape: Shape;

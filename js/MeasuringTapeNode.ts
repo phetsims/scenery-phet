@@ -26,7 +26,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, IColor, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, TColor, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
@@ -57,19 +57,19 @@ type SelfOptions = {
   textPosition?: Vector2; // position of the text relative to center of the base image in view units
   modelViewTransform?: ModelViewTransform2;
   significantFigures?: number; // number of significant figures in the length measurement
-  textColor?: IColor; // {ColorDef} color of the length measurement and unit
-  textBackgroundColor?: IColor; // {ColorDef} fill color of the text background
+  textColor?: TColor; // {ColorDef} color of the length measurement and unit
+  textBackgroundColor?: TColor; // {ColorDef} fill color of the text background
   textBackgroundXMargin?: number;
   textBackgroundYMargin?: number;
   textBackgroundCornerRadius?: number;
   textMaxWidth?: number;
   textFont?: Font; // font for the measurement text
   baseScale?: number; // control the size of the measuring tape Image (the base)
-  lineColor?: IColor; // color of the tapeline itself
+  lineColor?: TColor; // color of the tapeline itself
   tapeLineWidth?: number; // lineWidth of the tape line
-  tipCircleColor?: IColor; // color of the circle at the tip
+  tipCircleColor?: TColor; // color of the circle at the tip
   tipCircleRadius?: number; // radius of the circle on the tip
-  crosshairColor?: IColor; // orange, color of the two crosshairs
+  crosshairColor?: TColor; // orange, color of the two crosshairs
   crosshairSize?: number; // size of the crosshairs in scenery coordinates ( measured from center)
   crosshairLineWidth?: number; // lineWidth of the crosshairs
   isBaseCrosshairRotating?: boolean; // do crosshairs rotate around their own axis to line up with the tapeline

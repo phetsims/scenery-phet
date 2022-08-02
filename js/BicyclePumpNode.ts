@@ -19,7 +19,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, DragListener, DragListenerOptions, IColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressedDragListener, PressListenerEvent, Rectangle, SceneryConstants } from '../../scenery/js/imports.js';
+import { Circle, DragListener, DragListenerOptions, TColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressedDragListener, PressListenerEvent, Rectangle, SceneryConstants } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
@@ -46,14 +46,14 @@ type SelfOptions = {
   height?: number;
 
   // various colors used by the pump
-  handleFill?: IColor;
-  shaftFill?: IColor;
-  bodyFill?: IColor;
-  bodyTopFill?: IColor;
-  indicatorBackgroundFill?: IColor;
-  indicatorRemainingFill?: IColor;
-  hoseFill?: IColor;
-  baseFill?: IColor; // this color is also used for the cone shape and hose connectors
+  handleFill?: TColor;
+  shaftFill?: TColor;
+  bodyFill?: TColor;
+  bodyTopFill?: TColor;
+  indicatorBackgroundFill?: TColor;
+  indicatorRemainingFill?: TColor;
+  hoseFill?: TColor;
+  baseFill?: TColor; // this color is also used for the cone shape and hose connectors
 
   // greater value = curvy hose, smaller value = straighter hose
   hoseCurviness?: number;
@@ -353,7 +353,7 @@ export default class BicyclePumpNode extends Node {
  * @param height - the height of the base
  * @param fill
  */
-function createPumpBaseNode( width: number, height: number, fill: IColor ): Node {
+function createPumpBaseNode( width: number, height: number, fill: TColor ): Node {
 
   // 3D effect is being used, so most of the height makes up the surface
   const topOfBaseHeight = height * 0.7;
@@ -405,7 +405,7 @@ function createPumpBaseNode( width: number, height: number, fill: IColor ): Node
  * Creates half of the opening at the top of the pump body. Passing in -1 for the sign creates the back half, and
  * passing in 1 creates the front.
  */
-function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: IColor, stroke: IColor ): Node {
+function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: TColor, stroke: TColor ): Node {
   const bodyTopShape = new Shape()
     .moveTo( 0, 0 )
     .cubicCurveTo(
@@ -426,7 +426,7 @@ function createBodyTopHalfNode( width: number, sign: 1 | -1, fill: IColor, strok
 /**
  * Creates a hose connector. The hose has one on each of its ends.
  */
-function createHoseConnectorNode( width: number, height: number, fill: IColor ): Node {
+function createHoseConnectorNode( width: number, height: number, fill: TColor ): Node {
 
   // use PaintColorProperty so that colors can be updated dynamically
   const fillBrighterColorProperty = new PaintColorProperty( fill, { luminanceFactor: 0.1 } );
@@ -449,7 +449,7 @@ function createHoseConnectorNode( width: number, height: number, fill: IColor ):
  * @param height
  * @param fill
  */
-function createConeNode( pumpBodyWidth: number, height: number, fill: IColor ): Node {
+function createConeNode( pumpBodyWidth: number, height: number, fill: TColor ): Node {
   const coneTopWidth = pumpBodyWidth * 1.2;
   const coneTopRadiusY = 3;
   const coneTopRadiusX = coneTopWidth / 2;
@@ -488,7 +488,7 @@ function createConeNode( pumpBodyWidth: number, height: number, fill: IColor ): 
 /**
  * Create the handle of the pump. This is the node that the user will interact with in order to use the pump.
  */
-function createPumpHandleNode( fill: IColor ): Node {
+function createPumpHandleNode( fill: TColor ): Node {
 
   // empirically determined constants
   const centerSectionWidth = 35;
@@ -576,7 +576,7 @@ function createPumpHandleNode( fill: IColor ): Node {
    * @param totalDistance - the total width of the gradient
    * @param color - the color of this color stop
    */
-  const addRelativeColorStop = ( gradient: LinearGradient, deltaDistance: number, totalDistance: number, color: IColor ) => {
+  const addRelativeColorStop = ( gradient: LinearGradient, deltaDistance: number, totalDistance: number, color: TColor ) => {
     const newPosition = handleGradientPosition + deltaDistance;
     let ratio = newPosition / totalDistance;
     ratio = ratio > 1 ? 1 : ratio;

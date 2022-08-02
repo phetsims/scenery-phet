@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
@@ -36,7 +36,7 @@ type SelfOptions = {
   tubeWidth?: number;
   tubeHeight?: number;
   lineWidth?: number;
-  outlineStroke?: IColor;
+  outlineStroke?: TColor;
   tickSpacing?: number;
 
   // overrides tickSpacing to space ticks by units of temperature
@@ -51,16 +51,16 @@ type SelfOptions = {
   zeroLevel?: ZeroLevel;
 
   // leave as null to have a transparent background. If a color is given, then an extra Rectangle is created for the background
-  backgroundFill?: IColor;
+  backgroundFill?: TColor;
 
   // the main color of the bulb fluid, and the left side of the tube gradient
-  fluidMainColor?: IColor;
+  fluidMainColor?: TColor;
 
   // the highlight color of the bulb fluid and the middle of the tube gradient
-  fluidHighlightColor?: IColor;
+  fluidHighlightColor?: TColor;
 
   // the right side of the tube gradient, not used currently
-  fluidRightSideColor?: IColor;
+  fluidRightSideColor?: TColor;
 };
 
 export type ThermometerNodeOptions = SelfOptions & NodeOptions;

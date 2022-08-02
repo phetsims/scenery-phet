@@ -8,13 +8,13 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, IColor } from '../../scenery/js/imports.js';
+import { Color, TColor } from '../../scenery/js/imports.js';
 import GradientBackgroundNode from './GradientBackgroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  topColor: IColor;
-  bottomColor: IColor;
+  topColor: TColor;
+  bottomColor: TColor;
 };
 
 export type SkyNodeOptions = SelfOptions; // superclass GradientBackgroundNode has no options

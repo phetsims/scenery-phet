@@ -12,14 +12,14 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Circle, Color, IColor, Node, NodeOptions, PaintColorProperty, Path } from '../../scenery/js/imports.js';
+import { Circle, Color, TColor, Node, NodeOptions, PaintColorProperty, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  headFill?: IColor;
-  headStroke?: IColor;
-  eyeFill?: IColor;
-  mouthStroke?: IColor;
+  headFill?: TColor;
+  headStroke?: TColor;
+  eyeFill?: TColor;
+  mouthStroke?: TColor;
   headLineWidth?: number;
 };
 

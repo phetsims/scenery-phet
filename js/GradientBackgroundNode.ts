@@ -8,11 +8,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { IColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 export default class GradientBackgroundNode extends Rectangle {
-  public constructor( x: number, y: number, width: number, height: number, color1: IColor, color2: IColor, y1: number, y2: number ) {
+  public constructor( x: number, y: number, width: number, height: number, color1: TColor, color2: TColor, y1: number, y2: number ) {
     const centerX = x + width / 2;
     const gradient = new LinearGradient( centerX, y1, centerX, y2 );
     gradient.addColorStop( 0, color1 );

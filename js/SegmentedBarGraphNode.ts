@@ -11,7 +11,7 @@ import Range from '../../dot/js/Range.js';
 import Multilink from '../../axon/js/Multilink.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
@@ -20,8 +20,8 @@ type SelfOptions = {
   width?: number;
   height?: number;
   numSegments?: number;
-  backgroundColor?: IColor;
-  fullyLitIndicatorColor?: IColor;
+  backgroundColor?: TColor;
+  fullyLitIndicatorColor?: TColor;
 
   // proportion of the width consumed by the indicator in the vertical direction, must be > 0 and <= to 1
   indicatorWidthProportion?: number;

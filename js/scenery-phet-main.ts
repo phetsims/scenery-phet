@@ -11,7 +11,7 @@ import Screen from '../../joist/js/Screen.js';
 import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import { Color, IColor, Rectangle } from '../../scenery/js/imports.js';
+import { Color, TColor, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/buttons/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/components/ComponentsScreenView.js';
@@ -153,7 +153,7 @@ class SpinnersScreen extends Screen<Model, SpinnersScreenView> {
 /**
  * Creates a simple screen icon, a colored rectangle.
  */
-function createScreenIcon( color: IColor ): ScreenIcon {
+function createScreenIcon( color: TColor ): ScreenIcon {
   return new ScreenIcon(
     new Rectangle( 0, 0, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width, Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
       fill: color
