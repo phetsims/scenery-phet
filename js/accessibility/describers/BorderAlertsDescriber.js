@@ -38,7 +38,7 @@ class BorderAlertsDescriber {
       // {Property<Bounds2>} - The bounds that makes the border we alert when against
       boundsProperty: new Property( new Bounds2( Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY ) ),
 
-      // {IAlertable} At left edge, right edge, top, and bottom with values to alert if you reach that bound.
+      // {TAlertable} At left edge, right edge, top, and bottom with values to alert if you reach that bound.
       // Pass in null if you don't want that border alerted. By default, if these are non-Utterances, they will be wrapped
       // in utterances, and for voicing classified as "object responses", if passing in a custom utterance, it is up to
       // the client to divide into voicing response categories.
@@ -70,7 +70,7 @@ class BorderAlertsDescriber {
   /**
    * Wrap the direction property in an Utterance if not already one. Null is supported.
    * @private
-   * @param {IAlertable} alert
+   * @param {TAlertable} alert
    * @param {DirectionEnum} direction
    * @param {Object} [utteranceOptions] - if creating an Utterance, options to pass to it
    */
@@ -99,7 +99,7 @@ class BorderAlertsDescriber {
    *
    * @param {Vector2} position
    * @param {string} [key] - prefer this direction key if provided
-   * @returns{IAlertable} - null if there is nothing to alert
+   * @returns{TAlertable} - null if there is nothing to alert
    */
   getAlertAtBorder( position, key ) {
     let alertDirection;
@@ -158,7 +158,7 @@ class BorderAlertsDescriber {
    * @public
    * @param {Vector2} position
    * @param {KeyboardEvent} [domEvent] - we don't get this from a mouse drag listener
-   * @returns{IAlertable} - null if there is nothing to alert
+   * @returns{TAlertable} - null if there is nothing to alert
    */
   getAlertOnEndDrag( position, domEvent ) {
     let key;

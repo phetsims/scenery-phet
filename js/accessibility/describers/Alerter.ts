@@ -7,7 +7,7 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import { Node, Voicing } from '../../../../scenery/js/imports.js';
-import Utterance, { IAlertable } from '../../../../utterance-queue/js/Utterance.js';
+import Utterance, { TAlertable } from '../../../../utterance-queue/js/Utterance.js';
 import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
@@ -44,7 +44,7 @@ class Alerter {
   /**
    * Alert to both description and voicing utteranceQueues, depending on if both are supported by this instance
    */
-  public alert( alertable: IAlertable ): void {
+  public alert( alertable: TAlertable ): void {
     if ( this.alertToVoicing ) {
 
       // eslint-disable-next-line no-simple-type-checking-assertions
@@ -59,7 +59,7 @@ class Alerter {
   /**
    * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.alertDescriptionUtterance() for details.
    */
-  public alertDescriptionUtterance( alertable: IAlertable ): void {
+  public alertDescriptionUtterance( alertable: TAlertable ): void {
     this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
   }
 
