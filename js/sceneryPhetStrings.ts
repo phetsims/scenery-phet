@@ -83,6 +83,10 @@ type StringsType = {
       'closeWithoutChanging': string;
       'options': string;
       'option': string;
+    };
+    'timingControls': {
+      'timingControls': string;
+      'pauseOrPlayAction': string;
     }
   };
   'speed': {
@@ -163,6 +167,9 @@ type StringsType = {
         'moveThroughPatternDescription': string;
         'chooseNewPatternDescription': string;
         'closeWithoutChangingDescription': string;
+      };
+      'timingControls': {
+        'pauseOrPlayActionDescription': string;
       }
     };
     'playControlButton': {
