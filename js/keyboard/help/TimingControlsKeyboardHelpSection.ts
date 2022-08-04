@@ -9,12 +9,12 @@
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 
 // constants
-const timingControlsString = sceneryPhetStrings.keyboardHelpDialog.timingControls.timingControls;
-const pauseOrPlayActionString = sceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayAction;
-const pauseOrPlayActionDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescription;
+// These are not translatable yet until we have decisions made in https://github.com/phetsims/greenhouse-effect/issues/194
+const timingControlsString = 'Timing Controls';
+const pauseOrPlayActionString = 'Pause or play action';
+const pauseOrPlayActionDescriptionString = 'Pause or play action with alt key plus K.';
 
 type SelfOptions = {
 

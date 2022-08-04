@@ -194,12 +194,6 @@
   "keyboardHelpDialog.comboBox.option": {
     "value": "option"
   },
-  "keyboardHelpDialog.timingControls.timingControls": {
-    "value": "Timing Controls"
-  },
-  "keyboardHelpDialog.timingControls.pauseOrPlayAction": {
-    "value": "Pause or play action"
-  },
   "speed.normal": {
     "value": "Normal"
   },
@@ -381,11 +375,6 @@
         },
         "closeWithoutChangingDescription": {
           "value": " Close list without changing with Escape key."
-        }
-      },
-      "timingControls": {
-        "pauseOrPlayActionDescription": {
-          "value": "Pause or play action with alt key plus K."
         }
       }
     },
