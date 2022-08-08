@@ -160,11 +160,11 @@ export default class EyeDropperNode extends Node {
     this.fluidNode.fill = color;
   }
 
-  public set fluidColor( value ) {
+  public set fluidColor( value: IPaint ) {
     this.setFluidColor( value );
   }
 
-  public get fluidColor() {
+  public get fluidColor(): IPaint {
     return this.getFluidColor();
   }
 

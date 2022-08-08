@@ -341,7 +341,7 @@ export default class GradientRectangle extends Rectangle {
    * Sets the top-side margin amount (the amount in local-coordinate units from the top edge of the rectangle to
    * where the margin ends).
    */
-  public set topMargin( value ) {
+  public set topMargin( value: number ) {
     assert && assert( isFinite( value ) && value >= 0,
       'topMargin should be a finite non-negative number' );
 

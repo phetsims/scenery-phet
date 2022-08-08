@@ -91,13 +91,13 @@ export default class TemperatureAndColorSensorNode extends Node {
     return this.thermometerNode.bounds;
   }
 
-  public get thermometerBounds() { return this.getThermometerBounds(); }
+  public get thermometerBounds(): Bounds2 { return this.getThermometerBounds(); }
 
   public getColorIndicatorBounds(): Bounds2 {
     return this.colorIndicatorNode.bounds;
   }
 
-  public get colorIndicatorBounds() { return this.getColorIndicatorBounds(); }
+  public get colorIndicatorBounds(): Bounds2 { return this.getColorIndicatorBounds(); }
 }
 
 sceneryPhet.register( 'TemperatureAndColorSensorNode', TemperatureAndColorSensorNode );

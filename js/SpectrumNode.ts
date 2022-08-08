@@ -38,7 +38,7 @@ export type SpectrumNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'childre
 export default class SpectrumNode extends Node {
 
   // value is [0,1] and maps to the grayscale spectrum
-  public static DEFAULT_VALUE_TO_COLOR = ( value: number ) => {
+  public static DEFAULT_VALUE_TO_COLOR = ( value: number ): Color => {
     assert && assert( value >= 0 && value <= 1, `value is out of range [0,1]: ${value}` );
     return new Color( 255 * value, 255 * value, 255 * value );
   };

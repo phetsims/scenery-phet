@@ -70,9 +70,9 @@ export default class ValueGaugeNode extends GaugeNode {
     }
   }
 
-  public set numberDisplayVisible( visible ) { this.setNumberDisplayVisible( visible ); }
+  public set numberDisplayVisible( visible: boolean ) { this.setNumberDisplayVisible( visible ); }
 
-  public get numberDisplayVisible() { return this.getNumberDisplayVisible(); }
+  public get numberDisplayVisible(): boolean { return this.getNumberDisplayVisible(); }
 
   /**
    * Gets the visibility of the gauge's NumberDisplay.

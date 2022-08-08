@@ -249,7 +249,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    *                    Icon3
    */
   // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
-  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: any ): KeyboardHelpSectionRow {
+  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: any ): KeyboardHelpSectionRow { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
 
     //TODO https://github.com/phetsims/scenery-phet/issues/762 these options are not propagated to KeyboardHelpSectionRow
     //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from type of providedOptions?
@@ -327,16 +327,14 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param labelString
    * @param [providedOptions]
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRow
-  public static createKeysRowFromStrings( keyStrings: string[], labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createKeysRowFromStrings( keyStrings: string[], labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSection.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, providedOptions );
   }
 
   /**
    * Creates a row with one or more keys, with keys separated by '+'.
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in labelWithIcon
-  public static createKeysRow( keyIcons: Node[], labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createKeysRow( keyIcons: Node[], labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     assert && assert( keyIcons.length > 0, 'expected keys' );
     let keysNode = null;
     // TODO https://github.com/phetsims/scenery-phet/issues/762 should this loop exit when keyNode is found? I don't understand why it iterates over all keyIcons.
@@ -355,24 +353,21 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * @param labelString - visual label
    * @param [providedOptions]
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRowFromStrings
-  public static createJumpKeyRow( keyString: string, labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createJumpKeyRow( keyString: string, labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSection.createKeysRowFromStrings( [ 'J', keyString ], labelString, providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createGlobalHotkeyRow
-  public static createPlayPauseKeyRow( labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createPlayPauseKeyRow( labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'K', providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createGlobalHotkeyRow
-  public static createStepForwardKeyRow( labelString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createStepForwardKeyRow( labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSection.createGlobalHotkeyRow( labelString, 'L', providedOptions );
   }
 
@@ -380,8 +375,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
    * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
    * some other key, to be provided.
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 providedOptions should have the same type as used in createKeysRow
-  public static createGlobalHotkeyRow( labelString: string, keyString: string, providedOptions?: any ): KeyboardHelpSectionRow {
+  public static createGlobalHotkeyRow( labelString: string, keyString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSection.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
   }
 

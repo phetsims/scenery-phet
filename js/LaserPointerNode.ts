@@ -223,9 +223,9 @@ export default class LaserPointerNode extends Node {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'LaserPointerNode', this );
   }
 
-  public override get enabled() { return this.isEnabled(); }
+  public override get enabled(): boolean { return this.isEnabled(); }
 
-  public override set enabled( value ) { this.setEnabled( value ); }
+  public override set enabled( value: boolean ) { this.setEnabled( value ); }
 
   public override dispose(): void {
     this.disposeLaserPointerNode();

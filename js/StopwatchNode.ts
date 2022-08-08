@@ -96,7 +96,7 @@ export default class StopwatchNode extends Node {
    * The format is MM:SS.CC, where M=minutes, S=seconds, C=centiseconds. The returned string is plain text, so all
    * digits will be the same size, and the client is responsible for setting the font size.
    */
-  public static PLAIN_TEXT_MINUTES_AND_SECONDS = ( time: number ) => {
+  public static PLAIN_TEXT_MINUTES_AND_SECONDS = ( time: number ): string => {
     const minutesAndSeconds = toMinutesAndSeconds( time );
     const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
     return minutesAndSeconds + centiseconds;

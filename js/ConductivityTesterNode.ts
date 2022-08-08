@@ -300,7 +300,7 @@ class ConductivityTesterNode extends Node {
    * Determines whether 'Short circuit' is shown above the light bulb. Note that it is the client's responsibility
    * to ensure that the bulb's brightness (as set by brightnessProperty) is appropriate for a short circuit.
    */
-  public set shortCircuit( value ) { this.shortCircuitNode.visible = value; }
+  public set shortCircuit( value: boolean ) { this.shortCircuitNode.visible = value; }
 
   /**
    * Convenience function for creating an icon.

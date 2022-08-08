@@ -284,9 +284,9 @@ export default class Drawer extends Node {
     this._animationEnabled = animationEnabled;
   }
 
-  public set animationEnabled( value ) { this.setAnimationEnabled( value ); }
+  public set animationEnabled( value: boolean ) { this.setAnimationEnabled( value ); }
 
-  public get animationEnabled() { return this.getAnimationEnabled(); }
+  public get animationEnabled(): boolean { return this.getAnimationEnabled(); }
 
   /**
    * Is animation enabled for opening/closing drawer?
