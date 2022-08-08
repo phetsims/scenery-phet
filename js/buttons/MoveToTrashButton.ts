@@ -13,13 +13,13 @@ import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { TColor, Node, Path } from '../../../scenery/js/imports.js';
 import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
-import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
   arrowColor?: TColor;
+  iconScale?: number;
 };
 
 export type MoveToTrashButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
@@ -33,12 +33,7 @@ export default class MoveToTrashButton extends RectangularPushButton {
       // MoveToTrashButtonOptions
       arrowColor: 'black',
 
-      // RectangularPushButtonOptions
-      baseColor: 'rgb( 230, 230, 240 )',
-      buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
-      cornerRadius: 6,
-      xMargin: 7,
-      yMargin: 3
+      iconScale: 0.46
     }, providedOptions );
 
     const trashNode = new Path( trashAltRegularShape, {
@@ -59,7 +54,7 @@ export default class MoveToTrashButton extends RectangularPushButton {
 
     options.content = new Node( {
       children: [ trashNode, arrowPath ],
-      scale: 0.4
+      scale: options.iconScale
     } );
 
     super( options );

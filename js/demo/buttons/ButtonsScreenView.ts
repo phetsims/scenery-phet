@@ -34,6 +34,7 @@ import TimerToggleButton from '../../buttons/TimerToggleButton.js';
 import ZoomButton from '../../buttons/ZoomButton.js';
 import MagnifyingGlassZoomButtonGroup from '../../MagnifyingGlassZoomButtonGroup.js';
 import MoveToTrashButton from '../../buttons/MoveToTrashButton.js';
+import MoveToTrashLegendButton from '../../buttons/MoveToTrashLegendButton.js';
 import PhetFont from '../../PhetFont.js';
 import PlusMinusZoomButtonGroup from '../../PlusMinusZoomButtonGroup.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -121,6 +122,11 @@ export default class ButtonsScreenView extends ScreenView {
       listener: () => console.log( 'MoveToTrashButton pressed' )
     } );
     pushButtons.push( moveToTrashButton );
+
+    pushButtons.push( new MoveToTrashLegendButton( {
+      arrowColor: 'red',
+      listener: () => console.log( 'MoveToTrashLegendButton pressed' )
+    } ) );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => console.log( 'ResetAllButton pressed' )
