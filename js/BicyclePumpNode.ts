@@ -12,7 +12,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import IProperty from '../../axon/js/IProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
@@ -106,7 +106,7 @@ export default class BicyclePumpNode extends Node {
    * @param providedOptions
    */
   public constructor( numberProperty: IProperty<number>,
-                      rangeProperty: IReadOnlyProperty<Range>,
+                      rangeProperty: TReadOnlyProperty<Range>,
                       providedOptions?: BicyclePumpNodeOptions ) {
 
     const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions>()( {
@@ -642,9 +642,9 @@ class HandleDragListener extends DragListener {
   private lastHandlePosition: number | null;
 
   public constructor( numberProperty: IProperty<number>,
-                      rangeProperty: IReadOnlyProperty<Range>,
-                      nodeEnabledProperty: IReadOnlyProperty<boolean>,
-                      injectionEnabledProperty: IReadOnlyProperty<boolean>,
+                      rangeProperty: TReadOnlyProperty<Range>,
+                      nodeEnabledProperty: TReadOnlyProperty<boolean>,
+                      injectionEnabledProperty: TReadOnlyProperty<boolean>,
                       minHandleYOffset: number,
                       maxHandleYOffset: number,
                       pumpHandleNode: Node,

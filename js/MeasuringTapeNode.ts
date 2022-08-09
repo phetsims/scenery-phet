@@ -13,7 +13,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
@@ -95,9 +95,9 @@ export type MeasuringTapeIconOptions = MeasuringTapeIconSelfOptions & StrictOmit
 class MeasuringTapeNode extends Node {
 
   // the distance measured by the tape
-  public readonly measuredDistanceProperty: IReadOnlyProperty<number>;
-  public readonly isTipUserControlledProperty: IReadOnlyProperty<boolean>;
-  public readonly isBaseUserControlledProperty: IReadOnlyProperty<boolean>;
+  public readonly measuredDistanceProperty: TReadOnlyProperty<number>;
+  public readonly isTipUserControlledProperty: TReadOnlyProperty<boolean>;
+  public readonly isBaseUserControlledProperty: TReadOnlyProperty<boolean>;
   public readonly basePositionProperty: Vector2Property;
   public readonly tipPositionProperty: Vector2Property;
   public readonly modelViewTransformProperty: Property<ModelViewTransform2>;

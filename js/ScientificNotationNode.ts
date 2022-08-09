@@ -10,7 +10,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -48,7 +48,7 @@ export type ScientificNotation = {
 
 export default class ScientificNotationNode extends Node {
 
-  public readonly valueProperty: IReadOnlyProperty<number | null>;
+  public readonly valueProperty: TReadOnlyProperty<number | null>;
   private readonly options: Required<SelfOptions>;
 
   // width of space between mantissa and 'x 10'
@@ -64,7 +64,7 @@ export default class ScientificNotationNode extends Node {
 
   private readonly disposeScientificNotationNode: () => void;
 
-  public constructor( valueProperty: IReadOnlyProperty<number | null>, providedOptions?: ScientificNotationNodeOptions ) {
+  public constructor( valueProperty: TReadOnlyProperty<number | null>, providedOptions?: ScientificNotationNodeOptions ) {
 
     const options = optionize<ScientificNotationNodeOptions, SelfOptions, NodeOptions>()( {
 

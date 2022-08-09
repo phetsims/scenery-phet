@@ -8,7 +8,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
@@ -60,7 +60,7 @@ export default class GaugeNode extends Node {
    * @param range - range of the needle. If valueProperty exceeds this range, the needle will stop at min or max.
    * @param providedOptions
    */
-  public constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range, providedOptions?: GaugeNodeOptions ) {
+  public constructor( valueProperty: TReadOnlyProperty<number>, label: string, range: Range, providedOptions?: GaugeNodeOptions ) {
 
     const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
 

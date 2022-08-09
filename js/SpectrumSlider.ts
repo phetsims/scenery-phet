@@ -10,7 +10,7 @@
 
 import IProperty from '../../axon/js/IProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
@@ -429,7 +429,7 @@ class ValueDisplay extends Text {
    * @param valueToString - converts value {number} to text {string} for display
    * @param providedOptions
    */
-  public constructor( valueProperty: IReadOnlyProperty<number>,
+  public constructor( valueProperty: TReadOnlyProperty<number>,
                       valueToString: ( value: number ) => string,
                       providedOptions?: TextOptions ) {
 

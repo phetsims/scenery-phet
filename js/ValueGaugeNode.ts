@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -32,7 +32,7 @@ export default class ValueGaugeNode extends GaugeNode {
   private _numberDisplayVisible: boolean;
   private readonly numberDisplay: NumberDisplay;
 
-  public constructor( valueProperty: IReadOnlyProperty<number>, label: string, range: Range,
+  public constructor( valueProperty: TReadOnlyProperty<number>, label: string, range: Range,
                       providedOptions?: ValueGaugeNodeOptions ) {
 
     const options = optionize<ValueGaugeNodeOptions, SelfOptions, GaugeNodeOptions>()( {

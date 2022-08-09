@@ -13,7 +13,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize from '../../phet-core/js/optionize.js';
 import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
 
@@ -34,8 +34,8 @@ export type SegmentedBarGraphNodeOptions = SelfOptions & NodeOptions;
 
 export default class SegmentedBarGraphNode extends Node {
 
-  public constructor( numberProperty: IReadOnlyProperty<number>,
-                      rangeProperty: IReadOnlyProperty<Range>,
+  public constructor( numberProperty: TReadOnlyProperty<number>,
+                      rangeProperty: TReadOnlyProperty<Range>,
                       providedOptions?: SegmentedBarGraphNodeOptions ) {
 
     const options = optionize<SegmentedBarGraphNodeOptions, SelfOptions, NodeOptions>()( {

@@ -45,7 +45,7 @@ import faucetStop_png from '../images/faucetStop_png.js';
 import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TimerListener } from '../../axon/js/Timer.js';
@@ -68,7 +68,7 @@ type SelfOptions = {
   tapToDispenseAmount?: number; // tap-to-dispense feature: amount to dispense, in L
   tapToDispenseInterval?: number; // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
   closeOnRelease?: boolean; // when the shooter is released, close the faucet
-  interactiveProperty?: IReadOnlyProperty<boolean>; // when the faucet is interactive, the flow rate control is visible, see issue #67
+  interactiveProperty?: TReadOnlyProperty<boolean>; // when the faucet is interactive, the flow rate control is visible, see issue #67
 
   // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
   rasterizeHorizontalPipeNode?: boolean;
@@ -84,7 +84,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   private readonly disposeFaucetNode: () => void;
 
   public constructor( maxFlowRate: number, flowRateProperty: Property<number>,
-                      enabledProperty: IReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
+                      enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
 
     const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, ParentOptions>()( {
 
@@ -360,7 +360,7 @@ class ShooterNode extends Node {
 
   private readonly disposeShooterNode: () => void;
 
-  public constructor( enabledProperty: IReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
+  public constructor( enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
 
     const options = optionize<ShooterNodeOptions, EmptySelfOptions, ShooterNodeOptions>()( {
       knobScale: 0.6,

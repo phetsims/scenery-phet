@@ -26,7 +26,7 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Property from '../../axon/js/Property.js';
@@ -116,7 +116,7 @@ export type NumberControlLayoutFunction4Options = {
   // spacing between slider and arrow buttons
   arrowButtonSpacing?: number;
 
-  hasReadoutProperty?: IReadOnlyProperty<boolean> | null;
+  hasReadoutProperty?: TReadOnlyProperty<boolean> | null;
 
   // Supports Pendulum Lab's questionText where a question is substituted for the slider
   createBottomContent?: ( ( box: HBox ) => Node ) | null;

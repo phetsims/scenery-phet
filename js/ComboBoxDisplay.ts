@@ -19,7 +19,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetStrings from './sceneryPhetStrings.js';
 import Property from '../../axon/js/Property.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -33,7 +33,7 @@ export type ComboBoxDisplayItem<T> = {
   choice: T;
 
   // the item's numeric value
-  numberProperty: IReadOnlyProperty<number>;
+  numberProperty: TReadOnlyProperty<number>;
 
   // the range of the item's numeric value
   range: Range;

@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
@@ -28,7 +28,7 @@ export default class SpectrumSliderThumb extends Path {
   private readonly windowCursor: Node;
   private readonly disposeSpectrumSliderThumb: () => void;
 
-  public constructor( property: IReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
+  public constructor( property: TReadOnlyProperty<number>, providedOptions?: SpectrumSliderThumbOptions ) {
 
     const options = optionize<SpectrumSliderThumbOptions, SelfOptions, PathOptions>()( {
 

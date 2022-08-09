@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -27,14 +27,14 @@ export default class LightBulbNode extends Node {
 
   private readonly onNode: Node;
   private readonly raysNode: LightRaysNode;
-  private readonly brightnessProperty: IReadOnlyProperty<number>;
+  private readonly brightnessProperty: TReadOnlyProperty<number>;
   private readonly disposeLightBulbNode: () => void;
 
   /**
    * @param brightnessProperty - brightness of the bulb, 0 (off) to 1 (full brightness)
    * @param [providedOptions]
    */
-  public constructor( brightnessProperty: IReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
+  public constructor( brightnessProperty: TReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
 
     const options = optionize<LightBulbNodeOptions, StrictOmit<SelfOptions, 'lightRaysNodeOptions'>, NodeOptions>()( {
       bulbImageScale: 0.33

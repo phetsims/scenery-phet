@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
@@ -29,8 +29,8 @@ export default class WireNode extends Path {
    * @param normal2Property - defines the control point of the cubic curve, relative to the position2
    * @param [options]
    */
-  public constructor( position1Property: IReadOnlyProperty<Vector2>, normal1Property: IReadOnlyProperty<Vector2>,
-                      position2Property: IReadOnlyProperty<Vector2>, normal2Property: IReadOnlyProperty<Vector2>,
+  public constructor( position1Property: TReadOnlyProperty<Vector2>, normal1Property: TReadOnlyProperty<Vector2>,
+                      position2Property: TReadOnlyProperty<Vector2>, normal2Property: TReadOnlyProperty<Vector2>,
                       options?: WireNodeOptions ) {
 
     options = optionize<WireNodeOptions, SelfOptions, PathOptions>()( {

@@ -9,7 +9,7 @@
  */
 
 import IProperty from '../../axon/js/IProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -37,7 +37,7 @@ export type StatusBarOptions = SelfOptions & NodeOptions;
 
 class StatusBar extends Node {
 
-  public readonly positioningBoundsProperty: IReadOnlyProperty<Bounds2>;
+  public readonly positioningBoundsProperty: TReadOnlyProperty<Bounds2>;
   private readonly disposeStatusBar: () => void;
   public static DEFAULT_FONT = new PhetFont( 20 );
   public static DEFAULT_TEXT_FILL = Color.BLACK;
