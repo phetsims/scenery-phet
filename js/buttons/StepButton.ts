@@ -12,7 +12,7 @@ import { Shape } from '../../../kite/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { HBox, IPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
+import { HBox, TPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -26,7 +26,7 @@ type Direction = 'forward' | 'backward';
 type SelfOptions = {
   radius?: number;
   direction?: Direction;
-  iconFill?: IPaint;
+  iconFill?: TPaint;
 };
 
 export type StepButtonOptions = SelfOptions &

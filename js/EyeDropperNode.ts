@@ -11,7 +11,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, Image, IPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { Circle, Image, TPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import RoundMomentaryButton, { RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import eyeDropperBackground_png from '../images/eyeDropperBackground_png.js';
@@ -31,7 +31,7 @@ type SelfOptions = {
   isEmptyProperty?: Property<boolean>;
 
   // color of the fluid in the glass
-  fluidColor?: IPaint;
+  fluidColor?: TPaint;
 
   // propagated to RoundMomentaryButton
   buttonOptions?: RoundMomentaryButtonOptions;
@@ -156,22 +156,22 @@ export default class EyeDropperNode extends Node {
   /**
    * Sets the color of the fluid in the dropper.
    */
-  public setFluidColor( color: IPaint ): void {
+  public setFluidColor( color: TPaint ): void {
     this.fluidNode.fill = color;
   }
 
-  public set fluidColor( value: IPaint ) {
+  public set fluidColor( value: TPaint ) {
     this.setFluidColor( value );
   }
 
-  public get fluidColor(): IPaint {
+  public get fluidColor(): TPaint {
     return this.getFluidColor();
   }
 
   /**
    * Gets the color of the fluid in the dropper.
    */
-  public getFluidColor(): IPaint {
+  public getFluidColor(): TPaint {
     return this.fluidNode.fill;
   }
 

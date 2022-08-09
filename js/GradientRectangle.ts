@@ -30,7 +30,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { ColorDef, TColor, IPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import { ColorDef, TColor, TPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants
@@ -267,7 +267,7 @@ export default class GradientRectangle extends Rectangle {
   /**
    * We want to be notified of fill changes.
    */
-  public override setFill( fill: IPaint ): this {
+  public override setFill( fill: TPaint ): this {
     assert && assert( ColorDef.isColorDef( fill ), 'GradientRectangle only supports ColorDef as a fill' );
 
     super.setFill( fill );
@@ -280,7 +280,7 @@ export default class GradientRectangle extends Rectangle {
   /**
    * We don't want to allow strokes.
    */
-  public override setStroke( stroke: IPaint ): this {
+  public override setStroke( stroke: TPaint ): this {
     assert && assert( stroke === null, 'GradientRectangle only supports a null stroke' );
 
     super.setStroke( stroke );
@@ -479,7 +479,7 @@ export default class GradientRectangle extends Rectangle {
   /**
    * Sets the border "fade" color (that is on the other side of the gradient).
    */
-  public set border( value: IPaint ) {
+  public set border( value: TPaint ) {
     assert && assert( ColorDef.isColorDef( value ) );
 
     if ( this._borderOverrideProperty.paint !== value ) {
@@ -490,7 +490,7 @@ export default class GradientRectangle extends Rectangle {
   /**
    * Returns the border color (see the setter)
    */
-  public get border(): IPaint {
+  public get border(): TPaint {
     return this._borderOverrideProperty.paint;
   }
 

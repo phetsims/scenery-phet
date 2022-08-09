@@ -11,7 +11,7 @@ import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Font, IPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Font, TPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -62,8 +62,8 @@ type SelfOptions = {
   xMargin?: number;
   yMargin?: number;
   cornerRadius?: number;
-  backgroundFill?: IPaint;
-  backgroundStroke?: IPaint;
+  backgroundFill?: TPaint;
+  backgroundStroke?: TPaint;
   backgroundLineWidth?: number;
   backgroundLineDash?: number[];
   minBackgroundWidth?: number;
@@ -269,40 +269,40 @@ export default class NumberDisplay extends Node {
   /**
    * Sets the number text fill.
    */
-  public setNumberFill( fill: IPaint ): void {
+  public setNumberFill( fill: TPaint ): void {
     this.valueText.fill = fill;
   }
 
-  public set numberFill( value: IPaint ) { this.setNumberFill( value ); }
+  public set numberFill( value: TPaint ) { this.setNumberFill( value ); }
 
   /**
    * Sets the background fill.
    */
-  public setBackgroundFill( fill: IPaint ): void {
+  public setBackgroundFill( fill: TPaint ): void {
     this.backgroundNode.fill = fill;
   }
 
-  public set backgroundFill( value: IPaint ) { this.setBackgroundFill( value ); }
+  public set backgroundFill( value: TPaint ) { this.setBackgroundFill( value ); }
 
-  public get backgroundFill(): IPaint {
+  public get backgroundFill(): TPaint {
     return this.getBackgroundFill();
   }
 
   /**
    * Gets the background fill.
    */
-  public getBackgroundFill(): IPaint {
+  public getBackgroundFill(): TPaint {
     return this.backgroundNode.fill;
   }
 
   /**
    * Sets the background stroke.
    */
-  public setBackgroundStroke( stroke: IPaint ): void {
+  public setBackgroundStroke( stroke: TPaint ): void {
     this.backgroundNode.stroke = stroke;
   }
 
-  public set backgroundStroke( value: IPaint ) { this.setBackgroundStroke( value ); }
+  public set backgroundStroke( value: TPaint ) { this.setBackgroundStroke( value ); }
 
   public static NumberDisplayIO: IOType;
 }

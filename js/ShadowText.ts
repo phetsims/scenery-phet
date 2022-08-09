@@ -8,7 +8,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Font, IPaint, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
+import { Font, TPaint, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -17,11 +17,11 @@ type SelfOptions = {
   font?: Font;
 
   // for foreground Text node
-  fill?: IPaint;
-  stroke?: IPaint;
+  fill?: TPaint;
+  stroke?: TPaint;
 
   // for background (shadow) Text node
-  shadowFill?: IPaint;
+  shadowFill?: TPaint;
   shadowXOffset?: number;
   shadowYOffset?: number;
 };

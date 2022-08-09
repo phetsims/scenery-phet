@@ -9,7 +9,7 @@
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { TPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type BracketNodeOrientation = 'left' | 'right' | 'up' | 'down';
@@ -35,7 +35,7 @@ type SelfOptions = {
   bracketTipRadius?: number;
 
   // color of the bracket
-  bracketStroke?: IPaint;
+  bracketStroke?: TPaint;
 
   // line width (thickness) of the bracket
   bracketLineWidth?: number;

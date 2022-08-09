@@ -11,7 +11,7 @@
 import Bounds2 from '../../dot/js/Bounds2.js';
 import { LineJoin, Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { IPaint, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
+import { TPaint, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import StarShape, { StarShapeOptions } from './StarShape.js';
 
@@ -22,14 +22,14 @@ type SelfOptions = {
   value?: number;
 
   // Options that control the appearance of the unfilled (background) star.  Should be bland.
-  emptyFill?: IPaint;
-  emptyStroke?: IPaint;
+  emptyFill?: TPaint;
+  emptyStroke?: TPaint;
   emptyLineWidth?: number;
   emptyLineJoin?: LineJoin;
 
   // Options that control the appearance of the filled (foreground) star.  Should be bold and eye catching.
-  filledFill?: IPaint;
-  filledStroke?: IPaint;
+  filledFill?: TPaint;
+  filledStroke?: TPaint;
   filledLineWidth?: number;
   filledLineJoin?: LineJoin;
 
