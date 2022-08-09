@@ -11,7 +11,7 @@ import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
-import ISoundPlayer from '../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
 import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
@@ -38,8 +38,8 @@ type SelfOptions = {
   endPlayingLabel?: string | null;
 
   // sound generation
-  valueOffSoundPlayer?: ISoundPlayer;
-  valueOnSoundPlayer?: ISoundPlayer;
+  valueOffSoundPlayer?: TSoundPlayer;
+  valueOnSoundPlayer?: TSoundPlayer;
 };
 
 export type PlayControlButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;

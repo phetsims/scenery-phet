@@ -13,7 +13,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
-import ISoundPlayer from '../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import goBack_mp3 from '../../sounds/goBack_mp3.js';
@@ -22,7 +22,7 @@ import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
-  soundPlayer?: ISoundPlayer;
+  soundPlayer?: TSoundPlayer;
 };
 
 export type BackButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
