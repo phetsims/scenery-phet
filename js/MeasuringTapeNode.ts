@@ -186,7 +186,7 @@ class MeasuringTapeNode extends Node {
       ( basePosition, tipPosition ) => basePosition.distance( tipPosition ), {
         tandem: options.tandem.createTandem( 'measuredDistanceProperty' ),
         phetioDocumentation: 'The distance measured by the measuring tape',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO ),
+        phetioValueType: NumberIO,
         units: this.basePositionProperty.units
       } );
 
@@ -233,7 +233,7 @@ class MeasuringTapeNode extends Node {
         } );
       }, {
         tandem: options.tandem.createTandem( 'readoutTextProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( StringIO ),
+        phetioValueType: StringIO,
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 

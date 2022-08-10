@@ -64,7 +64,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       return this.keysToString( accumulatedKeys );
     }, {
       tandem: options.tandem.createTandem( 'stringProperty' ),
-      phetioType: DerivedProperty.DerivedPropertyIO( StringIO )
+      phetioValueType: StringIO
     } );
 
     // @public (read-only) - numerical value of the keys entered by the user
@@ -72,7 +72,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       return this.stringToInteger( stringValue );
     }, {
       tandem: options.tandem.createTandem( 'valueProperty' ),
-      phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
+      phetioValueType: NullableIO( NumberIO )
     } );
   }
 

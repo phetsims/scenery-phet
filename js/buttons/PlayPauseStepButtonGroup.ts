@@ -105,7 +105,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     if ( ( !options.stepForwardButtonOptions.enabledProperty ) || ( !options.stepBackwardButtonOptions.enabledProperty ) ) {
       const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+        phetioValueType: BooleanIO
       } );
 
       if ( !options.stepForwardButtonOptions.enabledProperty ) {

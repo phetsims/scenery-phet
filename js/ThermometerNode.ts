@@ -245,7 +245,7 @@ export default class ThermometerNode extends Node {
     }, {
       tandem: options.tandem.createTandem( 'percentProperty' ),
       phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature. If temperature is null, then percent will be 0',
-      phetioType: DerivedProperty.DerivedPropertyIO( NullableIO( NumberIO ) )
+      phetioValueType: NullableIO( NumberIO )
     } );
 
     this.mutate( options );
