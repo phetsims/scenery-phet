@@ -85,7 +85,7 @@ type SelfOptions = {
 type ParentOptions = ReadingBlockOptions & VBoxOptions;
 export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
-export default class KeyboardHelpSection extends ReadingBlock( VBox, 0 ) {
+export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
   // the translatable heading for this section
   private readonly headingString: string;
