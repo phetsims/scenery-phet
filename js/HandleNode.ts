@@ -208,7 +208,7 @@ export default class HandleNode extends Node {
  * @param shape - the shape to append to
  * @param sign - +1 for top side of grip, -1 for bottom side of grip
  */
-function addGripIndent( shape: Shape, sign: 1 | -1 ) {
+function addGripIndent( shape: Shape, sign: 1 | -1 ): void {
 
   // control points for cubic curve shape on grip
   // each single-finger indent is made of two cubic curves that are mirrored over the y-axis

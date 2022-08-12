@@ -150,7 +150,7 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   );
   const positiveAndNegativeFloatingPointClearOnNextKeyPressCheckbox = new Checkbox( positiveAndNegativeFloatingPointClearOnNextKeyPressProperty, new Text( 'Clear On Next Key Press' ) );
 
-  function handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged( clearOnNextKeyPress: boolean ) {
+  function handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged( clearOnNextKeyPress: boolean ): void {
     positiveAndNegativeFloatingPointKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress );
   }
 

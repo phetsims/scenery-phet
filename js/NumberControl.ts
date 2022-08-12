@@ -754,7 +754,7 @@ export default class NumberControl extends Node {
  *
  * Only general or specific callbacks are allowed, but not both.
  */
-function validateCallbacks( options: NumberControlOptions ) {
+function validateCallbacks( options: NumberControlOptions ): void {
   const normalCallbacksPresent = !!( options.startCallback ||
                                      options.endCallback );
   let arrowCallbacksPresent = false;

@@ -56,7 +56,7 @@ export default class StopSignNode extends Node {
   }
 }
 
-function createStopSignPath( fill: TColor, radius: number ) {
+function createStopSignPath( fill: TColor, radius: number ): Path {
   return new Path( Shape.regularPolygon( NUMBER_OF_SIDES, radius ), {
     fill: fill,
     rotation: Math.PI / NUMBER_OF_SIDES,

@@ -113,7 +113,7 @@ export default class ProbeNode extends Node {
     const ellipticalArcStart = new EllipticalArc( new Vector2( 0, 0 ), radius, radius, 0, Math.PI * arcExtent, Math.PI * ( 1 - arcExtent ), false ).start;
 
     // Creates the Shape for the outside edge of the probe, circular at top with handle at the bottom.
-    function createOuterProbeShape() {
+    function createOuterProbeShape(): Shape {
       return new Shape()
 
         // start in the bottom center
