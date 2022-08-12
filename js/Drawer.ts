@@ -19,7 +19,7 @@ import { TColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../..
 import Animation from '../../twixt/js/Animation.js';
 import Easing from '../../twixt/js/Easing.js';
 import sceneryPhet from './sceneryPhet.js';
-import IEmitter from '../../axon/js/IEmitter.js';
+import TEmitter from '../../axon/js/TEmitter.js';
 
 type SelfOptions = {
 
@@ -56,7 +56,7 @@ type SelfOptions = {
   // animation
   animationEnabled?: boolean; // is animation enabled when opening/closing the drawer?
   animationDuration?: number; // duration of animation (drawer opening and closing) in seconds
-  stepEmitter?: IEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
+  stepEmitter?: TEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
 };
 
 export type DrawerOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'clipArea'>;
