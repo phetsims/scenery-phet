@@ -22,9 +22,9 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
-SPEED_LABEL_MAP.set( TimeSpeed.FAST, { labelString: sceneryPhetStrings.speed.fast, tandemName: 'fastRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { labelString: sceneryPhetStrings.speed.normal, tandemName: 'normalRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { labelString: sceneryPhetStrings.speed.slow, tandemName: 'slowRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.FAST, { textProperty: sceneryPhetStrings.speed.fastProperty, labelString: sceneryPhetStrings.speed.fast, tandemName: 'fastRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { textProperty: sceneryPhetStrings.speed.normalProperty, labelString: sceneryPhetStrings.speed.normal, tandemName: 'normalRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { textProperty: sceneryPhetStrings.speed.slowProperty, labelString: sceneryPhetStrings.speed.slow, tandemName: 'slowRadioButton' } );
 
 type SelfOptions = {
   radius?: number;
@@ -70,7 +70,10 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
     const items = timeSpeeds.map( speed => {
 
       const speedLabel = SPEED_LABEL_MAP.get( speed ).labelString;
-      const labelNode = new Text( speedLabel, options.labelOptions );
+      const labelNode = new Text( speedLabel, {
+        ...options.labelOptions,
+        textProperty: SPEED_LABEL_MAP.get( speed ).textProperty
+      } );
 
       return {
         value: speed,
