@@ -102,7 +102,7 @@ class MeasuringTapeNode extends Node {
   public readonly tipPositionProperty: Vector2Property;
   public readonly modelViewTransformProperty: Property<ModelViewTransform2>;
 
-  private readonly unitsProperty: Property<MeasuringTapeUnits>;
+  private readonly unitsProperty: TReadOnlyProperty<MeasuringTapeUnits>;
   private readonly significantFigures: number;
   public readonly _isTipUserControlledProperty: Property<boolean>;
   public readonly _isBaseUserControlledProperty: Property<boolean>;
@@ -115,7 +115,7 @@ class MeasuringTapeNode extends Node {
   private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly disposeMeasuringTapeNode: () => void;
 
-  public constructor( unitsProperty: Property<MeasuringTapeUnits>, providedOptions?: MeasuringTapeNodeOptions ) {
+  public constructor( unitsProperty: TReadOnlyProperty<MeasuringTapeUnits>, providedOptions?: MeasuringTapeNodeOptions ) {
 
     const options = optionize<MeasuringTapeNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -224,10 +224,10 @@ class MeasuringTapeNode extends Node {
     const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     const readoutTextProperty = new DerivedProperty(
-      [ this.unitsProperty, this.measuredDistanceProperty ],
-      ( units, measuredDistance ) => {
+      [ this.unitsProperty, this.measuredDistanceProperty, sceneryPhetStrings.measuringTapeReadoutPatternProperty ],
+      ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
-        return StringUtils.fillIn( sceneryPhetStrings.measuringTapeReadoutPattern, {
+        return StringUtils.fillIn( measuringTapeReadoutPattern, {
           distance: distance,
           units: units.name
         } );
