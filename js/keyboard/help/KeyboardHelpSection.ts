@@ -51,6 +51,9 @@ const OR_TEXT_MAX_WIDTH = 16;
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
 
+// Options type for getGrabReleaseHelpSection, see that function.
+type GrabReleaseKeyboardHelpSectionOptions = StrictOmit<KeyboardHelpSectionOptions, 'a11yContentTagName'>;
+
 // Options type for labelWithIcon, see that function
 type LabelWithIconOptions = {
 
@@ -403,12 +406,12 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * @param [providedOptions]
    */
   public static getGrabReleaseHelpSection( thingAsTitle: string, thingAsLowerCase: string,
-                                           providedOptions?: KeyboardHelpSectionOptions ): KeyboardHelpSection {
+                                           providedOptions?: GrabReleaseKeyboardHelpSectionOptions ): KeyboardHelpSection {
 
     const options = combineOptions<KeyboardHelpSectionOptions>( {
 
-      // just a paragraph for this section, no list
-      a11yContentTagName: null  //TODO https://github.com/phetsims/scenery-phet/issues/762 should 'a11yContentTagName' be omitted from providedOptions, or can the caller override it?
+      // There is only a single paragraph for this section, no list needed in the PDOM
+      a11yContentTagName: null
     }, providedOptions );
 
     // the visible heading string
