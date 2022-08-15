@@ -64,7 +64,7 @@ type LabelWithIconListOptions = {
   // will default to options.labelInnerContent.
   readingBlockContent?: VoicingResponse | null;
 
-   // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
+  // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
   iconsVBoxOptions?: StrictOmit<VBoxOptions, 'innerContent' | 'spacing' | 'align' | 'tagName'>;
 };
 
@@ -389,10 +389,13 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * edge of the icon VBox. Then increases spacing of all other content HBoxes accordingly.
    */
   public static alignHelpSectionIcons( sectionArray: KeyboardHelpSection[] ): void {
+    assert && assert( sectionArray.length > 0, 'Must provide at least one KeyboardHelpSection to align.' );
 
     // left edge of icons farthest to the right in the array of KeyboardHelpSection
-    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 TS2532: Object is possibly 'undefined'.
-    const maxLeftEdge = _.maxBy( sectionArray, section => section.iconVBox.left ).iconVBox.left;
+    const leftMostKeyboardHelpSection = _.maxBy( sectionArray, section => section.iconVBox.left );
+    assert && assert( leftMostKeyboardHelpSection,
+      'There must be a KeyboardHelpSection if sectionArray has entries.' );
+    const maxLeftEdge = leftMostKeyboardHelpSection!.iconVBox.left;
 
     // adjust the spacing of all section HBoxes so that they align
     sectionArray.forEach( section => {
