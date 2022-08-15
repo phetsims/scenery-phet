@@ -16,7 +16,6 @@
  * @author Jesse Greenberg
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -53,6 +52,21 @@ const DEFAULT_HEADING_MAX_WIDTH = 335;
 
 // Options type for getGrabReleaseHelpSection, see that function.
 type GrabReleaseKeyboardHelpSectionOptions = StrictOmit<KeyboardHelpSectionOptions, 'a11yContentTagName'>;
+
+// Options type for labelWithIconList, see that function.
+type LabelWithIconListOptions = {
+
+  // content for the parallel DOM, read by a screen reader
+  labelInnerContent?: string | null;
+
+  // voicing
+  // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
+  // will default to options.labelInnerContent.
+  readingBlockContent?: VoicingResponse | null;
+
+   // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
+  iconsVBoxOptions?: StrictOmit<VBoxOptions, 'innerContent' | 'spacing' | 'align' | 'tagName'>;
+};
 
 // Options type for labelWithIcon, see that function
 type LabelWithIconOptions = {
@@ -251,35 +265,19 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    *                    Icon2 or
    *                    Icon3
    */
-  // TODO https://github.com/phetsims/scenery-phet/issues/762 what is the type of providedOptions?
-  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: any ): KeyboardHelpSectionRow { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
+  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: LabelWithIconListOptions ): KeyboardHelpSectionRow {
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 these options are not propagated to KeyboardHelpSectionRow
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from type of providedOptions?
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 convert to optionize
-    // eslint-disable-next-line bad-typescript-text
-    const options = merge( {
-
-      // {string|null} content for the parallel DOM, read by a screen reader
+    const options = optionize<LabelWithIconListOptions>()( {
       labelInnerContent: null,
-
-      // voicing
-      // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
-      // will default to options.labelInnerContent.
       readingBlockContent: null,
-
-      iconsVBoxOptions: {} // options for the iconsVBox, extended below
+      iconsVBoxOptions: {}
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 'children' should be omitted from providedOptions type
-    assert && assert( !options.children, 'labelWithIconList adds its own children' );
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 'innerContent' should be omitted from providedOptions.iconOptions type
-    assert && assert( !options.iconsVBoxOptions.innerContent, 'should be specified as an argument' );
-
-    //TODO https://github.com/phetsims/scenery-phet/issues/762 should any of these fields be omitted from the type of options.iconsVBoxOptions, or can the caller override all of them?
     options.iconsVBoxOptions = combineOptions<VBoxOptions>( {
       spacing: DEFAULT_VERTICAL_ICON_SPACING * 0.75, // less than the normal vertical icon spacing since it is a group
       align: 'left',
+
+      // pdom - each icon will be presented as a list item under the parent 'ul' of the KeyboardHelpSectionRow.
       tagName: 'li',
       innerContent: options.labelInnerContent
     }, options.iconsVBoxOptions );
