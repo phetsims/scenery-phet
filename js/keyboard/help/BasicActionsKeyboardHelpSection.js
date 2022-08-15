@@ -16,6 +16,7 @@ import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
 const keyboardHelpDialogBasicActionsString = sceneryPhetStrings.keyboardHelpDialog.basicActions;
@@ -45,20 +46,20 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
     // 'press buttons' content
     const spaceIcon = TextKeyNode.space();
-    const pressButtonsItemRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, {
+    const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, {
       labelInnerContent: keyboardHelpDialogPressButtonsDescriptionString
     } );
 
     // 'exit a dialog' content
     const exitADialogIcon = TextKeyNode.esc();
-    const exitADialogRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, {
+    const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, {
       labelInnerContent: keyboardHelpDialogExitDialogDescriptionString
     } );
 
     // 'toggle checkboxes' content
     let toggleCheckboxes = null;
     if ( options.withCheckboxContent ) {
-      toggleCheckboxes = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TextKeyNode.space(),
+      toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TextKeyNode.space(),
         {
           labelInnerContent: toggleCheckboxesDescriptionString
         } );
@@ -66,7 +67,7 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
     const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
-    const moveBetweenItemsInAGroupRow = KeyboardHelpSection.labelWithIcon(
+    const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
       keyboardHelpDialogMoveBetweenItemsInAGroupString,
       KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ),
       {
@@ -74,7 +75,7 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
       }
     );
 
-    const moveToNextItemRow = KeyboardHelpSection.labelWithIcon(
+    const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
       keyboardHelpDialogMoveToNextItemOrGroupString,
       TextKeyNode.tab(),
       {
@@ -82,7 +83,7 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
       }
     );
 
-    const moveToPreviousItemRow = KeyboardHelpSection.labelWithIcon(
+    const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
       keyboardHelpDialogMoveToPreviousItemOrGroupString,
       KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ),
       {

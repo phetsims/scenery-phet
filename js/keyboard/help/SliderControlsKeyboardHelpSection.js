@@ -17,6 +17,7 @@ import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 class ArrowKeyIconDisplay extends EnumerationValue {
   static UP_DOWN = new ArrowKeyIconDisplay();
@@ -129,11 +130,11 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
         adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
-    const adjustSliderRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, {
+    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, {
       labelInnerContent: keyboardHelpDialogDefaultStepsString
     } );
 
-    const adjustSliderInSmallerStepsRow = KeyboardHelpSection.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsString,
+    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsString,
       adjustSliderSmallerStepsIcons, {
         labelInnerContent: keyboardHelpDialogSmallerStepsString
       } );
@@ -145,19 +146,19 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     } );
-    const adjustInLargerStepsRow = KeyboardHelpSection.labelWithIcon( keyboardHelpDialogVerbInLargerStepsString, pageUpPageDownIcon, {
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbInLargerStepsString, pageUpPageDownIcon, {
       labelInnerContent: keyboardHelpDialogLargerStepsString
     } );
 
     // 'move to minimum value' content
     const homeKeyNode = TextKeyNode.home();
-    const jumpToMinimumRow = KeyboardHelpSection.labelWithIcon( jumpToMinimumString, homeKeyNode, {
+    const jumpToMinimumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMinimumString, homeKeyNode, {
       labelInnerContent: jumpToMinimumDescriptionString
     } );
 
     // 'move to maximum value' content
     const endKeyNode = TextKeyNode.end();
-    const jumpToMaximumRow = KeyboardHelpSection.labelWithIcon( jumpToMaximumString, endKeyNode, {
+    const jumpToMaximumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMaximumString, endKeyNode, {
       labelInnerContent: jumpToMaximumDescriptionString
     } );
 
