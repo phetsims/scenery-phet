@@ -9,6 +9,7 @@
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
 // These are not translatable yet until we have decisions made in https://github.com/phetsims/greenhouse-effect/issues/194
@@ -39,7 +40,7 @@ class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionString
     }, providedOptions );
 
-    const playPauseRow = KeyboardHelpSection.createPlayPauseKeyRow( options.pauseOrPlayActionString, {
+    const playPauseRow = KeyboardHelpSectionRow.createPlayPauseKeyRow( options.pauseOrPlayActionString, {
       labelInnerContent: options.pauseOrPlayActionDescriptionString
     } );
 
