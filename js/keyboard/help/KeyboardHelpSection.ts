@@ -338,13 +338,16 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
   public static createKeysRow( keyIcons: Node[], labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     assert && assert( keyIcons.length > 0, 'expected keys' );
     let keysNode = null;
-    // TODO https://github.com/phetsims/scenery-phet/issues/762 should this loop exit when keyNode is found? I don't understand why it iterates over all keyIcons.
     for ( let i = 0; i < keyIcons.length; i++ ) {
       const keyNode = keyIcons[ i ];
+
+      // Continue to "add" more icons to the end of the keysNode with iconPlusIcon until we go through all keyIcons.
+      // If there is only one keyIcon it will just be returned without any '+' icons.
       keysNode = keysNode ? KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode ) : keyNode;
     }
-    // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/762 keyNode might be null, and there is no check to verify that it's non-null after the loop
-    return KeyboardHelpSection.labelWithIcon( labelString, keysNode, providedOptions );
+
+    assert && assert( keysNode, 'keysNode must be defined since there were more than zero keyIcons.' );
+    return KeyboardHelpSection.labelWithIcon( labelString, keysNode!, providedOptions );
   }
 
   /**
