@@ -56,17 +56,7 @@
         "extends": "../chipper/eslint/sim_eslintrc.js",
         "globals": {
           "katex": "readonly"
-        },
-        "overrides": [
-          {
-            "files": [
-              "**/*.ts"
-            ],
-            "rules": {
-              "@typescript-eslint/adjacent-overload-signatures": "error"
-            }
-          }
-        ]
+        }
       }
     };
   window.phet.chipper.stringRepos =
@@ -101,6 +91,7 @@
   let preloads = [
     '../joist/js/splash.js',
     '../sherpa/lib/jquery-2.1.0.js',
+    '../sherpa/lib/jsondiffpatch-v0.3.11.umd.js',
     '../sherpa/lib/lodash-4.17.4.js',
     '../sherpa/lib/FileSaver-b8054a2.js',
     '../sherpa/lib/himalaya-1.1.0.js',
