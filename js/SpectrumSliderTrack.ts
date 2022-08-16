@@ -12,7 +12,7 @@ import { Rectangle } from '../../scenery/js/imports.js';
 import SliderTrack, { SliderTrackOptions } from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
@@ -22,7 +22,7 @@ export type SpectrumSliderTrackOptions = SelfOptions & SliderTrackOptions;
 
 export default class SpectrumSliderTrack extends SliderTrack {
 
-  public constructor( property: IProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
+  public constructor( property: TProperty<number>, range: Range, providedOptions?: SpectrumSliderTrackOptions ) {
 
     const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>()( {
       size: new Dimension2( 150, 30 ),

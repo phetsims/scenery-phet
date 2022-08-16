@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -83,10 +83,10 @@ class ConductivityTesterNode extends Node {
    * @param negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
    * @param providedOptions
    */
-  public constructor( brightnessProperty: IProperty<number>,
-                      positionProperty: IProperty<Vector2>,
-                      positiveProbePositionProperty: IProperty<Vector2>,
-                      negativeProbePositionProperty: IProperty<Vector2>,
+  public constructor( brightnessProperty: TProperty<number>,
+                      positionProperty: TProperty<Vector2>,
+                      positiveProbePositionProperty: TProperty<Vector2>,
+                      negativeProbePositionProperty: TProperty<Vector2>,
                       providedOptions?: ConductivityTesterNodeOptions ) {
 
     // NOTE! Since positionProperty determines translation, avoid options related to translation!

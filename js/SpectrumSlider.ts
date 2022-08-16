@@ -8,7 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
@@ -91,7 +91,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
    * @param providedOptions
    * @mixes AccessibleSlider
    */
-  public constructor( valueProperty: IProperty<number>, providedOptions?: SpectrumSliderOptions ) {
+  public constructor( valueProperty: TProperty<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type

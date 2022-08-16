@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
@@ -47,7 +47,7 @@ class StatusBar extends Node {
    * @param visibleBoundsProperty - visible bounds of the parent ScreenView
    * @param [providedOptions]
    */
-  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: IProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
+  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
 
     const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>()( {
 

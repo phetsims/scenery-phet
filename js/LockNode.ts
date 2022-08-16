@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { AlignBox, AlignBoxOptions, AlignGroup, Image } from '../../scenery/js/imports.js';
 import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
@@ -24,7 +24,7 @@ export default class LockNode extends BooleanToggleNode {
    * @param isLockedProperty - true=lock closed, false=lock open
    * @param providedOptions
    */
-  public constructor( isLockedProperty: IProperty<boolean>, providedOptions?: LockNodeOptions ) {
+  public constructor( isLockedProperty: TProperty<boolean>, providedOptions?: LockNodeOptions ) {
 
     const alignBoxOptions: AlignBoxOptions = {
 

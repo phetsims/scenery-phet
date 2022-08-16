@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
@@ -126,7 +126,7 @@ export default class LaserPointerNode extends Node {
    * @param onProperty - is the laser on?
    * @param providedOptions
    */
-  public constructor( onProperty: IProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
+  public constructor( onProperty: TProperty<boolean>, providedOptions?: LaserPointerNodeOptions ) {
 
     const options = optionize3<LaserPointerNodeOptions, SelfOptions, NodeOptions>()(
       {}, DEFAULT_OPTIONS, providedOptions );

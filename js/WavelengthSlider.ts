@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -34,7 +34,7 @@ export default class WavelengthSlider extends SpectrumSlider {
    * @param wavelengthProperty - wavelength, in nm
    * @param providedOptions
    */
-  public constructor( wavelengthProperty: IProperty<number>, providedOptions?: WavelengthSliderOptions ) {
+  public constructor( wavelengthProperty: TProperty<number>, providedOptions?: WavelengthSliderOptions ) {
 
     // options that are specific to this type
     const options = optionize<WavelengthSliderOptions, SelfOptions, SpectrumSliderOptions>()( {

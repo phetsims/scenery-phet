@@ -11,7 +11,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import Range from '../../dot/js/Range.js';
@@ -63,13 +63,13 @@ type SelfOptions = {
 
   // Determines whether the pump will interactive. If the pump's range changes, the pumps
   // indicator will update regardless of enabledProperty. If null, this Property will be created.
-  nodeEnabledProperty?: IProperty<boolean> | null;
+  nodeEnabledProperty?: TProperty<boolean> | null;
 
   // {BooleanProperty} - determines whether the pump is able to inject particles when the pump is still interactive.
   // This is needed for when a user is pumping in particles too quickly for a model to handle (so the injection
   // needs throttling), but the pump should not become non-interactive as a result,
   // see https://github.com/phetsims/states-of-matter/issues/276
-  injectionEnabledProperty?: IProperty<boolean>;
+  injectionEnabledProperty?: TProperty<boolean>;
 
   // pointer areas
   handleTouchAreaXDilation?: number;
@@ -87,7 +87,7 @@ export type BicyclePumpNodeOptions = SelfOptions & NodeOptions;
 
 export default class BicyclePumpNode extends Node {
 
-  public readonly nodeEnabledProperty: IProperty<boolean>;
+  public readonly nodeEnabledProperty: TProperty<boolean>;
   public readonly hoseAttachmentOffset: Vector2;
 
   // parts of the pump needed by setPumpHandleToInitialPosition
@@ -105,7 +105,7 @@ export default class BicyclePumpNode extends Node {
    * @param rangeProperty - allowed range
    * @param providedOptions
    */
-  public constructor( numberProperty: IProperty<number>,
+  public constructor( numberProperty: TProperty<number>,
                       rangeProperty: TReadOnlyProperty<Range>,
                       providedOptions?: BicyclePumpNodeOptions ) {
 
@@ -641,7 +641,7 @@ class HandleDragListener extends DragListener {
 
   private lastHandlePosition: number | null;
 
-  public constructor( numberProperty: IProperty<number>,
+  public constructor( numberProperty: TProperty<number>,
                       rangeProperty: TReadOnlyProperty<Range>,
                       nodeEnabledProperty: TReadOnlyProperty<boolean>,
                       injectionEnabledProperty: TReadOnlyProperty<boolean>,

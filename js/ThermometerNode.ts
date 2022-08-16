@@ -9,7 +9,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
@@ -75,7 +75,7 @@ export default class ThermometerNode extends Node {
    * @param maxTemperature
    * @param [providedOptions?]
    */
-  public constructor( temperatureProperty: IProperty<number | null>, minTemperature: number, maxTemperature: number,
+  public constructor( temperatureProperty: TProperty<number | null>, minTemperature: number, maxTemperature: number,
                       providedOptions?: ThermometerNodeOptions ) {
 
     const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions>()( {

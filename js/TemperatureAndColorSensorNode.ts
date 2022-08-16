@@ -15,7 +15,7 @@ import Range from '../../dot/js/Range.js';
 import { Color, TColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 
@@ -39,7 +39,7 @@ export default class TemperatureAndColorSensorNode extends Node {
   private readonly colorIndicatorNode: Path;
   private readonly thermometerNode: Node;
 
-  public constructor( temperatureProperty: IProperty<number>, temperatureRange: Range, colorProperty: IProperty<TColor>,
+  public constructor( temperatureProperty: TProperty<number>, temperatureRange: Range, colorProperty: TProperty<TColor>,
                       providedOptions?: TemperatureAndColorSensorNodeOptions ) {
     super();
 
