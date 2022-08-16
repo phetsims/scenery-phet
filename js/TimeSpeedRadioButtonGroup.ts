@@ -70,10 +70,7 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
     const items = timeSpeeds.map( speed => {
 
       const speedLabel = SPEED_LABEL_MAP.get( speed ).labelString;
-      const labelNode = new Text( speedLabel, {
-        ...options.labelOptions,
-        textProperty: SPEED_LABEL_MAP.get( speed ).textProperty
-      } );
+      const labelNode = new Text( SPEED_LABEL_MAP.get( speed ).textProperty, options.labelOptions );
 
       return {
         value: speed,
