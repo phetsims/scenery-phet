@@ -718,6 +718,7 @@ export default class NumberControl extends Node {
         spacing: options.verticalSpacing,
         children: [
           new HBox( {
+            spacing: options.sliderPadding,
             children: [
               titleNode,
               new Node( {
