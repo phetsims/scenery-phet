@@ -16,9 +16,11 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import TProperty from '../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
 
 type SelfOptions = {
-  labelText: string;
+  labelText: string | TReadOnlyProperty<string>;
 };
 export type QuestionBarOptions = SelfOptions & StrictOmit<StatusBarOptions, 'floatToTop'>;
 
@@ -43,10 +45,11 @@ class QuestionBar extends StatusBar {
       maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2,
       tandem: options.tandem.createTandem( 'labelText' )
     } );
+
     this.addChild( labelText );
 
-    this.positioningBoundsProperty.link( bounds2 => {
-      labelText.centerY = bounds2.centerY;
+    Multilink.multilink( [ labelText.localBoundsProperty, this.positioningBoundsProperty ], ( localBounds, positioningBounds ) => {
+      labelText.centerY = positioningBounds.centerY;
       labelText.left = QUESTION_TEXT_MARGIN;
     } );
   }
