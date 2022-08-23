@@ -178,7 +178,8 @@ export default class NumberDisplay extends Node {
 
     // Set default and validate
     if ( !options.noValuePattern ) {
-      options.noValuePattern = options.valuePattern;
+      // So we don't have duplicated Properties in our DerivedProperty (it's not supported by that)
+      options.noValuePattern = new DerivedProperty( [ valuePatternProperty ], x => x );
     }
     const noValuePatternProperty = typeof options.noValuePattern === 'string' ? new TinyProperty( options.noValuePattern ) : options.noValuePattern;
 
