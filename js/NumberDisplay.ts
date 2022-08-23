@@ -6,12 +6,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Font, TPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Font, TPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions, ManualConstraint } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -29,7 +33,6 @@ type NumberDisplayAlign = typeof ALIGN_VALUES[number];
 const DEFAULT_DECIMAL_PLACES = 0;
 
 type NumberFormatter = ( n: number ) => string;
-type NumberFormatterOption = NumberFormatter | null;
 
 type SelfOptions = {
   // see ALIGN_VALUES
@@ -37,7 +40,7 @@ type SelfOptions = {
 
   // Pattern used to format the value.
   // Must contain SunConstants.VALUE_NAMED_PLACEHOLDER or SunConstants.VALUE_NUMBERED_PLACEHOLDER.
-  valuePattern?: string;
+  valuePattern?: string | TReadOnlyProperty<string>;
 
   // The number of decimal places to show. If null, the full value is displayed.
   // We attempted to change the default to null, but there were too many usages that relied on the 0 default.
@@ -71,16 +74,15 @@ type SelfOptions = {
   // options related to display when numberProperty.value === null
   noValueString?: string; // default is the PhET standard, do not override lightly.
   noValueAlign?: NumberDisplayAlign | null; // see ALIGN_VALUES. If null, defaults to options.align
-  noValuePattern?: string | null; // If null, defaults to options.valuePattern
+  noValuePattern?: string | TReadOnlyProperty<string> | null; // If null, defaults to options.valuePattern
 };
-export type NumberDisplayOptions = SelfOptions & NodeOptions;
+export type NumberDisplayOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class NumberDisplay extends Node {
 
-  private numberFormatter: ( ( n: number ) => string ) | null;
+  private readonly numberFormatterProperty: TProperty<NumberFormatter>;
   private readonly valueText: RichText | Text;
   private readonly backgroundNode: Rectangle;
-  private readonly _recomputeText: () => void;
   private readonly disposeNumberDisplay: () => void; // called by dispose
 
   /**
@@ -135,6 +137,15 @@ export default class NumberDisplay extends Node {
       }
     }
 
+    const numberFormatterProperty = new TinyProperty( options.numberFormatter ? options.numberFormatter : ( value: number ) => {
+      if ( options.decimalPlaces === null ) {
+        return `${value}`;
+      }
+      else {
+        return Utils.toFixed( value, options.decimalPlaces );
+      }
+    } );
+
     assert && assert( !options.hasOwnProperty( 'unitsNode' ), 'unitsNode is not a supported option' );
 
     // Set default alignments and validate
@@ -147,48 +158,80 @@ export default class NumberDisplay extends Node {
 
     // Support numbered (old-style) placeholder by replacing it with the corresponding named placeholder.
     // See https://github.com/phetsims/scenery-phet/issues/446
-    if ( options.valuePattern.includes( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) ) {
-      options.valuePattern = StringUtils.format( options.valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
-    }
+    const replaceValuePatternValue = ( valuePattern: string ) => {
+      if ( valuePattern.includes( SunConstants.VALUE_NUMBERED_PLACEHOLDER ) ) {
+        return StringUtils.format( valuePattern, SunConstants.VALUE_NAMED_PLACEHOLDER );
+      }
+      else {
+        return valuePattern;
+      }
+    };
+
+    const valuePatternProperty = ( typeof options.valuePattern === 'string' )
+      ? new TinyProperty( replaceValuePatternValue( options.valuePattern ) )
+      : new DerivedProperty( [ options.valuePattern ], replaceValuePatternValue );
+
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
-                      options.valuePattern.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
+                      valuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.valuePattern: ${options.valuePattern}` );
 
     // Set default and validate
     if ( !options.noValuePattern ) {
       options.noValuePattern = options.valuePattern;
     }
+    const noValuePatternProperty = typeof options.noValuePattern === 'string' ? new TinyProperty( options.noValuePattern ) : options.noValuePattern;
+
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
-                      options.noValuePattern.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
+                      noValuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.noValuePattern: ${options.noValuePattern}` );
 
     // determine the widest value
-    const minString = valueToString( displayRange.min, options.decimalPlaces, options.noValueString, options.numberFormatter );
-    const maxString = valueToString( displayRange.max, options.decimalPlaces, options.noValueString, options.numberFormatter );
-    const longestString = StringUtils.fillIn( options.valuePattern, {
-      value: ( ( minString.length > maxString.length ) ? minString : maxString )
+    const minStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
+      return valueToString( displayRange.min, options.noValueString, numberFormatter );
+    } );
+    const maxStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
+      return valueToString( displayRange.max, options.noValueString, numberFormatter );
+    } );
+    const longestStringProperty = new DerivedProperty( [
+      valuePatternProperty,
+      minStringProperty,
+      maxStringProperty
+    ], ( valuePattern, minString, maxString ) => {
+      return StringUtils.fillIn( valuePattern, {
+        value: ( ( minString.length > maxString.length ) ? minString : maxString )
+      } );
     } );
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
-    const valueText: Text | RichText = new Constructor( longestString, combineOptions<TextOptions | RichTextOptions>( {
-      tandem: options.tandem.createTandem( 'valueText' )
-    }, options.textOptions, {
+    const valueTextProperty = new DerivedProperty( [
+      numberProperty,
+      noValuePatternProperty,
+      valuePatternProperty,
+      numberFormatterProperty
+    ], ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
+      const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
+      // NOTE: this.numberFormatter could change, so we support a recomputeText() below that recomputes this derivation
+      const stringValue = valueToString( value, options.noValueString, numberFormatter );
+      return StringUtils.fillIn( valuePattern, {
+        value: stringValue
+      } );
+    } );
+
+    const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {}, options.textOptions, {
       maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.
-    } ) );
+    } );
+
+    const valueText: Text | RichText = new Constructor( valueTextProperty, combineOptions<TextOptions | RichTextOptions>( {
+      tandem: options.tandem.createTandem( 'valueText' )
+    }, valueTextOptions ) );
 
     const originalTextHeight = valueText.height;
 
-    // Manually set maxWidth later, adjusting it to the width of the longest string if it's null
-    valueText.maxWidth = options.textOptions.maxWidth === null ? valueText.width : options.textOptions.maxWidth!;
-
-    const backgroundWidth = Math.max( options.minBackgroundWidth, valueText.width + 2 * options.xMargin );
-    const backgroundHeight = ( options.useFullHeight ? originalTextHeight : valueText.height ) + 2 * options.yMargin;
-
     // background rectangle
-    const backgroundNode = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, {
+    const backgroundNode = new Rectangle( {
       cornerRadius: options.cornerRadius,
       fill: options.backgroundFill,
       stroke: options.backgroundStroke,
@@ -196,60 +239,62 @@ export default class NumberDisplay extends Node {
       lineDash: options.backgroundLineDash
     } );
 
+    // Manually set maxWidth later, adjusting it to the width of the longest string if it's null
+    longestStringProperty.link( longestString => {
+      const demoText = new Constructor( longestString, _.omit( valueTextOptions, 'tandem' ) );
+
+      valueText.maxWidth = options.textOptions.maxWidth === null ? demoText.width : options.textOptions.maxWidth!;
+      demoText.maxWidth = valueText.maxWidth;
+
+      backgroundNode.rectWidth = Math.max( options.minBackgroundWidth, demoText.width + 2 * options.xMargin );
+      backgroundNode.rectHeight = ( options.useFullHeight ? originalTextHeight : demoText.height ) + 2 * options.yMargin;
+    } );
+
     options.children = [ backgroundNode, valueText ];
 
     super();
 
-    this.numberFormatter = options.numberFormatter;
-
-    // Display the value.
-    const numberObserver = ( value: number | null ) => {
-      const valuePattern = ( value === null && options.noValuePattern ) ? options.noValuePattern : options.valuePattern;
-      const stringValue = valueToString( value, options.decimalPlaces, options.noValueString, this.numberFormatter );
-      valueText.text = StringUtils.fillIn( valuePattern, {
-        value: stringValue
-      } );
-    };
-    numberProperty.link( numberObserver );
+    this.numberFormatterProperty = numberFormatterProperty;
+    this.valueText = valueText;
+    this.backgroundNode = backgroundNode;
 
     // Align the value in the background.
-    valueText.boundsProperty.link( () => {
+    ManualConstraint.create( this, [ valueText, backgroundNode ], ( valueTextProxy, backgroundNodeProxy ) => {
 
       // Alignment depends on whether we have a non-null value.
       const align = ( numberProperty.value === null ) ? options.noValueAlign : options.align;
 
       // horizontal alignment
       if ( align === 'center' ) {
-        valueText.centerX = backgroundNode.centerX;
+        valueTextProxy.centerX = backgroundNodeProxy.centerX;
       }
       else if ( align === 'left' ) {
-        valueText.left = backgroundNode.left + options.xMargin;
+        valueTextProxy.left = backgroundNodeProxy.left + options.xMargin;
       }
       else { // right
-        valueText.right = backgroundNode.right - options.xMargin;
+        valueTextProxy.right = backgroundNodeProxy.right - options.xMargin;
       }
 
       // vertical alignment
-      valueText.centerY = backgroundNode.centerY;
+      valueTextProxy.centerY = backgroundNodeProxy.centerY;
     } );
 
     this.mutate( options );
 
-    this.valueText = valueText;
-    this.backgroundNode = backgroundNode;
-
-    this._recomputeText = () => numberObserver( numberProperty.value );
-    this.disposeNumberDisplay = () => numberProperty.unlink( numberObserver );
+    this.disposeNumberDisplay = () => {
+      valueTextProperty.dispose();
+      valuePatternProperty.dispose();
+    };
   }
 
   public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
-    this.numberFormatter = numberFormatter;
-    this.recomputeText();
+    this.numberFormatterProperty.value = numberFormatter;
   }
 
   // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
+  // @deprecated
   public recomputeText(): void {
-    this._recomputeText();
+    // no-op, not needed now
   }
 
   public override dispose(): void {
@@ -316,18 +361,10 @@ sceneryPhet.register( 'NumberDisplay', NumberDisplay );
  * @param noValueString
  * @param numberFormatter - if provided, function that converts {number} => {string}
  */
-const valueToString = <S extends number | null>( value: S, decimalPlaces: number | null, noValueString: string, numberFormatter: NumberFormatterOption ): ( S extends null ? ( string | null ) : string ) => {
+const valueToString = <S extends number | null>( value: S, noValueString: string, numberFormatter: NumberFormatter ): ( S extends null ? ( string | null ) : string ) => {
   let stringValue = noValueString;
   if ( value !== null ) {
-    if ( numberFormatter ) {
-      stringValue = numberFormatter( value );
-    }
-    else if ( decimalPlaces === null ) {
-      stringValue = `${value}`;
-    }
-    else {
-      stringValue = Utils.toFixed( value, decimalPlaces );
-    }
+    stringValue = numberFormatter( value );
   }
   return stringValue;
 };

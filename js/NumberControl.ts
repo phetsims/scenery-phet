@@ -176,7 +176,7 @@ export default class NumberControl extends Node {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  public constructor( title: string, numberProperty: Property<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: Property<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
@@ -319,8 +319,7 @@ export default class NumberControl extends Node {
         font: new PhetFont( 12 ),
         maxWidth: null, // {null|number} maxWidth to use for title, to constrain width for i18n
         fill: 'black',
-        tandem: initialOptions.tandem.createTandem( 'titleNode' ),
-        textPropertyOptions: { phetioFeatured: true }
+        tandem: initialOptions.tandem.createTandem( 'titleNode' )
       }
     }, initialOptions );
 
