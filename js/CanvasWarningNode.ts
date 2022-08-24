@@ -6,8 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import openPopup from '../../phet-core/js/openPopup.js';
-import { HBox, Path, Text, VBox } from '../../scenery/js/imports.js';
+import { HBox, openPopup, Path, Text, VBox } from '../../scenery/js/imports.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
