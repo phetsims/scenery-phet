@@ -82,7 +82,8 @@ export default class GaugeNode extends Node {
       updateWhenInvisible: true,
 
       // NodeOptions
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Node'
     }, providedOptions );
 
     assert && assert( options.span <= 2 * Math.PI, `options.span must be <= 2 * Math.PI: ${options.span}` );

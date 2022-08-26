@@ -216,6 +216,7 @@ export default class NumberControl extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Control',
       phetioType: NumberControl.NumberControlIO,
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
       visiblePropertyOptions: { phetioFeatured: true }

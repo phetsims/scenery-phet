@@ -123,6 +123,7 @@ export default class HeaterCoolerFront extends Node {
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
+      tandemSuffix: 'HeaterCoolerNode',
       phetioType: Node.NodeIO
     }, providedOptions );
 

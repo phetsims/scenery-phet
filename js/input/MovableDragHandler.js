@@ -39,7 +39,8 @@ class MovableDragHandler extends SimpleDragHandler {
       // the target can be overridden here. This is useful when you need to attach a listener to a sub-component
       // of a node hierarchy
       targetNode: null,
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'DragListener'
     }, options );
 
     let startOffset; // where the drag started relative to positionProperty, in parent view coordinates

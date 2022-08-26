@@ -61,7 +61,8 @@ export default class HeaterCoolerNode extends Node {
       baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
 
       // NodeOptions
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'HeaterCoolerNode'
     }, providedOptions );
 
     this.heatCoolAmountProperty = heatCoolAmountProperty;

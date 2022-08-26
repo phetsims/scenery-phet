@@ -98,7 +98,8 @@ export default class TimeControlNode extends Node {
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
       // phet-io
-      tandem: Tandem.REQUIRED, // {Tandem}
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'TimeControlNode',
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
@@ -114,7 +115,7 @@ export default class TimeControlNode extends Node {
 
     this.playPauseStepButtons = new PlayPauseStepButtonGroup( isPlayingProperty,
       combineOptions<PlayPauseStepButtonGroupOptions>( {
-        tandem: options.tandem.createTandem( 'playPauseStepButtons' )
+        tandem: options.tandem.createTandem( 'playPauseStepButtonGroup' )
       }, options.playPauseStepButtonOptions ) );
     children.push( this.playPauseStepButtons );
 

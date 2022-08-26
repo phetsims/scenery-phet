@@ -138,7 +138,8 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       cursorStroke: 'black',
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Slider'
 
     }, providedOptions );
 

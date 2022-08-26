@@ -65,6 +65,7 @@ export default class Stopwatch extends PhetioObject {
 
       // PhetioObjectOptions
       tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Stopwatch',
       phetioType: ReferenceIO( IOType.ObjectIO ),
       phetioState: false
     }, providedOptions );

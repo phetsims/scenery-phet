@@ -84,7 +84,8 @@ export default class EyeDropperNode extends Node {
 
       // NodeOptions
       cursor: 'pointer',
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'DropperNode'
     }, provideOptions );
 
     super();

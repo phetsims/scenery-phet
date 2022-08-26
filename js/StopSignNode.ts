@@ -43,7 +43,8 @@ export default class StopSignNode extends Node {
       outerStroke: 'black',
 
       // NodeOptions
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'StopSignNode'
     }, providedOptions );
 
     options.children = [

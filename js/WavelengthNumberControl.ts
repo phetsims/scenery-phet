@@ -67,7 +67,8 @@ export default class WavelengthNumberControl extends NumberControl {
         height: DEFAULT_THUMB_HEIGHT,
         cursorHeight: DEFAULT_TRACK_SIZE.height
       },
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Control'
     }, providedOptions );
 
     const trackNode = new SpectrumSliderTrack( wavelengthProperty, options.range,

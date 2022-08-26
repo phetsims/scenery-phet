@@ -38,7 +38,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
     options = merge( {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS,
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'NumberAccumulator'
     }, options );
 
     // verify option values

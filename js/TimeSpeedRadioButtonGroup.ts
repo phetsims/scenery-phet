@@ -52,6 +52,7 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
 
       // phetio
       tandem: Tandem.REQUIRED,
+      tandemSuffix: 'RadioButtonGroup',
 
       // pdom
       labelTagName: 'h4',

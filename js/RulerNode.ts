@@ -89,7 +89,8 @@ class RulerNode extends Node {
       tickMarksOnBottom: true,
 
       // NodeOptions
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'RulerNode'
     }, providedOptions );
 
     // things you're likely to mess up, add more as needed

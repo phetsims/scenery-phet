@@ -68,7 +68,8 @@ class ClapperboardButton extends Node {
       },
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      tandemSuffix: 'Button'
     }, providedOptions );
 
     super( options );
