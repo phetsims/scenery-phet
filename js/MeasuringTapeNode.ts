@@ -26,7 +26,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, TColor, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
@@ -237,7 +237,7 @@ class MeasuringTapeNode extends Node {
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
-    this.valueNode = new Text( readoutTextProperty.value, {
+    this.valueNode = new Text( readoutTextProperty, {
       font: options.textFont,
       fill: options.textColor,
       maxWidth: options.textMaxWidth
@@ -355,8 +355,7 @@ class MeasuringTapeNode extends Node {
       tip.addInputListener( tipDragListener );
     }
 
-    const updateTextReadout = ( text: string ) => {
-      this.valueNode.setText( text );
+    const updateTextReadout = () => {
       this.valueNode.centerTop = this.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
     };
     readoutTextProperty.link( updateTextReadout );
@@ -396,7 +395,7 @@ class MeasuringTapeNode extends Node {
           baseCrosshair.rotateAround( viewBasePosition, deltaAngle );
         }
 
-        updateTextReadout( readoutTextProperty.value );
+        updateTextReadout();
       } );
 
     this.disposeMeasuringTapeNode = () => {
