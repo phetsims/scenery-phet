@@ -8,6 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
@@ -35,7 +36,7 @@ export default class OopsDialog extends Dialog {
    * @param messageString - supports RichText formatting
    * @param [providedOptions]
    */
-  public constructor( messageString: string, providedOptions?: OopsDialogOptions ) {
+  public constructor( messageString: string | TReadOnlyProperty<string>, providedOptions?: OopsDialogOptions ) {
 
     const options = optionize<OopsDialogOptions, StrictOmit<SelfOptions, 'iconNode' | 'richTextOptions'>, DialogOptions>()( {
 
