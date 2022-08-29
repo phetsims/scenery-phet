@@ -13,6 +13,7 @@ import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -42,14 +43,18 @@ export default class OopsDialog extends Dialog {
 
       // DialogOptions
       topMargin: 20,
-      bottomMargin: 20
+      bottomMargin: 20,
 
+      // phet-io
+      tandem: Tandem.OPTIONAL
     }, providedOptions );
 
-    const messageNode = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
+    const textNode = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
       font: new PhetFont( 20 ),
       maxWidth: 600,
-      maxHeight: 400
+      maxHeight: 400,
+      tandem: options.tandem.createTandem( 'textNode' ),
+      phetioVisiblePropertyInstrumented: false
     }, options.richTextOptions ) );
 
     const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {
@@ -58,7 +63,7 @@ export default class OopsDialog extends Dialog {
 
     const content = new HBox( {
       spacing: 20,
-      children: [ messageNode, iconNode ]
+      children: [ textNode, iconNode ]
     } );
 
     super( content, options );
