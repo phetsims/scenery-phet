@@ -224,7 +224,7 @@ class MeasuringTapeNode extends Node {
     const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     const readoutTextProperty = new DerivedProperty(
-      [ this.unitsProperty, this.measuredDistanceProperty, sceneryPhetStrings.measuringTapeReadoutPatternProperty ],
+      [ this.unitsProperty, this.measuredDistanceProperty, sceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
         return StringUtils.fillIn( measuringTapeReadoutPattern, {
