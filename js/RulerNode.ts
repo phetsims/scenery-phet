@@ -6,6 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -63,7 +64,7 @@ class RulerNode extends Node {
    * @param providedOptions
    */
   public constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: string[],
-                      units: string, providedOptions?: RulerNodeOptions ) {
+                      units: string | TReadOnlyProperty<string>, providedOptions?: RulerNodeOptions ) {
 
     // default options
     const options = optionize<RulerNodeOptions, SelfOptions, NodeOptions>()( {
