@@ -30,16 +30,14 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
     }, options );
 
     // 'press buttons' content
-    const spaceIcon = TextKeyNode.space();
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceIcon, {
+      sceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, TextKeyNode.space(), {
         labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
     // 'exit a dialog' content
-    const exitADialogIcon = TextKeyNode.esc();
     const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, exitADialogIcon, {
+      sceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, TextKeyNode.esc(), {
         labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
       } );
 
