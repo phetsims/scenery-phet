@@ -34,27 +34,30 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
    */
   constructor( options ) {
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 all {string} options need to support {string | TReadOnlyProperty<string>}
     options = merge( {
 
       // {ArrowKeyIconDisplay} - Whether to show up/down, left/right or both sets of keyboard help icons to cue the
       // slider interaction.
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
 
-      // heading string for this content
+      // {string|TReadOnlyProperty.<string>} heading string for this content
       headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
 
-      // verb used to describe the movement of the slider
+      // {string} verb used to describe the movement of the slider
       verbString: sceneryPhetStrings.keyboardHelpDialog.adjust,
 
-      // name to call the slider (lowercase), default to "slider"
+      // {string} name to call the slider (lowercase), default to "slider"
       sliderString: sceneryPhetStrings.keyboardHelpDialog.slider,
 
+      // {string} TODO https://github.com/phetsims/scenery-phet/issues/769 document these while you're in here
       maximumString: sceneryPhetStrings.keyboardHelpDialog.maximum,
       minimumString: sceneryPhetStrings.keyboardHelpDialog.minimum
     }, options );
 
     validate( options.arrowKeyIconDisplay, { valueType: ArrowKeyIconDisplay } );
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
     const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
       verb: options.verbString,
       slider: options.sliderString
@@ -66,6 +69,7 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       verb: options.verbString
     } );
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert keysString and keyboardHelpDialogDefaultStepsString to DerivedProperty
     const keysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
                        ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
                        ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
@@ -79,6 +83,7 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       keys: keysString
     } );
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert shiftKeysString,keyboardHelpDialogSmallerStepsString, keyboardHelpDialogLargerStepsString to DerivedProperty
     const shiftKeysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
                             ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
                             ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
@@ -94,6 +99,7 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       verb: options.verbString
     } );
 
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
     const jumpToMinimumString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPattern, {
       minimum: options.minimumString
     } );
@@ -108,7 +114,6 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
     } );
 
     // 'Move sliders' content
-
 
     const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon() );
     const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
