@@ -1,6 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Content for a KeyboardHelpDialog that contains a BasicActionsKeyboardHelpSection and a SliderControlsKeyboardHelpSection.
  * Often sim interaction only involves sliders and basic tab and button interaction. For those sims, this
@@ -9,30 +8,34 @@
  * @author Jesse Greenberg
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import BasicActionsKeyboardHelpSection from './BasicActionsKeyboardHelpSection.js';
-import SliderControlsKeyboardHelpSection from './SliderControlsKeyboardHelpSection.js';
-import TwoColumnKeyboardHelpContent from './TwoColumnKeyboardHelpContent.js';
+import BasicActionsKeyboardHelpSection, { BasicActionsKeyboardHelpSectionOptions } from './BasicActionsKeyboardHelpSection.js';
+import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
+import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } from './TwoColumnKeyboardHelpContent.js';
 
-class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // options passed to the SliderControlsKeyboardHelpSection
+  sliderSectionOptions?: SliderControlsKeyboardHelpSectionOptions;
 
-    options = merge( {
+  // options passed to the BasicActionsKeyboardHelpSection
+  generalSectionOptions?: BasicActionsKeyboardHelpSectionOptions;
+};
 
-      // {null|*} - options passed to the SliderControlsKeyboardHelpSection
-      sliderSectionOptions: null,
+export type SliderControlsAndBasicActionsKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpContentOptions;
 
-      // {null|*} - options passed to the BasicActionsKeyboardHelpSection
-      generalSectionOptions: null,
+export default class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
-      // i18n, a bit shorter than default so general and slider sections fits side by side
-      textMaxWidth: 160
-    }, options );
+  public constructor( providedOptions?: SliderControlsAndBasicActionsKeyboardHelpContentOptions ) {
+
+    const options = optionize<SliderControlsAndBasicActionsKeyboardHelpContentOptions,
+      StrictOmit<SelfOptions, 'sliderSectionOptions' | 'generalSectionOptions'>,
+      TwoColumnKeyboardHelpContentOptions>()( {
+      //TODO https://github.com/phetsims/scenery-phet/issues/769 no such option, is this vestigial?
+      // textMaxWidth: 160 // a bit narrower than default, so the sections fit side-by-side
+    }, providedOptions );
 
     const sliderHelpSection = new SliderControlsKeyboardHelpSection( options.sliderSectionOptions );
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( options.generalSectionOptions );
@@ -42,4 +45,3 @@ class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboard
 }
 
 sceneryPhet.register( 'SliderControlsAndBasicActionsKeyboardHelpContent', SliderControlsAndBasicActionsKeyboardHelpContent );
-export default SliderControlsAndBasicActionsKeyboardHelpContent;
