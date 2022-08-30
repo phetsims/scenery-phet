@@ -1,62 +1,70 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Content for a KeyboardHelpDialog that describes how to use sliders.
  *
  * @author Jesse Greenberg
  */
 
-import validate from '../../../../axon/js/validate.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
+// Configurations of arrow keys that can be displayed for 'Move between items in a group'
 class ArrowKeyIconDisplay extends EnumerationValue {
-  static UP_DOWN = new ArrowKeyIconDisplay();
-  static LEFT_RIGHT = new ArrowKeyIconDisplay();
-  static BOTH = new ArrowKeyIconDisplay();
+  public static readonly UP_DOWN = new ArrowKeyIconDisplay();
+  public static readonly LEFT_RIGHT = new ArrowKeyIconDisplay();
+  public static readonly BOTH = new ArrowKeyIconDisplay();
 
-  static enumeration = new Enumeration( ArrowKeyIconDisplay );
+  public static readonly enumeration = new Enumeration( ArrowKeyIconDisplay );
 }
 
-class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // Whether to show up/down, left/right or both sets of keyboard help icons to cue the slider interaction.
+  arrowKeyIconDisplay?: ArrowKeyIconDisplay;
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 all {string} options need to support {string | TReadOnlyProperty<string>}
-    options = merge( {
+  // heading string for this content
+  headingString?: string | TReadOnlyProperty<string>;
 
-      // {ArrowKeyIconDisplay} - Whether to show up/down, left/right or both sets of keyboard help icons to cue the
-      // slider interaction.
+  // verb used to describe the movement of the slider
+  verbString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+
+  // name to call the slider (lowercase), default to "slider"
+  sliderString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+
+  //TODO https://github.com/phetsims/scenery-phet/issues/769 document these while you're here
+  maximumString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+  minimumString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+};
+
+export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
+
+export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
+
+  public static readonly ArrowKeyIconDisplay = ArrowKeyIconDisplay;
+
+  public constructor( providedOptions?: SliderControlsKeyboardHelpSectionOptions ) {
+
+    const options = optionize<SliderControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
-
-      // {string|TReadOnlyProperty.<string>} heading string for this content
       headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
 
-      // {string} verb used to describe the movement of the slider
+      //TODO https://github.com/phetsims/scenery-phet/issues/769 change all of these to *StringProperty
       verbString: sceneryPhetStrings.keyboardHelpDialog.adjust,
-
-      // {string} name to call the slider (lowercase), default to "slider"
       sliderString: sceneryPhetStrings.keyboardHelpDialog.slider,
-
-      // {string} TODO https://github.com/phetsims/scenery-phet/issues/769 document these while you're in here
       maximumString: sceneryPhetStrings.keyboardHelpDialog.maximum,
       minimumString: sceneryPhetStrings.keyboardHelpDialog.minimum
-    }, options );
-
-    validate( options.arrowKeyIconDisplay, { valueType: ArrowKeyIconDisplay } );
+    }, providedOptions );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
     const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
@@ -175,8 +183,4 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-// @public {ArrowKeyIconDisplay} - for use in defining a component-specific option.
-SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay = ArrowKeyIconDisplay;
-
 sceneryPhet.register( 'SliderControlsKeyboardHelpSection', SliderControlsKeyboardHelpSection );
-export default SliderControlsKeyboardHelpSection;
