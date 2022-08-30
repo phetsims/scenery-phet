@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * General help information for how to navigation a simulation with a keyboard. In general, this file supports a fair
  * number of options, like displaying group content, or shortcuts for checkbox interaction. The algorithm this type
