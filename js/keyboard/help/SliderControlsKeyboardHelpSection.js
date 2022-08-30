@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Content for a KeyboardHelpDialog that describes how to use sliders.
  *
