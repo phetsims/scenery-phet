@@ -1,5 +1,6 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Help section for explaining how to use a keyboard to interact with a ComboBox.
  *
