@@ -6,6 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
@@ -20,7 +21,7 @@ const pauseOrPlayActionDescriptionString = 'Pause or play action with alt key pl
 type SelfOptions = {
 
   // The heading string for this section of keyboard help content
-  headingString?: string;
+  headingString?: string | TReadOnlyProperty<string>;
 
   // Visible string that describes the action of pause/play from a key command. You may want sim-specific terminology
   // for this command.

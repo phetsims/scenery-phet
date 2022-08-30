@@ -16,6 +16,7 @@
  * @author Jesse Greenberg
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -66,7 +67,7 @@ export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
   // the translatable heading for this section
-  private readonly headingString: string;
+  private readonly headingString: string | TReadOnlyProperty<string>;
 
   // collection of icons in this section
   private readonly icons: Node[];
@@ -87,7 +88,8 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    *   see labelWithIcon() and labelWithIconList().
    * @param [providedOptions]
    */
-  public constructor( headingString: string, content: KeyboardHelpSectionRow[], providedOptions?: KeyboardHelpSectionOptions ) {
+  public constructor( headingString: string | TReadOnlyProperty<string>, content: KeyboardHelpSectionRow[],
+                      providedOptions?: KeyboardHelpSectionOptions ) {
 
     const options = optionize<KeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
 
@@ -98,6 +100,8 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
         // pdom
         tagName: 'h2',
+
+        //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use dynamic translated string here?
         innerContent: headingString
       },
       textMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
@@ -174,6 +178,8 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     // Include the section heading. Headings typically don't have punctuation, but don't use a period because
     // it may appear to the synth as an abbreviation and change the pronunciation.
     let readingBlockNameResponse = '';
+
+    //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use a dynamic translated string here?
     readingBlockNameResponse += `${this.headingString}, `;
 
     // Append the readingBlockNameResponse assigned to each row.

@@ -19,7 +19,6 @@ import KeyboardHelpSection from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
-const keyboardHelpDialogBasicActionsString = sceneryPhetStrings.keyboardHelpDialog.basicActions;
 const keyboardHelpDialogExitADialogString = sceneryPhetStrings.keyboardHelpDialog.exitADialog;
 const keyboardHelpDialogMoveBetweenItemsInAGroupString = sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroup;
 const keyboardHelpDialogMoveToNextItemOrGroupString = sceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroup;
@@ -101,7 +100,7 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
     ].filter( row => row !== null ); // If any optional rows are null, omit them.
 
     // order the rows of content
-    super( keyboardHelpDialogBasicActionsString, content, options );
+    super( sceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
   }
 }
 

@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { AlignBoxOptions, AlignGroup, HBox, Node, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
@@ -32,7 +33,8 @@ const OR_TEXT_MAX_WIDTH = 16;
 type LabelWithIconListOptions = {
 
   // content for the parallel DOM, read by a screen reader
-  labelInnerContent?: string | null;
+  //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use a dynamic translated string here?
+  labelInnerContent?: string | TReadOnlyProperty<string> | null;
 
   // voicing
   // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
@@ -98,7 +100,8 @@ class KeyboardHelpSectionRow {
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
    * to give the label and icon identical dimensions for easy layout in KeyboardHelpSection.
    */
-  public static labelWithIcon( labelString: string, icon: Node, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static labelWithIcon( labelString: string | TReadOnlyProperty<string>, icon: Node,
+                               providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     const options = optionize<LabelWithIconOptions>()( {
       labelInnerContent: null,
       readingBlockContent: null,
@@ -132,14 +135,16 @@ class KeyboardHelpSectionRow {
    * @param labelString
    * @param [providedOptions]
    */
-  public static createKeysRowFromStrings( keyStrings: string[], labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createKeysRowFromStrings( keyStrings: string[], labelString: string | TReadOnlyProperty<string>,
+                                          providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, providedOptions );
   }
 
   /**
    * Creates a row with one or more keys, with keys separated by '+'.
    */
-  public static createKeysRow( keyIcons: Node[], labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createKeysRow( keyIcons: Node[], labelString: string | TReadOnlyProperty<string>,
+                               providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     assert && assert( keyIcons.length > 0, 'expected keys' );
     let keysNode = null;
     for ( let i = 0; i < keyIcons.length; i++ ) {
@@ -161,21 +166,24 @@ class KeyboardHelpSectionRow {
    * @param labelString - visual label
    * @param [providedOptions]
    */
-  public static createJumpKeyRow( keyString: string, labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createJumpKeyRow( keyString: string, labelString: string | TReadOnlyProperty<string>,
+                                  providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createKeysRowFromStrings( [ 'J', keyString ], labelString, providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
    */
-  public static createPlayPauseKeyRow( labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createPlayPauseKeyRow( labelString: string | TReadOnlyProperty<string>,
+                                       providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, 'K', providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
    */
-  public static createStepForwardKeyRow( labelString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createStepForwardKeyRow( labelString: string | TReadOnlyProperty<string>,
+                                         providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, 'L', providedOptions );
   }
 
@@ -183,7 +191,8 @@ class KeyboardHelpSectionRow {
    * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
    * some other key, to be provided.
    */
-  public static createGlobalHotkeyRow( labelString: string, keyString: string, providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
+  public static createGlobalHotkeyRow( labelString: string | TReadOnlyProperty<string>, keyString: string,
+                                       providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
   }
 
@@ -197,7 +206,8 @@ class KeyboardHelpSectionRow {
    *                    Icon2 or
    *                    Icon3
    */
-  public static labelWithIconList( labelString: string, icons: Node[], providedOptions?: LabelWithIconListOptions ): KeyboardHelpSectionRow {
+  public static labelWithIconList( labelString: string | TReadOnlyProperty<string>, icons: Node[],
+                                   providedOptions?: LabelWithIconListOptions ): KeyboardHelpSectionRow {
 
     const options = optionize<LabelWithIconListOptions>()( {
       labelInnerContent: null,

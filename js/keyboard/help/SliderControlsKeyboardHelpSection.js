@@ -41,7 +41,7 @@ class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
 
       // heading string for this content
-      headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControls,
+      headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
 
       // verb used to describe the movement of the slider
       verbString: sceneryPhetStrings.keyboardHelpDialog.adjust,
