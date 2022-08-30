@@ -18,20 +18,6 @@ import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
-// constants
-const keyboardHelpDialogExitADialogString = sceneryPhetStrings.keyboardHelpDialog.exitADialog;
-const keyboardHelpDialogMoveBetweenItemsInAGroupString = sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroup;
-const keyboardHelpDialogMoveToNextItemOrGroupString = sceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroup;
-const keyboardHelpDialogMoveToPreviousItemOrGroupString = sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroup;
-const keyboardHelpDialogPressButtonsString = sceneryPhetStrings.keyboardHelpDialog.pressButtons;
-const keyboardHelpDialogToggleCheckboxesString = sceneryPhetStrings.keyboardHelpDialog.toggleCheckboxes;
-const keyboardHelpDialogTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescription;
-const keyboardHelpDialogShiftTabGroupDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescription;
-const keyboardHelpDialogPressButtonsDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescription;
-const keyboardHelpDialogGroupNavigationDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescription;
-const keyboardHelpDialogExitDialogDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescription;
-const toggleCheckboxesDescriptionString = sceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescription;
-
 class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
   /**
@@ -45,50 +31,46 @@ class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
 
     // 'press buttons' content
     const spaceIcon = TextKeyNode.space();
-    const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogPressButtonsString, spaceIcon, {
-      labelInnerContent: keyboardHelpDialogPressButtonsDescriptionString
-    } );
+    const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
+      sceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceIcon, {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
+      } );
 
     // 'exit a dialog' content
     const exitADialogIcon = TextKeyNode.esc();
-    const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogExitADialogString, exitADialogIcon, {
-      labelInnerContent: keyboardHelpDialogExitDialogDescriptionString
-    } );
+    const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
+      sceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, exitADialogIcon, {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
+      } );
 
     // 'toggle checkboxes' content
     let toggleCheckboxes = null;
     if ( options.withCheckboxContent ) {
-      toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogToggleCheckboxesString, TextKeyNode.space(),
-        {
-          labelInnerContent: toggleCheckboxesDescriptionString
+      toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
+        sceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, TextKeyNode.space(), {
+          labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
     }
 
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
     const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
     const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
-      keyboardHelpDialogMoveBetweenItemsInAGroupString,
-      KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ),
-      {
-        labelInnerContent: keyboardHelpDialogGroupNavigationDescriptionString
-      }
-    );
+      sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
+      KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ), {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
+      } );
 
     const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      keyboardHelpDialogMoveToNextItemOrGroupString,
-      TextKeyNode.tab(),
-      {
-        labelInnerContent: keyboardHelpDialogTabGroupDescriptionString
-      }
-    );
+      sceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
+      TextKeyNode.tab(), {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
+      } );
 
     const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      keyboardHelpDialogMoveToPreviousItemOrGroupString,
-      KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ),
-      {
-        labelInnerContent: keyboardHelpDialogShiftTabGroupDescriptionString
-      }
-    );
+      sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
+      KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ), {
+        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
+      } );
 
     const content = [
       moveToNextItemRow,
