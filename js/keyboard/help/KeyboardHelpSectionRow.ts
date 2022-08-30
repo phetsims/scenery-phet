@@ -49,7 +49,7 @@ type LabelWithIconListOptions = {
 type LabelWithIconOptions = {
 
   // {string|null} to provide the PDOM description of this row
-  labelInnerContent?: string | null;
+  labelInnerContent?: string | TReadOnlyProperty<string> | null;
 
   // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
   // will default to the options.labelInnerContent.

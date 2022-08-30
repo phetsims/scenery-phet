@@ -1,6 +1,5 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
  * Help section for explaining how to use a keyboard to interact with a ComboBox.
  *
@@ -9,38 +8,47 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetStrings from '../../sceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
-class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
+type SelfOptions = {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // Heading for the section, should be capitalized as a title
+  headingString?: string | TReadOnlyProperty<string>;
 
-    options = merge( {
+  // the item being changed by the combo box, lower case as used in a sentence
+  thingAsLowerCaseSingular?: string | TReadOnlyProperty<string>;
 
-      // {string|TReadOnlyProperty.<string>} Heading for the section, should be capitalized as a title
+  // plural version of thingAsLowerCaseSingular
+  thingAsLowerCasePlural?: string | TReadOnlyProperty<string>;
+};
+
+export type ComboBoxKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
+
+export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
+
+  public constructor( providedOptions?: ComboBoxKeyboardHelpSectionOptions ) {
+
+    const options = optionize<ComboBoxKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
+
+      // SelfOptions
       headingString: sceneryPhetStrings.keyboardHelpDialog.comboBox.headingStringStringProperty,
+      thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.optionStringProperty,
+      thingAsLowerCasePlural: sceneryPhetStrings.keyboardHelpDialog.comboBox.optionsStringProperty,
 
-      // {string|TReadOnlyProperty.<string>} the item being changed by the combo box, lower case as used in a sentence.
-      thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.option,
-
-      // {string|TReadOnlyProperty.<string>} plural version of thingAsLowerCaseSingular
-      thingAsLowerCasePlural: sceneryPhetStrings.keyboardHelpDialog.comboBox.options,
-
+      // KeyboardHelpSectionOptions
       a11yContentTagName: 'ol', // ordered list
       vBoxOptions: {
         spacing: 8 // A bit tighter so that it looks like one set of instructions
       }
-    }, options );
+    }, providedOptions );
 
     // options may be string or TReadOnlyProperty<string>, so ensure that we have a TReadOnlyProperty<string>.
     const thingAsLowerCasePluralStringProperty = ( typeof options.thingAsLowerCasePlural === 'string' ) ?
@@ -51,7 +59,7 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
                                                    options.thingAsLowerCaseSingular;
 
     // Create a DerivedProperty that fills in a plural/singular pattern, and support dynamic locale.
-    const createDerivedStringProperty = patternStringProperty => new DerivedProperty(
+    const createDerivedStringProperty = ( patternStringProperty: TReadOnlyProperty<string> ) => new DerivedProperty(
       [ patternStringProperty, thingAsLowerCasePluralStringProperty, thingAsLowerCaseSingularStringProperty ],
       ( patternString, thingAsLowerCasePluralString, thingAsLowerCaseSingular ) =>
         StringUtils.fillIn( patternString, {
@@ -89,4 +97,3 @@ class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 }
 
 sceneryPhet.register( 'ComboBoxKeyboardHelpSection', ComboBoxKeyboardHelpSection );
-export default ComboBoxKeyboardHelpSection;
