@@ -43,7 +43,7 @@ simLauncher.launch( () => {
     new SpinnersScreen( Tandem.ROOT.createTandem( 'spinnersScreen' ) )
   ];
 
-  const sim = new Sim( sceneryPhetStrings[ 'scenery-phet' ].title, screens, {
+  const sim = new Sim( sceneryPhetStrings[ 'scenery-phet' ].titleStringProperty, screens, {
     credits: {
       leadDesign: 'PhET'
     },
