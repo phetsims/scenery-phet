@@ -30,7 +30,7 @@ export default class PlayStopButton extends PlayControlButton {
 
       // PlayStopButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
-      endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.stop
+      endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.stopStringProperty
     }, providedOptions );
 
     // icon is sized relative to radius

@@ -9,7 +9,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path } from '../../../scenery/js/imports.js';
+import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
@@ -32,10 +32,10 @@ type SelfOptions = {
   includeGlobalHotkey?: boolean;
 
   // Label for the button in the PDOM when the button will set isPlayingProperty to true
-  startPlayingLabel?: string;
+  startPlayingLabel?: PDOMValueType;
 
   // Label for the button in the PDOM when the button will set isPlayingProperty to false
-  endPlayingLabel?: string | null;
+  endPlayingLabel?: PDOMValueType | null;
 
   // sound generation
   valueOffSoundPlayer?: TSoundPlayer;
@@ -61,7 +61,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.play,
+      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.playStringProperty,
       endPlayingLabel: null,
       valueOffSoundPlayer: pauseSoundPlayer,
       valueOnSoundPlayer: playSoundPlayer,
