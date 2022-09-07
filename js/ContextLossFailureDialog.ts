@@ -14,7 +14,7 @@ import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 type SelfOptions = {
 
@@ -50,9 +50,9 @@ export default class ContextLossFailureDialog extends Dialog {
       scale: 0.048
     } );
 
-    const text = new Text( sceneryPhetStrings.webglWarning.contextLossFailure, { font: new PhetFont( 12 ) } );
+    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailure, { font: new PhetFont( 12 ) } );
 
-    const button = new TextPushButton( sceneryPhetStrings.webglWarning.contextLossReload, {
+    const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReload, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
       listener: () => this.hide()

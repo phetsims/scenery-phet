@@ -17,7 +17,7 @@ import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../sun/js/ComboBox.j
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
@@ -95,7 +95,7 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
       // Order is important here, so that we don't write to options.numberDisplayOptions or item.numberDisplayOptions,
       // and so that item.numberDisplayOptions overrides options.numberDisplayOptions.
       const numberDisplayOptions = combineOptions<NumberDisplayOptions>( {
-        valuePattern: StringUtils.fillIn( sceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
+        valuePattern: StringUtils.fillIn( SceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
       }, options.numberDisplayOptions );
 
       const itemNode = new NumberDisplay( item.numberProperty, item.range,

@@ -387,8 +387,8 @@ type StringsType = {
   }
 };
 
-const sceneryPhetStrings = getStringModule( 'SCENERY_PHET' ) as StringsType;
+const SceneryPhetStrings = getStringModule( 'SCENERY_PHET' ) as StringsType;
 
-sceneryPhet.register( 'sceneryPhetStrings', sceneryPhetStrings );
+sceneryPhet.register( 'SceneryPhetStrings', SceneryPhetStrings );
 
-export default sceneryPhetStrings;
+export default SceneryPhetStrings;

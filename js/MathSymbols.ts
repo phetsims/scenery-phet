@@ -13,11 +13,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
-const symbolOhmsString = sceneryPhetStrings.symbol.ohms;
-const symbolResistivityString = sceneryPhetStrings.symbol.resistivity;
+const symbolOhmsString = SceneryPhetStrings.symbol.ohms;
+const symbolResistivityString = SceneryPhetStrings.symbol.resistivity;
 
 const MathSymbols = {
 

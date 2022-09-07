@@ -21,7 +21,7 @@ import SceneryPhetKeyboardHelpContent from './demo/SceneryPhetKeyboardHelpConten
 import SlidersScreenView from './demo/sliders/SlidersScreenView.js';
 import SpinnersScreenView from './demo/spinners/SpinnersScreenView.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 // empty model used for all demo screens
 class Model {
@@ -43,7 +43,7 @@ simLauncher.launch( () => {
     new SpinnersScreen( Tandem.ROOT.createTandem( 'spinnersScreen' ) )
   ];
 
-  const sim = new Sim( sceneryPhetStrings[ 'scenery-phet' ].titleStringProperty, screens, {
+  const sim = new Sim( SceneryPhetStrings[ 'scenery-phet' ].titleStringProperty, screens, {
     credits: {
       leadDesign: 'PhET'
     },

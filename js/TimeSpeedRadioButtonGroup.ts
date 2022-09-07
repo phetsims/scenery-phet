@@ -12,7 +12,7 @@
 
 import TimeSpeed from './TimeSpeed.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import { Text, TextOptions } from '../../scenery/js/imports.js';
 import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
@@ -23,9 +23,9 @@ import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
-SPEED_LABEL_MAP.set( TimeSpeed.FAST, { textProperty: sceneryPhetStrings.speed.fastStringProperty, labelString: sceneryPhetStrings.speed.fast, tandemName: 'fastRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { textProperty: sceneryPhetStrings.speed.normalStringProperty, labelString: sceneryPhetStrings.speed.normal, tandemName: 'normalRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { textProperty: sceneryPhetStrings.speed.slowStringProperty, labelString: sceneryPhetStrings.speed.slow, tandemName: 'slowRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.FAST, { textProperty: SceneryPhetStrings.speed.fastStringProperty, labelString: SceneryPhetStrings.speed.fast, tandemName: 'fastRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { textProperty: SceneryPhetStrings.speed.normalStringProperty, labelString: SceneryPhetStrings.speed.normal, tandemName: 'normalRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { textProperty: SceneryPhetStrings.speed.slowStringProperty, labelString: SceneryPhetStrings.speed.slow, tandemName: 'slowRadioButton' } );
 
 type SelfOptions = {
   radius?: number;
@@ -57,8 +57,8 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
 
       // pdom
       labelTagName: 'h4',
-      labelContent: sceneryPhetStrings.a11y.timeControlNode.simSpeeds,
-      descriptionContent: sceneryPhetStrings.a11y.timeControlNode.simSpeedDescription
+      labelContent: SceneryPhetStrings.a11y.timeControlNode.simSpeeds,
+      descriptionContent: SceneryPhetStrings.a11y.timeControlNode.simSpeedDescription
     }, providedOptions );
 
     // by default, radio buttons match height of label before maxWidth scaling adjustments

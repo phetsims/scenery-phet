@@ -28,7 +28,7 @@ import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
 import PlayIconShape from './PlayIconShape.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
@@ -361,7 +361,7 @@ export default class StopwatchNode extends Node {
       units: '',
 
       // Units cannot be baked into the i18n string because they can change independently
-      valueUnitsPattern: sceneryPhetStrings.stopwatchValueUnitsPattern
+      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern
     }, providedOptions );
 
     return ( time: number ) => {

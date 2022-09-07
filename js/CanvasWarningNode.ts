@@ -10,7 +10,7 @@ import { HBox, openPopup, Path, Text, VBox } from '../../scenery/js/imports.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 export default class CanvasWarningNode extends HBox {
 
@@ -24,11 +24,11 @@ export default class CanvasWarningNode extends HBox {
         } ),
         new VBox( {
           children: [
-            new Text( sceneryPhetStrings.webglWarning.title, {
+            new Text( SceneryPhetStrings.webglWarning.title, {
               font: new PhetFont( 14 ),
               fill: '#ddd'
             } ),
-            new Text( sceneryPhetStrings.webglWarning.body, {
+            new Text( SceneryPhetStrings.webglWarning.body, {
               font: new PhetFont( 10 ),
               fill: '#999'
             } )

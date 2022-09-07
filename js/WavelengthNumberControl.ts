@@ -10,7 +10,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import NumberControl, { NumberControlOptions } from './NumberControl.js';
 import PhetFont from './PhetFont.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
@@ -21,8 +21,8 @@ import Slider from '../../sun/js/Slider.js';
 import Property from '../../axon/js/Property.js';
 import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
 
-const wavelengthNMValuePatternString = sceneryPhetStrings.wavelengthNMValuePattern;
-const wavelengthString = sceneryPhetStrings.wavelength;
+const wavelengthNMValuePatternString = SceneryPhetStrings.wavelengthNMValuePattern;
+const wavelengthString = SceneryPhetStrings.wavelength;
 
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );

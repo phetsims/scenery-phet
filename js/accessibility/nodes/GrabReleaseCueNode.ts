@@ -12,9 +12,9 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
-const keyToGrabOrReleaseString = sceneryPhetStrings.key.toGrabOrRelease;
+const keyToGrabOrReleaseString = SceneryPhetStrings.key.toGrabOrRelease;
 
 type SelfOptions = {
 

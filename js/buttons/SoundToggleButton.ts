@@ -18,7 +18,7 @@ import volumeUpSolidShape from '../../../sherpa/js/fontawesome-5/volumeUpSolidSh
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 // constants
 const WIDTH = 45;
@@ -45,7 +45,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
       xMargin: MARGIN,
       yMargin: MARGIN,
       tagName: 'button',
-      innerContent: sceneryPhetStrings.a11y.soundToggle.label
+      innerContent: SceneryPhetStrings.a11y.soundToggle.label
     }, provideOptions );
 
     // 'on' icon is a font-awesome icon

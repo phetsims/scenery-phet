@@ -16,14 +16,14 @@ import { AlignBoxOptions, AlignGroup, HBox, Node, RichText, RichTextOptions, Tex
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
 // constants
-const keyboardHelpDialogOrString = sceneryPhetStrings.keyboardHelpDialog.or;
+const keyboardHelpDialogOrString = SceneryPhetStrings.keyboardHelpDialog.or;
 
 // text fonts and max widths
 const LABEL_FONT = new PhetFont( 16 );

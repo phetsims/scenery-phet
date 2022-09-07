@@ -12,7 +12,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
@@ -39,9 +39,9 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     const options = optionize<ComboBoxKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
 
       // SelfOptions
-      headingString: sceneryPhetStrings.keyboardHelpDialog.comboBox.headingStringStringProperty,
-      thingAsLowerCaseSingular: sceneryPhetStrings.keyboardHelpDialog.comboBox.optionStringProperty,
-      thingAsLowerCasePlural: sceneryPhetStrings.keyboardHelpDialog.comboBox.optionsStringProperty,
+      headingString: SceneryPhetStrings.keyboardHelpDialog.comboBox.headingStringStringProperty,
+      thingAsLowerCaseSingular: SceneryPhetStrings.keyboardHelpDialog.comboBox.optionStringProperty,
+      thingAsLowerCasePlural: SceneryPhetStrings.keyboardHelpDialog.comboBox.optionsStringProperty,
 
       // KeyboardHelpSectionOptions
       a11yContentTagName: 'ol', // ordered list
@@ -68,27 +68,27 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         } ) );
 
     const popUpList = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( sceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
+      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
       KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ), {
-        labelInnerContent: createDerivedStringProperty( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty )
+        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty )
       } );
 
     const moveThrough = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( sceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
+      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: createDerivedStringProperty( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty )
+        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty )
       } );
 
     const chooseNew = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( sceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
+      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
       TextKeyNode.enter(), {
-        labelInnerContent: createDerivedStringProperty( sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
+        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
       } );
 
     const closeWithoutChanging = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
+      SceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
       TextKeyNode.esc(), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty
       } );
 
     // order the rows of content

@@ -23,15 +23,15 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
-const keyboardHelpDialogGrabOrReleaseHeadingPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPattern;
-const keyboardHelpDialogGrabOrReleaseLabelPatternString = sceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPattern;
-const grabOrReleaseDescriptionPatternString = sceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPattern;
+const keyboardHelpDialogGrabOrReleaseHeadingPatternString = SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPattern;
+const keyboardHelpDialogGrabOrReleaseLabelPatternString = SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPattern;
+const grabOrReleaseDescriptionPatternString = SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPattern;
 
 // heading defaults
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h

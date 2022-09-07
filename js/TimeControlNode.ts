@@ -19,7 +19,7 @@ import { Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js
 import Panel, { PanelOptions } from '../../sun/js/Panel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TimeSpeed from './TimeSpeed.js';
 import TimeSpeedRadioButtonGroup, { TimeSpeedRadioButtonGroupOptions } from './TimeSpeedRadioButtonGroup.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
@@ -106,7 +106,7 @@ export default class TimeControlNode extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: sceneryPhetStrings.a11y.timeControlNode.label
+      labelContent: SceneryPhetStrings.a11y.timeControlNode.label
     }, providedOptions );
 
     super();

@@ -12,7 +12,7 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
@@ -36,31 +36,31 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     // 'Move to next item or group'
     const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
+      SceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
       TextKeyNode.tab(), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
       } );
 
     // 'Move to previous item or group'
     const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
+      SceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
       KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
       } );
 
     // 'Move between items in a group'
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
     const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
     const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
+      SceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
       KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
       } );
 
     // 'Press buttons'
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, TextKeyNode.space(), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
+      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, TextKeyNode.space(), {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
     const content = [
@@ -73,21 +73,21 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     // 'Toggle checkboxes'
     if ( options.withCheckboxContent ) {
       const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
-        sceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, TextKeyNode.space(), {
-          labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
+        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, TextKeyNode.space(), {
+          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
       content.push( toggleCheckboxes );
     }
 
     // 'Exit a dialog'
     const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
-      sceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, TextKeyNode.esc(), {
-        labelInnerContent: sceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
+      SceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, TextKeyNode.esc(), {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
       } );
     content.push( exitADialogRow );
 
     // order the rows of content
-    super( sceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
+    super( SceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
   }
 }
 

@@ -15,7 +15,7 @@ import { Path, PathOptions } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
   iconLength?: number; // length of the 'X' icon, whose bounds are square
@@ -44,10 +44,10 @@ export default class CloseButton extends RectangularPushButton {
       yMargin: 4, // {number} y margin around the icon
 
       // pdom
-      innerContent: sceneryPhetStrings.a11y.close,
+      innerContent: SceneryPhetStrings.a11y.close,
 
       //voicing
-      voicingNameResponse: sceneryPhetStrings.a11y.close
+      voicingNameResponse: SceneryPhetStrings.a11y.close
     }, providedOptions );
 
     // 'X' icon

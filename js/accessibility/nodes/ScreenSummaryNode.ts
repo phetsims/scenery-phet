@@ -14,12 +14,12 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 // constants
-const screenSummaryMultiScreenIntroString = sceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntro;
-const screenSummaryKeyboardShortcutsHintString = sceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
-const screenSummarySingleScreenIntroPatternString = sceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
+const screenSummaryMultiScreenIntroString = SceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntro;
+const screenSummaryKeyboardShortcutsHintString = SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
+const screenSummarySingleScreenIntroPatternString = SceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
 
 export default class ScreenSummaryNode extends Node {
 

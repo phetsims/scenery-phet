@@ -11,7 +11,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import { Font, TColor, RichText } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
 type SelfOptions = {
@@ -51,55 +51,55 @@ export default class TextKeyNode extends KeyNode {
 
   //-------------------------------------------------------------------------------------------------
   // Static factory methods for specific text strings. For brevity, these methods have the same names
-  // as their string keys. For example sceneryPhetStrings.key.alt is rendered by the alt method.
+  // as their string keys. For example SceneryPhetStrings.key.alt is rendered by the alt method.
   //-------------------------------------------------------------------------------------------------
 
   public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.alt, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.alt, providedOptions );
   }
 
   public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.capsLock, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.capsLock, providedOptions );
   }
 
   public static esc( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.esc, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.esc, providedOptions );
   }
 
   public static end( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.end, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.end, providedOptions );
   }
 
   public static enter( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.enter, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.enter, providedOptions );
   }
 
   public static fn( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.fn, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.fn, providedOptions );
   }
 
   public static home( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.home, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.home, providedOptions );
   }
 
   public static pageDown( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.pageDown, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.pageDown, providedOptions );
   }
 
   public static pageUp( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.pageUp, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.pageUp, providedOptions );
   }
 
   public static space( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.space, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.space, providedOptions );
   }
 
   public static shift( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.shift, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.shift, providedOptions );
   }
 
   public static tab( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( sceneryPhetStrings.key.tab, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.tab, providedOptions );
   }
 }
 

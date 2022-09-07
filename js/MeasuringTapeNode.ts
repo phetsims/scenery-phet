@@ -33,7 +33,7 @@ import StringIO from '../../tandem/js/types/StringIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -224,7 +224,7 @@ class MeasuringTapeNode extends Node {
     const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
     const readoutTextProperty = new DerivedProperty(
-      [ this.unitsProperty, this.measuredDistanceProperty, sceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
+      [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
         return StringUtils.fillIn( measuringTapeReadoutPattern, {

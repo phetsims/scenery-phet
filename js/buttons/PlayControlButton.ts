@@ -17,7 +17,7 @@ import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPla
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
 
@@ -61,7 +61,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      startPlayingLabel: sceneryPhetStrings.a11y.playControlButton.playStringProperty,
+      startPlayingLabel: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
       endPlayingLabel: null,
       valueOffSoundPlayer: pauseSoundPlayer,
       valueOnSoundPlayer: playSoundPlayer,

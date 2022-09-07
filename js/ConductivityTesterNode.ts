@@ -27,9 +27,9 @@ import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
-const shortCircuitString = sceneryPhetStrings.shortCircuit;
+const shortCircuitString = SceneryPhetStrings.shortCircuit;
 
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging

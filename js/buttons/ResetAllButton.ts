@@ -17,12 +17,12 @@ import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
-const resetAllButtonNameString = sceneryPhetStrings.a11y.resetAll.label;
-const resetAllAlertString = sceneryPhetStrings.a11y.resetAll.alert;
-const resetAllContextResponseString = sceneryPhetStrings.a11y.voicing.resetAll.contextResponse;
+const resetAllButtonNameString = SceneryPhetStrings.a11y.resetAll.label;
+const resetAllAlertString = SceneryPhetStrings.a11y.resetAll.alert;
+const resetAllContextResponseString = SceneryPhetStrings.a11y.voicing.resetAll.contextResponse;
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 

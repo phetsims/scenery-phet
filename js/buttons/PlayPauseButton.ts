@@ -15,7 +15,7 @@ import { Path } from '../../../scenery/js/imports.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import PlayControlButton, { PlayControlButtonOptions } from './PlayControlButton.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -33,7 +33,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
-      endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.pause
+      endPlayingLabel: SceneryPhetStrings.a11y.playControlButton.pause
     }, providedOptions );
 
     // icon sized relative to the radius

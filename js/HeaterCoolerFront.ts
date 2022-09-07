@@ -23,10 +23,10 @@ import Tandem from '../../tandem/js/Tandem.js';
 import HeaterCoolerBack from './HeaterCoolerBack.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
-const coolString = sceneryPhetStrings.cool;
-const heatString = sceneryPhetStrings.heat;
+const coolString = SceneryPhetStrings.cool;
+const heatString = SceneryPhetStrings.heat;
 
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 

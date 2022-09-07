@@ -14,7 +14,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import { Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import StopIconShape from '../StopIconShape.js';
 import PlayControlButton, { PlayControlButtonOptions } from './PlayControlButton.js';
 
@@ -30,7 +30,7 @@ export default class PlayStopButton extends PlayControlButton {
 
       // PlayStopButtonOptions
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
-      endPlayingLabel: sceneryPhetStrings.a11y.playControlButton.stopStringProperty
+      endPlayingLabel: SceneryPhetStrings.a11y.playControlButton.stopStringProperty
     }, providedOptions );
 
     // icon is sized relative to radius

@@ -61,16 +61,16 @@ import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js'
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../sceneryPhet.js';
-import sceneryPhetStrings from '../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
 
 // constants
-const grabPatternString = sceneryPhetStrings.a11y.grabDrag.grabPattern;
-const gestureHelpTextPatternString = sceneryPhetStrings.a11y.grabDrag.gestureHelpTextPattern;
-const movableString = sceneryPhetStrings.a11y.grabDrag.movable;
-const buttonString = sceneryPhetStrings.a11y.grabDrag.button;
-const defaultObjectToGrabString = sceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
-const releasedString = sceneryPhetStrings.a11y.grabDrag.released;
+const grabPatternString = SceneryPhetStrings.a11y.grabDrag.grabPattern;
+const gestureHelpTextPatternString = SceneryPhetStrings.a11y.grabDrag.gestureHelpTextPattern;
+const movableString = SceneryPhetStrings.a11y.grabDrag.movable;
+const buttonString = SceneryPhetStrings.a11y.grabDrag.button;
+const defaultObjectToGrabString = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrab;
+const releasedString = SceneryPhetStrings.a11y.grabDrag.released;
 
 class GrabDragInteraction extends EnabledComponent {
 
@@ -467,7 +467,7 @@ class GrabDragInteraction extends EnabledComponent {
         this.updateVisibilityForCues();
 
         if ( this.node.isVoicing && this.showGrabCueNode() ) {
-          this.voicingFocusUtterance.alert.hintResponse = sceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease;
+          this.voicingFocusUtterance.alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease;
           Voicing.alertUtterance( this.voicingFocusUtterance );
         }
       },

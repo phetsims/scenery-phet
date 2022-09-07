@@ -13,7 +13,7 @@ import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from './sceneryPhet.js';
-import sceneryPhetStrings from './sceneryPhetStrings.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import SpectrumSlider, { SpectrumSliderOptions } from './SpectrumSlider.js';
 import VisibleColor from './VisibleColor.js';
 
@@ -45,8 +45,8 @@ export default class WavelengthSlider extends SpectrumSlider {
 
       // SpectrumSliderOptions
       valueToString: function( value: number ) {
-        return StringUtils.format( sceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1units,
-          Utils.toFixed( value, 0 ), sceneryPhetStrings.units_nm );
+        return StringUtils.format( SceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1units,
+          Utils.toFixed( value, 0 ), SceneryPhetStrings.units_nm );
       },
       valueToColor: function( value: number ) {
         return VisibleColor.wavelengthToColor( value );

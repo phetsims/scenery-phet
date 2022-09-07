@@ -13,7 +13,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
@@ -57,68 +57,68 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
 
     const options = optionize<SliderControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
-      headingString: sceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
+      headingString: SceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
 
       //TODO https://github.com/phetsims/scenery-phet/issues/769 change all of these to *StringProperty
-      verbString: sceneryPhetStrings.keyboardHelpDialog.adjust,
-      sliderString: sceneryPhetStrings.keyboardHelpDialog.slider,
-      maximumString: sceneryPhetStrings.keyboardHelpDialog.maximum,
-      minimumString: sceneryPhetStrings.keyboardHelpDialog.minimum
+      verbString: SceneryPhetStrings.keyboardHelpDialog.adjust,
+      sliderString: SceneryPhetStrings.keyboardHelpDialog.slider,
+      maximumString: SceneryPhetStrings.keyboardHelpDialog.maximum,
+      minimumString: SceneryPhetStrings.keyboardHelpDialog.minimum
     }, providedOptions );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
-    const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
+    const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
       verb: options.verbString,
       slider: options.sliderString
     } );
-    const keyboardHelpDialogVerbInSmallerStepsString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPattern, {
+    const keyboardHelpDialogVerbInSmallerStepsString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPattern, {
       verb: options.verbString
     } );
-    const keyboardHelpDialogVerbInLargerStepsString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPattern, {
+    const keyboardHelpDialogVerbInLargerStepsString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPattern, {
       verb: options.verbString
     } );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 convert keysString and keyboardHelpDialogDefaultStepsString to DerivedProperty
-    const keysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
-                       ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
-                       ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
-                         leftRight: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
-                         upDown: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
+    const keysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
+                       ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
+                       ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
+                         leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
+                         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
                        } ) : null;
     assert && assert( keysString );
-    const keyboardHelpDialogDefaultStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPattern, {
+    const keyboardHelpDialogDefaultStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPattern, {
       verb: options.verbString,
       slider: options.sliderString,
       keys: keysString
     } );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 convert shiftKeysString,keyboardHelpDialogSmallerStepsString, keyboardHelpDialogLargerStepsString to DerivedProperty
-    const shiftKeysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
-                            ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
-                            ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
-                              leftRight: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
-                              upDown: sceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
+    const shiftKeysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
+                            ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
+                            ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
+                              leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
+                              upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
                             } ) : null;
     assert && assert( shiftKeysString );
-    const keyboardHelpDialogSmallerStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPattern, {
+    const keyboardHelpDialogSmallerStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPattern, {
       verb: options.verbString,
       keys: shiftKeysString
     } );
-    const keyboardHelpDialogLargerStepsString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPattern, {
+    const keyboardHelpDialogLargerStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPattern, {
       verb: options.verbString
     } );
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
-    const jumpToMinimumString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPattern, {
+    const jumpToMinimumString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPattern, {
       minimum: options.minimumString
     } );
-    const jumpToMaximumString = StringUtils.fillIn( sceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPattern, {
+    const jumpToMaximumString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPattern, {
       maximum: options.maximumString
     } );
-    const jumpToMinimumDescriptionString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPattern, {
+    const jumpToMinimumDescriptionString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPattern, {
       minimum: options.minimumString
     } );
-    const jumpToMaximumDescriptionString = StringUtils.fillIn( sceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPattern, {
+    const jumpToMaximumDescriptionString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPattern, {
       maximum: options.maximumString
     } );
 

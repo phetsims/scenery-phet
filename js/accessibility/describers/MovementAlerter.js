@@ -19,20 +19,20 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetStrings from '../../sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import Alerter from './Alerter.js';
 import BorderAlertsDescriber from './BorderAlertsDescriber.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const downString = sceneryPhetStrings.a11y.movementAlerter.down;
-const leftString = sceneryPhetStrings.a11y.movementAlerter.left;
-const rightString = sceneryPhetStrings.a11y.movementAlerter.right;
-const upString = sceneryPhetStrings.a11y.movementAlerter.up;
-const upAndToTheLeftString = sceneryPhetStrings.a11y.movementAlerter.upAndToTheLeft;
-const upAndToTheRightString = sceneryPhetStrings.a11y.movementAlerter.upAndToTheRight;
-const downAndToTheLeftString = sceneryPhetStrings.a11y.movementAlerter.downAndToTheLeft;
-const downAndToTheRightString = sceneryPhetStrings.a11y.movementAlerter.downAndToTheRight;
+const downString = SceneryPhetStrings.a11y.movementAlerter.down;
+const leftString = SceneryPhetStrings.a11y.movementAlerter.left;
+const rightString = SceneryPhetStrings.a11y.movementAlerter.right;
+const upString = SceneryPhetStrings.a11y.movementAlerter.up;
+const upAndToTheLeftString = SceneryPhetStrings.a11y.movementAlerter.upAndToTheLeft;
+const upAndToTheRightString = SceneryPhetStrings.a11y.movementAlerter.upAndToTheRight;
+const downAndToTheLeftString = SceneryPhetStrings.a11y.movementAlerter.downAndToTheLeft;
+const downAndToTheRightString = SceneryPhetStrings.a11y.movementAlerter.downAndToTheRight;
 
 // in radians - threshold for diagonal movement is +/- 15 degrees from diagonals
 const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
