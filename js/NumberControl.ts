@@ -31,6 +31,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Property from '../../axon/js/Property.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import LinkableProperty from '../../axon/js/LinkableProperty.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -176,7 +177,7 @@ export default class NumberControl extends Node {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: Property<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: LinkableProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
