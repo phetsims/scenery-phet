@@ -53,8 +53,7 @@ export default class OopsDialog extends Dialog {
       font: new PhetFont( 20 ),
       maxWidth: 600,
       maxHeight: 400,
-      tandem: options.tandem.createTandem( 'textNode' ),
-      phetioVisiblePropertyInstrumented: false
+      tandem: options.tandem.createTandem( 'textNode' )
     }, options.richTextOptions ) );
 
     const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {
