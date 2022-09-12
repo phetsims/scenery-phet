@@ -111,15 +111,15 @@ export default class GaugeNode extends Node {
       lineWidth: options.needleLineWidth
     } );
 
-    const labelNode = new Text( label, {
+    const labelText = new Text( label, {
       font: new PhetFont( 20 ),
       maxWidth: this.radius * options.maxLabelWidthScale,
-      tandem: tandem.createTandem( 'labelNode' )
+      tandem: tandem.createTandem( 'labelText' )
     } ).mutate( {
       centerX: 0,
       centerY: -this.radius / 3
     } );
-    foregroundNode.addChild( labelNode );
+    foregroundNode.addChild( labelText );
 
     const pin = new Circle( 2, { fill: 'black' } );
     foregroundNode.addChild( pin );
@@ -204,7 +204,7 @@ export default class GaugeNode extends Node {
 
       // de-register phet-io tandems
       foregroundNode.dispose();
-      labelNode.dispose();
+      labelText.dispose();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified

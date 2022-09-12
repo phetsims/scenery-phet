@@ -45,7 +45,7 @@ export default class BucketFront extends Node {
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
-        tandem: options.tandem.createTandem( 'label' )
+        tandem: options.tandem.createTandem( 'labelText' )
       } );
     }
 

@@ -76,7 +76,7 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
       const item: AquaRadioButtonGroupItem<TimeSpeed> = {
         value: speed,
         createNode: tandem => new Text( SPEED_LABEL_MAP.get( speed ).textProperty, combineOptions<TextOptions>( {
-          tandem: tandem.createTandem( 'labelNode' )
+          tandem: tandem.createTandem( 'labelText' )
         }, options.labelOptions ) ),
         labelContent: speedLabel,
         tandemName: SPEED_LABEL_MAP.get( speed ).tandemName

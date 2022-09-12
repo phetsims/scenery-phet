@@ -121,13 +121,13 @@ class RulerNode extends Node {
     const minorTickLinesShape = new Shape();
 
     // Units label, which is positioned and (if necessary) scaled later
-    const unitsLabel = new Text( units, {
+    const unitsLabelText = new Text( units, {
       font: options.unitsFont,
       pickable: false,
-      tandem: options.tandem.createTandem( 'unitsLabel' )
+      tandem: options.tandem.createTandem( 'unitsLabelText' )
     } );
     let unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
-    this.addChild( unitsLabel );
+    this.addChild( unitsLabelText );
 
     for ( let i = 0; i < numberOfTicks; i++ ) {
 
@@ -163,15 +163,15 @@ class RulerNode extends Node {
 
         // Position the units label
         if ( majorTickIndex === options.unitsMajorTickIndex ) {
-          unitsLabel.left = majorTickLabelNode.right + options.unitsSpacing;
-          unitsLabel.y = majorTickLabelNode.y;
+          unitsLabelText.left = majorTickLabelNode.right + options.unitsSpacing;
+          unitsLabelText.y = majorTickLabelNode.y;
         }
         else if ( majorTickIndex > options.unitsMajorTickIndex && unitsLabelMaxWidth === Number.POSITIVE_INFINITY && majorTickLabelNode.width > 0 ) {
 
           // make sure the units label fits between the tick mark labels
-          unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabel.left;
+          unitsLabelMaxWidth = majorTickLabelNode.left - options.unitsSpacing - unitsLabelText.left;
           assert && assert( unitsLabelMaxWidth > 0, 'space for units label is negative or zero' );
-          unitsLabel.maxWidth = unitsLabelMaxWidth;
+          unitsLabelText.maxWidth = unitsLabelMaxWidth;
         }
 
         majorTickIndex++;
@@ -193,9 +193,9 @@ class RulerNode extends Node {
 
     // Handle the case where the units label extends off the edge of the ruler.  This is kind of a corner case, but was
     // seen when testing long strings on Pendulum Lab.
-    if ( unitsLabel.bounds.maxX > backgroundNode.bounds.maxX - options.unitsSpacing ) {
-      unitsLabelMaxWidth = ( backgroundNode.bounds.maxX - options.unitsSpacing ) - unitsLabel.x;
-      unitsLabel.scale( unitsLabelMaxWidth / unitsLabel.width );
+    if ( unitsLabelText.bounds.maxX > backgroundNode.bounds.maxX - options.unitsSpacing ) {
+      unitsLabelMaxWidth = ( backgroundNode.bounds.maxX - options.unitsSpacing ) - unitsLabelText.x;
+      unitsLabelText.scale( unitsLabelMaxWidth / unitsLabelText.width );
     }
 
     // Major tick lines

@@ -49,11 +49,11 @@ export default class OopsDialog extends Dialog {
       tandem: Tandem.OPTIONAL
     }, providedOptions );
 
-    const textNode = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
+    const text = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
       font: new PhetFont( 20 ),
       maxWidth: 600,
       maxHeight: 400,
-      tandem: options.tandem.createTandem( 'textNode' )
+      tandem: options.tandem.createTandem( 'text' )
     }, options.richTextOptions ) );
 
     const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {
@@ -62,7 +62,7 @@ export default class OopsDialog extends Dialog {
 
     const content = new HBox( {
       spacing: 20,
-      children: [ textNode, iconNode ]
+      children: [ text, iconNode ]
     } );
 
     super( content, options );
