@@ -92,7 +92,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'ButtonGroup',
+      tandemNameSuffix: 'ButtonGroup',
 
       // pdom
       tagName: 'div', // so that it can receive descriptions

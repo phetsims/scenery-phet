@@ -99,7 +99,7 @@ export default class TimeControlNode extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'TimeControlNode',
+      tandemNameSuffix: 'TimeControlNode',
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 

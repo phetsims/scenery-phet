@@ -50,7 +50,7 @@ export default class ResetButton extends RoundPushButton {
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'ResetButton'
+      tandemNameSuffix: 'ResetButton'
     }, providedOptions );
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235

@@ -70,7 +70,7 @@ export default class ZoomButtonGroup extends FlowBox {
       orientation: 'horizontal',
       align: 'center',
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'ZoomButtonGroup'
+      tandemNameSuffix: 'ZoomButtonGroup'
     }, providedOptions );
 
     // zoom in

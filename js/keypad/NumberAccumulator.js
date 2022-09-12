@@ -39,7 +39,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS,
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'NumberAccumulator'
+      tandemNameSuffix: 'NumberAccumulator'
     }, options );
 
     // verify option values

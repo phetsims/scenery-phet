@@ -68,7 +68,7 @@ class Keypad extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'Keypad'
+      tandemNameSuffix: 'Keypad'
     }, options );
 
     super();

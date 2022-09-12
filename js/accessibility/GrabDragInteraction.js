@@ -167,7 +167,7 @@ class GrabDragInteraction extends EnabledComponent {
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'GrabDragInteraction'
+      tandemNameSuffix: 'GrabDragInteraction'
     }, options );
 
     // a second block for options that use other options, therefore needing the defaults to be filled in

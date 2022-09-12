@@ -113,7 +113,7 @@ const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOpti
   },
 
   tandem: Tandem.REQUIRED,
-  tandemSuffix: [ 'LaserPointerNode', 'LightNode' ]
+  tandemNameSuffix: [ 'LaserPointerNode', 'LightNode' ]
 } );
 assert && Object.freeze( DEFAULT_OPTIONS );
 

@@ -32,7 +32,7 @@ export default class BucketFront extends Node {
 
     const options = optionize<BucketFrontOptions, StrictOmit<SelfOptions, 'labelNode'>, NodeOptions>()( {
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'BucketFrontNode',
+      tandemNameSuffix: 'BucketFrontNode',
       cursor: 'pointer'
     }, providedOptions );
 

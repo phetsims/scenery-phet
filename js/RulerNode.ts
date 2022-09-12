@@ -91,7 +91,7 @@ class RulerNode extends Node {
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'RulerNode'
+      tandemNameSuffix: 'RulerNode'
     }, providedOptions );
 
     // things you're likely to mess up, add more as needed

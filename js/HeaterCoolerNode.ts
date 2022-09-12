@@ -62,7 +62,7 @@ export default class HeaterCoolerNode extends Node {
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'HeaterCoolerNode'
+      tandemNameSuffix: 'HeaterCoolerNode'
     }, providedOptions );
 
     this.heatCoolAmountProperty = heatCoolAmountProperty;

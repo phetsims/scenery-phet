@@ -38,7 +38,7 @@ export default class ZoomButton extends RectangularPushButton {
       // RectangularPushButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'Button'
+      tandemNameSuffix: 'Button'
     }, providedOptions );
 
     // Plus or minus sign in middle of magnifying glass

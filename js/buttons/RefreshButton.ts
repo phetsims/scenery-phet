@@ -33,7 +33,7 @@ export default class RefreshButton extends RectangularPushButton {
       // RectangularPushButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
-      tandemSuffix: 'RefreshButton'
+      tandemNameSuffix: 'RefreshButton'
     }, providedOptions );
 
     options.content = new Path( syncAltSolidShape, {

@@ -106,7 +106,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'FaucetNode',
+      tandemNameSuffix: 'FaucetNode',
       phetioType: FaucetNode.FaucetNodeIO,
       phetioEventType: EventType.USER
     }, providedOptions );

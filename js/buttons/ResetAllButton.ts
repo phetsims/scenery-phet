@@ -55,7 +55,7 @@ export default class ResetAllButton extends ResetButton {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      tandemSuffix: 'ResetAllButton',
+      tandemNameSuffix: 'ResetAllButton',
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
 
       // sound generation
