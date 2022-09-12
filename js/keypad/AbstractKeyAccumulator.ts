@@ -8,64 +8,60 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import sceneryPhet from '../sceneryPhet.js';
-import KeyID from './KeyID.js';
+import KeyID, { KeyIDValue } from './KeyID.js';
 
-class AbstractKeyAccumulator {
+abstract class AbstractKeyAccumulator {
 
-  /**
-   * @param {Array.<function>} validators
-   */
-  constructor( validators ) {
+  // string representation of the keys entered by the user
+  public abstract readonly stringProperty: ReadOnlyProperty<string>;
 
-    // @public (read-only) {Array.<Key>} - property that tracks the accumulated key presses as an array
-    this.accumulatedKeysProperty = new Property( [] );
+  // numerical value of the keys entered by the user
+  public abstract readonly valueProperty: ReadOnlyProperty<number | null>;
 
-    // @private {boolean} - when true, the next key press (expect backspace) will clear the accumulated value
-    this._clearOnNextKeyPress = false;
+  // Property that tracks the accumulated key presses as an array
+  public readonly accumulatedKeysProperty: Property<KeyIDValue[]> = new Property<KeyIDValue[]>( [] );
 
-    // @protected {function}
-    this.validators = validators;
+  // When true, the next key press (expect backspace) will clear the accumulated value
+  public _clearOnNextKeyPress = false;
+
+  public constructor( protected readonly validators: ( ( keys: KeyIDValue[] ) => boolean )[] ) {
+
   }
 
-  get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }
+  public get clearOnNextKeyPress(): boolean { return this.getClearOnNextKeyPress(); }
 
-  set clearOnNextKeyPress( value ) { this.setClearOnNextKeyPress( value ); }
+  public set clearOnNextKeyPress( value: boolean ) { this.setClearOnNextKeyPress( value ); }
 
   /**
    * Clears the accumulated keys.
-   * @public
    */
-  clear() {
+  public clear(): void {
     this.accumulatedKeysProperty.reset();
   }
 
   /**
    * Sets/clears the flag that determines whether pressing a key (except for backspace) will clear the accumulated keys.
-   * @param {boolean} clearOnNextKeyPress
-   * @public
    */
-  setClearOnNextKeyPress( clearOnNextKeyPress ) {
+  public setClearOnNextKeyPress( clearOnNextKeyPress: boolean ): void {
     this._clearOnNextKeyPress = clearOnNextKeyPress;
   }
 
   /**
    * Gets the value of the flag determines whether pressing a key (except for backspace) will clear the accumulated keys.
-   * @returns {boolean}
-   * @public
    */
-  getClearOnNextKeyPress() {
+  public getClearOnNextKeyPress(): boolean {
     return this._clearOnNextKeyPress;
   }
 
   /**
    * validates a proposed set of keys and (if valid) update the property that represents the accumulated keys
-   * @param {Array.<KeyID>} proposedKeys - the proposed set of keys, to be validated
-   * @protected
+   * @param proposedKeys - the proposed set of keys, to be validated
    *
    * @returns boolean
    */
-  validateKeys( proposedKeys ) {
+  protected validateKeys( proposedKeys: KeyIDValue[] ): boolean {
 
     // Ensures that proposedKeys exist before validation
     let valid = !!proposedKeys;
@@ -79,31 +75,22 @@ class AbstractKeyAccumulator {
 
   /**
    * update the property that represents the accumulated keys
-   * @param {Array.<KeyID>} proposedKeys - the proposed set of keys
-   * @protected
+   * @param proposedKeys - the proposed set of keys
    */
-  updateKeys( proposedKeys ) {
+  protected updateKeys( proposedKeys: KeyIDValue[] ): void {
     this.accumulatedKeysProperty.set( proposedKeys );
   }
 
   /**
    * Called by the key accumulator when this key is pressed.
-   * @param {KeyID} keyIdentifier
-   * @public
-   * @abstract
    */
-  handleKeyPressed( keyIdentifier ) {
-    throw new Error( 'abstract function must be implemented by subtypes' );
-  }
+  public abstract handleKeyPressed( keyIdentifier: KeyIDValue ): void;
 
   /**
    * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
-   * @param {KeyID} keyIdentifier
-   * @returns {Array.<KeyID>} proposedArray
-   * @private
    */
-  handleClearOnNextKeyPress( keyIdentifier ) {
-    let proposedArray;
+  protected handleClearOnNextKeyPress( keyIdentifier: KeyIDValue ): KeyIDValue[] {
+    let proposedArray: KeyIDValue[];
     if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
       proposedArray = _.clone( this.accumulatedKeysProperty.get() );
     }
@@ -114,10 +101,7 @@ class AbstractKeyAccumulator {
     return proposedArray;
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public dispose(): void {
     this.accumulatedKeysProperty.dispose();
   }
 }

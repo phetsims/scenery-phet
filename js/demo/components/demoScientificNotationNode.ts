@@ -199,8 +199,8 @@ class ControlPanel extends Panel {
         maxDigits: maxDigits,
         maxDigitsRightOfMantissa: maxDigits
       },
-      minButtonWidth: 35,
-      minButtonHeight: 35,
+      buttonWidth: 35,
+      buttonHeight: 35,
       buttonFont: KEYPAD_FONT
     } );
 

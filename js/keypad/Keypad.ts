@@ -8,15 +8,19 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { Node, Text } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Font, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import Key from './Key.js';
-import KeyID from './KeyID.js';
-import NumberAccumulator from './NumberAccumulator.js';
+import KeyID, { KeyIDValue } from './KeyID.js';
+import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator.js';
+import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const DEFAULT_BUTTON_WIDTH = 35;
@@ -40,16 +44,53 @@ const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BA
 const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS );
 const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL );
 
+export type KeypadLayout = ( Key | null )[][];
+
+type SelfOptions = {
+  buttonWidth?: number;
+  buttonHeight?: number;
+  xSpacing?: number;
+  ySpacing?: number;
+  touchAreaXDilation?: number;
+  touchAreaYDilation?: number;
+  buttonColor?: TPaint;
+  buttonFont?: Font;
+
+  // Accumulator that collects and interprets key presses, see various implementations for examples
+  accumulator?: AbstractKeyAccumulator | null;
+
+  // Options passed to NumberAccumulator, ignored if options.accumulator is provided
+  accumulatorOptions?: NumberAccumulatorOptions | null;
+
+  // phet-io
+  tandem?: Tandem;
+  tandemNameSuffix?: string;
+};
+
+export type KeypadOptions = SelfOptions & NodeOptions;
+
 class Keypad extends Node {
 
-  /**
-   * @param {Array.Array.<Key>} layout - an array that specifies the keys and the layout, see static instance below for
-   * example usage
-   * @param {Object} [options]
-   */
-  constructor( layout, options ) {
+  private readonly keyAccumulator: AbstractKeyAccumulator;
 
-    options = merge( {
+  // array of the keys that have been accumulated
+  public readonly accumulatedKeysProperty: ReadOnlyProperty<KeyIDValue[]>;
+
+  // string representation of the keys that have been accumulated
+  public readonly stringProperty: ReadOnlyProperty<string>;
+
+  // numeric representation of the keys that have been accumulated, null if no keys have been accumulated
+  public readonly valueProperty: ReadOnlyProperty<number | null>;
+
+  private readonly buttonNodes: RectangularPushButton[];
+
+  /**
+   * @param layout - an array that specifies the keys and the layout, see static instance below for example usage
+   * @param [options]
+   */
+  public constructor( layout: ( Key | null )[][], providedOptions?: KeypadOptions ) {
+
+    const options = optionize<KeypadOptions, SelfOptions>()( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
@@ -58,37 +99,22 @@ class Keypad extends Node {
       touchAreaYDilation: 5,
       buttonColor: DEFAULT_BUTTON_COLOR,
       buttonFont: DEFAULT_BUTTON_FONT,
-
-      // {AbstractAccumulator|null} accumulator that collects and interprets key presses, see various implementations
-      // for examples
       accumulator: null,
-
-      // {Object|null} Options passed to NumberAccumulator, ignored if options.accumulator is provided
       accumulatorOptions: null,
-
-      // phet-io
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Keypad'
-    }, options );
+    }, providedOptions );
 
     super();
 
-    // @private {AbstractKeyAccumulator}
     this.keyAccumulator = options.accumulator ? options.accumulator : new NumberAccumulator( merge( {
       tandem: options.tandem.createTandem( 'numberAccumulator' )
     }, options.accumulatorOptions ) );
 
-    // @public {Property.<Array.<KeyID>>} (read-only) - array of the keys that have been accumulated
     this.accumulatedKeysProperty = this.keyAccumulator.accumulatedKeysProperty;
-
-    // @public {Property.<string>} (read-only) - string representation of the keys that have been accumulated
     this.stringProperty = this.keyAccumulator.stringProperty;
-
-    // @public {Property.<number|null>} (read-only) - numeric representation of the keys that have been accumulated,
-    // null if no keys have been accumulated
     this.valueProperty = this.keyAccumulator.valueProperty;
 
-    // @private {Array.<RectangularPushButton>}
     this.buttonNodes = [];
 
     // determine number of rows and columns from the input layout
@@ -104,14 +130,16 @@ class Keypad extends Node {
     // check last row to see if any button has vertical span more than 1
     let maxVerticalSpan = 1;
     for ( let column = 0; column < layout[ numRows - 1 ].length; column++ ) {
-      if ( layout[ numRows - 1 ][ column ] && layout[ numRows - 1 ][ column ].verticalSpan > maxVerticalSpan ) {
-        maxVerticalSpan = layout[ numRows - 1 ][ column ].verticalSpan;
+      const key = layout[ numRows - 1 ][ column ];
+
+      if ( key && key.verticalSpan > maxVerticalSpan ) {
+        maxVerticalSpan = key.verticalSpan;
       }
     }
     numRows += maxVerticalSpan - 1;
 
     // 2D grid to check for the overlap
-    const occupiedLayoutGrid = [];
+    const occupiedLayoutGrid: ( boolean | number )[][] = [];
 
     for ( let row = 0; row < numRows; row++ ) {
       occupiedLayoutGrid[ row ] = [];
@@ -126,9 +154,10 @@ class Keypad extends Node {
       for ( let column = 0; column < layout[ row ].length; column++ ) {
         const button = layout[ row ][ column ];
         if ( button ) {
+          const keyBefore = layout[ row ][ column - 1 ];
           const startColumn = column +
-                              ( column > 0 && layout[ row ][ column - 1 ] ?
-                                layout[ row ][ column - 1 ].horizontalSpan - 1 : 0 );
+                              ( column > 0 && keyBefore ?
+                                keyBefore.horizontalSpan - 1 : 0 );
           const verticalSpan = button.verticalSpan;
           const horizontalSpan = button.horizontalSpan;
 
@@ -157,58 +186,96 @@ class Keypad extends Node {
 
   /**
    * Calls the clear function for the given accumulator
-   * @public
    */
-  clear() {
+  public clear(): void {
     this.keyAccumulator.clear();
   }
 
   /**
    * Determines whether pressing a key (except for backspace) will clear the existing value.
-   * @param {boolean} clearOnNextKeyPress
-   * @public
    */
-  setClearOnNextKeyPress( clearOnNextKeyPress ) {
+  public setClearOnNextKeyPress( clearOnNextKeyPress: boolean ): void {
     this.keyAccumulator.setClearOnNextKeyPress( clearOnNextKeyPress );
   }
 
   /**
    * Will pressing a key (except for backspace) clear the existing value?
-   * @returns {boolean}
-   * @public
    */
-  getClearOnNextKeyPress() {
+  public getClearOnNextKeyPress(): boolean {
     return this.keyAccumulator.getClearOnNextKeyPress();
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.keyAccumulator.dispose();
     this.buttonNodes.forEach( buttonNode => buttonNode.dispose() );
     super.dispose();
   }
+
+  //------------------------------------------------------------------------------------------------------------------
+  // static keypad layouts - These can be used 'as is' for common layouts or serve as examples for creating custom
+  // layouts. If the vertical span is greater than 1, the column in the next row(s) has to be null.  If
+  // the horizontal span is greater than 1, the next key in that row will not overlap and will be placed in the next
+  // space in the grid. If a blank space is desired, null should be provided.
+  //------------------------------------------------------------------------------------------------------------------
+
+  public static readonly PositiveIntegerLayout: KeypadLayout = [
+    [ _7, _8, _9 ],
+    [ _4, _5, _6 ],
+    [ _1, _2, _3 ],
+    [ WIDE_ZERO, BACKSPACE_KEY ]
+  ];
+
+  public static readonly PositiveDecimalLayout: KeypadLayout = [
+    [ _7, _8, _9 ],
+    [ _4, _5, _6 ],
+    [ _1, _2, _3 ],
+    [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
+  ];
+
+  public static readonly PositiveAndNegativeIntegerLayout: KeypadLayout = [
+    [ _7, _8, _9 ],
+    [ _4, _5, _6 ],
+    [ _1, _2, _3 ],
+    [ BACKSPACE_KEY, _0, PLUS_MINUS_KEY ]
+  ];
+
+  public static readonly PositiveFloatingPointLayout: KeypadLayout = [
+    [ _7, _8, _9 ],
+    [ _4, _5, _6 ],
+    [ _1, _2, _3 ],
+    [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
+  ];
+
+  public static readonly PositiveAndNegativeFloatingPointLayout: KeypadLayout = [
+    [ _7, _8, _9 ],
+    [ _4, _5, _6 ],
+    [ _1, _2, _3 ],
+    [ WIDE_ZERO, PLUS_MINUS_KEY ],
+    [ DECIMAL_KEY, null, BACKSPACE_KEY ]
+  ];
+
+  // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
+  public static readonly WeirdLayout: KeypadLayout = [
+    [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE, { horizontalSpan: 3 } ) ],
+    [ null, new Key( '4', KeyID.FOUR, { horizontalSpan: 5 } ) ],
+    [ new Key( '5', KeyID.FIVE, { verticalSpan: 2 } ), new Key( '6', KeyID.SIX ), new Key( '7', KeyID.SEVEN ) ],
+    [ null, new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
+    [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
+  ];
+
 }
 
 /**
  * Helper function to create the display key node for the provided key object
- *
- * @param {Key} keyObject
- * @param {AbstractKeyAccumulator} keyAccumulator
- * @param {number} width
- * @param {number} height
- * @param {Object} [options]
- * @param {Tandem} keyPadTandem
- * @returns {RectangularPushButton} keyNode
  */
-function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, options ) {
-
-  options = merge( {
-    buttonColor: 'white',
-    buttonFont: DEFAULT_BUTTON_FONT
-  }, options );
+function createKeyNode(
+  keyObject: Key,
+  keyAccumulator: AbstractKeyAccumulator,
+  width: number,
+  height: number,
+  keyPadTandem: Tandem,
+  options: PickRequired<SelfOptions, 'buttonColor' | 'buttonFont' | 'touchAreaXDilation' | 'touchAreaYDilation'>
+): RectangularPushButton {
 
   // Wrapping the keyObject's label so that we're not DAG'ing this badly and causing infinite loops
   const content = ( keyObject.label instanceof Node ) ? new Node( { children: [ keyObject.label ] } ) :
@@ -235,58 +302,6 @@ function createKeyNode( keyObject, keyAccumulator, width, height, keyPadTandem, 
   keyNode.scale( width / keyNode.width, height / keyNode.height );
   return keyNode;
 }
-
-//------------------------------------------------------------------------------------------------------------------
-// static keypad layouts - These can be used 'as is' for common layouts or serve as examples for creating custom
-// layouts. If the vertical span is greater than 1, the column in the next row(s) has to be null.  If
-// the horizontal span is greater than 1, the next key in that row will not overlap and will be placed in the next
-// space in the grid. If a blank space is desired, null should be provided.
-//------------------------------------------------------------------------------------------------------------------
-
-Keypad.PositiveIntegerLayout = [
-  [ _7, _8, _9 ],
-  [ _4, _5, _6 ],
-  [ _1, _2, _3 ],
-  [ WIDE_ZERO, BACKSPACE_KEY ]
-];
-
-Keypad.PositiveDecimalLayout = [
-  [ _7, _8, _9 ],
-  [ _4, _5, _6 ],
-  [ _1, _2, _3 ],
-  [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
-];
-
-Keypad.PositiveAndNegativeIntegerLayout = [
-  [ _7, _8, _9 ],
-  [ _4, _5, _6 ],
-  [ _1, _2, _3 ],
-  [ BACKSPACE_KEY, _0, PLUS_MINUS_KEY ]
-];
-
-Keypad.PositiveFloatingPointLayout = [
-  [ _7, _8, _9 ],
-  [ _4, _5, _6 ],
-  [ _1, _2, _3 ],
-  [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
-];
-
-Keypad.PositiveAndNegativeFloatingPointLayout = [
-  [ _7, _8, _9 ],
-  [ _4, _5, _6 ],
-  [ _1, _2, _3 ],
-  [ WIDE_ZERO, PLUS_MINUS_KEY ],
-  [ DECIMAL_KEY, null, BACKSPACE_KEY ]
-];
-
-// Weird Layout is created for testing purposes to test the edge cases and layout capabilities
-Keypad.WeirdLayout = [
-  [ new Key( '1', KeyID.ONE ), new Key( '2', KeyID.TWO ), new Key( '3', KeyID.THREE, { horizontalSpan: 3 } ) ],
-  [ null, new Key( '4', KeyID.FOUR, { horizontalSpan: 5 } ) ],
-  [ new Key( '5', KeyID.FIVE, { verticalSpan: 2 } ), new Key( '6', KeyID.SIX ), new Key( '7', KeyID.SEVEN ) ],
-  [ null, new Key( '8', KeyID.EIGHT ), new Key( '9', KeyID.NINE ) ],
-  [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
-];
 
 sceneryPhet.register( 'Keypad', Keypad );
 export default Keypad;

@@ -26,7 +26,9 @@ const KeyID = {
   PLUS_MINUS: 'PLUS_MINUS',
   X: 'X',
   X_SQUARED: 'X_SQUARED'
-};
+} as const;
+
+export type KeyIDValue = typeof KeyID[keyof typeof KeyID];
 
 // verify that enum is immutable, without the runtime penalty in production code
 if ( assert ) { Object.freeze( KeyID ); }

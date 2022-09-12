@@ -10,14 +10,15 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import merge from '../../../phet-core/js/merge.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import sceneryPhet from '../sceneryPhet.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
-import KeyID from './KeyID.js';
+import KeyID, { KeyIDValue } from './KeyID.js';
 
 // constants
 const NEGATIVE_CHAR = '\u2212';
@@ -28,19 +29,31 @@ const DECIMAL_CHAR = '.';
 const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 const MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
 
+type SelfOptions = {
+  maxDigitsRightOfMantissa?: number;
+  maxDigits?: number;
+  tandem?: Tandem;
+  tandemNameSuffix?: string;
+};
+
+export type NumberAccumulatorOptions = SelfOptions;
+
 class NumberAccumulator extends AbstractKeyAccumulator {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  // string representation of the keys entered by the user
+  public readonly stringProperty: ReadOnlyProperty<string>;
 
-    options = merge( {
+  // numerical value of the keys entered by the user
+  public readonly valueProperty: ReadOnlyProperty<number | null>;
+
+  public constructor( providedOptions?: NumberAccumulatorOptions ) {
+
+    const options = optionize<NumberAccumulatorOptions, SelfOptions>()( {
       maxDigitsRightOfMantissa: 0,
       maxDigits: MAX_DIGITS,
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'NumberAccumulator'
-    }, options );
+    }, providedOptions );
 
     // verify option values
     assert && assert( options.maxDigits > 0 && options.maxDigits <= MAX_DIGITS,
@@ -50,7 +63,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
     // Validators to be passed to AbstractKeyAccumulator
     const validators = [
-      proposedKeys => {
+      ( proposedKeys: KeyIDValue[] ) => {
         return this.getNumberOfDigits( proposedKeys ) <= options.maxDigits
                && !( this.getNumberOfDigits( proposedKeys ) === options.maxDigits
                && proposedKeys[ proposedKeys.length - 1 ] === KeyID.DECIMAL )
@@ -58,9 +71,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       }
     ];
 
-    super( validators, options );
+    super( validators );
 
-    // @public (read-only) - string representation of the keys entered by the user
     this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
       return this.keysToString( accumulatedKeys );
     }, {
@@ -68,7 +80,6 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       phetioValueType: StringIO
     } );
 
-    // @public (read-only) - numerical value of the keys entered by the user
     this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {
       return this.stringToInteger( stringValue );
     }, {
@@ -79,11 +90,9 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Invoked when a key is pressed and creates proposed set of keys to be passed to the validator
-   * @param {KeyID} keyIdentifier - identifier for the key pressed
-   * @public
-   * @override
+   * @param keyIdentifier - identifier for the key pressed
    */
-  handleKeyPressed( keyIdentifier ) {
+  public override handleKeyPressed( keyIdentifier: KeyIDValue ): void {
     const newArray = this.handleClearOnNextKeyPress( keyIdentifier );
     if ( this.isDigit( keyIdentifier ) ) {
       this.removeLeadingZero( newArray );
@@ -118,10 +127,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Removes leading zeros from the array.
-   * @param {Array.<KeyID>} array
-   * @private
    */
-  removeLeadingZero( array ) {
+  private removeLeadingZero( array: KeyIDValue[] ): void {
     if ( this.valueProperty.get() === 0 && !this.containsFloatingPoint( array ) ) {
       array.pop();
     }
@@ -129,11 +136,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Converts a set of keys to a string.
-   * @param {Array.<KeyID>} keys
-   * @returns {string}
-   * @private
    */
-  keysToString( keys ) {
+  private keysToString( keys: KeyIDValue[] ): string {
 
     let returnValue = '';
     let i = 0;
@@ -163,16 +167,13 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Converts a string representation to a number.
-   * @param {string} stringValue
-   * @returns {number|null}
-   * @private
    */
-  stringToInteger( stringValue ) {
+  private stringToInteger( stringValue: string ): number | null {
     let returnValue = null;
 
     // if stringValue contains something other than just a minus sign...
     if ( stringValue.length > 0
-         && !( stringValue.length === 1 && stringValue[ 0 ] === NEGATIVE_CHAR )
+         && !( stringValue.length === 1 && stringValue.startsWith( NEGATIVE_CHAR ) )
          && ( this.getNumberOfDigitsLeftOfMantissa( this.accumulatedKeysProperty.get() ) > 0 ||
               this.getNumberOfDigitsRightOfMantissa( this.accumulatedKeysProperty.get() ) > 0 ) ) {
 
@@ -186,11 +187,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Gets the number of digits to the left of mantissa in the accumulator.
-   * @param {Array.<KeyID>} keys
-   * @returns {number}
-   * @private
    */
-  getNumberOfDigitsLeftOfMantissa( keys ) {
+  private getNumberOfDigitsLeftOfMantissa( keys: KeyIDValue[] ): number {
     let numberOfDigits = 0;
     for ( let i = 0; i < keys.length; i++ ) {
       if ( this.isDigit( keys[ i ] ) ) {
@@ -206,11 +204,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Gets the number of digits to the right of mantissa in the accumulator.
-   * @param {Array.<KeyID>} keys
-   * @returns {number}
-   * @private
    */
-  getNumberOfDigitsRightOfMantissa( keys ) {
+  private getNumberOfDigitsRightOfMantissa( keys: KeyIDValue[] ): number {
     const decimalKeyIndex = keys.indexOf( KeyID.DECIMAL );
     let numberOfDigits = 0;
     if ( decimalKeyIndex >= 0 ) {
@@ -225,11 +220,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Gets the number of digits in the accumulator.
-   * @param {Array.<KeyID>} keys
-   * @returns {number}
-   * @private
    */
-  getNumberOfDigits( keys ) {
+  private getNumberOfDigits( keys: KeyIDValue[] ): number {
     let numberOfDigits = 0;
     for ( let i = 0; i < keys.length; i++ ) {
       if ( this.isDigit( keys[ i ] ) ) {
@@ -241,39 +233,27 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Gets the number of digits in the accumulator.
-   * @param {Array.<KeyID>} keys
-   * @returns {boolean}
-   * @private
    */
-  containsFloatingPoint( keys ) {
-    return ( keys.indexOf( KeyID.DECIMAL ) >= 0 );
+  private containsFloatingPoint( keys: KeyIDValue[] ): boolean {
+    return keys.includes( KeyID.DECIMAL );
   }
 
   /**
-   * Returns weather the character is valid digit or not
-   * @param char
-   * @returns {boolean}
-   * @private
+   * Returns whether the character is valid digit or not
    */
-  isDigit( char ) {
-    return !isNaN( char ) && char >= '0' && char <= '9';
+  private isDigit( char: KeyIDValue ): boolean {
+    return char >= '0' && char <= '9';
   }
 
   /**
    * clear the accumulator
-   * @public
-   * @override
    */
-  clear() {
+  public override clear(): void {
     super.clear();
     this.setClearOnNextKeyPress( false );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.valueProperty.dispose();
     this.stringProperty.dispose();
     super.dispose();
