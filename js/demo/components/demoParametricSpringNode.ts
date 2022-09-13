@@ -9,7 +9,7 @@
 import optionize from '../../../../phet-core/js/optionize.js';
 import { HBox, Node, Rectangle, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import VSeparator from '../../../../sun/js/VSeparator.js';
+import VSeparatorDeprecated from '../../../../sun/js/VSeparatorDeprecated.js';
 import Range from '../../../../dot/js/Range.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import NumberControl from '../../NumberControl.js';
@@ -292,7 +292,7 @@ class ControlPanel extends Panel {
         new VBox( { children: [ loopsControl, pointsPerLoopControl ], spacing: ySpacing } ),
         new VBox( { children: [ radiusControl, aspectRatioControl ], spacing: ySpacing } ),
         new VBox( { children: [ phaseControl, deltaPhaseControl ], spacing: ySpacing } ),
-        new VSeparator( 225, { stroke: 'rgb( 125, 125, 125 )' } ),
+        new VSeparatorDeprecated( 225, { stroke: 'rgb( 125, 125, 125 )' } ),
         new VBox( { children: [ lineWidthControl, xScaleControl ], spacing: ySpacing } )
       ],
       spacing: xSpacing,

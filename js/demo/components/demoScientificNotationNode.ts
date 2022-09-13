@@ -11,8 +11,8 @@ import Range from '../../../../dot/js/Range.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
-import HSeparator from '../../../../sun/js/HSeparator.js';
-import VSeparator from '../../../../sun/js/VSeparator.js';
+import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
+import VSeparatorDeprecated from '../../../../sun/js/VSeparatorDeprecated.js';
 import PhetFont from '../../PhetFont.js';
 import Keypad from '../../keypad/Keypad.js';
 import ScientificNotationNode from '../../ScientificNotationNode.js';
@@ -188,7 +188,7 @@ class ControlPanel extends Panel {
       spacing: 20,
       children: [
         mantissaBox,
-        new HSeparator( hSeparatorWidth ),
+        new HSeparatorDeprecated( hSeparatorWidth ),
         exponentBox
       ]
     } );
@@ -244,7 +244,7 @@ class ControlPanel extends Panel {
     const content = new HBox( {
       align: 'center',
       spacing: 20,
-      children: [ leftContent, new VSeparator( vSeparatorHeight ), keypadBox ]
+      children: [ leftContent, new VSeparatorDeprecated( vSeparatorHeight ), keypadBox ]
     } );
 
     super( content, {
