@@ -244,7 +244,8 @@ export default class NumberDisplay extends Node {
     longestStringProperty.link( longestString => {
       const demoText = new Constructor( longestString, _.omit( valueTextOptions, 'tandem' ) );
 
-      valueText.maxWidth = options.textOptions.maxWidth === null ? demoText.width : options.textOptions.maxWidth!;
+      valueText.maxWidth = ( options.textOptions.maxWidth !== null ) ? options.textOptions.maxWidth! :
+                           ( demoText.width !== 0 ) ? demoText.width : null;
       demoText.maxWidth = valueText.maxWidth;
 
       backgroundNode.rectWidth = Math.max( options.minBackgroundWidth, demoText.width + 2 * options.xMargin );
