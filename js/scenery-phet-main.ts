@@ -60,7 +60,7 @@ class ButtonsScreen extends Screen<Model, ButtonsScreenView> {
       () => new Model(),
       () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Buttons',
+        name: new Property( 'Buttons' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'red' ),
         tandem: tandem,
@@ -76,7 +76,7 @@ class ComponentsScreen extends Screen<Model, ComponentsScreenView> {
       () => new Model(),
       () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Components',
+        name: new Property( 'Components' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'orange' ),
         tandem: tandem,
@@ -92,7 +92,7 @@ class DialogsScreen extends Screen<Model, DialogsScreenView> {
       () => new Model(),
       () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Dialogs',
+        name: new Property( 'Dialogs' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
         tandem: tandem,
@@ -108,7 +108,7 @@ class KeyboardScreen extends Screen<Model, DialogsScreenView> {
       () => new Model(),
       () => new KeyboardScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Keyboard',
+        name: new Property( 'Keyboard' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'pink' ),
         tandem: tandem,
@@ -124,7 +124,7 @@ class SlidersScreen extends Screen<Model, SlidersScreenView> {
       () => new Model(),
       () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Sliders',
+        name: new Property( 'Sliders' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
         tandem: tandem,
@@ -140,7 +140,7 @@ class SpinnersScreen extends Screen<Model, SpinnersScreenView> {
       () => new Model(),
       () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
       {
-        name: 'Spinners',
+        name: new Property( 'Spinners' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'green' ),
         tandem: tandem,
