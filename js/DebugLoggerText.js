@@ -1,11 +1,11 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
 /**
- * DebugLoggerNode is a node that can be added as a child to the view and can show debug log messages.
+ * DebugLoggerText is a node that can be added as a child to the view and can show debug log messages.
  * This is most often used when a console is not available, such as when debugging on iPads or other tablets.
  *
  * Typically, an instance of this is created and made global for use on a given screen.  Example:
- *   phet.debugLoggerNode = new DebugLoggerNode();
+ *   phet.debugLoggerNode = new DebugLoggerText();
  *   this.addChild( phet.debugLoggerNode );
  *
  * ...and then logging is accomplished by calling the logger like this:
@@ -28,7 +28,7 @@ const DEFAULT_POSITION = new Vector2( 20, 20 );
 const DEFAULT_FONT = new PhetFont( 20 );
 const DEFAULT_TEXT_COLOR = Color.red;
 
-class DebugLoggerNode extends RichText {
+class DebugLoggerText extends RichText {
 
   /**
    * @param {Object} [options]
@@ -73,5 +73,5 @@ class DebugLoggerNode extends RichText {
   }
 }
 
-sceneryPhet.register( 'DebugLoggerNode', DebugLoggerNode );
-export default DebugLoggerNode;
+sceneryPhet.register( 'DebugLoggerText', DebugLoggerText );
+export default DebugLoggerText;
