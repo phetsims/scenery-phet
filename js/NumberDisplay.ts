@@ -207,7 +207,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
-    const valueTextProperty = new DerivedProperty( [
+    const valueStringProperty = new DerivedProperty( [
       numberProperty,
       noValuePatternProperty,
       valuePatternProperty,
@@ -225,7 +225,7 @@ export default class NumberDisplay extends Node {
       maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.
     } );
 
-    const valueText: Text | RichText = new Constructor( valueTextProperty, combineOptions<TextOptions | RichTextOptions>( {
+    const valueText: Text | RichText = new Constructor( valueStringProperty, combineOptions<TextOptions | RichTextOptions>( {
       tandem: options.tandem.createTandem( 'valueText' )
     }, valueTextOptions ) );
 
@@ -284,7 +284,7 @@ export default class NumberDisplay extends Node {
     this.mutate( options );
 
     this.disposeNumberDisplay = () => {
-      valueTextProperty.dispose();
+      valueStringProperty.dispose();
       valuePatternProperty.dispose();
     };
   }

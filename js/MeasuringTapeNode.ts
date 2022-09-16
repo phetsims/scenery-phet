@@ -223,7 +223,7 @@ class MeasuringTapeNode extends Node {
     // add tipCrosshair and tipCircle to the tip
     const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
 
-    const readoutTextProperty = new DerivedProperty(
+    const readoutStringProperty = new DerivedProperty(
       [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
@@ -232,12 +232,12 @@ class MeasuringTapeNode extends Node {
           units: units.name
         } );
       }, {
-        tandem: options.tandem.createTandem( 'readoutTextProperty' ),
+        tandem: options.tandem.createTandem( 'readoutStringProperty' ),
         phetioValueType: StringIO,
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
-    this.valueNode = new Text( readoutTextProperty, {
+    this.valueNode = new Text( readoutStringProperty, {
       font: options.textFont,
       fill: options.textColor,
       maxWidth: options.textMaxWidth
@@ -358,7 +358,7 @@ class MeasuringTapeNode extends Node {
     const updateTextReadout = () => {
       this.valueNode.centerTop = this.baseImage.center.plus( options.textPosition.times( options.baseScale ) );
     };
-    readoutTextProperty.link( updateTextReadout );
+    readoutStringProperty.link( updateTextReadout );
 
     // link the positions of base and tip to the measuring tape to the scenery update function.
     // Must be disposed.
@@ -400,7 +400,7 @@ class MeasuringTapeNode extends Node {
 
     this.disposeMeasuringTapeNode = () => {
       multilink.dispose();
-      readoutTextProperty.dispose();
+      readoutStringProperty.dispose();
     };
 
     this.mutate( options );

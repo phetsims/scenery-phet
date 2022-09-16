@@ -308,7 +308,7 @@ export default class NumberControl extends Node {
       numberDisplayOptions: {
         textOptions: {
           font: new PhetFont( 12 ),
-          textPropertyOptions: { phetioFeatured: true }
+          stringPropertyOptions: { phetioFeatured: true }
         },
 
         // phet-io

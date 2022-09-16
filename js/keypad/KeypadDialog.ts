@@ -72,7 +72,7 @@ class KeypadDialog extends Dialog {
   private readonly rangeText: Text;
 
   // So we can dispose it
-  private rangeTextProperty: TReadOnlyProperty<string> | null = null;
+  private rangeStringProperty: TReadOnlyProperty<string> | null = null;
 
   // The Text Node that shows the current value of the Keypad edit.
   private readonly valueText: Text;
@@ -179,14 +179,14 @@ class KeypadDialog extends Dialog {
     this.editFinishedCallback = editFinishedCallback;
 
     // Clear a previous value out if it exists
-    this.rangeTextProperty && this.rangeTextProperty.dispose();
+    this.rangeStringProperty && this.rangeStringProperty.dispose();
 
-    this.rangeTextProperty = new PatternStringProperty( patternStringProperty, {
+    this.rangeStringProperty = new PatternStringProperty( patternStringProperty, {
       min: valueRange.min,
       max: valueRange.max
     } );
     this.rangeText.mutate( {
-      textProperty: this.rangeTextProperty
+      stringProperty: this.rangeStringProperty
     } );
 
     // Display the KeypadDialog.
@@ -253,7 +253,7 @@ class KeypadDialog extends Dialog {
   public override dispose(): void {
     this.keypad.dispose();
 
-    this.rangeTextProperty && this.rangeTextProperty.dispose();
+    this.rangeStringProperty && this.rangeStringProperty.dispose();
 
     super.dispose();
   }
