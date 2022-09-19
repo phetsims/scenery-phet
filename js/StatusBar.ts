@@ -8,13 +8,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
@@ -47,7 +46,7 @@ class StatusBar extends Node {
    * @param visibleBoundsProperty - visible bounds of the parent ScreenView
    * @param [providedOptions]
    */
-  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
+  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions?: StatusBarOptions ) {
 
     const options = optionize<StatusBarOptions, SelfOptions, NodeOptions>()( {
 

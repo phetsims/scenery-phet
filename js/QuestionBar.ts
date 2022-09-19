@@ -15,7 +15,6 @@ import { Text } from '../../scenery/js/imports.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 
@@ -28,7 +27,7 @@ const QUESTION_TEXT_MARGIN = 30;
 
 class QuestionBar extends StatusBar {
 
-  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TProperty<Bounds2>, providedOptions: QuestionBarOptions ) {
+  public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions: QuestionBarOptions ) {
 
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
