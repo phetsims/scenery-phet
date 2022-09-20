@@ -26,6 +26,11 @@ const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
   component: {
     type: 'string',
     defaultValue: null
+  },
+
+  fontFamily: {
+    type: 'string',
+    defaultValue: '"Helvetica Neue", Helvetica, Arial, "Lucida Grande"'
   }
 } );
 

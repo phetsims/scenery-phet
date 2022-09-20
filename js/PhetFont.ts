@@ -14,6 +14,7 @@
 import { combineOptions } from '../../phet-core/js/optionize.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 
 export default class PhetFont extends Font {
 
@@ -35,7 +36,7 @@ export default class PhetFont extends Font {
 
     // PhET defaults
     options = combineOptions<FontOptions>( {
-      family: 'Arial'
+      family: sceneryPhetQueryParameters.fontFamily!
     }, options );
 
     // Guarantee a fallback family
