@@ -33,6 +33,8 @@ export type OopsDialogOptions = SelfOptions & DialogOptions;
 
 export default class OopsDialog extends Dialog {
 
+  private readonly disposeOopsDialog: () => void;
+
   /**
    * @param messageString - supports RichText formatting
    * @param [providedOptions]
@@ -66,6 +68,15 @@ export default class OopsDialog extends Dialog {
     } );
 
     super( content, options );
+
+    this.disposeOopsDialog = () => {
+      text.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeOopsDialog();
+    super.dispose();
   }
 }
 
