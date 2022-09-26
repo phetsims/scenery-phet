@@ -80,6 +80,8 @@ class KeypadDialog extends Dialog {
   private readonly defaultTextColor: TColor;
   private readonly errorTextColor: TColor;
 
+  private readonly disposeKeypadDialog: () => void;
+
   public constructor( providedOptions?: KeypadDialogOptions ) {
 
     const options = optionize<KeypadDialogOptions, SelfOptions, DialogOptions>()( {
@@ -98,9 +100,7 @@ class KeypadDialog extends Dialog {
       enterButtonOptions: {
         // baseColor: CollisionLabColors.KEYPAD_ENTER_BUTTON,
       },
-      keypadOptions: {
-
-      }
+      keypadOptions: {}
     }, providedOptions );
 
     //----------------------------------------------------------------------------------------
@@ -127,13 +127,14 @@ class KeypadDialog extends Dialog {
     const valueDisplayBox = new Node( { children: [ valueBackgroundNode, this.valueText ] } );
 
     // Create the enterButton, which allows the user to submit an Edit.
+    const enterText = new Text( SceneryPhetStrings.key.enterStringProperty, {
+      font: options.font,
+      maxWidth: this.keypad.width // constrain width for i18n
+    } );
     const enterButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: this.submitEdit.bind( this ),
 
-      content: new Text( SceneryPhetStrings.key.enterStringProperty, {
-        font: options.font,
-        maxWidth: this.keypad.width // constrain width for i18n
-      } )
+      content: enterText
     }, options.enterButtonOptions ) );
 
     // Set the children of the content of the KeypadDialog, in the correct rendering order.
@@ -158,6 +159,12 @@ class KeypadDialog extends Dialog {
       this.valueText.fill = this.defaultTextColor;
       this.rangeText.fill = this.defaultTextColor;
     } );
+
+    this.disposeKeypadDialog = () => {
+      this.keypad.dispose();
+      this.rangeStringProperty && this.rangeStringProperty.dispose();
+      enterText.dispose(); // linked to a translated string Property
+    };
   }
 
   /**
@@ -251,10 +258,7 @@ class KeypadDialog extends Dialog {
   }
 
   public override dispose(): void {
-    this.keypad.dispose();
-
-    this.rangeStringProperty && this.rangeStringProperty.dispose();
-
+    this.disposeKeypadDialog();
     super.dispose();
   }
 }
