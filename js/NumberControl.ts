@@ -506,6 +506,7 @@ export default class NumberControl extends Node {
     this.numberDisplay = numberDisplay;
 
     this.disposeNumberControl = () => {
+      titleNode.dispose(); // may be linked to a string Property
       numberDisplay.dispose();
       this.slider.dispose();
 
