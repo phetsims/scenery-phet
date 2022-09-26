@@ -19,13 +19,15 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 
 type SelfOptions = {
-  labelText: string | TReadOnlyProperty<string>;
+  questionString: string | TReadOnlyProperty<string>;
 };
 export type QuestionBarOptions = SelfOptions & StrictOmit<StatusBarOptions, 'floatToTop'>;
 
 const QUESTION_TEXT_MARGIN = 30;
 
-class QuestionBar extends StatusBar {
+export default class QuestionBar extends StatusBar {
+
+  private readonly disposeQuestionBar: () => void;
 
   public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions: QuestionBarOptions ) {
 
@@ -34,25 +36,34 @@ class QuestionBar extends StatusBar {
       barHeight: 70,
       tandem: Tandem.OPTIONAL
     }, providedOptions );
+
     super( layoutBounds, visibleBoundsProperty, options );
 
-    const labelText = new Text( options.labelText, {
+    const questionText = new Text( options.questionString, {
       font: new PhetFont( {
         weight: 'bold',
         size: '23px'
       } ),
       maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2,
-      tandem: options.tandem.createTandem( 'labelText' )
+      tandem: options.tandem.createTandem( 'questionText' )
     } );
 
-    this.addChild( labelText );
+    this.addChild( questionText );
 
-    Multilink.multilink( [ labelText.localBoundsProperty, this.positioningBoundsProperty ], ( localBounds, positioningBounds ) => {
-      labelText.centerY = positioningBounds.centerY;
-      labelText.left = QUESTION_TEXT_MARGIN;
+    Multilink.multilink( [ questionText.localBoundsProperty, this.positioningBoundsProperty ], ( localBounds, positioningBounds ) => {
+      questionText.centerY = positioningBounds.centerY;
+      questionText.left = QUESTION_TEXT_MARGIN;
     } );
+
+    this.disposeQuestionBar = () => {
+      questionText.dispose(); // may be linked to a string Property
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeQuestionBar();
+    super.dispose();
   }
 }
 
 sceneryPhet.register( 'QuestionBar', QuestionBar );
-export default QuestionBar;
