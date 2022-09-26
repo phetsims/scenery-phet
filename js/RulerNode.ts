@@ -10,7 +10,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Font, TColor, Node, NodeOptions, Path, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Font, Node, NodeOptions, Path, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -52,6 +52,8 @@ type SelfOptions = {
 export type RulerNodeOptions = SelfOptions & NodeOptions;
 
 class RulerNode extends Node {
+
+  private readonly disposeRulerNode: () => void;
 
   public static DEFAULT_FILL = 'rgb(236, 225, 113)';
 
@@ -214,8 +216,17 @@ class RulerNode extends Node {
 
     this.mutate( options );
 
+    this.disposeRulerNode = () => {
+      unitsLabelText.dispose(); // because may be linked to a translated StringProperty
+    };
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RulerNode', this );
+  }
+
+  public override dispose(): void {
+    this.disposeRulerNode();
+    super.dispose();
   }
 }
 
