@@ -73,12 +73,27 @@ export default class ZoomButtonGroup extends FlowBox {
       tandemNameSuffix: 'ZoomButtonGroup'
     }, providedOptions );
 
+    // For pointer areas. Dependent on options.spacing, pointer areas will be shifted to prevent overlap.
+    const halfSpacing = options.spacing / 2;
+    const mouseXShift = Math.max( 0, options.orientation === 'horizontal' ? options.mouseAreaXDilation - halfSpacing : 0 );
+    const touchXShift = Math.max( 0, options.orientation === 'horizontal' ? options.touchAreaXDilation - halfSpacing : 0 );
+    const mouseYShift = Math.max( 0, options.orientation === 'vertical' ? options.mouseAreaYDilation - halfSpacing : 0 );
+    const touchYShift = Math.max( 0, options.orientation === 'vertical' ? options.touchAreaYDilation - halfSpacing : 0 );
+
     // zoom in
     const zoomInButton = new RectangularPushButton( merge( {
       content: zoomInIcon,
       listener: () => {
         zoomLevelProperty.value = options.applyZoomIn( zoomLevelProperty.value );
       },
+      touchAreaXDilation: options.touchAreaXDilation,
+      touchAreaYDilation: options.touchAreaYDilation,
+      mouseAreaXDilation: options.mouseAreaXDilation,
+      mouseAreaYDilation: options.mouseAreaYDilation,
+      touchAreaXShift: touchXShift,
+      touchAreaYShift: -touchYShift,
+      mouseAreaXShift: mouseXShift,
+      mouseAreaYShift: -mouseYShift,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -88,44 +103,18 @@ export default class ZoomButtonGroup extends FlowBox {
       listener: () => {
         zoomLevelProperty.value = options.applyZoomOut( zoomLevelProperty.value );
       },
+      touchAreaXDilation: options.touchAreaXDilation,
+      touchAreaYDilation: options.touchAreaYDilation,
+      mouseAreaXDilation: options.mouseAreaXDilation,
+      mouseAreaYDilation: options.mouseAreaYDilation,
+      touchAreaXShift: -touchXShift,
+      touchAreaYShift: touchYShift,
+      mouseAreaXShift: -mouseXShift,
+      mouseAreaYShift: mouseYShift,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
-
-    // Pointer areas. Dependent on options.spacing, pointer areas will be shifted to prevent overlap.
-    zoomInButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
-    zoomOutButton.touchArea = zoomInButton.localBounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
-    zoomInButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
-    zoomOutButton.mouseArea = zoomInButton.localBounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
-    const halfSpacing = options.spacing / 2;
-    if ( options.orientation === 'horizontal' ) {
-
-      const touchShiftX = options.touchAreaXDilation - halfSpacing;
-      if ( touchShiftX > 0 ) {
-        zoomInButton.touchArea = zoomInButton.touchArea.shiftedX( touchShiftX );
-        zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedX( -touchShiftX );
-      }
-
-      const mouseShiftX = options.mouseAreaXDilation - halfSpacing;
-      if ( mouseShiftX > 0 ) {
-        zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedX( mouseShiftX );
-        zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedX( -mouseShiftX );
-      }
-    }
-    else {
-      const touchShiftY = options.touchAreaYDilation - halfSpacing;
-      if ( touchShiftY > 0 ) {
-        zoomInButton.touchArea = zoomInButton.touchArea.shiftedY( -touchShiftY );
-        zoomOutButton.touchArea = zoomOutButton.touchArea.shiftedY( touchShiftY );
-      }
-
-      const mouseShiftY = options.mouseAreaYDilation - halfSpacing;
-      if ( mouseShiftY > 0 ) {
-        zoomInButton.mouseArea = zoomInButton.mouseArea.shiftedY( -mouseShiftY );
-        zoomOutButton.mouseArea = zoomOutButton.mouseArea.shiftedY( mouseShiftY );
-      }
-    }
 
     super( options );
 
