@@ -60,7 +60,7 @@ export default class SpectrumNode extends Node {
     // Draw the spectrum directly to a canvas, to improve performance.
     const canvas = document.createElement( 'canvas' );
     const context = canvas.getContext( '2d' )!;
-    assert && assert( context, `expected a CanvasRenderingContext2D, got ${context}` );
+    assert && assert( context, 'expected a CanvasRenderingContext2D' );
 
     // Size the canvas a bit larger, using integer width and height, as required by canvas.
     canvas.width = 1.1 * Math.ceil( options.size.width );

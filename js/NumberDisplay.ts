@@ -174,7 +174,7 @@ export default class NumberDisplay extends Node {
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       valuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
-      `missing value placeholder in options.valuePattern: ${options.valuePattern}` );
+      `missing value placeholder in options.valuePattern: ${valuePatternProperty.value}` );
 
     // Set default and validate
     if ( !options.noValuePattern ) {
@@ -186,7 +186,7 @@ export default class NumberDisplay extends Node {
     // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       noValuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
-      `missing value placeholder in options.noValuePattern: ${options.noValuePattern}` );
+      `missing value placeholder in options.noValuePattern: ${noValuePatternProperty.value}` );
 
     // determine the widest value
     const minStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {

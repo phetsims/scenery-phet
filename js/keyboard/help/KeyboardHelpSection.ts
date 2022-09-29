@@ -16,6 +16,7 @@
  * @author Jesse Greenberg
  */
 
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -67,7 +68,7 @@ export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
   // the translatable heading for this section
-  private readonly headingString: string | TReadOnlyProperty<string>;
+  private readonly headingStringProperty: TReadOnlyProperty<string>;
 
   // collection of icons in this section
   private readonly icons: Node[];
@@ -157,7 +158,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
     super( options );
 
-    this.headingString = headingString;
+    this.headingStringProperty = ( typeof headingString === 'string' ) ? new StringProperty( headingString ) : headingString;
     this.icons = icons;
     this.iconVBox = iconVBox;
     this.contentHBox = contentHBox;
@@ -180,7 +181,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     let readingBlockNameResponse = '';
 
     //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use a dynamic translated string here?
-    readingBlockNameResponse += `${this.headingString}, `;
+    readingBlockNameResponse += `${this.headingStringProperty.value}, `;
 
     // Append the readingBlockNameResponse assigned to each row.
     this.keyboardHelpSectionRows.forEach( row => {
