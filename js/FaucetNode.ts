@@ -46,7 +46,7 @@ import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TimerListener } from '../../axon/js/Timer.js';
 
@@ -344,7 +344,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   } );
 }
 
-type ShooterNodeOptions = {
+type ShooterNodeSelfOptions = {
   knobScale?: number; // values in the range 0.6 - 1.0 look decent
 
   // pointer areas
@@ -353,6 +353,7 @@ type ShooterNodeOptions = {
   mouseAreaXDilation?: number;
   mouseAreaYDilation?: number;
 };
+type ShooterNodeOptions = ShooterNodeSelfOptions; // no NodeOptions are included
 
 /**
  * The 'shooter' is the interactive part of the faucet.
@@ -363,7 +364,7 @@ class ShooterNode extends Node {
 
   public constructor( enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
 
-    const options = optionize<ShooterNodeOptions, EmptySelfOptions, ShooterNodeOptions>()( {
+    const options = optionize<ShooterNodeOptions, ShooterNodeSelfOptions, NodeOptions>()( {
       knobScale: 0.6,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
