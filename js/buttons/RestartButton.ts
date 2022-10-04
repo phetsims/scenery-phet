@@ -17,10 +17,10 @@ import sceneryPhet from '../sceneryPhet.js';
 // constants
 const scale = 0.75;
 const vscale = 1.15;
-const barWidth = 6 * scale;
-const barHeight = 18 * scale * vscale;
-const triangleWidth = 14 * scale;
-const triangleHeight = 18 * scale * vscale;
+const barWidth = 4 * scale;
+const barHeight = 19 * scale * vscale;
+const triangleWidth = 15 * scale;
+const triangleHeight = 19 * scale * vscale;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -32,16 +32,12 @@ export default class RestartButton extends RoundPushButton {
 
     const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>()( {}, providedOptions );
 
-    const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black', stroke: '#bbbbbb', lineWidth: 1 } );
+    const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
     const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
-      fill: 'black',
-      stroke: '#bbbbbb',
-      lineWidth: 1
+      fill: 'black'
     } );
     const trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
-      fill: 'black',
-      stroke: '#bbbbbb',
-      lineWidth: 1
+      fill: 'black'
     } );
 
     options.content = new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } );
