@@ -6,10 +6,11 @@
  * will mutate the accessible content (PDOM) of the passed in Node (sometimes referred to "wrappedNode"), toggling
  * between a "grabbable" state and a "draggable" state. When each state changes, the underlying PDOM element and general
  * interaction does as well.
+ *
  * To accomplish this there are options to be filled in that keep track of the scenery inputListeners for each state,
  * as well as options to mutate the Node for each state. By default the grabbable is a `button` with a containing  `div`,
- * and the draggable is a focusable `div` with an "application" aria role. It is up to the client to supply dragging
- * listeners via options.
+ * and the draggable is a focusable `div` with an "application" aria role. It is up to the client to supply a
+ * KeyboardDragListener as an arg that will be added to the Node in the "draggable" state.
  *
  * As a note on terminology, mostly things are referred to by their current "interaction state" which is either grabbable
  * or draggable.
