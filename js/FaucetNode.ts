@@ -25,11 +25,9 @@ import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
-import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import { Circle, DragListener, Image, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
-import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
-import AccessibleValueHandler from '../../sun/js/accessibility/AccessibleValueHandler.js';
+import { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -79,7 +77,7 @@ type SelfOptions = {
 type ParentOptions = AccessibleSliderOptions & NodeOptions;
 export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
-export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
+export default class FaucetNode extends Node {
 
   private readonly disposeFaucetNode: () => void;
 
@@ -100,8 +98,6 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
       // ParentOptions
       scale: 1,
-      valueProperty: flowRateProperty,
-      enabledRangeProperty: new Property( new Range( 0, maxFlowRate ) ),
       enabledProperty: enabledProperty,
 
       // phet-io
@@ -273,7 +269,13 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
           }
         }
       },
-      tandem: options.tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' ),
+
+      // pdom - Even though this uses DragListener, allow discrete click events for alt input to let out a bit of
+      // fluid at a time every press using tapToDispense.
+      // TODO: https://github.com/phetsims/scenery-phet/issues/773 - If tapToDispense is false, the click will do
+      //  nothing. If design likes this, use tapToDispense on click even if tapToDispenseEnabled is false.
+      allowClick: true
     } );
     shooterNode.addInputListener( dragListener );
 
@@ -299,7 +301,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       shooterNode.visible = trackNode.visible = interactive;
 
       // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after super() (to AccessibleSlider)
-      this.tagName = interactive ? AccessibleValueHandler.DEFAULT_TAG_NAME : null;
+      shooterNode.tagName = interactive ? 'button' : null;
     };
     options.interactiveProperty.link( interactiveObserver );
 
