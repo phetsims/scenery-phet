@@ -7,6 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -52,6 +54,14 @@ export default class MathSymbolFont extends Font {
       style: style,
       text: text
     } );
+  }
+
+  /**
+   * Wraps a dynamic string in RichText that will display the string in the same font as MathSymbolFont.
+   */
+  public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string> ): TReadOnlyProperty<string> {
+    return new DerivedProperty( [ symbolStringProperty ],
+      symbolString => MathSymbolFont.getRichTextMarkup( symbolString ) );
   }
 }
 
