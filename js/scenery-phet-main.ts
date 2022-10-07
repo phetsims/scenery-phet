@@ -25,7 +25,7 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 // empty model used for all demo screens
 class Model {
-  public step(): void { /* no stepping here */ }
+  public reset(): void { /* nothing to do */ }
 }
 
 // Keyboard help used for all screens
