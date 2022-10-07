@@ -49,15 +49,15 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
 
   // Controls for the sensor type (glass/crosshairs/empty/etc)
   const radioButtonGroup = new RectangularRadioButtonGroup( sensorTypeFunctionProperty, [
-    { value: null, node: new Text( 'null' ) },
-    { value: sensorTypeFunctionProperty.value, node: new Text( 'default glass' ) },
-    { value: ProbeNode.crosshairs(), node: new Text( 'default crosshairs' ) },
+    { value: null, createNode: tandem => new Text( 'null' ) },
+    { value: sensorTypeFunctionProperty.value, createNode: tandem => new Text( 'default glass' ) },
+    { value: ProbeNode.crosshairs(), createNode: tandem => new Text( 'default crosshairs' ) },
     {
       value: ProbeNode.glass( {
         centerColor: 'red',
         middleColor: 'green',
         edgeColor: 'blue'
-      } ), node: new Text( 'custom glass' )
+      } ), createNode: tandem => new Text( 'custom glass' )
     }
   ], {
     right: layoutBounds.maxX - 5,
