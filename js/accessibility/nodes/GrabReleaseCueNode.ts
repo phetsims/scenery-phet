@@ -14,8 +14,6 @@ import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
-const keyToGrabOrReleaseString = SceneryPhetStrings.key.toGrabOrRelease;
-
 type SelfOptions = {
 
   // properties of the space key
@@ -48,7 +46,10 @@ export default class GrabReleaseCueNode extends Panel {
       keyHeight: options.keyHeight,
       minKeyWidth: options.spaceKeyWidth
     } );
-    const spaceLabelText = new RichText( keyToGrabOrReleaseString, { font: new PhetFont( 12 ) } );
+    const spaceLabelText = new RichText( SceneryPhetStrings.key.toGrabOrReleaseStringProperty, {
+      maxWidth: 200,
+      font: new PhetFont( 12 )
+    } );
     const spaceKeyHBox = new HBox( {
       children: [ spaceKeyNode, spaceLabelText ],
       spacing: 10

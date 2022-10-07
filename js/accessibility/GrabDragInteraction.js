@@ -468,7 +468,7 @@ class GrabDragInteraction extends EnabledComponent {
         this.updateVisibilityForCues();
 
         if ( this.node.isVoicing && this.showGrabCueNode() ) {
-          this.voicingFocusUtterance.alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrRelease;
+          this.voicingFocusUtterance.alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( this.voicingFocusUtterance );
         }
       },
