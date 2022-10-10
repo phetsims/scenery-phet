@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, DragListenerOptions, HBox, TColor, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -56,7 +56,8 @@ type SelfOptions = {
   dragListenerOptions?: DragListenerOptions<PressedDragListener>;
 };
 
-export type StopwatchNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
+export type StopwatchNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'children' | 'interactiveHighlightEnabled'>;
 
 type FormatterOptions = {
 
@@ -71,7 +72,7 @@ type FormatterOptions = {
   valueUnitsPattern?: string;
 };
 
-export default class StopwatchNode extends Node {
+export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
   // options propagated to the NumberDisplay
   private readonly numberDisplay: NumberDisplay;
@@ -114,7 +115,7 @@ export default class StopwatchNode extends Node {
 
   public constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
-    const options = optionize<StopwatchNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<StopwatchNodeOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
       cursor: 'pointer',
@@ -144,6 +145,9 @@ export default class StopwatchNode extends Node {
       dragListenerOptions: {
         start: _.noop
       },
+
+      // highlight will only be visible if the component is interactive (provide dragBoundsProperty)
+      interactiveHighlightEnabled: false,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED
@@ -242,6 +246,9 @@ export default class StopwatchNode extends Node {
 
     let adjustedDragBoundsProperty: DragBoundsProperty | null = null;
     if ( options.dragBoundsProperty ) {
+
+      // interactive highlights - adding a DragListener to make this interactive, enable highlights for mouse and touch
+      this.interactiveHighlightEnabled = true;
 
       // drag bounds, adjusted to keep this entire Node inside visible bounds
       adjustedDragBoundsProperty = new DragBoundsProperty( this, options.dragBoundsProperty );

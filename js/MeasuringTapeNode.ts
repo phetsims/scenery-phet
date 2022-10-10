@@ -26,7 +26,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, Image, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
@@ -209,10 +209,16 @@ class MeasuringTapeNode extends Node {
 
     const tipCircle = new Circle( options.tipCircleRadius, { fill: options.tipCircleColor } );
 
+    const baseImageParent = new InteractiveHighlightingNode( {
+
+      // will only be enabled if interactive
+      interactiveHighlightEnabled: false
+    } );
     this.baseImage = new Image( measuringTape_png, {
       scale: options.baseScale,
       cursor: 'pointer'
     } );
+    baseImageParent.addChild( this.baseImage );
 
     // create tapeline (running from one crosshair to the other)
     const tapeLine = new Line( this.basePositionProperty.value, this.tipPositionProperty.value, {
@@ -221,7 +227,13 @@ class MeasuringTapeNode extends Node {
     } );
 
     // add tipCrosshair and tipCircle to the tip
-    const tip = new Node( { children: [ tipCircle, tipCrosshair ], cursor: 'pointer' } );
+    const tip = new InteractiveHighlightingNode( {
+      children: [ tipCircle, tipCrosshair ],
+      cursor: 'pointer',
+
+      // interactive highlights - will only be enabled when interactive
+      interactiveHighlightEnabled: false
+    } );
 
     const readoutStringProperty = new DerivedProperty(
       [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
@@ -265,7 +277,7 @@ class MeasuringTapeNode extends Node {
 
     this.addChild( tapeLine ); // tapeline going from one crosshair to the other
     this.addChild( baseCrosshair ); // crosshair near the base, (set at basePosition)
-    this.addChild( this.baseImage ); // base of the measuring tape
+    this.addChild( baseImageParent ); // base of the measuring tape
 
     this.valueContainer = new Node( { children: [ this.valueBackgroundNode, this.valueNode ] } );
     if ( options.hasValue ) {
@@ -277,6 +289,10 @@ class MeasuringTapeNode extends Node {
 
     this.baseDragListener = null;
     if ( options.interactive ) {
+
+      // interactive highlights - highlights are enabled only when the component is interactive
+      baseImageParent.interactiveHighlightEnabled = true;
+      tip.interactiveHighlightEnabled = true;
 
       // Drag listener for base
       this.baseDragListener = new DragListener( {
@@ -401,6 +417,10 @@ class MeasuringTapeNode extends Node {
     this.disposeMeasuringTapeNode = () => {
       multilink.dispose();
       readoutStringProperty.dispose();
+
+      // interactive highlighting related listeners require disposal
+      baseImageParent.dispose();
+      tip.dispose();
     };
 
     this.mutate( options );

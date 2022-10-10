@@ -26,7 +26,7 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, DragListener, Image, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Image, InteractiveHighlighting, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -360,7 +360,7 @@ type ShooterNodeOptions = ShooterNodeSelfOptions; // no NodeOptions are included
 /**
  * The 'shooter' is the interactive part of the faucet.
  */
-class ShooterNode extends Node {
+class ShooterNode extends InteractiveHighlighting( Node ) {
 
   private readonly disposeShooterNode: () => void;
 
