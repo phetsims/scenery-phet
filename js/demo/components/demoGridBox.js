@@ -110,7 +110,7 @@ export default function demoGridBox( layoutBounds ) {
       } ),
       new Node( {
         children: [ rectD ],
-        layoutOptions: { column: 1, row: 1, width: 2, yAlign: 'bottom' }
+        layoutOptions: { column: 1, row: 1, horizontalSpan: 2, yAlign: 'bottom' }
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
@@ -118,7 +118,7 @@ export default function demoGridBox( layoutBounds ) {
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
-        layoutOptions: { x: 3, y: 0, height: 3, yStretch: true, leftMargin: 20, yMargin: 10 }
+        layoutOptions: { x: 3, y: 0, verticalSpan: 3, yStretch: true, leftMargin: 20, yMargin: 10 }
       } )
     ]
   } );
