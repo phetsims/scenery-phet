@@ -78,12 +78,12 @@ assert && Object.freeze( DEFAULT_OPTIONS );
 export default class ProbeNode extends Node {
 
   // Colors used to create gradients
-  private readonly brighter5: PaintColorProperty;
-  private readonly brighter4: PaintColorProperty;
-  private readonly brighter3: PaintColorProperty;
-  private readonly brighter2: PaintColorProperty;
-  private readonly darker3: PaintColorProperty;
-  private readonly darker2: PaintColorProperty;
+  private readonly brighter5Property: PaintColorProperty;
+  private readonly brighter4Property: PaintColorProperty;
+  private readonly brighter3Property: PaintColorProperty;
+  private readonly brighter2Property: PaintColorProperty;
+  private readonly darker3Property: PaintColorProperty;
+  private readonly darker2Property: PaintColorProperty;
 
   public static DEFAULT_PROBE_NODE_OPTIONS = DEFAULT_OPTIONS;
   public static glass = glass;
@@ -160,26 +160,26 @@ export default class ProbeNode extends Node {
     const lastIntersectionPoint2 = lastIntersection2 ? lastIntersection2.point : Vector2.ZERO;
     const gradientDestination = lastIntersectionPoint2.plus( v2.timesScalar( 1 ) );
 
-    this.brighter5 = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
-    this.brighter4 = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
-    this.brighter3 = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
-    this.brighter2 = new PaintColorProperty( options.color, { luminanceFactor: 0.2 } );
-    this.darker2 = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
-    this.darker3 = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
+    this.brighter5Property = new PaintColorProperty( options.color, { luminanceFactor: 0.5 } );
+    this.brighter4Property = new PaintColorProperty( options.color, { luminanceFactor: 0.4 } );
+    this.brighter3Property = new PaintColorProperty( options.color, { luminanceFactor: 0.3 } );
+    this.brighter2Property = new PaintColorProperty( options.color, { luminanceFactor: 0.2 } );
+    this.darker2Property = new PaintColorProperty( options.color, { luminanceFactor: -0.2 } );
+    this.darker3Property = new PaintColorProperty( options.color, { luminanceFactor: -0.3 } );
 
     // The main path of the probe
     const mainPath = new Path( probeShape, {
       stroke: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, this.brighter2 ) // highlight
-        .addColorStop( 1.0, this.darker2 ), // shadow
+        .addColorStop( 0.0, this.brighter2Property ) // highlight
+        .addColorStop( 1.0, this.darker2Property ), // shadow
       fill: new LinearGradient( gradientSource.x, gradientSource.y, gradientDestination.x, gradientDestination.y )
-        .addColorStop( 0.0, this.brighter5 ) // highlight
-        .addColorStop( 0.03, this.brighter4 )
-        .addColorStop( 0.07, this.brighter4 )
-        .addColorStop( 0.11, this.brighter2 )
+        .addColorStop( 0.0, this.brighter5Property ) // highlight
+        .addColorStop( 0.03, this.brighter4Property )
+        .addColorStop( 0.07, this.brighter4Property )
+        .addColorStop( 0.11, this.brighter2Property )
         .addColorStop( 0.3, options.color )
-        .addColorStop( 0.8, this.darker2 ) // shadows
-        .addColorStop( 1.0, this.darker3 ),
+        .addColorStop( 0.8, this.darker2Property ) // shadows
+        .addColorStop( 1.0, this.darker3Property ),
       lineWidth: 2
     } );
 
@@ -191,7 +191,7 @@ export default class ProbeNode extends Node {
       // y scale is an empirical function of handle height, to keep bevel at bottom of handle from changing size
       scale: new Vector2( 0.9, 0.93 + ( 0.01 * options.handleHeight / DEFAULT_OPTIONS.handleHeight ) ),
       centerX: mainPath.centerX,
-      stroke: new DerivedProperty( [ this.brighter3 ], ( color => {
+      stroke: new DerivedProperty( [ this.brighter3Property ], ( color => {
         return color.withAlpha( 0.5 );
       } ) ),
       lineWidth: 1.2,
@@ -222,12 +222,12 @@ export default class ProbeNode extends Node {
   }
 
   public override dispose(): void {
-    this.brighter5.dispose();
-    this.brighter4.dispose();
-    this.brighter3.dispose();
-    this.brighter2.dispose();
-    this.darker2.dispose();
-    this.darker3.dispose();
+    this.brighter5Property.dispose();
+    this.brighter4Property.dispose();
+    this.brighter3Property.dispose();
+    this.brighter2Property.dispose();
+    this.darker2Property.dispose();
+    this.darker3Property.dispose();
 
     super.dispose();
   }

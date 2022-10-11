@@ -34,10 +34,10 @@ export type ShadedRectangleOptions = SelfOptions & NodeOptions;
 
 export default class ShadedRectangle extends Node {
 
-  private readonly lighterPaint: PaintColorProperty;
-  private readonly lightPaint: PaintColorProperty;
-  private readonly darkPaint: PaintColorProperty;
-  private readonly darkerPaint: PaintColorProperty;
+  private readonly lighterPaintProperty: PaintColorProperty;
+  private readonly lightPaintProperty: PaintColorProperty;
+  private readonly darkPaintProperty: PaintColorProperty;
+  private readonly darkerPaintProperty: PaintColorProperty;
 
   /**
    * @param rectBounds - takes up rectBounds in size
@@ -68,16 +68,16 @@ export default class ShadedRectangle extends Node {
     const cornerRadius = options.cornerRadius;
 
     // compute our colors (properly handle color-Property cases for baseColor)
-    this.lighterPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor + options.lighterFactor } );
-    this.lightPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor } );
-    this.darkPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor } );
-    this.darkerPaint = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor - options.darkerFactor } );
+    this.lighterPaintProperty = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor + options.lighterFactor } );
+    this.lightPaintProperty = new PaintColorProperty( options.baseColor, { luminanceFactor: options.lightFactor } );
+    this.darkPaintProperty = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor } );
+    this.darkerPaintProperty = new PaintColorProperty( options.baseColor, { luminanceFactor: -options.darkFactor - options.darkerFactor } );
 
     // change colors based on orientation
-    const topColorProperty = lightFromTop ? this.lighterPaint : this.darkerPaint;
-    const leftColorProperty = lightFromLeft ? this.lightPaint : this.darkPaint;
-    const rightColorProperty = lightFromLeft ? this.darkPaint : this.lightPaint;
-    const bottomColorProperty = lightFromTop ? this.darkerPaint : this.lighterPaint;
+    const topColorProperty = lightFromTop ? this.lighterPaintProperty : this.darkerPaintProperty;
+    const leftColorProperty = lightFromLeft ? this.lightPaintProperty : this.darkPaintProperty;
+    const rightColorProperty = lightFromLeft ? this.darkPaintProperty : this.lightPaintProperty;
+    const bottomColorProperty = lightFromTop ? this.darkerPaintProperty : this.lighterPaintProperty;
 
     // how far our light and dark gradients will extend into the rectangle
     const lightOffset = options.lightOffset * cornerRadius;
@@ -131,7 +131,7 @@ export default class ShadedRectangle extends Node {
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, options.baseColor )
         .addColorStop( 1 - lightOffset / cornerRadius, options.baseColor )
-        .addColorStop( 1, this.lighterPaint ),
+        .addColorStop( 1, this.lighterPaintProperty ),
       pickable: false
     } );
 
@@ -143,7 +143,7 @@ export default class ShadedRectangle extends Node {
       fill: new RadialGradient( 0, 0, 0, 0, 0, cornerRadius )
         .addColorStop( 0, options.baseColor )
         .addColorStop( 1 - darkOffset / cornerRadius, options.baseColor )
-        .addColorStop( 1, this.darkerPaint ),
+        .addColorStop( 1, this.darkerPaintProperty ),
       pickable: false
     } );
 
@@ -165,10 +165,10 @@ export default class ShadedRectangle extends Node {
   }
 
   public override dispose(): void {
-    this.lighterPaint.dispose();
-    this.lightPaint.dispose();
-    this.darkPaint.dispose();
-    this.darkerPaint.dispose();
+    this.lighterPaintProperty.dispose();
+    this.lightPaintProperty.dispose();
+    this.darkPaintProperty.dispose();
+    this.darkerPaintProperty.dispose();
 
     super.dispose();
   }
