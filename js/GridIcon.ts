@@ -12,7 +12,7 @@ import { Shape } from '../../kite/js/imports.js';
 
 type SelfOptions = {
   size?: number; // dimensions of the icon, same for width and height
-  numberOfCells?: number; // number of cells in the grid, same for rows and columns
+  numberOfRows?: number; // number of rows in the grid, number of columns will be the same
 };
 
 export type GridIconOptions = SelfOptions & PathOptions;
@@ -25,7 +25,7 @@ export default class GridIcon extends Path {
 
       // SelfOptions
       size: 30,
-      numberOfCells: 4,
+      numberOfRows: 4,
 
       // PathOptions
       stroke: 'rgb( 100, 100, 100 )',
@@ -33,23 +33,24 @@ export default class GridIcon extends Path {
     }, providedOptions );
 
     assert && assert( options.size > 0, `invalid size: ${options.size}` );
-    assert && assert( Number.isInteger( options.numberOfCells ) && options.numberOfCells > 2,
-      `invalid numberOfCells: ${options.numberOfCells}` );
+    assert && assert( Number.isInteger( options.numberOfRows ) && options.numberOfRows > 2,
+      `invalid numberOfRows: ${options.numberOfRows}` );
 
     const shape = new Shape();
 
-    // vertical lines
-    for ( let column = 1; column < options.numberOfCells; column++ ) {
-      const x = ( column / options.numberOfCells ) * options.size;
-      shape.moveTo( x, 0 );
-      shape.lineTo( x, options.size );
-    }
-
     // horizontal lines
-    for ( let row = 1; row < options.numberOfCells; row++ ) {
-      const y = ( row / options.numberOfCells ) * options.size;
+    for ( let row = 1; row < options.numberOfRows; row++ ) {
+      const y = ( row / options.numberOfRows ) * options.size;
       shape.moveTo( 0, y );
       shape.lineTo( options.size, y );
+    }
+
+    // vertical lines
+    const numberOfColumns = options.numberOfRows; // because the grid is NxN
+    for ( let column = 1; column < numberOfColumns; column++ ) {
+      const x = ( column / numberOfColumns ) * options.size;
+      shape.moveTo( x, 0 );
+      shape.lineTo( x, options.size );
     }
 
     super( shape, options );
