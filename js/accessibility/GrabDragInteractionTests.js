@@ -22,7 +22,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
   assert.ok( true, 'first test' );
 
   const rootNode = new Node( { tagName: 'div' } );
-  const display = new Display( rootNode ); // eslint-disable-line
+  const display = new Display( rootNode );
   display.initializeEvents();
   document.body.appendChild( display.domElement );
 

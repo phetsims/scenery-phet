@@ -47,7 +47,7 @@ class Alerter {
   public alert( alertable: TAlertable ): void {
     if ( this.alertToVoicing ) {
 
-      // eslint-disable-next-line no-simple-type-checking-assertions
+       
       assert && assert( alertable instanceof Utterance,
         'If alerting to Voicing, the alertable needs to be an Utterance' );
       Voicing.alertUtterance( alertable as Utterance );
