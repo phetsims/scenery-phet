@@ -78,6 +78,8 @@ export default class OopsDialog extends Dialog {
     this.disposeOopsDialog();
     super.dispose();
   }
+
+  public static readonly OopsDialogIO = Dialog.DialogIO;
 }
 
 sceneryPhet.register( 'OopsDialog', OopsDialog );
