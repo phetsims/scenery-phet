@@ -6,12 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
-import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import VSeparatorDeprecated from '../../../../sun/js/VSeparatorDeprecated.js';
 import PhetFont from '../../PhetFont.js';
 import Keypad from '../../keypad/Keypad.js';
@@ -182,13 +181,12 @@ class ControlPanel extends Panel {
       ]
     } );
 
-    const hSeparatorWidth = Math.max( mantissaBox.width, exponentBox.width );
     const leftContent = new VBox( {
       align: 'left',
       spacing: 20,
       children: [
         mantissaBox,
-        new HSeparatorDeprecated( hSeparatorWidth ),
+        new HSeparator(),
         exponentBox
       ]
     } );
