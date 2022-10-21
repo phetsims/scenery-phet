@@ -6,12 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, HSeparator, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, Text, VBox, VSeparator } from '../../../../scenery/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
-import VSeparatorDeprecated from '../../../../sun/js/VSeparatorDeprecated.js';
 import PhetFont from '../../PhetFont.js';
 import Keypad from '../../keypad/Keypad.js';
 import ScientificNotationNode from '../../ScientificNotationNode.js';
@@ -238,11 +237,10 @@ class ControlPanel extends Panel {
       }
     } );
 
-    const vSeparatorHeight = Math.max( leftContent.height, keypadBox.height );
     const content = new HBox( {
       align: 'center',
       spacing: 20,
-      children: [ leftContent, new VSeparatorDeprecated( vSeparatorHeight ), keypadBox ]
+      children: [ leftContent, new VSeparator(), keypadBox ]
     } );
 
     super( content, {
