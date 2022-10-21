@@ -6,11 +6,11 @@
  * @author Jesse Greenberg
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
@@ -37,14 +37,14 @@ type SelfOptions = {
   headingString?: string | TReadOnlyProperty<string>;
 
   // verb used to describe the movement of the slider
-  verbString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+  verbString?: string | TReadOnlyProperty<string>;
 
   // name to call the slider (lowercase), default to "slider"
-  sliderString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+  sliderString?: string | TReadOnlyProperty<string>;
 
-  //TODO https://github.com/phetsims/scenery-phet/issues/769 document these while you're here
-  maximumString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
-  minimumString?: string; //TODO https://github.com/phetsims/scenery-phet/issues/769 string | TReadOnlyProperty<string>
+  // Strings for extremities to support shortcuts like "jump to maximum" (renaming "maximum" if desired.
+  maximumString?: string | TReadOnlyProperty<string>;
+  minimumString?: string | TReadOnlyProperty<string>;
 };
 
 export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -59,66 +59,62 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
       headingString: SceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
 
-      //TODO https://github.com/phetsims/scenery-phet/issues/769 change all of these to *StringProperty
-      verbString: SceneryPhetStrings.keyboardHelpDialog.adjust,
-      sliderString: SceneryPhetStrings.keyboardHelpDialog.slider,
-      maximumString: SceneryPhetStrings.keyboardHelpDialog.maximum,
-      minimumString: SceneryPhetStrings.keyboardHelpDialog.minimum
+      verbString: SceneryPhetStrings.keyboardHelpDialog.adjustStringProperty,
+      sliderString: SceneryPhetStrings.keyboardHelpDialog.sliderStringProperty,
+      maximumString: SceneryPhetStrings.keyboardHelpDialog.maximumStringProperty,
+      minimumString: SceneryPhetStrings.keyboardHelpDialog.minimumStringProperty
     }, providedOptions );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
-    const keyboardHelpDialogVerbSliderString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbSliderPattern, {
+    const keyboardHelpDialogVerbSliderStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
       verb: options.verbString,
       slider: options.sliderString
     } );
-    const keyboardHelpDialogVerbInSmallerStepsString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPattern, {
+    const keyboardHelpDialogVerbInSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPatternStringProperty, {
       verb: options.verbString
     } );
-    const keyboardHelpDialogVerbInLargerStepsString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPattern, {
+    const keyboardHelpDialogVerbInLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPatternStringProperty, {
       verb: options.verbString
     } );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert keysString and keyboardHelpDialogDefaultStepsString to DerivedProperty
-    const keysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
-                       ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
-                       ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
-                         leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
-                         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
-                       } ) : null;
-    assert && assert( keysString );
-    const keyboardHelpDialogDefaultStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPattern, {
+    const keysStringProperty = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
+                               ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
+                               ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ?
+                               new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
+                                 leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
+                                 upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
+                               } ) : null;
+    assert && assert( keysStringProperty );
+    const keyboardHelpDialogDefaultStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
       verb: options.verbString,
       slider: options.sliderString,
-      keys: keysString
+      keys: keysStringProperty
     } );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert shiftKeysString,keyboardHelpDialogSmallerStepsString, keyboardHelpDialogLargerStepsString to DerivedProperty
     const shiftKeysString = ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
                             ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
-                            ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPattern, {
+                            ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ? new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
                               leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
                               upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
                             } ) : null;
     assert && assert( shiftKeysString );
-    const keyboardHelpDialogSmallerStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPattern, {
+    const keyboardHelpDialogSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
       verb: options.verbString,
       keys: shiftKeysString
     } );
-    const keyboardHelpDialogLargerStepsString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPattern, {
+    const keyboardHelpDialogLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
       verb: options.verbString
     } );
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 convert all uses of StringUtils.fillIn to DerivedProperty
-    const jumpToMinimumString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPattern, {
+    const jumpToMinimumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPatternStringProperty, {
       minimum: options.minimumString
     } );
-    const jumpToMaximumString = StringUtils.fillIn( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPattern, {
+    const jumpToMaximumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPatternStringProperty, {
       maximum: options.maximumString
     } );
-    const jumpToMinimumDescriptionString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPattern, {
+    const jumpToMinimumDescriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty, {
       minimum: options.minimumString
     } );
-    const jumpToMaximumDescriptionString = StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPattern, {
+    const jumpToMaximumDescriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty, {
       maximum: options.maximumString
     } );
 
@@ -144,13 +140,13 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
         adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
-    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbSliderString, adjustSliderIcon, {
-      labelInnerContent: keyboardHelpDialogDefaultStepsString
+    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbSliderStringProperty, adjustSliderIcon, {
+      labelInnerContent: keyboardHelpDialogDefaultStepsStringProperty
     } );
 
-    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsString,
+    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsStringProperty,
       adjustSliderSmallerStepsIcons, {
-        labelInnerContent: keyboardHelpDialogSmallerStepsString
+        labelInnerContent: keyboardHelpDialogSmallerStepsStringProperty
       } );
 
     // 'move in larger steps' content
@@ -160,20 +156,20 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     } );
-    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbInLargerStepsString, pageUpPageDownIcon, {
-      labelInnerContent: keyboardHelpDialogLargerStepsString
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbInLargerStepsStringProperty, pageUpPageDownIcon, {
+      labelInnerContent: keyboardHelpDialogLargerStepsStringProperty
     } );
 
     // 'move to minimum value' content
     const homeKeyNode = TextKeyNode.home();
-    const jumpToMinimumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMinimumString, homeKeyNode, {
-      labelInnerContent: jumpToMinimumDescriptionString
+    const jumpToMinimumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMinimumStringProperty, homeKeyNode, {
+      labelInnerContent: jumpToMinimumDescriptionStringProperty
     } );
 
     // 'move to maximum value' content
     const endKeyNode = TextKeyNode.end();
-    const jumpToMaximumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMaximumString, endKeyNode, {
-      labelInnerContent: jumpToMaximumDescriptionString
+    const jumpToMaximumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMaximumStringProperty, endKeyNode, {
+      labelInnerContent: jumpToMaximumDescriptionStringProperty
     } );
 
     // assemble final content for KeyboardHelpSection
