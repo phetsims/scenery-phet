@@ -102,7 +102,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
         // pdom
         tagName: 'h2',
 
-        //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use dynamic translated string here?
         innerContent: headingString
       },
       textMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
@@ -180,7 +179,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     // it may appear to the synth as an abbreviation and change the pronunciation.
     let readingBlockNameResponse = '';
 
-    //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use a dynamic translated string here?
     readingBlockNameResponse += `${this.headingStringProperty.value}, `;
 
     // Append the readingBlockNameResponse assigned to each row.
