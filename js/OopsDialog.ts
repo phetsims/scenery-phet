@@ -79,6 +79,7 @@ export default class OopsDialog extends Dialog {
     super.dispose();
   }
 
+  //TODO https://github.com/phetsims/equality-explorer/issues/195 should OopsDialogIO extend DialogIO?
   public static readonly OopsDialogIO = Dialog.DialogIO;
 }
 
