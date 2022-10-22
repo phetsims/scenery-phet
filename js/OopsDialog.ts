@@ -14,6 +14,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -48,7 +49,8 @@ export default class OopsDialog extends Dialog {
       bottomMargin: 20,
 
       // phet-io
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.OPTIONAL,
+      phetioType: OopsDialog.OopsDialogIO
     }, providedOptions );
 
     const text = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
@@ -79,8 +81,10 @@ export default class OopsDialog extends Dialog {
     super.dispose();
   }
 
-  //TODO https://github.com/phetsims/equality-explorer/issues/195 should OopsDialogIO extend DialogIO?
-  public static readonly OopsDialogIO = Dialog.DialogIO;
+  public static readonly OopsDialogIO = new IOType( 'OopsDialogIO', {
+    valueType: OopsDialog,
+    supertype: Dialog.DialogIO
+  } );
 }
 
 sceneryPhet.register( 'OopsDialog', OopsDialog );
