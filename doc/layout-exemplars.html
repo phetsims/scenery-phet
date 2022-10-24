@@ -111,7 +111,6 @@
     </p>
 
     <div id="AligningPanels-example"></div>
-
     <script>
       createSandboxIframe( 'AligningPanels-example', () => {
         // import sun/js/Panel
@@ -168,6 +167,141 @@
             } ) )
           ]
         } ) );
+
+        /*END*/
+      } );
+    </script>
+
+    <h2 id="Checkboxes" class="index">Checkboxes</h2>
+
+    <h3 id="CheckboxIcons" class="index">Icons</h3>
+
+    <p>
+      Checkboxes are <code>WidthSizable</code>, and act like a container for their label. For icons, this means you can
+      pass in HBoxes to the label with two items, and the default justification will expand items out to the desired
+      bounds:
+    </p>
+
+    <div id="CheckboxIcon-example"></div>
+    <script>
+      createSandboxIframe( 'CheckboxIcon-example', () => {
+        // import sun/js/Panel
+        // import sun/js/Checkbox
+        // import scenery-phet/js/PhetFont
+
+        const resizingRectangle = new Rectangle( {
+          fill: 'green',
+          rectHeight: 15
+        } );
+
+        let elapsedTime = 0;
+        window.step = dt => {
+          elapsedTime += dt;
+
+          const minWidth = 30;
+          const maxWidth = 200;
+          resizingRectangle.rectWidth = ( minWidth + maxWidth ) / 2 + Math.cos( elapsedTime ) * ( maxWidth - minWidth ) / 2;
+        };
+        /*START*/
+
+        scene.addChild( new Panel( new VBox( {
+          align: 'left',
+          stretch: true,
+          spacing: 5,
+          children: [
+            new Text( 'Checkbox Icons', { font: new PhetFont( { size: 14, weight: 'bold' } ) } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'First', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'red' } )
+              ]
+            } ), {
+              boxWidth: 14
+            } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Second', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'blue' } )
+              ]
+            } ), {
+              boxWidth: 14
+            } ),
+            resizingRectangle
+          ]
+        } ) ) );
+
+        /*END*/
+      } );
+    </script>
+
+    <h3 id="CheckboxIndentation" class="index">Indentation</h3>
+
+    <p>
+      Margins can be used for indenting checkboxes:
+    </p>
+
+    <div id="CheckboxIndentedIcon-example"></div>
+    <script>
+      createSandboxIframe( 'CheckboxIndentedIcon-example', () => {
+        // import sun/js/Panel
+        // import sun/js/Checkbox
+        // import scenery-phet/js/PhetFont
+
+        const resizingRectangle = new Rectangle( {
+          fill: 'green',
+          rectHeight: 15
+        } );
+
+        let elapsedTime = 0;
+        window.step = dt => {
+          elapsedTime += dt;
+
+          const minWidth = 30;
+          const maxWidth = 200;
+          resizingRectangle.rectWidth = ( minWidth + maxWidth ) / 2 + Math.cos( elapsedTime ) * ( maxWidth - minWidth ) / 2;
+        };
+        /*START*/
+
+        scene.addChild( new Panel( new VBox( {
+          align: 'left',
+          stretch: true,
+          spacing: 5,
+          children: [
+            new Text( 'Checkbox Icons', { font: new PhetFont( { size: 14, weight: 'bold' } ) } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'First', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'red' } )
+              ]
+            } ), {
+              boxWidth: 14
+            } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Second', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'blue' } )
+              ]
+            } ), {
+              boxWidth: 14,
+              layoutOptions: {
+                leftMargin: 20
+              }
+            } ),
+            resizingRectangle
+          ]
+        } ) ) );
 
         /*END*/
       } );
