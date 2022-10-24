@@ -307,6 +307,161 @@
       } );
     </script>
 
+    <h2 id="Transforms" class="index">Transforms</h2>
+
+    <p>
+      Sizable nodes within layout containers CAN be transformed in some specific ways that will be respected. It's
+      generally preferred to avoid transforms on direct children of layout containers, but sometimes it's necessary.
+    </p>
+
+    <h3 id="TransformsScale" class="index">Scale</h3>
+
+    <p>
+      Scale should be maintained and respected by layout containers. In cases like these, the <code>preferredWidth</code>
+      and <code>localPreferredWidth</code> of sizable nodes will be different (based on the current transform).
+      In general, set <code>preferredWidth</code> as normal, regardless of the scale.
+    </p>
+
+    <div id="TransformsScale-example"></div>
+    <script>
+      createSandboxIframe( 'TransformsScale-example', () => {
+        // import sun/js/Panel
+        // import sun/js/Checkbox
+        // import scenery-phet/js/PhetFont
+
+        const resizingRectangle = new Rectangle( {
+          fill: 'green',
+          rectHeight: 15
+        } );
+
+        let elapsedTime = 0;
+        window.step = dt => {
+          elapsedTime += dt;
+
+          const minWidth = 100;
+          const maxWidth = 300;
+          resizingRectangle.rectWidth = ( minWidth + maxWidth ) / 2 + Math.cos( elapsedTime ) * ( maxWidth - minWidth ) / 2;
+        };
+        /*START*/
+
+        scene.addChild( new Panel( new VBox( {
+          align: 'left',
+          stretch: true,
+          spacing: 5,
+          children: [
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Scale: 1', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'red' } )
+              ]
+            } ), {
+              boxWidth: 14
+            } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Scale: 2', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'magenta' } )
+              ]
+            } ), {
+              scale: 2,
+              boxWidth: 14
+            } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Scale: 0.5', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'blue' } )
+              ]
+            } ), {
+              scale: 0.5,
+              boxWidth: 14
+            } ),
+            resizingRectangle
+          ]
+        } ) ) );
+
+        /*END*/
+      } );
+    </script>
+
+    <h3 id="TransformsReflection" class="index">Reflection</h3>
+
+    <p>
+      Reflection is also supported (but hopefully rarely needed)
+    </p>
+
+    <div id="TransformsReflection-example"></div>
+    <script>
+      createSandboxIframe( 'TransformsReflection-example', () => {
+        // import sun/js/Panel
+        // import sun/js/Checkbox
+        // import scenery-phet/js/PhetFont
+
+        const resizingRectangle = new Rectangle( {
+          fill: 'green',
+          rectHeight: 15
+        } );
+
+        let elapsedTime = 0;
+        window.step = dt => {
+          elapsedTime += dt;
+
+          const minWidth = 30;
+          const maxWidth = 200;
+          resizingRectangle.rectWidth = ( minWidth + maxWidth ) / 2 + Math.cos( elapsedTime ) * ( maxWidth - minWidth ) / 2;
+        };
+        /*START*/
+
+        scene.addChild( new Panel( new VBox( {
+          align: 'left',
+          stretch: true,
+          spacing: 5,
+          children: [
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Normal', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'red' } )
+              ]
+            } ), {
+              boxWidth: 14
+            } ),
+            new Checkbox( new BooleanProperty( false ), new HBox( {
+              spacing: 10,
+              children: [
+                new Text( 'Reflected', {
+                  font: new PhetFont( 12 )
+                } ),
+                new Rectangle( 0, 0, 14, 14, { fill: 'magenta' } )
+              ]
+            } ), {
+              matrix: Matrix3.scaling( -1, 1 ),
+              boxWidth: 14
+            } ),
+            resizingRectangle
+          ]
+        } ) ) );
+
+        /*END*/
+      } );
+    </script>
+
+    <h3 id="TransformsRotation" class="index">Rotation</h3>
+
+    <p>
+      Rotation is also supported (TODO)
+    </p>
+
   </div>
   <div class="span2"></div>
 </div>
