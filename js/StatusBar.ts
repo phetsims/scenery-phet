@@ -36,7 +36,7 @@ export type StatusBarOptions = SelfOptions & NodeOptions;
 
 class StatusBar extends Node {
 
-  public readonly positioningBoundsProperty: TReadOnlyProperty<Bounds2>;
+  protected readonly positioningBoundsProperty: TReadOnlyProperty<Bounds2>;
   private readonly disposeStatusBar: () => void;
   public static DEFAULT_FONT = new PhetFont( 20 );
   public static DEFAULT_TEXT_FILL = Color.BLACK;
