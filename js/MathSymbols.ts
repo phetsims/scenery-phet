@@ -63,7 +63,6 @@ const MathSymbols = {
   //==================================================================================================================
 
   // universal units
-  OHMS: SceneryPhetStrings.symbol.ohms, //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
   RESISTIVITY: SceneryPhetStrings.symbol.resistivity //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
 };
 
