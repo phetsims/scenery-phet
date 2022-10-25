@@ -12,6 +12,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
@@ -24,9 +25,6 @@ import HeaterCoolerBack from './HeaterCoolerBack.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-
-const coolString = SceneryPhetStrings.cool;
-const heatString = SceneryPhetStrings.heat;
 
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 
@@ -45,8 +43,8 @@ type SelfOptions = {
   snapToZeroThreshold?: number;
 
   // slider label options
-  heatString?: string; // label for +1 end of slider
-  coolString?: string; // {string} label for -1 end of slider
+  heatString?: string | TReadOnlyProperty<string>; // label for +1 end of slider
+  coolString?: string | TReadOnlyProperty<string>; // {string} label for -1 end of slider
   labelFont?: Font;
   labelMaxWidth?: number; // maxWidth of the Heat and Cool labels, determined empirically
 
@@ -79,6 +77,8 @@ export default class HeaterCoolerFront extends Node {
 
   private readonly snapToZeroProperty: Property<boolean>;
 
+  private readonly disposeHeaterCoolerFront: () => void;
+
   public static DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   /**
@@ -97,8 +97,8 @@ export default class HeaterCoolerFront extends Node {
       coolEnabled: true,
       snapToZero: true,
       snapToZeroThreshold: 0.1,
-      heatString: heatString,
-      coolString: coolString,
+      heatString: SceneryPhetStrings.heatStringProperty,
+      coolString: SceneryPhetStrings.coolStringProperty,
       labelFont: new PhetFont( 14 ),
       labelMaxWidth: 35,
       thumbSize: new Dimension2( 45, 22 ),
@@ -199,9 +199,17 @@ export default class HeaterCoolerFront extends Node {
       font: options.labelFont,
       maxWidth: options.labelMaxWidth
     };
-    if ( options.heatEnabled ) { this.slider.addMajorTick( 1, new Text( options.heatString, labelOptions ) ); }
+    let heatTickText: Node;
+    if ( options.heatEnabled ) {
+      heatTickText = new Text( options.heatString, labelOptions ); // dispose required, may link to a StringProperty
+      this.slider.addMajorTick( 1, heatTickText );
+    }
     this.slider.addMinorTick( 0 );
-    if ( options.coolEnabled ) { this.slider.addMajorTick( -1, new Text( options.coolString, labelOptions ) ); }
+    let coolTickText: Node;
+    if ( options.coolEnabled ) {
+      coolTickText = new Text( options.coolString, labelOptions ); // dispose required, may link to a StringProperty
+      this.slider.addMajorTick( -1, coolTickText );
+    }
 
     this.addChild( stoveBody );
     this.addChild( this.slider );
@@ -229,6 +237,16 @@ export default class HeaterCoolerFront extends Node {
     this.snapToZeroProperty.link( snapToZero => {
       snapToZero && setSliderToZero();
     } );
+
+    this.disposeHeaterCoolerFront = () => {
+      heatTickText && heatTickText.dispose();
+      coolTickText && coolTickText.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeHeaterCoolerFront();
+    super.dispose();
   }
 }
 
