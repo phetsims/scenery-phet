@@ -29,8 +29,6 @@ import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 
-const shortCircuitString = SceneryPhetStrings.shortCircuit;
-
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
 const SHOW_PROBE_ORIGIN = false; // draws a red circle at the origin of probes, for debugging
@@ -130,12 +128,14 @@ class ConductivityTesterNode extends Node {
 
     // short-circuit indicator, centered above the light bulb
     assert && assert( brightnessProperty.get() === 0, 'layout will be incorrect if lightBulbNode has rays' );
-    const shortCircuitNode = new Text( shortCircuitString, {
+    const shortCircuitNode = new Text( SceneryPhetStrings.shortCircuitStringProperty, {
       font: options.shortCircuitFont,
       fill: options.shortCircuitFill,
-      centerX: lightBulbNode.centerX,
-      bottom: lightBulbNode.top,
       visible: false // initial state is no short circuit
+    } );
+    shortCircuitNode.boundsProperty.link( bounds => {
+      shortCircuitNode.centerX = lightBulbNode.centerX;
+      shortCircuitNode.bottom = lightBulbNode.top;
     } );
 
     // battery
@@ -277,6 +277,8 @@ class ConductivityTesterNode extends Node {
     } );
 
     this.disposeConductivityTesterNode = () => {
+
+      shortCircuitNode.dispose();
 
       // unlink from axon properties
       positionProperty.unlink( positionObserver );
