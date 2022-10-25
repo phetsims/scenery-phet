@@ -24,6 +24,7 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Property from '../../../axon/js/Property.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 const DEFAULT_STEP_BUTTON_RADIUS = 15;
 const DEFAULT_STEP_BUTTON_TOUCH_AREA_DILATION = 5;
@@ -45,8 +46,8 @@ type SelfOptions = {
   stepBackwardButtonOptions?: StrictOmit<StepBackwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
 
   // pdom - description for this button group in its playing or paused state from the isPlayingProperty
-  playingDescription?: string;
-  pausedDescription?: string;
+  playingDescription?: string | TReadOnlyProperty<string>;
+  pausedDescription?: string | TReadOnlyProperty<string>;
 };
 
 export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<HBoxOptions, 'spacing' | 'children'>;
@@ -97,8 +98,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
       // pdom
       tagName: 'div', // so that it can receive descriptions
       appendDescription: true,
-      playingDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingDescription,
-      pausedDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedDescription
+      playingDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingDescriptionStringProperty,
+      pausedDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedDescriptionStringProperty
     }, providedOptions );
 
     // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented

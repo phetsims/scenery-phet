@@ -19,7 +19,7 @@ export type PlayAreaNodeOptions = SelfOptions & PDOMSectionNodeOptions;
 
 export default class PlayAreaNode extends PDOMSectionNode {
   public constructor( providedOptions?: PlayAreaNodeOptions ) {
-    super( SceneryPhetStrings.a11y.simSection.playArea, providedOptions );
+    super( SceneryPhetStrings.a11y.simSection.playAreaStringProperty, providedOptions );
   }
 }
 

@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions } from '../../../scenery/js/imports.js';
@@ -20,7 +21,7 @@ export type PDOMSectionNodeOptions = SelfOptions &
 
 export default class PDOMSectionNode extends Node {
 
-  public constructor( label: string, providedOptions?: PDOMSectionNodeOptions ) {
+  public constructor( label: TReadOnlyProperty<string>, providedOptions?: PDOMSectionNodeOptions ) {
     super( optionize<PDOMSectionNodeOptions, SelfOptions, NodeOptions>()( {
 
       // accessibility options controlled by PDOMSectionNode

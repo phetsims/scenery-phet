@@ -44,10 +44,10 @@ export default class CloseButton extends RectangularPushButton {
       yMargin: 4, // {number} y margin around the icon
 
       // pdom
-      innerContent: SceneryPhetStrings.a11y.close,
+      innerContent: SceneryPhetStrings.a11y.closeStringProperty,
 
       //voicing
-      voicingNameResponse: SceneryPhetStrings.a11y.close
+      voicingNameResponse: SceneryPhetStrings.a11y.closeStringProperty
     }, providedOptions );
 
     // 'X' icon
