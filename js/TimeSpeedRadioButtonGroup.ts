@@ -23,9 +23,21 @@ import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
-SPEED_LABEL_MAP.set( TimeSpeed.FAST, { stringProperty: SceneryPhetStrings.speed.fastStringProperty, labelString: SceneryPhetStrings.speed.fast, tandemName: 'fastRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, { stringProperty: SceneryPhetStrings.speed.normalStringProperty, labelString: SceneryPhetStrings.speed.normal, tandemName: 'normalRadioButton' } );
-SPEED_LABEL_MAP.set( TimeSpeed.SLOW, { stringProperty: SceneryPhetStrings.speed.slowStringProperty, labelString: SceneryPhetStrings.speed.slow, tandemName: 'slowRadioButton' } );
+SPEED_LABEL_MAP.set( TimeSpeed.FAST, {
+  stringProperty: SceneryPhetStrings.speed.fastStringProperty,
+  labelString: SceneryPhetStrings.speed.fast,
+  tandemName: 'fastRadioButton'
+} );
+SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, {
+  stringProperty: SceneryPhetStrings.speed.normalStringProperty,
+  labelString: SceneryPhetStrings.speed.normal,
+  tandemName: 'normalRadioButton'
+} );
+SPEED_LABEL_MAP.set( TimeSpeed.SLOW, {
+  stringProperty: SceneryPhetStrings.speed.slowStringProperty,
+  labelString: SceneryPhetStrings.speed.slow,
+  tandemName: 'slowRadioButton'
+} );
 
 type SelfOptions = {
   radius?: number;
